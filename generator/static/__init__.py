@@ -48,8 +48,8 @@ from meraki.config import (
 )
 from meraki.rest_session import *
 
-__version__ = "0.1.0"
-__api_version__ = "v1.66.0"
+__version__ = ""
+__api_version__ = ""
 
 
 class DashboardAPI(object):
@@ -136,9 +136,7 @@ class DashboardAPI(object):
                 if output_log:
                     if log_path and log_path[-1] != "/":
                         log_path += "/"
-                    self._log_file = (
-                        f"{log_path}{log_file_prefix}_log__{datetime.now():%Y-%m-%d_%H-%M-%S}.log"
-                    )
+                    self._log_file = f"{log_path}{log_file_prefix}_log__{datetime.now():%Y-%m-%d_%H-%M-%S}.log"
                     handler_log = logging.FileHandler(filename=self._log_file)
                     handler_log.setFormatter(formatter)
 

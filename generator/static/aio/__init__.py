@@ -1,25 +1,26 @@
 import logging
 import os
 
-from meraki.api.administered import Administered
-from meraki.api.appliance import Appliance
+from meraki.aio.api.administered import AsyncAdministered
+from meraki.aio.api.appliance import AsyncAppliance
+from meraki.aio.api.camera import AsyncCamera
+from meraki.aio.api.campusGateway import AsyncCampusGateway
+from meraki.aio.api.cellularGateway import AsyncCellularGateway
+from meraki.aio.api.devices import AsyncDevices
+from meraki.aio.api.insight import AsyncInsight
+from meraki.aio.api.licensing import AsyncLicensing
+from meraki.aio.api.networks import AsyncNetworks
+from meraki.aio.api.organizations import AsyncOrganizations
+from meraki.aio.api.sensor import AsyncSensor
+from meraki.aio.api.sm import AsyncSm
+from meraki.aio.api.spaces import AsyncSpaces
+from meraki.aio.api.switch import AsyncSwitch
+from meraki.aio.api.wireless import AsyncWireless
+from meraki.aio.api.wirelessController import AsyncWirelessController
+from meraki.aio.rest_session import *
 
 # Batch class imports
 from meraki.api.batch import Batch
-from meraki.api.camera import Camera
-from meraki.api.campusGateway import CampusGateway
-from meraki.api.cellularGateway import CellularGateway
-from meraki.api.devices import Devices
-from meraki.api.insight import Insight
-from meraki.api.licensing import Licensing
-from meraki.api.networks import Networks
-from meraki.api.organizations import Organizations
-from meraki.api.sensor import Sensor
-from meraki.api.sm import Sm
-from meraki.api.spaces import Spaces
-from meraki.api.switch import Switch
-from meraki.api.wireless import Wireless
-from meraki.api.wirelessController import WirelessController
 
 # Config import
 from meraki.config import (
@@ -45,14 +46,11 @@ from meraki.config import (
     BE_GEO_ID,
     MERAKI_PYTHON_SDK_CALLER,
     USE_ITERATOR_FOR_GET_PAGES,
+    AIO_MAXIMUM_CONCURRENT_REQUESTS,
 )
-from meraki.rest_session import *
-
-__version__ = "0.1.0"
-__api_version__ = "v1.66.0"
 
 
-class DashboardAPI(object):
+class AsyncDashboardAPI:
     """
     **Creates a persistent Meraki dashboard API session**
 
@@ -75,6 +73,7 @@ class DashboardAPI(object):
     - suppress_logging (boolean): disable all logging? you're on your own then!
     - inherit_logging_config (boolean): Inherits your own logger instance
     - simulate (boolean): simulate POST/PUT/DELETE calls to prevent changes?
+    - maximum_concurrent_requests (integer): number of concurrent API requests for asynchronous class
     - be_geo_id (string): optional partner identifier for API usage tracking; can also be set as an environment variable BE_GEO_ID
     - caller (string): optional identifier for API usage tracking; can also be set as an environment variable MERAKI_PYTHON_SDK_CALLER
     - use_iterator_for_get_pages (boolean): list* methods will return an iterator with each object instead of a complete list with all items
@@ -104,6 +103,7 @@ class DashboardAPI(object):
         caller=MERAKI_PYTHON_SDK_CALLER,
         use_iterator_for_get_pages=USE_ITERATOR_FOR_GET_PAGES,
         inherit_logging_config=INHERIT_LOGGING_CONFIG,
+        maximum_concurrent_requests=AIO_MAXIMUM_CONCURRENT_REQUESTS,
     ):
         # Check API key
         api_key = api_key or os.environ.get(API_KEY_ENVIRONMENT_VARIABLE)
@@ -153,7 +153,7 @@ class DashboardAPI(object):
             self._logger = None
 
         # Creates the API session
-        self._session = RestSession(
+        self._session = AsyncRestSession(
             logger=self._logger,
             api_key=api_key,
             base_url=base_url,
@@ -171,25 +171,32 @@ class DashboardAPI(object):
             be_geo_id=be_geo_id,
             caller=caller,
             use_iterator_for_get_pages=use_iterator_for_get_pages,
+            maximum_concurrent_requests=maximum_concurrent_requests,
         )
 
         # API endpoints by section
-        self.administered = Administered(self._session)
-        self.organizations = Organizations(self._session)
-        self.networks = Networks(self._session)
-        self.devices = Devices(self._session)
-        self.appliance = Appliance(self._session)
-        self.camera = Camera(self._session)
-        self.cellularGateway = CellularGateway(self._session)
-        self.insight = Insight(self._session)
-        self.licensing = Licensing(self._session)
-        self.sensor = Sensor(self._session)
-        self.sm = Sm(self._session)
-        self.switch = Switch(self._session)
-        self.wireless = Wireless(self._session)
-        self.spaces = Spaces(self._session)
-        self.wirelessController = WirelessController(self._session)
-        self.campusGateway = CampusGateway(self._session)
+        self.administered = AsyncAdministered(self._session)
+        self.organizations = AsyncOrganizations(self._session)
+        self.networks = AsyncNetworks(self._session)
+        self.devices = AsyncDevices(self._session)
+        self.appliance = AsyncAppliance(self._session)
+        self.camera = AsyncCamera(self._session)
+        self.cellularGateway = AsyncCellularGateway(self._session)
+        self.insight = AsyncInsight(self._session)
+        self.licensing = AsyncLicensing(self._session)
+        self.sensor = AsyncSensor(self._session)
+        self.switch = AsyncSwitch(self._session)
+        self.sm = AsyncSm(self._session)
+        self.wireless = AsyncWireless(self._session)
+        self.spaces = AsyncSpaces(self._session)
+        self.wirelessController = AsyncWirelessController(self._session)
+        self.campusGateway = AsyncCampusGateway(self._session)
 
         # Batch definitions
         self.batch = Batch()
+
+    async def __aenter__(self):
+        return self
+
+    async def __aexit__(self, exc_type, exc, tb):
+        await self._session.close()

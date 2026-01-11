@@ -3,6 +3,7 @@
 import argparse
 import asyncio
 import os
+import shutil
 import sys
 import tomllib
 from pathlib import Path
@@ -267,7 +268,7 @@ def parse_params(operation, parameters, request_body, spec, param_filters=None):
     return return_params(operation, params, param_filters)
 
 
-async def generate_library(spec, version_number):
+async def generate_library(spec, version_number, api_version):
     """Generate the Meraki Python library using the public OpenAPI specification."""
     # Supported scopes list will include organizations, networks, devices, and all product types.
     supported_scopes = [
@@ -299,7 +300,10 @@ async def generate_library(spec, version_number):
         action["summary"] for action in spec["x-batchable-actions"]
     ]
 
-    # Check paths and create sub-directories if needed
+    # Delete output directory and recreate it
+    if os.path.exists(OUTPUT_DIR):
+        shutil.rmtree(OUTPUT_DIR)
+
     subdirs = [
         OUTPUT_DIR,
         f"{OUTPUT_DIR}/api",
@@ -310,7 +314,8 @@ async def generate_library(spec, version_number):
     for directory in subdirs:
         os.makedirs(directory, exist_ok=True)
 
-    # Files that are not generated
+    # Copy static files from generator/static/
+    static_dir = os.path.join(SCRIPT_DIR, "static")
     non_generated = [
         "__init__.py",
         "config.py",
@@ -324,21 +329,29 @@ async def generate_library(spec, version_number):
         "aio/api/__init__.py",
         "api/batch/__init__.py",
     ]
-    base_url = (
-        "https://raw.githubusercontent.com/meraki/dashboard-api-python/master/meraki/"
-    )
-    async with httpx.AsyncClient() as client:
-        for file in non_generated:
-            response = await client.get(f"{base_url}{file}")
-            with open(
-                f"{OUTPUT_DIR}/{file}", "w+", encoding="utf-8", newline=None
-            ) as fp:
-                contents = response.text
-                if file == "__init__.py":
-                    start = contents.find("__version__ = ")
-                    end = contents.find("\n", start)
-                    contents = f"{contents[:start]}__version__ = '{version_number}'{contents[end:]}"
-                fp.write(contents)
+    for file in non_generated:
+        src = os.path.join(static_dir, file)
+        dst = os.path.join(OUTPUT_DIR, file)
+        shutil.copy2(src, dst)
+
+        # Update versions in __init__.py
+        if file == "__init__.py":
+            with open(dst, "r", encoding="utf-8") as f:
+                contents = f.read()
+            # Update __version__
+            start = contents.find("__version__ = ")
+            end = contents.find("\n", start)
+            contents = (
+                f"{contents[:start]}__version__ = '{version_number}'{contents[end:]}"
+            )
+            # Update __api_version__
+            start = contents.find("__api_version__ = ")
+            end = contents.find("\n", start)
+            contents = (
+                f"{contents[:start]}__api_version__ = '{api_version}'{contents[end:]}"
+            )
+            with open(dst, "w", encoding="utf-8") as f:
+                f.write(contents)
 
     # Organize data from OpenAPI specification
     operations = []  # list of operation IDs
@@ -817,7 +830,7 @@ async def main() -> None:
         except httpx.HTTPError as e:
             sys.exit(f"Error retrieving OpenAPI specification: {e}")
 
-    await generate_library(response.json(), client_version)
+    await generate_library(response.json(), client_version, api_version)
 
 
 if __name__ == "__main__":
