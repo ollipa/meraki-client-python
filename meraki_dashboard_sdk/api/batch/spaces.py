@@ -4,8 +4,6 @@ import urllib
 class ActionBatchSpaces(object):
     def __init__(self):
         super(ActionBatchSpaces, self).__init__()
-        
-
 
     def removeOrganizationSpacesIntegration(self, organizationId: str):
         """
@@ -16,17 +14,13 @@ class ActionBatchSpaces(object):
         """
 
         metadata = {
-            'tags': ['spaces', 'configure', 'integration'],
-            'operation': 'removeOrganizationSpacesIntegration'
+            "tags": ["spaces", "configure", "integration"],
+            "operation": "removeOrganizationSpacesIntegration",
         }
-        resource = f'/organizations/{organizationId}/spaces/integration/remove'
+        resource = f"/organizations/{organizationId}/spaces/integration/remove"
 
         action = {
             "resource": resource,
-            "operation": "integration",
+            "operation": "create",
         }
         return action
-        
-
-
-

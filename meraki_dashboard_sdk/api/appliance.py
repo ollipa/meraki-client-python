@@ -5,8 +5,6 @@ class Appliance(object):
     def __init__(self, session):
         super(Appliance, self).__init__()
         self._session = session
-        
-
 
     def getDeviceApplianceDhcpSubnets(self, serial: str):
         """
@@ -17,15 +15,13 @@ class Appliance(object):
         """
 
         metadata = {
-            'tags': ['appliance', 'monitor', 'dhcp', 'subnets'],
-            'operation': 'getDeviceApplianceDhcpSubnets'
+            "tags": ["appliance", "monitor", "dhcp", "subnets"],
+            "operation": "getDeviceApplianceDhcpSubnets",
         }
-        serial = urllib.parse.quote(str(serial), safe='')
-        resource = f'/devices/{serial}/appliance/dhcp/subnets'
+        serial = urllib.parse.quote(str(serial), safe="")
+        resource = f"/devices/{serial}/appliance/dhcp/subnets"
 
         return self._session.get(metadata, resource)
-        
-
 
     def getDeviceAppliancePerformance(self, serial: str, **kwargs):
         """
@@ -41,18 +37,20 @@ class Appliance(object):
         kwargs.update(locals())
 
         metadata = {
-            'tags': ['appliance', 'monitor', 'performance'],
-            'operation': 'getDeviceAppliancePerformance'
+            "tags": ["appliance", "monitor", "performance"],
+            "operation": "getDeviceAppliancePerformance",
         }
-        serial = urllib.parse.quote(str(serial), safe='')
-        resource = f'/devices/{serial}/appliance/performance'
+        serial = urllib.parse.quote(str(serial), safe="")
+        resource = f"/devices/{serial}/appliance/performance"
 
-        query_params = ['t0', 't1', 'timespan', ]
+        query_params = [
+            "t0",
+            "t1",
+            "timespan",
+        ]
         params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
 
         return self._session.get(metadata, resource, params)
-        
-
 
     def getDeviceAppliancePrefixesDelegated(self, serial: str):
         """
@@ -63,15 +61,13 @@ class Appliance(object):
         """
 
         metadata = {
-            'tags': ['appliance', 'monitor', 'prefixes', 'delegated'],
-            'operation': 'getDeviceAppliancePrefixesDelegated'
+            "tags": ["appliance", "monitor", "prefixes", "delegated"],
+            "operation": "getDeviceAppliancePrefixesDelegated",
         }
-        serial = urllib.parse.quote(str(serial), safe='')
-        resource = f'/devices/{serial}/appliance/prefixes/delegated'
+        serial = urllib.parse.quote(str(serial), safe="")
+        resource = f"/devices/{serial}/appliance/prefixes/delegated"
 
         return self._session.get(metadata, resource)
-        
-
 
     def getDeviceAppliancePrefixesDelegatedVlanAssignments(self, serial: str):
         """
@@ -82,15 +78,13 @@ class Appliance(object):
         """
 
         metadata = {
-            'tags': ['appliance', 'monitor', 'prefixes', 'delegated', 'vlanAssignments'],
-            'operation': 'getDeviceAppliancePrefixesDelegatedVlanAssignments'
+            "tags": ["appliance", "monitor", "prefixes", "delegated", "vlanAssignments"],
+            "operation": "getDeviceAppliancePrefixesDelegatedVlanAssignments",
         }
-        serial = urllib.parse.quote(str(serial), safe='')
-        resource = f'/devices/{serial}/appliance/prefixes/delegated/vlanAssignments'
+        serial = urllib.parse.quote(str(serial), safe="")
+        resource = f"/devices/{serial}/appliance/prefixes/delegated/vlanAssignments"
 
         return self._session.get(metadata, resource)
-        
-
 
     def getDeviceApplianceRadioSettings(self, serial: str):
         """
@@ -101,15 +95,13 @@ class Appliance(object):
         """
 
         metadata = {
-            'tags': ['appliance', 'configure', 'radio', 'settings'],
-            'operation': 'getDeviceApplianceRadioSettings'
+            "tags": ["appliance", "configure", "radio", "settings"],
+            "operation": "getDeviceApplianceRadioSettings",
         }
-        serial = urllib.parse.quote(str(serial), safe='')
-        resource = f'/devices/{serial}/appliance/radio/settings'
+        serial = urllib.parse.quote(str(serial), safe="")
+        resource = f"/devices/{serial}/appliance/radio/settings"
 
         return self._session.get(metadata, resource)
-        
-
 
     def updateDeviceApplianceRadioSettings(self, serial: str, **kwargs):
         """
@@ -125,18 +117,20 @@ class Appliance(object):
         kwargs.update(locals())
 
         metadata = {
-            'tags': ['appliance', 'configure', 'radio', 'settings'],
-            'operation': 'updateDeviceApplianceRadioSettings'
+            "tags": ["appliance", "configure", "radio", "settings"],
+            "operation": "updateDeviceApplianceRadioSettings",
         }
-        serial = urllib.parse.quote(str(serial), safe='')
-        resource = f'/devices/{serial}/appliance/radio/settings'
+        serial = urllib.parse.quote(str(serial), safe="")
+        resource = f"/devices/{serial}/appliance/radio/settings"
 
-        body_params = ['rfProfileId', 'twoFourGhzSettings', 'fiveGhzSettings', ]
+        body_params = [
+            "rfProfileId",
+            "twoFourGhzSettings",
+            "fiveGhzSettings",
+        ]
         payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
 
         return self._session.put(metadata, resource, payload)
-        
-
 
     def getDeviceApplianceUplinksSettings(self, serial: str):
         """
@@ -147,15 +141,13 @@ class Appliance(object):
         """
 
         metadata = {
-            'tags': ['appliance', 'configure', 'uplinks', 'settings'],
-            'operation': 'getDeviceApplianceUplinksSettings'
+            "tags": ["appliance", "configure", "uplinks", "settings"],
+            "operation": "getDeviceApplianceUplinksSettings",
         }
-        serial = urllib.parse.quote(str(serial), safe='')
-        resource = f'/devices/{serial}/appliance/uplinks/settings'
+        serial = urllib.parse.quote(str(serial), safe="")
+        resource = f"/devices/{serial}/appliance/uplinks/settings"
 
         return self._session.get(metadata, resource)
-        
-
 
     def updateDeviceApplianceUplinksSettings(self, serial: str, interfaces: dict):
         """
@@ -169,18 +161,18 @@ class Appliance(object):
         kwargs = locals()
 
         metadata = {
-            'tags': ['appliance', 'configure', 'uplinks', 'settings'],
-            'operation': 'updateDeviceApplianceUplinksSettings'
+            "tags": ["appliance", "configure", "uplinks", "settings"],
+            "operation": "updateDeviceApplianceUplinksSettings",
         }
-        serial = urllib.parse.quote(str(serial), safe='')
-        resource = f'/devices/{serial}/appliance/uplinks/settings'
+        serial = urllib.parse.quote(str(serial), safe="")
+        resource = f"/devices/{serial}/appliance/uplinks/settings"
 
-        body_params = ['interfaces', ]
+        body_params = [
+            "interfaces",
+        ]
         payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
 
         return self._session.put(metadata, resource, payload)
-        
-
 
     def createDeviceApplianceVmxAuthenticationToken(self, serial: str):
         """
@@ -191,17 +183,17 @@ class Appliance(object):
         """
 
         metadata = {
-            'tags': ['appliance', 'configure', 'vmx', 'authenticationToken'],
-            'operation': 'createDeviceApplianceVmxAuthenticationToken'
+            "tags": ["appliance", "configure", "vmx", "authenticationToken"],
+            "operation": "createDeviceApplianceVmxAuthenticationToken",
         }
-        serial = urllib.parse.quote(str(serial), safe='')
-        resource = f'/devices/{serial}/appliance/vmx/authenticationToken'
+        serial = urllib.parse.quote(str(serial), safe="")
+        resource = f"/devices/{serial}/appliance/vmx/authenticationToken"
 
         return self._session.post(metadata, resource)
-        
 
-
-    def getNetworkApplianceClientSecurityEvents(self, networkId: str, clientId: str, total_pages=1, direction='next', **kwargs):
+    def getNetworkApplianceClientSecurityEvents(
+        self, networkId: str, clientId: str, total_pages=1, direction="next", **kwargs
+    ):
         """
         **List the security events for a client**
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-client-security-events
@@ -221,24 +213,32 @@ class Appliance(object):
 
         kwargs.update(locals())
 
-        if 'sortOrder' in kwargs:
-            options = ['ascending', 'descending']
-            assert kwargs['sortOrder'] in options, f'''"sortOrder" cannot be "{kwargs['sortOrder']}", & must be set to one of: {options}'''
+        if "sortOrder" in kwargs:
+            options = ["ascending", "descending"]
+            assert kwargs["sortOrder"] in options, (
+                f'''"sortOrder" cannot be "{kwargs["sortOrder"]}", & must be set to one of: {options}'''
+            )
 
         metadata = {
-            'tags': ['appliance', 'monitor', 'clients', 'security', 'events'],
-            'operation': 'getNetworkApplianceClientSecurityEvents'
+            "tags": ["appliance", "monitor", "clients", "security", "events"],
+            "operation": "getNetworkApplianceClientSecurityEvents",
         }
-        networkId = urllib.parse.quote(str(networkId), safe='')
-        clientId = urllib.parse.quote(str(clientId), safe='')
-        resource = f'/networks/{networkId}/appliance/clients/{clientId}/security/events'
+        networkId = urllib.parse.quote(str(networkId), safe="")
+        clientId = urllib.parse.quote(str(clientId), safe="")
+        resource = f"/networks/{networkId}/appliance/clients/{clientId}/security/events"
 
-        query_params = ['t0', 't1', 'timespan', 'perPage', 'startingAfter', 'endingBefore', 'sortOrder', ]
+        query_params = [
+            "t0",
+            "t1",
+            "timespan",
+            "perPage",
+            "startingAfter",
+            "endingBefore",
+            "sortOrder",
+        ]
         params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
-        
-
 
     def getNetworkApplianceConnectivityMonitoringDestinations(self, networkId: str):
         """
@@ -249,15 +249,13 @@ class Appliance(object):
         """
 
         metadata = {
-            'tags': ['appliance', 'configure', 'connectivityMonitoringDestinations'],
-            'operation': 'getNetworkApplianceConnectivityMonitoringDestinations'
+            "tags": ["appliance", "configure", "connectivityMonitoringDestinations"],
+            "operation": "getNetworkApplianceConnectivityMonitoringDestinations",
         }
-        networkId = urllib.parse.quote(str(networkId), safe='')
-        resource = f'/networks/{networkId}/appliance/connectivityMonitoringDestinations'
+        networkId = urllib.parse.quote(str(networkId), safe="")
+        resource = f"/networks/{networkId}/appliance/connectivityMonitoringDestinations"
 
         return self._session.get(metadata, resource)
-        
-
 
     def updateNetworkApplianceConnectivityMonitoringDestinations(self, networkId: str, **kwargs):
         """
@@ -271,18 +269,18 @@ class Appliance(object):
         kwargs.update(locals())
 
         metadata = {
-            'tags': ['appliance', 'configure', 'connectivityMonitoringDestinations'],
-            'operation': 'updateNetworkApplianceConnectivityMonitoringDestinations'
+            "tags": ["appliance", "configure", "connectivityMonitoringDestinations"],
+            "operation": "updateNetworkApplianceConnectivityMonitoringDestinations",
         }
-        networkId = urllib.parse.quote(str(networkId), safe='')
-        resource = f'/networks/{networkId}/appliance/connectivityMonitoringDestinations'
+        networkId = urllib.parse.quote(str(networkId), safe="")
+        resource = f"/networks/{networkId}/appliance/connectivityMonitoringDestinations"
 
-        body_params = ['destinations', ]
+        body_params = [
+            "destinations",
+        ]
         payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
 
         return self._session.put(metadata, resource, payload)
-        
-
 
     def getNetworkApplianceContentFiltering(self, networkId: str):
         """
@@ -293,15 +291,13 @@ class Appliance(object):
         """
 
         metadata = {
-            'tags': ['appliance', 'configure', 'contentFiltering'],
-            'operation': 'getNetworkApplianceContentFiltering'
+            "tags": ["appliance", "configure", "contentFiltering"],
+            "operation": "getNetworkApplianceContentFiltering",
         }
-        networkId = urllib.parse.quote(str(networkId), safe='')
-        resource = f'/networks/{networkId}/appliance/contentFiltering'
+        networkId = urllib.parse.quote(str(networkId), safe="")
+        resource = f"/networks/{networkId}/appliance/contentFiltering"
 
         return self._session.get(metadata, resource)
-        
-
 
     def updateNetworkApplianceContentFiltering(self, networkId: str, **kwargs):
         """
@@ -317,23 +313,28 @@ class Appliance(object):
 
         kwargs.update(locals())
 
-        if 'urlCategoryListSize' in kwargs:
-            options = ['fullList', 'topSites']
-            assert kwargs['urlCategoryListSize'] in options, f'''"urlCategoryListSize" cannot be "{kwargs['urlCategoryListSize']}", & must be set to one of: {options}'''
+        if "urlCategoryListSize" in kwargs:
+            options = ["fullList", "topSites"]
+            assert kwargs["urlCategoryListSize"] in options, (
+                f'''"urlCategoryListSize" cannot be "{kwargs["urlCategoryListSize"]}", & must be set to one of: {options}'''
+            )
 
         metadata = {
-            'tags': ['appliance', 'configure', 'contentFiltering'],
-            'operation': 'updateNetworkApplianceContentFiltering'
+            "tags": ["appliance", "configure", "contentFiltering"],
+            "operation": "updateNetworkApplianceContentFiltering",
         }
-        networkId = urllib.parse.quote(str(networkId), safe='')
-        resource = f'/networks/{networkId}/appliance/contentFiltering'
+        networkId = urllib.parse.quote(str(networkId), safe="")
+        resource = f"/networks/{networkId}/appliance/contentFiltering"
 
-        body_params = ['allowedUrlPatterns', 'blockedUrlPatterns', 'blockedUrlCategories', 'urlCategoryListSize', ]
+        body_params = [
+            "allowedUrlPatterns",
+            "blockedUrlPatterns",
+            "blockedUrlCategories",
+            "urlCategoryListSize",
+        ]
         payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
 
         return self._session.put(metadata, resource, payload)
-        
-
 
     def getNetworkApplianceContentFilteringCategories(self, networkId: str):
         """
@@ -344,15 +345,13 @@ class Appliance(object):
         """
 
         metadata = {
-            'tags': ['appliance', 'configure', 'contentFiltering', 'categories'],
-            'operation': 'getNetworkApplianceContentFilteringCategories'
+            "tags": ["appliance", "configure", "contentFiltering", "categories"],
+            "operation": "getNetworkApplianceContentFilteringCategories",
         }
-        networkId = urllib.parse.quote(str(networkId), safe='')
-        resource = f'/networks/{networkId}/appliance/contentFiltering/categories'
+        networkId = urllib.parse.quote(str(networkId), safe="")
+        resource = f"/networks/{networkId}/appliance/contentFiltering/categories"
 
         return self._session.get(metadata, resource)
-        
-
 
     def getNetworkApplianceFirewallCellularFirewallRules(self, networkId: str):
         """
@@ -363,15 +362,13 @@ class Appliance(object):
         """
 
         metadata = {
-            'tags': ['appliance', 'configure', 'firewall', 'cellularFirewallRules'],
-            'operation': 'getNetworkApplianceFirewallCellularFirewallRules'
+            "tags": ["appliance", "configure", "firewall", "cellularFirewallRules"],
+            "operation": "getNetworkApplianceFirewallCellularFirewallRules",
         }
-        networkId = urllib.parse.quote(str(networkId), safe='')
-        resource = f'/networks/{networkId}/appliance/firewall/cellularFirewallRules'
+        networkId = urllib.parse.quote(str(networkId), safe="")
+        resource = f"/networks/{networkId}/appliance/firewall/cellularFirewallRules"
 
         return self._session.get(metadata, resource)
-        
-
 
     def updateNetworkApplianceFirewallCellularFirewallRules(self, networkId: str, **kwargs):
         """
@@ -385,18 +382,18 @@ class Appliance(object):
         kwargs.update(locals())
 
         metadata = {
-            'tags': ['appliance', 'configure', 'firewall', 'cellularFirewallRules'],
-            'operation': 'updateNetworkApplianceFirewallCellularFirewallRules'
+            "tags": ["appliance", "configure", "firewall", "cellularFirewallRules"],
+            "operation": "updateNetworkApplianceFirewallCellularFirewallRules",
         }
-        networkId = urllib.parse.quote(str(networkId), safe='')
-        resource = f'/networks/{networkId}/appliance/firewall/cellularFirewallRules'
+        networkId = urllib.parse.quote(str(networkId), safe="")
+        resource = f"/networks/{networkId}/appliance/firewall/cellularFirewallRules"
 
-        body_params = ['rules', ]
+        body_params = [
+            "rules",
+        ]
         payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
 
         return self._session.put(metadata, resource, payload)
-        
-
 
     def getNetworkApplianceFirewallFirewalledServices(self, networkId: str):
         """
@@ -407,15 +404,13 @@ class Appliance(object):
         """
 
         metadata = {
-            'tags': ['appliance', 'configure', 'firewall', 'firewalledServices'],
-            'operation': 'getNetworkApplianceFirewallFirewalledServices'
+            "tags": ["appliance", "configure", "firewall", "firewalledServices"],
+            "operation": "getNetworkApplianceFirewallFirewalledServices",
         }
-        networkId = urllib.parse.quote(str(networkId), safe='')
-        resource = f'/networks/{networkId}/appliance/firewall/firewalledServices'
+        networkId = urllib.parse.quote(str(networkId), safe="")
+        resource = f"/networks/{networkId}/appliance/firewall/firewalledServices"
 
         return self._session.get(metadata, resource)
-        
-
 
     def getNetworkApplianceFirewallFirewalledService(self, networkId: str, service: str):
         """
@@ -427,18 +422,18 @@ class Appliance(object):
         """
 
         metadata = {
-            'tags': ['appliance', 'configure', 'firewall', 'firewalledServices'],
-            'operation': 'getNetworkApplianceFirewallFirewalledService'
+            "tags": ["appliance", "configure", "firewall", "firewalledServices"],
+            "operation": "getNetworkApplianceFirewallFirewalledService",
         }
-        networkId = urllib.parse.quote(str(networkId), safe='')
-        service = urllib.parse.quote(str(service), safe='')
-        resource = f'/networks/{networkId}/appliance/firewall/firewalledServices/{service}'
+        networkId = urllib.parse.quote(str(networkId), safe="")
+        service = urllib.parse.quote(str(service), safe="")
+        resource = f"/networks/{networkId}/appliance/firewall/firewalledServices/{service}"
 
         return self._session.get(metadata, resource)
-        
 
-
-    def updateNetworkApplianceFirewallFirewalledService(self, networkId: str, service: str, access: str, **kwargs):
+    def updateNetworkApplianceFirewallFirewalledService(
+        self, networkId: str, service: str, access: str, **kwargs
+    ):
         """
         **Updates the accessibility settings for the given service ('ICMP', 'web', or 'SNMP')**
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-firewall-firewalled-service
@@ -451,24 +446,27 @@ class Appliance(object):
 
         kwargs.update(locals())
 
-        if 'access' in kwargs:
-            options = ['blocked', 'restricted', 'unrestricted']
-            assert kwargs['access'] in options, f'''"access" cannot be "{kwargs['access']}", & must be set to one of: {options}'''
+        if "access" in kwargs:
+            options = ["blocked", "restricted", "unrestricted"]
+            assert kwargs["access"] in options, (
+                f'''"access" cannot be "{kwargs["access"]}", & must be set to one of: {options}'''
+            )
 
         metadata = {
-            'tags': ['appliance', 'configure', 'firewall', 'firewalledServices'],
-            'operation': 'updateNetworkApplianceFirewallFirewalledService'
+            "tags": ["appliance", "configure", "firewall", "firewalledServices"],
+            "operation": "updateNetworkApplianceFirewallFirewalledService",
         }
-        networkId = urllib.parse.quote(str(networkId), safe='')
-        service = urllib.parse.quote(str(service), safe='')
-        resource = f'/networks/{networkId}/appliance/firewall/firewalledServices/{service}'
+        networkId = urllib.parse.quote(str(networkId), safe="")
+        service = urllib.parse.quote(str(service), safe="")
+        resource = f"/networks/{networkId}/appliance/firewall/firewalledServices/{service}"
 
-        body_params = ['access', 'allowedIps', ]
+        body_params = [
+            "access",
+            "allowedIps",
+        ]
         payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
 
         return self._session.put(metadata, resource, payload)
-        
-
 
     def getNetworkApplianceFirewallInboundCellularFirewallRules(self, networkId: str):
         """
@@ -479,15 +477,13 @@ class Appliance(object):
         """
 
         metadata = {
-            'tags': ['appliance', 'configure', 'firewall', 'inboundCellularFirewallRules'],
-            'operation': 'getNetworkApplianceFirewallInboundCellularFirewallRules'
+            "tags": ["appliance", "configure", "firewall", "inboundCellularFirewallRules"],
+            "operation": "getNetworkApplianceFirewallInboundCellularFirewallRules",
         }
-        networkId = urllib.parse.quote(str(networkId), safe='')
-        resource = f'/networks/{networkId}/appliance/firewall/inboundCellularFirewallRules'
+        networkId = urllib.parse.quote(str(networkId), safe="")
+        resource = f"/networks/{networkId}/appliance/firewall/inboundCellularFirewallRules"
 
         return self._session.get(metadata, resource)
-        
-
 
     def updateNetworkApplianceFirewallInboundCellularFirewallRules(self, networkId: str, **kwargs):
         """
@@ -501,18 +497,18 @@ class Appliance(object):
         kwargs.update(locals())
 
         metadata = {
-            'tags': ['appliance', 'configure', 'firewall', 'inboundCellularFirewallRules'],
-            'operation': 'updateNetworkApplianceFirewallInboundCellularFirewallRules'
+            "tags": ["appliance", "configure", "firewall", "inboundCellularFirewallRules"],
+            "operation": "updateNetworkApplianceFirewallInboundCellularFirewallRules",
         }
-        networkId = urllib.parse.quote(str(networkId), safe='')
-        resource = f'/networks/{networkId}/appliance/firewall/inboundCellularFirewallRules'
+        networkId = urllib.parse.quote(str(networkId), safe="")
+        resource = f"/networks/{networkId}/appliance/firewall/inboundCellularFirewallRules"
 
-        body_params = ['rules', ]
+        body_params = [
+            "rules",
+        ]
         payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
 
         return self._session.put(metadata, resource, payload)
-        
-
 
     def getNetworkApplianceFirewallInboundFirewallRules(self, networkId: str):
         """
@@ -523,15 +519,13 @@ class Appliance(object):
         """
 
         metadata = {
-            'tags': ['appliance', 'configure', 'firewall', 'inboundFirewallRules'],
-            'operation': 'getNetworkApplianceFirewallInboundFirewallRules'
+            "tags": ["appliance", "configure", "firewall", "inboundFirewallRules"],
+            "operation": "getNetworkApplianceFirewallInboundFirewallRules",
         }
-        networkId = urllib.parse.quote(str(networkId), safe='')
-        resource = f'/networks/{networkId}/appliance/firewall/inboundFirewallRules'
+        networkId = urllib.parse.quote(str(networkId), safe="")
+        resource = f"/networks/{networkId}/appliance/firewall/inboundFirewallRules"
 
         return self._session.get(metadata, resource)
-        
-
 
     def updateNetworkApplianceFirewallInboundFirewallRules(self, networkId: str, **kwargs):
         """
@@ -546,18 +540,19 @@ class Appliance(object):
         kwargs.update(locals())
 
         metadata = {
-            'tags': ['appliance', 'configure', 'firewall', 'inboundFirewallRules'],
-            'operation': 'updateNetworkApplianceFirewallInboundFirewallRules'
+            "tags": ["appliance", "configure", "firewall", "inboundFirewallRules"],
+            "operation": "updateNetworkApplianceFirewallInboundFirewallRules",
         }
-        networkId = urllib.parse.quote(str(networkId), safe='')
-        resource = f'/networks/{networkId}/appliance/firewall/inboundFirewallRules'
+        networkId = urllib.parse.quote(str(networkId), safe="")
+        resource = f"/networks/{networkId}/appliance/firewall/inboundFirewallRules"
 
-        body_params = ['rules', 'syslogDefaultRule', ]
+        body_params = [
+            "rules",
+            "syslogDefaultRule",
+        ]
         payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
 
         return self._session.put(metadata, resource, payload)
-        
-
 
     def getNetworkApplianceFirewallL3FirewallRules(self, networkId: str):
         """
@@ -568,15 +563,13 @@ class Appliance(object):
         """
 
         metadata = {
-            'tags': ['appliance', 'configure', 'firewall', 'l3FirewallRules'],
-            'operation': 'getNetworkApplianceFirewallL3FirewallRules'
+            "tags": ["appliance", "configure", "firewall", "l3FirewallRules"],
+            "operation": "getNetworkApplianceFirewallL3FirewallRules",
         }
-        networkId = urllib.parse.quote(str(networkId), safe='')
-        resource = f'/networks/{networkId}/appliance/firewall/l3FirewallRules'
+        networkId = urllib.parse.quote(str(networkId), safe="")
+        resource = f"/networks/{networkId}/appliance/firewall/l3FirewallRules"
 
         return self._session.get(metadata, resource)
-        
-
 
     def updateNetworkApplianceFirewallL3FirewallRules(self, networkId: str, **kwargs):
         """
@@ -591,18 +584,19 @@ class Appliance(object):
         kwargs.update(locals())
 
         metadata = {
-            'tags': ['appliance', 'configure', 'firewall', 'l3FirewallRules'],
-            'operation': 'updateNetworkApplianceFirewallL3FirewallRules'
+            "tags": ["appliance", "configure", "firewall", "l3FirewallRules"],
+            "operation": "updateNetworkApplianceFirewallL3FirewallRules",
         }
-        networkId = urllib.parse.quote(str(networkId), safe='')
-        resource = f'/networks/{networkId}/appliance/firewall/l3FirewallRules'
+        networkId = urllib.parse.quote(str(networkId), safe="")
+        resource = f"/networks/{networkId}/appliance/firewall/l3FirewallRules"
 
-        body_params = ['rules', 'syslogDefaultRule', ]
+        body_params = [
+            "rules",
+            "syslogDefaultRule",
+        ]
         payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
 
         return self._session.put(metadata, resource, payload)
-        
-
 
     def getNetworkApplianceFirewallL7FirewallRules(self, networkId: str):
         """
@@ -613,15 +607,13 @@ class Appliance(object):
         """
 
         metadata = {
-            'tags': ['appliance', 'configure', 'firewall', 'l7FirewallRules'],
-            'operation': 'getNetworkApplianceFirewallL7FirewallRules'
+            "tags": ["appliance", "configure", "firewall", "l7FirewallRules"],
+            "operation": "getNetworkApplianceFirewallL7FirewallRules",
         }
-        networkId = urllib.parse.quote(str(networkId), safe='')
-        resource = f'/networks/{networkId}/appliance/firewall/l7FirewallRules'
+        networkId = urllib.parse.quote(str(networkId), safe="")
+        resource = f"/networks/{networkId}/appliance/firewall/l7FirewallRules"
 
         return self._session.get(metadata, resource)
-        
-
 
     def updateNetworkApplianceFirewallL7FirewallRules(self, networkId: str, **kwargs):
         """
@@ -635,18 +627,18 @@ class Appliance(object):
         kwargs.update(locals())
 
         metadata = {
-            'tags': ['appliance', 'configure', 'firewall', 'l7FirewallRules'],
-            'operation': 'updateNetworkApplianceFirewallL7FirewallRules'
+            "tags": ["appliance", "configure", "firewall", "l7FirewallRules"],
+            "operation": "updateNetworkApplianceFirewallL7FirewallRules",
         }
-        networkId = urllib.parse.quote(str(networkId), safe='')
-        resource = f'/networks/{networkId}/appliance/firewall/l7FirewallRules'
+        networkId = urllib.parse.quote(str(networkId), safe="")
+        resource = f"/networks/{networkId}/appliance/firewall/l7FirewallRules"
 
-        body_params = ['rules', ]
+        body_params = [
+            "rules",
+        ]
         payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
 
         return self._session.put(metadata, resource, payload)
-        
-
 
     def getNetworkApplianceFirewallL7FirewallRulesApplicationCategories(self, networkId: str):
         """
@@ -657,15 +649,19 @@ class Appliance(object):
         """
 
         metadata = {
-            'tags': ['appliance', 'configure', 'firewall', 'l7FirewallRules', 'applicationCategories'],
-            'operation': 'getNetworkApplianceFirewallL7FirewallRulesApplicationCategories'
+            "tags": [
+                "appliance",
+                "configure",
+                "firewall",
+                "l7FirewallRules",
+                "applicationCategories",
+            ],
+            "operation": "getNetworkApplianceFirewallL7FirewallRulesApplicationCategories",
         }
-        networkId = urllib.parse.quote(str(networkId), safe='')
-        resource = f'/networks/{networkId}/appliance/firewall/l7FirewallRules/applicationCategories'
+        networkId = urllib.parse.quote(str(networkId), safe="")
+        resource = f"/networks/{networkId}/appliance/firewall/l7FirewallRules/applicationCategories"
 
         return self._session.get(metadata, resource)
-        
-
 
     def updateNetworkApplianceFirewallMulticastForwarding(self, networkId: str, rules: list):
         """
@@ -679,18 +675,18 @@ class Appliance(object):
         kwargs = locals()
 
         metadata = {
-            'tags': ['appliance', 'configure', 'firewall', 'multicastForwarding'],
-            'operation': 'updateNetworkApplianceFirewallMulticastForwarding'
+            "tags": ["appliance", "configure", "firewall", "multicastForwarding"],
+            "operation": "updateNetworkApplianceFirewallMulticastForwarding",
         }
-        networkId = urllib.parse.quote(str(networkId), safe='')
-        resource = f'/networks/{networkId}/appliance/firewall/multicastForwarding'
+        networkId = urllib.parse.quote(str(networkId), safe="")
+        resource = f"/networks/{networkId}/appliance/firewall/multicastForwarding"
 
-        body_params = ['rules', ]
+        body_params = [
+            "rules",
+        ]
         payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
 
         return self._session.put(metadata, resource, payload)
-        
-
 
     def getNetworkApplianceFirewallOneToManyNatRules(self, networkId: str):
         """
@@ -701,15 +697,13 @@ class Appliance(object):
         """
 
         metadata = {
-            'tags': ['appliance', 'configure', 'firewall', 'oneToManyNatRules'],
-            'operation': 'getNetworkApplianceFirewallOneToManyNatRules'
+            "tags": ["appliance", "configure", "firewall", "oneToManyNatRules"],
+            "operation": "getNetworkApplianceFirewallOneToManyNatRules",
         }
-        networkId = urllib.parse.quote(str(networkId), safe='')
-        resource = f'/networks/{networkId}/appliance/firewall/oneToManyNatRules'
+        networkId = urllib.parse.quote(str(networkId), safe="")
+        resource = f"/networks/{networkId}/appliance/firewall/oneToManyNatRules"
 
         return self._session.get(metadata, resource)
-        
-
 
     def updateNetworkApplianceFirewallOneToManyNatRules(self, networkId: str, rules: list):
         """
@@ -723,18 +717,18 @@ class Appliance(object):
         kwargs = locals()
 
         metadata = {
-            'tags': ['appliance', 'configure', 'firewall', 'oneToManyNatRules'],
-            'operation': 'updateNetworkApplianceFirewallOneToManyNatRules'
+            "tags": ["appliance", "configure", "firewall", "oneToManyNatRules"],
+            "operation": "updateNetworkApplianceFirewallOneToManyNatRules",
         }
-        networkId = urllib.parse.quote(str(networkId), safe='')
-        resource = f'/networks/{networkId}/appliance/firewall/oneToManyNatRules'
+        networkId = urllib.parse.quote(str(networkId), safe="")
+        resource = f"/networks/{networkId}/appliance/firewall/oneToManyNatRules"
 
-        body_params = ['rules', ]
+        body_params = [
+            "rules",
+        ]
         payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
 
         return self._session.put(metadata, resource, payload)
-        
-
 
     def getNetworkApplianceFirewallOneToOneNatRules(self, networkId: str):
         """
@@ -745,15 +739,13 @@ class Appliance(object):
         """
 
         metadata = {
-            'tags': ['appliance', 'configure', 'firewall', 'oneToOneNatRules'],
-            'operation': 'getNetworkApplianceFirewallOneToOneNatRules'
+            "tags": ["appliance", "configure", "firewall", "oneToOneNatRules"],
+            "operation": "getNetworkApplianceFirewallOneToOneNatRules",
         }
-        networkId = urllib.parse.quote(str(networkId), safe='')
-        resource = f'/networks/{networkId}/appliance/firewall/oneToOneNatRules'
+        networkId = urllib.parse.quote(str(networkId), safe="")
+        resource = f"/networks/{networkId}/appliance/firewall/oneToOneNatRules"
 
         return self._session.get(metadata, resource)
-        
-
 
     def updateNetworkApplianceFirewallOneToOneNatRules(self, networkId: str, rules: list):
         """
@@ -767,18 +759,18 @@ class Appliance(object):
         kwargs = locals()
 
         metadata = {
-            'tags': ['appliance', 'configure', 'firewall', 'oneToOneNatRules'],
-            'operation': 'updateNetworkApplianceFirewallOneToOneNatRules'
+            "tags": ["appliance", "configure", "firewall", "oneToOneNatRules"],
+            "operation": "updateNetworkApplianceFirewallOneToOneNatRules",
         }
-        networkId = urllib.parse.quote(str(networkId), safe='')
-        resource = f'/networks/{networkId}/appliance/firewall/oneToOneNatRules'
+        networkId = urllib.parse.quote(str(networkId), safe="")
+        resource = f"/networks/{networkId}/appliance/firewall/oneToOneNatRules"
 
-        body_params = ['rules', ]
+        body_params = [
+            "rules",
+        ]
         payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
 
         return self._session.put(metadata, resource, payload)
-        
-
 
     def getNetworkApplianceFirewallPortForwardingRules(self, networkId: str):
         """
@@ -789,15 +781,13 @@ class Appliance(object):
         """
 
         metadata = {
-            'tags': ['appliance', 'configure', 'firewall', 'portForwardingRules'],
-            'operation': 'getNetworkApplianceFirewallPortForwardingRules'
+            "tags": ["appliance", "configure", "firewall", "portForwardingRules"],
+            "operation": "getNetworkApplianceFirewallPortForwardingRules",
         }
-        networkId = urllib.parse.quote(str(networkId), safe='')
-        resource = f'/networks/{networkId}/appliance/firewall/portForwardingRules'
+        networkId = urllib.parse.quote(str(networkId), safe="")
+        resource = f"/networks/{networkId}/appliance/firewall/portForwardingRules"
 
         return self._session.get(metadata, resource)
-        
-
 
     def updateNetworkApplianceFirewallPortForwardingRules(self, networkId: str, rules: list):
         """
@@ -811,18 +801,18 @@ class Appliance(object):
         kwargs = locals()
 
         metadata = {
-            'tags': ['appliance', 'configure', 'firewall', 'portForwardingRules'],
-            'operation': 'updateNetworkApplianceFirewallPortForwardingRules'
+            "tags": ["appliance", "configure", "firewall", "portForwardingRules"],
+            "operation": "updateNetworkApplianceFirewallPortForwardingRules",
         }
-        networkId = urllib.parse.quote(str(networkId), safe='')
-        resource = f'/networks/{networkId}/appliance/firewall/portForwardingRules'
+        networkId = urllib.parse.quote(str(networkId), safe="")
+        resource = f"/networks/{networkId}/appliance/firewall/portForwardingRules"
 
-        body_params = ['rules', ]
+        body_params = [
+            "rules",
+        ]
         payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
 
         return self._session.put(metadata, resource, payload)
-        
-
 
     def getNetworkApplianceFirewallSettings(self, networkId: str):
         """
@@ -833,15 +823,13 @@ class Appliance(object):
         """
 
         metadata = {
-            'tags': ['appliance', 'configure', 'firewall', 'settings'],
-            'operation': 'getNetworkApplianceFirewallSettings'
+            "tags": ["appliance", "configure", "firewall", "settings"],
+            "operation": "getNetworkApplianceFirewallSettings",
         }
-        networkId = urllib.parse.quote(str(networkId), safe='')
-        resource = f'/networks/{networkId}/appliance/firewall/settings'
+        networkId = urllib.parse.quote(str(networkId), safe="")
+        resource = f"/networks/{networkId}/appliance/firewall/settings"
 
         return self._session.get(metadata, resource)
-        
-
 
     def updateNetworkApplianceFirewallSettings(self, networkId: str, **kwargs):
         """
@@ -855,18 +843,18 @@ class Appliance(object):
         kwargs.update(locals())
 
         metadata = {
-            'tags': ['appliance', 'configure', 'firewall', 'settings'],
-            'operation': 'updateNetworkApplianceFirewallSettings'
+            "tags": ["appliance", "configure", "firewall", "settings"],
+            "operation": "updateNetworkApplianceFirewallSettings",
         }
-        networkId = urllib.parse.quote(str(networkId), safe='')
-        resource = f'/networks/{networkId}/appliance/firewall/settings'
+        networkId = urllib.parse.quote(str(networkId), safe="")
+        resource = f"/networks/{networkId}/appliance/firewall/settings"
 
-        body_params = ['spoofingProtection', ]
+        body_params = [
+            "spoofingProtection",
+        ]
         payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
 
         return self._session.put(metadata, resource, payload)
-        
-
 
     def getNetworkAppliancePorts(self, networkId: str):
         """
@@ -877,15 +865,13 @@ class Appliance(object):
         """
 
         metadata = {
-            'tags': ['appliance', 'configure', 'ports'],
-            'operation': 'getNetworkAppliancePorts'
+            "tags": ["appliance", "configure", "ports"],
+            "operation": "getNetworkAppliancePorts",
         }
-        networkId = urllib.parse.quote(str(networkId), safe='')
-        resource = f'/networks/{networkId}/appliance/ports'
+        networkId = urllib.parse.quote(str(networkId), safe="")
+        resource = f"/networks/{networkId}/appliance/ports"
 
         return self._session.get(metadata, resource)
-        
-
 
     def getNetworkAppliancePort(self, networkId: str, portId: str):
         """
@@ -897,16 +883,14 @@ class Appliance(object):
         """
 
         metadata = {
-            'tags': ['appliance', 'configure', 'ports'],
-            'operation': 'getNetworkAppliancePort'
+            "tags": ["appliance", "configure", "ports"],
+            "operation": "getNetworkAppliancePort",
         }
-        networkId = urllib.parse.quote(str(networkId), safe='')
-        portId = urllib.parse.quote(str(portId), safe='')
-        resource = f'/networks/{networkId}/appliance/ports/{portId}'
+        networkId = urllib.parse.quote(str(networkId), safe="")
+        portId = urllib.parse.quote(str(portId), safe="")
+        resource = f"/networks/{networkId}/appliance/ports/{portId}"
 
         return self._session.get(metadata, resource)
-        
-
 
     def updateNetworkAppliancePort(self, networkId: str, portId: str, **kwargs):
         """
@@ -926,19 +910,24 @@ class Appliance(object):
         kwargs.update(locals())
 
         metadata = {
-            'tags': ['appliance', 'configure', 'ports'],
-            'operation': 'updateNetworkAppliancePort'
+            "tags": ["appliance", "configure", "ports"],
+            "operation": "updateNetworkAppliancePort",
         }
-        networkId = urllib.parse.quote(str(networkId), safe='')
-        portId = urllib.parse.quote(str(portId), safe='')
-        resource = f'/networks/{networkId}/appliance/ports/{portId}'
+        networkId = urllib.parse.quote(str(networkId), safe="")
+        portId = urllib.parse.quote(str(portId), safe="")
+        resource = f"/networks/{networkId}/appliance/ports/{portId}"
 
-        body_params = ['enabled', 'dropUntaggedTraffic', 'type', 'vlan', 'allowedVlans', 'accessPolicy', ]
+        body_params = [
+            "enabled",
+            "dropUntaggedTraffic",
+            "type",
+            "vlan",
+            "allowedVlans",
+            "accessPolicy",
+        ]
         payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
 
         return self._session.put(metadata, resource, payload)
-        
-
 
     def getNetworkAppliancePrefixesDelegatedStatics(self, networkId: str):
         """
@@ -949,17 +938,17 @@ class Appliance(object):
         """
 
         metadata = {
-            'tags': ['appliance', 'configure', 'prefixes', 'delegated', 'statics'],
-            'operation': 'getNetworkAppliancePrefixesDelegatedStatics'
+            "tags": ["appliance", "configure", "prefixes", "delegated", "statics"],
+            "operation": "getNetworkAppliancePrefixesDelegatedStatics",
         }
-        networkId = urllib.parse.quote(str(networkId), safe='')
-        resource = f'/networks/{networkId}/appliance/prefixes/delegated/statics'
+        networkId = urllib.parse.quote(str(networkId), safe="")
+        resource = f"/networks/{networkId}/appliance/prefixes/delegated/statics"
 
         return self._session.get(metadata, resource)
-        
 
-
-    def createNetworkAppliancePrefixesDelegatedStatic(self, networkId: str, prefix: str, origin: dict, **kwargs):
+    def createNetworkAppliancePrefixesDelegatedStatic(
+        self, networkId: str, prefix: str, origin: dict, **kwargs
+    ):
         """
         **Add a static delegated prefix from a network**
         https://developer.cisco.com/meraki/api-v1/#!create-network-appliance-prefixes-delegated-static
@@ -973,20 +962,24 @@ class Appliance(object):
         kwargs.update(locals())
 
         metadata = {
-            'tags': ['appliance', 'configure', 'prefixes', 'delegated', 'statics'],
-            'operation': 'createNetworkAppliancePrefixesDelegatedStatic'
+            "tags": ["appliance", "configure", "prefixes", "delegated", "statics"],
+            "operation": "createNetworkAppliancePrefixesDelegatedStatic",
         }
-        networkId = urllib.parse.quote(str(networkId), safe='')
-        resource = f'/networks/{networkId}/appliance/prefixes/delegated/statics'
+        networkId = urllib.parse.quote(str(networkId), safe="")
+        resource = f"/networks/{networkId}/appliance/prefixes/delegated/statics"
 
-        body_params = ['prefix', 'origin', 'description', ]
+        body_params = [
+            "prefix",
+            "origin",
+            "description",
+        ]
         payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
 
         return self._session.post(metadata, resource, payload)
-        
 
-
-    def getNetworkAppliancePrefixesDelegatedStatic(self, networkId: str, staticDelegatedPrefixId: str):
+    def getNetworkAppliancePrefixesDelegatedStatic(
+        self, networkId: str, staticDelegatedPrefixId: str
+    ):
         """
         **Return a static delegated prefix from a network**
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-prefixes-delegated-static
@@ -996,18 +989,20 @@ class Appliance(object):
         """
 
         metadata = {
-            'tags': ['appliance', 'configure', 'prefixes', 'delegated', 'statics'],
-            'operation': 'getNetworkAppliancePrefixesDelegatedStatic'
+            "tags": ["appliance", "configure", "prefixes", "delegated", "statics"],
+            "operation": "getNetworkAppliancePrefixesDelegatedStatic",
         }
-        networkId = urllib.parse.quote(str(networkId), safe='')
-        staticDelegatedPrefixId = urllib.parse.quote(str(staticDelegatedPrefixId), safe='')
-        resource = f'/networks/{networkId}/appliance/prefixes/delegated/statics/{staticDelegatedPrefixId}'
+        networkId = urllib.parse.quote(str(networkId), safe="")
+        staticDelegatedPrefixId = urllib.parse.quote(str(staticDelegatedPrefixId), safe="")
+        resource = (
+            f"/networks/{networkId}/appliance/prefixes/delegated/statics/{staticDelegatedPrefixId}"
+        )
 
         return self._session.get(metadata, resource)
-        
 
-
-    def updateNetworkAppliancePrefixesDelegatedStatic(self, networkId: str, staticDelegatedPrefixId: str, **kwargs):
+    def updateNetworkAppliancePrefixesDelegatedStatic(
+        self, networkId: str, staticDelegatedPrefixId: str, **kwargs
+    ):
         """
         **Update a static delegated prefix from a network**
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-prefixes-delegated-static
@@ -1022,21 +1017,27 @@ class Appliance(object):
         kwargs.update(locals())
 
         metadata = {
-            'tags': ['appliance', 'configure', 'prefixes', 'delegated', 'statics'],
-            'operation': 'updateNetworkAppliancePrefixesDelegatedStatic'
+            "tags": ["appliance", "configure", "prefixes", "delegated", "statics"],
+            "operation": "updateNetworkAppliancePrefixesDelegatedStatic",
         }
-        networkId = urllib.parse.quote(str(networkId), safe='')
-        staticDelegatedPrefixId = urllib.parse.quote(str(staticDelegatedPrefixId), safe='')
-        resource = f'/networks/{networkId}/appliance/prefixes/delegated/statics/{staticDelegatedPrefixId}'
+        networkId = urllib.parse.quote(str(networkId), safe="")
+        staticDelegatedPrefixId = urllib.parse.quote(str(staticDelegatedPrefixId), safe="")
+        resource = (
+            f"/networks/{networkId}/appliance/prefixes/delegated/statics/{staticDelegatedPrefixId}"
+        )
 
-        body_params = ['prefix', 'origin', 'description', ]
+        body_params = [
+            "prefix",
+            "origin",
+            "description",
+        ]
         payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
 
         return self._session.put(metadata, resource, payload)
-        
 
-
-    def deleteNetworkAppliancePrefixesDelegatedStatic(self, networkId: str, staticDelegatedPrefixId: str):
+    def deleteNetworkAppliancePrefixesDelegatedStatic(
+        self, networkId: str, staticDelegatedPrefixId: str
+    ):
         """
         **Delete a static delegated prefix from a network**
         https://developer.cisco.com/meraki/api-v1/#!delete-network-appliance-prefixes-delegated-static
@@ -1046,16 +1047,16 @@ class Appliance(object):
         """
 
         metadata = {
-            'tags': ['appliance', 'configure', 'prefixes', 'delegated', 'statics'],
-            'operation': 'deleteNetworkAppliancePrefixesDelegatedStatic'
+            "tags": ["appliance", "configure", "prefixes", "delegated", "statics"],
+            "operation": "deleteNetworkAppliancePrefixesDelegatedStatic",
         }
-        networkId = urllib.parse.quote(str(networkId), safe='')
-        staticDelegatedPrefixId = urllib.parse.quote(str(staticDelegatedPrefixId), safe='')
-        resource = f'/networks/{networkId}/appliance/prefixes/delegated/statics/{staticDelegatedPrefixId}'
+        networkId = urllib.parse.quote(str(networkId), safe="")
+        staticDelegatedPrefixId = urllib.parse.quote(str(staticDelegatedPrefixId), safe="")
+        resource = (
+            f"/networks/{networkId}/appliance/prefixes/delegated/statics/{staticDelegatedPrefixId}"
+        )
 
         return self._session.delete(metadata, resource)
-        
-
 
     def getNetworkApplianceRfProfiles(self, networkId: str):
         """
@@ -1066,15 +1067,13 @@ class Appliance(object):
         """
 
         metadata = {
-            'tags': ['appliance', 'configure', 'rfProfiles'],
-            'operation': 'getNetworkApplianceRfProfiles'
+            "tags": ["appliance", "configure", "rfProfiles"],
+            "operation": "getNetworkApplianceRfProfiles",
         }
-        networkId = urllib.parse.quote(str(networkId), safe='')
-        resource = f'/networks/{networkId}/appliance/rfProfiles'
+        networkId = urllib.parse.quote(str(networkId), safe="")
+        resource = f"/networks/{networkId}/appliance/rfProfiles"
 
         return self._session.get(metadata, resource)
-        
-
 
     def createNetworkApplianceRfProfile(self, networkId: str, name: str, **kwargs):
         """
@@ -1091,18 +1090,21 @@ class Appliance(object):
         kwargs.update(locals())
 
         metadata = {
-            'tags': ['appliance', 'configure', 'rfProfiles'],
-            'operation': 'createNetworkApplianceRfProfile'
+            "tags": ["appliance", "configure", "rfProfiles"],
+            "operation": "createNetworkApplianceRfProfile",
         }
-        networkId = urllib.parse.quote(str(networkId), safe='')
-        resource = f'/networks/{networkId}/appliance/rfProfiles'
+        networkId = urllib.parse.quote(str(networkId), safe="")
+        resource = f"/networks/{networkId}/appliance/rfProfiles"
 
-        body_params = ['name', 'twoFourGhzSettings', 'fiveGhzSettings', 'perSsidSettings', ]
+        body_params = [
+            "name",
+            "twoFourGhzSettings",
+            "fiveGhzSettings",
+            "perSsidSettings",
+        ]
         payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
 
         return self._session.post(metadata, resource, payload)
-        
-
 
     def updateNetworkApplianceRfProfile(self, networkId: str, rfProfileId: str, **kwargs):
         """
@@ -1120,19 +1122,22 @@ class Appliance(object):
         kwargs.update(locals())
 
         metadata = {
-            'tags': ['appliance', 'configure', 'rfProfiles'],
-            'operation': 'updateNetworkApplianceRfProfile'
+            "tags": ["appliance", "configure", "rfProfiles"],
+            "operation": "updateNetworkApplianceRfProfile",
         }
-        networkId = urllib.parse.quote(str(networkId), safe='')
-        rfProfileId = urllib.parse.quote(str(rfProfileId), safe='')
-        resource = f'/networks/{networkId}/appliance/rfProfiles/{rfProfileId}'
+        networkId = urllib.parse.quote(str(networkId), safe="")
+        rfProfileId = urllib.parse.quote(str(rfProfileId), safe="")
+        resource = f"/networks/{networkId}/appliance/rfProfiles/{rfProfileId}"
 
-        body_params = ['name', 'twoFourGhzSettings', 'fiveGhzSettings', 'perSsidSettings', ]
+        body_params = [
+            "name",
+            "twoFourGhzSettings",
+            "fiveGhzSettings",
+            "perSsidSettings",
+        ]
         payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
 
         return self._session.put(metadata, resource, payload)
-        
-
 
     def deleteNetworkApplianceRfProfile(self, networkId: str, rfProfileId: str):
         """
@@ -1144,16 +1149,14 @@ class Appliance(object):
         """
 
         metadata = {
-            'tags': ['appliance', 'configure', 'rfProfiles'],
-            'operation': 'deleteNetworkApplianceRfProfile'
+            "tags": ["appliance", "configure", "rfProfiles"],
+            "operation": "deleteNetworkApplianceRfProfile",
         }
-        networkId = urllib.parse.quote(str(networkId), safe='')
-        rfProfileId = urllib.parse.quote(str(rfProfileId), safe='')
-        resource = f'/networks/{networkId}/appliance/rfProfiles/{rfProfileId}'
+        networkId = urllib.parse.quote(str(networkId), safe="")
+        rfProfileId = urllib.parse.quote(str(rfProfileId), safe="")
+        resource = f"/networks/{networkId}/appliance/rfProfiles/{rfProfileId}"
 
         return self._session.delete(metadata, resource)
-        
-
 
     def getNetworkApplianceRfProfile(self, networkId: str, rfProfileId: str):
         """
@@ -1165,16 +1168,14 @@ class Appliance(object):
         """
 
         metadata = {
-            'tags': ['appliance', 'configure', 'rfProfiles'],
-            'operation': 'getNetworkApplianceRfProfile'
+            "tags": ["appliance", "configure", "rfProfiles"],
+            "operation": "getNetworkApplianceRfProfile",
         }
-        networkId = urllib.parse.quote(str(networkId), safe='')
-        rfProfileId = urllib.parse.quote(str(rfProfileId), safe='')
-        resource = f'/networks/{networkId}/appliance/rfProfiles/{rfProfileId}'
+        networkId = urllib.parse.quote(str(networkId), safe="")
+        rfProfileId = urllib.parse.quote(str(rfProfileId), safe="")
+        resource = f"/networks/{networkId}/appliance/rfProfiles/{rfProfileId}"
 
         return self._session.get(metadata, resource)
-        
-
 
     def updateNetworkApplianceSdwanInternetPolicies(self, networkId: str, **kwargs):
         """
@@ -1188,20 +1189,22 @@ class Appliance(object):
         kwargs.update(locals())
 
         metadata = {
-            'tags': ['appliance', 'configure', 'sdwan', 'internetPolicies'],
-            'operation': 'updateNetworkApplianceSdwanInternetPolicies'
+            "tags": ["appliance", "configure", "sdwan", "internetPolicies"],
+            "operation": "updateNetworkApplianceSdwanInternetPolicies",
         }
-        networkId = urllib.parse.quote(str(networkId), safe='')
-        resource = f'/networks/{networkId}/appliance/sdwan/internetPolicies'
+        networkId = urllib.parse.quote(str(networkId), safe="")
+        resource = f"/networks/{networkId}/appliance/sdwan/internetPolicies"
 
-        body_params = ['wanTrafficUplinkPreferences', ]
+        body_params = [
+            "wanTrafficUplinkPreferences",
+        ]
         payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
 
         return self._session.put(metadata, resource, payload)
-        
 
-
-    def getNetworkApplianceSecurityEvents(self, networkId: str, total_pages=1, direction='next', **kwargs):
+    def getNetworkApplianceSecurityEvents(
+        self, networkId: str, total_pages=1, direction="next", **kwargs
+    ):
         """
         **List the security events for a network**
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-security-events
@@ -1220,23 +1223,31 @@ class Appliance(object):
 
         kwargs.update(locals())
 
-        if 'sortOrder' in kwargs:
-            options = ['ascending', 'descending']
-            assert kwargs['sortOrder'] in options, f'''"sortOrder" cannot be "{kwargs['sortOrder']}", & must be set to one of: {options}'''
+        if "sortOrder" in kwargs:
+            options = ["ascending", "descending"]
+            assert kwargs["sortOrder"] in options, (
+                f'''"sortOrder" cannot be "{kwargs["sortOrder"]}", & must be set to one of: {options}'''
+            )
 
         metadata = {
-            'tags': ['appliance', 'monitor', 'security', 'events'],
-            'operation': 'getNetworkApplianceSecurityEvents'
+            "tags": ["appliance", "monitor", "security", "events"],
+            "operation": "getNetworkApplianceSecurityEvents",
         }
-        networkId = urllib.parse.quote(str(networkId), safe='')
-        resource = f'/networks/{networkId}/appliance/security/events'
+        networkId = urllib.parse.quote(str(networkId), safe="")
+        resource = f"/networks/{networkId}/appliance/security/events"
 
-        query_params = ['t0', 't1', 'timespan', 'perPage', 'startingAfter', 'endingBefore', 'sortOrder', ]
+        query_params = [
+            "t0",
+            "t1",
+            "timespan",
+            "perPage",
+            "startingAfter",
+            "endingBefore",
+            "sortOrder",
+        ]
         params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
-        
-
 
     def getNetworkApplianceSecurityIntrusion(self, networkId: str):
         """
@@ -1247,15 +1258,13 @@ class Appliance(object):
         """
 
         metadata = {
-            'tags': ['appliance', 'configure', 'security', 'intrusion'],
-            'operation': 'getNetworkApplianceSecurityIntrusion'
+            "tags": ["appliance", "configure", "security", "intrusion"],
+            "operation": "getNetworkApplianceSecurityIntrusion",
         }
-        networkId = urllib.parse.quote(str(networkId), safe='')
-        resource = f'/networks/{networkId}/appliance/security/intrusion'
+        networkId = urllib.parse.quote(str(networkId), safe="")
+        resource = f"/networks/{networkId}/appliance/security/intrusion"
 
         return self._session.get(metadata, resource)
-        
-
 
     def updateNetworkApplianceSecurityIntrusion(self, networkId: str, **kwargs):
         """
@@ -1270,26 +1279,32 @@ class Appliance(object):
 
         kwargs.update(locals())
 
-        if 'mode' in kwargs:
-            options = ['detection', 'disabled', 'prevention']
-            assert kwargs['mode'] in options, f'''"mode" cannot be "{kwargs['mode']}", & must be set to one of: {options}'''
-        if 'idsRulesets' in kwargs:
-            options = ['balanced', 'connectivity', 'security']
-            assert kwargs['idsRulesets'] in options, f'''"idsRulesets" cannot be "{kwargs['idsRulesets']}", & must be set to one of: {options}'''
+        if "mode" in kwargs:
+            options = ["detection", "disabled", "prevention"]
+            assert kwargs["mode"] in options, (
+                f'''"mode" cannot be "{kwargs["mode"]}", & must be set to one of: {options}'''
+            )
+        if "idsRulesets" in kwargs:
+            options = ["balanced", "connectivity", "security"]
+            assert kwargs["idsRulesets"] in options, (
+                f'''"idsRulesets" cannot be "{kwargs["idsRulesets"]}", & must be set to one of: {options}'''
+            )
 
         metadata = {
-            'tags': ['appliance', 'configure', 'security', 'intrusion'],
-            'operation': 'updateNetworkApplianceSecurityIntrusion'
+            "tags": ["appliance", "configure", "security", "intrusion"],
+            "operation": "updateNetworkApplianceSecurityIntrusion",
         }
-        networkId = urllib.parse.quote(str(networkId), safe='')
-        resource = f'/networks/{networkId}/appliance/security/intrusion'
+        networkId = urllib.parse.quote(str(networkId), safe="")
+        resource = f"/networks/{networkId}/appliance/security/intrusion"
 
-        body_params = ['mode', 'idsRulesets', 'protectedNetworks', ]
+        body_params = [
+            "mode",
+            "idsRulesets",
+            "protectedNetworks",
+        ]
         payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
 
         return self._session.put(metadata, resource, payload)
-        
-
 
     def getNetworkApplianceSecurityMalware(self, networkId: str):
         """
@@ -1300,15 +1315,13 @@ class Appliance(object):
         """
 
         metadata = {
-            'tags': ['appliance', 'configure', 'security', 'malware'],
-            'operation': 'getNetworkApplianceSecurityMalware'
+            "tags": ["appliance", "configure", "security", "malware"],
+            "operation": "getNetworkApplianceSecurityMalware",
         }
-        networkId = urllib.parse.quote(str(networkId), safe='')
-        resource = f'/networks/{networkId}/appliance/security/malware'
+        networkId = urllib.parse.quote(str(networkId), safe="")
+        resource = f"/networks/{networkId}/appliance/security/malware"
 
         return self._session.get(metadata, resource)
-        
-
 
     def updateNetworkApplianceSecurityMalware(self, networkId: str, mode: str, **kwargs):
         """
@@ -1323,23 +1336,27 @@ class Appliance(object):
 
         kwargs.update(locals())
 
-        if 'mode' in kwargs:
-            options = ['disabled', 'enabled']
-            assert kwargs['mode'] in options, f'''"mode" cannot be "{kwargs['mode']}", & must be set to one of: {options}'''
+        if "mode" in kwargs:
+            options = ["disabled", "enabled"]
+            assert kwargs["mode"] in options, (
+                f'''"mode" cannot be "{kwargs["mode"]}", & must be set to one of: {options}'''
+            )
 
         metadata = {
-            'tags': ['appliance', 'configure', 'security', 'malware'],
-            'operation': 'updateNetworkApplianceSecurityMalware'
+            "tags": ["appliance", "configure", "security", "malware"],
+            "operation": "updateNetworkApplianceSecurityMalware",
         }
-        networkId = urllib.parse.quote(str(networkId), safe='')
-        resource = f'/networks/{networkId}/appliance/security/malware'
+        networkId = urllib.parse.quote(str(networkId), safe="")
+        resource = f"/networks/{networkId}/appliance/security/malware"
 
-        body_params = ['mode', 'allowedUrls', 'allowedFiles', ]
+        body_params = [
+            "mode",
+            "allowedUrls",
+            "allowedFiles",
+        ]
         payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
 
         return self._session.put(metadata, resource, payload)
-        
-
 
     def getNetworkApplianceSettings(self, networkId: str):
         """
@@ -1350,15 +1367,13 @@ class Appliance(object):
         """
 
         metadata = {
-            'tags': ['appliance', 'configure', 'settings'],
-            'operation': 'getNetworkApplianceSettings'
+            "tags": ["appliance", "configure", "settings"],
+            "operation": "getNetworkApplianceSettings",
         }
-        networkId = urllib.parse.quote(str(networkId), safe='')
-        resource = f'/networks/{networkId}/appliance/settings'
+        networkId = urllib.parse.quote(str(networkId), safe="")
+        resource = f"/networks/{networkId}/appliance/settings"
 
         return self._session.get(metadata, resource)
-        
-
 
     def updateNetworkApplianceSettings(self, networkId: str, **kwargs):
         """
@@ -1373,26 +1388,32 @@ class Appliance(object):
 
         kwargs.update(locals())
 
-        if 'clientTrackingMethod' in kwargs:
-            options = ['IP address', 'MAC address', 'Unique client identifier']
-            assert kwargs['clientTrackingMethod'] in options, f'''"clientTrackingMethod" cannot be "{kwargs['clientTrackingMethod']}", & must be set to one of: {options}'''
-        if 'deploymentMode' in kwargs:
-            options = ['passthrough', 'routed']
-            assert kwargs['deploymentMode'] in options, f'''"deploymentMode" cannot be "{kwargs['deploymentMode']}", & must be set to one of: {options}'''
+        if "clientTrackingMethod" in kwargs:
+            options = ["IP address", "MAC address", "Unique client identifier"]
+            assert kwargs["clientTrackingMethod"] in options, (
+                f'''"clientTrackingMethod" cannot be "{kwargs["clientTrackingMethod"]}", & must be set to one of: {options}'''
+            )
+        if "deploymentMode" in kwargs:
+            options = ["passthrough", "routed"]
+            assert kwargs["deploymentMode"] in options, (
+                f'''"deploymentMode" cannot be "{kwargs["deploymentMode"]}", & must be set to one of: {options}'''
+            )
 
         metadata = {
-            'tags': ['appliance', 'configure', 'settings'],
-            'operation': 'updateNetworkApplianceSettings'
+            "tags": ["appliance", "configure", "settings"],
+            "operation": "updateNetworkApplianceSettings",
         }
-        networkId = urllib.parse.quote(str(networkId), safe='')
-        resource = f'/networks/{networkId}/appliance/settings'
+        networkId = urllib.parse.quote(str(networkId), safe="")
+        resource = f"/networks/{networkId}/appliance/settings"
 
-        body_params = ['clientTrackingMethod', 'deploymentMode', 'dynamicDns', ]
+        body_params = [
+            "clientTrackingMethod",
+            "deploymentMode",
+            "dynamicDns",
+        ]
         payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
 
         return self._session.put(metadata, resource, payload)
-        
-
 
     def getNetworkApplianceSingleLan(self, networkId: str):
         """
@@ -1403,15 +1424,13 @@ class Appliance(object):
         """
 
         metadata = {
-            'tags': ['appliance', 'configure', 'singleLan'],
-            'operation': 'getNetworkApplianceSingleLan'
+            "tags": ["appliance", "configure", "singleLan"],
+            "operation": "getNetworkApplianceSingleLan",
         }
-        networkId = urllib.parse.quote(str(networkId), safe='')
-        resource = f'/networks/{networkId}/appliance/singleLan'
+        networkId = urllib.parse.quote(str(networkId), safe="")
+        resource = f"/networks/{networkId}/appliance/singleLan"
 
         return self._session.get(metadata, resource)
-        
-
 
     def updateNetworkApplianceSingleLan(self, networkId: str, **kwargs):
         """
@@ -1428,18 +1447,21 @@ class Appliance(object):
         kwargs.update(locals())
 
         metadata = {
-            'tags': ['appliance', 'configure', 'singleLan'],
-            'operation': 'updateNetworkApplianceSingleLan'
+            "tags": ["appliance", "configure", "singleLan"],
+            "operation": "updateNetworkApplianceSingleLan",
         }
-        networkId = urllib.parse.quote(str(networkId), safe='')
-        resource = f'/networks/{networkId}/appliance/singleLan'
+        networkId = urllib.parse.quote(str(networkId), safe="")
+        resource = f"/networks/{networkId}/appliance/singleLan"
 
-        body_params = ['subnet', 'applianceIp', 'ipv6', 'mandatoryDhcp', ]
+        body_params = [
+            "subnet",
+            "applianceIp",
+            "ipv6",
+            "mandatoryDhcp",
+        ]
         payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
 
         return self._session.put(metadata, resource, payload)
-        
-
 
     def getNetworkApplianceSsids(self, networkId: str):
         """
@@ -1450,15 +1472,13 @@ class Appliance(object):
         """
 
         metadata = {
-            'tags': ['appliance', 'configure', 'ssids'],
-            'operation': 'getNetworkApplianceSsids'
+            "tags": ["appliance", "configure", "ssids"],
+            "operation": "getNetworkApplianceSsids",
         }
-        networkId = urllib.parse.quote(str(networkId), safe='')
-        resource = f'/networks/{networkId}/appliance/ssids'
+        networkId = urllib.parse.quote(str(networkId), safe="")
+        resource = f"/networks/{networkId}/appliance/ssids"
 
         return self._session.get(metadata, resource)
-        
-
 
     def getNetworkApplianceSsid(self, networkId: str, number: str):
         """
@@ -1470,16 +1490,14 @@ class Appliance(object):
         """
 
         metadata = {
-            'tags': ['appliance', 'configure', 'ssids'],
-            'operation': 'getNetworkApplianceSsid'
+            "tags": ["appliance", "configure", "ssids"],
+            "operation": "getNetworkApplianceSsid",
         }
-        networkId = urllib.parse.quote(str(networkId), safe='')
-        number = urllib.parse.quote(str(number), safe='')
-        resource = f'/networks/{networkId}/appliance/ssids/{number}'
+        networkId = urllib.parse.quote(str(networkId), safe="")
+        number = urllib.parse.quote(str(number), safe="")
+        resource = f"/networks/{networkId}/appliance/ssids/{number}"
 
         return self._session.get(metadata, resource)
-        
-
 
     def updateNetworkApplianceSsid(self, networkId: str, number: str, **kwargs):
         """
@@ -1497,36 +1515,52 @@ class Appliance(object):
         - encryptionMode (string): The psk encryption mode for the SSID ('wep' or 'wpa'). This param is only valid if the authMode is 'psk'.
         - wpaEncryptionMode (string): The types of WPA encryption. ('WPA1 and WPA2', 'WPA2 only', 'WPA3 Transition Mode' or 'WPA3 only'). This param is only valid if (1) the authMode is 'psk' & the encryptionMode is 'wpa' OR (2) the authMode is '8021x-meraki' OR (3) the authMode is '8021x-radius'
         - visible (boolean): Boolean indicating whether the MX should advertise or hide this SSID.
-        - dhcpEnforcedDeauthentication (object): DHCP Enforced Deauthentication enables the disassociation of wireless clients in addition to Mandatory DHCP. This param is only valid on firmware versions >= MX 17.0 where the associated LAN has Mandatory DHCP Enabled 
+        - dhcpEnforcedDeauthentication (object): DHCP Enforced Deauthentication enables the disassociation of wireless clients in addition to Mandatory DHCP. This param is only valid on firmware versions >= MX 17.0 where the associated LAN has Mandatory DHCP Enabled
         - dot11w (object): The current setting for Protected Management Frames (802.11w).
         """
 
         kwargs.update(locals())
 
-        if 'authMode' in kwargs:
-            options = ['8021x-meraki', '8021x-radius', 'open', 'psk']
-            assert kwargs['authMode'] in options, f'''"authMode" cannot be "{kwargs['authMode']}", & must be set to one of: {options}'''
-        if 'encryptionMode' in kwargs:
-            options = ['wep', 'wpa']
-            assert kwargs['encryptionMode'] in options, f'''"encryptionMode" cannot be "{kwargs['encryptionMode']}", & must be set to one of: {options}'''
-        if 'wpaEncryptionMode' in kwargs:
-            options = ['WPA1 and WPA2', 'WPA2 only', 'WPA3 Transition Mode', 'WPA3 only']
-            assert kwargs['wpaEncryptionMode'] in options, f'''"wpaEncryptionMode" cannot be "{kwargs['wpaEncryptionMode']}", & must be set to one of: {options}'''
+        if "authMode" in kwargs:
+            options = ["8021x-meraki", "8021x-radius", "open", "psk"]
+            assert kwargs["authMode"] in options, (
+                f'''"authMode" cannot be "{kwargs["authMode"]}", & must be set to one of: {options}'''
+            )
+        if "encryptionMode" in kwargs:
+            options = ["wep", "wpa"]
+            assert kwargs["encryptionMode"] in options, (
+                f'''"encryptionMode" cannot be "{kwargs["encryptionMode"]}", & must be set to one of: {options}'''
+            )
+        if "wpaEncryptionMode" in kwargs:
+            options = ["WPA1 and WPA2", "WPA2 only", "WPA3 Transition Mode", "WPA3 only"]
+            assert kwargs["wpaEncryptionMode"] in options, (
+                f'''"wpaEncryptionMode" cannot be "{kwargs["wpaEncryptionMode"]}", & must be set to one of: {options}'''
+            )
 
         metadata = {
-            'tags': ['appliance', 'configure', 'ssids'],
-            'operation': 'updateNetworkApplianceSsid'
+            "tags": ["appliance", "configure", "ssids"],
+            "operation": "updateNetworkApplianceSsid",
         }
-        networkId = urllib.parse.quote(str(networkId), safe='')
-        number = urllib.parse.quote(str(number), safe='')
-        resource = f'/networks/{networkId}/appliance/ssids/{number}'
+        networkId = urllib.parse.quote(str(networkId), safe="")
+        number = urllib.parse.quote(str(number), safe="")
+        resource = f"/networks/{networkId}/appliance/ssids/{number}"
 
-        body_params = ['name', 'enabled', 'defaultVlanId', 'authMode', 'psk', 'radiusServers', 'encryptionMode', 'wpaEncryptionMode', 'visible', 'dhcpEnforcedDeauthentication', 'dot11w', ]
+        body_params = [
+            "name",
+            "enabled",
+            "defaultVlanId",
+            "authMode",
+            "psk",
+            "radiusServers",
+            "encryptionMode",
+            "wpaEncryptionMode",
+            "visible",
+            "dhcpEnforcedDeauthentication",
+            "dot11w",
+        ]
         payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
 
         return self._session.put(metadata, resource, payload)
-        
-
 
     def getNetworkApplianceStaticRoutes(self, networkId: str):
         """
@@ -1537,17 +1571,17 @@ class Appliance(object):
         """
 
         metadata = {
-            'tags': ['appliance', 'configure', 'staticRoutes'],
-            'operation': 'getNetworkApplianceStaticRoutes'
+            "tags": ["appliance", "configure", "staticRoutes"],
+            "operation": "getNetworkApplianceStaticRoutes",
         }
-        networkId = urllib.parse.quote(str(networkId), safe='')
-        resource = f'/networks/{networkId}/appliance/staticRoutes'
+        networkId = urllib.parse.quote(str(networkId), safe="")
+        resource = f"/networks/{networkId}/appliance/staticRoutes"
 
         return self._session.get(metadata, resource)
-        
 
-
-    def createNetworkApplianceStaticRoute(self, networkId: str, name: str, subnet: str, gatewayIp: str, **kwargs):
+    def createNetworkApplianceStaticRoute(
+        self, networkId: str, name: str, subnet: str, gatewayIp: str, **kwargs
+    ):
         """
         **Add a static route for an MX or teleworker network**
         https://developer.cisco.com/meraki/api-v1/#!create-network-appliance-static-route
@@ -1562,18 +1596,21 @@ class Appliance(object):
         kwargs.update(locals())
 
         metadata = {
-            'tags': ['appliance', 'configure', 'staticRoutes'],
-            'operation': 'createNetworkApplianceStaticRoute'
+            "tags": ["appliance", "configure", "staticRoutes"],
+            "operation": "createNetworkApplianceStaticRoute",
         }
-        networkId = urllib.parse.quote(str(networkId), safe='')
-        resource = f'/networks/{networkId}/appliance/staticRoutes'
+        networkId = urllib.parse.quote(str(networkId), safe="")
+        resource = f"/networks/{networkId}/appliance/staticRoutes"
 
-        body_params = ['name', 'subnet', 'gatewayIp', 'gatewayVlanId', ]
+        body_params = [
+            "name",
+            "subnet",
+            "gatewayIp",
+            "gatewayVlanId",
+        ]
         payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
 
         return self._session.post(metadata, resource, payload)
-        
-
 
     def getNetworkApplianceStaticRoute(self, networkId: str, staticRouteId: str):
         """
@@ -1585,16 +1622,14 @@ class Appliance(object):
         """
 
         metadata = {
-            'tags': ['appliance', 'configure', 'staticRoutes'],
-            'operation': 'getNetworkApplianceStaticRoute'
+            "tags": ["appliance", "configure", "staticRoutes"],
+            "operation": "getNetworkApplianceStaticRoute",
         }
-        networkId = urllib.parse.quote(str(networkId), safe='')
-        staticRouteId = urllib.parse.quote(str(staticRouteId), safe='')
-        resource = f'/networks/{networkId}/appliance/staticRoutes/{staticRouteId}'
+        networkId = urllib.parse.quote(str(networkId), safe="")
+        staticRouteId = urllib.parse.quote(str(staticRouteId), safe="")
+        resource = f"/networks/{networkId}/appliance/staticRoutes/{staticRouteId}"
 
         return self._session.get(metadata, resource)
-        
-
 
     def updateNetworkApplianceStaticRoute(self, networkId: str, staticRouteId: str, **kwargs):
         """
@@ -1615,19 +1650,25 @@ class Appliance(object):
         kwargs.update(locals())
 
         metadata = {
-            'tags': ['appliance', 'configure', 'staticRoutes'],
-            'operation': 'updateNetworkApplianceStaticRoute'
+            "tags": ["appliance", "configure", "staticRoutes"],
+            "operation": "updateNetworkApplianceStaticRoute",
         }
-        networkId = urllib.parse.quote(str(networkId), safe='')
-        staticRouteId = urllib.parse.quote(str(staticRouteId), safe='')
-        resource = f'/networks/{networkId}/appliance/staticRoutes/{staticRouteId}'
+        networkId = urllib.parse.quote(str(networkId), safe="")
+        staticRouteId = urllib.parse.quote(str(staticRouteId), safe="")
+        resource = f"/networks/{networkId}/appliance/staticRoutes/{staticRouteId}"
 
-        body_params = ['name', 'subnet', 'gatewayIp', 'gatewayVlanId', 'enabled', 'fixedIpAssignments', 'reservedIpRanges', ]
+        body_params = [
+            "name",
+            "subnet",
+            "gatewayIp",
+            "gatewayVlanId",
+            "enabled",
+            "fixedIpAssignments",
+            "reservedIpRanges",
+        ]
         payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
 
         return self._session.put(metadata, resource, payload)
-        
-
 
     def deleteNetworkApplianceStaticRoute(self, networkId: str, staticRouteId: str):
         """
@@ -1639,16 +1680,14 @@ class Appliance(object):
         """
 
         metadata = {
-            'tags': ['appliance', 'configure', 'staticRoutes'],
-            'operation': 'deleteNetworkApplianceStaticRoute'
+            "tags": ["appliance", "configure", "staticRoutes"],
+            "operation": "deleteNetworkApplianceStaticRoute",
         }
-        networkId = urllib.parse.quote(str(networkId), safe='')
-        staticRouteId = urllib.parse.quote(str(staticRouteId), safe='')
-        resource = f'/networks/{networkId}/appliance/staticRoutes/{staticRouteId}'
+        networkId = urllib.parse.quote(str(networkId), safe="")
+        staticRouteId = urllib.parse.quote(str(staticRouteId), safe="")
+        resource = f"/networks/{networkId}/appliance/staticRoutes/{staticRouteId}"
 
         return self._session.delete(metadata, resource)
-        
-
 
     def getNetworkApplianceTrafficShaping(self, networkId: str):
         """
@@ -1659,15 +1698,13 @@ class Appliance(object):
         """
 
         metadata = {
-            'tags': ['appliance', 'configure', 'trafficShaping'],
-            'operation': 'getNetworkApplianceTrafficShaping'
+            "tags": ["appliance", "configure", "trafficShaping"],
+            "operation": "getNetworkApplianceTrafficShaping",
         }
-        networkId = urllib.parse.quote(str(networkId), safe='')
-        resource = f'/networks/{networkId}/appliance/trafficShaping'
+        networkId = urllib.parse.quote(str(networkId), safe="")
+        resource = f"/networks/{networkId}/appliance/trafficShaping"
 
         return self._session.get(metadata, resource)
-        
-
 
     def updateNetworkApplianceTrafficShaping(self, networkId: str, **kwargs):
         """
@@ -1681,18 +1718,18 @@ class Appliance(object):
         kwargs.update(locals())
 
         metadata = {
-            'tags': ['appliance', 'configure', 'trafficShaping'],
-            'operation': 'updateNetworkApplianceTrafficShaping'
+            "tags": ["appliance", "configure", "trafficShaping"],
+            "operation": "updateNetworkApplianceTrafficShaping",
         }
-        networkId = urllib.parse.quote(str(networkId), safe='')
-        resource = f'/networks/{networkId}/appliance/trafficShaping'
+        networkId = urllib.parse.quote(str(networkId), safe="")
+        resource = f"/networks/{networkId}/appliance/trafficShaping"
 
-        body_params = ['globalBandwidthLimits', ]
+        body_params = [
+            "globalBandwidthLimits",
+        ]
         payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
 
         return self._session.put(metadata, resource, payload)
-        
-
 
     def getNetworkApplianceTrafficShapingCustomPerformanceClasses(self, networkId: str):
         """
@@ -1703,17 +1740,17 @@ class Appliance(object):
         """
 
         metadata = {
-            'tags': ['appliance', 'configure', 'trafficShaping', 'customPerformanceClasses'],
-            'operation': 'getNetworkApplianceTrafficShapingCustomPerformanceClasses'
+            "tags": ["appliance", "configure", "trafficShaping", "customPerformanceClasses"],
+            "operation": "getNetworkApplianceTrafficShapingCustomPerformanceClasses",
         }
-        networkId = urllib.parse.quote(str(networkId), safe='')
-        resource = f'/networks/{networkId}/appliance/trafficShaping/customPerformanceClasses'
+        networkId = urllib.parse.quote(str(networkId), safe="")
+        resource = f"/networks/{networkId}/appliance/trafficShaping/customPerformanceClasses"
 
         return self._session.get(metadata, resource)
-        
 
-
-    def createNetworkApplianceTrafficShapingCustomPerformanceClass(self, networkId: str, name: str, **kwargs):
+    def createNetworkApplianceTrafficShapingCustomPerformanceClass(
+        self, networkId: str, name: str, **kwargs
+    ):
         """
         **Add a custom performance class for an MX network**
         https://developer.cisco.com/meraki/api-v1/#!create-network-appliance-traffic-shaping-custom-performance-class
@@ -1728,20 +1765,25 @@ class Appliance(object):
         kwargs.update(locals())
 
         metadata = {
-            'tags': ['appliance', 'configure', 'trafficShaping', 'customPerformanceClasses'],
-            'operation': 'createNetworkApplianceTrafficShapingCustomPerformanceClass'
+            "tags": ["appliance", "configure", "trafficShaping", "customPerformanceClasses"],
+            "operation": "createNetworkApplianceTrafficShapingCustomPerformanceClass",
         }
-        networkId = urllib.parse.quote(str(networkId), safe='')
-        resource = f'/networks/{networkId}/appliance/trafficShaping/customPerformanceClasses'
+        networkId = urllib.parse.quote(str(networkId), safe="")
+        resource = f"/networks/{networkId}/appliance/trafficShaping/customPerformanceClasses"
 
-        body_params = ['name', 'maxLatency', 'maxJitter', 'maxLossPercentage', ]
+        body_params = [
+            "name",
+            "maxLatency",
+            "maxJitter",
+            "maxLossPercentage",
+        ]
         payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
 
         return self._session.post(metadata, resource, payload)
-        
 
-
-    def getNetworkApplianceTrafficShapingCustomPerformanceClass(self, networkId: str, customPerformanceClassId: str):
+    def getNetworkApplianceTrafficShapingCustomPerformanceClass(
+        self, networkId: str, customPerformanceClassId: str
+    ):
         """
         **Return a custom performance class for an MX network**
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-traffic-shaping-custom-performance-class
@@ -1751,18 +1793,18 @@ class Appliance(object):
         """
 
         metadata = {
-            'tags': ['appliance', 'configure', 'trafficShaping', 'customPerformanceClasses'],
-            'operation': 'getNetworkApplianceTrafficShapingCustomPerformanceClass'
+            "tags": ["appliance", "configure", "trafficShaping", "customPerformanceClasses"],
+            "operation": "getNetworkApplianceTrafficShapingCustomPerformanceClass",
         }
-        networkId = urllib.parse.quote(str(networkId), safe='')
-        customPerformanceClassId = urllib.parse.quote(str(customPerformanceClassId), safe='')
-        resource = f'/networks/{networkId}/appliance/trafficShaping/customPerformanceClasses/{customPerformanceClassId}'
+        networkId = urllib.parse.quote(str(networkId), safe="")
+        customPerformanceClassId = urllib.parse.quote(str(customPerformanceClassId), safe="")
+        resource = f"/networks/{networkId}/appliance/trafficShaping/customPerformanceClasses/{customPerformanceClassId}"
 
         return self._session.get(metadata, resource)
-        
 
-
-    def updateNetworkApplianceTrafficShapingCustomPerformanceClass(self, networkId: str, customPerformanceClassId: str, **kwargs):
+    def updateNetworkApplianceTrafficShapingCustomPerformanceClass(
+        self, networkId: str, customPerformanceClassId: str, **kwargs
+    ):
         """
         **Update a custom performance class for an MX network**
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-traffic-shaping-custom-performance-class
@@ -1778,21 +1820,26 @@ class Appliance(object):
         kwargs.update(locals())
 
         metadata = {
-            'tags': ['appliance', 'configure', 'trafficShaping', 'customPerformanceClasses'],
-            'operation': 'updateNetworkApplianceTrafficShapingCustomPerformanceClass'
+            "tags": ["appliance", "configure", "trafficShaping", "customPerformanceClasses"],
+            "operation": "updateNetworkApplianceTrafficShapingCustomPerformanceClass",
         }
-        networkId = urllib.parse.quote(str(networkId), safe='')
-        customPerformanceClassId = urllib.parse.quote(str(customPerformanceClassId), safe='')
-        resource = f'/networks/{networkId}/appliance/trafficShaping/customPerformanceClasses/{customPerformanceClassId}'
+        networkId = urllib.parse.quote(str(networkId), safe="")
+        customPerformanceClassId = urllib.parse.quote(str(customPerformanceClassId), safe="")
+        resource = f"/networks/{networkId}/appliance/trafficShaping/customPerformanceClasses/{customPerformanceClassId}"
 
-        body_params = ['name', 'maxLatency', 'maxJitter', 'maxLossPercentage', ]
+        body_params = [
+            "name",
+            "maxLatency",
+            "maxJitter",
+            "maxLossPercentage",
+        ]
         payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
 
         return self._session.put(metadata, resource, payload)
-        
 
-
-    def deleteNetworkApplianceTrafficShapingCustomPerformanceClass(self, networkId: str, customPerformanceClassId: str):
+    def deleteNetworkApplianceTrafficShapingCustomPerformanceClass(
+        self, networkId: str, customPerformanceClassId: str
+    ):
         """
         **Delete a custom performance class from an MX network**
         https://developer.cisco.com/meraki/api-v1/#!delete-network-appliance-traffic-shaping-custom-performance-class
@@ -1802,45 +1849,44 @@ class Appliance(object):
         """
 
         metadata = {
-            'tags': ['appliance', 'configure', 'trafficShaping', 'customPerformanceClasses'],
-            'operation': 'deleteNetworkApplianceTrafficShapingCustomPerformanceClass'
+            "tags": ["appliance", "configure", "trafficShaping", "customPerformanceClasses"],
+            "operation": "deleteNetworkApplianceTrafficShapingCustomPerformanceClass",
         }
-        networkId = urllib.parse.quote(str(networkId), safe='')
-        customPerformanceClassId = urllib.parse.quote(str(customPerformanceClassId), safe='')
-        resource = f'/networks/{networkId}/appliance/trafficShaping/customPerformanceClasses/{customPerformanceClassId}'
+        networkId = urllib.parse.quote(str(networkId), safe="")
+        customPerformanceClassId = urllib.parse.quote(str(customPerformanceClassId), safe="")
+        resource = f"/networks/{networkId}/appliance/trafficShaping/customPerformanceClasses/{customPerformanceClassId}"
 
         return self._session.delete(metadata, resource)
-        
-
 
     def updateNetworkApplianceTrafficShapingRules(self, networkId: str, **kwargs):
         """
-        **Update the traffic shaping settings rules for an MX network**
-        https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-traffic-shaping-rules
+            **Update the traffic shaping settings rules for an MX network**
+            https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-traffic-shaping-rules
 
-        - networkId (string): Network ID
-        - defaultRulesEnabled (boolean): Whether default traffic shaping rules are enabled (true) or disabled (false). There are 4 default rules, which can be seen on your network's traffic shaping page. Note that default rules count against the rule limit of 8.
-        - rules (array):     An array of traffic shaping rules. Rules are applied in the order that
-    they are specified in. An empty list (or null) means no rules. Note that
-    you are allowed a maximum of 8 rules.
+            - networkId (string): Network ID
+            - defaultRulesEnabled (boolean): Whether default traffic shaping rules are enabled (true) or disabled (false). There are 4 default rules, which can be seen on your network's traffic shaping page. Note that default rules count against the rule limit of 8.
+            - rules (array):     An array of traffic shaping rules. Rules are applied in the order that
+        they are specified in. An empty list (or null) means no rules. Note that
+        you are allowed a maximum of 8 rules.
 
         """
 
         kwargs.update(locals())
 
         metadata = {
-            'tags': ['appliance', 'configure', 'trafficShaping', 'rules'],
-            'operation': 'updateNetworkApplianceTrafficShapingRules'
+            "tags": ["appliance", "configure", "trafficShaping", "rules"],
+            "operation": "updateNetworkApplianceTrafficShapingRules",
         }
-        networkId = urllib.parse.quote(str(networkId), safe='')
-        resource = f'/networks/{networkId}/appliance/trafficShaping/rules'
+        networkId = urllib.parse.quote(str(networkId), safe="")
+        resource = f"/networks/{networkId}/appliance/trafficShaping/rules"
 
-        body_params = ['defaultRulesEnabled', 'rules', ]
+        body_params = [
+            "defaultRulesEnabled",
+            "rules",
+        ]
         payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
 
         return self._session.put(metadata, resource, payload)
-        
-
 
     def getNetworkApplianceTrafficShapingRules(self, networkId: str):
         """
@@ -1851,15 +1897,13 @@ class Appliance(object):
         """
 
         metadata = {
-            'tags': ['appliance', 'configure', 'trafficShaping', 'rules'],
-            'operation': 'getNetworkApplianceTrafficShapingRules'
+            "tags": ["appliance", "configure", "trafficShaping", "rules"],
+            "operation": "getNetworkApplianceTrafficShapingRules",
         }
-        networkId = urllib.parse.quote(str(networkId), safe='')
-        resource = f'/networks/{networkId}/appliance/trafficShaping/rules'
+        networkId = urllib.parse.quote(str(networkId), safe="")
+        resource = f"/networks/{networkId}/appliance/trafficShaping/rules"
 
         return self._session.get(metadata, resource)
-        
-
 
     def getNetworkApplianceTrafficShapingUplinkBandwidth(self, networkId: str):
         """
@@ -1870,15 +1914,13 @@ class Appliance(object):
         """
 
         metadata = {
-            'tags': ['appliance', 'configure', 'trafficShaping', 'uplinkBandwidth'],
-            'operation': 'getNetworkApplianceTrafficShapingUplinkBandwidth'
+            "tags": ["appliance", "configure", "trafficShaping", "uplinkBandwidth"],
+            "operation": "getNetworkApplianceTrafficShapingUplinkBandwidth",
         }
-        networkId = urllib.parse.quote(str(networkId), safe='')
-        resource = f'/networks/{networkId}/appliance/trafficShaping/uplinkBandwidth'
+        networkId = urllib.parse.quote(str(networkId), safe="")
+        resource = f"/networks/{networkId}/appliance/trafficShaping/uplinkBandwidth"
 
         return self._session.get(metadata, resource)
-        
-
 
     def updateNetworkApplianceTrafficShapingUplinkBandwidth(self, networkId: str, **kwargs):
         """
@@ -1892,18 +1934,18 @@ class Appliance(object):
         kwargs.update(locals())
 
         metadata = {
-            'tags': ['appliance', 'configure', 'trafficShaping', 'uplinkBandwidth'],
-            'operation': 'updateNetworkApplianceTrafficShapingUplinkBandwidth'
+            "tags": ["appliance", "configure", "trafficShaping", "uplinkBandwidth"],
+            "operation": "updateNetworkApplianceTrafficShapingUplinkBandwidth",
         }
-        networkId = urllib.parse.quote(str(networkId), safe='')
-        resource = f'/networks/{networkId}/appliance/trafficShaping/uplinkBandwidth'
+        networkId = urllib.parse.quote(str(networkId), safe="")
+        resource = f"/networks/{networkId}/appliance/trafficShaping/uplinkBandwidth"
 
-        body_params = ['bandwidthLimits', ]
+        body_params = [
+            "bandwidthLimits",
+        ]
         payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
 
         return self._session.put(metadata, resource, payload)
-        
-
 
     def getNetworkApplianceTrafficShapingUplinkSelection(self, networkId: str):
         """
@@ -1914,15 +1956,13 @@ class Appliance(object):
         """
 
         metadata = {
-            'tags': ['appliance', 'configure', 'trafficShaping', 'uplinkSelection'],
-            'operation': 'getNetworkApplianceTrafficShapingUplinkSelection'
+            "tags": ["appliance", "configure", "trafficShaping", "uplinkSelection"],
+            "operation": "getNetworkApplianceTrafficShapingUplinkSelection",
         }
-        networkId = urllib.parse.quote(str(networkId), safe='')
-        resource = f'/networks/{networkId}/appliance/trafficShaping/uplinkSelection'
+        networkId = urllib.parse.quote(str(networkId), safe="")
+        resource = f"/networks/{networkId}/appliance/trafficShaping/uplinkSelection"
 
         return self._session.get(metadata, resource)
-        
-
 
     def updateNetworkApplianceTrafficShapingUplinkSelection(self, networkId: str, **kwargs):
         """
@@ -1940,23 +1980,24 @@ class Appliance(object):
 
         kwargs.update(locals())
 
-        if 'defaultUplink' in kwargs:
-            options = ['wan1', 'wan2']
-            assert kwargs['defaultUplink'] in options, f'''"defaultUplink" cannot be "{kwargs['defaultUplink']}", & must be set to one of: {options}'''
-
         metadata = {
-            'tags': ['appliance', 'configure', 'trafficShaping', 'uplinkSelection'],
-            'operation': 'updateNetworkApplianceTrafficShapingUplinkSelection'
+            "tags": ["appliance", "configure", "trafficShaping", "uplinkSelection"],
+            "operation": "updateNetworkApplianceTrafficShapingUplinkSelection",
         }
-        networkId = urllib.parse.quote(str(networkId), safe='')
-        resource = f'/networks/{networkId}/appliance/trafficShaping/uplinkSelection'
+        networkId = urllib.parse.quote(str(networkId), safe="")
+        resource = f"/networks/{networkId}/appliance/trafficShaping/uplinkSelection"
 
-        body_params = ['activeActiveAutoVpnEnabled', 'defaultUplink', 'loadBalancingEnabled', 'failoverAndFailback', 'wanTrafficUplinkPreferences', 'vpnTrafficUplinkPreferences', ]
+        body_params = [
+            "activeActiveAutoVpnEnabled",
+            "defaultUplink",
+            "loadBalancingEnabled",
+            "failoverAndFailback",
+            "wanTrafficUplinkPreferences",
+            "vpnTrafficUplinkPreferences",
+        ]
         payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
 
         return self._session.put(metadata, resource, payload)
-        
-
 
     def updateNetworkApplianceTrafficShapingVpnExclusions(self, networkId: str, **kwargs):
         """
@@ -1971,18 +2012,19 @@ class Appliance(object):
         kwargs.update(locals())
 
         metadata = {
-            'tags': ['appliance', 'configure', 'trafficShaping', 'vpnExclusions'],
-            'operation': 'updateNetworkApplianceTrafficShapingVpnExclusions'
+            "tags": ["appliance", "configure", "trafficShaping", "vpnExclusions"],
+            "operation": "updateNetworkApplianceTrafficShapingVpnExclusions",
         }
-        networkId = urllib.parse.quote(str(networkId), safe='')
-        resource = f'/networks/{networkId}/appliance/trafficShaping/vpnExclusions'
+        networkId = urllib.parse.quote(str(networkId), safe="")
+        resource = f"/networks/{networkId}/appliance/trafficShaping/vpnExclusions"
 
-        body_params = ['custom', 'majorApplications', ]
+        body_params = [
+            "custom",
+            "majorApplications",
+        ]
         payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
 
         return self._session.put(metadata, resource, payload)
-        
-
 
     def getNetworkApplianceUplinksUsageHistory(self, networkId: str, **kwargs):
         """
@@ -1999,18 +2041,21 @@ class Appliance(object):
         kwargs.update(locals())
 
         metadata = {
-            'tags': ['appliance', 'monitor', 'uplinks', 'usageHistory'],
-            'operation': 'getNetworkApplianceUplinksUsageHistory'
+            "tags": ["appliance", "monitor", "uplinks", "usageHistory"],
+            "operation": "getNetworkApplianceUplinksUsageHistory",
         }
-        networkId = urllib.parse.quote(str(networkId), safe='')
-        resource = f'/networks/{networkId}/appliance/uplinks/usageHistory'
+        networkId = urllib.parse.quote(str(networkId), safe="")
+        resource = f"/networks/{networkId}/appliance/uplinks/usageHistory"
 
-        query_params = ['t0', 't1', 'timespan', 'resolution', ]
+        query_params = [
+            "t0",
+            "t1",
+            "timespan",
+            "resolution",
+        ]
         params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
 
         return self._session.get(metadata, resource, params)
-        
-
 
     def getNetworkApplianceVlans(self, networkId: str):
         """
@@ -2021,15 +2066,13 @@ class Appliance(object):
         """
 
         metadata = {
-            'tags': ['appliance', 'configure', 'vlans'],
-            'operation': 'getNetworkApplianceVlans'
+            "tags": ["appliance", "configure", "vlans"],
+            "operation": "getNetworkApplianceVlans",
         }
-        networkId = urllib.parse.quote(str(networkId), safe='')
-        resource = f'/networks/{networkId}/appliance/vlans'
+        networkId = urllib.parse.quote(str(networkId), safe="")
+        resource = f"/networks/{networkId}/appliance/vlans"
 
         return self._session.get(metadata, resource)
-        
-
 
     def createNetworkApplianceVlan(self, networkId: str, id: str, name: str, **kwargs):
         """
@@ -2047,37 +2090,66 @@ class Appliance(object):
         - mask (integer): Mask used for the subnet of all bound to the template networks. Applicable only for template network.
         - ipv6 (object): IPv6 configuration on the VLAN
         - dhcpHandling (string): The appliance's handling of DHCP requests on this VLAN. One of: 'Run a DHCP server', 'Relay DHCP to another server' or 'Do not respond to DHCP requests'
+        - dhcpRelayServerIps (array): The IPs (IPv4) of the DHCP servers that DHCP requests should be relayed to. CIDR/subnet notation and hostnames are not supported.
         - dhcpLeaseTime (string): The term of DHCP leases if the appliance is running a DHCP server on this VLAN. One of: '30 minutes', '1 hour', '4 hours', '12 hours', '1 day' or '1 week'
         - mandatoryDhcp (object): Mandatory DHCP will enforce that clients connecting to this VLAN must use the IP address assigned by the DHCP server. Clients who use a static IP address won't be able to associate. Only available on firmware versions 17.0 and above
         - dhcpBootOptionsEnabled (boolean): Use DHCP boot options specified in other properties
+        - dhcpBootNextServer (string): DHCP boot option to direct boot clients to the server to load the boot file from
+        - dhcpBootFilename (string): DHCP boot option for boot filename
         - dhcpOptions (array): The list of DHCP options that will be included in DHCP responses. Each object in the list should have "code", "type", and "value" properties.
         """
 
         kwargs.update(locals())
 
-        if 'templateVlanType' in kwargs:
-            options = ['same', 'unique']
-            assert kwargs['templateVlanType'] in options, f'''"templateVlanType" cannot be "{kwargs['templateVlanType']}", & must be set to one of: {options}'''
-        if 'dhcpHandling' in kwargs:
-            options = ['Do not respond to DHCP requests', 'Relay DHCP to another server', 'Run a DHCP server']
-            assert kwargs['dhcpHandling'] in options, f'''"dhcpHandling" cannot be "{kwargs['dhcpHandling']}", & must be set to one of: {options}'''
-        if 'dhcpLeaseTime' in kwargs:
-            options = ['1 day', '1 hour', '1 week', '12 hours', '30 minutes', '4 hours']
-            assert kwargs['dhcpLeaseTime'] in options, f'''"dhcpLeaseTime" cannot be "{kwargs['dhcpLeaseTime']}", & must be set to one of: {options}'''
+        if "templateVlanType" in kwargs:
+            options = ["same", "unique"]
+            assert kwargs["templateVlanType"] in options, (
+                f'''"templateVlanType" cannot be "{kwargs["templateVlanType"]}", & must be set to one of: {options}'''
+            )
+        if "dhcpHandling" in kwargs:
+            options = [
+                "Do not respond to DHCP requests",
+                "Relay DHCP to another server",
+                "Run a DHCP server",
+            ]
+            assert kwargs["dhcpHandling"] in options, (
+                f'''"dhcpHandling" cannot be "{kwargs["dhcpHandling"]}", & must be set to one of: {options}'''
+            )
+        if "dhcpLeaseTime" in kwargs:
+            options = ["1 day", "1 hour", "1 week", "12 hours", "30 minutes", "4 hours"]
+            assert kwargs["dhcpLeaseTime"] in options, (
+                f'''"dhcpLeaseTime" cannot be "{kwargs["dhcpLeaseTime"]}", & must be set to one of: {options}'''
+            )
 
         metadata = {
-            'tags': ['appliance', 'configure', 'vlans'],
-            'operation': 'createNetworkApplianceVlan'
+            "tags": ["appliance", "configure", "vlans"],
+            "operation": "createNetworkApplianceVlan",
         }
-        networkId = urllib.parse.quote(str(networkId), safe='')
-        resource = f'/networks/{networkId}/appliance/vlans'
+        networkId = urllib.parse.quote(str(networkId), safe="")
+        resource = f"/networks/{networkId}/appliance/vlans"
 
-        body_params = ['id', 'name', 'subnet', 'applianceIp', 'groupPolicyId', 'templateVlanType', 'cidr', 'mask', 'ipv6', 'dhcpHandling', 'dhcpLeaseTime', 'mandatoryDhcp', 'dhcpBootOptionsEnabled', 'dhcpOptions', ]
+        body_params = [
+            "id",
+            "name",
+            "subnet",
+            "applianceIp",
+            "groupPolicyId",
+            "templateVlanType",
+            "cidr",
+            "mask",
+            "ipv6",
+            "dhcpHandling",
+            "dhcpRelayServerIps",
+            "dhcpLeaseTime",
+            "mandatoryDhcp",
+            "dhcpBootOptionsEnabled",
+            "dhcpBootNextServer",
+            "dhcpBootFilename",
+            "dhcpOptions",
+        ]
         payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
 
         return self._session.post(metadata, resource, payload)
-        
-
 
     def getNetworkApplianceVlansSettings(self, networkId: str):
         """
@@ -2088,15 +2160,13 @@ class Appliance(object):
         """
 
         metadata = {
-            'tags': ['appliance', 'configure', 'vlans', 'settings'],
-            'operation': 'getNetworkApplianceVlansSettings'
+            "tags": ["appliance", "configure", "vlans", "settings"],
+            "operation": "getNetworkApplianceVlansSettings",
         }
-        networkId = urllib.parse.quote(str(networkId), safe='')
-        resource = f'/networks/{networkId}/appliance/vlans/settings'
+        networkId = urllib.parse.quote(str(networkId), safe="")
+        resource = f"/networks/{networkId}/appliance/vlans/settings"
 
         return self._session.get(metadata, resource)
-        
-
 
     def updateNetworkApplianceVlansSettings(self, networkId: str, **kwargs):
         """
@@ -2110,18 +2180,18 @@ class Appliance(object):
         kwargs.update(locals())
 
         metadata = {
-            'tags': ['appliance', 'configure', 'vlans', 'settings'],
-            'operation': 'updateNetworkApplianceVlansSettings'
+            "tags": ["appliance", "configure", "vlans", "settings"],
+            "operation": "updateNetworkApplianceVlansSettings",
         }
-        networkId = urllib.parse.quote(str(networkId), safe='')
-        resource = f'/networks/{networkId}/appliance/vlans/settings'
+        networkId = urllib.parse.quote(str(networkId), safe="")
+        resource = f"/networks/{networkId}/appliance/vlans/settings"
 
-        body_params = ['vlansEnabled', ]
+        body_params = [
+            "vlansEnabled",
+        ]
         payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
 
         return self._session.put(metadata, resource, payload)
-        
-
 
     def getNetworkApplianceVlan(self, networkId: str, vlanId: str):
         """
@@ -2133,16 +2203,14 @@ class Appliance(object):
         """
 
         metadata = {
-            'tags': ['appliance', 'configure', 'vlans'],
-            'operation': 'getNetworkApplianceVlan'
+            "tags": ["appliance", "configure", "vlans"],
+            "operation": "getNetworkApplianceVlan",
         }
-        networkId = urllib.parse.quote(str(networkId), safe='')
-        vlanId = urllib.parse.quote(str(vlanId), safe='')
-        resource = f'/networks/{networkId}/appliance/vlans/{vlanId}'
+        networkId = urllib.parse.quote(str(networkId), safe="")
+        vlanId = urllib.parse.quote(str(vlanId), safe="")
+        resource = f"/networks/{networkId}/appliance/vlans/{vlanId}"
 
         return self._session.get(metadata, resource)
-        
-
 
     def updateNetworkApplianceVlan(self, networkId: str, vlanId: str, **kwargs):
         """
@@ -2175,30 +2243,59 @@ class Appliance(object):
 
         kwargs.update(locals())
 
-        if 'dhcpHandling' in kwargs:
-            options = ['Do not respond to DHCP requests', 'Relay DHCP to another server', 'Run a DHCP server']
-            assert kwargs['dhcpHandling'] in options, f'''"dhcpHandling" cannot be "{kwargs['dhcpHandling']}", & must be set to one of: {options}'''
-        if 'dhcpLeaseTime' in kwargs:
-            options = ['1 day', '1 hour', '1 week', '12 hours', '30 minutes', '4 hours']
-            assert kwargs['dhcpLeaseTime'] in options, f'''"dhcpLeaseTime" cannot be "{kwargs['dhcpLeaseTime']}", & must be set to one of: {options}'''
-        if 'templateVlanType' in kwargs:
-            options = ['same', 'unique']
-            assert kwargs['templateVlanType'] in options, f'''"templateVlanType" cannot be "{kwargs['templateVlanType']}", & must be set to one of: {options}'''
+        if "dhcpHandling" in kwargs:
+            options = [
+                "Do not respond to DHCP requests",
+                "Relay DHCP to another server",
+                "Run a DHCP server",
+            ]
+            assert kwargs["dhcpHandling"] in options, (
+                f'''"dhcpHandling" cannot be "{kwargs["dhcpHandling"]}", & must be set to one of: {options}'''
+            )
+        if "dhcpLeaseTime" in kwargs:
+            options = ["1 day", "1 hour", "1 week", "12 hours", "30 minutes", "4 hours"]
+            assert kwargs["dhcpLeaseTime"] in options, (
+                f'''"dhcpLeaseTime" cannot be "{kwargs["dhcpLeaseTime"]}", & must be set to one of: {options}'''
+            )
+        if "templateVlanType" in kwargs:
+            options = ["same", "unique"]
+            assert kwargs["templateVlanType"] in options, (
+                f'''"templateVlanType" cannot be "{kwargs["templateVlanType"]}", & must be set to one of: {options}'''
+            )
 
         metadata = {
-            'tags': ['appliance', 'configure', 'vlans'],
-            'operation': 'updateNetworkApplianceVlan'
+            "tags": ["appliance", "configure", "vlans"],
+            "operation": "updateNetworkApplianceVlan",
         }
-        networkId = urllib.parse.quote(str(networkId), safe='')
-        vlanId = urllib.parse.quote(str(vlanId), safe='')
-        resource = f'/networks/{networkId}/appliance/vlans/{vlanId}'
+        networkId = urllib.parse.quote(str(networkId), safe="")
+        vlanId = urllib.parse.quote(str(vlanId), safe="")
+        resource = f"/networks/{networkId}/appliance/vlans/{vlanId}"
 
-        body_params = ['name', 'subnet', 'applianceIp', 'groupPolicyId', 'vpnNatSubnet', 'dhcpHandling', 'dhcpRelayServerIps', 'dhcpLeaseTime', 'dhcpBootOptionsEnabled', 'dhcpBootNextServer', 'dhcpBootFilename', 'fixedIpAssignments', 'reservedIpRanges', 'dnsNameservers', 'dhcpOptions', 'templateVlanType', 'cidr', 'mask', 'ipv6', 'mandatoryDhcp', ]
+        body_params = [
+            "name",
+            "subnet",
+            "applianceIp",
+            "groupPolicyId",
+            "vpnNatSubnet",
+            "dhcpHandling",
+            "dhcpRelayServerIps",
+            "dhcpLeaseTime",
+            "dhcpBootOptionsEnabled",
+            "dhcpBootNextServer",
+            "dhcpBootFilename",
+            "fixedIpAssignments",
+            "reservedIpRanges",
+            "dnsNameservers",
+            "dhcpOptions",
+            "templateVlanType",
+            "cidr",
+            "mask",
+            "ipv6",
+            "mandatoryDhcp",
+        ]
         payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
 
         return self._session.put(metadata, resource, payload)
-        
-
 
     def deleteNetworkApplianceVlan(self, networkId: str, vlanId: str):
         """
@@ -2210,16 +2307,14 @@ class Appliance(object):
         """
 
         metadata = {
-            'tags': ['appliance', 'configure', 'vlans'],
-            'operation': 'deleteNetworkApplianceVlan'
+            "tags": ["appliance", "configure", "vlans"],
+            "operation": "deleteNetworkApplianceVlan",
         }
-        networkId = urllib.parse.quote(str(networkId), safe='')
-        vlanId = urllib.parse.quote(str(vlanId), safe='')
-        resource = f'/networks/{networkId}/appliance/vlans/{vlanId}'
+        networkId = urllib.parse.quote(str(networkId), safe="")
+        vlanId = urllib.parse.quote(str(vlanId), safe="")
+        resource = f"/networks/{networkId}/appliance/vlans/{vlanId}"
 
         return self._session.delete(metadata, resource)
-        
-
 
     def getNetworkApplianceVpnBgp(self, networkId: str):
         """
@@ -2230,15 +2325,13 @@ class Appliance(object):
         """
 
         metadata = {
-            'tags': ['appliance', 'configure', 'vpn', 'bgp'],
-            'operation': 'getNetworkApplianceVpnBgp'
+            "tags": ["appliance", "configure", "vpn", "bgp"],
+            "operation": "getNetworkApplianceVpnBgp",
         }
-        networkId = urllib.parse.quote(str(networkId), safe='')
-        resource = f'/networks/{networkId}/appliance/vpn/bgp'
+        networkId = urllib.parse.quote(str(networkId), safe="")
+        resource = f"/networks/{networkId}/appliance/vpn/bgp"
 
         return self._session.get(metadata, resource)
-        
-
 
     def updateNetworkApplianceVpnBgp(self, networkId: str, enabled: bool, **kwargs):
         """
@@ -2255,18 +2348,21 @@ class Appliance(object):
         kwargs.update(locals())
 
         metadata = {
-            'tags': ['appliance', 'configure', 'vpn', 'bgp'],
-            'operation': 'updateNetworkApplianceVpnBgp'
+            "tags": ["appliance", "configure", "vpn", "bgp"],
+            "operation": "updateNetworkApplianceVpnBgp",
         }
-        networkId = urllib.parse.quote(str(networkId), safe='')
-        resource = f'/networks/{networkId}/appliance/vpn/bgp'
+        networkId = urllib.parse.quote(str(networkId), safe="")
+        resource = f"/networks/{networkId}/appliance/vpn/bgp"
 
-        body_params = ['enabled', 'asNumber', 'ibgpHoldTimer', 'neighbors', ]
+        body_params = [
+            "enabled",
+            "asNumber",
+            "ibgpHoldTimer",
+            "neighbors",
+        ]
         payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
 
         return self._session.put(metadata, resource, payload)
-        
-
 
     def getNetworkApplianceVpnSiteToSiteVpn(self, networkId: str):
         """
@@ -2277,15 +2373,13 @@ class Appliance(object):
         """
 
         metadata = {
-            'tags': ['appliance', 'configure', 'vpn', 'siteToSiteVpn'],
-            'operation': 'getNetworkApplianceVpnSiteToSiteVpn'
+            "tags": ["appliance", "configure", "vpn", "siteToSiteVpn"],
+            "operation": "getNetworkApplianceVpnSiteToSiteVpn",
         }
-        networkId = urllib.parse.quote(str(networkId), safe='')
-        resource = f'/networks/{networkId}/appliance/vpn/siteToSiteVpn'
+        networkId = urllib.parse.quote(str(networkId), safe="")
+        resource = f"/networks/{networkId}/appliance/vpn/siteToSiteVpn"
 
         return self._session.get(metadata, resource)
-        
-
 
     def updateNetworkApplianceVpnSiteToSiteVpn(self, networkId: str, mode: str, **kwargs):
         """
@@ -2301,23 +2395,28 @@ class Appliance(object):
 
         kwargs.update(locals())
 
-        if 'mode' in kwargs:
-            options = ['hub', 'none', 'spoke']
-            assert kwargs['mode'] in options, f'''"mode" cannot be "{kwargs['mode']}", & must be set to one of: {options}'''
+        if "mode" in kwargs:
+            options = ["hub", "none", "spoke"]
+            assert kwargs["mode"] in options, (
+                f'''"mode" cannot be "{kwargs["mode"]}", & must be set to one of: {options}'''
+            )
 
         metadata = {
-            'tags': ['appliance', 'configure', 'vpn', 'siteToSiteVpn'],
-            'operation': 'updateNetworkApplianceVpnSiteToSiteVpn'
+            "tags": ["appliance", "configure", "vpn", "siteToSiteVpn"],
+            "operation": "updateNetworkApplianceVpnSiteToSiteVpn",
         }
-        networkId = urllib.parse.quote(str(networkId), safe='')
-        resource = f'/networks/{networkId}/appliance/vpn/siteToSiteVpn'
+        networkId = urllib.parse.quote(str(networkId), safe="")
+        resource = f"/networks/{networkId}/appliance/vpn/siteToSiteVpn"
 
-        body_params = ['mode', 'hubs', 'subnets', 'subnet', ]
+        body_params = [
+            "mode",
+            "hubs",
+            "subnets",
+            "subnet",
+        ]
         payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
 
         return self._session.put(metadata, resource, payload)
-        
-
 
     def getNetworkApplianceWarmSpare(self, networkId: str):
         """
@@ -2328,15 +2427,13 @@ class Appliance(object):
         """
 
         metadata = {
-            'tags': ['appliance', 'configure', 'warmSpare'],
-            'operation': 'getNetworkApplianceWarmSpare'
+            "tags": ["appliance", "configure", "warmSpare"],
+            "operation": "getNetworkApplianceWarmSpare",
         }
-        networkId = urllib.parse.quote(str(networkId), safe='')
-        resource = f'/networks/{networkId}/appliance/warmSpare'
+        networkId = urllib.parse.quote(str(networkId), safe="")
+        resource = f"/networks/{networkId}/appliance/warmSpare"
 
         return self._session.get(metadata, resource)
-        
-
 
     def updateNetworkApplianceWarmSpare(self, networkId: str, enabled: bool, **kwargs):
         """
@@ -2354,18 +2451,22 @@ class Appliance(object):
         kwargs.update(locals())
 
         metadata = {
-            'tags': ['appliance', 'configure', 'warmSpare'],
-            'operation': 'updateNetworkApplianceWarmSpare'
+            "tags": ["appliance", "configure", "warmSpare"],
+            "operation": "updateNetworkApplianceWarmSpare",
         }
-        networkId = urllib.parse.quote(str(networkId), safe='')
-        resource = f'/networks/{networkId}/appliance/warmSpare'
+        networkId = urllib.parse.quote(str(networkId), safe="")
+        resource = f"/networks/{networkId}/appliance/warmSpare"
 
-        body_params = ['enabled', 'spareSerial', 'uplinkMode', 'virtualIp1', 'virtualIp2', ]
+        body_params = [
+            "enabled",
+            "spareSerial",
+            "uplinkMode",
+            "virtualIp1",
+            "virtualIp2",
+        ]
         payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
 
         return self._session.put(metadata, resource, payload)
-        
-
 
     def swapNetworkApplianceWarmSpare(self, networkId: str):
         """
@@ -2376,15 +2477,13 @@ class Appliance(object):
         """
 
         metadata = {
-            'tags': ['appliance', 'configure', 'warmSpare'],
-            'operation': 'swapNetworkApplianceWarmSpare'
+            "tags": ["appliance", "configure", "warmSpare"],
+            "operation": "swapNetworkApplianceWarmSpare",
         }
-        networkId = urllib.parse.quote(str(networkId), safe='')
-        resource = f'/networks/{networkId}/appliance/warmSpare/swap'
+        networkId = urllib.parse.quote(str(networkId), safe="")
+        resource = f"/networks/{networkId}/appliance/warmSpare/swap"
 
         return self._session.post(metadata, resource)
-        
-
 
     def getOrganizationApplianceDnsLocalProfiles(self, organizationId: str, **kwargs):
         """
@@ -2398,24 +2497,26 @@ class Appliance(object):
         kwargs.update(locals())
 
         metadata = {
-            'tags': ['appliance', 'configure', 'dns', 'local', 'profiles'],
-            'operation': 'getOrganizationApplianceDnsLocalProfiles'
+            "tags": ["appliance", "configure", "dns", "local", "profiles"],
+            "operation": "getOrganizationApplianceDnsLocalProfiles",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe='')
-        resource = f'/organizations/{organizationId}/appliance/dns/local/profiles'
+        organizationId = urllib.parse.quote(str(organizationId), safe="")
+        resource = f"/organizations/{organizationId}/appliance/dns/local/profiles"
 
-        query_params = ['profileIds', ]
+        query_params = [
+            "profileIds",
+        ]
         params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
 
-        array_params = ['profileIds', ]
+        array_params = [
+            "profileIds",
+        ]
         for k, v in kwargs.items():
             if k.strip() in array_params:
-                params[f'{k.strip()}[]'] = kwargs[f'{k}']
+                params[f"{k.strip()}[]"] = kwargs[f"{k}"]
                 params.pop(k.strip())
 
         return self._session.get(metadata, resource, params)
-        
-
 
     def createOrganizationApplianceDnsLocalProfile(self, organizationId: str, name: str):
         """
@@ -2429,18 +2530,18 @@ class Appliance(object):
         kwargs = locals()
 
         metadata = {
-            'tags': ['appliance', 'configure', 'dns', 'local', 'profiles'],
-            'operation': 'createOrganizationApplianceDnsLocalProfile'
+            "tags": ["appliance", "configure", "dns", "local", "profiles"],
+            "operation": "createOrganizationApplianceDnsLocalProfile",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe='')
-        resource = f'/organizations/{organizationId}/appliance/dns/local/profiles'
+        organizationId = urllib.parse.quote(str(organizationId), safe="")
+        resource = f"/organizations/{organizationId}/appliance/dns/local/profiles"
 
-        body_params = ['name', ]
+        body_params = [
+            "name",
+        ]
         payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
 
         return self._session.post(metadata, resource, payload)
-        
-
 
     def getOrganizationApplianceDnsLocalProfilesAssignments(self, organizationId: str, **kwargs):
         """
@@ -2455,26 +2556,32 @@ class Appliance(object):
         kwargs.update(locals())
 
         metadata = {
-            'tags': ['appliance', 'configure', 'dns', 'local', 'profiles', 'assignments'],
-            'operation': 'getOrganizationApplianceDnsLocalProfilesAssignments'
+            "tags": ["appliance", "configure", "dns", "local", "profiles", "assignments"],
+            "operation": "getOrganizationApplianceDnsLocalProfilesAssignments",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe='')
-        resource = f'/organizations/{organizationId}/appliance/dns/local/profiles/assignments'
+        organizationId = urllib.parse.quote(str(organizationId), safe="")
+        resource = f"/organizations/{organizationId}/appliance/dns/local/profiles/assignments"
 
-        query_params = ['profileIds', 'networkIds', ]
+        query_params = [
+            "profileIds",
+            "networkIds",
+        ]
         params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
 
-        array_params = ['profileIds', 'networkIds', ]
+        array_params = [
+            "profileIds",
+            "networkIds",
+        ]
         for k, v in kwargs.items():
             if k.strip() in array_params:
-                params[f'{k.strip()}[]'] = kwargs[f'{k}']
+                params[f"{k.strip()}[]"] = kwargs[f"{k}"]
                 params.pop(k.strip())
 
         return self._session.get(metadata, resource, params)
-        
 
-
-    def bulkOrganizationApplianceDnsLocalProfilesAssignmentsCreate(self, organizationId: str, items: list):
+    def bulkOrganizationApplianceDnsLocalProfilesAssignmentsCreate(
+        self, organizationId: str, items: list
+    ):
         """
         **Assign the local DNS profile to networks in the organization**
         https://developer.cisco.com/meraki/api-v1/#!bulk-organization-appliance-dns-local-profiles-assignments-create
@@ -2486,20 +2593,24 @@ class Appliance(object):
         kwargs = locals()
 
         metadata = {
-            'tags': ['appliance', 'configure', 'dns', 'local', 'profiles', 'assignments'],
-            'operation': 'bulkOrganizationApplianceDnsLocalProfilesAssignmentsCreate'
+            "tags": ["appliance", "configure", "dns", "local", "profiles", "assignments"],
+            "operation": "bulkOrganizationApplianceDnsLocalProfilesAssignmentsCreate",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe='')
-        resource = f'/organizations/{organizationId}/appliance/dns/local/profiles/assignments/bulkCreate'
+        organizationId = urllib.parse.quote(str(organizationId), safe="")
+        resource = (
+            f"/organizations/{organizationId}/appliance/dns/local/profiles/assignments/bulkCreate"
+        )
 
-        body_params = ['items', ]
+        body_params = [
+            "items",
+        ]
         payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
 
         return self._session.post(metadata, resource, payload)
-        
 
-
-    def createOrganizationApplianceDnsLocalProfilesAssignmentsBulkDelete(self, organizationId: str, items: list):
+    def createOrganizationApplianceDnsLocalProfilesAssignmentsBulkDelete(
+        self, organizationId: str, items: list
+    ):
         """
         **Unassign the local DNS profile to networks in the organization**
         https://developer.cisco.com/meraki/api-v1/#!create-organization-appliance-dns-local-profiles-assignments-bulk-delete
@@ -2511,20 +2622,32 @@ class Appliance(object):
         kwargs = locals()
 
         metadata = {
-            'tags': ['appliance', 'configure', 'dns', 'local', 'profiles', 'assignments', 'bulkDelete'],
-            'operation': 'createOrganizationApplianceDnsLocalProfilesAssignmentsBulkDelete'
+            "tags": [
+                "appliance",
+                "configure",
+                "dns",
+                "local",
+                "profiles",
+                "assignments",
+                "bulkDelete",
+            ],
+            "operation": "createOrganizationApplianceDnsLocalProfilesAssignmentsBulkDelete",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe='')
-        resource = f'/organizations/{organizationId}/appliance/dns/local/profiles/assignments/bulkDelete'
+        organizationId = urllib.parse.quote(str(organizationId), safe="")
+        resource = (
+            f"/organizations/{organizationId}/appliance/dns/local/profiles/assignments/bulkDelete"
+        )
 
-        body_params = ['items', ]
+        body_params = [
+            "items",
+        ]
         payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
 
         return self._session.post(metadata, resource, payload)
-        
 
-
-    def updateOrganizationApplianceDnsLocalProfile(self, organizationId: str, profileId: str, name: str):
+    def updateOrganizationApplianceDnsLocalProfile(
+        self, organizationId: str, profileId: str, name: str
+    ):
         """
         **Update a local DNS profile**
         https://developer.cisco.com/meraki/api-v1/#!update-organization-appliance-dns-local-profile
@@ -2537,19 +2660,19 @@ class Appliance(object):
         kwargs = locals()
 
         metadata = {
-            'tags': ['appliance', 'configure', 'dns', 'local', 'profiles'],
-            'operation': 'updateOrganizationApplianceDnsLocalProfile'
+            "tags": ["appliance", "configure", "dns", "local", "profiles"],
+            "operation": "updateOrganizationApplianceDnsLocalProfile",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe='')
-        profileId = urllib.parse.quote(str(profileId), safe='')
-        resource = f'/organizations/{organizationId}/appliance/dns/local/profiles/{profileId}'
+        organizationId = urllib.parse.quote(str(organizationId), safe="")
+        profileId = urllib.parse.quote(str(profileId), safe="")
+        resource = f"/organizations/{organizationId}/appliance/dns/local/profiles/{profileId}"
 
-        body_params = ['name', ]
+        body_params = [
+            "name",
+        ]
         payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
 
         return self._session.put(metadata, resource, payload)
-        
-
 
     def deleteOrganizationApplianceDnsLocalProfile(self, organizationId: str, profileId: str):
         """
@@ -2561,16 +2684,14 @@ class Appliance(object):
         """
 
         metadata = {
-            'tags': ['appliance', 'configure', 'dns', 'local', 'profiles'],
-            'operation': 'deleteOrganizationApplianceDnsLocalProfile'
+            "tags": ["appliance", "configure", "dns", "local", "profiles"],
+            "operation": "deleteOrganizationApplianceDnsLocalProfile",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe='')
-        profileId = urllib.parse.quote(str(profileId), safe='')
-        resource = f'/organizations/{organizationId}/appliance/dns/local/profiles/{profileId}'
+        organizationId = urllib.parse.quote(str(organizationId), safe="")
+        profileId = urllib.parse.quote(str(profileId), safe="")
+        resource = f"/organizations/{organizationId}/appliance/dns/local/profiles/{profileId}"
 
         return self._session.delete(metadata, resource)
-        
-
 
     def getOrganizationApplianceDnsLocalRecords(self, organizationId: str, **kwargs):
         """
@@ -2584,26 +2705,30 @@ class Appliance(object):
         kwargs.update(locals())
 
         metadata = {
-            'tags': ['appliance', 'configure', 'dns', 'local', 'records'],
-            'operation': 'getOrganizationApplianceDnsLocalRecords'
+            "tags": ["appliance", "configure", "dns", "local", "records"],
+            "operation": "getOrganizationApplianceDnsLocalRecords",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe='')
-        resource = f'/organizations/{organizationId}/appliance/dns/local/records'
+        organizationId = urllib.parse.quote(str(organizationId), safe="")
+        resource = f"/organizations/{organizationId}/appliance/dns/local/records"
 
-        query_params = ['profileIds', ]
+        query_params = [
+            "profileIds",
+        ]
         params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
 
-        array_params = ['profileIds', ]
+        array_params = [
+            "profileIds",
+        ]
         for k, v in kwargs.items():
             if k.strip() in array_params:
-                params[f'{k.strip()}[]'] = kwargs[f'{k}']
+                params[f"{k.strip()}[]"] = kwargs[f"{k}"]
                 params.pop(k.strip())
 
         return self._session.get(metadata, resource, params)
-        
 
-
-    def createOrganizationApplianceDnsLocalRecord(self, organizationId: str, hostname: str, address: str, profile: dict):
+    def createOrganizationApplianceDnsLocalRecord(
+        self, organizationId: str, hostname: str, address: str, profile: dict
+    ):
         """
         **Create a new local DNS record**
         https://developer.cisco.com/meraki/api-v1/#!create-organization-appliance-dns-local-record
@@ -2617,20 +2742,24 @@ class Appliance(object):
         kwargs = locals()
 
         metadata = {
-            'tags': ['appliance', 'configure', 'dns', 'local', 'records'],
-            'operation': 'createOrganizationApplianceDnsLocalRecord'
+            "tags": ["appliance", "configure", "dns", "local", "records"],
+            "operation": "createOrganizationApplianceDnsLocalRecord",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe='')
-        resource = f'/organizations/{organizationId}/appliance/dns/local/records'
+        organizationId = urllib.parse.quote(str(organizationId), safe="")
+        resource = f"/organizations/{organizationId}/appliance/dns/local/records"
 
-        body_params = ['hostname', 'address', 'profile', ]
+        body_params = [
+            "hostname",
+            "address",
+            "profile",
+        ]
         payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
 
         return self._session.post(metadata, resource, payload)
-        
 
-
-    def updateOrganizationApplianceDnsLocalRecord(self, organizationId: str, recordId: str, **kwargs):
+    def updateOrganizationApplianceDnsLocalRecord(
+        self, organizationId: str, recordId: str, **kwargs
+    ):
         """
         **Updates a local DNS record**
         https://developer.cisco.com/meraki/api-v1/#!update-organization-appliance-dns-local-record
@@ -2645,19 +2774,21 @@ class Appliance(object):
         kwargs.update(locals())
 
         metadata = {
-            'tags': ['appliance', 'configure', 'dns', 'local', 'records'],
-            'operation': 'updateOrganizationApplianceDnsLocalRecord'
+            "tags": ["appliance", "configure", "dns", "local", "records"],
+            "operation": "updateOrganizationApplianceDnsLocalRecord",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe='')
-        recordId = urllib.parse.quote(str(recordId), safe='')
-        resource = f'/organizations/{organizationId}/appliance/dns/local/records/{recordId}'
+        organizationId = urllib.parse.quote(str(organizationId), safe="")
+        recordId = urllib.parse.quote(str(recordId), safe="")
+        resource = f"/organizations/{organizationId}/appliance/dns/local/records/{recordId}"
 
-        body_params = ['hostname', 'address', 'profile', ]
+        body_params = [
+            "hostname",
+            "address",
+            "profile",
+        ]
         payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
 
         return self._session.put(metadata, resource, payload)
-        
-
 
     def deleteOrganizationApplianceDnsLocalRecord(self, organizationId: str, recordId: str):
         """
@@ -2669,16 +2800,14 @@ class Appliance(object):
         """
 
         metadata = {
-            'tags': ['appliance', 'configure', 'dns', 'local', 'records'],
-            'operation': 'deleteOrganizationApplianceDnsLocalRecord'
+            "tags": ["appliance", "configure", "dns", "local", "records"],
+            "operation": "deleteOrganizationApplianceDnsLocalRecord",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe='')
-        recordId = urllib.parse.quote(str(recordId), safe='')
-        resource = f'/organizations/{organizationId}/appliance/dns/local/records/{recordId}'
+        organizationId = urllib.parse.quote(str(organizationId), safe="")
+        recordId = urllib.parse.quote(str(recordId), safe="")
+        resource = f"/organizations/{organizationId}/appliance/dns/local/records/{recordId}"
 
         return self._session.delete(metadata, resource)
-        
-
 
     def getOrganizationApplianceDnsSplitProfiles(self, organizationId: str, **kwargs):
         """
@@ -2692,26 +2821,30 @@ class Appliance(object):
         kwargs.update(locals())
 
         metadata = {
-            'tags': ['appliance', 'configure', 'dns', 'split', 'profiles'],
-            'operation': 'getOrganizationApplianceDnsSplitProfiles'
+            "tags": ["appliance", "configure", "dns", "split", "profiles"],
+            "operation": "getOrganizationApplianceDnsSplitProfiles",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe='')
-        resource = f'/organizations/{organizationId}/appliance/dns/split/profiles'
+        organizationId = urllib.parse.quote(str(organizationId), safe="")
+        resource = f"/organizations/{organizationId}/appliance/dns/split/profiles"
 
-        query_params = ['profileIds', ]
+        query_params = [
+            "profileIds",
+        ]
         params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
 
-        array_params = ['profileIds', ]
+        array_params = [
+            "profileIds",
+        ]
         for k, v in kwargs.items():
             if k.strip() in array_params:
-                params[f'{k.strip()}[]'] = kwargs[f'{k}']
+                params[f"{k.strip()}[]"] = kwargs[f"{k}"]
                 params.pop(k.strip())
 
         return self._session.get(metadata, resource, params)
-        
 
-
-    def createOrganizationApplianceDnsSplitProfile(self, organizationId: str, name: str, hostnames: list, nameservers: dict):
+    def createOrganizationApplianceDnsSplitProfile(
+        self, organizationId: str, name: str, hostnames: list, nameservers: dict
+    ):
         """
         **Create a new split DNS profile**
         https://developer.cisco.com/meraki/api-v1/#!create-organization-appliance-dns-split-profile
@@ -2725,18 +2858,20 @@ class Appliance(object):
         kwargs = locals()
 
         metadata = {
-            'tags': ['appliance', 'configure', 'dns', 'split', 'profiles'],
-            'operation': 'createOrganizationApplianceDnsSplitProfile'
+            "tags": ["appliance", "configure", "dns", "split", "profiles"],
+            "operation": "createOrganizationApplianceDnsSplitProfile",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe='')
-        resource = f'/organizations/{organizationId}/appliance/dns/split/profiles'
+        organizationId = urllib.parse.quote(str(organizationId), safe="")
+        resource = f"/organizations/{organizationId}/appliance/dns/split/profiles"
 
-        body_params = ['name', 'hostnames', 'nameservers', ]
+        body_params = [
+            "name",
+            "hostnames",
+            "nameservers",
+        ]
         payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
 
         return self._session.post(metadata, resource, payload)
-        
-
 
     def getOrganizationApplianceDnsSplitProfilesAssignments(self, organizationId: str, **kwargs):
         """
@@ -2751,26 +2886,32 @@ class Appliance(object):
         kwargs.update(locals())
 
         metadata = {
-            'tags': ['appliance', 'configure', 'dns', 'split', 'profiles', 'assignments'],
-            'operation': 'getOrganizationApplianceDnsSplitProfilesAssignments'
+            "tags": ["appliance", "configure", "dns", "split", "profiles", "assignments"],
+            "operation": "getOrganizationApplianceDnsSplitProfilesAssignments",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe='')
-        resource = f'/organizations/{organizationId}/appliance/dns/split/profiles/assignments'
+        organizationId = urllib.parse.quote(str(organizationId), safe="")
+        resource = f"/organizations/{organizationId}/appliance/dns/split/profiles/assignments"
 
-        query_params = ['profileIds', 'networkIds', ]
+        query_params = [
+            "profileIds",
+            "networkIds",
+        ]
         params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
 
-        array_params = ['profileIds', 'networkIds', ]
+        array_params = [
+            "profileIds",
+            "networkIds",
+        ]
         for k, v in kwargs.items():
             if k.strip() in array_params:
-                params[f'{k.strip()}[]'] = kwargs[f'{k}']
+                params[f"{k.strip()}[]"] = kwargs[f"{k}"]
                 params.pop(k.strip())
 
         return self._session.get(metadata, resource, params)
-        
 
-
-    def createOrganizationApplianceDnsSplitProfilesAssignmentsBulkCreate(self, organizationId: str, items: list):
+    def createOrganizationApplianceDnsSplitProfilesAssignmentsBulkCreate(
+        self, organizationId: str, items: list
+    ):
         """
         **Assign the split DNS profile to networks in the organization**
         https://developer.cisco.com/meraki/api-v1/#!create-organization-appliance-dns-split-profiles-assignments-bulk-create
@@ -2782,20 +2923,32 @@ class Appliance(object):
         kwargs = locals()
 
         metadata = {
-            'tags': ['appliance', 'configure', 'dns', 'split', 'profiles', 'assignments', 'bulkCreate'],
-            'operation': 'createOrganizationApplianceDnsSplitProfilesAssignmentsBulkCreate'
+            "tags": [
+                "appliance",
+                "configure",
+                "dns",
+                "split",
+                "profiles",
+                "assignments",
+                "bulkCreate",
+            ],
+            "operation": "createOrganizationApplianceDnsSplitProfilesAssignmentsBulkCreate",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe='')
-        resource = f'/organizations/{organizationId}/appliance/dns/split/profiles/assignments/bulkCreate'
+        organizationId = urllib.parse.quote(str(organizationId), safe="")
+        resource = (
+            f"/organizations/{organizationId}/appliance/dns/split/profiles/assignments/bulkCreate"
+        )
 
-        body_params = ['items', ]
+        body_params = [
+            "items",
+        ]
         payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
 
         return self._session.post(metadata, resource, payload)
-        
 
-
-    def createOrganizationApplianceDnsSplitProfilesAssignmentsBulkDelete(self, organizationId: str, items: list):
+    def createOrganizationApplianceDnsSplitProfilesAssignmentsBulkDelete(
+        self, organizationId: str, items: list
+    ):
         """
         **Unassign the split DNS profile to networks in the organization**
         https://developer.cisco.com/meraki/api-v1/#!create-organization-appliance-dns-split-profiles-assignments-bulk-delete
@@ -2807,20 +2960,32 @@ class Appliance(object):
         kwargs = locals()
 
         metadata = {
-            'tags': ['appliance', 'configure', 'dns', 'split', 'profiles', 'assignments', 'bulkDelete'],
-            'operation': 'createOrganizationApplianceDnsSplitProfilesAssignmentsBulkDelete'
+            "tags": [
+                "appliance",
+                "configure",
+                "dns",
+                "split",
+                "profiles",
+                "assignments",
+                "bulkDelete",
+            ],
+            "operation": "createOrganizationApplianceDnsSplitProfilesAssignmentsBulkDelete",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe='')
-        resource = f'/organizations/{organizationId}/appliance/dns/split/profiles/assignments/bulkDelete'
+        organizationId = urllib.parse.quote(str(organizationId), safe="")
+        resource = (
+            f"/organizations/{organizationId}/appliance/dns/split/profiles/assignments/bulkDelete"
+        )
 
-        body_params = ['items', ]
+        body_params = [
+            "items",
+        ]
         payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
 
         return self._session.post(metadata, resource, payload)
-        
 
-
-    def updateOrganizationApplianceDnsSplitProfile(self, organizationId: str, profileId: str, **kwargs):
+    def updateOrganizationApplianceDnsSplitProfile(
+        self, organizationId: str, profileId: str, **kwargs
+    ):
         """
         **Update a split DNS profile**
         https://developer.cisco.com/meraki/api-v1/#!update-organization-appliance-dns-split-profile
@@ -2835,19 +3000,21 @@ class Appliance(object):
         kwargs.update(locals())
 
         metadata = {
-            'tags': ['appliance', 'configure', 'dns', 'split', 'profiles'],
-            'operation': 'updateOrganizationApplianceDnsSplitProfile'
+            "tags": ["appliance", "configure", "dns", "split", "profiles"],
+            "operation": "updateOrganizationApplianceDnsSplitProfile",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe='')
-        profileId = urllib.parse.quote(str(profileId), safe='')
-        resource = f'/organizations/{organizationId}/appliance/dns/split/profiles/{profileId}'
+        organizationId = urllib.parse.quote(str(organizationId), safe="")
+        profileId = urllib.parse.quote(str(profileId), safe="")
+        resource = f"/organizations/{organizationId}/appliance/dns/split/profiles/{profileId}"
 
-        body_params = ['name', 'hostnames', 'nameservers', ]
+        body_params = [
+            "name",
+            "hostnames",
+            "nameservers",
+        ]
         payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
 
         return self._session.put(metadata, resource, payload)
-        
-
 
     def deleteOrganizationApplianceDnsSplitProfile(self, organizationId: str, profileId: str):
         """
@@ -2859,18 +3026,18 @@ class Appliance(object):
         """
 
         metadata = {
-            'tags': ['appliance', 'configure', 'dns', 'split', 'profiles'],
-            'operation': 'deleteOrganizationApplianceDnsSplitProfile'
+            "tags": ["appliance", "configure", "dns", "split", "profiles"],
+            "operation": "deleteOrganizationApplianceDnsSplitProfile",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe='')
-        profileId = urllib.parse.quote(str(profileId), safe='')
-        resource = f'/organizations/{organizationId}/appliance/dns/split/profiles/{profileId}'
+        organizationId = urllib.parse.quote(str(organizationId), safe="")
+        profileId = urllib.parse.quote(str(profileId), safe="")
+        resource = f"/organizations/{organizationId}/appliance/dns/split/profiles/{profileId}"
 
         return self._session.delete(metadata, resource)
-        
 
-
-    def getOrganizationApplianceFirewallMulticastForwardingByNetwork(self, organizationId: str, total_pages=1, direction='next', **kwargs):
+    def getOrganizationApplianceFirewallMulticastForwardingByNetwork(
+        self, organizationId: str, total_pages=1, direction="next", **kwargs
+    ):
         """
         **List Static Multicasting forwarding settings for MX networks**
         https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-firewall-multicast-forwarding-by-network
@@ -2887,26 +3054,35 @@ class Appliance(object):
         kwargs.update(locals())
 
         metadata = {
-            'tags': ['appliance', 'configure', 'firewall', 'multicastForwarding', 'byNetwork'],
-            'operation': 'getOrganizationApplianceFirewallMulticastForwardingByNetwork'
+            "tags": ["appliance", "configure", "firewall", "multicastForwarding", "byNetwork"],
+            "operation": "getOrganizationApplianceFirewallMulticastForwardingByNetwork",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe='')
-        resource = f'/organizations/{organizationId}/appliance/firewall/multicastForwarding/byNetwork'
+        organizationId = urllib.parse.quote(str(organizationId), safe="")
+        resource = (
+            f"/organizations/{organizationId}/appliance/firewall/multicastForwarding/byNetwork"
+        )
 
-        query_params = ['perPage', 'startingAfter', 'endingBefore', 'networkIds', ]
+        query_params = [
+            "perPage",
+            "startingAfter",
+            "endingBefore",
+            "networkIds",
+        ]
         params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
 
-        array_params = ['networkIds', ]
+        array_params = [
+            "networkIds",
+        ]
         for k, v in kwargs.items():
             if k.strip() in array_params:
-                params[f'{k.strip()}[]'] = kwargs[f'{k}']
+                params[f"{k.strip()}[]"] = kwargs[f"{k}"]
                 params.pop(k.strip())
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
-        
 
-
-    def getOrganizationApplianceSecurityEvents(self, organizationId: str, total_pages=1, direction='next', **kwargs):
+    def getOrganizationApplianceSecurityEvents(
+        self, organizationId: str, total_pages=1, direction="next", **kwargs
+    ):
         """
         **List the security events for an organization**
         https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-security-events
@@ -2925,23 +3101,31 @@ class Appliance(object):
 
         kwargs.update(locals())
 
-        if 'sortOrder' in kwargs:
-            options = ['ascending', 'descending']
-            assert kwargs['sortOrder'] in options, f'''"sortOrder" cannot be "{kwargs['sortOrder']}", & must be set to one of: {options}'''
+        if "sortOrder" in kwargs:
+            options = ["ascending", "descending"]
+            assert kwargs["sortOrder"] in options, (
+                f'''"sortOrder" cannot be "{kwargs["sortOrder"]}", & must be set to one of: {options}'''
+            )
 
         metadata = {
-            'tags': ['appliance', 'monitor', 'security', 'events'],
-            'operation': 'getOrganizationApplianceSecurityEvents'
+            "tags": ["appliance", "monitor", "security", "events"],
+            "operation": "getOrganizationApplianceSecurityEvents",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe='')
-        resource = f'/organizations/{organizationId}/appliance/security/events'
+        organizationId = urllib.parse.quote(str(organizationId), safe="")
+        resource = f"/organizations/{organizationId}/appliance/security/events"
 
-        query_params = ['t0', 't1', 'timespan', 'perPage', 'startingAfter', 'endingBefore', 'sortOrder', ]
+        query_params = [
+            "t0",
+            "t1",
+            "timespan",
+            "perPage",
+            "startingAfter",
+            "endingBefore",
+            "sortOrder",
+        ]
         params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
-        
-
 
     def getOrganizationApplianceSecurityIntrusion(self, organizationId: str):
         """
@@ -2952,15 +3136,13 @@ class Appliance(object):
         """
 
         metadata = {
-            'tags': ['appliance', 'configure', 'security', 'intrusion'],
-            'operation': 'getOrganizationApplianceSecurityIntrusion'
+            "tags": ["appliance", "configure", "security", "intrusion"],
+            "operation": "getOrganizationApplianceSecurityIntrusion",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe='')
-        resource = f'/organizations/{organizationId}/appliance/security/intrusion'
+        organizationId = urllib.parse.quote(str(organizationId), safe="")
+        resource = f"/organizations/{organizationId}/appliance/security/intrusion"
 
         return self._session.get(metadata, resource)
-        
-
 
     def updateOrganizationApplianceSecurityIntrusion(self, organizationId: str, allowedRules: list):
         """
@@ -2974,20 +3156,22 @@ class Appliance(object):
         kwargs = locals()
 
         metadata = {
-            'tags': ['appliance', 'configure', 'security', 'intrusion'],
-            'operation': 'updateOrganizationApplianceSecurityIntrusion'
+            "tags": ["appliance", "configure", "security", "intrusion"],
+            "operation": "updateOrganizationApplianceSecurityIntrusion",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe='')
-        resource = f'/organizations/{organizationId}/appliance/security/intrusion'
+        organizationId = urllib.parse.quote(str(organizationId), safe="")
+        resource = f"/organizations/{organizationId}/appliance/security/intrusion"
 
-        body_params = ['allowedRules', ]
+        body_params = [
+            "allowedRules",
+        ]
         payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
 
         return self._session.put(metadata, resource, payload)
-        
 
-
-    def getOrganizationApplianceTrafficShapingVpnExclusionsByNetwork(self, organizationId: str, total_pages=1, direction='next', **kwargs):
+    def getOrganizationApplianceTrafficShapingVpnExclusionsByNetwork(
+        self, organizationId: str, total_pages=1, direction="next", **kwargs
+    ):
         """
         **Display VPN exclusion rules for MX networks.**
         https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-traffic-shaping-vpn-exclusions-by-network
@@ -3004,26 +3188,35 @@ class Appliance(object):
         kwargs.update(locals())
 
         metadata = {
-            'tags': ['appliance', 'configure', 'trafficShaping', 'vpnExclusions', 'byNetwork'],
-            'operation': 'getOrganizationApplianceTrafficShapingVpnExclusionsByNetwork'
+            "tags": ["appliance", "configure", "trafficShaping", "vpnExclusions", "byNetwork"],
+            "operation": "getOrganizationApplianceTrafficShapingVpnExclusionsByNetwork",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe='')
-        resource = f'/organizations/{organizationId}/appliance/trafficShaping/vpnExclusions/byNetwork'
+        organizationId = urllib.parse.quote(str(organizationId), safe="")
+        resource = (
+            f"/organizations/{organizationId}/appliance/trafficShaping/vpnExclusions/byNetwork"
+        )
 
-        query_params = ['perPage', 'startingAfter', 'endingBefore', 'networkIds', ]
+        query_params = [
+            "perPage",
+            "startingAfter",
+            "endingBefore",
+            "networkIds",
+        ]
         params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
 
-        array_params = ['networkIds', ]
+        array_params = [
+            "networkIds",
+        ]
         for k, v in kwargs.items():
             if k.strip() in array_params:
-                params[f'{k.strip()}[]'] = kwargs[f'{k}']
+                params[f"{k.strip()}[]"] = kwargs[f"{k}"]
                 params.pop(k.strip())
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
-        
 
-
-    def getOrganizationApplianceUplinkStatuses(self, organizationId: str, total_pages=1, direction='next', **kwargs):
+    def getOrganizationApplianceUplinkStatuses(
+        self, organizationId: str, total_pages=1, direction="next", **kwargs
+    ):
         """
         **List the uplink status of every Meraki MX and Z series appliances in the organization**
         https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-uplink-statuses
@@ -3042,24 +3235,33 @@ class Appliance(object):
         kwargs.update(locals())
 
         metadata = {
-            'tags': ['appliance', 'monitor', 'uplinks', 'statuses'],
-            'operation': 'getOrganizationApplianceUplinkStatuses'
+            "tags": ["appliance", "monitor", "uplinks", "statuses"],
+            "operation": "getOrganizationApplianceUplinkStatuses",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe='')
-        resource = f'/organizations/{organizationId}/appliance/uplink/statuses'
+        organizationId = urllib.parse.quote(str(organizationId), safe="")
+        resource = f"/organizations/{organizationId}/appliance/uplink/statuses"
 
-        query_params = ['perPage', 'startingAfter', 'endingBefore', 'networkIds', 'serials', 'iccids', ]
+        query_params = [
+            "perPage",
+            "startingAfter",
+            "endingBefore",
+            "networkIds",
+            "serials",
+            "iccids",
+        ]
         params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
 
-        array_params = ['networkIds', 'serials', 'iccids', ]
+        array_params = [
+            "networkIds",
+            "serials",
+            "iccids",
+        ]
         for k, v in kwargs.items():
             if k.strip() in array_params:
-                params[f'{k.strip()}[]'] = kwargs[f'{k}']
+                params[f"{k.strip()}[]"] = kwargs[f"{k}"]
                 params.pop(k.strip())
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
-        
-
 
     def getOrganizationApplianceUplinksStatusesOverview(self, organizationId: str, **kwargs):
         """
@@ -3073,24 +3275,26 @@ class Appliance(object):
         kwargs.update(locals())
 
         metadata = {
-            'tags': ['appliance', 'monitor', 'uplinks', 'statuses', 'overview'],
-            'operation': 'getOrganizationApplianceUplinksStatusesOverview'
+            "tags": ["appliance", "monitor", "uplinks", "statuses", "overview"],
+            "operation": "getOrganizationApplianceUplinksStatusesOverview",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe='')
-        resource = f'/organizations/{organizationId}/appliance/uplinks/statuses/overview'
+        organizationId = urllib.parse.quote(str(organizationId), safe="")
+        resource = f"/organizations/{organizationId}/appliance/uplinks/statuses/overview"
 
-        query_params = ['networkIds', ]
+        query_params = [
+            "networkIds",
+        ]
         params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
 
-        array_params = ['networkIds', ]
+        array_params = [
+            "networkIds",
+        ]
         for k, v in kwargs.items():
             if k.strip() in array_params:
-                params[f'{k.strip()}[]'] = kwargs[f'{k}']
+                params[f"{k.strip()}[]"] = kwargs[f"{k}"]
                 params.pop(k.strip())
 
         return self._session.get(metadata, resource, params)
-        
-
 
     def getOrganizationApplianceUplinksUsageByNetwork(self, organizationId: str, **kwargs):
         """
@@ -3106,18 +3310,20 @@ class Appliance(object):
         kwargs.update(locals())
 
         metadata = {
-            'tags': ['appliance', 'monitor', 'uplinks', 'usage', 'byNetwork'],
-            'operation': 'getOrganizationApplianceUplinksUsageByNetwork'
+            "tags": ["appliance", "monitor", "uplinks", "usage", "byNetwork"],
+            "operation": "getOrganizationApplianceUplinksUsageByNetwork",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe='')
-        resource = f'/organizations/{organizationId}/appliance/uplinks/usage/byNetwork'
+        organizationId = urllib.parse.quote(str(organizationId), safe="")
+        resource = f"/organizations/{organizationId}/appliance/uplinks/usage/byNetwork"
 
-        query_params = ['t0', 't1', 'timespan', ]
+        query_params = [
+            "t0",
+            "t1",
+            "timespan",
+        ]
         params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
 
         return self._session.get(metadata, resource, params)
-        
-
 
     def getOrganizationApplianceVpnSiteToSiteIpsecPeersSlas(self, organizationId: str):
         """
@@ -3128,15 +3334,13 @@ class Appliance(object):
         """
 
         metadata = {
-            'tags': ['appliance', 'configure', 'vpn', 'siteToSite', 'ipsec', 'peers', 'slas'],
-            'operation': 'getOrganizationApplianceVpnSiteToSiteIpsecPeersSlas'
+            "tags": ["appliance", "configure", "vpn", "siteToSite", "ipsec", "peers", "slas"],
+            "operation": "getOrganizationApplianceVpnSiteToSiteIpsecPeersSlas",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe='')
-        resource = f'/organizations/{organizationId}/appliance/vpn/siteToSite/ipsec/peers/slas'
+        organizationId = urllib.parse.quote(str(organizationId), safe="")
+        resource = f"/organizations/{organizationId}/appliance/vpn/siteToSite/ipsec/peers/slas"
 
         return self._session.get(metadata, resource)
-        
-
 
     def updateOrganizationApplianceVpnSiteToSiteIpsecPeersSlas(self, organizationId: str, **kwargs):
         """
@@ -3150,20 +3354,22 @@ class Appliance(object):
         kwargs.update(locals())
 
         metadata = {
-            'tags': ['appliance', 'configure', 'vpn', 'siteToSite', 'ipsec', 'peers', 'slas'],
-            'operation': 'updateOrganizationApplianceVpnSiteToSiteIpsecPeersSlas'
+            "tags": ["appliance", "configure", "vpn", "siteToSite", "ipsec", "peers", "slas"],
+            "operation": "updateOrganizationApplianceVpnSiteToSiteIpsecPeersSlas",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe='')
-        resource = f'/organizations/{organizationId}/appliance/vpn/siteToSite/ipsec/peers/slas'
+        organizationId = urllib.parse.quote(str(organizationId), safe="")
+        resource = f"/organizations/{organizationId}/appliance/vpn/siteToSite/ipsec/peers/slas"
 
-        body_params = ['items', ]
+        body_params = [
+            "items",
+        ]
         payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
 
         return self._session.put(metadata, resource, payload)
-        
 
-
-    def getOrganizationApplianceVpnStats(self, organizationId: str, total_pages=1, direction='next', **kwargs):
+    def getOrganizationApplianceVpnStats(
+        self, organizationId: str, total_pages=1, direction="next", **kwargs
+    ):
         """
         **Show VPN history stat for networks in an organization**
         https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-vpn-stats
@@ -3183,26 +3389,36 @@ class Appliance(object):
         kwargs.update(locals())
 
         metadata = {
-            'tags': ['appliance', 'monitor', 'vpn', 'stats'],
-            'operation': 'getOrganizationApplianceVpnStats'
+            "tags": ["appliance", "monitor", "vpn", "stats"],
+            "operation": "getOrganizationApplianceVpnStats",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe='')
-        resource = f'/organizations/{organizationId}/appliance/vpn/stats'
+        organizationId = urllib.parse.quote(str(organizationId), safe="")
+        resource = f"/organizations/{organizationId}/appliance/vpn/stats"
 
-        query_params = ['perPage', 'startingAfter', 'endingBefore', 'networkIds', 't0', 't1', 'timespan', ]
+        query_params = [
+            "perPage",
+            "startingAfter",
+            "endingBefore",
+            "networkIds",
+            "t0",
+            "t1",
+            "timespan",
+        ]
         params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
 
-        array_params = ['networkIds', ]
+        array_params = [
+            "networkIds",
+        ]
         for k, v in kwargs.items():
             if k.strip() in array_params:
-                params[f'{k.strip()}[]'] = kwargs[f'{k}']
+                params[f"{k.strip()}[]"] = kwargs[f"{k}"]
                 params.pop(k.strip())
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
-        
 
-
-    def getOrganizationApplianceVpnStatuses(self, organizationId: str, total_pages=1, direction='next', **kwargs):
+    def getOrganizationApplianceVpnStatuses(
+        self, organizationId: str, total_pages=1, direction="next", **kwargs
+    ):
         """
         **Show VPN status for networks in an organization**
         https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-vpn-statuses
@@ -3219,24 +3435,29 @@ class Appliance(object):
         kwargs.update(locals())
 
         metadata = {
-            'tags': ['appliance', 'monitor', 'vpn', 'statuses'],
-            'operation': 'getOrganizationApplianceVpnStatuses'
+            "tags": ["appliance", "monitor", "vpn", "statuses"],
+            "operation": "getOrganizationApplianceVpnStatuses",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe='')
-        resource = f'/organizations/{organizationId}/appliance/vpn/statuses'
+        organizationId = urllib.parse.quote(str(organizationId), safe="")
+        resource = f"/organizations/{organizationId}/appliance/vpn/statuses"
 
-        query_params = ['perPage', 'startingAfter', 'endingBefore', 'networkIds', ]
+        query_params = [
+            "perPage",
+            "startingAfter",
+            "endingBefore",
+            "networkIds",
+        ]
         params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
 
-        array_params = ['networkIds', ]
+        array_params = [
+            "networkIds",
+        ]
         for k, v in kwargs.items():
             if k.strip() in array_params:
-                params[f'{k.strip()}[]'] = kwargs[f'{k}']
+                params[f"{k.strip()}[]"] = kwargs[f"{k}"]
                 params.pop(k.strip())
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
-        
-
 
     def getOrganizationApplianceVpnThirdPartyVPNPeers(self, organizationId: str):
         """
@@ -3247,15 +3468,13 @@ class Appliance(object):
         """
 
         metadata = {
-            'tags': ['appliance', 'configure', 'vpn', 'thirdPartyVPNPeers'],
-            'operation': 'getOrganizationApplianceVpnThirdPartyVPNPeers'
+            "tags": ["appliance", "configure", "vpn", "thirdPartyVPNPeers"],
+            "operation": "getOrganizationApplianceVpnThirdPartyVPNPeers",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe='')
-        resource = f'/organizations/{organizationId}/appliance/vpn/thirdPartyVPNPeers'
+        organizationId = urllib.parse.quote(str(organizationId), safe="")
+        resource = f"/organizations/{organizationId}/appliance/vpn/thirdPartyVPNPeers"
 
         return self._session.get(metadata, resource)
-        
-
 
     def updateOrganizationApplianceVpnThirdPartyVPNPeers(self, organizationId: str, peers: list):
         """
@@ -3269,18 +3488,18 @@ class Appliance(object):
         kwargs = locals()
 
         metadata = {
-            'tags': ['appliance', 'configure', 'vpn', 'thirdPartyVPNPeers'],
-            'operation': 'updateOrganizationApplianceVpnThirdPartyVPNPeers'
+            "tags": ["appliance", "configure", "vpn", "thirdPartyVPNPeers"],
+            "operation": "updateOrganizationApplianceVpnThirdPartyVPNPeers",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe='')
-        resource = f'/organizations/{organizationId}/appliance/vpn/thirdPartyVPNPeers'
+        organizationId = urllib.parse.quote(str(organizationId), safe="")
+        resource = f"/organizations/{organizationId}/appliance/vpn/thirdPartyVPNPeers"
 
-        body_params = ['peers', ]
+        body_params = [
+            "peers",
+        ]
         payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
 
         return self._session.put(metadata, resource, payload)
-        
-
 
     def getOrganizationApplianceVpnVpnFirewallRules(self, organizationId: str):
         """
@@ -3291,15 +3510,13 @@ class Appliance(object):
         """
 
         metadata = {
-            'tags': ['appliance', 'configure', 'vpn', 'vpnFirewallRules'],
-            'operation': 'getOrganizationApplianceVpnVpnFirewallRules'
+            "tags": ["appliance", "configure", "vpn", "vpnFirewallRules"],
+            "operation": "getOrganizationApplianceVpnVpnFirewallRules",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe='')
-        resource = f'/organizations/{organizationId}/appliance/vpn/vpnFirewallRules'
+        organizationId = urllib.parse.quote(str(organizationId), safe="")
+        resource = f"/organizations/{organizationId}/appliance/vpn/vpnFirewallRules"
 
         return self._session.get(metadata, resource)
-        
-
 
     def updateOrganizationApplianceVpnVpnFirewallRules(self, organizationId: str, **kwargs):
         """
@@ -3314,14 +3531,16 @@ class Appliance(object):
         kwargs.update(locals())
 
         metadata = {
-            'tags': ['appliance', 'configure', 'vpn', 'vpnFirewallRules'],
-            'operation': 'updateOrganizationApplianceVpnVpnFirewallRules'
+            "tags": ["appliance", "configure", "vpn", "vpnFirewallRules"],
+            "operation": "updateOrganizationApplianceVpnVpnFirewallRules",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe='')
-        resource = f'/organizations/{organizationId}/appliance/vpn/vpnFirewallRules'
+        organizationId = urllib.parse.quote(str(organizationId), safe="")
+        resource = f"/organizations/{organizationId}/appliance/vpn/vpnFirewallRules"
 
-        body_params = ['rules', 'syslogDefaultRule', ]
+        body_params = [
+            "rules",
+            "syslogDefaultRule",
+        ]
         payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
 
         return self._session.put(metadata, resource, payload)
-        

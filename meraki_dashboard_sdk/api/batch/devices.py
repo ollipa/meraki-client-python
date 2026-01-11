@@ -4,8 +4,6 @@ import urllib
 class ActionBatchDevices(object):
     def __init__(self):
         super(ActionBatchDevices, self).__init__()
-        
-
 
     def updateDevice(self, serial: str, **kwargs):
         """
@@ -26,25 +24,23 @@ class ActionBatchDevices(object):
 
         kwargs.update(locals())
 
-        metadata = {
-            'tags': ['devices', 'configure'],
-            'operation': 'updateDevice'
-        }
-        resource = f'/devices/{serial}'
+        metadata = {"tags": ["devices", "configure"], "operation": "updateDevice"}
+        resource = f"/devices/{serial}"
 
-        body_params = ['name', 'tags', 'lat', 'lng', 'address', 'notes', 'moveMapMarker', 'switchProfileId', 'floorPlanId', ]
+        body_params = [
+            "name",
+            "tags",
+            "lat",
+            "lng",
+            "address",
+            "notes",
+            "moveMapMarker",
+            "switchProfileId",
+            "floorPlanId",
+        ]
         payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
-        action = {
-            "resource": resource,
-            "operation": "update",
-            "body": payload
-        }
+        action = {"resource": resource, "operation": "update", "body": payload}
         return action
-        
-
-
-
-
 
     def createDeviceLiveToolsLedsBlink(self, serial: str, duration: int, **kwargs):
         """
@@ -59,24 +55,18 @@ class ActionBatchDevices(object):
         kwargs.update(locals())
 
         metadata = {
-            'tags': ['devices', 'liveTools', 'leds', 'blink'],
-            'operation': 'createDeviceLiveToolsLedsBlink'
+            "tags": ["devices", "liveTools", "leds", "blink"],
+            "operation": "createDeviceLiveToolsLedsBlink",
         }
-        resource = f'/devices/{serial}/liveTools/leds/blink'
+        resource = f"/devices/{serial}/liveTools/leds/blink"
 
-        body_params = ['duration', 'callback', ]
+        body_params = [
+            "duration",
+            "callback",
+        ]
         payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
-        action = {
-            "resource": resource,
-            "operation": "blink",
-            "body": payload
-        }
+        action = {"resource": resource, "operation": "create", "body": payload}
         return action
-        
-
-
-
-
 
     def createDeviceLiveToolsThroughputTest(self, serial: str, **kwargs):
         """
@@ -90,24 +80,17 @@ class ActionBatchDevices(object):
         kwargs.update(locals())
 
         metadata = {
-            'tags': ['devices', 'liveTools', 'throughputTest'],
-            'operation': 'createDeviceLiveToolsThroughputTest'
+            "tags": ["devices", "liveTools", "throughputTest"],
+            "operation": "createDeviceLiveToolsThroughputTest",
         }
-        resource = f'/devices/{serial}/liveTools/throughputTest'
+        resource = f"/devices/{serial}/liveTools/throughputTest"
 
-        body_params = ['callback', ]
+        body_params = [
+            "callback",
+        ]
         payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
-        action = {
-            "resource": resource,
-            "operation": "test",
-            "body": payload
-        }
+        action = {"resource": resource, "operation": "create", "body": payload}
         return action
-        
-
-
-
-
 
     def updateDeviceManagementInterface(self, serial: str, **kwargs):
         """
@@ -122,20 +105,15 @@ class ActionBatchDevices(object):
         kwargs.update(locals())
 
         metadata = {
-            'tags': ['devices', 'configure', 'managementInterface'],
-            'operation': 'updateDeviceManagementInterface'
+            "tags": ["devices", "configure", "managementInterface"],
+            "operation": "updateDeviceManagementInterface",
         }
-        resource = f'/devices/{serial}/managementInterface'
+        resource = f"/devices/{serial}/managementInterface"
 
-        body_params = ['wan1', 'wan2', ]
+        body_params = [
+            "wan1",
+            "wan2",
+        ]
         payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
-        action = {
-            "resource": resource,
-            "operation": "update",
-            "body": payload
-        }
+        action = {"resource": resource, "operation": "update", "body": payload}
         return action
-        
-
-
-
