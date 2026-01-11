@@ -1,7 +1,7 @@
 """This script generates the Meraki Python library using the public OpenAPI specification."""
 
+import argparse
 import asyncio
-import getopt
 import os
 import sys
 import tomllib
@@ -17,15 +17,6 @@ TEMPLATE_DIR = os.path.join(SCRIPT_DIR, "templates")
 OUTPUT_DIR = "meraki_dashboard_sdk"
 
 REVERSE_PAGINATION = ["getNetworkEvents", "getOrganizationConfigurationChanges"]
-
-README = """
-This script generates the Meraki Python library using the public OpenAPI specification.
-
-Usage:
-python main.py -v <api_version>
-
--v <api_version>: API version tag to use (e.g., v1.66.0).
-"""
 
 
 def get_client_version() -> str:
@@ -793,33 +784,21 @@ async def generate_library(spec, version_number):
                             )
 
 
-def print_help():
-    """Prints READ_ME help message for user to read."""
-    lines = README.split("\n")
-    for line in lines:
-        print(f"# {line}")
-
-
-async def main(inputs):
+async def main() -> None:
     """Main function to parse command line arguments and generate the library."""
-    api_version = None
+    parser = argparse.ArgumentParser(
+        description="Generate the Meraki Python library using the public OpenAPI specification."
+    )
+    parser.add_argument(
+        "-v",
+        "--version",
+        dest="api_version",
+        required=True,
+        help="API version tag to use (e.g., v1.66.0)",
+    )
+    args = parser.parse_args()
 
-    try:
-        opts, _args = getopt.getopt(inputs, "hv:")
-    except getopt.GetoptError:
-        print_help()
-        sys.exit(2)
-    for opt, arg in opts:
-        if opt == "-h":
-            print_help()
-            sys.exit(2)
-        elif opt == "-v":
-            api_version = arg
-
-    if api_version is None:
-        print_help()
-        sys.exit("Error: API version (-v) is required.")
-
+    api_version = str(args.api_version)
     if not api_version.startswith("v"):
         api_version = f"v{api_version}"
 
@@ -827,23 +806,19 @@ async def main(inputs):
     print(f"Client version: {client_version}")
     print(f"API version: {api_version}")
 
-    # Retrieve OpenAPI specification for the specified API version
+    # Retrieve OpenAPI specification
     async with httpx.AsyncClient() as client:
-        response = await client.get(
-            "https://raw.githubusercontent.com/meraki/openapi"
-            f"/refs/tags/{api_version}/openapi/spec3.json"
-        )
-    if response.is_success:
-        spec = response.json()
-    else:
-        print_help()
-        sys.exit(
-            "There was an HTTP error pulling the OpenAPI specification. "
-            "Please try again in a few minutes."
-        )
+        try:
+            response = await client.get(
+                "https://raw.githubusercontent.com/meraki/openapi"
+                f"/refs/tags/{api_version}/openapi/spec3.json"
+            )
+            response.raise_for_status()
+        except httpx.HTTPError as e:
+            sys.exit(f"Error retrieving OpenAPI specification: {e}")
 
-    await generate_library(spec, client_version)
+    await generate_library(response.json(), client_version)
 
 
 if __name__ == "__main__":
-    asyncio.run(main(sys.argv[1:]))
+    asyncio.run(main())

@@ -38,8 +38,11 @@ linter:
 
 .PHONY: generate
 generate:
+ifndef VERSION
+	$(error VERSION is required. Usage: make generate VERSION=1.66.0)
+endif
 	@printf '\n\n*****************\n'
 	@printf '$(color)Generating SDK$(off)\n'
 	@printf '*****************\n'
-	uv run python generator/main.py -v 1.66.0
+	uv run python generator/main.py -v $(VERSION)
 	uv run ruff format meraki_dashboard_sdk
