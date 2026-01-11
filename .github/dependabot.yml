@@ -1,6 +1,0 @@
-version: 2
-updates:
-  - package-ecosystem: "poetry"
-    directory: "/" # Adjust if your files are in a subdirectory
-    schedule:
-      interval: "daily"
