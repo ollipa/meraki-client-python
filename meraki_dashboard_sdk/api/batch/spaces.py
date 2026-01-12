@@ -1,9 +1,11 @@
-import urllib
+"""ActionBatchSpaces API endpoints."""
 
 
-class ActionBatchSpaces(object):
-    def __init__(self):
-        super(ActionBatchSpaces, self).__init__()
+class ActionBatchSpaces:
+    """ActionBatchSpaces class."""
+
+    def __init__(self) -> None:
+        pass
 
     def removeOrganizationSpacesIntegration(self, organizationId: str):
         """

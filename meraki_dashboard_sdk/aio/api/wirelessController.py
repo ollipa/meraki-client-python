@@ -1,16 +1,22 @@
+"""WirelessController API endpoints."""
+
 import urllib
+
+from meraki_dashboard_sdk.aio.rest_session import AsyncRestSession
 
 
 class AsyncWirelessController:
-    def __init__(self, session):
+    """WirelessController class."""
+
+    def __init__(self, session: AsyncRestSession) -> None:
         super().__init__()
         self._session = session
 
     def getOrganizationWirelessControllerAvailabilitiesChangeHistory(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
-        """
-        **List connectivity data of wireless LAN controllers in an organization**
+        """List connectivity data of wireless LAN controllers in an organization
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-controller-availabilities-change-history
 
         - organizationId (string): Organization ID
@@ -50,7 +56,7 @@ class AsyncWirelessController:
         array_params = [
             "serials",
         ]
-        for k, v in kwargs.items():
+        for k in kwargs:
             if k.strip() in array_params:
                 params[f"{k.strip()}[]"] = kwargs[f"{k}"]
                 params.pop(k.strip())
@@ -60,8 +66,8 @@ class AsyncWirelessController:
     def getOrganizationWirelessControllerClientsOverviewHistoryByDeviceByInterval(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
-        """
-        **List wireless client counts of wireless LAN controllers over time in an organization**
+        """List wireless client counts of wireless LAN controllers over time in an organization
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-controller-clients-overview-history-by-device-by-interval
 
         - organizationId (string): Organization ID
@@ -112,7 +118,7 @@ class AsyncWirelessController:
             "networkIds",
             "serials",
         ]
-        for k, v in kwargs.items():
+        for k in kwargs:
             if k.strip() in array_params:
                 params[f"{k.strip()}[]"] = kwargs[f"{k}"]
                 params.pop(k.strip())
@@ -122,8 +128,8 @@ class AsyncWirelessController:
     def getOrganizationWirelessControllerConnections(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
-        """
-        **List all access points associated with wireless LAN controllers in an organization**
+        """List all access points associated with wireless LAN controllers in an organization
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-controller-connections
 
         - organizationId (string): Organization ID
@@ -158,7 +164,7 @@ class AsyncWirelessController:
             "networkIds",
             "controllerSerials",
         ]
-        for k, v in kwargs.items():
+        for k in kwargs:
             if k.strip() in array_params:
                 params[f"{k.strip()}[]"] = kwargs[f"{k}"]
                 params.pop(k.strip())
@@ -168,8 +174,8 @@ class AsyncWirelessController:
     def getOrganizationWirelessControllerDevicesInterfacesL2ByDevice(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
-        """
-        **List wireless LAN controller layer 2 interfaces in an organization**
+        """List wireless LAN controller layer 2 interfaces in an organization
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-controller-devices-interfaces-l-2-by-device
 
         - organizationId (string): Organization ID
@@ -209,7 +215,7 @@ class AsyncWirelessController:
         array_params = [
             "serials",
         ]
-        for k, v in kwargs.items():
+        for k in kwargs:
             if k.strip() in array_params:
                 params[f"{k.strip()}[]"] = kwargs[f"{k}"]
                 params.pop(k.strip())
@@ -219,8 +225,8 @@ class AsyncWirelessController:
     def getOrganizationWirelessControllerDevicesInterfacesL2StatusesChangeHistoryByDevice(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
-        """
-        **List wireless LAN controller layer 2 interfaces history status in an organization**
+        """List wireless LAN controller layer 2 interfaces history status in an organization
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-controller-devices-interfaces-l-2-statuses-change-history-by-device
 
         - organizationId (string): Organization ID
@@ -269,7 +275,7 @@ class AsyncWirelessController:
         array_params = [
             "serials",
         ]
-        for k, v in kwargs.items():
+        for k in kwargs:
             if k.strip() in array_params:
                 params[f"{k.strip()}[]"] = kwargs[f"{k}"]
                 params.pop(k.strip())
@@ -279,8 +285,8 @@ class AsyncWirelessController:
     def getOrganizationWirelessControllerDevicesInterfacesL2UsageHistoryByInterval(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
-        """
-        **List wireless LAN controller layer 2 interfaces history usage in an organization**
+        """List wireless LAN controller layer 2 interfaces history usage in an organization
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-controller-devices-interfaces-l-2-usage-history-by-interval
 
         - organizationId (string): Organization ID
@@ -327,7 +333,7 @@ class AsyncWirelessController:
         array_params = [
             "serials",
         ]
-        for k, v in kwargs.items():
+        for k in kwargs:
             if k.strip() in array_params:
                 params[f"{k.strip()}[]"] = kwargs[f"{k}"]
                 params.pop(k.strip())
@@ -337,8 +343,8 @@ class AsyncWirelessController:
     def getOrganizationWirelessControllerDevicesInterfacesL3ByDevice(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
-        """
-        **List wireless LAN controller layer 3 interfaces in an organization**
+        """List wireless LAN controller layer 3 interfaces in an organization
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-controller-devices-interfaces-l-3-by-device
 
         - organizationId (string): Organization ID
@@ -378,7 +384,7 @@ class AsyncWirelessController:
         array_params = [
             "serials",
         ]
-        for k, v in kwargs.items():
+        for k in kwargs:
             if k.strip() in array_params:
                 params[f"{k.strip()}[]"] = kwargs[f"{k}"]
                 params.pop(k.strip())
@@ -388,8 +394,8 @@ class AsyncWirelessController:
     def getOrganizationWirelessControllerDevicesInterfacesL3StatusesChangeHistoryByDevice(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
-        """
-        **List wireless LAN controller layer 3 interfaces history status in an organization**
+        """List wireless LAN controller layer 3 interfaces history status in an organization
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-controller-devices-interfaces-l-3-statuses-change-history-by-device
 
         - organizationId (string): Organization ID
@@ -438,7 +444,7 @@ class AsyncWirelessController:
         array_params = [
             "serials",
         ]
-        for k, v in kwargs.items():
+        for k in kwargs:
             if k.strip() in array_params:
                 params[f"{k.strip()}[]"] = kwargs[f"{k}"]
                 params.pop(k.strip())
@@ -448,8 +454,8 @@ class AsyncWirelessController:
     def getOrganizationWirelessControllerDevicesInterfacesL3UsageHistoryByInterval(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
-        """
-        **List wireless LAN controller layer 3 interfaces history usage in an organization**
+        """List wireless LAN controller layer 3 interfaces history usage in an organization
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-controller-devices-interfaces-l-3-usage-history-by-interval
 
         - organizationId (string): Organization ID
@@ -496,7 +502,7 @@ class AsyncWirelessController:
         array_params = [
             "serials",
         ]
-        for k, v in kwargs.items():
+        for k in kwargs:
             if k.strip() in array_params:
                 params[f"{k.strip()}[]"] = kwargs[f"{k}"]
                 params.pop(k.strip())
@@ -506,8 +512,8 @@ class AsyncWirelessController:
     def getOrganizationWirelessControllerDevicesInterfacesPacketsOverviewByDevice(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
-        """
-        **Retrieve the packet counters for the interfaces of a Wireless LAN controller**
+        """Retrieve the packet counters for the interfaces of a Wireless LAN controller
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-controller-devices-interfaces-packets-overview-by-device
 
         - organizationId (string): Organization ID
@@ -556,7 +562,7 @@ class AsyncWirelessController:
             "serials",
             "names",
         ]
-        for k, v in kwargs.items():
+        for k in kwargs:
             if k.strip() in array_params:
                 params[f"{k.strip()}[]"] = kwargs[f"{k}"]
                 params.pop(k.strip())
@@ -566,8 +572,8 @@ class AsyncWirelessController:
     def getOrganizationWirelessControllerDevicesInterfacesUsageHistoryByInterval(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
-        """
-        **Retrieve the traffic for the interfaces of a Wireless LAN controller**
+        """Retrieve the traffic for the interfaces of a Wireless LAN controller
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-controller-devices-interfaces-usage-history-by-interval
 
         - organizationId (string): Organization ID
@@ -616,7 +622,7 @@ class AsyncWirelessController:
             "serials",
             "names",
         ]
-        for k, v in kwargs.items():
+        for k in kwargs:
             if k.strip() in array_params:
                 params[f"{k.strip()}[]"] = kwargs[f"{k}"]
                 params.pop(k.strip())
@@ -626,8 +632,8 @@ class AsyncWirelessController:
     def getOrganizationWirelessControllerDevicesRedundancyFailoverHistory(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
-        """
-        **List the failover events of wireless LAN controllers in an organization**
+        """List the failover events of wireless LAN controllers in an organization
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-controller-devices-redundancy-failover-history
 
         - organizationId (string): Organization ID
@@ -672,7 +678,7 @@ class AsyncWirelessController:
         array_params = [
             "serials",
         ]
-        for k, v in kwargs.items():
+        for k in kwargs:
             if k.strip() in array_params:
                 params[f"{k.strip()}[]"] = kwargs[f"{k}"]
                 params.pop(k.strip())
@@ -682,8 +688,8 @@ class AsyncWirelessController:
     def getOrganizationWirelessControllerDevicesRedundancyStatuses(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
-        """
-        **List redundancy details of wireless LAN controllers in an organization**
+        """List redundancy details of wireless LAN controllers in an organization
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-controller-devices-redundancy-statuses
 
         - organizationId (string): Organization ID
@@ -715,7 +721,7 @@ class AsyncWirelessController:
         array_params = [
             "serials",
         ]
-        for k, v in kwargs.items():
+        for k in kwargs:
             if k.strip() in array_params:
                 params[f"{k.strip()}[]"] = kwargs[f"{k}"]
                 params.pop(k.strip())
@@ -725,8 +731,8 @@ class AsyncWirelessController:
     def getOrganizationWirelessControllerDevicesSystemUtilizationHistoryByInterval(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
-        """
-        **List cpu utilization data of wireless LAN controllers in an organization**
+        """List cpu utilization data of wireless LAN controllers in an organization
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-controller-devices-system-utilization-history-by-interval
 
         - organizationId (string): Organization ID
@@ -772,7 +778,7 @@ class AsyncWirelessController:
         array_params = [
             "serials",
         ]
-        for k, v in kwargs.items():
+        for k in kwargs:
             if k.strip() in array_params:
                 params[f"{k.strip()}[]"] = kwargs[f"{k}"]
                 params.pop(k.strip())
@@ -782,8 +788,8 @@ class AsyncWirelessController:
     def getOrganizationWirelessControllerOverviewByDevice(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
-        """
-        **List the overview information of wireless LAN controllers in an organization and it is updated every minute.**
+        """List the overview information of wireless LAN controllers in an organization and it is updated every minute.
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-controller-overview-by-device
 
         - organizationId (string): Organization ID
@@ -818,7 +824,7 @@ class AsyncWirelessController:
             "networkIds",
             "serials",
         ]
-        for k, v in kwargs.items():
+        for k in kwargs:
             if k.strip() in array_params:
                 params[f"{k.strip()}[]"] = kwargs[f"{k}"]
                 params.pop(k.strip())

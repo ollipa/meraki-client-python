@@ -1,16 +1,22 @@
+"""Insight API endpoints."""
+
 import urllib
 
+from meraki_dashboard_sdk.rest_session import RestSession
 
-class Insight(object):
-    def __init__(self, session):
-        super(Insight, self).__init__()
+
+class Insight:
+    """Insight class."""
+
+    def __init__(self, session: RestSession) -> None:
+        super(self).__init__()
         self._session = session
 
     def getNetworkInsightApplicationHealthByTime(
         self, networkId: str, applicationId: str, **kwargs
     ):
-        """
-        **Get application health by time**
+        """Get application health by time
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-insight-application-health-by-time
 
         - networkId (string): Network ID
@@ -42,8 +48,8 @@ class Insight(object):
         return self._session.get(metadata, resource, params)
 
     def getOrganizationInsightApplications(self, organizationId: str):
-        """
-        **List all Insight tracked applications**
+        """List all Insight tracked applications
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-insight-applications
 
         - organizationId (string): Organization ID
@@ -59,8 +65,8 @@ class Insight(object):
         return self._session.get(metadata, resource)
 
     def getOrganizationInsightMonitoredMediaServers(self, organizationId: str):
-        """
-        **List the monitored media servers for this organization**
+        """List the monitored media servers for this organization
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-insight-monitored-media-servers
 
         - organizationId (string): Organization ID
@@ -78,8 +84,8 @@ class Insight(object):
     def createOrganizationInsightMonitoredMediaServer(
         self, organizationId: str, name: str, address: str, **kwargs
     ):
-        """
-        **Add a media server to be monitored for this organization**
+        """Add a media server to be monitored for this organization
+
         https://developer.cisco.com/meraki/api-v1/#!create-organization-insight-monitored-media-server
 
         - organizationId (string): Organization ID
@@ -109,8 +115,8 @@ class Insight(object):
     def getOrganizationInsightMonitoredMediaServer(
         self, organizationId: str, monitoredMediaServerId: str
     ):
-        """
-        **Return a monitored media server for this organization**
+        """Return a monitored media server for this organization
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-insight-monitored-media-server
 
         - organizationId (string): Organization ID
@@ -130,8 +136,8 @@ class Insight(object):
     def updateOrganizationInsightMonitoredMediaServer(
         self, organizationId: str, monitoredMediaServerId: str, **kwargs
     ):
-        """
-        **Update a monitored media server for this organization**
+        """Update a monitored media server for this organization
+
         https://developer.cisco.com/meraki/api-v1/#!update-organization-insight-monitored-media-server
 
         - organizationId (string): Organization ID
@@ -163,8 +169,8 @@ class Insight(object):
     def deleteOrganizationInsightMonitoredMediaServer(
         self, organizationId: str, monitoredMediaServerId: str
     ):
-        """
-        **Delete a monitored media server from this organization**
+        """Delete a monitored media server from this organization
+
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-insight-monitored-media-server
 
         - organizationId (string): Organization ID

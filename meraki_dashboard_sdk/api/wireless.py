@@ -1,14 +1,20 @@
+"""Wireless API endpoints."""
+
 import urllib
 
+from meraki_dashboard_sdk.rest_session import RestSession
 
-class Wireless(object):
-    def __init__(self, session):
-        super(Wireless, self).__init__()
+
+class Wireless:
+    """Wireless class."""
+
+    def __init__(self, session: RestSession) -> None:
+        super(self).__init__()
         self._session = session
 
     def updateDeviceWirelessAlternateManagementInterfaceIpv6(self, serial: str, **kwargs):
-        """
-        **Update alternate management interface IPv6 address**
+        """Update alternate management interface IPv6 address
+
         https://developer.cisco.com/meraki/api-v1/#!update-device-wireless-alternate-management-interface-ipv-6
 
         - serial (string): Serial
@@ -32,8 +38,8 @@ class Wireless(object):
         return self._session.put(metadata, resource, payload)
 
     def getDeviceWirelessBluetoothSettings(self, serial: str):
-        """
-        **Return the bluetooth settings for a wireless device**
+        """Return the bluetooth settings for a wireless device
+
         https://developer.cisco.com/meraki/api-v1/#!get-device-wireless-bluetooth-settings
 
         - serial (string): Serial
@@ -49,8 +55,8 @@ class Wireless(object):
         return self._session.get(metadata, resource)
 
     def updateDeviceWirelessBluetoothSettings(self, serial: str, **kwargs):
-        """
-        **Update the bluetooth settings for a wireless device**
+        """Update the bluetooth settings for a wireless device
+
         https://developer.cisco.com/meraki/api-v1/#!update-device-wireless-bluetooth-settings
 
         - serial (string): Serial
@@ -81,8 +87,8 @@ class Wireless(object):
         return self._session.put(metadata, resource, payload)
 
     def getDeviceWirelessConnectionStats(self, serial: str, **kwargs):
-        """
-        **Aggregated connectivity info for a given AP on this network**
+        """Aggregated connectivity info for a given AP on this network
+
         https://developer.cisco.com/meraki/api-v1/#!get-device-wireless-connection-stats
 
         - serial (string): Serial
@@ -122,8 +128,8 @@ class Wireless(object):
         return self._session.get(metadata, resource, params)
 
     def getDeviceWirelessElectronicShelfLabel(self, serial: str):
-        """
-        **Return the ESL settings of a device**
+        """Return the ESL settings of a device
+
         https://developer.cisco.com/meraki/api-v1/#!get-device-wireless-electronic-shelf-label
 
         - serial (string): Serial
@@ -139,8 +145,8 @@ class Wireless(object):
         return self._session.get(metadata, resource)
 
     def updateDeviceWirelessElectronicShelfLabel(self, serial: str, **kwargs):
-        """
-        **Update the ESL settings of a device**
+        """Update the ESL settings of a device
+
         https://developer.cisco.com/meraki/api-v1/#!update-device-wireless-electronic-shelf-label
 
         - serial (string): Serial
@@ -166,8 +172,8 @@ class Wireless(object):
         return self._session.put(metadata, resource, payload)
 
     def getDeviceWirelessLatencyStats(self, serial: str, **kwargs):
-        """
-        **Aggregated latency info for a given AP on this network**
+        """Aggregated latency info for a given AP on this network
+
         https://developer.cisco.com/meraki/api-v1/#!get-device-wireless-latency-stats
 
         - serial (string): Serial
@@ -211,8 +217,8 @@ class Wireless(object):
         return self._session.get(metadata, resource, params)
 
     def getDeviceWirelessRadioSettings(self, serial: str):
-        """
-        **Return the manually configured radio settings overrides of a device, which take precedence over RF profiles.**
+        """Return the manually configured radio settings overrides of a device, which take precedence over RF profiles.
+
         https://developer.cisco.com/meraki/api-v1/#!get-device-wireless-radio-settings
 
         - serial (string): Serial
@@ -228,8 +234,8 @@ class Wireless(object):
         return self._session.get(metadata, resource)
 
     def updateDeviceWirelessRadioSettings(self, serial: str, **kwargs):
-        """
-        **Update the radio settings overrides of a device, which take precedence over RF profiles.**
+        """Update the radio settings overrides of a device, which take precedence over RF profiles.
+
         https://developer.cisco.com/meraki/api-v1/#!update-device-wireless-radio-settings
 
         - serial (string): Serial
@@ -257,8 +263,8 @@ class Wireless(object):
         return self._session.put(metadata, resource, payload)
 
     def getDeviceWirelessStatus(self, serial: str):
-        """
-        **Return the SSID statuses of an access point**
+        """Return the SSID statuses of an access point
+
         https://developer.cisco.com/meraki/api-v1/#!get-device-wireless-status
 
         - serial (string): Serial
@@ -274,8 +280,8 @@ class Wireless(object):
         return self._session.get(metadata, resource)
 
     def createDeviceWirelessZigbeeEnrollment(self, serial: str):
-        """
-        **Enqueue a job to start enrolling door locks on zigbee configured wireless devices**
+        """Enqueue a job to start enrolling door locks on zigbee configured wireless devices
+
         https://developer.cisco.com/meraki/api-v1/#!create-device-wireless-zigbee-enrollment
 
         - serial (string): Serial
@@ -291,8 +297,8 @@ class Wireless(object):
         return self._session.post(metadata, resource)
 
     def getDeviceWirelessZigbeeEnrollment(self, serial: str, enrollmentId: str):
-        """
-        **Return an enrollment**
+        """Return an enrollment
+
         https://developer.cisco.com/meraki/api-v1/#!get-device-wireless-zigbee-enrollment
 
         - serial (string): Serial
@@ -310,8 +316,8 @@ class Wireless(object):
         return self._session.get(metadata, resource)
 
     def getNetworkWirelessAirMarshal(self, networkId: str, **kwargs):
-        """
-        **List Air Marshal scan results from a network**
+        """List Air Marshal scan results from a network
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-air-marshal
 
         - networkId (string): Network ID
@@ -337,8 +343,8 @@ class Wireless(object):
         return self._session.get(metadata, resource, params)
 
     def createNetworkWirelessAirMarshalRule(self, networkId: str, type: str, match: dict):
-        """
-        **Creates a new rule**
+        """Creates a new rule
+
         https://developer.cisco.com/meraki/api-v1/#!create-network-wireless-air-marshal-rule
 
         - networkId (string): Network ID
@@ -370,8 +376,8 @@ class Wireless(object):
         return self._session.post(metadata, resource, payload)
 
     def updateNetworkWirelessAirMarshalRule(self, networkId: str, ruleId: str, **kwargs):
-        """
-        **Update a rule**
+        """Update a rule
+
         https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-air-marshal-rule
 
         - networkId (string): Network ID
@@ -405,8 +411,8 @@ class Wireless(object):
         return self._session.put(metadata, resource, payload)
 
     def deleteNetworkWirelessAirMarshalRule(self, networkId: str, ruleId: str):
-        """
-        **Delete an Air Marshal rule.**
+        """Delete an Air Marshal rule.
+
         https://developer.cisco.com/meraki/api-v1/#!delete-network-wireless-air-marshal-rule
 
         - networkId (string): Network ID
@@ -424,8 +430,8 @@ class Wireless(object):
         return self._session.delete(metadata, resource)
 
     def updateNetworkWirelessAirMarshalSettings(self, networkId: str, defaultPolicy: str):
-        """
-        **Updates Air Marshal settings.**
+        """Updates Air Marshal settings.
+
         https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-air-marshal-settings
 
         - networkId (string): Network ID
@@ -455,8 +461,8 @@ class Wireless(object):
         return self._session.put(metadata, resource, payload)
 
     def getNetworkWirelessAlternateManagementInterface(self, networkId: str):
-        """
-        **Return alternate management interface and devices with IP assigned**
+        """Return alternate management interface and devices with IP assigned
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-alternate-management-interface
 
         - networkId (string): Network ID
@@ -472,8 +478,8 @@ class Wireless(object):
         return self._session.get(metadata, resource)
 
     def updateNetworkWirelessAlternateManagementInterface(self, networkId: str, **kwargs):
-        """
-        **Update alternate management interface and device static IP**
+        """Update alternate management interface and device static IP
+
         https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-alternate-management-interface
 
         - networkId (string): Network ID
@@ -503,8 +509,8 @@ class Wireless(object):
         return self._session.put(metadata, resource, payload)
 
     def getNetworkWirelessBilling(self, networkId: str):
-        """
-        **Return the billing settings of this network**
+        """Return the billing settings of this network
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-billing
 
         - networkId (string): Network ID
@@ -520,8 +526,8 @@ class Wireless(object):
         return self._session.get(metadata, resource)
 
     def updateNetworkWirelessBilling(self, networkId: str, **kwargs):
-        """
-        **Update the billing settings**
+        """Update the billing settings
+
         https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-billing
 
         - networkId (string): Network ID
@@ -547,8 +553,8 @@ class Wireless(object):
         return self._session.put(metadata, resource, payload)
 
     def getNetworkWirelessBluetoothSettings(self, networkId: str):
-        """
-        **Return the Bluetooth settings for a network. <a href="https://documentation.meraki.com/MR/Bluetooth/Bluetooth_Low_Energy_(BLE)">Bluetooth settings</a> must be enabled on the network.**
+        """Return the Bluetooth settings for a network. <a href="https://documentation.meraki.com/MR/Bluetooth/Bluetooth_Low_Energy_(BLE)">Bluetooth settings</a> must be enabled on the network.
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-bluetooth-settings
 
         - networkId (string): Network ID
@@ -564,8 +570,8 @@ class Wireless(object):
         return self._session.get(metadata, resource)
 
     def updateNetworkWirelessBluetoothSettings(self, networkId: str, **kwargs):
-        """
-        **Update the Bluetooth settings for a network**
+        """Update the Bluetooth settings for a network
+
         https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-bluetooth-settings
 
         - networkId (string): Network ID
@@ -605,8 +611,8 @@ class Wireless(object):
         return self._session.put(metadata, resource, payload)
 
     def getNetworkWirelessChannelUtilizationHistory(self, networkId: str, **kwargs):
-        """
-        **Return AP channel utilization over time for a device or network client**
+        """Return AP channel utilization over time for a device or network client
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-channel-utilization-history
 
         - networkId (string): Network ID
@@ -652,8 +658,8 @@ class Wireless(object):
         return self._session.get(metadata, resource, params)
 
     def getNetworkWirelessClientCountHistory(self, networkId: str, **kwargs):
-        """
-        **Return wireless client counts over time for a network, device, or network client**
+        """Return wireless client counts over time for a network, device, or network client
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-client-count-history
 
         - networkId (string): Network ID
@@ -701,8 +707,8 @@ class Wireless(object):
         return self._session.get(metadata, resource, params)
 
     def getNetworkWirelessClientsConnectionStats(self, networkId: str, **kwargs):
-        """
-        **Aggregated connectivity info for this network, grouped by clients**
+        """Aggregated connectivity info for this network, grouped by clients
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-clients-connection-stats
 
         - networkId (string): Network ID
@@ -742,8 +748,8 @@ class Wireless(object):
         return self._session.get(metadata, resource, params)
 
     def getNetworkWirelessClientsLatencyStats(self, networkId: str, **kwargs):
-        """
-        **Aggregated latency info for this network, grouped by clients**
+        """Aggregated latency info for this network, grouped by clients
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-clients-latency-stats
 
         - networkId (string): Network ID
@@ -787,8 +793,8 @@ class Wireless(object):
         return self._session.get(metadata, resource, params)
 
     def getNetworkWirelessClientConnectionStats(self, networkId: str, clientId: str, **kwargs):
-        """
-        **Aggregated connectivity info for a given client on this network**
+        """Aggregated connectivity info for a given client on this network
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-client-connection-stats
 
         - networkId (string): Network ID
@@ -832,8 +838,8 @@ class Wireless(object):
     def getNetworkWirelessClientConnectivityEvents(
         self, networkId: str, clientId: str, total_pages=1, direction="next", **kwargs
     ):
-        """
-        **List the wireless connectivity events for a client within a network in the timespan.**
+        """List the wireless connectivity events for a client within a network in the timespan.
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-client-connectivity-events
 
         - networkId (string): Network ID
@@ -900,7 +906,7 @@ class Wireless(object):
             "types",
             "includedSeverities",
         ]
-        for k, v in kwargs.items():
+        for k in kwargs:
             if k.strip() in array_params:
                 params[f"{k.strip()}[]"] = kwargs[f"{k}"]
                 params.pop(k.strip())
@@ -908,8 +914,8 @@ class Wireless(object):
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def getNetworkWirelessClientLatencyHistory(self, networkId: str, clientId: str, **kwargs):
-        """
-        **Return the latency history for a client**
+        """Return the latency history for a client
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-client-latency-history
 
         - networkId (string): Network ID
@@ -941,8 +947,8 @@ class Wireless(object):
         return self._session.get(metadata, resource, params)
 
     def getNetworkWirelessClientLatencyStats(self, networkId: str, clientId: str, **kwargs):
-        """
-        **Aggregated latency info for a given client on this network**
+        """Aggregated latency info for a given client on this network
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-client-latency-stats
 
         - networkId (string): Network ID
@@ -988,8 +994,8 @@ class Wireless(object):
         return self._session.get(metadata, resource, params)
 
     def getNetworkWirelessConnectionStats(self, networkId: str, **kwargs):
-        """
-        **Aggregated connectivity info for this network**
+        """Aggregated connectivity info for this network
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-connection-stats
 
         - networkId (string): Network ID
@@ -1029,8 +1035,8 @@ class Wireless(object):
         return self._session.get(metadata, resource, params)
 
     def getNetworkWirelessDataRateHistory(self, networkId: str, **kwargs):
-        """
-        **Return PHY data rates over time for a network, device, or network client**
+        """Return PHY data rates over time for a network, device, or network client
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-data-rate-history
 
         - networkId (string): Network ID
@@ -1078,8 +1084,8 @@ class Wireless(object):
         return self._session.get(metadata, resource, params)
 
     def getNetworkWirelessDevicesConnectionStats(self, networkId: str, **kwargs):
-        """
-        **Aggregated connectivity info for this network, grouped by node**
+        """Aggregated connectivity info for this network, grouped by node
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-devices-connection-stats
 
         - networkId (string): Network ID
@@ -1119,8 +1125,8 @@ class Wireless(object):
         return self._session.get(metadata, resource, params)
 
     def getNetworkWirelessDevicesLatencyStats(self, networkId: str, **kwargs):
-        """
-        **Aggregated latency info for this network, grouped by node**
+        """Aggregated latency info for this network, grouped by node
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-devices-latency-stats
 
         - networkId (string): Network ID
@@ -1164,8 +1170,8 @@ class Wireless(object):
         return self._session.get(metadata, resource, params)
 
     def getNetworkWirelessElectronicShelfLabel(self, networkId: str):
-        """
-        **Return the ESL settings of a wireless network**
+        """Return the ESL settings of a wireless network
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-electronic-shelf-label
 
         - networkId (string): Network ID
@@ -1181,8 +1187,8 @@ class Wireless(object):
         return self._session.get(metadata, resource)
 
     def updateNetworkWirelessElectronicShelfLabel(self, networkId: str, **kwargs):
-        """
-        **Update the ESL settings of a wireless network**
+        """Update the ESL settings of a wireless network
+
         https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-electronic-shelf-label
 
         - networkId (string): Network ID
@@ -1216,8 +1222,8 @@ class Wireless(object):
         return self._session.put(metadata, resource, payload)
 
     def getNetworkWirelessElectronicShelfLabelConfiguredDevices(self, networkId: str):
-        """
-        **Get a list of all ESL eligible devices of a network**
+        """Get a list of all ESL eligible devices of a network
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-electronic-shelf-label-configured-devices
 
         - networkId (string): Network ID
@@ -1233,8 +1239,8 @@ class Wireless(object):
         return self._session.get(metadata, resource)
 
     def getNetworkWirelessEthernetPortsProfiles(self, networkId: str):
-        """
-        **List the AP port profiles for this network**
+        """List the AP port profiles for this network
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-ethernet-ports-profiles
 
         - networkId (string): Network ID
@@ -1252,8 +1258,8 @@ class Wireless(object):
     def createNetworkWirelessEthernetPortsProfile(
         self, networkId: str, name: str, ports: list, **kwargs
     ):
-        """
-        **Create an AP port profile**
+        """Create an AP port profile
+
         https://developer.cisco.com/meraki/api-v1/#!create-network-wireless-ethernet-ports-profile
 
         - networkId (string): Network ID
@@ -1283,8 +1289,8 @@ class Wireless(object):
     def assignNetworkWirelessEthernetPortsProfiles(
         self, networkId: str, serials: list, profileId: str
     ):
-        """
-        **Assign AP port profile to list of APs**
+        """Assign AP port profile to list of APs
+
         https://developer.cisco.com/meraki/api-v1/#!assign-network-wireless-ethernet-ports-profiles
 
         - networkId (string): Network ID
@@ -1310,8 +1316,8 @@ class Wireless(object):
         return self._session.post(metadata, resource, payload)
 
     def setNetworkWirelessEthernetPortsProfilesDefault(self, networkId: str, profileId: str):
-        """
-        **Set the AP port profile to be default for this network**
+        """Set the AP port profile to be default for this network
+
         https://developer.cisco.com/meraki/api-v1/#!set-network-wireless-ethernet-ports-profiles-default
 
         - networkId (string): Network ID
@@ -1335,8 +1341,8 @@ class Wireless(object):
         return self._session.post(metadata, resource, payload)
 
     def getNetworkWirelessEthernetPortsProfile(self, networkId: str, profileId: str):
-        """
-        **Show the AP port profile by ID for this network**
+        """Show the AP port profile by ID for this network
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-ethernet-ports-profile
 
         - networkId (string): Network ID
@@ -1354,8 +1360,8 @@ class Wireless(object):
         return self._session.get(metadata, resource)
 
     def updateNetworkWirelessEthernetPortsProfile(self, networkId: str, profileId: str, **kwargs):
-        """
-        **Update the AP port profile by ID for this network**
+        """Update the AP port profile by ID for this network
+
         https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ethernet-ports-profile
 
         - networkId (string): Network ID
@@ -1385,8 +1391,8 @@ class Wireless(object):
         return self._session.put(metadata, resource, payload)
 
     def deleteNetworkWirelessEthernetPortsProfile(self, networkId: str, profileId: str):
-        """
-        **Delete an AP port profile**
+        """Delete an AP port profile
+
         https://developer.cisco.com/meraki/api-v1/#!delete-network-wireless-ethernet-ports-profile
 
         - networkId (string): Network ID
@@ -1404,8 +1410,8 @@ class Wireless(object):
         return self._session.delete(metadata, resource)
 
     def getNetworkWirelessFailedConnections(self, networkId: str, **kwargs):
-        """
-        **List of all failed client connection events on this network in a given time range**
+        """List of all failed client connection events on this network in a given time range
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-failed-connections
 
         - networkId (string): Network ID
@@ -1449,8 +1455,8 @@ class Wireless(object):
         return self._session.get(metadata, resource, params)
 
     def getNetworkWirelessLatencyHistory(self, networkId: str, **kwargs):
-        """
-        **Return average wireless latency over time for a network, device, or network client**
+        """Return average wireless latency over time for a network, device, or network client
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-latency-history
 
         - networkId (string): Network ID
@@ -1505,8 +1511,8 @@ class Wireless(object):
         return self._session.get(metadata, resource, params)
 
     def getNetworkWirelessLatencyStats(self, networkId: str, **kwargs):
-        """
-        **Aggregated latency info for this network**
+        """Aggregated latency info for this network
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-latency-stats
 
         - networkId (string): Network ID
@@ -1550,8 +1556,8 @@ class Wireless(object):
         return self._session.get(metadata, resource, params)
 
     def updateNetworkWirelessLocationScanning(self, networkId: str, **kwargs):
-        """
-        **Change scanning API settings**
+        """Change scanning API settings
+
         https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-location-scanning
 
         - networkId (string): Network ID
@@ -1579,8 +1585,8 @@ class Wireless(object):
     def getNetworkWirelessMeshStatuses(
         self, networkId: str, total_pages=1, direction="next", **kwargs
     ):
-        """
-        **List wireless mesh statuses for repeaters**
+        """List wireless mesh statuses for repeaters
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-mesh-statuses
 
         - networkId (string): Network ID
@@ -1610,8 +1616,8 @@ class Wireless(object):
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def getNetworkWirelessRfProfiles(self, networkId: str, **kwargs):
-        """
-        **List RF profiles for this network**
+        """List RF profiles for this network
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-rf-profiles
 
         - networkId (string): Network ID
@@ -1637,8 +1643,8 @@ class Wireless(object):
     def createNetworkWirelessRfProfile(
         self, networkId: str, name: str, bandSelectionType: str, **kwargs
     ):
-        """
-        **Creates new RF profile for this network**
+        """Creates new RF profile for this network
+
         https://developer.cisco.com/meraki/api-v1/#!create-network-wireless-rf-profile
 
         - networkId (string): Network ID
@@ -1693,8 +1699,8 @@ class Wireless(object):
         return self._session.post(metadata, resource, payload)
 
     def updateNetworkWirelessRfProfile(self, networkId: str, rfProfileId: str, **kwargs):
-        """
-        **Updates specified RF profile for this network**
+        """Updates specified RF profile for this network
+
         https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-rf-profile
 
         - networkId (string): Network ID
@@ -1755,8 +1761,8 @@ class Wireless(object):
         return self._session.put(metadata, resource, payload)
 
     def deleteNetworkWirelessRfProfile(self, networkId: str, rfProfileId: str):
-        """
-        **Delete a RF Profile**
+        """Delete a RF Profile
+
         https://developer.cisco.com/meraki/api-v1/#!delete-network-wireless-rf-profile
 
         - networkId (string): Network ID
@@ -1774,8 +1780,8 @@ class Wireless(object):
         return self._session.delete(metadata, resource)
 
     def getNetworkWirelessRfProfile(self, networkId: str, rfProfileId: str):
-        """
-        **Return a RF profile**
+        """Return a RF profile
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-rf-profile
 
         - networkId (string): Network ID
@@ -1793,8 +1799,8 @@ class Wireless(object):
         return self._session.get(metadata, resource)
 
     def getNetworkWirelessSettings(self, networkId: str):
-        """
-        **Return the wireless settings for a network**
+        """Return the wireless settings for a network
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-settings
 
         - networkId (string): Network ID
@@ -1810,8 +1816,8 @@ class Wireless(object):
         return self._session.get(metadata, resource)
 
     def updateNetworkWirelessSettings(self, networkId: str, **kwargs):
-        """
-        **Update the wireless settings for a network**
+        """Update the wireless settings for a network
+
         https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-settings
 
         - networkId (string): Network ID
@@ -1851,8 +1857,8 @@ class Wireless(object):
         return self._session.put(metadata, resource, payload)
 
     def getNetworkWirelessSignalQualityHistory(self, networkId: str, **kwargs):
-        """
-        **Return signal quality (SNR/RSSI) over time for a device or network client**
+        """Return signal quality (SNR/RSSI) over time for a device or network client
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-signal-quality-history
 
         - networkId (string): Network ID
@@ -1900,8 +1906,8 @@ class Wireless(object):
         return self._session.get(metadata, resource, params)
 
     def getNetworkWirelessSsids(self, networkId: str):
-        """
-        **List the MR SSIDs in a network**
+        """List the MR SSIDs in a network
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-ssids
 
         - networkId (string): Network ID
@@ -1917,8 +1923,8 @@ class Wireless(object):
         return self._session.get(metadata, resource)
 
     def getNetworkWirelessSsid(self, networkId: str, number: str):
-        """
-        **Return a single MR SSID**
+        """Return a single MR SSID
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-ssid
 
         - networkId (string): Network ID
@@ -1936,8 +1942,8 @@ class Wireless(object):
         return self._session.get(metadata, resource)
 
     def updateNetworkWirelessSsid(self, networkId: str, number: str, **kwargs):
-        """
-        **Update the attributes of an MR SSID**
+        """Update the attributes of an MR SSID
+
         https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid
 
         - networkId (string): Network ID
@@ -2167,8 +2173,8 @@ class Wireless(object):
         return self._session.put(metadata, resource, payload)
 
     def getNetworkWirelessSsidBonjourForwarding(self, networkId: str, number: str):
-        """
-        **List the Bonjour forwarding setting and rules for the SSID**
+        """List the Bonjour forwarding setting and rules for the SSID
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-ssid-bonjour-forwarding
 
         - networkId (string): Network ID
@@ -2186,8 +2192,8 @@ class Wireless(object):
         return self._session.get(metadata, resource)
 
     def updateNetworkWirelessSsidBonjourForwarding(self, networkId: str, number: str, **kwargs):
-        """
-        **Update the bonjour forwarding setting and rules for the SSID**
+        """Update the bonjour forwarding setting and rules for the SSID
+
         https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-bonjour-forwarding
 
         - networkId (string): Network ID
@@ -2217,8 +2223,8 @@ class Wireless(object):
         return self._session.put(metadata, resource, payload)
 
     def getNetworkWirelessSsidDeviceTypeGroupPolicies(self, networkId: str, number: str):
-        """
-        **List the device type group policies for the SSID**
+        """List the device type group policies for the SSID
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-ssid-device-type-group-policies
 
         - networkId (string): Network ID
@@ -2238,8 +2244,8 @@ class Wireless(object):
     def updateNetworkWirelessSsidDeviceTypeGroupPolicies(
         self, networkId: str, number: str, **kwargs
     ):
-        """
-        **Update the device type group policies for the SSID**
+        """Update the device type group policies for the SSID
+
         https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-device-type-group-policies
 
         - networkId (string): Network ID
@@ -2267,8 +2273,8 @@ class Wireless(object):
         return self._session.put(metadata, resource, payload)
 
     def getNetworkWirelessSsidEapOverride(self, networkId: str, number: str):
-        """
-        **Return the EAP overridden parameters for an SSID**
+        """Return the EAP overridden parameters for an SSID
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-ssid-eap-override
 
         - networkId (string): Network ID
@@ -2286,8 +2292,8 @@ class Wireless(object):
         return self._session.get(metadata, resource)
 
     def updateNetworkWirelessSsidEapOverride(self, networkId: str, number: str, **kwargs):
-        """
-        **Update the EAP overridden parameters for an SSID.**
+        """Update the EAP overridden parameters for an SSID.
+
         https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-eap-override
 
         - networkId (string): Network ID
@@ -2319,8 +2325,8 @@ class Wireless(object):
         return self._session.put(metadata, resource, payload)
 
     def getNetworkWirelessSsidFirewallL3FirewallRules(self, networkId: str, number: str):
-        """
-        **Return the L3 firewall rules for an SSID on an MR network**
+        """Return the L3 firewall rules for an SSID on an MR network
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-ssid-firewall-l-3-firewall-rules
 
         - networkId (string): Network ID
@@ -2340,8 +2346,8 @@ class Wireless(object):
     def updateNetworkWirelessSsidFirewallL3FirewallRules(
         self, networkId: str, number: str, **kwargs
     ):
-        """
-        **Update the L3 firewall rules of an SSID on an MR network**
+        """Update the L3 firewall rules of an SSID on an MR network
+
         https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-firewall-l-3-firewall-rules
 
         - networkId (string): Network ID
@@ -2369,8 +2375,8 @@ class Wireless(object):
         return self._session.put(metadata, resource, payload)
 
     def getNetworkWirelessSsidFirewallL7FirewallRules(self, networkId: str, number: str):
-        """
-        **Return the L7 firewall rules for an SSID on an MR network**
+        """Return the L7 firewall rules for an SSID on an MR network
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-ssid-firewall-l-7-firewall-rules
 
         - networkId (string): Network ID
@@ -2390,8 +2396,8 @@ class Wireless(object):
     def updateNetworkWirelessSsidFirewallL7FirewallRules(
         self, networkId: str, number: str, **kwargs
     ):
-        """
-        **Update the L7 firewall rules of an SSID on an MR network**
+        """Update the L7 firewall rules of an SSID on an MR network
+
         https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-firewall-l-7-firewall-rules
 
         - networkId (string): Network ID
@@ -2417,8 +2423,8 @@ class Wireless(object):
         return self._session.put(metadata, resource, payload)
 
     def getNetworkWirelessSsidHotspot20(self, networkId: str, number: str):
-        """
-        **Return the Hotspot 2.0 settings for an SSID**
+        """Return the Hotspot 2.0 settings for an SSID
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-ssid-hotspot-2-0
 
         - networkId (string): Network ID
@@ -2436,8 +2442,8 @@ class Wireless(object):
         return self._session.get(metadata, resource)
 
     def updateNetworkWirelessSsidHotspot20(self, networkId: str, number: str, **kwargs):
-        """
-        **Update the Hotspot 2.0 settings of an SSID**
+        """Update the Hotspot 2.0 settings of an SSID
+
         https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-hotspot-2-0
 
         - networkId (string): Network ID
@@ -2492,8 +2498,8 @@ class Wireless(object):
         return self._session.put(metadata, resource, payload)
 
     def getNetworkWirelessSsidIdentityPsks(self, networkId: str, number: str):
-        """
-        **List all Identity PSKs in a wireless network**
+        """List all Identity PSKs in a wireless network
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-ssid-identity-psks
 
         - networkId (string): Network ID
@@ -2513,8 +2519,8 @@ class Wireless(object):
     def createNetworkWirelessSsidIdentityPsk(
         self, networkId: str, number: str, name: str, groupPolicyId: str, **kwargs
     ):
-        """
-        **Create an Identity PSK**
+        """Create an Identity PSK
+
         https://developer.cisco.com/meraki/api-v1/#!create-network-wireless-ssid-identity-psk
 
         - networkId (string): Network ID
@@ -2546,8 +2552,8 @@ class Wireless(object):
         return self._session.post(metadata, resource, payload)
 
     def getNetworkWirelessSsidIdentityPsk(self, networkId: str, number: str, identityPskId: str):
-        """
-        **Return an Identity PSK**
+        """Return an Identity PSK
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-ssid-identity-psk
 
         - networkId (string): Network ID
@@ -2569,8 +2575,8 @@ class Wireless(object):
     def updateNetworkWirelessSsidIdentityPsk(
         self, networkId: str, number: str, identityPskId: str, **kwargs
     ):
-        """
-        **Update an Identity PSK**
+        """Update an Identity PSK
+
         https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-identity-psk
 
         - networkId (string): Network ID
@@ -2604,8 +2610,8 @@ class Wireless(object):
         return self._session.put(metadata, resource, payload)
 
     def deleteNetworkWirelessSsidIdentityPsk(self, networkId: str, number: str, identityPskId: str):
-        """
-        **Delete an Identity PSK**
+        """Delete an Identity PSK
+
         https://developer.cisco.com/meraki/api-v1/#!delete-network-wireless-ssid-identity-psk
 
         - networkId (string): Network ID
@@ -2625,8 +2631,8 @@ class Wireless(object):
         return self._session.delete(metadata, resource)
 
     def updateNetworkWirelessSsidOpenRoaming(self, networkId: str, number: str, **kwargs):
-        """
-        **Update the OpenRoaming setting for the SSID**
+        """Update the OpenRoaming setting for the SSID
+
         https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-open-roaming
 
         - networkId (string): Network ID
@@ -2654,8 +2660,8 @@ class Wireless(object):
         return self._session.put(metadata, resource, payload)
 
     def getNetworkWirelessSsidSchedules(self, networkId: str, number: str):
-        """
-        **List the outage schedule for the SSID**
+        """List the outage schedule for the SSID
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-ssid-schedules
 
         - networkId (string): Network ID
@@ -2673,8 +2679,8 @@ class Wireless(object):
         return self._session.get(metadata, resource)
 
     def updateNetworkWirelessSsidSchedules(self, networkId: str, number: str, **kwargs):
-        """
-        **Update the outage schedule for the SSID**
+        """Update the outage schedule for the SSID
+
         https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-schedules
 
         - networkId (string): Network ID
@@ -2704,8 +2710,8 @@ class Wireless(object):
         return self._session.put(metadata, resource, payload)
 
     def getNetworkWirelessSsidSplashSettings(self, networkId: str, number: str):
-        """
-        **Display the splash page settings for the given SSID**
+        """Display the splash page settings for the given SSID
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-ssid-splash-settings
 
         - networkId (string): Network ID
@@ -2723,8 +2729,8 @@ class Wireless(object):
         return self._session.get(metadata, resource)
 
     def updateNetworkWirelessSsidSplashSettings(self, networkId: str, number: str, **kwargs):
-        """
-        **Modify the splash page settings for the given SSID**
+        """Modify the splash page settings for the given SSID
+
         https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-splash-settings
 
         - networkId (string): Network ID
@@ -2810,8 +2816,8 @@ class Wireless(object):
         return self._session.put(metadata, resource, payload)
 
     def updateNetworkWirelessSsidTrafficShapingRules(self, networkId: str, number: str, **kwargs):
-        """
-            **Update the traffic shaping rules for an SSID on an MR network.**
+        """Update the traffic shaping rules for an SSID on an MR network.
+
             https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-traffic-shaping-rules
 
             - networkId (string): Network ID
@@ -2844,8 +2850,8 @@ class Wireless(object):
         return self._session.put(metadata, resource, payload)
 
     def getNetworkWirelessSsidTrafficShapingRules(self, networkId: str, number: str):
-        """
-        **Display the traffic shaping settings for a SSID on an MR network**
+        """Display the traffic shaping settings for a SSID on an MR network
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-ssid-traffic-shaping-rules
 
         - networkId (string): Network ID
@@ -2863,8 +2869,8 @@ class Wireless(object):
         return self._session.get(metadata, resource)
 
     def getNetworkWirelessSsidVpn(self, networkId: str, number: str):
-        """
-        **List the VPN settings for the SSID.**
+        """List the VPN settings for the SSID.
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-ssid-vpn
 
         - networkId (string): Network ID
@@ -2882,8 +2888,8 @@ class Wireless(object):
         return self._session.get(metadata, resource)
 
     def updateNetworkWirelessSsidVpn(self, networkId: str, number: str, **kwargs):
-        """
-        **Update the VPN settings for the SSID**
+        """Update the VPN settings for the SSID
+
         https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-vpn
 
         - networkId (string): Network ID
@@ -2913,8 +2919,8 @@ class Wireless(object):
         return self._session.put(metadata, resource, payload)
 
     def getNetworkWirelessUsageHistory(self, networkId: str, **kwargs):
-        """
-        **Return AP usage over time for a device or network client**
+        """Return AP usage over time for a device or network client
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-usage-history
 
         - networkId (string): Network ID
@@ -2962,8 +2968,8 @@ class Wireless(object):
         return self._session.get(metadata, resource, params)
 
     def updateNetworkWirelessZigbee(self, networkId: str, **kwargs):
-        """
-        **Update Zigbee Configs for specified network**
+        """Update Zigbee Configs for specified network
+
         https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-zigbee
 
         - networkId (string): Network ID
@@ -2995,8 +3001,8 @@ class Wireless(object):
     def getOrganizationWirelessAirMarshalRules(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
-        """
-        **Returns the current Air Marshal rules for this organization**
+        """Returns the current Air Marshal rules for this organization
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-air-marshal-rules
 
         - organizationId (string): Organization ID
@@ -3028,7 +3034,7 @@ class Wireless(object):
         array_params = [
             "networkIds",
         ]
-        for k, v in kwargs.items():
+        for k in kwargs:
             if k.strip() in array_params:
                 params[f"{k.strip()}[]"] = kwargs[f"{k}"]
                 params.pop(k.strip())
@@ -3038,8 +3044,8 @@ class Wireless(object):
     def getOrganizationWirelessAirMarshalSettingsByNetwork(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
-        """
-        **Returns the current Air Marshal settings for this network**
+        """Returns the current Air Marshal settings for this network
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-air-marshal-settings-by-network
 
         - organizationId (string): Organization ID
@@ -3071,7 +3077,7 @@ class Wireless(object):
         array_params = [
             "networkIds",
         ]
-        for k, v in kwargs.items():
+        for k in kwargs:
             if k.strip() in array_params:
                 params[f"{k.strip()}[]"] = kwargs[f"{k}"]
                 params.pop(k.strip())
@@ -3081,8 +3087,8 @@ class Wireless(object):
     def getOrganizationWirelessClientsOverviewByDevice(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
-        """
-        **List access point client count at the moment in an organization**
+        """List access point client count at the moment in an organization
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-clients-overview-by-device
 
         - organizationId (string): Organization ID
@@ -3120,7 +3126,7 @@ class Wireless(object):
             "serials",
             "campusGatewayClusterIds",
         ]
-        for k, v in kwargs.items():
+        for k in kwargs:
             if k.strip() in array_params:
                 params[f"{k.strip()}[]"] = kwargs[f"{k}"]
                 params.pop(k.strip())
@@ -3130,8 +3136,8 @@ class Wireless(object):
     def getOrganizationWirelessDevicesChannelUtilizationByDevice(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
-        """
-        **Get average channel utilization for all bands in a network, split by AP**
+        """Get average channel utilization for all bands in a network, split by AP
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-devices-channel-utilization-by-device
 
         - organizationId (string): Organization ID
@@ -3174,7 +3180,7 @@ class Wireless(object):
             "networkIds",
             "serials",
         ]
-        for k, v in kwargs.items():
+        for k in kwargs:
             if k.strip() in array_params:
                 params[f"{k.strip()}[]"] = kwargs[f"{k}"]
                 params.pop(k.strip())
@@ -3184,8 +3190,8 @@ class Wireless(object):
     def getOrganizationWirelessDevicesChannelUtilizationByNetwork(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
-        """
-        **Get average channel utilization across all bands for all networks in the organization**
+        """Get average channel utilization across all bands for all networks in the organization
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-devices-channel-utilization-by-network
 
         - organizationId (string): Organization ID
@@ -3228,7 +3234,7 @@ class Wireless(object):
             "networkIds",
             "serials",
         ]
-        for k, v in kwargs.items():
+        for k in kwargs:
             if k.strip() in array_params:
                 params[f"{k.strip()}[]"] = kwargs[f"{k}"]
                 params.pop(k.strip())
@@ -3238,8 +3244,8 @@ class Wireless(object):
     def getOrganizationWirelessDevicesChannelUtilizationHistoryByDeviceByInterval(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
-        """
-        **Get a time-series of average channel utilization for all bands, segmented by device.**
+        """Get a time-series of average channel utilization for all bands, segmented by device.
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-devices-channel-utilization-history-by-device-by-interval
 
         - organizationId (string): Organization ID
@@ -3290,7 +3296,7 @@ class Wireless(object):
             "networkIds",
             "serials",
         ]
-        for k, v in kwargs.items():
+        for k in kwargs:
             if k.strip() in array_params:
                 params[f"{k.strip()}[]"] = kwargs[f"{k}"]
                 params.pop(k.strip())
@@ -3300,8 +3306,8 @@ class Wireless(object):
     def getOrganizationWirelessDevicesChannelUtilizationHistoryByNetworkByInterval(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
-        """
-        **Get a time-series of average channel utilization for all bands**
+        """Get a time-series of average channel utilization for all bands
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-devices-channel-utilization-history-by-network-by-interval
 
         - organizationId (string): Organization ID
@@ -3352,7 +3358,7 @@ class Wireless(object):
             "networkIds",
             "serials",
         ]
-        for k, v in kwargs.items():
+        for k in kwargs:
             if k.strip() in array_params:
                 params[f"{k.strip()}[]"] = kwargs[f"{k}"]
                 params.pop(k.strip())
@@ -3362,8 +3368,8 @@ class Wireless(object):
     def getOrganizationWirelessDevicesEthernetStatuses(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
-        """
-        **List the most recent Ethernet link speed, duplex, aggregation and power mode and status information for wireless devices.**
+        """List the most recent Ethernet link speed, duplex, aggregation and power mode and status information for wireless devices.
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-devices-ethernet-statuses
 
         - organizationId (string): Organization ID
@@ -3395,7 +3401,7 @@ class Wireless(object):
         array_params = [
             "networkIds",
         ]
-        for k, v in kwargs.items():
+        for k in kwargs:
             if k.strip() in array_params:
                 params[f"{k.strip()}[]"] = kwargs[f"{k}"]
                 params.pop(k.strip())
@@ -3405,8 +3411,8 @@ class Wireless(object):
     def getOrganizationWirelessDevicesPacketLossByClient(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
-        """
-        **Get average packet loss for the given timespan for all clients in the organization.**
+        """Get average packet loss for the given timespan for all clients in the organization.
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-devices-packet-loss-by-client
 
         - organizationId (string): Organization ID
@@ -3453,7 +3459,7 @@ class Wireless(object):
             "bands",
             "macs",
         ]
-        for k, v in kwargs.items():
+        for k in kwargs:
             if k.strip() in array_params:
                 params[f"{k.strip()}[]"] = kwargs[f"{k}"]
                 params.pop(k.strip())
@@ -3463,8 +3469,8 @@ class Wireless(object):
     def getOrganizationWirelessDevicesPacketLossByDevice(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
-        """
-        **Get average packet loss for the given timespan for all devices in the organization**
+        """Get average packet loss for the given timespan for all devices in the organization
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-devices-packet-loss-by-device
 
         - organizationId (string): Organization ID
@@ -3511,7 +3517,7 @@ class Wireless(object):
             "ssids",
             "bands",
         ]
-        for k, v in kwargs.items():
+        for k in kwargs:
             if k.strip() in array_params:
                 params[f"{k.strip()}[]"] = kwargs[f"{k}"]
                 params.pop(k.strip())
@@ -3521,8 +3527,8 @@ class Wireless(object):
     def getOrganizationWirelessDevicesPacketLossByNetwork(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
-        """
-        **Get average packet loss for the given timespan for all networks in the organization.**
+        """Get average packet loss for the given timespan for all networks in the organization.
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-devices-packet-loss-by-network
 
         - organizationId (string): Organization ID
@@ -3569,7 +3575,7 @@ class Wireless(object):
             "ssids",
             "bands",
         ]
-        for k, v in kwargs.items():
+        for k in kwargs:
             if k.strip() in array_params:
                 params[f"{k.strip()}[]"] = kwargs[f"{k}"]
                 params.pop(k.strip())
@@ -3579,8 +3585,8 @@ class Wireless(object):
     def getOrganizationWirelessDevicesPowerModeHistory(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
-        """
-        **Return a record of power mode changes for wireless devices in the organization**
+        """Return a record of power mode changes for wireless devices in the organization
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-devices-power-mode-history
 
         - organizationId (string): Organization ID
@@ -3621,7 +3627,7 @@ class Wireless(object):
             "networkIds",
             "serials",
         ]
-        for k, v in kwargs.items():
+        for k in kwargs:
             if k.strip() in array_params:
                 params[f"{k.strip()}[]"] = kwargs[f"{k}"]
                 params.pop(k.strip())
@@ -3631,8 +3637,8 @@ class Wireless(object):
     def getOrganizationWirelessDevicesRadsecCertificatesAuthorities(
         self, organizationId: str, **kwargs
     ):
-        """
-        **Query for details on the organization's RADSEC device Certificate Authority certificates (CAs)**
+        """Query for details on the organization's RADSEC device Certificate Authority certificates (CAs)
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-devices-radsec-certificates-authorities
 
         - organizationId (string): Organization ID
@@ -3658,7 +3664,7 @@ class Wireless(object):
         array_params = [
             "certificateAuthorityIds",
         ]
-        for k, v in kwargs.items():
+        for k in kwargs:
             if k.strip() in array_params:
                 params[f"{k.strip()}[]"] = kwargs[f"{k}"]
                 params.pop(k.strip())
@@ -3668,8 +3674,8 @@ class Wireless(object):
     def updateOrganizationWirelessDevicesRadsecCertificatesAuthorities(
         self, organizationId: str, **kwargs
     ):
-        """
-        **Update an organization's RADSEC device Certificate Authority (CA) state**
+        """Update an organization's RADSEC device Certificate Authority (CA) state
+
         https://developer.cisco.com/meraki/api-v1/#!update-organization-wireless-devices-radsec-certificates-authorities
 
         - organizationId (string): Organization ID
@@ -3697,8 +3703,8 @@ class Wireless(object):
         return self._session.put(metadata, resource, payload)
 
     def createOrganizationWirelessDevicesRadsecCertificatesAuthority(self, organizationId: str):
-        """
-        **Create an organization's RADSEC device Certificate Authority (CA)**
+        """Create an organization's RADSEC device Certificate Authority (CA)
+
         https://developer.cisco.com/meraki/api-v1/#!create-organization-wireless-devices-radsec-certificates-authority
 
         - organizationId (string): Organization ID
@@ -3718,8 +3724,8 @@ class Wireless(object):
     def getOrganizationWirelessDevicesRadsecCertificatesAuthoritiesCrls(
         self, organizationId: str, **kwargs
     ):
-        """
-        **Query for certificate revocation list (CRL) for the organization's RADSEC device Certificate Authorities (CAs).**
+        """Query for certificate revocation list (CRL) for the organization's RADSEC device Certificate Authorities (CAs).
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-devices-radsec-certificates-authorities-crls
 
         - organizationId (string): Organization ID
@@ -3753,7 +3759,7 @@ class Wireless(object):
         array_params = [
             "certificateAuthorityIds",
         ]
-        for k, v in kwargs.items():
+        for k in kwargs:
             if k.strip() in array_params:
                 params[f"{k.strip()}[]"] = kwargs[f"{k}"]
                 params.pop(k.strip())
@@ -3763,8 +3769,8 @@ class Wireless(object):
     def getOrganizationWirelessDevicesRadsecCertificatesAuthoritiesCrlsDeltas(
         self, organizationId: str, **kwargs
     ):
-        """
-        **Query for all delta certificate revocation list (CRL) for the organization's RADSEC device Certificate Authority (CA) with the given id.**
+        """Query for all delta certificate revocation list (CRL) for the organization's RADSEC device Certificate Authority (CA) with the given id.
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-devices-radsec-certificates-authorities-crls-deltas
 
         - organizationId (string): Organization ID
@@ -3797,7 +3803,7 @@ class Wireless(object):
         array_params = [
             "certificateAuthorityIds",
         ]
-        for k, v in kwargs.items():
+        for k in kwargs:
             if k.strip() in array_params:
                 params[f"{k.strip()}[]"] = kwargs[f"{k}"]
                 params.pop(k.strip())
@@ -3807,8 +3813,8 @@ class Wireless(object):
     def getOrganizationWirelessDevicesSystemCpuLoadHistory(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
-        """
-        **Return the CPU Load history for a list of wireless devices in the organization.**
+        """Return the CPU Load history for a list of wireless devices in the organization.
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-devices-system-cpu-load-history
 
         - organizationId (string): Organization ID
@@ -3849,7 +3855,7 @@ class Wireless(object):
             "networkIds",
             "serials",
         ]
-        for k, v in kwargs.items():
+        for k in kwargs:
             if k.strip() in array_params:
                 params[f"{k.strip()}[]"] = kwargs[f"{k}"]
                 params.pop(k.strip())
@@ -3859,8 +3865,8 @@ class Wireless(object):
     def getOrganizationWirelessDevicesWirelessControllersByDevice(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
-        """
-        **List of Catalyst access points information**
+        """List of Catalyst access points information
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-devices-wireless-controllers-by-device
 
         - organizationId (string): Organization ID
@@ -3898,7 +3904,7 @@ class Wireless(object):
             "serials",
             "controllerSerials",
         ]
-        for k, v in kwargs.items():
+        for k in kwargs:
             if k.strip() in array_params:
                 params[f"{k.strip()}[]"] = kwargs[f"{k}"]
                 params.pop(k.strip())
@@ -3908,8 +3914,8 @@ class Wireless(object):
     def getOrganizationWirelessLocationScanningByNetwork(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
-        """
-        **Return scanning API settings**
+        """Return scanning API settings
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-location-scanning-by-network
 
         - organizationId (string): Organization ID
@@ -3941,7 +3947,7 @@ class Wireless(object):
         array_params = [
             "networkIds",
         ]
-        for k, v in kwargs.items():
+        for k in kwargs:
             if k.strip() in array_params:
                 params[f"{k.strip()}[]"] = kwargs[f"{k}"]
                 params.pop(k.strip())
@@ -3951,8 +3957,8 @@ class Wireless(object):
     def getOrganizationWirelessLocationScanningReceivers(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
-        """
-        **Return scanning API receivers**
+        """Return scanning API receivers
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-location-scanning-receivers
 
         - organizationId (string): Organization ID
@@ -3984,7 +3990,7 @@ class Wireless(object):
         array_params = [
             "networkIds",
         ]
-        for k, v in kwargs.items():
+        for k in kwargs:
             if k.strip() in array_params:
                 params[f"{k.strip()}[]"] = kwargs[f"{k}"]
                 params.pop(k.strip())
@@ -4000,8 +4006,8 @@ class Wireless(object):
         radio: dict,
         sharedSecret: str,
     ):
-        """
-        **Add new receiver for scanning API**
+        """Add new receiver for scanning API
+
         https://developer.cisco.com/meraki/api-v1/#!create-organization-wireless-location-scanning-receiver
 
         - organizationId (string): Organization ID
@@ -4035,8 +4041,8 @@ class Wireless(object):
     def updateOrganizationWirelessLocationScanningReceiver(
         self, organizationId: str, receiverId: str, **kwargs
     ):
-        """
-        **Change scanning API receiver settings**
+        """Change scanning API receiver settings
+
         https://developer.cisco.com/meraki/api-v1/#!update-organization-wireless-location-scanning-receiver
 
         - organizationId (string): Organization ID
@@ -4070,8 +4076,8 @@ class Wireless(object):
     def deleteOrganizationWirelessLocationScanningReceiver(
         self, organizationId: str, receiverId: str
     ):
-        """
-        **Delete a scanning API receiver**
+        """Delete a scanning API receiver
+
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-wireless-location-scanning-receiver
 
         - organizationId (string): Organization ID
@@ -4093,8 +4099,8 @@ class Wireless(object):
     def getOrganizationWirelessMqttSettings(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
-        """
-        **Return MQTT Settings for networks**
+        """Return MQTT Settings for networks
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-mqtt-settings
 
         - organizationId (string): Organization ID
@@ -4126,7 +4132,7 @@ class Wireless(object):
         array_params = [
             "networkIds",
         ]
-        for k, v in kwargs.items():
+        for k in kwargs:
             if k.strip() in array_params:
                 params[f"{k.strip()}[]"] = kwargs[f"{k}"]
                 params.pop(k.strip())
@@ -4136,8 +4142,8 @@ class Wireless(object):
     def updateOrganizationWirelessMqttSettings(
         self, organizationId: str, network: dict, mqtt: dict, **kwargs
     ):
-        """
-        **Add new broker config for wireless MQTT**
+        """Add new broker config for wireless MQTT
+
         https://developer.cisco.com/meraki/api-v1/#!update-organization-wireless-mqtt-settings
 
         - organizationId (string): Organization ID
@@ -4169,8 +4175,8 @@ class Wireless(object):
     def recalculateOrganizationWirelessRadioAutoRfChannels(
         self, organizationId: str, networkIds: list
     ):
-        """
-        **Recalculates automatically assigned channels for every AP within specified the specified network(s)**
+        """Recalculates automatically assigned channels for every AP within specified the specified network(s)
+
         https://developer.cisco.com/meraki/api-v1/#!recalculate-organization-wireless-radio-auto-rf-channels
 
         - organizationId (string): Organization ID
@@ -4196,8 +4202,8 @@ class Wireless(object):
     def getOrganizationWirelessRfProfilesAssignmentsByDevice(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
-        """
-        **List the RF profiles of an organization by device**
+        """List the RF profiles of an organization by device
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-rf-profiles-assignments-by-device
 
         - organizationId (string): Organization ID
@@ -4249,7 +4255,7 @@ class Wireless(object):
             "serials",
             "models",
         ]
-        for k, v in kwargs.items():
+        for k in kwargs:
             if k.strip() in array_params:
                 params[f"{k.strip()}[]"] = kwargs[f"{k}"]
                 params.pop(k.strip())
@@ -4259,8 +4265,8 @@ class Wireless(object):
     def getOrganizationWirelessSsidsFirewallIsolationAllowlistEntries(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
-        """
-        **List the L2 isolation allow list MAC entry in an organization**
+        """List the L2 isolation allow list MAC entry in an organization
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-ssids-firewall-isolation-allowlist-entries
 
         - organizationId (string): Organization ID
@@ -4305,7 +4311,7 @@ class Wireless(object):
             "networkIds",
             "ssids",
         ]
-        for k, v in kwargs.items():
+        for k in kwargs:
             if k.strip() in array_params:
                 params[f"{k.strip()}[]"] = kwargs[f"{k}"]
                 params.pop(k.strip())
@@ -4315,8 +4321,8 @@ class Wireless(object):
     def createOrganizationWirelessSsidsFirewallIsolationAllowlistEntry(
         self, organizationId: str, client: dict, ssid: dict, network: dict, **kwargs
     ):
-        """
-        **Create isolation allow list MAC entry for this organization**
+        """Create isolation allow list MAC entry for this organization
+
         https://developer.cisco.com/meraki/api-v1/#!create-organization-wireless-ssids-firewall-isolation-allowlist-entry
 
         - organizationId (string): Organization ID
@@ -4358,8 +4364,8 @@ class Wireless(object):
     def deleteOrganizationWirelessSsidsFirewallIsolationAllowlistEntry(
         self, organizationId: str, entryId: str
     ):
-        """
-        **Destroy isolation allow list MAC entry for this organization**
+        """Destroy isolation allow list MAC entry for this organization
+
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-wireless-ssids-firewall-isolation-allowlist-entry
 
         - organizationId (string): Organization ID
@@ -4387,8 +4393,8 @@ class Wireless(object):
     def updateOrganizationWirelessSsidsFirewallIsolationAllowlistEntry(
         self, organizationId: str, entryId: str, **kwargs
     ):
-        """
-        **Update isolation allow list MAC entry info**
+        """Update isolation allow list MAC entry info
+
         https://developer.cisco.com/meraki/api-v1/#!update-organization-wireless-ssids-firewall-isolation-allowlist-entry
 
         - organizationId (string): Organization ID
@@ -4426,8 +4432,8 @@ class Wireless(object):
     def getOrganizationWirelessSsidsOpenRoamingByNetwork(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
-        """
-        **Returns an array of objects, each containing SSID OpenRoaming configs for the corresponding network**
+        """Returns an array of objects, each containing SSID OpenRoaming configs for the corresponding network
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-ssids-open-roaming-by-network
 
         - organizationId (string): Organization ID
@@ -4461,7 +4467,7 @@ class Wireless(object):
         array_params = [
             "networkIds",
         ]
-        for k, v in kwargs.items():
+        for k in kwargs:
             if k.strip() in array_params:
                 params[f"{k.strip()}[]"] = kwargs[f"{k}"]
                 params.pop(k.strip())
@@ -4471,8 +4477,8 @@ class Wireless(object):
     def getOrganizationWirelessSsidsStatusesByDevice(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
-        """
-        **List status information of all BSSIDs in your organization**
+        """List status information of all BSSIDs in your organization
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-ssids-statuses-by-device
 
         - organizationId (string): Organization ID
@@ -4512,7 +4518,7 @@ class Wireless(object):
             "serials",
             "bssids",
         ]
-        for k, v in kwargs.items():
+        for k in kwargs:
             if k.strip() in array_params:
                 params[f"{k.strip()}[]"] = kwargs[f"{k}"]
                 params.pop(k.strip())
@@ -4522,8 +4528,8 @@ class Wireless(object):
     def getOrganizationWirelessZigbeeByNetwork(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
-        """
-        **Return list of Zigbee configs**
+        """Return list of Zigbee configs
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-zigbee-by-network
 
         - organizationId (string): Organization ID
@@ -4555,7 +4561,7 @@ class Wireless(object):
         array_params = [
             "networkIds",
         ]
-        for k, v in kwargs.items():
+        for k in kwargs:
             if k.strip() in array_params:
                 params[f"{k.strip()}[]"] = kwargs[f"{k}"]
                 params.pop(k.strip())
@@ -4565,8 +4571,8 @@ class Wireless(object):
     def getOrganizationWirelessZigbeeDevices(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
-        """
-        **List the Zigbee wireless devices for an organization or the supplied network(s)**
+        """List the Zigbee wireless devices for an organization or the supplied network(s)
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-zigbee-devices
 
         - organizationId (string): Organization ID
@@ -4602,7 +4608,7 @@ class Wireless(object):
         array_params = [
             "networkIds",
         ]
-        for k, v in kwargs.items():
+        for k in kwargs:
             if k.strip() in array_params:
                 params[f"{k.strip()}[]"] = kwargs[f"{k}"]
                 params.pop(k.strip())
@@ -4612,8 +4618,8 @@ class Wireless(object):
     def updateOrganizationWirelessZigbeeDevice(
         self, organizationId: str, id: str, enrolled: bool, **kwargs
     ):
-        """
-        **Endpoint to update zigbee gateways**
+        """Endpoint to update zigbee gateways
+
         https://developer.cisco.com/meraki/api-v1/#!update-organization-wireless-zigbee-device
 
         - organizationId (string): Organization ID
@@ -4641,8 +4647,8 @@ class Wireless(object):
         return self._session.put(metadata, resource, payload)
 
     def createOrganizationWirelessZigbeeDisenrollment(self, organizationId: str, **kwargs):
-        """
-        **Enqueue a job to start disenrolling door locks on zigbee configured wireless devices**
+        """Enqueue a job to start disenrolling door locks on zigbee configured wireless devices
+
         https://developer.cisco.com/meraki/api-v1/#!create-organization-wireless-zigbee-disenrollment
 
         - organizationId (string): Organization ID
@@ -4666,8 +4672,8 @@ class Wireless(object):
         return self._session.post(metadata, resource, payload)
 
     def getOrganizationWirelessZigbeeDisenrollment(self, organizationId: str, disenrollmentId: str):
-        """
-        **Return a disenrollment**
+        """Return a disenrollment
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-zigbee-disenrollment
 
         - organizationId (string): Organization ID
@@ -4689,8 +4695,8 @@ class Wireless(object):
     def getOrganizationWirelessZigbeeDoorLocks(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
-        """
-        **Return the list of door locks for a network**
+        """Return the list of door locks for a network
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-zigbee-door-locks
 
         - organizationId (string): Organization ID
@@ -4724,7 +4730,7 @@ class Wireless(object):
         array_params = [
             "networkIds",
         ]
-        for k, v in kwargs.items():
+        for k in kwargs:
             if k.strip() in array_params:
                 params[f"{k.strip()}[]"] = kwargs[f"{k}"]
                 params.pop(k.strip())
@@ -4734,8 +4740,8 @@ class Wireless(object):
     def updateOrganizationWirelessZigbeeDoorLock(
         self, organizationId: str, doorLockId: str, **kwargs
     ):
-        """
-        **Endpoint to batch update door locks params**
+        """Endpoint to batch update door locks params
+
         https://developer.cisco.com/meraki/api-v1/#!update-organization-wireless-zigbee-door-lock
 
         - organizationId (string): Organization ID

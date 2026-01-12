@@ -1,14 +1,20 @@
+"""Appliance API endpoints."""
+
 import urllib
 
+from meraki_dashboard_sdk.rest_session import RestSession
 
-class Appliance(object):
-    def __init__(self, session):
-        super(Appliance, self).__init__()
+
+class Appliance:
+    """Appliance class."""
+
+    def __init__(self, session: RestSession) -> None:
+        super(self).__init__()
         self._session = session
 
     def getDeviceApplianceDhcpSubnets(self, serial: str):
-        """
-        **Return the DHCP subnet information for an appliance**
+        """Return the DHCP subnet information for an appliance
+
         https://developer.cisco.com/meraki/api-v1/#!get-device-appliance-dhcp-subnets
 
         - serial (string): Serial
@@ -24,8 +30,8 @@ class Appliance(object):
         return self._session.get(metadata, resource)
 
     def getDeviceAppliancePerformance(self, serial: str, **kwargs):
-        """
-        **Return the performance score for a single MX**
+        """Return the performance score for a single MX
+
         https://developer.cisco.com/meraki/api-v1/#!get-device-appliance-performance
 
         - serial (string): Serial
@@ -53,8 +59,8 @@ class Appliance(object):
         return self._session.get(metadata, resource, params)
 
     def getDeviceAppliancePrefixesDelegated(self, serial: str):
-        """
-        **Return current delegated IPv6 prefixes on an appliance.**
+        """Return current delegated IPv6 prefixes on an appliance.
+
         https://developer.cisco.com/meraki/api-v1/#!get-device-appliance-prefixes-delegated
 
         - serial (string): Serial
@@ -70,8 +76,8 @@ class Appliance(object):
         return self._session.get(metadata, resource)
 
     def getDeviceAppliancePrefixesDelegatedVlanAssignments(self, serial: str):
-        """
-        **Return prefixes assigned to all IPv6 enabled VLANs on an appliance.**
+        """Return prefixes assigned to all IPv6 enabled VLANs on an appliance.
+
         https://developer.cisco.com/meraki/api-v1/#!get-device-appliance-prefixes-delegated-vlan-assignments
 
         - serial (string): Serial
@@ -87,8 +93,8 @@ class Appliance(object):
         return self._session.get(metadata, resource)
 
     def getDeviceApplianceRadioSettings(self, serial: str):
-        """
-        **Return the radio settings of an appliance**
+        """Return the radio settings of an appliance
+
         https://developer.cisco.com/meraki/api-v1/#!get-device-appliance-radio-settings
 
         - serial (string): Serial
@@ -104,8 +110,8 @@ class Appliance(object):
         return self._session.get(metadata, resource)
 
     def updateDeviceApplianceRadioSettings(self, serial: str, **kwargs):
-        """
-        **Update the radio settings of an appliance**
+        """Update the radio settings of an appliance
+
         https://developer.cisco.com/meraki/api-v1/#!update-device-appliance-radio-settings
 
         - serial (string): Serial
@@ -133,8 +139,8 @@ class Appliance(object):
         return self._session.put(metadata, resource, payload)
 
     def getDeviceApplianceUplinksSettings(self, serial: str):
-        """
-        **Return the uplink settings for an MX appliance**
+        """Return the uplink settings for an MX appliance
+
         https://developer.cisco.com/meraki/api-v1/#!get-device-appliance-uplinks-settings
 
         - serial (string): Serial
@@ -150,8 +156,8 @@ class Appliance(object):
         return self._session.get(metadata, resource)
 
     def updateDeviceApplianceUplinksSettings(self, serial: str, interfaces: dict):
-        """
-        **Update the uplink settings for an MX appliance**
+        """Update the uplink settings for an MX appliance
+
         https://developer.cisco.com/meraki/api-v1/#!update-device-appliance-uplinks-settings
 
         - serial (string): Serial
@@ -175,8 +181,8 @@ class Appliance(object):
         return self._session.put(metadata, resource, payload)
 
     def createDeviceApplianceVmxAuthenticationToken(self, serial: str):
-        """
-        **Generate a new vMX authentication token**
+        """Generate a new vMX authentication token
+
         https://developer.cisco.com/meraki/api-v1/#!create-device-appliance-vmx-authentication-token
 
         - serial (string): Serial
@@ -194,8 +200,8 @@ class Appliance(object):
     def getNetworkApplianceClientSecurityEvents(
         self, networkId: str, clientId: str, total_pages=1, direction="next", **kwargs
     ):
-        """
-        **List the security events for a client**
+        """List the security events for a client
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-client-security-events
 
         - networkId (string): Network ID
@@ -241,8 +247,8 @@ class Appliance(object):
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def getNetworkApplianceConnectivityMonitoringDestinations(self, networkId: str):
-        """
-        **Return the connectivity testing destinations for an MX network**
+        """Return the connectivity testing destinations for an MX network
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-connectivity-monitoring-destinations
 
         - networkId (string): Network ID
@@ -258,8 +264,8 @@ class Appliance(object):
         return self._session.get(metadata, resource)
 
     def updateNetworkApplianceConnectivityMonitoringDestinations(self, networkId: str, **kwargs):
-        """
-        **Update the connectivity testing destinations for an MX network**
+        """Update the connectivity testing destinations for an MX network
+
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-connectivity-monitoring-destinations
 
         - networkId (string): Network ID
@@ -283,8 +289,8 @@ class Appliance(object):
         return self._session.put(metadata, resource, payload)
 
     def getNetworkApplianceContentFiltering(self, networkId: str):
-        """
-        **Return the content filtering settings for an MX network**
+        """Return the content filtering settings for an MX network
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-content-filtering
 
         - networkId (string): Network ID
@@ -300,8 +306,8 @@ class Appliance(object):
         return self._session.get(metadata, resource)
 
     def updateNetworkApplianceContentFiltering(self, networkId: str, **kwargs):
-        """
-        **Update the content filtering settings for an MX network**
+        """Update the content filtering settings for an MX network
+
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-content-filtering
 
         - networkId (string): Network ID
@@ -337,8 +343,8 @@ class Appliance(object):
         return self._session.put(metadata, resource, payload)
 
     def getNetworkApplianceContentFilteringCategories(self, networkId: str):
-        """
-        **List all available content filtering categories for an MX network**
+        """List all available content filtering categories for an MX network
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-content-filtering-categories
 
         - networkId (string): Network ID
@@ -354,8 +360,8 @@ class Appliance(object):
         return self._session.get(metadata, resource)
 
     def getNetworkApplianceFirewallCellularFirewallRules(self, networkId: str):
-        """
-        **Return the cellular firewall rules for an MX network**
+        """Return the cellular firewall rules for an MX network
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-firewall-cellular-firewall-rules
 
         - networkId (string): Network ID
@@ -371,8 +377,8 @@ class Appliance(object):
         return self._session.get(metadata, resource)
 
     def updateNetworkApplianceFirewallCellularFirewallRules(self, networkId: str, **kwargs):
-        """
-        **Update the cellular firewall rules of an MX network**
+        """Update the cellular firewall rules of an MX network
+
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-firewall-cellular-firewall-rules
 
         - networkId (string): Network ID
@@ -396,8 +402,8 @@ class Appliance(object):
         return self._session.put(metadata, resource, payload)
 
     def getNetworkApplianceFirewallFirewalledServices(self, networkId: str):
-        """
-        **List the appliance services and their accessibility rules**
+        """List the appliance services and their accessibility rules
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-firewall-firewalled-services
 
         - networkId (string): Network ID
@@ -413,8 +419,8 @@ class Appliance(object):
         return self._session.get(metadata, resource)
 
     def getNetworkApplianceFirewallFirewalledService(self, networkId: str, service: str):
-        """
-        **Return the accessibility settings of the given service ('ICMP', 'web', or 'SNMP')**
+        """Return the accessibility settings of the given service ('ICMP', 'web', or 'SNMP')
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-firewall-firewalled-service
 
         - networkId (string): Network ID
@@ -434,8 +440,8 @@ class Appliance(object):
     def updateNetworkApplianceFirewallFirewalledService(
         self, networkId: str, service: str, access: str, **kwargs
     ):
-        """
-        **Updates the accessibility settings for the given service ('ICMP', 'web', or 'SNMP')**
+        """Updates the accessibility settings for the given service ('ICMP', 'web', or 'SNMP')
+
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-firewall-firewalled-service
 
         - networkId (string): Network ID
@@ -469,8 +475,8 @@ class Appliance(object):
         return self._session.put(metadata, resource, payload)
 
     def getNetworkApplianceFirewallInboundCellularFirewallRules(self, networkId: str):
-        """
-        **Return the inbound cellular firewall rules for an MX network**
+        """Return the inbound cellular firewall rules for an MX network
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-firewall-inbound-cellular-firewall-rules
 
         - networkId (string): Network ID
@@ -486,8 +492,8 @@ class Appliance(object):
         return self._session.get(metadata, resource)
 
     def updateNetworkApplianceFirewallInboundCellularFirewallRules(self, networkId: str, **kwargs):
-        """
-        **Update the inbound cellular firewall rules of an MX network**
+        """Update the inbound cellular firewall rules of an MX network
+
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-firewall-inbound-cellular-firewall-rules
 
         - networkId (string): Network ID
@@ -511,8 +517,8 @@ class Appliance(object):
         return self._session.put(metadata, resource, payload)
 
     def getNetworkApplianceFirewallInboundFirewallRules(self, networkId: str):
-        """
-        **Return the inbound firewall rules for an MX network**
+        """Return the inbound firewall rules for an MX network
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-firewall-inbound-firewall-rules
 
         - networkId (string): Network ID
@@ -528,8 +534,8 @@ class Appliance(object):
         return self._session.get(metadata, resource)
 
     def updateNetworkApplianceFirewallInboundFirewallRules(self, networkId: str, **kwargs):
-        """
-        **Update the inbound firewall rules of an MX network**
+        """Update the inbound firewall rules of an MX network
+
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-firewall-inbound-firewall-rules
 
         - networkId (string): Network ID
@@ -555,8 +561,8 @@ class Appliance(object):
         return self._session.put(metadata, resource, payload)
 
     def getNetworkApplianceFirewallL3FirewallRules(self, networkId: str):
-        """
-        **Return the L3 firewall rules for an MX network**
+        """Return the L3 firewall rules for an MX network
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-firewall-l-3-firewall-rules
 
         - networkId (string): Network ID
@@ -572,8 +578,8 @@ class Appliance(object):
         return self._session.get(metadata, resource)
 
     def updateNetworkApplianceFirewallL3FirewallRules(self, networkId: str, **kwargs):
-        """
-        **Update the L3 firewall rules of an MX network**
+        """Update the L3 firewall rules of an MX network
+
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-firewall-l-3-firewall-rules
 
         - networkId (string): Network ID
@@ -599,8 +605,8 @@ class Appliance(object):
         return self._session.put(metadata, resource, payload)
 
     def getNetworkApplianceFirewallL7FirewallRules(self, networkId: str):
-        """
-        **List the MX L7 firewall rules for an MX network**
+        """List the MX L7 firewall rules for an MX network
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-firewall-l-7-firewall-rules
 
         - networkId (string): Network ID
@@ -616,8 +622,8 @@ class Appliance(object):
         return self._session.get(metadata, resource)
 
     def updateNetworkApplianceFirewallL7FirewallRules(self, networkId: str, **kwargs):
-        """
-        **Update the MX L7 firewall rules for an MX network**
+        """Update the MX L7 firewall rules for an MX network
+
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-firewall-l-7-firewall-rules
 
         - networkId (string): Network ID
@@ -641,8 +647,8 @@ class Appliance(object):
         return self._session.put(metadata, resource, payload)
 
     def getNetworkApplianceFirewallL7FirewallRulesApplicationCategories(self, networkId: str):
-        """
-        **Return the L7 firewall application categories and their associated applications for an MX network**
+        """Return the L7 firewall application categories and their associated applications for an MX network
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-firewall-l-7-firewall-rules-application-categories
 
         - networkId (string): Network ID
@@ -664,8 +670,8 @@ class Appliance(object):
         return self._session.get(metadata, resource)
 
     def updateNetworkApplianceFirewallMulticastForwarding(self, networkId: str, rules: list):
-        """
-        **Update static multicast forward rules for a network**
+        """Update static multicast forward rules for a network
+
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-firewall-multicast-forwarding
 
         - networkId (string): Network ID
@@ -689,8 +695,8 @@ class Appliance(object):
         return self._session.put(metadata, resource, payload)
 
     def getNetworkApplianceFirewallOneToManyNatRules(self, networkId: str):
-        """
-        **Return the 1:Many NAT mapping rules for an MX network**
+        """Return the 1:Many NAT mapping rules for an MX network
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-firewall-one-to-many-nat-rules
 
         - networkId (string): Network ID
@@ -706,8 +712,8 @@ class Appliance(object):
         return self._session.get(metadata, resource)
 
     def updateNetworkApplianceFirewallOneToManyNatRules(self, networkId: str, rules: list):
-        """
-        **Set the 1:Many NAT mapping rules for an MX network**
+        """Set the 1:Many NAT mapping rules for an MX network
+
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-firewall-one-to-many-nat-rules
 
         - networkId (string): Network ID
@@ -731,8 +737,8 @@ class Appliance(object):
         return self._session.put(metadata, resource, payload)
 
     def getNetworkApplianceFirewallOneToOneNatRules(self, networkId: str):
-        """
-        **Return the 1:1 NAT mapping rules for an MX network**
+        """Return the 1:1 NAT mapping rules for an MX network
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-firewall-one-to-one-nat-rules
 
         - networkId (string): Network ID
@@ -748,8 +754,8 @@ class Appliance(object):
         return self._session.get(metadata, resource)
 
     def updateNetworkApplianceFirewallOneToOneNatRules(self, networkId: str, rules: list):
-        """
-        **Set the 1:1 NAT mapping rules for an MX network**
+        """Set the 1:1 NAT mapping rules for an MX network
+
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-firewall-one-to-one-nat-rules
 
         - networkId (string): Network ID
@@ -773,8 +779,8 @@ class Appliance(object):
         return self._session.put(metadata, resource, payload)
 
     def getNetworkApplianceFirewallPortForwardingRules(self, networkId: str):
-        """
-        **Return the port forwarding rules for an MX network**
+        """Return the port forwarding rules for an MX network
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-firewall-port-forwarding-rules
 
         - networkId (string): Network ID
@@ -790,8 +796,8 @@ class Appliance(object):
         return self._session.get(metadata, resource)
 
     def updateNetworkApplianceFirewallPortForwardingRules(self, networkId: str, rules: list):
-        """
-        **Update the port forwarding rules for an MX network**
+        """Update the port forwarding rules for an MX network
+
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-firewall-port-forwarding-rules
 
         - networkId (string): Network ID
@@ -815,8 +821,8 @@ class Appliance(object):
         return self._session.put(metadata, resource, payload)
 
     def getNetworkApplianceFirewallSettings(self, networkId: str):
-        """
-        **Return the firewall settings for this network**
+        """Return the firewall settings for this network
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-firewall-settings
 
         - networkId (string): Network ID
@@ -832,8 +838,8 @@ class Appliance(object):
         return self._session.get(metadata, resource)
 
     def updateNetworkApplianceFirewallSettings(self, networkId: str, **kwargs):
-        """
-        **Update the firewall settings for this network**
+        """Update the firewall settings for this network
+
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-firewall-settings
 
         - networkId (string): Network ID
@@ -857,8 +863,8 @@ class Appliance(object):
         return self._session.put(metadata, resource, payload)
 
     def getNetworkAppliancePorts(self, networkId: str):
-        """
-        **List per-port VLAN settings for all ports of a MX.**
+        """List per-port VLAN settings for all ports of a MX.
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-ports
 
         - networkId (string): Network ID
@@ -874,8 +880,8 @@ class Appliance(object):
         return self._session.get(metadata, resource)
 
     def getNetworkAppliancePort(self, networkId: str, portId: str):
-        """
-        **Return per-port VLAN settings for a single MX port.**
+        """Return per-port VLAN settings for a single MX port.
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-port
 
         - networkId (string): Network ID
@@ -893,8 +899,8 @@ class Appliance(object):
         return self._session.get(metadata, resource)
 
     def updateNetworkAppliancePort(self, networkId: str, portId: str, **kwargs):
-        """
-        **Update the per-port VLAN settings for a single MX port.**
+        """Update the per-port VLAN settings for a single MX port.
+
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-port
 
         - networkId (string): Network ID
@@ -930,8 +936,8 @@ class Appliance(object):
         return self._session.put(metadata, resource, payload)
 
     def getNetworkAppliancePrefixesDelegatedStatics(self, networkId: str):
-        """
-        **List static delegated prefixes for a network**
+        """List static delegated prefixes for a network
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-prefixes-delegated-statics
 
         - networkId (string): Network ID
@@ -949,8 +955,8 @@ class Appliance(object):
     def createNetworkAppliancePrefixesDelegatedStatic(
         self, networkId: str, prefix: str, origin: dict, **kwargs
     ):
-        """
-        **Add a static delegated prefix from a network**
+        """Add a static delegated prefix from a network
+
         https://developer.cisco.com/meraki/api-v1/#!create-network-appliance-prefixes-delegated-static
 
         - networkId (string): Network ID
@@ -980,8 +986,8 @@ class Appliance(object):
     def getNetworkAppliancePrefixesDelegatedStatic(
         self, networkId: str, staticDelegatedPrefixId: str
     ):
-        """
-        **Return a static delegated prefix from a network**
+        """Return a static delegated prefix from a network
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-prefixes-delegated-static
 
         - networkId (string): Network ID
@@ -1003,8 +1009,8 @@ class Appliance(object):
     def updateNetworkAppliancePrefixesDelegatedStatic(
         self, networkId: str, staticDelegatedPrefixId: str, **kwargs
     ):
-        """
-        **Update a static delegated prefix from a network**
+        """Update a static delegated prefix from a network
+
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-prefixes-delegated-static
 
         - networkId (string): Network ID
@@ -1038,8 +1044,8 @@ class Appliance(object):
     def deleteNetworkAppliancePrefixesDelegatedStatic(
         self, networkId: str, staticDelegatedPrefixId: str
     ):
-        """
-        **Delete a static delegated prefix from a network**
+        """Delete a static delegated prefix from a network
+
         https://developer.cisco.com/meraki/api-v1/#!delete-network-appliance-prefixes-delegated-static
 
         - networkId (string): Network ID
@@ -1059,8 +1065,8 @@ class Appliance(object):
         return self._session.delete(metadata, resource)
 
     def getNetworkApplianceRfProfiles(self, networkId: str):
-        """
-        **List the RF profiles for this network**
+        """List the RF profiles for this network
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-rf-profiles
 
         - networkId (string): Network ID
@@ -1076,8 +1082,8 @@ class Appliance(object):
         return self._session.get(metadata, resource)
 
     def createNetworkApplianceRfProfile(self, networkId: str, name: str, **kwargs):
-        """
-        **Creates new RF profile for this network**
+        """Creates new RF profile for this network
+
         https://developer.cisco.com/meraki/api-v1/#!create-network-appliance-rf-profile
 
         - networkId (string): Network ID
@@ -1107,8 +1113,8 @@ class Appliance(object):
         return self._session.post(metadata, resource, payload)
 
     def updateNetworkApplianceRfProfile(self, networkId: str, rfProfileId: str, **kwargs):
-        """
-        **Updates specified RF profile for this network**
+        """Updates specified RF profile for this network
+
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-rf-profile
 
         - networkId (string): Network ID
@@ -1140,8 +1146,8 @@ class Appliance(object):
         return self._session.put(metadata, resource, payload)
 
     def deleteNetworkApplianceRfProfile(self, networkId: str, rfProfileId: str):
-        """
-        **Delete a RF Profile**
+        """Delete a RF Profile
+
         https://developer.cisco.com/meraki/api-v1/#!delete-network-appliance-rf-profile
 
         - networkId (string): Network ID
@@ -1159,8 +1165,8 @@ class Appliance(object):
         return self._session.delete(metadata, resource)
 
     def getNetworkApplianceRfProfile(self, networkId: str, rfProfileId: str):
-        """
-        **Return a RF profile**
+        """Return a RF profile
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-rf-profile
 
         - networkId (string): Network ID
@@ -1178,8 +1184,8 @@ class Appliance(object):
         return self._session.get(metadata, resource)
 
     def updateNetworkApplianceSdwanInternetPolicies(self, networkId: str, **kwargs):
-        """
-        **Update SDWAN internet traffic preferences for an MX network**
+        """Update SDWAN internet traffic preferences for an MX network
+
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-sdwan-internet-policies
 
         - networkId (string): Network ID
@@ -1205,8 +1211,8 @@ class Appliance(object):
     def getNetworkApplianceSecurityEvents(
         self, networkId: str, total_pages=1, direction="next", **kwargs
     ):
-        """
-        **List the security events for a network**
+        """List the security events for a network
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-security-events
 
         - networkId (string): Network ID
@@ -1250,8 +1256,8 @@ class Appliance(object):
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def getNetworkApplianceSecurityIntrusion(self, networkId: str):
-        """
-        **Returns all supported intrusion settings for an MX network**
+        """Returns all supported intrusion settings for an MX network
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-security-intrusion
 
         - networkId (string): Network ID
@@ -1267,8 +1273,8 @@ class Appliance(object):
         return self._session.get(metadata, resource)
 
     def updateNetworkApplianceSecurityIntrusion(self, networkId: str, **kwargs):
-        """
-        **Set the supported intrusion settings for an MX network**
+        """Set the supported intrusion settings for an MX network
+
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-security-intrusion
 
         - networkId (string): Network ID
@@ -1307,8 +1313,8 @@ class Appliance(object):
         return self._session.put(metadata, resource, payload)
 
     def getNetworkApplianceSecurityMalware(self, networkId: str):
-        """
-        **Returns all supported malware settings for an MX network**
+        """Returns all supported malware settings for an MX network
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-security-malware
 
         - networkId (string): Network ID
@@ -1324,8 +1330,8 @@ class Appliance(object):
         return self._session.get(metadata, resource)
 
     def updateNetworkApplianceSecurityMalware(self, networkId: str, mode: str, **kwargs):
-        """
-        **Set the supported malware settings for an MX network**
+        """Set the supported malware settings for an MX network
+
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-security-malware
 
         - networkId (string): Network ID
@@ -1359,8 +1365,8 @@ class Appliance(object):
         return self._session.put(metadata, resource, payload)
 
     def getNetworkApplianceSettings(self, networkId: str):
-        """
-        **Return the appliance settings for a network**
+        """Return the appliance settings for a network
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-settings
 
         - networkId (string): Network ID
@@ -1376,8 +1382,8 @@ class Appliance(object):
         return self._session.get(metadata, resource)
 
     def updateNetworkApplianceSettings(self, networkId: str, **kwargs):
-        """
-        **Update the appliance settings for a network**
+        """Update the appliance settings for a network
+
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-settings
 
         - networkId (string): Network ID
@@ -1416,8 +1422,8 @@ class Appliance(object):
         return self._session.put(metadata, resource, payload)
 
     def getNetworkApplianceSingleLan(self, networkId: str):
-        """
-        **Return single LAN configuration**
+        """Return single LAN configuration
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-single-lan
 
         - networkId (string): Network ID
@@ -1433,8 +1439,8 @@ class Appliance(object):
         return self._session.get(metadata, resource)
 
     def updateNetworkApplianceSingleLan(self, networkId: str, **kwargs):
-        """
-        **Update single LAN configuration**
+        """Update single LAN configuration
+
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-single-lan
 
         - networkId (string): Network ID
@@ -1464,8 +1470,8 @@ class Appliance(object):
         return self._session.put(metadata, resource, payload)
 
     def getNetworkApplianceSsids(self, networkId: str):
-        """
-        **List the MX SSIDs in a network**
+        """List the MX SSIDs in a network
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-ssids
 
         - networkId (string): Network ID
@@ -1481,8 +1487,8 @@ class Appliance(object):
         return self._session.get(metadata, resource)
 
     def getNetworkApplianceSsid(self, networkId: str, number: str):
-        """
-        **Return a single MX SSID**
+        """Return a single MX SSID
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-ssid
 
         - networkId (string): Network ID
@@ -1500,8 +1506,8 @@ class Appliance(object):
         return self._session.get(metadata, resource)
 
     def updateNetworkApplianceSsid(self, networkId: str, number: str, **kwargs):
-        """
-        **Update the attributes of an MX SSID**
+        """Update the attributes of an MX SSID
+
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-ssid
 
         - networkId (string): Network ID
@@ -1563,8 +1569,8 @@ class Appliance(object):
         return self._session.put(metadata, resource, payload)
 
     def getNetworkApplianceStaticRoutes(self, networkId: str):
-        """
-        **List the static routes for an MX or teleworker network**
+        """List the static routes for an MX or teleworker network
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-static-routes
 
         - networkId (string): Network ID
@@ -1582,8 +1588,8 @@ class Appliance(object):
     def createNetworkApplianceStaticRoute(
         self, networkId: str, name: str, subnet: str, gatewayIp: str, **kwargs
     ):
-        """
-        **Add a static route for an MX or teleworker network**
+        """Add a static route for an MX or teleworker network
+
         https://developer.cisco.com/meraki/api-v1/#!create-network-appliance-static-route
 
         - networkId (string): Network ID
@@ -1613,8 +1619,8 @@ class Appliance(object):
         return self._session.post(metadata, resource, payload)
 
     def getNetworkApplianceStaticRoute(self, networkId: str, staticRouteId: str):
-        """
-        **Return a static route for an MX or teleworker network**
+        """Return a static route for an MX or teleworker network
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-static-route
 
         - networkId (string): Network ID
@@ -1632,8 +1638,8 @@ class Appliance(object):
         return self._session.get(metadata, resource)
 
     def updateNetworkApplianceStaticRoute(self, networkId: str, staticRouteId: str, **kwargs):
-        """
-        **Update a static route for an MX or teleworker network**
+        """Update a static route for an MX or teleworker network
+
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-static-route
 
         - networkId (string): Network ID
@@ -1671,8 +1677,8 @@ class Appliance(object):
         return self._session.put(metadata, resource, payload)
 
     def deleteNetworkApplianceStaticRoute(self, networkId: str, staticRouteId: str):
-        """
-        **Delete a static route from an MX or teleworker network**
+        """Delete a static route from an MX or teleworker network
+
         https://developer.cisco.com/meraki/api-v1/#!delete-network-appliance-static-route
 
         - networkId (string): Network ID
@@ -1690,8 +1696,8 @@ class Appliance(object):
         return self._session.delete(metadata, resource)
 
     def getNetworkApplianceTrafficShaping(self, networkId: str):
-        """
-        **Display the traffic shaping settings for an MX network**
+        """Display the traffic shaping settings for an MX network
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-traffic-shaping
 
         - networkId (string): Network ID
@@ -1707,8 +1713,8 @@ class Appliance(object):
         return self._session.get(metadata, resource)
 
     def updateNetworkApplianceTrafficShaping(self, networkId: str, **kwargs):
-        """
-        **Update the traffic shaping settings for an MX network**
+        """Update the traffic shaping settings for an MX network
+
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-traffic-shaping
 
         - networkId (string): Network ID
@@ -1732,8 +1738,8 @@ class Appliance(object):
         return self._session.put(metadata, resource, payload)
 
     def getNetworkApplianceTrafficShapingCustomPerformanceClasses(self, networkId: str):
-        """
-        **List all custom performance classes for an MX network**
+        """List all custom performance classes for an MX network
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-traffic-shaping-custom-performance-classes
 
         - networkId (string): Network ID
@@ -1751,8 +1757,8 @@ class Appliance(object):
     def createNetworkApplianceTrafficShapingCustomPerformanceClass(
         self, networkId: str, name: str, **kwargs
     ):
-        """
-        **Add a custom performance class for an MX network**
+        """Add a custom performance class for an MX network
+
         https://developer.cisco.com/meraki/api-v1/#!create-network-appliance-traffic-shaping-custom-performance-class
 
         - networkId (string): Network ID
@@ -1784,8 +1790,8 @@ class Appliance(object):
     def getNetworkApplianceTrafficShapingCustomPerformanceClass(
         self, networkId: str, customPerformanceClassId: str
     ):
-        """
-        **Return a custom performance class for an MX network**
+        """Return a custom performance class for an MX network
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-traffic-shaping-custom-performance-class
 
         - networkId (string): Network ID
@@ -1805,8 +1811,8 @@ class Appliance(object):
     def updateNetworkApplianceTrafficShapingCustomPerformanceClass(
         self, networkId: str, customPerformanceClassId: str, **kwargs
     ):
-        """
-        **Update a custom performance class for an MX network**
+        """Update a custom performance class for an MX network
+
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-traffic-shaping-custom-performance-class
 
         - networkId (string): Network ID
@@ -1840,8 +1846,8 @@ class Appliance(object):
     def deleteNetworkApplianceTrafficShapingCustomPerformanceClass(
         self, networkId: str, customPerformanceClassId: str
     ):
-        """
-        **Delete a custom performance class from an MX network**
+        """Delete a custom performance class from an MX network
+
         https://developer.cisco.com/meraki/api-v1/#!delete-network-appliance-traffic-shaping-custom-performance-class
 
         - networkId (string): Network ID
@@ -1859,8 +1865,8 @@ class Appliance(object):
         return self._session.delete(metadata, resource)
 
     def updateNetworkApplianceTrafficShapingRules(self, networkId: str, **kwargs):
-        """
-            **Update the traffic shaping settings rules for an MX network**
+        """Update the traffic shaping settings rules for an MX network
+
             https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-traffic-shaping-rules
 
             - networkId (string): Network ID
@@ -1889,8 +1895,8 @@ class Appliance(object):
         return self._session.put(metadata, resource, payload)
 
     def getNetworkApplianceTrafficShapingRules(self, networkId: str):
-        """
-        **Display the traffic shaping settings rules for an MX network**
+        """Display the traffic shaping settings rules for an MX network
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-traffic-shaping-rules
 
         - networkId (string): Network ID
@@ -1906,8 +1912,8 @@ class Appliance(object):
         return self._session.get(metadata, resource)
 
     def getNetworkApplianceTrafficShapingUplinkBandwidth(self, networkId: str):
-        """
-        **Returns the uplink bandwidth limits for your MX network**
+        """Returns the uplink bandwidth limits for your MX network
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-traffic-shaping-uplink-bandwidth
 
         - networkId (string): Network ID
@@ -1923,8 +1929,8 @@ class Appliance(object):
         return self._session.get(metadata, resource)
 
     def updateNetworkApplianceTrafficShapingUplinkBandwidth(self, networkId: str, **kwargs):
-        """
-        **Updates the uplink bandwidth settings for your MX network.**
+        """Updates the uplink bandwidth settings for your MX network.
+
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-traffic-shaping-uplink-bandwidth
 
         - networkId (string): Network ID
@@ -1948,8 +1954,8 @@ class Appliance(object):
         return self._session.put(metadata, resource, payload)
 
     def getNetworkApplianceTrafficShapingUplinkSelection(self, networkId: str):
-        """
-        **Show uplink selection settings for an MX network**
+        """Show uplink selection settings for an MX network
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-traffic-shaping-uplink-selection
 
         - networkId (string): Network ID
@@ -1965,8 +1971,8 @@ class Appliance(object):
         return self._session.get(metadata, resource)
 
     def updateNetworkApplianceTrafficShapingUplinkSelection(self, networkId: str, **kwargs):
-        """
-        **Update uplink selection settings for an MX network**
+        """Update uplink selection settings for an MX network
+
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-traffic-shaping-uplink-selection
 
         - networkId (string): Network ID
@@ -2000,8 +2006,8 @@ class Appliance(object):
         return self._session.put(metadata, resource, payload)
 
     def updateNetworkApplianceTrafficShapingVpnExclusions(self, networkId: str, **kwargs):
-        """
-        **Update VPN exclusion rules for an MX network.**
+        """Update VPN exclusion rules for an MX network.
+
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-traffic-shaping-vpn-exclusions
 
         - networkId (string): Network ID
@@ -2027,8 +2033,8 @@ class Appliance(object):
         return self._session.put(metadata, resource, payload)
 
     def getNetworkApplianceUplinksUsageHistory(self, networkId: str, **kwargs):
-        """
-        **Get the sent and received bytes for each uplink of a network.**
+        """Get the sent and received bytes for each uplink of a network.
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-uplinks-usage-history
 
         - networkId (string): Network ID
@@ -2058,8 +2064,8 @@ class Appliance(object):
         return self._session.get(metadata, resource, params)
 
     def getNetworkApplianceVlans(self, networkId: str):
-        """
-        **List the VLANs for a Cisco Secure Router network**
+        """List the VLANs for a Cisco Secure Router network
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-vlans
 
         - networkId (string): Network ID
@@ -2075,8 +2081,8 @@ class Appliance(object):
         return self._session.get(metadata, resource)
 
     def createNetworkApplianceVlan(self, networkId: str, id: str, name: str, **kwargs):
-        """
-        **Add a VLAN**
+        """Add a VLAN
+
         https://developer.cisco.com/meraki/api-v1/#!create-network-appliance-vlan
 
         - networkId (string): Network ID
@@ -2152,8 +2158,8 @@ class Appliance(object):
         return self._session.post(metadata, resource, payload)
 
     def getNetworkApplianceVlansSettings(self, networkId: str):
-        """
-        **Returns the enabled status of VLANs for the network**
+        """Returns the enabled status of VLANs for the network
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-vlans-settings
 
         - networkId (string): Network ID
@@ -2169,8 +2175,8 @@ class Appliance(object):
         return self._session.get(metadata, resource)
 
     def updateNetworkApplianceVlansSettings(self, networkId: str, **kwargs):
-        """
-        **Enable/Disable VLANs for the given network**
+        """Enable/Disable VLANs for the given network
+
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-vlans-settings
 
         - networkId (string): Network ID
@@ -2194,8 +2200,8 @@ class Appliance(object):
         return self._session.put(metadata, resource, payload)
 
     def getNetworkApplianceVlan(self, networkId: str, vlanId: str):
-        """
-        **Return a VLAN**
+        """Return a VLAN
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-vlan
 
         - networkId (string): Network ID
@@ -2213,8 +2219,8 @@ class Appliance(object):
         return self._session.get(metadata, resource)
 
     def updateNetworkApplianceVlan(self, networkId: str, vlanId: str, **kwargs):
-        """
-        **Update a VLAN**
+        """Update a VLAN
+
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-vlan
 
         - networkId (string): Network ID
@@ -2298,8 +2304,8 @@ class Appliance(object):
         return self._session.put(metadata, resource, payload)
 
     def deleteNetworkApplianceVlan(self, networkId: str, vlanId: str):
-        """
-        **Delete a VLAN from a network**
+        """Delete a VLAN from a network
+
         https://developer.cisco.com/meraki/api-v1/#!delete-network-appliance-vlan
 
         - networkId (string): Network ID
@@ -2317,8 +2323,8 @@ class Appliance(object):
         return self._session.delete(metadata, resource)
 
     def getNetworkApplianceVpnBgp(self, networkId: str):
-        """
-        **Return a Hub BGP Configuration**
+        """Return a Hub BGP Configuration
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-vpn-bgp
 
         - networkId (string): Network ID
@@ -2334,8 +2340,8 @@ class Appliance(object):
         return self._session.get(metadata, resource)
 
     def updateNetworkApplianceVpnBgp(self, networkId: str, enabled: bool, **kwargs):
-        """
-        **Update a Hub BGP Configuration**
+        """Update a Hub BGP Configuration
+
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-vpn-bgp
 
         - networkId (string): Network ID
@@ -2365,8 +2371,8 @@ class Appliance(object):
         return self._session.put(metadata, resource, payload)
 
     def getNetworkApplianceVpnSiteToSiteVpn(self, networkId: str):
-        """
-        **Return the site-to-site VPN settings of a network**
+        """Return the site-to-site VPN settings of a network
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-vpn-site-to-site-vpn
 
         - networkId (string): Network ID
@@ -2382,8 +2388,8 @@ class Appliance(object):
         return self._session.get(metadata, resource)
 
     def updateNetworkApplianceVpnSiteToSiteVpn(self, networkId: str, mode: str, **kwargs):
-        """
-        **Update the site-to-site VPN settings of a network**
+        """Update the site-to-site VPN settings of a network
+
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-vpn-site-to-site-vpn
 
         - networkId (string): Network ID
@@ -2419,8 +2425,8 @@ class Appliance(object):
         return self._session.put(metadata, resource, payload)
 
     def getNetworkApplianceWarmSpare(self, networkId: str):
-        """
-        **Return MX warm spare settings**
+        """Return MX warm spare settings
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-warm-spare
 
         - networkId (string): Network ID
@@ -2436,8 +2442,8 @@ class Appliance(object):
         return self._session.get(metadata, resource)
 
     def updateNetworkApplianceWarmSpare(self, networkId: str, enabled: bool, **kwargs):
-        """
-        **Update MX warm spare settings**
+        """Update MX warm spare settings
+
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-warm-spare
 
         - networkId (string): Network ID
@@ -2469,8 +2475,8 @@ class Appliance(object):
         return self._session.put(metadata, resource, payload)
 
     def swapNetworkApplianceWarmSpare(self, networkId: str):
-        """
-        **Swap MX primary and warm spare appliances**
+        """Swap MX primary and warm spare appliances
+
         https://developer.cisco.com/meraki/api-v1/#!swap-network-appliance-warm-spare
 
         - networkId (string): Network ID
@@ -2486,8 +2492,8 @@ class Appliance(object):
         return self._session.post(metadata, resource)
 
     def getOrganizationApplianceDnsLocalProfiles(self, organizationId: str, **kwargs):
-        """
-        **Fetch the local DNS profiles used in the organization**
+        """Fetch the local DNS profiles used in the organization
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-dns-local-profiles
 
         - organizationId (string): Organization ID
@@ -2511,7 +2517,7 @@ class Appliance(object):
         array_params = [
             "profileIds",
         ]
-        for k, v in kwargs.items():
+        for k in kwargs:
             if k.strip() in array_params:
                 params[f"{k.strip()}[]"] = kwargs[f"{k}"]
                 params.pop(k.strip())
@@ -2519,8 +2525,8 @@ class Appliance(object):
         return self._session.get(metadata, resource, params)
 
     def createOrganizationApplianceDnsLocalProfile(self, organizationId: str, name: str):
-        """
-        **Create a new local DNS profile**
+        """Create a new local DNS profile
+
         https://developer.cisco.com/meraki/api-v1/#!create-organization-appliance-dns-local-profile
 
         - organizationId (string): Organization ID
@@ -2544,8 +2550,8 @@ class Appliance(object):
         return self._session.post(metadata, resource, payload)
 
     def getOrganizationApplianceDnsLocalProfilesAssignments(self, organizationId: str, **kwargs):
-        """
-        **Fetch the local DNS profile assignments in the organization**
+        """Fetch the local DNS profile assignments in the organization
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-dns-local-profiles-assignments
 
         - organizationId (string): Organization ID
@@ -2572,7 +2578,7 @@ class Appliance(object):
             "profileIds",
             "networkIds",
         ]
-        for k, v in kwargs.items():
+        for k in kwargs:
             if k.strip() in array_params:
                 params[f"{k.strip()}[]"] = kwargs[f"{k}"]
                 params.pop(k.strip())
@@ -2582,8 +2588,8 @@ class Appliance(object):
     def bulkOrganizationApplianceDnsLocalProfilesAssignmentsCreate(
         self, organizationId: str, items: list
     ):
-        """
-        **Assign the local DNS profile to networks in the organization**
+        """Assign the local DNS profile to networks in the organization
+
         https://developer.cisco.com/meraki/api-v1/#!bulk-organization-appliance-dns-local-profiles-assignments-create
 
         - organizationId (string): Organization ID
@@ -2611,8 +2617,8 @@ class Appliance(object):
     def createOrganizationApplianceDnsLocalProfilesAssignmentsBulkDelete(
         self, organizationId: str, items: list
     ):
-        """
-        **Unassign the local DNS profile to networks in the organization**
+        """Unassign the local DNS profile to networks in the organization
+
         https://developer.cisco.com/meraki/api-v1/#!create-organization-appliance-dns-local-profiles-assignments-bulk-delete
 
         - organizationId (string): Organization ID
@@ -2648,8 +2654,8 @@ class Appliance(object):
     def updateOrganizationApplianceDnsLocalProfile(
         self, organizationId: str, profileId: str, name: str
     ):
-        """
-        **Update a local DNS profile**
+        """Update a local DNS profile
+
         https://developer.cisco.com/meraki/api-v1/#!update-organization-appliance-dns-local-profile
 
         - organizationId (string): Organization ID
@@ -2675,8 +2681,8 @@ class Appliance(object):
         return self._session.put(metadata, resource, payload)
 
     def deleteOrganizationApplianceDnsLocalProfile(self, organizationId: str, profileId: str):
-        """
-        **Deletes a local DNS profile**
+        """Deletes a local DNS profile
+
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-appliance-dns-local-profile
 
         - organizationId (string): Organization ID
@@ -2694,8 +2700,8 @@ class Appliance(object):
         return self._session.delete(metadata, resource)
 
     def getOrganizationApplianceDnsLocalRecords(self, organizationId: str, **kwargs):
-        """
-        **Fetch the DNS records used in local DNS profiles**
+        """Fetch the DNS records used in local DNS profiles
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-dns-local-records
 
         - organizationId (string): Organization ID
@@ -2719,7 +2725,7 @@ class Appliance(object):
         array_params = [
             "profileIds",
         ]
-        for k, v in kwargs.items():
+        for k in kwargs:
             if k.strip() in array_params:
                 params[f"{k.strip()}[]"] = kwargs[f"{k}"]
                 params.pop(k.strip())
@@ -2729,8 +2735,8 @@ class Appliance(object):
     def createOrganizationApplianceDnsLocalRecord(
         self, organizationId: str, hostname: str, address: str, profile: dict
     ):
-        """
-        **Create a new local DNS record**
+        """Create a new local DNS record
+
         https://developer.cisco.com/meraki/api-v1/#!create-organization-appliance-dns-local-record
 
         - organizationId (string): Organization ID
@@ -2760,8 +2766,8 @@ class Appliance(object):
     def updateOrganizationApplianceDnsLocalRecord(
         self, organizationId: str, recordId: str, **kwargs
     ):
-        """
-        **Updates a local DNS record**
+        """Updates a local DNS record
+
         https://developer.cisco.com/meraki/api-v1/#!update-organization-appliance-dns-local-record
 
         - organizationId (string): Organization ID
@@ -2791,8 +2797,8 @@ class Appliance(object):
         return self._session.put(metadata, resource, payload)
 
     def deleteOrganizationApplianceDnsLocalRecord(self, organizationId: str, recordId: str):
-        """
-        **Deletes a local DNS record**
+        """Deletes a local DNS record
+
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-appliance-dns-local-record
 
         - organizationId (string): Organization ID
@@ -2810,8 +2816,8 @@ class Appliance(object):
         return self._session.delete(metadata, resource)
 
     def getOrganizationApplianceDnsSplitProfiles(self, organizationId: str, **kwargs):
-        """
-        **Fetch the split DNS profiles used in the organization**
+        """Fetch the split DNS profiles used in the organization
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-dns-split-profiles
 
         - organizationId (string): Organization ID
@@ -2835,7 +2841,7 @@ class Appliance(object):
         array_params = [
             "profileIds",
         ]
-        for k, v in kwargs.items():
+        for k in kwargs:
             if k.strip() in array_params:
                 params[f"{k.strip()}[]"] = kwargs[f"{k}"]
                 params.pop(k.strip())
@@ -2845,8 +2851,8 @@ class Appliance(object):
     def createOrganizationApplianceDnsSplitProfile(
         self, organizationId: str, name: str, hostnames: list, nameservers: dict
     ):
-        """
-        **Create a new split DNS profile**
+        """Create a new split DNS profile
+
         https://developer.cisco.com/meraki/api-v1/#!create-organization-appliance-dns-split-profile
 
         - organizationId (string): Organization ID
@@ -2874,8 +2880,8 @@ class Appliance(object):
         return self._session.post(metadata, resource, payload)
 
     def getOrganizationApplianceDnsSplitProfilesAssignments(self, organizationId: str, **kwargs):
-        """
-        **Fetch the split DNS profile assignments in the organization**
+        """Fetch the split DNS profile assignments in the organization
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-dns-split-profiles-assignments
 
         - organizationId (string): Organization ID
@@ -2902,7 +2908,7 @@ class Appliance(object):
             "profileIds",
             "networkIds",
         ]
-        for k, v in kwargs.items():
+        for k in kwargs:
             if k.strip() in array_params:
                 params[f"{k.strip()}[]"] = kwargs[f"{k}"]
                 params.pop(k.strip())
@@ -2912,8 +2918,8 @@ class Appliance(object):
     def createOrganizationApplianceDnsSplitProfilesAssignmentsBulkCreate(
         self, organizationId: str, items: list
     ):
-        """
-        **Assign the split DNS profile to networks in the organization**
+        """Assign the split DNS profile to networks in the organization
+
         https://developer.cisco.com/meraki/api-v1/#!create-organization-appliance-dns-split-profiles-assignments-bulk-create
 
         - organizationId (string): Organization ID
@@ -2949,8 +2955,8 @@ class Appliance(object):
     def createOrganizationApplianceDnsSplitProfilesAssignmentsBulkDelete(
         self, organizationId: str, items: list
     ):
-        """
-        **Unassign the split DNS profile to networks in the organization**
+        """Unassign the split DNS profile to networks in the organization
+
         https://developer.cisco.com/meraki/api-v1/#!create-organization-appliance-dns-split-profiles-assignments-bulk-delete
 
         - organizationId (string): Organization ID
@@ -2986,8 +2992,8 @@ class Appliance(object):
     def updateOrganizationApplianceDnsSplitProfile(
         self, organizationId: str, profileId: str, **kwargs
     ):
-        """
-        **Update a split DNS profile**
+        """Update a split DNS profile
+
         https://developer.cisco.com/meraki/api-v1/#!update-organization-appliance-dns-split-profile
 
         - organizationId (string): Organization ID
@@ -3017,8 +3023,8 @@ class Appliance(object):
         return self._session.put(metadata, resource, payload)
 
     def deleteOrganizationApplianceDnsSplitProfile(self, organizationId: str, profileId: str):
-        """
-        **Deletes a split DNS profile**
+        """Deletes a split DNS profile
+
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-appliance-dns-split-profile
 
         - organizationId (string): Organization ID
@@ -3038,8 +3044,8 @@ class Appliance(object):
     def getOrganizationApplianceFirewallMulticastForwardingByNetwork(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
-        """
-        **List Static Multicasting forwarding settings for MX networks**
+        """List Static Multicasting forwarding settings for MX networks
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-firewall-multicast-forwarding-by-network
 
         - organizationId (string): Organization ID
@@ -3073,7 +3079,7 @@ class Appliance(object):
         array_params = [
             "networkIds",
         ]
-        for k, v in kwargs.items():
+        for k in kwargs:
             if k.strip() in array_params:
                 params[f"{k.strip()}[]"] = kwargs[f"{k}"]
                 params.pop(k.strip())
@@ -3083,8 +3089,8 @@ class Appliance(object):
     def getOrganizationApplianceSecurityEvents(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
-        """
-        **List the security events for an organization**
+        """List the security events for an organization
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-security-events
 
         - organizationId (string): Organization ID
@@ -3128,8 +3134,8 @@ class Appliance(object):
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def getOrganizationApplianceSecurityIntrusion(self, organizationId: str):
-        """
-        **Returns all supported intrusion settings for an organization**
+        """Returns all supported intrusion settings for an organization
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-security-intrusion
 
         - organizationId (string): Organization ID
@@ -3145,8 +3151,8 @@ class Appliance(object):
         return self._session.get(metadata, resource)
 
     def updateOrganizationApplianceSecurityIntrusion(self, organizationId: str, allowedRules: list):
-        """
-        **Sets supported intrusion settings for an organization**
+        """Sets supported intrusion settings for an organization
+
         https://developer.cisco.com/meraki/api-v1/#!update-organization-appliance-security-intrusion
 
         - organizationId (string): Organization ID
@@ -3172,8 +3178,8 @@ class Appliance(object):
     def getOrganizationApplianceTrafficShapingVpnExclusionsByNetwork(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
-        """
-        **Display VPN exclusion rules for MX networks.**
+        """Display VPN exclusion rules for MX networks.
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-traffic-shaping-vpn-exclusions-by-network
 
         - organizationId (string): Organization ID
@@ -3207,7 +3213,7 @@ class Appliance(object):
         array_params = [
             "networkIds",
         ]
-        for k, v in kwargs.items():
+        for k in kwargs:
             if k.strip() in array_params:
                 params[f"{k.strip()}[]"] = kwargs[f"{k}"]
                 params.pop(k.strip())
@@ -3217,8 +3223,8 @@ class Appliance(object):
     def getOrganizationApplianceUplinkStatuses(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
-        """
-        **List the uplink status of every Meraki MX and Z series appliances in the organization**
+        """List the uplink status of every Meraki MX and Z series appliances in the organization
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-uplink-statuses
 
         - organizationId (string): Organization ID
@@ -3256,7 +3262,7 @@ class Appliance(object):
             "serials",
             "iccids",
         ]
-        for k, v in kwargs.items():
+        for k in kwargs:
             if k.strip() in array_params:
                 params[f"{k.strip()}[]"] = kwargs[f"{k}"]
                 params.pop(k.strip())
@@ -3264,8 +3270,8 @@ class Appliance(object):
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def getOrganizationApplianceUplinksStatusesOverview(self, organizationId: str, **kwargs):
-        """
-        **Returns an overview of uplink statuses**
+        """Returns an overview of uplink statuses
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-uplinks-statuses-overview
 
         - organizationId (string): Organization ID
@@ -3289,7 +3295,7 @@ class Appliance(object):
         array_params = [
             "networkIds",
         ]
-        for k, v in kwargs.items():
+        for k in kwargs:
             if k.strip() in array_params:
                 params[f"{k.strip()}[]"] = kwargs[f"{k}"]
                 params.pop(k.strip())
@@ -3297,8 +3303,8 @@ class Appliance(object):
         return self._session.get(metadata, resource, params)
 
     def getOrganizationApplianceUplinksUsageByNetwork(self, organizationId: str, **kwargs):
-        """
-        **Get the sent and received bytes for each uplink of all MX and Z networks within an organization**
+        """Get the sent and received bytes for each uplink of all MX and Z networks within an organization
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-uplinks-usage-by-network
 
         - organizationId (string): Organization ID
@@ -3326,8 +3332,8 @@ class Appliance(object):
         return self._session.get(metadata, resource, params)
 
     def getOrganizationApplianceVpnSiteToSiteIpsecPeersSlas(self, organizationId: str):
-        """
-        **Get the list of available IPsec SLA policies for an organization**
+        """Get the list of available IPsec SLA policies for an organization
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-vpn-site-to-site-ipsec-peers-slas
 
         - organizationId (string): Organization ID
@@ -3343,8 +3349,8 @@ class Appliance(object):
         return self._session.get(metadata, resource)
 
     def updateOrganizationApplianceVpnSiteToSiteIpsecPeersSlas(self, organizationId: str, **kwargs):
-        """
-        **Update the IPsec SLA policies for an organization**
+        """Update the IPsec SLA policies for an organization
+
         https://developer.cisco.com/meraki/api-v1/#!update-organization-appliance-vpn-site-to-site-ipsec-peers-slas
 
         - organizationId (string): Organization ID
@@ -3370,8 +3376,8 @@ class Appliance(object):
     def getOrganizationApplianceVpnStats(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
-        """
-        **Show VPN history stat for networks in an organization**
+        """Show VPN history stat for networks in an organization
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-vpn-stats
 
         - organizationId (string): Organization ID
@@ -3409,7 +3415,7 @@ class Appliance(object):
         array_params = [
             "networkIds",
         ]
-        for k, v in kwargs.items():
+        for k in kwargs:
             if k.strip() in array_params:
                 params[f"{k.strip()}[]"] = kwargs[f"{k}"]
                 params.pop(k.strip())
@@ -3419,8 +3425,8 @@ class Appliance(object):
     def getOrganizationApplianceVpnStatuses(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
-        """
-        **Show VPN status for networks in an organization**
+        """Show VPN status for networks in an organization
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-vpn-statuses
 
         - organizationId (string): Organization ID
@@ -3452,7 +3458,7 @@ class Appliance(object):
         array_params = [
             "networkIds",
         ]
-        for k, v in kwargs.items():
+        for k in kwargs:
             if k.strip() in array_params:
                 params[f"{k.strip()}[]"] = kwargs[f"{k}"]
                 params.pop(k.strip())
@@ -3460,8 +3466,8 @@ class Appliance(object):
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def getOrganizationApplianceVpnThirdPartyVPNPeers(self, organizationId: str):
-        """
-        **Return the third party VPN peers for an organization**
+        """Return the third party VPN peers for an organization
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-vpn-third-party-v-p-n-peers
 
         - organizationId (string): Organization ID
@@ -3477,8 +3483,8 @@ class Appliance(object):
         return self._session.get(metadata, resource)
 
     def updateOrganizationApplianceVpnThirdPartyVPNPeers(self, organizationId: str, peers: list):
-        """
-        **Update the third party VPN peers for an organization**
+        """Update the third party VPN peers for an organization
+
         https://developer.cisco.com/meraki/api-v1/#!update-organization-appliance-vpn-third-party-v-p-n-peers
 
         - organizationId (string): Organization ID
@@ -3502,8 +3508,8 @@ class Appliance(object):
         return self._session.put(metadata, resource, payload)
 
     def getOrganizationApplianceVpnVpnFirewallRules(self, organizationId: str):
-        """
-        **Return the firewall rules for an organization's site-to-site VPN**
+        """Return the firewall rules for an organization's site-to-site VPN
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-vpn-vpn-firewall-rules
 
         - organizationId (string): Organization ID
@@ -3519,8 +3525,8 @@ class Appliance(object):
         return self._session.get(metadata, resource)
 
     def updateOrganizationApplianceVpnVpnFirewallRules(self, organizationId: str, **kwargs):
-        """
-        **Update the firewall rules of an organization's site-to-site VPN**
+        """Update the firewall rules of an organization's site-to-site VPN
+
         https://developer.cisco.com/meraki/api-v1/#!update-organization-appliance-vpn-vpn-firewall-rules
 
         - organizationId (string): Organization ID

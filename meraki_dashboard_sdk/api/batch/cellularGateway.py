@@ -1,9 +1,11 @@
-import urllib
+"""ActionBatchCellularGateway API endpoints."""
 
 
-class ActionBatchCellularGateway(object):
-    def __init__(self):
-        super(ActionBatchCellularGateway, self).__init__()
+class ActionBatchCellularGateway:
+    """ActionBatchCellularGateway class."""
+
+    def __init__(self) -> None:
+        pass
 
     def updateDeviceCellularGatewayLan(self, serial: str, **kwargs):
         """

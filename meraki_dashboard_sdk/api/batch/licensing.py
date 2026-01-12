@@ -1,6 +1,8 @@
-import urllib
+"""ActionBatchLicensing API endpoints."""
 
 
-class ActionBatchLicensing(object):
-    def __init__(self):
-        super(ActionBatchLicensing, self).__init__()
+class ActionBatchLicensing:
+    """ActionBatchLicensing class."""
+
+    def __init__(self) -> None:
+        pass

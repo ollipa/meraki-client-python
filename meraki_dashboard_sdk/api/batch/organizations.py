@@ -1,9 +1,11 @@
-import urllib
+"""ActionBatchOrganizations API endpoints."""
 
 
-class ActionBatchOrganizations(object):
-    def __init__(self):
-        super(ActionBatchOrganizations, self).__init__()
+class ActionBatchOrganizations:
+    """ActionBatchOrganizations class."""
+
+    def __init__(self) -> None:
+        pass
 
     def createOrganizationAdaptivePolicyAcl(
         self, organizationId: str, name: str, rules: list, ipVersion: str, **kwargs

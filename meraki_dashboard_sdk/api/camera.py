@@ -1,14 +1,20 @@
+"""Camera API endpoints."""
+
 import urllib
 
+from meraki_dashboard_sdk.rest_session import RestSession
 
-class Camera(object):
-    def __init__(self, session):
-        super(Camera, self).__init__()
+
+class Camera:
+    """Camera class."""
+
+    def __init__(self, session: RestSession) -> None:
+        super(self).__init__()
         self._session = session
 
     def getDeviceCameraAnalyticsLive(self, serial: str):
-        """
-        **Returns live state from camera analytics zones**
+        """Returns live state from camera analytics zones
+
         https://developer.cisco.com/meraki/api-v1/#!get-device-camera-analytics-live
 
         - serial (string): Serial
@@ -24,8 +30,8 @@ class Camera(object):
         return self._session.get(metadata, resource)
 
     def getDeviceCameraAnalyticsOverview(self, serial: str, **kwargs):
-        """
-        **Returns an overview of aggregate analytics data for a timespan**
+        """Returns an overview of aggregate analytics data for a timespan
+
         https://developer.cisco.com/meraki/api-v1/#!get-device-camera-analytics-overview
 
         - serial (string): Serial
@@ -61,8 +67,8 @@ class Camera(object):
         return self._session.get(metadata, resource, params)
 
     def getDeviceCameraAnalyticsRecent(self, serial: str, **kwargs):
-        """
-        **Returns most recent record for analytics zones**
+        """Returns most recent record for analytics zones
+
         https://developer.cisco.com/meraki/api-v1/#!get-device-camera-analytics-recent
 
         - serial (string): Serial
@@ -92,8 +98,8 @@ class Camera(object):
         return self._session.get(metadata, resource, params)
 
     def getDeviceCameraAnalyticsZones(self, serial: str):
-        """
-        **Returns all configured analytic zones for this camera**
+        """Returns all configured analytic zones for this camera
+
         https://developer.cisco.com/meraki/api-v1/#!get-device-camera-analytics-zones
 
         - serial (string): Serial
@@ -109,8 +115,8 @@ class Camera(object):
         return self._session.get(metadata, resource)
 
     def getDeviceCameraAnalyticsZoneHistory(self, serial: str, zoneId: str, **kwargs):
-        """
-        **Return historical records for analytic zones**
+        """Return historical records for analytic zones
+
         https://developer.cisco.com/meraki/api-v1/#!get-device-camera-analytics-zone-history
 
         - serial (string): Serial
@@ -150,8 +156,8 @@ class Camera(object):
         return self._session.get(metadata, resource, params)
 
     def getDeviceCameraCustomAnalytics(self, serial: str):
-        """
-        **Return custom analytics settings for a camera**
+        """Return custom analytics settings for a camera
+
         https://developer.cisco.com/meraki/api-v1/#!get-device-camera-custom-analytics
 
         - serial (string): Serial
@@ -167,8 +173,8 @@ class Camera(object):
         return self._session.get(metadata, resource)
 
     def updateDeviceCameraCustomAnalytics(self, serial: str, **kwargs):
-        """
-        **Update custom analytics settings for a camera**
+        """Update custom analytics settings for a camera
+
         https://developer.cisco.com/meraki/api-v1/#!update-device-camera-custom-analytics
 
         - serial (string): Serial
@@ -196,8 +202,8 @@ class Camera(object):
         return self._session.put(metadata, resource, payload)
 
     def generateDeviceCameraSnapshot(self, serial: str, **kwargs):
-        """
-        **Generate a snapshot of what the camera sees at the specified time and return a link to that image.**
+        """Generate a snapshot of what the camera sees at the specified time and return a link to that image.
+
         https://developer.cisco.com/meraki/api-v1/#!generate-device-camera-snapshot
 
         - serial (string): Serial
@@ -220,8 +226,8 @@ class Camera(object):
         return self._session.post(metadata, resource, payload)
 
     def getDeviceCameraQualityAndRetention(self, serial: str):
-        """
-        **Returns quality and retention settings for the given camera**
+        """Returns quality and retention settings for the given camera
+
         https://developer.cisco.com/meraki/api-v1/#!get-device-camera-quality-and-retention
 
         - serial (string): Serial
@@ -237,8 +243,8 @@ class Camera(object):
         return self._session.get(metadata, resource)
 
     def updateDeviceCameraQualityAndRetention(self, serial: str, **kwargs):
-        """
-        **Update quality and retention settings for the given camera**
+        """Update quality and retention settings for the given camera
+
         https://developer.cisco.com/meraki/api-v1/#!update-device-camera-quality-and-retention
 
         - serial (string): Serial
@@ -298,8 +304,8 @@ class Camera(object):
         return self._session.put(metadata, resource, payload)
 
     def getDeviceCameraSense(self, serial: str):
-        """
-        **Returns sense settings for a given camera**
+        """Returns sense settings for a given camera
+
         https://developer.cisco.com/meraki/api-v1/#!get-device-camera-sense
 
         - serial (string): Serial
@@ -312,8 +318,8 @@ class Camera(object):
         return self._session.get(metadata, resource)
 
     def updateDeviceCameraSense(self, serial: str, **kwargs):
-        """
-        **Update sense settings for the given camera**
+        """Update sense settings for the given camera
+
         https://developer.cisco.com/meraki/api-v1/#!update-device-camera-sense
 
         - serial (string): Serial
@@ -343,8 +349,8 @@ class Camera(object):
         return self._session.put(metadata, resource, payload)
 
     def getDeviceCameraSenseObjectDetectionModels(self, serial: str):
-        """
-        **Returns the MV Sense object detection model list for the given camera**
+        """Returns the MV Sense object detection model list for the given camera
+
         https://developer.cisco.com/meraki/api-v1/#!get-device-camera-sense-object-detection-models
 
         - serial (string): Serial
@@ -360,8 +366,8 @@ class Camera(object):
         return self._session.get(metadata, resource)
 
     def getDeviceCameraVideoSettings(self, serial: str):
-        """
-        **Returns video settings for the given camera**
+        """Returns video settings for the given camera
+
         https://developer.cisco.com/meraki/api-v1/#!get-device-camera-video-settings
 
         - serial (string): Serial
@@ -377,8 +383,8 @@ class Camera(object):
         return self._session.get(metadata, resource)
 
     def updateDeviceCameraVideoSettings(self, serial: str, **kwargs):
-        """
-        **Update video settings for the given camera**
+        """Update video settings for the given camera
+
         https://developer.cisco.com/meraki/api-v1/#!update-device-camera-video-settings
 
         - serial (string): Serial
@@ -402,8 +408,8 @@ class Camera(object):
         return self._session.put(metadata, resource, payload)
 
     def getDeviceCameraVideoLink(self, serial: str, **kwargs):
-        """
-        **Returns video link to the specified camera**
+        """Returns video link to the specified camera
+
         https://developer.cisco.com/meraki/api-v1/#!get-device-camera-video-link
 
         - serial (string): Serial
@@ -427,8 +433,8 @@ class Camera(object):
         return self._session.get(metadata, resource, params)
 
     def getDeviceCameraWirelessProfiles(self, serial: str):
-        """
-        **Returns wireless profile assigned to the given camera**
+        """Returns wireless profile assigned to the given camera
+
         https://developer.cisco.com/meraki/api-v1/#!get-device-camera-wireless-profiles
 
         - serial (string): Serial
@@ -444,8 +450,8 @@ class Camera(object):
         return self._session.get(metadata, resource)
 
     def updateDeviceCameraWirelessProfiles(self, serial: str, ids: dict):
-        """
-        **Assign wireless profiles to the given camera**
+        """Assign wireless profiles to the given camera
+
         https://developer.cisco.com/meraki/api-v1/#!update-device-camera-wireless-profiles
 
         - serial (string): Serial
@@ -469,8 +475,8 @@ class Camera(object):
         return self._session.put(metadata, resource, payload)
 
     def getNetworkCameraQualityRetentionProfiles(self, networkId: str):
-        """
-        **List the quality retention profiles for this network**
+        """List the quality retention profiles for this network
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-camera-quality-retention-profiles
 
         - networkId (string): Network ID
@@ -486,8 +492,8 @@ class Camera(object):
         return self._session.get(metadata, resource)
 
     def createNetworkCameraQualityRetentionProfile(self, networkId: str, name: str, **kwargs):
-        """
-        **Creates new quality retention profile for this network.**
+        """Creates new quality retention profile for this network.
+
         https://developer.cisco.com/meraki/api-v1/#!create-network-camera-quality-retention-profile
 
         - networkId (string): Network ID
@@ -531,8 +537,8 @@ class Camera(object):
     def getNetworkCameraQualityRetentionProfile(
         self, networkId: str, qualityRetentionProfileId: str
     ):
-        """
-        **Retrieve a single quality retention profile**
+        """Retrieve a single quality retention profile
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-camera-quality-retention-profile
 
         - networkId (string): Network ID
@@ -554,8 +560,8 @@ class Camera(object):
     def updateNetworkCameraQualityRetentionProfile(
         self, networkId: str, qualityRetentionProfileId: str, **kwargs
     ):
-        """
-        **Update an existing quality retention profile for this network.**
+        """Update an existing quality retention profile for this network.
+
         https://developer.cisco.com/meraki/api-v1/#!update-network-camera-quality-retention-profile
 
         - networkId (string): Network ID
@@ -603,8 +609,8 @@ class Camera(object):
     def deleteNetworkCameraQualityRetentionProfile(
         self, networkId: str, qualityRetentionProfileId: str
     ):
-        """
-        **Delete an existing quality retention profile for this network.**
+        """Delete an existing quality retention profile for this network.
+
         https://developer.cisco.com/meraki/api-v1/#!delete-network-camera-quality-retention-profile
 
         - networkId (string): Network ID
@@ -624,8 +630,8 @@ class Camera(object):
         return self._session.delete(metadata, resource)
 
     def getNetworkCameraSchedules(self, networkId: str):
-        """
-        **Returns a list of all camera recording schedules.**
+        """Returns a list of all camera recording schedules.
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-camera-schedules
 
         - networkId (string): Network ID
@@ -641,8 +647,8 @@ class Camera(object):
         return self._session.get(metadata, resource)
 
     def createNetworkCameraWirelessProfile(self, networkId: str, name: str, ssid: dict, **kwargs):
-        """
-        **Creates a new camera wireless profile for this network.**
+        """Creates a new camera wireless profile for this network.
+
         https://developer.cisco.com/meraki/api-v1/#!create-network-camera-wireless-profile
 
         - networkId (string): Network ID
@@ -670,8 +676,8 @@ class Camera(object):
         return self._session.post(metadata, resource, payload)
 
     def getNetworkCameraWirelessProfiles(self, networkId: str):
-        """
-        **List the camera wireless profiles for this network.**
+        """List the camera wireless profiles for this network.
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-camera-wireless-profiles
 
         - networkId (string): Network ID
@@ -687,8 +693,8 @@ class Camera(object):
         return self._session.get(metadata, resource)
 
     def getNetworkCameraWirelessProfile(self, networkId: str, wirelessProfileId: str):
-        """
-        **Retrieve a single camera wireless profile.**
+        """Retrieve a single camera wireless profile.
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-camera-wireless-profile
 
         - networkId (string): Network ID
@@ -706,8 +712,8 @@ class Camera(object):
         return self._session.get(metadata, resource)
 
     def updateNetworkCameraWirelessProfile(self, networkId: str, wirelessProfileId: str, **kwargs):
-        """
-        **Update an existing camera wireless profile in this network.**
+        """Update an existing camera wireless profile in this network.
+
         https://developer.cisco.com/meraki/api-v1/#!update-network-camera-wireless-profile
 
         - networkId (string): Network ID
@@ -737,8 +743,8 @@ class Camera(object):
         return self._session.put(metadata, resource, payload)
 
     def deleteNetworkCameraWirelessProfile(self, networkId: str, wirelessProfileId: str):
-        """
-        **Delete an existing camera wireless profile for this network.**
+        """Delete an existing camera wireless profile for this network.
+
         https://developer.cisco.com/meraki/api-v1/#!delete-network-camera-wireless-profile
 
         - networkId (string): Network ID
@@ -756,8 +762,8 @@ class Camera(object):
         return self._session.delete(metadata, resource)
 
     def getOrganizationCameraBoundariesAreasByDevice(self, organizationId: str, **kwargs):
-        """
-        **Returns all configured area boundaries of cameras**
+        """Returns all configured area boundaries of cameras
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-camera-boundaries-areas-by-device
 
         - organizationId (string): Organization ID
@@ -781,7 +787,7 @@ class Camera(object):
         array_params = [
             "serials",
         ]
-        for k, v in kwargs.items():
+        for k in kwargs:
             if k.strip() in array_params:
                 params[f"{k.strip()}[]"] = kwargs[f"{k}"]
                 params.pop(k.strip())
@@ -789,8 +795,8 @@ class Camera(object):
         return self._session.get(metadata, resource, params)
 
     def getOrganizationCameraBoundariesLinesByDevice(self, organizationId: str, **kwargs):
-        """
-        **Returns all configured crossingline boundaries of cameras**
+        """Returns all configured crossingline boundaries of cameras
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-camera-boundaries-lines-by-device
 
         - organizationId (string): Organization ID
@@ -814,7 +820,7 @@ class Camera(object):
         array_params = [
             "serials",
         ]
-        for k, v in kwargs.items():
+        for k in kwargs:
             if k.strip() in array_params:
                 params[f"{k.strip()}[]"] = kwargs[f"{k}"]
                 params.pop(k.strip())
@@ -822,8 +828,8 @@ class Camera(object):
         return self._session.get(metadata, resource, params)
 
     def getOrganizationCameraCustomAnalyticsArtifacts(self, organizationId: str):
-        """
-        **List Custom Analytics Artifacts**
+        """List Custom Analytics Artifacts
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-camera-custom-analytics-artifacts
 
         - organizationId (string): Organization ID
@@ -839,8 +845,8 @@ class Camera(object):
         return self._session.get(metadata, resource)
 
     def createOrganizationCameraCustomAnalyticsArtifact(self, organizationId: str, **kwargs):
-        """
-        **Create custom analytics artifact**
+        """Create custom analytics artifact
+
         https://developer.cisco.com/meraki/api-v1/#!create-organization-camera-custom-analytics-artifact
 
         - organizationId (string): Organization ID
@@ -864,8 +870,8 @@ class Camera(object):
         return self._session.post(metadata, resource, payload)
 
     def getOrganizationCameraCustomAnalyticsArtifact(self, organizationId: str, artifactId: str):
-        """
-        **Get Custom Analytics Artifact**
+        """Get Custom Analytics Artifact
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-camera-custom-analytics-artifact
 
         - organizationId (string): Organization ID
@@ -883,8 +889,8 @@ class Camera(object):
         return self._session.get(metadata, resource)
 
     def deleteOrganizationCameraCustomAnalyticsArtifact(self, organizationId: str, artifactId: str):
-        """
-        **Delete Custom Analytics Artifact**
+        """Delete Custom Analytics Artifact
+
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-camera-custom-analytics-artifact
 
         - organizationId (string): Organization ID
@@ -910,8 +916,8 @@ class Camera(object):
         direction="next",
         **kwargs,
     ):
-        """
-        **Returns analytics data for timespans**
+        """Returns analytics data for timespans
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-camera-detections-history-by-boundary-by-interval
 
         - organizationId (string): Organization ID
@@ -949,7 +955,7 @@ class Camera(object):
             "ranges",
             "boundaryTypes",
         ]
-        for k, v in kwargs.items():
+        for k in kwargs:
             if k.strip() in array_params:
                 params[f"{k.strip()}[]"] = kwargs[f"{k}"]
                 params.pop(k.strip())
@@ -957,8 +963,8 @@ class Camera(object):
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def getOrganizationCameraOnboardingStatuses(self, organizationId: str, **kwargs):
-        """
-        **Fetch onboarding status of cameras**
+        """Fetch onboarding status of cameras
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-camera-onboarding-statuses
 
         - organizationId (string): Organization ID
@@ -985,7 +991,7 @@ class Camera(object):
             "serials",
             "networkIds",
         ]
-        for k, v in kwargs.items():
+        for k in kwargs:
             if k.strip() in array_params:
                 params[f"{k.strip()}[]"] = kwargs[f"{k}"]
                 params.pop(k.strip())
@@ -993,8 +999,8 @@ class Camera(object):
         return self._session.get(metadata, resource, params)
 
     def updateOrganizationCameraOnboardingStatuses(self, organizationId: str, **kwargs):
-        """
-        **Notify that credential handoff to camera has completed**
+        """Notify that credential handoff to camera has completed
+
         https://developer.cisco.com/meraki/api-v1/#!update-organization-camera-onboarding-statuses
 
         - organizationId (string): Organization ID
@@ -1020,8 +1026,8 @@ class Camera(object):
         return self._session.put(metadata, resource, payload)
 
     def getOrganizationCameraPermissions(self, organizationId: str):
-        """
-        **List the permissions scopes for this organization**
+        """List the permissions scopes for this organization
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-camera-permissions
 
         - organizationId (string): Organization ID
@@ -1037,8 +1043,8 @@ class Camera(object):
         return self._session.get(metadata, resource)
 
     def getOrganizationCameraPermission(self, organizationId: str, permissionScopeId: str):
-        """
-        **Retrieve a single permission scope**
+        """Retrieve a single permission scope
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-camera-permission
 
         - organizationId (string): Organization ID
@@ -1056,8 +1062,8 @@ class Camera(object):
         return self._session.get(metadata, resource)
 
     def getOrganizationCameraRoles(self, organizationId: str):
-        """
-        **List all the roles in this organization**
+        """List all the roles in this organization
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-camera-roles
 
         - organizationId (string): Organization ID
@@ -1073,8 +1079,8 @@ class Camera(object):
         return self._session.get(metadata, resource)
 
     def createOrganizationCameraRole(self, organizationId: str, name: str, **kwargs):
-        """
-        **Creates new role for this organization.**
+        """Creates new role for this organization.
+
         https://developer.cisco.com/meraki/api-v1/#!create-organization-camera-role
 
         - organizationId (string): Organization ID
@@ -1104,8 +1110,8 @@ class Camera(object):
         return self._session.post(metadata, resource, payload)
 
     def getOrganizationCameraRole(self, organizationId: str, roleId: str):
-        """
-        **Retrieve a single role.**
+        """Retrieve a single role.
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-camera-role
 
         - organizationId (string): Organization ID
@@ -1123,8 +1129,8 @@ class Camera(object):
         return self._session.get(metadata, resource)
 
     def deleteOrganizationCameraRole(self, organizationId: str, roleId: str):
-        """
-        **Delete an existing role for this organization.**
+        """Delete an existing role for this organization.
+
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-camera-role
 
         - organizationId (string): Organization ID
@@ -1142,8 +1148,8 @@ class Camera(object):
         return self._session.delete(metadata, resource)
 
     def updateOrganizationCameraRole(self, organizationId: str, roleId: str, **kwargs):
-        """
-        **Update an existing role in this organization.**
+        """Update an existing role in this organization.
+
         https://developer.cisco.com/meraki/api-v1/#!update-organization-camera-role
 
         - organizationId (string): Organization ID

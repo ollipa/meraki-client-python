@@ -1,14 +1,20 @@
+"""Administered API endpoints."""
+
 import urllib
 
+from meraki_dashboard_sdk.rest_session import RestSession
 
-class Administered(object):
-    def __init__(self, session):
-        super(Administered, self).__init__()
+
+class Administered:
+    """Administered class."""
+
+    def __init__(self, session: RestSession) -> None:
+        super(self).__init__()
         self._session = session
 
     def getAdministeredIdentitiesMe(self):
-        """
-        **Returns the identity of the current user.**
+        """Returns the identity of the current user.
+
         https://developer.cisco.com/meraki/api-v1/#!get-administered-identities-me
 
         """
@@ -22,8 +28,8 @@ class Administered(object):
         return self._session.get(metadata, resource)
 
     def getAdministeredIdentitiesMeApiKeys(self):
-        """
-        **List the non-sensitive metadata associated with the API keys that belong to the user**
+        """List the non-sensitive metadata associated with the API keys that belong to the user
+
         https://developer.cisco.com/meraki/api-v1/#!get-administered-identities-me-api-keys
 
         """
@@ -37,8 +43,8 @@ class Administered(object):
         return self._session.get(metadata, resource)
 
     def generateAdministeredIdentitiesMeApiKeys(self):
-        """
-        **Generates an API key for an identity**
+        """Generates an API key for an identity
+
         https://developer.cisco.com/meraki/api-v1/#!generate-administered-identities-me-api-keys
 
         """
@@ -52,8 +58,8 @@ class Administered(object):
         return self._session.post(metadata, resource)
 
     def revokeAdministeredIdentitiesMeApiKeys(self, suffix: str):
-        """
-        **Revokes an identity's API key, using the last four characters of the key**
+        """Revokes an identity's API key, using the last four characters of the key
+
         https://developer.cisco.com/meraki/api-v1/#!revoke-administered-identities-me-api-keys
 
         - suffix (string): Suffix

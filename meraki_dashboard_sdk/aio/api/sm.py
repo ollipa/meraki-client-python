@@ -1,14 +1,20 @@
+"""Sm API endpoints."""
+
 import urllib
+
+from meraki_dashboard_sdk.aio.rest_session import AsyncRestSession
 
 
 class AsyncSm:
-    def __init__(self, session):
+    """Sm class."""
+
+    def __init__(self, session: AsyncRestSession) -> None:
         super().__init__()
         self._session = session
 
     def createNetworkSmBypassActivationLockAttempt(self, networkId: str, ids: list):
-        """
-        **Bypass activation lock attempt**
+        """Bypass activation lock attempt
+
         https://developer.cisco.com/meraki/api-v1/#!create-network-sm-bypass-activation-lock-attempt
 
         - networkId (string): Network ID
@@ -32,8 +38,8 @@ class AsyncSm:
         return self._session.post(metadata, resource, payload)
 
     def getNetworkSmBypassActivationLockAttempt(self, networkId: str, attemptId: str):
-        """
-        **Bypass activation lock attempt status**
+        """Bypass activation lock attempt status
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-sm-bypass-activation-lock-attempt
 
         - networkId (string): Network ID
@@ -51,8 +57,8 @@ class AsyncSm:
         return self._session.get(metadata, resource)
 
     def getNetworkSmDevices(self, networkId: str, total_pages=1, direction="next", **kwargs):
-        """
-            **List the devices enrolled in an SM network with various specified fields and filters**
+        """List the devices enrolled in an SM network with various specified fields and filters
+
             https://developer.cisco.com/meraki/api-v1/#!get-network-sm-devices
 
             - networkId (string): Network ID
@@ -105,7 +111,7 @@ class AsyncSm:
             "systemTypes",
             "scope",
         ]
-        for k, v in kwargs.items():
+        for k in kwargs:
             if k.strip() in array_params:
                 params[f"{k.strip()}[]"] = kwargs[f"{k}"]
                 params.pop(k.strip())
@@ -113,8 +119,8 @@ class AsyncSm:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def checkinNetworkSmDevices(self, networkId: str, **kwargs):
-        """
-        **Force check-in a set of devices**
+        """Force check-in a set of devices
+
         https://developer.cisco.com/meraki/api-v1/#!checkin-network-sm-devices
 
         - networkId (string): Network ID
@@ -141,8 +147,8 @@ class AsyncSm:
         return self._session.post(metadata, resource, payload)
 
     def updateNetworkSmDevicesFields(self, networkId: str, deviceFields: dict, **kwargs):
-        """
-        **Modify the fields of a device**
+        """Modify the fields of a device
+
         https://developer.cisco.com/meraki/api-v1/#!update-network-sm-devices-fields
 
         - networkId (string): Network ID
@@ -172,8 +178,8 @@ class AsyncSm:
         return self._session.put(metadata, resource, payload)
 
     def lockNetworkSmDevices(self, networkId: str, **kwargs):
-        """
-        **Lock a set of devices**
+        """Lock a set of devices
+
         https://developer.cisco.com/meraki/api-v1/#!lock-network-sm-devices
 
         - networkId (string): Network ID
@@ -202,8 +208,8 @@ class AsyncSm:
         return self._session.post(metadata, resource, payload)
 
     def modifyNetworkSmDevicesTags(self, networkId: str, tags: list, updateAction: str, **kwargs):
-        """
-        **Add, delete, or update the tags of a set of devices**
+        """Add, delete, or update the tags of a set of devices
+
         https://developer.cisco.com/meraki/api-v1/#!modify-network-sm-devices-tags
 
         - networkId (string): Network ID
@@ -237,8 +243,8 @@ class AsyncSm:
         return self._session.post(metadata, resource, payload)
 
     def moveNetworkSmDevices(self, networkId: str, newNetwork: str, **kwargs):
-        """
-        **Move a set of devices to a new network**
+        """Move a set of devices to a new network
+
         https://developer.cisco.com/meraki/api-v1/#!move-network-sm-devices
 
         - networkId (string): Network ID
@@ -267,8 +273,8 @@ class AsyncSm:
         return self._session.post(metadata, resource, payload)
 
     def rebootNetworkSmDevices(self, networkId: str, **kwargs):
-        """
-        **Reboot a set of endpoints**
+        """Reboot a set of endpoints
+
         https://developer.cisco.com/meraki/api-v1/#!reboot-network-sm-devices
 
         - networkId (string): Network ID
@@ -303,8 +309,8 @@ class AsyncSm:
         return self._session.post(metadata, resource, payload)
 
     def shutdownNetworkSmDevices(self, networkId: str, **kwargs):
-        """
-        **Shutdown a set of endpoints**
+        """Shutdown a set of endpoints
+
         https://developer.cisco.com/meraki/api-v1/#!shutdown-network-sm-devices
 
         - networkId (string): Network ID
@@ -331,8 +337,8 @@ class AsyncSm:
         return self._session.post(metadata, resource, payload)
 
     def wipeNetworkSmDevices(self, networkId: str, **kwargs):
-        """
-        **Wipe a device**
+        """Wipe a device
+
         https://developer.cisco.com/meraki/api-v1/#!wipe-network-sm-devices
 
         - networkId (string): Network ID
@@ -359,8 +365,8 @@ class AsyncSm:
         return self._session.post(metadata, resource, payload)
 
     def getNetworkSmDeviceCellularUsageHistory(self, networkId: str, deviceId: str):
-        """
-        **Return the client's daily cellular data usage history**
+        """Return the client's daily cellular data usage history
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-sm-device-cellular-usage-history
 
         - networkId (string): Network ID
@@ -378,8 +384,8 @@ class AsyncSm:
         return self._session.get(metadata, resource)
 
     def getNetworkSmDeviceCerts(self, networkId: str, deviceId: str):
-        """
-        **List the certs on a device**
+        """List the certs on a device
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-sm-device-certs
 
         - networkId (string): Network ID
@@ -399,8 +405,8 @@ class AsyncSm:
     def getNetworkSmDeviceConnectivity(
         self, networkId: str, deviceId: str, total_pages=1, direction="next", **kwargs
     ):
-        """
-        **Returns historical connectivity data (whether a device is regularly checking in to Dashboard).**
+        """Returns historical connectivity data (whether a device is regularly checking in to Dashboard).
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-sm-device-connectivity
 
         - networkId (string): Network ID
@@ -434,8 +440,8 @@ class AsyncSm:
     def getNetworkSmDeviceDesktopLogs(
         self, networkId: str, deviceId: str, total_pages=1, direction="next", **kwargs
     ):
-        """
-        **Return historical records of various Systems Manager network connection details for desktop devices.**
+        """Return historical records of various Systems Manager network connection details for desktop devices.
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-sm-device-desktop-logs
 
         - networkId (string): Network ID
@@ -469,8 +475,8 @@ class AsyncSm:
     def getNetworkSmDeviceDeviceCommandLogs(
         self, networkId: str, deviceId: str, total_pages=1, direction="next", **kwargs
     ):
-        """
-        **Return historical records of commands sent to Systems Manager devices**
+        """Return historical records of commands sent to Systems Manager devices
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-sm-device-device-command-logs
 
         - networkId (string): Network ID
@@ -502,8 +508,8 @@ class AsyncSm:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def getNetworkSmDeviceDeviceProfiles(self, networkId: str, deviceId: str):
-        """
-        **Get the installed profiles associated with a device**
+        """Get the installed profiles associated with a device
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-sm-device-device-profiles
 
         - networkId (string): Network ID
@@ -521,8 +527,8 @@ class AsyncSm:
         return self._session.get(metadata, resource)
 
     def installNetworkSmDeviceApps(self, networkId: str, deviceId: str, appIds: list, **kwargs):
-        """
-        **Install applications on a device**
+        """Install applications on a device
+
         https://developer.cisco.com/meraki/api-v1/#!install-network-sm-device-apps
 
         - networkId (string): Network ID
@@ -550,8 +556,8 @@ class AsyncSm:
         return self._session.post(metadata, resource, payload)
 
     def getNetworkSmDeviceNetworkAdapters(self, networkId: str, deviceId: str):
-        """
-        **List the network adapters of a device**
+        """List the network adapters of a device
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-sm-device-network-adapters
 
         - networkId (string): Network ID
@@ -571,8 +577,8 @@ class AsyncSm:
     def getNetworkSmDevicePerformanceHistory(
         self, networkId: str, deviceId: str, total_pages=1, direction="next", **kwargs
     ):
-        """
-        **Return historical records of various Systems Manager client metrics for desktop devices.**
+        """Return historical records of various Systems Manager client metrics for desktop devices.
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-sm-device-performance-history
 
         - networkId (string): Network ID
@@ -604,8 +610,8 @@ class AsyncSm:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def refreshNetworkSmDeviceDetails(self, networkId: str, deviceId: str):
-        """
-        **Refresh the details of a device**
+        """Refresh the details of a device
+
         https://developer.cisco.com/meraki/api-v1/#!refresh-network-sm-device-details
 
         - networkId (string): Network ID
@@ -623,8 +629,8 @@ class AsyncSm:
         return self._session.post(metadata, resource)
 
     def getNetworkSmDeviceRestrictions(self, networkId: str, deviceId: str):
-        """
-        **List the restrictions on a device**
+        """List the restrictions on a device
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-sm-device-restrictions
 
         - networkId (string): Network ID
@@ -642,8 +648,8 @@ class AsyncSm:
         return self._session.get(metadata, resource)
 
     def getNetworkSmDeviceSecurityCenters(self, networkId: str, deviceId: str):
-        """
-        **List the security centers on a device**
+        """List the security centers on a device
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-sm-device-security-centers
 
         - networkId (string): Network ID
@@ -661,8 +667,8 @@ class AsyncSm:
         return self._session.get(metadata, resource)
 
     def getNetworkSmDeviceSoftwares(self, networkId: str, deviceId: str):
-        """
-        **Get a list of softwares associated with a device**
+        """Get a list of softwares associated with a device
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-sm-device-softwares
 
         - networkId (string): Network ID
@@ -680,8 +686,8 @@ class AsyncSm:
         return self._session.get(metadata, resource)
 
     def unenrollNetworkSmDevice(self, networkId: str, deviceId: str):
-        """
-        **Unenroll a device**
+        """Unenroll a device
+
         https://developer.cisco.com/meraki/api-v1/#!unenroll-network-sm-device
 
         - networkId (string): Network ID
@@ -696,8 +702,8 @@ class AsyncSm:
         return self._session.post(metadata, resource)
 
     def uninstallNetworkSmDeviceApps(self, networkId: str, deviceId: str, appIds: list):
-        """
-        **Uninstall applications on a device**
+        """Uninstall applications on a device
+
         https://developer.cisco.com/meraki/api-v1/#!uninstall-network-sm-device-apps
 
         - networkId (string): Network ID
@@ -723,8 +729,8 @@ class AsyncSm:
         return self._session.post(metadata, resource, payload)
 
     def getNetworkSmDeviceWlanLists(self, networkId: str, deviceId: str):
-        """
-        **List the saved SSID names on a device**
+        """List the saved SSID names on a device
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-sm-device-wlan-lists
 
         - networkId (string): Network ID
@@ -742,8 +748,8 @@ class AsyncSm:
         return self._session.get(metadata, resource)
 
     def getNetworkSmProfiles(self, networkId: str, **kwargs):
-        """
-        **List all profiles in a network**
+        """List all profiles in a network
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-sm-profiles
 
         - networkId (string): Network ID
@@ -764,7 +770,7 @@ class AsyncSm:
         array_params = [
             "payloadTypes",
         ]
-        for k, v in kwargs.items():
+        for k in kwargs:
             if k.strip() in array_params:
                 params[f"{k.strip()}[]"] = kwargs[f"{k}"]
                 params.pop(k.strip())
@@ -772,8 +778,8 @@ class AsyncSm:
         return self._session.get(metadata, resource, params)
 
     def getNetworkSmTargetGroups(self, networkId: str, **kwargs):
-        """
-        **List the target groups in this network**
+        """List the target groups in this network
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-sm-target-groups
 
         - networkId (string): Network ID
@@ -797,8 +803,8 @@ class AsyncSm:
         return self._session.get(metadata, resource, params)
 
     def createNetworkSmTargetGroup(self, networkId: str, **kwargs):
-        """
-        **Add a target group**
+        """Add a target group
+
         https://developer.cisco.com/meraki/api-v1/#!create-network-sm-target-group
 
         - networkId (string): Network ID
@@ -824,8 +830,8 @@ class AsyncSm:
         return self._session.post(metadata, resource, payload)
 
     def getNetworkSmTargetGroup(self, networkId: str, targetGroupId: str, **kwargs):
-        """
-        **Return a target group**
+        """Return a target group
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-sm-target-group
 
         - networkId (string): Network ID
@@ -851,8 +857,8 @@ class AsyncSm:
         return self._session.get(metadata, resource, params)
 
     def updateNetworkSmTargetGroup(self, networkId: str, targetGroupId: str, **kwargs):
-        """
-        **Update a target group**
+        """Update a target group
+
         https://developer.cisco.com/meraki/api-v1/#!update-network-sm-target-group
 
         - networkId (string): Network ID
@@ -880,8 +886,8 @@ class AsyncSm:
         return self._session.put(metadata, resource, payload)
 
     def deleteNetworkSmTargetGroup(self, networkId: str, targetGroupId: str):
-        """
-        **Delete a target group from a network**
+        """Delete a target group from a network
+
         https://developer.cisco.com/meraki/api-v1/#!delete-network-sm-target-group
 
         - networkId (string): Network ID
@@ -901,8 +907,8 @@ class AsyncSm:
     def getNetworkSmTrustedAccessConfigs(
         self, networkId: str, total_pages=1, direction="next", **kwargs
     ):
-        """
-        **List Trusted Access Configs**
+        """List Trusted Access Configs
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-sm-trusted-access-configs
 
         - networkId (string): Network ID
@@ -934,8 +940,8 @@ class AsyncSm:
     def getNetworkSmUserAccessDevices(
         self, networkId: str, total_pages=1, direction="next", **kwargs
     ):
-        """
-        **List User Access Devices and its Trusted Access Connections**
+        """List User Access Devices and its Trusted Access Connections
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-sm-user-access-devices
 
         - networkId (string): Network ID
@@ -965,8 +971,8 @@ class AsyncSm:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def deleteNetworkSmUserAccessDevice(self, networkId: str, userAccessDeviceId: str):
-        """
-        **Delete a User Access Device**
+        """Delete a User Access Device
+
         https://developer.cisco.com/meraki/api-v1/#!delete-network-sm-user-access-device
 
         - networkId (string): Network ID
@@ -984,8 +990,8 @@ class AsyncSm:
         return self._session.delete(metadata, resource)
 
     def getNetworkSmUsers(self, networkId: str, **kwargs):
-        """
-        **List the owners in an SM network with various specified fields and filters**
+        """List the owners in an SM network with various specified fields and filters
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-sm-users
 
         - networkId (string): Network ID
@@ -1015,7 +1021,7 @@ class AsyncSm:
             "emails",
             "scope",
         ]
-        for k, v in kwargs.items():
+        for k in kwargs:
             if k.strip() in array_params:
                 params[f"{k.strip()}[]"] = kwargs[f"{k}"]
                 params.pop(k.strip())
@@ -1023,8 +1029,8 @@ class AsyncSm:
         return self._session.get(metadata, resource, params)
 
     def getNetworkSmUserDeviceProfiles(self, networkId: str, userId: str):
-        """
-        **Get the profiles associated with a user**
+        """Get the profiles associated with a user
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-sm-user-device-profiles
 
         - networkId (string): Network ID
@@ -1042,8 +1048,8 @@ class AsyncSm:
         return self._session.get(metadata, resource)
 
     def getNetworkSmUserSoftwares(self, networkId: str, userId: str):
-        """
-        **Get a list of softwares associated with a user**
+        """Get a list of softwares associated with a user
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-sm-user-softwares
 
         - networkId (string): Network ID
@@ -1063,8 +1069,8 @@ class AsyncSm:
     def getOrganizationSmAdminsRoles(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
-        """
-        **List the Limited Access Roles for an organization**
+        """List the Limited Access Roles for an organization
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-sm-admins-roles
 
         - organizationId (string): Organization ID
@@ -1094,8 +1100,8 @@ class AsyncSm:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def createOrganizationSmAdminsRole(self, organizationId: str, name: str, **kwargs):
-        """
-        **Create a Limited Access Role**
+        """Create a Limited Access Role
+
         https://developer.cisco.com/meraki/api-v1/#!create-organization-sm-admins-role
 
         - organizationId (string): Organization ID
@@ -1129,8 +1135,8 @@ class AsyncSm:
         return self._session.post(metadata, resource, payload)
 
     def getOrganizationSmAdminsRole(self, organizationId: str, roleId: str):
-        """
-        **Return a Limited Access Role**
+        """Return a Limited Access Role
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-sm-admins-role
 
         - organizationId (string): Organization ID
@@ -1148,8 +1154,8 @@ class AsyncSm:
         return self._session.get(metadata, resource)
 
     def updateOrganizationSmAdminsRole(self, organizationId: str, roleId: str, **kwargs):
-        """
-        **Update a Limited Access Role**
+        """Update a Limited Access Role
+
         https://developer.cisco.com/meraki/api-v1/#!update-organization-sm-admins-role
 
         - organizationId (string): Organization ID
@@ -1185,8 +1191,8 @@ class AsyncSm:
         return self._session.put(metadata, resource, payload)
 
     def deleteOrganizationSmAdminsRole(self, organizationId: str, roleId: str):
-        """
-        **Delete a Limited Access Role**
+        """Delete a Limited Access Role
+
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-sm-admins-role
 
         - organizationId (string): Organization ID
@@ -1204,8 +1210,8 @@ class AsyncSm:
         return self._session.delete(metadata, resource)
 
     def getOrganizationSmApnsCert(self, organizationId: str):
-        """
-        **Get the organization's APNS certificate**
+        """Get the organization's APNS certificate
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-sm-apns-cert
 
         - organizationId (string): Organization ID
@@ -1221,8 +1227,8 @@ class AsyncSm:
         return self._session.get(metadata, resource)
 
     def updateOrganizationSmSentryPoliciesAssignments(self, organizationId: str, items: list):
-        """
-        **Update an Organizations Sentry Policies using the provided list**
+        """Update an Organizations Sentry Policies using the provided list
+
         https://developer.cisco.com/meraki/api-v1/#!update-organization-sm-sentry-policies-assignments
 
         - organizationId (string): Organization ID
@@ -1248,8 +1254,8 @@ class AsyncSm:
     def getOrganizationSmSentryPoliciesAssignmentsByNetwork(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
-        """
-        **List the Sentry Policies for an organization ordered in ascending order of priority**
+        """List the Sentry Policies for an organization ordered in ascending order of priority
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-sm-sentry-policies-assignments-by-network
 
         - organizationId (string): Organization ID
@@ -1281,7 +1287,7 @@ class AsyncSm:
         array_params = [
             "networkIds",
         ]
-        for k, v in kwargs.items():
+        for k in kwargs:
             if k.strip() in array_params:
                 params[f"{k.strip()}[]"] = kwargs[f"{k}"]
                 params.pop(k.strip())
@@ -1289,8 +1295,8 @@ class AsyncSm:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def getOrganizationSmVppAccounts(self, organizationId: str):
-        """
-        **List the VPP accounts in the organization**
+        """List the VPP accounts in the organization
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-sm-vpp-accounts
 
         - organizationId (string): Organization ID
@@ -1306,8 +1312,8 @@ class AsyncSm:
         return self._session.get(metadata, resource)
 
     def getOrganizationSmVppAccount(self, organizationId: str, vppAccountId: str):
-        """
-        **Get a hash containing the unparsed token of the VPP account with the given ID**
+        """Get a hash containing the unparsed token of the VPP account with the given ID
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-sm-vpp-account
 
         - organizationId (string): Organization ID

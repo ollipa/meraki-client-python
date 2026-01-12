@@ -1,8 +1,14 @@
+"""CampusGateway API endpoints."""
+
 import urllib
+
+from meraki_dashboard_sdk.aio.rest_session import AsyncRestSession
 
 
 class AsyncCampusGateway:
-    def __init__(self, session):
+    """CampusGateway class."""
+
+    def __init__(self, session: AsyncRestSession) -> None:
         super().__init__()
         self._session = session
 
@@ -16,8 +22,8 @@ class AsyncCampusGateway:
         portChannels: list,
         **kwargs,
     ):
-        """
-        **Create a cluster and add campus gateways to it**
+        """Create a cluster and add campus gateways to it
+
         https://developer.cisco.com/meraki/api-v1/#!create-network-campus-gateway-cluster
 
         - networkId (string): Network ID
@@ -53,8 +59,8 @@ class AsyncCampusGateway:
         return self._session.post(metadata, resource, payload)
 
     def updateNetworkCampusGatewayCluster(self, networkId: str, clusterId: str, **kwargs):
-        """
-        **Update a cluster and add/remove campus gateways to/from it**
+        """Update a cluster and add/remove campus gateways to/from it
+
         https://developer.cisco.com/meraki/api-v1/#!update-network-campus-gateway-cluster
 
         - networkId (string): Network ID
@@ -94,8 +100,8 @@ class AsyncCampusGateway:
     def getOrganizationCampusGatewayClusters(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
-        """
-        **Get the details of campus gateway clusters**
+        """Get the details of campus gateway clusters
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-campus-gateway-clusters
 
         - organizationId (string): Organization ID
@@ -127,7 +133,7 @@ class AsyncCampusGateway:
         array_params = [
             "networkIds",
         ]
-        for k, v in kwargs.items():
+        for k in kwargs:
             if k.strip() in array_params:
                 params[f"{k.strip()}[]"] = kwargs[f"{k}"]
                 params.pop(k.strip())
@@ -137,8 +143,8 @@ class AsyncCampusGateway:
     def getOrganizationCampusGatewayDevicesUplinksLocalOverridesByDevice(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
-        """
-        **Uplink overrides configured locally on Campus Gateway devices in an organization.**
+        """Uplink overrides configured locally on Campus Gateway devices in an organization.
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-campus-gateway-devices-uplinks-local-overrides-by-device
 
         - organizationId (string): Organization ID
@@ -179,7 +185,7 @@ class AsyncCampusGateway:
         array_params = [
             "serials",
         ]
-        for k, v in kwargs.items():
+        for k in kwargs:
             if k.strip() in array_params:
                 params[f"{k.strip()}[]"] = kwargs[f"{k}"]
                 params.pop(k.strip())

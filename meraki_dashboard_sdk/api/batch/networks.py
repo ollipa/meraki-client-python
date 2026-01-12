@@ -1,9 +1,11 @@
-import urllib
+"""ActionBatchNetworks API endpoints."""
 
 
-class ActionBatchNetworks(object):
-    def __init__(self):
-        super(ActionBatchNetworks, self).__init__()
+class ActionBatchNetworks:
+    """ActionBatchNetworks class."""
+
+    def __init__(self) -> None:
+        pass
 
     def updateNetwork(self, networkId: str, **kwargs):
         """

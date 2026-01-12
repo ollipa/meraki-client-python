@@ -1,8 +1,13 @@
+"""{{ class_name }} API endpoints."""
+
 import urllib
 
+from meraki_dashboard_sdk.rest_session import RestSession
 
-class {{ class_name }}(object):
-    def __init__(self, session):
-        super({{ class_name }}, self).__init__()
+class {{ class_name }}:
+    """{{ class_name }} class."""
+
+    def __init__(self, session: RestSession) -> None:
+        super(self).__init__()
         self._session = session
         

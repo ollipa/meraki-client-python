@@ -1,6 +1,8 @@
-import urllib
+"""ActionBatchWirelessController API endpoints."""
 
 
-class ActionBatchWirelessController(object):
-    def __init__(self):
-        super(ActionBatchWirelessController, self).__init__()
+class ActionBatchWirelessController:
+    """ActionBatchWirelessController class."""
+
+    def __init__(self) -> None:
+        pass

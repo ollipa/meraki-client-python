@@ -1,9 +1,11 @@
-import urllib
+"""ActionBatchCamera API endpoints."""
 
 
-class ActionBatchCamera(object):
-    def __init__(self):
-        super(ActionBatchCamera, self).__init__()
+class ActionBatchCamera:
+    """ActionBatchCamera class."""
+
+    def __init__(self) -> None:
+        pass
 
     def updateDeviceCameraCustomAnalytics(self, serial: str, **kwargs):
         """

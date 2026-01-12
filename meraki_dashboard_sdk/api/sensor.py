@@ -1,14 +1,20 @@
+"""Sensor API endpoints."""
+
 import urllib
 
+from meraki_dashboard_sdk.rest_session import RestSession
 
-class Sensor(object):
-    def __init__(self, session):
-        super(Sensor, self).__init__()
+
+class Sensor:
+    """Sensor class."""
+
+    def __init__(self, session: RestSession) -> None:
+        super(self).__init__()
         self._session = session
 
     def getDeviceSensorCommands(self, serial: str, total_pages=1, direction="next", **kwargs):
-        """
-        **Returns a historical log of all commands**
+        """Returns a historical log of all commands
+
         https://developer.cisco.com/meraki/api-v1/#!get-device-sensor-commands
 
         - serial (string): Serial
@@ -54,7 +60,7 @@ class Sensor(object):
         array_params = [
             "operations",
         ]
-        for k, v in kwargs.items():
+        for k in kwargs:
             if k.strip() in array_params:
                 params[f"{k.strip()}[]"] = kwargs[f"{k}"]
                 params.pop(k.strip())
@@ -62,8 +68,8 @@ class Sensor(object):
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def createDeviceSensorCommand(self, serial: str, operation: str):
-        """
-        **Sends a command to a sensor**
+        """Sends a command to a sensor
+
         https://developer.cisco.com/meraki/api-v1/#!create-device-sensor-command
 
         - serial (string): Serial
@@ -98,8 +104,8 @@ class Sensor(object):
         return self._session.post(metadata, resource, payload)
 
     def getDeviceSensorCommand(self, serial: str, commandId: str):
-        """
-        **Returns information about the command's execution, including the status**
+        """Returns information about the command's execution, including the status
+
         https://developer.cisco.com/meraki/api-v1/#!get-device-sensor-command
 
         - serial (string): Serial
@@ -117,8 +123,8 @@ class Sensor(object):
         return self._session.get(metadata, resource)
 
     def getDeviceSensorRelationships(self, serial: str):
-        """
-        **List the sensor roles for a given sensor or camera device.**
+        """List the sensor roles for a given sensor or camera device.
+
         https://developer.cisco.com/meraki/api-v1/#!get-device-sensor-relationships
 
         - serial (string): Serial
@@ -134,8 +140,8 @@ class Sensor(object):
         return self._session.get(metadata, resource)
 
     def updateDeviceSensorRelationships(self, serial: str, **kwargs):
-        """
-        **Assign one or more sensor roles to a given sensor or camera device.**
+        """Assign one or more sensor roles to a given sensor or camera device.
+
         https://developer.cisco.com/meraki/api-v1/#!update-device-sensor-relationships
 
         - serial (string): Serial
@@ -159,8 +165,8 @@ class Sensor(object):
         return self._session.put(metadata, resource, payload)
 
     def getNetworkSensorAlertsCurrentOverviewByMetric(self, networkId: str):
-        """
-        **Return an overview of currently alerting sensors by metric**
+        """Return an overview of currently alerting sensors by metric
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-sensor-alerts-current-overview-by-metric
 
         - networkId (string): Network ID
@@ -176,8 +182,8 @@ class Sensor(object):
         return self._session.get(metadata, resource)
 
     def getNetworkSensorAlertsOverviewByMetric(self, networkId: str, **kwargs):
-        """
-        **Return an overview of alert occurrences over a timespan, by metric**
+        """Return an overview of alert occurrences over a timespan, by metric
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-sensor-alerts-overview-by-metric
 
         - networkId (string): Network ID
@@ -207,8 +213,8 @@ class Sensor(object):
         return self._session.get(metadata, resource, params)
 
     def getNetworkSensorAlertsProfiles(self, networkId: str):
-        """
-        **Lists all sensor alert profiles for a network.**
+        """Lists all sensor alert profiles for a network.
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-sensor-alerts-profiles
 
         - networkId (string): Network ID
@@ -226,8 +232,8 @@ class Sensor(object):
     def createNetworkSensorAlertsProfile(
         self, networkId: str, name: str, conditions: list, **kwargs
     ):
-        """
-        **Creates a sensor alert profile for a network.**
+        """Creates a sensor alert profile for a network.
+
         https://developer.cisco.com/meraki/api-v1/#!create-network-sensor-alerts-profile
 
         - networkId (string): Network ID
@@ -263,8 +269,8 @@ class Sensor(object):
         return self._session.post(metadata, resource, payload)
 
     def getNetworkSensorAlertsProfile(self, networkId: str, id: str):
-        """
-        **Show details of a sensor alert profile for a network.**
+        """Show details of a sensor alert profile for a network.
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-sensor-alerts-profile
 
         - networkId (string): Network ID
@@ -282,8 +288,8 @@ class Sensor(object):
         return self._session.get(metadata, resource)
 
     def updateNetworkSensorAlertsProfile(self, networkId: str, id: str, **kwargs):
-        """
-        **Updates a sensor alert profile for a network.**
+        """Updates a sensor alert profile for a network.
+
         https://developer.cisco.com/meraki/api-v1/#!update-network-sensor-alerts-profile
 
         - networkId (string): Network ID
@@ -321,8 +327,8 @@ class Sensor(object):
         return self._session.put(metadata, resource, payload)
 
     def deleteNetworkSensorAlertsProfile(self, networkId: str, id: str):
-        """
-        **Deletes a sensor alert profile from a network.**
+        """Deletes a sensor alert profile from a network.
+
         https://developer.cisco.com/meraki/api-v1/#!delete-network-sensor-alerts-profile
 
         - networkId (string): Network ID
@@ -340,8 +346,8 @@ class Sensor(object):
         return self._session.delete(metadata, resource)
 
     def getNetworkSensorMqttBrokers(self, networkId: str):
-        """
-        **List the sensor settings of all MQTT brokers for this network**
+        """List the sensor settings of all MQTT brokers for this network
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-sensor-mqtt-brokers
 
         - networkId (string): Network ID
@@ -357,8 +363,8 @@ class Sensor(object):
         return self._session.get(metadata, resource)
 
     def getNetworkSensorMqttBroker(self, networkId: str, mqttBrokerId: str):
-        """
-        **Return the sensor settings of an MQTT broker**
+        """Return the sensor settings of an MQTT broker
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-sensor-mqtt-broker
 
         - networkId (string): Network ID
@@ -376,8 +382,8 @@ class Sensor(object):
         return self._session.get(metadata, resource)
 
     def updateNetworkSensorMqttBroker(self, networkId: str, mqttBrokerId: str, enabled: bool):
-        """
-        **Update the sensor settings of an MQTT broker**
+        """Update the sensor settings of an MQTT broker
+
         https://developer.cisco.com/meraki/api-v1/#!update-network-sensor-mqtt-broker
 
         - networkId (string): Network ID
@@ -403,8 +409,8 @@ class Sensor(object):
         return self._session.put(metadata, resource, payload)
 
     def getNetworkSensorRelationships(self, networkId: str):
-        """
-        **List the sensor roles for devices in a given network**
+        """List the sensor roles for devices in a given network
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-sensor-relationships
 
         - networkId (string): Network ID
@@ -422,8 +428,8 @@ class Sensor(object):
     def getOrganizationSensorGatewaysConnectionsLatest(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
-        """
-        **Returns latest sensor-gateway connectivity data.**
+        """Returns latest sensor-gateway connectivity data.
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-sensor-gateways-connections-latest
 
         - organizationId (string): Organization ID
@@ -455,7 +461,7 @@ class Sensor(object):
         array_params = [
             "sensorSerials",
         ]
-        for k, v in kwargs.items():
+        for k in kwargs:
             if k.strip() in array_params:
                 params[f"{k.strip()}[]"] = kwargs[f"{k}"]
                 params.pop(k.strip())
@@ -465,8 +471,8 @@ class Sensor(object):
     def getOrganizationSensorReadingsHistory(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
-        """
-        **Return all reported readings from sensors in a given timespan, sorted by timestamp**
+        """Return all reported readings from sensors in a given timespan, sorted by timestamp
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-sensor-readings-history
 
         - organizationId (string): Organization ID
@@ -510,7 +516,7 @@ class Sensor(object):
             "serials",
             "metrics",
         ]
-        for k, v in kwargs.items():
+        for k in kwargs:
             if k.strip() in array_params:
                 params[f"{k.strip()}[]"] = kwargs[f"{k}"]
                 params.pop(k.strip())
@@ -520,8 +526,8 @@ class Sensor(object):
     def getOrganizationSensorReadingsLatest(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
-        """
-        **Return the latest available reading for each metric from each sensor, sorted by sensor serial**
+        """Return the latest available reading for each metric from each sensor, sorted by sensor serial
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-sensor-readings-latest
 
         - organizationId (string): Organization ID
@@ -559,7 +565,7 @@ class Sensor(object):
             "serials",
             "metrics",
         ]
-        for k, v in kwargs.items():
+        for k in kwargs:
             if k.strip() in array_params:
                 params[f"{k.strip()}[]"] = kwargs[f"{k}"]
                 params.pop(k.strip())

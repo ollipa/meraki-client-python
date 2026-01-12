@@ -1,9 +1,11 @@
-import urllib
+"""ActionBatchSensor API endpoints."""
 
 
-class ActionBatchSensor(object):
-    def __init__(self):
-        super(ActionBatchSensor, self).__init__()
+class ActionBatchSensor:
+    """ActionBatchSensor class."""
+
+    def __init__(self) -> None:
+        pass
 
     def createDeviceSensorCommand(self, serial: str, operation: str):
         """

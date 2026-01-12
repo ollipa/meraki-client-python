@@ -1,14 +1,20 @@
+"""Spaces API endpoints."""
+
 import urllib
+
+from meraki_dashboard_sdk.aio.rest_session import AsyncRestSession
 
 
 class AsyncSpaces:
-    def __init__(self, session):
+    """Spaces class."""
+
+    def __init__(self, session: AsyncRestSession) -> None:
         super().__init__()
         self._session = session
 
     def getOrganizationSpacesIntegrateStatus(self, organizationId: str):
-        """
-        **Get the status of the Spaces integration in Meraki**
+        """Get the status of the Spaces integration in Meraki
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-spaces-integrate-status
 
         - organizationId (string): Organization ID
@@ -24,8 +30,8 @@ class AsyncSpaces:
         return self._session.get(metadata, resource)
 
     def removeOrganizationSpacesIntegration(self, organizationId: str):
-        """
-        **Remove the Spaces integration from Meraki**
+        """Remove the Spaces integration from Meraki
+
         https://developer.cisco.com/meraki/api-v1/#!remove-organization-spaces-integration
 
         - organizationId (string): Organization ID

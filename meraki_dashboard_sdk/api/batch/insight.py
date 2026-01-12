@@ -1,9 +1,11 @@
-import urllib
+"""ActionBatchInsight API endpoints."""
 
 
-class ActionBatchInsight(object):
-    def __init__(self):
-        super(ActionBatchInsight, self).__init__()
+class ActionBatchInsight:
+    """ActionBatchInsight class."""
+
+    def __init__(self) -> None:
+        pass
 
     def createOrganizationInsightMonitoredMediaServer(
         self, organizationId: str, name: str, address: str, **kwargs

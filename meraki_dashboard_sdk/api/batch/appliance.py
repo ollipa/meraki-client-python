@@ -1,9 +1,11 @@
-import urllib
+"""ActionBatchAppliance API endpoints."""
 
 
-class ActionBatchAppliance(object):
-    def __init__(self):
-        super(ActionBatchAppliance, self).__init__()
+class ActionBatchAppliance:
+    """ActionBatchAppliance class."""
+
+    def __init__(self) -> None:
+        pass
 
     def updateDeviceApplianceRadioSettings(self, serial: str, **kwargs):
         """

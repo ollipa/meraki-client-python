@@ -1,9 +1,11 @@
-import urllib
+"""ActionBatchSwitch API endpoints."""
 
 
-class ActionBatchSwitch(object):
-    def __init__(self):
-        super(ActionBatchSwitch, self).__init__()
+class ActionBatchSwitch:
+    """ActionBatchSwitch class."""
+
+    def __init__(self) -> None:
+        pass
 
     def cycleDeviceSwitchPorts(self, serial: str, ports: list):
         """

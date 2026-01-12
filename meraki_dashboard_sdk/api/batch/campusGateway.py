@@ -1,9 +1,11 @@
-import urllib
+"""ActionBatchCampusGateway API endpoints."""
 
 
-class ActionBatchCampusGateway(object):
-    def __init__(self):
-        super(ActionBatchCampusGateway, self).__init__()
+class ActionBatchCampusGateway:
+    """ActionBatchCampusGateway class."""
+
+    def __init__(self) -> None:
+        pass
 
     def createNetworkCampusGatewayCluster(
         self,

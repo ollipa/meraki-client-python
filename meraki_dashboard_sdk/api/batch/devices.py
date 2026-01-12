@@ -1,9 +1,11 @@
-import urllib
+"""ActionBatchDevices API endpoints."""
 
 
-class ActionBatchDevices(object):
-    def __init__(self):
-        super(ActionBatchDevices, self).__init__()
+class ActionBatchDevices:
+    """ActionBatchDevices class."""
+
+    def __init__(self) -> None:
+        pass
 
     def updateDevice(self, serial: str, **kwargs):
         """

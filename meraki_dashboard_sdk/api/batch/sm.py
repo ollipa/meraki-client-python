@@ -1,9 +1,11 @@
-import urllib
+"""ActionBatchSm API endpoints."""
 
 
-class ActionBatchSm(object):
-    def __init__(self):
-        super(ActionBatchSm, self).__init__()
+class ActionBatchSm:
+    """ActionBatchSm class."""
+
+    def __init__(self) -> None:
+        pass
 
     def deleteNetworkSmUserAccessDevice(self, networkId: str, userAccessDeviceId: str):
         """

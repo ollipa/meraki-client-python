@@ -1,14 +1,20 @@
+"""Licensing API endpoints."""
+
 import urllib
 
+from meraki_dashboard_sdk.rest_session import RestSession
 
-class Licensing(object):
-    def __init__(self, session):
-        super(Licensing, self).__init__()
+
+class Licensing:
+    """Licensing class."""
+
+    def __init__(self, session: RestSession) -> None:
+        super(self).__init__()
         self._session = session
 
     def getAdministeredLicensingSubscriptionEntitlements(self):
-        """
-        **Retrieve the list of purchasable entitlements**
+        """Retrieve the list of purchasable entitlements
+
         https://developer.cisco.com/meraki/api-v1/#!get-administered-licensing-subscription-entitlements
 
         - skus (array): Filter to entitlements with the specified SKUs
@@ -30,7 +36,7 @@ class Licensing(object):
         array_params = [
             "skus",
         ]
-        for k, v in kwargs.items():
+        for k in kwargs:
             if k.strip() in array_params:
                 params[f"{k.strip()}[]"] = kwargs[f"{k}"]
                 params.pop(k.strip())
@@ -40,8 +46,8 @@ class Licensing(object):
     def getAdministeredLicensingSubscriptionSubscriptions(
         self, organizationIds: list, total_pages=1, direction="next", **kwargs
     ):
-        """
-        **List available subscriptions**
+        """List available subscriptions
+
         https://developer.cisco.com/meraki/api-v1/#!get-administered-licensing-subscription-subscriptions
 
         - organizationIds (array): Organizations to get associated subscriptions for
@@ -89,7 +95,7 @@ class Licensing(object):
             "productTypes",
             "skus",
         ]
-        for k, v in kwargs.items():
+        for k in kwargs:
             if k.strip() in array_params:
                 params[f"{k.strip()}[]"] = kwargs[f"{k}"]
                 params.pop(k.strip())
@@ -99,8 +105,8 @@ class Licensing(object):
     def claimAdministeredLicensingSubscriptionSubscriptions(
         self, claimKey: str, organizationId: str, **kwargs
     ):
-        """
-        **Claim a subscription into an organization.**
+        """Claim a subscription into an organization.
+
         https://developer.cisco.com/meraki/api-v1/#!claim-administered-licensing-subscription-subscriptions
 
         - claimKey (string): The subscription's claim key
@@ -129,8 +135,8 @@ class Licensing(object):
         return self._session.post(metadata, resource, payload)
 
     def validateAdministeredLicensingSubscriptionSubscriptionsClaimKey(self, claimKey: str):
-        """
-        **Find a subscription by claim key**
+        """Find a subscription by claim key
+
         https://developer.cisco.com/meraki/api-v1/#!validate-administered-licensing-subscription-subscriptions-claim-key
 
         - claimKey (string): The subscription's claim key
@@ -154,8 +160,8 @@ class Licensing(object):
     def getAdministeredLicensingSubscriptionSubscriptionsComplianceStatuses(
         self, organizationIds: list, **kwargs
     ):
-        """
-        **Get compliance status for requested subscriptions**
+        """Get compliance status for requested subscriptions
+
         https://developer.cisco.com/meraki/api-v1/#!get-administered-licensing-subscription-subscriptions-compliance-statuses
 
         - organizationIds (array): Organizations to get subscription compliance information for
@@ -187,7 +193,7 @@ class Licensing(object):
             "organizationIds",
             "subscriptionIds",
         ]
-        for k, v in kwargs.items():
+        for k in kwargs:
             if k.strip() in array_params:
                 params[f"{k.strip()}[]"] = kwargs[f"{k}"]
                 params.pop(k.strip())
@@ -195,8 +201,8 @@ class Licensing(object):
         return self._session.get(metadata, resource, params)
 
     def bindAdministeredLicensingSubscriptionSubscription(self, subscriptionId: str, **kwargs):
-        """
-        **Bind networks to a subscription**
+        """Bind networks to a subscription
+
         https://developer.cisco.com/meraki/api-v1/#!bind-administered-licensing-subscription-subscription
 
         - subscriptionId (string): Subscription ID
@@ -223,8 +229,8 @@ class Licensing(object):
     def getOrganizationLicensingCotermLicenses(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
-        """
-        **List the licenses in a coterm organization**
+        """List the licenses in a coterm organization
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-licensing-coterm-licenses
 
         - organizationId (string): Organization ID
@@ -260,8 +266,8 @@ class Licensing(object):
     def moveOrganizationLicensingCotermLicenses(
         self, organizationId: str, destination: dict, licenses: list
     ):
-        """
-        **Moves a license to a different organization (coterm only)**
+        """Moves a license to a different organization (coterm only)
+
         https://developer.cisco.com/meraki/api-v1/#!move-organization-licensing-coterm-licenses
 
         - organizationId (string): Organization ID

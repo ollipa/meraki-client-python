@@ -1,16 +1,22 @@
+"""Nac API endpoints."""
+
 import urllib
 
+from meraki_dashboard_sdk.rest_session import RestSession
 
-class Nac(object):
-    def __init__(self, session):
-        super(Nac, self).__init__()
+
+class Nac:
+    """Nac class."""
+
+    def __init__(self, session: RestSession) -> None:
+        super(self).__init__()
         self._session = session
 
     def createOrganizationNacCertificatesAuthoritiesCrl(
         self, organizationId: str, caId: str, content: str, isDelta: bool
     ):
-        """
-        **Create a new CRL (either base or delta) for an existing CA**
+        """Create a new CRL (either base or delta) for an existing CA
+
         https://developer.cisco.com/meraki/api-v1/#!create-organization-nac-certificates-authorities-crl
 
         - organizationId (string): Organization ID

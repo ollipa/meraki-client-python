@@ -1,14 +1,20 @@
+"""Devices API endpoints."""
+
 import urllib
+
+from meraki_dashboard_sdk.aio.rest_session import AsyncRestSession
 
 
 class AsyncDevices:
-    def __init__(self, session):
+    """Devices class."""
+
+    def __init__(self, session: AsyncRestSession) -> None:
         super().__init__()
         self._session = session
 
     def getDevice(self, serial: str):
-        """
-        **Return a single device**
+        """Return a single device
+
         https://developer.cisco.com/meraki/api-v1/#!get-device
 
         - serial (string): Serial
@@ -21,8 +27,8 @@ class AsyncDevices:
         return self._session.get(metadata, resource)
 
     def updateDevice(self, serial: str, **kwargs):
-        """
-        **Update the attributes of a device**
+        """Update the attributes of a device
+
         https://developer.cisco.com/meraki/api-v1/#!update-device
 
         - serial (string): Serial
@@ -59,8 +65,8 @@ class AsyncDevices:
         return self._session.put(metadata, resource, payload)
 
     def blinkDeviceLeds(self, serial: str, **kwargs):
-        """
-        **Blink the LEDs on a device**
+        """Blink the LEDs on a device
+
         https://developer.cisco.com/meraki/api-v1/#!blink-device-leds
 
         - serial (string): Serial
@@ -85,8 +91,8 @@ class AsyncDevices:
         return self._session.post(metadata, resource, payload)
 
     def getDeviceCellularSims(self, serial: str):
-        """
-        **Return the SIM and APN configurations for a cellular device.**
+        """Return the SIM and APN configurations for a cellular device.
+
         https://developer.cisco.com/meraki/api-v1/#!get-device-cellular-sims
 
         - serial (string): Serial
@@ -102,8 +108,8 @@ class AsyncDevices:
         return self._session.get(metadata, resource)
 
     def updateDeviceCellularSims(self, serial: str, **kwargs):
-        """
-        **Updates the SIM and APN configurations for a cellular device.**
+        """Updates the SIM and APN configurations for a cellular device.
+
         https://developer.cisco.com/meraki/api-v1/#!update-device-cellular-sims
 
         - serial (string): Serial
@@ -131,8 +137,8 @@ class AsyncDevices:
         return self._session.put(metadata, resource, payload)
 
     def getDeviceClients(self, serial: str, **kwargs):
-        """
-        **List the clients of a device, up to a maximum of a month ago**
+        """List the clients of a device, up to a maximum of a month ago
+
         https://developer.cisco.com/meraki/api-v1/#!get-device-clients
 
         - serial (string): Serial
@@ -155,8 +161,8 @@ class AsyncDevices:
         return self._session.get(metadata, resource, params)
 
     def createDeviceLiveToolsArpTable(self, serial: str, **kwargs):
-        """
-        **Enqueue a job to perform a ARP table request for the device**
+        """Enqueue a job to perform a ARP table request for the device
+
         https://developer.cisco.com/meraki/api-v1/#!create-device-live-tools-arp-table
 
         - serial (string): Serial
@@ -180,8 +186,8 @@ class AsyncDevices:
         return self._session.post(metadata, resource, payload)
 
     def getDeviceLiveToolsArpTable(self, serial: str, arpTableId: str):
-        """
-        **Return an ARP table live tool job.**
+        """Return an ARP table live tool job.
+
         https://developer.cisco.com/meraki/api-v1/#!get-device-live-tools-arp-table
 
         - serial (string): Serial
@@ -199,8 +205,8 @@ class AsyncDevices:
         return self._session.get(metadata, resource)
 
     def createDeviceLiveToolsCableTest(self, serial: str, ports: list, **kwargs):
-        """
-        **Enqueue a job to perform a cable test for the device on the specified ports**
+        """Enqueue a job to perform a cable test for the device on the specified ports
+
         https://developer.cisco.com/meraki/api-v1/#!create-device-live-tools-cable-test
 
         - serial (string): Serial
@@ -226,8 +232,8 @@ class AsyncDevices:
         return self._session.post(metadata, resource, payload)
 
     def getDeviceLiveToolsCableTest(self, serial: str, id: str):
-        """
-        **Return a cable test live tool job.**
+        """Return a cable test live tool job.
+
         https://developer.cisco.com/meraki/api-v1/#!get-device-live-tools-cable-test
 
         - serial (string): Serial
@@ -245,8 +251,8 @@ class AsyncDevices:
         return self._session.get(metadata, resource)
 
     def createDeviceLiveToolsLedsBlink(self, serial: str, duration: int, **kwargs):
-        """
-        **Enqueue a job to blink LEDs on a device**
+        """Enqueue a job to blink LEDs on a device
+
         https://developer.cisco.com/meraki/api-v1/#!create-device-live-tools-leds-blink
 
         - serial (string): Serial
@@ -272,8 +278,8 @@ class AsyncDevices:
         return self._session.post(metadata, resource, payload)
 
     def getDeviceLiveToolsLedsBlink(self, serial: str, ledsBlinkId: str):
-        """
-        **Return a blink LEDs job**
+        """Return a blink LEDs job
+
         https://developer.cisco.com/meraki/api-v1/#!get-device-live-tools-leds-blink
 
         - serial (string): Serial
@@ -291,8 +297,8 @@ class AsyncDevices:
         return self._session.get(metadata, resource)
 
     def createDeviceLiveToolsMacTable(self, serial: str, **kwargs):
-        """
-        **Enqueue a job to request the MAC table from the device**
+        """Enqueue a job to request the MAC table from the device
+
         https://developer.cisco.com/meraki/api-v1/#!create-device-live-tools-mac-table
 
         - serial (string): Serial
@@ -316,8 +322,8 @@ class AsyncDevices:
         return self._session.post(metadata, resource, payload)
 
     def getDeviceLiveToolsMacTable(self, serial: str, macTableId: str):
-        """
-        **Return a MAC table live tool job.**
+        """Return a MAC table live tool job.
+
         https://developer.cisco.com/meraki/api-v1/#!get-device-live-tools-mac-table
 
         - serial (string): Serial
@@ -335,8 +341,8 @@ class AsyncDevices:
         return self._session.get(metadata, resource)
 
     def createDeviceLiveToolsMulticastRouting(self, serial: str, **kwargs):
-        """
-        **Enqueue a job to perform a Multicast routing request for the device**
+        """Enqueue a job to perform a Multicast routing request for the device
+
         https://developer.cisco.com/meraki/api-v1/#!create-device-live-tools-multicast-routing
 
         - serial (string): Serial
@@ -360,8 +366,8 @@ class AsyncDevices:
         return self._session.post(metadata, resource, payload)
 
     def getDeviceLiveToolsMulticastRouting(self, serial: str, multicastRoutingId: str):
-        """
-        **Return a Multicast routing live tool job.**
+        """Return a Multicast routing live tool job.
+
         https://developer.cisco.com/meraki/api-v1/#!get-device-live-tools-multicast-routing
 
         - serial (string): Serial
@@ -379,8 +385,8 @@ class AsyncDevices:
         return self._session.get(metadata, resource)
 
     def createDeviceLiveToolsPing(self, serial: str, target: str, **kwargs):
-        """
-        **Enqueue a job to ping a target host from the device**
+        """Enqueue a job to ping a target host from the device
+
         https://developer.cisco.com/meraki/api-v1/#!create-device-live-tools-ping
 
         - serial (string): Serial
@@ -408,8 +414,8 @@ class AsyncDevices:
         return self._session.post(metadata, resource, payload)
 
     def getDeviceLiveToolsPing(self, serial: str, id: str):
-        """
-        **Return a ping job**
+        """Return a ping job
+
         https://developer.cisco.com/meraki/api-v1/#!get-device-live-tools-ping
 
         - serial (string): Serial
@@ -424,8 +430,8 @@ class AsyncDevices:
         return self._session.get(metadata, resource)
 
     def createDeviceLiveToolsPingDevice(self, serial: str, **kwargs):
-        """
-        **Enqueue a job to check connectivity status to the device**
+        """Enqueue a job to check connectivity status to the device
+
         https://developer.cisco.com/meraki/api-v1/#!create-device-live-tools-ping-device
 
         - serial (string): Serial
@@ -451,8 +457,8 @@ class AsyncDevices:
         return self._session.post(metadata, resource, payload)
 
     def getDeviceLiveToolsPingDevice(self, serial: str, id: str):
-        """
-        **Return a ping device job**
+        """Return a ping device job
+
         https://developer.cisco.com/meraki/api-v1/#!get-device-live-tools-ping-device
 
         - serial (string): Serial
@@ -470,8 +476,8 @@ class AsyncDevices:
         return self._session.get(metadata, resource)
 
     def createDeviceLiveToolsThroughputTest(self, serial: str, **kwargs):
-        """
-        **Enqueue a job to test a device throughput, the test will run for 10 secs to test throughput**
+        """Enqueue a job to test a device throughput, the test will run for 10 secs to test throughput
+
         https://developer.cisco.com/meraki/api-v1/#!create-device-live-tools-throughput-test
 
         - serial (string): Serial
@@ -495,8 +501,8 @@ class AsyncDevices:
         return self._session.post(metadata, resource, payload)
 
     def getDeviceLiveToolsThroughputTest(self, serial: str, throughputTestId: str):
-        """
-        **Return a throughput test job**
+        """Return a throughput test job
+
         https://developer.cisco.com/meraki/api-v1/#!get-device-live-tools-throughput-test
 
         - serial (string): Serial
@@ -514,8 +520,8 @@ class AsyncDevices:
         return self._session.get(metadata, resource)
 
     def createDeviceLiveToolsWakeOnLan(self, serial: str, vlanId: int, mac: str, **kwargs):
-        """
-        **Enqueue a job to send a Wake-on-LAN packet from the device**
+        """Enqueue a job to send a Wake-on-LAN packet from the device
+
         https://developer.cisco.com/meraki/api-v1/#!create-device-live-tools-wake-on-lan
 
         - serial (string): Serial
@@ -543,8 +549,8 @@ class AsyncDevices:
         return self._session.post(metadata, resource, payload)
 
     def getDeviceLiveToolsWakeOnLan(self, serial: str, wakeOnLanId: str):
-        """
-        **Return a Wake-on-LAN job**
+        """Return a Wake-on-LAN job
+
         https://developer.cisco.com/meraki/api-v1/#!get-device-live-tools-wake-on-lan
 
         - serial (string): Serial
@@ -562,8 +568,8 @@ class AsyncDevices:
         return self._session.get(metadata, resource)
 
     def getDeviceLldpCdp(self, serial: str):
-        """
-        **List LLDP and CDP information for a device**
+        """List LLDP and CDP information for a device
+
         https://developer.cisco.com/meraki/api-v1/#!get-device-lldp-cdp
 
         - serial (string): Serial
@@ -576,8 +582,8 @@ class AsyncDevices:
         return self._session.get(metadata, resource)
 
     def getDeviceLossAndLatencyHistory(self, serial: str, ip: str, **kwargs):
-        """
-        **Get the uplink loss percentage and latency in milliseconds, and goodput in kilobits per second for MX, MG and Z devices.**
+        """Get the uplink loss percentage and latency in milliseconds, and goodput in kilobits per second for MX, MG and Z devices.
+
         https://developer.cisco.com/meraki/api-v1/#!get-device-loss-and-latency-history
 
         - serial (string): Serial
@@ -617,8 +623,8 @@ class AsyncDevices:
         return self._session.get(metadata, resource, params)
 
     def getDeviceManagementInterface(self, serial: str):
-        """
-        **Return the management interface settings for a device**
+        """Return the management interface settings for a device
+
         https://developer.cisco.com/meraki/api-v1/#!get-device-management-interface
 
         - serial (string): Serial
@@ -634,8 +640,8 @@ class AsyncDevices:
         return self._session.get(metadata, resource)
 
     def updateDeviceManagementInterface(self, serial: str, **kwargs):
-        """
-        **Update the management interface settings for a device**
+        """Update the management interface settings for a device
+
         https://developer.cisco.com/meraki/api-v1/#!update-device-management-interface
 
         - serial (string): Serial
@@ -661,8 +667,8 @@ class AsyncDevices:
         return self._session.put(metadata, resource, payload)
 
     def rebootDevice(self, serial: str):
-        """
-        **Reboot a device**
+        """Reboot a device
+
         https://developer.cisco.com/meraki/api-v1/#!reboot-device
 
         - serial (string): Serial

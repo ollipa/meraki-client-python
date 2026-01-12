@@ -1,9 +1,11 @@
-import urllib
+"""ActionBatchWireless API endpoints."""
 
 
-class ActionBatchWireless(object):
-    def __init__(self):
-        super(ActionBatchWireless, self).__init__()
+class ActionBatchWireless:
+    """ActionBatchWireless class."""
+
+    def __init__(self) -> None:
+        pass
 
     def updateDeviceWirelessAlternateManagementInterfaceIpv6(self, serial: str, **kwargs):
         """

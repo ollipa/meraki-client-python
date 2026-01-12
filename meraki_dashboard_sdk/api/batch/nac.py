@@ -1,9 +1,11 @@
-import urllib
+"""ActionBatchNac API endpoints."""
 
 
-class ActionBatchNac(object):
-    def __init__(self):
-        super(ActionBatchNac, self).__init__()
+class ActionBatchNac:
+    """ActionBatchNac class."""
+
+    def __init__(self) -> None:
+        pass
 
     def createOrganizationNacCertificatesAuthoritiesCrl(
         self, organizationId: str, caId: str, content: str, isDelta: bool

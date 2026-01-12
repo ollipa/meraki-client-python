@@ -1,14 +1,20 @@
+"""Networks API endpoints."""
+
 import urllib
 
+from meraki_dashboard_sdk.rest_session import RestSession
 
-class Networks(object):
-    def __init__(self, session):
-        super(Networks, self).__init__()
+
+class Networks:
+    """Networks class."""
+
+    def __init__(self, session: RestSession) -> None:
+        super(self).__init__()
         self._session = session
 
     def getNetwork(self, networkId: str):
-        """
-        **Return a network**
+        """Return a network
+
         https://developer.cisco.com/meraki/api-v1/#!get-network
 
         - networkId (string): Network ID
@@ -21,8 +27,8 @@ class Networks(object):
         return self._session.get(metadata, resource)
 
     def updateNetwork(self, networkId: str, **kwargs):
-        """
-        **Update a network**
+        """Update a network
+
         https://developer.cisco.com/meraki/api-v1/#!update-network
 
         - networkId (string): Network ID
@@ -51,8 +57,8 @@ class Networks(object):
         return self._session.put(metadata, resource, payload)
 
     def deleteNetwork(self, networkId: str):
-        """
-        **Delete a network**
+        """Delete a network
+
         https://developer.cisco.com/meraki/api-v1/#!delete-network
 
         - networkId (string): Network ID
@@ -65,8 +71,8 @@ class Networks(object):
         return self._session.delete(metadata, resource)
 
     def getNetworkAlertsHistory(self, networkId: str, total_pages=1, direction="next", **kwargs):
-        """
-        **Return the alert history for this network**
+        """Return the alert history for this network
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-alerts-history
 
         - networkId (string): Network ID
@@ -96,8 +102,8 @@ class Networks(object):
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def getNetworkAlertsSettings(self, networkId: str):
-        """
-        **Return the alert configuration for this network**
+        """Return the alert configuration for this network
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-alerts-settings
 
         - networkId (string): Network ID
@@ -113,8 +119,8 @@ class Networks(object):
         return self._session.get(metadata, resource)
 
     def updateNetworkAlertsSettings(self, networkId: str, **kwargs):
-        """
-        **Update the alert configuration for this network**
+        """Update the alert configuration for this network
+
         https://developer.cisco.com/meraki/api-v1/#!update-network-alerts-settings
 
         - networkId (string): Network ID
@@ -142,8 +148,8 @@ class Networks(object):
         return self._session.put(metadata, resource, payload)
 
     def bindNetwork(self, networkId: str, configTemplateId: str, **kwargs):
-        """
-        **Bind a network to a template.**
+        """Bind a network to a template.
+
         https://developer.cisco.com/meraki/api-v1/#!bind-network
 
         - networkId (string): Network ID
@@ -166,8 +172,8 @@ class Networks(object):
         return self._session.post(metadata, resource, payload)
 
     def getNetworkBluetoothClients(self, networkId: str, total_pages=1, direction="next", **kwargs):
-        """
-        **List the Bluetooth clients seen by APs in this network**
+        """List the Bluetooth clients seen by APs in this network
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-bluetooth-clients
 
         - networkId (string): Network ID
@@ -203,8 +209,8 @@ class Networks(object):
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def getNetworkBluetoothClient(self, networkId: str, bluetoothClientId: str, **kwargs):
-        """
-        **Return a Bluetooth client**
+        """Return a Bluetooth client
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-bluetooth-client
 
         - networkId (string): Network ID
@@ -232,8 +238,8 @@ class Networks(object):
         return self._session.get(metadata, resource, params)
 
     def getNetworkClients(self, networkId: str, total_pages=1, direction="next", **kwargs):
-        """
-        **List the clients that have used this network in the timespan**
+        """List the clients that have used this network in the timespan
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-clients
 
         - networkId (string): Network ID
@@ -287,7 +293,7 @@ class Networks(object):
             "statuses",
             "recentDeviceConnections",
         ]
-        for k, v in kwargs.items():
+        for k in kwargs:
             if k.strip() in array_params:
                 params[f"{k.strip()}[]"] = kwargs[f"{k}"]
                 params.pop(k.strip())
@@ -297,8 +303,8 @@ class Networks(object):
     def getNetworkClientsApplicationUsage(
         self, networkId: str, clients: str, total_pages=1, direction="next", **kwargs
     ):
-        """
-        **Return the application usage data for clients**
+        """Return the application usage data for clients
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-clients-application-usage
 
         - networkId (string): Network ID
@@ -346,8 +352,8 @@ class Networks(object):
     def getNetworkClientsBandwidthUsageHistory(
         self, networkId: str, total_pages=1, direction="next", **kwargs
     ):
-        """
-        **Returns a timeseries of total traffic consumption rates for all clients on a network within a given timespan, in megabits per second.**
+        """Returns a timeseries of total traffic consumption rates for all clients on a network within a given timespan, in megabits per second.
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-clients-bandwidth-usage-history
 
         - networkId (string): Network ID
@@ -383,8 +389,8 @@ class Networks(object):
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def getNetworkClientsOverview(self, networkId: str, **kwargs):
-        """
-        **Return overview statistics for network clients**
+        """Return overview statistics for network clients
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-clients-overview
 
         - networkId (string): Network ID
@@ -414,8 +420,8 @@ class Networks(object):
         return self._session.get(metadata, resource, params)
 
     def provisionNetworkClients(self, networkId: str, clients: list, devicePolicy: str, **kwargs):
-        """
-        **Provisions a client with a name and policy**
+        """Provisions a client with a name and policy
+
         https://developer.cisco.com/meraki/api-v1/#!provision-network-clients
 
         - networkId (string): Network ID
@@ -455,8 +461,8 @@ class Networks(object):
     def getNetworkClientsUsageHistories(
         self, networkId: str, clients: str, total_pages=1, direction="next", **kwargs
     ):
-        """
-        **Return the usage histories for clients**
+        """Return the usage histories for clients
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-clients-usage-histories
 
         - networkId (string): Network ID
@@ -502,8 +508,8 @@ class Networks(object):
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def getNetworkClient(self, networkId: str, clientId: str):
-        """
-        **Return the client associated with the given identifier**
+        """Return the client associated with the given identifier
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-client
 
         - networkId (string): Network ID
@@ -518,8 +524,8 @@ class Networks(object):
         return self._session.get(metadata, resource)
 
     def getNetworkClientPolicy(self, networkId: str, clientId: str):
-        """
-        **Return the policy assigned to a client on the network**
+        """Return the policy assigned to a client on the network
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-client-policy
 
         - networkId (string): Network ID
@@ -537,8 +543,8 @@ class Networks(object):
         return self._session.get(metadata, resource)
 
     def updateNetworkClientPolicy(self, networkId: str, clientId: str, devicePolicy: str, **kwargs):
-        """
-        **Update the policy assigned to a client on the network**
+        """Update the policy assigned to a client on the network
+
         https://developer.cisco.com/meraki/api-v1/#!update-network-client-policy
 
         - networkId (string): Network ID
@@ -566,8 +572,8 @@ class Networks(object):
         return self._session.put(metadata, resource, payload)
 
     def getNetworkClientSplashAuthorizationStatus(self, networkId: str, clientId: str):
-        """
-        **Return the splash authorization for a client, for each SSID they've associated with through splash**
+        """Return the splash authorization for a client, for each SSID they've associated with through splash
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-client-splash-authorization-status
 
         - networkId (string): Network ID
@@ -587,8 +593,8 @@ class Networks(object):
     def updateNetworkClientSplashAuthorizationStatus(
         self, networkId: str, clientId: str, ssids: dict
     ):
-        """
-        **Update a client's splash authorization**
+        """Update a client's splash authorization
+
         https://developer.cisco.com/meraki/api-v1/#!update-network-client-splash-authorization-status
 
         - networkId (string): Network ID
@@ -616,8 +622,8 @@ class Networks(object):
     def getNetworkClientTrafficHistory(
         self, networkId: str, clientId: str, total_pages=1, direction="next", **kwargs
     ):
-        """
-        **Return the client's network traffic data over time**
+        """Return the client's network traffic data over time
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-client-traffic-history
 
         - networkId (string): Network ID
@@ -649,8 +655,8 @@ class Networks(object):
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def getNetworkClientUsageHistory(self, networkId: str, clientId: str):
-        """
-        **Return the client's daily usage history**
+        """Return the client's daily usage history
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-client-usage-history
 
         - networkId (string): Network ID
@@ -668,8 +674,8 @@ class Networks(object):
         return self._session.get(metadata, resource)
 
     def getNetworkDevices(self, networkId: str):
-        """
-        **List the devices in a network**
+        """List the devices in a network
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-devices
 
         - networkId (string): Network ID
@@ -682,8 +688,8 @@ class Networks(object):
         return self._session.get(metadata, resource)
 
     def claimNetworkDevices(self, networkId: str, serials: list, **kwargs):
-        """
-        **Claim devices into a network. (Note: for recently claimed devices, it may take a few minutes for API requests against that device to succeed)**
+        """Claim devices into a network. (Note: for recently claimed devices, it may take a few minutes for API requests against that device to succeed)
+
         https://developer.cisco.com/meraki/api-v1/#!claim-network-devices
 
         - networkId (string): Network ID
@@ -710,8 +716,8 @@ class Networks(object):
         return self._session.post(metadata, resource, payload)
 
     def vmxNetworkDevicesClaim(self, networkId: str, size: str):
-        """
-        **Claim a vMX into a network**
+        """Claim a vMX into a network
+
         https://developer.cisco.com/meraki/api-v1/#!vmx-network-devices-claim
 
         - networkId (string): Network ID
@@ -741,8 +747,8 @@ class Networks(object):
         return self._session.post(metadata, resource, payload)
 
     def removeNetworkDevices(self, networkId: str, serial: str):
-        """
-        **Remove a single device**
+        """Remove a single device
+
         https://developer.cisco.com/meraki/api-v1/#!remove-network-devices
 
         - networkId (string): Network ID
@@ -768,8 +774,8 @@ class Networks(object):
     def getNetworkEvents(
         self, networkId: str, total_pages=1, direction="prev", event_log_end_time=None, **kwargs
     ):
-        """
-        **List the events for the network**
+        """List the events for the network
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-events
 
         - networkId (string): Network ID
@@ -842,7 +848,7 @@ class Networks(object):
             "includedEventTypes",
             "excludedEventTypes",
         ]
-        for k, v in kwargs.items():
+        for k in kwargs:
             if k.strip() in array_params:
                 params[f"{k.strip()}[]"] = kwargs[f"{k}"]
                 params.pop(k.strip())
@@ -852,8 +858,8 @@ class Networks(object):
         )
 
     def getNetworkEventsEventTypes(self, networkId: str):
-        """
-        **List the event type to human-readable description**
+        """List the event type to human-readable description
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-events-event-types
 
         - networkId (string): Network ID
@@ -869,8 +875,8 @@ class Networks(object):
         return self._session.get(metadata, resource)
 
     def getNetworkFirmwareUpgrades(self, networkId: str):
-        """
-        **Get firmware upgrade information for a network**
+        """Get firmware upgrade information for a network
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-firmware-upgrades
 
         - networkId (string): Network ID
@@ -886,8 +892,8 @@ class Networks(object):
         return self._session.get(metadata, resource)
 
     def updateNetworkFirmwareUpgrades(self, networkId: str, **kwargs):
-        """
-        **Update firmware upgrade information for a network**
+        """Update firmware upgrade information for a network
+
         https://developer.cisco.com/meraki/api-v1/#!update-network-firmware-upgrades
 
         - networkId (string): Network ID
@@ -915,8 +921,8 @@ class Networks(object):
         return self._session.put(metadata, resource, payload)
 
     def createNetworkFirmwareUpgradesRollback(self, networkId: str, reasons: list, **kwargs):
-        """
-        **Rollback a Firmware Upgrade For A Network**
+        """Rollback a Firmware Upgrade For A Network
+
         https://developer.cisco.com/meraki/api-v1/#!create-network-firmware-upgrades-rollback
 
         - networkId (string): Network ID
@@ -961,8 +967,8 @@ class Networks(object):
         return self._session.post(metadata, resource, payload)
 
     def getNetworkFirmwareUpgradesStagedEvents(self, networkId: str):
-        """
-        **Get the Staged Upgrade Event from a network**
+        """Get the Staged Upgrade Event from a network
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-firmware-upgrades-staged-events
 
         - networkId (string): Network ID
@@ -978,8 +984,8 @@ class Networks(object):
         return self._session.get(metadata, resource)
 
     def createNetworkFirmwareUpgradesStagedEvent(self, networkId: str, stages: list, **kwargs):
-        """
-        **Create a Staged Upgrade Event for a network**
+        """Create a Staged Upgrade Event for a network
+
         https://developer.cisco.com/meraki/api-v1/#!create-network-firmware-upgrades-staged-event
 
         - networkId (string): Network ID
@@ -1005,8 +1011,8 @@ class Networks(object):
         return self._session.post(metadata, resource, payload)
 
     def updateNetworkFirmwareUpgradesStagedEvents(self, networkId: str, stages: list):
-        """
-        **Update the Staged Upgrade Event for a network**
+        """Update the Staged Upgrade Event for a network
+
         https://developer.cisco.com/meraki/api-v1/#!update-network-firmware-upgrades-staged-events
 
         - networkId (string): Network ID
@@ -1030,8 +1036,8 @@ class Networks(object):
         return self._session.put(metadata, resource, payload)
 
     def deferNetworkFirmwareUpgradesStagedEvents(self, networkId: str):
-        """
-        **Postpone by 1 week all pending staged upgrade stages for a network**
+        """Postpone by 1 week all pending staged upgrade stages for a network
+
         https://developer.cisco.com/meraki/api-v1/#!defer-network-firmware-upgrades-staged-events
 
         - networkId (string): Network ID
@@ -1047,8 +1053,8 @@ class Networks(object):
         return self._session.post(metadata, resource)
 
     def rollbacksNetworkFirmwareUpgradesStagedEvents(self, networkId: str, stages: list, **kwargs):
-        """
-        **Rollback a Staged Upgrade Event for a network**
+        """Rollback a Staged Upgrade Event for a network
+
         https://developer.cisco.com/meraki/api-v1/#!rollbacks-network-firmware-upgrades-staged-events
 
         - networkId (string): Network ID
@@ -1074,8 +1080,8 @@ class Networks(object):
         return self._session.post(metadata, resource, payload)
 
     def getNetworkFirmwareUpgradesStagedGroups(self, networkId: str):
-        """
-        **List of Staged Upgrade Groups in a network**
+        """List of Staged Upgrade Groups in a network
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-firmware-upgrades-staged-groups
 
         - networkId (string): Network ID
@@ -1093,8 +1099,8 @@ class Networks(object):
     def createNetworkFirmwareUpgradesStagedGroup(
         self, networkId: str, name: str, isDefault: bool, **kwargs
     ):
-        """
-        **Create a Staged Upgrade Group for a network**
+        """Create a Staged Upgrade Group for a network
+
         https://developer.cisco.com/meraki/api-v1/#!create-network-firmware-upgrades-staged-group
 
         - networkId (string): Network ID
@@ -1124,8 +1130,8 @@ class Networks(object):
         return self._session.post(metadata, resource, payload)
 
     def getNetworkFirmwareUpgradesStagedGroup(self, networkId: str, groupId: str):
-        """
-        **Get a Staged Upgrade Group from a network**
+        """Get a Staged Upgrade Group from a network
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-firmware-upgrades-staged-group
 
         - networkId (string): Network ID
@@ -1145,8 +1151,8 @@ class Networks(object):
     def updateNetworkFirmwareUpgradesStagedGroup(
         self, networkId: str, groupId: str, name: str, isDefault: bool, **kwargs
     ):
-        """
-        **Update a Staged Upgrade Group for a network**
+        """Update a Staged Upgrade Group for a network
+
         https://developer.cisco.com/meraki/api-v1/#!update-network-firmware-upgrades-staged-group
 
         - networkId (string): Network ID
@@ -1178,8 +1184,8 @@ class Networks(object):
         return self._session.put(metadata, resource, payload)
 
     def deleteNetworkFirmwareUpgradesStagedGroup(self, networkId: str, groupId: str):
-        """
-        **Delete a Staged Upgrade Group**
+        """Delete a Staged Upgrade Group
+
         https://developer.cisco.com/meraki/api-v1/#!delete-network-firmware-upgrades-staged-group
 
         - networkId (string): Network ID
@@ -1197,8 +1203,8 @@ class Networks(object):
         return self._session.delete(metadata, resource)
 
     def getNetworkFirmwareUpgradesStagedStages(self, networkId: str):
-        """
-        **Order of Staged Upgrade Groups in a network**
+        """Order of Staged Upgrade Groups in a network
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-firmware-upgrades-staged-stages
 
         - networkId (string): Network ID
@@ -1214,8 +1220,8 @@ class Networks(object):
         return self._session.get(metadata, resource)
 
     def updateNetworkFirmwareUpgradesStagedStages(self, networkId: str, **kwargs):
-        """
-        **Assign Staged Upgrade Group order in the sequence.**
+        """Assign Staged Upgrade Group order in the sequence.
+
         https://developer.cisco.com/meraki/api-v1/#!update-network-firmware-upgrades-staged-stages
 
         - networkId (string): Network ID
@@ -1239,8 +1245,8 @@ class Networks(object):
         return self._session.put(metadata, resource, payload)
 
     def getNetworkFloorPlans(self, networkId: str):
-        """
-        **List the floor plans that belong to your network**
+        """List the floor plans that belong to your network
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-floor-plans
 
         - networkId (string): Network ID
@@ -1256,8 +1262,8 @@ class Networks(object):
         return self._session.get(metadata, resource)
 
     def createNetworkFloorPlan(self, networkId: str, name: str, imageContents: str, **kwargs):
-        """
-        **Upload a floor plan**
+        """Upload a floor plan
+
         https://developer.cisco.com/meraki/api-v1/#!create-network-floor-plan
 
         - networkId (string): Network ID
@@ -1295,8 +1301,8 @@ class Networks(object):
         return self._session.post(metadata, resource, payload)
 
     def batchNetworkFloorPlansAutoLocateJobs(self, networkId: str, jobs: list):
-        """
-        **Schedule auto locate jobs for one or more floor plans in a network**
+        """Schedule auto locate jobs for one or more floor plans in a network
+
         https://developer.cisco.com/meraki/api-v1/#!batch-network-floor-plans-auto-locate-jobs
 
         - networkId (string): Network ID
@@ -1320,8 +1326,8 @@ class Networks(object):
         return self._session.post(metadata, resource, payload)
 
     def cancelNetworkFloorPlansAutoLocateJob(self, networkId: str, jobId: str):
-        """
-        **Cancel a scheduled or running auto locate job**
+        """Cancel a scheduled or running auto locate job
+
         https://developer.cisco.com/meraki/api-v1/#!cancel-network-floor-plans-auto-locate-job
 
         - networkId (string): Network ID
@@ -1339,8 +1345,8 @@ class Networks(object):
         return self._session.post(metadata, resource)
 
     def publishNetworkFloorPlansAutoLocateJob(self, networkId: str, jobId: str, **kwargs):
-        """
-        **Update the status of a finished auto locate job to be published, and update device locations**
+        """Update the status of a finished auto locate job to be published, and update device locations
+
         https://developer.cisco.com/meraki/api-v1/#!publish-network-floor-plans-auto-locate-job
 
         - networkId (string): Network ID
@@ -1366,8 +1372,8 @@ class Networks(object):
         return self._session.post(metadata, resource, payload)
 
     def recalculateNetworkFloorPlansAutoLocateJob(self, networkId: str, jobId: str, **kwargs):
-        """
-        **Trigger auto locate recalculation for a job, and optionally set anchors**
+        """Trigger auto locate recalculation for a job, and optionally set anchors
+
         https://developer.cisco.com/meraki/api-v1/#!recalculate-network-floor-plans-auto-locate-job
 
         - networkId (string): Network ID
@@ -1393,8 +1399,8 @@ class Networks(object):
         return self._session.post(metadata, resource, payload)
 
     def batchNetworkFloorPlansDevicesUpdate(self, networkId: str, assignments: list):
-        """
-        **Update floorplan assignments for a batch of devices**
+        """Update floorplan assignments for a batch of devices
+
         https://developer.cisco.com/meraki/api-v1/#!batch-network-floor-plans-devices-update
 
         - networkId (string): Network ID
@@ -1418,8 +1424,8 @@ class Networks(object):
         return self._session.post(metadata, resource, payload)
 
     def getNetworkFloorPlan(self, networkId: str, floorPlanId: str):
-        """
-        **Find a floor plan by ID**
+        """Find a floor plan by ID
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-floor-plan
 
         - networkId (string): Network ID
@@ -1437,8 +1443,8 @@ class Networks(object):
         return self._session.get(metadata, resource)
 
     def updateNetworkFloorPlan(self, networkId: str, floorPlanId: str, **kwargs):
-        """
-        **Update a floor plan's geolocation and other meta data**
+        """Update a floor plan's geolocation and other meta data
+
         https://developer.cisco.com/meraki/api-v1/#!update-network-floor-plan
 
         - networkId (string): Network ID
@@ -1478,8 +1484,8 @@ class Networks(object):
         return self._session.put(metadata, resource, payload)
 
     def deleteNetworkFloorPlan(self, networkId: str, floorPlanId: str):
-        """
-        **Destroy a floor plan**
+        """Destroy a floor plan
+
         https://developer.cisco.com/meraki/api-v1/#!delete-network-floor-plan
 
         - networkId (string): Network ID
@@ -1497,8 +1503,8 @@ class Networks(object):
         return self._session.delete(metadata, resource)
 
     def getNetworkGroupPolicies(self, networkId: str):
-        """
-        **List the group policies in a network**
+        """List the group policies in a network
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-group-policies
 
         - networkId (string): Network ID
@@ -1514,8 +1520,8 @@ class Networks(object):
         return self._session.get(metadata, resource)
 
     def createNetworkGroupPolicy(self, networkId: str, name: str, **kwargs):
-        """
-        **Create a group policy**
+        """Create a group policy
+
         https://developer.cisco.com/meraki/api-v1/#!create-network-group-policy
 
         - networkId (string): Network ID
@@ -1562,8 +1568,8 @@ class Networks(object):
         return self._session.post(metadata, resource, payload)
 
     def getNetworkGroupPolicy(self, networkId: str, groupPolicyId: str):
-        """
-        **Display a group policy**
+        """Display a group policy
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-group-policy
 
         - networkId (string): Network ID
@@ -1581,8 +1587,8 @@ class Networks(object):
         return self._session.get(metadata, resource)
 
     def updateNetworkGroupPolicy(self, networkId: str, groupPolicyId: str, **kwargs):
-        """
-        **Update a group policy**
+        """Update a group policy
+
         https://developer.cisco.com/meraki/api-v1/#!update-network-group-policy
 
         - networkId (string): Network ID
@@ -1631,8 +1637,8 @@ class Networks(object):
         return self._session.put(metadata, resource, payload)
 
     def deleteNetworkGroupPolicy(self, networkId: str, groupPolicyId: str, **kwargs):
-        """
-        **Delete a group policy**
+        """Delete a group policy
+
         https://developer.cisco.com/meraki/api-v1/#!delete-network-group-policy
 
         - networkId (string): Network ID
@@ -1653,8 +1659,8 @@ class Networks(object):
         return self._session.delete(metadata, resource)
 
     def getNetworkHealthAlerts(self, networkId: str):
-        """
-        **Return all global alerts on this network**
+        """Return all global alerts on this network
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-health-alerts
 
         - networkId (string): Network ID
@@ -1670,8 +1676,8 @@ class Networks(object):
         return self._session.get(metadata, resource)
 
     def getNetworkMerakiAuthUsers(self, networkId: str):
-        """
-        **List the authorized users configured under Meraki Authentication for a network (splash guest or RADIUS users for a wireless network, or client VPN users for a MX network)**
+        """List the authorized users configured under Meraki Authentication for a network (splash guest or RADIUS users for a wireless network, or client VPN users for a MX network)
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-meraki-auth-users
 
         - networkId (string): Network ID
@@ -1689,8 +1695,8 @@ class Networks(object):
     def createNetworkMerakiAuthUser(
         self, networkId: str, email: str, authorizations: list, **kwargs
     ):
-        """
-        **Authorize a user configured with Meraki Authentication for a network (currently supports 802.1X, splash guest, and client VPN users, and currently, organizations have a 50,000 user cap)**
+        """Authorize a user configured with Meraki Authentication for a network (currently supports 802.1X, splash guest, and client VPN users, and currently, organizations have a 50,000 user cap)
+
         https://developer.cisco.com/meraki/api-v1/#!create-network-meraki-auth-user
 
         - networkId (string): Network ID
@@ -1732,8 +1738,8 @@ class Networks(object):
         return self._session.post(metadata, resource, payload)
 
     def getNetworkMerakiAuthUser(self, networkId: str, merakiAuthUserId: str):
-        """
-        **Return the Meraki Auth splash guest, RADIUS, or client VPN user**
+        """Return the Meraki Auth splash guest, RADIUS, or client VPN user
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-meraki-auth-user
 
         - networkId (string): Network ID
@@ -1751,8 +1757,8 @@ class Networks(object):
         return self._session.get(metadata, resource)
 
     def deleteNetworkMerakiAuthUser(self, networkId: str, merakiAuthUserId: str, **kwargs):
-        """
-        **Delete an 802.1X RADIUS user, or deauthorize and optionally delete a splash guest or client VPN user.**
+        """Delete an 802.1X RADIUS user, or deauthorize and optionally delete a splash guest or client VPN user.
+
         https://developer.cisco.com/meraki/api-v1/#!delete-network-meraki-auth-user
 
         - networkId (string): Network ID
@@ -1773,8 +1779,8 @@ class Networks(object):
         return self._session.delete(metadata, resource)
 
     def updateNetworkMerakiAuthUser(self, networkId: str, merakiAuthUserId: str, **kwargs):
-        """
-        **Update a user configured with Meraki Authentication (currently, 802.1X RADIUS, splash guest, and client VPN users can be updated)**
+        """Update a user configured with Meraki Authentication (currently, 802.1X RADIUS, splash guest, and client VPN users can be updated)
+
         https://developer.cisco.com/meraki/api-v1/#!update-network-meraki-auth-user
 
         - networkId (string): Network ID
@@ -1806,8 +1812,8 @@ class Networks(object):
         return self._session.put(metadata, resource, payload)
 
     def getNetworkMqttBrokers(self, networkId: str):
-        """
-        **List the MQTT brokers for this network**
+        """List the MQTT brokers for this network
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-mqtt-brokers
 
         - networkId (string): Network ID
@@ -1823,8 +1829,8 @@ class Networks(object):
         return self._session.get(metadata, resource)
 
     def createNetworkMqttBroker(self, networkId: str, name: str, host: str, port: int, **kwargs):
-        """
-        **Add an MQTT broker**
+        """Add an MQTT broker
+
         https://developer.cisco.com/meraki/api-v1/#!create-network-mqtt-broker
 
         - networkId (string): Network ID
@@ -1856,8 +1862,8 @@ class Networks(object):
         return self._session.post(metadata, resource, payload)
 
     def getNetworkMqttBroker(self, networkId: str, mqttBrokerId: str):
-        """
-        **Return an MQTT broker**
+        """Return an MQTT broker
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-mqtt-broker
 
         - networkId (string): Network ID
@@ -1875,8 +1881,8 @@ class Networks(object):
         return self._session.get(metadata, resource)
 
     def updateNetworkMqttBroker(self, networkId: str, mqttBrokerId: str, **kwargs):
-        """
-        **Update an MQTT broker**
+        """Update an MQTT broker
+
         https://developer.cisco.com/meraki/api-v1/#!update-network-mqtt-broker
 
         - networkId (string): Network ID
@@ -1910,8 +1916,8 @@ class Networks(object):
         return self._session.put(metadata, resource, payload)
 
     def deleteNetworkMqttBroker(self, networkId: str, mqttBrokerId: str):
-        """
-        **Delete an MQTT broker**
+        """Delete an MQTT broker
+
         https://developer.cisco.com/meraki/api-v1/#!delete-network-mqtt-broker
 
         - networkId (string): Network ID
@@ -1929,8 +1935,8 @@ class Networks(object):
         return self._session.delete(metadata, resource)
 
     def getNetworkNetflow(self, networkId: str):
-        """
-        **Return the NetFlow traffic reporting settings for a network**
+        """Return the NetFlow traffic reporting settings for a network
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-netflow
 
         - networkId (string): Network ID
@@ -1943,8 +1949,8 @@ class Networks(object):
         return self._session.get(metadata, resource)
 
     def updateNetworkNetflow(self, networkId: str, **kwargs):
-        """
-        **Update the NetFlow traffic reporting settings for a network**
+        """Update the NetFlow traffic reporting settings for a network
+
         https://developer.cisco.com/meraki/api-v1/#!update-network-netflow
 
         - networkId (string): Network ID
@@ -1978,8 +1984,8 @@ class Networks(object):
     def getNetworkNetworkHealthChannelUtilization(
         self, networkId: str, total_pages=1, direction="next", **kwargs
     ):
-        """
-        **Get the channel utilization over each radio for all APs in a network.**
+        """Get the channel utilization over each radio for all APs in a network.
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-network-health-channel-utilization
 
         - networkId (string): Network ID
@@ -2017,8 +2023,8 @@ class Networks(object):
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def getNetworkPiiPiiKeys(self, networkId: str, **kwargs):
-        """
-        **List the keys required to access Personally Identifiable Information (PII) for a given identifier**
+        """List the keys required to access Personally Identifiable Information (PII) for a given identifier
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-pii-pii-keys
 
         - networkId (string): Network ID
@@ -2052,8 +2058,8 @@ class Networks(object):
         return self._session.get(metadata, resource, params)
 
     def getNetworkPiiRequests(self, networkId: str):
-        """
-        **List the PII requests for this network or organization**
+        """List the PII requests for this network or organization
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-pii-requests
 
         - networkId (string): Network ID
@@ -2069,8 +2075,8 @@ class Networks(object):
         return self._session.get(metadata, resource)
 
     def createNetworkPiiRequest(self, networkId: str, **kwargs):
-        """
-        **Submit a new delete or restrict processing PII request**
+        """Submit a new delete or restrict processing PII request
+
         https://developer.cisco.com/meraki/api-v1/#!create-network-pii-request
 
         - networkId (string): Network ID
@@ -2112,8 +2118,8 @@ class Networks(object):
         return self._session.post(metadata, resource, payload)
 
     def getNetworkPiiRequest(self, networkId: str, requestId: str):
-        """
-        **Return a PII request**
+        """Return a PII request
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-pii-request
 
         - networkId (string): Network ID
@@ -2131,8 +2137,8 @@ class Networks(object):
         return self._session.get(metadata, resource)
 
     def deleteNetworkPiiRequest(self, networkId: str, requestId: str):
-        """
-        **Delete a restrict processing PII request**
+        """Delete a restrict processing PII request
+
         https://developer.cisco.com/meraki/api-v1/#!delete-network-pii-request
 
         - networkId (string): Network ID
@@ -2150,8 +2156,8 @@ class Networks(object):
         return self._session.delete(metadata, resource)
 
     def getNetworkPiiSmDevicesForKey(self, networkId: str, **kwargs):
-        """
-        **Given a piece of Personally Identifiable Information (PII), return the Systems Manager device ID(s) associated with that identifier**
+        """Given a piece of Personally Identifiable Information (PII), return the Systems Manager device ID(s) associated with that identifier
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-pii-sm-devices-for-key
 
         - networkId (string): Network ID
@@ -2185,8 +2191,8 @@ class Networks(object):
         return self._session.get(metadata, resource, params)
 
     def getNetworkPiiSmOwnersForKey(self, networkId: str, **kwargs):
-        """
-        **Given a piece of Personally Identifiable Information (PII), return the Systems Manager owner ID(s) associated with that identifier**
+        """Given a piece of Personally Identifiable Information (PII), return the Systems Manager owner ID(s) associated with that identifier
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-pii-sm-owners-for-key
 
         - networkId (string): Network ID
@@ -2220,8 +2226,8 @@ class Networks(object):
         return self._session.get(metadata, resource, params)
 
     def getNetworkPoliciesByClient(self, networkId: str, total_pages=1, direction="next", **kwargs):
-        """
-        **Get policies for all clients with policies**
+        """Get policies for all clients with policies
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-policies-by-client
 
         - networkId (string): Network ID
@@ -2255,8 +2261,8 @@ class Networks(object):
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def getNetworkSettings(self, networkId: str):
-        """
-        **Return the settings for a network**
+        """Return the settings for a network
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-settings
 
         - networkId (string): Network ID
@@ -2272,8 +2278,8 @@ class Networks(object):
         return self._session.get(metadata, resource)
 
     def updateNetworkSettings(self, networkId: str, **kwargs):
-        """
-        **Update the settings for a network**
+        """Update the settings for a network
+
         https://developer.cisco.com/meraki/api-v1/#!update-network-settings
 
         - networkId (string): Network ID
@@ -2305,8 +2311,8 @@ class Networks(object):
         return self._session.put(metadata, resource, payload)
 
     def getNetworkSnmp(self, networkId: str):
-        """
-        **Return the SNMP settings for a network**
+        """Return the SNMP settings for a network
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-snmp
 
         - networkId (string): Network ID
@@ -2319,8 +2325,8 @@ class Networks(object):
         return self._session.get(metadata, resource)
 
     def updateNetworkSnmp(self, networkId: str, **kwargs):
-        """
-        **Update the SNMP settings for a network**
+        """Update the SNMP settings for a network
+
         https://developer.cisco.com/meraki/api-v1/#!update-network-snmp
 
         - networkId (string): Network ID
@@ -2351,8 +2357,8 @@ class Networks(object):
         return self._session.put(metadata, resource, payload)
 
     def getNetworkSplashLoginAttempts(self, networkId: str, **kwargs):
-        """
-        **List the splash login attempts for a network**
+        """List the splash login attempts for a network
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-splash-login-attempts
 
         - networkId (string): Network ID
@@ -2386,8 +2392,8 @@ class Networks(object):
         return self._session.get(metadata, resource, params)
 
     def splitNetwork(self, networkId: str):
-        """
-        **Split a combined network into individual networks for each type of device**
+        """Split a combined network into individual networks for each type of device
+
         https://developer.cisco.com/meraki/api-v1/#!split-network
 
         - networkId (string): Network ID
@@ -2400,8 +2406,8 @@ class Networks(object):
         return self._session.post(metadata, resource)
 
     def getNetworkSyslogServers(self, networkId: str):
-        """
-        **List the syslog servers for a network**
+        """List the syslog servers for a network
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-syslog-servers
 
         - networkId (string): Network ID
@@ -2417,8 +2423,8 @@ class Networks(object):
         return self._session.get(metadata, resource)
 
     def updateNetworkSyslogServers(self, networkId: str, servers: list):
-        """
-        **Update the syslog servers for a network**
+        """Update the syslog servers for a network
+
         https://developer.cisco.com/meraki/api-v1/#!update-network-syslog-servers
 
         - networkId (string): Network ID
@@ -2442,8 +2448,8 @@ class Networks(object):
         return self._session.put(metadata, resource, payload)
 
     def getNetworkTopologyLinkLayer(self, networkId: str):
-        """
-        **List the LLDP and CDP information for all discovered devices and connections in a network**
+        """List the LLDP and CDP information for all discovered devices and connections in a network
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-topology-link-layer
 
         - networkId (string): Network ID
@@ -2459,8 +2465,8 @@ class Networks(object):
         return self._session.get(metadata, resource)
 
     def getNetworkTraffic(self, networkId: str, **kwargs):
-        """
-        **Return the traffic analysis data for this network**
+        """Return the traffic analysis data for this network
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-traffic
 
         - networkId (string): Network ID
@@ -2491,8 +2497,8 @@ class Networks(object):
         return self._session.get(metadata, resource, params)
 
     def getNetworkTrafficAnalysis(self, networkId: str):
-        """
-        **Return the traffic analysis settings for a network**
+        """Return the traffic analysis settings for a network
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-traffic-analysis
 
         - networkId (string): Network ID
@@ -2508,8 +2514,8 @@ class Networks(object):
         return self._session.get(metadata, resource)
 
     def updateNetworkTrafficAnalysis(self, networkId: str, **kwargs):
-        """
-            **Update the traffic analysis settings for a network**
+        """Update the traffic analysis settings for a network
+
             https://developer.cisco.com/meraki/api-v1/#!update-network-traffic-analysis
 
             - networkId (string): Network ID
@@ -2543,8 +2549,8 @@ class Networks(object):
         return self._session.put(metadata, resource, payload)
 
     def getNetworkTrafficShapingApplicationCategories(self, networkId: str):
-        """
-        **Returns the application categories for traffic shaping rules**
+        """Returns the application categories for traffic shaping rules
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-traffic-shaping-application-categories
 
         - networkId (string): Network ID
@@ -2560,8 +2566,8 @@ class Networks(object):
         return self._session.get(metadata, resource)
 
     def getNetworkTrafficShapingDscpTaggingOptions(self, networkId: str):
-        """
-        **Returns the available DSCP tagging options for your traffic shaping rules.**
+        """Returns the available DSCP tagging options for your traffic shaping rules.
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-traffic-shaping-dscp-tagging-options
 
         - networkId (string): Network ID
@@ -2577,8 +2583,8 @@ class Networks(object):
         return self._session.get(metadata, resource)
 
     def unbindNetwork(self, networkId: str, **kwargs):
-        """
-        **Unbind a network from a template.**
+        """Unbind a network from a template.
+
         https://developer.cisco.com/meraki/api-v1/#!unbind-network
 
         - networkId (string): Network ID
@@ -2599,8 +2605,8 @@ class Networks(object):
         return self._session.post(metadata, resource, payload)
 
     def getNetworkVlanProfiles(self, networkId: str):
-        """
-        **List VLAN profiles for a network**
+        """List VLAN profiles for a network
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-vlan-profiles
 
         - networkId (string): Network ID
@@ -2618,8 +2624,8 @@ class Networks(object):
     def createNetworkVlanProfile(
         self, networkId: str, name: str, vlanNames: list, vlanGroups: list, iname: str
     ):
-        """
-        **Create a VLAN profile for a network**
+        """Create a VLAN profile for a network
+
         https://developer.cisco.com/meraki/api-v1/#!create-network-vlan-profile
 
         - networkId (string): Network ID
@@ -2651,8 +2657,8 @@ class Networks(object):
     def getNetworkVlanProfilesAssignmentsByDevice(
         self, networkId: str, total_pages=1, direction="next", **kwargs
     ):
-        """
-        **Get the assigned VLAN Profiles for devices in a network**
+        """Get the assigned VLAN Profiles for devices in a network
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-vlan-profiles-assignments-by-device
 
         - networkId (string): Network ID
@@ -2690,7 +2696,7 @@ class Networks(object):
             "productTypes",
             "stackIds",
         ]
-        for k, v in kwargs.items():
+        for k in kwargs:
             if k.strip() in array_params:
                 params[f"{k.strip()}[]"] = kwargs[f"{k}"]
                 params.pop(k.strip())
@@ -2700,8 +2706,8 @@ class Networks(object):
     def reassignNetworkVlanProfilesAssignments(
         self, networkId: str, serials: list, stackIds: list, **kwargs
     ):
-        """
-        **Update the assigned VLAN Profile for devices in a network**
+        """Update the assigned VLAN Profile for devices in a network
+
         https://developer.cisco.com/meraki/api-v1/#!reassign-network-vlan-profiles-assignments
 
         - networkId (string): Network ID
@@ -2729,8 +2735,8 @@ class Networks(object):
         return self._session.post(metadata, resource, payload)
 
     def getNetworkVlanProfile(self, networkId: str, iname: str):
-        """
-        **Get an existing VLAN profile of a network**
+        """Get an existing VLAN profile of a network
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-vlan-profile
 
         - networkId (string): Network ID
@@ -2750,8 +2756,8 @@ class Networks(object):
     def updateNetworkVlanProfile(
         self, networkId: str, iname: str, name: str, vlanNames: list, vlanGroups: list
     ):
-        """
-        **Update an existing VLAN profile of a network**
+        """Update an existing VLAN profile of a network
+
         https://developer.cisco.com/meraki/api-v1/#!update-network-vlan-profile
 
         - networkId (string): Network ID
@@ -2781,8 +2787,8 @@ class Networks(object):
         return self._session.put(metadata, resource, payload)
 
     def deleteNetworkVlanProfile(self, networkId: str, iname: str):
-        """
-        **Delete a VLAN profile of a network**
+        """Delete a VLAN profile of a network
+
         https://developer.cisco.com/meraki/api-v1/#!delete-network-vlan-profile
 
         - networkId (string): Network ID
@@ -2800,8 +2806,8 @@ class Networks(object):
         return self._session.delete(metadata, resource)
 
     def getNetworkWebhooksHttpServers(self, networkId: str):
-        """
-        **List the HTTP servers for a network**
+        """List the HTTP servers for a network
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-webhooks-http-servers
 
         - networkId (string): Network ID
@@ -2817,8 +2823,8 @@ class Networks(object):
         return self._session.get(metadata, resource)
 
     def createNetworkWebhooksHttpServer(self, networkId: str, name: str, url: str, **kwargs):
-        """
-        **Add an HTTP server to a network**
+        """Add an HTTP server to a network
+
         https://developer.cisco.com/meraki/api-v1/#!create-network-webhooks-http-server
 
         - networkId (string): Network ID
@@ -2848,8 +2854,8 @@ class Networks(object):
         return self._session.post(metadata, resource, payload)
 
     def getNetworkWebhooksHttpServer(self, networkId: str, httpServerId: str):
-        """
-        **Return an HTTP server for a network**
+        """Return an HTTP server for a network
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-webhooks-http-server
 
         - networkId (string): Network ID
@@ -2867,8 +2873,8 @@ class Networks(object):
         return self._session.get(metadata, resource)
 
     def updateNetworkWebhooksHttpServer(self, networkId: str, httpServerId: str, **kwargs):
-        """
-        **Update an HTTP server**
+        """Update an HTTP server
+
         https://developer.cisco.com/meraki/api-v1/#!update-network-webhooks-http-server
 
         - networkId (string): Network ID
@@ -2898,8 +2904,8 @@ class Networks(object):
         return self._session.put(metadata, resource, payload)
 
     def deleteNetworkWebhooksHttpServer(self, networkId: str, httpServerId: str):
-        """
-        **Delete an HTTP server from a network**
+        """Delete an HTTP server from a network
+
         https://developer.cisco.com/meraki/api-v1/#!delete-network-webhooks-http-server
 
         - networkId (string): Network ID
@@ -2917,8 +2923,8 @@ class Networks(object):
         return self._session.delete(metadata, resource)
 
     def getNetworkWebhooksPayloadTemplates(self, networkId: str):
-        """
-        **List the webhook payload templates for a network**
+        """List the webhook payload templates for a network
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-webhooks-payload-templates
 
         - networkId (string): Network ID
@@ -2934,8 +2940,8 @@ class Networks(object):
         return self._session.get(metadata, resource)
 
     def createNetworkWebhooksPayloadTemplate(self, networkId: str, name: str, **kwargs):
-        """
-        **Create a webhook payload template for a network**
+        """Create a webhook payload template for a network
+
         https://developer.cisco.com/meraki/api-v1/#!create-network-webhooks-payload-template
 
         - networkId (string): Network ID
@@ -2967,8 +2973,8 @@ class Networks(object):
         return self._session.post(metadata, resource, payload)
 
     def getNetworkWebhooksPayloadTemplate(self, networkId: str, payloadTemplateId: str):
-        """
-        **Get the webhook payload template for a network**
+        """Get the webhook payload template for a network
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-webhooks-payload-template
 
         - networkId (string): Network ID
@@ -2986,8 +2992,8 @@ class Networks(object):
         return self._session.get(metadata, resource)
 
     def deleteNetworkWebhooksPayloadTemplate(self, networkId: str, payloadTemplateId: str):
-        """
-        **Destroy a webhook payload template for a network**
+        """Destroy a webhook payload template for a network
+
         https://developer.cisco.com/meraki/api-v1/#!delete-network-webhooks-payload-template
 
         - networkId (string): Network ID
@@ -3007,8 +3013,8 @@ class Networks(object):
     def updateNetworkWebhooksPayloadTemplate(
         self, networkId: str, payloadTemplateId: str, **kwargs
     ):
-        """
-        **Update a webhook payload template for a network**
+        """Update a webhook payload template for a network
+
         https://developer.cisco.com/meraki/api-v1/#!update-network-webhooks-payload-template
 
         - networkId (string): Network ID
@@ -3042,8 +3048,8 @@ class Networks(object):
         return self._session.put(metadata, resource, payload)
 
     def createNetworkWebhooksWebhookTest(self, networkId: str, url: str, **kwargs):
-        """
-        **Send a test webhook for a network**
+        """Send a test webhook for a network
+
         https://developer.cisco.com/meraki/api-v1/#!create-network-webhooks-webhook-test
 
         - networkId (string): Network ID
@@ -3075,8 +3081,8 @@ class Networks(object):
         return self._session.post(metadata, resource, payload)
 
     def getNetworkWebhooksWebhookTest(self, networkId: str, webhookTestId: str):
-        """
-        **Return the status of a webhook test for a network**
+        """Return the status of a webhook test for a network
+
         https://developer.cisco.com/meraki/api-v1/#!get-network-webhooks-webhook-test
 
         - networkId (string): Network ID

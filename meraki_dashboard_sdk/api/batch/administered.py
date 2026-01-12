@@ -1,6 +1,8 @@
-import urllib
+"""ActionBatchAdministered API endpoints."""
 
 
-class ActionBatchAdministered(object):
-    def __init__(self):
-        super(ActionBatchAdministered, self).__init__()
+class ActionBatchAdministered:
+    """ActionBatchAdministered class."""
+
+    def __init__(self) -> None:
+        pass

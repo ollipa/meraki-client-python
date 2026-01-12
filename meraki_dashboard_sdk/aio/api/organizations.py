@@ -1,14 +1,20 @@
+"""Organizations API endpoints."""
+
 import urllib
+
+from meraki_dashboard_sdk.aio.rest_session import AsyncRestSession
 
 
 class AsyncOrganizations:
-    def __init__(self, session):
+    """Organizations class."""
+
+    def __init__(self, session: AsyncRestSession) -> None:
         super().__init__()
         self._session = session
 
     def getOrganizations(self):
-        """
-        **List the organizations that the user has privileges on**
+        """List the organizations that the user has privileges on
+
         https://developer.cisco.com/meraki/api-v1/#!get-organizations
 
         - total_pages (integer or string): use with perPage to get total results up to total_pages*perPage; -1 or "all" for all pages
@@ -33,8 +39,8 @@ class AsyncOrganizations:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def createOrganization(self, name: str, **kwargs):
-        """
-        **Create a new organization**
+        """Create a new organization
+
         https://developer.cisco.com/meraki/api-v1/#!create-organization
 
         - name (string): The name of the organization
@@ -55,8 +61,8 @@ class AsyncOrganizations:
         return self._session.post(metadata, resource, payload)
 
     def getOrganization(self, organizationId: str):
-        """
-        **Return an organization**
+        """Return an organization
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization
 
         - organizationId (string): Organization ID
@@ -69,8 +75,8 @@ class AsyncOrganizations:
         return self._session.get(metadata, resource)
 
     def updateOrganization(self, organizationId: str, **kwargs):
-        """
-        **Update an organization**
+        """Update an organization
+
         https://developer.cisco.com/meraki/api-v1/#!update-organization
 
         - organizationId (string): Organization ID
@@ -95,8 +101,8 @@ class AsyncOrganizations:
         return self._session.put(metadata, resource, payload)
 
     def deleteOrganization(self, organizationId: str):
-        """
-        **Delete an organization**
+        """Delete an organization
+
         https://developer.cisco.com/meraki/api-v1/#!delete-organization
 
         - organizationId (string): Organization ID
@@ -109,8 +115,8 @@ class AsyncOrganizations:
         return self._session.delete(metadata, resource)
 
     def createOrganizationActionBatch(self, organizationId: str, actions: list, **kwargs):
-        """
-        **Create an action batch**
+        """Create an action batch
+
         https://developer.cisco.com/meraki/api-v1/#!create-organization-action-batch
 
         - organizationId (string): Organization ID
@@ -140,8 +146,8 @@ class AsyncOrganizations:
         return self._session.post(metadata, resource, payload)
 
     def getOrganizationActionBatches(self, organizationId: str, **kwargs):
-        """
-        **Return the list of action batches in the organization**
+        """Return the list of action batches in the organization
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-action-batches
 
         - organizationId (string): Organization ID
@@ -171,8 +177,8 @@ class AsyncOrganizations:
         return self._session.get(metadata, resource, params)
 
     def getOrganizationActionBatch(self, organizationId: str, actionBatchId: str):
-        """
-        **Return an action batch**
+        """Return an action batch
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-action-batch
 
         - organizationId (string): Organization ID
@@ -190,8 +196,8 @@ class AsyncOrganizations:
         return self._session.get(metadata, resource)
 
     def deleteOrganizationActionBatch(self, organizationId: str, actionBatchId: str):
-        """
-        **Delete an action batch**
+        """Delete an action batch
+
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-action-batch
 
         - organizationId (string): Organization ID
@@ -209,8 +215,8 @@ class AsyncOrganizations:
         return self._session.delete(metadata, resource)
 
     def updateOrganizationActionBatch(self, organizationId: str, actionBatchId: str, **kwargs):
-        """
-        **Update an action batch**
+        """Update an action batch
+
         https://developer.cisco.com/meraki/api-v1/#!update-organization-action-batch
 
         - organizationId (string): Organization ID
@@ -238,8 +244,8 @@ class AsyncOrganizations:
         return self._session.put(metadata, resource, payload)
 
     def getOrganizationAdaptivePolicyAcls(self, organizationId: str):
-        """
-        **List adaptive policy ACLs in a organization**
+        """List adaptive policy ACLs in a organization
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-adaptive-policy-acls
 
         - organizationId (string): Organization ID
@@ -257,8 +263,8 @@ class AsyncOrganizations:
     def createOrganizationAdaptivePolicyAcl(
         self, organizationId: str, name: str, rules: list, ipVersion: str, **kwargs
     ):
-        """
-        **Creates new adaptive policy ACL**
+        """Creates new adaptive policy ACL
+
         https://developer.cisco.com/meraki/api-v1/#!create-organization-adaptive-policy-acl
 
         - organizationId (string): Organization ID
@@ -294,8 +300,8 @@ class AsyncOrganizations:
         return self._session.post(metadata, resource, payload)
 
     def getOrganizationAdaptivePolicyAcl(self, organizationId: str, aclId: str):
-        """
-        **Returns the adaptive policy ACL information**
+        """Returns the adaptive policy ACL information
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-adaptive-policy-acl
 
         - organizationId (string): Organization ID
@@ -313,8 +319,8 @@ class AsyncOrganizations:
         return self._session.get(metadata, resource)
 
     def updateOrganizationAdaptivePolicyAcl(self, organizationId: str, aclId: str, **kwargs):
-        """
-        **Updates an adaptive policy ACL**
+        """Updates an adaptive policy ACL
+
         https://developer.cisco.com/meraki/api-v1/#!update-organization-adaptive-policy-acl
 
         - organizationId (string): Organization ID
@@ -352,8 +358,8 @@ class AsyncOrganizations:
         return self._session.put(metadata, resource, payload)
 
     def deleteOrganizationAdaptivePolicyAcl(self, organizationId: str, aclId: str):
-        """
-        **Deletes the specified adaptive policy ACL**
+        """Deletes the specified adaptive policy ACL
+
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-adaptive-policy-acl
 
         - organizationId (string): Organization ID
@@ -371,8 +377,8 @@ class AsyncOrganizations:
         return self._session.delete(metadata, resource)
 
     def getOrganizationAdaptivePolicyGroups(self, organizationId: str):
-        """
-        **List adaptive policy groups in a organization**
+        """List adaptive policy groups in a organization
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-adaptive-policy-groups
 
         - organizationId (string): Organization ID
@@ -390,8 +396,8 @@ class AsyncOrganizations:
     def createOrganizationAdaptivePolicyGroup(
         self, organizationId: str, name: str, sgt: int, **kwargs
     ):
-        """
-        **Creates a new adaptive policy group**
+        """Creates a new adaptive policy group
+
         https://developer.cisco.com/meraki/api-v1/#!create-organization-adaptive-policy-group
 
         - organizationId (string): Organization ID
@@ -421,8 +427,8 @@ class AsyncOrganizations:
         return self._session.post(metadata, resource, payload)
 
     def getOrganizationAdaptivePolicyGroup(self, organizationId: str, id: str):
-        """
-        **Returns an adaptive policy group**
+        """Returns an adaptive policy group
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-adaptive-policy-group
 
         - organizationId (string): Organization ID
@@ -440,8 +446,8 @@ class AsyncOrganizations:
         return self._session.get(metadata, resource)
 
     def updateOrganizationAdaptivePolicyGroup(self, organizationId: str, id: str, **kwargs):
-        """
-        **Updates an adaptive policy group**
+        """Updates an adaptive policy group
+
         https://developer.cisco.com/meraki/api-v1/#!update-organization-adaptive-policy-group
 
         - organizationId (string): Organization ID
@@ -473,8 +479,8 @@ class AsyncOrganizations:
         return self._session.put(metadata, resource, payload)
 
     def deleteOrganizationAdaptivePolicyGroup(self, organizationId: str, id: str):
-        """
-        **Deletes the specified adaptive policy group and any associated policies and references**
+        """Deletes the specified adaptive policy group and any associated policies and references
+
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-adaptive-policy-group
 
         - organizationId (string): Organization ID
@@ -492,8 +498,8 @@ class AsyncOrganizations:
         return self._session.delete(metadata, resource)
 
     def getOrganizationAdaptivePolicyOverview(self, organizationId: str):
-        """
-        **Returns adaptive policy aggregate statistics for an organization**
+        """Returns adaptive policy aggregate statistics for an organization
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-adaptive-policy-overview
 
         - organizationId (string): Organization ID
@@ -509,8 +515,8 @@ class AsyncOrganizations:
         return self._session.get(metadata, resource)
 
     def getOrganizationAdaptivePolicyPolicies(self, organizationId: str):
-        """
-        **List adaptive policies in an organization**
+        """List adaptive policies in an organization
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-adaptive-policy-policies
 
         - organizationId (string): Organization ID
@@ -528,8 +534,8 @@ class AsyncOrganizations:
     def createOrganizationAdaptivePolicyPolicy(
         self, organizationId: str, sourceGroup: dict, destinationGroup: dict, **kwargs
     ):
-        """
-        **Add an Adaptive Policy**
+        """Add an Adaptive Policy
+
         https://developer.cisco.com/meraki/api-v1/#!create-organization-adaptive-policy-policy
 
         - organizationId (string): Organization ID
@@ -565,8 +571,8 @@ class AsyncOrganizations:
         return self._session.post(metadata, resource, payload)
 
     def getOrganizationAdaptivePolicyPolicy(self, organizationId: str, id: str):
-        """
-        **Return an adaptive policy**
+        """Return an adaptive policy
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-adaptive-policy-policy
 
         - organizationId (string): Organization ID
@@ -584,8 +590,8 @@ class AsyncOrganizations:
         return self._session.get(metadata, resource)
 
     def updateOrganizationAdaptivePolicyPolicy(self, organizationId: str, id: str, **kwargs):
-        """
-        **Update an Adaptive Policy**
+        """Update an Adaptive Policy
+
         https://developer.cisco.com/meraki/api-v1/#!update-organization-adaptive-policy-policy
 
         - organizationId (string): Organization ID
@@ -623,8 +629,8 @@ class AsyncOrganizations:
         return self._session.put(metadata, resource, payload)
 
     def deleteOrganizationAdaptivePolicyPolicy(self, organizationId: str, id: str):
-        """
-        **Delete an Adaptive Policy**
+        """Delete an Adaptive Policy
+
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-adaptive-policy-policy
 
         - organizationId (string): Organization ID
@@ -642,8 +648,8 @@ class AsyncOrganizations:
         return self._session.delete(metadata, resource)
 
     def getOrganizationAdaptivePolicySettings(self, organizationId: str):
-        """
-        **Returns global adaptive policy settings in an organization**
+        """Returns global adaptive policy settings in an organization
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-adaptive-policy-settings
 
         - organizationId (string): Organization ID
@@ -659,8 +665,8 @@ class AsyncOrganizations:
         return self._session.get(metadata, resource)
 
     def updateOrganizationAdaptivePolicySettings(self, organizationId: str, **kwargs):
-        """
-        **Update global adaptive policy settings**
+        """Update global adaptive policy settings
+
         https://developer.cisco.com/meraki/api-v1/#!update-organization-adaptive-policy-settings
 
         - organizationId (string): Organization ID
@@ -684,8 +690,8 @@ class AsyncOrganizations:
         return self._session.put(metadata, resource, payload)
 
     def getOrganizationAdmins(self, organizationId: str, **kwargs):
-        """
-        **List the dashboard administrators in this organization**
+        """List the dashboard administrators in this organization
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-admins
 
         - organizationId (string): Organization ID
@@ -709,7 +715,7 @@ class AsyncOrganizations:
         array_params = [
             "networkIds",
         ]
-        for k, v in kwargs.items():
+        for k in kwargs:
             if k.strip() in array_params:
                 params[f"{k.strip()}[]"] = kwargs[f"{k}"]
                 params.pop(k.strip())
@@ -719,8 +725,8 @@ class AsyncOrganizations:
     def createOrganizationAdmin(
         self, organizationId: str, email: str, name: str, orgAccess: str, **kwargs
     ):
-        """
-        **Create a new dashboard administrator**
+        """Create a new dashboard administrator
+
         https://developer.cisco.com/meraki/api-v1/#!create-organization-admin
 
         - organizationId (string): Organization ID
@@ -765,8 +771,8 @@ class AsyncOrganizations:
         return self._session.post(metadata, resource, payload)
 
     def updateOrganizationAdmin(self, organizationId: str, adminId: str, **kwargs):
-        """
-        **Update an administrator**
+        """Update an administrator
+
         https://developer.cisco.com/meraki/api-v1/#!update-organization-admin
 
         - organizationId (string): Organization ID
@@ -804,8 +810,8 @@ class AsyncOrganizations:
         return self._session.put(metadata, resource, payload)
 
     def deleteOrganizationAdmin(self, organizationId: str, adminId: str):
-        """
-        **Revoke all access for a dashboard administrator within this organization**
+        """Revoke all access for a dashboard administrator within this organization
+
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-admin
 
         - organizationId (string): Organization ID
@@ -823,8 +829,8 @@ class AsyncOrganizations:
         return self._session.delete(metadata, resource)
 
     def getOrganizationAlertsProfiles(self, organizationId: str):
-        """
-        **List all organization-wide alert configurations**
+        """List all organization-wide alert configurations
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-alerts-profiles
 
         - organizationId (string): Organization ID
@@ -848,8 +854,8 @@ class AsyncOrganizations:
         networkTags: list,
         **kwargs,
     ):
-        """
-        **Create an organization-wide alert configuration**
+        """Create an organization-wide alert configuration
+
         https://developer.cisco.com/meraki/api-v1/#!create-organization-alerts-profile
 
         - organizationId (string): Organization ID
@@ -896,8 +902,8 @@ class AsyncOrganizations:
         return self._session.post(metadata, resource, payload)
 
     def updateOrganizationAlertsProfile(self, organizationId: str, alertConfigId: str, **kwargs):
-        """
-        **Update an organization-wide alert config**
+        """Update an organization-wide alert config
+
         https://developer.cisco.com/meraki/api-v1/#!update-organization-alerts-profile
 
         - organizationId (string): Organization ID
@@ -948,8 +954,8 @@ class AsyncOrganizations:
         return self._session.put(metadata, resource, payload)
 
     def deleteOrganizationAlertsProfile(self, organizationId: str, alertConfigId: str):
-        """
-        **Removes an organization-wide alert config**
+        """Removes an organization-wide alert config
+
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-alerts-profile
 
         - organizationId (string): Organization ID
@@ -969,8 +975,8 @@ class AsyncOrganizations:
     def getOrganizationApiRequests(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
-        """
-        **List the API requests made by an organization**
+        """List the API requests made by an organization
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-api-requests
 
         - organizationId (string): Organization ID
@@ -1033,7 +1039,7 @@ class AsyncOrganizations:
         array_params = [
             "operationIds",
         ]
-        for k, v in kwargs.items():
+        for k in kwargs:
             if k.strip() in array_params:
                 params[f"{k.strip()}[]"] = kwargs[f"{k}"]
                 params.pop(k.strip())
@@ -1041,8 +1047,8 @@ class AsyncOrganizations:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def getOrganizationApiRequestsOverview(self, organizationId: str, **kwargs):
-        """
-        **Return an aggregated overview of API requests data**
+        """Return an aggregated overview of API requests data
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-api-requests-overview
 
         - organizationId (string): Organization ID
@@ -1072,8 +1078,8 @@ class AsyncOrganizations:
     def getOrganizationApiRequestsOverviewResponseCodesByInterval(
         self, organizationId: str, **kwargs
     ):
-        """
-        **Tracks organizations' API requests by response code across a given time period**
+        """Tracks organizations' API requests by response code across a given time period
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-api-requests-overview-response-codes-by-interval
 
         - organizationId (string): Organization ID
@@ -1128,7 +1134,7 @@ class AsyncOrganizations:
             "sourceIps",
             "adminIds",
         ]
-        for k, v in kwargs.items():
+        for k in kwargs:
             if k.strip() in array_params:
                 params[f"{k.strip()}[]"] = kwargs[f"{k}"]
                 params.pop(k.strip())
@@ -1138,8 +1144,8 @@ class AsyncOrganizations:
     def getOrganizationAssuranceAlerts(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
-        """
-        **Return all health alerts for an organization**
+        """Return all health alerts for an organization
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-assurance-alerts
 
         - organizationId (string): Organization ID
@@ -1218,7 +1224,7 @@ class AsyncOrganizations:
             "deviceTypes",
             "deviceTags",
         ]
-        for k, v in kwargs.items():
+        for k in kwargs:
             if k.strip() in array_params:
                 params[f"{k.strip()}[]"] = kwargs[f"{k}"]
                 params.pop(k.strip())
@@ -1226,8 +1232,8 @@ class AsyncOrganizations:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def dismissOrganizationAssuranceAlerts(self, organizationId: str, alertIds: list):
-        """
-        **Dismiss health alerts**
+        """Dismiss health alerts
+
         https://developer.cisco.com/meraki/api-v1/#!dismiss-organization-assurance-alerts
 
         - organizationId (string): Organization ID
@@ -1251,8 +1257,8 @@ class AsyncOrganizations:
         return self._session.post(metadata, resource, payload)
 
     def getOrganizationAssuranceAlertsOverview(self, organizationId: str, **kwargs):
-        """
-        **Return overview of active health alerts for an organization**
+        """Return overview of active health alerts for an organization
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-assurance-alerts-overview
 
         - organizationId (string): Organization ID
@@ -1309,7 +1315,7 @@ class AsyncOrganizations:
             "deviceTypes",
             "deviceTags",
         ]
-        for k, v in kwargs.items():
+        for k in kwargs:
             if k.strip() in array_params:
                 params[f"{k.strip()}[]"] = kwargs[f"{k}"]
                 params.pop(k.strip())
@@ -1319,8 +1325,8 @@ class AsyncOrganizations:
     def getOrganizationAssuranceAlertsOverviewByNetwork(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
-        """
-        **Return a Summary of Alerts grouped by network and severity**
+        """Return a Summary of Alerts grouped by network and severity
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-assurance-alerts-overview-by-network
 
         - organizationId (string): Organization ID
@@ -1392,7 +1398,7 @@ class AsyncOrganizations:
             "deviceTypes",
             "deviceTags",
         ]
-        for k, v in kwargs.items():
+        for k in kwargs:
             if k.strip() in array_params:
                 params[f"{k.strip()}[]"] = kwargs[f"{k}"]
                 params.pop(k.strip())
@@ -1402,8 +1408,8 @@ class AsyncOrganizations:
     def getOrganizationAssuranceAlertsOverviewByType(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
-        """
-        **Return a Summary of Alerts grouped by type and severity**
+        """Return a Summary of Alerts grouped by type and severity
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-assurance-alerts-overview-by-type
 
         - organizationId (string): Organization ID
@@ -1482,7 +1488,7 @@ class AsyncOrganizations:
             "deviceTypes",
             "deviceTags",
         ]
-        for k, v in kwargs.items():
+        for k in kwargs:
             if k.strip() in array_params:
                 params[f"{k.strip()}[]"] = kwargs[f"{k}"]
                 params.pop(k.strip())
@@ -1492,8 +1498,8 @@ class AsyncOrganizations:
     def getOrganizationAssuranceAlertsOverviewHistorical(
         self, organizationId: str, segmentDuration: int, tsStart: str, **kwargs
     ):
-        """
-        **Returns historical health alert overviews**
+        """Returns historical health alert overviews
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-assurance-alerts-overview-historical
 
         - organizationId (string): Organization ID
@@ -1541,7 +1547,7 @@ class AsyncOrganizations:
             "serials",
             "deviceTypes",
         ]
-        for k, v in kwargs.items():
+        for k in kwargs:
             if k.strip() in array_params:
                 params[f"{k.strip()}[]"] = kwargs[f"{k}"]
                 params.pop(k.strip())
@@ -1549,8 +1555,8 @@ class AsyncOrganizations:
         return self._session.get(metadata, resource, params)
 
     def restoreOrganizationAssuranceAlerts(self, organizationId: str, alertIds: list):
-        """
-        **Restore health alerts from dismissed**
+        """Restore health alerts from dismissed
+
         https://developer.cisco.com/meraki/api-v1/#!restore-organization-assurance-alerts
 
         - organizationId (string): Organization ID
@@ -1574,8 +1580,8 @@ class AsyncOrganizations:
         return self._session.post(metadata, resource, payload)
 
     def getOrganizationAssuranceAlertsTaxonomyCategories(self, organizationId: str):
-        """
-        **Return a list of Category Types**
+        """Return a list of Category Types
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-assurance-alerts-taxonomy-categories
 
         - organizationId (string): Organization ID
@@ -1591,8 +1597,8 @@ class AsyncOrganizations:
         return self._session.get(metadata, resource)
 
     def getOrganizationAssuranceAlertsTaxonomyTypes(self, organizationId: str):
-        """
-        **Return a list of alert types**
+        """Return a list of alert types
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-assurance-alerts-taxonomy-types
 
         - organizationId (string): Organization ID
@@ -1608,8 +1614,8 @@ class AsyncOrganizations:
         return self._session.get(metadata, resource)
 
     def getOrganizationAssuranceAlert(self, organizationId: str, id: str):
-        """
-        **Return a singular Health Alert by its id**
+        """Return a singular Health Alert by its id
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-assurance-alert
 
         - organizationId (string): Organization ID
@@ -1627,8 +1633,8 @@ class AsyncOrganizations:
         return self._session.get(metadata, resource)
 
     def getOrganizationBrandingPolicies(self, organizationId: str):
-        """
-        **List the branding policies of an organization**
+        """List the branding policies of an organization
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-branding-policies
 
         - organizationId (string): Organization ID
@@ -1644,8 +1650,8 @@ class AsyncOrganizations:
         return self._session.get(metadata, resource)
 
     def createOrganizationBrandingPolicy(self, organizationId: str, name: str, **kwargs):
-        """
-               **Add a new branding policy to an organization**
+        """Add a new branding policy to an organization
+
                https://developer.cisco.com/meraki/api-v1/#!create-organization-branding-policy
 
                - organizationId (string): Organization ID
@@ -1681,8 +1687,8 @@ class AsyncOrganizations:
         return self._session.post(metadata, resource, payload)
 
     def getOrganizationBrandingPoliciesPriorities(self, organizationId: str):
-        """
-        **Return the branding policy IDs of an organization in priority order**
+        """Return the branding policy IDs of an organization in priority order
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-branding-policies-priorities
 
         - organizationId (string): Organization ID
@@ -1698,8 +1704,8 @@ class AsyncOrganizations:
         return self._session.get(metadata, resource)
 
     def updateOrganizationBrandingPoliciesPriorities(self, organizationId: str, **kwargs):
-        """
-        **Update the priority ordering of an organization's branding policies.**
+        """Update the priority ordering of an organization's branding policies.
+
         https://developer.cisco.com/meraki/api-v1/#!update-organization-branding-policies-priorities
 
         - organizationId (string): Organization ID
@@ -1724,8 +1730,8 @@ class AsyncOrganizations:
         return self._session.put(metadata, resource, payload)
 
     def getOrganizationBrandingPolicy(self, organizationId: str, brandingPolicyId: str):
-        """
-        **Return a branding policy**
+        """Return a branding policy
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-branding-policy
 
         - organizationId (string): Organization ID
@@ -1745,8 +1751,8 @@ class AsyncOrganizations:
     def updateOrganizationBrandingPolicy(
         self, organizationId: str, brandingPolicyId: str, name: str, **kwargs
     ):
-        """
-          **Update a branding policy**
+        """Update a branding policy
+
           https://developer.cisco.com/meraki/api-v1/#!update-organization-branding-policy
 
           - organizationId (string): Organization ID
@@ -1784,8 +1790,8 @@ class AsyncOrganizations:
         return self._session.put(metadata, resource, payload)
 
     def deleteOrganizationBrandingPolicy(self, organizationId: str, brandingPolicyId: str):
-        """
-        **Delete a branding policy**
+        """Delete a branding policy
+
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-branding-policy
 
         - organizationId (string): Organization ID
@@ -1803,8 +1809,8 @@ class AsyncOrganizations:
         return self._session.delete(metadata, resource)
 
     def claimIntoOrganization(self, organizationId: str, **kwargs):
-        """
-        **Claim a list of devices, licenses, and/or orders into an organization inventory**
+        """Claim a list of devices, licenses, and/or orders into an organization inventory
+
         https://developer.cisco.com/meraki/api-v1/#!claim-into-organization
 
         - organizationId (string): Organization ID
@@ -1829,8 +1835,8 @@ class AsyncOrganizations:
         return self._session.post(metadata, resource, payload)
 
     def getOrganizationClientsBandwidthUsageHistory(self, organizationId: str, **kwargs):
-        """
-        **Return data usage (in megabits per second) over time for all clients in the given organization within a given time range.**
+        """Return data usage (in megabits per second) over time for all clients in the given organization within a given time range.
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-clients-bandwidth-usage-history
 
         - organizationId (string): Organization ID
@@ -1866,8 +1872,8 @@ class AsyncOrganizations:
         return self._session.get(metadata, resource, params)
 
     def getOrganizationClientsOverview(self, organizationId: str, **kwargs):
-        """
-        **Return summary information around client data usage (in kb) across the given organization.**
+        """Return summary information around client data usage (in kb) across the given organization.
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-clients-overview
 
         - organizationId (string): Organization ID
@@ -1897,8 +1903,8 @@ class AsyncOrganizations:
     def getOrganizationClientsSearch(
         self, organizationId: str, mac: str, total_pages=1, direction="next", **kwargs
     ):
-        """
-        **Return the client details in an organization**
+        """Return the client details in an organization
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-clients-search
 
         - organizationId (string): Organization ID
@@ -1930,8 +1936,8 @@ class AsyncOrganizations:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def cloneOrganization(self, organizationId: str, name: str):
-        """
-        **Create a new organization by cloning the addressed organization**
+        """Create a new organization by cloning the addressed organization
+
         https://developer.cisco.com/meraki/api-v1/#!clone-organization
 
         - organizationId (string): Organization ID
@@ -1952,8 +1958,8 @@ class AsyncOrganizations:
         return self._session.post(metadata, resource, payload)
 
     def getOrganizationConfigTemplates(self, organizationId: str):
-        """
-        **List the configuration templates for this organization**
+        """List the configuration templates for this organization
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-config-templates
 
         - organizationId (string): Organization ID
@@ -1969,8 +1975,8 @@ class AsyncOrganizations:
         return self._session.get(metadata, resource)
 
     def createOrganizationConfigTemplate(self, organizationId: str, name: str, **kwargs):
-        """
-        **Create a new configuration template**
+        """Create a new configuration template
+
         https://developer.cisco.com/meraki/api-v1/#!create-organization-config-template
 
         - organizationId (string): Organization ID
@@ -1998,8 +2004,8 @@ class AsyncOrganizations:
         return self._session.post(metadata, resource, payload)
 
     def getOrganizationConfigTemplate(self, organizationId: str, configTemplateId: str):
-        """
-        **Return a single configuration template**
+        """Return a single configuration template
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-config-template
 
         - organizationId (string): Organization ID
@@ -2019,8 +2025,8 @@ class AsyncOrganizations:
     def updateOrganizationConfigTemplate(
         self, organizationId: str, configTemplateId: str, **kwargs
     ):
-        """
-        **Update a configuration template**
+        """Update a configuration template
+
         https://developer.cisco.com/meraki/api-v1/#!update-organization-config-template
 
         - organizationId (string): Organization ID
@@ -2048,8 +2054,8 @@ class AsyncOrganizations:
         return self._session.put(metadata, resource, payload)
 
     def deleteOrganizationConfigTemplate(self, organizationId: str, configTemplateId: str):
-        """
-        **Remove a configuration template**
+        """Remove a configuration template
+
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-config-template
 
         - organizationId (string): Organization ID
@@ -2069,8 +2075,8 @@ class AsyncOrganizations:
     def getOrganizationConfigurationChanges(
         self, organizationId: str, total_pages=1, direction="prev", **kwargs
     ):
-        """
-        **View the Change Log for your organization**
+        """View the Change Log for your organization
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-configuration-changes
 
         - organizationId (string): Organization ID
@@ -2112,8 +2118,8 @@ class AsyncOrganizations:
     def getOrganizationDevices(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
-        """
-        **List the devices in an organization that have been assigned to a network.**
+        """List the devices in an organization that have been assigned to a network.
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-devices
 
         - organizationId (string): Organization ID
@@ -2184,7 +2190,7 @@ class AsyncOrganizations:
             "sensorAlertProfileIds",
             "models",
         ]
-        for k, v in kwargs.items():
+        for k in kwargs:
             if k.strip() in array_params:
                 params[f"{k.strip()}[]"] = kwargs[f"{k}"]
                 params.pop(k.strip())
@@ -2194,8 +2200,8 @@ class AsyncOrganizations:
     def getOrganizationDevicesAvailabilities(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
-        """
-        **List the availability information for devices in an organization**
+        """List the availability information for devices in an organization
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-devices-availabilities
 
         - organizationId (string): Organization ID
@@ -2247,7 +2253,7 @@ class AsyncOrganizations:
             "tags",
             "statuses",
         ]
-        for k, v in kwargs.items():
+        for k in kwargs:
             if k.strip() in array_params:
                 params[f"{k.strip()}[]"] = kwargs[f"{k}"]
                 params.pop(k.strip())
@@ -2257,8 +2263,8 @@ class AsyncOrganizations:
     def getOrganizationDevicesAvailabilitiesChangeHistory(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
-        """
-        **List the availability history information for devices in an organization.**
+        """List the availability history information for devices in an organization.
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-devices-availabilities-change-history
 
         - organizationId (string): Organization ID
@@ -2305,7 +2311,7 @@ class AsyncOrganizations:
             "networkIds",
             "statuses",
         ]
-        for k, v in kwargs.items():
+        for k in kwargs:
             if k.strip() in array_params:
                 params[f"{k.strip()}[]"] = kwargs[f"{k}"]
                 params.pop(k.strip())
@@ -2315,8 +2321,8 @@ class AsyncOrganizations:
     def createOrganizationDevicesControllerMigration(
         self, organizationId: str, serials: list, target: str
     ):
-        """
-        **Migrate devices to another controller or management mode**
+        """Migrate devices to another controller or management mode
+
         https://developer.cisco.com/meraki/api-v1/#!create-organization-devices-controller-migration
 
         - organizationId (string): Organization ID
@@ -2350,8 +2356,8 @@ class AsyncOrganizations:
     def getOrganizationDevicesControllerMigrations(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
-        """
-        **Retrieve device migration statuses in an organization**
+        """Retrieve device migration statuses in an organization
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-devices-controller-migrations
 
         - organizationId (string): Organization ID
@@ -2394,7 +2400,7 @@ class AsyncOrganizations:
             "serials",
             "networkIds",
         ]
-        for k, v in kwargs.items():
+        for k in kwargs:
             if k.strip() in array_params:
                 params[f"{k.strip()}[]"] = kwargs[f"{k}"]
                 params.pop(k.strip())
@@ -2404,8 +2410,8 @@ class AsyncOrganizations:
     def bulkUpdateOrganizationDevicesDetails(
         self, organizationId: str, serials: list, details: list
     ):
-        """
-        **Updating device details (currently only used for Catalyst devices)**
+        """Updating device details (currently only used for Catalyst devices)
+
         https://developer.cisco.com/meraki/api-v1/#!bulk-update-organization-devices-details
 
         - organizationId (string): Organization ID
@@ -2431,8 +2437,8 @@ class AsyncOrganizations:
         return self._session.post(metadata, resource, payload)
 
     def getOrganizationDevicesOverviewByModel(self, organizationId: str, **kwargs):
-        """
-        **Lists the count for each device model**
+        """Lists the count for each device model
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-devices-overview-by-model
 
         - organizationId (string): Organization ID
@@ -2462,7 +2468,7 @@ class AsyncOrganizations:
             "networkIds",
             "productTypes",
         ]
-        for k, v in kwargs.items():
+        for k in kwargs:
             if k.strip() in array_params:
                 params[f"{k.strip()}[]"] = kwargs[f"{k}"]
                 params.pop(k.strip())
@@ -2472,8 +2478,8 @@ class AsyncOrganizations:
     def getOrganizationDevicesPacketCaptureCaptures(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
-        """
-        **List Packet Captures**
+        """List Packet Captures
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-devices-packet-capture-captures
 
         - organizationId (string): Organization ID
@@ -2543,7 +2549,7 @@ class AsyncOrganizations:
             "name",
             "clientMac",
         ]
-        for k, v in kwargs.items():
+        for k in kwargs:
             if k.strip() in array_params:
                 params[f"{k.strip()}[]"] = kwargs[f"{k}"]
                 params.pop(k.strip())
@@ -2553,8 +2559,8 @@ class AsyncOrganizations:
     def createOrganizationDevicesPacketCaptureCapture(
         self, organizationId: str, serials: list, name: str, **kwargs
     ):
-        """
-        **Perform a packet capture on a device and store in Meraki Cloud**
+        """Perform a packet capture on a device and store in Meraki Cloud
+
         https://developer.cisco.com/meraki/api-v1/#!create-organization-devices-packet-capture-capture
 
         - organizationId (string): Organization ID
@@ -2598,8 +2604,8 @@ class AsyncOrganizations:
     def bulkOrganizationDevicesPacketCaptureCapturesCreate(
         self, organizationId: str, devices: list, name: str, **kwargs
     ):
-        """
-        **Perform a packet capture on multiple devices and store in Meraki Cloud.**
+        """Perform a packet capture on multiple devices and store in Meraki Cloud.
+
         https://developer.cisco.com/meraki/api-v1/#!bulk-organization-devices-packet-capture-captures-create
 
         - organizationId (string): Organization ID
@@ -2635,8 +2641,8 @@ class AsyncOrganizations:
     def bulkOrganizationDevicesPacketCaptureCapturesDelete(
         self, organizationId: str, captureIds: list
     ):
-        """
-        **BulkDelete packet captures from cloud**
+        """BulkDelete packet captures from cloud
+
         https://developer.cisco.com/meraki/api-v1/#!bulk-organization-devices-packet-capture-captures-delete
 
         - organizationId (string): Organization ID
@@ -2660,8 +2666,8 @@ class AsyncOrganizations:
         return self._session.post(metadata, resource, payload)
 
     def deleteOrganizationDevicesPacketCaptureCapture(self, organizationId: str, captureId: str):
-        """
-        **Delete a single packet capture from cloud using captureId**
+        """Delete a single packet capture from cloud using captureId
+
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-devices-packet-capture-capture
 
         - organizationId (string): Organization ID
@@ -2681,8 +2687,8 @@ class AsyncOrganizations:
     def generateOrganizationDevicesPacketCaptureCaptureDownloadUrl(
         self, organizationId: str, captureId: str
     ):
-        """
-        **Get presigned download URL for given packet capture id**
+        """Get presigned download URL for given packet capture id
+
         https://developer.cisco.com/meraki/api-v1/#!generate-organization-devices-packet-capture-capture-download-url
 
         - organizationId (string): Organization ID
@@ -2709,8 +2715,8 @@ class AsyncOrganizations:
     def stopOrganizationDevicesPacketCaptureCapture(
         self, organizationId: str, captureId: str, serials: list
     ):
-        """
-        **Stop a specific packet capture (not supported for Catalyst devices)**
+        """Stop a specific packet capture (not supported for Catalyst devices)
+
         https://developer.cisco.com/meraki/api-v1/#!stop-organization-devices-packet-capture-capture
 
         - organizationId (string): Organization ID
@@ -2738,8 +2744,8 @@ class AsyncOrganizations:
         return self._session.post(metadata, resource, payload)
 
     def getOrganizationDevicesPacketCaptureSchedules(self, organizationId: str, **kwargs):
-        """
-        **List the Packet Capture Schedules**
+        """List the Packet Capture Schedules
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-devices-packet-capture-schedules
 
         - organizationId (string): Organization ID
@@ -2769,7 +2775,7 @@ class AsyncOrganizations:
             "networkIds",
             "deviceIds",
         ]
-        for k, v in kwargs.items():
+        for k in kwargs:
             if k.strip() in array_params:
                 params[f"{k.strip()}[]"] = kwargs[f"{k}"]
                 params.pop(k.strip())
@@ -2779,8 +2785,8 @@ class AsyncOrganizations:
     def createOrganizationDevicesPacketCaptureSchedule(
         self, organizationId: str, devices: list, **kwargs
     ):
-        """
-        **Create a schedule for packet capture**
+        """Create a schedule for packet capture
+
         https://developer.cisco.com/meraki/api-v1/#!create-organization-devices-packet-capture-schedule
 
         - organizationId (string): Organization ID
@@ -2816,8 +2822,8 @@ class AsyncOrganizations:
         return self._session.post(metadata, resource, payload)
 
     def reorderOrganizationDevicesPacketCaptureSchedules(self, organizationId: str, order: list):
-        """
-        **Bulk update priorities of pcap schedules**
+        """Bulk update priorities of pcap schedules
+
         https://developer.cisco.com/meraki/api-v1/#!reorder-organization-devices-packet-capture-schedules
 
         - organizationId (string): Organization ID
@@ -2843,8 +2849,8 @@ class AsyncOrganizations:
     def updateOrganizationDevicesPacketCaptureSchedule(
         self, organizationId: str, scheduleId: str, devices: list, **kwargs
     ):
-        """
-        **Update a schedule for packet capture**
+        """Update a schedule for packet capture
+
         https://developer.cisco.com/meraki/api-v1/#!update-organization-devices-packet-capture-schedule
 
         - organizationId (string): Organization ID
@@ -2882,8 +2888,8 @@ class AsyncOrganizations:
         return self._session.put(metadata, resource, payload)
 
     def deleteOrganizationDevicesPacketCaptureSchedule(self, organizationId: str, scheduleId: str):
-        """
-        **Delete schedule from cloud**
+        """Delete schedule from cloud
+
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-devices-packet-capture-schedule
 
         - organizationId (string): Organization ID
@@ -2904,8 +2910,8 @@ class AsyncOrganizations:
     def getOrganizationDevicesPowerModulesStatusesByDevice(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
-        """
-        **List the most recent status information for power modules in rackmount MX and MS devices that support them**
+        """List the most recent status information for power modules in rackmount MX and MS devices that support them
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-devices-power-modules-statuses-by-device
 
         - organizationId (string): Organization ID
@@ -2954,7 +2960,7 @@ class AsyncOrganizations:
             "serials",
             "tags",
         ]
-        for k, v in kwargs.items():
+        for k in kwargs:
             if k.strip() in array_params:
                 params[f"{k.strip()}[]"] = kwargs[f"{k}"]
                 params.pop(k.strip())
@@ -2964,8 +2970,8 @@ class AsyncOrganizations:
     def getOrganizationDevicesProvisioningStatuses(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
-        """
-        **List the provisioning statuses information for devices in an organization.**
+        """List the provisioning statuses information for devices in an organization.
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-devices-provisioning-statuses
 
         - organizationId (string): Organization ID
@@ -3021,7 +3027,7 @@ class AsyncOrganizations:
             "serials",
             "tags",
         ]
-        for k, v in kwargs.items():
+        for k in kwargs:
             if k.strip() in array_params:
                 params[f"{k.strip()}[]"] = kwargs[f"{k}"]
                 params.pop(k.strip())
@@ -3031,8 +3037,8 @@ class AsyncOrganizations:
     def getOrganizationDevicesStatuses(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
-        """
-        **List the status of every Meraki device in the organization**
+        """List the status of every Meraki device in the organization
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-devices-statuses
 
         - organizationId (string): Organization ID
@@ -3087,7 +3093,7 @@ class AsyncOrganizations:
             "models",
             "tags",
         ]
-        for k, v in kwargs.items():
+        for k in kwargs:
             if k.strip() in array_params:
                 params[f"{k.strip()}[]"] = kwargs[f"{k}"]
                 params.pop(k.strip())
@@ -3095,8 +3101,8 @@ class AsyncOrganizations:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def getOrganizationDevicesStatusesOverview(self, organizationId: str, **kwargs):
-        """
-        **Return an overview of current device statuses**
+        """Return an overview of current device statuses
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-devices-statuses-overview
 
         - organizationId (string): Organization ID
@@ -3123,7 +3129,7 @@ class AsyncOrganizations:
             "productTypes",
             "networkIds",
         ]
-        for k, v in kwargs.items():
+        for k in kwargs:
             if k.strip() in array_params:
                 params[f"{k.strip()}[]"] = kwargs[f"{k}"]
                 params.pop(k.strip())
@@ -3133,8 +3139,8 @@ class AsyncOrganizations:
     def getOrganizationDevicesSystemMemoryUsageHistoryByInterval(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
-        """
-        **Return the memory utilization history in kB for devices in the organization.**
+        """Return the memory utilization history in kB for devices in the organization.
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-devices-system-memory-usage-history-by-interval
 
         - organizationId (string): Organization ID
@@ -3189,7 +3195,7 @@ class AsyncOrganizations:
             "serials",
             "productTypes",
         ]
-        for k, v in kwargs.items():
+        for k in kwargs:
             if k.strip() in array_params:
                 params[f"{k.strip()}[]"] = kwargs[f"{k}"]
                 params.pop(k.strip())
@@ -3199,8 +3205,8 @@ class AsyncOrganizations:
     def getOrganizationDevicesUplinksAddressesByDevice(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
-        """
-        **List the current uplink addresses for devices in an organization.**
+        """List the current uplink addresses for devices in an organization.
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-devices-uplinks-addresses-by-device
 
         - organizationId (string): Organization ID
@@ -3249,7 +3255,7 @@ class AsyncOrganizations:
             "serials",
             "tags",
         ]
-        for k, v in kwargs.items():
+        for k in kwargs:
             if k.strip() in array_params:
                 params[f"{k.strip()}[]"] = kwargs[f"{k}"]
                 params.pop(k.strip())
@@ -3257,8 +3263,8 @@ class AsyncOrganizations:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def getOrganizationDevicesUplinksLossAndLatency(self, organizationId: str, **kwargs):
-        """
-        **Return the uplink loss and latency for every MX in the organization from at latest 2 minutes ago**
+        """Return the uplink loss and latency for every MX in the organization from at latest 2 minutes ago
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-devices-uplinks-loss-and-latency
 
         - organizationId (string): Organization ID
@@ -3296,8 +3302,8 @@ class AsyncOrganizations:
         return self._session.get(metadata, resource, params)
 
     def getOrganizationEarlyAccessFeatures(self, organizationId: str):
-        """
-        **List the available early access features for organization**
+        """List the available early access features for organization
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-early-access-features
 
         - organizationId (string): Organization ID
@@ -3313,8 +3319,8 @@ class AsyncOrganizations:
         return self._session.get(metadata, resource)
 
     def getOrganizationEarlyAccessFeaturesOptIns(self, organizationId: str):
-        """
-        **List the early access feature opt-ins for an organization**
+        """List the early access feature opt-ins for an organization
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-early-access-features-opt-ins
 
         - organizationId (string): Organization ID
@@ -3332,8 +3338,8 @@ class AsyncOrganizations:
     def createOrganizationEarlyAccessFeaturesOptIn(
         self, organizationId: str, shortName: str, **kwargs
     ):
-        """
-        **Create a new early access feature opt-in for an organization**
+        """Create a new early access feature opt-in for an organization
+
         https://developer.cisco.com/meraki/api-v1/#!create-organization-early-access-features-opt-in
 
         - organizationId (string): Organization ID
@@ -3359,8 +3365,8 @@ class AsyncOrganizations:
         return self._session.post(metadata, resource, payload)
 
     def getOrganizationEarlyAccessFeaturesOptIn(self, organizationId: str, optInId: str):
-        """
-        **Show an early access feature opt-in for an organization**
+        """Show an early access feature opt-in for an organization
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-early-access-features-opt-in
 
         - organizationId (string): Organization ID
@@ -3380,8 +3386,8 @@ class AsyncOrganizations:
     def updateOrganizationEarlyAccessFeaturesOptIn(
         self, organizationId: str, optInId: str, **kwargs
     ):
-        """
-        **Update an early access feature opt-in for an organization**
+        """Update an early access feature opt-in for an organization
+
         https://developer.cisco.com/meraki/api-v1/#!update-organization-early-access-features-opt-in
 
         - organizationId (string): Organization ID
@@ -3407,8 +3413,8 @@ class AsyncOrganizations:
         return self._session.put(metadata, resource, payload)
 
     def deleteOrganizationEarlyAccessFeaturesOptIn(self, organizationId: str, optInId: str):
-        """
-        **Delete an early access feature opt-in**
+        """Delete an early access feature opt-in
+
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-early-access-features-opt-in
 
         - organizationId (string): Organization ID
@@ -3428,8 +3434,8 @@ class AsyncOrganizations:
     def getOrganizationFirmwareUpgrades(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
-        """
-        **Get firmware upgrade information for an organization**
+        """Get firmware upgrade information for an organization
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-firmware-upgrades
 
         - organizationId (string): Organization ID
@@ -3464,7 +3470,7 @@ class AsyncOrganizations:
             "status",
             "productTypes",
         ]
-        for k, v in kwargs.items():
+        for k in kwargs:
             if k.strip() in array_params:
                 params[f"{k.strip()}[]"] = kwargs[f"{k}"]
                 params.pop(k.strip())
@@ -3474,8 +3480,8 @@ class AsyncOrganizations:
     def getOrganizationFirmwareUpgradesByDevice(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
-        """
-        **Get firmware upgrade status for the filtered devices**
+        """Get firmware upgrade status for the filtered devices
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-firmware-upgrades-by-device
 
         - organizationId (string): Organization ID
@@ -3523,7 +3529,7 @@ class AsyncOrganizations:
             "firmwareUpgradeBatchIds",
             "upgradeStatuses",
         ]
-        for k, v in kwargs.items():
+        for k in kwargs:
             if k.strip() in array_params:
                 params[f"{k.strip()}[]"] = kwargs[f"{k}"]
                 params.pop(k.strip())
@@ -3533,8 +3539,8 @@ class AsyncOrganizations:
     def getOrganizationFloorPlansAutoLocateDevices(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
-        """
-        **List auto locate details for each device in your organization**
+        """List auto locate details for each device in your organization
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-floor-plans-auto-locate-devices
 
         - organizationId (string): Organization ID
@@ -3569,7 +3575,7 @@ class AsyncOrganizations:
             "networkIds",
             "floorPlanIds",
         ]
-        for k, v in kwargs.items():
+        for k in kwargs:
             if k.strip() in array_params:
                 params[f"{k.strip()}[]"] = kwargs[f"{k}"]
                 params.pop(k.strip())
@@ -3579,8 +3585,8 @@ class AsyncOrganizations:
     def getOrganizationFloorPlansAutoLocateStatuses(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
-        """
-        **List the status of auto locate for each floorplan in your organization**
+        """List the status of auto locate for each floorplan in your organization
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-floor-plans-auto-locate-statuses
 
         - organizationId (string): Organization ID
@@ -3615,7 +3621,7 @@ class AsyncOrganizations:
             "networkIds",
             "floorPlanIds",
         ]
-        for k, v in kwargs.items():
+        for k in kwargs:
             if k.strip() in array_params:
                 params[f"{k.strip()}[]"] = kwargs[f"{k}"]
                 params.pop(k.strip())
@@ -3625,8 +3631,8 @@ class AsyncOrganizations:
     def getOrganizationIntegrationsXdrNetworks(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
-        """
-        **Returns the networks in the organization that have XDR enabled**
+        """Returns the networks in the organization that have XDR enabled
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-integrations-xdr-networks
 
         - organizationId (string): Organization ID
@@ -3658,7 +3664,7 @@ class AsyncOrganizations:
         array_params = [
             "networkIds",
         ]
-        for k, v in kwargs.items():
+        for k in kwargs:
             if k.strip() in array_params:
                 params[f"{k.strip()}[]"] = kwargs[f"{k}"]
                 params.pop(k.strip())
@@ -3666,8 +3672,8 @@ class AsyncOrganizations:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def disableOrganizationIntegrationsXdrNetworks(self, organizationId: str, networks: list):
-        """
-        **Disable XDR on networks**
+        """Disable XDR on networks
+
         https://developer.cisco.com/meraki/api-v1/#!disable-organization-integrations-xdr-networks
 
         - organizationId (string): Organization ID
@@ -3691,8 +3697,8 @@ class AsyncOrganizations:
         return self._session.post(metadata, resource, payload)
 
     def enableOrganizationIntegrationsXdrNetworks(self, organizationId: str, networks: list):
-        """
-        **Enable XDR on networks**
+        """Enable XDR on networks
+
         https://developer.cisco.com/meraki/api-v1/#!enable-organization-integrations-xdr-networks
 
         - organizationId (string): Organization ID
@@ -3716,8 +3722,8 @@ class AsyncOrganizations:
         return self._session.post(metadata, resource, payload)
 
     def claimIntoOrganizationInventory(self, organizationId: str, **kwargs):
-        """
-        **Claim a list of devices, licenses, and/or orders into an organization inventory**
+        """Claim a list of devices, licenses, and/or orders into an organization inventory
+
         https://developer.cisco.com/meraki/api-v1/#!claim-into-organization-inventory
 
         - organizationId (string): Organization ID
@@ -3747,8 +3753,8 @@ class AsyncOrganizations:
     def getOrganizationInventoryDevices(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
-        """
-        **Return the device inventory for an organization**
+        """Return the device inventory for an organization
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-inventory-devices
 
         - organizationId (string): Organization ID
@@ -3815,7 +3821,7 @@ class AsyncOrganizations:
             "tags",
             "productTypes",
         ]
-        for k, v in kwargs.items():
+        for k in kwargs:
             if k.strip() in array_params:
                 params[f"{k.strip()}[]"] = kwargs[f"{k}"]
                 params.pop(k.strip())
@@ -3823,8 +3829,8 @@ class AsyncOrganizations:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def createOrganizationInventoryDevicesSwapsBulk(self, organizationId: str, swaps: list):
-        """
-        **Swap the devices identified by devices.old with a devices.new, then perform the :afterAction on the devices.old.**
+        """Swap the devices identified by devices.old with a devices.new, then perform the :afterAction on the devices.old.
+
         https://developer.cisco.com/meraki/api-v1/#!create-organization-inventory-devices-swaps-bulk
 
         - organizationId (string): Organization ID
@@ -3848,8 +3854,8 @@ class AsyncOrganizations:
         return self._session.post(metadata, resource, payload)
 
     def getOrganizationInventoryDevicesSwapsBulk(self, organizationId: str, id: str):
-        """
-        **List of device swaps for a given request ID ({id}).**
+        """List of device swaps for a given request ID ({id}).
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-inventory-devices-swaps-bulk
 
         - organizationId (string): Organization ID
@@ -3867,8 +3873,8 @@ class AsyncOrganizations:
         return self._session.get(metadata, resource)
 
     def getOrganizationInventoryDevice(self, organizationId: str, serial: str):
-        """
-        **Return a single device from the inventory of an organization**
+        """Return a single device from the inventory of an organization
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-inventory-device
 
         - organizationId (string): Organization ID
@@ -3888,8 +3894,8 @@ class AsyncOrganizations:
     def createOrganizationInventoryOnboardingCloudMonitoringExportEvent(
         self, organizationId: str, logEvent: str, timestamp: int, **kwargs
     ):
-        """
-        **Imports event logs related to the onboarding app into elastisearch**
+        """Imports event logs related to the onboarding app into elastisearch
+
         https://developer.cisco.com/meraki/api-v1/#!create-organization-inventory-onboarding-cloud-monitoring-export-event
 
         - organizationId (string): Organization ID
@@ -3930,8 +3936,8 @@ class AsyncOrganizations:
     def createOrganizationInventoryOnboardingCloudMonitoringImport(
         self, organizationId: str, devices: list
     ):
-        """
-        **Commits the import operation to complete the onboarding of a device into Dashboard for monitoring.**
+        """Commits the import operation to complete the onboarding of a device into Dashboard for monitoring.
+
         https://developer.cisco.com/meraki/api-v1/#!create-organization-inventory-onboarding-cloud-monitoring-import
 
         - organizationId (string): Organization ID
@@ -3964,8 +3970,8 @@ class AsyncOrganizations:
     def getOrganizationInventoryOnboardingCloudMonitoringImports(
         self, organizationId: str, importIds: list
     ):
-        """
-        **Check the status of a committed Import operation**
+        """Check the status of a committed Import operation
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-inventory-onboarding-cloud-monitoring-imports
 
         - organizationId (string): Organization ID
@@ -3996,7 +4002,7 @@ class AsyncOrganizations:
         array_params = [
             "importIds",
         ]
-        for k, v in kwargs.items():
+        for k in kwargs:
             if k.strip() in array_params:
                 params[f"{k.strip()}[]"] = kwargs[f"{k}"]
                 params.pop(k.strip())
@@ -4006,8 +4012,8 @@ class AsyncOrganizations:
     def getOrganizationInventoryOnboardingCloudMonitoringNetworks(
         self, organizationId: str, deviceType: str, total_pages=1, direction="next", **kwargs
     ):
-        """
-        **Returns list of networks eligible for adding cloud monitored device**
+        """Returns list of networks eligible for adding cloud monitored device
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-inventory-onboarding-cloud-monitoring-networks
 
         - organizationId (string): Organization ID
@@ -4056,8 +4062,8 @@ class AsyncOrganizations:
     def createOrganizationInventoryOnboardingCloudMonitoringPrepare(
         self, organizationId: str, devices: list, **kwargs
     ):
-        """
-        **Initiates or updates an import session**
+        """Initiates or updates an import session
+
         https://developer.cisco.com/meraki/api-v1/#!create-organization-inventory-onboarding-cloud-monitoring-prepare
 
         - organizationId (string): Organization ID
@@ -4090,8 +4096,8 @@ class AsyncOrganizations:
         return self._session.post(metadata, resource, payload)
 
     def claimOrganizationInventoryOrders(self, organizationId: str, claimId: str, **kwargs):
-        """
-        **Claim an order by the secure unique order claim number, the order claim id**
+        """Claim an order by the secure unique order claim number, the order claim id
+
         https://developer.cisco.com/meraki/api-v1/#!claim-organization-inventory-orders
 
         - organizationId (string): Organization ID
@@ -4117,8 +4123,8 @@ class AsyncOrganizations:
         return self._session.post(metadata, resource, payload)
 
     def previewOrganizationInventoryOrders(self, organizationId: str, claimId: str):
-        """
-        **Preview the results and status of an order claim by the secure order id**
+        """Preview the results and status of an order claim by the secure order id
+
         https://developer.cisco.com/meraki/api-v1/#!preview-organization-inventory-orders
 
         - organizationId (string): Organization ID
@@ -4142,8 +4148,8 @@ class AsyncOrganizations:
         return self._session.post(metadata, resource, payload)
 
     def releaseFromOrganizationInventory(self, organizationId: str, **kwargs):
-        """
-        **Release a list of claimed devices from an organization.**
+        """Release a list of claimed devices from an organization.
+
         https://developer.cisco.com/meraki/api-v1/#!release-from-organization-inventory
 
         - organizationId (string): Organization ID
@@ -4169,8 +4175,8 @@ class AsyncOrganizations:
     def getOrganizationLicenses(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
-        """
-        **List the licenses for an organization**
+        """List the licenses for an organization
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-licenses
 
         - organizationId (string): Organization ID
@@ -4214,8 +4220,8 @@ class AsyncOrganizations:
     def assignOrganizationLicensesSeats(
         self, organizationId: str, licenseId: str, networkId: str, seatCount: int
     ):
-        """
-        **Assign SM seats to a network**
+        """Assign SM seats to a network
+
         https://developer.cisco.com/meraki/api-v1/#!assign-organization-licenses-seats
 
         - organizationId (string): Organization ID
@@ -4245,8 +4251,8 @@ class AsyncOrganizations:
     def moveOrganizationLicenses(
         self, organizationId: str, destOrganizationId: str, licenseIds: list
     ):
-        """
-        **Move licenses to another organization**
+        """Move licenses to another organization
+
         https://developer.cisco.com/meraki/api-v1/#!move-organization-licenses
 
         - organizationId (string): Organization ID
@@ -4274,8 +4280,8 @@ class AsyncOrganizations:
     def moveOrganizationLicensesSeats(
         self, organizationId: str, destOrganizationId: str, licenseId: str, seatCount: int
     ):
-        """
-        **Move SM seats to another organization**
+        """Move SM seats to another organization
+
         https://developer.cisco.com/meraki/api-v1/#!move-organization-licenses-seats
 
         - organizationId (string): Organization ID
@@ -4303,8 +4309,8 @@ class AsyncOrganizations:
         return self._session.post(metadata, resource, payload)
 
     def getOrganizationLicensesOverview(self, organizationId: str):
-        """
-        **Return an overview of the license state for an organization**
+        """Return an overview of the license state for an organization
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-licenses-overview
 
         - organizationId (string): Organization ID
@@ -4322,8 +4328,8 @@ class AsyncOrganizations:
     def renewOrganizationLicensesSeats(
         self, organizationId: str, licenseIdToRenew: str, unusedLicenseId: str
     ):
-        """
-        **Renew SM seats of a license**
+        """Renew SM seats of a license
+
         https://developer.cisco.com/meraki/api-v1/#!renew-organization-licenses-seats
 
         - organizationId (string): Organization ID
@@ -4349,8 +4355,8 @@ class AsyncOrganizations:
         return self._session.post(metadata, resource, payload)
 
     def getOrganizationLicense(self, organizationId: str, licenseId: str):
-        """
-        **Display a license**
+        """Display a license
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-license
 
         - organizationId (string): Organization ID
@@ -4368,8 +4374,8 @@ class AsyncOrganizations:
         return self._session.get(metadata, resource)
 
     def updateOrganizationLicense(self, organizationId: str, licenseId: str, **kwargs):
-        """
-        **Update a license**
+        """Update a license
+
         https://developer.cisco.com/meraki/api-v1/#!update-organization-license
 
         - organizationId (string): Organization ID
@@ -4395,8 +4401,8 @@ class AsyncOrganizations:
         return self._session.put(metadata, resource, payload)
 
     def getOrganizationLoginSecurity(self, organizationId: str):
-        """
-        **Returns the login security settings for an organization.**
+        """Returns the login security settings for an organization.
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-login-security
 
         - organizationId (string): Organization ID
@@ -4412,8 +4418,8 @@ class AsyncOrganizations:
         return self._session.get(metadata, resource)
 
     def updateOrganizationLoginSecurity(self, organizationId: str, **kwargs):
-        """
-        **Update the login security settings for an organization**
+        """Update the login security settings for an organization
+
         https://developer.cisco.com/meraki/api-v1/#!update-organization-login-security
 
         - organizationId (string): Organization ID
@@ -4465,8 +4471,8 @@ class AsyncOrganizations:
     def getOrganizationNetworks(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
-        """
-        **List the networks that the user has privileges on in an organization**
+        """List the networks that the user has privileges on in an organization
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-networks
 
         - organizationId (string): Organization ID
@@ -4513,7 +4519,7 @@ class AsyncOrganizations:
             "tags",
             "productTypes",
         ]
-        for k, v in kwargs.items():
+        for k in kwargs:
             if k.strip() in array_params:
                 params[f"{k.strip()}[]"] = kwargs[f"{k}"]
                 params.pop(k.strip())
@@ -4523,8 +4529,8 @@ class AsyncOrganizations:
     def createOrganizationNetwork(
         self, organizationId: str, name: str, productTypes: list, **kwargs
     ):
-        """
-        **Create a network**
+        """Create a network
+
         https://developer.cisco.com/meraki/api-v1/#!create-organization-network
 
         - organizationId (string): Organization ID
@@ -4560,8 +4566,8 @@ class AsyncOrganizations:
     def combineOrganizationNetworks(
         self, organizationId: str, name: str, networkIds: list, **kwargs
     ):
-        """
-        **Combine multiple networks into a single network**
+        """Combine multiple networks into a single network
+
         https://developer.cisco.com/meraki/api-v1/#!combine-organization-networks
 
         - organizationId (string): Organization ID
@@ -4589,8 +4595,8 @@ class AsyncOrganizations:
         return self._session.post(metadata, resource, payload)
 
     def getOrganizationOpenapiSpec(self, organizationId: str, **kwargs):
-        """
-        **Return the OpenAPI Specification of the organization's API documentation in JSON**
+        """Return the OpenAPI Specification of the organization's API documentation in JSON
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-openapi-spec
 
         - organizationId (string): Organization ID
@@ -4622,8 +4628,8 @@ class AsyncOrganizations:
     def getOrganizationPoliciesAssignmentsByClient(
         self, organizationId: str, networkIds: list, total_pages=1, direction="next", **kwargs
     ):
-        """
-        **Get policies for all clients with policies**
+        """Get policies for all clients with policies
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-policies-assignments-by-client
 
         - organizationId (string): Organization ID
@@ -4661,7 +4667,7 @@ class AsyncOrganizations:
         array_params = [
             "networkIds",
         ]
-        for k, v in kwargs.items():
+        for k in kwargs:
             if k.strip() in array_params:
                 params[f"{k.strip()}[]"] = kwargs[f"{k}"]
                 params.pop(k.strip())
@@ -4671,8 +4677,8 @@ class AsyncOrganizations:
     def getOrganizationPolicyObjects(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
-        """
-        **Lists Policy Objects belonging to the organization.**
+        """Lists Policy Objects belonging to the organization.
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-policy-objects
 
         - organizationId (string): Organization ID
@@ -4704,8 +4710,8 @@ class AsyncOrganizations:
     def createOrganizationPolicyObject(
         self, organizationId: str, name: str, category: str, type: str, **kwargs
     ):
-        """
-        **Creates a new Policy Object.**
+        """Creates a new Policy Object.
+
         https://developer.cisco.com/meraki/api-v1/#!create-organization-policy-object
 
         - organizationId (string): Organization ID
@@ -4745,8 +4751,8 @@ class AsyncOrganizations:
     def getOrganizationPolicyObjectsGroups(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
-        """
-        **Lists Policy Object Groups belonging to the organization.**
+        """Lists Policy Object Groups belonging to the organization.
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-policy-objects-groups
 
         - organizationId (string): Organization ID
@@ -4776,8 +4782,8 @@ class AsyncOrganizations:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def createOrganizationPolicyObjectsGroup(self, organizationId: str, name: str, **kwargs):
-        """
-        **Creates a new Policy Object Group.**
+        """Creates a new Policy Object Group.
+
         https://developer.cisco.com/meraki/api-v1/#!create-organization-policy-objects-group
 
         - organizationId (string): Organization ID
@@ -4805,8 +4811,8 @@ class AsyncOrganizations:
         return self._session.post(metadata, resource, payload)
 
     def getOrganizationPolicyObjectsGroup(self, organizationId: str, policyObjectGroupId: str):
-        """
-        **Shows details of a Policy Object Group.**
+        """Shows details of a Policy Object Group.
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-policy-objects-group
 
         - organizationId (string): Organization ID
@@ -4826,8 +4832,8 @@ class AsyncOrganizations:
     def updateOrganizationPolicyObjectsGroup(
         self, organizationId: str, policyObjectGroupId: str, **kwargs
     ):
-        """
-        **Updates a Policy Object Group.**
+        """Updates a Policy Object Group.
+
         https://developer.cisco.com/meraki/api-v1/#!update-organization-policy-objects-group
 
         - organizationId (string): Organization ID
@@ -4855,8 +4861,8 @@ class AsyncOrganizations:
         return self._session.put(metadata, resource, payload)
 
     def deleteOrganizationPolicyObjectsGroup(self, organizationId: str, policyObjectGroupId: str):
-        """
-        **Deletes a Policy Object Group.**
+        """Deletes a Policy Object Group.
+
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-policy-objects-group
 
         - organizationId (string): Organization ID
@@ -4874,8 +4880,8 @@ class AsyncOrganizations:
         return self._session.delete(metadata, resource)
 
     def getOrganizationPolicyObject(self, organizationId: str, policyObjectId: str):
-        """
-        **Shows details of a Policy Object.**
+        """Shows details of a Policy Object.
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-policy-object
 
         - organizationId (string): Organization ID
@@ -4893,8 +4899,8 @@ class AsyncOrganizations:
         return self._session.get(metadata, resource)
 
     def updateOrganizationPolicyObject(self, organizationId: str, policyObjectId: str, **kwargs):
-        """
-        **Updates a Policy Object.**
+        """Updates a Policy Object.
+
         https://developer.cisco.com/meraki/api-v1/#!update-organization-policy-object
 
         - organizationId (string): Organization ID
@@ -4930,8 +4936,8 @@ class AsyncOrganizations:
         return self._session.put(metadata, resource, payload)
 
     def deleteOrganizationPolicyObject(self, organizationId: str, policyObjectId: str):
-        """
-        **Deletes a Policy Object.**
+        """Deletes a Policy Object.
+
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-policy-object
 
         - organizationId (string): Organization ID
@@ -4949,8 +4955,8 @@ class AsyncOrganizations:
         return self._session.delete(metadata, resource)
 
     def getOrganizationSaml(self, organizationId: str):
-        """
-        **Returns the SAML SSO enabled settings for an organization.**
+        """Returns the SAML SSO enabled settings for an organization.
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-saml
 
         - organizationId (string): Organization ID
@@ -4966,8 +4972,8 @@ class AsyncOrganizations:
         return self._session.get(metadata, resource)
 
     def updateOrganizationSaml(self, organizationId: str, **kwargs):
-        """
-        **Updates the SAML SSO enabled settings for an organization.**
+        """Updates the SAML SSO enabled settings for an organization.
+
         https://developer.cisco.com/meraki/api-v1/#!update-organization-saml
 
         - organizationId (string): Organization ID
@@ -4993,8 +4999,8 @@ class AsyncOrganizations:
         return self._session.put(metadata, resource, payload)
 
     def getOrganizationSamlIdps(self, organizationId: str):
-        """
-        **List the SAML IdPs in your organization.**
+        """List the SAML IdPs in your organization.
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-saml-idps
 
         - organizationId (string): Organization ID
@@ -5012,8 +5018,8 @@ class AsyncOrganizations:
     def createOrganizationSamlIdp(
         self, organizationId: str, x509certSha1Fingerprint: str, **kwargs
     ):
-        """
-        **Create a SAML IdP for your organization.**
+        """Create a SAML IdP for your organization.
+
         https://developer.cisco.com/meraki/api-v1/#!create-organization-saml-idp
 
         - organizationId (string): Organization ID
@@ -5041,8 +5047,8 @@ class AsyncOrganizations:
         return self._session.post(metadata, resource, payload)
 
     def updateOrganizationSamlIdp(self, organizationId: str, idpId: str, **kwargs):
-        """
-        **Update a SAML IdP in your organization**
+        """Update a SAML IdP in your organization
+
         https://developer.cisco.com/meraki/api-v1/#!update-organization-saml-idp
 
         - organizationId (string): Organization ID
@@ -5072,8 +5078,8 @@ class AsyncOrganizations:
         return self._session.put(metadata, resource, payload)
 
     def getOrganizationSamlIdp(self, organizationId: str, idpId: str):
-        """
-        **Get a SAML IdP from your organization.**
+        """Get a SAML IdP from your organization.
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-saml-idp
 
         - organizationId (string): Organization ID
@@ -5091,8 +5097,8 @@ class AsyncOrganizations:
         return self._session.get(metadata, resource)
 
     def deleteOrganizationSamlIdp(self, organizationId: str, idpId: str):
-        """
-        **Remove a SAML IdP in your organization.**
+        """Remove a SAML IdP in your organization.
+
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-saml-idp
 
         - organizationId (string): Organization ID
@@ -5110,8 +5116,8 @@ class AsyncOrganizations:
         return self._session.delete(metadata, resource)
 
     def getOrganizationSamlRoles(self, organizationId: str):
-        """
-        **List the SAML roles for this organization**
+        """List the SAML roles for this organization
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-saml-roles
 
         - organizationId (string): Organization ID
@@ -5127,8 +5133,8 @@ class AsyncOrganizations:
         return self._session.get(metadata, resource)
 
     def createOrganizationSamlRole(self, organizationId: str, role: str, orgAccess: str, **kwargs):
-        """
-        **Create a SAML role**
+        """Create a SAML role
+
         https://developer.cisco.com/meraki/api-v1/#!create-organization-saml-role
 
         - organizationId (string): Organization ID
@@ -5158,8 +5164,8 @@ class AsyncOrganizations:
         return self._session.post(metadata, resource, payload)
 
     def getOrganizationSamlRole(self, organizationId: str, samlRoleId: str):
-        """
-        **Return a SAML role**
+        """Return a SAML role
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-saml-role
 
         - organizationId (string): Organization ID
@@ -5177,8 +5183,8 @@ class AsyncOrganizations:
         return self._session.get(metadata, resource)
 
     def updateOrganizationSamlRole(self, organizationId: str, samlRoleId: str, **kwargs):
-        """
-        **Update a SAML role**
+        """Update a SAML role
+
         https://developer.cisco.com/meraki/api-v1/#!update-organization-saml-role
 
         - organizationId (string): Organization ID
@@ -5210,8 +5216,8 @@ class AsyncOrganizations:
         return self._session.put(metadata, resource, payload)
 
     def deleteOrganizationSamlRole(self, organizationId: str, samlRoleId: str):
-        """
-        **Remove a SAML role**
+        """Remove a SAML role
+
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-saml-role
 
         - organizationId (string): Organization ID
@@ -5229,8 +5235,8 @@ class AsyncOrganizations:
         return self._session.delete(metadata, resource)
 
     def getOrganizationSnmp(self, organizationId: str):
-        """
-        **Return the SNMP settings for an organization**
+        """Return the SNMP settings for an organization
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-snmp
 
         - organizationId (string): Organization ID
@@ -5246,8 +5252,8 @@ class AsyncOrganizations:
         return self._session.get(metadata, resource)
 
     def updateOrganizationSnmp(self, organizationId: str, **kwargs):
-        """
-        **Update the SNMP settings for an organization**
+        """Update the SNMP settings for an organization
+
         https://developer.cisco.com/meraki/api-v1/#!update-organization-snmp
 
         - organizationId (string): Organization ID
@@ -5294,8 +5300,8 @@ class AsyncOrganizations:
         return self._session.put(metadata, resource, payload)
 
     def getOrganizationSplashAsset(self, organizationId: str, id: str):
-        """
-        **Get a Splash Theme Asset**
+        """Get a Splash Theme Asset
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-splash-asset
 
         - organizationId (string): Organization ID
@@ -5313,8 +5319,8 @@ class AsyncOrganizations:
         return self._session.get(metadata, resource)
 
     def deleteOrganizationSplashAsset(self, organizationId: str, id: str):
-        """
-        **Delete a Splash Theme Asset**
+        """Delete a Splash Theme Asset
+
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-splash-asset
 
         - organizationId (string): Organization ID
@@ -5332,8 +5338,8 @@ class AsyncOrganizations:
         return self._session.delete(metadata, resource)
 
     def getOrganizationSplashThemes(self, organizationId: str):
-        """
-        **List Splash Themes**
+        """List Splash Themes
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-splash-themes
 
         - organizationId (string): Organization ID
@@ -5349,8 +5355,8 @@ class AsyncOrganizations:
         return self._session.get(metadata, resource)
 
     def createOrganizationSplashTheme(self, organizationId: str, **kwargs):
-        """
-        **Create a Splash Theme**
+        """Create a Splash Theme
+
         https://developer.cisco.com/meraki/api-v1/#!create-organization-splash-theme
 
         - organizationId (string): Organization ID
@@ -5376,8 +5382,8 @@ class AsyncOrganizations:
         return self._session.post(metadata, resource, payload)
 
     def deleteOrganizationSplashTheme(self, organizationId: str, id: str):
-        """
-        **Delete a Splash Theme**
+        """Delete a Splash Theme
+
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-splash-theme
 
         - organizationId (string): Organization ID
@@ -5397,8 +5403,8 @@ class AsyncOrganizations:
     def createOrganizationSplashThemeAsset(
         self, organizationId: str, themeIdentifier: str, **kwargs
     ):
-        """
-        **Create a Splash Theme Asset**
+        """Create a Splash Theme Asset
+
         https://developer.cisco.com/meraki/api-v1/#!create-organization-splash-theme-asset
 
         - organizationId (string): Organization ID
@@ -5426,8 +5432,8 @@ class AsyncOrganizations:
         return self._session.post(metadata, resource, payload)
 
     def getOrganizationSummaryTopAppliancesByUtilization(self, organizationId: str, **kwargs):
-        """
-        **Return the top 10 appliances sorted by utilization over given time range.**
+        """Return the top 10 appliances sorted by utilization over given time range.
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-summary-top-appliances-by-utilization
 
         - organizationId (string): Organization ID
@@ -5465,8 +5471,8 @@ class AsyncOrganizations:
         return self._session.get(metadata, resource, params)
 
     def getOrganizationSummaryTopApplicationsByUsage(self, organizationId: str, **kwargs):
-        """
-        **Return the top applications sorted by data usage over given time range**
+        """Return the top applications sorted by data usage over given time range
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-summary-top-applications-by-usage
 
         - organizationId (string): Organization ID
@@ -5506,8 +5512,8 @@ class AsyncOrganizations:
         return self._session.get(metadata, resource, params)
 
     def getOrganizationSummaryTopApplicationsCategoriesByUsage(self, organizationId: str, **kwargs):
-        """
-        **Return the top application categories sorted by data usage over given time range**
+        """Return the top application categories sorted by data usage over given time range
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-summary-top-applications-categories-by-usage
 
         - organizationId (string): Organization ID
@@ -5555,8 +5561,8 @@ class AsyncOrganizations:
         return self._session.get(metadata, resource, params)
 
     def getOrganizationSummaryTopClientsByUsage(self, organizationId: str, **kwargs):
-        """
-        **Return metrics for organization's top 10 clients by data usage (in mb) over given time range.**
+        """Return metrics for organization's top 10 clients by data usage (in mb) over given time range.
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-summary-top-clients-by-usage
 
         - organizationId (string): Organization ID
@@ -5594,8 +5600,8 @@ class AsyncOrganizations:
         return self._session.get(metadata, resource, params)
 
     def getOrganizationSummaryTopClientsManufacturersByUsage(self, organizationId: str, **kwargs):
-        """
-        **Return metrics for organization's top clients by data usage (in mb) over given time range, grouped by manufacturer.**
+        """Return metrics for organization's top clients by data usage (in mb) over given time range, grouped by manufacturer.
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-summary-top-clients-manufacturers-by-usage
 
         - organizationId (string): Organization ID
@@ -5641,8 +5647,8 @@ class AsyncOrganizations:
         return self._session.get(metadata, resource, params)
 
     def getOrganizationSummaryTopDevicesByUsage(self, organizationId: str, **kwargs):
-        """
-        **Return metrics for organization's top 10 devices sorted by data usage over given time range**
+        """Return metrics for organization's top 10 devices sorted by data usage over given time range
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-summary-top-devices-by-usage
 
         - organizationId (string): Organization ID
@@ -5680,8 +5686,8 @@ class AsyncOrganizations:
         return self._session.get(metadata, resource, params)
 
     def getOrganizationSummaryTopDevicesModelsByUsage(self, organizationId: str, **kwargs):
-        """
-        **Return metrics for organization's top 10 device models sorted by data usage over given time range**
+        """Return metrics for organization's top 10 device models sorted by data usage over given time range
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-summary-top-devices-models-by-usage
 
         - organizationId (string): Organization ID
@@ -5721,8 +5727,8 @@ class AsyncOrganizations:
     def getOrganizationSummaryTopNetworksByStatus(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
-        """
-        **List the client and status overview information for the networks in an organization**
+        """List the client and status overview information for the networks in an organization
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-summary-top-networks-by-status
 
         - organizationId (string): Organization ID
@@ -5762,8 +5768,8 @@ class AsyncOrganizations:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def getOrganizationSummaryTopSsidsByUsage(self, organizationId: str, **kwargs):
-        """
-        **Return metrics for organization's top 10 ssids by data usage over given time range**
+        """Return metrics for organization's top 10 ssids by data usage over given time range
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-summary-top-ssids-by-usage
 
         - organizationId (string): Organization ID
@@ -5801,8 +5807,8 @@ class AsyncOrganizations:
         return self._session.get(metadata, resource, params)
 
     def getOrganizationSummaryTopSwitchesByEnergyUsage(self, organizationId: str, **kwargs):
-        """
-        **Return metrics for organization's top 10 switches by energy usage over given time range**
+        """Return metrics for organization's top 10 switches by energy usage over given time range
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-summary-top-switches-by-energy-usage
 
         - organizationId (string): Organization ID
@@ -5842,8 +5848,8 @@ class AsyncOrganizations:
     def getOrganizationUplinksStatuses(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
-        """
-        **List the uplink status of every Meraki MX, MG and Z series devices in the organization**
+        """List the uplink status of every Meraki MX, MG and Z series devices in the organization
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-uplinks-statuses
 
         - organizationId (string): Organization ID
@@ -5881,7 +5887,7 @@ class AsyncOrganizations:
             "serials",
             "iccids",
         ]
-        for k, v in kwargs.items():
+        for k in kwargs:
             if k.strip() in array_params:
                 params[f"{k.strip()}[]"] = kwargs[f"{k}"]
                 params.pop(k.strip())
@@ -5889,8 +5895,8 @@ class AsyncOrganizations:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def getOrganizationWebhooksAlertTypes(self, organizationId: str, **kwargs):
-        """
-        **Return a list of alert types to be used with managing webhook alerts**
+        """Return a list of alert types to be used with managing webhook alerts
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-webhooks-alert-types
 
         - organizationId (string): Organization ID
@@ -5929,8 +5935,8 @@ class AsyncOrganizations:
         return self._session.get(metadata, resource, params)
 
     def getOrganizationWebhooksCallbacksStatus(self, organizationId: str, callbackId: str):
-        """
-        **Return the status of an API callback**
+        """Return the status of an API callback
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-webhooks-callbacks-status
 
         - organizationId (string): Organization ID
@@ -5950,8 +5956,8 @@ class AsyncOrganizations:
     def getOrganizationWebhooksLogs(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
-        """
-        **Return the log of webhook POSTs sent**
+        """Return the log of webhook POSTs sent
+
         https://developer.cisco.com/meraki/api-v1/#!get-organization-webhooks-logs
 
         - organizationId (string): Organization ID

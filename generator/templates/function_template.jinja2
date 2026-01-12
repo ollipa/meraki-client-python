@@ -1,6 +1,6 @@
     def {{ operation }}(self{% if function_definition|length > 0 %}{{ function_definition }}{% endif %}):
-        """
-        **{{ description }}**
+        """{{ description }}
+
         {{ doc_url }}
 
         {% for d in descriptions %}
@@ -36,7 +36,7 @@
         {% endif %}
         {% if array_params|length > 0 %}
         array_params = [{% for param in array_params %}'{{ param }}', {% endfor %}]
-        for k, v in kwargs.items():
+        for k in kwargs:
             if k.strip() in array_params:
                 params[f'{k.strip()}[]'] = kwargs[f'{k}']
                 params.pop(k.strip())

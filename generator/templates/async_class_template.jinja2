@@ -1,8 +1,14 @@
+"""{{ class_name }} API endpoints."""
+
 import urllib
+
+from meraki_dashboard_sdk.aio.rest_session import AsyncRestSession
 
 
 class Async{{ class_name }}:
-    def __init__(self, session):
+    """{{ class_name }} class."""
+
+    def __init__(self, session: AsyncRestSession) -> None:
         super().__init__()
         self._session = session
         
