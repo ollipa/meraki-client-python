@@ -1,123 +1,134 @@
+"""Meraki dashboard API SDK."""
+
 import logging
 import os
+import sys
+from datetime import datetime, timezone
 
-from meraki.api.administered import Administered
-from meraki.api.appliance import Appliance
-
-# Batch class imports
-from meraki.api.batch import Batch
-from meraki.api.camera import Camera
-from meraki.api.campusGateway import CampusGateway
-from meraki.api.cellularGateway import CellularGateway
-from meraki.api.devices import Devices
-from meraki.api.insight import Insight
-from meraki.api.licensing import Licensing
-from meraki.api.networks import Networks
-from meraki.api.organizations import Organizations
-from meraki.api.sensor import Sensor
-from meraki.api.sm import Sm
-from meraki.api.spaces import Spaces
-from meraki.api.switch import Switch
-from meraki.api.wireless import Wireless
-from meraki.api.wirelessController import WirelessController
-
-# Config import
-from meraki.config import (
-    API_KEY_ENVIRONMENT_VARIABLE,
-    DEFAULT_BASE_URL,
-    SINGLE_REQUEST_TIMEOUT,
-    CERTIFICATE_PATH,
-    REQUESTS_PROXY,
-    WAIT_ON_RATE_LIMIT,
-    NGINX_429_RETRY_WAIT_TIME,
+from .api.administered import Administered
+from .api.appliance import Appliance
+from .api.batch import Batch
+from .api.camera import Camera
+from .api.campusGateway import CampusGateway
+from .api.cellularGateway import CellularGateway
+from .api.devices import Devices
+from .api.insight import Insight
+from .api.licensing import Licensing
+from .api.networks import Networks
+from .api.organizations import Organizations
+from .api.sensor import Sensor
+from .api.sm import Sm
+from .api.spaces import Spaces
+from .api.switch import Switch
+from .api.wireless import Wireless
+from .api.wirelessController import WirelessController
+from .config import (
     ACTION_BATCH_RETRY_WAIT_TIME,
+    API_KEY_ENVIRONMENT_VARIABLE,
+    BE_GEO_ID,
+    CERTIFICATE_PATH,
+    DEFAULT_BASE_URL,
+    INHERIT_LOGGING_CONFIG,
+    LOG_FILE_PREFIX,
+    LOG_PATH,
+    MAXIMUM_RETRIES,
+    MERAKI_PYTHON_SDK_CALLER,
     NETWORK_DELETE_RETRY_WAIT_TIME,
+    NGINX_429_RETRY_WAIT_TIME,
+    OUTPUT_LOG,
+    PRINT_TO_CONSOLE,
+    REQUESTS_PROXY,
     RETRY_4XX_ERROR,
     RETRY_4XX_ERROR_WAIT_TIME,
-    MAXIMUM_RETRIES,
-    OUTPUT_LOG,
-    LOG_PATH,
-    LOG_FILE_PREFIX,
-    PRINT_TO_CONSOLE,
-    SUPPRESS_LOGGING,
-    INHERIT_LOGGING_CONFIG,
     SIMULATE_API_CALLS,
-    BE_GEO_ID,
-    MERAKI_PYTHON_SDK_CALLER,
+    SINGLE_REQUEST_TIMEOUT,
+    SUPPRESS_LOGGING,
     USE_ITERATOR_FOR_GET_PAGES,
+    WAIT_ON_RATE_LIMIT,
 )
-from meraki.rest_session import *
+from .exceptions import APIKeyError
+from .rest_session import RestSession
+
+if sys.version_info < (3, 10):  # noqa: UP036
+    raise RuntimeError(
+        "Python 3.10 or higher is required. "
+        f"You are using Python {sys.version_info.major}.{sys.version_info.minor}."
+    )
 
 __version__ = "0.1.0"
 __api_version__ = "v1.66.0"
 
 
-class DashboardAPI(object):
-    """
-    **Creates a persistent Meraki dashboard API session**
+class MerakiClient:
+    """Creates a persistent Meraki dashboard API session.
 
-    - api_key (string): API key generated in dashboard; can also be set as an environment variable MERAKI_DASHBOARD_API_KEY
-    - base_url (string): preceding all endpoint resources
-    - single_request_timeout (integer): maximum number of seconds for each API call
-    - certificate_path (string): path for TLS/SSL certificate verification if behind local proxy
-    - requests_proxy (string): proxy server and port, if needed, for HTTPS
-    - wait_on_rate_limit (boolean): retry if 429 rate limit error encountered?
-    - nginx_429_retry_wait_time (integer): Nginx 429 retry wait time
-    - action_batch_retry_wait_time (integer): action batch concurrency error retry wait time
-    - network_delete_retry_wait_time (integer): network deletion concurrency error retry wait time
-    - retry_4xx_error (boolean): retry if encountering other 4XX error (besides 429)?
-    - retry_4xx_error_wait_time (integer): other 4XX error retry wait time
-    - maximum_retries (integer): retry up to this many times when encountering 429s or other server-side errors
-    - output_log (boolean): create an output log file?
-    - log_path (string): path to output log; by default, working directory of script if not specified
-    - log_file_prefix (string): log file name appended with date and timestamp
-    - print_console (boolean): print logging output to console?
-    - suppress_logging (boolean): disable all logging? you're on your own then!
-    - inherit_logging_config (boolean): Inherits your own logger instance
-    - simulate (boolean): simulate POST/PUT/DELETE calls to prevent changes?
-    - be_geo_id (string): optional partner identifier for API usage tracking; can also be set as an environment variable BE_GEO_ID
-    - caller (string): optional identifier for API usage tracking; can also be set as an environment variable MERAKI_PYTHON_SDK_CALLER
-    - use_iterator_for_get_pages (boolean): list* methods will return an iterator with each object instead of a complete list with all items
+    Args:
+        api_key: API key generated in dashboard; can also be set as an environment variable
+          MERAKI_DASHBOARD_API_KEY.
+        base_url: Base URL preceding all endpoint resources.
+        single_request_timeout: Maximum number of seconds for each API call.
+        certificate_path: Path for TLS/SSL certificate verification if behind local proxy.
+        requests_proxy: Proxy server and port, if needed, for HTTPS.
+        wait_on_rate_limit: Retry if 429 rate limit error encountered?
+        nginx_429_retry_wait_time: Nginx 429 retry wait time.
+        action_batch_retry_wait_time: Action batch concurrency error retry wait time.
+        network_delete_retry_wait_time: Network deletion concurrency error retry wait time.
+        retry_4xx_error: Whether to retry if encountering other 4XX error (besides 429).
+        retry_4xx_error_wait_time: Other 4XX error retry wait time.
+        maximum_retries: Retry up to this many times when encountering 429s or other server-side
+          errors.
+        output_log: Whether to create an output log file.
+        log_path: Path to output log; by default, working directory of script if not specified.
+        log_file_prefix: Log file name appended with date and timestamp.
+        print_console: Whether to print logging output to console.
+        suppress_logging: Whether to disable all logging.
+        inherit_logging_config: Inherits your own logger instance.
+        simulate: Enable to simulate POST/PUT/DELETE calls to prevent changes.
+        be_geo_id: Optional partner identifier for API usage tracking; can also be set as an
+          environment variable BE_GEO_ID.
+        caller: Optional identifier for API usage tracking; can also be set as an environment
+          variable MERAKI_PYTHON_SDK_CALLER.
+        use_iterator_for_get_pages: List methods will return an iterator with each object instead
+          of a complete list with all items.
+
     """
 
     def __init__(
         self,
-        api_key=None,
-        base_url=DEFAULT_BASE_URL,
-        single_request_timeout=SINGLE_REQUEST_TIMEOUT,
-        certificate_path=CERTIFICATE_PATH,
-        requests_proxy=REQUESTS_PROXY,
-        wait_on_rate_limit=WAIT_ON_RATE_LIMIT,
-        nginx_429_retry_wait_time=NGINX_429_RETRY_WAIT_TIME,
-        action_batch_retry_wait_time=ACTION_BATCH_RETRY_WAIT_TIME,
-        network_delete_retry_wait_time=NETWORK_DELETE_RETRY_WAIT_TIME,
-        retry_4xx_error=RETRY_4XX_ERROR,
-        retry_4xx_error_wait_time=RETRY_4XX_ERROR_WAIT_TIME,
-        maximum_retries=MAXIMUM_RETRIES,
-        output_log=OUTPUT_LOG,
-        log_path=LOG_PATH,
-        log_file_prefix=LOG_FILE_PREFIX,
-        print_console=PRINT_TO_CONSOLE,
-        suppress_logging=SUPPRESS_LOGGING,
-        simulate=SIMULATE_API_CALLS,
-        be_geo_id=BE_GEO_ID,
-        caller=MERAKI_PYTHON_SDK_CALLER,
-        use_iterator_for_get_pages=USE_ITERATOR_FOR_GET_PAGES,
-        inherit_logging_config=INHERIT_LOGGING_CONFIG,
-    ):
+        *,
+        api_key: str | None = None,
+        base_url: str = DEFAULT_BASE_URL,
+        single_request_timeout: int = SINGLE_REQUEST_TIMEOUT,
+        certificate_path: str = CERTIFICATE_PATH,
+        requests_proxy: str = REQUESTS_PROXY,
+        wait_on_rate_limit: bool = WAIT_ON_RATE_LIMIT,
+        nginx_429_retry_wait_time: int = NGINX_429_RETRY_WAIT_TIME,
+        action_batch_retry_wait_time: int = ACTION_BATCH_RETRY_WAIT_TIME,
+        network_delete_retry_wait_time: int = NETWORK_DELETE_RETRY_WAIT_TIME,
+        retry_4xx_error: bool = RETRY_4XX_ERROR,
+        retry_4xx_error_wait_time: int = RETRY_4XX_ERROR_WAIT_TIME,
+        maximum_retries: int = MAXIMUM_RETRIES,
+        output_log: bool = OUTPUT_LOG,
+        log_path: str = LOG_PATH,
+        log_file_prefix: str = LOG_FILE_PREFIX,
+        print_console: bool = PRINT_TO_CONSOLE,
+        suppress_logging: bool = SUPPRESS_LOGGING,
+        simulate: bool = SIMULATE_API_CALLS,
+        be_geo_id: str | None = BE_GEO_ID,
+        caller: str | None = MERAKI_PYTHON_SDK_CALLER,
+        use_iterator_for_get_pages: bool = USE_ITERATOR_FOR_GET_PAGES,
+        inherit_logging_config: bool = INHERIT_LOGGING_CONFIG,
+    ) -> None:
         # Check API key
         api_key = api_key or os.environ.get(API_KEY_ENVIRONMENT_VARIABLE)
         if not api_key:
-            raise APIKeyError()
+            raise APIKeyError
 
         # Pull the BE GEO ID from an environment variable if present
         be_geo_id = be_geo_id or os.environ.get("BE_GEO_ID")
 
         # Pull the caller from an environment variable if present
         caller = caller or os.environ.get("MERAKI_PYTHON_SDK_CALLER")
-
-        use_iterator_for_get_pages = use_iterator_for_get_pages
-        inherit_logging_config = inherit_logging_config
 
         # Configure logging
         if not suppress_logging:
@@ -137,7 +148,8 @@ class DashboardAPI(object):
                     if log_path and log_path[-1] != "/":
                         log_path += "/"
                     self._log_file = (
-                        f"{log_path}{log_file_prefix}_log__{datetime.now():%Y-%m-%d_%H-%M-%S}.log"
+                        f"{log_path}{log_file_prefix}_log__"
+                        f"{datetime.now(tz=timezone.utc):%Y-%m-%d_%H-%M-%S}.log"
                     )
                     handler_log = logging.FileHandler(filename=self._log_file)
                     handler_log.setFormatter(formatter)

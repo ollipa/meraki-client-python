@@ -19,7 +19,11 @@ classifiers = [
 keywords = ["meraki", "dashboard", "cisco"]
 requires-python = ">=3.10"
 
-dependencies = ["httpx (>=0.28.1,<0.29.0)"]
+dependencies = [
+    "aiohttp>=3.13.3",
+    "httpx (>=0.28.1,<0.29.0)",
+    "requests>=2.32.5",
+]
 
 [dependency-groups]
 dev = ["jinja2>=3.1.6", "pytest>=9.0.2", "ruff>=0.14.11", "ty>=0.0.11"]
@@ -37,6 +41,9 @@ unused-ignore-comment = "warn"
 
 [tool.ruff]
 line-length = 100
+
+[tool.ruff.lint.pycodestyle]
+max-line-length = 120
 
 [tool.ruff.lint]
 select = [
@@ -80,6 +87,7 @@ select = [
     "FURB",  # refurb
     "RUF",   # ruff
     "TRY",   # tryceratops
+    "ANN",   # flake8-annotations
 ]
 ignore = [
     "S101",    # assert detected
@@ -94,6 +102,7 @@ ignore = [
     "PLR0913", # too-many-arguments
     "TRY003",  # raise-vanilla-args
     "TRY004",  # type-check-without-type-error
+    "G004",    # logging-fstring-interpolation
 ]
 
 [tool.ruff.lint.per-file-ignores]

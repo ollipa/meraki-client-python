@@ -1,4 +1,4 @@
-# Package Constants
+"""Package Constants."""
 
 # Meraki dashboard API key, set either at instantiation or as an environment variable
 API_KEY_ENVIRONMENT_VARIABLE = "MERAKI_DASHBOARD_API_KEY"

@@ -112,37 +112,19 @@ def return_params(operation, params, param_filters):
     else:
         ret = {}
         if "required" in param_filters:
-            ret.update(
-                {k: v for k, v in params.items() if "required" in v and v["required"]}
-            )
+            ret.update({k: v for k, v in params.items() if "required" in v and v["required"]})
         if "pagination" in param_filters:
-            ret.update(
-                generate_pagination_parameters(operation) if "perPage" in params else {}
-            )
+            ret.update(generate_pagination_parameters(operation) if "perPage" in params else {})
         if "optional" in param_filters:
-            ret.update(
-                {
-                    k: v
-                    for k, v in params.items()
-                    if "required" in v and not v["required"]
-                }
-            )
+            ret.update({k: v for k, v in params.items() if "required" in v and not v["required"]})
         if "path" in param_filters:
-            ret.update(
-                {k: v for k, v in params.items() if "in" in v and v["in"] == "path"}
-            )
+            ret.update({k: v for k, v in params.items() if "in" in v and v["in"] == "path"})
         if "query" in param_filters:
-            ret.update(
-                {k: v for k, v in params.items() if "in" in v and v["in"] == "query"}
-            )
+            ret.update({k: v for k, v in params.items() if "in" in v and v["in"] == "query"})
         if "body" in param_filters:
-            ret.update(
-                {k: v for k, v in params.items() if "in" in v and v["in"] == "body"}
-            )
+            ret.update({k: v for k, v in params.items() if "in" in v and v["in"] == "body"})
         if "array" in param_filters:
-            ret.update(
-                {k: v for k, v in params.items() if "in" in v and v["type"] == "array"}
-            )
+            ret.update({k: v for k, v in params.items() if "in" in v and v["type"] == "array"})
         if "enum" in param_filters:
             ret.update({k: v for k, v in params.items() if "enum" in v})
         return ret
@@ -296,9 +278,7 @@ async def generate_library(spec, version_number, api_version):
     # Scopes used when generating the library will depend on the provided version of the API spec.
     scopes = {tag["name"]: {} for tag in tags if tag["name"] in supported_scopes}
 
-    batchable_action_summaries = [
-        action["summary"] for action in spec["x-batchable-actions"]
-    ]
+    batchable_action_summaries = [action["summary"] for action in spec["x-batchable-actions"]]
 
     # Delete output directory and recreate it
     if os.path.exists(OUTPUT_DIR):
@@ -341,15 +321,11 @@ async def generate_library(spec, version_number, api_version):
             # Update __version__
             start = contents.find("__version__ = ")
             end = contents.find("\n", start)
-            contents = (
-                f"{contents[:start]}__version__ = '{version_number}'{contents[end:]}"
-            )
+            contents = f"{contents[:start]}__version__ = '{version_number}'{contents[end:]}"
             # Update __api_version__
             start = contents.find("__api_version__ = ")
             end = contents.find("\n", start)
-            contents = (
-                f"{contents[:start]}__api_version__ = '{api_version}'{contents[end:]}"
-            )
+            contents = f"{contents[:start]}__api_version__ = '{api_version}'{contents[end:]}"
             with open(dst, "w", encoding="utf-8") as f:
                 f.write(contents)
 
@@ -386,9 +362,7 @@ async def generate_library(spec, version_number, api_version):
     # Generate API libraries
     # We will use newline=None to ensure that line breaks are handled correctly,
     # especially when generating on Windows and using git autocrlf true
-    jinja_env = jinja2.Environment(
-        trim_blocks=True, lstrip_blocks=True, keep_trailing_newline=True
-    )
+    jinja_env = jinja2.Environment(trim_blocks=True, lstrip_blocks=True, keep_trailing_newline=True)
 
     # Iterate through the scopes creating standard, asyncio and batch modules for each
     for scope in scopes:
@@ -396,9 +370,7 @@ async def generate_library(spec, version_number, api_version):
         section = scopes[scope]
 
         # Generate the standard module
-        with open(
-            f"{OUTPUT_DIR}/api/{scope}.py", "w", encoding="utf-8", newline=None
-        ) as output:
+        with open(f"{OUTPUT_DIR}/api/{scope}.py", "w", encoding="utf-8", newline=None) as output:
             with open(
                 os.path.join(TEMPLATE_DIR, "class_template.jinja2"),
                 encoding="utf-8",
@@ -481,9 +453,7 @@ async def generate_library(spec, version_number, api_version):
                             elif values["type"] == "string":
                                 definition += f", {p}: str"
 
-                        all_parsed_params = parse_params(
-                            operation, parameters, request_body, spec
-                        )
+                        all_parsed_params = parse_params(operation, parameters, request_body, spec)
                         if "perPage" in all_parsed_params:
                             if operation in REVERSE_PAGINATION:
                                 definition += ", total_pages=1, direction='prev'"
@@ -532,9 +502,7 @@ async def generate_library(spec, version_number, api_version):
                             kwarg_line = "kwargs = locals()"
 
                     # Assert valid values for enum
-                    enum_params = parse_params(
-                        operation, parameters, request_body, spec, ["enum"]
-                    )
+                    enum_params = parse_params(operation, parameters, request_body, spec, ["enum"])
                     assert_blocks = []
                     if enum_params:
                         for p, values in enum_params.items():
@@ -584,13 +552,10 @@ async def generate_library(spec, version_number, api_version):
                         )
                         if body_params:
                             call_line = (
-                                f"return self._session.{method}"
-                                "(metadata, resource, payload)"
+                                f"return self._session.{method}(metadata, resource, payload)"
                             )
                         else:
-                            call_line = (
-                                f"return self._session.{method}(metadata, resource)"
-                            )
+                            call_line = f"return self._session.{method}(metadata, resource)"
 
                     # Function body for DELETE endpoints
                     elif method == "delete":
@@ -767,9 +732,7 @@ async def generate_library(spec, version_number, api_version):
 
                         # Add function to files
                         with open(
-                            os.path.join(
-                                TEMPLATE_DIR, "batch_function_template.jinja2"
-                            ),
+                            os.path.join(TEMPLATE_DIR, "batch_function_template.jinja2"),
                             encoding="utf-8",
                             newline=None,
                         ) as fp:

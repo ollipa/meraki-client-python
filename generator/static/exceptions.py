@@ -1,40 +1,51 @@
-# API key error
-class APIKeyError(Exception):
-    def __init__(self):
-        self.message = "Meraki API key needs to be defined"
-        super(APIKeyError, self).__init__(self.message)
+"""Exceptions for the SDK."""
 
-    def __repr__(self):
+import requests
+
+
+class APIKeyError(Exception):
+    """Exception raised for unsupported API key."""
+
+    def __init__(self) -> None:
+        self.message = "Meraki API key needs to be defined"
+        super(self).__init__(self.message)
+
+    def __repr__(self) -> str:
         return self.message
 
 
 class APIResponseError(Exception):
-    """
-    Exception class raised from HTTP class methods. Used as a single catch-all error for any possible
-    requests exception error that might happen during communication with Meraki API to simplify caller coding.
+    """Exception class raised from HTTP class methods.
+
+    Used as a single catch-all error for any possible requests exception error that might happen
+    during communication with Meraki API to simplify caller coding.
     """
 
-    def __init__(self, obj_name, status_code, error_msg):
+    def __init__(self, obj_name: str, status_code: int, error_msg: str) -> None:
         self.obj_name = obj_name
         self.status_code = status_code
         self.reason = error_msg
 
-    def exc_message(self):
+    def exc_message(self) -> str:
+        """Return the exception message."""
         return (
             f'HTTP call within object "{self.obj_name}" failed. Status code is "{self.status_code}". '
             f'Error message is: "{self.reason}".'
         )
 
-    def json(self):
-        return dict(error=self.reason, status_code=self.status_code)
+    def json(self) -> dict[str, str]:
+        """Return the exception message in JSON format."""
+        return {"error": self.reason, "status_code": self.status_code}
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.exc_message()
 
 
-# To catch exceptions while making API calls
 class APIError(Exception):
-    def __init__(self, metadata, response):
+    """Exception raised for API errors."""
+
+    def __init__(self, metadata: dict[str, str], response: requests.Response) -> None:
+        """Initialize the APIError."""
         self.response = response
         self.tag = metadata["tags"][0]
         self.operation = metadata["operation"]
@@ -54,17 +65,18 @@ class APIError(Exception):
             self.message = self.response.content[:100].decode("UTF-8").strip()
             if isinstance(self.message, str) and self.status == 404 and self.reason == "Not Found":
                 self.message += "please wait a minute if the key or org was just newly created."
-        super(APIError, self).__init__(
+        super(self).__init__(
             f"{self.tag}, {self.operation} - {self.status} {self.reason}, {self.message}"
         )
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f"{self.tag}, {self.operation} - {self.status} {self.reason}, {self.message}"
 
 
-# To catch exceptions while making AIO API calls
 class AsyncAPIError(Exception):
-    def __init__(self, metadata, response, message):
+    """Exception raised for asynchronous API errors."""
+
+    def __init__(self, metadata: dict[str, str], response: requests.Response, message: str) -> None:
         self.response = response
         self.tag = metadata["tags"][0]
         self.operation = metadata["operation"]
@@ -80,23 +92,14 @@ class AsyncAPIError(Exception):
             f"{self.tag}, {self.operation} - {self.status} {self.reason}, {self.message}"
         )
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f"{self.tag}, {self.operation} - {self.status} {self.reason}, {self.message}"
-
-
-class PythonVersionError(Exception):
-    """Exception raised for unsupported Python versions."""
-
-    def __init__(self, message):
-        self.message = message
-
-        super().__init__(self.message)
 
 
 class SessionInputError(Exception):
     """Exception raised for unsupported session inputs."""
 
-    def __init__(self, argument, value, message, doc_link):
+    def __init__(self, argument: str, value: str, message: str, doc_link: str) -> None:
         self.argument = argument
         self.value = value
         self.message = message

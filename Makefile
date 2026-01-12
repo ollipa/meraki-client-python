@@ -34,7 +34,7 @@ linter:
 	@printf '\n\n*****************\n'
 	@printf '$(color)Running linter$(off)\n'
 	@printf '*****************\n'
-	uv run ruff check ${TARGETS}
+	uv run ruff check ${TARGETS} --exclude generator/static
 
 .PHONY: generate
 generate:
