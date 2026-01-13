@@ -36,8 +36,8 @@ from meraki_dashboard_sdk.exceptions import APIKeyError
 from .api.administered import AsyncAdministered
 from .api.appliance import AsyncAppliance
 from .api.camera import AsyncCamera
-from .api.campusGateway import AsyncCampusGateway
-from .api.cellularGateway import AsyncCellularGateway
+from .api.campus_gateway import AsyncCampusGateway
+from .api.cellular_gateway import AsyncCellularGateway
 from .api.devices import AsyncDevices
 from .api.insight import AsyncInsight
 from .api.licensing import AsyncLicensing
@@ -48,7 +48,7 @@ from .api.sm import AsyncSm
 from .api.spaces import AsyncSpaces
 from .api.switch import AsyncSwitch
 from .api.wireless import AsyncWireless
-from .api.wirelessController import AsyncWirelessController
+from .api.wireless_controller import AsyncWirelessController
 from .rest_session import AsyncRestSession
 
 
@@ -188,7 +188,7 @@ class MerakiClient:
         self.devices = AsyncDevices(self._session)
         self.appliance = AsyncAppliance(self._session)
         self.camera = AsyncCamera(self._session)
-        self.cellularGateway = AsyncCellularGateway(self._session)
+        self.cellular_gateway = AsyncCellularGateway(self._session)
         self.insight = AsyncInsight(self._session)
         self.licensing = AsyncLicensing(self._session)
         self.sensor = AsyncSensor(self._session)
@@ -196,8 +196,8 @@ class MerakiClient:
         self.sm = AsyncSm(self._session)
         self.wireless = AsyncWireless(self._session)
         self.spaces = AsyncSpaces(self._session)
-        self.wirelessController = AsyncWirelessController(self._session)
-        self.campusGateway = AsyncCampusGateway(self._session)
+        self.wireless_controller = AsyncWirelessController(self._session)
+        self.campus_gateway = AsyncCampusGateway(self._session)
 
         # Batch definitions
         self.batch = Batch()

@@ -381,9 +381,12 @@ async def generate_library(spec: dict[str, Any], version_number: str, api_versio
     # Iterate through the scopes creating standard, asyncio and batch modules for each
     for scope, section in scopes.items():
         print(f"...generating {scope}")
+        module_name = to_snake_case(scope)
 
         # Generate the standard module
-        with open(f"{OUTPUT_DIR}/api/{scope}.py", "w", encoding="utf-8", newline=None) as output:  # noqa: ASYNC230
+        with open(
+            f"{OUTPUT_DIR}/api/{module_name}.py", "w", encoding="utf-8", newline=None
+        ) as output:  # noqa: ASYNC230
             with open(  # noqa: ASYNC230
                 os.path.join(TEMPLATE_DIR, "class_template.jinja2"),
                 encoding="utf-8",
@@ -399,7 +402,7 @@ async def generate_library(spec: dict[str, Any], version_number: str, api_versio
 
             # Generate Asyncio API libraries
             async_output = open(  # noqa: ASYNC230, SIM115
-                f"{OUTPUT_DIR}/aio/api/{scope}.py", "w", encoding="utf-8", newline=None
+                f"{OUTPUT_DIR}/aio/api/{module_name}.py", "w", encoding="utf-8", newline=None
             )
             with open(  # noqa: ASYNC230
                 os.path.join(TEMPLATE_DIR, "async_class_template.jinja2"),
@@ -416,7 +419,7 @@ async def generate_library(spec: dict[str, Any], version_number: str, api_versio
 
             # Generate Action Batch API libraries
             batch_output = open(  # noqa: ASYNC230, SIM115
-                f"{OUTPUT_DIR}/api/batch/{scope}.py",
+                f"{OUTPUT_DIR}/api/batch/{module_name}.py",
                 "w",
                 encoding="utf-8",
                 newline=None,

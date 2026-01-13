@@ -9,8 +9,8 @@ from .api.administered import Administered
 from .api.appliance import Appliance
 from .api.batch import Batch
 from .api.camera import Camera
-from .api.campusGateway import CampusGateway
-from .api.cellularGateway import CellularGateway
+from .api.campus_gateway import CampusGateway
+from .api.cellular_gateway import CellularGateway
 from .api.devices import Devices
 from .api.insight import Insight
 from .api.licensing import Licensing
@@ -21,7 +21,7 @@ from .api.sm import Sm
 from .api.spaces import Spaces
 from .api.switch import Switch
 from .api.wireless import Wireless
-from .api.wirelessController import WirelessController
+from .api.wireless_controller import WirelessController
 from .config import (
     ACTION_BATCH_RETRY_WAIT_TIME,
     API_KEY_ENVIRONMENT_VARIABLE,
@@ -192,7 +192,7 @@ class MerakiClient:
         self.devices = Devices(self._session)
         self.appliance = Appliance(self._session)
         self.camera = Camera(self._session)
-        self.cellularGateway = CellularGateway(self._session)
+        self.cellular_gateway = CellularGateway(self._session)
         self.insight = Insight(self._session)
         self.licensing = Licensing(self._session)
         self.sensor = Sensor(self._session)
@@ -200,8 +200,8 @@ class MerakiClient:
         self.switch = Switch(self._session)
         self.wireless = Wireless(self._session)
         self.spaces = Spaces(self._session)
-        self.wirelessController = WirelessController(self._session)
-        self.campusGateway = CampusGateway(self._session)
+        self.wireless_controller = WirelessController(self._session)
+        self.campus_gateway = CampusGateway(self._session)
 
         # Batch definitions
         self.batch = Batch()
