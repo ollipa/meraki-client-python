@@ -1,6 +1,8 @@
 """Sm API endpoints."""
 
 import urllib
+from collections.abc import Generator
+from typing import Any
 
 from meraki_dashboard_sdk.rest_session import RestSession
 
@@ -12,13 +14,16 @@ class Sm:
         super(self).__init__()
         self._session = session
 
-    def create_network_sm_bypass_activation_lock_attempt(self, networkId: str, ids: list):
+    def create_network_sm_bypass_activation_lock_attempt(
+        self, networkId: str, ids: list
+    ) -> dict[str, Any] | None:
         """Bypass activation lock attempt.
 
         https://developer.cisco.com/meraki/api-v1/#!create-network-sm-bypass-activation-lock-attempt
 
-        - networkId (string): Network ID
-        - ids (array): The ids of the devices to attempt activation lock bypass.
+        Args:
+            networkId: Network ID.
+            ids: The ids of the devices to attempt activation lock bypass.
 
         """
         kwargs = locals()
@@ -37,13 +42,16 @@ class Sm:
 
         return self._session.post(metadata, resource, payload)
 
-    def get_network_sm_bypass_activation_lock_attempt(self, networkId: str, attemptId: str):
+    def get_network_sm_bypass_activation_lock_attempt(
+        self, networkId: str, attemptId: str
+    ) -> dict[str, Any] | None:
         """Bypass activation lock attempt status.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-sm-bypass-activation-lock-attempt
 
-        - networkId (string): Network ID
-        - attemptId (string): Attempt ID
+        Args:
+            networkId: Network ID.
+            attemptId: Attempt ID.
 
         """
         metadata = {
@@ -56,30 +64,48 @@ class Sm:
 
         return self._session.get(metadata, resource)
 
-    def get_network_sm_devices(self, networkId: str, total_pages=1, direction="next", **kwargs):
+    def get_network_sm_devices(
+        self, networkId: str, total_pages=1, direction="next", **kwargs: Any
+    ) -> Generator[Any, None, None]:
         """List the devices enrolled in an SM network with various specified fields and filters.
 
-            https://developer.cisco.com/meraki/api-v1/#!get-network-sm-devices
+        https://developer.cisco.com/meraki/api-v1/#!get-network-sm-devices
 
-            - networkId (string): Network ID
-            - total_pages (integer or string): use with perPage to get total results up to total_pages*perPage; -1 or "all" for all pages
-            - direction (string): direction to paginate, either "next" (default) or "prev" page
-            - fields (array): Additional fields that will be displayed for each device.
-        The default fields are: id, name, tags, ssid, wifiMac, osName, systemModel, uuid, and serialNumber. The additional fields are: ip,
-        systemType, availableDeviceCapacity, kioskAppName, biosVersion, lastConnected, missingAppsCount, userSuppliedAddress, location, lastUser,
-        ownerEmail, ownerUsername, osBuild, publicIp, phoneNumber, diskInfoJson, deviceCapacity, isManaged, hadMdm, isSupervised, meid, imei, iccid,
-        simCarrierNetwork, cellularDataUsed, isHotspotEnabled, createdAt, batteryEstCharge, quarantined, avName, avRunning, asName, fwName,
-        isRooted, loginRequired, screenLockEnabled, screenLockDelay, autoLoginDisabled, autoTags, hasMdm, hasDesktopAgent, diskEncryptionEnabled,
-        hardwareEncryptionCaps, passCodeLock, usesHardwareKeystore, androidSecurityPatchVersion, cellular, and url.
-            - wifiMacs (array): Filter devices by wifi mac(s).
-            - serials (array): Filter devices by serial(s).
-            - ids (array): Filter devices by id(s).
-            - uuids (array): Filter devices by uuid(s).
-            - systemTypes (array): Filter devices by system type(s).
-            - scope (array): Specify a scope (one of all, none, withAny, withAll, withoutAny, or withoutAll) and a set of tags.
-            - perPage (integer): The number of entries per page returned. Acceptable range is 3 - 1000. Default is 1000.
-            - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-            - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
+        Args:
+            networkId: Network ID.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+            fields: Additional fields that will be displayed for each device.     The default fields
+              are: id, name, tags, ssid, wifiMac, osName, systemModel, uuid, and
+              serialNumber. The additional fields are: ip,     systemType,
+              availableDeviceCapacity, kioskAppName, biosVersion, lastConnected,
+              missingAppsCount, userSuppliedAddress, location, lastUser,     ownerEmail,
+              ownerUsername, osBuild, publicIp, phoneNumber, diskInfoJson,
+              deviceCapacity, isManaged, hadMdm, isSupervised, meid, imei, iccid,
+              simCarrierNetwork, cellularDataUsed, isHotspotEnabled, createdAt,
+              batteryEstCharge, quarantined, avName, avRunning, asName, fwName,
+              isRooted, loginRequired, screenLockEnabled, screenLockDelay,
+              autoLoginDisabled, autoTags, hasMdm, hasDesktopAgent,
+              diskEncryptionEnabled,     hardwareEncryptionCaps, passCodeLock,
+              usesHardwareKeystore, androidSecurityPatchVersion, cellular, and url.
+            wifiMacs: Filter devices by wifi mac(s).
+            serials: Filter devices by serial(s).
+            ids: Filter devices by id(s).
+            uuids: Filter devices by uuid(s).
+            systemTypes: Filter devices by system type(s).
+            scope: Specify a scope (one of all, none, withAny, withAll, withoutAny, or withoutAll)
+              and a set of tags.
+            perPage: The number of entries per page returned. Acceptable range is 3 - 1000. Default
+              is 1000.
+            startingAfter: A token used by the server to indicate the start of the page. Often this
+              is a timestamp or an ID but it is not limited to those. This parameter
+              should not be defined by client applications. The link for the first,
+              last, prev, or next page in the HTTP Link header should define it.
+            endingBefore: A token used by the server to indicate the end of the page. Often this is
+              a timestamp or an ID but it is not limited to those. This parameter should
+              not be defined by client applications. The link for the first, last, prev,
+              or next page in the HTTP Link header should define it.
 
         """
         kwargs.update(locals())
@@ -118,16 +144,18 @@ class Sm:
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
-    def checkin_network_sm_devices(self, networkId: str, **kwargs):
+    def checkin_network_sm_devices(self, networkId: str, **kwargs: Any) -> dict[str, Any] | None:
         """Force check-in a set of devices.
 
         https://developer.cisco.com/meraki/api-v1/#!checkin-network-sm-devices
 
-        - networkId (string): Network ID
-        - wifiMacs (array): The wifiMacs of the devices to be checked-in.
-        - ids (array): The ids of the devices to be checked-in.
-        - serials (array): The serials of the devices to be checked-in.
-        - scope (array): The scope (one of all, none, withAny, withAll, withoutAny, or withoutAll) and a set of tags of the devices to be checked-in.
+        Args:
+            networkId: Network ID.
+            wifiMacs: The wifiMacs of the devices to be checked-in.
+            ids: The ids of the devices to be checked-in.
+            serials: The serials of the devices to be checked-in.
+            scope: The scope (one of all, none, withAny, withAll, withoutAny, or withoutAll) and a
+              set of tags of the devices to be checked-in.
 
         """
         kwargs.update(locals())
@@ -149,16 +177,19 @@ class Sm:
 
         return self._session.post(metadata, resource, payload)
 
-    def update_network_sm_devices_fields(self, networkId: str, deviceFields: dict, **kwargs):
+    def update_network_sm_devices_fields(
+        self, networkId: str, deviceFields: dict, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Modify the fields of a device.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-sm-devices-fields
 
-        - networkId (string): Network ID
-        - deviceFields (object): The new fields of the device. Each field of this object is optional.
-        - wifiMac (string): The wifiMac of the device to be modified.
-        - id (string): The id of the device to be modified.
-        - serial (string): The serial of the device to be modified.
+        Args:
+            networkId: Network ID.
+            deviceFields: The new fields of the device. Each field of this object is optional.
+            wifiMac: The wifiMac of the device to be modified.
+            id: The id of the device to be modified.
+            serial: The serial of the device to be modified.
 
         """
         kwargs.update(locals())
@@ -180,17 +211,20 @@ class Sm:
 
         return self._session.put(metadata, resource, payload)
 
-    def lock_network_sm_devices(self, networkId: str, **kwargs):
+    def lock_network_sm_devices(self, networkId: str, **kwargs: Any) -> dict[str, Any] | None:
         """Lock a set of devices.
 
         https://developer.cisco.com/meraki/api-v1/#!lock-network-sm-devices
 
-        - networkId (string): Network ID
-        - wifiMacs (array): The wifiMacs of the devices to be locked.
-        - ids (array): The ids of the devices to be locked.
-        - serials (array): The serials of the devices to be locked.
-        - scope (array): The scope (one of all, none, withAny, withAll, withoutAny, or withoutAll) and a set of tags of the devices to be locked.
-        - pin (integer): The pin number for locking macOS devices (a six digit number). Required only for macOS devices.
+        Args:
+            networkId: Network ID.
+            wifiMacs: The wifiMacs of the devices to be locked.
+            ids: The ids of the devices to be locked.
+            serials: The serials of the devices to be locked.
+            scope: The scope (one of all, none, withAny, withAll, withoutAny, or withoutAll) and a
+              set of tags of the devices to be locked.
+            pin: The pin number for locking macOS devices (a six digit number). Required only for
+              macOS devices.
 
         """
         kwargs.update(locals())
@@ -211,19 +245,22 @@ class Sm:
         return self._session.post(metadata, resource, payload)
 
     def modify_network_sm_devices_tags(
-        self, networkId: str, tags: list, updateAction: str, **kwargs
-    ):
+        self, networkId: str, tags: list, updateAction: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Add, delete, or update the tags of a set of devices.
 
         https://developer.cisco.com/meraki/api-v1/#!modify-network-sm-devices-tags
 
-        - networkId (string): Network ID
-        - tags (array): The tags to be added, deleted, or updated.
-        - updateAction (string): One of add, delete, or update. Only devices that have been modified will be returned.
-        - wifiMacs (array): The wifiMacs of the devices to be modified.
-        - ids (array): The ids of the devices to be modified.
-        - serials (array): The serials of the devices to be modified.
-        - scope (array): The scope (one of all, none, withAny, withAll, withoutAny, or withoutAll) and a set of tags of the devices to be modified.
+        Args:
+            networkId: Network ID.
+            tags: The tags to be added, deleted, or updated.
+            updateAction: One of add, delete, or update. Only devices that have been modified will
+              be returned.
+            wifiMacs: The wifiMacs of the devices to be modified.
+            ids: The ids of the devices to be modified.
+            serials: The serials of the devices to be modified.
+            scope: The scope (one of all, none, withAny, withAll, withoutAny, or withoutAll) and a
+              set of tags of the devices to be modified.
 
         """
         kwargs.update(locals())
@@ -247,17 +284,21 @@ class Sm:
 
         return self._session.post(metadata, resource, payload)
 
-    def move_network_sm_devices(self, networkId: str, newNetwork: str, **kwargs):
+    def move_network_sm_devices(
+        self, networkId: str, newNetwork: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Move a set of devices to a new network.
 
         https://developer.cisco.com/meraki/api-v1/#!move-network-sm-devices
 
-        - networkId (string): Network ID
-        - newNetwork (string): The new network to which the devices will be moved.
-        - wifiMacs (array): The wifiMacs of the devices to be moved.
-        - ids (array): The ids of the devices to be moved.
-        - serials (array): The serials of the devices to be moved.
-        - scope (array): The scope (one of all, none, withAny, withAll, withoutAny, or withoutAll) and a set of tags of the devices to be moved.
+        Args:
+            networkId: Network ID.
+            newNetwork: The new network to which the devices will be moved.
+            wifiMacs: The wifiMacs of the devices to be moved.
+            ids: The ids of the devices to be moved.
+            serials: The serials of the devices to be moved.
+            scope: The scope (one of all, none, withAny, withAll, withoutAny, or withoutAll) and a
+              set of tags of the devices to be moved.
 
         """
         kwargs.update(locals())
@@ -277,20 +318,25 @@ class Sm:
 
         return self._session.post(metadata, resource, payload)
 
-    def reboot_network_sm_devices(self, networkId: str, **kwargs):
+    def reboot_network_sm_devices(self, networkId: str, **kwargs: Any) -> dict[str, Any] | None:
         """Reboot a set of endpoints.
 
         https://developer.cisco.com/meraki/api-v1/#!reboot-network-sm-devices
 
-        - networkId (string): Network ID
-        - wifiMacs (array): The wifiMacs of the endpoints to be rebooted.
-        - ids (array): The ids of the endpoints to be rebooted.
-        - serials (array): The serials of the endpoints to be rebooted.
-        - scope (array): The scope (one of all, none, withAny, withAll, withoutAny, or withoutAll) and a set of tags of the endpoints to be rebooted.
-        - kextPaths (array): The KextPaths of the endpoints to be rebooted. Available for macOS 11+
-        - notifyUser (boolean): Whether or not to notify the user before rebooting the endpoint. Available for macOS 11.3+
-        - rebuildKernelCache (boolean): Whether or not to rebuild the kernel cache when rebooting the endpoint. Available for macOS 11+
-        - requestRequiresNetworkTether (boolean): Whether or not the request requires network tethering. Available for macOS and supervised iOS or tvOS
+        Args:
+            networkId: Network ID.
+            wifiMacs: The wifiMacs of the endpoints to be rebooted.
+            ids: The ids of the endpoints to be rebooted.
+            serials: The serials of the endpoints to be rebooted.
+            scope: The scope (one of all, none, withAny, withAll, withoutAny, or withoutAll) and a
+              set of tags of the endpoints to be rebooted.
+            kextPaths: The KextPaths of the endpoints to be rebooted. Available for macOS 11+.
+            notifyUser: Whether or not to notify the user before rebooting the endpoint. Available
+              for macOS 11.3+.
+            rebuildKernelCache: Whether or not to rebuild the kernel cache when rebooting the
+              endpoint. Available for macOS 11+.
+            requestRequiresNetworkTether: Whether or not the request requires network tethering.
+              Available for macOS and supervised iOS or tvOS.
 
         """
         kwargs.update(locals())
@@ -316,16 +362,18 @@ class Sm:
 
         return self._session.post(metadata, resource, payload)
 
-    def shutdown_network_sm_devices(self, networkId: str, **kwargs):
+    def shutdown_network_sm_devices(self, networkId: str, **kwargs: Any) -> dict[str, Any] | None:
         """Shutdown a set of endpoints.
 
         https://developer.cisco.com/meraki/api-v1/#!shutdown-network-sm-devices
 
-        - networkId (string): Network ID
-        - wifiMacs (array): The wifiMacs of the endpoints to be shutdown.
-        - ids (array): The ids of the endpoints to be shutdown.
-        - serials (array): The serials of the endpoints to be shutdown.
-        - scope (array): The scope (one of all, none, withAny, withAll, withoutAny, or withoutAll) and a set of tags of the endpoints to be shutdown.
+        Args:
+            networkId: Network ID.
+            wifiMacs: The wifiMacs of the endpoints to be shutdown.
+            ids: The ids of the endpoints to be shutdown.
+            serials: The serials of the endpoints to be shutdown.
+            scope: The scope (one of all, none, withAny, withAll, withoutAny, or withoutAll) and a
+              set of tags of the endpoints to be shutdown.
 
         """
         kwargs.update(locals())
@@ -347,16 +395,18 @@ class Sm:
 
         return self._session.post(metadata, resource, payload)
 
-    def wipe_network_sm_devices(self, networkId: str, **kwargs):
+    def wipe_network_sm_devices(self, networkId: str, **kwargs: Any) -> dict[str, Any] | None:
         """Wipe a device.
 
         https://developer.cisco.com/meraki/api-v1/#!wipe-network-sm-devices
 
-        - networkId (string): Network ID
-        - wifiMac (string): The wifiMac of the device to be wiped.
-        - id (string): The id of the device to be wiped.
-        - serial (string): The serial of the device to be wiped.
-        - pin (integer): The pin number (a six digit value) for wiping a macOS device. Required only for macOS devices.
+        Args:
+            networkId: Network ID.
+            wifiMac: The wifiMac of the device to be wiped.
+            id: The id of the device to be wiped.
+            serial: The serial of the device to be wiped.
+            pin: The pin number (a six digit value) for wiping a macOS device. Required only for
+              macOS devices.
 
         """
         kwargs.update(locals())
@@ -375,13 +425,16 @@ class Sm:
 
         return self._session.post(metadata, resource, payload)
 
-    def get_network_sm_device_cellular_usage_history(self, networkId: str, deviceId: str):
+    def get_network_sm_device_cellular_usage_history(
+        self, networkId: str, deviceId: str
+    ) -> dict[str, Any] | None:
         """Return the client's daily cellular data usage history.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-sm-device-cellular-usage-history
 
-        - networkId (string): Network ID
-        - deviceId (string): Device ID
+        Args:
+            networkId: Network ID.
+            deviceId: Device ID.
 
         """
         metadata = {
@@ -394,13 +447,14 @@ class Sm:
 
         return self._session.get(metadata, resource)
 
-    def get_network_sm_device_certs(self, networkId: str, deviceId: str):
+    def get_network_sm_device_certs(self, networkId: str, deviceId: str) -> dict[str, Any] | None:
         """List the certs on a device.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-sm-device-certs
 
-        - networkId (string): Network ID
-        - deviceId (string): Device ID
+        Args:
+            networkId: Network ID.
+            deviceId: Device ID.
 
         """
         metadata = {
@@ -414,19 +468,28 @@ class Sm:
         return self._session.get(metadata, resource)
 
     def get_network_sm_device_connectivity(
-        self, networkId: str, deviceId: str, total_pages=1, direction="next", **kwargs
-    ):
+        self, networkId: str, deviceId: str, total_pages=1, direction="next", **kwargs: Any
+    ) -> Generator[Any, None, None]:
         """Returns historical connectivity data (whether a device is regularly checking in to Dashboard).
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-sm-device-connectivity
 
-        - networkId (string): Network ID
-        - deviceId (string): Device ID
-        - total_pages (integer or string): use with perPage to get total results up to total_pages*perPage; -1 or "all" for all pages
-        - direction (string): direction to paginate, either "next" (default) or "prev" page
-        - perPage (integer): The number of entries per page returned. Acceptable range is 3 - 1000. Default is 1000.
-        - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
+        Args:
+            networkId: Network ID.
+            deviceId: Device ID.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+            perPage: The number of entries per page returned. Acceptable range is 3 - 1000. Default
+              is 1000.
+            startingAfter: A token used by the server to indicate the start of the page. Often this
+              is a timestamp or an ID but it is not limited to those. This parameter
+              should not be defined by client applications. The link for the first,
+              last, prev, or next page in the HTTP Link header should define it.
+            endingBefore: A token used by the server to indicate the end of the page. Often this is
+              a timestamp or an ID but it is not limited to those. This parameter should
+              not be defined by client applications. The link for the first, last, prev,
+              or next page in the HTTP Link header should define it.
 
         """
         kwargs.update(locals())
@@ -449,19 +512,28 @@ class Sm:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def get_network_sm_device_desktop_logs(
-        self, networkId: str, deviceId: str, total_pages=1, direction="next", **kwargs
-    ):
+        self, networkId: str, deviceId: str, total_pages=1, direction="next", **kwargs: Any
+    ) -> Generator[Any, None, None]:
         """Return historical records of various Systems Manager network connection details for desktop devices.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-sm-device-desktop-logs
 
-        - networkId (string): Network ID
-        - deviceId (string): Device ID
-        - total_pages (integer or string): use with perPage to get total results up to total_pages*perPage; -1 or "all" for all pages
-        - direction (string): direction to paginate, either "next" (default) or "prev" page
-        - perPage (integer): The number of entries per page returned. Acceptable range is 3 - 1000. Default is 1000.
-        - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
+        Args:
+            networkId: Network ID.
+            deviceId: Device ID.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+            perPage: The number of entries per page returned. Acceptable range is 3 - 1000. Default
+              is 1000.
+            startingAfter: A token used by the server to indicate the start of the page. Often this
+              is a timestamp or an ID but it is not limited to those. This parameter
+              should not be defined by client applications. The link for the first,
+              last, prev, or next page in the HTTP Link header should define it.
+            endingBefore: A token used by the server to indicate the end of the page. Often this is
+              a timestamp or an ID but it is not limited to those. This parameter should
+              not be defined by client applications. The link for the first, last, prev,
+              or next page in the HTTP Link header should define it.
 
         """
         kwargs.update(locals())
@@ -484,19 +556,28 @@ class Sm:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def get_network_sm_device_device_command_logs(
-        self, networkId: str, deviceId: str, total_pages=1, direction="next", **kwargs
-    ):
+        self, networkId: str, deviceId: str, total_pages=1, direction="next", **kwargs: Any
+    ) -> Generator[Any, None, None]:
         """Return historical records of commands sent to Systems Manager devices.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-sm-device-device-command-logs
 
-        - networkId (string): Network ID
-        - deviceId (string): Device ID
-        - total_pages (integer or string): use with perPage to get total results up to total_pages*perPage; -1 or "all" for all pages
-        - direction (string): direction to paginate, either "next" (default) or "prev" page
-        - perPage (integer): The number of entries per page returned. Acceptable range is 3 - 1000. Default is 1000.
-        - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
+        Args:
+            networkId: Network ID.
+            deviceId: Device ID.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+            perPage: The number of entries per page returned. Acceptable range is 3 - 1000. Default
+              is 1000.
+            startingAfter: A token used by the server to indicate the start of the page. Often this
+              is a timestamp or an ID but it is not limited to those. This parameter
+              should not be defined by client applications. The link for the first,
+              last, prev, or next page in the HTTP Link header should define it.
+            endingBefore: A token used by the server to indicate the end of the page. Often this is
+              a timestamp or an ID but it is not limited to those. This parameter should
+              not be defined by client applications. The link for the first, last, prev,
+              or next page in the HTTP Link header should define it.
 
         """
         kwargs.update(locals())
@@ -518,13 +599,16 @@ class Sm:
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
-    def get_network_sm_device_device_profiles(self, networkId: str, deviceId: str):
+    def get_network_sm_device_device_profiles(
+        self, networkId: str, deviceId: str
+    ) -> dict[str, Any] | None:
         """Get the installed profiles associated with a device.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-sm-device-device-profiles
 
-        - networkId (string): Network ID
-        - deviceId (string): Device ID
+        Args:
+            networkId: Network ID.
+            deviceId: Device ID.
 
         """
         metadata = {
@@ -537,15 +621,20 @@ class Sm:
 
         return self._session.get(metadata, resource)
 
-    def install_network_sm_device_apps(self, networkId: str, deviceId: str, appIds: list, **kwargs):
+    def install_network_sm_device_apps(
+        self, networkId: str, deviceId: str, appIds: list, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Install applications on a device.
 
         https://developer.cisco.com/meraki/api-v1/#!install-network-sm-device-apps
 
-        - networkId (string): Network ID
-        - deviceId (string): Device ID
-        - appIds (array): ids of applications to be installed
-        - force (boolean): By default, installation of an app which is believed to already be present on the device will be skipped. If you'd like to force the installation of the app, set this parameter to true.
+        Args:
+            networkId: Network ID.
+            deviceId: Device ID.
+            appIds: ids of applications to be installed.
+            force: By default, installation of an app which is believed to already be present on the
+              device will be skipped. If you'd like to force the installation of the
+              app, set this parameter to true.
 
         """
         kwargs.update(locals())
@@ -566,13 +655,16 @@ class Sm:
 
         return self._session.post(metadata, resource, payload)
 
-    def get_network_sm_device_network_adapters(self, networkId: str, deviceId: str):
+    def get_network_sm_device_network_adapters(
+        self, networkId: str, deviceId: str
+    ) -> dict[str, Any] | None:
         """List the network adapters of a device.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-sm-device-network-adapters
 
-        - networkId (string): Network ID
-        - deviceId (string): Device ID
+        Args:
+            networkId: Network ID.
+            deviceId: Device ID.
 
         """
         metadata = {
@@ -586,19 +678,28 @@ class Sm:
         return self._session.get(metadata, resource)
 
     def get_network_sm_device_performance_history(
-        self, networkId: str, deviceId: str, total_pages=1, direction="next", **kwargs
-    ):
+        self, networkId: str, deviceId: str, total_pages=1, direction="next", **kwargs: Any
+    ) -> Generator[Any, None, None]:
         """Return historical records of various Systems Manager client metrics for desktop devices.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-sm-device-performance-history
 
-        - networkId (string): Network ID
-        - deviceId (string): Device ID
-        - total_pages (integer or string): use with perPage to get total results up to total_pages*perPage; -1 or "all" for all pages
-        - direction (string): direction to paginate, either "next" (default) or "prev" page
-        - perPage (integer): The number of entries per page returned. Acceptable range is 3 - 1000. Default is 1000.
-        - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
+        Args:
+            networkId: Network ID.
+            deviceId: Device ID.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+            perPage: The number of entries per page returned. Acceptable range is 3 - 1000. Default
+              is 1000.
+            startingAfter: A token used by the server to indicate the start of the page. Often this
+              is a timestamp or an ID but it is not limited to those. This parameter
+              should not be defined by client applications. The link for the first,
+              last, prev, or next page in the HTTP Link header should define it.
+            endingBefore: A token used by the server to indicate the end of the page. Often this is
+              a timestamp or an ID but it is not limited to those. This parameter should
+              not be defined by client applications. The link for the first, last, prev,
+              or next page in the HTTP Link header should define it.
 
         """
         kwargs.update(locals())
@@ -620,13 +721,16 @@ class Sm:
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
-    def refresh_network_sm_device_details(self, networkId: str, deviceId: str):
+    def refresh_network_sm_device_details(
+        self, networkId: str, deviceId: str
+    ) -> dict[str, Any] | None:
         """Refresh the details of a device.
 
         https://developer.cisco.com/meraki/api-v1/#!refresh-network-sm-device-details
 
-        - networkId (string): Network ID
-        - deviceId (string): Device ID
+        Args:
+            networkId: Network ID.
+            deviceId: Device ID.
 
         """
         metadata = {
@@ -639,13 +743,16 @@ class Sm:
 
         return self._session.post(metadata, resource)
 
-    def get_network_sm_device_restrictions(self, networkId: str, deviceId: str):
+    def get_network_sm_device_restrictions(
+        self, networkId: str, deviceId: str
+    ) -> dict[str, Any] | None:
         """List the restrictions on a device.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-sm-device-restrictions
 
-        - networkId (string): Network ID
-        - deviceId (string): Device ID
+        Args:
+            networkId: Network ID.
+            deviceId: Device ID.
 
         """
         metadata = {
@@ -658,13 +765,16 @@ class Sm:
 
         return self._session.get(metadata, resource)
 
-    def get_network_sm_device_security_centers(self, networkId: str, deviceId: str):
+    def get_network_sm_device_security_centers(
+        self, networkId: str, deviceId: str
+    ) -> dict[str, Any] | None:
         """List the security centers on a device.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-sm-device-security-centers
 
-        - networkId (string): Network ID
-        - deviceId (string): Device ID
+        Args:
+            networkId: Network ID.
+            deviceId: Device ID.
 
         """
         metadata = {
@@ -677,13 +787,16 @@ class Sm:
 
         return self._session.get(metadata, resource)
 
-    def get_network_sm_device_softwares(self, networkId: str, deviceId: str):
+    def get_network_sm_device_softwares(
+        self, networkId: str, deviceId: str
+    ) -> dict[str, Any] | None:
         """Get a list of softwares associated with a device.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-sm-device-softwares
 
-        - networkId (string): Network ID
-        - deviceId (string): Device ID
+        Args:
+            networkId: Network ID.
+            deviceId: Device ID.
 
         """
         metadata = {
@@ -696,13 +809,14 @@ class Sm:
 
         return self._session.get(metadata, resource)
 
-    def unenroll_network_sm_device(self, networkId: str, deviceId: str):
+    def unenroll_network_sm_device(self, networkId: str, deviceId: str) -> dict[str, Any] | None:
         """Unenroll a device.
 
         https://developer.cisco.com/meraki/api-v1/#!unenroll-network-sm-device
 
-        - networkId (string): Network ID
-        - deviceId (string): Device ID
+        Args:
+            networkId: Network ID.
+            deviceId: Device ID.
 
         """
         metadata = {
@@ -715,14 +829,17 @@ class Sm:
 
         return self._session.post(metadata, resource)
 
-    def uninstall_network_sm_device_apps(self, networkId: str, deviceId: str, appIds: list):
+    def uninstall_network_sm_device_apps(
+        self, networkId: str, deviceId: str, appIds: list
+    ) -> dict[str, Any] | None:
         """Uninstall applications on a device.
 
         https://developer.cisco.com/meraki/api-v1/#!uninstall-network-sm-device-apps
 
-        - networkId (string): Network ID
-        - deviceId (string): Device ID
-        - appIds (array): ids of applications to be uninstalled
+        Args:
+            networkId: Network ID.
+            deviceId: Device ID.
+            appIds: ids of applications to be uninstalled.
 
         """
         kwargs = locals()
@@ -742,13 +859,16 @@ class Sm:
 
         return self._session.post(metadata, resource, payload)
 
-    def get_network_sm_device_wlan_lists(self, networkId: str, deviceId: str):
+    def get_network_sm_device_wlan_lists(
+        self, networkId: str, deviceId: str
+    ) -> dict[str, Any] | None:
         """List the saved SSID names on a device.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-sm-device-wlan-lists
 
-        - networkId (string): Network ID
-        - deviceId (string): Device ID
+        Args:
+            networkId: Network ID.
+            deviceId: Device ID.
 
         """
         metadata = {
@@ -761,13 +881,14 @@ class Sm:
 
         return self._session.get(metadata, resource)
 
-    def get_network_sm_profiles(self, networkId: str, **kwargs):
+    def get_network_sm_profiles(self, networkId: str, **kwargs: Any) -> dict[str, Any] | None:
         """List all profiles in a network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-sm-profiles
 
-        - networkId (string): Network ID
-        - payloadTypes (array): Filter by payload types
+        Args:
+            networkId: Network ID.
+            payloadTypes: Filter by payload types.
 
         """
         kwargs.update(locals())
@@ -791,13 +912,15 @@ class Sm:
 
         return self._session.get(metadata, resource, params)
 
-    def get_network_sm_target_groups(self, networkId: str, **kwargs):
+    def get_network_sm_target_groups(self, networkId: str, **kwargs: Any) -> dict[str, Any] | None:
         """List the target groups in this network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-sm-target-groups
 
-        - networkId (string): Network ID
-        - withDetails (boolean): Boolean indicating if the the ids of the devices or users scoped by the target group should be included in the response
+        Args:
+            networkId: Network ID.
+            withDetails: Boolean indicating if the the ids of the devices or users scoped by the
+              target group should be included in the response.
 
         """
         kwargs.update(locals())
@@ -816,14 +939,19 @@ class Sm:
 
         return self._session.get(metadata, resource, params)
 
-    def create_network_sm_target_group(self, networkId: str, **kwargs):
+    def create_network_sm_target_group(
+        self, networkId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Add a target group.
 
         https://developer.cisco.com/meraki/api-v1/#!create-network-sm-target-group
 
-        - networkId (string): Network ID
-        - name (string): The name of this target group
-        - scope (string): The scope and tag options of the target group. Comma separated values beginning with one of withAny, withAll, withoutAny, withoutAll, all, none, followed by tags. Default to none if empty.
+        Args:
+            networkId: Network ID.
+            name: The name of this target group.
+            scope: The scope and tag options of the target group. Comma separated values beginning
+              with one of withAny, withAll, withoutAny, withoutAll, all, none, followed
+              by tags. Default to none if empty.
 
         """
         kwargs.update(locals())
@@ -843,14 +971,18 @@ class Sm:
 
         return self._session.post(metadata, resource, payload)
 
-    def get_network_sm_target_group(self, networkId: str, targetGroupId: str, **kwargs):
+    def get_network_sm_target_group(
+        self, networkId: str, targetGroupId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Return a target group.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-sm-target-group
 
-        - networkId (string): Network ID
-        - targetGroupId (string): Target group ID
-        - withDetails (boolean): Boolean indicating if the the ids of the devices or users scoped by the target group should be included in the response
+        Args:
+            networkId: Network ID.
+            targetGroupId: Target group ID.
+            withDetails: Boolean indicating if the the ids of the devices or users scoped by the
+              target group should be included in the response.
 
         """
         kwargs.update(locals())
@@ -870,15 +1002,20 @@ class Sm:
 
         return self._session.get(metadata, resource, params)
 
-    def update_network_sm_target_group(self, networkId: str, targetGroupId: str, **kwargs):
+    def update_network_sm_target_group(
+        self, networkId: str, targetGroupId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Update a target group.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-sm-target-group
 
-        - networkId (string): Network ID
-        - targetGroupId (string): Target group ID
-        - name (string): The name of this target group
-        - scope (string): The scope and tag options of the target group. Comma separated values beginning with one of withAny, withAll, withoutAny, withoutAll, all, none, followed by tags. Default to none if empty.
+        Args:
+            networkId: Network ID.
+            targetGroupId: Target group ID.
+            name: The name of this target group.
+            scope: The scope and tag options of the target group. Comma separated values beginning
+              with one of withAny, withAll, withoutAny, withoutAll, all, none, followed
+              by tags. Default to none if empty.
 
         """
         kwargs.update(locals())
@@ -899,13 +1036,14 @@ class Sm:
 
         return self._session.put(metadata, resource, payload)
 
-    def delete_network_sm_target_group(self, networkId: str, targetGroupId: str):
+    def delete_network_sm_target_group(self, networkId: str, targetGroupId: str) -> None:
         """Delete a target group from a network.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-network-sm-target-group
 
-        - networkId (string): Network ID
-        - targetGroupId (string): Target group ID
+        Args:
+            networkId: Network ID.
+            targetGroupId: Target group ID.
 
         """
         metadata = {
@@ -919,18 +1057,27 @@ class Sm:
         return self._session.delete(metadata, resource)
 
     def get_network_sm_trusted_access_configs(
-        self, networkId: str, total_pages=1, direction="next", **kwargs
-    ):
+        self, networkId: str, total_pages=1, direction="next", **kwargs: Any
+    ) -> Generator[Any, None, None]:
         """List Trusted Access Configs.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-sm-trusted-access-configs
 
-        - networkId (string): Network ID
-        - total_pages (integer or string): use with perPage to get total results up to total_pages*perPage; -1 or "all" for all pages
-        - direction (string): direction to paginate, either "next" (default) or "prev" page
-        - perPage (integer): The number of entries per page returned. Acceptable range is 3 - 1000. Default is 100.
-        - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
+        Args:
+            networkId: Network ID.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+            perPage: The number of entries per page returned. Acceptable range is 3 - 1000. Default
+              is 100.
+            startingAfter: A token used by the server to indicate the start of the page. Often this
+              is a timestamp or an ID but it is not limited to those. This parameter
+              should not be defined by client applications. The link for the first,
+              last, prev, or next page in the HTTP Link header should define it.
+            endingBefore: A token used by the server to indicate the end of the page. Often this is
+              a timestamp or an ID but it is not limited to those. This parameter should
+              not be defined by client applications. The link for the first, last, prev,
+              or next page in the HTTP Link header should define it.
 
         """
         kwargs.update(locals())
@@ -952,18 +1099,27 @@ class Sm:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def get_network_sm_user_access_devices(
-        self, networkId: str, total_pages=1, direction="next", **kwargs
-    ):
+        self, networkId: str, total_pages=1, direction="next", **kwargs: Any
+    ) -> Generator[Any, None, None]:
         """List User Access Devices and its Trusted Access Connections.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-sm-user-access-devices
 
-        - networkId (string): Network ID
-        - total_pages (integer or string): use with perPage to get total results up to total_pages*perPage; -1 or "all" for all pages
-        - direction (string): direction to paginate, either "next" (default) or "prev" page
-        - perPage (integer): The number of entries per page returned. Acceptable range is 3 - 1000. Default is 100.
-        - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
+        Args:
+            networkId: Network ID.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+            perPage: The number of entries per page returned. Acceptable range is 3 - 1000. Default
+              is 100.
+            startingAfter: A token used by the server to indicate the start of the page. Often this
+              is a timestamp or an ID but it is not limited to those. This parameter
+              should not be defined by client applications. The link for the first,
+              last, prev, or next page in the HTTP Link header should define it.
+            endingBefore: A token used by the server to indicate the end of the page. Often this is
+              a timestamp or an ID but it is not limited to those. This parameter should
+              not be defined by client applications. The link for the first, last, prev,
+              or next page in the HTTP Link header should define it.
 
         """
         kwargs.update(locals())
@@ -984,13 +1140,14 @@ class Sm:
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
-    def delete_network_sm_user_access_device(self, networkId: str, userAccessDeviceId: str):
+    def delete_network_sm_user_access_device(self, networkId: str, userAccessDeviceId: str) -> None:
         """Delete a User Access Device.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-network-sm-user-access-device
 
-        - networkId (string): Network ID
-        - userAccessDeviceId (string): User access device ID
+        Args:
+            networkId: Network ID.
+            userAccessDeviceId: User access device ID.
 
         """
         metadata = {
@@ -1003,16 +1160,18 @@ class Sm:
 
         return self._session.delete(metadata, resource)
 
-    def get_network_sm_users(self, networkId: str, **kwargs):
+    def get_network_sm_users(self, networkId: str, **kwargs: Any) -> dict[str, Any] | None:
         """List the owners in an SM network with various specified fields and filters.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-sm-users
 
-        - networkId (string): Network ID
-        - ids (array): Filter users by id(s).
-        - usernames (array): Filter users by username(s).
-        - emails (array): Filter users by email(s).
-        - scope (array): Specifiy a scope (one of all, none, withAny, withAll, withoutAny, withoutAll) and a set of tags.
+        Args:
+            networkId: Network ID.
+            ids: Filter users by id(s).
+            usernames: Filter users by username(s).
+            emails: Filter users by email(s).
+            scope: Specifiy a scope (one of all, none, withAny, withAll, withoutAny, withoutAll) and
+              a set of tags.
 
         """
         kwargs.update(locals())
@@ -1042,13 +1201,16 @@ class Sm:
 
         return self._session.get(metadata, resource, params)
 
-    def get_network_sm_user_device_profiles(self, networkId: str, userId: str):
+    def get_network_sm_user_device_profiles(
+        self, networkId: str, userId: str
+    ) -> dict[str, Any] | None:
         """Get the profiles associated with a user.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-sm-user-device-profiles
 
-        - networkId (string): Network ID
-        - userId (string): User ID
+        Args:
+            networkId: Network ID.
+            userId: User ID.
 
         """
         metadata = {
@@ -1061,13 +1223,14 @@ class Sm:
 
         return self._session.get(metadata, resource)
 
-    def get_network_sm_user_softwares(self, networkId: str, userId: str):
+    def get_network_sm_user_softwares(self, networkId: str, userId: str) -> dict[str, Any] | None:
         """Get a list of softwares associated with a user.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-sm-user-softwares
 
-        - networkId (string): Network ID
-        - userId (string): User ID
+        Args:
+            networkId: Network ID.
+            userId: User ID.
 
         """
         metadata = {
@@ -1081,18 +1244,27 @@ class Sm:
         return self._session.get(metadata, resource)
 
     def get_organization_sm_admins_roles(
-        self, organizationId: str, total_pages=1, direction="next", **kwargs
-    ):
+        self, organizationId: str, total_pages=1, direction="next", **kwargs: Any
+    ) -> Generator[Any, None, None]:
         """List the Limited Access Roles for an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-sm-admins-roles
 
-        - organizationId (string): Organization ID
-        - total_pages (integer or string): use with perPage to get total results up to total_pages*perPage; -1 or "all" for all pages
-        - direction (string): direction to paginate, either "next" (default) or "prev" page
-        - perPage (integer): The number of entries per page returned. Acceptable range is 3 - 1000. Default is 50.
-        - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
+        Args:
+            organizationId: Organization ID.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+            perPage: The number of entries per page returned. Acceptable range is 3 - 1000. Default
+              is 50.
+            startingAfter: A token used by the server to indicate the start of the page. Often this
+              is a timestamp or an ID but it is not limited to those. This parameter
+              should not be defined by client applications. The link for the first,
+              last, prev, or next page in the HTTP Link header should define it.
+            endingBefore: A token used by the server to indicate the end of the page. Often this is
+              a timestamp or an ID but it is not limited to those. This parameter should
+              not be defined by client applications. The link for the first, last, prev,
+              or next page in the HTTP Link header should define it.
 
         """
         kwargs.update(locals())
@@ -1113,15 +1285,18 @@ class Sm:
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
-    def create_organization_sm_admins_role(self, organizationId: str, name: str, **kwargs):
+    def create_organization_sm_admins_role(
+        self, organizationId: str, name: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Create a Limited Access Role.
 
         https://developer.cisco.com/meraki/api-v1/#!create-organization-sm-admins-role
 
-        - organizationId (string): Organization ID
-        - name (string): The name of the Limited Access Role
-        - scope (string): The scope of the Limited Access Role
-        - tags (array): The tags of the Limited Access Role
+        Args:
+            organizationId: Organization ID.
+            name: The name of the Limited Access Role.
+            scope: The scope of the Limited Access Role.
+            tags: The tags of the Limited Access Role.
 
         """
         kwargs.update(locals())
@@ -1148,13 +1323,16 @@ class Sm:
 
         return self._session.post(metadata, resource, payload)
 
-    def get_organization_sm_admins_role(self, organizationId: str, roleId: str):
+    def get_organization_sm_admins_role(
+        self, organizationId: str, roleId: str
+    ) -> dict[str, Any] | None:
         """Return a Limited Access Role.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-sm-admins-role
 
-        - organizationId (string): Organization ID
-        - roleId (string): Role ID
+        Args:
+            organizationId: Organization ID.
+            roleId: Role ID.
 
         """
         metadata = {
@@ -1167,16 +1345,19 @@ class Sm:
 
         return self._session.get(metadata, resource)
 
-    def update_organization_sm_admins_role(self, organizationId: str, roleId: str, **kwargs):
+    def update_organization_sm_admins_role(
+        self, organizationId: str, roleId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Update a Limited Access Role.
 
         https://developer.cisco.com/meraki/api-v1/#!update-organization-sm-admins-role
 
-        - organizationId (string): Organization ID
-        - roleId (string): Role ID
-        - name (string): The name of the Limited Access Role
-        - scope (string): The scope of the Limited Access Role
-        - tags (array): The tags of the Limited Access Role
+        Args:
+            organizationId: Organization ID.
+            roleId: Role ID.
+            name: The name of the Limited Access Role.
+            scope: The scope of the Limited Access Role.
+            tags: The tags of the Limited Access Role.
 
         """
         kwargs.update(locals())
@@ -1204,13 +1385,14 @@ class Sm:
 
         return self._session.put(metadata, resource, payload)
 
-    def delete_organization_sm_admins_role(self, organizationId: str, roleId: str):
+    def delete_organization_sm_admins_role(self, organizationId: str, roleId: str) -> None:
         """Delete a Limited Access Role.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-sm-admins-role
 
-        - organizationId (string): Organization ID
-        - roleId (string): Role ID
+        Args:
+            organizationId: Organization ID.
+            roleId: Role ID.
 
         """
         metadata = {
@@ -1223,12 +1405,13 @@ class Sm:
 
         return self._session.delete(metadata, resource)
 
-    def get_organization_sm_apns_cert(self, organizationId: str):
+    def get_organization_sm_apns_cert(self, organizationId: str) -> dict[str, Any] | None:
         """Get the organization's APNS certificate.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-sm-apns-cert
 
-        - organizationId (string): Organization ID
+        Args:
+            organizationId: Organization ID.
 
         """
         metadata = {
@@ -1240,13 +1423,16 @@ class Sm:
 
         return self._session.get(metadata, resource)
 
-    def update_organization_sm_sentry_policies_assignments(self, organizationId: str, items: list):
+    def update_organization_sm_sentry_policies_assignments(
+        self, organizationId: str, items: list
+    ) -> dict[str, Any] | None:
         """Update an Organizations Sentry Policies using the provided list.
 
         https://developer.cisco.com/meraki/api-v1/#!update-organization-sm-sentry-policies-assignments
 
-        - organizationId (string): Organization ID
-        - items (array): Sentry Group Policies for the Organization keyed by Network Id
+        Args:
+            organizationId: Organization ID.
+            items: Sentry Group Policies for the Organization keyed by Network Id.
 
         """
         kwargs = locals()
@@ -1266,19 +1452,28 @@ class Sm:
         return self._session.put(metadata, resource, payload)
 
     def get_organization_sm_sentry_policies_assignments_by_network(
-        self, organizationId: str, total_pages=1, direction="next", **kwargs
-    ):
+        self, organizationId: str, total_pages=1, direction="next", **kwargs: Any
+    ) -> Generator[Any, None, None]:
         """List the Sentry Policies for an organization ordered in ascending order of priority.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-sm-sentry-policies-assignments-by-network
 
-        - organizationId (string): Organization ID
-        - total_pages (integer or string): use with perPage to get total results up to total_pages*perPage; -1 or "all" for all pages
-        - direction (string): direction to paginate, either "next" (default) or "prev" page
-        - perPage (integer): The number of entries per page returned. Acceptable range is 3 - 1000. Default is 50.
-        - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - networkIds (array): Optional parameter to filter Sentry Policies by Network Id
+        Args:
+            organizationId: Organization ID.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+            perPage: The number of entries per page returned. Acceptable range is 3 - 1000. Default
+              is 50.
+            startingAfter: A token used by the server to indicate the start of the page. Often this
+              is a timestamp or an ID but it is not limited to those. This parameter
+              should not be defined by client applications. The link for the first,
+              last, prev, or next page in the HTTP Link header should define it.
+            endingBefore: A token used by the server to indicate the end of the page. Often this is
+              a timestamp or an ID but it is not limited to those. This parameter should
+              not be defined by client applications. The link for the first, last, prev,
+              or next page in the HTTP Link header should define it.
+            networkIds: Optional parameter to filter Sentry Policies by Network Id.
 
         """
         kwargs.update(locals())
@@ -1308,12 +1503,13 @@ class Sm:
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
-    def get_organization_sm_vpp_accounts(self, organizationId: str):
+    def get_organization_sm_vpp_accounts(self, organizationId: str) -> dict[str, Any] | None:
         """List the VPP accounts in the organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-sm-vpp-accounts
 
-        - organizationId (string): Organization ID
+        Args:
+            organizationId: Organization ID.
 
         """
         metadata = {
@@ -1325,13 +1521,16 @@ class Sm:
 
         return self._session.get(metadata, resource)
 
-    def get_organization_sm_vpp_account(self, organizationId: str, vppAccountId: str):
+    def get_organization_sm_vpp_account(
+        self, organizationId: str, vppAccountId: str
+    ) -> dict[str, Any] | None:
         """Get a hash containing the unparsed token of the VPP account with the given ID.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-sm-vpp-account
 
-        - organizationId (string): Organization ID
-        - vppAccountId (string): Vpp account ID
+        Args:
+            organizationId: Organization ID.
+            vppAccountId: Vpp account ID.
 
         """
         metadata = {

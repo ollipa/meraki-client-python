@@ -6,6 +6,7 @@ import os
 import re
 import shutil
 import sys
+import textwrap
 from pathlib import Path
 from typing import Any
 
@@ -20,6 +21,25 @@ TEMPLATE_DIR = os.path.join(SCRIPT_DIR, "templates")
 OUTPUT_DIR = "meraki_dashboard_sdk"
 
 REVERSE_PAGINATION = ["getNetworkEvents", "getOrganizationConfigurationChanges"]
+INDENT_WIDTH = 12
+DOCSTRING_LINE_WIDTH = 100 - INDENT_WIDTH
+
+
+def format_param_description(name: str, description: str) -> str:
+    """Format a parameter description for Google-style docstring with line wrapping."""
+    if not description.endswith("."):
+        description += "."
+    first_line = f"{name}: {description}"
+    if len(first_line) <= DOCSTRING_LINE_WIDTH:
+        return first_line
+
+    # Wrap to multiple lines with 4-space continuation indent
+    wrapper = textwrap.TextWrapper(
+        width=DOCSTRING_LINE_WIDTH,
+        initial_indent="",
+        subsequent_indent=" " * (INDENT_WIDTH + 2),
+    )
+    return wrapper.fill(first_line)
 
 
 def get_client_version() -> str:
@@ -384,9 +404,9 @@ async def generate_library(spec: dict[str, Any], version_number: str, api_versio
         module_name = to_snake_case(scope)
 
         # Generate the standard module
-        with open(
+        with open(  # noqa: ASYNC230
             f"{OUTPUT_DIR}/api/{module_name}.py", "w", encoding="utf-8", newline=None
-        ) as output:  # noqa: ASYNC230
+        ) as output:
             with open(  # noqa: ASYNC230
                 os.path.join(TEMPLATE_DIR, "class_template.jinja2"),
                 encoding="utf-8",
@@ -480,7 +500,7 @@ async def generate_library(spec: dict[str, Any], version_number: str, api_versio
                             operation, parameters, request_body, spec, ["optional"]
                         )
                         if optional_params:
-                            definition += ", **kwargs"
+                            definition += ", **kwargs: Any"
 
                     # Docstring
                     param_descriptions = []
@@ -494,7 +514,7 @@ async def generate_library(spec: dict[str, Any], version_number: str, api_versio
                     if all_params:
                         for p, values in all_params.items():
                             param_descriptions.append(
-                                f"{p} ({values['type']}): {values['description']}"
+                                format_param_description(p, values["description"])
                             )
 
                     # Combine keyword args with locals
@@ -524,6 +544,7 @@ async def generate_library(spec: dict[str, Any], version_number: str, api_versio
 
                     # Function body for GET endpoints
                     query_params = array_params = body_params = path_params = {}
+                    is_paginated = False
                     if method == "get":
                         query_params = parse_params(
                             operation, parameters, request_body, spec, "query"
@@ -539,6 +560,7 @@ async def generate_library(spec: dict[str, Any], version_number: str, api_versio
                         )
                         if query_params or array_params:
                             if pagination_params:
+                                is_paginated = True
                                 if operation == "getNetworkEvents":
                                     call_line = (
                                         "return self._session.get_pages"
@@ -580,6 +602,14 @@ async def generate_library(spec: dict[str, Any], version_number: str, api_versio
                     else:
                         raise ValueError(f"Unsupported method: {method}")
 
+                    # Determine return type
+                    if method == "delete":
+                        return_type = "None"
+                    elif method == "get" and is_paginated:
+                        return_type = "Generator[Any, None, None]"
+                    else:
+                        return_type = "dict[str, Any] | None"
+
                     # Add function to files
                     with open(  # noqa: ASYNC230
                         os.path.join(TEMPLATE_DIR, "function_template.jinja2"),
@@ -606,6 +636,7 @@ async def generate_library(spec: dict[str, Any], version_number: str, api_versio
                                 body_params=body_params,
                                 path_params=path_params,
                                 call_line=call_line,
+                                return_type=return_type,
                             )
                         )
                         async_output.write(
@@ -626,6 +657,7 @@ async def generate_library(spec: dict[str, Any], version_number: str, api_versio
                                 body_params=body_params,
                                 path_params=path_params,
                                 call_line=call_line,
+                                return_type=return_type,
                             )
                         )
 
@@ -680,7 +712,7 @@ async def generate_library(spec: dict[str, Any], version_number: str, api_versio
                                 operation, parameters, request_body, spec, ["optional"]
                             )
                             if optional_params:
-                                definition += ", **kwargs"
+                                definition += ", **kwargs: Any"
 
                         # Docstring
                         param_descriptions = []
@@ -694,7 +726,7 @@ async def generate_library(spec: dict[str, Any], version_number: str, api_versio
                         if all_params:
                             for p, values in all_params.items():
                                 param_descriptions.append(
-                                    f"{p} ({values['type']}): {values['description']}"
+                                    format_param_description(p, values["description"])
                                 )
 
                         # Combine keyword args with locals

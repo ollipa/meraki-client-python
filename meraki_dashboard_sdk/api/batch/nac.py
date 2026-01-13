@@ -1,5 +1,8 @@
 """ActionBatchNac API endpoints."""
 
+import urllib
+from typing import Any
+
 
 class ActionBatchNac:
     """ActionBatchNac class."""
@@ -9,17 +12,18 @@ class ActionBatchNac:
 
     def create_organization_nac_certificates_authorities_crl(
         self, organizationId: str, caId: str, content: str, isDelta: bool
-    ):
-        """
-        **Create a new CRL (either base or delta) for an existing CA.**
+    ) -> dict[str, Any]:
+        """Create a new CRL (either base or delta) for an existing CA.
+
         https://developer.cisco.com/meraki/api-v1/#!create-organization-nac-certificates-authorities-crl
 
-        - organizationId (string): Organization ID
-        - caId (string): ID of the CRL issuer
-        - content (string): CRL content in PEM format
-        - isDelta (boolean): Whether it's a delta CRL or not
-        """
+        Args:
+            organizationId: Organization ID.
+            caId: ID of the CRL issuer.
+            content: CRL content in PEM format.
+            isDelta: Whether it's a delta CRL or not.
 
+        """
         kwargs = locals()
 
         metadata = {

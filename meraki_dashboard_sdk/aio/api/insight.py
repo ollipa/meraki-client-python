@@ -1,6 +1,8 @@
 """Insight API endpoints."""
 
 import urllib
+from collections.abc import Generator
+from typing import Any
 
 from meraki_dashboard_sdk.aio.rest_session import AsyncRestSession
 
@@ -13,18 +15,23 @@ class AsyncInsight:
         self._session = session
 
     def get_network_insight_application_health_by_time(
-        self, networkId: str, applicationId: str, **kwargs
-    ):
+        self, networkId: str, applicationId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Get application health by time.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-insight-application-health-by-time
 
-        - networkId (string): Network ID
-        - applicationId (string): Application ID
-        - t0 (string): The beginning of the timespan for the data. The maximum lookback period is 7 days from today.
-        - t1 (string): The end of the timespan for the data. t1 can be a maximum of 7 days after t0.
-        - timespan (number): The timespan for which the information will be fetched. If specifying timespan, do not specify parameters t0 and t1. The value must be in seconds and be less than or equal to 7 days. The default is 2 hours.
-        - resolution (integer): The time resolution in seconds for returned data. The valid resolutions are: 60, 300, 3600, 86400. The default is 300.
+        Args:
+            networkId: Network ID.
+            applicationId: Application ID.
+            t0: The beginning of the timespan for the data. The maximum lookback period is 7 days
+              from today.
+            t1: The end of the timespan for the data. t1 can be a maximum of 7 days after t0.
+            timespan: The timespan for which the information will be fetched. If specifying
+              timespan, do not specify parameters t0 and t1. The value must be in
+              seconds and be less than or equal to 7 days. The default is 2 hours.
+            resolution: The time resolution in seconds for returned data. The valid resolutions are:
+              60, 300, 3600, 86400. The default is 300.
 
         """
         kwargs.update(locals())
@@ -47,12 +54,13 @@ class AsyncInsight:
 
         return self._session.get(metadata, resource, params)
 
-    def get_organization_insight_applications(self, organizationId: str):
+    def get_organization_insight_applications(self, organizationId: str) -> dict[str, Any] | None:
         """List all Insight tracked applications.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-insight-applications
 
-        - organizationId (string): Organization ID
+        Args:
+            organizationId: Organization ID.
 
         """
         metadata = {
@@ -64,12 +72,15 @@ class AsyncInsight:
 
         return self._session.get(metadata, resource)
 
-    def get_organization_insight_monitored_media_servers(self, organizationId: str):
+    def get_organization_insight_monitored_media_servers(
+        self, organizationId: str
+    ) -> dict[str, Any] | None:
         """List the monitored media servers for this organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-insight-monitored-media-servers
 
-        - organizationId (string): Organization ID
+        Args:
+            organizationId: Organization ID.
 
         """
         metadata = {
@@ -82,16 +93,18 @@ class AsyncInsight:
         return self._session.get(metadata, resource)
 
     def create_organization_insight_monitored_media_server(
-        self, organizationId: str, name: str, address: str, **kwargs
-    ):
+        self, organizationId: str, name: str, address: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Add a media server to be monitored for this organization.
 
         https://developer.cisco.com/meraki/api-v1/#!create-organization-insight-monitored-media-server
 
-        - organizationId (string): Organization ID
-        - name (string): The name of the VoIP provider
-        - address (string): The IP address (IPv4 only) or hostname of the media server to monitor
-        - bestEffortMonitoringEnabled (boolean): Indicates that if the media server doesn't respond to ICMP pings, the nearest hop will be used in its stead.
+        Args:
+            organizationId: Organization ID.
+            name: The name of the VoIP provider.
+            address: The IP address (IPv4 only) or hostname of the media server to monitor.
+            bestEffortMonitoringEnabled: Indicates that if the media server doesn't respond to ICMP
+              pings, the nearest hop will be used in its stead.
 
         """
         kwargs.update(locals())
@@ -114,13 +127,14 @@ class AsyncInsight:
 
     def get_organization_insight_monitored_media_server(
         self, organizationId: str, monitoredMediaServerId: str
-    ):
+    ) -> dict[str, Any] | None:
         """Return a monitored media server for this organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-insight-monitored-media-server
 
-        - organizationId (string): Organization ID
-        - monitoredMediaServerId (string): Monitored media server ID
+        Args:
+            organizationId: Organization ID.
+            monitoredMediaServerId: Monitored media server ID.
 
         """
         metadata = {
@@ -134,17 +148,19 @@ class AsyncInsight:
         return self._session.get(metadata, resource)
 
     def update_organization_insight_monitored_media_server(
-        self, organizationId: str, monitoredMediaServerId: str, **kwargs
-    ):
+        self, organizationId: str, monitoredMediaServerId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Update a monitored media server for this organization.
 
         https://developer.cisco.com/meraki/api-v1/#!update-organization-insight-monitored-media-server
 
-        - organizationId (string): Organization ID
-        - monitoredMediaServerId (string): Monitored media server ID
-        - name (string): The name of the VoIP provider
-        - address (string): The IP address (IPv4 only) or hostname of the media server to monitor
-        - bestEffortMonitoringEnabled (boolean): Indicates that if the media server doesn't respond to ICMP pings, the nearest hop will be used in its stead.
+        Args:
+            organizationId: Organization ID.
+            monitoredMediaServerId: Monitored media server ID.
+            name: The name of the VoIP provider.
+            address: The IP address (IPv4 only) or hostname of the media server to monitor.
+            bestEffortMonitoringEnabled: Indicates that if the media server doesn't respond to ICMP
+              pings, the nearest hop will be used in its stead.
 
         """
         kwargs.update(locals())
@@ -168,13 +184,14 @@ class AsyncInsight:
 
     def delete_organization_insight_monitored_media_server(
         self, organizationId: str, monitoredMediaServerId: str
-    ):
+    ) -> None:
         """Delete a monitored media server from this organization.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-insight-monitored-media-server
 
-        - organizationId (string): Organization ID
-        - monitoredMediaServerId (string): Monitored media server ID
+        Args:
+            organizationId: Organization ID.
+            monitoredMediaServerId: Monitored media server ID.
 
         """
         metadata = {

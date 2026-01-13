@@ -1,6 +1,8 @@
 """Devices API endpoints."""
 
 import urllib
+from collections.abc import Generator
+from typing import Any
 
 from meraki_dashboard_sdk.rest_session import RestSession
 
@@ -12,12 +14,13 @@ class Devices:
         super(self).__init__()
         self._session = session
 
-    def get_device(self, serial: str):
+    def get_device(self, serial: str) -> dict[str, Any] | None:
         """Return a single device.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device
 
-        - serial (string): Serial
+        Args:
+            serial: Serial.
 
         """
         metadata = {"tags": ["devices", "configure"], "operation": "get_device"}
@@ -26,21 +29,28 @@ class Devices:
 
         return self._session.get(metadata, resource)
 
-    def update_device(self, serial: str, **kwargs):
+    def update_device(self, serial: str, **kwargs: Any) -> dict[str, Any] | None:
         """Update the attributes of a device.
 
         https://developer.cisco.com/meraki/api-v1/#!update-device
 
-        - serial (string): Serial
-        - name (string): The name of a device
-        - tags (array): The list of tags of a device
-        - lat (number): The latitude of a device
-        - lng (number): The longitude of a device
-        - address (string): The address of a device
-        - notes (string): The notes for the device. String. Limited to 255 characters.
-        - moveMapMarker (boolean): Whether or not to set the latitude and longitude of a device based on the new address. Only applies when lat and lng are not specified.
-        - switchProfileId (string): The ID of a switch template to bind to the device (for available switch templates, see the 'Switch Templates' endpoint). Use null to unbind the switch device from the current profile. For a device to be bindable to a switch template, it must (1) be a switch, and (2) belong to a network that is bound to a configuration template.
-        - floorPlanId (string): The floor plan to associate to this device. null disassociates the device from the floorplan.
+        Args:
+            serial: Serial.
+            name: The name of a device.
+            tags: The list of tags of a device.
+            lat: The latitude of a device.
+            lng: The longitude of a device.
+            address: The address of a device.
+            notes: The notes for the device. String. Limited to 255 characters.
+            moveMapMarker: Whether or not to set the latitude and longitude of a device based on the
+              new address. Only applies when lat and lng are not specified.
+            switchProfileId: The ID of a switch template to bind to the device (for available switch
+              templates, see the 'Switch Templates' endpoint). Use null to unbind the
+              switch device from the current profile. For a device to be bindable to a
+              switch template, it must (1) be a switch, and (2) belong to a network that
+              is bound to a configuration template.
+            floorPlanId: The floor plan to associate to this device. null disassociates the device
+              from the floorplan.
 
         """
         kwargs.update(locals())
@@ -64,15 +74,17 @@ class Devices:
 
         return self._session.put(metadata, resource, payload)
 
-    def blink_device_leds(self, serial: str, **kwargs):
+    def blink_device_leds(self, serial: str, **kwargs: Any) -> dict[str, Any] | None:
         """Blink the LEDs on a device.
 
         https://developer.cisco.com/meraki/api-v1/#!blink-device-leds
 
-        - serial (string): Serial
-        - duration (integer): The duration in seconds. Must be between 5 and 120. Default is 20 seconds
-        - period (integer): The period in milliseconds. Must be between 100 and 1000. Default is 160 milliseconds
-        - duty (integer): The duty cycle as the percent active. Must be between 10 and 90. Default is 50.
+        Args:
+            serial: Serial.
+            duration: The duration in seconds. Must be between 5 and 120. Default is 20 seconds.
+            period: The period in milliseconds. Must be between 100 and 1000. Default is 160
+              milliseconds.
+            duty: The duty cycle as the percent active. Must be between 10 and 90. Default is 50.
 
         """
         kwargs.update(locals())
@@ -90,12 +102,13 @@ class Devices:
 
         return self._session.post(metadata, resource, payload)
 
-    def get_device_cellular_sims(self, serial: str):
+    def get_device_cellular_sims(self, serial: str) -> dict[str, Any] | None:
         """Return the SIM and APN configurations for a cellular device.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device-cellular-sims
 
-        - serial (string): Serial
+        Args:
+            serial: Serial.
 
         """
         metadata = {
@@ -107,15 +120,21 @@ class Devices:
 
         return self._session.get(metadata, resource)
 
-    def update_device_cellular_sims(self, serial: str, **kwargs):
+    def update_device_cellular_sims(self, serial: str, **kwargs: Any) -> dict[str, Any] | None:
         """Updates the SIM and APN configurations for a cellular device.
 
         https://developer.cisco.com/meraki/api-v1/#!update-device-cellular-sims
 
-        - serial (string): Serial
-        - sims (array): List of SIMs. If a SIM was previously configured and not specified in this request, it will remain unchanged.
-        - simOrdering (array): Specifies the ordering of all SIMs for an MG: primary, secondary, and not-in-use (when applicable). It's required for devices with 3 or more SIMs and can be used in place of 'isPrimary' for dual-SIM devices. To indicate eSIM, use 'sim3'. Sim failover will occur only between primary and secondary sim slots.
-        - simFailover (object): SIM Failover settings.
+        Args:
+            serial: Serial.
+            sims: List of SIMs. If a SIM was previously configured and not specified in this
+              request, it will remain unchanged.
+            simOrdering: Specifies the ordering of all SIMs for an MG: primary, secondary, and not-
+              in-use (when applicable). It's required for devices with 3 or more SIMs
+              and can be used in place of 'isPrimary' for dual-SIM devices. To indicate
+              eSIM, use 'sim3'. Sim failover will occur only between primary and
+              secondary sim slots.
+            simFailover: SIM Failover settings.
 
         """
         kwargs.update(locals())
@@ -136,14 +155,18 @@ class Devices:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_device_clients(self, serial: str, **kwargs):
+    def get_device_clients(self, serial: str, **kwargs: Any) -> dict[str, Any] | None:
         """List the clients of a device, up to a maximum of a month ago.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device-clients
 
-        - serial (string): Serial
-        - t0 (string): The beginning of the timespan for the data. The maximum lookback period is 31 days from today.
-        - timespan (number): The timespan for which the information will be fetched. If specifying timespan, do not specify parameter t0. The value must be in seconds and be less than or equal to 31 days. The default is 1 day.
+        Args:
+            serial: Serial.
+            t0: The beginning of the timespan for the data. The maximum lookback period is 31 days
+              from today.
+            timespan: The timespan for which the information will be fetched. If specifying
+              timespan, do not specify parameter t0. The value must be in seconds and be
+              less than or equal to 31 days. The default is 1 day.
 
         """
         kwargs.update(locals())
@@ -160,13 +183,17 @@ class Devices:
 
         return self._session.get(metadata, resource, params)
 
-    def create_device_live_tools_arp_table(self, serial: str, **kwargs):
+    def create_device_live_tools_arp_table(
+        self, serial: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Enqueue a job to perform a ARP table request for the device.
 
         https://developer.cisco.com/meraki/api-v1/#!create-device-live-tools-arp-table
 
-        - serial (string): Serial
-        - callback (object): Details for the callback. Please include either an httpServerId OR url and sharedSecret
+        Args:
+            serial: Serial.
+            callback: Details for the callback. Please include either an httpServerId OR url and
+              sharedSecret.
 
         """
         kwargs.update(locals())
@@ -185,13 +212,16 @@ class Devices:
 
         return self._session.post(metadata, resource, payload)
 
-    def get_device_live_tools_arp_table(self, serial: str, arpTableId: str):
+    def get_device_live_tools_arp_table(
+        self, serial: str, arpTableId: str
+    ) -> dict[str, Any] | None:
         """Return an ARP table live tool job.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device-live-tools-arp-table
 
-        - serial (string): Serial
-        - arpTableId (string): Arp table ID
+        Args:
+            serial: Serial.
+            arpTableId: Arp table ID.
 
         """
         metadata = {
@@ -204,14 +234,20 @@ class Devices:
 
         return self._session.get(metadata, resource)
 
-    def create_device_live_tools_cable_test(self, serial: str, ports: list, **kwargs):
+    def create_device_live_tools_cable_test(
+        self, serial: str, ports: list, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Enqueue a job to perform a cable test for the device on the specified ports.
 
         https://developer.cisco.com/meraki/api-v1/#!create-device-live-tools-cable-test
 
-        - serial (string): Serial
-        - ports (array): A list of ports for which to perform the cable test.  For Catalyst switches, IOS interface names are also supported, such as "GigabitEthernet1/0/8", "Gi1/0/8", or even "1/0/8".
-        - callback (object): Details for the callback. Please include either an httpServerId OR url and sharedSecret
+        Args:
+            serial: Serial.
+            ports: A list of ports for which to perform the cable test.  For Catalyst switches, IOS
+              interface names are also supported, such as "GigabitEthernet1/0/8",
+              "Gi1/0/8", or even "1/0/8".
+            callback: Details for the callback. Please include either an httpServerId OR url and
+              sharedSecret.
 
         """
         kwargs.update(locals())
@@ -231,13 +267,14 @@ class Devices:
 
         return self._session.post(metadata, resource, payload)
 
-    def get_device_live_tools_cable_test(self, serial: str, id: str):
+    def get_device_live_tools_cable_test(self, serial: str, id: str) -> dict[str, Any] | None:
         """Return a cable test live tool job.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device-live-tools-cable-test
 
-        - serial (string): Serial
-        - id (string): ID
+        Args:
+            serial: Serial.
+            id: ID.
 
         """
         metadata = {
@@ -250,14 +287,18 @@ class Devices:
 
         return self._session.get(metadata, resource)
 
-    def create_device_live_tools_leds_blink(self, serial: str, duration: int, **kwargs):
+    def create_device_live_tools_leds_blink(
+        self, serial: str, duration: int, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Enqueue a job to blink LEDs on a device.
 
         https://developer.cisco.com/meraki/api-v1/#!create-device-live-tools-leds-blink
 
-        - serial (string): Serial
-        - duration (integer): The duration in seconds to blink LEDs.
-        - callback (object): Details for the callback. Please include either an httpServerId OR url and sharedSecret
+        Args:
+            serial: Serial.
+            duration: The duration in seconds to blink LEDs.
+            callback: Details for the callback. Please include either an httpServerId OR url and
+              sharedSecret.
 
         """
         kwargs.update(locals())
@@ -277,13 +318,16 @@ class Devices:
 
         return self._session.post(metadata, resource, payload)
 
-    def get_device_live_tools_leds_blink(self, serial: str, ledsBlinkId: str):
+    def get_device_live_tools_leds_blink(
+        self, serial: str, ledsBlinkId: str
+    ) -> dict[str, Any] | None:
         """Return a blink LEDs job.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device-live-tools-leds-blink
 
-        - serial (string): Serial
-        - ledsBlinkId (string): Leds blink ID
+        Args:
+            serial: Serial.
+            ledsBlinkId: Leds blink ID.
 
         """
         metadata = {
@@ -296,13 +340,17 @@ class Devices:
 
         return self._session.get(metadata, resource)
 
-    def create_device_live_tools_mac_table(self, serial: str, **kwargs):
+    def create_device_live_tools_mac_table(
+        self, serial: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Enqueue a job to request the MAC table from the device.
 
         https://developer.cisco.com/meraki/api-v1/#!create-device-live-tools-mac-table
 
-        - serial (string): Serial
-        - callback (object): Details for the callback. Please include either an httpServerId OR url and sharedSecret
+        Args:
+            serial: Serial.
+            callback: Details for the callback. Please include either an httpServerId OR url and
+              sharedSecret.
 
         """
         kwargs.update(locals())
@@ -321,13 +369,16 @@ class Devices:
 
         return self._session.post(metadata, resource, payload)
 
-    def get_device_live_tools_mac_table(self, serial: str, macTableId: str):
+    def get_device_live_tools_mac_table(
+        self, serial: str, macTableId: str
+    ) -> dict[str, Any] | None:
         """Return a MAC table live tool job.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device-live-tools-mac-table
 
-        - serial (string): Serial
-        - macTableId (string): Mac table ID
+        Args:
+            serial: Serial.
+            macTableId: Mac table ID.
 
         """
         metadata = {
@@ -340,13 +391,17 @@ class Devices:
 
         return self._session.get(metadata, resource)
 
-    def create_device_live_tools_multicast_routing(self, serial: str, **kwargs):
+    def create_device_live_tools_multicast_routing(
+        self, serial: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Enqueue a job to perform a Multicast routing request for the device.
 
         https://developer.cisco.com/meraki/api-v1/#!create-device-live-tools-multicast-routing
 
-        - serial (string): Serial
-        - callback (object): Details for the callback. Please include either an httpServerId OR url and sharedSecret
+        Args:
+            serial: Serial.
+            callback: Details for the callback. Please include either an httpServerId OR url and
+              sharedSecret.
 
         """
         kwargs.update(locals())
@@ -365,13 +420,16 @@ class Devices:
 
         return self._session.post(metadata, resource, payload)
 
-    def get_device_live_tools_multicast_routing(self, serial: str, multicastRoutingId: str):
+    def get_device_live_tools_multicast_routing(
+        self, serial: str, multicastRoutingId: str
+    ) -> dict[str, Any] | None:
         """Return a Multicast routing live tool job.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device-live-tools-multicast-routing
 
-        - serial (string): Serial
-        - multicastRoutingId (string): Multicast routing ID
+        Args:
+            serial: Serial.
+            multicastRoutingId: Multicast routing ID.
 
         """
         metadata = {
@@ -384,15 +442,19 @@ class Devices:
 
         return self._session.get(metadata, resource)
 
-    def create_device_live_tools_ping(self, serial: str, target: str, **kwargs):
+    def create_device_live_tools_ping(
+        self, serial: str, target: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Enqueue a job to ping a target host from the device.
 
         https://developer.cisco.com/meraki/api-v1/#!create-device-live-tools-ping
 
-        - serial (string): Serial
-        - target (string): FQDN, IPv4 or IPv6 address
-        - count (integer): Count parameter to pass to ping. [1..5], default 5
-        - callback (object): Details for the callback. Please include either an httpServerId OR url and sharedSecret
+        Args:
+            serial: Serial.
+            target: FQDN, IPv4 or IPv6 address.
+            count: Count parameter to pass to ping. [1..5], default 5.
+            callback: Details for the callback. Please include either an httpServerId OR url and
+              sharedSecret.
 
         """
         kwargs.update(locals())
@@ -413,13 +475,14 @@ class Devices:
 
         return self._session.post(metadata, resource, payload)
 
-    def get_device_live_tools_ping(self, serial: str, id: str):
+    def get_device_live_tools_ping(self, serial: str, id: str) -> dict[str, Any] | None:
         """Return a ping job.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device-live-tools-ping
 
-        - serial (string): Serial
-        - id (string): ID
+        Args:
+            serial: Serial.
+            id: ID.
 
         """
         metadata = {
@@ -432,14 +495,18 @@ class Devices:
 
         return self._session.get(metadata, resource)
 
-    def create_device_live_tools_ping_device(self, serial: str, **kwargs):
+    def create_device_live_tools_ping_device(
+        self, serial: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Enqueue a job to check connectivity status to the device.
 
         https://developer.cisco.com/meraki/api-v1/#!create-device-live-tools-ping-device
 
-        - serial (string): Serial
-        - count (integer): Count parameter to pass to ping. [1..5], default 5
-        - callback (object): Details for the callback. Please include either an httpServerId OR url and sharedSecret
+        Args:
+            serial: Serial.
+            count: Count parameter to pass to ping. [1..5], default 5.
+            callback: Details for the callback. Please include either an httpServerId OR url and
+              sharedSecret.
 
         """
         kwargs.update(locals())
@@ -459,13 +526,14 @@ class Devices:
 
         return self._session.post(metadata, resource, payload)
 
-    def get_device_live_tools_ping_device(self, serial: str, id: str):
+    def get_device_live_tools_ping_device(self, serial: str, id: str) -> dict[str, Any] | None:
         """Return a ping device job.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device-live-tools-ping-device
 
-        - serial (string): Serial
-        - id (string): ID
+        Args:
+            serial: Serial.
+            id: ID.
 
         """
         metadata = {
@@ -478,13 +546,17 @@ class Devices:
 
         return self._session.get(metadata, resource)
 
-    def create_device_live_tools_throughput_test(self, serial: str, **kwargs):
+    def create_device_live_tools_throughput_test(
+        self, serial: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Enqueue a job to test a device throughput, the test will run for 10 secs to test throughput.
 
         https://developer.cisco.com/meraki/api-v1/#!create-device-live-tools-throughput-test
 
-        - serial (string): Serial
-        - callback (object): Details for the callback. Please include either an httpServerId OR url and sharedSecret
+        Args:
+            serial: Serial.
+            callback: Details for the callback. Please include either an httpServerId OR url and
+              sharedSecret.
 
         """
         kwargs.update(locals())
@@ -503,13 +575,16 @@ class Devices:
 
         return self._session.post(metadata, resource, payload)
 
-    def get_device_live_tools_throughput_test(self, serial: str, throughputTestId: str):
+    def get_device_live_tools_throughput_test(
+        self, serial: str, throughputTestId: str
+    ) -> dict[str, Any] | None:
         """Return a throughput test job.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device-live-tools-throughput-test
 
-        - serial (string): Serial
-        - throughputTestId (string): Throughput test ID
+        Args:
+            serial: Serial.
+            throughputTestId: Throughput test ID.
 
         """
         metadata = {
@@ -522,15 +597,19 @@ class Devices:
 
         return self._session.get(metadata, resource)
 
-    def create_device_live_tools_wake_on_lan(self, serial: str, vlanId: int, mac: str, **kwargs):
+    def create_device_live_tools_wake_on_lan(
+        self, serial: str, vlanId: int, mac: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Enqueue a job to send a Wake-on-LAN packet from the device.
 
         https://developer.cisco.com/meraki/api-v1/#!create-device-live-tools-wake-on-lan
 
-        - serial (string): Serial
-        - vlanId (integer): The target's VLAN (1 to 4094)
-        - mac (string): The target's MAC address
-        - callback (object): Details for the callback. Please include either an httpServerId OR url and sharedSecret
+        Args:
+            serial: Serial.
+            vlanId: The target's VLAN (1 to 4094).
+            mac: The target's MAC address.
+            callback: Details for the callback. Please include either an httpServerId OR url and
+              sharedSecret.
 
         """
         kwargs.update(locals())
@@ -551,13 +630,16 @@ class Devices:
 
         return self._session.post(metadata, resource, payload)
 
-    def get_device_live_tools_wake_on_lan(self, serial: str, wakeOnLanId: str):
+    def get_device_live_tools_wake_on_lan(
+        self, serial: str, wakeOnLanId: str
+    ) -> dict[str, Any] | None:
         """Return a Wake-on-LAN job.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device-live-tools-wake-on-lan
 
-        - serial (string): Serial
-        - wakeOnLanId (string): Wake on lan ID
+        Args:
+            serial: Serial.
+            wakeOnLanId: Wake on lan ID.
 
         """
         metadata = {
@@ -570,12 +652,13 @@ class Devices:
 
         return self._session.get(metadata, resource)
 
-    def get_device_lldp_cdp(self, serial: str):
+    def get_device_lldp_cdp(self, serial: str) -> dict[str, Any] | None:
         """List LLDP and CDP information for a device.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device-lldp-cdp
 
-        - serial (string): Serial
+        Args:
+            serial: Serial.
 
         """
         metadata = {"tags": ["devices", "monitor", "lldpCdp"], "operation": "get_device_lldp_cdp"}
@@ -584,18 +667,26 @@ class Devices:
 
         return self._session.get(metadata, resource)
 
-    def get_device_loss_and_latency_history(self, serial: str, ip: str, **kwargs):
+    def get_device_loss_and_latency_history(
+        self, serial: str, ip: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Get the uplink loss percentage and latency in milliseconds, and goodput in kilobits per second for MX, MG and Z devices.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device-loss-and-latency-history
 
-        - serial (string): Serial
-        - ip (string): The destination IP used to obtain the requested stats. This is required.
-        - t0 (string): The beginning of the timespan for the data. The maximum lookback period is 60 days from today.
-        - t1 (string): The end of the timespan for the data. t1 can be a maximum of 31 days after t0.
-        - timespan (number): The timespan for which the information will be fetched. If specifying timespan, do not specify parameters t0 and t1. The value must be in seconds and be less than or equal to 31 days. The default is 1 day.
-        - resolution (integer): The time resolution in seconds for returned data. The valid resolutions are: 60, 600, 3600, 86400. The default is 60.
-        - uplink (string): The WAN uplink used to obtain the requested stats. Valid uplinks are wan1, wan2, wan3, cellular. The default is wan1.
+        Args:
+            serial: Serial.
+            ip: The destination IP used to obtain the requested stats. This is required.
+            t0: The beginning of the timespan for the data. The maximum lookback period is 60 days
+              from today.
+            t1: The end of the timespan for the data. t1 can be a maximum of 31 days after t0.
+            timespan: The timespan for which the information will be fetched. If specifying
+              timespan, do not specify parameters t0 and t1. The value must be in
+              seconds and be less than or equal to 31 days. The default is 1 day.
+            resolution: The time resolution in seconds for returned data. The valid resolutions are:
+              60, 600, 3600, 86400. The default is 60.
+            uplink: The WAN uplink used to obtain the requested stats. Valid uplinks are wan1, wan2,
+              wan3, cellular. The default is wan1.
 
         """
         kwargs.update(locals())
@@ -625,12 +716,13 @@ class Devices:
 
         return self._session.get(metadata, resource, params)
 
-    def get_device_management_interface(self, serial: str):
+    def get_device_management_interface(self, serial: str) -> dict[str, Any] | None:
         """Return the management interface settings for a device.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device-management-interface
 
-        - serial (string): Serial
+        Args:
+            serial: Serial.
 
         """
         metadata = {
@@ -642,14 +734,17 @@ class Devices:
 
         return self._session.get(metadata, resource)
 
-    def update_device_management_interface(self, serial: str, **kwargs):
+    def update_device_management_interface(
+        self, serial: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Update the management interface settings for a device.
 
         https://developer.cisco.com/meraki/api-v1/#!update-device-management-interface
 
-        - serial (string): Serial
-        - wan1 (object): WAN 1 settings
-        - wan2 (object): WAN 2 settings (only for MX devices)
+        Args:
+            serial: Serial.
+            wan1: WAN 1 settings.
+            wan2: WAN 2 settings (only for MX devices).
 
         """
         kwargs.update(locals())
@@ -669,12 +764,13 @@ class Devices:
 
         return self._session.put(metadata, resource, payload)
 
-    def reboot_device(self, serial: str):
+    def reboot_device(self, serial: str) -> dict[str, Any] | None:
         """Reboot a device.
 
         https://developer.cisco.com/meraki/api-v1/#!reboot-device
 
-        - serial (string): Serial
+        Args:
+            serial: Serial.
 
         """
         metadata = {"tags": ["devices", "liveTools"], "operation": "reboot_device"}

@@ -1,6 +1,8 @@
 """Organizations API endpoints."""
 
 import urllib
+from collections.abc import Generator
+from typing import Any
 
 from meraki_dashboard_sdk.aio.rest_session import AsyncRestSession
 
@@ -12,16 +14,25 @@ class AsyncOrganizations:
         super().__init__()
         self._session = session
 
-    def get_organizations(self):
+    def get_organizations(self) -> Generator[Any, None, None]:
         """List the organizations that the user has privileges on.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organizations
 
-        - total_pages (integer or string): use with perPage to get total results up to total_pages*perPage; -1 or "all" for all pages
-        - direction (string): direction to paginate, either "next" (default) or "prev" page
-        - perPage (integer): The number of entries per page returned. Acceptable range is 3 - 9000. Default is 9000.
-        - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
+        Args:
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+            perPage: The number of entries per page returned. Acceptable range is 3 - 9000. Default
+              is 9000.
+            startingAfter: A token used by the server to indicate the start of the page. Often this
+              is a timestamp or an ID but it is not limited to those. This parameter
+              should not be defined by client applications. The link for the first,
+              last, prev, or next page in the HTTP Link header should define it.
+            endingBefore: A token used by the server to indicate the end of the page. Often this is
+              a timestamp or an ID but it is not limited to those. This parameter should
+              not be defined by client applications. The link for the first, last, prev,
+              or next page in the HTTP Link header should define it.
 
         """
         kwargs.update(locals())
@@ -38,13 +49,14 @@ class AsyncOrganizations:
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
-    def create_organization(self, name: str, **kwargs):
+    def create_organization(self, name: str, **kwargs: Any) -> dict[str, Any] | None:
         """Create a new organization.
 
         https://developer.cisco.com/meraki/api-v1/#!create-organization
 
-        - name (string): The name of the organization
-        - management (object): Information about the organization's management system
+        Args:
+            name: The name of the organization.
+            management: Information about the organization's management system.
 
         """
         kwargs.update(locals())
@@ -60,12 +72,13 @@ class AsyncOrganizations:
 
         return self._session.post(metadata, resource, payload)
 
-    def get_organization(self, organizationId: str):
+    def get_organization(self, organizationId: str) -> dict[str, Any] | None:
         """Return an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization
 
-        - organizationId (string): Organization ID
+        Args:
+            organizationId: Organization ID.
 
         """
         metadata = {"tags": ["organizations", "configure"], "operation": "get_organization"}
@@ -74,15 +87,16 @@ class AsyncOrganizations:
 
         return self._session.get(metadata, resource)
 
-    def update_organization(self, organizationId: str, **kwargs):
+    def update_organization(self, organizationId: str, **kwargs: Any) -> dict[str, Any] | None:
         """Update an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!update-organization
 
-        - organizationId (string): Organization ID
-        - name (string): The name of the organization
-        - management (object): Information about the organization's management system
-        - api (object): API-specific settings
+        Args:
+            organizationId: Organization ID.
+            name: The name of the organization.
+            management: Information about the organization's management system.
+            api: API-specific settings.
 
         """
         kwargs.update(locals())
@@ -100,12 +114,13 @@ class AsyncOrganizations:
 
         return self._session.put(metadata, resource, payload)
 
-    def delete_organization(self, organizationId: str):
+    def delete_organization(self, organizationId: str) -> None:
         """Delete an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-organization
 
-        - organizationId (string): Organization ID
+        Args:
+            organizationId: Organization ID.
 
         """
         metadata = {"tags": ["organizations", "configure"], "operation": "delete_organization"}
@@ -114,16 +129,25 @@ class AsyncOrganizations:
 
         return self._session.delete(metadata, resource)
 
-    def create_organization_action_batch(self, organizationId: str, actions: list, **kwargs):
+    def create_organization_action_batch(
+        self, organizationId: str, actions: list, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Create an action batch.
 
         https://developer.cisco.com/meraki/api-v1/#!create-organization-action-batch
 
-        - organizationId (string): Organization ID
-        - actions (array): A set of changes to make as part of this action (<a href='https://developer.cisco.com/meraki/api/#/rest/guides/action-batches/'>more details</a>)
-        - confirmed (boolean): Set to true for immediate execution. Set to false if the action should be previewed before executing. This property cannot be unset once it is true. Defaults to false.
-        - synchronous (boolean): Set to true to force the batch to run synchronous. There can be at most 20 actions in synchronous batch. Defaults to false.
-        - callback (object): Details for the callback. Please include either an httpServerId OR url and sharedSecret
+        Args:
+            organizationId: Organization ID.
+            actions: A set of changes to make as part of this action (<a
+              href='https://developer.cisco.com/meraki/api/#/rest/guides/action-
+              batches/'>more details</a>).
+            confirmed: Set to true for immediate execution. Set to false if the action should be
+              previewed before executing. This property cannot be unset once it is true.
+              Defaults to false.
+            synchronous: Set to true to force the batch to run synchronous. There can be at most 20
+              actions in synchronous batch. Defaults to false.
+            callback: Details for the callback. Please include either an httpServerId OR url and
+              sharedSecret.
 
         """
         kwargs.update(locals())
@@ -145,13 +169,16 @@ class AsyncOrganizations:
 
         return self._session.post(metadata, resource, payload)
 
-    def get_organization_action_batches(self, organizationId: str, **kwargs):
+    def get_organization_action_batches(
+        self, organizationId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Return the list of action batches in the organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-action-batches
 
-        - organizationId (string): Organization ID
-        - status (string): Filter batches by status. Valid types are pending, completed, and failed.
+        Args:
+            organizationId: Organization ID.
+            status: Filter batches by status. Valid types are pending, completed, and failed.
 
         """
         kwargs.update(locals())
@@ -176,13 +203,16 @@ class AsyncOrganizations:
 
         return self._session.get(metadata, resource, params)
 
-    def get_organization_action_batch(self, organizationId: str, actionBatchId: str):
+    def get_organization_action_batch(
+        self, organizationId: str, actionBatchId: str
+    ) -> dict[str, Any] | None:
         """Return an action batch.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-action-batch
 
-        - organizationId (string): Organization ID
-        - actionBatchId (string): Action batch ID
+        Args:
+            organizationId: Organization ID.
+            actionBatchId: Action batch ID.
 
         """
         metadata = {
@@ -195,13 +225,14 @@ class AsyncOrganizations:
 
         return self._session.get(metadata, resource)
 
-    def delete_organization_action_batch(self, organizationId: str, actionBatchId: str):
+    def delete_organization_action_batch(self, organizationId: str, actionBatchId: str) -> None:
         """Delete an action batch.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-action-batch
 
-        - organizationId (string): Organization ID
-        - actionBatchId (string): Action batch ID
+        Args:
+            organizationId: Organization ID.
+            actionBatchId: Action batch ID.
 
         """
         metadata = {
@@ -214,15 +245,20 @@ class AsyncOrganizations:
 
         return self._session.delete(metadata, resource)
 
-    def update_organization_action_batch(self, organizationId: str, actionBatchId: str, **kwargs):
+    def update_organization_action_batch(
+        self, organizationId: str, actionBatchId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Update an action batch.
 
         https://developer.cisco.com/meraki/api-v1/#!update-organization-action-batch
 
-        - organizationId (string): Organization ID
-        - actionBatchId (string): Action batch ID
-        - confirmed (boolean): A boolean representing whether or not the batch has been confirmed. This property cannot be unset once it is true.
-        - synchronous (boolean): Set to true to force the batch to run synchronous. There can be at most 20 actions in synchronous batch.
+        Args:
+            organizationId: Organization ID.
+            actionBatchId: Action batch ID.
+            confirmed: A boolean representing whether or not the batch has been confirmed. This
+              property cannot be unset once it is true.
+            synchronous: Set to true to force the batch to run synchronous. There can be at most 20
+              actions in synchronous batch.
 
         """
         kwargs.update(locals())
@@ -243,12 +279,13 @@ class AsyncOrganizations:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_organization_adaptive_policy_acls(self, organizationId: str):
+    def get_organization_adaptive_policy_acls(self, organizationId: str) -> dict[str, Any] | None:
         """List adaptive policy ACLs in a organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-adaptive-policy-acls
 
-        - organizationId (string): Organization ID
+        Args:
+            organizationId: Organization ID.
 
         """
         metadata = {
@@ -261,17 +298,18 @@ class AsyncOrganizations:
         return self._session.get(metadata, resource)
 
     def create_organization_adaptive_policy_acl(
-        self, organizationId: str, name: str, rules: list, ipVersion: str, **kwargs
-    ):
+        self, organizationId: str, name: str, rules: list, ipVersion: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Creates new adaptive policy ACL.
 
         https://developer.cisco.com/meraki/api-v1/#!create-organization-adaptive-policy-acl
 
-        - organizationId (string): Organization ID
-        - name (string): Name of the adaptive policy ACL
-        - rules (array): An ordered array of the adaptive policy ACL rules.
-        - ipVersion (string): IP version of adpative policy ACL. One of: 'any', 'ipv4' or 'ipv6'
-        - description (string): Description of the adaptive policy ACL
+        Args:
+            organizationId: Organization ID.
+            name: Name of the adaptive policy ACL.
+            rules: An ordered array of the adaptive policy ACL rules.
+            ipVersion: IP version of adpative policy ACL. One of: 'any', 'ipv4' or 'ipv6'.
+            description: Description of the adaptive policy ACL.
 
         """
         kwargs.update(locals())
@@ -299,13 +337,16 @@ class AsyncOrganizations:
 
         return self._session.post(metadata, resource, payload)
 
-    def get_organization_adaptive_policy_acl(self, organizationId: str, aclId: str):
+    def get_organization_adaptive_policy_acl(
+        self, organizationId: str, aclId: str
+    ) -> dict[str, Any] | None:
         """Returns the adaptive policy ACL information.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-adaptive-policy-acl
 
-        - organizationId (string): Organization ID
-        - aclId (string): Acl ID
+        Args:
+            organizationId: Organization ID.
+            aclId: Acl ID.
 
         """
         metadata = {
@@ -318,17 +359,21 @@ class AsyncOrganizations:
 
         return self._session.get(metadata, resource)
 
-    def update_organization_adaptive_policy_acl(self, organizationId: str, aclId: str, **kwargs):
+    def update_organization_adaptive_policy_acl(
+        self, organizationId: str, aclId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Updates an adaptive policy ACL.
 
         https://developer.cisco.com/meraki/api-v1/#!update-organization-adaptive-policy-acl
 
-        - organizationId (string): Organization ID
-        - aclId (string): Acl ID
-        - name (string): Name of the adaptive policy ACL
-        - description (string): Description of the adaptive policy ACL
-        - rules (array): An ordered array of the adaptive policy ACL rules. An empty array will clear the rules.
-        - ipVersion (string): IP version of adpative policy ACL. One of: 'any', 'ipv4' or 'ipv6'
+        Args:
+            organizationId: Organization ID.
+            aclId: Acl ID.
+            name: Name of the adaptive policy ACL.
+            description: Description of the adaptive policy ACL.
+            rules: An ordered array of the adaptive policy ACL rules. An empty array will clear the
+              rules.
+            ipVersion: IP version of adpative policy ACL. One of: 'any', 'ipv4' or 'ipv6'.
 
         """
         kwargs.update(locals())
@@ -357,13 +402,14 @@ class AsyncOrganizations:
 
         return self._session.put(metadata, resource, payload)
 
-    def delete_organization_adaptive_policy_acl(self, organizationId: str, aclId: str):
+    def delete_organization_adaptive_policy_acl(self, organizationId: str, aclId: str) -> None:
         """Deletes the specified adaptive policy ACL.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-adaptive-policy-acl
 
-        - organizationId (string): Organization ID
-        - aclId (string): Acl ID
+        Args:
+            organizationId: Organization ID.
+            aclId: Acl ID.
 
         """
         metadata = {
@@ -376,12 +422,13 @@ class AsyncOrganizations:
 
         return self._session.delete(metadata, resource)
 
-    def get_organization_adaptive_policy_groups(self, organizationId: str):
+    def get_organization_adaptive_policy_groups(self, organizationId: str) -> dict[str, Any] | None:
         """List adaptive policy groups in a organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-adaptive-policy-groups
 
-        - organizationId (string): Organization ID
+        Args:
+            organizationId: Organization ID.
 
         """
         metadata = {
@@ -394,17 +441,21 @@ class AsyncOrganizations:
         return self._session.get(metadata, resource)
 
     def create_organization_adaptive_policy_group(
-        self, organizationId: str, name: str, sgt: int, **kwargs
-    ):
+        self, organizationId: str, name: str, sgt: int, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Creates a new adaptive policy group.
 
         https://developer.cisco.com/meraki/api-v1/#!create-organization-adaptive-policy-group
 
-        - organizationId (string): Organization ID
-        - name (string): Name of the group
-        - sgt (integer): SGT value of the group
-        - description (string): Description of the group (default: "")
-        - policyObjects (array): The policy objects that belong to this group; traffic from addresses specified by these policy objects will be tagged with this group's SGT value if no other tagging scheme is being used (each requires one unique attribute) (default: [])
+        Args:
+            organizationId: Organization ID.
+            name: Name of the group.
+            sgt: SGT value of the group.
+            description: Description of the group (default: "").
+            policyObjects: The policy objects that belong to this group; traffic from addresses
+              specified by these policy objects will be tagged with this group's SGT
+              value if no other tagging scheme is being used (each requires one unique
+              attribute) (default: []).
 
         """
         kwargs.update(locals())
@@ -426,13 +477,16 @@ class AsyncOrganizations:
 
         return self._session.post(metadata, resource, payload)
 
-    def get_organization_adaptive_policy_group(self, organizationId: str, id: str):
+    def get_organization_adaptive_policy_group(
+        self, organizationId: str, id: str
+    ) -> dict[str, Any] | None:
         """Returns an adaptive policy group.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-adaptive-policy-group
 
-        - organizationId (string): Organization ID
-        - id (string): ID
+        Args:
+            organizationId: Organization ID.
+            id: ID.
 
         """
         metadata = {
@@ -445,17 +499,23 @@ class AsyncOrganizations:
 
         return self._session.get(metadata, resource)
 
-    def update_organization_adaptive_policy_group(self, organizationId: str, id: str, **kwargs):
+    def update_organization_adaptive_policy_group(
+        self, organizationId: str, id: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Updates an adaptive policy group.
 
         https://developer.cisco.com/meraki/api-v1/#!update-organization-adaptive-policy-group
 
-        - organizationId (string): Organization ID
-        - id (string): ID
-        - name (string): Name of the group
-        - sgt (integer): SGT value of the group
-        - description (string): Description of the group
-        - policyObjects (array): The policy objects that belong to this group; traffic from addresses specified by these policy objects will be tagged with this group's SGT value if no other tagging scheme is being used (each requires one unique attribute)
+        Args:
+            organizationId: Organization ID.
+            id: ID.
+            name: Name of the group.
+            sgt: SGT value of the group.
+            description: Description of the group.
+            policyObjects: The policy objects that belong to this group; traffic from addresses
+              specified by these policy objects will be tagged with this group's SGT
+              value if no other tagging scheme is being used (each requires one unique
+              attribute).
 
         """
         kwargs.update(locals())
@@ -478,13 +538,14 @@ class AsyncOrganizations:
 
         return self._session.put(metadata, resource, payload)
 
-    def delete_organization_adaptive_policy_group(self, organizationId: str, id: str):
+    def delete_organization_adaptive_policy_group(self, organizationId: str, id: str) -> None:
         """Deletes the specified adaptive policy group and any associated policies and references.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-adaptive-policy-group
 
-        - organizationId (string): Organization ID
-        - id (string): ID
+        Args:
+            organizationId: Organization ID.
+            id: ID.
 
         """
         metadata = {
@@ -497,12 +558,15 @@ class AsyncOrganizations:
 
         return self._session.delete(metadata, resource)
 
-    def get_organization_adaptive_policy_overview(self, organizationId: str):
+    def get_organization_adaptive_policy_overview(
+        self, organizationId: str
+    ) -> dict[str, Any] | None:
         """Returns adaptive policy aggregate statistics for an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-adaptive-policy-overview
 
-        - organizationId (string): Organization ID
+        Args:
+            organizationId: Organization ID.
 
         """
         metadata = {
@@ -514,12 +578,15 @@ class AsyncOrganizations:
 
         return self._session.get(metadata, resource)
 
-    def get_organization_adaptive_policy_policies(self, organizationId: str):
+    def get_organization_adaptive_policy_policies(
+        self, organizationId: str
+    ) -> dict[str, Any] | None:
         """List adaptive policies in an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-adaptive-policy-policies
 
-        - organizationId (string): Organization ID
+        Args:
+            organizationId: Organization ID.
 
         """
         metadata = {
@@ -532,17 +599,19 @@ class AsyncOrganizations:
         return self._session.get(metadata, resource)
 
     def create_organization_adaptive_policy_policy(
-        self, organizationId: str, sourceGroup: dict, destinationGroup: dict, **kwargs
-    ):
+        self, organizationId: str, sourceGroup: dict, destinationGroup: dict, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Add an Adaptive Policy.
 
         https://developer.cisco.com/meraki/api-v1/#!create-organization-adaptive-policy-policy
 
-        - organizationId (string): Organization ID
-        - sourceGroup (object): The source adaptive policy group (requires one unique attribute)
-        - destinationGroup (object): The destination adaptive policy group (requires one unique attribute)
-        - acls (array): An ordered array of adaptive policy ACLs (each requires one unique attribute) that apply to this policy (default: [])
-        - lastEntryRule (string): The rule to apply if there is no matching ACL (default: "default")
+        Args:
+            organizationId: Organization ID.
+            sourceGroup: The source adaptive policy group (requires one unique attribute).
+            destinationGroup: The destination adaptive policy group (requires one unique attribute).
+            acls: An ordered array of adaptive policy ACLs (each requires one unique attribute) that
+              apply to this policy (default: []).
+            lastEntryRule: The rule to apply if there is no matching ACL (default: "default").
 
         """
         kwargs.update(locals())
@@ -570,13 +639,16 @@ class AsyncOrganizations:
 
         return self._session.post(metadata, resource, payload)
 
-    def get_organization_adaptive_policy_policy(self, organizationId: str, id: str):
+    def get_organization_adaptive_policy_policy(
+        self, organizationId: str, id: str
+    ) -> dict[str, Any] | None:
         """Return an adaptive policy.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-adaptive-policy-policy
 
-        - organizationId (string): Organization ID
-        - id (string): ID
+        Args:
+            organizationId: Organization ID.
+            id: ID.
 
         """
         metadata = {
@@ -589,17 +661,21 @@ class AsyncOrganizations:
 
         return self._session.get(metadata, resource)
 
-    def update_organization_adaptive_policy_policy(self, organizationId: str, id: str, **kwargs):
+    def update_organization_adaptive_policy_policy(
+        self, organizationId: str, id: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Update an Adaptive Policy.
 
         https://developer.cisco.com/meraki/api-v1/#!update-organization-adaptive-policy-policy
 
-        - organizationId (string): Organization ID
-        - id (string): ID
-        - sourceGroup (object): The source adaptive policy group (requires one unique attribute)
-        - destinationGroup (object): The destination adaptive policy group (requires one unique attribute)
-        - acls (array): An ordered array of adaptive policy ACLs (each requires one unique attribute) that apply to this policy
-        - lastEntryRule (string): The rule to apply if there is no matching ACL
+        Args:
+            organizationId: Organization ID.
+            id: ID.
+            sourceGroup: The source adaptive policy group (requires one unique attribute).
+            destinationGroup: The destination adaptive policy group (requires one unique attribute).
+            acls: An ordered array of adaptive policy ACLs (each requires one unique attribute) that
+              apply to this policy.
+            lastEntryRule: The rule to apply if there is no matching ACL.
 
         """
         kwargs.update(locals())
@@ -628,13 +704,14 @@ class AsyncOrganizations:
 
         return self._session.put(metadata, resource, payload)
 
-    def delete_organization_adaptive_policy_policy(self, organizationId: str, id: str):
+    def delete_organization_adaptive_policy_policy(self, organizationId: str, id: str) -> None:
         """Delete an Adaptive Policy.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-adaptive-policy-policy
 
-        - organizationId (string): Organization ID
-        - id (string): ID
+        Args:
+            organizationId: Organization ID.
+            id: ID.
 
         """
         metadata = {
@@ -647,12 +724,15 @@ class AsyncOrganizations:
 
         return self._session.delete(metadata, resource)
 
-    def get_organization_adaptive_policy_settings(self, organizationId: str):
+    def get_organization_adaptive_policy_settings(
+        self, organizationId: str
+    ) -> dict[str, Any] | None:
         """Returns global adaptive policy settings in an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-adaptive-policy-settings
 
-        - organizationId (string): Organization ID
+        Args:
+            organizationId: Organization ID.
 
         """
         metadata = {
@@ -664,13 +744,16 @@ class AsyncOrganizations:
 
         return self._session.get(metadata, resource)
 
-    def update_organization_adaptive_policy_settings(self, organizationId: str, **kwargs):
+    def update_organization_adaptive_policy_settings(
+        self, organizationId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Update global adaptive policy settings.
 
         https://developer.cisco.com/meraki/api-v1/#!update-organization-adaptive-policy-settings
 
-        - organizationId (string): Organization ID
-        - enabledNetworks (array): List of network IDs with adaptive policy enabled
+        Args:
+            organizationId: Organization ID.
+            enabledNetworks: List of network IDs with adaptive policy enabled.
 
         """
         kwargs.update(locals())
@@ -689,13 +772,15 @@ class AsyncOrganizations:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_organization_admins(self, organizationId: str, **kwargs):
+    def get_organization_admins(self, organizationId: str, **kwargs: Any) -> dict[str, Any] | None:
         """List the dashboard administrators in this organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-admins
 
-        - organizationId (string): Organization ID
-        - networkIds (array): Optional parameter to filter the result set by the included set of network IDs
+        Args:
+            organizationId: Organization ID.
+            networkIds: Optional parameter to filter the result set by the included set of network
+              IDs.
 
         """
         kwargs.update(locals())
@@ -723,19 +808,22 @@ class AsyncOrganizations:
         return self._session.get(metadata, resource, params)
 
     def create_organization_admin(
-        self, organizationId: str, email: str, name: str, orgAccess: str, **kwargs
-    ):
+        self, organizationId: str, email: str, name: str, orgAccess: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Create a new dashboard administrator.
 
         https://developer.cisco.com/meraki/api-v1/#!create-organization-admin
 
-        - organizationId (string): Organization ID
-        - email (string): The email of the dashboard administrator. This attribute can not be updated.
-        - name (string): The name of the dashboard administrator
-        - orgAccess (string): The privilege of the dashboard administrator on the organization. Can be one of 'full', 'read-only', 'enterprise' or 'none'
-        - tags (array): The list of tags that the dashboard administrator has privileges on
-        - networks (array): The list of networks that the dashboard administrator has privileges on
-        - authenticationMethod (string): No longer used as of Cisco SecureX end-of-life. Can be one of 'Email'. The default is Email authentication.
+        Args:
+            organizationId: Organization ID.
+            email: The email of the dashboard administrator. This attribute can not be updated.
+            name: The name of the dashboard administrator.
+            orgAccess: The privilege of the dashboard administrator on the organization. Can be one
+              of 'full', 'read-only', 'enterprise' or 'none'.
+            tags: The list of tags that the dashboard administrator has privileges on.
+            networks: The list of networks that the dashboard administrator has privileges on.
+            authenticationMethod: No longer used as of Cisco SecureX end-of-life. Can be one of
+              'Email'. The default is Email authentication.
 
         """
         kwargs.update(locals())
@@ -770,17 +858,21 @@ class AsyncOrganizations:
 
         return self._session.post(metadata, resource, payload)
 
-    def update_organization_admin(self, organizationId: str, adminId: str, **kwargs):
+    def update_organization_admin(
+        self, organizationId: str, adminId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Update an administrator.
 
         https://developer.cisco.com/meraki/api-v1/#!update-organization-admin
 
-        - organizationId (string): Organization ID
-        - adminId (string): Admin ID
-        - name (string): The name of the dashboard administrator
-        - orgAccess (string): The privilege of the dashboard administrator on the organization. Can be one of 'full', 'read-only', 'enterprise' or 'none'
-        - tags (array): The list of tags that the dashboard administrator has privileges on
-        - networks (array): The list of networks that the dashboard administrator has privileges on
+        Args:
+            organizationId: Organization ID.
+            adminId: Admin ID.
+            name: The name of the dashboard administrator.
+            orgAccess: The privilege of the dashboard administrator on the organization. Can be one
+              of 'full', 'read-only', 'enterprise' or 'none'.
+            tags: The list of tags that the dashboard administrator has privileges on.
+            networks: The list of networks that the dashboard administrator has privileges on.
 
         """
         kwargs.update(locals())
@@ -809,13 +901,14 @@ class AsyncOrganizations:
 
         return self._session.put(metadata, resource, payload)
 
-    def delete_organization_admin(self, organizationId: str, adminId: str):
+    def delete_organization_admin(self, organizationId: str, adminId: str) -> None:
         """Revoke all access for a dashboard administrator within this organization.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-admin
 
-        - organizationId (string): Organization ID
-        - adminId (string): Admin ID
+        Args:
+            organizationId: Organization ID.
+            adminId: Admin ID.
 
         """
         metadata = {
@@ -828,12 +921,13 @@ class AsyncOrganizations:
 
         return self._session.delete(metadata, resource)
 
-    def get_organization_alerts_profiles(self, organizationId: str):
+    def get_organization_alerts_profiles(self, organizationId: str) -> dict[str, Any] | None:
         """List all organization-wide alert configurations.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-alerts-profiles
 
-        - organizationId (string): Organization ID
+        Args:
+            organizationId: Organization ID.
 
         """
         metadata = {
@@ -852,18 +946,19 @@ class AsyncOrganizations:
         alertCondition: dict,
         recipients: dict,
         networkTags: list,
-        **kwargs,
-    ):
+        **kwargs: Any,
+    ) -> dict[str, Any] | None:
         """Create an organization-wide alert configuration.
 
         https://developer.cisco.com/meraki/api-v1/#!create-organization-alerts-profile
 
-        - organizationId (string): Organization ID
-        - type (string): The alert type
-        - alertCondition (object): The conditions that determine if the alert triggers
-        - recipients (object): List of recipients that will recieve the alert.
-        - networkTags (array): Networks with these tags will be monitored for the alert
-        - description (string): User supplied description of the alert
+        Args:
+            organizationId: Organization ID.
+            type: The alert type.
+            alertCondition: The conditions that determine if the alert triggers.
+            recipients: List of recipients that will recieve the alert.
+            networkTags: Networks with these tags will be monitored for the alert.
+            description: User supplied description of the alert.
 
         """
         kwargs.update(locals())
@@ -901,19 +996,22 @@ class AsyncOrganizations:
 
         return self._session.post(metadata, resource, payload)
 
-    def update_organization_alerts_profile(self, organizationId: str, alertConfigId: str, **kwargs):
+    def update_organization_alerts_profile(
+        self, organizationId: str, alertConfigId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Update an organization-wide alert config.
 
         https://developer.cisco.com/meraki/api-v1/#!update-organization-alerts-profile
 
-        - organizationId (string): Organization ID
-        - alertConfigId (string): Alert config ID
-        - enabled (boolean): Is the alert config enabled
-        - type (string): The alert type
-        - alertCondition (object): The conditions that determine if the alert triggers
-        - recipients (object): List of recipients that will recieve the alert.
-        - networkTags (array): Networks with these tags will be monitored for the alert
-        - description (string): User supplied description of the alert
+        Args:
+            organizationId: Organization ID.
+            alertConfigId: Alert config ID.
+            enabled: Is the alert config enabled.
+            type: The alert type.
+            alertCondition: The conditions that determine if the alert triggers.
+            recipients: List of recipients that will recieve the alert.
+            networkTags: Networks with these tags will be monitored for the alert.
+            description: User supplied description of the alert.
 
         """
         kwargs.update(locals())
@@ -953,13 +1051,14 @@ class AsyncOrganizations:
 
         return self._session.put(metadata, resource, payload)
 
-    def delete_organization_alerts_profile(self, organizationId: str, alertConfigId: str):
+    def delete_organization_alerts_profile(self, organizationId: str, alertConfigId: str) -> None:
         """Removes an organization-wide alert config.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-alerts-profile
 
-        - organizationId (string): Organization ID
-        - alertConfigId (string): Alert config ID
+        Args:
+            organizationId: Organization ID.
+            alertConfigId: Alert config ID.
 
         """
         metadata = {
@@ -973,29 +1072,42 @@ class AsyncOrganizations:
         return self._session.delete(metadata, resource)
 
     def get_organization_api_requests(
-        self, organizationId: str, total_pages=1, direction="next", **kwargs
-    ):
+        self, organizationId: str, total_pages=1, direction="next", **kwargs: Any
+    ) -> Generator[Any, None, None]:
         """List the API requests made by an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-api-requests
 
-        - organizationId (string): Organization ID
-        - total_pages (integer or string): use with perPage to get total results up to total_pages*perPage; -1 or "all" for all pages
-        - direction (string): direction to paginate, either "next" (default) or "prev" page
-        - t0 (string): The beginning of the timespan for the data. The maximum lookback period is 31 days from today.
-        - t1 (string): The end of the timespan for the data. t1 can be a maximum of 31 days after t0.
-        - timespan (number): The timespan for which the information will be fetched. If specifying timespan, do not specify parameters t0 and t1. The value must be in seconds and be less than or equal to 31 days. The default is 31 days.
-        - perPage (integer): The number of entries per page returned. Acceptable range is 3 - 1000. Default is 50.
-        - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - adminId (string): Filter the results by the ID of the admin who made the API requests
-        - path (string): Filter the results by the path of the API requests
-        - method (string): Filter the results by the method of the API requests (must be 'GET', 'PUT', 'POST' or 'DELETE')
-        - responseCode (integer): Filter the results by the response code of the API requests
-        - sourceIp (string): Filter the results by the IP address of the originating API request
-        - userAgent (string): Filter the results by the user agent string of the API request
-        - version (integer): Filter the results by the API version of the API request
-        - operationIds (array): Filter the results by one or more operation IDs for the API request
+        Args:
+            organizationId: Organization ID.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+            t0: The beginning of the timespan for the data. The maximum lookback period is 31 days
+              from today.
+            t1: The end of the timespan for the data. t1 can be a maximum of 31 days after t0.
+            timespan: The timespan for which the information will be fetched. If specifying
+              timespan, do not specify parameters t0 and t1. The value must be in
+              seconds and be less than or equal to 31 days. The default is 31 days.
+            perPage: The number of entries per page returned. Acceptable range is 3 - 1000. Default
+              is 50.
+            startingAfter: A token used by the server to indicate the start of the page. Often this
+              is a timestamp or an ID but it is not limited to those. This parameter
+              should not be defined by client applications. The link for the first,
+              last, prev, or next page in the HTTP Link header should define it.
+            endingBefore: A token used by the server to indicate the end of the page. Often this is
+              a timestamp or an ID but it is not limited to those. This parameter should
+              not be defined by client applications. The link for the first, last, prev,
+              or next page in the HTTP Link header should define it.
+            adminId: Filter the results by the ID of the admin who made the API requests.
+            path: Filter the results by the path of the API requests.
+            method: Filter the results by the method of the API requests (must be 'GET', 'PUT',
+              'POST' or 'DELETE').
+            responseCode: Filter the results by the response code of the API requests.
+            sourceIp: Filter the results by the IP address of the originating API request.
+            userAgent: Filter the results by the user agent string of the API request.
+            version: Filter the results by the API version of the API request.
+            operationIds: Filter the results by one or more operation IDs for the API request.
 
         """
         kwargs.update(locals())
@@ -1046,15 +1158,21 @@ class AsyncOrganizations:
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
-    def get_organization_api_requests_overview(self, organizationId: str, **kwargs):
+    def get_organization_api_requests_overview(
+        self, organizationId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Return an aggregated overview of API requests data.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-api-requests-overview
 
-        - organizationId (string): Organization ID
-        - t0 (string): The beginning of the timespan for the data. The maximum lookback period is 31 days from today.
-        - t1 (string): The end of the timespan for the data. t1 can be a maximum of 31 days after t0.
-        - timespan (number): The timespan for which the information will be fetched. If specifying timespan, do not specify parameters t0 and t1. The value must be in seconds and be less than or equal to 31 days. The default is 31 days.
+        Args:
+            organizationId: Organization ID.
+            t0: The beginning of the timespan for the data. The maximum lookback period is 31 days
+              from today.
+            t1: The end of the timespan for the data. t1 can be a maximum of 31 days after t0.
+            timespan: The timespan for which the information will be fetched. If specifying
+              timespan, do not specify parameters t0 and t1. The value must be in
+              seconds and be less than or equal to 31 days. The default is 31 days.
 
         """
         kwargs.update(locals())
@@ -1076,22 +1194,30 @@ class AsyncOrganizations:
         return self._session.get(metadata, resource, params)
 
     def get_organization_api_requests_overview_response_codes_by_interval(
-        self, organizationId: str, **kwargs
-    ):
+        self, organizationId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Tracks organizations' API requests by response code across a given time period.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-api-requests-overview-response-codes-by-interval
 
-        - organizationId (string): Organization ID
-        - t0 (string): The beginning of the timespan for the data. The maximum lookback period is 31 days from today.
-        - t1 (string): The end of the timespan for the data. t1 can be a maximum of 31 days after t0.
-        - timespan (number): The timespan for which the information will be fetched. If specifying timespan, do not specify parameters t0 and t1. The value must be in seconds and be less than or equal to 31 days. The default is 31 days. If interval is provided, the timespan will be autocalculated.
-        - interval (integer): The time interval in seconds for returned data. The valid intervals are: 120, 3600, 14400, 21600. The default is 21600. Interval is calculated if time params are provided.
-        - version (integer): Filter by API version of the endpoint. Allowable values are: [0, 1]
-        - operationIds (array): Filter by operation ID of the endpoint
-        - sourceIps (array): Filter by source IP that made the API request
-        - adminIds (array): Filter by admin ID of user that made the API request
-        - userAgent (string): Filter by user agent string for API request. This will filter by a complete or partial match.
+        Args:
+            organizationId: Organization ID.
+            t0: The beginning of the timespan for the data. The maximum lookback period is 31 days
+              from today.
+            t1: The end of the timespan for the data. t1 can be a maximum of 31 days after t0.
+            timespan: The timespan for which the information will be fetched. If specifying
+              timespan, do not specify parameters t0 and t1. The value must be in
+              seconds and be less than or equal to 31 days. The default is 31 days. If
+              interval is provided, the timespan will be autocalculated.
+            interval: The time interval in seconds for returned data. The valid intervals are: 120,
+              3600, 14400, 21600. The default is 21600. Interval is calculated if time
+              params are provided.
+            version: Filter by API version of the endpoint. Allowable values are: [0, 1].
+            operationIds: Filter by operation ID of the endpoint.
+            sourceIps: Filter by source IP that made the API request.
+            adminIds: Filter by admin ID of user that made the API request.
+            userAgent: Filter by user agent string for API request. This will filter by a complete
+              or partial match.
 
         """
         kwargs.update(locals())
@@ -1142,33 +1268,47 @@ class AsyncOrganizations:
         return self._session.get(metadata, resource, params)
 
     def get_organization_assurance_alerts(
-        self, organizationId: str, total_pages=1, direction="next", **kwargs
-    ):
+        self, organizationId: str, total_pages=1, direction="next", **kwargs: Any
+    ) -> Generator[Any, None, None]:
         """Return all health alerts for an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-assurance-alerts
 
-        - organizationId (string): Organization ID
-        - total_pages (integer or string): use with perPage to get total results up to total_pages*perPage; -1 or "all" for all pages
-        - direction (string): direction to paginate, either "next" (default) or "prev" page
-        - perPage (integer): The number of entries per page returned. Acceptable range is 4 - 300. Default is 30.
-        - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - sortOrder (string): Sorted order of entries. Order options are 'ascending' and 'descending'. Default is 'ascending'.
-        - networkId (string): Optional parameter to filter alerts by network ids.
-        - severity (string): Optional parameter to filter by severity type.
-        - types (array): Optional parameter to filter by alert type.
-        - tsStart (string): Optional parameter to filter by starting timestamp
-        - tsEnd (string): Optional parameter to filter by end timestamp
-        - category (string): Optional parameter to filter by category.
-        - sortBy (string): Optional parameter to set column to sort by.
-        - serials (array): Optional parameter to filter by primary device serial
-        - deviceTypes (array): Optional parameter to filter by device types
-        - deviceTags (array): Optional parameter to filter by device tags
-        - active (boolean): Optional parameter to filter by active alerts defaults to true
-        - dismissed (boolean): Optional parameter to filter by dismissed alerts defaults to false
-        - resolved (boolean): Optional parameter to filter by resolved alerts defaults to false
-        - suppressAlertsForOfflineNodes (boolean): When set to true the api will only return connectivity alerts for a given device if that device is in an offline state. This only applies to devices. This is ignored when resolved is true. Example:  If a Switch has a VLan Mismatch and is Unreachable. only the Unreachable alert will be returned. Defaults to false.
+        Args:
+            organizationId: Organization ID.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+            perPage: The number of entries per page returned. Acceptable range is 4 - 300. Default
+              is 30.
+            startingAfter: A token used by the server to indicate the start of the page. Often this
+              is a timestamp or an ID but it is not limited to those. This parameter
+              should not be defined by client applications. The link for the first,
+              last, prev, or next page in the HTTP Link header should define it.
+            endingBefore: A token used by the server to indicate the end of the page. Often this is
+              a timestamp or an ID but it is not limited to those. This parameter should
+              not be defined by client applications. The link for the first, last, prev,
+              or next page in the HTTP Link header should define it.
+            sortOrder: Sorted order of entries. Order options are 'ascending' and 'descending'.
+              Default is 'ascending'.
+            networkId: Optional parameter to filter alerts by network ids.
+            severity: Optional parameter to filter by severity type.
+            types: Optional parameter to filter by alert type.
+            tsStart: Optional parameter to filter by starting timestamp.
+            tsEnd: Optional parameter to filter by end timestamp.
+            category: Optional parameter to filter by category.
+            sortBy: Optional parameter to set column to sort by.
+            serials: Optional parameter to filter by primary device serial.
+            deviceTypes: Optional parameter to filter by device types.
+            deviceTags: Optional parameter to filter by device tags.
+            active: Optional parameter to filter by active alerts defaults to true.
+            dismissed: Optional parameter to filter by dismissed alerts defaults to false.
+            resolved: Optional parameter to filter by resolved alerts defaults to false.
+            suppressAlertsForOfflineNodes: When set to true the api will only return connectivity
+              alerts for a given device if that device is in an offline state. This only
+              applies to devices. This is ignored when resolved is true. Example:  If a
+              Switch has a VLan Mismatch and is Unreachable. only the Unreachable alert
+              will be returned. Defaults to false.
 
         """
         kwargs.update(locals())
@@ -1231,13 +1371,16 @@ class AsyncOrganizations:
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
-    def dismiss_organization_assurance_alerts(self, organizationId: str, alertIds: list):
+    def dismiss_organization_assurance_alerts(
+        self, organizationId: str, alertIds: list
+    ) -> dict[str, Any] | None:
         """Dismiss health alerts.
 
         https://developer.cisco.com/meraki/api-v1/#!dismiss-organization-assurance-alerts
 
-        - organizationId (string): Organization ID
-        - alertIds (array): Array of alert IDs to dismiss
+        Args:
+            organizationId: Organization ID.
+            alertIds: Array of alert IDs to dismiss.
 
         """
         kwargs = locals()
@@ -1256,25 +1399,32 @@ class AsyncOrganizations:
 
         return self._session.post(metadata, resource, payload)
 
-    def get_organization_assurance_alerts_overview(self, organizationId: str, **kwargs):
+    def get_organization_assurance_alerts_overview(
+        self, organizationId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Return overview of active health alerts for an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-assurance-alerts-overview
 
-        - organizationId (string): Organization ID
-        - networkId (string): Optional parameter to filter alerts overview by network ids.
-        - severity (string): Optional parameter to filter alerts overview by severity type.
-        - types (array): Optional parameter to filter by alert type.
-        - tsStart (string): Optional parameter to filter by starting timestamp
-        - tsEnd (string): Optional parameter to filter by end timestamp
-        - category (string): Optional parameter to filter by category.
-        - serials (array): Optional parameter to filter by primary device serial
-        - deviceTypes (array): Optional parameter to filter by device types
-        - deviceTags (array): Optional parameter to filter by device tags
-        - active (boolean): Optional parameter to filter by active alerts defaults to true
-        - dismissed (boolean): Optional parameter to filter by dismissed alerts defaults to false
-        - resolved (boolean): Optional parameter to filter by resolved alerts defaults to false
-        - suppressAlertsForOfflineNodes (boolean): When set to true the api will only return connectivity alerts for a given device if that device is in an offline state. This only applies to devices. This is ignored when resolved is true. Example:  If a Switch has a VLan Mismatch and is Unreachable. only the Unreachable alert will be returned. Defaults to false.
+        Args:
+            organizationId: Organization ID.
+            networkId: Optional parameter to filter alerts overview by network ids.
+            severity: Optional parameter to filter alerts overview by severity type.
+            types: Optional parameter to filter by alert type.
+            tsStart: Optional parameter to filter by starting timestamp.
+            tsEnd: Optional parameter to filter by end timestamp.
+            category: Optional parameter to filter by category.
+            serials: Optional parameter to filter by primary device serial.
+            deviceTypes: Optional parameter to filter by device types.
+            deviceTags: Optional parameter to filter by device tags.
+            active: Optional parameter to filter by active alerts defaults to true.
+            dismissed: Optional parameter to filter by dismissed alerts defaults to false.
+            resolved: Optional parameter to filter by resolved alerts defaults to false.
+            suppressAlertsForOfflineNodes: When set to true the api will only return connectivity
+              alerts for a given device if that device is in an offline state. This only
+              applies to devices. This is ignored when resolved is true. Example:  If a
+              Switch has a VLan Mismatch and is Unreachable. only the Unreachable alert
+              will be returned. Defaults to false.
 
         """
         kwargs.update(locals())
@@ -1323,32 +1473,46 @@ class AsyncOrganizations:
         return self._session.get(metadata, resource, params)
 
     def get_organization_assurance_alerts_overview_by_network(
-        self, organizationId: str, total_pages=1, direction="next", **kwargs
-    ):
+        self, organizationId: str, total_pages=1, direction="next", **kwargs: Any
+    ) -> Generator[Any, None, None]:
         """Return a Summary of Alerts grouped by network and severity.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-assurance-alerts-overview-by-network
 
-        - organizationId (string): Organization ID
-        - total_pages (integer or string): use with perPage to get total results up to total_pages*perPage; -1 or "all" for all pages
-        - direction (string): direction to paginate, either "next" (default) or "prev" page
-        - perPage (integer): The number of entries per page returned. Acceptable range is 3 - 1000. Default is 1000.
-        - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - sortOrder (string): Sorted order of entries. Order options are 'ascending' and 'descending'. Default is 'ascending'.
-        - networkId (string): Optional parameter to filter alerts overview by network id.
-        - severity (string): Optional parameter to filter alerts overview by severity type.
-        - types (array): Optional parameter to filter by alert type.
-        - tsStart (string): Optional parameter to filter by starting timestamp
-        - tsEnd (string): Optional parameter to filter by end timestamp
-        - category (string): Optional parameter to filter by category.
-        - serials (array): Optional parameter to filter by primary device serial
-        - deviceTypes (array): Optional parameter to filter by device types
-        - deviceTags (array): Optional parameter to filter by device tags
-        - active (boolean): Optional parameter to filter by active alerts defaults to true
-        - dismissed (boolean): Optional parameter to filter by dismissed alerts defaults to false
-        - resolved (boolean): Optional parameter to filter by resolved alerts defaults to false
-        - suppressAlertsForOfflineNodes (boolean): When set to true the api will only return connectivity alerts for a given device if that device is in an offline state. This only applies to devices. This is ignored when resolved is true. Example:  If a Switch has a VLan Mismatch and is Unreachable. only the Unreachable alert will be returned. Defaults to false.
+        Args:
+            organizationId: Organization ID.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+            perPage: The number of entries per page returned. Acceptable range is 3 - 1000. Default
+              is 1000.
+            startingAfter: A token used by the server to indicate the start of the page. Often this
+              is a timestamp or an ID but it is not limited to those. This parameter
+              should not be defined by client applications. The link for the first,
+              last, prev, or next page in the HTTP Link header should define it.
+            endingBefore: A token used by the server to indicate the end of the page. Often this is
+              a timestamp or an ID but it is not limited to those. This parameter should
+              not be defined by client applications. The link for the first, last, prev,
+              or next page in the HTTP Link header should define it.
+            sortOrder: Sorted order of entries. Order options are 'ascending' and 'descending'.
+              Default is 'ascending'.
+            networkId: Optional parameter to filter alerts overview by network id.
+            severity: Optional parameter to filter alerts overview by severity type.
+            types: Optional parameter to filter by alert type.
+            tsStart: Optional parameter to filter by starting timestamp.
+            tsEnd: Optional parameter to filter by end timestamp.
+            category: Optional parameter to filter by category.
+            serials: Optional parameter to filter by primary device serial.
+            deviceTypes: Optional parameter to filter by device types.
+            deviceTags: Optional parameter to filter by device tags.
+            active: Optional parameter to filter by active alerts defaults to true.
+            dismissed: Optional parameter to filter by dismissed alerts defaults to false.
+            resolved: Optional parameter to filter by resolved alerts defaults to false.
+            suppressAlertsForOfflineNodes: When set to true the api will only return connectivity
+              alerts for a given device if that device is in an offline state. This only
+              applies to devices. This is ignored when resolved is true. Example:  If a
+              Switch has a VLan Mismatch and is Unreachable. only the Unreachable alert
+              will be returned. Defaults to false.
 
         """
         kwargs.update(locals())
@@ -1406,33 +1570,47 @@ class AsyncOrganizations:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def get_organization_assurance_alerts_overview_by_type(
-        self, organizationId: str, total_pages=1, direction="next", **kwargs
-    ):
+        self, organizationId: str, total_pages=1, direction="next", **kwargs: Any
+    ) -> Generator[Any, None, None]:
         """Return a Summary of Alerts grouped by type and severity.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-assurance-alerts-overview-by-type
 
-        - organizationId (string): Organization ID
-        - total_pages (integer or string): use with perPage to get total results up to total_pages*perPage; -1 or "all" for all pages
-        - direction (string): direction to paginate, either "next" (default) or "prev" page
-        - perPage (integer): The number of entries per page returned. Acceptable range is 3 - 1000. Default is 1000.
-        - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - sortOrder (string): Sorted order of entries. Order options are 'ascending' and 'descending'. Default is 'ascending'.
-        - networkId (string): Optional parameter to filter alerts overview by network ids.
-        - severity (string): Optional parameter to filter alerts overview by severity type.
-        - types (array): Optional parameter to filter by alert type.
-        - tsStart (string): Optional parameter to filter by starting timestamp
-        - tsEnd (string): Optional parameter to filter by end timestamp
-        - category (string): Optional parameter to filter by category.
-        - sortBy (string): Optional parameter to set column to sort by.
-        - serials (array): Optional parameter to filter by primary device serial
-        - deviceTypes (array): Optional parameter to filter by device types
-        - deviceTags (array): Optional parameter to filter by device tags
-        - active (boolean): Optional parameter to filter by active alerts defaults to true
-        - dismissed (boolean): Optional parameter to filter by dismissed alerts defaults to false
-        - resolved (boolean): Optional parameter to filter by resolved alerts defaults to false
-        - suppressAlertsForOfflineNodes (boolean): When set to true the api will only return connectivity alerts for a given device if that device is in an offline state. This only applies to devices. This is ignored when resolved is true. Example:  If a Switch has a VLan Mismatch and is Unreachable. only the Unreachable alert will be returned. Defaults to false.
+        Args:
+            organizationId: Organization ID.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+            perPage: The number of entries per page returned. Acceptable range is 3 - 1000. Default
+              is 1000.
+            startingAfter: A token used by the server to indicate the start of the page. Often this
+              is a timestamp or an ID but it is not limited to those. This parameter
+              should not be defined by client applications. The link for the first,
+              last, prev, or next page in the HTTP Link header should define it.
+            endingBefore: A token used by the server to indicate the end of the page. Often this is
+              a timestamp or an ID but it is not limited to those. This parameter should
+              not be defined by client applications. The link for the first, last, prev,
+              or next page in the HTTP Link header should define it.
+            sortOrder: Sorted order of entries. Order options are 'ascending' and 'descending'.
+              Default is 'ascending'.
+            networkId: Optional parameter to filter alerts overview by network ids.
+            severity: Optional parameter to filter alerts overview by severity type.
+            types: Optional parameter to filter by alert type.
+            tsStart: Optional parameter to filter by starting timestamp.
+            tsEnd: Optional parameter to filter by end timestamp.
+            category: Optional parameter to filter by category.
+            sortBy: Optional parameter to set column to sort by.
+            serials: Optional parameter to filter by primary device serial.
+            deviceTypes: Optional parameter to filter by device types.
+            deviceTags: Optional parameter to filter by device tags.
+            active: Optional parameter to filter by active alerts defaults to true.
+            dismissed: Optional parameter to filter by dismissed alerts defaults to false.
+            resolved: Optional parameter to filter by resolved alerts defaults to false.
+            suppressAlertsForOfflineNodes: When set to true the api will only return connectivity
+              alerts for a given device if that device is in an offline state. This only
+              applies to devices. This is ignored when resolved is true. Example:  If a
+              Switch has a VLan Mismatch and is Unreachable. only the Unreachable alert
+              will be returned. Defaults to false.
 
         """
         kwargs.update(locals())
@@ -1496,22 +1674,23 @@ class AsyncOrganizations:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def get_organization_assurance_alerts_overview_historical(
-        self, organizationId: str, segmentDuration: int, tsStart: str, **kwargs
-    ):
+        self, organizationId: str, segmentDuration: int, tsStart: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Returns historical health alert overviews.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-assurance-alerts-overview-historical
 
-        - organizationId (string): Organization ID
-        - segmentDuration (integer): Amount of time in seconds for each segment in the returned dataset
-        - tsStart (string): Parameter to define starting timestamp of historical totals
-        - networkId (string): Optional parameter to filter alerts overview by network ids.
-        - severity (string): Optional parameter to filter alerts overview by severity type.
-        - types (array): Optional parameter to filter by alert type.
-        - tsEnd (string): Optional parameter to filter by end timestamp defaults to the current time
-        - category (string): Optional parameter to filter by category.
-        - serials (array): Optional parameter to filter by primary device serial
-        - deviceTypes (array): Optional parameter to filter by device types
+        Args:
+            organizationId: Organization ID.
+            segmentDuration: Amount of time in seconds for each segment in the returned dataset.
+            tsStart: Parameter to define starting timestamp of historical totals.
+            networkId: Optional parameter to filter alerts overview by network ids.
+            severity: Optional parameter to filter alerts overview by severity type.
+            types: Optional parameter to filter by alert type.
+            tsEnd: Optional parameter to filter by end timestamp defaults to the current time.
+            category: Optional parameter to filter by category.
+            serials: Optional parameter to filter by primary device serial.
+            deviceTypes: Optional parameter to filter by device types.
 
         """
         kwargs.update(locals())
@@ -1554,13 +1733,16 @@ class AsyncOrganizations:
 
         return self._session.get(metadata, resource, params)
 
-    def restore_organization_assurance_alerts(self, organizationId: str, alertIds: list):
+    def restore_organization_assurance_alerts(
+        self, organizationId: str, alertIds: list
+    ) -> dict[str, Any] | None:
         """Restore health alerts from dismissed.
 
         https://developer.cisco.com/meraki/api-v1/#!restore-organization-assurance-alerts
 
-        - organizationId (string): Organization ID
-        - alertIds (array): Array of alert IDs to restore
+        Args:
+            organizationId: Organization ID.
+            alertIds: Array of alert IDs to restore.
 
         """
         kwargs = locals()
@@ -1579,12 +1761,15 @@ class AsyncOrganizations:
 
         return self._session.post(metadata, resource, payload)
 
-    def get_organization_assurance_alerts_taxonomy_categories(self, organizationId: str):
+    def get_organization_assurance_alerts_taxonomy_categories(
+        self, organizationId: str
+    ) -> dict[str, Any] | None:
         """Return a list of Category Types.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-assurance-alerts-taxonomy-categories
 
-        - organizationId (string): Organization ID
+        Args:
+            organizationId: Organization ID.
 
         """
         metadata = {
@@ -1596,12 +1781,15 @@ class AsyncOrganizations:
 
         return self._session.get(metadata, resource)
 
-    def get_organization_assurance_alerts_taxonomy_types(self, organizationId: str):
+    def get_organization_assurance_alerts_taxonomy_types(
+        self, organizationId: str
+    ) -> dict[str, Any] | None:
         """Return a list of alert types.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-assurance-alerts-taxonomy-types
 
-        - organizationId (string): Organization ID
+        Args:
+            organizationId: Organization ID.
 
         """
         metadata = {
@@ -1613,13 +1801,16 @@ class AsyncOrganizations:
 
         return self._session.get(metadata, resource)
 
-    def get_organization_assurance_alert(self, organizationId: str, id: str):
+    def get_organization_assurance_alert(
+        self, organizationId: str, id: str
+    ) -> dict[str, Any] | None:
         """Return a singular Health Alert by its id.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-assurance-alert
 
-        - organizationId (string): Organization ID
-        - id (string): ID
+        Args:
+            organizationId: Organization ID.
+            id: ID.
 
         """
         metadata = {
@@ -1632,12 +1823,13 @@ class AsyncOrganizations:
 
         return self._session.get(metadata, resource)
 
-    def get_organization_branding_policies(self, organizationId: str):
+    def get_organization_branding_policies(self, organizationId: str) -> dict[str, Any] | None:
         """List the branding policies of an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-branding-policies
 
-        - organizationId (string): Organization ID
+        Args:
+            organizationId: Organization ID.
 
         """
         metadata = {
@@ -1649,21 +1841,27 @@ class AsyncOrganizations:
 
         return self._session.get(metadata, resource)
 
-    def create_organization_branding_policy(self, organizationId: str, name: str, **kwargs):
+    def create_organization_branding_policy(
+        self, organizationId: str, name: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Add a new branding policy to an organization.
 
-               https://developer.cisco.com/meraki/api-v1/#!create-organization-branding-policy
+        https://developer.cisco.com/meraki/api-v1/#!create-organization-branding-policy
 
-               - organizationId (string): Organization ID
-               - name (string): Name of the Dashboard branding policy.
-               - enabled (boolean): Boolean indicating whether this policy is enabled.
-               - adminSettings (object): Settings for describing which kinds of admins this policy applies to.
-               - helpSettings (object):       Settings for describing the modifications to various Help page features. Each property in this object accepts one of
-             'default or inherit' (do not modify functionality), 'hide' (remove the section from Dashboard), or 'show' (always show
-             the section on Dashboard). Some properties in this object also accept custom HTML used to replace the section on
-             Dashboard; see the documentation for each property to see the allowed values.
-        Each property defaults to 'default or inherit' when not provided.
-               - customLogo (object): Properties describing the custom logo attached to the branding policy.
+        Args:
+            organizationId: Organization ID.
+            name: Name of the Dashboard branding policy.
+            enabled: Boolean indicating whether this policy is enabled.
+            adminSettings: Settings for describing which kinds of admins this policy applies to.
+            helpSettings:       Settings for describing the modifications to various Help page
+              features. Each property in this object accepts one of       'default or
+              inherit' (do not modify functionality), 'hide' (remove the section from
+              Dashboard), or 'show' (always show       the section on Dashboard). Some
+              properties in this object also accept custom HTML used to replace the
+              section on       Dashboard; see the documentation for each property to see
+              the allowed values.  Each property defaults to 'default or inherit' when
+              not provided.
+            customLogo: Properties describing the custom logo attached to the branding policy.
 
         """
         kwargs.update(locals())
@@ -1686,12 +1884,15 @@ class AsyncOrganizations:
 
         return self._session.post(metadata, resource, payload)
 
-    def get_organization_branding_policies_priorities(self, organizationId: str):
+    def get_organization_branding_policies_priorities(
+        self, organizationId: str
+    ) -> dict[str, Any] | None:
         """Return the branding policy IDs of an organization in priority order.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-branding-policies-priorities
 
-        - organizationId (string): Organization ID
+        Args:
+            organizationId: Organization ID.
 
         """
         metadata = {
@@ -1703,14 +1904,17 @@ class AsyncOrganizations:
 
         return self._session.get(metadata, resource)
 
-    def update_organization_branding_policies_priorities(self, organizationId: str, **kwargs):
+    def update_organization_branding_policies_priorities(
+        self, organizationId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Update the priority ordering of an organization's branding policies.
 
         https://developer.cisco.com/meraki/api-v1/#!update-organization-branding-policies-priorities
 
-        - organizationId (string): Organization ID
-        - brandingPolicyIds (array):       An ordered list of branding policy IDs that determines the priority order of how to apply the policies
-
+        Args:
+            organizationId: Organization ID.
+            brandingPolicyIds:       An ordered list of branding policy IDs that determines the
+              priority order of how to apply the policies .
 
         """
         kwargs.update(locals())
@@ -1729,13 +1933,16 @@ class AsyncOrganizations:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_organization_branding_policy(self, organizationId: str, brandingPolicyId: str):
+    def get_organization_branding_policy(
+        self, organizationId: str, brandingPolicyId: str
+    ) -> dict[str, Any] | None:
         """Return a branding policy.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-branding-policy
 
-        - organizationId (string): Organization ID
-        - brandingPolicyId (string): Branding policy ID
+        Args:
+            organizationId: Organization ID.
+            brandingPolicyId: Branding policy ID.
 
         """
         metadata = {
@@ -1749,23 +1956,26 @@ class AsyncOrganizations:
         return self._session.get(metadata, resource)
 
     def update_organization_branding_policy(
-        self, organizationId: str, brandingPolicyId: str, name: str, **kwargs
-    ):
+        self, organizationId: str, brandingPolicyId: str, name: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Update a branding policy.
 
-          https://developer.cisco.com/meraki/api-v1/#!update-organization-branding-policy
+        https://developer.cisco.com/meraki/api-v1/#!update-organization-branding-policy
 
-          - organizationId (string): Organization ID
-          - brandingPolicyId (string): Branding policy ID
-          - name (string): Name of the Dashboard branding policy.
-          - enabled (boolean): Boolean indicating whether this policy is enabled.
-          - adminSettings (object): Settings for describing which kinds of admins this policy applies to.
-          - helpSettings (object):       Settings for describing the modifications to various Help page features. Each property in this object accepts one of
-        'default or inherit' (do not modify functionality), 'hide' (remove the section from Dashboard), or 'show' (always show
-        the section on Dashboard). Some properties in this object also accept custom HTML used to replace the section on
-        Dashboard; see the documentation for each property to see the allowed values.
-
-          - customLogo (object): Properties describing the custom logo attached to the branding policy.
+        Args:
+            organizationId: Organization ID.
+            brandingPolicyId: Branding policy ID.
+            name: Name of the Dashboard branding policy.
+            enabled: Boolean indicating whether this policy is enabled.
+            adminSettings: Settings for describing which kinds of admins this policy applies to.
+            helpSettings:       Settings for describing the modifications to various Help page
+              features. Each property in this object accepts one of       'default or
+              inherit' (do not modify functionality), 'hide' (remove the section from
+              Dashboard), or 'show' (always show       the section on Dashboard). Some
+              properties in this object also accept custom HTML used to replace the
+              section on       Dashboard; see the documentation for each property to see
+              the allowed values. .
+            customLogo: Properties describing the custom logo attached to the branding policy.
 
         """
         kwargs.update(locals())
@@ -1789,13 +1999,16 @@ class AsyncOrganizations:
 
         return self._session.put(metadata, resource, payload)
 
-    def delete_organization_branding_policy(self, organizationId: str, brandingPolicyId: str):
+    def delete_organization_branding_policy(
+        self, organizationId: str, brandingPolicyId: str
+    ) -> None:
         """Delete a branding policy.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-branding-policy
 
-        - organizationId (string): Organization ID
-        - brandingPolicyId (string): Branding policy ID
+        Args:
+            organizationId: Organization ID.
+            brandingPolicyId: Branding policy ID.
 
         """
         metadata = {
@@ -1808,15 +2021,16 @@ class AsyncOrganizations:
 
         return self._session.delete(metadata, resource)
 
-    def claim_into_organization(self, organizationId: str, **kwargs):
+    def claim_into_organization(self, organizationId: str, **kwargs: Any) -> dict[str, Any] | None:
         """Claim a list of devices, licenses, and/or orders into an organization inventory.
 
         https://developer.cisco.com/meraki/api-v1/#!claim-into-organization
 
-        - organizationId (string): Organization ID
-        - orders (array): The numbers of the orders that should be claimed
-        - serials (array): The serials of the devices that should be claimed
-        - licenses (array): The licenses that should be claimed
+        Args:
+            organizationId: Organization ID.
+            orders: The numbers of the orders that should be claimed.
+            serials: The serials of the devices that should be claimed.
+            licenses: The licenses that should be claimed.
 
         """
         kwargs.update(locals())
@@ -1834,19 +2048,24 @@ class AsyncOrganizations:
 
         return self._session.post(metadata, resource, payload)
 
-    def get_organization_clients_bandwidth_usage_history(self, organizationId: str, **kwargs):
+    def get_organization_clients_bandwidth_usage_history(
+        self, organizationId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Return data usage (in megabits per second) over time for all clients in the given organization within a given time range.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-clients-bandwidth-usage-history
 
-        - organizationId (string): Organization ID
-        - networkTag (string): Match result to an exact network tag
-        - deviceTag (string): Match result to an exact device tag
-        - ssidName (string): Filter results by ssid name
-        - usageUplink (string): Filter results by usage uplink
-        - t0 (string): The beginning of the timespan for the data.
-        - t1 (string): The end of the timespan for the data. t1 can be a maximum of 186 days after t0.
-        - timespan (number): The timespan for which the information will be fetched. If specifying timespan, do not specify parameters t0 and t1. The value must be in seconds and be less than or equal to 186 days. The default is 1 day.
+        Args:
+            organizationId: Organization ID.
+            networkTag: Match result to an exact network tag.
+            deviceTag: Match result to an exact device tag.
+            ssidName: Filter results by ssid name.
+            usageUplink: Filter results by usage uplink.
+            t0: The beginning of the timespan for the data.
+            t1: The end of the timespan for the data. t1 can be a maximum of 186 days after t0.
+            timespan: The timespan for which the information will be fetched. If specifying
+              timespan, do not specify parameters t0 and t1. The value must be in
+              seconds and be less than or equal to 186 days. The default is 1 day.
 
         """
         kwargs.update(locals())
@@ -1871,15 +2090,20 @@ class AsyncOrganizations:
 
         return self._session.get(metadata, resource, params)
 
-    def get_organization_clients_overview(self, organizationId: str, **kwargs):
+    def get_organization_clients_overview(
+        self, organizationId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Return summary information around client data usage (in kb) across the given organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-clients-overview
 
-        - organizationId (string): Organization ID
-        - t0 (string): The beginning of the timespan for the data.
-        - t1 (string): The end of the timespan for the data. t1 can be a maximum of 31 days after t0.
-        - timespan (number): The timespan for which the information will be fetched. If specifying timespan, do not specify parameters t0 and t1. The value must be in seconds and be less than or equal to 31 days. The default is 1 day.
+        Args:
+            organizationId: Organization ID.
+            t0: The beginning of the timespan for the data.
+            t1: The end of the timespan for the data. t1 can be a maximum of 31 days after t0.
+            timespan: The timespan for which the information will be fetched. If specifying
+              timespan, do not specify parameters t0 and t1. The value must be in
+              seconds and be less than or equal to 31 days. The default is 1 day.
 
         """
         kwargs.update(locals())
@@ -1901,19 +2125,28 @@ class AsyncOrganizations:
         return self._session.get(metadata, resource, params)
 
     def get_organization_clients_search(
-        self, organizationId: str, mac: str, total_pages=1, direction="next", **kwargs
-    ):
+        self, organizationId: str, mac: str, total_pages=1, direction="next", **kwargs: Any
+    ) -> Generator[Any, None, None]:
         """Return the client details in an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-clients-search
 
-        - organizationId (string): Organization ID
-        - mac (string): The MAC address of the client. Required.
-        - total_pages (integer or string): use with perPage to get total results up to total_pages*perPage; -1 or "all" for all pages
-        - direction (string): direction to paginate, either "next" (default) or "prev" page
-        - perPage (integer): The number of entries per page returned. Acceptable range is 3 - 5. Default is 5.
-        - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
+        Args:
+            organizationId: Organization ID.
+            mac: The MAC address of the client. Required.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+            perPage: The number of entries per page returned. Acceptable range is 3 - 5. Default is
+              5.
+            startingAfter: A token used by the server to indicate the start of the page. Often this
+              is a timestamp or an ID but it is not limited to those. This parameter
+              should not be defined by client applications. The link for the first,
+              last, prev, or next page in the HTTP Link header should define it.
+            endingBefore: A token used by the server to indicate the end of the page. Often this is
+              a timestamp or an ID but it is not limited to those. This parameter should
+              not be defined by client applications. The link for the first, last, prev,
+              or next page in the HTTP Link header should define it.
 
         """
         kwargs.update(locals())
@@ -1935,13 +2168,14 @@ class AsyncOrganizations:
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
-    def clone_organization(self, organizationId: str, name: str):
+    def clone_organization(self, organizationId: str, name: str) -> dict[str, Any] | None:
         """Create a new organization by cloning the addressed organization.
 
         https://developer.cisco.com/meraki/api-v1/#!clone-organization
 
-        - organizationId (string): Organization ID
-        - name (string): The name of the new organization
+        Args:
+            organizationId: Organization ID.
+            name: The name of the new organization.
 
         """
         kwargs = locals()
@@ -1957,12 +2191,13 @@ class AsyncOrganizations:
 
         return self._session.post(metadata, resource, payload)
 
-    def get_organization_config_templates(self, organizationId: str):
+    def get_organization_config_templates(self, organizationId: str) -> dict[str, Any] | None:
         """List the configuration templates for this organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-config-templates
 
-        - organizationId (string): Organization ID
+        Args:
+            organizationId: Organization ID.
 
         """
         metadata = {
@@ -1974,15 +2209,21 @@ class AsyncOrganizations:
 
         return self._session.get(metadata, resource)
 
-    def create_organization_config_template(self, organizationId: str, name: str, **kwargs):
+    def create_organization_config_template(
+        self, organizationId: str, name: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Create a new configuration template.
 
         https://developer.cisco.com/meraki/api-v1/#!create-organization-config-template
 
-        - organizationId (string): Organization ID
-        - name (string): The name of the configuration template
-        - timeZone (string): The timezone of the configuration template. For a list of allowed timezones, please see the 'TZ' column in the table in <a target='_blank' href='https://en.wikipedia.org/wiki/List_of_tz_database_time_zones'>this article</a>. Not applicable if copying from existing network or template
-        - copyFromNetworkId (string): The ID of the network or config template to copy configuration from
+        Args:
+            organizationId: Organization ID.
+            name: The name of the configuration template.
+            timeZone: The timezone of the configuration template. For a list of allowed timezones,
+              please see the 'TZ' column in the table in <a target='_blank'
+              href='https://en.wikipedia.org/wiki/List_of_tz_database_time_zones'>this
+              article</a>. Not applicable if copying from existing network or template.
+            copyFromNetworkId: The ID of the network or config template to copy configuration from.
 
         """
         kwargs.update(locals())
@@ -2003,13 +2244,16 @@ class AsyncOrganizations:
 
         return self._session.post(metadata, resource, payload)
 
-    def get_organization_config_template(self, organizationId: str, configTemplateId: str):
+    def get_organization_config_template(
+        self, organizationId: str, configTemplateId: str
+    ) -> dict[str, Any] | None:
         """Return a single configuration template.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-config-template
 
-        - organizationId (string): Organization ID
-        - configTemplateId (string): Config template ID
+        Args:
+            organizationId: Organization ID.
+            configTemplateId: Config template ID.
 
         """
         metadata = {
@@ -2023,16 +2267,20 @@ class AsyncOrganizations:
         return self._session.get(metadata, resource)
 
     def update_organization_config_template(
-        self, organizationId: str, configTemplateId: str, **kwargs
-    ):
+        self, organizationId: str, configTemplateId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Update a configuration template.
 
         https://developer.cisco.com/meraki/api-v1/#!update-organization-config-template
 
-        - organizationId (string): Organization ID
-        - configTemplateId (string): Config template ID
-        - name (string): The name of the configuration template
-        - timeZone (string): The timezone of the configuration template. For a list of allowed timezones, please see the 'TZ' column in the table in <a target='_blank' href='https://en.wikipedia.org/wiki/List_of_tz_database_time_zones'>this article.</a>
+        Args:
+            organizationId: Organization ID.
+            configTemplateId: Config template ID.
+            name: The name of the configuration template.
+            timeZone: The timezone of the configuration template. For a list of allowed timezones,
+              please see the 'TZ' column in the table in <a target='_blank'
+              href='https://en.wikipedia.org/wiki/List_of_tz_database_time_zones'>this
+              article.</a>.
 
         """
         kwargs.update(locals())
@@ -2053,13 +2301,16 @@ class AsyncOrganizations:
 
         return self._session.put(metadata, resource, payload)
 
-    def delete_organization_config_template(self, organizationId: str, configTemplateId: str):
+    def delete_organization_config_template(
+        self, organizationId: str, configTemplateId: str
+    ) -> None:
         """Remove a configuration template.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-config-template
 
-        - organizationId (string): Organization ID
-        - configTemplateId (string): Config template ID
+        Args:
+            organizationId: Organization ID.
+            configTemplateId: Config template ID.
 
         """
         metadata = {
@@ -2073,23 +2324,35 @@ class AsyncOrganizations:
         return self._session.delete(metadata, resource)
 
     def get_organization_configuration_changes(
-        self, organizationId: str, total_pages=1, direction="prev", **kwargs
-    ):
+        self, organizationId: str, total_pages=1, direction="prev", **kwargs: Any
+    ) -> Generator[Any, None, None]:
         """View the Change Log for your organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-configuration-changes
 
-        - organizationId (string): Organization ID
-        - total_pages (integer or string): use with perPage to get total results up to total_pages*perPage; -1 or "all" for all pages
-        - direction (string): direction to paginate, either "next" or "prev" (default) page
-        - t0 (string): The beginning of the timespan for the data. The maximum lookback period is 365 days from today.
-        - t1 (string): The end of the timespan for the data. t1 can be a maximum of 365 days after t0.
-        - timespan (number): The timespan for which the information will be fetched. If specifying timespan, do not specify parameters t0 and t1. The value must be in seconds and be less than or equal to 365 days. The default is 365 days.
-        - perPage (integer): The number of entries per page returned. Acceptable range is 3 - 5000. Default is 5000.
-        - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - networkId (string): Filters on the given network
-        - adminId (string): Filters on the given Admin
+        Args:
+            organizationId: Organization ID.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" or "prev" (default) page.
+            t0: The beginning of the timespan for the data. The maximum lookback period is 365 days
+              from today.
+            t1: The end of the timespan for the data. t1 can be a maximum of 365 days after t0.
+            timespan: The timespan for which the information will be fetched. If specifying
+              timespan, do not specify parameters t0 and t1. The value must be in
+              seconds and be less than or equal to 365 days. The default is 365 days.
+            perPage: The number of entries per page returned. Acceptable range is 3 - 5000. Default
+              is 5000.
+            startingAfter: A token used by the server to indicate the start of the page. Often this
+              is a timestamp or an ID but it is not limited to those. This parameter
+              should not be defined by client applications. The link for the first,
+              last, prev, or next page in the HTTP Link header should define it.
+            endingBefore: A token used by the server to indicate the end of the page. Often this is
+              a timestamp or an ID but it is not limited to those. This parameter should
+              not be defined by client applications. The link for the first, last, prev,
+              or next page in the HTTP Link header should define it.
+            networkId: Filters on the given network.
+            adminId: Filters on the given Admin.
 
         """
         kwargs.update(locals())
@@ -2116,32 +2379,55 @@ class AsyncOrganizations:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def get_organization_devices(
-        self, organizationId: str, total_pages=1, direction="next", **kwargs
-    ):
+        self, organizationId: str, total_pages=1, direction="next", **kwargs: Any
+    ) -> Generator[Any, None, None]:
         """List the devices in an organization that have been assigned to a network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-devices
 
-        - organizationId (string): Organization ID
-        - total_pages (integer or string): use with perPage to get total results up to total_pages*perPage; -1 or "all" for all pages
-        - direction (string): direction to paginate, either "next" (default) or "prev" page
-        - perPage (integer): The number of entries per page returned. Acceptable range is 3 - 5000. Default is 1000.
-        - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - configurationUpdatedAfter (string): Filter results by whether or not the device's configuration has been updated after the given timestamp
-        - networkIds (array): Optional parameter to filter devices by network.
-        - productTypes (array): Optional parameter to filter devices by product type. Valid types are wireless, appliance, switch, systemsManager, camera, cellularGateway, sensor, wirelessController, campusGateway, and secureConnect.
-        - tags (array): Optional parameter to filter devices by tags.
-        - tagsFilterType (string): Optional parameter of value 'withAnyTags' or 'withAllTags' to indicate whether to return networks which contain ANY or ALL of the included tags. If no type is included, 'withAnyTags' will be selected.
-        - name (string): Optional parameter to filter devices by name. All returned devices will have a name that contains the search term or is an exact match.
-        - mac (string): Optional parameter to filter devices by MAC address. All returned devices will have a MAC address that contains the search term or is an exact match.
-        - serial (string): Optional parameter to filter devices by serial number. All returned devices will have a serial number that contains the search term or is an exact match.
-        - model (string): Optional parameter to filter devices by model. All returned devices will have a model that contains the search term or is an exact match.
-        - macs (array): Optional parameter to filter devices by one or more MAC addresses. All returned devices will have a MAC address that is an exact match.
-        - serials (array): Optional parameter to filter devices by one or more serial numbers. All returned devices will have a serial number that is an exact match.
-        - sensorMetrics (array): Optional parameter to filter devices by the metrics that they provide. Only applies to sensor devices.
-        - sensorAlertProfileIds (array): Optional parameter to filter devices by the alert profiles that are bound to them. Only applies to sensor devices.
-        - models (array): Optional parameter to filter devices by one or more models. All returned devices will have a model that is an exact match.
+        Args:
+            organizationId: Organization ID.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+            perPage: The number of entries per page returned. Acceptable range is 3 - 5000. Default
+              is 1000.
+            startingAfter: A token used by the server to indicate the start of the page. Often this
+              is a timestamp or an ID but it is not limited to those. This parameter
+              should not be defined by client applications. The link for the first,
+              last, prev, or next page in the HTTP Link header should define it.
+            endingBefore: A token used by the server to indicate the end of the page. Often this is
+              a timestamp or an ID but it is not limited to those. This parameter should
+              not be defined by client applications. The link for the first, last, prev,
+              or next page in the HTTP Link header should define it.
+            configurationUpdatedAfter: Filter results by whether or not the device's configuration
+              has been updated after the given timestamp.
+            networkIds: Optional parameter to filter devices by network.
+            productTypes: Optional parameter to filter devices by product type. Valid types are
+              wireless, appliance, switch, systemsManager, camera, cellularGateway,
+              sensor, wirelessController, campusGateway, and secureConnect.
+            tags: Optional parameter to filter devices by tags.
+            tagsFilterType: Optional parameter of value 'withAnyTags' or 'withAllTags' to indicate
+              whether to return networks which contain ANY or ALL of the included tags.
+              If no type is included, 'withAnyTags' will be selected.
+            name: Optional parameter to filter devices by name. All returned devices will have a
+              name that contains the search term or is an exact match.
+            mac: Optional parameter to filter devices by MAC address. All returned devices will have
+              a MAC address that contains the search term or is an exact match.
+            serial: Optional parameter to filter devices by serial number. All returned devices will
+              have a serial number that contains the search term or is an exact match.
+            model: Optional parameter to filter devices by model. All returned devices will have a
+              model that contains the search term or is an exact match.
+            macs: Optional parameter to filter devices by one or more MAC addresses. All returned
+              devices will have a MAC address that is an exact match.
+            serials: Optional parameter to filter devices by one or more serial numbers. All
+              returned devices will have a serial number that is an exact match.
+            sensorMetrics: Optional parameter to filter devices by the metrics that they provide.
+              Only applies to sensor devices.
+            sensorAlertProfileIds: Optional parameter to filter devices by the alert profiles that
+              are bound to them. Only applies to sensor devices.
+            models: Optional parameter to filter devices by one or more models. All returned devices
+              will have a model that is an exact match.
 
         """
         kwargs.update(locals())
@@ -2198,24 +2484,43 @@ class AsyncOrganizations:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def get_organization_devices_availabilities(
-        self, organizationId: str, total_pages=1, direction="next", **kwargs
-    ):
+        self, organizationId: str, total_pages=1, direction="next", **kwargs: Any
+    ) -> Generator[Any, None, None]:
         """List the availability information for devices in an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-devices-availabilities
 
-        - organizationId (string): Organization ID
-        - total_pages (integer or string): use with perPage to get total results up to total_pages*perPage; -1 or "all" for all pages
-        - direction (string): direction to paginate, either "next" (default) or "prev" page
-        - perPage (integer): The number of entries per page returned. Acceptable range is 3 - 1000. Default is 1000.
-        - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - networkIds (array): Optional parameter to filter device availabilities by network ID. This filter uses multiple exact matches.
-        - productTypes (array): Optional parameter to filter device availabilities by device product types. This filter uses multiple exact matches. Valid types are wireless, appliance, switch, camera, cellularGateway, sensor, wirelessController, and campusGateway
-        - serials (array): Optional parameter to filter device availabilities by device serial numbers. This filter uses multiple exact matches.
-        - tags (array): An optional parameter to filter devices by tags. The filtering is case-sensitive. If tags are included, 'tagsFilterType' should also be included (see below). This filter uses multiple exact matches.
-        - tagsFilterType (string): An optional parameter of value 'withAnyTags' or 'withAllTags' to indicate whether to return devices which contain ANY or ALL of the included tags. If no type is included, 'withAnyTags' will be selected.
-        - statuses (array): Optional parameter to filter device availabilities by device status. This filter uses multiple exact matches.
+        Args:
+            organizationId: Organization ID.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+            perPage: The number of entries per page returned. Acceptable range is 3 - 1000. Default
+              is 1000.
+            startingAfter: A token used by the server to indicate the start of the page. Often this
+              is a timestamp or an ID but it is not limited to those. This parameter
+              should not be defined by client applications. The link for the first,
+              last, prev, or next page in the HTTP Link header should define it.
+            endingBefore: A token used by the server to indicate the end of the page. Often this is
+              a timestamp or an ID but it is not limited to those. This parameter should
+              not be defined by client applications. The link for the first, last, prev,
+              or next page in the HTTP Link header should define it.
+            networkIds: Optional parameter to filter device availabilities by network ID. This
+              filter uses multiple exact matches.
+            productTypes: Optional parameter to filter device availabilities by device product
+              types. This filter uses multiple exact matches. Valid types are wireless,
+              appliance, switch, camera, cellularGateway, sensor, wirelessController,
+              and campusGateway.
+            serials: Optional parameter to filter device availabilities by device serial numbers.
+              This filter uses multiple exact matches.
+            tags: An optional parameter to filter devices by tags. The filtering is case-sensitive.
+              If tags are included, 'tagsFilterType' should also be included (see
+              below). This filter uses multiple exact matches.
+            tagsFilterType: An optional parameter of value 'withAnyTags' or 'withAllTags' to
+              indicate whether to return devices which contain ANY or ALL of the
+              included tags. If no type is included, 'withAnyTags' will be selected.
+            statuses: Optional parameter to filter device availabilities by device status. This
+              filter uses multiple exact matches.
 
         """
         kwargs.update(locals())
@@ -2261,25 +2566,39 @@ class AsyncOrganizations:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def get_organization_devices_availabilities_change_history(
-        self, organizationId: str, total_pages=1, direction="next", **kwargs
-    ):
+        self, organizationId: str, total_pages=1, direction="next", **kwargs: Any
+    ) -> Generator[Any, None, None]:
         """List the availability history information for devices in an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-devices-availabilities-change-history
 
-        - organizationId (string): Organization ID
-        - total_pages (integer or string): use with perPage to get total results up to total_pages*perPage; -1 or "all" for all pages
-        - direction (string): direction to paginate, either "next" (default) or "prev" page
-        - perPage (integer): The number of entries per page returned. Acceptable range is 3 - 1000. Default is 1000.
-        - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - t0 (string): The beginning of the timespan for the data. The maximum lookback period is 31 days from today.
-        - t1 (string): The end of the timespan for the data. t1 can be a maximum of 31 days after t0.
-        - timespan (number): The timespan for which the information will be fetched. If specifying timespan, do not specify parameters t0 and t1. The value must be in seconds and be less than or equal to 31 days. The default is 1 day.
-        - serials (array): Optional parameter to filter device availabilities history by device serial numbers
-        - productTypes (array): Optional parameter to filter device availabilities history by device product types
-        - networkIds (array): Optional parameter to filter device availabilities history by network IDs
-        - statuses (array): Optional parameter to filter device availabilities history by device statuses
+        Args:
+            organizationId: Organization ID.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+            perPage: The number of entries per page returned. Acceptable range is 3 - 1000. Default
+              is 1000.
+            startingAfter: A token used by the server to indicate the start of the page. Often this
+              is a timestamp or an ID but it is not limited to those. This parameter
+              should not be defined by client applications. The link for the first,
+              last, prev, or next page in the HTTP Link header should define it.
+            endingBefore: A token used by the server to indicate the end of the page. Often this is
+              a timestamp or an ID but it is not limited to those. This parameter should
+              not be defined by client applications. The link for the first, last, prev,
+              or next page in the HTTP Link header should define it.
+            t0: The beginning of the timespan for the data. The maximum lookback period is 31 days
+              from today.
+            t1: The end of the timespan for the data. t1 can be a maximum of 31 days after t0.
+            timespan: The timespan for which the information will be fetched. If specifying
+              timespan, do not specify parameters t0 and t1. The value must be in
+              seconds and be less than or equal to 31 days. The default is 1 day.
+            serials: Optional parameter to filter device availabilities history by device serial
+              numbers.
+            productTypes: Optional parameter to filter device availabilities history by device
+              product types.
+            networkIds: Optional parameter to filter device availabilities history by network IDs.
+            statuses: Optional parameter to filter device availabilities history by device statuses.
 
         """
         kwargs.update(locals())
@@ -2320,14 +2639,15 @@ class AsyncOrganizations:
 
     def create_organization_devices_controller_migration(
         self, organizationId: str, serials: list, target: str
-    ):
+    ) -> dict[str, Any] | None:
         """Migrate devices to another controller or management mode.
 
         https://developer.cisco.com/meraki/api-v1/#!create-organization-devices-controller-migration
 
-        - organizationId (string): Organization ID
-        - serials (array): A list of Meraki Serials to migrate
-        - target (string): The controller or management mode to which the devices will be migrated
+        Args:
+            organizationId: Organization ID.
+            serials: A list of Meraki Serials to migrate.
+            target: The controller or management mode to which the devices will be migrated.
 
         """
         kwargs = locals()
@@ -2354,21 +2674,30 @@ class AsyncOrganizations:
         return self._session.post(metadata, resource, payload)
 
     def get_organization_devices_controller_migrations(
-        self, organizationId: str, total_pages=1, direction="next", **kwargs
-    ):
+        self, organizationId: str, total_pages=1, direction="next", **kwargs: Any
+    ) -> Generator[Any, None, None]:
         """Retrieve device migration statuses in an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-devices-controller-migrations
 
-        - organizationId (string): Organization ID
-        - total_pages (integer or string): use with perPage to get total results up to total_pages*perPage; -1 or "all" for all pages
-        - direction (string): direction to paginate, either "next" (default) or "prev" page
-        - serials (array): A list of Meraki Serials for which to retrieve migrations
-        - networkIds (array): Filter device migrations by network IDs
-        - target (string): Filter device migrations by target destination
-        - perPage (integer): The number of entries per page returned. Acceptable range is 3 - 1000. Default is 100.
-        - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
+        Args:
+            organizationId: Organization ID.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+            serials: A list of Meraki Serials for which to retrieve migrations.
+            networkIds: Filter device migrations by network IDs.
+            target: Filter device migrations by target destination.
+            perPage: The number of entries per page returned. Acceptable range is 3 - 1000. Default
+              is 100.
+            startingAfter: A token used by the server to indicate the start of the page. Often this
+              is a timestamp or an ID but it is not limited to those. This parameter
+              should not be defined by client applications. The link for the first,
+              last, prev, or next page in the HTTP Link header should define it.
+            endingBefore: A token used by the server to indicate the end of the page. Often this is
+              a timestamp or an ID but it is not limited to those. This parameter should
+              not be defined by client applications. The link for the first, last, prev,
+              or next page in the HTTP Link header should define it.
 
         """
         kwargs.update(locals())
@@ -2409,14 +2738,15 @@ class AsyncOrganizations:
 
     def bulk_update_organization_devices_details(
         self, organizationId: str, serials: list, details: list
-    ):
+    ) -> dict[str, Any] | None:
         """Updating device details (currently only used for Catalyst devices).
 
         https://developer.cisco.com/meraki/api-v1/#!bulk-update-organization-devices-details
 
-        - organizationId (string): Organization ID
-        - serials (array): A list of serials of devices to update
-        - details (array): An array of details
+        Args:
+            organizationId: Organization ID.
+            serials: A list of serials of devices to update.
+            details: An array of details.
 
         """
         kwargs = locals()
@@ -2436,15 +2766,20 @@ class AsyncOrganizations:
 
         return self._session.post(metadata, resource, payload)
 
-    def get_organization_devices_overview_by_model(self, organizationId: str, **kwargs):
+    def get_organization_devices_overview_by_model(
+        self, organizationId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Lists the count for each device model.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-devices-overview-by-model
 
-        - organizationId (string): Organization ID
-        - models (array): Optional parameter to filter devices by one or more models. All returned devices will have a model that is an exact match.
-        - networkIds (array): Optional parameter to filter devices by networkId.
-        - productTypes (array): Optional parameter to filter device by device product types. This filter uses multiple exact matches.
+        Args:
+            organizationId: Organization ID.
+            models: Optional parameter to filter devices by one or more models. All returned devices
+              will have a model that is an exact match.
+            networkIds: Optional parameter to filter devices by networkId.
+            productTypes: Optional parameter to filter device by device product types. This filter
+              uses multiple exact matches.
 
         """
         kwargs.update(locals())
@@ -2476,32 +2811,45 @@ class AsyncOrganizations:
         return self._session.get(metadata, resource, params)
 
     def get_organization_devices_packet_capture_captures(
-        self, organizationId: str, total_pages=1, direction="next", **kwargs
-    ):
+        self, organizationId: str, total_pages=1, direction="next", **kwargs: Any
+    ) -> Generator[Any, None, None]:
         """List Packet Captures.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-devices-packet-capture-captures
 
-        - organizationId (string): Organization ID
-        - total_pages (integer or string): use with perPage to get total results up to total_pages*perPage; -1 or "all" for all pages
-        - direction (string): direction to paginate, either "next" (default) or "prev" page
-        - captureIds (array): Return the packet captures of the specified capture ids
-        - networkIds (array): Return the packet captures of the specified network(s)
-        - serials (array): Return the packet captures of the specified device(s)
-        - process (array): Return the packet captures of the specified process
-        - captureStatus (array): Return the packet captures of the specified capture status
-        - name (array): Return the packet captures matching the specified name
-        - clientMac (array): Return the packet captures matching the specified client macs
-        - notes (string): Return the packet captures matching the specified notes
-        - deviceName (string): Return the packet captures matching the specified device name
-        - adminName (string): Return the packet captures matching the admin name
-        - t0 (string): The beginning of the timespan for the data. The maximum lookback period is 365 days from today.
-        - t1 (string): The end of the timespan for the data. t1 can be a maximum of 365 days after t0.
-        - timespan (number): The timespan for which the information will be fetched. If specifying timespan, do not specify parameters t0 and t1. The value must be in seconds and be less than or equal to 365 days. The default is 365 days.
-        - perPage (integer): The number of entries per page returned. Acceptable range is 3 - 100. Default is 10.
-        - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - sortOrder (string): Sorted order of entries. Order options are 'ascending' and 'descending'. Default is 'descending'.
+        Args:
+            organizationId: Organization ID.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+            captureIds: Return the packet captures of the specified capture ids.
+            networkIds: Return the packet captures of the specified network(s).
+            serials: Return the packet captures of the specified device(s).
+            process: Return the packet captures of the specified process.
+            captureStatus: Return the packet captures of the specified capture status.
+            name: Return the packet captures matching the specified name.
+            clientMac: Return the packet captures matching the specified client macs.
+            notes: Return the packet captures matching the specified notes.
+            deviceName: Return the packet captures matching the specified device name.
+            adminName: Return the packet captures matching the admin name.
+            t0: The beginning of the timespan for the data. The maximum lookback period is 365 days
+              from today.
+            t1: The end of the timespan for the data. t1 can be a maximum of 365 days after t0.
+            timespan: The timespan for which the information will be fetched. If specifying
+              timespan, do not specify parameters t0 and t1. The value must be in
+              seconds and be less than or equal to 365 days. The default is 365 days.
+            perPage: The number of entries per page returned. Acceptable range is 3 - 100. Default
+              is 10.
+            startingAfter: A token used by the server to indicate the start of the page. Often this
+              is a timestamp or an ID but it is not limited to those. This parameter
+              should not be defined by client applications. The link for the first,
+              last, prev, or next page in the HTTP Link header should define it.
+            endingBefore: A token used by the server to indicate the end of the page. Often this is
+              a timestamp or an ID but it is not limited to those. This parameter should
+              not be defined by client applications. The link for the first, last, prev,
+              or next page in the HTTP Link header should define it.
+            sortOrder: Sorted order of entries. Order options are 'ascending' and 'descending'.
+              Default is 'descending'.
 
         """
         kwargs.update(locals())
@@ -2557,23 +2905,26 @@ class AsyncOrganizations:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def create_organization_devices_packet_capture_capture(
-        self, organizationId: str, serials: list, name: str, **kwargs
-    ):
+        self, organizationId: str, serials: list, name: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Perform a packet capture on a device and store in Meraki Cloud.
 
         https://developer.cisco.com/meraki/api-v1/#!create-organization-devices-packet-capture-capture
 
-        - organizationId (string): Organization ID
-        - serials (array): The serial(s) of the device(s)
-        - name (string): Name of packet capture file
-        - outputType (string): Output type of packet capture file. Possible values: text, pcap, cloudshark, or upload_to_cloud
-        - destination (string): Destination of packet capture file. Possible values: [upload_to_cloud]
-        - ports (string): Ports of packet capture file, comma-separated
-        - notes (string): Reason for taking the packet capture
-        - duration (integer): Duration in seconds of packet capture
-        - filterExpression (string): Filter expression for packet capture
-        - interface (string): Interface of the device
-        - advanced (object): Advanced filters for IOSXE devices (supported for Campus Gateway devices only)
+        Args:
+            organizationId: Organization ID.
+            serials: The serial(s) of the device(s).
+            name: Name of packet capture file.
+            outputType: Output type of packet capture file. Possible values: text, pcap, cloudshark,
+              or upload_to_cloud.
+            destination: Destination of packet capture file. Possible values: [upload_to_cloud].
+            ports: Ports of packet capture file, comma-separated.
+            notes: Reason for taking the packet capture.
+            duration: Duration in seconds of packet capture.
+            filterExpression: Filter expression for packet capture.
+            interface: Interface of the device.
+            advanced: Advanced filters for IOSXE devices (supported for Campus Gateway devices
+              only).
 
         """
         kwargs.update(locals())
@@ -2602,19 +2953,20 @@ class AsyncOrganizations:
         return self._session.post(metadata, resource, payload)
 
     def bulk_organization_devices_packet_capture_captures_create(
-        self, organizationId: str, devices: list, name: str, **kwargs
-    ):
+        self, organizationId: str, devices: list, name: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Perform a packet capture on multiple devices and store in Meraki Cloud.
 
         https://developer.cisco.com/meraki/api-v1/#!bulk-organization-devices-packet-capture-captures-create
 
-        - organizationId (string): Organization ID
-        - devices (array): Device details (maximum of 20 devices allowed)
-        - name (string): Name of packet capture file
-        - notes (string): Reason for capture
-        - duration (integer): Duration of the capture in seconds
-        - filterExpression (string): Filter expression for the capture
-        - advanced (object): Advanced capture options (optional)
+        Args:
+            organizationId: Organization ID.
+            devices: Device details (maximum of 20 devices allowed).
+            name: Name of packet capture file.
+            notes: Reason for capture.
+            duration: Duration of the capture in seconds.
+            filterExpression: Filter expression for the capture.
+            advanced: Advanced capture options (optional).
 
         """
         kwargs.update(locals())
@@ -2640,13 +2992,14 @@ class AsyncOrganizations:
 
     def bulk_organization_devices_packet_capture_captures_delete(
         self, organizationId: str, captureIds: list
-    ):
+    ) -> dict[str, Any] | None:
         """BulkDelete packet captures from cloud.
 
         https://developer.cisco.com/meraki/api-v1/#!bulk-organization-devices-packet-capture-captures-delete
 
-        - organizationId (string): Organization ID
-        - captureIds (array): Delete the packet captures of the specified capture ids
+        Args:
+            organizationId: Organization ID.
+            captureIds: Delete the packet captures of the specified capture ids.
 
         """
         kwargs = locals()
@@ -2667,13 +3020,14 @@ class AsyncOrganizations:
 
     def delete_organization_devices_packet_capture_capture(
         self, organizationId: str, captureId: str
-    ):
+    ) -> None:
         """Delete a single packet capture from cloud using captureId.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-devices-packet-capture-capture
 
-        - organizationId (string): Organization ID
-        - captureId (string): Capture ID
+        Args:
+            organizationId: Organization ID.
+            captureId: Capture ID.
 
         """
         metadata = {
@@ -2688,13 +3042,14 @@ class AsyncOrganizations:
 
     def generate_organization_devices_packet_capture_capture_download_url(
         self, organizationId: str, captureId: str
-    ):
+    ) -> dict[str, Any] | None:
         """Get presigned download URL for given packet capture id.
 
         https://developer.cisco.com/meraki/api-v1/#!generate-organization-devices-packet-capture-capture-download-url
 
-        - organizationId (string): Organization ID
-        - captureId (string): Capture ID
+        Args:
+            organizationId: Organization ID.
+            captureId: Capture ID.
 
         """
         metadata = {
@@ -2716,14 +3071,15 @@ class AsyncOrganizations:
 
     def stop_organization_devices_packet_capture_capture(
         self, organizationId: str, captureId: str, serials: list
-    ):
+    ) -> dict[str, Any] | None:
         """Stop a specific packet capture (not supported for Catalyst devices).
 
         https://developer.cisco.com/meraki/api-v1/#!stop-organization-devices-packet-capture-capture
 
-        - organizationId (string): Organization ID
-        - captureId (string): Capture ID
-        - serials (array): The serial(s) of the device(s) to stop the capture on
+        Args:
+            organizationId: Organization ID.
+            captureId: Capture ID.
+            serials: The serial(s) of the device(s) to stop the capture on.
 
         """
         kwargs = locals()
@@ -2745,15 +3101,19 @@ class AsyncOrganizations:
 
         return self._session.post(metadata, resource, payload)
 
-    def get_organization_devices_packet_capture_schedules(self, organizationId: str, **kwargs):
+    def get_organization_devices_packet_capture_schedules(
+        self, organizationId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """List the Packet Capture Schedules.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-devices-packet-capture-schedules
 
-        - organizationId (string): Organization ID
-        - scheduleIds (array): Return the packet captures schedules of the specified packet capture schedule ids
-        - networkIds (array): Return the scheduled packet captures of the specified network(s)
-        - deviceIds (array): Return the scheduled packet captures of the specified device(s)
+        Args:
+            organizationId: Organization ID.
+            scheduleIds: Return the packet captures schedules of the specified packet capture
+              schedule ids.
+            networkIds: Return the scheduled packet captures of the specified network(s).
+            deviceIds: Return the scheduled packet captures of the specified device(s).
 
         """
         kwargs.update(locals())
@@ -2785,20 +3145,21 @@ class AsyncOrganizations:
         return self._session.get(metadata, resource, params)
 
     def create_organization_devices_packet_capture_schedule(
-        self, organizationId: str, devices: list, **kwargs
-    ):
+        self, organizationId: str, devices: list, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Create a schedule for packet capture.
 
         https://developer.cisco.com/meraki/api-v1/#!create-organization-devices-packet-capture-schedule
 
-        - organizationId (string): Organization ID
-        - devices (array): device details
-        - name (string): Name of the packet capture file
-        - notes (string): Reason for capture
-        - duration (integer): Duration of the capture in seconds
-        - filterExpression (string): Filter expression for the capture
-        - enabled (boolean): Enable or disable the schedule
-        - schedule (object): Schedule details
+        Args:
+            organizationId: Organization ID.
+            devices: device details.
+            name: Name of the packet capture file.
+            notes: Reason for capture.
+            duration: Duration of the capture in seconds.
+            filterExpression: Filter expression for the capture.
+            enabled: Enable or disable the schedule.
+            schedule: Schedule details.
 
         """
         kwargs.update(locals())
@@ -2825,13 +3186,14 @@ class AsyncOrganizations:
 
     def reorder_organization_devices_packet_capture_schedules(
         self, organizationId: str, order: list
-    ):
+    ) -> dict[str, Any] | None:
         """Bulk update priorities of pcap schedules.
 
         https://developer.cisco.com/meraki/api-v1/#!reorder-organization-devices-packet-capture-schedules
 
-        - organizationId (string): Organization ID
-        - order (array): Array of schedule IDs and their priorities to reorder.
+        Args:
+            organizationId: Organization ID.
+            order: Array of schedule IDs and their priorities to reorder.
 
         """
         kwargs = locals()
@@ -2851,21 +3213,22 @@ class AsyncOrganizations:
         return self._session.post(metadata, resource, payload)
 
     def update_organization_devices_packet_capture_schedule(
-        self, organizationId: str, scheduleId: str, devices: list, **kwargs
-    ):
+        self, organizationId: str, scheduleId: str, devices: list, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Update a schedule for packet capture.
 
         https://developer.cisco.com/meraki/api-v1/#!update-organization-devices-packet-capture-schedule
 
-        - organizationId (string): Organization ID
-        - scheduleId (string): Schedule ID
-        - devices (array): device details
-        - name (string): Name of the packet capture file
-        - notes (string): Reason for capture
-        - duration (integer): Duration of the capture in seconds
-        - filterExpression (string): Filter expression for the capture
-        - enabled (boolean): Enable or disable the schedule
-        - schedule (object): Schedule details
+        Args:
+            organizationId: Organization ID.
+            scheduleId: Schedule ID.
+            devices: device details.
+            name: Name of the packet capture file.
+            notes: Reason for capture.
+            duration: Duration of the capture in seconds.
+            filterExpression: Filter expression for the capture.
+            enabled: Enable or disable the schedule.
+            schedule: Schedule details.
 
         """
         kwargs.update(locals())
@@ -2893,13 +3256,14 @@ class AsyncOrganizations:
 
     def delete_organization_devices_packet_capture_schedule(
         self, organizationId: str, scheduleId: str
-    ):
+    ) -> None:
         """Delete schedule from cloud.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-devices-packet-capture-schedule
 
-        - organizationId (string): Organization ID
-        - scheduleId (string): Delete the capture schedules of the specified capture schedule id
+        Args:
+            organizationId: Organization ID.
+            scheduleId: Delete the capture schedules of the specified capture schedule id.
 
         """
         kwargs = locals()
@@ -2914,23 +3278,39 @@ class AsyncOrganizations:
         return self._session.delete(metadata, resource)
 
     def get_organization_devices_power_modules_statuses_by_device(
-        self, organizationId: str, total_pages=1, direction="next", **kwargs
-    ):
+        self, organizationId: str, total_pages=1, direction="next", **kwargs: Any
+    ) -> Generator[Any, None, None]:
         """List the most recent status information for power modules in rackmount MX and MS devices that support them.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-devices-power-modules-statuses-by-device
 
-        - organizationId (string): Organization ID
-        - total_pages (integer or string): use with perPage to get total results up to total_pages*perPage; -1 or "all" for all pages
-        - direction (string): direction to paginate, either "next" (default) or "prev" page
-        - perPage (integer): The number of entries per page returned. Acceptable range is 3 - 1000. Default is 1000.
-        - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - networkIds (array): Optional parameter to filter device availabilities by network ID. This filter uses multiple exact matches.
-        - productTypes (array): Optional parameter to filter device availabilities by device product types. This filter uses multiple exact matches.
-        - serials (array): Optional parameter to filter device availabilities by device serial numbers. This filter uses multiple exact matches.
-        - tags (array): An optional parameter to filter devices by tags. The filtering is case-sensitive. If tags are included, 'tagsFilterType' should also be included (see below). This filter uses multiple exact matches.
-        - tagsFilterType (string): An optional parameter of value 'withAnyTags' or 'withAllTags' to indicate whether to return devices which contain ANY or ALL of the included tags. If no type is included, 'withAnyTags' will be selected.
+        Args:
+            organizationId: Organization ID.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+            perPage: The number of entries per page returned. Acceptable range is 3 - 1000. Default
+              is 1000.
+            startingAfter: A token used by the server to indicate the start of the page. Often this
+              is a timestamp or an ID but it is not limited to those. This parameter
+              should not be defined by client applications. The link for the first,
+              last, prev, or next page in the HTTP Link header should define it.
+            endingBefore: A token used by the server to indicate the end of the page. Often this is
+              a timestamp or an ID but it is not limited to those. This parameter should
+              not be defined by client applications. The link for the first, last, prev,
+              or next page in the HTTP Link header should define it.
+            networkIds: Optional parameter to filter device availabilities by network ID. This
+              filter uses multiple exact matches.
+            productTypes: Optional parameter to filter device availabilities by device product
+              types. This filter uses multiple exact matches.
+            serials: Optional parameter to filter device availabilities by device serial numbers.
+              This filter uses multiple exact matches.
+            tags: An optional parameter to filter devices by tags. The filtering is case-sensitive.
+              If tags are included, 'tagsFilterType' should also be included (see
+              below). This filter uses multiple exact matches.
+            tagsFilterType: An optional parameter of value 'withAnyTags' or 'withAllTags' to
+              indicate whether to return devices which contain ANY or ALL of the
+              included tags. If no type is included, 'withAnyTags' will be selected.
 
         """
         kwargs.update(locals())
@@ -2974,24 +3354,41 @@ class AsyncOrganizations:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def get_organization_devices_provisioning_statuses(
-        self, organizationId: str, total_pages=1, direction="next", **kwargs
-    ):
+        self, organizationId: str, total_pages=1, direction="next", **kwargs: Any
+    ) -> Generator[Any, None, None]:
         """List the provisioning statuses information for devices in an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-devices-provisioning-statuses
 
-        - organizationId (string): Organization ID
-        - total_pages (integer or string): use with perPage to get total results up to total_pages*perPage; -1 or "all" for all pages
-        - direction (string): direction to paginate, either "next" (default) or "prev" page
-        - perPage (integer): The number of entries per page returned. Acceptable range is 3 - 1000. Default is 1000.
-        - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - networkIds (array): Optional parameter to filter device by network ID. This filter uses multiple exact matches.
-        - productTypes (array): Optional parameter to filter device by device product types. This filter uses multiple exact matches.
-        - serials (array): Optional parameter to filter device by device serial numbers. This filter uses multiple exact matches.
-        - status (string): An optional parameter to filter devices by the provisioning status. Accepted statuses: unprovisioned, incomplete, complete.
-        - tags (array): An optional parameter to filter devices by tags. The filtering is case-sensitive. If tags are included, 'tagsFilterType' should also be included (see below). This filter uses multiple exact matches.
-        - tagsFilterType (string): An optional parameter of value 'withAnyTags' or 'withAllTags' to indicate whether to return devices which contain ANY or ALL of the included tags. If no type is included, 'withAnyTags' will be selected.
+        Args:
+            organizationId: Organization ID.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+            perPage: The number of entries per page returned. Acceptable range is 3 - 1000. Default
+              is 1000.
+            startingAfter: A token used by the server to indicate the start of the page. Often this
+              is a timestamp or an ID but it is not limited to those. This parameter
+              should not be defined by client applications. The link for the first,
+              last, prev, or next page in the HTTP Link header should define it.
+            endingBefore: A token used by the server to indicate the end of the page. Often this is
+              a timestamp or an ID but it is not limited to those. This parameter should
+              not be defined by client applications. The link for the first, last, prev,
+              or next page in the HTTP Link header should define it.
+            networkIds: Optional parameter to filter device by network ID. This filter uses multiple
+              exact matches.
+            productTypes: Optional parameter to filter device by device product types. This filter
+              uses multiple exact matches.
+            serials: Optional parameter to filter device by device serial numbers. This filter uses
+              multiple exact matches.
+            status: An optional parameter to filter devices by the provisioning status. Accepted
+              statuses: unprovisioned, incomplete, complete.
+            tags: An optional parameter to filter devices by tags. The filtering is case-sensitive.
+              If tags are included, 'tagsFilterType' should also be included (see
+              below). This filter uses multiple exact matches.
+            tagsFilterType: An optional parameter of value 'withAnyTags' or 'withAllTags' to
+              indicate whether to return devices which contain ANY or ALL of the
+              included tags. If no type is included, 'withAnyTags' will be selected.
 
         """
         kwargs.update(locals())
@@ -3041,25 +3438,42 @@ class AsyncOrganizations:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def get_organization_devices_statuses(
-        self, organizationId: str, total_pages=1, direction="next", **kwargs
-    ):
+        self, organizationId: str, total_pages=1, direction="next", **kwargs: Any
+    ) -> Generator[Any, None, None]:
         """List the status of every Meraki device in the organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-devices-statuses
 
-        - organizationId (string): Organization ID
-        - total_pages (integer or string): use with perPage to get total results up to total_pages*perPage; -1 or "all" for all pages
-        - direction (string): direction to paginate, either "next" (default) or "prev" page
-        - perPage (integer): The number of entries per page returned. Acceptable range is 3 - 1000. Default is 1000.
-        - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - networkIds (array): Optional parameter to filter devices by network ids.
-        - serials (array): Optional parameter to filter devices by serials.
-        - statuses (array): Optional parameter to filter devices by statuses. Valid statuses are ["online", "alerting", "offline", "dormant"].
-        - productTypes (array): An optional parameter to filter device statuses by product type. Valid types are wireless, appliance, switch, systemsManager, camera, cellularGateway, sensor, wirelessController, campusGateway, and secureConnect.
-        - models (array): Optional parameter to filter devices by models.
-        - tags (array): An optional parameter to filter devices by tags. The filtering is case-sensitive. If tags are included, 'tagsFilterType' should also be included (see below).
-        - tagsFilterType (string): An optional parameter of value 'withAnyTags' or 'withAllTags' to indicate whether to return devices which contain ANY or ALL of the included tags. If no type is included, 'withAnyTags' will be selected.
+        Args:
+            organizationId: Organization ID.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+            perPage: The number of entries per page returned. Acceptable range is 3 - 1000. Default
+              is 1000.
+            startingAfter: A token used by the server to indicate the start of the page. Often this
+              is a timestamp or an ID but it is not limited to those. This parameter
+              should not be defined by client applications. The link for the first,
+              last, prev, or next page in the HTTP Link header should define it.
+            endingBefore: A token used by the server to indicate the end of the page. Often this is
+              a timestamp or an ID but it is not limited to those. This parameter should
+              not be defined by client applications. The link for the first, last, prev,
+              or next page in the HTTP Link header should define it.
+            networkIds: Optional parameter to filter devices by network ids.
+            serials: Optional parameter to filter devices by serials.
+            statuses: Optional parameter to filter devices by statuses. Valid statuses are
+              ["online", "alerting", "offline", "dormant"].
+            productTypes: An optional parameter to filter device statuses by product type. Valid
+              types are wireless, appliance, switch, systemsManager, camera,
+              cellularGateway, sensor, wirelessController, campusGateway, and
+              secureConnect.
+            models: Optional parameter to filter devices by models.
+            tags: An optional parameter to filter devices by tags. The filtering is case-sensitive.
+              If tags are included, 'tagsFilterType' should also be included (see
+              below).
+            tagsFilterType: An optional parameter of value 'withAnyTags' or 'withAllTags' to
+              indicate whether to return devices which contain ANY or ALL of the
+              included tags. If no type is included, 'withAnyTags' will be selected.
 
         """
         kwargs.update(locals())
@@ -3106,14 +3520,20 @@ class AsyncOrganizations:
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
-    def get_organization_devices_statuses_overview(self, organizationId: str, **kwargs):
+    def get_organization_devices_statuses_overview(
+        self, organizationId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Return an overview of current device statuses.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-devices-statuses-overview
 
-        - organizationId (string): Organization ID
-        - productTypes (array): An optional parameter to filter device statuses by product type. Valid types are wireless, appliance, switch, systemsManager, camera, cellularGateway, sensor, wirelessController, campusGateway, and secureConnect.
-        - networkIds (array): An optional parameter to filter device statuses by network.
+        Args:
+            organizationId: Organization ID.
+            productTypes: An optional parameter to filter device statuses by product type. Valid
+              types are wireless, appliance, switch, systemsManager, camera,
+              cellularGateway, sensor, wirelessController, campusGateway, and
+              secureConnect.
+            networkIds: An optional parameter to filter device statuses by network.
 
         """
         kwargs.update(locals())
@@ -3143,25 +3563,44 @@ class AsyncOrganizations:
         return self._session.get(metadata, resource, params)
 
     def get_organization_devices_system_memory_usage_history_by_interval(
-        self, organizationId: str, total_pages=1, direction="next", **kwargs
-    ):
+        self, organizationId: str, total_pages=1, direction="next", **kwargs: Any
+    ) -> Generator[Any, None, None]:
         """Return the memory utilization history in kB for devices in the organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-devices-system-memory-usage-history-by-interval
 
-        - organizationId (string): Organization ID
-        - total_pages (integer or string): use with perPage to get total results up to total_pages*perPage; -1 or "all" for all pages
-        - direction (string): direction to paginate, either "next" (default) or "prev" page
-        - perPage (integer): The number of entries per page returned. Acceptable range is 3 - 20. Default is 10.
-        - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - t0 (string): The beginning of the timespan for the data. The maximum lookback period is 31 days from today.
-        - t1 (string): The end of the timespan for the data. t1 can be a maximum of 31 days after t0.
-        - timespan (number): The timespan for which the information will be fetched. If specifying timespan, do not specify parameters t0 and t1. The value must be in seconds and be less than or equal to 31 days. The default is 2 hours. If interval is provided, the timespan will be autocalculated.
-        - interval (integer): The time interval in seconds for returned data. The valid intervals are: 300, 1200, 3600, 14400. The default is 300. Interval is calculated if time params are provided.
-        - networkIds (array): Optional parameter to filter the result set by the included set of network IDs
-        - serials (array): Optional parameter to filter device availabilities history by device serial numbers
-        - productTypes (array): Optional parameter to filter device statuses by product type. Valid types are wireless, appliance, switch, systemsManager, camera, cellularGateway, sensor, wirelessController, campusGateway, and secureConnect.
+        Args:
+            organizationId: Organization ID.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+            perPage: The number of entries per page returned. Acceptable range is 3 - 20. Default is
+              10.
+            startingAfter: A token used by the server to indicate the start of the page. Often this
+              is a timestamp or an ID but it is not limited to those. This parameter
+              should not be defined by client applications. The link for the first,
+              last, prev, or next page in the HTTP Link header should define it.
+            endingBefore: A token used by the server to indicate the end of the page. Often this is
+              a timestamp or an ID but it is not limited to those. This parameter should
+              not be defined by client applications. The link for the first, last, prev,
+              or next page in the HTTP Link header should define it.
+            t0: The beginning of the timespan for the data. The maximum lookback period is 31 days
+              from today.
+            t1: The end of the timespan for the data. t1 can be a maximum of 31 days after t0.
+            timespan: The timespan for which the information will be fetched. If specifying
+              timespan, do not specify parameters t0 and t1. The value must be in
+              seconds and be less than or equal to 31 days. The default is 2 hours. If
+              interval is provided, the timespan will be autocalculated.
+            interval: The time interval in seconds for returned data. The valid intervals are: 300,
+              1200, 3600, 14400. The default is 300. Interval is calculated if time
+              params are provided.
+            networkIds: Optional parameter to filter the result set by the included set of network
+              IDs.
+            serials: Optional parameter to filter device availabilities history by device serial
+              numbers.
+            productTypes: Optional parameter to filter device statuses by product type. Valid types
+              are wireless, appliance, switch, systemsManager, camera, cellularGateway,
+              sensor, wirelessController, campusGateway, and secureConnect.
 
         """
         kwargs.update(locals())
@@ -3209,23 +3648,39 @@ class AsyncOrganizations:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def get_organization_devices_uplinks_addresses_by_device(
-        self, organizationId: str, total_pages=1, direction="next", **kwargs
-    ):
+        self, organizationId: str, total_pages=1, direction="next", **kwargs: Any
+    ) -> Generator[Any, None, None]:
         """List the current uplink addresses for devices in an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-devices-uplinks-addresses-by-device
 
-        - organizationId (string): Organization ID
-        - total_pages (integer or string): use with perPage to get total results up to total_pages*perPage; -1 or "all" for all pages
-        - direction (string): direction to paginate, either "next" (default) or "prev" page
-        - perPage (integer): The number of entries per page returned. Acceptable range is 3 - 1000. Default is 1000.
-        - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - networkIds (array): Optional parameter to filter device uplinks by network ID. This filter uses multiple exact matches.
-        - productTypes (array): Optional parameter to filter device uplinks by device product types. This filter uses multiple exact matches.
-        - serials (array): Optional parameter to filter device availabilities by device serial numbers. This filter uses multiple exact matches.
-        - tags (array): An optional parameter to filter devices by tags. The filtering is case-sensitive. If tags are included, 'tagsFilterType' should also be included (see below). This filter uses multiple exact matches.
-        - tagsFilterType (string): An optional parameter of value 'withAnyTags' or 'withAllTags' to indicate whether to return devices which contain ANY or ALL of the included tags. If no type is included, 'withAnyTags' will be selected.
+        Args:
+            organizationId: Organization ID.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+            perPage: The number of entries per page returned. Acceptable range is 3 - 1000. Default
+              is 1000.
+            startingAfter: A token used by the server to indicate the start of the page. Often this
+              is a timestamp or an ID but it is not limited to those. This parameter
+              should not be defined by client applications. The link for the first,
+              last, prev, or next page in the HTTP Link header should define it.
+            endingBefore: A token used by the server to indicate the end of the page. Often this is
+              a timestamp or an ID but it is not limited to those. This parameter should
+              not be defined by client applications. The link for the first, last, prev,
+              or next page in the HTTP Link header should define it.
+            networkIds: Optional parameter to filter device uplinks by network ID. This filter uses
+              multiple exact matches.
+            productTypes: Optional parameter to filter device uplinks by device product types. This
+              filter uses multiple exact matches.
+            serials: Optional parameter to filter device availabilities by device serial numbers.
+              This filter uses multiple exact matches.
+            tags: An optional parameter to filter devices by tags. The filtering is case-sensitive.
+              If tags are included, 'tagsFilterType' should also be included (see
+              below). This filter uses multiple exact matches.
+            tagsFilterType: An optional parameter of value 'withAnyTags' or 'withAllTags' to
+              indicate whether to return devices which contain ANY or ALL of the
+              included tags. If no type is included, 'withAnyTags' will be selected.
 
         """
         kwargs.update(locals())
@@ -3268,17 +3723,26 @@ class AsyncOrganizations:
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
-    def get_organization_devices_uplinks_loss_and_latency(self, organizationId: str, **kwargs):
+    def get_organization_devices_uplinks_loss_and_latency(
+        self, organizationId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Return the uplink loss and latency for every MX in the organization from at latest 2 minutes ago.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-devices-uplinks-loss-and-latency
 
-        - organizationId (string): Organization ID
-        - t0 (string): The beginning of the timespan for the data. The maximum lookback period is 60 days from today.
-        - t1 (string): The end of the timespan for the data. t1 can be a maximum of 5 minutes after t0. The latest possible time that t1 can be is 2 minutes into the past.
-        - timespan (number): The timespan for which the information will be fetched. If specifying timespan, do not specify parameters t0 and t1. The value must be in seconds and be less than or equal to 5 minutes. The default is 5 minutes.
-        - uplink (string): Optional filter for a specific WAN uplink. Valid uplinks are wan1, wan2, wan3, cellular. Default will return all uplinks.
-        - ip (string): Optional filter for a specific destination IP. Default will return all destination IPs.
+        Args:
+            organizationId: Organization ID.
+            t0: The beginning of the timespan for the data. The maximum lookback period is 60 days
+              from today.
+            t1: The end of the timespan for the data. t1 can be a maximum of 5 minutes after t0. The
+              latest possible time that t1 can be is 2 minutes into the past.
+            timespan: The timespan for which the information will be fetched. If specifying
+              timespan, do not specify parameters t0 and t1. The value must be in
+              seconds and be less than or equal to 5 minutes. The default is 5 minutes.
+            uplink: Optional filter for a specific WAN uplink. Valid uplinks are wan1, wan2, wan3,
+              cellular. Default will return all uplinks.
+            ip: Optional filter for a specific destination IP. Default will return all destination
+              IPs.
 
         """
         kwargs.update(locals())
@@ -3307,12 +3771,13 @@ class AsyncOrganizations:
 
         return self._session.get(metadata, resource, params)
 
-    def get_organization_early_access_features(self, organizationId: str):
+    def get_organization_early_access_features(self, organizationId: str) -> dict[str, Any] | None:
         """List the available early access features for organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-early-access-features
 
-        - organizationId (string): Organization ID
+        Args:
+            organizationId: Organization ID.
 
         """
         metadata = {
@@ -3324,12 +3789,15 @@ class AsyncOrganizations:
 
         return self._session.get(metadata, resource)
 
-    def get_organization_early_access_features_opt_ins(self, organizationId: str):
+    def get_organization_early_access_features_opt_ins(
+        self, organizationId: str
+    ) -> dict[str, Any] | None:
         """List the early access feature opt-ins for an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-early-access-features-opt-ins
 
-        - organizationId (string): Organization ID
+        Args:
+            organizationId: Organization ID.
 
         """
         metadata = {
@@ -3342,15 +3810,16 @@ class AsyncOrganizations:
         return self._session.get(metadata, resource)
 
     def create_organization_early_access_features_opt_in(
-        self, organizationId: str, shortName: str, **kwargs
-    ):
+        self, organizationId: str, shortName: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Create a new early access feature opt-in for an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!create-organization-early-access-features-opt-in
 
-        - organizationId (string): Organization ID
-        - shortName (string): Short name of the early access feature
-        - limitScopeToNetworks (array): A list of network IDs to apply the opt-in to
+        Args:
+            organizationId: Organization ID.
+            shortName: Short name of the early access feature.
+            limitScopeToNetworks: A list of network IDs to apply the opt-in to.
 
         """
         kwargs.update(locals())
@@ -3370,13 +3839,16 @@ class AsyncOrganizations:
 
         return self._session.post(metadata, resource, payload)
 
-    def get_organization_early_access_features_opt_in(self, organizationId: str, optInId: str):
+    def get_organization_early_access_features_opt_in(
+        self, organizationId: str, optInId: str
+    ) -> dict[str, Any] | None:
         """Show an early access feature opt-in for an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-early-access-features-opt-in
 
-        - organizationId (string): Organization ID
-        - optInId (string): Opt in ID
+        Args:
+            organizationId: Organization ID.
+            optInId: Opt in ID.
 
         """
         metadata = {
@@ -3390,15 +3862,16 @@ class AsyncOrganizations:
         return self._session.get(metadata, resource)
 
     def update_organization_early_access_features_opt_in(
-        self, organizationId: str, optInId: str, **kwargs
-    ):
+        self, organizationId: str, optInId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Update an early access feature opt-in for an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!update-organization-early-access-features-opt-in
 
-        - organizationId (string): Organization ID
-        - optInId (string): Opt in ID
-        - limitScopeToNetworks (array): A list of network IDs to apply the opt-in to
+        Args:
+            organizationId: Organization ID.
+            optInId: Opt in ID.
+            limitScopeToNetworks: A list of network IDs to apply the opt-in to.
 
         """
         kwargs.update(locals())
@@ -3418,13 +3891,16 @@ class AsyncOrganizations:
 
         return self._session.put(metadata, resource, payload)
 
-    def delete_organization_early_access_features_opt_in(self, organizationId: str, optInId: str):
+    def delete_organization_early_access_features_opt_in(
+        self, organizationId: str, optInId: str
+    ) -> None:
         """Delete an early access feature opt-in.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-early-access-features-opt-in
 
-        - organizationId (string): Organization ID
-        - optInId (string): Opt in ID
+        Args:
+            organizationId: Organization ID.
+            optInId: Opt in ID.
 
         """
         metadata = {
@@ -3438,20 +3914,29 @@ class AsyncOrganizations:
         return self._session.delete(metadata, resource)
 
     def get_organization_firmware_upgrades(
-        self, organizationId: str, total_pages=1, direction="next", **kwargs
-    ):
+        self, organizationId: str, total_pages=1, direction="next", **kwargs: Any
+    ) -> Generator[Any, None, None]:
         """Get firmware upgrade information for an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-firmware-upgrades
 
-        - organizationId (string): Organization ID
-        - total_pages (integer or string): use with perPage to get total results up to total_pages*perPage; -1 or "all" for all pages
-        - direction (string): direction to paginate, either "next" (default) or "prev" page
-        - perPage (integer): The number of entries per page returned. Acceptable range is 3 - 1000. Default is 1000.
-        - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - status (array): Optional parameter to filter the upgrade by status.
-        - productTypes (array): Optional parameter to filter the upgrade by product type.
+        Args:
+            organizationId: Organization ID.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+            perPage: The number of entries per page returned. Acceptable range is 3 - 1000. Default
+              is 1000.
+            startingAfter: A token used by the server to indicate the start of the page. Often this
+              is a timestamp or an ID but it is not limited to those. This parameter
+              should not be defined by client applications. The link for the first,
+              last, prev, or next page in the HTTP Link header should define it.
+            endingBefore: A token used by the server to indicate the end of the page. Often this is
+              a timestamp or an ID but it is not limited to those. This parameter should
+              not be defined by client applications. The link for the first, last, prev,
+              or next page in the HTTP Link header should define it.
+            status: Optional parameter to filter the upgrade by status.
+            productTypes: Optional parameter to filter the upgrade by product type.
 
         """
         kwargs.update(locals())
@@ -3484,25 +3969,38 @@ class AsyncOrganizations:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def get_organization_firmware_upgrades_by_device(
-        self, organizationId: str, total_pages=1, direction="next", **kwargs
-    ):
+        self, organizationId: str, total_pages=1, direction="next", **kwargs: Any
+    ) -> Generator[Any, None, None]:
         """Get firmware upgrade status for the filtered devices.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-firmware-upgrades-by-device
 
-        - organizationId (string): Organization ID
-        - total_pages (integer or string): use with perPage to get total results up to total_pages*perPage; -1 or "all" for all pages
-        - direction (string): direction to paginate, either "next" (default) or "prev" page
-        - perPage (integer): The number of entries per page returned. Acceptable range is 3 - 1000. Default is 50.
-        - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - networkIds (array): Optional parameter to filter by network
-        - serials (array): Optional parameter to filter by serial number.  All returned devices will have a serial number that is an exact match.
-        - macs (array): Optional parameter to filter by one or more MAC addresses belonging to devices. All devices returned belong to MAC addresses that are an exact match.
-        - firmwareUpgradeBatchIds (array): Optional parameter to filter by firmware upgrade batch ids.
-        - upgradeStatuses (array): Optional parameter to filter by firmware upgrade statuses.
-        - currentUpgradesOnly (boolean): Optional parameter to filter to only current or pending upgrade statuses.
-        - limitPerDevice (integer): Optional parameter to limit the number of upgrade statuses returned per device. If omitted, a value of 5 is used.
+        Args:
+            organizationId: Organization ID.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+            perPage: The number of entries per page returned. Acceptable range is 3 - 1000. Default
+              is 50.
+            startingAfter: A token used by the server to indicate the start of the page. Often this
+              is a timestamp or an ID but it is not limited to those. This parameter
+              should not be defined by client applications. The link for the first,
+              last, prev, or next page in the HTTP Link header should define it.
+            endingBefore: A token used by the server to indicate the end of the page. Often this is
+              a timestamp or an ID but it is not limited to those. This parameter should
+              not be defined by client applications. The link for the first, last, prev,
+              or next page in the HTTP Link header should define it.
+            networkIds: Optional parameter to filter by network.
+            serials: Optional parameter to filter by serial number.  All returned devices will have
+              a serial number that is an exact match.
+            macs: Optional parameter to filter by one or more MAC addresses belonging to devices.
+              All devices returned belong to MAC addresses that are an exact match.
+            firmwareUpgradeBatchIds: Optional parameter to filter by firmware upgrade batch ids.
+            upgradeStatuses: Optional parameter to filter by firmware upgrade statuses.
+            currentUpgradesOnly: Optional parameter to filter to only current or pending upgrade
+              statuses.
+            limitPerDevice: Optional parameter to limit the number of upgrade statuses returned per
+              device. If omitted, a value of 5 is used.
 
         """
         kwargs.update(locals())
@@ -3543,20 +4041,29 @@ class AsyncOrganizations:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def get_organization_floor_plans_auto_locate_devices(
-        self, organizationId: str, total_pages=1, direction="next", **kwargs
-    ):
+        self, organizationId: str, total_pages=1, direction="next", **kwargs: Any
+    ) -> Generator[Any, None, None]:
         """List auto locate details for each device in your organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-floor-plans-auto-locate-devices
 
-        - organizationId (string): Organization ID
-        - total_pages (integer or string): use with perPage to get total results up to total_pages*perPage; -1 or "all" for all pages
-        - direction (string): direction to paginate, either "next" (default) or "prev" page
-        - perPage (integer): The number of entries per page returned. Acceptable range is 3 - 10000. Default is 1000.
-        - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - networkIds (array): Optional parameter to filter devices by one or more network IDs
-        - floorPlanIds (array): Optional parameter to filter devices by one or more floorplan IDs
+        Args:
+            organizationId: Organization ID.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+            perPage: The number of entries per page returned. Acceptable range is 3 - 10000. Default
+              is 1000.
+            startingAfter: A token used by the server to indicate the start of the page. Often this
+              is a timestamp or an ID but it is not limited to those. This parameter
+              should not be defined by client applications. The link for the first,
+              last, prev, or next page in the HTTP Link header should define it.
+            endingBefore: A token used by the server to indicate the end of the page. Often this is
+              a timestamp or an ID but it is not limited to those. This parameter should
+              not be defined by client applications. The link for the first, last, prev,
+              or next page in the HTTP Link header should define it.
+            networkIds: Optional parameter to filter devices by one or more network IDs.
+            floorPlanIds: Optional parameter to filter devices by one or more floorplan IDs.
 
         """
         kwargs.update(locals())
@@ -3589,20 +4096,29 @@ class AsyncOrganizations:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def get_organization_floor_plans_auto_locate_statuses(
-        self, organizationId: str, total_pages=1, direction="next", **kwargs
-    ):
+        self, organizationId: str, total_pages=1, direction="next", **kwargs: Any
+    ) -> Generator[Any, None, None]:
         """List the status of auto locate for each floorplan in your organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-floor-plans-auto-locate-statuses
 
-        - organizationId (string): Organization ID
-        - total_pages (integer or string): use with perPage to get total results up to total_pages*perPage; -1 or "all" for all pages
-        - direction (string): direction to paginate, either "next" (default) or "prev" page
-        - perPage (integer): The number of entries per page returned. Acceptable range is 3 - 10000. Default is 1000.
-        - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - networkIds (array): Optional parameter to filter floorplans by one or more network IDs
-        - floorPlanIds (array): Optional parameter to filter floorplans by one or more floorplan IDs
+        Args:
+            organizationId: Organization ID.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+            perPage: The number of entries per page returned. Acceptable range is 3 - 10000. Default
+              is 1000.
+            startingAfter: A token used by the server to indicate the start of the page. Often this
+              is a timestamp or an ID but it is not limited to those. This parameter
+              should not be defined by client applications. The link for the first,
+              last, prev, or next page in the HTTP Link header should define it.
+            endingBefore: A token used by the server to indicate the end of the page. Often this is
+              a timestamp or an ID but it is not limited to those. This parameter should
+              not be defined by client applications. The link for the first, last, prev,
+              or next page in the HTTP Link header should define it.
+            networkIds: Optional parameter to filter floorplans by one or more network IDs.
+            floorPlanIds: Optional parameter to filter floorplans by one or more floorplan IDs.
 
         """
         kwargs.update(locals())
@@ -3635,19 +4151,28 @@ class AsyncOrganizations:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def get_organization_integrations_xdr_networks(
-        self, organizationId: str, total_pages=1, direction="next", **kwargs
-    ):
+        self, organizationId: str, total_pages=1, direction="next", **kwargs: Any
+    ) -> Generator[Any, None, None]:
         """Returns the networks in the organization that have XDR enabled.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-integrations-xdr-networks
 
-        - organizationId (string): Organization ID
-        - total_pages (integer or string): use with perPage to get total results up to total_pages*perPage; -1 or "all" for all pages
-        - direction (string): direction to paginate, either "next" (default) or "prev" page
-        - networkIds (array): Optional parameter to filter the results by network IDs
-        - perPage (integer): The number of entries per page returned. Acceptable range is 3 - 100. Default is 20.
-        - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
+        Args:
+            organizationId: Organization ID.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+            networkIds: Optional parameter to filter the results by network IDs.
+            perPage: The number of entries per page returned. Acceptable range is 3 - 100. Default
+              is 20.
+            startingAfter: A token used by the server to indicate the start of the page. Often this
+              is a timestamp or an ID but it is not limited to those. This parameter
+              should not be defined by client applications. The link for the first,
+              last, prev, or next page in the HTTP Link header should define it.
+            endingBefore: A token used by the server to indicate the end of the page. Often this is
+              a timestamp or an ID but it is not limited to those. This parameter should
+              not be defined by client applications. The link for the first, last, prev,
+              or next page in the HTTP Link header should define it.
 
         """
         kwargs.update(locals())
@@ -3677,13 +4202,16 @@ class AsyncOrganizations:
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
-    def disable_organization_integrations_xdr_networks(self, organizationId: str, networks: list):
+    def disable_organization_integrations_xdr_networks(
+        self, organizationId: str, networks: list
+    ) -> dict[str, Any] | None:
         """Disable XDR on networks.
 
         https://developer.cisco.com/meraki/api-v1/#!disable-organization-integrations-xdr-networks
 
-        - organizationId (string): Organization ID
-        - networks (array): List containing the network ID and the product type to disable XDR on
+        Args:
+            organizationId: Organization ID.
+            networks: List containing the network ID and the product type to disable XDR on.
 
         """
         kwargs = locals()
@@ -3702,13 +4230,16 @@ class AsyncOrganizations:
 
         return self._session.post(metadata, resource, payload)
 
-    def enable_organization_integrations_xdr_networks(self, organizationId: str, networks: list):
+    def enable_organization_integrations_xdr_networks(
+        self, organizationId: str, networks: list
+    ) -> dict[str, Any] | None:
         """Enable XDR on networks.
 
         https://developer.cisco.com/meraki/api-v1/#!enable-organization-integrations-xdr-networks
 
-        - organizationId (string): Organization ID
-        - networks (array): List containing the network ID and the product type to enable XDR on
+        Args:
+            organizationId: Organization ID.
+            networks: List containing the network ID and the product type to enable XDR on.
 
         """
         kwargs = locals()
@@ -3727,15 +4258,18 @@ class AsyncOrganizations:
 
         return self._session.post(metadata, resource, payload)
 
-    def claim_into_organization_inventory(self, organizationId: str, **kwargs):
+    def claim_into_organization_inventory(
+        self, organizationId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Claim a list of devices, licenses, and/or orders into an organization inventory.
 
         https://developer.cisco.com/meraki/api-v1/#!claim-into-organization-inventory
 
-        - organizationId (string): Organization ID
-        - orders (array): The numbers of the orders that should be claimed
-        - serials (array): The serials of the devices that should be claimed
-        - licenses (array): The licenses that should be claimed
+        Args:
+            organizationId: Organization ID.
+            orders: The numbers of the orders that should be claimed.
+            serials: The serials of the devices that should be claimed.
+            licenses: The licenses that should be claimed.
 
         """
         kwargs.update(locals())
@@ -3757,28 +4291,44 @@ class AsyncOrganizations:
         return self._session.post(metadata, resource, payload)
 
     def get_organization_inventory_devices(
-        self, organizationId: str, total_pages=1, direction="next", **kwargs
-    ):
+        self, organizationId: str, total_pages=1, direction="next", **kwargs: Any
+    ) -> Generator[Any, None, None]:
         """Return the device inventory for an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-inventory-devices
 
-        - organizationId (string): Organization ID
-        - total_pages (integer or string): use with perPage to get total results up to total_pages*perPage; -1 or "all" for all pages
-        - direction (string): direction to paginate, either "next" (default) or "prev" page
-        - perPage (integer): The number of entries per page returned. Acceptable range is 3 - 1000. Default is 1000.
-        - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - usedState (string): Filter results by used or unused inventory. Accepted values are 'used' or 'unused'.
-        - search (string): Search for devices in inventory based on serial number, mac address, or model.
-        - macs (array): Search for devices in inventory based on mac addresses.
-        - networkIds (array): Search for devices in inventory based on network ids. Use explicit 'null' value to get available devices only.
-        - serials (array): Search for devices in inventory based on serials.
-        - models (array): Search for devices in inventory based on model.
-        - orderNumbers (array): Search for devices in inventory based on order numbers.
-        - tags (array): Filter devices by tags. The filtering is case-sensitive. If tags are included, 'tagsFilterType' should also be included (see below).
-        - tagsFilterType (string): To use with 'tags' parameter, to filter devices which contain ANY or ALL given tags. Accepted values are 'withAnyTags' or 'withAllTags', default is 'withAnyTags'.
-        - productTypes (array): Filter devices by product type. Accepted values are appliance, camera, campusGateway, cellularGateway, secureConnect, sensor, switch, systemsManager, wireless, and wirelessController.
+        Args:
+            organizationId: Organization ID.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+            perPage: The number of entries per page returned. Acceptable range is 3 - 1000. Default
+              is 1000.
+            startingAfter: A token used by the server to indicate the start of the page. Often this
+              is a timestamp or an ID but it is not limited to those. This parameter
+              should not be defined by client applications. The link for the first,
+              last, prev, or next page in the HTTP Link header should define it.
+            endingBefore: A token used by the server to indicate the end of the page. Often this is
+              a timestamp or an ID but it is not limited to those. This parameter should
+              not be defined by client applications. The link for the first, last, prev,
+              or next page in the HTTP Link header should define it.
+            usedState: Filter results by used or unused inventory. Accepted values are 'used' or
+              'unused'.
+            search: Search for devices in inventory based on serial number, mac address, or model.
+            macs: Search for devices in inventory based on mac addresses.
+            networkIds: Search for devices in inventory based on network ids. Use explicit 'null'
+              value to get available devices only.
+            serials: Search for devices in inventory based on serials.
+            models: Search for devices in inventory based on model.
+            orderNumbers: Search for devices in inventory based on order numbers.
+            tags: Filter devices by tags. The filtering is case-sensitive. If tags are included,
+              'tagsFilterType' should also be included (see below).
+            tagsFilterType: To use with 'tags' parameter, to filter devices which contain ANY or ALL
+              given tags. Accepted values are 'withAnyTags' or 'withAllTags', default is
+              'withAnyTags'.
+            productTypes: Filter devices by product type. Accepted values are appliance, camera,
+              campusGateway, cellularGateway, secureConnect, sensor, switch,
+              systemsManager, wireless, and wirelessController.
 
         """
         kwargs.update(locals())
@@ -3834,13 +4384,16 @@ class AsyncOrganizations:
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
-    def create_organization_inventory_devices_swaps_bulk(self, organizationId: str, swaps: list):
+    def create_organization_inventory_devices_swaps_bulk(
+        self, organizationId: str, swaps: list
+    ) -> dict[str, Any] | None:
         """Swap the devices identified by devices.old with a devices.new, then perform the :afterAction on the devices.old.
 
         https://developer.cisco.com/meraki/api-v1/#!create-organization-inventory-devices-swaps-bulk
 
-        - organizationId (string): Organization ID
-        - swaps (array): List of replacments to perform
+        Args:
+            organizationId: Organization ID.
+            swaps: List of replacments to perform.
 
         """
         kwargs = locals()
@@ -3859,13 +4412,16 @@ class AsyncOrganizations:
 
         return self._session.post(metadata, resource, payload)
 
-    def get_organization_inventory_devices_swaps_bulk(self, organizationId: str, id: str):
+    def get_organization_inventory_devices_swaps_bulk(
+        self, organizationId: str, id: str
+    ) -> dict[str, Any] | None:
         """List of device swaps for a given request ID ({id}).
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-inventory-devices-swaps-bulk
 
-        - organizationId (string): Organization ID
-        - id (string): ID
+        Args:
+            organizationId: Organization ID.
+            id: ID.
 
         """
         metadata = {
@@ -3878,13 +4434,16 @@ class AsyncOrganizations:
 
         return self._session.get(metadata, resource)
 
-    def get_organization_inventory_device(self, organizationId: str, serial: str):
+    def get_organization_inventory_device(
+        self, organizationId: str, serial: str
+    ) -> dict[str, Any] | None:
         """Return a single device from the inventory of an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-inventory-device
 
-        - organizationId (string): Organization ID
-        - serial (string): Serial
+        Args:
+            organizationId: Organization ID.
+            serial: Serial.
 
         """
         metadata = {
@@ -3898,17 +4457,19 @@ class AsyncOrganizations:
         return self._session.get(metadata, resource)
 
     def create_organization_inventory_onboarding_cloud_monitoring_export_event(
-        self, organizationId: str, logEvent: str, timestamp: int, **kwargs
-    ):
+        self, organizationId: str, logEvent: str, timestamp: int, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Imports event logs related to the onboarding app into elastisearch.
 
         https://developer.cisco.com/meraki/api-v1/#!create-organization-inventory-onboarding-cloud-monitoring-export-event
 
-        - organizationId (string): Organization ID
-        - logEvent (string): The type of log event this is recording, e.g. download or opening a banner
-        - timestamp (integer): A JavaScript UTC datetime stamp for when the even occurred
-        - targetOS (string): The name of the onboarding distro being downloaded
-        - request (string): Used to describe if this event was the result of a redirect. E.g. a query param if an info banner is being used
+        Args:
+            organizationId: Organization ID.
+            logEvent: The type of log event this is recording, e.g. download or opening a banner.
+            timestamp: A JavaScript UTC datetime stamp for when the even occurred.
+            targetOS: The name of the onboarding distro being downloaded.
+            request: Used to describe if this event was the result of a redirect. E.g. a query param
+              if an info banner is being used.
 
         """
         kwargs.update(locals())
@@ -3941,13 +4502,14 @@ class AsyncOrganizations:
 
     def create_organization_inventory_onboarding_cloud_monitoring_import(
         self, organizationId: str, devices: list
-    ):
+    ) -> dict[str, Any] | None:
         """Commits the import operation to complete the onboarding of a device into Dashboard for monitoring.
 
         https://developer.cisco.com/meraki/api-v1/#!create-organization-inventory-onboarding-cloud-monitoring-import
 
-        - organizationId (string): Organization ID
-        - devices (array): A set of device imports to commit
+        Args:
+            organizationId: Organization ID.
+            devices: A set of device imports to commit.
 
         """
         kwargs = locals()
@@ -3975,13 +4537,14 @@ class AsyncOrganizations:
 
     def get_organization_inventory_onboarding_cloud_monitoring_imports(
         self, organizationId: str, importIds: list
-    ):
+    ) -> dict[str, Any] | None:
         """Check the status of a committed Import operation.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-inventory-onboarding-cloud-monitoring-imports
 
-        - organizationId (string): Organization ID
-        - importIds (array): import ids from an imports
+        Args:
+            organizationId: Organization ID.
+            importIds: import ids from an imports.
 
         """
         kwargs = locals()
@@ -4016,20 +4579,29 @@ class AsyncOrganizations:
         return self._session.get(metadata, resource, params)
 
     def get_organization_inventory_onboarding_cloud_monitoring_networks(
-        self, organizationId: str, deviceType: str, total_pages=1, direction="next", **kwargs
-    ):
+        self, organizationId: str, deviceType: str, total_pages=1, direction="next", **kwargs: Any
+    ) -> Generator[Any, None, None]:
         """Returns list of networks eligible for adding cloud monitored device.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-inventory-onboarding-cloud-monitoring-networks
 
-        - organizationId (string): Organization ID
-        - deviceType (string): Device Type switch or wireless controller
-        - total_pages (integer or string): use with perPage to get total results up to total_pages*perPage; -1 or "all" for all pages
-        - direction (string): direction to paginate, either "next" (default) or "prev" page
-        - search (string): Optional parameter to search on network name
-        - perPage (integer): The number of entries per page returned. Acceptable range is 3 - 100000. Default is 1000.
-        - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
+        Args:
+            organizationId: Organization ID.
+            deviceType: Device Type switch or wireless controller.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+            search: Optional parameter to search on network name.
+            perPage: The number of entries per page returned. Acceptable range is 3 - 100000.
+              Default is 1000.
+            startingAfter: A token used by the server to indicate the start of the page. Often this
+              is a timestamp or an ID but it is not limited to those. This parameter
+              should not be defined by client applications. The link for the first,
+              last, prev, or next page in the HTTP Link header should define it.
+            endingBefore: A token used by the server to indicate the end of the page. Often this is
+              a timestamp or an ID but it is not limited to those. This parameter should
+              not be defined by client applications. The link for the first, last, prev,
+              or next page in the HTTP Link header should define it.
 
         """
         kwargs.update(locals())
@@ -4066,15 +4638,16 @@ class AsyncOrganizations:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def create_organization_inventory_onboarding_cloud_monitoring_prepare(
-        self, organizationId: str, devices: list, **kwargs
-    ):
+        self, organizationId: str, devices: list, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Initiates or updates an import session.
 
         https://developer.cisco.com/meraki/api-v1/#!create-organization-inventory-onboarding-cloud-monitoring-prepare
 
-        - organizationId (string): Organization ID
-        - devices (array): A set of devices to import (or update)
-        - options (object): Additional options for the import
+        Args:
+            organizationId: Organization ID.
+            devices: A set of devices to import (or update).
+            options: Additional options for the import.
 
         """
         kwargs.update(locals())
@@ -4101,14 +4674,17 @@ class AsyncOrganizations:
 
         return self._session.post(metadata, resource, payload)
 
-    def claim_organization_inventory_orders(self, organizationId: str, claimId: str, **kwargs):
+    def claim_organization_inventory_orders(
+        self, organizationId: str, claimId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Claim an order by the secure unique order claim number, the order claim id.
 
         https://developer.cisco.com/meraki/api-v1/#!claim-organization-inventory-orders
 
-        - organizationId (string): Organization ID
-        - claimId (string): The unique order claim id
-        - subscriptions (array): The individual subscriptions to claim
+        Args:
+            organizationId: Organization ID.
+            claimId: The unique order claim id.
+            subscriptions: The individual subscriptions to claim.
 
         """
         kwargs.update(locals())
@@ -4128,13 +4704,16 @@ class AsyncOrganizations:
 
         return self._session.post(metadata, resource, payload)
 
-    def preview_organization_inventory_orders(self, organizationId: str, claimId: str):
+    def preview_organization_inventory_orders(
+        self, organizationId: str, claimId: str
+    ) -> dict[str, Any] | None:
         """Preview the results and status of an order claim by the secure order id.
 
         https://developer.cisco.com/meraki/api-v1/#!preview-organization-inventory-orders
 
-        - organizationId (string): Organization ID
-        - claimId (string): The unique order claim id
+        Args:
+            organizationId: Organization ID.
+            claimId: The unique order claim id.
 
         """
         kwargs = locals()
@@ -4153,13 +4732,16 @@ class AsyncOrganizations:
 
         return self._session.post(metadata, resource, payload)
 
-    def release_from_organization_inventory(self, organizationId: str, **kwargs):
+    def release_from_organization_inventory(
+        self, organizationId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Release a list of claimed devices from an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!release-from-organization-inventory
 
-        - organizationId (string): Organization ID
-        - serials (array): Serials of the devices that should be released
+        Args:
+            organizationId: Organization ID.
+            serials: Serials of the devices that should be released.
 
         """
         kwargs.update(locals())
@@ -4179,21 +4761,32 @@ class AsyncOrganizations:
         return self._session.post(metadata, resource, payload)
 
     def get_organization_licenses(
-        self, organizationId: str, total_pages=1, direction="next", **kwargs
-    ):
+        self, organizationId: str, total_pages=1, direction="next", **kwargs: Any
+    ) -> Generator[Any, None, None]:
         """List the licenses for an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-licenses
 
-        - organizationId (string): Organization ID
-        - total_pages (integer or string): use with perPage to get total results up to total_pages*perPage; -1 or "all" for all pages
-        - direction (string): direction to paginate, either "next" (default) or "prev" page
-        - perPage (integer): The number of entries per page returned. Acceptable range is 3 - 1000. Default is 1000.
-        - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - deviceSerial (string): Filter the licenses to those assigned to a particular device. Returned in the same order that they are queued to the device.
-        - networkId (string): Filter the licenses to those assigned in a particular network
-        - state (string): Filter the licenses to those in a particular state. Can be one of 'active', 'expired', 'expiring', 'recentlyQueued', 'unused' or 'unusedActive'
+        Args:
+            organizationId: Organization ID.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+            perPage: The number of entries per page returned. Acceptable range is 3 - 1000. Default
+              is 1000.
+            startingAfter: A token used by the server to indicate the start of the page. Often this
+              is a timestamp or an ID but it is not limited to those. This parameter
+              should not be defined by client applications. The link for the first,
+              last, prev, or next page in the HTTP Link header should define it.
+            endingBefore: A token used by the server to indicate the end of the page. Often this is
+              a timestamp or an ID but it is not limited to those. This parameter should
+              not be defined by client applications. The link for the first, last, prev,
+              or next page in the HTTP Link header should define it.
+            deviceSerial: Filter the licenses to those assigned to a particular device. Returned in
+              the same order that they are queued to the device.
+            networkId: Filter the licenses to those assigned in a particular network.
+            state: Filter the licenses to those in a particular state. Can be one of 'active',
+              'expired', 'expiring', 'recentlyQueued', 'unused' or 'unusedActive'.
 
         """
         kwargs.update(locals())
@@ -4225,15 +4818,17 @@ class AsyncOrganizations:
 
     def assign_organization_licenses_seats(
         self, organizationId: str, licenseId: str, networkId: str, seatCount: int
-    ):
+    ) -> dict[str, Any] | None:
         """Assign SM seats to a network.
 
         https://developer.cisco.com/meraki/api-v1/#!assign-organization-licenses-seats
 
-        - organizationId (string): Organization ID
-        - licenseId (string): The ID of the SM license to assign seats from
-        - networkId (string): The ID of the SM network to assign the seats to
-        - seatCount (integer): The number of seats to assign to the SM network. Must be less than or equal to the total number of seats of the license
+        Args:
+            organizationId: Organization ID.
+            licenseId: The ID of the SM license to assign seats from.
+            networkId: The ID of the SM network to assign the seats to.
+            seatCount: The number of seats to assign to the SM network. Must be less than or equal
+              to the total number of seats of the license.
 
         """
         kwargs = locals()
@@ -4256,14 +4851,15 @@ class AsyncOrganizations:
 
     def move_organization_licenses(
         self, organizationId: str, destOrganizationId: str, licenseIds: list
-    ):
+    ) -> dict[str, Any] | None:
         """Move licenses to another organization.
 
         https://developer.cisco.com/meraki/api-v1/#!move-organization-licenses
 
-        - organizationId (string): Organization ID
-        - destOrganizationId (string): The ID of the organization to move the licenses to
-        - licenseIds (array): A list of IDs of licenses to move to the new organization
+        Args:
+            organizationId: Organization ID.
+            destOrganizationId: The ID of the organization to move the licenses to.
+            licenseIds: A list of IDs of licenses to move to the new organization.
 
         """
         kwargs = locals()
@@ -4285,15 +4881,17 @@ class AsyncOrganizations:
 
     def move_organization_licenses_seats(
         self, organizationId: str, destOrganizationId: str, licenseId: str, seatCount: int
-    ):
+    ) -> dict[str, Any] | None:
         """Move SM seats to another organization.
 
         https://developer.cisco.com/meraki/api-v1/#!move-organization-licenses-seats
 
-        - organizationId (string): Organization ID
-        - destOrganizationId (string): The ID of the organization to move the SM seats to
-        - licenseId (string): The ID of the SM license to move the seats from
-        - seatCount (integer): The number of seats to move to the new organization. Must be less than or equal to the total number of seats of the license
+        Args:
+            organizationId: Organization ID.
+            destOrganizationId: The ID of the organization to move the SM seats to.
+            licenseId: The ID of the SM license to move the seats from.
+            seatCount: The number of seats to move to the new organization. Must be less than or
+              equal to the total number of seats of the license.
 
         """
         kwargs = locals()
@@ -4314,12 +4912,13 @@ class AsyncOrganizations:
 
         return self._session.post(metadata, resource, payload)
 
-    def get_organization_licenses_overview(self, organizationId: str):
+    def get_organization_licenses_overview(self, organizationId: str) -> dict[str, Any] | None:
         """Return an overview of the license state for an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-licenses-overview
 
-        - organizationId (string): Organization ID
+        Args:
+            organizationId: Organization ID.
 
         """
         metadata = {
@@ -4333,14 +4932,18 @@ class AsyncOrganizations:
 
     def renew_organization_licenses_seats(
         self, organizationId: str, licenseIdToRenew: str, unusedLicenseId: str
-    ):
+    ) -> dict[str, Any] | None:
         """Renew SM seats of a license.
 
         https://developer.cisco.com/meraki/api-v1/#!renew-organization-licenses-seats
 
-        - organizationId (string): Organization ID
-        - licenseIdToRenew (string): The ID of the SM license to renew. This license must already be assigned to an SM network
-        - unusedLicenseId (string): The SM license to use to renew the seats on 'licenseIdToRenew'. This license must have at least as many seats available as there are seats on 'licenseIdToRenew'
+        Args:
+            organizationId: Organization ID.
+            licenseIdToRenew: The ID of the SM license to renew. This license must already be
+              assigned to an SM network.
+            unusedLicenseId: The SM license to use to renew the seats on 'licenseIdToRenew'. This
+              license must have at least as many seats available as there are seats on
+              'licenseIdToRenew'.
 
         """
         kwargs = locals()
@@ -4360,13 +4963,16 @@ class AsyncOrganizations:
 
         return self._session.post(metadata, resource, payload)
 
-    def get_organization_license(self, organizationId: str, licenseId: str):
+    def get_organization_license(
+        self, organizationId: str, licenseId: str
+    ) -> dict[str, Any] | None:
         """Display a license.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-license
 
-        - organizationId (string): Organization ID
-        - licenseId (string): License ID
+        Args:
+            organizationId: Organization ID.
+            licenseId: License ID.
 
         """
         metadata = {
@@ -4379,14 +4985,19 @@ class AsyncOrganizations:
 
         return self._session.get(metadata, resource)
 
-    def update_organization_license(self, organizationId: str, licenseId: str, **kwargs):
+    def update_organization_license(
+        self, organizationId: str, licenseId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Update a license.
 
         https://developer.cisco.com/meraki/api-v1/#!update-organization-license
 
-        - organizationId (string): Organization ID
-        - licenseId (string): License ID
-        - deviceSerial (string): The serial number of the device to assign this license to. Set this to  null to unassign the license. If a different license is already active on the device, this parameter will control queueing/dequeuing this license.
+        Args:
+            organizationId: Organization ID.
+            licenseId: License ID.
+            deviceSerial: The serial number of the device to assign this license to. Set this to
+              null to unassign the license. If a different license is already active on
+              the device, this parameter will control queueing/dequeuing this license.
 
         """
         kwargs.update(locals())
@@ -4406,12 +5017,13 @@ class AsyncOrganizations:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_organization_login_security(self, organizationId: str):
+    def get_organization_login_security(self, organizationId: str) -> dict[str, Any] | None:
         """Returns the login security settings for an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-login-security
 
-        - organizationId (string): Organization ID
+        Args:
+            organizationId: Organization ID.
 
         """
         metadata = {
@@ -4423,26 +5035,44 @@ class AsyncOrganizations:
 
         return self._session.get(metadata, resource)
 
-    def update_organization_login_security(self, organizationId: str, **kwargs):
+    def update_organization_login_security(
+        self, organizationId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Update the login security settings for an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!update-organization-login-security
 
-        - organizationId (string): Organization ID
-        - enforcePasswordExpiration (boolean): Boolean indicating whether users are forced to change their password every X number of days.
-        - passwordExpirationDays (integer): Number of days after which users will be forced to change their password.
-        - enforceDifferentPasswords (boolean): Boolean indicating whether users, when setting a new password, are forced to choose a new password that is different from any past passwords.
-        - numDifferentPasswords (integer): Number of recent passwords that new password must be distinct from.
-        - enforceStrongPasswords (boolean): Deprecated. Values of 'false' are always ignored.
-        - minimumPasswordLength (integer): Minimum number of characters required in admins' passwords.
-        - enforceAccountLockout (boolean): Boolean indicating whether users' Dashboard accounts will be locked out after a specified number of consecutive failed login attempts.
-        - accountLockoutAttempts (integer): Number of consecutive failed login attempts after which users' accounts will be locked.
-        - enforceIdleTimeout (boolean): Boolean indicating whether users will be logged out after being idle for the specified number of minutes.
-        - idleTimeoutMinutes (integer): Number of minutes users can remain idle before being logged out of their accounts.
-        - enforceTwoFactorAuth (boolean): Boolean indicating whether users in this organization will be required to use an extra verification code when logging in to Dashboard. This code will be sent to their mobile phone via SMS, or can be generated by the authenticator application.
-        - enforceLoginIpRanges (boolean): Boolean indicating whether organization will restrict access to Dashboard (including the API) from certain IP addresses.
-        - loginIpRanges (array): List of acceptable IP ranges. Entries can be single IP addresses, IP address ranges, and CIDR subnets.
-        - apiAuthentication (object): Details for indicating whether organization will restrict access to API (but not Dashboard) to certain IP addresses.
+        Args:
+            organizationId: Organization ID.
+            enforcePasswordExpiration: Boolean indicating whether users are forced to change their
+              password every X number of days.
+            passwordExpirationDays: Number of days after which users will be forced to change their
+              password.
+            enforceDifferentPasswords: Boolean indicating whether users, when setting a new
+              password, are forced to choose a new password that is different from any
+              past passwords.
+            numDifferentPasswords: Number of recent passwords that new password must be distinct
+              from.
+            enforceStrongPasswords: Deprecated. Values of 'false' are always ignored.
+            minimumPasswordLength: Minimum number of characters required in admins' passwords.
+            enforceAccountLockout: Boolean indicating whether users' Dashboard accounts will be
+              locked out after a specified number of consecutive failed login attempts.
+            accountLockoutAttempts: Number of consecutive failed login attempts after which users'
+              accounts will be locked.
+            enforceIdleTimeout: Boolean indicating whether users will be logged out after being idle
+              for the specified number of minutes.
+            idleTimeoutMinutes: Number of minutes users can remain idle before being logged out of
+              their accounts.
+            enforceTwoFactorAuth: Boolean indicating whether users in this organization will be
+              required to use an extra verification code when logging in to Dashboard.
+              This code will be sent to their mobile phone via SMS, or can be generated
+              by the authenticator application.
+            enforceLoginIpRanges: Boolean indicating whether organization will restrict access to
+              Dashboard (including the API) from certain IP addresses.
+            loginIpRanges: List of acceptable IP ranges. Entries can be single IP addresses, IP
+              address ranges, and CIDR subnets.
+            apiAuthentication: Details for indicating whether organization will restrict access to
+              API (but not Dashboard) to certain IP addresses.
 
         """
         kwargs.update(locals())
@@ -4475,23 +5105,39 @@ class AsyncOrganizations:
         return self._session.put(metadata, resource, payload)
 
     def get_organization_networks(
-        self, organizationId: str, total_pages=1, direction="next", **kwargs
-    ):
+        self, organizationId: str, total_pages=1, direction="next", **kwargs: Any
+    ) -> Generator[Any, None, None]:
         """List the networks that the user has privileges on in an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-networks
 
-        - organizationId (string): Organization ID
-        - total_pages (integer or string): use with perPage to get total results up to total_pages*perPage; -1 or "all" for all pages
-        - direction (string): direction to paginate, either "next" (default) or "prev" page
-        - configTemplateId (string): An optional parameter that is the ID of a config template. Will return all networks bound to that template.
-        - isBoundToConfigTemplate (boolean): An optional parameter to filter config template bound networks. If configTemplateId is set, this cannot be false.
-        - tags (array): An optional parameter to filter networks by tags. The filtering is case-sensitive. If tags are included, 'tagsFilterType' should also be included (see below).
-        - tagsFilterType (string): An optional parameter of value 'withAnyTags' or 'withAllTags' to indicate whether to return networks which contain ANY or ALL of the included tags. If no type is included, 'withAnyTags' will be selected.
-        - productTypes (array): An optional parameter to filter networks by product type. Results will have at least one of the included product types.
-        - perPage (integer): The number of entries per page returned. Acceptable range is 3 - 100000. Default is 1000.
-        - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
+        Args:
+            organizationId: Organization ID.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+            configTemplateId: An optional parameter that is the ID of a config template. Will return
+              all networks bound to that template.
+            isBoundToConfigTemplate: An optional parameter to filter config template bound networks.
+              If configTemplateId is set, this cannot be false.
+            tags: An optional parameter to filter networks by tags. The filtering is case-sensitive.
+              If tags are included, 'tagsFilterType' should also be included (see
+              below).
+            tagsFilterType: An optional parameter of value 'withAnyTags' or 'withAllTags' to
+              indicate whether to return networks which contain ANY or ALL of the
+              included tags. If no type is included, 'withAnyTags' will be selected.
+            productTypes: An optional parameter to filter networks by product type. Results will
+              have at least one of the included product types.
+            perPage: The number of entries per page returned. Acceptable range is 3 - 100000.
+              Default is 1000.
+            startingAfter: A token used by the server to indicate the start of the page. Often this
+              is a timestamp or an ID but it is not limited to those. This parameter
+              should not be defined by client applications. The link for the first,
+              last, prev, or next page in the HTTP Link header should define it.
+            endingBefore: A token used by the server to indicate the end of the page. Often this is
+              a timestamp or an ID but it is not limited to those. This parameter should
+              not be defined by client applications. The link for the first, last, prev,
+              or next page in the HTTP Link header should define it.
 
         """
         kwargs.update(locals())
@@ -4533,19 +5179,26 @@ class AsyncOrganizations:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def create_organization_network(
-        self, organizationId: str, name: str, productTypes: list, **kwargs
-    ):
+        self, organizationId: str, name: str, productTypes: list, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Create a network.
 
         https://developer.cisco.com/meraki/api-v1/#!create-organization-network
 
-        - organizationId (string): Organization ID
-        - name (string): The name of the new network
-        - productTypes (array): The product type(s) of the new network. If more than one type is included, the network will be a combined network.
-        - tags (array): A list of tags to be applied to the network
-        - timeZone (string): The timezone of the network. For a list of allowed timezones, please see the 'TZ' column in the table in <a target='_blank' href='https://en.wikipedia.org/wiki/List_of_tz_database_time_zones'>this article.</a>
-        - copyFromNetworkId (string): The ID of the network to copy configuration from. Other provided parameters will override the copied configuration, except type which must match this network's type exactly.
-        - notes (string): Add any notes or additional information about this network here.
+        Args:
+            organizationId: Organization ID.
+            name: The name of the new network.
+            productTypes: The product type(s) of the new network. If more than one type is included,
+              the network will be a combined network.
+            tags: A list of tags to be applied to the network.
+            timeZone: The timezone of the network. For a list of allowed timezones, please see the
+              'TZ' column in the table in <a target='_blank'
+              href='https://en.wikipedia.org/wiki/List_of_tz_database_time_zones'>this
+              article.</a>.
+            copyFromNetworkId: The ID of the network to copy configuration from. Other provided
+              parameters will override the copied configuration, except type which must
+              match this network's type exactly.
+            notes: Add any notes or additional information about this network here.
 
         """
         kwargs.update(locals())
@@ -4570,16 +5223,24 @@ class AsyncOrganizations:
         return self._session.post(metadata, resource, payload)
 
     def combine_organization_networks(
-        self, organizationId: str, name: str, networkIds: list, **kwargs
-    ):
+        self, organizationId: str, name: str, networkIds: list, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Combine multiple networks into a single network.
 
         https://developer.cisco.com/meraki/api-v1/#!combine-organization-networks
 
-        - organizationId (string): Organization ID
-        - name (string): The name of the combined network
-        - networkIds (array): A list of the network IDs that will be combined. If an ID of a combined network is included in this list, the other networks in the list will be grouped into that network
-        - enrollmentString (string): A unique identifier which can be used for device enrollment or easy access through the Meraki SM Registration page or the Self Service Portal. Please note that changing this field may cause existing bookmarks to break. All networks that are part of this combined network will have their enrollment string appended by '-network_type'. If left empty, all exisitng enrollment strings will be deleted.
+        Args:
+            organizationId: Organization ID.
+            name: The name of the combined network.
+            networkIds: A list of the network IDs that will be combined. If an ID of a combined
+              network is included in this list, the other networks in the list will be
+              grouped into that network.
+            enrollmentString: A unique identifier which can be used for device enrollment or easy
+              access through the Meraki SM Registration page or the Self Service Portal.
+              Please note that changing this field may cause existing bookmarks to
+              break. All networks that are part of this combined network will have their
+              enrollment string appended by '-network_type'. If left empty, all exisitng
+              enrollment strings will be deleted.
 
         """
         kwargs.update(locals())
@@ -4600,13 +5261,16 @@ class AsyncOrganizations:
 
         return self._session.post(metadata, resource, payload)
 
-    def get_organization_openapi_spec(self, organizationId: str, **kwargs):
+    def get_organization_openapi_spec(
+        self, organizationId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Return the OpenAPI Specification of the organization's API documentation in JSON.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-openapi-spec
 
-        - organizationId (string): Organization ID
-        - version (integer): OpenAPI Specification version to return. Default is 2
+        Args:
+            organizationId: Organization ID.
+            version: OpenAPI Specification version to return. Default is 2.
 
         """
         kwargs.update(locals())
@@ -4632,22 +5296,35 @@ class AsyncOrganizations:
         return self._session.get(metadata, resource, params)
 
     def get_organization_policies_assignments_by_client(
-        self, organizationId: str, networkIds: list, total_pages=1, direction="next", **kwargs
-    ):
+        self, organizationId: str, networkIds: list, total_pages=1, direction="next", **kwargs: Any
+    ) -> Generator[Any, None, None]:
         """Get policies for all clients with policies.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-policies-assignments-by-client
 
-        - organizationId (string): Organization ID
-        - networkIds (array): Network Ids (minimum: 1, maximum: 30)
-        - total_pages (integer or string): use with perPage to get total results up to total_pages*perPage; -1 or "all" for all pages
-        - direction (string): direction to paginate, either "next" (default) or "prev" page
-        - perPage (integer): The number of entries per page returned. Acceptable range is 3 - 1000. Default is 50.
-        - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - t0 (string): The beginning of the timespan for the data. The maximum lookback period is 31 days from today.
-        - timespan (number): The timespan for which the information will be fetched. If specifying timespan, do not specify parameter t0. The value must be in seconds and be less than or equal to 31 days. The default is 1 day.
-        - includeUndetectedClients (boolean): Include provisioned clients that have not associated to the network. Default: false
+        Args:
+            organizationId: Organization ID.
+            networkIds: Network Ids (minimum: 1, maximum: 30).
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+            perPage: The number of entries per page returned. Acceptable range is 3 - 1000. Default
+              is 50.
+            startingAfter: A token used by the server to indicate the start of the page. Often this
+              is a timestamp or an ID but it is not limited to those. This parameter
+              should not be defined by client applications. The link for the first,
+              last, prev, or next page in the HTTP Link header should define it.
+            endingBefore: A token used by the server to indicate the end of the page. Often this is
+              a timestamp or an ID but it is not limited to those. This parameter should
+              not be defined by client applications. The link for the first, last, prev,
+              or next page in the HTTP Link header should define it.
+            t0: The beginning of the timespan for the data. The maximum lookback period is 31 days
+              from today.
+            timespan: The timespan for which the information will be fetched. If specifying
+              timespan, do not specify parameter t0. The value must be in seconds and be
+              less than or equal to 31 days. The default is 1 day.
+            includeUndetectedClients: Include provisioned clients that have not associated to the
+              network. Default: false.
 
         """
         kwargs.update(locals())
@@ -4681,18 +5358,27 @@ class AsyncOrganizations:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def get_organization_policy_objects(
-        self, organizationId: str, total_pages=1, direction="next", **kwargs
-    ):
+        self, organizationId: str, total_pages=1, direction="next", **kwargs: Any
+    ) -> Generator[Any, None, None]:
         """Lists Policy Objects belonging to the organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-policy-objects
 
-        - organizationId (string): Organization ID
-        - total_pages (integer or string): use with perPage to get total results up to total_pages*perPage; -1 or "all" for all pages
-        - direction (string): direction to paginate, either "next" (default) or "prev" page
-        - perPage (integer): The number of entries per page returned. Acceptable range is 10 - 5000. Default is 5000.
-        - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
+        Args:
+            organizationId: Organization ID.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+            perPage: The number of entries per page returned. Acceptable range is 10 - 5000. Default
+              is 5000.
+            startingAfter: A token used by the server to indicate the start of the page. Often this
+              is a timestamp or an ID but it is not limited to those. This parameter
+              should not be defined by client applications. The link for the first,
+              last, prev, or next page in the HTTP Link header should define it.
+            endingBefore: A token used by the server to indicate the end of the page. Often this is
+              a timestamp or an ID but it is not limited to those. This parameter should
+              not be defined by client applications. The link for the first, last, prev,
+              or next page in the HTTP Link header should define it.
 
         """
         kwargs.update(locals())
@@ -4714,21 +5400,23 @@ class AsyncOrganizations:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def create_organization_policy_object(
-        self, organizationId: str, name: str, category: str, type: str, **kwargs
-    ):
+        self, organizationId: str, name: str, category: str, type: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Creates a new Policy Object.
 
         https://developer.cisco.com/meraki/api-v1/#!create-organization-policy-object
 
-        - organizationId (string): Organization ID
-        - name (string): Name of a policy object, unique within the organization (alphanumeric, space, dash, or underscore characters only)
-        - category (string): Category of a policy object (one of: adaptivePolicy, network)
-        - type (string): Type of a policy object (one of: adaptivePolicyIpv4Cidr, cidr, fqdn, ipAndMask)
-        - cidr (string): CIDR Value of a policy object (e.g. 10.11.12.1/24")
-        - fqdn (string): Fully qualified domain name of policy object (e.g. "example.com")
-        - mask (string): Mask of a policy object (e.g. "255.255.0.0")
-        - ip (string): IP Address of a policy object (e.g. "1.2.3.4")
-        - groupIds (array): The IDs of policy object groups the policy object belongs to
+        Args:
+            organizationId: Organization ID.
+            name: Name of a policy object, unique within the organization (alphanumeric, space,
+              dash, or underscore characters only).
+            category: Category of a policy object (one of: adaptivePolicy, network).
+            type: Type of a policy object (one of: adaptivePolicyIpv4Cidr, cidr, fqdn, ipAndMask).
+            cidr: CIDR Value of a policy object (e.g. 10.11.12.1/24").
+            fqdn: Fully qualified domain name of policy object (e.g. "example.com").
+            mask: Mask of a policy object (e.g. "255.255.0.0").
+            ip: IP Address of a policy object (e.g. "1.2.3.4").
+            groupIds: The IDs of policy object groups the policy object belongs to.
 
         """
         kwargs.update(locals())
@@ -4755,18 +5443,27 @@ class AsyncOrganizations:
         return self._session.post(metadata, resource, payload)
 
     def get_organization_policy_objects_groups(
-        self, organizationId: str, total_pages=1, direction="next", **kwargs
-    ):
+        self, organizationId: str, total_pages=1, direction="next", **kwargs: Any
+    ) -> Generator[Any, None, None]:
         """Lists Policy Object Groups belonging to the organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-policy-objects-groups
 
-        - organizationId (string): Organization ID
-        - total_pages (integer or string): use with perPage to get total results up to total_pages*perPage; -1 or "all" for all pages
-        - direction (string): direction to paginate, either "next" (default) or "prev" page
-        - perPage (integer): The number of entries per page returned. Acceptable range is 10 - 1000. Default is 1000.
-        - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
+        Args:
+            organizationId: Organization ID.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+            perPage: The number of entries per page returned. Acceptable range is 10 - 1000. Default
+              is 1000.
+            startingAfter: A token used by the server to indicate the start of the page. Often this
+              is a timestamp or an ID but it is not limited to those. This parameter
+              should not be defined by client applications. The link for the first,
+              last, prev, or next page in the HTTP Link header should define it.
+            endingBefore: A token used by the server to indicate the end of the page. Often this is
+              a timestamp or an ID but it is not limited to those. This parameter should
+              not be defined by client applications. The link for the first, last, prev,
+              or next page in the HTTP Link header should define it.
 
         """
         kwargs.update(locals())
@@ -4787,15 +5484,22 @@ class AsyncOrganizations:
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
-    def create_organization_policy_objects_group(self, organizationId: str, name: str, **kwargs):
+    def create_organization_policy_objects_group(
+        self, organizationId: str, name: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Creates a new Policy Object Group.
 
         https://developer.cisco.com/meraki/api-v1/#!create-organization-policy-objects-group
 
-        - organizationId (string): Organization ID
-        - name (string): A name for the group of network addresses, unique within the organization (alphanumeric, space, dash, or underscore characters only)
-        - category (string): Category of a policy object group (one of: NetworkObjectGroup, GeoLocationGroup, PortObjectGroup, ApplicationGroup)
-        - objectIds (array): A list of Policy Object ID's that this NetworkObjectGroup should be associated to (note: these ID's will replace the existing associated Policy Objects)
+        Args:
+            organizationId: Organization ID.
+            name: A name for the group of network addresses, unique within the organization
+              (alphanumeric, space, dash, or underscore characters only).
+            category: Category of a policy object group (one of: NetworkObjectGroup,
+              GeoLocationGroup, PortObjectGroup, ApplicationGroup).
+            objectIds: A list of Policy Object ID's that this NetworkObjectGroup should be
+              associated to (note: these ID's will replace the existing associated
+              Policy Objects).
 
         """
         kwargs.update(locals())
@@ -4816,13 +5520,16 @@ class AsyncOrganizations:
 
         return self._session.post(metadata, resource, payload)
 
-    def get_organization_policy_objects_group(self, organizationId: str, policyObjectGroupId: str):
+    def get_organization_policy_objects_group(
+        self, organizationId: str, policyObjectGroupId: str
+    ) -> dict[str, Any] | None:
         """Shows details of a Policy Object Group.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-policy-objects-group
 
-        - organizationId (string): Organization ID
-        - policyObjectGroupId (string): Policy object group ID
+        Args:
+            organizationId: Organization ID.
+            policyObjectGroupId: Policy object group ID.
 
         """
         metadata = {
@@ -4836,16 +5543,20 @@ class AsyncOrganizations:
         return self._session.get(metadata, resource)
 
     def update_organization_policy_objects_group(
-        self, organizationId: str, policyObjectGroupId: str, **kwargs
-    ):
+        self, organizationId: str, policyObjectGroupId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Updates a Policy Object Group.
 
         https://developer.cisco.com/meraki/api-v1/#!update-organization-policy-objects-group
 
-        - organizationId (string): Organization ID
-        - policyObjectGroupId (string): Policy object group ID
-        - name (string): A name for the group of network addresses, unique within the organization (alphanumeric, space, dash, or underscore characters only)
-        - objectIds (array): A list of Policy Object ID's that this NetworkObjectGroup should be associated to (note: these ID's will replace the existing associated Policy Objects)
+        Args:
+            organizationId: Organization ID.
+            policyObjectGroupId: Policy object group ID.
+            name: A name for the group of network addresses, unique within the organization
+              (alphanumeric, space, dash, or underscore characters only).
+            objectIds: A list of Policy Object ID's that this NetworkObjectGroup should be
+              associated to (note: these ID's will replace the existing associated
+              Policy Objects).
 
         """
         kwargs.update(locals())
@@ -4868,13 +5579,14 @@ class AsyncOrganizations:
 
     def delete_organization_policy_objects_group(
         self, organizationId: str, policyObjectGroupId: str
-    ):
+    ) -> None:
         """Deletes a Policy Object Group.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-policy-objects-group
 
-        - organizationId (string): Organization ID
-        - policyObjectGroupId (string): Policy object group ID
+        Args:
+            organizationId: Organization ID.
+            policyObjectGroupId: Policy object group ID.
 
         """
         metadata = {
@@ -4887,13 +5599,16 @@ class AsyncOrganizations:
 
         return self._session.delete(metadata, resource)
 
-    def get_organization_policy_object(self, organizationId: str, policyObjectId: str):
+    def get_organization_policy_object(
+        self, organizationId: str, policyObjectId: str
+    ) -> dict[str, Any] | None:
         """Shows details of a Policy Object.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-policy-object
 
-        - organizationId (string): Organization ID
-        - policyObjectId (string): Policy object ID
+        Args:
+            organizationId: Organization ID.
+            policyObjectId: Policy object ID.
 
         """
         metadata = {
@@ -4906,19 +5621,23 @@ class AsyncOrganizations:
 
         return self._session.get(metadata, resource)
 
-    def update_organization_policy_object(self, organizationId: str, policyObjectId: str, **kwargs):
+    def update_organization_policy_object(
+        self, organizationId: str, policyObjectId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Updates a Policy Object.
 
         https://developer.cisco.com/meraki/api-v1/#!update-organization-policy-object
 
-        - organizationId (string): Organization ID
-        - policyObjectId (string): Policy object ID
-        - name (string): Name of a policy object, unique within the organization (alphanumeric, space, dash, or underscore characters only)
-        - cidr (string): CIDR Value of a policy object (e.g. 10.11.12.1/24")
-        - fqdn (string): Fully qualified domain name of policy object (e.g. "example.com")
-        - mask (string): Mask of a policy object (e.g. "255.255.0.0")
-        - ip (string): IP Address of a policy object (e.g. "1.2.3.4")
-        - groupIds (array): The IDs of policy object groups the policy object belongs to
+        Args:
+            organizationId: Organization ID.
+            policyObjectId: Policy object ID.
+            name: Name of a policy object, unique within the organization (alphanumeric, space,
+              dash, or underscore characters only).
+            cidr: CIDR Value of a policy object (e.g. 10.11.12.1/24").
+            fqdn: Fully qualified domain name of policy object (e.g. "example.com").
+            mask: Mask of a policy object (e.g. "255.255.0.0").
+            ip: IP Address of a policy object (e.g. "1.2.3.4").
+            groupIds: The IDs of policy object groups the policy object belongs to.
 
         """
         kwargs.update(locals())
@@ -4943,13 +5662,14 @@ class AsyncOrganizations:
 
         return self._session.put(metadata, resource, payload)
 
-    def delete_organization_policy_object(self, organizationId: str, policyObjectId: str):
+    def delete_organization_policy_object(self, organizationId: str, policyObjectId: str) -> None:
         """Deletes a Policy Object.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-policy-object
 
-        - organizationId (string): Organization ID
-        - policyObjectId (string): Policy object ID
+        Args:
+            organizationId: Organization ID.
+            policyObjectId: Policy object ID.
 
         """
         metadata = {
@@ -4962,12 +5682,13 @@ class AsyncOrganizations:
 
         return self._session.delete(metadata, resource)
 
-    def get_organization_saml(self, organizationId: str):
+    def get_organization_saml(self, organizationId: str) -> dict[str, Any] | None:
         """Returns the SAML SSO enabled settings for an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-saml
 
-        - organizationId (string): Organization ID
+        Args:
+            organizationId: Organization ID.
 
         """
         metadata = {
@@ -4979,14 +5700,15 @@ class AsyncOrganizations:
 
         return self._session.get(metadata, resource)
 
-    def update_organization_saml(self, organizationId: str, **kwargs):
+    def update_organization_saml(self, organizationId: str, **kwargs: Any) -> dict[str, Any] | None:
         """Updates the SAML SSO enabled settings for an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!update-organization-saml
 
-        - organizationId (string): Organization ID
-        - enabled (boolean): Boolean for updating SAML SSO enabled settings.
-        - spInitiated (object): SP-Initiated SSO settings
+        Args:
+            organizationId: Organization ID.
+            enabled: Boolean for updating SAML SSO enabled settings.
+            spInitiated: SP-Initiated SSO settings.
 
         """
         kwargs.update(locals())
@@ -5006,12 +5728,13 @@ class AsyncOrganizations:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_organization_saml_idps(self, organizationId: str):
+    def get_organization_saml_idps(self, organizationId: str) -> dict[str, Any] | None:
         """List the SAML IdPs in your organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-saml-idps
 
-        - organizationId (string): Organization ID
+        Args:
+            organizationId: Organization ID.
 
         """
         metadata = {
@@ -5024,16 +5747,19 @@ class AsyncOrganizations:
         return self._session.get(metadata, resource)
 
     def create_organization_saml_idp(
-        self, organizationId: str, x509certSha1Fingerprint: str, **kwargs
-    ):
+        self, organizationId: str, x509certSha1Fingerprint: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Create a SAML IdP for your organization.
 
         https://developer.cisco.com/meraki/api-v1/#!create-organization-saml-idp
 
-        - organizationId (string): Organization ID
-        - x509certSha1Fingerprint (string): Fingerprint (SHA1) of the SAML certificate provided by your Identity Provider (IdP). This will be used for encryption / validation.
-        - ssoLoginUrl (string): Dashboard will redirect users to this URL to log in again when their sessions expire.
-        - sloLogoutUrl (string): Dashboard will redirect users to this URL when they sign out.
+        Args:
+            organizationId: Organization ID.
+            x509certSha1Fingerprint: Fingerprint (SHA1) of the SAML certificate provided by your
+              Identity Provider (IdP). This will be used for encryption / validation.
+            ssoLoginUrl: Dashboard will redirect users to this URL to log in again when their
+              sessions expire.
+            sloLogoutUrl: Dashboard will redirect users to this URL when they sign out.
 
         """
         kwargs.update(locals())
@@ -5054,16 +5780,21 @@ class AsyncOrganizations:
 
         return self._session.post(metadata, resource, payload)
 
-    def update_organization_saml_idp(self, organizationId: str, idpId: str, **kwargs):
+    def update_organization_saml_idp(
+        self, organizationId: str, idpId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Update a SAML IdP in your organization.
 
         https://developer.cisco.com/meraki/api-v1/#!update-organization-saml-idp
 
-        - organizationId (string): Organization ID
-        - idpId (string): Idp ID
-        - x509certSha1Fingerprint (string): Fingerprint (SHA1) of the SAML certificate provided by your Identity Provider (IdP). This will be used for encryption / validation.
-        - ssoLoginUrl (string): Dashboard will redirect users to this URL to log in again when their sessions expire.
-        - sloLogoutUrl (string): Dashboard will redirect users to this URL when they sign out.
+        Args:
+            organizationId: Organization ID.
+            idpId: Idp ID.
+            x509certSha1Fingerprint: Fingerprint (SHA1) of the SAML certificate provided by your
+              Identity Provider (IdP). This will be used for encryption / validation.
+            ssoLoginUrl: Dashboard will redirect users to this URL to log in again when their
+              sessions expire.
+            sloLogoutUrl: Dashboard will redirect users to this URL when they sign out.
 
         """
         kwargs.update(locals())
@@ -5085,13 +5816,14 @@ class AsyncOrganizations:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_organization_saml_idp(self, organizationId: str, idpId: str):
+    def get_organization_saml_idp(self, organizationId: str, idpId: str) -> dict[str, Any] | None:
         """Get a SAML IdP from your organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-saml-idp
 
-        - organizationId (string): Organization ID
-        - idpId (string): Idp ID
+        Args:
+            organizationId: Organization ID.
+            idpId: Idp ID.
 
         """
         metadata = {
@@ -5104,13 +5836,14 @@ class AsyncOrganizations:
 
         return self._session.get(metadata, resource)
 
-    def delete_organization_saml_idp(self, organizationId: str, idpId: str):
+    def delete_organization_saml_idp(self, organizationId: str, idpId: str) -> None:
         """Remove a SAML IdP in your organization.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-saml-idp
 
-        - organizationId (string): Organization ID
-        - idpId (string): Idp ID
+        Args:
+            organizationId: Organization ID.
+            idpId: Idp ID.
 
         """
         metadata = {
@@ -5123,12 +5856,13 @@ class AsyncOrganizations:
 
         return self._session.delete(metadata, resource)
 
-    def get_organization_saml_roles(self, organizationId: str):
+    def get_organization_saml_roles(self, organizationId: str) -> dict[str, Any] | None:
         """List the SAML roles for this organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-saml-roles
 
-        - organizationId (string): Organization ID
+        Args:
+            organizationId: Organization ID.
 
         """
         metadata = {
@@ -5141,17 +5875,20 @@ class AsyncOrganizations:
         return self._session.get(metadata, resource)
 
     def create_organization_saml_role(
-        self, organizationId: str, role: str, orgAccess: str, **kwargs
-    ):
+        self, organizationId: str, role: str, orgAccess: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Create a SAML role.
 
         https://developer.cisco.com/meraki/api-v1/#!create-organization-saml-role
 
-        - organizationId (string): Organization ID
-        - role (string): The role of the SAML administrator
-        - orgAccess (string): The privilege of the SAML administrator on the organization. Can be one of 'none', 'read-only', 'full' or 'enterprise' or a custom role in the format custom-role:ID:NAME.
-        - tags (array): The list of tags that the SAML administrator has privileges on
-        - networks (array): The list of networks that the SAML administrator has privileges on
+        Args:
+            organizationId: Organization ID.
+            role: The role of the SAML administrator.
+            orgAccess: The privilege of the SAML administrator on the organization. Can be one of
+              'none', 'read-only', 'full' or 'enterprise' or a custom role in the format
+              custom-role:ID:NAME.
+            tags: The list of tags that the SAML administrator has privileges on.
+            networks: The list of networks that the SAML administrator has privileges on.
 
         """
         kwargs.update(locals())
@@ -5173,13 +5910,16 @@ class AsyncOrganizations:
 
         return self._session.post(metadata, resource, payload)
 
-    def get_organization_saml_role(self, organizationId: str, samlRoleId: str):
+    def get_organization_saml_role(
+        self, organizationId: str, samlRoleId: str
+    ) -> dict[str, Any] | None:
         """Return a SAML role.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-saml-role
 
-        - organizationId (string): Organization ID
-        - samlRoleId (string): Saml role ID
+        Args:
+            organizationId: Organization ID.
+            samlRoleId: Saml role ID.
 
         """
         metadata = {
@@ -5192,17 +5932,22 @@ class AsyncOrganizations:
 
         return self._session.get(metadata, resource)
 
-    def update_organization_saml_role(self, organizationId: str, samlRoleId: str, **kwargs):
+    def update_organization_saml_role(
+        self, organizationId: str, samlRoleId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Update a SAML role.
 
         https://developer.cisco.com/meraki/api-v1/#!update-organization-saml-role
 
-        - organizationId (string): Organization ID
-        - samlRoleId (string): Saml role ID
-        - role (string): The role of the SAML administrator
-        - orgAccess (string): The privilege of the SAML administrator on the organization. Can be one of 'none', 'read-only', 'full' or 'enterprise' or a custom role in the format custom-role:ID:NAME.
-        - tags (array): The list of tags that the SAML administrator has privileges on
-        - networks (array): The list of networks that the SAML administrator has privileges on
+        Args:
+            organizationId: Organization ID.
+            samlRoleId: Saml role ID.
+            role: The role of the SAML administrator.
+            orgAccess: The privilege of the SAML administrator on the organization. Can be one of
+              'none', 'read-only', 'full' or 'enterprise' or a custom role in the format
+              custom-role:ID:NAME.
+            tags: The list of tags that the SAML administrator has privileges on.
+            networks: The list of networks that the SAML administrator has privileges on.
 
         """
         kwargs.update(locals())
@@ -5225,13 +5970,14 @@ class AsyncOrganizations:
 
         return self._session.put(metadata, resource, payload)
 
-    def delete_organization_saml_role(self, organizationId: str, samlRoleId: str):
+    def delete_organization_saml_role(self, organizationId: str, samlRoleId: str) -> None:
         """Remove a SAML role.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-saml-role
 
-        - organizationId (string): Organization ID
-        - samlRoleId (string): Saml role ID
+        Args:
+            organizationId: Organization ID.
+            samlRoleId: Saml role ID.
 
         """
         metadata = {
@@ -5244,12 +5990,13 @@ class AsyncOrganizations:
 
         return self._session.delete(metadata, resource)
 
-    def get_organization_snmp(self, organizationId: str):
+    def get_organization_snmp(self, organizationId: str) -> dict[str, Any] | None:
         """Return the SNMP settings for an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-snmp
 
-        - organizationId (string): Organization ID
+        Args:
+            organizationId: Organization ID.
 
         """
         metadata = {
@@ -5261,19 +6008,22 @@ class AsyncOrganizations:
 
         return self._session.get(metadata, resource)
 
-    def update_organization_snmp(self, organizationId: str, **kwargs):
+    def update_organization_snmp(self, organizationId: str, **kwargs: Any) -> dict[str, Any] | None:
         """Update the SNMP settings for an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!update-organization-snmp
 
-        - organizationId (string): Organization ID
-        - v2cEnabled (boolean): Boolean indicating whether SNMP version 2c is enabled for the organization.
-        - v3Enabled (boolean): Boolean indicating whether SNMP version 3 is enabled for the organization.
-        - v3AuthMode (string): The SNMP version 3 authentication mode. Can be either 'MD5' or 'SHA'.
-        - v3AuthPass (string): The SNMP version 3 authentication password. Must be at least 8 characters if specified.
-        - v3PrivMode (string): The SNMP version 3 privacy mode. Can be either 'DES' or 'AES128'.
-        - v3PrivPass (string): The SNMP version 3 privacy password. Must be at least 8 characters if specified.
-        - peerIps (array): The list of IPv4 addresses that are allowed to access the SNMP server.
+        Args:
+            organizationId: Organization ID.
+            v2cEnabled: Boolean indicating whether SNMP version 2c is enabled for the organization.
+            v3Enabled: Boolean indicating whether SNMP version 3 is enabled for the organization.
+            v3AuthMode: The SNMP version 3 authentication mode. Can be either 'MD5' or 'SHA'.
+            v3AuthPass: The SNMP version 3 authentication password. Must be at least 8 characters if
+              specified.
+            v3PrivMode: The SNMP version 3 privacy mode. Can be either 'DES' or 'AES128'.
+            v3PrivPass: The SNMP version 3 privacy password. Must be at least 8 characters if
+              specified.
+            peerIps: The list of IPv4 addresses that are allowed to access the SNMP server.
 
         """
         kwargs.update(locals())
@@ -5309,13 +6059,14 @@ class AsyncOrganizations:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_organization_splash_asset(self, organizationId: str, id: str):
+    def get_organization_splash_asset(self, organizationId: str, id: str) -> dict[str, Any] | None:
         """Get a Splash Theme Asset.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-splash-asset
 
-        - organizationId (string): Organization ID
-        - id (string): ID
+        Args:
+            organizationId: Organization ID.
+            id: ID.
 
         """
         metadata = {
@@ -5328,13 +6079,14 @@ class AsyncOrganizations:
 
         return self._session.get(metadata, resource)
 
-    def delete_organization_splash_asset(self, organizationId: str, id: str):
+    def delete_organization_splash_asset(self, organizationId: str, id: str) -> None:
         """Delete a Splash Theme Asset.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-splash-asset
 
-        - organizationId (string): Organization ID
-        - id (string): ID
+        Args:
+            organizationId: Organization ID.
+            id: ID.
 
         """
         metadata = {
@@ -5347,12 +6099,13 @@ class AsyncOrganizations:
 
         return self._session.delete(metadata, resource)
 
-    def get_organization_splash_themes(self, organizationId: str):
+    def get_organization_splash_themes(self, organizationId: str) -> dict[str, Any] | None:
         """List Splash Themes.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-splash-themes
 
-        - organizationId (string): Organization ID
+        Args:
+            organizationId: Organization ID.
 
         """
         metadata = {
@@ -5364,14 +6117,17 @@ class AsyncOrganizations:
 
         return self._session.get(metadata, resource)
 
-    def create_organization_splash_theme(self, organizationId: str, **kwargs):
+    def create_organization_splash_theme(
+        self, organizationId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Create a Splash Theme.
 
         https://developer.cisco.com/meraki/api-v1/#!create-organization-splash-theme
 
-        - organizationId (string): Organization ID
-        - name (string): theme name
-        - baseTheme (string): base theme id
+        Args:
+            organizationId: Organization ID.
+            name: theme name.
+            baseTheme: base theme id .
 
         """
         kwargs.update(locals())
@@ -5391,13 +6147,14 @@ class AsyncOrganizations:
 
         return self._session.post(metadata, resource, payload)
 
-    def delete_organization_splash_theme(self, organizationId: str, id: str):
+    def delete_organization_splash_theme(self, organizationId: str, id: str) -> None:
         """Delete a Splash Theme.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-splash-theme
 
-        - organizationId (string): Organization ID
-        - id (string): ID
+        Args:
+            organizationId: Organization ID.
+            id: ID.
 
         """
         metadata = {
@@ -5411,16 +6168,17 @@ class AsyncOrganizations:
         return self._session.delete(metadata, resource)
 
     def create_organization_splash_theme_asset(
-        self, organizationId: str, themeIdentifier: str, **kwargs
-    ):
+        self, organizationId: str, themeIdentifier: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Create a Splash Theme Asset.
 
         https://developer.cisco.com/meraki/api-v1/#!create-organization-splash-theme-asset
 
-        - organizationId (string): Organization ID
-        - themeIdentifier (string): Theme identifier
-        - name (string): File name. Will overwrite files with same name.
-        - content (string): a file containing the asset content
+        Args:
+            organizationId: Organization ID.
+            themeIdentifier: Theme identifier.
+            name: File name. Will overwrite files with same name.
+            content: a file containing the asset content.
 
         """
         kwargs.update(locals())
@@ -5441,20 +6199,26 @@ class AsyncOrganizations:
 
         return self._session.post(metadata, resource, payload)
 
-    def get_organization_summary_top_appliances_by_utilization(self, organizationId: str, **kwargs):
+    def get_organization_summary_top_appliances_by_utilization(
+        self, organizationId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Return the top 10 appliances sorted by utilization over given time range.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-summary-top-appliances-by-utilization
 
-        - organizationId (string): Organization ID
-        - networkTag (string): Match result to an exact network tag
-        - deviceTag (string): Match result to an exact device tag
-        - quantity (integer): Set number of desired results to return. Default is 10. Maximum is 50
-        - ssidName (string): Filter results by ssid name
-        - usageUplink (string): Filter results by usage uplink
-        - t0 (string): The beginning of the timespan for the data.
-        - t1 (string): The end of the timespan for the data. t1 can be a maximum of 186 days after t0.
-        - timespan (number): The timespan for which the information will be fetched. If specifying timespan, do not specify parameters t0 and t1. The value must be in seconds and be greater than or equal to 25 minutes and be less than or equal to 186 days. The default is 1 day.
+        Args:
+            organizationId: Organization ID.
+            networkTag: Match result to an exact network tag.
+            deviceTag: Match result to an exact device tag.
+            quantity: Set number of desired results to return. Default is 10. Maximum is 50.
+            ssidName: Filter results by ssid name.
+            usageUplink: Filter results by usage uplink.
+            t0: The beginning of the timespan for the data.
+            t1: The end of the timespan for the data. t1 can be a maximum of 186 days after t0.
+            timespan: The timespan for which the information will be fetched. If specifying
+              timespan, do not specify parameters t0 and t1. The value must be in
+              seconds and be greater than or equal to 25 minutes and be less than or
+              equal to 186 days. The default is 1 day.
 
         """
         kwargs.update(locals())
@@ -5480,21 +6244,27 @@ class AsyncOrganizations:
 
         return self._session.get(metadata, resource, params)
 
-    def get_organization_summary_top_applications_by_usage(self, organizationId: str, **kwargs):
+    def get_organization_summary_top_applications_by_usage(
+        self, organizationId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Return the top applications sorted by data usage over given time range.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-summary-top-applications-by-usage
 
-        - organizationId (string): Organization ID
-        - networkTag (string): Match result to an exact network tag
-        - device (string): Match result to an exact device tag
-        - networkId (string): Match result to an exact network id
-        - quantity (integer): Set number of desired results to return. Default is 10. Maximum is 50
-        - ssidName (string): Filter results by ssid name
-        - usageUplink (string): Filter results by usage uplink
-        - t0 (string): The beginning of the timespan for the data.
-        - t1 (string): The end of the timespan for the data. t1 can be a maximum of 186 days after t0.
-        - timespan (number): The timespan for which the information will be fetched. If specifying timespan, do not specify parameters t0 and t1. The value must be in seconds and be greater than or equal to 25 minutes and be less than or equal to 186 days. The default is 1 day.
+        Args:
+            organizationId: Organization ID.
+            networkTag: Match result to an exact network tag.
+            device: Match result to an exact device tag.
+            networkId: Match result to an exact network id.
+            quantity: Set number of desired results to return. Default is 10. Maximum is 50.
+            ssidName: Filter results by ssid name.
+            usageUplink: Filter results by usage uplink.
+            t0: The beginning of the timespan for the data.
+            t1: The end of the timespan for the data. t1 can be a maximum of 186 days after t0.
+            timespan: The timespan for which the information will be fetched. If specifying
+              timespan, do not specify parameters t0 and t1. The value must be in
+              seconds and be greater than or equal to 25 minutes and be less than or
+              equal to 186 days. The default is 1 day.
 
         """
         kwargs.update(locals())
@@ -5522,22 +6292,26 @@ class AsyncOrganizations:
         return self._session.get(metadata, resource, params)
 
     def get_organization_summary_top_applications_categories_by_usage(
-        self, organizationId: str, **kwargs
-    ):
+        self, organizationId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Return the top application categories sorted by data usage over given time range.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-summary-top-applications-categories-by-usage
 
-        - organizationId (string): Organization ID
-        - networkTag (string): Match result to an exact network tag
-        - deviceTag (string): Match result to an exact device tag
-        - networkId (string): Match result to an exact network id
-        - quantity (integer): Set number of desired results to return. Default is 10. Maximum is 50
-        - ssidName (string): Filter results by ssid name
-        - usageUplink (string): Filter results by usage uplink
-        - t0 (string): The beginning of the timespan for the data.
-        - t1 (string): The end of the timespan for the data. t1 can be a maximum of 186 days after t0.
-        - timespan (number): The timespan for which the information will be fetched. If specifying timespan, do not specify parameters t0 and t1. The value must be in seconds and be greater than or equal to 25 minutes and be less than or equal to 186 days. The default is 1 day.
+        Args:
+            organizationId: Organization ID.
+            networkTag: Match result to an exact network tag.
+            deviceTag: Match result to an exact device tag.
+            networkId: Match result to an exact network id.
+            quantity: Set number of desired results to return. Default is 10. Maximum is 50.
+            ssidName: Filter results by ssid name.
+            usageUplink: Filter results by usage uplink.
+            t0: The beginning of the timespan for the data.
+            t1: The end of the timespan for the data. t1 can be a maximum of 186 days after t0.
+            timespan: The timespan for which the information will be fetched. If specifying
+              timespan, do not specify parameters t0 and t1. The value must be in
+              seconds and be greater than or equal to 25 minutes and be less than or
+              equal to 186 days. The default is 1 day.
 
         """
         kwargs.update(locals())
@@ -5572,20 +6346,26 @@ class AsyncOrganizations:
 
         return self._session.get(metadata, resource, params)
 
-    def get_organization_summary_top_clients_by_usage(self, organizationId: str, **kwargs):
+    def get_organization_summary_top_clients_by_usage(
+        self, organizationId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Return metrics for organization's top 10 clients by data usage (in mb) over given time range.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-summary-top-clients-by-usage
 
-        - organizationId (string): Organization ID
-        - networkTag (string): Match result to an exact network tag
-        - deviceTag (string): Match result to an exact device tag
-        - quantity (integer): Set number of desired results to return. Default is 10. Maximum is 50
-        - ssidName (string): Filter results by ssid name
-        - usageUplink (string): Filter results by usage uplink
-        - t0 (string): The beginning of the timespan for the data.
-        - t1 (string): The end of the timespan for the data. t1 can be a maximum of 186 days after t0.
-        - timespan (number): The timespan for which the information will be fetched. If specifying timespan, do not specify parameters t0 and t1. The value must be in seconds and be greater than or equal to 8 hours and be less than or equal to 186 days. The default is 1 day.
+        Args:
+            organizationId: Organization ID.
+            networkTag: Match result to an exact network tag.
+            deviceTag: Match result to an exact device tag.
+            quantity: Set number of desired results to return. Default is 10. Maximum is 50.
+            ssidName: Filter results by ssid name.
+            usageUplink: Filter results by usage uplink.
+            t0: The beginning of the timespan for the data.
+            t1: The end of the timespan for the data. t1 can be a maximum of 186 days after t0.
+            timespan: The timespan for which the information will be fetched. If specifying
+              timespan, do not specify parameters t0 and t1. The value must be in
+              seconds and be greater than or equal to 8 hours and be less than or equal
+              to 186 days. The default is 1 day.
 
         """
         kwargs.update(locals())
@@ -5612,21 +6392,24 @@ class AsyncOrganizations:
         return self._session.get(metadata, resource, params)
 
     def get_organization_summary_top_clients_manufacturers_by_usage(
-        self, organizationId: str, **kwargs
-    ):
+        self, organizationId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Return metrics for organization's top clients by data usage (in mb) over given time range, grouped by manufacturer.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-summary-top-clients-manufacturers-by-usage
 
-        - organizationId (string): Organization ID
-        - networkTag (string): Match result to an exact network tag
-        - deviceTag (string): Match result to an exact device tag
-        - quantity (integer): Set number of desired results to return. Default is 10. Maximum is 50
-        - ssidName (string): Filter results by ssid name
-        - usageUplink (string): Filter results by usage uplink
-        - t0 (string): The beginning of the timespan for the data.
-        - t1 (string): The end of the timespan for the data. t1 can be a maximum of 186 days after t0.
-        - timespan (number): The timespan for which the information will be fetched. If specifying timespan, do not specify parameters t0 and t1. The value must be in seconds and be less than or equal to 186 days. The default is 1 day.
+        Args:
+            organizationId: Organization ID.
+            networkTag: Match result to an exact network tag.
+            deviceTag: Match result to an exact device tag.
+            quantity: Set number of desired results to return. Default is 10. Maximum is 50.
+            ssidName: Filter results by ssid name.
+            usageUplink: Filter results by usage uplink.
+            t0: The beginning of the timespan for the data.
+            t1: The end of the timespan for the data. t1 can be a maximum of 186 days after t0.
+            timespan: The timespan for which the information will be fetched. If specifying
+              timespan, do not specify parameters t0 and t1. The value must be in
+              seconds and be less than or equal to 186 days. The default is 1 day.
 
         """
         kwargs.update(locals())
@@ -5660,20 +6443,26 @@ class AsyncOrganizations:
 
         return self._session.get(metadata, resource, params)
 
-    def get_organization_summary_top_devices_by_usage(self, organizationId: str, **kwargs):
+    def get_organization_summary_top_devices_by_usage(
+        self, organizationId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Return metrics for organization's top 10 devices sorted by data usage over given time range.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-summary-top-devices-by-usage
 
-        - organizationId (string): Organization ID
-        - networkTag (string): Match result to an exact network tag
-        - deviceTag (string): Match result to an exact device tag
-        - quantity (integer): Set number of desired results to return. Default is 10. Maximum is 50
-        - ssidName (string): Filter results by ssid name
-        - usageUplink (string): Filter results by usage uplink
-        - t0 (string): The beginning of the timespan for the data.
-        - t1 (string): The end of the timespan for the data. t1 can be a maximum of 186 days after t0.
-        - timespan (number): The timespan for which the information will be fetched. If specifying timespan, do not specify parameters t0 and t1. The value must be in seconds and be greater than or equal to 8 hours and be less than or equal to 186 days. The default is 1 day.
+        Args:
+            organizationId: Organization ID.
+            networkTag: Match result to an exact network tag.
+            deviceTag: Match result to an exact device tag.
+            quantity: Set number of desired results to return. Default is 10. Maximum is 50.
+            ssidName: Filter results by ssid name.
+            usageUplink: Filter results by usage uplink.
+            t0: The beginning of the timespan for the data.
+            t1: The end of the timespan for the data. t1 can be a maximum of 186 days after t0.
+            timespan: The timespan for which the information will be fetched. If specifying
+              timespan, do not specify parameters t0 and t1. The value must be in
+              seconds and be greater than or equal to 8 hours and be less than or equal
+              to 186 days. The default is 1 day.
 
         """
         kwargs.update(locals())
@@ -5699,20 +6488,26 @@ class AsyncOrganizations:
 
         return self._session.get(metadata, resource, params)
 
-    def get_organization_summary_top_devices_models_by_usage(self, organizationId: str, **kwargs):
+    def get_organization_summary_top_devices_models_by_usage(
+        self, organizationId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Return metrics for organization's top 10 device models sorted by data usage over given time range.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-summary-top-devices-models-by-usage
 
-        - organizationId (string): Organization ID
-        - networkTag (string): Match result to an exact network tag
-        - deviceTag (string): Match result to an exact device tag
-        - quantity (integer): Set number of desired results to return. Default is 10. Maximum is 50
-        - ssidName (string): Filter results by ssid name
-        - usageUplink (string): Filter results by usage uplink
-        - t0 (string): The beginning of the timespan for the data.
-        - t1 (string): The end of the timespan for the data. t1 can be a maximum of 186 days after t0.
-        - timespan (number): The timespan for which the information will be fetched. If specifying timespan, do not specify parameters t0 and t1. The value must be in seconds and be greater than or equal to 8 hours and be less than or equal to 186 days. The default is 1 day.
+        Args:
+            organizationId: Organization ID.
+            networkTag: Match result to an exact network tag.
+            deviceTag: Match result to an exact device tag.
+            quantity: Set number of desired results to return. Default is 10. Maximum is 50.
+            ssidName: Filter results by ssid name.
+            usageUplink: Filter results by usage uplink.
+            t0: The beginning of the timespan for the data.
+            t1: The end of the timespan for the data. t1 can be a maximum of 186 days after t0.
+            timespan: The timespan for which the information will be fetched. If specifying
+              timespan, do not specify parameters t0 and t1. The value must be in
+              seconds and be greater than or equal to 8 hours and be less than or equal
+              to 186 days. The default is 1 day.
 
         """
         kwargs.update(locals())
@@ -5739,23 +6534,31 @@ class AsyncOrganizations:
         return self._session.get(metadata, resource, params)
 
     def get_organization_summary_top_networks_by_status(
-        self, organizationId: str, total_pages=1, direction="next", **kwargs
-    ):
+        self, organizationId: str, total_pages=1, direction="next", **kwargs: Any
+    ) -> Generator[Any, None, None]:
         """List the client and status overview information for the networks in an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-summary-top-networks-by-status
 
-        - organizationId (string): Organization ID
-        - total_pages (integer or string): use with perPage to get total results up to total_pages*perPage; -1 or "all" for all pages
-        - direction (string): direction to paginate, either "next" (default) or "prev" page
-        - networkTag (string): Match result to an exact network tag
-        - deviceTag (string): Match result to an exact device tag
-        - quantity (integer): Set number of desired results to return. Default is 10. Maximum is 50
-        - ssidName (string): Filter results by ssid name
-        - usageUplink (string): Filter results by usage uplink
-        - perPage (integer): The number of entries per page returned. Acceptable range is 3 - 5000.
-        - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
+        Args:
+            organizationId: Organization ID.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+            networkTag: Match result to an exact network tag.
+            deviceTag: Match result to an exact device tag.
+            quantity: Set number of desired results to return. Default is 10. Maximum is 50.
+            ssidName: Filter results by ssid name.
+            usageUplink: Filter results by usage uplink.
+            perPage: The number of entries per page returned. Acceptable range is 3 - 5000.
+            startingAfter: A token used by the server to indicate the start of the page. Often this
+              is a timestamp or an ID but it is not limited to those. This parameter
+              should not be defined by client applications. The link for the first,
+              last, prev, or next page in the HTTP Link header should define it.
+            endingBefore: A token used by the server to indicate the end of the page. Often this is
+              a timestamp or an ID but it is not limited to those. This parameter should
+              not be defined by client applications. The link for the first, last, prev,
+              or next page in the HTTP Link header should define it.
 
         """
         kwargs.update(locals())
@@ -5781,20 +6584,26 @@ class AsyncOrganizations:
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
-    def get_organization_summary_top_ssids_by_usage(self, organizationId: str, **kwargs):
+    def get_organization_summary_top_ssids_by_usage(
+        self, organizationId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Return metrics for organization's top 10 ssids by data usage over given time range.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-summary-top-ssids-by-usage
 
-        - organizationId (string): Organization ID
-        - networkTag (string): Match result to an exact network tag
-        - deviceTag (string): Match result to an exact device tag
-        - quantity (integer): Set number of desired results to return. Default is 10. Maximum is 50
-        - ssidName (string): Filter results by ssid name
-        - usageUplink (string): Filter results by usage uplink
-        - t0 (string): The beginning of the timespan for the data.
-        - t1 (string): The end of the timespan for the data. t1 can be a maximum of 186 days after t0.
-        - timespan (number): The timespan for which the information will be fetched. If specifying timespan, do not specify parameters t0 and t1. The value must be in seconds and be greater than or equal to 8 hours and be less than or equal to 186 days. The default is 1 day.
+        Args:
+            organizationId: Organization ID.
+            networkTag: Match result to an exact network tag.
+            deviceTag: Match result to an exact device tag.
+            quantity: Set number of desired results to return. Default is 10. Maximum is 50.
+            ssidName: Filter results by ssid name.
+            usageUplink: Filter results by usage uplink.
+            t0: The beginning of the timespan for the data.
+            t1: The end of the timespan for the data. t1 can be a maximum of 186 days after t0.
+            timespan: The timespan for which the information will be fetched. If specifying
+              timespan, do not specify parameters t0 and t1. The value must be in
+              seconds and be greater than or equal to 8 hours and be less than or equal
+              to 186 days. The default is 1 day.
 
         """
         kwargs.update(locals())
@@ -5820,20 +6629,26 @@ class AsyncOrganizations:
 
         return self._session.get(metadata, resource, params)
 
-    def get_organization_summary_top_switches_by_energy_usage(self, organizationId: str, **kwargs):
+    def get_organization_summary_top_switches_by_energy_usage(
+        self, organizationId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Return metrics for organization's top 10 switches by energy usage over given time range.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-summary-top-switches-by-energy-usage
 
-        - organizationId (string): Organization ID
-        - networkTag (string): Match result to an exact network tag
-        - deviceTag (string): Match result to an exact device tag
-        - quantity (integer): Set number of desired results to return. Default is 10. Maximum is 50
-        - ssidName (string): Filter results by ssid name
-        - usageUplink (string): Filter results by usage uplink
-        - t0 (string): The beginning of the timespan for the data.
-        - t1 (string): The end of the timespan for the data. t1 can be a maximum of 186 days after t0.
-        - timespan (number): The timespan for which the information will be fetched. If specifying timespan, do not specify parameters t0 and t1. The value must be in seconds and be greater than or equal to 25 minutes and be less than or equal to 186 days. The default is 1 day.
+        Args:
+            organizationId: Organization ID.
+            networkTag: Match result to an exact network tag.
+            deviceTag: Match result to an exact device tag.
+            quantity: Set number of desired results to return. Default is 10. Maximum is 50.
+            ssidName: Filter results by ssid name.
+            usageUplink: Filter results by usage uplink.
+            t0: The beginning of the timespan for the data.
+            t1: The end of the timespan for the data. t1 can be a maximum of 186 days after t0.
+            timespan: The timespan for which the information will be fetched. If specifying
+              timespan, do not specify parameters t0 and t1. The value must be in
+              seconds and be greater than or equal to 25 minutes and be less than or
+              equal to 186 days. The default is 1 day.
 
         """
         kwargs.update(locals())
@@ -5860,21 +6675,33 @@ class AsyncOrganizations:
         return self._session.get(metadata, resource, params)
 
     def get_organization_uplinks_statuses(
-        self, organizationId: str, total_pages=1, direction="next", **kwargs
-    ):
+        self, organizationId: str, total_pages=1, direction="next", **kwargs: Any
+    ) -> Generator[Any, None, None]:
         """List the uplink status of every Meraki MX, MG and Z series devices in the organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-uplinks-statuses
 
-        - organizationId (string): Organization ID
-        - total_pages (integer or string): use with perPage to get total results up to total_pages*perPage; -1 or "all" for all pages
-        - direction (string): direction to paginate, either "next" (default) or "prev" page
-        - perPage (integer): The number of entries per page returned. Acceptable range is 3 - 1000. Default is 1000.
-        - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - networkIds (array): A list of network IDs. The returned devices will be filtered to only include these networks.
-        - serials (array): A list of serial numbers. The returned devices will be filtered to only include these serials.
-        - iccids (array): A list of ICCIDs. The returned devices will be filtered to only include these ICCIDs.
+        Args:
+            organizationId: Organization ID.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+            perPage: The number of entries per page returned. Acceptable range is 3 - 1000. Default
+              is 1000.
+            startingAfter: A token used by the server to indicate the start of the page. Often this
+              is a timestamp or an ID but it is not limited to those. This parameter
+              should not be defined by client applications. The link for the first,
+              last, prev, or next page in the HTTP Link header should define it.
+            endingBefore: A token used by the server to indicate the end of the page. Often this is
+              a timestamp or an ID but it is not limited to those. This parameter should
+              not be defined by client applications. The link for the first, last, prev,
+              or next page in the HTTP Link header should define it.
+            networkIds: A list of network IDs. The returned devices will be filtered to only include
+              these networks.
+            serials: A list of serial numbers. The returned devices will be filtered to only include
+              these serials.
+            iccids: A list of ICCIDs. The returned devices will be filtered to only include these
+              ICCIDs.
 
         """
         kwargs.update(locals())
@@ -5908,13 +6735,16 @@ class AsyncOrganizations:
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
-    def get_organization_webhooks_alert_types(self, organizationId: str, **kwargs):
+    def get_organization_webhooks_alert_types(
+        self, organizationId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Return a list of alert types to be used with managing webhook alerts.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-webhooks-alert-types
 
-        - organizationId (string): Organization ID
-        - productType (string): Filter sample alerts to a specific product type
+        Args:
+            organizationId: Organization ID.
+            productType: Filter sample alerts to a specific product type.
 
         """
         kwargs.update(locals())
@@ -5948,13 +6778,16 @@ class AsyncOrganizations:
 
         return self._session.get(metadata, resource, params)
 
-    def get_organization_webhooks_callbacks_status(self, organizationId: str, callbackId: str):
+    def get_organization_webhooks_callbacks_status(
+        self, organizationId: str, callbackId: str
+    ) -> dict[str, Any] | None:
         """Return the status of an API callback.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-webhooks-callbacks-status
 
-        - organizationId (string): Organization ID
-        - callbackId (string): Callback ID
+        Args:
+            organizationId: Organization ID.
+            callbackId: Callback ID.
 
         """
         metadata = {
@@ -5968,22 +6801,34 @@ class AsyncOrganizations:
         return self._session.get(metadata, resource)
 
     def get_organization_webhooks_logs(
-        self, organizationId: str, total_pages=1, direction="next", **kwargs
-    ):
+        self, organizationId: str, total_pages=1, direction="next", **kwargs: Any
+    ) -> Generator[Any, None, None]:
         """Return the log of webhook POSTs sent.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-webhooks-logs
 
-        - organizationId (string): Organization ID
-        - total_pages (integer or string): use with perPage to get total results up to total_pages*perPage; -1 or "all" for all pages
-        - direction (string): direction to paginate, either "next" (default) or "prev" page
-        - t0 (string): The beginning of the timespan for the data. The maximum lookback period is 90 days from today.
-        - t1 (string): The end of the timespan for the data. t1 can be a maximum of 31 days after t0.
-        - timespan (number): The timespan for which the information will be fetched. If specifying timespan, do not specify parameters t0 and t1. The value must be in seconds and be less than or equal to 31 days. The default is 1 day.
-        - perPage (integer): The number of entries per page returned. Acceptable range is 3 - 1000. Default is 50.
-        - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - url (string): The URL the webhook was sent to
+        Args:
+            organizationId: Organization ID.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+            t0: The beginning of the timespan for the data. The maximum lookback period is 90 days
+              from today.
+            t1: The end of the timespan for the data. t1 can be a maximum of 31 days after t0.
+            timespan: The timespan for which the information will be fetched. If specifying
+              timespan, do not specify parameters t0 and t1. The value must be in
+              seconds and be less than or equal to 31 days. The default is 1 day.
+            perPage: The number of entries per page returned. Acceptable range is 3 - 1000. Default
+              is 50.
+            startingAfter: A token used by the server to indicate the start of the page. Often this
+              is a timestamp or an ID but it is not limited to those. This parameter
+              should not be defined by client applications. The link for the first,
+              last, prev, or next page in the HTTP Link header should define it.
+            endingBefore: A token used by the server to indicate the end of the page. Often this is
+              a timestamp or an ID but it is not limited to those. This parameter should
+              not be defined by client applications. The link for the first, last, prev,
+              or next page in the HTTP Link header should define it.
+            url: The URL the webhook was sent to.
 
         """
         kwargs.update(locals())

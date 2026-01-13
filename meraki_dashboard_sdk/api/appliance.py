@@ -1,6 +1,8 @@
 """Appliance API endpoints."""
 
 import urllib
+from collections.abc import Generator
+from typing import Any
 
 from meraki_dashboard_sdk.rest_session import RestSession
 
@@ -12,12 +14,13 @@ class Appliance:
         super(self).__init__()
         self._session = session
 
-    def get_device_appliance_dhcp_subnets(self, serial: str):
+    def get_device_appliance_dhcp_subnets(self, serial: str) -> dict[str, Any] | None:
         """Return the DHCP subnet information for an appliance.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device-appliance-dhcp-subnets
 
-        - serial (string): Serial
+        Args:
+            serial: Serial.
 
         """
         metadata = {
@@ -29,15 +32,20 @@ class Appliance:
 
         return self._session.get(metadata, resource)
 
-    def get_device_appliance_performance(self, serial: str, **kwargs):
+    def get_device_appliance_performance(self, serial: str, **kwargs: Any) -> dict[str, Any] | None:
         """Return the performance score for a single MX.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device-appliance-performance
 
-        - serial (string): Serial
-        - t0 (string): The beginning of the timespan for the data. The maximum lookback period is 30 days from today.
-        - t1 (string): The end of the timespan for the data. t1 can be a maximum of 14 days after t0.
-        - timespan (number): The timespan for which the information will be fetched. If specifying timespan, do not specify parameters t0 and t1. The value must be in seconds and be greater than or equal to 30 minutes and be less than or equal to 14 days. The default is 30 minutes.
+        Args:
+            serial: Serial.
+            t0: The beginning of the timespan for the data. The maximum lookback period is 30 days
+              from today.
+            t1: The end of the timespan for the data. t1 can be a maximum of 14 days after t0.
+            timespan: The timespan for which the information will be fetched. If specifying
+              timespan, do not specify parameters t0 and t1. The value must be in
+              seconds and be greater than or equal to 30 minutes and be less than or
+              equal to 14 days. The default is 30 minutes.
 
         """
         kwargs.update(locals())
@@ -58,12 +66,13 @@ class Appliance:
 
         return self._session.get(metadata, resource, params)
 
-    def get_device_appliance_prefixes_delegated(self, serial: str):
+    def get_device_appliance_prefixes_delegated(self, serial: str) -> dict[str, Any] | None:
         """Return current delegated IPv6 prefixes on an appliance.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device-appliance-prefixes-delegated
 
-        - serial (string): Serial
+        Args:
+            serial: Serial.
 
         """
         metadata = {
@@ -75,12 +84,15 @@ class Appliance:
 
         return self._session.get(metadata, resource)
 
-    def get_device_appliance_prefixes_delegated_vlan_assignments(self, serial: str):
+    def get_device_appliance_prefixes_delegated_vlan_assignments(
+        self, serial: str
+    ) -> dict[str, Any] | None:
         """Return prefixes assigned to all IPv6 enabled VLANs on an appliance.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device-appliance-prefixes-delegated-vlan-assignments
 
-        - serial (string): Serial
+        Args:
+            serial: Serial.
 
         """
         metadata = {
@@ -92,12 +104,13 @@ class Appliance:
 
         return self._session.get(metadata, resource)
 
-    def get_device_appliance_radio_settings(self, serial: str):
+    def get_device_appliance_radio_settings(self, serial: str) -> dict[str, Any] | None:
         """Return the radio settings of an appliance.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device-appliance-radio-settings
 
-        - serial (string): Serial
+        Args:
+            serial: Serial.
 
         """
         metadata = {
@@ -109,15 +122,22 @@ class Appliance:
 
         return self._session.get(metadata, resource)
 
-    def update_device_appliance_radio_settings(self, serial: str, **kwargs):
+    def update_device_appliance_radio_settings(
+        self, serial: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Update the radio settings of an appliance.
 
         https://developer.cisco.com/meraki/api-v1/#!update-device-appliance-radio-settings
 
-        - serial (string): Serial
-        - rfProfileId (string): The ID of an RF profile to assign to the device. If the value of this parameter is null, the appropriate basic RF profile (indoor or outdoor) will be assigned to the device. Assigning an RF profile will clear ALL manually configured overrides on the device (channel width, channel, power).
-        - twoFourGhzSettings (object): Manual radio settings for 2.4 GHz.
-        - fiveGhzSettings (object): Manual radio settings for 5 GHz.
+        Args:
+            serial: Serial.
+            rfProfileId: The ID of an RF profile to assign to the device. If the value of this
+              parameter is null, the appropriate basic RF profile (indoor or outdoor)
+              will be assigned to the device. Assigning an RF profile will clear ALL
+              manually configured overrides on the device (channel width, channel,
+              power).
+            twoFourGhzSettings: Manual radio settings for 2.4 GHz.
+            fiveGhzSettings: Manual radio settings for 5 GHz.
 
         """
         kwargs.update(locals())
@@ -138,12 +158,13 @@ class Appliance:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_device_appliance_uplinks_settings(self, serial: str):
+    def get_device_appliance_uplinks_settings(self, serial: str) -> dict[str, Any] | None:
         """Return the uplink settings for an MX appliance.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device-appliance-uplinks-settings
 
-        - serial (string): Serial
+        Args:
+            serial: Serial.
 
         """
         metadata = {
@@ -155,13 +176,16 @@ class Appliance:
 
         return self._session.get(metadata, resource)
 
-    def update_device_appliance_uplinks_settings(self, serial: str, interfaces: dict):
+    def update_device_appliance_uplinks_settings(
+        self, serial: str, interfaces: dict
+    ) -> dict[str, Any] | None:
         """Update the uplink settings for an MX appliance.
 
         https://developer.cisco.com/meraki/api-v1/#!update-device-appliance-uplinks-settings
 
-        - serial (string): Serial
-        - interfaces (object): Interface settings.
+        Args:
+            serial: Serial.
+            interfaces: Interface settings.
 
         """
         kwargs = locals()
@@ -180,12 +204,15 @@ class Appliance:
 
         return self._session.put(metadata, resource, payload)
 
-    def create_device_appliance_vmx_authentication_token(self, serial: str):
+    def create_device_appliance_vmx_authentication_token(
+        self, serial: str
+    ) -> dict[str, Any] | None:
         """Generate a new vMX authentication token.
 
         https://developer.cisco.com/meraki/api-v1/#!create-device-appliance-vmx-authentication-token
 
-        - serial (string): Serial
+        Args:
+            serial: Serial.
 
         """
         metadata = {
@@ -198,23 +225,36 @@ class Appliance:
         return self._session.post(metadata, resource)
 
     def get_network_appliance_client_security_events(
-        self, networkId: str, clientId: str, total_pages=1, direction="next", **kwargs
-    ):
+        self, networkId: str, clientId: str, total_pages=1, direction="next", **kwargs: Any
+    ) -> Generator[Any, None, None]:
         """List the security events for a client.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-client-security-events
 
-        - networkId (string): Network ID
-        - clientId (string): Client ID
-        - total_pages (integer or string): use with perPage to get total results up to total_pages*perPage; -1 or "all" for all pages
-        - direction (string): direction to paginate, either "next" (default) or "prev" page
-        - t0 (string): The beginning of the timespan for the data. Data is gathered after the specified t0 value. The maximum lookback period is 791 days from today.
-        - t1 (string): The end of the timespan for the data. t1 can be a maximum of 791 days after t0.
-        - timespan (number): The timespan for which the information will be fetched. If specifying timespan, do not specify parameters t0 and t1. The value must be in seconds and be less than or equal to 791 days. The default is 31 days.
-        - perPage (integer): The number of entries per page returned. Acceptable range is 3 - 1000. Default is 100.
-        - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - sortOrder (string): Sorted order of security events based on event detection time. Order options are 'ascending' or 'descending'. Default is ascending order.
+        Args:
+            networkId: Network ID.
+            clientId: Client ID.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+            t0: The beginning of the timespan for the data. Data is gathered after the specified t0
+              value. The maximum lookback period is 791 days from today.
+            t1: The end of the timespan for the data. t1 can be a maximum of 791 days after t0.
+            timespan: The timespan for which the information will be fetched. If specifying
+              timespan, do not specify parameters t0 and t1. The value must be in
+              seconds and be less than or equal to 791 days. The default is 31 days.
+            perPage: The number of entries per page returned. Acceptable range is 3 - 1000. Default
+              is 100.
+            startingAfter: A token used by the server to indicate the start of the page. Often this
+              is a timestamp or an ID but it is not limited to those. This parameter
+              should not be defined by client applications. The link for the first,
+              last, prev, or next page in the HTTP Link header should define it.
+            endingBefore: A token used by the server to indicate the end of the page. Often this is
+              a timestamp or an ID but it is not limited to those. This parameter should
+              not be defined by client applications. The link for the first, last, prev,
+              or next page in the HTTP Link header should define it.
+            sortOrder: Sorted order of security events based on event detection time. Order options
+              are 'ascending' or 'descending'. Default is ascending order.
 
         """
         kwargs.update(locals())
@@ -246,12 +286,15 @@ class Appliance:
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
-    def get_network_appliance_connectivity_monitoring_destinations(self, networkId: str):
+    def get_network_appliance_connectivity_monitoring_destinations(
+        self, networkId: str
+    ) -> dict[str, Any] | None:
         """Return the connectivity testing destinations for an MX network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-connectivity-monitoring-destinations
 
-        - networkId (string): Network ID
+        Args:
+            networkId: Network ID.
 
         """
         metadata = {
@@ -264,14 +307,15 @@ class Appliance:
         return self._session.get(metadata, resource)
 
     def update_network_appliance_connectivity_monitoring_destinations(
-        self, networkId: str, **kwargs
-    ):
+        self, networkId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Update the connectivity testing destinations for an MX network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-connectivity-monitoring-destinations
 
-        - networkId (string): Network ID
-        - destinations (array): The list of connectivity monitoring destinations
+        Args:
+            networkId: Network ID.
+            destinations: The list of connectivity monitoring destinations.
 
         """
         kwargs.update(locals())
@@ -290,12 +334,13 @@ class Appliance:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_network_appliance_content_filtering(self, networkId: str):
+    def get_network_appliance_content_filtering(self, networkId: str) -> dict[str, Any] | None:
         """Return the content filtering settings for an MX network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-content-filtering
 
-        - networkId (string): Network ID
+        Args:
+            networkId: Network ID.
 
         """
         metadata = {
@@ -307,16 +352,19 @@ class Appliance:
 
         return self._session.get(metadata, resource)
 
-    def update_network_appliance_content_filtering(self, networkId: str, **kwargs):
+    def update_network_appliance_content_filtering(
+        self, networkId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Update the content filtering settings for an MX network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-content-filtering
 
-        - networkId (string): Network ID
-        - allowedUrlPatterns (array): A list of URL patterns that are allowed
-        - blockedUrlPatterns (array): A list of URL patterns that are blocked
-        - blockedUrlCategories (array): A list of URL categories to block
-        - urlCategoryListSize (string): URL category list size which is either 'topSites' or 'fullList'
+        Args:
+            networkId: Network ID.
+            allowedUrlPatterns: A list of URL patterns that are allowed.
+            blockedUrlPatterns: A list of URL patterns that are blocked.
+            blockedUrlCategories: A list of URL categories to block.
+            urlCategoryListSize: URL category list size which is either 'topSites' or 'fullList'.
 
         """
         kwargs.update(locals())
@@ -344,12 +392,15 @@ class Appliance:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_network_appliance_content_filtering_categories(self, networkId: str):
+    def get_network_appliance_content_filtering_categories(
+        self, networkId: str
+    ) -> dict[str, Any] | None:
         """List all available content filtering categories for an MX network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-content-filtering-categories
 
-        - networkId (string): Network ID
+        Args:
+            networkId: Network ID.
 
         """
         metadata = {
@@ -361,12 +412,15 @@ class Appliance:
 
         return self._session.get(metadata, resource)
 
-    def get_network_appliance_firewall_cellular_firewall_rules(self, networkId: str):
+    def get_network_appliance_firewall_cellular_firewall_rules(
+        self, networkId: str
+    ) -> dict[str, Any] | None:
         """Return the cellular firewall rules for an MX network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-firewall-cellular-firewall-rules
 
-        - networkId (string): Network ID
+        Args:
+            networkId: Network ID.
 
         """
         metadata = {
@@ -378,13 +432,16 @@ class Appliance:
 
         return self._session.get(metadata, resource)
 
-    def update_network_appliance_firewall_cellular_firewall_rules(self, networkId: str, **kwargs):
+    def update_network_appliance_firewall_cellular_firewall_rules(
+        self, networkId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Update the cellular firewall rules of an MX network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-firewall-cellular-firewall-rules
 
-        - networkId (string): Network ID
-        - rules (array): An ordered array of the firewall rules (not including the default rule)
+        Args:
+            networkId: Network ID.
+            rules: An ordered array of the firewall rules (not including the default rule).
 
         """
         kwargs.update(locals())
@@ -403,12 +460,15 @@ class Appliance:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_network_appliance_firewall_firewalled_services(self, networkId: str):
+    def get_network_appliance_firewall_firewalled_services(
+        self, networkId: str
+    ) -> dict[str, Any] | None:
         """List the appliance services and their accessibility rules.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-firewall-firewalled-services
 
-        - networkId (string): Network ID
+        Args:
+            networkId: Network ID.
 
         """
         metadata = {
@@ -420,13 +480,16 @@ class Appliance:
 
         return self._session.get(metadata, resource)
 
-    def get_network_appliance_firewall_firewalled_service(self, networkId: str, service: str):
+    def get_network_appliance_firewall_firewalled_service(
+        self, networkId: str, service: str
+    ) -> dict[str, Any] | None:
         """Return the accessibility settings of the given service ('ICMP', 'web', or 'SNMP').
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-firewall-firewalled-service
 
-        - networkId (string): Network ID
-        - service (string): Service
+        Args:
+            networkId: Network ID.
+            service: Service.
 
         """
         metadata = {
@@ -440,16 +503,23 @@ class Appliance:
         return self._session.get(metadata, resource)
 
     def update_network_appliance_firewall_firewalled_service(
-        self, networkId: str, service: str, access: str, **kwargs
-    ):
+        self, networkId: str, service: str, access: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Updates the accessibility settings for the given service ('ICMP', 'web', or 'SNMP').
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-firewall-firewalled-service
 
-        - networkId (string): Network ID
-        - service (string): Service
-        - access (string): A string indicating the rule for which IPs are allowed to use the specified service. Acceptable values are "blocked" (no remote IPs can access the service), "restricted" (only allowed IPs can access the service), and "unrestriced" (any remote IP can access the service). This field is required
-        - allowedIps (array): An array of allowed CIDRs that can access the service. This field is required if "access" is set to "restricted". Otherwise this field is ignored
+        Args:
+            networkId: Network ID.
+            service: Service.
+            access: A string indicating the rule for which IPs are allowed to use the specified
+              service. Acceptable values are "blocked" (no remote IPs can access the
+              service), "restricted" (only allowed IPs can access the service), and
+              "unrestriced" (any remote IP can access the service). This field is
+              required.
+            allowedIps: An array of allowed CIDRs that can access the service. This field is
+              required if "access" is set to "restricted". Otherwise this field is
+              ignored.
 
         """
         kwargs.update(locals())
@@ -476,12 +546,15 @@ class Appliance:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_network_appliance_firewall_inbound_cellular_firewall_rules(self, networkId: str):
+    def get_network_appliance_firewall_inbound_cellular_firewall_rules(
+        self, networkId: str
+    ) -> dict[str, Any] | None:
         """Return the inbound cellular firewall rules for an MX network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-firewall-inbound-cellular-firewall-rules
 
-        - networkId (string): Network ID
+        Args:
+            networkId: Network ID.
 
         """
         metadata = {
@@ -494,14 +567,15 @@ class Appliance:
         return self._session.get(metadata, resource)
 
     def update_network_appliance_firewall_inbound_cellular_firewall_rules(
-        self, networkId: str, **kwargs
-    ):
+        self, networkId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Update the inbound cellular firewall rules of an MX network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-firewall-inbound-cellular-firewall-rules
 
-        - networkId (string): Network ID
-        - rules (array): An ordered array of the firewall rules (not including the default rule)
+        Args:
+            networkId: Network ID.
+            rules: An ordered array of the firewall rules (not including the default rule).
 
         """
         kwargs.update(locals())
@@ -520,12 +594,15 @@ class Appliance:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_network_appliance_firewall_inbound_firewall_rules(self, networkId: str):
+    def get_network_appliance_firewall_inbound_firewall_rules(
+        self, networkId: str
+    ) -> dict[str, Any] | None:
         """Return the inbound firewall rules for an MX network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-firewall-inbound-firewall-rules
 
-        - networkId (string): Network ID
+        Args:
+            networkId: Network ID.
 
         """
         metadata = {
@@ -537,14 +614,18 @@ class Appliance:
 
         return self._session.get(metadata, resource)
 
-    def update_network_appliance_firewall_inbound_firewall_rules(self, networkId: str, **kwargs):
+    def update_network_appliance_firewall_inbound_firewall_rules(
+        self, networkId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Update the inbound firewall rules of an MX network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-firewall-inbound-firewall-rules
 
-        - networkId (string): Network ID
-        - rules (array): An ordered array of the firewall rules (not including the default rule)
-        - syslogDefaultRule (boolean): Log the special default rule (boolean value - enable only if you've configured a syslog server) (optional)
+        Args:
+            networkId: Network ID.
+            rules: An ordered array of the firewall rules (not including the default rule).
+            syslogDefaultRule: Log the special default rule (boolean value - enable only if you've
+              configured a syslog server) (optional).
 
         """
         kwargs.update(locals())
@@ -564,12 +645,15 @@ class Appliance:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_network_appliance_firewall_l3_firewall_rules(self, networkId: str):
+    def get_network_appliance_firewall_l3_firewall_rules(
+        self, networkId: str
+    ) -> dict[str, Any] | None:
         """Return the L3 firewall rules for an MX network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-firewall-l-3-firewall-rules
 
-        - networkId (string): Network ID
+        Args:
+            networkId: Network ID.
 
         """
         metadata = {
@@ -581,14 +665,18 @@ class Appliance:
 
         return self._session.get(metadata, resource)
 
-    def update_network_appliance_firewall_l3_firewall_rules(self, networkId: str, **kwargs):
+    def update_network_appliance_firewall_l3_firewall_rules(
+        self, networkId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Update the L3 firewall rules of an MX network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-firewall-l-3-firewall-rules
 
-        - networkId (string): Network ID
-        - rules (array): An ordered array of the firewall rules (not including the default rule)
-        - syslogDefaultRule (boolean): Log the special default rule (boolean value - enable only if you've configured a syslog server) (optional)
+        Args:
+            networkId: Network ID.
+            rules: An ordered array of the firewall rules (not including the default rule).
+            syslogDefaultRule: Log the special default rule (boolean value - enable only if you've
+              configured a syslog server) (optional).
 
         """
         kwargs.update(locals())
@@ -608,12 +696,15 @@ class Appliance:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_network_appliance_firewall_l7_firewall_rules(self, networkId: str):
+    def get_network_appliance_firewall_l7_firewall_rules(
+        self, networkId: str
+    ) -> dict[str, Any] | None:
         """List the MX L7 firewall rules for an MX network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-firewall-l-7-firewall-rules
 
-        - networkId (string): Network ID
+        Args:
+            networkId: Network ID.
 
         """
         metadata = {
@@ -625,13 +716,16 @@ class Appliance:
 
         return self._session.get(metadata, resource)
 
-    def update_network_appliance_firewall_l7_firewall_rules(self, networkId: str, **kwargs):
+    def update_network_appliance_firewall_l7_firewall_rules(
+        self, networkId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Update the MX L7 firewall rules for an MX network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-firewall-l-7-firewall-rules
 
-        - networkId (string): Network ID
-        - rules (array): An ordered array of the MX L7 firewall rules
+        Args:
+            networkId: Network ID.
+            rules: An ordered array of the MX L7 firewall rules.
 
         """
         kwargs.update(locals())
@@ -652,12 +746,13 @@ class Appliance:
 
     def get_network_appliance_firewall_l7_firewall_rules_application_categories(
         self, networkId: str
-    ):
+    ) -> dict[str, Any] | None:
         """Return the L7 firewall application categories and their associated applications for an MX network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-firewall-l-7-firewall-rules-application-categories
 
-        - networkId (string): Network ID
+        Args:
+            networkId: Network ID.
 
         """
         metadata = {
@@ -675,13 +770,16 @@ class Appliance:
 
         return self._session.get(metadata, resource)
 
-    def update_network_appliance_firewall_multicast_forwarding(self, networkId: str, rules: list):
+    def update_network_appliance_firewall_multicast_forwarding(
+        self, networkId: str, rules: list
+    ) -> dict[str, Any] | None:
         """Update static multicast forward rules for a network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-firewall-multicast-forwarding
 
-        - networkId (string): Network ID
-        - rules (array): Static multicast forwarding rules. Pass an empty array to clear all rules.
+        Args:
+            networkId: Network ID.
+            rules: Static multicast forwarding rules. Pass an empty array to clear all rules.
 
         """
         kwargs = locals()
@@ -700,12 +798,15 @@ class Appliance:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_network_appliance_firewall_one_to_many_nat_rules(self, networkId: str):
+    def get_network_appliance_firewall_one_to_many_nat_rules(
+        self, networkId: str
+    ) -> dict[str, Any] | None:
         """Return the 1:Many NAT mapping rules for an MX network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-firewall-one-to-many-nat-rules
 
-        - networkId (string): Network ID
+        Args:
+            networkId: Network ID.
 
         """
         metadata = {
@@ -717,13 +818,16 @@ class Appliance:
 
         return self._session.get(metadata, resource)
 
-    def update_network_appliance_firewall_one_to_many_nat_rules(self, networkId: str, rules: list):
+    def update_network_appliance_firewall_one_to_many_nat_rules(
+        self, networkId: str, rules: list
+    ) -> dict[str, Any] | None:
         """Set the 1:Many NAT mapping rules for an MX network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-firewall-one-to-many-nat-rules
 
-        - networkId (string): Network ID
-        - rules (array): An array of 1:Many nat rules
+        Args:
+            networkId: Network ID.
+            rules: An array of 1:Many nat rules.
 
         """
         kwargs = locals()
@@ -742,12 +846,15 @@ class Appliance:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_network_appliance_firewall_one_to_one_nat_rules(self, networkId: str):
+    def get_network_appliance_firewall_one_to_one_nat_rules(
+        self, networkId: str
+    ) -> dict[str, Any] | None:
         """Return the 1:1 NAT mapping rules for an MX network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-firewall-one-to-one-nat-rules
 
-        - networkId (string): Network ID
+        Args:
+            networkId: Network ID.
 
         """
         metadata = {
@@ -759,13 +866,16 @@ class Appliance:
 
         return self._session.get(metadata, resource)
 
-    def update_network_appliance_firewall_one_to_one_nat_rules(self, networkId: str, rules: list):
+    def update_network_appliance_firewall_one_to_one_nat_rules(
+        self, networkId: str, rules: list
+    ) -> dict[str, Any] | None:
         """Set the 1:1 NAT mapping rules for an MX network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-firewall-one-to-one-nat-rules
 
-        - networkId (string): Network ID
-        - rules (array): An array of 1:1 nat rules
+        Args:
+            networkId: Network ID.
+            rules: An array of 1:1 nat rules.
 
         """
         kwargs = locals()
@@ -784,12 +894,15 @@ class Appliance:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_network_appliance_firewall_port_forwarding_rules(self, networkId: str):
+    def get_network_appliance_firewall_port_forwarding_rules(
+        self, networkId: str
+    ) -> dict[str, Any] | None:
         """Return the port forwarding rules for an MX network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-firewall-port-forwarding-rules
 
-        - networkId (string): Network ID
+        Args:
+            networkId: Network ID.
 
         """
         metadata = {
@@ -801,13 +914,16 @@ class Appliance:
 
         return self._session.get(metadata, resource)
 
-    def update_network_appliance_firewall_port_forwarding_rules(self, networkId: str, rules: list):
+    def update_network_appliance_firewall_port_forwarding_rules(
+        self, networkId: str, rules: list
+    ) -> dict[str, Any] | None:
         """Update the port forwarding rules for an MX network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-firewall-port-forwarding-rules
 
-        - networkId (string): Network ID
-        - rules (array): An array of port forwarding params
+        Args:
+            networkId: Network ID.
+            rules: An array of port forwarding params.
 
         """
         kwargs = locals()
@@ -826,12 +942,13 @@ class Appliance:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_network_appliance_firewall_settings(self, networkId: str):
+    def get_network_appliance_firewall_settings(self, networkId: str) -> dict[str, Any] | None:
         """Return the firewall settings for this network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-firewall-settings
 
-        - networkId (string): Network ID
+        Args:
+            networkId: Network ID.
 
         """
         metadata = {
@@ -843,13 +960,16 @@ class Appliance:
 
         return self._session.get(metadata, resource)
 
-    def update_network_appliance_firewall_settings(self, networkId: str, **kwargs):
+    def update_network_appliance_firewall_settings(
+        self, networkId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Update the firewall settings for this network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-firewall-settings
 
-        - networkId (string): Network ID
-        - spoofingProtection (object): Spoofing protection settings
+        Args:
+            networkId: Network ID.
+            spoofingProtection: Spoofing protection settings.
 
         """
         kwargs.update(locals())
@@ -868,12 +988,13 @@ class Appliance:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_network_appliance_ports(self, networkId: str):
+    def get_network_appliance_ports(self, networkId: str) -> dict[str, Any] | None:
         """List per-port VLAN settings for all ports of a MX.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-ports
 
-        - networkId (string): Network ID
+        Args:
+            networkId: Network ID.
 
         """
         metadata = {
@@ -885,13 +1006,14 @@ class Appliance:
 
         return self._session.get(metadata, resource)
 
-    def get_network_appliance_port(self, networkId: str, portId: str):
+    def get_network_appliance_port(self, networkId: str, portId: str) -> dict[str, Any] | None:
         """Return per-port VLAN settings for a single MX port.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-port
 
-        - networkId (string): Network ID
-        - portId (string): Port ID
+        Args:
+            networkId: Network ID.
+            portId: Port ID.
 
         """
         metadata = {
@@ -904,19 +1026,29 @@ class Appliance:
 
         return self._session.get(metadata, resource)
 
-    def update_network_appliance_port(self, networkId: str, portId: str, **kwargs):
+    def update_network_appliance_port(
+        self, networkId: str, portId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Update the per-port VLAN settings for a single MX port.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-port
 
-        - networkId (string): Network ID
-        - portId (string): Port ID
-        - enabled (boolean): The status of the port
-        - dropUntaggedTraffic (boolean): Trunk port can Drop all Untagged traffic. When true, no VLAN is required. Access ports cannot have dropUntaggedTraffic set to true.
-        - type (string): The type of the port: 'access' or 'trunk'.
-        - vlan (integer): Native VLAN when the port is in Trunk mode. Access VLAN when the port is in Access mode.
-        - allowedVlans (string): Comma-delimited list of the VLAN ID's allowed on the port, or 'all' to permit all VLAN's on the port.
-        - accessPolicy (string): The name of the policy. Only applicable to Access ports. Valid values are: 'open', '8021x-radius', 'mac-radius', 'hybris-radius' for MX64 or Z3 or any MX supporting the per port authentication feature. Otherwise, 'open' is the only valid value and 'open' is the default value if the field is missing.
+        Args:
+            networkId: Network ID.
+            portId: Port ID.
+            enabled: The status of the port.
+            dropUntaggedTraffic: Trunk port can Drop all Untagged traffic. When true, no VLAN is
+              required. Access ports cannot have dropUntaggedTraffic set to true.
+            type: The type of the port: 'access' or 'trunk'.
+            vlan: Native VLAN when the port is in Trunk mode. Access VLAN when the port is in Access
+              mode.
+            allowedVlans: Comma-delimited list of the VLAN ID's allowed on the port, or 'all' to
+              permit all VLAN's on the port.
+            accessPolicy: The name of the policy. Only applicable to Access ports. Valid values are:
+              'open', '8021x-radius', 'mac-radius', 'hybris-radius' for MX64 or Z3 or
+              any MX supporting the per port authentication feature. Otherwise, 'open'
+              is the only valid value and 'open' is the default value if the field is
+              missing.
 
         """
         kwargs.update(locals())
@@ -941,12 +1073,15 @@ class Appliance:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_network_appliance_prefixes_delegated_statics(self, networkId: str):
+    def get_network_appliance_prefixes_delegated_statics(
+        self, networkId: str
+    ) -> dict[str, Any] | None:
         """List static delegated prefixes for a network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-prefixes-delegated-statics
 
-        - networkId (string): Network ID
+        Args:
+            networkId: Network ID.
 
         """
         metadata = {
@@ -959,16 +1094,17 @@ class Appliance:
         return self._session.get(metadata, resource)
 
     def create_network_appliance_prefixes_delegated_static(
-        self, networkId: str, prefix: str, origin: dict, **kwargs
-    ):
+        self, networkId: str, prefix: str, origin: dict, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Add a static delegated prefix from a network.
 
         https://developer.cisco.com/meraki/api-v1/#!create-network-appliance-prefixes-delegated-static
 
-        - networkId (string): Network ID
-        - prefix (string): A static IPv6 prefix
-        - origin (object): The origin of the prefix
-        - description (string): A name or description for the prefix
+        Args:
+            networkId: Network ID.
+            prefix: A static IPv6 prefix.
+            origin: The origin of the prefix.
+            description: A name or description for the prefix.
 
         """
         kwargs.update(locals())
@@ -991,13 +1127,14 @@ class Appliance:
 
     def get_network_appliance_prefixes_delegated_static(
         self, networkId: str, staticDelegatedPrefixId: str
-    ):
+    ) -> dict[str, Any] | None:
         """Return a static delegated prefix from a network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-prefixes-delegated-static
 
-        - networkId (string): Network ID
-        - staticDelegatedPrefixId (string): Static delegated prefix ID
+        Args:
+            networkId: Network ID.
+            staticDelegatedPrefixId: Static delegated prefix ID.
 
         """
         metadata = {
@@ -1013,17 +1150,18 @@ class Appliance:
         return self._session.get(metadata, resource)
 
     def update_network_appliance_prefixes_delegated_static(
-        self, networkId: str, staticDelegatedPrefixId: str, **kwargs
-    ):
+        self, networkId: str, staticDelegatedPrefixId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Update a static delegated prefix from a network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-prefixes-delegated-static
 
-        - networkId (string): Network ID
-        - staticDelegatedPrefixId (string): Static delegated prefix ID
-        - prefix (string): A static IPv6 prefix
-        - origin (object): The origin of the prefix
-        - description (string): A name or description for the prefix
+        Args:
+            networkId: Network ID.
+            staticDelegatedPrefixId: Static delegated prefix ID.
+            prefix: A static IPv6 prefix.
+            origin: The origin of the prefix.
+            description: A name or description for the prefix.
 
         """
         kwargs.update(locals())
@@ -1049,13 +1187,14 @@ class Appliance:
 
     def delete_network_appliance_prefixes_delegated_static(
         self, networkId: str, staticDelegatedPrefixId: str
-    ):
+    ) -> None:
         """Delete a static delegated prefix from a network.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-network-appliance-prefixes-delegated-static
 
-        - networkId (string): Network ID
-        - staticDelegatedPrefixId (string): Static delegated prefix ID
+        Args:
+            networkId: Network ID.
+            staticDelegatedPrefixId: Static delegated prefix ID.
 
         """
         metadata = {
@@ -1070,12 +1209,13 @@ class Appliance:
 
         return self._session.delete(metadata, resource)
 
-    def get_network_appliance_rf_profiles(self, networkId: str):
+    def get_network_appliance_rf_profiles(self, networkId: str) -> dict[str, Any] | None:
         """List the RF profiles for this network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-rf-profiles
 
-        - networkId (string): Network ID
+        Args:
+            networkId: Network ID.
 
         """
         metadata = {
@@ -1087,16 +1227,19 @@ class Appliance:
 
         return self._session.get(metadata, resource)
 
-    def create_network_appliance_rf_profile(self, networkId: str, name: str, **kwargs):
+    def create_network_appliance_rf_profile(
+        self, networkId: str, name: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Creates new RF profile for this network.
 
         https://developer.cisco.com/meraki/api-v1/#!create-network-appliance-rf-profile
 
-        - networkId (string): Network ID
-        - name (string): The name of the new profile. Must be unique. This param is required on creation.
-        - twoFourGhzSettings (object): Settings related to 2.4Ghz band
-        - fiveGhzSettings (object): Settings related to 5Ghz band
-        - perSsidSettings (object): Per-SSID radio settings by number.
+        Args:
+            networkId: Network ID.
+            name: The name of the new profile. Must be unique. This param is required on creation.
+            twoFourGhzSettings: Settings related to 2.4Ghz band.
+            fiveGhzSettings: Settings related to 5Ghz band.
+            perSsidSettings: Per-SSID radio settings by number.
 
         """
         kwargs.update(locals())
@@ -1118,17 +1261,20 @@ class Appliance:
 
         return self._session.post(metadata, resource, payload)
 
-    def update_network_appliance_rf_profile(self, networkId: str, rfProfileId: str, **kwargs):
+    def update_network_appliance_rf_profile(
+        self, networkId: str, rfProfileId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Updates specified RF profile for this network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-rf-profile
 
-        - networkId (string): Network ID
-        - rfProfileId (string): Rf profile ID
-        - name (string): The name of the new profile. Must be unique.
-        - twoFourGhzSettings (object): Settings related to 2.4Ghz band
-        - fiveGhzSettings (object): Settings related to 5Ghz band
-        - perSsidSettings (object): Per-SSID radio settings by number.
+        Args:
+            networkId: Network ID.
+            rfProfileId: Rf profile ID.
+            name: The name of the new profile. Must be unique.
+            twoFourGhzSettings: Settings related to 2.4Ghz band.
+            fiveGhzSettings: Settings related to 5Ghz band.
+            perSsidSettings: Per-SSID radio settings by number.
 
         """
         kwargs.update(locals())
@@ -1151,13 +1297,14 @@ class Appliance:
 
         return self._session.put(metadata, resource, payload)
 
-    def delete_network_appliance_rf_profile(self, networkId: str, rfProfileId: str):
+    def delete_network_appliance_rf_profile(self, networkId: str, rfProfileId: str) -> None:
         """Delete a RF Profile.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-network-appliance-rf-profile
 
-        - networkId (string): Network ID
-        - rfProfileId (string): Rf profile ID
+        Args:
+            networkId: Network ID.
+            rfProfileId: Rf profile ID.
 
         """
         metadata = {
@@ -1170,13 +1317,16 @@ class Appliance:
 
         return self._session.delete(metadata, resource)
 
-    def get_network_appliance_rf_profile(self, networkId: str, rfProfileId: str):
+    def get_network_appliance_rf_profile(
+        self, networkId: str, rfProfileId: str
+    ) -> dict[str, Any] | None:
         """Return a RF profile.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-rf-profile
 
-        - networkId (string): Network ID
-        - rfProfileId (string): Rf profile ID
+        Args:
+            networkId: Network ID.
+            rfProfileId: Rf profile ID.
 
         """
         metadata = {
@@ -1189,13 +1339,16 @@ class Appliance:
 
         return self._session.get(metadata, resource)
 
-    def update_network_appliance_sdwan_internet_policies(self, networkId: str, **kwargs):
+    def update_network_appliance_sdwan_internet_policies(
+        self, networkId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Update SDWAN internet traffic preferences for an MX network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-sdwan-internet-policies
 
-        - networkId (string): Network ID
-        - wanTrafficUplinkPreferences (array): policies with respective traffic filters for an MX network
+        Args:
+            networkId: Network ID.
+            wanTrafficUplinkPreferences: policies with respective traffic filters for an MX network.
 
         """
         kwargs.update(locals())
@@ -1215,22 +1368,35 @@ class Appliance:
         return self._session.put(metadata, resource, payload)
 
     def get_network_appliance_security_events(
-        self, networkId: str, total_pages=1, direction="next", **kwargs
-    ):
+        self, networkId: str, total_pages=1, direction="next", **kwargs: Any
+    ) -> Generator[Any, None, None]:
         """List the security events for a network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-security-events
 
-        - networkId (string): Network ID
-        - total_pages (integer or string): use with perPage to get total results up to total_pages*perPage; -1 or "all" for all pages
-        - direction (string): direction to paginate, either "next" (default) or "prev" page
-        - t0 (string): The beginning of the timespan for the data. Data is gathered after the specified t0 value. The maximum lookback period is 365 days from today.
-        - t1 (string): The end of the timespan for the data. t1 can be a maximum of 365 days after t0.
-        - timespan (number): The timespan for which the information will be fetched. If specifying timespan, do not specify parameters t0 and t1. The value must be in seconds and be less than or equal to 365 days. The default is 31 days.
-        - perPage (integer): The number of entries per page returned. Acceptable range is 3 - 1000. Default is 100.
-        - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - sortOrder (string): Sorted order of security events based on event detection time. Order options are 'ascending' or 'descending'. Default is ascending order.
+        Args:
+            networkId: Network ID.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+            t0: The beginning of the timespan for the data. Data is gathered after the specified t0
+              value. The maximum lookback period is 365 days from today.
+            t1: The end of the timespan for the data. t1 can be a maximum of 365 days after t0.
+            timespan: The timespan for which the information will be fetched. If specifying
+              timespan, do not specify parameters t0 and t1. The value must be in
+              seconds and be less than or equal to 365 days. The default is 31 days.
+            perPage: The number of entries per page returned. Acceptable range is 3 - 1000. Default
+              is 100.
+            startingAfter: A token used by the server to indicate the start of the page. Often this
+              is a timestamp or an ID but it is not limited to those. This parameter
+              should not be defined by client applications. The link for the first,
+              last, prev, or next page in the HTTP Link header should define it.
+            endingBefore: A token used by the server to indicate the end of the page. Often this is
+              a timestamp or an ID but it is not limited to those. This parameter should
+              not be defined by client applications. The link for the first, last, prev,
+              or next page in the HTTP Link header should define it.
+            sortOrder: Sorted order of security events based on event detection time. Order options
+              are 'ascending' or 'descending'. Default is ascending order.
 
         """
         kwargs.update(locals())
@@ -1261,12 +1427,13 @@ class Appliance:
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
-    def get_network_appliance_security_intrusion(self, networkId: str):
+    def get_network_appliance_security_intrusion(self, networkId: str) -> dict[str, Any] | None:
         """Returns all supported intrusion settings for an MX network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-security-intrusion
 
-        - networkId (string): Network ID
+        Args:
+            networkId: Network ID.
 
         """
         metadata = {
@@ -1278,15 +1445,23 @@ class Appliance:
 
         return self._session.get(metadata, resource)
 
-    def update_network_appliance_security_intrusion(self, networkId: str, **kwargs):
+    def update_network_appliance_security_intrusion(
+        self, networkId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Set the supported intrusion settings for an MX network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-security-intrusion
 
-        - networkId (string): Network ID
-        - mode (string): Set mode to 'disabled'/'detection'/'prevention' (optional - omitting will leave current config unchanged)
-        - idsRulesets (string): Set the detection ruleset 'connectivity'/'balanced'/'security' (optional - omitting will leave current config unchanged). Default value is 'balanced' if none currently saved
-        - protectedNetworks (object): Set the included/excluded networks from the intrusion engine (optional - omitting will leave current config unchanged). This is available only in 'passthrough' mode
+        Args:
+            networkId: Network ID.
+            mode: Set mode to 'disabled'/'detection'/'prevention' (optional - omitting will leave
+              current config unchanged).
+            idsRulesets: Set the detection ruleset 'connectivity'/'balanced'/'security' (optional -
+              omitting will leave current config unchanged). Default value is 'balanced'
+              if none currently saved.
+            protectedNetworks: Set the included/excluded networks from the intrusion engine
+              (optional - omitting will leave current config unchanged). This is
+              available only in 'passthrough' mode.
 
         """
         kwargs.update(locals())
@@ -1318,12 +1493,13 @@ class Appliance:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_network_appliance_security_malware(self, networkId: str):
+    def get_network_appliance_security_malware(self, networkId: str) -> dict[str, Any] | None:
         """Returns all supported malware settings for an MX network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-security-malware
 
-        - networkId (string): Network ID
+        Args:
+            networkId: Network ID.
 
         """
         metadata = {
@@ -1335,15 +1511,22 @@ class Appliance:
 
         return self._session.get(metadata, resource)
 
-    def update_network_appliance_security_malware(self, networkId: str, mode: str, **kwargs):
+    def update_network_appliance_security_malware(
+        self, networkId: str, mode: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Set the supported malware settings for an MX network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-security-malware
 
-        - networkId (string): Network ID
-        - mode (string): Set mode to 'enabled' to enable malware prevention, otherwise 'disabled'
-        - allowedUrls (array): The urls that should be permitted by the malware detection engine. If omitted, the current config will remain unchanged. This is available only if your network supports AMP allow listing
-        - allowedFiles (array): The sha256 digests of files that should be permitted by the malware detection engine. If omitted, the current config will remain unchanged. This is available only if your network supports AMP allow listing
+        Args:
+            networkId: Network ID.
+            mode: Set mode to 'enabled' to enable malware prevention, otherwise 'disabled'.
+            allowedUrls: The urls that should be permitted by the malware detection engine. If
+              omitted, the current config will remain unchanged. This is available only
+              if your network supports AMP allow listing.
+            allowedFiles: The sha256 digests of files that should be permitted by the malware
+              detection engine. If omitted, the current config will remain unchanged.
+              This is available only if your network supports AMP allow listing.
 
         """
         kwargs.update(locals())
@@ -1370,12 +1553,13 @@ class Appliance:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_network_appliance_settings(self, networkId: str):
+    def get_network_appliance_settings(self, networkId: str) -> dict[str, Any] | None:
         """Return the appliance settings for a network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-settings
 
-        - networkId (string): Network ID
+        Args:
+            networkId: Network ID.
 
         """
         metadata = {
@@ -1387,15 +1571,18 @@ class Appliance:
 
         return self._session.get(metadata, resource)
 
-    def update_network_appliance_settings(self, networkId: str, **kwargs):
+    def update_network_appliance_settings(
+        self, networkId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Update the appliance settings for a network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-settings
 
-        - networkId (string): Network ID
-        - clientTrackingMethod (string): Client tracking method of a network
-        - deploymentMode (string): Deployment mode of a network
-        - dynamicDns (object): Dynamic DNS settings for a network
+        Args:
+            networkId: Network ID.
+            clientTrackingMethod: Client tracking method of a network.
+            deploymentMode: Deployment mode of a network.
+            dynamicDns: Dynamic DNS settings for a network.
 
         """
         kwargs.update(locals())
@@ -1427,12 +1614,13 @@ class Appliance:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_network_appliance_single_lan(self, networkId: str):
+    def get_network_appliance_single_lan(self, networkId: str) -> dict[str, Any] | None:
         """Return single LAN configuration.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-single-lan
 
-        - networkId (string): Network ID
+        Args:
+            networkId: Network ID.
 
         """
         metadata = {
@@ -1444,16 +1632,22 @@ class Appliance:
 
         return self._session.get(metadata, resource)
 
-    def update_network_appliance_single_lan(self, networkId: str, **kwargs):
+    def update_network_appliance_single_lan(
+        self, networkId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Update single LAN configuration.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-single-lan
 
-        - networkId (string): Network ID
-        - subnet (string): The subnet of the single LAN configuration
-        - applianceIp (string): The appliance IP address of the single LAN
-        - ipv6 (object): IPv6 configuration on the VLAN
-        - mandatoryDhcp (object): Mandatory DHCP will enforce that clients connecting to this LAN must use the IP address assigned by the DHCP server. Clients who use a static IP address won't be able to associate. Only available on firmware versions 17.0 and above
+        Args:
+            networkId: Network ID.
+            subnet: The subnet of the single LAN configuration.
+            applianceIp: The appliance IP address of the single LAN.
+            ipv6: IPv6 configuration on the VLAN.
+            mandatoryDhcp: Mandatory DHCP will enforce that clients connecting to this LAN must use
+              the IP address assigned by the DHCP server. Clients who use a static IP
+              address won't be able to associate. Only available on firmware versions
+              17.0 and above.
 
         """
         kwargs.update(locals())
@@ -1475,12 +1669,13 @@ class Appliance:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_network_appliance_ssids(self, networkId: str):
+    def get_network_appliance_ssids(self, networkId: str) -> dict[str, Any] | None:
         """List the MX SSIDs in a network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-ssids
 
-        - networkId (string): Network ID
+        Args:
+            networkId: Network ID.
 
         """
         metadata = {
@@ -1492,13 +1687,14 @@ class Appliance:
 
         return self._session.get(metadata, resource)
 
-    def get_network_appliance_ssid(self, networkId: str, number: str):
+    def get_network_appliance_ssid(self, networkId: str, number: str) -> dict[str, Any] | None:
         """Return a single MX SSID.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-ssid
 
-        - networkId (string): Network ID
-        - number (string): Number
+        Args:
+            networkId: Network ID.
+            number: Number.
 
         """
         metadata = {
@@ -1511,24 +1707,37 @@ class Appliance:
 
         return self._session.get(metadata, resource)
 
-    def update_network_appliance_ssid(self, networkId: str, number: str, **kwargs):
+    def update_network_appliance_ssid(
+        self, networkId: str, number: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Update the attributes of an MX SSID.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-ssid
 
-        - networkId (string): Network ID
-        - number (string): Number
-        - name (string): The name of the SSID.
-        - enabled (boolean): Whether or not the SSID is enabled.
-        - defaultVlanId (integer): The VLAN ID of the VLAN associated to this SSID. This parameter is only valid if the network is in routed mode.
-        - authMode (string): The association control method for the SSID ('open', 'psk', '8021x-meraki' or '8021x-radius').
-        - psk (string): The passkey for the SSID. This param is only valid if the authMode is 'psk'.
-        - radiusServers (array): The RADIUS 802.1x servers to be used for authentication. This param is only valid if the authMode is '8021x-radius'.
-        - encryptionMode (string): The psk encryption mode for the SSID ('wep' or 'wpa'). This param is only valid if the authMode is 'psk'.
-        - wpaEncryptionMode (string): The types of WPA encryption. ('WPA1 and WPA2', 'WPA2 only', 'WPA3 Transition Mode' or 'WPA3 only'). This param is only valid if (1) the authMode is 'psk' & the encryptionMode is 'wpa' OR (2) the authMode is '8021x-meraki' OR (3) the authMode is '8021x-radius'
-        - visible (boolean): Boolean indicating whether the MX should advertise or hide this SSID.
-        - dhcpEnforcedDeauthentication (object): DHCP Enforced Deauthentication enables the disassociation of wireless clients in addition to Mandatory DHCP. This param is only valid on firmware versions >= MX 17.0 where the associated LAN has Mandatory DHCP Enabled
-        - dot11w (object): The current setting for Protected Management Frames (802.11w).
+        Args:
+            networkId: Network ID.
+            number: Number.
+            name: The name of the SSID.
+            enabled: Whether or not the SSID is enabled.
+            defaultVlanId: The VLAN ID of the VLAN associated to this SSID. This parameter is only
+              valid if the network is in routed mode.
+            authMode: The association control method for the SSID ('open', 'psk', '8021x-meraki' or
+              '8021x-radius').
+            psk: The passkey for the SSID. This param is only valid if the authMode is 'psk'.
+            radiusServers: The RADIUS 802.1x servers to be used for authentication. This param is
+              only valid if the authMode is '8021x-radius'.
+            encryptionMode: The psk encryption mode for the SSID ('wep' or 'wpa'). This param is
+              only valid if the authMode is 'psk'.
+            wpaEncryptionMode: The types of WPA encryption. ('WPA1 and WPA2', 'WPA2 only', 'WPA3
+              Transition Mode' or 'WPA3 only'). This param is only valid if (1) the
+              authMode is 'psk' & the encryptionMode is 'wpa' OR (2) the authMode is
+              '8021x-meraki' OR (3) the authMode is '8021x-radius'.
+            visible: Boolean indicating whether the MX should advertise or hide this SSID.
+            dhcpEnforcedDeauthentication: DHCP Enforced Deauthentication enables the disassociation
+              of wireless clients in addition to Mandatory DHCP. This param is only
+              valid on firmware versions >= MX 17.0 where the associated LAN has
+              Mandatory DHCP Enabled .
+            dot11w: The current setting for Protected Management Frames (802.11w).
 
         """
         kwargs.update(locals())
@@ -1574,12 +1783,13 @@ class Appliance:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_network_appliance_static_routes(self, networkId: str):
+    def get_network_appliance_static_routes(self, networkId: str) -> dict[str, Any] | None:
         """List the static routes for an MX or teleworker network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-static-routes
 
-        - networkId (string): Network ID
+        Args:
+            networkId: Network ID.
 
         """
         metadata = {
@@ -1592,17 +1802,18 @@ class Appliance:
         return self._session.get(metadata, resource)
 
     def create_network_appliance_static_route(
-        self, networkId: str, name: str, subnet: str, gatewayIp: str, **kwargs
-    ):
+        self, networkId: str, name: str, subnet: str, gatewayIp: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Add a static route for an MX or teleworker network.
 
         https://developer.cisco.com/meraki/api-v1/#!create-network-appliance-static-route
 
-        - networkId (string): Network ID
-        - name (string): Name of the route
-        - subnet (string): Subnet of the route
-        - gatewayIp (string): Gateway IP address (next hop)
-        - gatewayVlanId (string): Gateway VLAN ID
+        Args:
+            networkId: Network ID.
+            name: Name of the route.
+            subnet: Subnet of the route.
+            gatewayIp: Gateway IP address (next hop).
+            gatewayVlanId: Gateway VLAN ID.
 
         """
         kwargs.update(locals())
@@ -1624,13 +1835,16 @@ class Appliance:
 
         return self._session.post(metadata, resource, payload)
 
-    def get_network_appliance_static_route(self, networkId: str, staticRouteId: str):
+    def get_network_appliance_static_route(
+        self, networkId: str, staticRouteId: str
+    ) -> dict[str, Any] | None:
         """Return a static route for an MX or teleworker network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-static-route
 
-        - networkId (string): Network ID
-        - staticRouteId (string): Static route ID
+        Args:
+            networkId: Network ID.
+            staticRouteId: Static route ID.
 
         """
         metadata = {
@@ -1643,20 +1857,23 @@ class Appliance:
 
         return self._session.get(metadata, resource)
 
-    def update_network_appliance_static_route(self, networkId: str, staticRouteId: str, **kwargs):
+    def update_network_appliance_static_route(
+        self, networkId: str, staticRouteId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Update a static route for an MX or teleworker network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-static-route
 
-        - networkId (string): Network ID
-        - staticRouteId (string): Static route ID
-        - name (string): Name of the route
-        - subnet (string): Subnet of the route
-        - gatewayIp (string): Gateway IP address (next hop)
-        - gatewayVlanId (string): Gateway VLAN ID
-        - enabled (boolean): Whether the route should be enabled or not
-        - fixedIpAssignments (object): Fixed DHCP IP assignments on the route
-        - reservedIpRanges (array): DHCP reserved IP ranges
+        Args:
+            networkId: Network ID.
+            staticRouteId: Static route ID.
+            name: Name of the route.
+            subnet: Subnet of the route.
+            gatewayIp: Gateway IP address (next hop).
+            gatewayVlanId: Gateway VLAN ID.
+            enabled: Whether the route should be enabled or not.
+            fixedIpAssignments: Fixed DHCP IP assignments on the route.
+            reservedIpRanges: DHCP reserved IP ranges.
 
         """
         kwargs.update(locals())
@@ -1682,13 +1899,14 @@ class Appliance:
 
         return self._session.put(metadata, resource, payload)
 
-    def delete_network_appliance_static_route(self, networkId: str, staticRouteId: str):
+    def delete_network_appliance_static_route(self, networkId: str, staticRouteId: str) -> None:
         """Delete a static route from an MX or teleworker network.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-network-appliance-static-route
 
-        - networkId (string): Network ID
-        - staticRouteId (string): Static route ID
+        Args:
+            networkId: Network ID.
+            staticRouteId: Static route ID.
 
         """
         metadata = {
@@ -1701,12 +1919,13 @@ class Appliance:
 
         return self._session.delete(metadata, resource)
 
-    def get_network_appliance_traffic_shaping(self, networkId: str):
+    def get_network_appliance_traffic_shaping(self, networkId: str) -> dict[str, Any] | None:
         """Display the traffic shaping settings for an MX network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-traffic-shaping
 
-        - networkId (string): Network ID
+        Args:
+            networkId: Network ID.
 
         """
         metadata = {
@@ -1718,13 +1937,16 @@ class Appliance:
 
         return self._session.get(metadata, resource)
 
-    def update_network_appliance_traffic_shaping(self, networkId: str, **kwargs):
+    def update_network_appliance_traffic_shaping(
+        self, networkId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Update the traffic shaping settings for an MX network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-traffic-shaping
 
-        - networkId (string): Network ID
-        - globalBandwidthLimits (object): Global per-client bandwidth limit
+        Args:
+            networkId: Network ID.
+            globalBandwidthLimits: Global per-client bandwidth limit.
 
         """
         kwargs.update(locals())
@@ -1743,12 +1965,15 @@ class Appliance:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_network_appliance_traffic_shaping_custom_performance_classes(self, networkId: str):
+    def get_network_appliance_traffic_shaping_custom_performance_classes(
+        self, networkId: str
+    ) -> dict[str, Any] | None:
         """List all custom performance classes for an MX network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-traffic-shaping-custom-performance-classes
 
-        - networkId (string): Network ID
+        Args:
+            networkId: Network ID.
 
         """
         metadata = {
@@ -1761,17 +1986,18 @@ class Appliance:
         return self._session.get(metadata, resource)
 
     def create_network_appliance_traffic_shaping_custom_performance_class(
-        self, networkId: str, name: str, **kwargs
-    ):
+        self, networkId: str, name: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Add a custom performance class for an MX network.
 
         https://developer.cisco.com/meraki/api-v1/#!create-network-appliance-traffic-shaping-custom-performance-class
 
-        - networkId (string): Network ID
-        - name (string): Name of the custom performance class
-        - maxLatency (integer): Maximum latency in milliseconds
-        - maxJitter (integer): Maximum jitter in milliseconds
-        - maxLossPercentage (integer): Maximum percentage of packet loss
+        Args:
+            networkId: Network ID.
+            name: Name of the custom performance class.
+            maxLatency: Maximum latency in milliseconds.
+            maxJitter: Maximum jitter in milliseconds.
+            maxLossPercentage: Maximum percentage of packet loss.
 
         """
         kwargs.update(locals())
@@ -1795,13 +2021,14 @@ class Appliance:
 
     def get_network_appliance_traffic_shaping_custom_performance_class(
         self, networkId: str, customPerformanceClassId: str
-    ):
+    ) -> dict[str, Any] | None:
         """Return a custom performance class for an MX network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-traffic-shaping-custom-performance-class
 
-        - networkId (string): Network ID
-        - customPerformanceClassId (string): Custom performance class ID
+        Args:
+            networkId: Network ID.
+            customPerformanceClassId: Custom performance class ID.
 
         """
         metadata = {
@@ -1815,18 +2042,19 @@ class Appliance:
         return self._session.get(metadata, resource)
 
     def update_network_appliance_traffic_shaping_custom_performance_class(
-        self, networkId: str, customPerformanceClassId: str, **kwargs
-    ):
+        self, networkId: str, customPerformanceClassId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Update a custom performance class for an MX network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-traffic-shaping-custom-performance-class
 
-        - networkId (string): Network ID
-        - customPerformanceClassId (string): Custom performance class ID
-        - name (string): Name of the custom performance class
-        - maxLatency (integer): Maximum latency in milliseconds
-        - maxJitter (integer): Maximum jitter in milliseconds
-        - maxLossPercentage (integer): Maximum percentage of packet loss
+        Args:
+            networkId: Network ID.
+            customPerformanceClassId: Custom performance class ID.
+            name: Name of the custom performance class.
+            maxLatency: Maximum latency in milliseconds.
+            maxJitter: Maximum jitter in milliseconds.
+            maxLossPercentage: Maximum percentage of packet loss.
 
         """
         kwargs.update(locals())
@@ -1851,13 +2079,14 @@ class Appliance:
 
     def delete_network_appliance_traffic_shaping_custom_performance_class(
         self, networkId: str, customPerformanceClassId: str
-    ):
+    ) -> None:
         """Delete a custom performance class from an MX network.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-network-appliance-traffic-shaping-custom-performance-class
 
-        - networkId (string): Network ID
-        - customPerformanceClassId (string): Custom performance class ID
+        Args:
+            networkId: Network ID.
+            customPerformanceClassId: Custom performance class ID.
 
         """
         metadata = {
@@ -1870,17 +2099,22 @@ class Appliance:
 
         return self._session.delete(metadata, resource)
 
-    def update_network_appliance_traffic_shaping_rules(self, networkId: str, **kwargs):
+    def update_network_appliance_traffic_shaping_rules(
+        self, networkId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Update the traffic shaping settings rules for an MX network.
 
-            https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-traffic-shaping-rules
+        https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-traffic-shaping-rules
 
-            - networkId (string): Network ID
-            - defaultRulesEnabled (boolean): Whether default traffic shaping rules are enabled (true) or disabled (false). There are 4 default rules, which can be seen on your network's traffic shaping page. Note that default rules count against the rule limit of 8.
-            - rules (array):     An array of traffic shaping rules. Rules are applied in the order that
-        they are specified in. An empty list (or null) means no rules. Note that
-        you are allowed a maximum of 8 rules.
-
+        Args:
+            networkId: Network ID.
+            defaultRulesEnabled: Whether default traffic shaping rules are enabled (true) or
+              disabled (false). There are 4 default rules, which can be seen on your
+              network's traffic shaping page. Note that default rules count against the
+              rule limit of 8.
+            rules:     An array of traffic shaping rules. Rules are applied in the order that
+              they are specified in. An empty list (or null) means no rules. Note that
+              you are allowed a maximum of 8 rules. .
 
         """
         kwargs.update(locals())
@@ -1900,12 +2134,13 @@ class Appliance:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_network_appliance_traffic_shaping_rules(self, networkId: str):
+    def get_network_appliance_traffic_shaping_rules(self, networkId: str) -> dict[str, Any] | None:
         """Display the traffic shaping settings rules for an MX network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-traffic-shaping-rules
 
-        - networkId (string): Network ID
+        Args:
+            networkId: Network ID.
 
         """
         metadata = {
@@ -1917,12 +2152,15 @@ class Appliance:
 
         return self._session.get(metadata, resource)
 
-    def get_network_appliance_traffic_shaping_uplink_bandwidth(self, networkId: str):
+    def get_network_appliance_traffic_shaping_uplink_bandwidth(
+        self, networkId: str
+    ) -> dict[str, Any] | None:
         """Returns the uplink bandwidth limits for your MX network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-traffic-shaping-uplink-bandwidth
 
-        - networkId (string): Network ID
+        Args:
+            networkId: Network ID.
 
         """
         metadata = {
@@ -1934,13 +2172,17 @@ class Appliance:
 
         return self._session.get(metadata, resource)
 
-    def update_network_appliance_traffic_shaping_uplink_bandwidth(self, networkId: str, **kwargs):
+    def update_network_appliance_traffic_shaping_uplink_bandwidth(
+        self, networkId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Updates the uplink bandwidth settings for your MX network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-traffic-shaping-uplink-bandwidth
 
-        - networkId (string): Network ID
-        - bandwidthLimits (object): A mapping of uplinks to their bandwidth settings (be sure to check which uplinks are supported for your network)
+        Args:
+            networkId: Network ID.
+            bandwidthLimits: A mapping of uplinks to their bandwidth settings (be sure to check
+              which uplinks are supported for your network).
 
         """
         kwargs.update(locals())
@@ -1959,12 +2201,15 @@ class Appliance:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_network_appliance_traffic_shaping_uplink_selection(self, networkId: str):
+    def get_network_appliance_traffic_shaping_uplink_selection(
+        self, networkId: str
+    ) -> dict[str, Any] | None:
         """Show uplink selection settings for an MX network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-traffic-shaping-uplink-selection
 
-        - networkId (string): Network ID
+        Args:
+            networkId: Network ID.
 
         """
         metadata = {
@@ -1976,18 +2221,21 @@ class Appliance:
 
         return self._session.get(metadata, resource)
 
-    def update_network_appliance_traffic_shaping_uplink_selection(self, networkId: str, **kwargs):
+    def update_network_appliance_traffic_shaping_uplink_selection(
+        self, networkId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Update uplink selection settings for an MX network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-traffic-shaping-uplink-selection
 
-        - networkId (string): Network ID
-        - activeActiveAutoVpnEnabled (boolean): Toggle for enabling or disabling active-active AutoVPN
-        - defaultUplink (string): The default uplink. Must be a WAN interface 'wanX'
-        - loadBalancingEnabled (boolean): Toggle for enabling or disabling load balancing
-        - failoverAndFailback (object): WAN failover and failback behavior
-        - wanTrafficUplinkPreferences (array): Array of uplink preference rules for WAN traffic
-        - vpnTrafficUplinkPreferences (array): Array of uplink preference rules for VPN traffic
+        Args:
+            networkId: Network ID.
+            activeActiveAutoVpnEnabled: Toggle for enabling or disabling active-active AutoVPN.
+            defaultUplink: The default uplink. Must be a WAN interface 'wanX'.
+            loadBalancingEnabled: Toggle for enabling or disabling load balancing.
+            failoverAndFailback: WAN failover and failback behavior.
+            wanTrafficUplinkPreferences: Array of uplink preference rules for WAN traffic.
+            vpnTrafficUplinkPreferences: Array of uplink preference rules for VPN traffic.
 
         """
         kwargs.update(locals())
@@ -2011,14 +2259,18 @@ class Appliance:
 
         return self._session.put(metadata, resource, payload)
 
-    def update_network_appliance_traffic_shaping_vpn_exclusions(self, networkId: str, **kwargs):
+    def update_network_appliance_traffic_shaping_vpn_exclusions(
+        self, networkId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Update VPN exclusion rules for an MX network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-traffic-shaping-vpn-exclusions
 
-        - networkId (string): Network ID
-        - custom (array): Custom VPN exclusion rules. Pass an empty array to clear existing rules.
-        - majorApplications (array): Major Application based VPN exclusion rules. Pass an empty array to clear existing rules.
+        Args:
+            networkId: Network ID.
+            custom: Custom VPN exclusion rules. Pass an empty array to clear existing rules.
+            majorApplications: Major Application based VPN exclusion rules. Pass an empty array to
+              clear existing rules.
 
         """
         kwargs.update(locals())
@@ -2038,16 +2290,23 @@ class Appliance:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_network_appliance_uplinks_usage_history(self, networkId: str, **kwargs):
+    def get_network_appliance_uplinks_usage_history(
+        self, networkId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Get the sent and received bytes for each uplink of a network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-uplinks-usage-history
 
-        - networkId (string): Network ID
-        - t0 (string): The beginning of the timespan for the data. The maximum lookback period is 365 days from today.
-        - t1 (string): The end of the timespan for the data. t1 can be a maximum of 31 days after t0.
-        - timespan (number): The timespan for which the information will be fetched. If specifying timespan, do not specify parameters t0 and t1. The value must be in seconds and be less than or equal to 31 days. The default is 10 minutes.
-        - resolution (integer): The time resolution in seconds for returned data. The valid resolutions are: 60, 300, 600, 1800, 3600, 86400. The default is 60.
+        Args:
+            networkId: Network ID.
+            t0: The beginning of the timespan for the data. The maximum lookback period is 365 days
+              from today.
+            t1: The end of the timespan for the data. t1 can be a maximum of 31 days after t0.
+            timespan: The timespan for which the information will be fetched. If specifying
+              timespan, do not specify parameters t0 and t1. The value must be in
+              seconds and be less than or equal to 31 days. The default is 10 minutes.
+            resolution: The time resolution in seconds for returned data. The valid resolutions are:
+              60, 300, 600, 1800, 3600, 86400. The default is 60.
 
         """
         kwargs.update(locals())
@@ -2069,12 +2328,13 @@ class Appliance:
 
         return self._session.get(metadata, resource, params)
 
-    def get_network_appliance_vlans(self, networkId: str):
+    def get_network_appliance_vlans(self, networkId: str) -> dict[str, Any] | None:
         """List the VLANs for a Cisco Secure Router network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-vlans
 
-        - networkId (string): Network ID
+        Args:
+            networkId: Network ID.
 
         """
         metadata = {
@@ -2086,29 +2346,45 @@ class Appliance:
 
         return self._session.get(metadata, resource)
 
-    def create_network_appliance_vlan(self, networkId: str, id: str, name: str, **kwargs):
+    def create_network_appliance_vlan(
+        self, networkId: str, id: str, name: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Add a VLAN.
 
         https://developer.cisco.com/meraki/api-v1/#!create-network-appliance-vlan
 
-        - networkId (string): Network ID
-        - id (string): The VLAN ID of the new VLAN (must be between 1 and 4094)
-        - name (string): The name of the new VLAN
-        - subnet (string): The subnet of the VLAN
-        - applianceIp (string): The local IP of the appliance on the VLAN
-        - groupPolicyId (string): The id of the desired group policy to apply to the VLAN
-        - templateVlanType (string): Type of subnetting of the VLAN. Applicable only for template network.
-        - cidr (string): CIDR of the pool of subnets. Applicable only for template network. Each network bound to the template will automatically pick a subnet from this pool to build its own VLAN.
-        - mask (integer): Mask used for the subnet of all bound to the template networks. Applicable only for template network.
-        - ipv6 (object): IPv6 configuration on the VLAN
-        - dhcpHandling (string): The appliance's handling of DHCP requests on this VLAN. One of: 'Run a DHCP server', 'Relay DHCP to another server' or 'Do not respond to DHCP requests'
-        - dhcpRelayServerIps (array): The IPs (IPv4) of the DHCP servers that DHCP requests should be relayed to. CIDR/subnet notation and hostnames are not supported.
-        - dhcpLeaseTime (string): The term of DHCP leases if the appliance is running a DHCP server on this VLAN. One of: '30 minutes', '1 hour', '4 hours', '12 hours', '1 day' or '1 week'
-        - mandatoryDhcp (object): Mandatory DHCP will enforce that clients connecting to this VLAN must use the IP address assigned by the DHCP server. Clients who use a static IP address won't be able to associate. Only available on firmware versions 17.0 and above
-        - dhcpBootOptionsEnabled (boolean): Use DHCP boot options specified in other properties
-        - dhcpBootNextServer (string): DHCP boot option to direct boot clients to the server to load the boot file from
-        - dhcpBootFilename (string): DHCP boot option for boot filename
-        - dhcpOptions (array): The list of DHCP options that will be included in DHCP responses. Each object in the list should have "code", "type", and "value" properties.
+        Args:
+            networkId: Network ID.
+            id: The VLAN ID of the new VLAN (must be between 1 and 4094).
+            name: The name of the new VLAN.
+            subnet: The subnet of the VLAN.
+            applianceIp: The local IP of the appliance on the VLAN.
+            groupPolicyId: The id of the desired group policy to apply to the VLAN.
+            templateVlanType: Type of subnetting of the VLAN. Applicable only for template network.
+            cidr: CIDR of the pool of subnets. Applicable only for template network. Each network
+              bound to the template will automatically pick a subnet from this pool to
+              build its own VLAN.
+            mask: Mask used for the subnet of all bound to the template networks. Applicable only
+              for template network.
+            ipv6: IPv6 configuration on the VLAN.
+            dhcpHandling: The appliance's handling of DHCP requests on this VLAN. One of: 'Run a
+              DHCP server', 'Relay DHCP to another server' or 'Do not respond to DHCP
+              requests'.
+            dhcpRelayServerIps: The IPs (IPv4) of the DHCP servers that DHCP requests should be
+              relayed to. CIDR/subnet notation and hostnames are not supported.
+            dhcpLeaseTime: The term of DHCP leases if the appliance is running a DHCP server on this
+              VLAN. One of: '30 minutes', '1 hour', '4 hours', '12 hours', '1 day' or '1
+              week'.
+            mandatoryDhcp: Mandatory DHCP will enforce that clients connecting to this VLAN must use
+              the IP address assigned by the DHCP server. Clients who use a static IP
+              address won't be able to associate. Only available on firmware versions
+              17.0 and above.
+            dhcpBootOptionsEnabled: Use DHCP boot options specified in other properties.
+            dhcpBootNextServer: DHCP boot option to direct boot clients to the server to load the
+              boot file from.
+            dhcpBootFilename: DHCP boot option for boot filename.
+            dhcpOptions: The list of DHCP options that will be included in DHCP responses. Each
+              object in the list should have "code", "type", and "value" properties.
 
         """
         kwargs.update(locals())
@@ -2163,12 +2439,13 @@ class Appliance:
 
         return self._session.post(metadata, resource, payload)
 
-    def get_network_appliance_vlans_settings(self, networkId: str):
+    def get_network_appliance_vlans_settings(self, networkId: str) -> dict[str, Any] | None:
         """Returns the enabled status of VLANs for the network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-vlans-settings
 
-        - networkId (string): Network ID
+        Args:
+            networkId: Network ID.
 
         """
         metadata = {
@@ -2180,13 +2457,17 @@ class Appliance:
 
         return self._session.get(metadata, resource)
 
-    def update_network_appliance_vlans_settings(self, networkId: str, **kwargs):
+    def update_network_appliance_vlans_settings(
+        self, networkId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Enable/Disable VLANs for the given network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-vlans-settings
 
-        - networkId (string): Network ID
-        - vlansEnabled (boolean): Boolean indicating whether to enable (true) or disable (false) VLANs for the network
+        Args:
+            networkId: Network ID.
+            vlansEnabled: Boolean indicating whether to enable (true) or disable (false) VLANs for
+              the network.
 
         """
         kwargs.update(locals())
@@ -2205,13 +2486,14 @@ class Appliance:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_network_appliance_vlan(self, networkId: str, vlanId: str):
+    def get_network_appliance_vlan(self, networkId: str, vlanId: str) -> dict[str, Any] | None:
         """Return a VLAN.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-vlan
 
-        - networkId (string): Network ID
-        - vlanId (string): Vlan ID
+        Args:
+            networkId: Network ID.
+            vlanId: Vlan ID.
 
         """
         metadata = {
@@ -2224,33 +2506,55 @@ class Appliance:
 
         return self._session.get(metadata, resource)
 
-    def update_network_appliance_vlan(self, networkId: str, vlanId: str, **kwargs):
+    def update_network_appliance_vlan(
+        self, networkId: str, vlanId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Update a VLAN.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-vlan
 
-        - networkId (string): Network ID
-        - vlanId (string): Vlan ID
-        - name (string): The name of the VLAN
-        - subnet (string): The subnet of the VLAN
-        - applianceIp (string): The local IP of the appliance on the VLAN
-        - groupPolicyId (string): The id of the desired group policy to apply to the VLAN
-        - vpnNatSubnet (string): The translated VPN subnet if VPN and VPN subnet translation are enabled on the VLAN
-        - dhcpHandling (string): The appliance's handling of DHCP requests on this VLAN. One of: 'Run a DHCP server', 'Relay DHCP to another server' or 'Do not respond to DHCP requests'
-        - dhcpRelayServerIps (array): The IPs (IPv4) of the DHCP servers that DHCP requests should be relayed to. CIDR/subnet notation and hostnames are not supported.
-        - dhcpLeaseTime (string): The term of DHCP leases if the appliance is running a DHCP server on this VLAN. One of: '30 minutes', '1 hour', '4 hours', '12 hours', '1 day' or '1 week'
-        - dhcpBootOptionsEnabled (boolean): Use DHCP boot options specified in other properties
-        - dhcpBootNextServer (string): DHCP boot option to direct boot clients to the server to load the boot file from
-        - dhcpBootFilename (string): DHCP boot option for boot filename
-        - fixedIpAssignments (object): The DHCP fixed IP assignments on the VLAN. This should be an object that contains mappings from MAC addresses to objects that themselves each contain "ip" and "name" string fields. See the sample request/response for more details.
-        - reservedIpRanges (array): The DHCP reserved IP ranges on the VLAN
-        - dnsNameservers (string): The DNS nameservers used for DHCP responses, either "upstream_dns", "google_dns", "opendns", or a newline seperated string of IP addresses or domain names
-        - dhcpOptions (array): The list of DHCP options that will be included in DHCP responses. Each object in the list should have "code", "type", and "value" properties.
-        - templateVlanType (string): Type of subnetting of the VLAN. Applicable only for template network.
-        - cidr (string): CIDR of the pool of subnets. Applicable only for template network. Each network bound to the template will automatically pick a subnet from this pool to build its own VLAN.
-        - mask (integer): Mask used for the subnet of all bound to the template networks. Applicable only for template network.
-        - ipv6 (object): IPv6 configuration on the VLAN
-        - mandatoryDhcp (object): Mandatory DHCP will enforce that clients connecting to this VLAN must use the IP address assigned by the DHCP server. Clients who use a static IP address won't be able to associate. Only available on firmware versions 17.0 and above
+        Args:
+            networkId: Network ID.
+            vlanId: Vlan ID.
+            name: The name of the VLAN.
+            subnet: The subnet of the VLAN.
+            applianceIp: The local IP of the appliance on the VLAN.
+            groupPolicyId: The id of the desired group policy to apply to the VLAN.
+            vpnNatSubnet: The translated VPN subnet if VPN and VPN subnet translation are enabled on
+              the VLAN.
+            dhcpHandling: The appliance's handling of DHCP requests on this VLAN. One of: 'Run a
+              DHCP server', 'Relay DHCP to another server' or 'Do not respond to DHCP
+              requests'.
+            dhcpRelayServerIps: The IPs (IPv4) of the DHCP servers that DHCP requests should be
+              relayed to. CIDR/subnet notation and hostnames are not supported.
+            dhcpLeaseTime: The term of DHCP leases if the appliance is running a DHCP server on this
+              VLAN. One of: '30 minutes', '1 hour', '4 hours', '12 hours', '1 day' or '1
+              week'.
+            dhcpBootOptionsEnabled: Use DHCP boot options specified in other properties.
+            dhcpBootNextServer: DHCP boot option to direct boot clients to the server to load the
+              boot file from.
+            dhcpBootFilename: DHCP boot option for boot filename.
+            fixedIpAssignments: The DHCP fixed IP assignments on the VLAN. This should be an object
+              that contains mappings from MAC addresses to objects that themselves each
+              contain "ip" and "name" string fields. See the sample request/response for
+              more details.
+            reservedIpRanges: The DHCP reserved IP ranges on the VLAN.
+            dnsNameservers: The DNS nameservers used for DHCP responses, either "upstream_dns",
+              "google_dns", "opendns", or a newline seperated string of IP addresses or
+              domain names.
+            dhcpOptions: The list of DHCP options that will be included in DHCP responses. Each
+              object in the list should have "code", "type", and "value" properties.
+            templateVlanType: Type of subnetting of the VLAN. Applicable only for template network.
+            cidr: CIDR of the pool of subnets. Applicable only for template network. Each network
+              bound to the template will automatically pick a subnet from this pool to
+              build its own VLAN.
+            mask: Mask used for the subnet of all bound to the template networks. Applicable only
+              for template network.
+            ipv6: IPv6 configuration on the VLAN.
+            mandatoryDhcp: Mandatory DHCP will enforce that clients connecting to this VLAN must use
+              the IP address assigned by the DHCP server. Clients who use a static IP
+              address won't be able to associate. Only available on firmware versions
+              17.0 and above.
 
         """
         kwargs.update(locals())
@@ -2309,13 +2613,14 @@ class Appliance:
 
         return self._session.put(metadata, resource, payload)
 
-    def delete_network_appliance_vlan(self, networkId: str, vlanId: str):
+    def delete_network_appliance_vlan(self, networkId: str, vlanId: str) -> None:
         """Delete a VLAN from a network.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-network-appliance-vlan
 
-        - networkId (string): Network ID
-        - vlanId (string): Vlan ID
+        Args:
+            networkId: Network ID.
+            vlanId: Vlan ID.
 
         """
         metadata = {
@@ -2328,12 +2633,13 @@ class Appliance:
 
         return self._session.delete(metadata, resource)
 
-    def get_network_appliance_vpn_bgp(self, networkId: str):
+    def get_network_appliance_vpn_bgp(self, networkId: str) -> dict[str, Any] | None:
         """Return a Hub BGP Configuration.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-vpn-bgp
 
-        - networkId (string): Network ID
+        Args:
+            networkId: Network ID.
 
         """
         metadata = {
@@ -2345,16 +2651,29 @@ class Appliance:
 
         return self._session.get(metadata, resource)
 
-    def update_network_appliance_vpn_bgp(self, networkId: str, enabled: bool, **kwargs):
+    def update_network_appliance_vpn_bgp(
+        self, networkId: str, enabled: bool, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Update a Hub BGP Configuration.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-vpn-bgp
 
-        - networkId (string): Network ID
-        - enabled (boolean): Boolean value to enable or disable the BGP configuration. When BGP is enabled, the asNumber (ASN) will be autopopulated with the preconfigured ASN at other Hubs or a default value if there is no ASN configured.
-        - asNumber (integer): An Autonomous System Number (ASN) is required if you are to run BGP and peer with another BGP Speaker outside of the Auto VPN domain. This ASN will be applied to the entire Auto VPN domain. The entire 4-byte ASN range is supported. So, the ASN must be an integer between 1 and 4294967295. When absent, this field is not updated. If no value exists then it defaults to 64512.
-        - ibgpHoldTimer (integer): The iBGP holdtimer in seconds. The iBGP holdtimer must be an integer between 12 and 240. When absent, this field is not updated. If no value exists then it defaults to 240.
-        - neighbors (array): List of BGP neighbors. This list replaces the existing set of neighbors. When absent, this field is not updated.
+        Args:
+            networkId: Network ID.
+            enabled: Boolean value to enable or disable the BGP configuration. When BGP is enabled,
+              the asNumber (ASN) will be autopopulated with the preconfigured ASN at
+              other Hubs or a default value if there is no ASN configured.
+            asNumber: An Autonomous System Number (ASN) is required if you are to run BGP and peer
+              with another BGP Speaker outside of the Auto VPN domain. This ASN will be
+              applied to the entire Auto VPN domain. The entire 4-byte ASN range is
+              supported. So, the ASN must be an integer between 1 and 4294967295. When
+              absent, this field is not updated. If no value exists then it defaults to
+              64512.
+            ibgpHoldTimer: The iBGP holdtimer in seconds. The iBGP holdtimer must be an integer
+              between 12 and 240. When absent, this field is not updated. If no value
+              exists then it defaults to 240.
+            neighbors: List of BGP neighbors. This list replaces the existing set of neighbors. When
+              absent, this field is not updated.
 
         """
         kwargs.update(locals())
@@ -2376,12 +2695,13 @@ class Appliance:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_network_appliance_vpn_site_to_site_vpn(self, networkId: str):
+    def get_network_appliance_vpn_site_to_site_vpn(self, networkId: str) -> dict[str, Any] | None:
         """Return the site-to-site VPN settings of a network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-vpn-site-to-site-vpn
 
-        - networkId (string): Network ID
+        Args:
+            networkId: Network ID.
 
         """
         metadata = {
@@ -2393,16 +2713,20 @@ class Appliance:
 
         return self._session.get(metadata, resource)
 
-    def update_network_appliance_vpn_site_to_site_vpn(self, networkId: str, mode: str, **kwargs):
+    def update_network_appliance_vpn_site_to_site_vpn(
+        self, networkId: str, mode: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Update the site-to-site VPN settings of a network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-vpn-site-to-site-vpn
 
-        - networkId (string): Network ID
-        - mode (string): The site-to-site VPN mode. Can be one of 'none', 'spoke' or 'hub'
-        - hubs (array): The list of VPN hubs, in order of preference. In spoke mode, at least 1 hub is required.
-        - subnets (array): The list of subnets and their VPN presence.
-        - subnet (object): Configuration of subnet features
+        Args:
+            networkId: Network ID.
+            mode: The site-to-site VPN mode. Can be one of 'none', 'spoke' or 'hub'.
+            hubs: The list of VPN hubs, in order of preference. In spoke mode, at least 1 hub is
+              required.
+            subnets: The list of subnets and their VPN presence.
+            subnet: Configuration of subnet features.
 
         """
         kwargs.update(locals())
@@ -2430,12 +2754,13 @@ class Appliance:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_network_appliance_warm_spare(self, networkId: str):
+    def get_network_appliance_warm_spare(self, networkId: str) -> dict[str, Any] | None:
         """Return MX warm spare settings.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-warm-spare
 
-        - networkId (string): Network ID
+        Args:
+            networkId: Network ID.
 
         """
         metadata = {
@@ -2447,17 +2772,20 @@ class Appliance:
 
         return self._session.get(metadata, resource)
 
-    def update_network_appliance_warm_spare(self, networkId: str, enabled: bool, **kwargs):
+    def update_network_appliance_warm_spare(
+        self, networkId: str, enabled: bool, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Update MX warm spare settings.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-warm-spare
 
-        - networkId (string): Network ID
-        - enabled (boolean): Enable warm spare
-        - spareSerial (string): Serial number of the warm spare appliance
-        - uplinkMode (string): Uplink mode, either virtual or public
-        - virtualIp1 (string): The WAN 1 shared IP
-        - virtualIp2 (string): The WAN 2 shared IP
+        Args:
+            networkId: Network ID.
+            enabled: Enable warm spare.
+            spareSerial: Serial number of the warm spare appliance.
+            uplinkMode: Uplink mode, either virtual or public.
+            virtualIp1: The WAN 1 shared IP.
+            virtualIp2: The WAN 2 shared IP.
 
         """
         kwargs.update(locals())
@@ -2480,12 +2808,13 @@ class Appliance:
 
         return self._session.put(metadata, resource, payload)
 
-    def swap_network_appliance_warm_spare(self, networkId: str):
+    def swap_network_appliance_warm_spare(self, networkId: str) -> dict[str, Any] | None:
         """Swap MX primary and warm spare appliances.
 
         https://developer.cisco.com/meraki/api-v1/#!swap-network-appliance-warm-spare
 
-        - networkId (string): Network ID
+        Args:
+            networkId: Network ID.
 
         """
         metadata = {
@@ -2497,13 +2826,16 @@ class Appliance:
 
         return self._session.post(metadata, resource)
 
-    def get_organization_appliance_dns_local_profiles(self, organizationId: str, **kwargs):
+    def get_organization_appliance_dns_local_profiles(
+        self, organizationId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Fetch the local DNS profiles used in the organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-dns-local-profiles
 
-        - organizationId (string): Organization ID
-        - profileIds (array): Optional parameter to filter the results by profile IDs
+        Args:
+            organizationId: Organization ID.
+            profileIds: Optional parameter to filter the results by profile IDs.
 
         """
         kwargs.update(locals())
@@ -2530,13 +2862,16 @@ class Appliance:
 
         return self._session.get(metadata, resource, params)
 
-    def create_organization_appliance_dns_local_profile(self, organizationId: str, name: str):
+    def create_organization_appliance_dns_local_profile(
+        self, organizationId: str, name: str
+    ) -> dict[str, Any] | None:
         """Create a new local DNS profile.
 
         https://developer.cisco.com/meraki/api-v1/#!create-organization-appliance-dns-local-profile
 
-        - organizationId (string): Organization ID
-        - name (string): Name of profile
+        Args:
+            organizationId: Organization ID.
+            name: Name of profile.
 
         """
         kwargs = locals()
@@ -2556,15 +2891,16 @@ class Appliance:
         return self._session.post(metadata, resource, payload)
 
     def get_organization_appliance_dns_local_profiles_assignments(
-        self, organizationId: str, **kwargs
-    ):
+        self, organizationId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Fetch the local DNS profile assignments in the organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-dns-local-profiles-assignments
 
-        - organizationId (string): Organization ID
-        - profileIds (array): Optional parameter to filter the results by profile IDs
-        - networkIds (array): Optional parameter to filter the results by network IDs
+        Args:
+            organizationId: Organization ID.
+            profileIds: Optional parameter to filter the results by profile IDs.
+            networkIds: Optional parameter to filter the results by network IDs.
 
         """
         kwargs.update(locals())
@@ -2595,13 +2931,14 @@ class Appliance:
 
     def bulk_organization_appliance_dns_local_profiles_assignments_create(
         self, organizationId: str, items: list
-    ):
+    ) -> dict[str, Any] | None:
         """Assign the local DNS profile to networks in the organization.
 
         https://developer.cisco.com/meraki/api-v1/#!bulk-organization-appliance-dns-local-profiles-assignments-create
 
-        - organizationId (string): Organization ID
-        - items (array): List containing the network ID and Profile ID
+        Args:
+            organizationId: Organization ID.
+            items: List containing the network ID and Profile ID.
 
         """
         kwargs = locals()
@@ -2624,13 +2961,14 @@ class Appliance:
 
     def create_organization_appliance_dns_local_profiles_assignments_bulk_delete(
         self, organizationId: str, items: list
-    ):
+    ) -> dict[str, Any] | None:
         """Unassign the local DNS profile to networks in the organization.
 
         https://developer.cisco.com/meraki/api-v1/#!create-organization-appliance-dns-local-profiles-assignments-bulk-delete
 
-        - organizationId (string): Organization ID
-        - items (array): List containing the assignment ID
+        Args:
+            organizationId: Organization ID.
+            items: List containing the assignment ID.
 
         """
         kwargs = locals()
@@ -2661,14 +2999,15 @@ class Appliance:
 
     def update_organization_appliance_dns_local_profile(
         self, organizationId: str, profileId: str, name: str
-    ):
+    ) -> dict[str, Any] | None:
         """Update a local DNS profile.
 
         https://developer.cisco.com/meraki/api-v1/#!update-organization-appliance-dns-local-profile
 
-        - organizationId (string): Organization ID
-        - profileId (string): Profile ID
-        - name (string): Name of profile
+        Args:
+            organizationId: Organization ID.
+            profileId: Profile ID.
+            name: Name of profile.
 
         """
         kwargs = locals()
@@ -2688,13 +3027,16 @@ class Appliance:
 
         return self._session.put(metadata, resource, payload)
 
-    def delete_organization_appliance_dns_local_profile(self, organizationId: str, profileId: str):
+    def delete_organization_appliance_dns_local_profile(
+        self, organizationId: str, profileId: str
+    ) -> None:
         """Deletes a local DNS profile.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-appliance-dns-local-profile
 
-        - organizationId (string): Organization ID
-        - profileId (string): Profile ID
+        Args:
+            organizationId: Organization ID.
+            profileId: Profile ID.
 
         """
         metadata = {
@@ -2707,13 +3049,16 @@ class Appliance:
 
         return self._session.delete(metadata, resource)
 
-    def get_organization_appliance_dns_local_records(self, organizationId: str, **kwargs):
+    def get_organization_appliance_dns_local_records(
+        self, organizationId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Fetch the DNS records used in local DNS profiles.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-dns-local-records
 
-        - organizationId (string): Organization ID
-        - profileIds (array): Optional parameter to filter the results by profile IDs
+        Args:
+            organizationId: Organization ID.
+            profileIds: Optional parameter to filter the results by profile IDs.
 
         """
         kwargs.update(locals())
@@ -2742,15 +3087,16 @@ class Appliance:
 
     def create_organization_appliance_dns_local_record(
         self, organizationId: str, hostname: str, address: str, profile: dict
-    ):
+    ) -> dict[str, Any] | None:
         """Create a new local DNS record.
 
         https://developer.cisco.com/meraki/api-v1/#!create-organization-appliance-dns-local-record
 
-        - organizationId (string): Organization ID
-        - hostname (string): Hostname for the DNS record
-        - address (string): IP for the DNS record
-        - profile (object): The profile the DNS record is associated with
+        Args:
+            organizationId: Organization ID.
+            hostname: Hostname for the DNS record.
+            address: IP for the DNS record.
+            profile: The profile the DNS record is associated with.
 
         """
         kwargs = locals()
@@ -2772,17 +3118,18 @@ class Appliance:
         return self._session.post(metadata, resource, payload)
 
     def update_organization_appliance_dns_local_record(
-        self, organizationId: str, recordId: str, **kwargs
-    ):
+        self, organizationId: str, recordId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Updates a local DNS record.
 
         https://developer.cisco.com/meraki/api-v1/#!update-organization-appliance-dns-local-record
 
-        - organizationId (string): Organization ID
-        - recordId (string): Record ID
-        - hostname (string): Hostname for the DNS record
-        - address (string): IP for the DNS record
-        - profile (object): The profile the DNS record is associated with
+        Args:
+            organizationId: Organization ID.
+            recordId: Record ID.
+            hostname: Hostname for the DNS record.
+            address: IP for the DNS record.
+            profile: The profile the DNS record is associated with.
 
         """
         kwargs.update(locals())
@@ -2804,13 +3151,16 @@ class Appliance:
 
         return self._session.put(metadata, resource, payload)
 
-    def delete_organization_appliance_dns_local_record(self, organizationId: str, recordId: str):
+    def delete_organization_appliance_dns_local_record(
+        self, organizationId: str, recordId: str
+    ) -> None:
         """Deletes a local DNS record.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-appliance-dns-local-record
 
-        - organizationId (string): Organization ID
-        - recordId (string): Record ID
+        Args:
+            organizationId: Organization ID.
+            recordId: Record ID.
 
         """
         metadata = {
@@ -2823,13 +3173,16 @@ class Appliance:
 
         return self._session.delete(metadata, resource)
 
-    def get_organization_appliance_dns_split_profiles(self, organizationId: str, **kwargs):
+    def get_organization_appliance_dns_split_profiles(
+        self, organizationId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Fetch the split DNS profiles used in the organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-dns-split-profiles
 
-        - organizationId (string): Organization ID
-        - profileIds (array): Optional parameter to filter the results by profile IDs
+        Args:
+            organizationId: Organization ID.
+            profileIds: Optional parameter to filter the results by profile IDs.
 
         """
         kwargs.update(locals())
@@ -2858,15 +3211,17 @@ class Appliance:
 
     def create_organization_appliance_dns_split_profile(
         self, organizationId: str, name: str, hostnames: list, nameservers: dict
-    ):
+    ) -> dict[str, Any] | None:
         """Create a new split DNS profile.
 
         https://developer.cisco.com/meraki/api-v1/#!create-organization-appliance-dns-split-profile
 
-        - organizationId (string): Organization ID
-        - name (string): Name of profile
-        - hostnames (array): The hostname patterns to match for redirection. For more information on Split DNS hostname pattern formatting, please consult the Split DNS KB.
-        - nameservers (object): Contains the nameserver information for redirection.
+        Args:
+            organizationId: Organization ID.
+            name: Name of profile.
+            hostnames: The hostname patterns to match for redirection. For more information on Split
+              DNS hostname pattern formatting, please consult the Split DNS KB.
+            nameservers: Contains the nameserver information for redirection.
 
         """
         kwargs = locals()
@@ -2888,15 +3243,16 @@ class Appliance:
         return self._session.post(metadata, resource, payload)
 
     def get_organization_appliance_dns_split_profiles_assignments(
-        self, organizationId: str, **kwargs
-    ):
+        self, organizationId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Fetch the split DNS profile assignments in the organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-dns-split-profiles-assignments
 
-        - organizationId (string): Organization ID
-        - profileIds (array): Optional parameter to filter the results by profile IDs
-        - networkIds (array): Optional parameter to filter the results by network IDs
+        Args:
+            organizationId: Organization ID.
+            profileIds: Optional parameter to filter the results by profile IDs.
+            networkIds: Optional parameter to filter the results by network IDs.
 
         """
         kwargs.update(locals())
@@ -2927,13 +3283,14 @@ class Appliance:
 
     def create_organization_appliance_dns_split_profiles_assignments_bulk_create(
         self, organizationId: str, items: list
-    ):
+    ) -> dict[str, Any] | None:
         """Assign the split DNS profile to networks in the organization.
 
         https://developer.cisco.com/meraki/api-v1/#!create-organization-appliance-dns-split-profiles-assignments-bulk-create
 
-        - organizationId (string): Organization ID
-        - items (array): List containing the network ID and Profile ID
+        Args:
+            organizationId: Organization ID.
+            items: List containing the network ID and Profile ID.
 
         """
         kwargs = locals()
@@ -2964,13 +3321,14 @@ class Appliance:
 
     def create_organization_appliance_dns_split_profiles_assignments_bulk_delete(
         self, organizationId: str, items: list
-    ):
+    ) -> dict[str, Any] | None:
         """Unassign the split DNS profile to networks in the organization.
 
         https://developer.cisco.com/meraki/api-v1/#!create-organization-appliance-dns-split-profiles-assignments-bulk-delete
 
-        - organizationId (string): Organization ID
-        - items (array): List containing the assignment ID
+        Args:
+            organizationId: Organization ID.
+            items: List containing the assignment ID.
 
         """
         kwargs = locals()
@@ -3000,17 +3358,19 @@ class Appliance:
         return self._session.post(metadata, resource, payload)
 
     def update_organization_appliance_dns_split_profile(
-        self, organizationId: str, profileId: str, **kwargs
-    ):
+        self, organizationId: str, profileId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Update a split DNS profile.
 
         https://developer.cisco.com/meraki/api-v1/#!update-organization-appliance-dns-split-profile
 
-        - organizationId (string): Organization ID
-        - profileId (string): Profile ID
-        - name (string): Name of profile
-        - hostnames (array): The hostname patterns to match for redirection. For more information on Split DNS hostname pattern formatting, please consult the Split DNS KB.
-        - nameservers (object): Contains the nameserver information for redirection.
+        Args:
+            organizationId: Organization ID.
+            profileId: Profile ID.
+            name: Name of profile.
+            hostnames: The hostname patterns to match for redirection. For more information on Split
+              DNS hostname pattern formatting, please consult the Split DNS KB.
+            nameservers: Contains the nameserver information for redirection.
 
         """
         kwargs.update(locals())
@@ -3032,13 +3392,16 @@ class Appliance:
 
         return self._session.put(metadata, resource, payload)
 
-    def delete_organization_appliance_dns_split_profile(self, organizationId: str, profileId: str):
+    def delete_organization_appliance_dns_split_profile(
+        self, organizationId: str, profileId: str
+    ) -> None:
         """Deletes a split DNS profile.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-appliance-dns-split-profile
 
-        - organizationId (string): Organization ID
-        - profileId (string): Profile ID
+        Args:
+            organizationId: Organization ID.
+            profileId: Profile ID.
 
         """
         metadata = {
@@ -3052,19 +3415,28 @@ class Appliance:
         return self._session.delete(metadata, resource)
 
     def get_organization_appliance_firewall_multicast_forwarding_by_network(
-        self, organizationId: str, total_pages=1, direction="next", **kwargs
-    ):
+        self, organizationId: str, total_pages=1, direction="next", **kwargs: Any
+    ) -> Generator[Any, None, None]:
         """List Static Multicasting forwarding settings for MX networks.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-firewall-multicast-forwarding-by-network
 
-        - organizationId (string): Organization ID
-        - total_pages (integer or string): use with perPage to get total results up to total_pages*perPage; -1 or "all" for all pages
-        - direction (string): direction to paginate, either "next" (default) or "prev" page
-        - perPage (integer): The number of entries per page returned. Acceptable range is 3 - 1000. Default is 1000.
-        - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - networkIds (array): Optional parameter to filter the results by network IDs
+        Args:
+            organizationId: Organization ID.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+            perPage: The number of entries per page returned. Acceptable range is 3 - 1000. Default
+              is 1000.
+            startingAfter: A token used by the server to indicate the start of the page. Often this
+              is a timestamp or an ID but it is not limited to those. This parameter
+              should not be defined by client applications. The link for the first,
+              last, prev, or next page in the HTTP Link header should define it.
+            endingBefore: A token used by the server to indicate the end of the page. Often this is
+              a timestamp or an ID but it is not limited to those. This parameter should
+              not be defined by client applications. The link for the first, last, prev,
+              or next page in the HTTP Link header should define it.
+            networkIds: Optional parameter to filter the results by network IDs.
 
         """
         kwargs.update(locals())
@@ -3097,22 +3469,35 @@ class Appliance:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def get_organization_appliance_security_events(
-        self, organizationId: str, total_pages=1, direction="next", **kwargs
-    ):
+        self, organizationId: str, total_pages=1, direction="next", **kwargs: Any
+    ) -> Generator[Any, None, None]:
         """List the security events for an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-security-events
 
-        - organizationId (string): Organization ID
-        - total_pages (integer or string): use with perPage to get total results up to total_pages*perPage; -1 or "all" for all pages
-        - direction (string): direction to paginate, either "next" (default) or "prev" page
-        - t0 (string): The beginning of the timespan for the data. Data is gathered after the specified t0 value. The maximum lookback period is 365 days from today.
-        - t1 (string): The end of the timespan for the data. t1 can be a maximum of 365 days after t0.
-        - timespan (number): The timespan for which the information will be fetched. If specifying timespan, do not specify parameters t0 and t1. The value must be in seconds and be less than or equal to 365 days. The default is 31 days.
-        - perPage (integer): The number of entries per page returned. Acceptable range is 3 - 1000. Default is 100.
-        - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - sortOrder (string): Sorted order of security events based on event detection time. Order options are 'ascending' or 'descending'. Default is ascending order.
+        Args:
+            organizationId: Organization ID.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+            t0: The beginning of the timespan for the data. Data is gathered after the specified t0
+              value. The maximum lookback period is 365 days from today.
+            t1: The end of the timespan for the data. t1 can be a maximum of 365 days after t0.
+            timespan: The timespan for which the information will be fetched. If specifying
+              timespan, do not specify parameters t0 and t1. The value must be in
+              seconds and be less than or equal to 365 days. The default is 31 days.
+            perPage: The number of entries per page returned. Acceptable range is 3 - 1000. Default
+              is 100.
+            startingAfter: A token used by the server to indicate the start of the page. Often this
+              is a timestamp or an ID but it is not limited to those. This parameter
+              should not be defined by client applications. The link for the first,
+              last, prev, or next page in the HTTP Link header should define it.
+            endingBefore: A token used by the server to indicate the end of the page. Often this is
+              a timestamp or an ID but it is not limited to those. This parameter should
+              not be defined by client applications. The link for the first, last, prev,
+              or next page in the HTTP Link header should define it.
+            sortOrder: Sorted order of security events based on event detection time. Order options
+              are 'ascending' or 'descending'. Default is ascending order.
 
         """
         kwargs.update(locals())
@@ -3143,12 +3528,15 @@ class Appliance:
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
-    def get_organization_appliance_security_intrusion(self, organizationId: str):
+    def get_organization_appliance_security_intrusion(
+        self, organizationId: str
+    ) -> dict[str, Any] | None:
         """Returns all supported intrusion settings for an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-security-intrusion
 
-        - organizationId (string): Organization ID
+        Args:
+            organizationId: Organization ID.
 
         """
         metadata = {
@@ -3162,13 +3550,14 @@ class Appliance:
 
     def update_organization_appliance_security_intrusion(
         self, organizationId: str, allowedRules: list
-    ):
+    ) -> dict[str, Any] | None:
         """Sets supported intrusion settings for an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!update-organization-appliance-security-intrusion
 
-        - organizationId (string): Organization ID
-        - allowedRules (array): Sets a list of specific SNORT signatures to allow
+        Args:
+            organizationId: Organization ID.
+            allowedRules: Sets a list of specific SNORT signatures to allow.
 
         """
         kwargs = locals()
@@ -3188,19 +3577,28 @@ class Appliance:
         return self._session.put(metadata, resource, payload)
 
     def get_organization_appliance_traffic_shaping_vpn_exclusions_by_network(
-        self, organizationId: str, total_pages=1, direction="next", **kwargs
-    ):
+        self, organizationId: str, total_pages=1, direction="next", **kwargs: Any
+    ) -> Generator[Any, None, None]:
         """Display VPN exclusion rules for MX networks.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-traffic-shaping-vpn-exclusions-by-network
 
-        - organizationId (string): Organization ID
-        - total_pages (integer or string): use with perPage to get total results up to total_pages*perPage; -1 or "all" for all pages
-        - direction (string): direction to paginate, either "next" (default) or "prev" page
-        - perPage (integer): The number of entries per page returned. Acceptable range is 3 - 1000. Default is 50.
-        - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - networkIds (array): Optional parameter to filter the results by network IDs
+        Args:
+            organizationId: Organization ID.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+            perPage: The number of entries per page returned. Acceptable range is 3 - 1000. Default
+              is 50.
+            startingAfter: A token used by the server to indicate the start of the page. Often this
+              is a timestamp or an ID but it is not limited to those. This parameter
+              should not be defined by client applications. The link for the first,
+              last, prev, or next page in the HTTP Link header should define it.
+            endingBefore: A token used by the server to indicate the end of the page. Often this is
+              a timestamp or an ID but it is not limited to those. This parameter should
+              not be defined by client applications. The link for the first, last, prev,
+              or next page in the HTTP Link header should define it.
+            networkIds: Optional parameter to filter the results by network IDs.
 
         """
         kwargs.update(locals())
@@ -3233,21 +3631,33 @@ class Appliance:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def get_organization_appliance_uplink_statuses(
-        self, organizationId: str, total_pages=1, direction="next", **kwargs
-    ):
+        self, organizationId: str, total_pages=1, direction="next", **kwargs: Any
+    ) -> Generator[Any, None, None]:
         """List the uplink status of every Meraki MX and Z series appliances in the organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-uplink-statuses
 
-        - organizationId (string): Organization ID
-        - total_pages (integer or string): use with perPage to get total results up to total_pages*perPage; -1 or "all" for all pages
-        - direction (string): direction to paginate, either "next" (default) or "prev" page
-        - perPage (integer): The number of entries per page returned. Acceptable range is 3 - 1000. Default is 1000.
-        - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - networkIds (array): A list of network IDs. The returned devices will be filtered to only include these networks.
-        - serials (array): A list of serial numbers. The returned devices will be filtered to only include these serials.
-        - iccids (array): A list of ICCIDs. The returned devices will be filtered to only include these ICCIDs.
+        Args:
+            organizationId: Organization ID.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+            perPage: The number of entries per page returned. Acceptable range is 3 - 1000. Default
+              is 1000.
+            startingAfter: A token used by the server to indicate the start of the page. Often this
+              is a timestamp or an ID but it is not limited to those. This parameter
+              should not be defined by client applications. The link for the first,
+              last, prev, or next page in the HTTP Link header should define it.
+            endingBefore: A token used by the server to indicate the end of the page. Often this is
+              a timestamp or an ID but it is not limited to those. This parameter should
+              not be defined by client applications. The link for the first, last, prev,
+              or next page in the HTTP Link header should define it.
+            networkIds: A list of network IDs. The returned devices will be filtered to only include
+              these networks.
+            serials: A list of serial numbers. The returned devices will be filtered to only include
+              these serials.
+            iccids: A list of ICCIDs. The returned devices will be filtered to only include these
+              ICCIDs.
 
         """
         kwargs.update(locals())
@@ -3281,13 +3691,17 @@ class Appliance:
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
-    def get_organization_appliance_uplinks_statuses_overview(self, organizationId: str, **kwargs):
+    def get_organization_appliance_uplinks_statuses_overview(
+        self, organizationId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Returns an overview of uplink statuses.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-uplinks-statuses-overview
 
-        - organizationId (string): Organization ID
-        - networkIds (array): A list of network IDs. The returned devices will be filtered to only include these networks.
+        Args:
+            organizationId: Organization ID.
+            networkIds: A list of network IDs. The returned devices will be filtered to only include
+              these networks.
 
         """
         kwargs.update(locals())
@@ -3314,15 +3728,21 @@ class Appliance:
 
         return self._session.get(metadata, resource, params)
 
-    def get_organization_appliance_uplinks_usage_by_network(self, organizationId: str, **kwargs):
+    def get_organization_appliance_uplinks_usage_by_network(
+        self, organizationId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Get the sent and received bytes for each uplink of all MX and Z networks within an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-uplinks-usage-by-network
 
-        - organizationId (string): Organization ID
-        - t0 (string): The beginning of the timespan for the data. The maximum lookback period is 30 days from today.
-        - t1 (string): The end of the timespan for the data. t1 can be a maximum of 14 days after t0.
-        - timespan (number): The timespan for which the information will be fetched. If specifying timespan, do not specify parameters t0 and t1. The value must be in seconds and be less than or equal to 14 days. The default is 1 day.
+        Args:
+            organizationId: Organization ID.
+            t0: The beginning of the timespan for the data. The maximum lookback period is 30 days
+              from today.
+            t1: The end of the timespan for the data. t1 can be a maximum of 14 days after t0.
+            timespan: The timespan for which the information will be fetched. If specifying
+              timespan, do not specify parameters t0 and t1. The value must be in
+              seconds and be less than or equal to 14 days. The default is 1 day.
 
         """
         kwargs.update(locals())
@@ -3343,12 +3763,15 @@ class Appliance:
 
         return self._session.get(metadata, resource, params)
 
-    def get_organization_appliance_vpn_site_to_site_ipsec_peers_slas(self, organizationId: str):
+    def get_organization_appliance_vpn_site_to_site_ipsec_peers_slas(
+        self, organizationId: str
+    ) -> dict[str, Any] | None:
         """Get the list of available IPsec SLA policies for an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-vpn-site-to-site-ipsec-peers-slas
 
-        - organizationId (string): Organization ID
+        Args:
+            organizationId: Organization ID.
 
         """
         metadata = {
@@ -3361,14 +3784,15 @@ class Appliance:
         return self._session.get(metadata, resource)
 
     def update_organization_appliance_vpn_site_to_site_ipsec_peers_slas(
-        self, organizationId: str, **kwargs
-    ):
+        self, organizationId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Update the IPsec SLA policies for an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!update-organization-appliance-vpn-site-to-site-ipsec-peers-slas
 
-        - organizationId (string): Organization ID
-        - items (array): List of IPsec SLA policies
+        Args:
+            organizationId: Organization ID.
+            items: List of IPsec SLA policies.
 
         """
         kwargs.update(locals())
@@ -3388,22 +3812,35 @@ class Appliance:
         return self._session.put(metadata, resource, payload)
 
     def get_organization_appliance_vpn_stats(
-        self, organizationId: str, total_pages=1, direction="next", **kwargs
-    ):
+        self, organizationId: str, total_pages=1, direction="next", **kwargs: Any
+    ) -> Generator[Any, None, None]:
         """Show VPN history stat for networks in an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-vpn-stats
 
-        - organizationId (string): Organization ID
-        - total_pages (integer or string): use with perPage to get total results up to total_pages*perPage; -1 or "all" for all pages
-        - direction (string): direction to paginate, either "next" (default) or "prev" page
-        - perPage (integer): The number of entries per page returned. Acceptable range is 3 - 300. Default is 300.
-        - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - networkIds (array): A list of Meraki network IDs to filter results to contain only specified networks. E.g.: networkIds[]=N_12345678&networkIds[]=L_3456
-        - t0 (string): The beginning of the timespan for the data. The maximum lookback period is 31 days from today.
-        - t1 (string): The end of the timespan for the data. t1 can be a maximum of 31 days after t0.
-        - timespan (number): The timespan for which the information will be fetched. If specifying timespan, do not specify parameters t0 and t1. The value must be in seconds and be less than or equal to 31 days. The default is 1 day.
+        Args:
+            organizationId: Organization ID.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+            perPage: The number of entries per page returned. Acceptable range is 3 - 300. Default
+              is 300.
+            startingAfter: A token used by the server to indicate the start of the page. Often this
+              is a timestamp or an ID but it is not limited to those. This parameter
+              should not be defined by client applications. The link for the first,
+              last, prev, or next page in the HTTP Link header should define it.
+            endingBefore: A token used by the server to indicate the end of the page. Often this is
+              a timestamp or an ID but it is not limited to those. This parameter should
+              not be defined by client applications. The link for the first, last, prev,
+              or next page in the HTTP Link header should define it.
+            networkIds: A list of Meraki network IDs to filter results to contain only specified
+              networks. E.g.: networkIds[]=N_12345678&networkIds[]=L_3456.
+            t0: The beginning of the timespan for the data. The maximum lookback period is 31 days
+              from today.
+            t1: The end of the timespan for the data. t1 can be a maximum of 31 days after t0.
+            timespan: The timespan for which the information will be fetched. If specifying
+              timespan, do not specify parameters t0 and t1. The value must be in
+              seconds and be less than or equal to 31 days. The default is 1 day.
 
         """
         kwargs.update(locals())
@@ -3437,19 +3874,29 @@ class Appliance:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def get_organization_appliance_vpn_statuses(
-        self, organizationId: str, total_pages=1, direction="next", **kwargs
-    ):
+        self, organizationId: str, total_pages=1, direction="next", **kwargs: Any
+    ) -> Generator[Any, None, None]:
         """Show VPN status for networks in an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-vpn-statuses
 
-        - organizationId (string): Organization ID
-        - total_pages (integer or string): use with perPage to get total results up to total_pages*perPage; -1 or "all" for all pages
-        - direction (string): direction to paginate, either "next" (default) or "prev" page
-        - perPage (integer): The number of entries per page returned. Acceptable range is 3 - 300. Default is 300.
-        - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - networkIds (array): A list of Meraki network IDs to filter results to contain only specified networks. E.g.: networkIds[]=N_12345678&networkIds[]=L_3456
+        Args:
+            organizationId: Organization ID.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+            perPage: The number of entries per page returned. Acceptable range is 3 - 300. Default
+              is 300.
+            startingAfter: A token used by the server to indicate the start of the page. Often this
+              is a timestamp or an ID but it is not limited to those. This parameter
+              should not be defined by client applications. The link for the first,
+              last, prev, or next page in the HTTP Link header should define it.
+            endingBefore: A token used by the server to indicate the end of the page. Often this is
+              a timestamp or an ID but it is not limited to those. This parameter should
+              not be defined by client applications. The link for the first, last, prev,
+              or next page in the HTTP Link header should define it.
+            networkIds: A list of Meraki network IDs to filter results to contain only specified
+              networks. E.g.: networkIds[]=N_12345678&networkIds[]=L_3456.
 
         """
         kwargs.update(locals())
@@ -3479,12 +3926,15 @@ class Appliance:
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
-    def get_organization_appliance_vpn_third_party_v_p_n_peers(self, organizationId: str):
+    def get_organization_appliance_vpn_third_party_v_p_n_peers(
+        self, organizationId: str
+    ) -> dict[str, Any] | None:
         """Return the third party VPN peers for an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-vpn-third-party-v-p-n-peers
 
-        - organizationId (string): Organization ID
+        Args:
+            organizationId: Organization ID.
 
         """
         metadata = {
@@ -3498,13 +3948,14 @@ class Appliance:
 
     def update_organization_appliance_vpn_third_party_v_p_n_peers(
         self, organizationId: str, peers: list
-    ):
+    ) -> dict[str, Any] | None:
         """Update the third party VPN peers for an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!update-organization-appliance-vpn-third-party-v-p-n-peers
 
-        - organizationId (string): Organization ID
-        - peers (array): The list of VPN peers
+        Args:
+            organizationId: Organization ID.
+            peers: The list of VPN peers.
 
         """
         kwargs = locals()
@@ -3523,12 +3974,15 @@ class Appliance:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_organization_appliance_vpn_vpn_firewall_rules(self, organizationId: str):
+    def get_organization_appliance_vpn_vpn_firewall_rules(
+        self, organizationId: str
+    ) -> dict[str, Any] | None:
         """Return the firewall rules for an organization's site-to-site VPN.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-vpn-vpn-firewall-rules
 
-        - organizationId (string): Organization ID
+        Args:
+            organizationId: Organization ID.
 
         """
         metadata = {
@@ -3540,14 +3994,18 @@ class Appliance:
 
         return self._session.get(metadata, resource)
 
-    def update_organization_appliance_vpn_vpn_firewall_rules(self, organizationId: str, **kwargs):
+    def update_organization_appliance_vpn_vpn_firewall_rules(
+        self, organizationId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Update the firewall rules of an organization's site-to-site VPN.
 
         https://developer.cisco.com/meraki/api-v1/#!update-organization-appliance-vpn-vpn-firewall-rules
 
-        - organizationId (string): Organization ID
-        - rules (array): An ordered array of the firewall rules (not including the default rule)
-        - syslogDefaultRule (boolean): Log the special default rule (boolean value - enable only if you've configured a syslog server) (optional)
+        Args:
+            organizationId: Organization ID.
+            rules: An ordered array of the firewall rules (not including the default rule).
+            syslogDefaultRule: Log the special default rule (boolean value - enable only if you've
+              configured a syslog server) (optional).
 
         """
         kwargs.update(locals())

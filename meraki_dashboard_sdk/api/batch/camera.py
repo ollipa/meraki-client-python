@@ -1,5 +1,8 @@
 """ActionBatchCamera API endpoints."""
 
+import urllib
+from typing import Any
+
 
 class ActionBatchCamera:
     """ActionBatchCamera class."""
@@ -7,17 +10,18 @@ class ActionBatchCamera:
     def __init__(self) -> None:
         pass
 
-    def update_device_camera_custom_analytics(self, serial: str, **kwargs):
-        """
-        **Update custom analytics settings for a camera.**
+    def update_device_camera_custom_analytics(self, serial: str, **kwargs: Any) -> dict[str, Any]:
+        """Update custom analytics settings for a camera.
+
         https://developer.cisco.com/meraki/api-v1/#!update-device-camera-custom-analytics
 
-        - serial (string): Serial
-        - enabled (boolean): Enable custom analytics
-        - artifactId (string): The ID of the custom analytics artifact
-        - parameters (array): Parameters for the custom analytics workload
-        """
+        Args:
+            serial: Serial.
+            enabled: Enable custom analytics.
+            artifactId: The ID of the custom analytics artifact.
+            parameters: Parameters for the custom analytics workload.
 
+        """
         kwargs.update(locals())
 
         metadata = {
@@ -35,21 +39,35 @@ class ActionBatchCamera:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def update_device_camera_quality_and_retention(self, serial: str, **kwargs):
-        """
-        **Update quality and retention settings for the given camera.**
+    def update_device_camera_quality_and_retention(
+        self, serial: str, **kwargs: Any
+    ) -> dict[str, Any]:
+        """Update quality and retention settings for the given camera.
+
         https://developer.cisco.com/meraki/api-v1/#!update-device-camera-quality-and-retention
 
-        - serial (string): Serial
-        - profileId (string): The ID of a quality and retention profile to assign to the camera. The profile's settings will override all of the per-camera quality and retention settings. If the value of this parameter is null, any existing profile will be unassigned from the camera.
-        - motionBasedRetentionEnabled (boolean): Boolean indicating if motion-based retention is enabled(true) or disabled(false) on the camera.
-        - audioRecordingEnabled (boolean): Boolean indicating if audio recording is enabled(true) or disabled(false) on the camera
-        - restrictedBandwidthModeEnabled (boolean): Boolean indicating if restricted bandwidth is enabled(true) or disabled(false) on the camera. This setting does not apply to MV2 cameras.
-        - quality (string): Quality of the camera. Can be one of 'Standard', 'High', 'Enhanced' or 'Ultra'. Not all qualities are supported by every camera model.
-        - resolution (string): Resolution of the camera. Can be one of '1280x720', '1920x1080', '1080x1080', '2112x2112', '2880x2880', '2688x1512' or '3840x2160'.Not all resolutions are supported by every camera model.
-        - motionDetectorVersion (integer): The version of the motion detector that will be used by the camera. Only applies to Gen 2 cameras. Defaults to v2.
-        """
+        Args:
+            serial: Serial.
+            profileId: The ID of a quality and retention profile to assign to the camera. The
+              profile's settings will override all of the per-camera quality and
+              retention settings. If the value of this parameter is null, any existing
+              profile will be unassigned from the camera.
+            motionBasedRetentionEnabled: Boolean indicating if motion-based retention is
+              enabled(true) or disabled(false) on the camera.
+            audioRecordingEnabled: Boolean indicating if audio recording is enabled(true) or
+              disabled(false) on the camera.
+            restrictedBandwidthModeEnabled: Boolean indicating if restricted bandwidth is
+              enabled(true) or disabled(false) on the camera. This setting does not
+              apply to MV2 cameras.
+            quality: Quality of the camera. Can be one of 'Standard', 'High', 'Enhanced' or 'Ultra'.
+              Not all qualities are supported by every camera model.
+            resolution: Resolution of the camera. Can be one of '1280x720', '1920x1080',
+              '1080x1080', '2112x2112', '2880x2880', '2688x1512' or '3840x2160'.Not all
+              resolutions are supported by every camera model.
+            motionDetectorVersion: The version of the motion detector that will be used by the
+              camera. Only applies to Gen 2 cameras. Defaults to v2.
 
+        """
         kwargs.update(locals())
 
         if "quality" in kwargs:
@@ -95,18 +113,21 @@ class ActionBatchCamera:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def update_device_camera_sense(self, serial: str, **kwargs):
-        """
-        **Update sense settings for the given camera.**
+    def update_device_camera_sense(self, serial: str, **kwargs: Any) -> dict[str, Any]:
+        """Update sense settings for the given camera.
+
         https://developer.cisco.com/meraki/api-v1/#!update-device-camera-sense
 
-        - serial (string): Serial
-        - senseEnabled (boolean): Boolean indicating if sense(license) is enabled(true) or disabled(false) on the camera
-        - mqttBrokerId (string): The ID of the MQTT broker to be enabled on the camera. A value of null will disable MQTT on the camera
-        - audioDetection (object): The details of the audio detection config.
-        - detectionModelId (string): The ID of the object detection model
-        """
+        Args:
+            serial: Serial.
+            senseEnabled: Boolean indicating if sense(license) is enabled(true) or disabled(false)
+              on the camera.
+            mqttBrokerId: The ID of the MQTT broker to be enabled on the camera. A value of null
+              will disable MQTT on the camera.
+            audioDetection: The details of the audio detection config.
+            detectionModelId: The ID of the object detection model.
 
+        """
         kwargs.update(locals())
 
         metadata = {
@@ -125,15 +146,16 @@ class ActionBatchCamera:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def update_device_camera_video_settings(self, serial: str, **kwargs):
-        """
-        **Update video settings for the given camera.**
+    def update_device_camera_video_settings(self, serial: str, **kwargs: Any) -> dict[str, Any]:
+        """Update video settings for the given camera.
+
         https://developer.cisco.com/meraki/api-v1/#!update-device-camera-video-settings
 
-        - serial (string): Serial
-        - externalRtspEnabled (boolean): Boolean indicating if external rtsp stream is exposed
-        """
+        Args:
+            serial: Serial.
+            externalRtspEnabled: Boolean indicating if external rtsp stream is exposed.
 
+        """
         kwargs.update(locals())
 
         metadata = {
@@ -149,15 +171,16 @@ class ActionBatchCamera:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def update_device_camera_wireless_profiles(self, serial: str, ids: dict):
-        """
-        **Assign wireless profiles to the given camera.**
+    def update_device_camera_wireless_profiles(self, serial: str, ids: dict) -> dict[str, Any]:
+        """Assign wireless profiles to the given camera.
+
         https://developer.cisco.com/meraki/api-v1/#!update-device-camera-wireless-profiles
 
-        - serial (string): Serial
-        - ids (object): The ids of the wireless profile to assign to the given camera
-        """
+        Args:
+            serial: Serial.
+            ids: The ids of the wireless profile to assign to the given camera.
 
+        """
         kwargs = locals()
 
         metadata = {

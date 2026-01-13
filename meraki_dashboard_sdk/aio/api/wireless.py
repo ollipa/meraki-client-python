@@ -1,6 +1,8 @@
 """Wireless API endpoints."""
 
 import urllib
+from collections.abc import Generator
+from typing import Any
 
 from meraki_dashboard_sdk.aio.rest_session import AsyncRestSession
 
@@ -12,13 +14,16 @@ class AsyncWireless:
         super().__init__()
         self._session = session
 
-    def update_device_wireless_alternate_management_interface_ipv6(self, serial: str, **kwargs):
+    def update_device_wireless_alternate_management_interface_ipv6(
+        self, serial: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Update alternate management interface IPv6 address.
 
         https://developer.cisco.com/meraki/api-v1/#!update-device-wireless-alternate-management-interface-ipv-6
 
-        - serial (string): Serial
-        - addresses (array): configured alternate management interface addresses
+        Args:
+            serial: Serial.
+            addresses: configured alternate management interface addresses.
 
         """
         kwargs.update(locals())
@@ -37,12 +42,13 @@ class AsyncWireless:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_device_wireless_bluetooth_settings(self, serial: str):
+    def get_device_wireless_bluetooth_settings(self, serial: str) -> dict[str, Any] | None:
         """Return the bluetooth settings for a wireless device.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device-wireless-bluetooth-settings
 
-        - serial (string): Serial
+        Args:
+            serial: Serial.
 
         """
         metadata = {
@@ -54,18 +60,21 @@ class AsyncWireless:
 
         return self._session.get(metadata, resource)
 
-    def update_device_wireless_bluetooth_settings(self, serial: str, **kwargs):
+    def update_device_wireless_bluetooth_settings(
+        self, serial: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Update the bluetooth settings for a wireless device.
 
         https://developer.cisco.com/meraki/api-v1/#!update-device-wireless-bluetooth-settings
 
-        - serial (string): Serial
-        - uuid (string): Desired UUID of the beacon. If the value is set to null it will reset to Dashboard's
-          automatically generated value.
-        - major (integer): Desired major value of the beacon. If the value is set to null it will reset to
-          Dashboard's automatically generated value.
-        - minor (integer): Desired minor value of the beacon. If the value is set to null it will reset to
-          Dashboard's automatically generated value.
+        Args:
+            serial: Serial.
+            uuid: Desired UUID of the beacon. If the value is set to null it will reset to
+              Dashboard's           automatically generated value.
+            major: Desired major value of the beacon. If the value is set to null it will reset to
+              Dashboard's automatically generated value.
+            minor: Desired minor value of the beacon. If the value is set to null it will reset to
+              Dashboard's automatically generated value.
 
         """
         kwargs.update(locals())
@@ -86,18 +95,25 @@ class AsyncWireless:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_device_wireless_connection_stats(self, serial: str, **kwargs):
+    def get_device_wireless_connection_stats(
+        self, serial: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Aggregated connectivity info for a given AP on this network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device-wireless-connection-stats
 
-        - serial (string): Serial
-        - t0 (string): The beginning of the timespan for the data. The maximum lookback period is 180 days from today.
-        - t1 (string): The end of the timespan for the data. t1 can be a maximum of 7 days after t0.
-        - timespan (number): The timespan for which the information will be fetched. If specifying timespan, do not specify parameters t0 and t1. The value must be in seconds and be less than or equal to 7 days.
-        - band (string): Filter results by band (either '2.4', '5' or '6'). Note that data prior to February 2020 will not have band information.
-        - ssid (integer): Filter results by SSID
-        - apTag (string): Filter results by AP Tag
+        Args:
+            serial: Serial.
+            t0: The beginning of the timespan for the data. The maximum lookback period is 180 days
+              from today.
+            t1: The end of the timespan for the data. t1 can be a maximum of 7 days after t0.
+            timespan: The timespan for which the information will be fetched. If specifying
+              timespan, do not specify parameters t0 and t1. The value must be in
+              seconds and be less than or equal to 7 days.
+            band: Filter results by band (either '2.4', '5' or '6'). Note that data prior to
+              February 2020 will not have band information.
+            ssid: Filter results by SSID.
+            apTag: Filter results by AP Tag.
 
         """
         kwargs.update(locals())
@@ -127,12 +143,13 @@ class AsyncWireless:
 
         return self._session.get(metadata, resource, params)
 
-    def get_device_wireless_electronic_shelf_label(self, serial: str):
+    def get_device_wireless_electronic_shelf_label(self, serial: str) -> dict[str, Any] | None:
         """Return the ESL settings of a device.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device-wireless-electronic-shelf-label
 
-        - serial (string): Serial
+        Args:
+            serial: Serial.
 
         """
         metadata = {
@@ -144,14 +161,18 @@ class AsyncWireless:
 
         return self._session.get(metadata, resource)
 
-    def update_device_wireless_electronic_shelf_label(self, serial: str, **kwargs):
+    def update_device_wireless_electronic_shelf_label(
+        self, serial: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Update the ESL settings of a device.
 
         https://developer.cisco.com/meraki/api-v1/#!update-device-wireless-electronic-shelf-label
 
-        - serial (string): Serial
-        - channel (string): Desired ESL channel for the device, or 'Auto' (case insensitive) to use the recommended channel
-        - enabled (boolean): Turn ESL features on and off for this device
+        Args:
+            serial: Serial.
+            channel: Desired ESL channel for the device, or 'Auto' (case insensitive) to use the
+              recommended channel.
+            enabled: Turn ESL features on and off for this device.
 
         """
         kwargs.update(locals())
@@ -171,20 +192,29 @@ class AsyncWireless:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_device_wireless_latency_stats(self, serial: str, **kwargs):
+    def get_device_wireless_latency_stats(
+        self, serial: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Aggregated latency info for a given AP on this network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device-wireless-latency-stats
 
-        - serial (string): Serial
-        - t0 (string): The beginning of the timespan for the data. The maximum lookback period is 180 days from today.
-        - t1 (string): The end of the timespan for the data. t1 can be a maximum of 7 days after t0.
-        - timespan (number): The timespan for which the information will be fetched. If specifying timespan, do not specify parameters t0 and t1. The value must be in seconds and be less than or equal to 7 days.
-        - band (string): Filter results by band (either '2.4', '5' or '6'). Note that data prior to February 2020 will not have band information.
-        - ssid (integer): Filter results by SSID
-        - apTag (string): Filter results by AP Tag
-        - vlan (integer): Filter results by VLAN
-        - fields (string): Partial selection: If present, this call will return only the selected fields of ["rawDistribution", "avg"]. All fields will be returned by default. Selected fields must be entered as a comma separated string.
+        Args:
+            serial: Serial.
+            t0: The beginning of the timespan for the data. The maximum lookback period is 180 days
+              from today.
+            t1: The end of the timespan for the data. t1 can be a maximum of 7 days after t0.
+            timespan: The timespan for which the information will be fetched. If specifying
+              timespan, do not specify parameters t0 and t1. The value must be in
+              seconds and be less than or equal to 7 days.
+            band: Filter results by band (either '2.4', '5' or '6'). Note that data prior to
+              February 2020 will not have band information.
+            ssid: Filter results by SSID.
+            apTag: Filter results by AP Tag.
+            vlan: Filter results by VLAN.
+            fields: Partial selection: If present, this call will return only the selected fields of
+              ["rawDistribution", "avg"]. All fields will be returned by default.
+              Selected fields must be entered as a comma separated string.
 
         """
         kwargs.update(locals())
@@ -216,12 +246,13 @@ class AsyncWireless:
 
         return self._session.get(metadata, resource, params)
 
-    def get_device_wireless_radio_settings(self, serial: str):
+    def get_device_wireless_radio_settings(self, serial: str) -> dict[str, Any] | None:
         """Return the manually configured radio settings overrides of a device, which take precedence over RF profiles.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device-wireless-radio-settings
 
-        - serial (string): Serial
+        Args:
+            serial: Serial.
 
         """
         metadata = {
@@ -233,15 +264,22 @@ class AsyncWireless:
 
         return self._session.get(metadata, resource)
 
-    def update_device_wireless_radio_settings(self, serial: str, **kwargs):
+    def update_device_wireless_radio_settings(
+        self, serial: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Update the radio settings overrides of a device, which take precedence over RF profiles.
 
         https://developer.cisco.com/meraki/api-v1/#!update-device-wireless-radio-settings
 
-        - serial (string): Serial
-        - rfProfileId (string): The ID of an RF profile to assign to the device. If the value of this parameter is null, the appropriate basic RF profile (indoor or outdoor) will be assigned to the device. Assigning an RF profile will clear ALL manually configured overrides on the device (channel width, channel, power).
-        - twoFourGhzSettings (object): Manual radio settings for 2.4 GHz.
-        - fiveGhzSettings (object): Manual radio settings for 5 GHz.
+        Args:
+            serial: Serial.
+            rfProfileId: The ID of an RF profile to assign to the device. If the value of this
+              parameter is null, the appropriate basic RF profile (indoor or outdoor)
+              will be assigned to the device. Assigning an RF profile will clear ALL
+              manually configured overrides on the device (channel width, channel,
+              power).
+            twoFourGhzSettings: Manual radio settings for 2.4 GHz.
+            fiveGhzSettings: Manual radio settings for 5 GHz.
 
         """
         kwargs.update(locals())
@@ -262,12 +300,13 @@ class AsyncWireless:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_device_wireless_status(self, serial: str):
+    def get_device_wireless_status(self, serial: str) -> dict[str, Any] | None:
         """Return the SSID statuses of an access point.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device-wireless-status
 
-        - serial (string): Serial
+        Args:
+            serial: Serial.
 
         """
         metadata = {
@@ -279,12 +318,13 @@ class AsyncWireless:
 
         return self._session.get(metadata, resource)
 
-    def create_device_wireless_zigbee_enrollment(self, serial: str):
+    def create_device_wireless_zigbee_enrollment(self, serial: str) -> dict[str, Any] | None:
         """Enqueue a job to start enrolling door locks on zigbee configured wireless devices.
 
         https://developer.cisco.com/meraki/api-v1/#!create-device-wireless-zigbee-enrollment
 
-        - serial (string): Serial
+        Args:
+            serial: Serial.
 
         """
         metadata = {
@@ -296,13 +336,16 @@ class AsyncWireless:
 
         return self._session.post(metadata, resource)
 
-    def get_device_wireless_zigbee_enrollment(self, serial: str, enrollmentId: str):
+    def get_device_wireless_zigbee_enrollment(
+        self, serial: str, enrollmentId: str
+    ) -> dict[str, Any] | None:
         """Return an enrollment.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device-wireless-zigbee-enrollment
 
-        - serial (string): Serial
-        - enrollmentId (string): Enrollment ID
+        Args:
+            serial: Serial.
+            enrollmentId: Enrollment ID.
 
         """
         metadata = {
@@ -315,14 +358,20 @@ class AsyncWireless:
 
         return self._session.get(metadata, resource)
 
-    def get_network_wireless_air_marshal(self, networkId: str, **kwargs):
+    def get_network_wireless_air_marshal(
+        self, networkId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """List Air Marshal scan results from a network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-air-marshal
 
-        - networkId (string): Network ID
-        - t0 (string): The beginning of the timespan for the data. The maximum lookback period is 31 days from today.
-        - timespan (number): The timespan for which the information will be fetched. If specifying timespan, do not specify parameter t0. The value must be in seconds and be less than or equal to 31 days. The default is 7 days.
+        Args:
+            networkId: Network ID.
+            t0: The beginning of the timespan for the data. The maximum lookback period is 31 days
+              from today.
+            timespan: The timespan for which the information will be fetched. If specifying
+              timespan, do not specify parameter t0. The value must be in seconds and be
+              less than or equal to 31 days. The default is 7 days.
 
         """
         kwargs.update(locals())
@@ -342,14 +391,17 @@ class AsyncWireless:
 
         return self._session.get(metadata, resource, params)
 
-    def create_network_wireless_air_marshal_rule(self, networkId: str, type: str, match: dict):
+    def create_network_wireless_air_marshal_rule(
+        self, networkId: str, type: str, match: dict
+    ) -> dict[str, Any] | None:
         """Creates a new rule.
 
         https://developer.cisco.com/meraki/api-v1/#!create-network-wireless-air-marshal-rule
 
-        - networkId (string): Network ID
-        - type (string): Indicates if this rule will allow, block, or alert.
-        - match (object): Object describing the rule specification.
+        Args:
+            networkId: Network ID.
+            type: Indicates if this rule will allow, block, or alert.
+            match: Object describing the rule specification.
 
         """
         kwargs = locals()
@@ -375,15 +427,18 @@ class AsyncWireless:
 
         return self._session.post(metadata, resource, payload)
 
-    def update_network_wireless_air_marshal_rule(self, networkId: str, ruleId: str, **kwargs):
+    def update_network_wireless_air_marshal_rule(
+        self, networkId: str, ruleId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Update a rule.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-air-marshal-rule
 
-        - networkId (string): Network ID
-        - ruleId (string): Rule ID
-        - type (string): Indicates if this rule will allow, block, or alert.
-        - match (object): Object describing the rule specification.
+        Args:
+            networkId: Network ID.
+            ruleId: Rule ID.
+            type: Indicates if this rule will allow, block, or alert.
+            match: Object describing the rule specification.
 
         """
         kwargs.update(locals())
@@ -410,13 +465,14 @@ class AsyncWireless:
 
         return self._session.put(metadata, resource, payload)
 
-    def delete_network_wireless_air_marshal_rule(self, networkId: str, ruleId: str):
+    def delete_network_wireless_air_marshal_rule(self, networkId: str, ruleId: str) -> None:
         """Delete an Air Marshal rule.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-network-wireless-air-marshal-rule
 
-        - networkId (string): Network ID
-        - ruleId (string): Rule ID
+        Args:
+            networkId: Network ID.
+            ruleId: Rule ID.
 
         """
         metadata = {
@@ -429,13 +485,16 @@ class AsyncWireless:
 
         return self._session.delete(metadata, resource)
 
-    def update_network_wireless_air_marshal_settings(self, networkId: str, defaultPolicy: str):
+    def update_network_wireless_air_marshal_settings(
+        self, networkId: str, defaultPolicy: str
+    ) -> dict[str, Any] | None:
         """Updates Air Marshal settings.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-air-marshal-settings
 
-        - networkId (string): Network ID
-        - defaultPolicy (string): Allows clients to access rogue networks. Blocked by default.
+        Args:
+            networkId: Network ID.
+            defaultPolicy: Allows clients to access rogue networks. Blocked by default.
 
         """
         kwargs = locals()
@@ -460,12 +519,15 @@ class AsyncWireless:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_network_wireless_alternate_management_interface(self, networkId: str):
+    def get_network_wireless_alternate_management_interface(
+        self, networkId: str
+    ) -> dict[str, Any] | None:
         """Return alternate management interface and devices with IP assigned.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-alternate-management-interface
 
-        - networkId (string): Network ID
+        Args:
+            networkId: Network ID.
 
         """
         metadata = {
@@ -477,16 +539,24 @@ class AsyncWireless:
 
         return self._session.get(metadata, resource)
 
-    def update_network_wireless_alternate_management_interface(self, networkId: str, **kwargs):
+    def update_network_wireless_alternate_management_interface(
+        self, networkId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Update alternate management interface and device static IP.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-alternate-management-interface
 
-        - networkId (string): Network ID
-        - enabled (boolean): Boolean value to enable or disable alternate management interface
-        - vlanId (integer): Alternate management interface VLAN, must be between 1 and 4094
-        - protocols (array): Can be one or more of the following values: 'radius', 'snmp', 'syslog' or 'ldap'
-        - accessPoints (array): Array of access point serial number and IP assignment. Note: accessPoints IP assignment is not applicable for template networks, in other words, do not put 'accessPoints' in the body when updating template networks. Also, an empty 'accessPoints' array will remove all previous static IP assignments
+        Args:
+            networkId: Network ID.
+            enabled: Boolean value to enable or disable alternate management interface.
+            vlanId: Alternate management interface VLAN, must be between 1 and 4094.
+            protocols: Can be one or more of the following values: 'radius', 'snmp', 'syslog' or
+              'ldap'.
+            accessPoints: Array of access point serial number and IP assignment. Note: accessPoints
+              IP assignment is not applicable for template networks, in other words, do
+              not put 'accessPoints' in the body when updating template networks. Also,
+              an empty 'accessPoints' array will remove all previous static IP
+              assignments.
 
         """
         kwargs.update(locals())
@@ -508,12 +578,13 @@ class AsyncWireless:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_network_wireless_billing(self, networkId: str):
+    def get_network_wireless_billing(self, networkId: str) -> dict[str, Any] | None:
         """Return the billing settings of this network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-billing
 
-        - networkId (string): Network ID
+        Args:
+            networkId: Network ID.
 
         """
         metadata = {
@@ -525,14 +596,17 @@ class AsyncWireless:
 
         return self._session.get(metadata, resource)
 
-    def update_network_wireless_billing(self, networkId: str, **kwargs):
+    def update_network_wireless_billing(
+        self, networkId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Update the billing settings.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-billing
 
-        - networkId (string): Network ID
-        - currency (string): The currency code of this node group's billing plans
-        - plans (array): Array of billing plans in the node group. (Can configure a maximum of 5)
+        Args:
+            networkId: Network ID.
+            currency: The currency code of this node group's billing plans.
+            plans: Array of billing plans in the node group. (Can configure a maximum of 5).
 
         """
         kwargs.update(locals())
@@ -552,12 +626,13 @@ class AsyncWireless:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_network_wireless_bluetooth_settings(self, networkId: str):
+    def get_network_wireless_bluetooth_settings(self, networkId: str) -> dict[str, Any] | None:
         """Return the Bluetooth settings for a network. <a href="https://documentation.meraki.com/MR/Bluetooth/Bluetooth_Low_Energy_(BLE)">Bluetooth settings</a> must be enabled on the network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-bluetooth-settings
 
-        - networkId (string): Network ID
+        Args:
+            networkId: Network ID.
 
         """
         metadata = {
@@ -569,18 +644,24 @@ class AsyncWireless:
 
         return self._session.get(metadata, resource)
 
-    def update_network_wireless_bluetooth_settings(self, networkId: str, **kwargs):
+    def update_network_wireless_bluetooth_settings(
+        self, networkId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Update the Bluetooth settings for a network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-bluetooth-settings
 
-        - networkId (string): Network ID
-        - scanningEnabled (boolean): Whether APs will scan for Bluetooth enabled clients.
-        - advertisingEnabled (boolean): Whether APs will advertise beacons.
-        - uuid (string): The UUID to be used in the beacon identifier.
-        - majorMinorAssignmentMode (string): The way major and minor number should be assigned to nodes in the network. ('Unique', 'Non-unique')
-        - major (integer): The major number to be used in the beacon identifier. Only valid in 'Non-unique' mode.
-        - minor (integer): The minor number to be used in the beacon identifier. Only valid in 'Non-unique' mode.
+        Args:
+            networkId: Network ID.
+            scanningEnabled: Whether APs will scan for Bluetooth enabled clients.
+            advertisingEnabled: Whether APs will advertise beacons.
+            uuid: The UUID to be used in the beacon identifier.
+            majorMinorAssignmentMode: The way major and minor number should be assigned to nodes in
+              the network. ('Unique', 'Non-unique').
+            major: The major number to be used in the beacon identifier. Only valid in 'Non-unique'
+              mode.
+            minor: The minor number to be used in the beacon identifier. Only valid in 'Non-unique'
+              mode.
 
         """
         kwargs.update(locals())
@@ -610,21 +691,35 @@ class AsyncWireless:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_network_wireless_channel_utilization_history(self, networkId: str, **kwargs):
+    def get_network_wireless_channel_utilization_history(
+        self, networkId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Return AP channel utilization over time for a device or network client.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-channel-utilization-history
 
-        - networkId (string): Network ID
-        - t0 (string): The beginning of the timespan for the data. The maximum lookback period is 31 days from today.
-        - t1 (string): The end of the timespan for the data. t1 can be a maximum of 31 days after t0.
-        - timespan (number): The timespan for which the information will be fetched. If specifying timespan, do not specify parameters t0 and t1. The value must be in seconds and be less than or equal to 31 days. The default is 7 days.
-        - resolution (integer): The time resolution in seconds for returned data. The valid resolutions are: 600, 1200, 3600, 14400, 86400. The default is 86400.
-        - autoResolution (boolean): Automatically select a data resolution based on the given timespan; this overrides the value specified by the 'resolution' parameter. The default setting is false.
-        - clientId (string): Filter results by network client to return per-device, per-band AP channel utilization metrics inner joined by the queried client's connection history.
-        - deviceSerial (string): Filter results by device to return AP channel utilization metrics for the queried device; either :band or :clientId must be jointly specified.
-        - apTag (string): Filter results by AP tag to return AP channel utilization metrics for devices labeled with the given tag; either :clientId or :deviceSerial must be jointly specified.
-        - band (string): Filter results by band (either '2.4', '5' or '6').
+        Args:
+            networkId: Network ID.
+            t0: The beginning of the timespan for the data. The maximum lookback period is 31 days
+              from today.
+            t1: The end of the timespan for the data. t1 can be a maximum of 31 days after t0.
+            timespan: The timespan for which the information will be fetched. If specifying
+              timespan, do not specify parameters t0 and t1. The value must be in
+              seconds and be less than or equal to 31 days. The default is 7 days.
+            resolution: The time resolution in seconds for returned data. The valid resolutions are:
+              600, 1200, 3600, 14400, 86400. The default is 86400.
+            autoResolution: Automatically select a data resolution based on the given timespan; this
+              overrides the value specified by the 'resolution' parameter. The default
+              setting is false.
+            clientId: Filter results by network client to return per-device, per-band AP channel
+              utilization metrics inner joined by the queried client's connection
+              history.
+            deviceSerial: Filter results by device to return AP channel utilization metrics for the
+              queried device; either :band or :clientId must be jointly specified.
+            apTag: Filter results by AP tag to return AP channel utilization metrics for devices
+              labeled with the given tag; either :clientId or :deviceSerial must be
+              jointly specified.
+            band: Filter results by band (either '2.4', '5' or '6').
 
         """
         kwargs.update(locals())
@@ -657,22 +752,32 @@ class AsyncWireless:
 
         return self._session.get(metadata, resource, params)
 
-    def get_network_wireless_client_count_history(self, networkId: str, **kwargs):
+    def get_network_wireless_client_count_history(
+        self, networkId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Return wireless client counts over time for a network, device, or network client.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-client-count-history
 
-        - networkId (string): Network ID
-        - t0 (string): The beginning of the timespan for the data. The maximum lookback period is 31 days from today.
-        - t1 (string): The end of the timespan for the data. t1 can be a maximum of 31 days after t0.
-        - timespan (number): The timespan for which the information will be fetched. If specifying timespan, do not specify parameters t0 and t1. The value must be in seconds and be less than or equal to 31 days. The default is 7 days.
-        - resolution (integer): The time resolution in seconds for returned data. The valid resolutions are: 300, 600, 1200, 3600, 14400, 86400. The default is 86400.
-        - autoResolution (boolean): Automatically select a data resolution based on the given timespan; this overrides the value specified by the 'resolution' parameter. The default setting is false.
-        - clientId (string): Filter results by network client to return per-device client counts over time inner joined by the queried client's connection history.
-        - deviceSerial (string): Filter results by device.
-        - apTag (string): Filter results by AP tag.
-        - band (string): Filter results by band (either '2.4', '5' or '6').
-        - ssid (integer): Filter results by SSID number.
+        Args:
+            networkId: Network ID.
+            t0: The beginning of the timespan for the data. The maximum lookback period is 31 days
+              from today.
+            t1: The end of the timespan for the data. t1 can be a maximum of 31 days after t0.
+            timespan: The timespan for which the information will be fetched. If specifying
+              timespan, do not specify parameters t0 and t1. The value must be in
+              seconds and be less than or equal to 31 days. The default is 7 days.
+            resolution: The time resolution in seconds for returned data. The valid resolutions are:
+              300, 600, 1200, 3600, 14400, 86400. The default is 86400.
+            autoResolution: Automatically select a data resolution based on the given timespan; this
+              overrides the value specified by the 'resolution' parameter. The default
+              setting is false.
+            clientId: Filter results by network client to return per-device client counts over time
+              inner joined by the queried client's connection history.
+            deviceSerial: Filter results by device.
+            apTag: Filter results by AP tag.
+            band: Filter results by band (either '2.4', '5' or '6').
+            ssid: Filter results by SSID number.
 
         """
         kwargs.update(locals())
@@ -706,18 +811,25 @@ class AsyncWireless:
 
         return self._session.get(metadata, resource, params)
 
-    def get_network_wireless_clients_connection_stats(self, networkId: str, **kwargs):
+    def get_network_wireless_clients_connection_stats(
+        self, networkId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Aggregated connectivity info for this network, grouped by clients.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-clients-connection-stats
 
-        - networkId (string): Network ID
-        - t0 (string): The beginning of the timespan for the data. The maximum lookback period is 180 days from today.
-        - t1 (string): The end of the timespan for the data. t1 can be a maximum of 7 days after t0.
-        - timespan (number): The timespan for which the information will be fetched. If specifying timespan, do not specify parameters t0 and t1. The value must be in seconds and be less than or equal to 7 days.
-        - band (string): Filter results by band (either '2.4', '5' or '6'). Note that data prior to February 2020 will not have band information.
-        - ssid (integer): Filter results by SSID
-        - apTag (string): Filter results by AP Tag
+        Args:
+            networkId: Network ID.
+            t0: The beginning of the timespan for the data. The maximum lookback period is 180 days
+              from today.
+            t1: The end of the timespan for the data. t1 can be a maximum of 7 days after t0.
+            timespan: The timespan for which the information will be fetched. If specifying
+              timespan, do not specify parameters t0 and t1. The value must be in
+              seconds and be less than or equal to 7 days.
+            band: Filter results by band (either '2.4', '5' or '6'). Note that data prior to
+              February 2020 will not have band information.
+            ssid: Filter results by SSID.
+            apTag: Filter results by AP Tag.
 
         """
         kwargs.update(locals())
@@ -747,20 +859,29 @@ class AsyncWireless:
 
         return self._session.get(metadata, resource, params)
 
-    def get_network_wireless_clients_latency_stats(self, networkId: str, **kwargs):
+    def get_network_wireless_clients_latency_stats(
+        self, networkId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Aggregated latency info for this network, grouped by clients.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-clients-latency-stats
 
-        - networkId (string): Network ID
-        - t0 (string): The beginning of the timespan for the data. The maximum lookback period is 180 days from today.
-        - t1 (string): The end of the timespan for the data. t1 can be a maximum of 7 days after t0.
-        - timespan (number): The timespan for which the information will be fetched. If specifying timespan, do not specify parameters t0 and t1. The value must be in seconds and be less than or equal to 7 days.
-        - band (string): Filter results by band (either '2.4', '5' or '6'). Note that data prior to February 2020 will not have band information.
-        - ssid (integer): Filter results by SSID
-        - apTag (string): Filter results by AP Tag
-        - vlan (integer): Filter results by VLAN
-        - fields (string): Partial selection: If present, this call will return only the selected fields of ["rawDistribution", "avg"]. All fields will be returned by default. Selected fields must be entered as a comma separated string.
+        Args:
+            networkId: Network ID.
+            t0: The beginning of the timespan for the data. The maximum lookback period is 180 days
+              from today.
+            t1: The end of the timespan for the data. t1 can be a maximum of 7 days after t0.
+            timespan: The timespan for which the information will be fetched. If specifying
+              timespan, do not specify parameters t0 and t1. The value must be in
+              seconds and be less than or equal to 7 days.
+            band: Filter results by band (either '2.4', '5' or '6'). Note that data prior to
+              February 2020 will not have band information.
+            ssid: Filter results by SSID.
+            apTag: Filter results by AP Tag.
+            vlan: Filter results by VLAN.
+            fields: Partial selection: If present, this call will return only the selected fields of
+              ["rawDistribution", "avg"]. All fields will be returned by default.
+              Selected fields must be entered as a comma separated string.
 
         """
         kwargs.update(locals())
@@ -792,19 +913,26 @@ class AsyncWireless:
 
         return self._session.get(metadata, resource, params)
 
-    def get_network_wireless_client_connection_stats(self, networkId: str, clientId: str, **kwargs):
+    def get_network_wireless_client_connection_stats(
+        self, networkId: str, clientId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Aggregated connectivity info for a given client on this network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-client-connection-stats
 
-        - networkId (string): Network ID
-        - clientId (string): Client ID
-        - t0 (string): The beginning of the timespan for the data. The maximum lookback period is 180 days from today.
-        - t1 (string): The end of the timespan for the data. t1 can be a maximum of 7 days after t0.
-        - timespan (number): The timespan for which the information will be fetched. If specifying timespan, do not specify parameters t0 and t1. The value must be in seconds and be less than or equal to 7 days.
-        - band (string): Filter results by band (either '2.4', '5' or '6'). Note that data prior to February 2020 will not have band information.
-        - ssid (integer): Filter results by SSID
-        - apTag (string): Filter results by AP Tag
+        Args:
+            networkId: Network ID.
+            clientId: Client ID.
+            t0: The beginning of the timespan for the data. The maximum lookback period is 180 days
+              from today.
+            t1: The end of the timespan for the data. t1 can be a maximum of 7 days after t0.
+            timespan: The timespan for which the information will be fetched. If specifying
+              timespan, do not specify parameters t0 and t1. The value must be in
+              seconds and be less than or equal to 7 days.
+            band: Filter results by band (either '2.4', '5' or '6'). Note that data prior to
+              February 2020 will not have band information.
+            ssid: Filter results by SSID.
+            apTag: Filter results by AP Tag.
 
         """
         kwargs.update(locals())
@@ -836,28 +964,45 @@ class AsyncWireless:
         return self._session.get(metadata, resource, params)
 
     def get_network_wireless_client_connectivity_events(
-        self, networkId: str, clientId: str, total_pages=1, direction="next", **kwargs
-    ):
+        self, networkId: str, clientId: str, total_pages=1, direction="next", **kwargs: Any
+    ) -> Generator[Any, None, None]:
         """List the wireless connectivity events for a client within a network in the timespan.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-client-connectivity-events
 
-        - networkId (string): Network ID
-        - clientId (string): Client ID
-        - total_pages (integer or string): use with perPage to get total results up to total_pages*perPage; -1 or "all" for all pages
-        - direction (string): direction to paginate, either "next" (default) or "prev" page
-        - perPage (integer): The number of entries per page returned. Acceptable range is 3 - 1000.
-        - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - sortOrder (string): Sorted order of entries. Order options are 'ascending' and 'descending'. Default is 'ascending'.
-        - t0 (string): The beginning of the timespan for the data. The maximum lookback period is 31 days from today.
-        - t1 (string): The end of the timespan for the data. t1 can be a maximum of 31 days after t0.
-        - timespan (number): The timespan for which the information will be fetched. If specifying timespan, do not specify parameters t0 and t1. The value must be in seconds and be less than or equal to 31 days. The default is 1 day.
-        - types (array): A list of event types to include. If not specified, events of all types will be returned. Valid types are 'assoc', 'disassoc', 'auth', 'deauth', 'dns', 'dhcp', 'roam', 'connection' and/or 'sticky'.
-        - band (string): Filter results by band. Valid bands are '2.4', '5' or '6'.
-        - ssidNumber (integer): Filter results by SSID. If not specified, events for all SSIDs will be returned.
-        - includedSeverities (array): A list of severities to include. If not specified, events of all severities will be returned. Valid severities are 'good', 'info', 'warn' and/or 'bad'.
-        - deviceSerial (string): Filter results by an AP's serial number.
+        Args:
+            networkId: Network ID.
+            clientId: Client ID.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+            perPage: The number of entries per page returned. Acceptable range is 3 - 1000.
+            startingAfter: A token used by the server to indicate the start of the page. Often this
+              is a timestamp or an ID but it is not limited to those. This parameter
+              should not be defined by client applications. The link for the first,
+              last, prev, or next page in the HTTP Link header should define it.
+            endingBefore: A token used by the server to indicate the end of the page. Often this is
+              a timestamp or an ID but it is not limited to those. This parameter should
+              not be defined by client applications. The link for the first, last, prev,
+              or next page in the HTTP Link header should define it.
+            sortOrder: Sorted order of entries. Order options are 'ascending' and 'descending'.
+              Default is 'ascending'.
+            t0: The beginning of the timespan for the data. The maximum lookback period is 31 days
+              from today.
+            t1: The end of the timespan for the data. t1 can be a maximum of 31 days after t0.
+            timespan: The timespan for which the information will be fetched. If specifying
+              timespan, do not specify parameters t0 and t1. The value must be in
+              seconds and be less than or equal to 31 days. The default is 1 day.
+            types: A list of event types to include. If not specified, events of all types will be
+              returned. Valid types are 'assoc', 'disassoc', 'auth', 'deauth', 'dns',
+              'dhcp', 'roam', 'connection' and/or 'sticky'.
+            band: Filter results by band. Valid bands are '2.4', '5' or '6'.
+            ssidNumber: Filter results by SSID. If not specified, events for all SSIDs will be
+              returned.
+            includedSeverities: A list of severities to include. If not specified, events of all
+              severities will be returned. Valid severities are 'good', 'info', 'warn'
+              and/or 'bad'.
+            deviceSerial: Filter results by an AP's serial number.
 
         """
         kwargs.update(locals())
@@ -913,17 +1058,24 @@ class AsyncWireless:
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
-    def get_network_wireless_client_latency_history(self, networkId: str, clientId: str, **kwargs):
+    def get_network_wireless_client_latency_history(
+        self, networkId: str, clientId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Return the latency history for a client.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-client-latency-history
 
-        - networkId (string): Network ID
-        - clientId (string): Client ID
-        - t0 (string): The beginning of the timespan for the data. The maximum lookback period is 791 days from today.
-        - t1 (string): The end of the timespan for the data. t1 can be a maximum of 791 days after t0.
-        - timespan (number): The timespan for which the information will be fetched. If specifying timespan, do not specify parameters t0 and t1. The value must be in seconds and be less than or equal to 791 days. The default is 1 day.
-        - resolution (integer): The time resolution in seconds for returned data. The valid resolutions are: 86400. The default is 86400.
+        Args:
+            networkId: Network ID.
+            clientId: Client ID.
+            t0: The beginning of the timespan for the data. The maximum lookback period is 791 days
+              from today.
+            t1: The end of the timespan for the data. t1 can be a maximum of 791 days after t0.
+            timespan: The timespan for which the information will be fetched. If specifying
+              timespan, do not specify parameters t0 and t1. The value must be in
+              seconds and be less than or equal to 791 days. The default is 1 day.
+            resolution: The time resolution in seconds for returned data. The valid resolutions are:
+              86400. The default is 86400.
 
         """
         kwargs.update(locals())
@@ -946,21 +1098,30 @@ class AsyncWireless:
 
         return self._session.get(metadata, resource, params)
 
-    def get_network_wireless_client_latency_stats(self, networkId: str, clientId: str, **kwargs):
+    def get_network_wireless_client_latency_stats(
+        self, networkId: str, clientId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Aggregated latency info for a given client on this network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-client-latency-stats
 
-        - networkId (string): Network ID
-        - clientId (string): Client ID
-        - t0 (string): The beginning of the timespan for the data. The maximum lookback period is 180 days from today.
-        - t1 (string): The end of the timespan for the data. t1 can be a maximum of 7 days after t0.
-        - timespan (number): The timespan for which the information will be fetched. If specifying timespan, do not specify parameters t0 and t1. The value must be in seconds and be less than or equal to 7 days.
-        - band (string): Filter results by band (either '2.4', '5' or '6'). Note that data prior to February 2020 will not have band information.
-        - ssid (integer): Filter results by SSID
-        - apTag (string): Filter results by AP Tag
-        - vlan (integer): Filter results by VLAN
-        - fields (string): Partial selection: If present, this call will return only the selected fields of ["rawDistribution", "avg"]. All fields will be returned by default. Selected fields must be entered as a comma separated string.
+        Args:
+            networkId: Network ID.
+            clientId: Client ID.
+            t0: The beginning of the timespan for the data. The maximum lookback period is 180 days
+              from today.
+            t1: The end of the timespan for the data. t1 can be a maximum of 7 days after t0.
+            timespan: The timespan for which the information will be fetched. If specifying
+              timespan, do not specify parameters t0 and t1. The value must be in
+              seconds and be less than or equal to 7 days.
+            band: Filter results by band (either '2.4', '5' or '6'). Note that data prior to
+              February 2020 will not have band information.
+            ssid: Filter results by SSID.
+            apTag: Filter results by AP Tag.
+            vlan: Filter results by VLAN.
+            fields: Partial selection: If present, this call will return only the selected fields of
+              ["rawDistribution", "avg"]. All fields will be returned by default.
+              Selected fields must be entered as a comma separated string.
 
         """
         kwargs.update(locals())
@@ -993,18 +1154,25 @@ class AsyncWireless:
 
         return self._session.get(metadata, resource, params)
 
-    def get_network_wireless_connection_stats(self, networkId: str, **kwargs):
+    def get_network_wireless_connection_stats(
+        self, networkId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Aggregated connectivity info for this network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-connection-stats
 
-        - networkId (string): Network ID
-        - t0 (string): The beginning of the timespan for the data. The maximum lookback period is 180 days from today.
-        - t1 (string): The end of the timespan for the data. t1 can be a maximum of 7 days after t0.
-        - timespan (number): The timespan for which the information will be fetched. If specifying timespan, do not specify parameters t0 and t1. The value must be in seconds and be less than or equal to 7 days.
-        - band (string): Filter results by band (either '2.4', '5' or '6'). Note that data prior to February 2020 will not have band information.
-        - ssid (integer): Filter results by SSID
-        - apTag (string): Filter results by AP Tag
+        Args:
+            networkId: Network ID.
+            t0: The beginning of the timespan for the data. The maximum lookback period is 180 days
+              from today.
+            t1: The end of the timespan for the data. t1 can be a maximum of 7 days after t0.
+            timespan: The timespan for which the information will be fetched. If specifying
+              timespan, do not specify parameters t0 and t1. The value must be in
+              seconds and be less than or equal to 7 days.
+            band: Filter results by band (either '2.4', '5' or '6'). Note that data prior to
+              February 2020 will not have band information.
+            ssid: Filter results by SSID.
+            apTag: Filter results by AP Tag.
 
         """
         kwargs.update(locals())
@@ -1034,22 +1202,31 @@ class AsyncWireless:
 
         return self._session.get(metadata, resource, params)
 
-    def get_network_wireless_data_rate_history(self, networkId: str, **kwargs):
+    def get_network_wireless_data_rate_history(
+        self, networkId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Return PHY data rates over time for a network, device, or network client.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-data-rate-history
 
-        - networkId (string): Network ID
-        - t0 (string): The beginning of the timespan for the data. The maximum lookback period is 31 days from today.
-        - t1 (string): The end of the timespan for the data. t1 can be a maximum of 31 days after t0.
-        - timespan (number): The timespan for which the information will be fetched. If specifying timespan, do not specify parameters t0 and t1. The value must be in seconds and be less than or equal to 31 days. The default is 7 days.
-        - resolution (integer): The time resolution in seconds for returned data. The valid resolutions are: 300, 600, 1200, 3600, 14400, 86400. The default is 86400.
-        - autoResolution (boolean): Automatically select a data resolution based on the given timespan; this overrides the value specified by the 'resolution' parameter. The default setting is false.
-        - clientId (string): Filter results by network client.
-        - deviceSerial (string): Filter results by device.
-        - apTag (string): Filter results by AP tag.
-        - band (string): Filter results by band (either '2.4', '5' or '6').
-        - ssid (integer): Filter results by SSID number.
+        Args:
+            networkId: Network ID.
+            t0: The beginning of the timespan for the data. The maximum lookback period is 31 days
+              from today.
+            t1: The end of the timespan for the data. t1 can be a maximum of 31 days after t0.
+            timespan: The timespan for which the information will be fetched. If specifying
+              timespan, do not specify parameters t0 and t1. The value must be in
+              seconds and be less than or equal to 31 days. The default is 7 days.
+            resolution: The time resolution in seconds for returned data. The valid resolutions are:
+              300, 600, 1200, 3600, 14400, 86400. The default is 86400.
+            autoResolution: Automatically select a data resolution based on the given timespan; this
+              overrides the value specified by the 'resolution' parameter. The default
+              setting is false.
+            clientId: Filter results by network client.
+            deviceSerial: Filter results by device.
+            apTag: Filter results by AP tag.
+            band: Filter results by band (either '2.4', '5' or '6').
+            ssid: Filter results by SSID number.
 
         """
         kwargs.update(locals())
@@ -1083,18 +1260,25 @@ class AsyncWireless:
 
         return self._session.get(metadata, resource, params)
 
-    def get_network_wireless_devices_connection_stats(self, networkId: str, **kwargs):
+    def get_network_wireless_devices_connection_stats(
+        self, networkId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Aggregated connectivity info for this network, grouped by node.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-devices-connection-stats
 
-        - networkId (string): Network ID
-        - t0 (string): The beginning of the timespan for the data. The maximum lookback period is 180 days from today.
-        - t1 (string): The end of the timespan for the data. t1 can be a maximum of 7 days after t0.
-        - timespan (number): The timespan for which the information will be fetched. If specifying timespan, do not specify parameters t0 and t1. The value must be in seconds and be less than or equal to 7 days.
-        - band (string): Filter results by band (either '2.4', '5' or '6'). Note that data prior to February 2020 will not have band information.
-        - ssid (integer): Filter results by SSID
-        - apTag (string): Filter results by AP Tag
+        Args:
+            networkId: Network ID.
+            t0: The beginning of the timespan for the data. The maximum lookback period is 180 days
+              from today.
+            t1: The end of the timespan for the data. t1 can be a maximum of 7 days after t0.
+            timespan: The timespan for which the information will be fetched. If specifying
+              timespan, do not specify parameters t0 and t1. The value must be in
+              seconds and be less than or equal to 7 days.
+            band: Filter results by band (either '2.4', '5' or '6'). Note that data prior to
+              February 2020 will not have band information.
+            ssid: Filter results by SSID.
+            apTag: Filter results by AP Tag.
 
         """
         kwargs.update(locals())
@@ -1124,20 +1308,29 @@ class AsyncWireless:
 
         return self._session.get(metadata, resource, params)
 
-    def get_network_wireless_devices_latency_stats(self, networkId: str, **kwargs):
+    def get_network_wireless_devices_latency_stats(
+        self, networkId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Aggregated latency info for this network, grouped by node.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-devices-latency-stats
 
-        - networkId (string): Network ID
-        - t0 (string): The beginning of the timespan for the data. The maximum lookback period is 180 days from today.
-        - t1 (string): The end of the timespan for the data. t1 can be a maximum of 7 days after t0.
-        - timespan (number): The timespan for which the information will be fetched. If specifying timespan, do not specify parameters t0 and t1. The value must be in seconds and be less than or equal to 7 days.
-        - band (string): Filter results by band (either '2.4', '5' or '6'). Note that data prior to February 2020 will not have band information.
-        - ssid (integer): Filter results by SSID
-        - apTag (string): Filter results by AP Tag
-        - vlan (integer): Filter results by VLAN
-        - fields (string): Partial selection: If present, this call will return only the selected fields of ["rawDistribution", "avg"]. All fields will be returned by default. Selected fields must be entered as a comma separated string.
+        Args:
+            networkId: Network ID.
+            t0: The beginning of the timespan for the data. The maximum lookback period is 180 days
+              from today.
+            t1: The end of the timespan for the data. t1 can be a maximum of 7 days after t0.
+            timespan: The timespan for which the information will be fetched. If specifying
+              timespan, do not specify parameters t0 and t1. The value must be in
+              seconds and be less than or equal to 7 days.
+            band: Filter results by band (either '2.4', '5' or '6'). Note that data prior to
+              February 2020 will not have band information.
+            ssid: Filter results by SSID.
+            apTag: Filter results by AP Tag.
+            vlan: Filter results by VLAN.
+            fields: Partial selection: If present, this call will return only the selected fields of
+              ["rawDistribution", "avg"]. All fields will be returned by default.
+              Selected fields must be entered as a comma separated string.
 
         """
         kwargs.update(locals())
@@ -1169,12 +1362,13 @@ class AsyncWireless:
 
         return self._session.get(metadata, resource, params)
 
-    def get_network_wireless_electronic_shelf_label(self, networkId: str):
+    def get_network_wireless_electronic_shelf_label(self, networkId: str) -> dict[str, Any] | None:
         """Return the ESL settings of a wireless network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-electronic-shelf-label
 
-        - networkId (string): Network ID
+        Args:
+            networkId: Network ID.
 
         """
         metadata = {
@@ -1186,15 +1380,19 @@ class AsyncWireless:
 
         return self._session.get(metadata, resource)
 
-    def update_network_wireless_electronic_shelf_label(self, networkId: str, **kwargs):
+    def update_network_wireless_electronic_shelf_label(
+        self, networkId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Update the ESL settings of a wireless network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-electronic-shelf-label
 
-        - networkId (string): Network ID
-        - hostname (string): Desired ESL hostname of the network
-        - enabled (boolean): Turn ESL features on and off for this network
-        - mode (string): Electronic shelf label mode of the network. Valid options are 'Bluetooth', 'high frequency'
+        Args:
+            networkId: Network ID.
+            hostname: Desired ESL hostname of the network.
+            enabled: Turn ESL features on and off for this network.
+            mode: Electronic shelf label mode of the network. Valid options are 'Bluetooth', 'high
+              frequency'.
 
         """
         kwargs.update(locals())
@@ -1221,12 +1419,15 @@ class AsyncWireless:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_network_wireless_electronic_shelf_label_configured_devices(self, networkId: str):
+    def get_network_wireless_electronic_shelf_label_configured_devices(
+        self, networkId: str
+    ) -> dict[str, Any] | None:
         """Get a list of all ESL eligible devices of a network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-electronic-shelf-label-configured-devices
 
-        - networkId (string): Network ID
+        Args:
+            networkId: Network ID.
 
         """
         metadata = {
@@ -1238,12 +1439,13 @@ class AsyncWireless:
 
         return self._session.get(metadata, resource)
 
-    def get_network_wireless_ethernet_ports_profiles(self, networkId: str):
+    def get_network_wireless_ethernet_ports_profiles(self, networkId: str) -> dict[str, Any] | None:
         """List the AP port profiles for this network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-ethernet-ports-profiles
 
-        - networkId (string): Network ID
+        Args:
+            networkId: Network ID.
 
         """
         metadata = {
@@ -1256,16 +1458,17 @@ class AsyncWireless:
         return self._session.get(metadata, resource)
 
     def create_network_wireless_ethernet_ports_profile(
-        self, networkId: str, name: str, ports: list, **kwargs
-    ):
+        self, networkId: str, name: str, ports: list, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Create an AP port profile.
 
         https://developer.cisco.com/meraki/api-v1/#!create-network-wireless-ethernet-ports-profile
 
-        - networkId (string): Network ID
-        - name (string): AP port profile name
-        - ports (array): AP ports configuration
-        - usbPorts (array): AP usb ports configuration
+        Args:
+            networkId: Network ID.
+            name: AP port profile name.
+            ports: AP ports configuration.
+            usbPorts: AP usb ports configuration.
 
         """
         kwargs.update(locals())
@@ -1288,14 +1491,15 @@ class AsyncWireless:
 
     def assign_network_wireless_ethernet_ports_profiles(
         self, networkId: str, serials: list, profileId: str
-    ):
+    ) -> dict[str, Any] | None:
         """Assign AP port profile to list of APs.
 
         https://developer.cisco.com/meraki/api-v1/#!assign-network-wireless-ethernet-ports-profiles
 
-        - networkId (string): Network ID
-        - serials (array): List of AP serials
-        - profileId (string): AP profile ID
+        Args:
+            networkId: Network ID.
+            serials: List of AP serials.
+            profileId: AP profile ID.
 
         """
         kwargs = locals()
@@ -1315,13 +1519,16 @@ class AsyncWireless:
 
         return self._session.post(metadata, resource, payload)
 
-    def set_network_wireless_ethernet_ports_profiles_default(self, networkId: str, profileId: str):
+    def set_network_wireless_ethernet_ports_profiles_default(
+        self, networkId: str, profileId: str
+    ) -> dict[str, Any] | None:
         """Set the AP port profile to be default for this network.
 
         https://developer.cisco.com/meraki/api-v1/#!set-network-wireless-ethernet-ports-profiles-default
 
-        - networkId (string): Network ID
-        - profileId (string): AP profile ID
+        Args:
+            networkId: Network ID.
+            profileId: AP profile ID.
 
         """
         kwargs = locals()
@@ -1340,13 +1547,16 @@ class AsyncWireless:
 
         return self._session.post(metadata, resource, payload)
 
-    def get_network_wireless_ethernet_ports_profile(self, networkId: str, profileId: str):
+    def get_network_wireless_ethernet_ports_profile(
+        self, networkId: str, profileId: str
+    ) -> dict[str, Any] | None:
         """Show the AP port profile by ID for this network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-ethernet-ports-profile
 
-        - networkId (string): Network ID
-        - profileId (string): Profile ID
+        Args:
+            networkId: Network ID.
+            profileId: Profile ID.
 
         """
         metadata = {
@@ -1360,17 +1570,18 @@ class AsyncWireless:
         return self._session.get(metadata, resource)
 
     def update_network_wireless_ethernet_ports_profile(
-        self, networkId: str, profileId: str, **kwargs
-    ):
+        self, networkId: str, profileId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Update the AP port profile by ID for this network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ethernet-ports-profile
 
-        - networkId (string): Network ID
-        - profileId (string): Profile ID
-        - name (string): AP port profile name
-        - ports (array): AP ports configuration
-        - usbPorts (array): AP usb ports configuration
+        Args:
+            networkId: Network ID.
+            profileId: Profile ID.
+            name: AP port profile name.
+            ports: AP ports configuration.
+            usbPorts: AP usb ports configuration.
 
         """
         kwargs.update(locals())
@@ -1392,13 +1603,16 @@ class AsyncWireless:
 
         return self._session.put(metadata, resource, payload)
 
-    def delete_network_wireless_ethernet_ports_profile(self, networkId: str, profileId: str):
+    def delete_network_wireless_ethernet_ports_profile(
+        self, networkId: str, profileId: str
+    ) -> None:
         """Delete an AP port profile.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-network-wireless-ethernet-ports-profile
 
-        - networkId (string): Network ID
-        - profileId (string): Profile ID
+        Args:
+            networkId: Network ID.
+            profileId: Profile ID.
 
         """
         metadata = {
@@ -1411,20 +1625,27 @@ class AsyncWireless:
 
         return self._session.delete(metadata, resource)
 
-    def get_network_wireless_failed_connections(self, networkId: str, **kwargs):
+    def get_network_wireless_failed_connections(
+        self, networkId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """List of all failed client connection events on this network in a given time range.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-failed-connections
 
-        - networkId (string): Network ID
-        - t0 (string): The beginning of the timespan for the data. The maximum lookback period is 180 days from today.
-        - t1 (string): The end of the timespan for the data. t1 can be a maximum of 7 days after t0.
-        - timespan (number): The timespan for which the information will be fetched. If specifying timespan, do not specify parameters t0 and t1. The value must be in seconds and be less than or equal to 7 days.
-        - band (string): Filter results by band (either '2.4', '5' or '6'). Note that data prior to February 2020 will not have band information.
-        - ssid (integer): Filter results by SSID
-        - apTag (string): Filter results by AP Tag
-        - serial (string): Filter by AP
-        - clientId (string): Filter by client MAC
+        Args:
+            networkId: Network ID.
+            t0: The beginning of the timespan for the data. The maximum lookback period is 180 days
+              from today.
+            t1: The end of the timespan for the data. t1 can be a maximum of 7 days after t0.
+            timespan: The timespan for which the information will be fetched. If specifying
+              timespan, do not specify parameters t0 and t1. The value must be in
+              seconds and be less than or equal to 7 days.
+            band: Filter results by band (either '2.4', '5' or '6'). Note that data prior to
+              February 2020 will not have band information.
+            ssid: Filter results by SSID.
+            apTag: Filter results by AP Tag.
+            serial: Filter by AP.
+            clientId: Filter by client MAC.
 
         """
         kwargs.update(locals())
@@ -1456,23 +1677,32 @@ class AsyncWireless:
 
         return self._session.get(metadata, resource, params)
 
-    def get_network_wireless_latency_history(self, networkId: str, **kwargs):
+    def get_network_wireless_latency_history(
+        self, networkId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Return average wireless latency over time for a network, device, or network client.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-latency-history
 
-        - networkId (string): Network ID
-        - t0 (string): The beginning of the timespan for the data. The maximum lookback period is 31 days from today.
-        - t1 (string): The end of the timespan for the data. t1 can be a maximum of 31 days after t0.
-        - timespan (number): The timespan for which the information will be fetched. If specifying timespan, do not specify parameters t0 and t1. The value must be in seconds and be less than or equal to 31 days. The default is 7 days.
-        - resolution (integer): The time resolution in seconds for returned data. The valid resolutions are: 300, 600, 1200, 3600, 14400, 86400. The default is 86400.
-        - autoResolution (boolean): Automatically select a data resolution based on the given timespan; this overrides the value specified by the 'resolution' parameter. The default setting is false.
-        - clientId (string): Filter results by network client.
-        - deviceSerial (string): Filter results by device.
-        - apTag (string): Filter results by AP tag.
-        - band (string): Filter results by band (either '2.4', '5' or '6').
-        - ssid (integer): Filter results by SSID number.
-        - accessCategory (string): Filter by access category.
+        Args:
+            networkId: Network ID.
+            t0: The beginning of the timespan for the data. The maximum lookback period is 31 days
+              from today.
+            t1: The end of the timespan for the data. t1 can be a maximum of 31 days after t0.
+            timespan: The timespan for which the information will be fetched. If specifying
+              timespan, do not specify parameters t0 and t1. The value must be in
+              seconds and be less than or equal to 31 days. The default is 7 days.
+            resolution: The time resolution in seconds for returned data. The valid resolutions are:
+              300, 600, 1200, 3600, 14400, 86400. The default is 86400.
+            autoResolution: Automatically select a data resolution based on the given timespan; this
+              overrides the value specified by the 'resolution' parameter. The default
+              setting is false.
+            clientId: Filter results by network client.
+            deviceSerial: Filter results by device.
+            apTag: Filter results by AP tag.
+            band: Filter results by band (either '2.4', '5' or '6').
+            ssid: Filter results by SSID number.
+            accessCategory: Filter by access category.
 
         """
         kwargs.update(locals())
@@ -1512,20 +1742,29 @@ class AsyncWireless:
 
         return self._session.get(metadata, resource, params)
 
-    def get_network_wireless_latency_stats(self, networkId: str, **kwargs):
+    def get_network_wireless_latency_stats(
+        self, networkId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Aggregated latency info for this network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-latency-stats
 
-        - networkId (string): Network ID
-        - t0 (string): The beginning of the timespan for the data. The maximum lookback period is 180 days from today.
-        - t1 (string): The end of the timespan for the data. t1 can be a maximum of 7 days after t0.
-        - timespan (number): The timespan for which the information will be fetched. If specifying timespan, do not specify parameters t0 and t1. The value must be in seconds and be less than or equal to 7 days.
-        - band (string): Filter results by band (either '2.4', '5' or '6'). Note that data prior to February 2020 will not have band information.
-        - ssid (integer): Filter results by SSID
-        - apTag (string): Filter results by AP Tag
-        - vlan (integer): Filter results by VLAN
-        - fields (string): Partial selection: If present, this call will return only the selected fields of ["rawDistribution", "avg"]. All fields will be returned by default. Selected fields must be entered as a comma separated string.
+        Args:
+            networkId: Network ID.
+            t0: The beginning of the timespan for the data. The maximum lookback period is 180 days
+              from today.
+            t1: The end of the timespan for the data. t1 can be a maximum of 7 days after t0.
+            timespan: The timespan for which the information will be fetched. If specifying
+              timespan, do not specify parameters t0 and t1. The value must be in
+              seconds and be less than or equal to 7 days.
+            band: Filter results by band (either '2.4', '5' or '6'). Note that data prior to
+              February 2020 will not have band information.
+            ssid: Filter results by SSID.
+            apTag: Filter results by AP Tag.
+            vlan: Filter results by VLAN.
+            fields: Partial selection: If present, this call will return only the selected fields of
+              ["rawDistribution", "avg"]. All fields will be returned by default.
+              Selected fields must be entered as a comma separated string.
 
         """
         kwargs.update(locals())
@@ -1557,14 +1796,17 @@ class AsyncWireless:
 
         return self._session.get(metadata, resource, params)
 
-    def update_network_wireless_location_scanning(self, networkId: str, **kwargs):
+    def update_network_wireless_location_scanning(
+        self, networkId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Change scanning API settings.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-location-scanning
 
-        - networkId (string): Network ID
-        - enabled (boolean): Collect location and scanning analytics
-        - api (object): Enable push API for scanning events, analytics must be enabled
+        Args:
+            networkId: Network ID.
+            enabled: Collect location and scanning analytics.
+            api: Enable push API for scanning events, analytics must be enabled.
 
         """
         kwargs.update(locals())
@@ -1585,18 +1827,27 @@ class AsyncWireless:
         return self._session.put(metadata, resource, payload)
 
     def get_network_wireless_mesh_statuses(
-        self, networkId: str, total_pages=1, direction="next", **kwargs
-    ):
+        self, networkId: str, total_pages=1, direction="next", **kwargs: Any
+    ) -> Generator[Any, None, None]:
         """List wireless mesh statuses for repeaters.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-mesh-statuses
 
-        - networkId (string): Network ID
-        - total_pages (integer or string): use with perPage to get total results up to total_pages*perPage; -1 or "all" for all pages
-        - direction (string): direction to paginate, either "next" (default) or "prev" page
-        - perPage (integer): The number of entries per page returned. Acceptable range is 3 - 500. Default is 50.
-        - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
+        Args:
+            networkId: Network ID.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+            perPage: The number of entries per page returned. Acceptable range is 3 - 500. Default
+              is 50.
+            startingAfter: A token used by the server to indicate the start of the page. Often this
+              is a timestamp or an ID but it is not limited to those. This parameter
+              should not be defined by client applications. The link for the first,
+              last, prev, or next page in the HTTP Link header should define it.
+            endingBefore: A token used by the server to indicate the end of the page. Often this is
+              a timestamp or an ID but it is not limited to those. This parameter should
+              not be defined by client applications. The link for the first, last, prev,
+              or next page in the HTTP Link header should define it.
 
         """
         kwargs.update(locals())
@@ -1617,13 +1868,19 @@ class AsyncWireless:
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
-    def get_network_wireless_rf_profiles(self, networkId: str, **kwargs):
+    def get_network_wireless_rf_profiles(
+        self, networkId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """List RF profiles for this network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-rf-profiles
 
-        - networkId (string): Network ID
-        - includeTemplateProfiles (boolean): If the network is bound to a template, this parameter controls whether or not the non-basic RF profiles defined on the template should be included in the response alongside the non-basic profiles defined on the bound network. Defaults to false.
+        Args:
+            networkId: Network ID.
+            includeTemplateProfiles: If the network is bound to a template, this parameter controls
+              whether or not the non-basic RF profiles defined on the template should be
+              included in the response alongside the non-basic profiles defined on the
+              bound network. Defaults to false.
 
         """
         kwargs.update(locals())
@@ -1643,24 +1900,28 @@ class AsyncWireless:
         return self._session.get(metadata, resource, params)
 
     def create_network_wireless_rf_profile(
-        self, networkId: str, name: str, bandSelectionType: str, **kwargs
-    ):
+        self, networkId: str, name: str, bandSelectionType: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Creates new RF profile for this network.
 
         https://developer.cisco.com/meraki/api-v1/#!create-network-wireless-rf-profile
 
-        - networkId (string): Network ID
-        - name (string): The name of the new profile. Must be unique. This param is required on creation.
-        - bandSelectionType (string): Band selection can be set to either 'ssid' or 'ap'. This param is required on creation.
-        - clientBalancingEnabled (boolean): Steers client to best available access point. Can be either true or false. Defaults to true.
-        - minBitrateType (string): Minimum bitrate can be set to either 'band' or 'ssid'. Defaults to band.
-        - apBandSettings (object): Settings that will be enabled if selectionType is set to 'ap'.
-        - twoFourGhzSettings (object): Settings related to 2.4Ghz band
-        - fiveGhzSettings (object): Settings related to 5Ghz band
-        - sixGhzSettings (object): Settings related to 6Ghz band. Only applicable to networks with 6Ghz capable APs
-        - transmission (object): Settings related to radio transmission.
-        - perSsidSettings (object): Per-SSID radio settings by number.
-        - flexRadios (object): Flex radio settings.
+        Args:
+            networkId: Network ID.
+            name: The name of the new profile. Must be unique. This param is required on creation.
+            bandSelectionType: Band selection can be set to either 'ssid' or 'ap'. This param is
+              required on creation.
+            clientBalancingEnabled: Steers client to best available access point. Can be either true
+              or false. Defaults to true.
+            minBitrateType: Minimum bitrate can be set to either 'band' or 'ssid'. Defaults to band.
+            apBandSettings: Settings that will be enabled if selectionType is set to 'ap'.
+            twoFourGhzSettings: Settings related to 2.4Ghz band.
+            fiveGhzSettings: Settings related to 5Ghz band.
+            sixGhzSettings: Settings related to 6Ghz band. Only applicable to networks with 6Ghz
+              capable APs.
+            transmission: Settings related to radio transmission.
+            perSsidSettings: Per-SSID radio settings by number.
+            flexRadios: Flex radio settings.
 
         """
         kwargs.update(locals())
@@ -1700,26 +1961,35 @@ class AsyncWireless:
 
         return self._session.post(metadata, resource, payload)
 
-    def update_network_wireless_rf_profile(self, networkId: str, rfProfileId: str, **kwargs):
+    def update_network_wireless_rf_profile(
+        self, networkId: str, rfProfileId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Updates specified RF profile for this network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-rf-profile
 
-        - networkId (string): Network ID
-        - rfProfileId (string): Rf profile ID
-        - name (string): The name of the new profile. Must be unique.
-        - isIndoorDefault (boolean): Set this profile as the default indoor rf profile. If the profile ID is one of 'indoor' or 'outdoor',   then a new profile will be created from the respective ID and set as the default
-        - isOutdoorDefault (boolean): Set this profile as the default outdoor rf profile. If the profile ID is one of 'indoor' or 'outdoor',   then a new profile will be created from the respective ID and set as the default
-        - clientBalancingEnabled (boolean): Steers client to best available access point. Can be either true or false.
-        - minBitrateType (string): Minimum bitrate can be set to either 'band' or 'ssid'.
-        - bandSelectionType (string): Band selection can be set to either 'ssid' or 'ap'.
-        - apBandSettings (object): Settings that will be enabled if selectionType is set to 'ap'.
-        - twoFourGhzSettings (object): Settings related to 2.4Ghz band
-        - fiveGhzSettings (object): Settings related to 5Ghz band
-        - sixGhzSettings (object): Settings related to 6Ghz band. Only applicable to networks with 6Ghz capable APs
-        - transmission (object): Settings related to radio transmission.
-        - perSsidSettings (object): Per-SSID radio settings by number.
-        - flexRadios (object): Flex radio settings.
+        Args:
+            networkId: Network ID.
+            rfProfileId: Rf profile ID.
+            name: The name of the new profile. Must be unique.
+            isIndoorDefault: Set this profile as the default indoor rf profile. If the profile ID is
+              one of 'indoor' or 'outdoor',   then a new profile will be created from
+              the respective ID and set as the default.
+            isOutdoorDefault: Set this profile as the default outdoor rf profile. If the profile ID
+              is one of 'indoor' or 'outdoor',   then a new profile will be created from
+              the respective ID and set as the default.
+            clientBalancingEnabled: Steers client to best available access point. Can be either true
+              or false.
+            minBitrateType: Minimum bitrate can be set to either 'band' or 'ssid'.
+            bandSelectionType: Band selection can be set to either 'ssid' or 'ap'.
+            apBandSettings: Settings that will be enabled if selectionType is set to 'ap'.
+            twoFourGhzSettings: Settings related to 2.4Ghz band.
+            fiveGhzSettings: Settings related to 5Ghz band.
+            sixGhzSettings: Settings related to 6Ghz band. Only applicable to networks with 6Ghz
+              capable APs.
+            transmission: Settings related to radio transmission.
+            perSsidSettings: Per-SSID radio settings by number.
+            flexRadios: Flex radio settings.
 
         """
         kwargs.update(locals())
@@ -1762,13 +2032,14 @@ class AsyncWireless:
 
         return self._session.put(metadata, resource, payload)
 
-    def delete_network_wireless_rf_profile(self, networkId: str, rfProfileId: str):
+    def delete_network_wireless_rf_profile(self, networkId: str, rfProfileId: str) -> None:
         """Delete a RF Profile.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-network-wireless-rf-profile
 
-        - networkId (string): Network ID
-        - rfProfileId (string): Rf profile ID
+        Args:
+            networkId: Network ID.
+            rfProfileId: Rf profile ID.
 
         """
         metadata = {
@@ -1781,13 +2052,16 @@ class AsyncWireless:
 
         return self._session.delete(metadata, resource)
 
-    def get_network_wireless_rf_profile(self, networkId: str, rfProfileId: str):
+    def get_network_wireless_rf_profile(
+        self, networkId: str, rfProfileId: str
+    ) -> dict[str, Any] | None:
         """Return a RF profile.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-rf-profile
 
-        - networkId (string): Network ID
-        - rfProfileId (string): Rf profile ID
+        Args:
+            networkId: Network ID.
+            rfProfileId: Rf profile ID.
 
         """
         metadata = {
@@ -1800,12 +2074,13 @@ class AsyncWireless:
 
         return self._session.get(metadata, resource)
 
-    def get_network_wireless_settings(self, networkId: str):
+    def get_network_wireless_settings(self, networkId: str) -> dict[str, Any] | None:
         """Return the wireless settings for a network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-settings
 
-        - networkId (string): Network ID
+        Args:
+            networkId: Network ID.
 
         """
         metadata = {
@@ -1817,18 +2092,25 @@ class AsyncWireless:
 
         return self._session.get(metadata, resource)
 
-    def update_network_wireless_settings(self, networkId: str, **kwargs):
+    def update_network_wireless_settings(
+        self, networkId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Update the wireless settings for a network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-settings
 
-        - networkId (string): Network ID
-        - meshingEnabled (boolean): Toggle for enabling or disabling meshing in a network
-        - ipv6BridgeEnabled (boolean): Toggle for enabling or disabling IPv6 bridging in a network (Note: if enabled, SSIDs must also be configured to use bridge mode)
-        - locationAnalyticsEnabled (boolean): Toggle for enabling or disabling location analytics for your network
-        - upgradeStrategy (string): The default strategy that network devices will use to perform an upgrade. Requires firmware version MR 26.8 or higher.
-        - ledLightsOn (boolean): Toggle for enabling or disabling LED lights on all APs in the network (making them run dark)
-        - namedVlans (object): Named VLAN settings for wireless networks.
+        Args:
+            networkId: Network ID.
+            meshingEnabled: Toggle for enabling or disabling meshing in a network.
+            ipv6BridgeEnabled: Toggle for enabling or disabling IPv6 bridging in a network (Note: if
+              enabled, SSIDs must also be configured to use bridge mode).
+            locationAnalyticsEnabled: Toggle for enabling or disabling location analytics for your
+              network.
+            upgradeStrategy: The default strategy that network devices will use to perform an
+              upgrade. Requires firmware version MR 26.8 or higher.
+            ledLightsOn: Toggle for enabling or disabling LED lights on all APs in the network
+              (making them run dark).
+            namedVlans: Named VLAN settings for wireless networks.
 
         """
         kwargs.update(locals())
@@ -1858,22 +2140,32 @@ class AsyncWireless:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_network_wireless_signal_quality_history(self, networkId: str, **kwargs):
+    def get_network_wireless_signal_quality_history(
+        self, networkId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Return signal quality (SNR/RSSI) over time for a device or network client.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-signal-quality-history
 
-        - networkId (string): Network ID
-        - t0 (string): The beginning of the timespan for the data. The maximum lookback period is 31 days from today.
-        - t1 (string): The end of the timespan for the data. t1 can be a maximum of 31 days after t0.
-        - timespan (number): The timespan for which the information will be fetched. If specifying timespan, do not specify parameters t0 and t1. The value must be in seconds and be less than or equal to 31 days. The default is 7 days.
-        - resolution (integer): The time resolution in seconds for returned data. The valid resolutions are: 300, 600, 1200, 3600, 14400, 86400. The default is 86400.
-        - autoResolution (boolean): Automatically select a data resolution based on the given timespan; this overrides the value specified by the 'resolution' parameter. The default setting is false.
-        - clientId (string): Filter results by network client.
-        - deviceSerial (string): Filter results by device.
-        - apTag (string): Filter results by AP tag; either :clientId or :deviceSerial must be jointly specified.
-        - band (string): Filter results by band (either '2.4', '5' or '6').
-        - ssid (integer): Filter results by SSID number.
+        Args:
+            networkId: Network ID.
+            t0: The beginning of the timespan for the data. The maximum lookback period is 31 days
+              from today.
+            t1: The end of the timespan for the data. t1 can be a maximum of 31 days after t0.
+            timespan: The timespan for which the information will be fetched. If specifying
+              timespan, do not specify parameters t0 and t1. The value must be in
+              seconds and be less than or equal to 31 days. The default is 7 days.
+            resolution: The time resolution in seconds for returned data. The valid resolutions are:
+              300, 600, 1200, 3600, 14400, 86400. The default is 86400.
+            autoResolution: Automatically select a data resolution based on the given timespan; this
+              overrides the value specified by the 'resolution' parameter. The default
+              setting is false.
+            clientId: Filter results by network client.
+            deviceSerial: Filter results by device.
+            apTag: Filter results by AP tag; either :clientId or :deviceSerial must be jointly
+              specified.
+            band: Filter results by band (either '2.4', '5' or '6').
+            ssid: Filter results by SSID number.
 
         """
         kwargs.update(locals())
@@ -1907,12 +2199,13 @@ class AsyncWireless:
 
         return self._session.get(metadata, resource, params)
 
-    def get_network_wireless_ssids(self, networkId: str):
+    def get_network_wireless_ssids(self, networkId: str) -> dict[str, Any] | None:
         """List the MR SSIDs in a network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-ssids
 
-        - networkId (string): Network ID
+        Args:
+            networkId: Network ID.
 
         """
         metadata = {
@@ -1924,13 +2217,14 @@ class AsyncWireless:
 
         return self._session.get(metadata, resource)
 
-    def get_network_wireless_ssid(self, networkId: str, number: str):
+    def get_network_wireless_ssid(self, networkId: str, number: str) -> dict[str, Any] | None:
         """Return a single MR SSID.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-ssid
 
-        - networkId (string): Network ID
-        - number (string): Number
+        Args:
+            networkId: Network ID.
+            number: Number.
 
         """
         metadata = {
@@ -1943,76 +2237,162 @@ class AsyncWireless:
 
         return self._session.get(metadata, resource)
 
-    def update_network_wireless_ssid(self, networkId: str, number: str, **kwargs):
+    def update_network_wireless_ssid(
+        self, networkId: str, number: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Update the attributes of an MR SSID.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid
 
-        - networkId (string): Network ID
-        - number (string): Number
-        - name (string): The name of the SSID
-        - enabled (boolean): Whether or not the SSID is enabled
-        - authMode (string): The association control method for the SSID ('open', 'open-enhanced', 'psk', 'open-with-radius', 'open-with-nac', '8021x-meraki', '8021x-nac', '8021x-radius', '8021x-google', '8021x-entra', '8021x-localradius', 'ipsk-with-radius', 'ipsk-without-radius', 'ipsk-with-nac' or 'ipsk-with-radius-easy-psk')
-        - enterpriseAdminAccess (string): Whether or not an SSID is accessible by 'enterprise' administrators ('access disabled' or 'access enabled')
-        - encryptionMode (string): The psk encryption mode for the SSID ('wep' or 'wpa'). This param is only valid if the authMode is 'psk'
-        - psk (string): The passkey for the SSID. This param is only valid if the authMode is 'psk'
-        - wpaEncryptionMode (string): The types of WPA encryption. ('WPA1 only', 'WPA1 and WPA2', 'WPA2 only', 'WPA3 Transition Mode', 'WPA3 only' or 'WPA3 192-bit Security')
-        - dot11w (object): The current setting for Protected Management Frames (802.11w).
-        - dot11r (object): The current setting for 802.11r
-        - splashPage (string): The type of splash page for the SSID ('None', 'Click-through splash page', 'Billing', 'Password-protected with Meraki RADIUS', 'Password-protected with custom RADIUS', 'Password-protected with Active Directory', 'Password-protected with LDAP', 'SMS authentication', 'Systems Manager Sentry', 'Facebook Wi-Fi', 'Google OAuth', 'Microsoft Entra ID', 'Sponsored guest', 'Cisco ISE' or 'Google Apps domain').This attribute is not supported for template children.
-        - splashGuestSponsorDomains (array): Array of valid sponsor email domains for sponsored guest splash type.
-        - oauth (object): The OAuth settings of this SSID. Only valid if splashPage is 'Google OAuth'.
-        - localRadius (object): The current setting for Local Authentication, a built-in RADIUS server on the access point. Only valid if authMode is '8021x-localradius'.
-        - ldap (object): The current setting for LDAP. Only valid if splashPage is 'Password-protected with LDAP'.
-        - activeDirectory (object): The current setting for Active Directory. Only valid if splashPage is 'Password-protected with Active Directory'
-        - radiusServers (array): The RADIUS 802.1X servers to be used for authentication. This param is only valid if the authMode is 'open-with-radius', '8021x-radius' or 'ipsk-with-radius'
-        - radiusProxyEnabled (boolean): If true, Meraki devices will proxy RADIUS messages through the Meraki cloud to the configured RADIUS auth and accounting servers.
-        - radiusTestingEnabled (boolean): If true, Meraki devices will periodically send Access-Request messages to configured RADIUS servers using identity 'meraki_8021x_test' to ensure that the RADIUS servers are reachable.
-        - radiusCalledStationId (string): The template of the called station identifier to be used for RADIUS (ex. $NODE_MAC$:$VAP_NUM$).
-        - radiusAuthenticationNasId (string): The template of the NAS identifier to be used for RADIUS authentication (ex. $NODE_MAC$:$VAP_NUM$).
-        - radiusServerTimeout (integer): The amount of time for which a RADIUS client waits for a reply from the RADIUS server (must be between 1-10 seconds).
-        - radiusServerAttemptsLimit (integer): The maximum number of transmit attempts after which a RADIUS server is failed over (must be between 1-5).
-        - radiusFallbackEnabled (boolean): Whether or not higher priority RADIUS servers should be retried after 60 seconds.
-        - radiusRadsec (object): The current settings for RADIUS RADSec
-        - radiusCoaEnabled (boolean): If true, Meraki devices will act as a RADIUS Dynamic Authorization Server and will respond to RADIUS Change-of-Authorization and Disconnect messages sent by the RADIUS server.
-        - radiusFailoverPolicy (string): This policy determines how authentication requests should be handled in the event that all of the configured RADIUS servers are unreachable ('Deny access' or 'Allow access')
-        - radiusLoadBalancingPolicy (string): This policy determines which RADIUS server will be contacted first in an authentication attempt and the ordering of any necessary retry attempts ('Strict priority order' or 'Round robin')
-        - radiusAccountingEnabled (boolean): Whether or not RADIUS accounting is enabled. This param is only valid if the authMode is 'open-with-radius', '8021x-radius' or 'ipsk-with-radius'
-        - radiusAccountingServers (array): The RADIUS accounting 802.1X servers to be used for authentication. This param is only valid if the authMode is 'open-with-radius', '8021x-radius' or 'ipsk-with-radius' and radiusAccountingEnabled is 'true'
-        - radiusAccountingInterimInterval (integer): The interval (in seconds) in which accounting information is updated and sent to the RADIUS accounting server.
-        - radiusAttributeForGroupPolicies (string): Specify the RADIUS attribute used to look up group policies ('Filter-Id', 'Reply-Message', 'Airespace-ACL-Name' or 'Aruba-User-Role'). Access points must receive this attribute in the RADIUS Access-Accept message
-        - ipAssignmentMode (string): The client IP assignment mode ('NAT mode', 'Bridge mode', 'Layer 3 roaming', 'Ethernet over GRE', 'Layer 3 roaming with a concentrator', 'VPN' or 'Campus Gateway')
-        - useVlanTagging (boolean): Whether or not traffic should be directed to use specific VLANs. This param is only valid if the ipAssignmentMode is 'Bridge mode' or 'Layer 3 roaming'
-        - concentratorNetworkId (string): The concentrator to use when the ipAssignmentMode is 'Layer 3 roaming with a concentrator' or 'VPN'.
-        - secondaryConcentratorNetworkId (string): The secondary concentrator to use when the ipAssignmentMode is 'VPN'. If configured, the APs will switch to using this concentrator if the primary concentrator is unreachable. This param is optional. ('disabled' represents no secondary concentrator.)
-        - disassociateClientsOnVpnFailover (boolean): Disassociate clients when 'VPN' concentrator failover occurs in order to trigger clients to re-associate and generate new DHCP requests. This param is only valid if ipAssignmentMode is 'VPN'.
-        - vlanId (integer): The VLAN ID used for VLAN tagging. This param is only valid when the ipAssignmentMode is 'Layer 3 roaming with a concentrator' or 'VPN'
-        - defaultVlanId (integer): The default VLAN ID used for 'all other APs'. This param is only valid when the ipAssignmentMode is 'Bridge mode' or 'Layer 3 roaming'
-        - apTagsAndVlanIds (array): The list of tags and VLAN IDs used for VLAN tagging. This param is only valid when the ipAssignmentMode is 'Bridge mode' or 'Layer 3 roaming'
-        - walledGardenEnabled (boolean): Allow access to a configurable list of IP ranges, which users may access prior to sign-on.
-        - walledGardenRanges (array): Specify your walled garden by entering an array of addresses, ranges using CIDR notation, domain names, and domain wildcards (e.g. '192.168.1.1/24', '192.168.37.10/32', 'www.yahoo.com', '*.google.com']). Meraki's splash page is automatically included in your walled garden.
-        - gre (object): Ethernet over GRE settings
-        - radiusOverride (boolean): If true, the RADIUS response can override VLAN tag. This is not valid when ipAssignmentMode is 'NAT mode'.
-        - radiusGuestVlanEnabled (boolean): Whether or not RADIUS Guest VLAN is enabled. This param is only valid if the authMode is 'open-with-radius' and addressing mode is not set to 'isolated' or 'nat' mode
-        - radiusGuestVlanId (integer): VLAN ID of the RADIUS Guest VLAN. This param is only valid if the authMode is 'open-with-radius' and addressing mode is not set to 'isolated' or 'nat' mode
-        - minBitrate (number): The minimum bitrate in Mbps of this SSID in the default indoor RF profile. ('1', '2', '5.5', '6', '9', '11', '12', '18', '24', '36', '48' or '54')
-        - bandSelection (string): The client-serving radio frequencies of this SSID in the default indoor RF profile. ('Dual band operation', '5 GHz band only' or 'Dual band operation with Band Steering')
-        - perClientBandwidthLimitUp (integer): The upload bandwidth limit in Kbps. (0 represents no limit.)
-        - perClientBandwidthLimitDown (integer): The download bandwidth limit in Kbps. (0 represents no limit.)
-        - perSsidBandwidthLimitUp (integer): The total upload bandwidth limit in Kbps. (0 represents no limit.)
-        - perSsidBandwidthLimitDown (integer): The total download bandwidth limit in Kbps. (0 represents no limit.)
-        - lanIsolationEnabled (boolean): Boolean indicating whether Layer 2 LAN isolation should be enabled or disabled. Only configurable when ipAssignmentMode is 'Bridge mode'.
-        - visible (boolean): Boolean indicating whether APs should advertise or hide this SSID. APs will only broadcast this SSID if set to true
-        - availableOnAllAps (boolean): Boolean indicating whether all APs should broadcast the SSID or if it should be restricted to APs matching any availability tags. Can only be false if the SSID has availability tags.
-        - availabilityTags (array): Accepts a list of tags for this SSID. If availableOnAllAps is false, then the SSID will only be broadcast by APs with tags matching any of the tags in this list.
-        - adaptivePolicyGroupId (string): Adaptive policy group ID this SSID is assigned to.
-        - mandatoryDhcpEnabled (boolean): If true, Mandatory DHCP will enforce that clients connecting to this SSID must use the IP address assigned by the DHCP server. Clients who use a static IP address won't be able to associate.
-        - adultContentFilteringEnabled (boolean): Boolean indicating whether or not adult content will be blocked
-        - dnsRewrite (object): DNS servers rewrite settings
-        - speedBurst (object): The SpeedBurst setting for this SSID'
-        - namedVlans (object): Named VLAN settings.
-        - localAuthFallback (object): The current configuration for Local Authentication Fallback. Enables the Access Point (AP) to store client authentication data for a specified duration that can be adjusted as needed.
-        - radiusAccountingStartDelay (integer): The delay (in seconds) before sending the first RADIUS accounting start message. Must be between 0 and 60 seconds.
+        Args:
+            networkId: Network ID.
+            number: Number.
+            name: The name of the SSID.
+            enabled: Whether or not the SSID is enabled.
+            authMode: The association control method for the SSID ('open', 'open-enhanced', 'psk',
+              'open-with-radius', 'open-with-nac', '8021x-meraki', '8021x-nac',
+              '8021x-radius', '8021x-google', '8021x-entra', '8021x-localradius', 'ipsk-
+              with-radius', 'ipsk-without-radius', 'ipsk-with-nac' or 'ipsk-with-radius-
+              easy-psk').
+            enterpriseAdminAccess: Whether or not an SSID is accessible by 'enterprise'
+              administrators ('access disabled' or 'access enabled').
+            encryptionMode: The psk encryption mode for the SSID ('wep' or 'wpa'). This param is
+              only valid if the authMode is 'psk'.
+            psk: The passkey for the SSID. This param is only valid if the authMode is 'psk'.
+            wpaEncryptionMode: The types of WPA encryption. ('WPA1 only', 'WPA1 and WPA2', 'WPA2
+              only', 'WPA3 Transition Mode', 'WPA3 only' or 'WPA3 192-bit Security').
+            dot11w: The current setting for Protected Management Frames (802.11w).
+            dot11r: The current setting for 802.11r.
+            splashPage: The type of splash page for the SSID ('None', 'Click-through splash page',
+              'Billing', 'Password-protected with Meraki RADIUS', 'Password-protected
+              with custom RADIUS', 'Password-protected with Active Directory',
+              'Password-protected with LDAP', 'SMS authentication', 'Systems Manager
+              Sentry', 'Facebook Wi-Fi', 'Google OAuth', 'Microsoft Entra ID',
+              'Sponsored guest', 'Cisco ISE' or 'Google Apps domain').This attribute is
+              not supported for template children.
+            splashGuestSponsorDomains: Array of valid sponsor email domains for sponsored guest
+              splash type.
+            oauth: The OAuth settings of this SSID. Only valid if splashPage is 'Google OAuth'.
+            localRadius: The current setting for Local Authentication, a built-in RADIUS server on
+              the access point. Only valid if authMode is '8021x-localradius'.
+            ldap: The current setting for LDAP. Only valid if splashPage is 'Password-protected with
+              LDAP'.
+            activeDirectory: The current setting for Active Directory. Only valid if splashPage is
+              'Password-protected with Active Directory'.
+            radiusServers: The RADIUS 802.1X servers to be used for authentication. This param is
+              only valid if the authMode is 'open-with-radius', '8021x-radius' or 'ipsk-
+              with-radius'.
+            radiusProxyEnabled: If true, Meraki devices will proxy RADIUS messages through the
+              Meraki cloud to the configured RADIUS auth and accounting servers.
+            radiusTestingEnabled: If true, Meraki devices will periodically send Access-Request
+              messages to configured RADIUS servers using identity 'meraki_8021x_test'
+              to ensure that the RADIUS servers are reachable.
+            radiusCalledStationId: The template of the called station identifier to be used for
+              RADIUS (ex. $NODE_MAC$:$VAP_NUM$).
+            radiusAuthenticationNasId: The template of the NAS identifier to be used for RADIUS
+              authentication (ex. $NODE_MAC$:$VAP_NUM$).
+            radiusServerTimeout: The amount of time for which a RADIUS client waits for a reply from
+              the RADIUS server (must be between 1-10 seconds).
+            radiusServerAttemptsLimit: The maximum number of transmit attempts after which a RADIUS
+              server is failed over (must be between 1-5).
+            radiusFallbackEnabled: Whether or not higher priority RADIUS servers should be retried
+              after 60 seconds.
+            radiusRadsec: The current settings for RADIUS RADSec.
+            radiusCoaEnabled: If true, Meraki devices will act as a RADIUS Dynamic Authorization
+              Server and will respond to RADIUS Change-of-Authorization and Disconnect
+              messages sent by the RADIUS server.
+            radiusFailoverPolicy: This policy determines how authentication requests should be
+              handled in the event that all of the configured RADIUS servers are
+              unreachable ('Deny access' or 'Allow access').
+            radiusLoadBalancingPolicy: This policy determines which RADIUS server will be contacted
+              first in an authentication attempt and the ordering of any necessary retry
+              attempts ('Strict priority order' or 'Round robin').
+            radiusAccountingEnabled: Whether or not RADIUS accounting is enabled. This param is only
+              valid if the authMode is 'open-with-radius', '8021x-radius' or 'ipsk-with-
+              radius'.
+            radiusAccountingServers: The RADIUS accounting 802.1X servers to be used for
+              authentication. This param is only valid if the authMode is 'open-with-
+              radius', '8021x-radius' or 'ipsk-with-radius' and radiusAccountingEnabled
+              is 'true'.
+            radiusAccountingInterimInterval: The interval (in seconds) in which accounting
+              information is updated and sent to the RADIUS accounting server.
+            radiusAttributeForGroupPolicies: Specify the RADIUS attribute used to look up group
+              policies ('Filter-Id', 'Reply-Message', 'Airespace-ACL-Name' or 'Aruba-
+              User-Role'). Access points must receive this attribute in the RADIUS
+              Access-Accept message.
+            ipAssignmentMode: The client IP assignment mode ('NAT mode', 'Bridge mode', 'Layer 3
+              roaming', 'Ethernet over GRE', 'Layer 3 roaming with a concentrator',
+              'VPN' or 'Campus Gateway').
+            useVlanTagging: Whether or not traffic should be directed to use specific VLANs. This
+              param is only valid if the ipAssignmentMode is 'Bridge mode' or 'Layer 3
+              roaming'.
+            concentratorNetworkId: The concentrator to use when the ipAssignmentMode is 'Layer 3
+              roaming with a concentrator' or 'VPN'.
+            secondaryConcentratorNetworkId: The secondary concentrator to use when the
+              ipAssignmentMode is 'VPN'. If configured, the APs will switch to using
+              this concentrator if the primary concentrator is unreachable. This param
+              is optional. ('disabled' represents no secondary concentrator.).
+            disassociateClientsOnVpnFailover: Disassociate clients when 'VPN' concentrator failover
+              occurs in order to trigger clients to re-associate and generate new DHCP
+              requests. This param is only valid if ipAssignmentMode is 'VPN'.
+            vlanId: The VLAN ID used for VLAN tagging. This param is only valid when the
+              ipAssignmentMode is 'Layer 3 roaming with a concentrator' or 'VPN'.
+            defaultVlanId: The default VLAN ID used for 'all other APs'. This param is only valid
+              when the ipAssignmentMode is 'Bridge mode' or 'Layer 3 roaming'.
+            apTagsAndVlanIds: The list of tags and VLAN IDs used for VLAN tagging. This param is
+              only valid when the ipAssignmentMode is 'Bridge mode' or 'Layer 3
+              roaming'.
+            walledGardenEnabled: Allow access to a configurable list of IP ranges, which users may
+              access prior to sign-on.
+            walledGardenRanges: Specify your walled garden by entering an array of addresses, ranges
+              using CIDR notation, domain names, and domain wildcards (e.g.
+              '192.168.1.1/24', '192.168.37.10/32', 'www.yahoo.com', '*.google.com']).
+              Meraki's splash page is automatically included in your walled garden.
+            gre: Ethernet over GRE settings.
+            radiusOverride: If true, the RADIUS response can override VLAN tag. This is not valid
+              when ipAssignmentMode is 'NAT mode'.
+            radiusGuestVlanEnabled: Whether or not RADIUS Guest VLAN is enabled. This param is only
+              valid if the authMode is 'open-with-radius' and addressing mode is not set
+              to 'isolated' or 'nat' mode.
+            radiusGuestVlanId: VLAN ID of the RADIUS Guest VLAN. This param is only valid if the
+              authMode is 'open-with-radius' and addressing mode is not set to
+              'isolated' or 'nat' mode.
+            minBitrate: The minimum bitrate in Mbps of this SSID in the default indoor RF profile.
+              ('1', '2', '5.5', '6', '9', '11', '12', '18', '24', '36', '48' or '54').
+            bandSelection: The client-serving radio frequencies of this SSID in the default indoor
+              RF profile. ('Dual band operation', '5 GHz band only' or 'Dual band
+              operation with Band Steering').
+            perClientBandwidthLimitUp: The upload bandwidth limit in Kbps. (0 represents no limit.).
+            perClientBandwidthLimitDown: The download bandwidth limit in Kbps. (0 represents no
+              limit.).
+            perSsidBandwidthLimitUp: The total upload bandwidth limit in Kbps. (0 represents no
+              limit.).
+            perSsidBandwidthLimitDown: The total download bandwidth limit in Kbps. (0 represents no
+              limit.).
+            lanIsolationEnabled: Boolean indicating whether Layer 2 LAN isolation should be enabled
+              or disabled. Only configurable when ipAssignmentMode is 'Bridge mode'.
+            visible: Boolean indicating whether APs should advertise or hide this SSID. APs will
+              only broadcast this SSID if set to true.
+            availableOnAllAps: Boolean indicating whether all APs should broadcast the SSID or if it
+              should be restricted to APs matching any availability tags. Can only be
+              false if the SSID has availability tags.
+            availabilityTags: Accepts a list of tags for this SSID. If availableOnAllAps is false,
+              then the SSID will only be broadcast by APs with tags matching any of the
+              tags in this list.
+            adaptivePolicyGroupId: Adaptive policy group ID this SSID is assigned to.
+            mandatoryDhcpEnabled: If true, Mandatory DHCP will enforce that clients connecting to
+              this SSID must use the IP address assigned by the DHCP server. Clients who
+              use a static IP address won't be able to associate.
+            adultContentFilteringEnabled: Boolean indicating whether or not adult content will be
+              blocked.
+            dnsRewrite: DNS servers rewrite settings.
+            speedBurst: The SpeedBurst setting for this SSID'.
+            namedVlans: Named VLAN settings.
+            localAuthFallback: The current configuration for Local Authentication Fallback. Enables
+              the Access Point (AP) to store client authentication data for a specified
+              duration that can be adjusted as needed.
+            radiusAccountingStartDelay: The delay (in seconds) before sending the first RADIUS
+              accounting start message. Must be between 0 and 60 seconds.
 
         """
         kwargs.update(locals())
@@ -2174,13 +2554,16 @@ class AsyncWireless:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_network_wireless_ssid_bonjour_forwarding(self, networkId: str, number: str):
+    def get_network_wireless_ssid_bonjour_forwarding(
+        self, networkId: str, number: str
+    ) -> dict[str, Any] | None:
         """List the Bonjour forwarding setting and rules for the SSID.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-ssid-bonjour-forwarding
 
-        - networkId (string): Network ID
-        - number (string): Number
+        Args:
+            networkId: Network ID.
+            number: Number.
 
         """
         metadata = {
@@ -2194,17 +2577,18 @@ class AsyncWireless:
         return self._session.get(metadata, resource)
 
     def update_network_wireless_ssid_bonjour_forwarding(
-        self, networkId: str, number: str, **kwargs
-    ):
+        self, networkId: str, number: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Update the bonjour forwarding setting and rules for the SSID.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-bonjour-forwarding
 
-        - networkId (string): Network ID
-        - number (string): Number
-        - enabled (boolean): If true, Bonjour forwarding is enabled on this SSID.
-        - rules (array): List of bonjour forwarding rules.
-        - exception (object): Bonjour forwarding exception
+        Args:
+            networkId: Network ID.
+            number: Number.
+            enabled: If true, Bonjour forwarding is enabled on this SSID.
+            rules: List of bonjour forwarding rules.
+            exception: Bonjour forwarding exception.
 
         """
         kwargs.update(locals())
@@ -2226,13 +2610,16 @@ class AsyncWireless:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_network_wireless_ssid_device_type_group_policies(self, networkId: str, number: str):
+    def get_network_wireless_ssid_device_type_group_policies(
+        self, networkId: str, number: str
+    ) -> dict[str, Any] | None:
         """List the device type group policies for the SSID.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-ssid-device-type-group-policies
 
-        - networkId (string): Network ID
-        - number (string): Number
+        Args:
+            networkId: Network ID.
+            number: Number.
 
         """
         metadata = {
@@ -2246,16 +2633,17 @@ class AsyncWireless:
         return self._session.get(metadata, resource)
 
     def update_network_wireless_ssid_device_type_group_policies(
-        self, networkId: str, number: str, **kwargs
-    ):
+        self, networkId: str, number: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Update the device type group policies for the SSID.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-device-type-group-policies
 
-        - networkId (string): Network ID
-        - number (string): Number
-        - enabled (boolean): If true, the SSID device type group policies are enabled.
-        - deviceTypePolicies (array): List of device type policies.
+        Args:
+            networkId: Network ID.
+            number: Number.
+            enabled: If true, the SSID device type group policies are enabled.
+            deviceTypePolicies: List of device type policies.
 
         """
         kwargs.update(locals())
@@ -2276,13 +2664,16 @@ class AsyncWireless:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_network_wireless_ssid_eap_override(self, networkId: str, number: str):
+    def get_network_wireless_ssid_eap_override(
+        self, networkId: str, number: str
+    ) -> dict[str, Any] | None:
         """Return the EAP overridden parameters for an SSID.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-ssid-eap-override
 
-        - networkId (string): Network ID
-        - number (string): Number
+        Args:
+            networkId: Network ID.
+            number: Number.
 
         """
         metadata = {
@@ -2295,17 +2686,20 @@ class AsyncWireless:
 
         return self._session.get(metadata, resource)
 
-    def update_network_wireless_ssid_eap_override(self, networkId: str, number: str, **kwargs):
+    def update_network_wireless_ssid_eap_override(
+        self, networkId: str, number: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Update the EAP overridden parameters for an SSID.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-eap-override
 
-        - networkId (string): Network ID
-        - number (string): Number
-        - timeout (integer): General EAP timeout in seconds.
-        - identity (object): EAP settings for identity requests.
-        - maxRetries (integer): Maximum number of general EAP retries.
-        - eapolKey (object): EAPOL Key settings.
+        Args:
+            networkId: Network ID.
+            number: Number.
+            timeout: General EAP timeout in seconds.
+            identity: EAP settings for identity requests.
+            maxRetries: Maximum number of general EAP retries.
+            eapolKey: EAPOL Key settings.
 
         """
         kwargs.update(locals())
@@ -2328,13 +2722,16 @@ class AsyncWireless:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_network_wireless_ssid_firewall_l3_firewall_rules(self, networkId: str, number: str):
+    def get_network_wireless_ssid_firewall_l3_firewall_rules(
+        self, networkId: str, number: str
+    ) -> dict[str, Any] | None:
         """Return the L3 firewall rules for an SSID on an MR network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-ssid-firewall-l-3-firewall-rules
 
-        - networkId (string): Network ID
-        - number (string): Number
+        Args:
+            networkId: Network ID.
+            number: Number.
 
         """
         metadata = {
@@ -2348,16 +2745,18 @@ class AsyncWireless:
         return self._session.get(metadata, resource)
 
     def update_network_wireless_ssid_firewall_l3_firewall_rules(
-        self, networkId: str, number: str, **kwargs
-    ):
+        self, networkId: str, number: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Update the L3 firewall rules of an SSID on an MR network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-firewall-l-3-firewall-rules
 
-        - networkId (string): Network ID
-        - number (string): Number
-        - rules (array): An ordered array of the firewall rules for this SSID.
-        - allowLanAccess (boolean): Allow wireless client access to local LAN (boolean value - true allows access and false denies access) (optional)
+        Args:
+            networkId: Network ID.
+            number: Number.
+            rules: An ordered array of the firewall rules for this SSID.
+            allowLanAccess: Allow wireless client access to local LAN (boolean value - true allows
+              access and false denies access) (optional).
 
         """
         kwargs.update(locals())
@@ -2378,13 +2777,16 @@ class AsyncWireless:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_network_wireless_ssid_firewall_l7_firewall_rules(self, networkId: str, number: str):
+    def get_network_wireless_ssid_firewall_l7_firewall_rules(
+        self, networkId: str, number: str
+    ) -> dict[str, Any] | None:
         """Return the L7 firewall rules for an SSID on an MR network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-ssid-firewall-l-7-firewall-rules
 
-        - networkId (string): Network ID
-        - number (string): Number
+        Args:
+            networkId: Network ID.
+            number: Number.
 
         """
         metadata = {
@@ -2398,15 +2800,18 @@ class AsyncWireless:
         return self._session.get(metadata, resource)
 
     def update_network_wireless_ssid_firewall_l7_firewall_rules(
-        self, networkId: str, number: str, **kwargs
-    ):
+        self, networkId: str, number: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Update the L7 firewall rules of an SSID on an MR network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-firewall-l-7-firewall-rules
 
-        - networkId (string): Network ID
-        - number (string): Number
-        - rules (array): An array of L7 firewall rules for this SSID. Rules will get applied in the same order user has specified in request. Empty array will clear the L7 firewall rule configuration.
+        Args:
+            networkId: Network ID.
+            number: Number.
+            rules: An array of L7 firewall rules for this SSID. Rules will get applied in the same
+              order user has specified in request. Empty array will clear the L7
+              firewall rule configuration.
 
         """
         kwargs.update(locals())
@@ -2426,13 +2831,16 @@ class AsyncWireless:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_network_wireless_ssid_hotspot20(self, networkId: str, number: str):
+    def get_network_wireless_ssid_hotspot20(
+        self, networkId: str, number: str
+    ) -> dict[str, Any] | None:
         """Return the Hotspot 2.0 settings for an SSID.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-ssid-hotspot-2-0
 
-        - networkId (string): Network ID
-        - number (string): Number
+        Args:
+            networkId: Network ID.
+            number: Number.
 
         """
         metadata = {
@@ -2445,21 +2853,28 @@ class AsyncWireless:
 
         return self._session.get(metadata, resource)
 
-    def update_network_wireless_ssid_hotspot20(self, networkId: str, number: str, **kwargs):
+    def update_network_wireless_ssid_hotspot20(
+        self, networkId: str, number: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Update the Hotspot 2.0 settings of an SSID.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-hotspot-2-0
 
-        - networkId (string): Network ID
-        - number (string): Number
-        - enabled (boolean): Whether or not Hotspot 2.0 for this SSID is enabled
-        - operator (object): Operator settings for this SSID
-        - venue (object): Venue settings for this SSID
-        - networkAccessType (string): The network type of this SSID ('Private network', 'Private network with guest access', 'Chargeable public network', 'Free public network', 'Personal device network', 'Emergency services only network', 'Test or experimental', 'Wildcard')
-        - domains (array): An array of domain names
-        - roamConsortOis (array): An array of roaming consortium OIs (hexadecimal number 3-5 octets in length)
-        - mccMncs (array): An array of MCC/MNC pairs
-        - naiRealms (array): An array of NAI realms
+        Args:
+            networkId: Network ID.
+            number: Number.
+            enabled: Whether or not Hotspot 2.0 for this SSID is enabled.
+            operator: Operator settings for this SSID.
+            venue: Venue settings for this SSID.
+            networkAccessType: The network type of this SSID ('Private network', 'Private network
+              with guest access', 'Chargeable public network', 'Free public network',
+              'Personal device network', 'Emergency services only network', 'Test or
+              experimental', 'Wildcard').
+            domains: An array of domain names.
+            roamConsortOis: An array of roaming consortium OIs (hexadecimal number 3-5 octets in
+              length).
+            mccMncs: An array of MCC/MNC pairs.
+            naiRealms: An array of NAI realms.
 
         """
         kwargs.update(locals())
@@ -2501,13 +2916,16 @@ class AsyncWireless:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_network_wireless_ssid_identity_psks(self, networkId: str, number: str):
+    def get_network_wireless_ssid_identity_psks(
+        self, networkId: str, number: str
+    ) -> dict[str, Any] | None:
         """List all Identity PSKs in a wireless network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-ssid-identity-psks
 
-        - networkId (string): Network ID
-        - number (string): Number
+        Args:
+            networkId: Network ID.
+            number: Number.
 
         """
         metadata = {
@@ -2521,18 +2939,20 @@ class AsyncWireless:
         return self._session.get(metadata, resource)
 
     def create_network_wireless_ssid_identity_psk(
-        self, networkId: str, number: str, name: str, groupPolicyId: str, **kwargs
-    ):
+        self, networkId: str, number: str, name: str, groupPolicyId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Create an Identity PSK.
 
         https://developer.cisco.com/meraki/api-v1/#!create-network-wireless-ssid-identity-psk
 
-        - networkId (string): Network ID
-        - number (string): Number
-        - name (string): The name of the Identity PSK
-        - groupPolicyId (string): The group policy to be applied to clients
-        - passphrase (string): The passphrase for client authentication. If left blank, one will be auto-generated.
-        - expiresAt (string): Timestamp for when the Identity PSK expires. Will not expire if left blank.
+        Args:
+            networkId: Network ID.
+            number: Number.
+            name: The name of the Identity PSK.
+            groupPolicyId: The group policy to be applied to clients.
+            passphrase: The passphrase for client authentication. If left blank, one will be auto-
+              generated.
+            expiresAt: Timestamp for when the Identity PSK expires. Will not expire if left blank.
 
         """
         kwargs.update(locals())
@@ -2557,14 +2977,15 @@ class AsyncWireless:
 
     def get_network_wireless_ssid_identity_psk(
         self, networkId: str, number: str, identityPskId: str
-    ):
+    ) -> dict[str, Any] | None:
         """Return an Identity PSK.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-ssid-identity-psk
 
-        - networkId (string): Network ID
-        - number (string): Number
-        - identityPskId (string): Identity psk ID
+        Args:
+            networkId: Network ID.
+            number: Number.
+            identityPskId: Identity psk ID.
 
         """
         metadata = {
@@ -2579,19 +3000,20 @@ class AsyncWireless:
         return self._session.get(metadata, resource)
 
     def update_network_wireless_ssid_identity_psk(
-        self, networkId: str, number: str, identityPskId: str, **kwargs
-    ):
+        self, networkId: str, number: str, identityPskId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Update an Identity PSK.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-identity-psk
 
-        - networkId (string): Network ID
-        - number (string): Number
-        - identityPskId (string): Identity psk ID
-        - name (string): The name of the Identity PSK
-        - passphrase (string): The passphrase for client authentication
-        - groupPolicyId (string): The group policy to be applied to clients
-        - expiresAt (string): Timestamp for when the Identity PSK expires, or 'null' to never expire
+        Args:
+            networkId: Network ID.
+            number: Number.
+            identityPskId: Identity psk ID.
+            name: The name of the Identity PSK.
+            passphrase: The passphrase for client authentication.
+            groupPolicyId: The group policy to be applied to clients.
+            expiresAt: Timestamp for when the Identity PSK expires, or 'null' to never expire.
 
         """
         kwargs.update(locals())
@@ -2617,14 +3039,15 @@ class AsyncWireless:
 
     def delete_network_wireless_ssid_identity_psk(
         self, networkId: str, number: str, identityPskId: str
-    ):
+    ) -> None:
         """Delete an Identity PSK.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-network-wireless-ssid-identity-psk
 
-        - networkId (string): Network ID
-        - number (string): Number
-        - identityPskId (string): Identity psk ID
+        Args:
+            networkId: Network ID.
+            number: Number.
+            identityPskId: Identity psk ID.
 
         """
         metadata = {
@@ -2638,15 +3061,18 @@ class AsyncWireless:
 
         return self._session.delete(metadata, resource)
 
-    def update_network_wireless_ssid_open_roaming(self, networkId: str, number: str, **kwargs):
+    def update_network_wireless_ssid_open_roaming(
+        self, networkId: str, number: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Update the OpenRoaming setting for the SSID.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-open-roaming
 
-        - networkId (string): Network ID
-        - number (string): Number
-        - enabled (boolean): If true, OpenRoaming is enabled on this SSID.
-        - tenantId (string): The OpenRoaming DNA Spaces tenant ID.
+        Args:
+            networkId: Network ID.
+            number: Number.
+            enabled: If true, OpenRoaming is enabled on this SSID.
+            tenantId: The OpenRoaming DNA Spaces tenant ID.
 
         """
         kwargs.update(locals())
@@ -2667,13 +3093,16 @@ class AsyncWireless:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_network_wireless_ssid_schedules(self, networkId: str, number: str):
+    def get_network_wireless_ssid_schedules(
+        self, networkId: str, number: str
+    ) -> dict[str, Any] | None:
         """List the outage schedule for the SSID.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-ssid-schedules
 
-        - networkId (string): Network ID
-        - number (string): Number
+        Args:
+            networkId: Network ID.
+            number: Number.
 
         """
         metadata = {
@@ -2686,16 +3115,23 @@ class AsyncWireless:
 
         return self._session.get(metadata, resource)
 
-    def update_network_wireless_ssid_schedules(self, networkId: str, number: str, **kwargs):
+    def update_network_wireless_ssid_schedules(
+        self, networkId: str, number: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Update the outage schedule for the SSID.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-schedules
 
-        - networkId (string): Network ID
-        - number (string): Number
-        - enabled (boolean): If true, the SSID outage schedule is enabled.
-        - ranges (array): List of outage ranges. Has a start date and time, and end date and time. If this parameter is passed in along with rangesInSeconds parameter, this will take precedence.
-        - rangesInSeconds (array): List of outage ranges in seconds since Sunday at Midnight. Has a start and end. If this parameter is passed in along with the ranges parameter, ranges will take precedence.
+        Args:
+            networkId: Network ID.
+            number: Number.
+            enabled: If true, the SSID outage schedule is enabled.
+            ranges: List of outage ranges. Has a start date and time, and end date and time. If this
+              parameter is passed in along with rangesInSeconds parameter, this will
+              take precedence.
+            rangesInSeconds: List of outage ranges in seconds since Sunday at Midnight. Has a start
+              and end. If this parameter is passed in along with the ranges parameter,
+              ranges will take precedence.
 
         """
         kwargs.update(locals())
@@ -2717,13 +3153,16 @@ class AsyncWireless:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_network_wireless_ssid_splash_settings(self, networkId: str, number: str):
+    def get_network_wireless_ssid_splash_settings(
+        self, networkId: str, number: str
+    ) -> dict[str, Any] | None:
         """Display the splash page settings for the given SSID.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-ssid-splash-settings
 
-        - networkId (string): Network ID
-        - number (string): Number
+        Args:
+            networkId: Network ID.
+            number: Number.
 
         """
         metadata = {
@@ -2736,30 +3175,46 @@ class AsyncWireless:
 
         return self._session.get(metadata, resource)
 
-    def update_network_wireless_ssid_splash_settings(self, networkId: str, number: str, **kwargs):
+    def update_network_wireless_ssid_splash_settings(
+        self, networkId: str, number: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Modify the splash page settings for the given SSID.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-splash-settings
 
-        - networkId (string): Network ID
-        - number (string): Number
-        - splashUrl (string): [optional] The custom splash URL of the click-through splash page. Note that the URL can be configured without necessarily being used. In order to enable the custom URL, see 'useSplashUrl'
-        - useSplashUrl (boolean): [optional] Boolean indicating whether the users will be redirected to the custom splash url. A custom splash URL must be set if this is true. Note that depending on your SSID's access control settings, it may not be possible to use the custom splash URL.
-        - splashTimeout (integer): Splash timeout in minutes. This will determine how often users will see the splash page.
-        - redirectUrl (string): The custom redirect URL where the users will go after the splash page.
-        - useRedirectUrl (boolean): The Boolean indicating whether the the user will be redirected to the custom redirect URL after the splash page. A custom redirect URL must be set if this is true.
-        - welcomeMessage (string): The welcome message for the users on the splash page.
-        - themeId (string): The id of the selected splash theme.
-        - splashLogo (object): The logo used in the splash page.
-        - splashImage (object): The image used in the splash page.
-        - splashPrepaidFront (object): The prepaid front image used in the splash page.
-        - blockAllTrafficBeforeSignOn (boolean): How restricted allowing traffic should be. If true, all traffic types are blocked until the splash page is acknowledged. If false, all non-HTTP traffic is allowed before the splash page is acknowledged.
-        - controllerDisconnectionBehavior (string): How login attempts should be handled when the controller is unreachable. Can be either 'open', 'restricted', or 'default'.
-        - allowSimultaneousLogins (boolean): Whether or not to allow simultaneous logins from different devices.
-        - guestSponsorship (object): Details associated with guest sponsored splash.
-        - billing (object): Details associated with billing splash.
-        - sentryEnrollment (object): Systems Manager sentry enrollment splash settings.
-        - selfRegistration (object): Self-registration settings for splash with Meraki authentication.
+        Args:
+            networkId: Network ID.
+            number: Number.
+            splashUrl: [optional] The custom splash URL of the click-through splash page. Note that
+              the URL can be configured without necessarily being used. In order to
+              enable the custom URL, see 'useSplashUrl'.
+            useSplashUrl: [optional] Boolean indicating whether the users will be redirected to the
+              custom splash url. A custom splash URL must be set if this is true. Note
+              that depending on your SSID's access control settings, it may not be
+              possible to use the custom splash URL.
+            splashTimeout: Splash timeout in minutes. This will determine how often users will see
+              the splash page.
+            redirectUrl: The custom redirect URL where the users will go after the splash page.
+            useRedirectUrl: The Boolean indicating whether the the user will be redirected to the
+              custom redirect URL after the splash page. A custom redirect URL must be
+              set if this is true.
+            welcomeMessage: The welcome message for the users on the splash page.
+            themeId: The id of the selected splash theme.
+            splashLogo: The logo used in the splash page.
+            splashImage: The image used in the splash page.
+            splashPrepaidFront: The prepaid front image used in the splash page.
+            blockAllTrafficBeforeSignOn: How restricted allowing traffic should be. If true, all
+              traffic types are blocked until the splash page is acknowledged. If false,
+              all non-HTTP traffic is allowed before the splash page is acknowledged.
+            controllerDisconnectionBehavior: How login attempts should be handled when the
+              controller is unreachable. Can be either 'open', 'restricted', or
+              'default'.
+            allowSimultaneousLogins: Whether or not to allow simultaneous logins from different
+              devices.
+            guestSponsorship: Details associated with guest sponsored splash.
+            billing: Details associated with billing splash.
+            sentryEnrollment: Systems Manager sentry enrollment splash settings.
+            selfRegistration: Self-registration settings for splash with Meraki authentication.
 
         """
         kwargs.update(locals())
@@ -2824,20 +3279,24 @@ class AsyncWireless:
         return self._session.put(metadata, resource, payload)
 
     def update_network_wireless_ssid_traffic_shaping_rules(
-        self, networkId: str, number: str, **kwargs
-    ):
+        self, networkId: str, number: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Update the traffic shaping rules for an SSID on an MR network.
 
-            https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-traffic-shaping-rules
+        https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-traffic-shaping-rules
 
-            - networkId (string): Network ID
-            - number (string): Number
-            - trafficShapingEnabled (boolean): Whether traffic shaping rules are applied to clients on your SSID.
-            - defaultRulesEnabled (boolean): Whether default traffic shaping rules are enabled (true) or disabled (false). There are 4 default rules, which can be seen on your network's traffic shaping page. Note that default rules count against the rule limit of 8.
-            - rules (array):     An array of traffic shaping rules. Rules are applied in the order that
-        they are specified in. An empty list (or null) means no rules. Note that
-        you are allowed a maximum of 8 rules.
-
+        Args:
+            networkId: Network ID.
+            number: Number.
+            trafficShapingEnabled: Whether traffic shaping rules are applied to clients on your
+              SSID.
+            defaultRulesEnabled: Whether default traffic shaping rules are enabled (true) or
+              disabled (false). There are 4 default rules, which can be seen on your
+              network's traffic shaping page. Note that default rules count against the
+              rule limit of 8.
+            rules:     An array of traffic shaping rules. Rules are applied in the order that
+              they are specified in. An empty list (or null) means no rules. Note that
+              you are allowed a maximum of 8 rules. .
 
         """
         kwargs.update(locals())
@@ -2859,13 +3318,16 @@ class AsyncWireless:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_network_wireless_ssid_traffic_shaping_rules(self, networkId: str, number: str):
+    def get_network_wireless_ssid_traffic_shaping_rules(
+        self, networkId: str, number: str
+    ) -> dict[str, Any] | None:
         """Display the traffic shaping settings for a SSID on an MR network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-ssid-traffic-shaping-rules
 
-        - networkId (string): Network ID
-        - number (string): Number
+        Args:
+            networkId: Network ID.
+            number: Number.
 
         """
         metadata = {
@@ -2878,13 +3340,14 @@ class AsyncWireless:
 
         return self._session.get(metadata, resource)
 
-    def get_network_wireless_ssid_vpn(self, networkId: str, number: str):
+    def get_network_wireless_ssid_vpn(self, networkId: str, number: str) -> dict[str, Any] | None:
         """List the VPN settings for the SSID.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-ssid-vpn
 
-        - networkId (string): Network ID
-        - number (string): Number
+        Args:
+            networkId: Network ID.
+            number: Number.
 
         """
         metadata = {
@@ -2897,16 +3360,20 @@ class AsyncWireless:
 
         return self._session.get(metadata, resource)
 
-    def update_network_wireless_ssid_vpn(self, networkId: str, number: str, **kwargs):
+    def update_network_wireless_ssid_vpn(
+        self, networkId: str, number: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Update the VPN settings for the SSID.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-vpn
 
-        - networkId (string): Network ID
-        - number (string): Number
-        - concentrator (object): The VPN concentrator settings for this SSID.
-        - splitTunnel (object): The VPN split tunnel settings for this SSID.
-        - failover (object): Secondary VPN concentrator settings. This is only used when two VPN concentrators are configured on the SSID.
+        Args:
+            networkId: Network ID.
+            number: Number.
+            concentrator: The VPN concentrator settings for this SSID.
+            splitTunnel: The VPN split tunnel settings for this SSID.
+            failover: Secondary VPN concentrator settings. This is only used when two VPN
+              concentrators are configured on the SSID.
 
         """
         kwargs.update(locals())
@@ -2928,22 +3395,33 @@ class AsyncWireless:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_network_wireless_usage_history(self, networkId: str, **kwargs):
+    def get_network_wireless_usage_history(
+        self, networkId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Return AP usage over time for a device or network client.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-usage-history
 
-        - networkId (string): Network ID
-        - t0 (string): The beginning of the timespan for the data. The maximum lookback period is 31 days from today.
-        - t1 (string): The end of the timespan for the data. t1 can be a maximum of 31 days after t0.
-        - timespan (number): The timespan for which the information will be fetched. If specifying timespan, do not specify parameters t0 and t1. The value must be in seconds and be less than or equal to 31 days. The default is 7 days.
-        - resolution (integer): The time resolution in seconds for returned data. The valid resolutions are: 300, 600, 1200, 3600, 14400, 86400. The default is 86400.
-        - autoResolution (boolean): Automatically select a data resolution based on the given timespan; this overrides the value specified by the 'resolution' parameter. The default setting is false.
-        - clientId (string): Filter results by network client to return per-device AP usage over time inner joined by the queried client's connection history.
-        - deviceSerial (string): Filter results by device. Requires :band.
-        - apTag (string): Filter results by AP tag; either :clientId or :deviceSerial must be jointly specified.
-        - band (string): Filter results by band (either '2.4', '5' or '6').
-        - ssid (integer): Filter results by SSID number.
+        Args:
+            networkId: Network ID.
+            t0: The beginning of the timespan for the data. The maximum lookback period is 31 days
+              from today.
+            t1: The end of the timespan for the data. t1 can be a maximum of 31 days after t0.
+            timespan: The timespan for which the information will be fetched. If specifying
+              timespan, do not specify parameters t0 and t1. The value must be in
+              seconds and be less than or equal to 31 days. The default is 7 days.
+            resolution: The time resolution in seconds for returned data. The valid resolutions are:
+              300, 600, 1200, 3600, 14400, 86400. The default is 86400.
+            autoResolution: Automatically select a data resolution based on the given timespan; this
+              overrides the value specified by the 'resolution' parameter. The default
+              setting is false.
+            clientId: Filter results by network client to return per-device AP usage over time inner
+              joined by the queried client's connection history.
+            deviceSerial: Filter results by device. Requires :band.
+            apTag: Filter results by AP tag; either :clientId or :deviceSerial must be jointly
+              specified.
+            band: Filter results by band (either '2.4', '5' or '6').
+            ssid: Filter results by SSID number.
 
         """
         kwargs.update(locals())
@@ -2977,16 +3455,19 @@ class AsyncWireless:
 
         return self._session.get(metadata, resource, params)
 
-    def update_network_wireless_zigbee(self, networkId: str, **kwargs):
+    def update_network_wireless_zigbee(
+        self, networkId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Update Zigbee Configs for specified network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-zigbee
 
-        - networkId (string): Network ID
-        - enabled (boolean): To enable/disable Zigbee on the network
-        - iotController (object): Zigbee's IoT controller details
-        - lockManagement (object): Login Credentials of on-premises lock management
-        - defaults (object): Default Settings for Zigbee Devices
+        Args:
+            networkId: Network ID.
+            enabled: To enable/disable Zigbee on the network.
+            iotController: Zigbee's IoT controller details.
+            lockManagement: Login Credentials of on-premises lock management.
+            defaults: Default Settings for Zigbee Devices.
 
         """
         kwargs.update(locals())
@@ -3009,19 +3490,28 @@ class AsyncWireless:
         return self._session.put(metadata, resource, payload)
 
     def get_organization_wireless_air_marshal_rules(
-        self, organizationId: str, total_pages=1, direction="next", **kwargs
-    ):
+        self, organizationId: str, total_pages=1, direction="next", **kwargs: Any
+    ) -> Generator[Any, None, None]:
         """Returns the current Air Marshal rules for this organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-air-marshal-rules
 
-        - organizationId (string): Organization ID
-        - total_pages (integer or string): use with perPage to get total results up to total_pages*perPage; -1 or "all" for all pages
-        - direction (string): direction to paginate, either "next" (default) or "prev" page
-        - networkIds (array): (optional) The set of network IDs to include.
-        - perPage (integer): The number of entries per page returned. Acceptable range is 3 - 1000. Default is 1000.
-        - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
+        Args:
+            organizationId: Organization ID.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+            networkIds: (optional) The set of network IDs to include.
+            perPage: The number of entries per page returned. Acceptable range is 3 - 1000. Default
+              is 1000.
+            startingAfter: A token used by the server to indicate the start of the page. Often this
+              is a timestamp or an ID but it is not limited to those. This parameter
+              should not be defined by client applications. The link for the first,
+              last, prev, or next page in the HTTP Link header should define it.
+            endingBefore: A token used by the server to indicate the end of the page. Often this is
+              a timestamp or an ID but it is not limited to those. This parameter should
+              not be defined by client applications. The link for the first, last, prev,
+              or next page in the HTTP Link header should define it.
 
         """
         kwargs.update(locals())
@@ -3052,19 +3542,28 @@ class AsyncWireless:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def get_organization_wireless_air_marshal_settings_by_network(
-        self, organizationId: str, total_pages=1, direction="next", **kwargs
-    ):
+        self, organizationId: str, total_pages=1, direction="next", **kwargs: Any
+    ) -> Generator[Any, None, None]:
         """Returns the current Air Marshal settings for this network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-air-marshal-settings-by-network
 
-        - organizationId (string): Organization ID
-        - total_pages (integer or string): use with perPage to get total results up to total_pages*perPage; -1 or "all" for all pages
-        - direction (string): direction to paginate, either "next" (default) or "prev" page
-        - networkIds (array): The network IDs to include in the result set.
-        - perPage (integer): The number of entries per page returned. Acceptable range is 3 - 1000. Default is 1000.
-        - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
+        Args:
+            organizationId: Organization ID.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+            networkIds: The network IDs to include in the result set.
+            perPage: The number of entries per page returned. Acceptable range is 3 - 1000. Default
+              is 1000.
+            startingAfter: A token used by the server to indicate the start of the page. Often this
+              is a timestamp or an ID but it is not limited to those. This parameter
+              should not be defined by client applications. The link for the first,
+              last, prev, or next page in the HTTP Link header should define it.
+            endingBefore: A token used by the server to indicate the end of the page. Often this is
+              a timestamp or an ID but it is not limited to those. This parameter should
+              not be defined by client applications. The link for the first, last, prev,
+              or next page in the HTTP Link header should define it.
 
         """
         kwargs.update(locals())
@@ -3095,21 +3594,33 @@ class AsyncWireless:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def get_organization_wireless_clients_overview_by_device(
-        self, organizationId: str, total_pages=1, direction="next", **kwargs
-    ):
+        self, organizationId: str, total_pages=1, direction="next", **kwargs: Any
+    ) -> Generator[Any, None, None]:
         """List access point client count at the moment in an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-clients-overview-by-device
 
-        - organizationId (string): Organization ID
-        - total_pages (integer or string): use with perPage to get total results up to total_pages*perPage; -1 or "all" for all pages
-        - direction (string): direction to paginate, either "next" (default) or "prev" page
-        - networkIds (array): Optional parameter to filter access points client counts by network ID. This filter uses multiple exact matches.
-        - serials (array): Optional parameter to filter access points client counts by its serial numbers. This filter uses multiple exact matches.
-        - campusGatewayClusterIds (array): Optional parameter to filter access points client counts by MCG cluster IDs. This filter uses multiple exact matches.
-        - perPage (integer): The number of entries per page returned. Acceptable range is 3 - 1000. Default is 1000.
-        - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
+        Args:
+            organizationId: Organization ID.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+            networkIds: Optional parameter to filter access points client counts by network ID. This
+              filter uses multiple exact matches.
+            serials: Optional parameter to filter access points client counts by its serial numbers.
+              This filter uses multiple exact matches.
+            campusGatewayClusterIds: Optional parameter to filter access points client counts by MCG
+              cluster IDs. This filter uses multiple exact matches.
+            perPage: The number of entries per page returned. Acceptable range is 3 - 1000. Default
+              is 1000.
+            startingAfter: A token used by the server to indicate the start of the page. Often this
+              is a timestamp or an ID but it is not limited to those. This parameter
+              should not be defined by client applications. The link for the first,
+              last, prev, or next page in the HTTP Link header should define it.
+            endingBefore: A token used by the server to indicate the end of the page. Often this is
+              a timestamp or an ID but it is not limited to those. This parameter should
+              not be defined by client applications. The link for the first, last, prev,
+              or next page in the HTTP Link header should define it.
 
         """
         kwargs.update(locals())
@@ -3144,24 +3655,37 @@ class AsyncWireless:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def get_organization_wireless_devices_channel_utilization_by_device(
-        self, organizationId: str, total_pages=1, direction="next", **kwargs
-    ):
+        self, organizationId: str, total_pages=1, direction="next", **kwargs: Any
+    ) -> Generator[Any, None, None]:
         """Get average channel utilization for all bands in a network, split by AP.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-devices-channel-utilization-by-device
 
-        - organizationId (string): Organization ID
-        - total_pages (integer or string): use with perPage to get total results up to total_pages*perPage; -1 or "all" for all pages
-        - direction (string): direction to paginate, either "next" (default) or "prev" page
-        - networkIds (array): Filter results by network.
-        - serials (array): Filter results by device.
-        - perPage (integer): The number of entries per page returned. Acceptable range is 3 - 1000. Default is 1000.
-        - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - t0 (string): The beginning of the timespan for the data. The maximum lookback period is 90 days from today.
-        - t1 (string): The end of the timespan for the data. t1 can be a maximum of 90 days after t0.
-        - timespan (number): The timespan for which the information will be fetched. If specifying timespan, do not specify parameters t0 and t1. The value must be in seconds and be less than or equal to 90 days. The default is 7 days.
-        - interval (integer): The time interval in seconds for returned data. The valid intervals are: 300, 600, 3600, 7200, 14400, 21600. The default is 3600.
+        Args:
+            organizationId: Organization ID.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+            networkIds: Filter results by network.
+            serials: Filter results by device.
+            perPage: The number of entries per page returned. Acceptable range is 3 - 1000. Default
+              is 1000.
+            startingAfter: A token used by the server to indicate the start of the page. Often this
+              is a timestamp or an ID but it is not limited to those. This parameter
+              should not be defined by client applications. The link for the first,
+              last, prev, or next page in the HTTP Link header should define it.
+            endingBefore: A token used by the server to indicate the end of the page. Often this is
+              a timestamp or an ID but it is not limited to those. This parameter should
+              not be defined by client applications. The link for the first, last, prev,
+              or next page in the HTTP Link header should define it.
+            t0: The beginning of the timespan for the data. The maximum lookback period is 90 days
+              from today.
+            t1: The end of the timespan for the data. t1 can be a maximum of 90 days after t0.
+            timespan: The timespan for which the information will be fetched. If specifying
+              timespan, do not specify parameters t0 and t1. The value must be in
+              seconds and be less than or equal to 90 days. The default is 7 days.
+            interval: The time interval in seconds for returned data. The valid intervals are: 300,
+              600, 3600, 7200, 14400, 21600. The default is 3600.
 
         """
         kwargs.update(locals())
@@ -3198,24 +3722,37 @@ class AsyncWireless:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def get_organization_wireless_devices_channel_utilization_by_network(
-        self, organizationId: str, total_pages=1, direction="next", **kwargs
-    ):
+        self, organizationId: str, total_pages=1, direction="next", **kwargs: Any
+    ) -> Generator[Any, None, None]:
         """Get average channel utilization across all bands for all networks in the organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-devices-channel-utilization-by-network
 
-        - organizationId (string): Organization ID
-        - total_pages (integer or string): use with perPage to get total results up to total_pages*perPage; -1 or "all" for all pages
-        - direction (string): direction to paginate, either "next" (default) or "prev" page
-        - networkIds (array): Filter results by network.
-        - serials (array): Filter results by device.
-        - perPage (integer): The number of entries per page returned. Acceptable range is 3 - 1000. Default is 1000.
-        - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - t0 (string): The beginning of the timespan for the data. The maximum lookback period is 90 days from today.
-        - t1 (string): The end of the timespan for the data. t1 can be a maximum of 90 days after t0.
-        - timespan (number): The timespan for which the information will be fetched. If specifying timespan, do not specify parameters t0 and t1. The value must be in seconds and be less than or equal to 90 days. The default is 7 days.
-        - interval (integer): The time interval in seconds for returned data. The valid intervals are: 300, 600, 3600, 7200, 14400, 21600. The default is 3600.
+        Args:
+            organizationId: Organization ID.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+            networkIds: Filter results by network.
+            serials: Filter results by device.
+            perPage: The number of entries per page returned. Acceptable range is 3 - 1000. Default
+              is 1000.
+            startingAfter: A token used by the server to indicate the start of the page. Often this
+              is a timestamp or an ID but it is not limited to those. This parameter
+              should not be defined by client applications. The link for the first,
+              last, prev, or next page in the HTTP Link header should define it.
+            endingBefore: A token used by the server to indicate the end of the page. Often this is
+              a timestamp or an ID but it is not limited to those. This parameter should
+              not be defined by client applications. The link for the first, last, prev,
+              or next page in the HTTP Link header should define it.
+            t0: The beginning of the timespan for the data. The maximum lookback period is 90 days
+              from today.
+            t1: The end of the timespan for the data. t1 can be a maximum of 90 days after t0.
+            timespan: The timespan for which the information will be fetched. If specifying
+              timespan, do not specify parameters t0 and t1. The value must be in
+              seconds and be less than or equal to 90 days. The default is 7 days.
+            interval: The time interval in seconds for returned data. The valid intervals are: 300,
+              600, 3600, 7200, 14400, 21600. The default is 3600.
 
         """
         kwargs.update(locals())
@@ -3252,24 +3789,37 @@ class AsyncWireless:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def get_organization_wireless_devices_channel_utilization_history_by_device_by_interval(
-        self, organizationId: str, total_pages=1, direction="next", **kwargs
-    ):
+        self, organizationId: str, total_pages=1, direction="next", **kwargs: Any
+    ) -> Generator[Any, None, None]:
         """Get a time-series of average channel utilization for all bands, segmented by device.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-devices-channel-utilization-history-by-device-by-interval
 
-        - organizationId (string): Organization ID
-        - total_pages (integer or string): use with perPage to get total results up to total_pages*perPage; -1 or "all" for all pages
-        - direction (string): direction to paginate, either "next" (default) or "prev" page
-        - networkIds (array): Filter results by network.
-        - serials (array): Filter results by device.
-        - perPage (integer): The number of entries per page returned. Acceptable range is 3 - 1000. Default is 1000.
-        - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - t0 (string): The beginning of the timespan for the data. The maximum lookback period is 31 days from today.
-        - t1 (string): The end of the timespan for the data. t1 can be a maximum of 31 days after t0.
-        - timespan (number): The timespan for which the information will be fetched. If specifying timespan, do not specify parameters t0 and t1. The value must be in seconds and be less than or equal to 31 days. The default is 7 days.
-        - interval (integer): The time interval in seconds for returned data. The valid intervals are: 300, 600, 3600, 7200, 14400, 21600. The default is 3600.
+        Args:
+            organizationId: Organization ID.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+            networkIds: Filter results by network.
+            serials: Filter results by device.
+            perPage: The number of entries per page returned. Acceptable range is 3 - 1000. Default
+              is 1000.
+            startingAfter: A token used by the server to indicate the start of the page. Often this
+              is a timestamp or an ID but it is not limited to those. This parameter
+              should not be defined by client applications. The link for the first,
+              last, prev, or next page in the HTTP Link header should define it.
+            endingBefore: A token used by the server to indicate the end of the page. Often this is
+              a timestamp or an ID but it is not limited to those. This parameter should
+              not be defined by client applications. The link for the first, last, prev,
+              or next page in the HTTP Link header should define it.
+            t0: The beginning of the timespan for the data. The maximum lookback period is 31 days
+              from today.
+            t1: The end of the timespan for the data. t1 can be a maximum of 31 days after t0.
+            timespan: The timespan for which the information will be fetched. If specifying
+              timespan, do not specify parameters t0 and t1. The value must be in
+              seconds and be less than or equal to 31 days. The default is 7 days.
+            interval: The time interval in seconds for returned data. The valid intervals are: 300,
+              600, 3600, 7200, 14400, 21600. The default is 3600.
 
         """
         kwargs.update(locals())
@@ -3314,24 +3864,37 @@ class AsyncWireless:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def get_organization_wireless_devices_channel_utilization_history_by_network_by_interval(
-        self, organizationId: str, total_pages=1, direction="next", **kwargs
-    ):
+        self, organizationId: str, total_pages=1, direction="next", **kwargs: Any
+    ) -> Generator[Any, None, None]:
         """Get a time-series of average channel utilization for all bands.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-devices-channel-utilization-history-by-network-by-interval
 
-        - organizationId (string): Organization ID
-        - total_pages (integer or string): use with perPage to get total results up to total_pages*perPage; -1 or "all" for all pages
-        - direction (string): direction to paginate, either "next" (default) or "prev" page
-        - networkIds (array): Filter results by network.
-        - serials (array): Filter results by device.
-        - perPage (integer): The number of entries per page returned. Acceptable range is 3 - 1000. Default is 1000.
-        - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - t0 (string): The beginning of the timespan for the data. The maximum lookback period is 31 days from today.
-        - t1 (string): The end of the timespan for the data. t1 can be a maximum of 31 days after t0.
-        - timespan (number): The timespan for which the information will be fetched. If specifying timespan, do not specify parameters t0 and t1. The value must be in seconds and be less than or equal to 31 days. The default is 7 days.
-        - interval (integer): The time interval in seconds for returned data. The valid intervals are: 300, 600, 3600, 7200, 14400, 21600. The default is 3600.
+        Args:
+            organizationId: Organization ID.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+            networkIds: Filter results by network.
+            serials: Filter results by device.
+            perPage: The number of entries per page returned. Acceptable range is 3 - 1000. Default
+              is 1000.
+            startingAfter: A token used by the server to indicate the start of the page. Often this
+              is a timestamp or an ID but it is not limited to those. This parameter
+              should not be defined by client applications. The link for the first,
+              last, prev, or next page in the HTTP Link header should define it.
+            endingBefore: A token used by the server to indicate the end of the page. Often this is
+              a timestamp or an ID but it is not limited to those. This parameter should
+              not be defined by client applications. The link for the first, last, prev,
+              or next page in the HTTP Link header should define it.
+            t0: The beginning of the timespan for the data. The maximum lookback period is 31 days
+              from today.
+            t1: The end of the timespan for the data. t1 can be a maximum of 31 days after t0.
+            timespan: The timespan for which the information will be fetched. If specifying
+              timespan, do not specify parameters t0 and t1. The value must be in
+              seconds and be less than or equal to 31 days. The default is 7 days.
+            interval: The time interval in seconds for returned data. The valid intervals are: 300,
+              600, 3600, 7200, 14400, 21600. The default is 3600.
 
         """
         kwargs.update(locals())
@@ -3376,19 +3939,29 @@ class AsyncWireless:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def get_organization_wireless_devices_ethernet_statuses(
-        self, organizationId: str, total_pages=1, direction="next", **kwargs
-    ):
+        self, organizationId: str, total_pages=1, direction="next", **kwargs: Any
+    ) -> Generator[Any, None, None]:
         """List the most recent Ethernet link speed, duplex, aggregation and power mode and status information for wireless devices.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-devices-ethernet-statuses
 
-        - organizationId (string): Organization ID
-        - total_pages (integer or string): use with perPage to get total results up to total_pages*perPage; -1 or "all" for all pages
-        - direction (string): direction to paginate, either "next" (default) or "prev" page
-        - perPage (integer): The number of entries per page returned. Acceptable range is 3 - 1000. Default is 100.
-        - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - networkIds (array): A list of Meraki network IDs to filter results to contain only specified networks. E.g.: networkIds[]=N_12345678&networkIds[]=L_3456
+        Args:
+            organizationId: Organization ID.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+            perPage: The number of entries per page returned. Acceptable range is 3 - 1000. Default
+              is 100.
+            startingAfter: A token used by the server to indicate the start of the page. Often this
+              is a timestamp or an ID but it is not limited to those. This parameter
+              should not be defined by client applications. The link for the first,
+              last, prev, or next page in the HTTP Link header should define it.
+            endingBefore: A token used by the server to indicate the end of the page. Often this is
+              a timestamp or an ID but it is not limited to those. This parameter should
+              not be defined by client applications. The link for the first, last, prev,
+              or next page in the HTTP Link header should define it.
+            networkIds: A list of Meraki network IDs to filter results to contain only specified
+              networks. E.g.: networkIds[]=N_12345678&networkIds[]=L_3456.
 
         """
         kwargs.update(locals())
@@ -3419,25 +3992,38 @@ class AsyncWireless:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def get_organization_wireless_devices_packet_loss_by_client(
-        self, organizationId: str, total_pages=1, direction="next", **kwargs
-    ):
+        self, organizationId: str, total_pages=1, direction="next", **kwargs: Any
+    ) -> Generator[Any, None, None]:
         """Get average packet loss for the given timespan for all clients in the organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-devices-packet-loss-by-client
 
-        - organizationId (string): Organization ID
-        - total_pages (integer or string): use with perPage to get total results up to total_pages*perPage; -1 or "all" for all pages
-        - direction (string): direction to paginate, either "next" (default) or "prev" page
-        - networkIds (array): Filter results by network.
-        - ssids (array): Filter results by SSID number.
-        - bands (array): Filter results by band. Valid bands are: 2.4, 5, and 6.
-        - macs (array): Filter results by client mac address(es).
-        - perPage (integer): The number of entries per page returned. Acceptable range is 3 - 1000. Default is 1000.
-        - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - t0 (string): The beginning of the timespan for the data. The maximum lookback period is 90 days from today.
-        - t1 (string): The end of the timespan for the data. t1 can be a maximum of 90 days after t0.
-        - timespan (number): The timespan for which the information will be fetched. If specifying timespan, do not specify parameters t0 and t1. The value must be in seconds and be greater than or equal to 5 minutes and be less than or equal to 90 days. The default is 7 days.
+        Args:
+            organizationId: Organization ID.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+            networkIds: Filter results by network.
+            ssids: Filter results by SSID number.
+            bands: Filter results by band. Valid bands are: 2.4, 5, and 6.
+            macs: Filter results by client mac address(es).
+            perPage: The number of entries per page returned. Acceptable range is 3 - 1000. Default
+              is 1000.
+            startingAfter: A token used by the server to indicate the start of the page. Often this
+              is a timestamp or an ID but it is not limited to those. This parameter
+              should not be defined by client applications. The link for the first,
+              last, prev, or next page in the HTTP Link header should define it.
+            endingBefore: A token used by the server to indicate the end of the page. Often this is
+              a timestamp or an ID but it is not limited to those. This parameter should
+              not be defined by client applications. The link for the first, last, prev,
+              or next page in the HTTP Link header should define it.
+            t0: The beginning of the timespan for the data. The maximum lookback period is 90 days
+              from today.
+            t1: The end of the timespan for the data. t1 can be a maximum of 90 days after t0.
+            timespan: The timespan for which the information will be fetched. If specifying
+              timespan, do not specify parameters t0 and t1. The value must be in
+              seconds and be greater than or equal to 5 minutes and be less than or
+              equal to 90 days. The default is 7 days.
 
         """
         kwargs.update(locals())
@@ -3477,25 +4063,38 @@ class AsyncWireless:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def get_organization_wireless_devices_packet_loss_by_device(
-        self, organizationId: str, total_pages=1, direction="next", **kwargs
-    ):
+        self, organizationId: str, total_pages=1, direction="next", **kwargs: Any
+    ) -> Generator[Any, None, None]:
         """Get average packet loss for the given timespan for all devices in the organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-devices-packet-loss-by-device
 
-        - organizationId (string): Organization ID
-        - total_pages (integer or string): use with perPage to get total results up to total_pages*perPage; -1 or "all" for all pages
-        - direction (string): direction to paginate, either "next" (default) or "prev" page
-        - networkIds (array): Filter results by network.
-        - serials (array): Filter results by device.
-        - ssids (array): Filter results by SSID number.
-        - bands (array): Filter results by band. Valid bands are: 2.4, 5, and 6.
-        - perPage (integer): The number of entries per page returned. Acceptable range is 3 - 1000. Default is 1000.
-        - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - t0 (string): The beginning of the timespan for the data. The maximum lookback period is 90 days from today.
-        - t1 (string): The end of the timespan for the data. t1 can be a maximum of 90 days after t0.
-        - timespan (number): The timespan for which the information will be fetched. If specifying timespan, do not specify parameters t0 and t1. The value must be in seconds and be greater than or equal to 5 minutes and be less than or equal to 90 days. The default is 7 days.
+        Args:
+            organizationId: Organization ID.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+            networkIds: Filter results by network.
+            serials: Filter results by device.
+            ssids: Filter results by SSID number.
+            bands: Filter results by band. Valid bands are: 2.4, 5, and 6.
+            perPage: The number of entries per page returned. Acceptable range is 3 - 1000. Default
+              is 1000.
+            startingAfter: A token used by the server to indicate the start of the page. Often this
+              is a timestamp or an ID but it is not limited to those. This parameter
+              should not be defined by client applications. The link for the first,
+              last, prev, or next page in the HTTP Link header should define it.
+            endingBefore: A token used by the server to indicate the end of the page. Often this is
+              a timestamp or an ID but it is not limited to those. This parameter should
+              not be defined by client applications. The link for the first, last, prev,
+              or next page in the HTTP Link header should define it.
+            t0: The beginning of the timespan for the data. The maximum lookback period is 90 days
+              from today.
+            t1: The end of the timespan for the data. t1 can be a maximum of 90 days after t0.
+            timespan: The timespan for which the information will be fetched. If specifying
+              timespan, do not specify parameters t0 and t1. The value must be in
+              seconds and be greater than or equal to 5 minutes and be less than or
+              equal to 90 days. The default is 7 days.
 
         """
         kwargs.update(locals())
@@ -3535,25 +4134,38 @@ class AsyncWireless:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def get_organization_wireless_devices_packet_loss_by_network(
-        self, organizationId: str, total_pages=1, direction="next", **kwargs
-    ):
+        self, organizationId: str, total_pages=1, direction="next", **kwargs: Any
+    ) -> Generator[Any, None, None]:
         """Get average packet loss for the given timespan for all networks in the organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-devices-packet-loss-by-network
 
-        - organizationId (string): Organization ID
-        - total_pages (integer or string): use with perPage to get total results up to total_pages*perPage; -1 or "all" for all pages
-        - direction (string): direction to paginate, either "next" (default) or "prev" page
-        - networkIds (array): Filter results by network.
-        - serials (array): Filter results by device.
-        - ssids (array): Filter results by SSID number.
-        - bands (array): Filter results by band. Valid bands are: 2.4, 5, and 6.
-        - perPage (integer): The number of entries per page returned. Acceptable range is 3 - 1000. Default is 1000.
-        - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - t0 (string): The beginning of the timespan for the data. The maximum lookback period is 90 days from today.
-        - t1 (string): The end of the timespan for the data. t1 can be a maximum of 90 days after t0.
-        - timespan (number): The timespan for which the information will be fetched. If specifying timespan, do not specify parameters t0 and t1. The value must be in seconds and be greater than or equal to 5 minutes and be less than or equal to 90 days. The default is 7 days.
+        Args:
+            organizationId: Organization ID.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+            networkIds: Filter results by network.
+            serials: Filter results by device.
+            ssids: Filter results by SSID number.
+            bands: Filter results by band. Valid bands are: 2.4, 5, and 6.
+            perPage: The number of entries per page returned. Acceptable range is 3 - 1000. Default
+              is 1000.
+            startingAfter: A token used by the server to indicate the start of the page. Often this
+              is a timestamp or an ID but it is not limited to those. This parameter
+              should not be defined by client applications. The link for the first,
+              last, prev, or next page in the HTTP Link header should define it.
+            endingBefore: A token used by the server to indicate the end of the page. Often this is
+              a timestamp or an ID but it is not limited to those. This parameter should
+              not be defined by client applications. The link for the first, last, prev,
+              or next page in the HTTP Link header should define it.
+            t0: The beginning of the timespan for the data. The maximum lookback period is 90 days
+              from today.
+            t1: The end of the timespan for the data. t1 can be a maximum of 90 days after t0.
+            timespan: The timespan for which the information will be fetched. If specifying
+              timespan, do not specify parameters t0 and t1. The value must be in
+              seconds and be greater than or equal to 5 minutes and be less than or
+              equal to 90 days. The default is 7 days.
 
         """
         kwargs.update(locals())
@@ -3593,23 +4205,37 @@ class AsyncWireless:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def get_organization_wireless_devices_power_mode_history(
-        self, organizationId: str, total_pages=1, direction="next", **kwargs
-    ):
+        self, organizationId: str, total_pages=1, direction="next", **kwargs: Any
+    ) -> Generator[Any, None, None]:
         """Return a record of power mode changes for wireless devices in the organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-devices-power-mode-history
 
-        - organizationId (string): Organization ID
-        - total_pages (integer or string): use with perPage to get total results up to total_pages*perPage; -1 or "all" for all pages
-        - direction (string): direction to paginate, either "next" (default) or "prev" page
-        - t0 (string): The beginning of the timespan for the data. The maximum lookback period is 1 day from today.
-        - t1 (string): The end of the timespan for the data. t1 can be a maximum of 1 day after t0.
-        - timespan (number): The timespan for which the information will be fetched. If specifying timespan, do not specify parameters t0 and t1. The value must be in seconds and be less than or equal to 1 day. The default is 1 day.
-        - perPage (integer): The number of entries per page returned. Acceptable range is 3 - 20. Default is 10.
-        - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - networkIds (array): Optional parameter to filter the result set by the included set of network IDs
-        - serials (array): Optional parameter to filter device availabilities history by device serial numbers
+        Args:
+            organizationId: Organization ID.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+            t0: The beginning of the timespan for the data. The maximum lookback period is 1 day
+              from today.
+            t1: The end of the timespan for the data. t1 can be a maximum of 1 day after t0.
+            timespan: The timespan for which the information will be fetched. If specifying
+              timespan, do not specify parameters t0 and t1. The value must be in
+              seconds and be less than or equal to 1 day. The default is 1 day.
+            perPage: The number of entries per page returned. Acceptable range is 3 - 20. Default is
+              10.
+            startingAfter: A token used by the server to indicate the start of the page. Often this
+              is a timestamp or an ID but it is not limited to those. This parameter
+              should not be defined by client applications. The link for the first,
+              last, prev, or next page in the HTTP Link header should define it.
+            endingBefore: A token used by the server to indicate the end of the page. Often this is
+              a timestamp or an ID but it is not limited to those. This parameter should
+              not be defined by client applications. The link for the first, last, prev,
+              or next page in the HTTP Link header should define it.
+            networkIds: Optional parameter to filter the result set by the included set of network
+              IDs.
+            serials: Optional parameter to filter device availabilities history by device serial
+              numbers.
 
         """
         kwargs.update(locals())
@@ -3645,14 +4271,16 @@ class AsyncWireless:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def get_organization_wireless_devices_radsec_certificates_authorities(
-        self, organizationId: str, **kwargs
-    ):
+        self, organizationId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Query for details on the organization's RADSEC device Certificate Authority certificates (CAs).
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-devices-radsec-certificates-authorities
 
-        - organizationId (string): Organization ID
-        - certificateAuthorityIds (array): Optional parameter to filter CAs by one or more CA IDs. All returned CAs will have an ID that is an exact match.
+        Args:
+            organizationId: Organization ID.
+            certificateAuthorityIds: Optional parameter to filter CAs by one or more CA IDs. All
+              returned CAs will have an ID that is an exact match.
 
         """
         kwargs.update(locals())
@@ -3682,15 +4310,17 @@ class AsyncWireless:
         return self._session.get(metadata, resource, params)
 
     def update_organization_wireless_devices_radsec_certificates_authorities(
-        self, organizationId: str, **kwargs
-    ):
+        self, organizationId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Update an organization's RADSEC device Certificate Authority (CA) state.
 
         https://developer.cisco.com/meraki/api-v1/#!update-organization-wireless-devices-radsec-certificates-authorities
 
-        - organizationId (string): Organization ID
-        - status (string): The "status" to update the Certificate Authority to. Only valid option is "trusted".
-        - certificateAuthorityId (string): The ID of the Certificate Authority to update.
+        Args:
+            organizationId: Organization ID.
+            status: The "status" to update the Certificate Authority to. Only valid option is
+              "trusted".
+            certificateAuthorityId: The ID of the Certificate Authority to update.
 
         """
         kwargs.update(locals())
@@ -3714,12 +4344,13 @@ class AsyncWireless:
 
     def create_organization_wireless_devices_radsec_certificates_authority(
         self, organizationId: str
-    ):
+    ) -> dict[str, Any] | None:
         """Create an organization's RADSEC device Certificate Authority (CA).
 
         https://developer.cisco.com/meraki/api-v1/#!create-organization-wireless-devices-radsec-certificates-authority
 
-        - organizationId (string): Organization ID
+        Args:
+            organizationId: Organization ID.
 
         """
         metadata = {
@@ -3734,14 +4365,16 @@ class AsyncWireless:
         return self._session.post(metadata, resource)
 
     def get_organization_wireless_devices_radsec_certificates_authorities_crls(
-        self, organizationId: str, **kwargs
-    ):
+        self, organizationId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Query for certificate revocation list (CRL) for the organization's RADSEC device Certificate Authorities (CAs).
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-devices-radsec-certificates-authorities-crls
 
-        - organizationId (string): Organization ID
-        - certificateAuthorityIds (array): Optional parameter to filter CAs by one or more CA IDs. All returned CAs will have an ID that is an exact match.
+        Args:
+            organizationId: Organization ID.
+            certificateAuthorityIds: Optional parameter to filter CAs by one or more CA IDs. All
+              returned CAs will have an ID that is an exact match.
 
         """
         kwargs.update(locals())
@@ -3779,14 +4412,16 @@ class AsyncWireless:
         return self._session.get(metadata, resource, params)
 
     def get_organization_wireless_devices_radsec_certificates_authorities_crls_deltas(
-        self, organizationId: str, **kwargs
-    ):
+        self, organizationId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Query for all delta certificate revocation list (CRL) for the organization's RADSEC device Certificate Authority (CA) with the given id.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-devices-radsec-certificates-authorities-crls-deltas
 
-        - organizationId (string): Organization ID
-        - certificateAuthorityIds (array): Parameter to filter CAs by one or more CA IDs. All returned CAs will have an ID that is an exact match.
+        Args:
+            organizationId: Organization ID.
+            certificateAuthorityIds: Parameter to filter CAs by one or more CA IDs. All returned CAs
+              will have an ID that is an exact match.
 
         """
         kwargs.update(locals())
@@ -3823,23 +4458,37 @@ class AsyncWireless:
         return self._session.get(metadata, resource, params)
 
     def get_organization_wireless_devices_system_cpu_load_history(
-        self, organizationId: str, total_pages=1, direction="next", **kwargs
-    ):
+        self, organizationId: str, total_pages=1, direction="next", **kwargs: Any
+    ) -> Generator[Any, None, None]:
         """Return the CPU Load history for a list of wireless devices in the organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-devices-system-cpu-load-history
 
-        - organizationId (string): Organization ID
-        - total_pages (integer or string): use with perPage to get total results up to total_pages*perPage; -1 or "all" for all pages
-        - direction (string): direction to paginate, either "next" (default) or "prev" page
-        - t0 (string): The beginning of the timespan for the data. The maximum lookback period is 1 day from today.
-        - t1 (string): The end of the timespan for the data. t1 can be a maximum of 1 day after t0.
-        - timespan (number): The timespan for which the information will be fetched. If specifying timespan, do not specify parameters t0 and t1. The value must be in seconds and be less than or equal to 1 day. The default is 1 day.
-        - perPage (integer): The number of entries per page returned. Acceptable range is 3 - 20. Default is 10.
-        - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - networkIds (array): Optional parameter to filter the result set by the included set of network IDs
-        - serials (array): Optional parameter to filter device availabilities history by device serial numbers
+        Args:
+            organizationId: Organization ID.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+            t0: The beginning of the timespan for the data. The maximum lookback period is 1 day
+              from today.
+            t1: The end of the timespan for the data. t1 can be a maximum of 1 day after t0.
+            timespan: The timespan for which the information will be fetched. If specifying
+              timespan, do not specify parameters t0 and t1. The value must be in
+              seconds and be less than or equal to 1 day. The default is 1 day.
+            perPage: The number of entries per page returned. Acceptable range is 3 - 20. Default is
+              10.
+            startingAfter: A token used by the server to indicate the start of the page. Often this
+              is a timestamp or an ID but it is not limited to those. This parameter
+              should not be defined by client applications. The link for the first,
+              last, prev, or next page in the HTTP Link header should define it.
+            endingBefore: A token used by the server to indicate the end of the page. Often this is
+              a timestamp or an ID but it is not limited to those. This parameter should
+              not be defined by client applications. The link for the first, last, prev,
+              or next page in the HTTP Link header should define it.
+            networkIds: Optional parameter to filter the result set by the included set of network
+              IDs.
+            serials: Optional parameter to filter device availabilities history by device serial
+              numbers.
 
         """
         kwargs.update(locals())
@@ -3875,21 +4524,33 @@ class AsyncWireless:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def get_organization_wireless_devices_wireless_controllers_by_device(
-        self, organizationId: str, total_pages=1, direction="next", **kwargs
-    ):
+        self, organizationId: str, total_pages=1, direction="next", **kwargs: Any
+    ) -> Generator[Any, None, None]:
         """List of Catalyst access points information.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-devices-wireless-controllers-by-device
 
-        - organizationId (string): Organization ID
-        - total_pages (integer or string): use with perPage to get total results up to total_pages*perPage; -1 or "all" for all pages
-        - direction (string): direction to paginate, either "next" (default) or "prev" page
-        - networkIds (array): Optional parameter to filter access points by network ID. This filter uses multiple exact matches.
-        - serials (array): Optional parameter to filter access points by its cloud ID. This filter uses multiple exact matches.
-        - controllerSerials (array): Optional parameter to filter access points by its wireless LAN controller cloud ID. This filter uses multiple exact matches.
-        - perPage (integer): The number of entries per page returned. Acceptable range is 3 - 1000. Default is 100.
-        - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
+        Args:
+            organizationId: Organization ID.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+            networkIds: Optional parameter to filter access points by network ID. This filter uses
+              multiple exact matches.
+            serials: Optional parameter to filter access points by its cloud ID. This filter uses
+              multiple exact matches.
+            controllerSerials: Optional parameter to filter access points by its wireless LAN
+              controller cloud ID. This filter uses multiple exact matches.
+            perPage: The number of entries per page returned. Acceptable range is 3 - 1000. Default
+              is 100.
+            startingAfter: A token used by the server to indicate the start of the page. Often this
+              is a timestamp or an ID but it is not limited to those. This parameter
+              should not be defined by client applications. The link for the first,
+              last, prev, or next page in the HTTP Link header should define it.
+            endingBefore: A token used by the server to indicate the end of the page. Often this is
+              a timestamp or an ID but it is not limited to those. This parameter should
+              not be defined by client applications. The link for the first, last, prev,
+              or next page in the HTTP Link header should define it.
 
         """
         kwargs.update(locals())
@@ -3924,19 +4585,28 @@ class AsyncWireless:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def get_organization_wireless_location_scanning_by_network(
-        self, organizationId: str, total_pages=1, direction="next", **kwargs
-    ):
+        self, organizationId: str, total_pages=1, direction="next", **kwargs: Any
+    ) -> Generator[Any, None, None]:
         """Return scanning API settings.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-location-scanning-by-network
 
-        - organizationId (string): Organization ID
-        - total_pages (integer or string): use with perPage to get total results up to total_pages*perPage; -1 or "all" for all pages
-        - direction (string): direction to paginate, either "next" (default) or "prev" page
-        - perPage (integer): The number of entries per page returned. Acceptable range is 3 - 250. Default is 50.
-        - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - networkIds (array): Optional parameter to filter scanning settings by network ID.
+        Args:
+            organizationId: Organization ID.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+            perPage: The number of entries per page returned. Acceptable range is 3 - 250. Default
+              is 50.
+            startingAfter: A token used by the server to indicate the start of the page. Often this
+              is a timestamp or an ID but it is not limited to those. This parameter
+              should not be defined by client applications. The link for the first,
+              last, prev, or next page in the HTTP Link header should define it.
+            endingBefore: A token used by the server to indicate the end of the page. Often this is
+              a timestamp or an ID but it is not limited to those. This parameter should
+              not be defined by client applications. The link for the first, last, prev,
+              or next page in the HTTP Link header should define it.
+            networkIds: Optional parameter to filter scanning settings by network ID.
 
         """
         kwargs.update(locals())
@@ -3967,19 +4637,28 @@ class AsyncWireless:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def get_organization_wireless_location_scanning_receivers(
-        self, organizationId: str, total_pages=1, direction="next", **kwargs
-    ):
+        self, organizationId: str, total_pages=1, direction="next", **kwargs: Any
+    ) -> Generator[Any, None, None]:
         """Return scanning API receivers.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-location-scanning-receivers
 
-        - organizationId (string): Organization ID
-        - total_pages (integer or string): use with perPage to get total results up to total_pages*perPage; -1 or "all" for all pages
-        - direction (string): direction to paginate, either "next" (default) or "prev" page
-        - perPage (integer): The number of entries per page returned. Acceptable range is 3 - 250. Default is 50.
-        - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - networkIds (array): Optional parameter to filter scanning API receivers by network ID.
+        Args:
+            organizationId: Organization ID.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+            perPage: The number of entries per page returned. Acceptable range is 3 - 250. Default
+              is 50.
+            startingAfter: A token used by the server to indicate the start of the page. Often this
+              is a timestamp or an ID but it is not limited to those. This parameter
+              should not be defined by client applications. The link for the first,
+              last, prev, or next page in the HTTP Link header should define it.
+            endingBefore: A token used by the server to indicate the end of the page. Often this is
+              a timestamp or an ID but it is not limited to those. This parameter should
+              not be defined by client applications. The link for the first, last, prev,
+              or next page in the HTTP Link header should define it.
+            networkIds: Optional parameter to filter scanning API receivers by network ID.
 
         """
         kwargs.update(locals())
@@ -4017,17 +4696,18 @@ class AsyncWireless:
         version: str,
         radio: dict,
         sharedSecret: str,
-    ):
+    ) -> dict[str, Any] | None:
         """Add new receiver for scanning API.
 
         https://developer.cisco.com/meraki/api-v1/#!create-organization-wireless-location-scanning-receiver
 
-        - organizationId (string): Organization ID
-        - network (object): Add scanning API receiver for network
-        - url (string): Receiver Url
-        - version (string): Scanning API Version
-        - radio (object): Add scanning API Radio
-        - sharedSecret (string): Secret Value for Receiver
+        Args:
+            organizationId: Organization ID.
+            network: Add scanning API receiver for network.
+            url: Receiver Url.
+            version: Scanning API Version.
+            radio: Add scanning API Radio.
+            sharedSecret: Secret Value for Receiver.
 
         """
         kwargs = locals()
@@ -4051,17 +4731,18 @@ class AsyncWireless:
         return self._session.post(metadata, resource, payload)
 
     def update_organization_wireless_location_scanning_receiver(
-        self, organizationId: str, receiverId: str, **kwargs
-    ):
+        self, organizationId: str, receiverId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Change scanning API receiver settings.
 
         https://developer.cisco.com/meraki/api-v1/#!update-organization-wireless-location-scanning-receiver
 
-        - organizationId (string): Organization ID
-        - receiverId (string): Receiver ID
-        - url (string): Receiver Url
-        - version (string): Scanning API Version
-        - radio (object): Add scanning API Radio
+        Args:
+            organizationId: Organization ID.
+            receiverId: Receiver ID.
+            url: Receiver Url.
+            version: Scanning API Version.
+            radio: Add scanning API Radio.
 
         """
         kwargs.update(locals())
@@ -4087,13 +4768,14 @@ class AsyncWireless:
 
     def delete_organization_wireless_location_scanning_receiver(
         self, organizationId: str, receiverId: str
-    ):
+    ) -> None:
         """Delete a scanning API receiver.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-wireless-location-scanning-receiver
 
-        - organizationId (string): Organization ID
-        - receiverId (string): Receiver ID
+        Args:
+            organizationId: Organization ID.
+            receiverId: Receiver ID.
 
         """
         metadata = {
@@ -4109,19 +4791,28 @@ class AsyncWireless:
         return self._session.delete(metadata, resource)
 
     def get_organization_wireless_mqtt_settings(
-        self, organizationId: str, total_pages=1, direction="next", **kwargs
-    ):
+        self, organizationId: str, total_pages=1, direction="next", **kwargs: Any
+    ) -> Generator[Any, None, None]:
         """Return MQTT Settings for networks.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-mqtt-settings
 
-        - organizationId (string): Organization ID
-        - total_pages (integer or string): use with perPage to get total results up to total_pages*perPage; -1 or "all" for all pages
-        - direction (string): direction to paginate, either "next" (default) or "prev" page
-        - perPage (integer): The number of entries per page returned. Acceptable range is 3 - 250. Default is 50.
-        - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - networkIds (array): Optional parameter to filter mqtt settings by network ID.
+        Args:
+            organizationId: Organization ID.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+            perPage: The number of entries per page returned. Acceptable range is 3 - 250. Default
+              is 50.
+            startingAfter: A token used by the server to indicate the start of the page. Often this
+              is a timestamp or an ID but it is not limited to those. This parameter
+              should not be defined by client applications. The link for the first,
+              last, prev, or next page in the HTTP Link header should define it.
+            endingBefore: A token used by the server to indicate the end of the page. Often this is
+              a timestamp or an ID but it is not limited to those. This parameter should
+              not be defined by client applications. The link for the first, last, prev,
+              or next page in the HTTP Link header should define it.
+            networkIds: Optional parameter to filter mqtt settings by network ID.
 
         """
         kwargs.update(locals())
@@ -4152,17 +4843,18 @@ class AsyncWireless:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def update_organization_wireless_mqtt_settings(
-        self, organizationId: str, network: dict, mqtt: dict, **kwargs
-    ):
+        self, organizationId: str, network: dict, mqtt: dict, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Add new broker config for wireless MQTT.
 
         https://developer.cisco.com/meraki/api-v1/#!update-organization-wireless-mqtt-settings
 
-        - organizationId (string): Organization ID
-        - network (object): Add MQTT Settings for network
-        - mqtt (object): MQTT Settings for network
-        - ble (object): MQTT BLE Settings for network
-        - wifi (object): MQTT Wi-Fi Settings for network
+        Args:
+            organizationId: Organization ID.
+            network: Add MQTT Settings for network.
+            mqtt: MQTT Settings for network.
+            ble: MQTT BLE Settings for network.
+            wifi: MQTT Wi-Fi Settings for network.
 
         """
         kwargs.update(locals())
@@ -4186,13 +4878,14 @@ class AsyncWireless:
 
     def recalculate_organization_wireless_radio_auto_rf_channels(
         self, organizationId: str, networkIds: list
-    ):
+    ) -> dict[str, Any] | None:
         """Recalculates automatically assigned channels for every AP within specified the specified network(s).
 
         https://developer.cisco.com/meraki/api-v1/#!recalculate-organization-wireless-radio-auto-rf-channels
 
-        - organizationId (string): Organization ID
-        - networkIds (array): A list of network ids (limit: 15).
+        Args:
+            organizationId: Organization ID.
+            networkIds: A list of network ids (limit: 15).
 
         """
         kwargs = locals()
@@ -4212,27 +4905,47 @@ class AsyncWireless:
         return self._session.post(metadata, resource, payload)
 
     def get_organization_wireless_rf_profiles_assignments_by_device(
-        self, organizationId: str, total_pages=1, direction="next", **kwargs
-    ):
+        self, organizationId: str, total_pages=1, direction="next", **kwargs: Any
+    ) -> Generator[Any, None, None]:
         """List the RF profiles of an organization by device.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-rf-profiles-assignments-by-device
 
-        - organizationId (string): Organization ID
-        - total_pages (integer or string): use with perPage to get total results up to total_pages*perPage; -1 or "all" for all pages
-        - direction (string): direction to paginate, either "next" (default) or "prev" page
-        - perPage (integer): The number of entries per page returned. Acceptable range is 3 - 1000. Default is 1000.
-        - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - networkIds (array): Optional parameter to filter devices by network.
-        - productTypes (array): Optional parameter to filter devices by product type. Valid types are wireless, appliance, switch, systemsManager, camera, cellularGateway, sensor, wirelessController, campusGateway, and secureConnect.
-        - name (string): Optional parameter to filter RF profiles by device name. All returned devices will have a name that contains the search term or is an exact match.
-        - mac (string): Optional parameter to filter RF profiles by device MAC address. All returned devices will have a MAC address that contains the search term or is an exact match.
-        - serial (string): Optional parameter to filter RF profiles by device serial number. All returned devices will have a serial number that contains the search term or is an exact match.
-        - model (string): Optional parameter to filter RF profiles by device model. All returned devices will have a model that contains the search term or is an exact match.
-        - macs (array): Optional parameter to filter RF profiles by one or more device MAC addresses. All returned devices will have a MAC address that is an exact match.
-        - serials (array): Optional parameter to filter RF profiles by one or more device serial numbers. All returned devices will have a serial number that is an exact match.
-        - models (array): Optional parameter to filter RF profiles by one or more device models. All returned devices will have a model that is an exact match.
+        Args:
+            organizationId: Organization ID.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+            perPage: The number of entries per page returned. Acceptable range is 3 - 1000. Default
+              is 1000.
+            startingAfter: A token used by the server to indicate the start of the page. Often this
+              is a timestamp or an ID but it is not limited to those. This parameter
+              should not be defined by client applications. The link for the first,
+              last, prev, or next page in the HTTP Link header should define it.
+            endingBefore: A token used by the server to indicate the end of the page. Often this is
+              a timestamp or an ID but it is not limited to those. This parameter should
+              not be defined by client applications. The link for the first, last, prev,
+              or next page in the HTTP Link header should define it.
+            networkIds: Optional parameter to filter devices by network.
+            productTypes: Optional parameter to filter devices by product type. Valid types are
+              wireless, appliance, switch, systemsManager, camera, cellularGateway,
+              sensor, wirelessController, campusGateway, and secureConnect.
+            name: Optional parameter to filter RF profiles by device name. All returned devices will
+              have a name that contains the search term or is an exact match.
+            mac: Optional parameter to filter RF profiles by device MAC address. All returned
+              devices will have a MAC address that contains the search term or is an
+              exact match.
+            serial: Optional parameter to filter RF profiles by device serial number. All returned
+              devices will have a serial number that contains the search term or is an
+              exact match.
+            model: Optional parameter to filter RF profiles by device model. All returned devices
+              will have a model that contains the search term or is an exact match.
+            macs: Optional parameter to filter RF profiles by one or more device MAC addresses. All
+              returned devices will have a MAC address that is an exact match.
+            serials: Optional parameter to filter RF profiles by one or more device serial numbers.
+              All returned devices will have a serial number that is an exact match.
+            models: Optional parameter to filter RF profiles by one or more device models. All
+              returned devices will have a model that is an exact match.
 
         """
         kwargs.update(locals())
@@ -4275,20 +4988,29 @@ class AsyncWireless:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def get_organization_wireless_ssids_firewall_isolation_allowlist_entries(
-        self, organizationId: str, total_pages=1, direction="next", **kwargs
-    ):
+        self, organizationId: str, total_pages=1, direction="next", **kwargs: Any
+    ) -> Generator[Any, None, None]:
         """List the L2 isolation allow list MAC entry in an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-ssids-firewall-isolation-allowlist-entries
 
-        - organizationId (string): Organization ID
-        - total_pages (integer or string): use with perPage to get total results up to total_pages*perPage; -1 or "all" for all pages
-        - direction (string): direction to paginate, either "next" (default) or "prev" page
-        - perPage (integer): The number of entries per page returned. Acceptable range is 3 - 1000. Default is 1000.
-        - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - networkIds (array): networkIds array to filter out results
-        - ssids (array): ssids number array to filter out results
+        Args:
+            organizationId: Organization ID.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+            perPage: The number of entries per page returned. Acceptable range is 3 - 1000. Default
+              is 1000.
+            startingAfter: A token used by the server to indicate the start of the page. Often this
+              is a timestamp or an ID but it is not limited to those. This parameter
+              should not be defined by client applications. The link for the first,
+              last, prev, or next page in the HTTP Link header should define it.
+            endingBefore: A token used by the server to indicate the end of the page. Often this is
+              a timestamp or an ID but it is not limited to those. This parameter should
+              not be defined by client applications. The link for the first, last, prev,
+              or next page in the HTTP Link header should define it.
+            networkIds: networkIds array to filter out results.
+            ssids: ssids number array to filter out results.
 
         """
         kwargs.update(locals())
@@ -4331,17 +5053,18 @@ class AsyncWireless:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def create_organization_wireless_ssids_firewall_isolation_allowlist_entry(
-        self, organizationId: str, client: dict, ssid: dict, network: dict, **kwargs
-    ):
+        self, organizationId: str, client: dict, ssid: dict, network: dict, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Create isolation allow list MAC entry for this organization.
 
         https://developer.cisco.com/meraki/api-v1/#!create-organization-wireless-ssids-firewall-isolation-allowlist-entry
 
-        - organizationId (string): Organization ID
-        - client (object): The client of allowlist
-        - ssid (object): The SSID that allowlist belongs to
-        - network (object): The Network that allowlist belongs to
-        - description (string): The description of mac address
+        Args:
+            organizationId: Organization ID.
+            client: The client of allowlist.
+            ssid: The SSID that allowlist belongs to.
+            network: The Network that allowlist belongs to.
+            description: The description of mac address.
 
         """
         kwargs.update(locals())
@@ -4375,13 +5098,14 @@ class AsyncWireless:
 
     def delete_organization_wireless_ssids_firewall_isolation_allowlist_entry(
         self, organizationId: str, entryId: str
-    ):
+    ) -> None:
         """Destroy isolation allow list MAC entry for this organization.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-wireless-ssids-firewall-isolation-allowlist-entry
 
-        - organizationId (string): Organization ID
-        - entryId (string): Entry ID
+        Args:
+            organizationId: Organization ID.
+            entryId: Entry ID.
 
         """
         metadata = {
@@ -4403,16 +5127,17 @@ class AsyncWireless:
         return self._session.delete(metadata, resource)
 
     def update_organization_wireless_ssids_firewall_isolation_allowlist_entry(
-        self, organizationId: str, entryId: str, **kwargs
-    ):
+        self, organizationId: str, entryId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Update isolation allow list MAC entry info.
 
         https://developer.cisco.com/meraki/api-v1/#!update-organization-wireless-ssids-firewall-isolation-allowlist-entry
 
-        - organizationId (string): Organization ID
-        - entryId (string): Entry ID
-        - description (string): The description of mac address
-        - client (object): The client of allowlist
+        Args:
+            organizationId: Organization ID.
+            entryId: Entry ID.
+            description: The description of mac address.
+            client: The client of allowlist.
 
         """
         kwargs.update(locals())
@@ -4442,20 +5167,30 @@ class AsyncWireless:
         return self._session.put(metadata, resource, payload)
 
     def get_organization_wireless_ssids_open_roaming_by_network(
-        self, organizationId: str, total_pages=1, direction="next", **kwargs
-    ):
+        self, organizationId: str, total_pages=1, direction="next", **kwargs: Any
+    ) -> Generator[Any, None, None]:
         """Returns an array of objects, each containing SSID OpenRoaming configs for the corresponding network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-ssids-open-roaming-by-network
 
-        - organizationId (string): Organization ID
-        - total_pages (integer or string): use with perPage to get total results up to total_pages*perPage; -1 or "all" for all pages
-        - direction (string): direction to paginate, either "next" (default) or "prev" page
-        - perPage (integer): The number of entries per page returned. Acceptable range is 3 - 1000. Default is 1000.
-        - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - networkIds (array): Optional parameter to filter OpenRoaming configuration by Network Id.
-        - includeDisabledSsids (boolean): Optional parameter to include OpenRoaming configuration for disabled ssids.
+        Args:
+            organizationId: Organization ID.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+            perPage: The number of entries per page returned. Acceptable range is 3 - 1000. Default
+              is 1000.
+            startingAfter: A token used by the server to indicate the start of the page. Often this
+              is a timestamp or an ID but it is not limited to those. This parameter
+              should not be defined by client applications. The link for the first,
+              last, prev, or next page in the HTTP Link header should define it.
+            endingBefore: A token used by the server to indicate the end of the page. Often this is
+              a timestamp or an ID but it is not limited to those. This parameter should
+              not be defined by client applications. The link for the first, last, prev,
+              or next page in the HTTP Link header should define it.
+            networkIds: Optional parameter to filter OpenRoaming configuration by Network Id.
+            includeDisabledSsids: Optional parameter to include OpenRoaming configuration for
+              disabled ssids.
 
         """
         kwargs.update(locals())
@@ -4487,22 +5222,35 @@ class AsyncWireless:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def get_organization_wireless_ssids_statuses_by_device(
-        self, organizationId: str, total_pages=1, direction="next", **kwargs
-    ):
+        self, organizationId: str, total_pages=1, direction="next", **kwargs: Any
+    ) -> Generator[Any, None, None]:
         """List status information of all BSSIDs in your organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-ssids-statuses-by-device
 
-        - organizationId (string): Organization ID
-        - total_pages (integer or string): use with perPage to get total results up to total_pages*perPage; -1 or "all" for all pages
-        - direction (string): direction to paginate, either "next" (default) or "prev" page
-        - networkIds (array): Optional parameter to filter the result set by the included set of network IDs
-        - serials (array): A list of serial numbers. The returned devices will be filtered to only include these serials.
-        - bssids (array): A list of BSSIDs. The returned devices will be filtered to only include these BSSIDs.
-        - hideDisabled (boolean): If true, the returned devices will not include disabled SSIDs. (default: true)
-        - perPage (integer): The number of entries per page returned. Acceptable range is 3 - 500. Default is 100.
-        - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
+        Args:
+            organizationId: Organization ID.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+            networkIds: Optional parameter to filter the result set by the included set of network
+              IDs.
+            serials: A list of serial numbers. The returned devices will be filtered to only include
+              these serials.
+            bssids: A list of BSSIDs. The returned devices will be filtered to only include these
+              BSSIDs.
+            hideDisabled: If true, the returned devices will not include disabled SSIDs. (default:
+              true).
+            perPage: The number of entries per page returned. Acceptable range is 3 - 500. Default
+              is 100.
+            startingAfter: A token used by the server to indicate the start of the page. Often this
+              is a timestamp or an ID but it is not limited to those. This parameter
+              should not be defined by client applications. The link for the first,
+              last, prev, or next page in the HTTP Link header should define it.
+            endingBefore: A token used by the server to indicate the end of the page. Often this is
+              a timestamp or an ID but it is not limited to those. This parameter should
+              not be defined by client applications. The link for the first, last, prev,
+              or next page in the HTTP Link header should define it.
 
         """
         kwargs.update(locals())
@@ -4538,19 +5286,28 @@ class AsyncWireless:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def get_organization_wireless_zigbee_by_network(
-        self, organizationId: str, total_pages=1, direction="next", **kwargs
-    ):
+        self, organizationId: str, total_pages=1, direction="next", **kwargs: Any
+    ) -> Generator[Any, None, None]:
         """Return list of Zigbee configs.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-zigbee-by-network
 
-        - organizationId (string): Organization ID
-        - total_pages (integer or string): use with perPage to get total results up to total_pages*perPage; -1 or "all" for all pages
-        - direction (string): direction to paginate, either "next" (default) or "prev" page
-        - perPage (integer): The number of entries per page returned. Acceptable range is 3 - 1000. Default is 50.
-        - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - networkIds (array): Filter by specified Network IDs
+        Args:
+            organizationId: Organization ID.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+            perPage: The number of entries per page returned. Acceptable range is 3 - 1000. Default
+              is 50.
+            startingAfter: A token used by the server to indicate the start of the page. Often this
+              is a timestamp or an ID but it is not limited to those. This parameter
+              should not be defined by client applications. The link for the first,
+              last, prev, or next page in the HTTP Link header should define it.
+            endingBefore: A token used by the server to indicate the end of the page. Often this is
+              a timestamp or an ID but it is not limited to those. This parameter should
+              not be defined by client applications. The link for the first, last, prev,
+              or next page in the HTTP Link header should define it.
+            networkIds: Filter by specified Network IDs.
 
         """
         kwargs.update(locals())
@@ -4581,21 +5338,31 @@ class AsyncWireless:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def get_organization_wireless_zigbee_devices(
-        self, organizationId: str, total_pages=1, direction="next", **kwargs
-    ):
+        self, organizationId: str, total_pages=1, direction="next", **kwargs: Any
+    ) -> Generator[Any, None, None]:
         """List the Zigbee wireless devices for an organization or the supplied network(s).
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-zigbee-devices
 
-        - organizationId (string): Organization ID
-        - total_pages (integer or string): use with perPage to get total results up to total_pages*perPage; -1 or "all" for all pages
-        - direction (string): direction to paginate, either "next" (default) or "prev" page
-        - perPage (integer): The number of entries per page returned. Acceptable range is 3 - 1000. Default is 10.
-        - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - networkIds (array): Parameter of networks you want the zigbee devices for. E.g.: networkIds[]=N_12345678&networkIds[]=N_3456
-        - isEnrolled (boolean): Filter devices based on if they are enrolled or not
-        - search (string): Filter devices by their name, tag or serial
+        Args:
+            organizationId: Organization ID.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+            perPage: The number of entries per page returned. Acceptable range is 3 - 1000. Default
+              is 10.
+            startingAfter: A token used by the server to indicate the start of the page. Often this
+              is a timestamp or an ID but it is not limited to those. This parameter
+              should not be defined by client applications. The link for the first,
+              last, prev, or next page in the HTTP Link header should define it.
+            endingBefore: A token used by the server to indicate the end of the page. Often this is
+              a timestamp or an ID but it is not limited to those. This parameter should
+              not be defined by client applications. The link for the first, last, prev,
+              or next page in the HTTP Link header should define it.
+            networkIds: Parameter of networks you want the zigbee devices for. E.g.:
+              networkIds[]=N_12345678&networkIds[]=N_3456.
+            isEnrolled: Filter devices based on if they are enrolled or not.
+            search: Filter devices by their name, tag or serial.
 
         """
         kwargs.update(locals())
@@ -4628,16 +5395,17 @@ class AsyncWireless:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def update_organization_wireless_zigbee_device(
-        self, organizationId: str, id: str, enrolled: bool, **kwargs
-    ):
+        self, organizationId: str, id: str, enrolled: bool, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Endpoint to update zigbee gateways.
 
         https://developer.cisco.com/meraki/api-v1/#!update-organization-wireless-zigbee-device
 
-        - organizationId (string): Organization ID
-        - id (string): ID
-        - enrolled (boolean): Parameter to enroll or unenroll the zigbee devices
-        - channel (string): The new channel for the zigbee device
+        Args:
+            organizationId: Organization ID.
+            id: ID.
+            enrolled: Parameter to enroll or unenroll the zigbee devices.
+            channel: The new channel for the zigbee device.
 
         """
         kwargs.update(locals())
@@ -4658,13 +5426,16 @@ class AsyncWireless:
 
         return self._session.put(metadata, resource, payload)
 
-    def create_organization_wireless_zigbee_disenrollment(self, organizationId: str, **kwargs):
+    def create_organization_wireless_zigbee_disenrollment(
+        self, organizationId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Enqueue a job to start disenrolling door locks on zigbee configured wireless devices.
 
         https://developer.cisco.com/meraki/api-v1/#!create-organization-wireless-zigbee-disenrollment
 
-        - organizationId (string): Organization ID
-        - doorLockIds (array): A list of Meraki door lock ids to disenroll from the device
+        Args:
+            organizationId: Organization ID.
+            doorLockIds: A list of Meraki door lock ids to disenroll from the device.
 
         """
         kwargs.update(locals())
@@ -4685,13 +5456,14 @@ class AsyncWireless:
 
     def get_organization_wireless_zigbee_disenrollment(
         self, organizationId: str, disenrollmentId: str
-    ):
+    ) -> dict[str, Any] | None:
         """Return a disenrollment.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-zigbee-disenrollment
 
-        - organizationId (string): Organization ID
-        - disenrollmentId (string): Disenrollment ID
+        Args:
+            organizationId: Organization ID.
+            disenrollmentId: Disenrollment ID.
 
         """
         metadata = {
@@ -4707,20 +5479,29 @@ class AsyncWireless:
         return self._session.get(metadata, resource)
 
     def get_organization_wireless_zigbee_door_locks(
-        self, organizationId: str, total_pages=1, direction="next", **kwargs
-    ):
+        self, organizationId: str, total_pages=1, direction="next", **kwargs: Any
+    ) -> Generator[Any, None, None]:
         """Return the list of door locks for a network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-zigbee-door-locks
 
-        - organizationId (string): Organization ID
-        - total_pages (integer or string): use with perPage to get total results up to total_pages*perPage; -1 or "all" for all pages
-        - direction (string): direction to paginate, either "next" (default) or "prev" page
-        - networkIds (array): Filter by specified Network IDs
-        - serial (string): Filter by device serial
-        - perPage (integer): The number of entries per page returned. Acceptable range is 3 - 500. Default is 50.
-        - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
+        Args:
+            organizationId: Organization ID.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+            networkIds: Filter by specified Network IDs.
+            serial: Filter by device serial.
+            perPage: The number of entries per page returned. Acceptable range is 3 - 500. Default
+              is 50.
+            startingAfter: A token used by the server to indicate the start of the page. Often this
+              is a timestamp or an ID but it is not limited to those. This parameter
+              should not be defined by client applications. The link for the first,
+              last, prev, or next page in the HTTP Link header should define it.
+            endingBefore: A token used by the server to indicate the end of the page. Often this is
+              a timestamp or an ID but it is not limited to those. This parameter should
+              not be defined by client applications. The link for the first, last, prev,
+              or next page in the HTTP Link header should define it.
 
         """
         kwargs.update(locals())
@@ -4752,15 +5533,16 @@ class AsyncWireless:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def update_organization_wireless_zigbee_door_lock(
-        self, organizationId: str, doorLockId: str, **kwargs
-    ):
+        self, organizationId: str, doorLockId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Endpoint to batch update door locks params.
 
         https://developer.cisco.com/meraki/api-v1/#!update-organization-wireless-zigbee-door-lock
 
-        - organizationId (string): Organization ID
-        - doorLockId (string): Door lock ID
-        - name (string): Door lock name to update
+        Args:
+            organizationId: Organization ID.
+            doorLockId: Door lock ID.
+            name: Door lock name to update.
 
         """
         kwargs.update(locals())

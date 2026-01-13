@@ -1,5 +1,8 @@
 """ActionBatchOrganizations API endpoints."""
 
+import urllib
+from typing import Any
+
 
 class ActionBatchOrganizations:
     """ActionBatchOrganizations class."""
@@ -8,19 +11,20 @@ class ActionBatchOrganizations:
         pass
 
     def create_organization_adaptive_policy_acl(
-        self, organizationId: str, name: str, rules: list, ipVersion: str, **kwargs
-    ):
-        """
-        **Creates new adaptive policy ACL.**
+        self, organizationId: str, name: str, rules: list, ipVersion: str, **kwargs: Any
+    ) -> dict[str, Any]:
+        """Creates new adaptive policy ACL.
+
         https://developer.cisco.com/meraki/api-v1/#!create-organization-adaptive-policy-acl
 
-        - organizationId (string): Organization ID
-        - name (string): Name of the adaptive policy ACL
-        - rules (array): An ordered array of the adaptive policy ACL rules.
-        - ipVersion (string): IP version of adpative policy ACL. One of: 'any', 'ipv4' or 'ipv6'
-        - description (string): Description of the adaptive policy ACL
-        """
+        Args:
+            organizationId: Organization ID.
+            name: Name of the adaptive policy ACL.
+            rules: An ordered array of the adaptive policy ACL rules.
+            ipVersion: IP version of adpative policy ACL. One of: 'any', 'ipv4' or 'ipv6'.
+            description: Description of the adaptive policy ACL.
 
+        """
         kwargs.update(locals())
 
         if "ipVersion" in kwargs:
@@ -45,19 +49,23 @@ class ActionBatchOrganizations:
         action = {"resource": resource, "operation": "create", "body": payload}
         return action
 
-    def update_organization_adaptive_policy_acl(self, organizationId: str, aclId: str, **kwargs):
-        """
-        **Updates an adaptive policy ACL.**
+    def update_organization_adaptive_policy_acl(
+        self, organizationId: str, aclId: str, **kwargs: Any
+    ) -> dict[str, Any]:
+        """Updates an adaptive policy ACL.
+
         https://developer.cisco.com/meraki/api-v1/#!update-organization-adaptive-policy-acl
 
-        - organizationId (string): Organization ID
-        - aclId (string): Acl ID
-        - name (string): Name of the adaptive policy ACL
-        - description (string): Description of the adaptive policy ACL
-        - rules (array): An ordered array of the adaptive policy ACL rules. An empty array will clear the rules.
-        - ipVersion (string): IP version of adpative policy ACL. One of: 'any', 'ipv4' or 'ipv6'
-        """
+        Args:
+            organizationId: Organization ID.
+            aclId: Acl ID.
+            name: Name of the adaptive policy ACL.
+            description: Description of the adaptive policy ACL.
+            rules: An ordered array of the adaptive policy ACL rules. An empty array will clear the
+              rules.
+            ipVersion: IP version of adpative policy ACL. One of: 'any', 'ipv4' or 'ipv6'.
 
+        """
         kwargs.update(locals())
 
         if "ipVersion" in kwargs:
@@ -82,15 +90,18 @@ class ActionBatchOrganizations:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def delete_organization_adaptive_policy_acl(self, organizationId: str, aclId: str):
-        """
-        **Deletes the specified adaptive policy ACL.**
+    def delete_organization_adaptive_policy_acl(
+        self, organizationId: str, aclId: str
+    ) -> dict[str, Any]:
+        """Deletes the specified adaptive policy ACL.
+
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-adaptive-policy-acl
 
-        - organizationId (string): Organization ID
-        - aclId (string): Acl ID
-        """
+        Args:
+            organizationId: Organization ID.
+            aclId: Acl ID.
 
+        """
         metadata = {
             "tags": ["organizations", "configure", "adaptivePolicy", "acls"],
             "operation": "delete_organization_adaptive_policy_acl",
@@ -104,19 +115,23 @@ class ActionBatchOrganizations:
         return action
 
     def create_organization_adaptive_policy_group(
-        self, organizationId: str, name: str, sgt: int, **kwargs
-    ):
-        """
-        **Creates a new adaptive policy group.**
+        self, organizationId: str, name: str, sgt: int, **kwargs: Any
+    ) -> dict[str, Any]:
+        """Creates a new adaptive policy group.
+
         https://developer.cisco.com/meraki/api-v1/#!create-organization-adaptive-policy-group
 
-        - organizationId (string): Organization ID
-        - name (string): Name of the group
-        - sgt (integer): SGT value of the group
-        - description (string): Description of the group (default: "")
-        - policyObjects (array): The policy objects that belong to this group; traffic from addresses specified by these policy objects will be tagged with this group's SGT value if no other tagging scheme is being used (each requires one unique attribute) (default: [])
-        """
+        Args:
+            organizationId: Organization ID.
+            name: Name of the group.
+            sgt: SGT value of the group.
+            description: Description of the group (default: "").
+            policyObjects: The policy objects that belong to this group; traffic from addresses
+              specified by these policy objects will be tagged with this group's SGT
+              value if no other tagging scheme is being used (each requires one unique
+              attribute) (default: []).
 
+        """
         kwargs.update(locals())
 
         metadata = {
@@ -135,19 +150,25 @@ class ActionBatchOrganizations:
         action = {"resource": resource, "operation": "create", "body": payload}
         return action
 
-    def update_organization_adaptive_policy_group(self, organizationId: str, id: str, **kwargs):
-        """
-        **Updates an adaptive policy group.**
+    def update_organization_adaptive_policy_group(
+        self, organizationId: str, id: str, **kwargs: Any
+    ) -> dict[str, Any]:
+        """Updates an adaptive policy group.
+
         https://developer.cisco.com/meraki/api-v1/#!update-organization-adaptive-policy-group
 
-        - organizationId (string): Organization ID
-        - id (string): ID
-        - name (string): Name of the group
-        - sgt (integer): SGT value of the group
-        - description (string): Description of the group
-        - policyObjects (array): The policy objects that belong to this group; traffic from addresses specified by these policy objects will be tagged with this group's SGT value if no other tagging scheme is being used (each requires one unique attribute)
-        """
+        Args:
+            organizationId: Organization ID.
+            id: ID.
+            name: Name of the group.
+            sgt: SGT value of the group.
+            description: Description of the group.
+            policyObjects: The policy objects that belong to this group; traffic from addresses
+              specified by these policy objects will be tagged with this group's SGT
+              value if no other tagging scheme is being used (each requires one unique
+              attribute).
 
+        """
         kwargs.update(locals())
 
         metadata = {
@@ -166,15 +187,18 @@ class ActionBatchOrganizations:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def delete_organization_adaptive_policy_group(self, organizationId: str, id: str):
-        """
-        **Deletes the specified adaptive policy group and any associated policies and references.**
+    def delete_organization_adaptive_policy_group(
+        self, organizationId: str, id: str
+    ) -> dict[str, Any]:
+        """Deletes the specified adaptive policy group and any associated policies and references.
+
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-adaptive-policy-group
 
-        - organizationId (string): Organization ID
-        - id (string): ID
-        """
+        Args:
+            organizationId: Organization ID.
+            id: ID.
 
+        """
         metadata = {
             "tags": ["organizations", "configure", "adaptivePolicy", "groups"],
             "operation": "delete_organization_adaptive_policy_group",
@@ -188,19 +212,21 @@ class ActionBatchOrganizations:
         return action
 
     def create_organization_adaptive_policy_policy(
-        self, organizationId: str, sourceGroup: dict, destinationGroup: dict, **kwargs
-    ):
-        """
-        **Add an Adaptive Policy.**
+        self, organizationId: str, sourceGroup: dict, destinationGroup: dict, **kwargs: Any
+    ) -> dict[str, Any]:
+        """Add an Adaptive Policy.
+
         https://developer.cisco.com/meraki/api-v1/#!create-organization-adaptive-policy-policy
 
-        - organizationId (string): Organization ID
-        - sourceGroup (object): The source adaptive policy group (requires one unique attribute)
-        - destinationGroup (object): The destination adaptive policy group (requires one unique attribute)
-        - acls (array): An ordered array of adaptive policy ACLs (each requires one unique attribute) that apply to this policy (default: [])
-        - lastEntryRule (string): The rule to apply if there is no matching ACL (default: "default")
-        """
+        Args:
+            organizationId: Organization ID.
+            sourceGroup: The source adaptive policy group (requires one unique attribute).
+            destinationGroup: The destination adaptive policy group (requires one unique attribute).
+            acls: An ordered array of adaptive policy ACLs (each requires one unique attribute) that
+              apply to this policy (default: []).
+            lastEntryRule: The rule to apply if there is no matching ACL (default: "default").
 
+        """
         kwargs.update(locals())
 
         if "lastEntryRule" in kwargs:
@@ -225,19 +251,23 @@ class ActionBatchOrganizations:
         action = {"resource": resource, "operation": "create", "body": payload}
         return action
 
-    def update_organization_adaptive_policy_policy(self, organizationId: str, id: str, **kwargs):
-        """
-        **Update an Adaptive Policy.**
+    def update_organization_adaptive_policy_policy(
+        self, organizationId: str, id: str, **kwargs: Any
+    ) -> dict[str, Any]:
+        """Update an Adaptive Policy.
+
         https://developer.cisco.com/meraki/api-v1/#!update-organization-adaptive-policy-policy
 
-        - organizationId (string): Organization ID
-        - id (string): ID
-        - sourceGroup (object): The source adaptive policy group (requires one unique attribute)
-        - destinationGroup (object): The destination adaptive policy group (requires one unique attribute)
-        - acls (array): An ordered array of adaptive policy ACLs (each requires one unique attribute) that apply to this policy
-        - lastEntryRule (string): The rule to apply if there is no matching ACL
-        """
+        Args:
+            organizationId: Organization ID.
+            id: ID.
+            sourceGroup: The source adaptive policy group (requires one unique attribute).
+            destinationGroup: The destination adaptive policy group (requires one unique attribute).
+            acls: An ordered array of adaptive policy ACLs (each requires one unique attribute) that
+              apply to this policy.
+            lastEntryRule: The rule to apply if there is no matching ACL.
 
+        """
         kwargs.update(locals())
 
         if "lastEntryRule" in kwargs:
@@ -262,15 +292,18 @@ class ActionBatchOrganizations:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def delete_organization_adaptive_policy_policy(self, organizationId: str, id: str):
-        """
-        **Delete an Adaptive Policy.**
+    def delete_organization_adaptive_policy_policy(
+        self, organizationId: str, id: str
+    ) -> dict[str, Any]:
+        """Delete an Adaptive Policy.
+
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-adaptive-policy-policy
 
-        - organizationId (string): Organization ID
-        - id (string): ID
-        """
+        Args:
+            organizationId: Organization ID.
+            id: ID.
 
+        """
         metadata = {
             "tags": ["organizations", "configure", "adaptivePolicy", "policies"],
             "operation": "delete_organization_adaptive_policy_policy",
@@ -283,15 +316,18 @@ class ActionBatchOrganizations:
         }
         return action
 
-    def update_organization_adaptive_policy_settings(self, organizationId: str, **kwargs):
-        """
-        **Update global adaptive policy settings.**
+    def update_organization_adaptive_policy_settings(
+        self, organizationId: str, **kwargs: Any
+    ) -> dict[str, Any]:
+        """Update global adaptive policy settings.
+
         https://developer.cisco.com/meraki/api-v1/#!update-organization-adaptive-policy-settings
 
-        - organizationId (string): Organization ID
-        - enabledNetworks (array): List of network IDs with adaptive policy enabled
-        """
+        Args:
+            organizationId: Organization ID.
+            enabledNetworks: List of network IDs with adaptive policy enabled.
 
+        """
         kwargs.update(locals())
 
         metadata = {
@@ -314,20 +350,21 @@ class ActionBatchOrganizations:
         alertCondition: dict,
         recipients: dict,
         networkTags: list,
-        **kwargs,
-    ):
-        """
-        **Create an organization-wide alert configuration.**
+        **kwargs: Any,
+    ) -> dict[str, Any]:
+        """Create an organization-wide alert configuration.
+
         https://developer.cisco.com/meraki/api-v1/#!create-organization-alerts-profile
 
-        - organizationId (string): Organization ID
-        - type (string): The alert type
-        - alertCondition (object): The conditions that determine if the alert triggers
-        - recipients (object): List of recipients that will recieve the alert.
-        - networkTags (array): Networks with these tags will be monitored for the alert
-        - description (string): User supplied description of the alert
-        """
+        Args:
+            organizationId: Organization ID.
+            type: The alert type.
+            alertCondition: The conditions that determine if the alert triggers.
+            recipients: List of recipients that will recieve the alert.
+            networkTags: Networks with these tags will be monitored for the alert.
+            description: User supplied description of the alert.
 
+        """
         kwargs.update(locals())
 
         if "type" in kwargs:
@@ -362,21 +399,24 @@ class ActionBatchOrganizations:
         action = {"resource": resource, "operation": "create", "body": payload}
         return action
 
-    def update_organization_alerts_profile(self, organizationId: str, alertConfigId: str, **kwargs):
-        """
-        **Update an organization-wide alert config.**
+    def update_organization_alerts_profile(
+        self, organizationId: str, alertConfigId: str, **kwargs: Any
+    ) -> dict[str, Any]:
+        """Update an organization-wide alert config.
+
         https://developer.cisco.com/meraki/api-v1/#!update-organization-alerts-profile
 
-        - organizationId (string): Organization ID
-        - alertConfigId (string): Alert config ID
-        - enabled (boolean): Is the alert config enabled
-        - type (string): The alert type
-        - alertCondition (object): The conditions that determine if the alert triggers
-        - recipients (object): List of recipients that will recieve the alert.
-        - networkTags (array): Networks with these tags will be monitored for the alert
-        - description (string): User supplied description of the alert
-        """
+        Args:
+            organizationId: Organization ID.
+            alertConfigId: Alert config ID.
+            enabled: Is the alert config enabled.
+            type: The alert type.
+            alertCondition: The conditions that determine if the alert triggers.
+            recipients: List of recipients that will recieve the alert.
+            networkTags: Networks with these tags will be monitored for the alert.
+            description: User supplied description of the alert.
 
+        """
         kwargs.update(locals())
 
         if "type" in kwargs:
@@ -412,15 +452,18 @@ class ActionBatchOrganizations:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def delete_organization_alerts_profile(self, organizationId: str, alertConfigId: str):
-        """
-        **Removes an organization-wide alert config.**
+    def delete_organization_alerts_profile(
+        self, organizationId: str, alertConfigId: str
+    ) -> dict[str, Any]:
+        """Removes an organization-wide alert config.
+
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-alerts-profile
 
-        - organizationId (string): Organization ID
-        - alertConfigId (string): Alert config ID
-        """
+        Args:
+            organizationId: Organization ID.
+            alertConfigId: Alert config ID.
 
+        """
         metadata = {
             "tags": ["organizations", "configure", "alerts", "profiles"],
             "operation": "delete_organization_alerts_profile",
@@ -433,23 +476,29 @@ class ActionBatchOrganizations:
         }
         return action
 
-    def create_organization_branding_policy(self, organizationId: str, name: str, **kwargs):
-        """
-               **Add a new branding policy to an organization.**
-               https://developer.cisco.com/meraki/api-v1/#!create-organization-branding-policy
+    def create_organization_branding_policy(
+        self, organizationId: str, name: str, **kwargs: Any
+    ) -> dict[str, Any]:
+        """Add a new branding policy to an organization.
 
-               - organizationId (string): Organization ID
-               - name (string): Name of the Dashboard branding policy.
-               - enabled (boolean): Boolean indicating whether this policy is enabled.
-               - adminSettings (object): Settings for describing which kinds of admins this policy applies to.
-               - helpSettings (object):       Settings for describing the modifications to various Help page features. Each property in this object accepts one of
-             'default or inherit' (do not modify functionality), 'hide' (remove the section from Dashboard), or 'show' (always show
-             the section on Dashboard). Some properties in this object also accept custom HTML used to replace the section on
-             Dashboard; see the documentation for each property to see the allowed values.
-        Each property defaults to 'default or inherit' when not provided.
-               - customLogo (object): Properties describing the custom logo attached to the branding policy.
-        """
+        https://developer.cisco.com/meraki/api-v1/#!create-organization-branding-policy
 
+        Args:
+            organizationId: Organization ID.
+            name: Name of the Dashboard branding policy.
+            enabled: Boolean indicating whether this policy is enabled.
+            adminSettings: Settings for describing which kinds of admins this policy applies to.
+            helpSettings:       Settings for describing the modifications to various Help page
+              features. Each property in this object accepts one of       'default or
+              inherit' (do not modify functionality), 'hide' (remove the section from
+              Dashboard), or 'show' (always show       the section on Dashboard). Some
+              properties in this object also accept custom HTML used to replace the
+              section on       Dashboard; see the documentation for each property to see
+              the allowed values.  Each property defaults to 'default or inherit' when
+              not provided.
+            customLogo: Properties describing the custom logo attached to the branding policy.
+
+        """
         kwargs.update(locals())
 
         metadata = {
@@ -469,16 +518,19 @@ class ActionBatchOrganizations:
         action = {"resource": resource, "operation": "create", "body": payload}
         return action
 
-    def update_organization_branding_policies_priorities(self, organizationId: str, **kwargs):
-        """
-        **Update the priority ordering of an organization's branding policies.**
+    def update_organization_branding_policies_priorities(
+        self, organizationId: str, **kwargs: Any
+    ) -> dict[str, Any]:
+        """Update the priority ordering of an organization's branding policies.
+
         https://developer.cisco.com/meraki/api-v1/#!update-organization-branding-policies-priorities
 
-        - organizationId (string): Organization ID
-        - brandingPolicyIds (array):       An ordered list of branding policy IDs that determines the priority order of how to apply the policies
+        Args:
+            organizationId: Organization ID.
+            brandingPolicyIds:       An ordered list of branding policy IDs that determines the
+              priority order of how to apply the policies .
 
         """
-
         kwargs.update(locals())
 
         metadata = {
@@ -495,25 +547,28 @@ class ActionBatchOrganizations:
         return action
 
     def update_organization_branding_policy(
-        self, organizationId: str, brandingPolicyId: str, name: str, **kwargs
-    ):
+        self, organizationId: str, brandingPolicyId: str, name: str, **kwargs: Any
+    ) -> dict[str, Any]:
+        """Update a branding policy.
+
+        https://developer.cisco.com/meraki/api-v1/#!update-organization-branding-policy
+
+        Args:
+            organizationId: Organization ID.
+            brandingPolicyId: Branding policy ID.
+            name: Name of the Dashboard branding policy.
+            enabled: Boolean indicating whether this policy is enabled.
+            adminSettings: Settings for describing which kinds of admins this policy applies to.
+            helpSettings:       Settings for describing the modifications to various Help page
+              features. Each property in this object accepts one of       'default or
+              inherit' (do not modify functionality), 'hide' (remove the section from
+              Dashboard), or 'show' (always show       the section on Dashboard). Some
+              properties in this object also accept custom HTML used to replace the
+              section on       Dashboard; see the documentation for each property to see
+              the allowed values. .
+            customLogo: Properties describing the custom logo attached to the branding policy.
+
         """
-          **Update a branding policy.**
-          https://developer.cisco.com/meraki/api-v1/#!update-organization-branding-policy
-
-          - organizationId (string): Organization ID
-          - brandingPolicyId (string): Branding policy ID
-          - name (string): Name of the Dashboard branding policy.
-          - enabled (boolean): Boolean indicating whether this policy is enabled.
-          - adminSettings (object): Settings for describing which kinds of admins this policy applies to.
-          - helpSettings (object):       Settings for describing the modifications to various Help page features. Each property in this object accepts one of
-        'default or inherit' (do not modify functionality), 'hide' (remove the section from Dashboard), or 'show' (always show
-        the section on Dashboard). Some properties in this object also accept custom HTML used to replace the section on
-        Dashboard; see the documentation for each property to see the allowed values.
-
-          - customLogo (object): Properties describing the custom logo attached to the branding policy.
-        """
-
         kwargs.update(locals())
 
         metadata = {
@@ -533,15 +588,18 @@ class ActionBatchOrganizations:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def delete_organization_branding_policy(self, organizationId: str, brandingPolicyId: str):
-        """
-        **Delete a branding policy.**
+    def delete_organization_branding_policy(
+        self, organizationId: str, brandingPolicyId: str
+    ) -> dict[str, Any]:
+        """Delete a branding policy.
+
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-branding-policy
 
-        - organizationId (string): Organization ID
-        - brandingPolicyId (string): Branding policy ID
-        """
+        Args:
+            organizationId: Organization ID.
+            brandingPolicyId: Branding policy ID.
 
+        """
         metadata = {
             "tags": ["organizations", "configure", "brandingPolicies"],
             "operation": "delete_organization_branding_policy",
@@ -554,17 +612,23 @@ class ActionBatchOrganizations:
         }
         return action
 
-    def create_organization_config_template(self, organizationId: str, name: str, **kwargs):
-        """
-        **Create a new configuration template.**
+    def create_organization_config_template(
+        self, organizationId: str, name: str, **kwargs: Any
+    ) -> dict[str, Any]:
+        """Create a new configuration template.
+
         https://developer.cisco.com/meraki/api-v1/#!create-organization-config-template
 
-        - organizationId (string): Organization ID
-        - name (string): The name of the configuration template
-        - timeZone (string): The timezone of the configuration template. For a list of allowed timezones, please see the 'TZ' column in the table in <a target='_blank' href='https://en.wikipedia.org/wiki/List_of_tz_database_time_zones'>this article</a>. Not applicable if copying from existing network or template
-        - copyFromNetworkId (string): The ID of the network or config template to copy configuration from
-        """
+        Args:
+            organizationId: Organization ID.
+            name: The name of the configuration template.
+            timeZone: The timezone of the configuration template. For a list of allowed timezones,
+              please see the 'TZ' column in the table in <a target='_blank'
+              href='https://en.wikipedia.org/wiki/List_of_tz_database_time_zones'>this
+              article</a>. Not applicable if copying from existing network or template.
+            copyFromNetworkId: The ID of the network or config template to copy configuration from.
 
+        """
         kwargs.update(locals())
 
         metadata = {
@@ -583,18 +647,22 @@ class ActionBatchOrganizations:
         return action
 
     def update_organization_config_template(
-        self, organizationId: str, configTemplateId: str, **kwargs
-    ):
-        """
-        **Update a configuration template.**
+        self, organizationId: str, configTemplateId: str, **kwargs: Any
+    ) -> dict[str, Any]:
+        """Update a configuration template.
+
         https://developer.cisco.com/meraki/api-v1/#!update-organization-config-template
 
-        - organizationId (string): Organization ID
-        - configTemplateId (string): Config template ID
-        - name (string): The name of the configuration template
-        - timeZone (string): The timezone of the configuration template. For a list of allowed timezones, please see the 'TZ' column in the table in <a target='_blank' href='https://en.wikipedia.org/wiki/List_of_tz_database_time_zones'>this article.</a>
-        """
+        Args:
+            organizationId: Organization ID.
+            configTemplateId: Config template ID.
+            name: The name of the configuration template.
+            timeZone: The timezone of the configuration template. For a list of allowed timezones,
+              please see the 'TZ' column in the table in <a target='_blank'
+              href='https://en.wikipedia.org/wiki/List_of_tz_database_time_zones'>this
+              article.</a>.
 
+        """
         kwargs.update(locals())
 
         metadata = {
@@ -613,16 +681,17 @@ class ActionBatchOrganizations:
 
     def create_organization_devices_controller_migration(
         self, organizationId: str, serials: list, target: str
-    ):
-        """
-        **Migrate devices to another controller or management mode.**
+    ) -> dict[str, Any]:
+        """Migrate devices to another controller or management mode.
+
         https://developer.cisco.com/meraki/api-v1/#!create-organization-devices-controller-migration
 
-        - organizationId (string): Organization ID
-        - serials (array): A list of Meraki Serials to migrate
-        - target (string): The controller or management mode to which the devices will be migrated
-        """
+        Args:
+            organizationId: Organization ID.
+            serials: A list of Meraki Serials to migrate.
+            target: The controller or management mode to which the devices will be migrated.
 
+        """
         kwargs = locals()
 
         if "target" in kwargs:
@@ -647,16 +716,17 @@ class ActionBatchOrganizations:
 
     def bulk_update_organization_devices_details(
         self, organizationId: str, serials: list, details: list
-    ):
-        """
-        **Updating device details (currently only used for Catalyst devices).**
+    ) -> dict[str, Any]:
+        """Updating device details (currently only used for Catalyst devices).
+
         https://developer.cisco.com/meraki/api-v1/#!bulk-update-organization-devices-details
 
-        - organizationId (string): Organization ID
-        - serials (array): A list of serials of devices to update
-        - details (array): An array of details
-        """
+        Args:
+            organizationId: Organization ID.
+            serials: A list of serials of devices to update.
+            details: An array of details.
 
+        """
         kwargs = locals()
 
         metadata = {
@@ -675,15 +745,16 @@ class ActionBatchOrganizations:
 
     def bulk_organization_devices_packet_capture_captures_delete(
         self, organizationId: str, captureIds: list
-    ):
-        """
-        **BulkDelete packet captures from cloud.**
+    ) -> dict[str, Any]:
+        """BulkDelete packet captures from cloud.
+
         https://developer.cisco.com/meraki/api-v1/#!bulk-organization-devices-packet-capture-captures-delete
 
-        - organizationId (string): Organization ID
-        - captureIds (array): Delete the packet captures of the specified capture ids
-        """
+        Args:
+            organizationId: Organization ID.
+            captureIds: Delete the packet captures of the specified capture ids.
 
+        """
         kwargs = locals()
 
         metadata = {
@@ -701,15 +772,16 @@ class ActionBatchOrganizations:
 
     def delete_organization_devices_packet_capture_capture(
         self, organizationId: str, captureId: str
-    ):
-        """
-        **Delete a single packet capture from cloud using captureId.**
+    ) -> dict[str, Any]:
+        """Delete a single packet capture from cloud using captureId.
+
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-devices-packet-capture-capture
 
-        - organizationId (string): Organization ID
-        - captureId (string): Capture ID
-        """
+        Args:
+            organizationId: Organization ID.
+            captureId: Capture ID.
 
+        """
         metadata = {
             "tags": ["organizations", "configure", "devices", "packetCapture", "captures"],
             "operation": "delete_organization_devices_packet_capture_capture",
@@ -723,22 +795,23 @@ class ActionBatchOrganizations:
         return action
 
     def create_organization_devices_packet_capture_schedule(
-        self, organizationId: str, devices: list, **kwargs
-    ):
-        """
-        **Create a schedule for packet capture.**
+        self, organizationId: str, devices: list, **kwargs: Any
+    ) -> dict[str, Any]:
+        """Create a schedule for packet capture.
+
         https://developer.cisco.com/meraki/api-v1/#!create-organization-devices-packet-capture-schedule
 
-        - organizationId (string): Organization ID
-        - devices (array): device details
-        - name (string): Name of the packet capture file
-        - notes (string): Reason for capture
-        - duration (integer): Duration of the capture in seconds
-        - filterExpression (string): Filter expression for the capture
-        - enabled (boolean): Enable or disable the schedule
-        - schedule (object): Schedule details
-        """
+        Args:
+            organizationId: Organization ID.
+            devices: device details.
+            name: Name of the packet capture file.
+            notes: Reason for capture.
+            duration: Duration of the capture in seconds.
+            filterExpression: Filter expression for the capture.
+            enabled: Enable or disable the schedule.
+            schedule: Schedule details.
 
+        """
         kwargs.update(locals())
 
         metadata = {
@@ -762,15 +835,16 @@ class ActionBatchOrganizations:
 
     def reorder_organization_devices_packet_capture_schedules(
         self, organizationId: str, order: list
-    ):
-        """
-        **Bulk update priorities of pcap schedules.**
+    ) -> dict[str, Any]:
+        """Bulk update priorities of pcap schedules.
+
         https://developer.cisco.com/meraki/api-v1/#!reorder-organization-devices-packet-capture-schedules
 
-        - organizationId (string): Organization ID
-        - order (array): Array of schedule IDs and their priorities to reorder.
-        """
+        Args:
+            organizationId: Organization ID.
+            order: Array of schedule IDs and their priorities to reorder.
 
+        """
         kwargs = locals()
 
         metadata = {
@@ -787,23 +861,24 @@ class ActionBatchOrganizations:
         return action
 
     def update_organization_devices_packet_capture_schedule(
-        self, organizationId: str, scheduleId: str, devices: list, **kwargs
-    ):
-        """
-        **Update a schedule for packet capture.**
+        self, organizationId: str, scheduleId: str, devices: list, **kwargs: Any
+    ) -> dict[str, Any]:
+        """Update a schedule for packet capture.
+
         https://developer.cisco.com/meraki/api-v1/#!update-organization-devices-packet-capture-schedule
 
-        - organizationId (string): Organization ID
-        - scheduleId (string): Schedule ID
-        - devices (array): device details
-        - name (string): Name of the packet capture file
-        - notes (string): Reason for capture
-        - duration (integer): Duration of the capture in seconds
-        - filterExpression (string): Filter expression for the capture
-        - enabled (boolean): Enable or disable the schedule
-        - schedule (object): Schedule details
-        """
+        Args:
+            organizationId: Organization ID.
+            scheduleId: Schedule ID.
+            devices: device details.
+            name: Name of the packet capture file.
+            notes: Reason for capture.
+            duration: Duration of the capture in seconds.
+            filterExpression: Filter expression for the capture.
+            enabled: Enable or disable the schedule.
+            schedule: Schedule details.
 
+        """
         kwargs.update(locals())
 
         metadata = {
@@ -827,15 +902,16 @@ class ActionBatchOrganizations:
 
     def delete_organization_devices_packet_capture_schedule(
         self, organizationId: str, scheduleId: str
-    ):
-        """
-        **Delete schedule from cloud.**
+    ) -> dict[str, Any]:
+        """Delete schedule from cloud.
+
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-devices-packet-capture-schedule
 
-        - organizationId (string): Organization ID
-        - scheduleId (string): Delete the capture schedules of the specified capture schedule id
-        """
+        Args:
+            organizationId: Organization ID.
+            scheduleId: Delete the capture schedules of the specified capture schedule id.
 
+        """
         kwargs = locals()
 
         metadata = {
@@ -851,17 +927,18 @@ class ActionBatchOrganizations:
         return action
 
     def update_organization_early_access_features_opt_in(
-        self, organizationId: str, optInId: str, **kwargs
-    ):
-        """
-        **Update an early access feature opt-in for an organization.**
+        self, organizationId: str, optInId: str, **kwargs: Any
+    ) -> dict[str, Any]:
+        """Update an early access feature opt-in for an organization.
+
         https://developer.cisco.com/meraki/api-v1/#!update-organization-early-access-features-opt-in
 
-        - organizationId (string): Organization ID
-        - optInId (string): Opt in ID
-        - limitScopeToNetworks (array): A list of network IDs to apply the opt-in to
-        """
+        Args:
+            organizationId: Organization ID.
+            optInId: Opt in ID.
+            limitScopeToNetworks: A list of network IDs to apply the opt-in to.
 
+        """
         kwargs.update(locals())
 
         metadata = {
@@ -877,15 +954,18 @@ class ActionBatchOrganizations:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def disable_organization_integrations_xdr_networks(self, organizationId: str, networks: list):
-        """
-        **Disable XDR on networks.**
+    def disable_organization_integrations_xdr_networks(
+        self, organizationId: str, networks: list
+    ) -> dict[str, Any]:
+        """Disable XDR on networks.
+
         https://developer.cisco.com/meraki/api-v1/#!disable-organization-integrations-xdr-networks
 
-        - organizationId (string): Organization ID
-        - networks (array): List containing the network ID and the product type to disable XDR on
-        """
+        Args:
+            organizationId: Organization ID.
+            networks: List containing the network ID and the product type to disable XDR on.
 
+        """
         kwargs = locals()
 
         metadata = {
@@ -901,15 +981,18 @@ class ActionBatchOrganizations:
         action = {"resource": resource, "operation": "create", "body": payload}
         return action
 
-    def enable_organization_integrations_xdr_networks(self, organizationId: str, networks: list):
-        """
-        **Enable XDR on networks.**
+    def enable_organization_integrations_xdr_networks(
+        self, organizationId: str, networks: list
+    ) -> dict[str, Any]:
+        """Enable XDR on networks.
+
         https://developer.cisco.com/meraki/api-v1/#!enable-organization-integrations-xdr-networks
 
-        - organizationId (string): Organization ID
-        - networks (array): List containing the network ID and the product type to enable XDR on
-        """
+        Args:
+            organizationId: Organization ID.
+            networks: List containing the network ID and the product type to enable XDR on.
 
+        """
         kwargs = locals()
 
         metadata = {
@@ -925,16 +1008,19 @@ class ActionBatchOrganizations:
         action = {"resource": resource, "operation": "create", "body": payload}
         return action
 
-    def claim_organization_inventory_orders(self, organizationId: str, claimId: str, **kwargs):
-        """
-        **Claim an order by the secure unique order claim number, the order claim id.**
+    def claim_organization_inventory_orders(
+        self, organizationId: str, claimId: str, **kwargs: Any
+    ) -> dict[str, Any]:
+        """Claim an order by the secure unique order claim number, the order claim id.
+
         https://developer.cisco.com/meraki/api-v1/#!claim-organization-inventory-orders
 
-        - organizationId (string): Organization ID
-        - claimId (string): The unique order claim id
-        - subscriptions (array): The individual subscriptions to claim
-        """
+        Args:
+            organizationId: Organization ID.
+            claimId: The unique order claim id.
+            subscriptions: The individual subscriptions to claim.
 
+        """
         kwargs.update(locals())
 
         metadata = {
@@ -953,17 +1039,19 @@ class ActionBatchOrganizations:
 
     def assign_organization_licenses_seats(
         self, organizationId: str, licenseId: str, networkId: str, seatCount: int
-    ):
-        """
-        **Assign SM seats to a network.**
+    ) -> dict[str, Any]:
+        """Assign SM seats to a network.
+
         https://developer.cisco.com/meraki/api-v1/#!assign-organization-licenses-seats
 
-        - organizationId (string): Organization ID
-        - licenseId (string): The ID of the SM license to assign seats from
-        - networkId (string): The ID of the SM network to assign the seats to
-        - seatCount (integer): The number of seats to assign to the SM network. Must be less than or equal to the total number of seats of the license
-        """
+        Args:
+            organizationId: Organization ID.
+            licenseId: The ID of the SM license to assign seats from.
+            networkId: The ID of the SM network to assign the seats to.
+            seatCount: The number of seats to assign to the SM network. Must be less than or equal
+              to the total number of seats of the license.
 
+        """
         kwargs = locals()
 
         metadata = {
@@ -983,16 +1071,17 @@ class ActionBatchOrganizations:
 
     def move_organization_licenses(
         self, organizationId: str, destOrganizationId: str, licenseIds: list
-    ):
-        """
-        **Move licenses to another organization.**
+    ) -> dict[str, Any]:
+        """Move licenses to another organization.
+
         https://developer.cisco.com/meraki/api-v1/#!move-organization-licenses
 
-        - organizationId (string): Organization ID
-        - destOrganizationId (string): The ID of the organization to move the licenses to
-        - licenseIds (array): A list of IDs of licenses to move to the new organization
-        """
+        Args:
+            organizationId: Organization ID.
+            destOrganizationId: The ID of the organization to move the licenses to.
+            licenseIds: A list of IDs of licenses to move to the new organization.
 
+        """
         kwargs = locals()
 
         metadata = {
@@ -1011,17 +1100,19 @@ class ActionBatchOrganizations:
 
     def move_organization_licenses_seats(
         self, organizationId: str, destOrganizationId: str, licenseId: str, seatCount: int
-    ):
-        """
-        **Move SM seats to another organization.**
+    ) -> dict[str, Any]:
+        """Move SM seats to another organization.
+
         https://developer.cisco.com/meraki/api-v1/#!move-organization-licenses-seats
 
-        - organizationId (string): Organization ID
-        - destOrganizationId (string): The ID of the organization to move the SM seats to
-        - licenseId (string): The ID of the SM license to move the seats from
-        - seatCount (integer): The number of seats to move to the new organization. Must be less than or equal to the total number of seats of the license
-        """
+        Args:
+            organizationId: Organization ID.
+            destOrganizationId: The ID of the organization to move the SM seats to.
+            licenseId: The ID of the SM license to move the seats from.
+            seatCount: The number of seats to move to the new organization. Must be less than or
+              equal to the total number of seats of the license.
 
+        """
         kwargs = locals()
 
         metadata = {
@@ -1041,16 +1132,20 @@ class ActionBatchOrganizations:
 
     def renew_organization_licenses_seats(
         self, organizationId: str, licenseIdToRenew: str, unusedLicenseId: str
-    ):
-        """
-        **Renew SM seats of a license.**
+    ) -> dict[str, Any]:
+        """Renew SM seats of a license.
+
         https://developer.cisco.com/meraki/api-v1/#!renew-organization-licenses-seats
 
-        - organizationId (string): Organization ID
-        - licenseIdToRenew (string): The ID of the SM license to renew. This license must already be assigned to an SM network
-        - unusedLicenseId (string): The SM license to use to renew the seats on 'licenseIdToRenew'. This license must have at least as many seats available as there are seats on 'licenseIdToRenew'
-        """
+        Args:
+            organizationId: Organization ID.
+            licenseIdToRenew: The ID of the SM license to renew. This license must already be
+              assigned to an SM network.
+            unusedLicenseId: The SM license to use to renew the seats on 'licenseIdToRenew'. This
+              license must have at least as many seats available as there are seats on
+              'licenseIdToRenew'.
 
+        """
         kwargs = locals()
 
         metadata = {
@@ -1067,16 +1162,21 @@ class ActionBatchOrganizations:
         action = {"resource": resource, "operation": "create", "body": payload}
         return action
 
-    def update_organization_license(self, organizationId: str, licenseId: str, **kwargs):
-        """
-        **Update a license.**
+    def update_organization_license(
+        self, organizationId: str, licenseId: str, **kwargs: Any
+    ) -> dict[str, Any]:
+        """Update a license.
+
         https://developer.cisco.com/meraki/api-v1/#!update-organization-license
 
-        - organizationId (string): Organization ID
-        - licenseId (string): License ID
-        - deviceSerial (string): The serial number of the device to assign this license to. Set this to  null to unassign the license. If a different license is already active on the device, this parameter will control queueing/dequeuing this license.
-        """
+        Args:
+            organizationId: Organization ID.
+            licenseId: License ID.
+            deviceSerial: The serial number of the device to assign this license to. Set this to
+              null to unassign the license. If a different license is already active on
+              the device, this parameter will control queueing/dequeuing this license.
 
+        """
         kwargs.update(locals())
 
         metadata = {
@@ -1092,28 +1192,46 @@ class ActionBatchOrganizations:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def update_organization_login_security(self, organizationId: str, **kwargs):
-        """
-        **Update the login security settings for an organization.**
+    def update_organization_login_security(
+        self, organizationId: str, **kwargs: Any
+    ) -> dict[str, Any]:
+        """Update the login security settings for an organization.
+
         https://developer.cisco.com/meraki/api-v1/#!update-organization-login-security
 
-        - organizationId (string): Organization ID
-        - enforcePasswordExpiration (boolean): Boolean indicating whether users are forced to change their password every X number of days.
-        - passwordExpirationDays (integer): Number of days after which users will be forced to change their password.
-        - enforceDifferentPasswords (boolean): Boolean indicating whether users, when setting a new password, are forced to choose a new password that is different from any past passwords.
-        - numDifferentPasswords (integer): Number of recent passwords that new password must be distinct from.
-        - enforceStrongPasswords (boolean): Deprecated. Values of 'false' are always ignored.
-        - minimumPasswordLength (integer): Minimum number of characters required in admins' passwords.
-        - enforceAccountLockout (boolean): Boolean indicating whether users' Dashboard accounts will be locked out after a specified number of consecutive failed login attempts.
-        - accountLockoutAttempts (integer): Number of consecutive failed login attempts after which users' accounts will be locked.
-        - enforceIdleTimeout (boolean): Boolean indicating whether users will be logged out after being idle for the specified number of minutes.
-        - idleTimeoutMinutes (integer): Number of minutes users can remain idle before being logged out of their accounts.
-        - enforceTwoFactorAuth (boolean): Boolean indicating whether users in this organization will be required to use an extra verification code when logging in to Dashboard. This code will be sent to their mobile phone via SMS, or can be generated by the authenticator application.
-        - enforceLoginIpRanges (boolean): Boolean indicating whether organization will restrict access to Dashboard (including the API) from certain IP addresses.
-        - loginIpRanges (array): List of acceptable IP ranges. Entries can be single IP addresses, IP address ranges, and CIDR subnets.
-        - apiAuthentication (object): Details for indicating whether organization will restrict access to API (but not Dashboard) to certain IP addresses.
-        """
+        Args:
+            organizationId: Organization ID.
+            enforcePasswordExpiration: Boolean indicating whether users are forced to change their
+              password every X number of days.
+            passwordExpirationDays: Number of days after which users will be forced to change their
+              password.
+            enforceDifferentPasswords: Boolean indicating whether users, when setting a new
+              password, are forced to choose a new password that is different from any
+              past passwords.
+            numDifferentPasswords: Number of recent passwords that new password must be distinct
+              from.
+            enforceStrongPasswords: Deprecated. Values of 'false' are always ignored.
+            minimumPasswordLength: Minimum number of characters required in admins' passwords.
+            enforceAccountLockout: Boolean indicating whether users' Dashboard accounts will be
+              locked out after a specified number of consecutive failed login attempts.
+            accountLockoutAttempts: Number of consecutive failed login attempts after which users'
+              accounts will be locked.
+            enforceIdleTimeout: Boolean indicating whether users will be logged out after being idle
+              for the specified number of minutes.
+            idleTimeoutMinutes: Number of minutes users can remain idle before being logged out of
+              their accounts.
+            enforceTwoFactorAuth: Boolean indicating whether users in this organization will be
+              required to use an extra verification code when logging in to Dashboard.
+              This code will be sent to their mobile phone via SMS, or can be generated
+              by the authenticator application.
+            enforceLoginIpRanges: Boolean indicating whether organization will restrict access to
+              Dashboard (including the API) from certain IP addresses.
+            loginIpRanges: List of acceptable IP ranges. Entries can be single IP addresses, IP
+              address ranges, and CIDR subnets.
+            apiAuthentication: Details for indicating whether organization will restrict access to
+              API (but not Dashboard) to certain IP addresses.
 
+        """
         kwargs.update(locals())
 
         metadata = {
@@ -1143,21 +1261,28 @@ class ActionBatchOrganizations:
         return action
 
     def create_organization_network(
-        self, organizationId: str, name: str, productTypes: list, **kwargs
-    ):
-        """
-        **Create a network.**
+        self, organizationId: str, name: str, productTypes: list, **kwargs: Any
+    ) -> dict[str, Any]:
+        """Create a network.
+
         https://developer.cisco.com/meraki/api-v1/#!create-organization-network
 
-        - organizationId (string): Organization ID
-        - name (string): The name of the new network
-        - productTypes (array): The product type(s) of the new network. If more than one type is included, the network will be a combined network.
-        - tags (array): A list of tags to be applied to the network
-        - timeZone (string): The timezone of the network. For a list of allowed timezones, please see the 'TZ' column in the table in <a target='_blank' href='https://en.wikipedia.org/wiki/List_of_tz_database_time_zones'>this article.</a>
-        - copyFromNetworkId (string): The ID of the network to copy configuration from. Other provided parameters will override the copied configuration, except type which must match this network's type exactly.
-        - notes (string): Add any notes or additional information about this network here.
-        """
+        Args:
+            organizationId: Organization ID.
+            name: The name of the new network.
+            productTypes: The product type(s) of the new network. If more than one type is included,
+              the network will be a combined network.
+            tags: A list of tags to be applied to the network.
+            timeZone: The timezone of the network. For a list of allowed timezones, please see the
+              'TZ' column in the table in <a target='_blank'
+              href='https://en.wikipedia.org/wiki/List_of_tz_database_time_zones'>this
+              article.</a>.
+            copyFromNetworkId: The ID of the network to copy configuration from. Other provided
+              parameters will override the copied configuration, except type which must
+              match this network's type exactly.
+            notes: Add any notes or additional information about this network here.
 
+        """
         kwargs.update(locals())
 
         metadata = {
@@ -1179,18 +1304,26 @@ class ActionBatchOrganizations:
         return action
 
     def combine_organization_networks(
-        self, organizationId: str, name: str, networkIds: list, **kwargs
-    ):
-        """
-        **Combine multiple networks into a single network.**
+        self, organizationId: str, name: str, networkIds: list, **kwargs: Any
+    ) -> dict[str, Any]:
+        """Combine multiple networks into a single network.
+
         https://developer.cisco.com/meraki/api-v1/#!combine-organization-networks
 
-        - organizationId (string): Organization ID
-        - name (string): The name of the combined network
-        - networkIds (array): A list of the network IDs that will be combined. If an ID of a combined network is included in this list, the other networks in the list will be grouped into that network
-        - enrollmentString (string): A unique identifier which can be used for device enrollment or easy access through the Meraki SM Registration page or the Self Service Portal. Please note that changing this field may cause existing bookmarks to break. All networks that are part of this combined network will have their enrollment string appended by '-network_type'. If left empty, all exisitng enrollment strings will be deleted.
-        """
+        Args:
+            organizationId: Organization ID.
+            name: The name of the combined network.
+            networkIds: A list of the network IDs that will be combined. If an ID of a combined
+              network is included in this list, the other networks in the list will be
+              grouped into that network.
+            enrollmentString: A unique identifier which can be used for device enrollment or easy
+              access through the Meraki SM Registration page or the Self Service Portal.
+              Please note that changing this field may cause existing bookmarks to
+              break. All networks that are part of this combined network will have their
+              enrollment string appended by '-network_type'. If left empty, all exisitng
+              enrollment strings will be deleted.
 
+        """
         kwargs.update(locals())
 
         metadata = {
@@ -1209,23 +1342,25 @@ class ActionBatchOrganizations:
         return action
 
     def create_organization_policy_object(
-        self, organizationId: str, name: str, category: str, type: str, **kwargs
-    ):
-        """
-        **Creates a new Policy Object.**
+        self, organizationId: str, name: str, category: str, type: str, **kwargs: Any
+    ) -> dict[str, Any]:
+        """Creates a new Policy Object.
+
         https://developer.cisco.com/meraki/api-v1/#!create-organization-policy-object
 
-        - organizationId (string): Organization ID
-        - name (string): Name of a policy object, unique within the organization (alphanumeric, space, dash, or underscore characters only)
-        - category (string): Category of a policy object (one of: adaptivePolicy, network)
-        - type (string): Type of a policy object (one of: adaptivePolicyIpv4Cidr, cidr, fqdn, ipAndMask)
-        - cidr (string): CIDR Value of a policy object (e.g. 10.11.12.1/24")
-        - fqdn (string): Fully qualified domain name of policy object (e.g. "example.com")
-        - mask (string): Mask of a policy object (e.g. "255.255.0.0")
-        - ip (string): IP Address of a policy object (e.g. "1.2.3.4")
-        - groupIds (array): The IDs of policy object groups the policy object belongs to
-        """
+        Args:
+            organizationId: Organization ID.
+            name: Name of a policy object, unique within the organization (alphanumeric, space,
+              dash, or underscore characters only).
+            category: Category of a policy object (one of: adaptivePolicy, network).
+            type: Type of a policy object (one of: adaptivePolicyIpv4Cidr, cidr, fqdn, ipAndMask).
+            cidr: CIDR Value of a policy object (e.g. 10.11.12.1/24").
+            fqdn: Fully qualified domain name of policy object (e.g. "example.com").
+            mask: Mask of a policy object (e.g. "255.255.0.0").
+            ip: IP Address of a policy object (e.g. "1.2.3.4").
+            groupIds: The IDs of policy object groups the policy object belongs to.
 
+        """
         kwargs.update(locals())
 
         metadata = {
@@ -1248,17 +1383,24 @@ class ActionBatchOrganizations:
         action = {"resource": resource, "operation": "create", "body": payload}
         return action
 
-    def create_organization_policy_objects_group(self, organizationId: str, name: str, **kwargs):
-        """
-        **Creates a new Policy Object Group.**
+    def create_organization_policy_objects_group(
+        self, organizationId: str, name: str, **kwargs: Any
+    ) -> dict[str, Any]:
+        """Creates a new Policy Object Group.
+
         https://developer.cisco.com/meraki/api-v1/#!create-organization-policy-objects-group
 
-        - organizationId (string): Organization ID
-        - name (string): A name for the group of network addresses, unique within the organization (alphanumeric, space, dash, or underscore characters only)
-        - category (string): Category of a policy object group (one of: NetworkObjectGroup, GeoLocationGroup, PortObjectGroup, ApplicationGroup)
-        - objectIds (array): A list of Policy Object ID's that this NetworkObjectGroup should be associated to (note: these ID's will replace the existing associated Policy Objects)
-        """
+        Args:
+            organizationId: Organization ID.
+            name: A name for the group of network addresses, unique within the organization
+              (alphanumeric, space, dash, or underscore characters only).
+            category: Category of a policy object group (one of: NetworkObjectGroup,
+              GeoLocationGroup, PortObjectGroup, ApplicationGroup).
+            objectIds: A list of Policy Object ID's that this NetworkObjectGroup should be
+              associated to (note: these ID's will replace the existing associated
+              Policy Objects).
 
+        """
         kwargs.update(locals())
 
         metadata = {
@@ -1277,18 +1419,22 @@ class ActionBatchOrganizations:
         return action
 
     def update_organization_policy_objects_group(
-        self, organizationId: str, policyObjectGroupId: str, **kwargs
-    ):
-        """
-        **Updates a Policy Object Group.**
+        self, organizationId: str, policyObjectGroupId: str, **kwargs: Any
+    ) -> dict[str, Any]:
+        """Updates a Policy Object Group.
+
         https://developer.cisco.com/meraki/api-v1/#!update-organization-policy-objects-group
 
-        - organizationId (string): Organization ID
-        - policyObjectGroupId (string): Policy object group ID
-        - name (string): A name for the group of network addresses, unique within the organization (alphanumeric, space, dash, or underscore characters only)
-        - objectIds (array): A list of Policy Object ID's that this NetworkObjectGroup should be associated to (note: these ID's will replace the existing associated Policy Objects)
-        """
+        Args:
+            organizationId: Organization ID.
+            policyObjectGroupId: Policy object group ID.
+            name: A name for the group of network addresses, unique within the organization
+              (alphanumeric, space, dash, or underscore characters only).
+            objectIds: A list of Policy Object ID's that this NetworkObjectGroup should be
+              associated to (note: these ID's will replace the existing associated
+              Policy Objects).
 
+        """
         kwargs.update(locals())
 
         metadata = {
@@ -1307,15 +1453,16 @@ class ActionBatchOrganizations:
 
     def delete_organization_policy_objects_group(
         self, organizationId: str, policyObjectGroupId: str
-    ):
-        """
-        **Deletes a Policy Object Group.**
+    ) -> dict[str, Any]:
+        """Deletes a Policy Object Group.
+
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-policy-objects-group
 
-        - organizationId (string): Organization ID
-        - policyObjectGroupId (string): Policy object group ID
-        """
+        Args:
+            organizationId: Organization ID.
+            policyObjectGroupId: Policy object group ID.
 
+        """
         metadata = {
             "tags": ["organizations", "configure", "policyObjects", "groups"],
             "operation": "delete_organization_policy_objects_group",
@@ -1328,21 +1475,25 @@ class ActionBatchOrganizations:
         }
         return action
 
-    def update_organization_policy_object(self, organizationId: str, policyObjectId: str, **kwargs):
-        """
-        **Updates a Policy Object.**
+    def update_organization_policy_object(
+        self, organizationId: str, policyObjectId: str, **kwargs: Any
+    ) -> dict[str, Any]:
+        """Updates a Policy Object.
+
         https://developer.cisco.com/meraki/api-v1/#!update-organization-policy-object
 
-        - organizationId (string): Organization ID
-        - policyObjectId (string): Policy object ID
-        - name (string): Name of a policy object, unique within the organization (alphanumeric, space, dash, or underscore characters only)
-        - cidr (string): CIDR Value of a policy object (e.g. 10.11.12.1/24")
-        - fqdn (string): Fully qualified domain name of policy object (e.g. "example.com")
-        - mask (string): Mask of a policy object (e.g. "255.255.0.0")
-        - ip (string): IP Address of a policy object (e.g. "1.2.3.4")
-        - groupIds (array): The IDs of policy object groups the policy object belongs to
-        """
+        Args:
+            organizationId: Organization ID.
+            policyObjectId: Policy object ID.
+            name: Name of a policy object, unique within the organization (alphanumeric, space,
+              dash, or underscore characters only).
+            cidr: CIDR Value of a policy object (e.g. 10.11.12.1/24").
+            fqdn: Fully qualified domain name of policy object (e.g. "example.com").
+            mask: Mask of a policy object (e.g. "255.255.0.0").
+            ip: IP Address of a policy object (e.g. "1.2.3.4").
+            groupIds: The IDs of policy object groups the policy object belongs to.
 
+        """
         kwargs.update(locals())
 
         metadata = {
@@ -1363,15 +1514,18 @@ class ActionBatchOrganizations:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def delete_organization_policy_object(self, organizationId: str, policyObjectId: str):
-        """
-        **Deletes a Policy Object.**
+    def delete_organization_policy_object(
+        self, organizationId: str, policyObjectId: str
+    ) -> dict[str, Any]:
+        """Deletes a Policy Object.
+
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-policy-object
 
-        - organizationId (string): Organization ID
-        - policyObjectId (string): Policy object ID
-        """
+        Args:
+            organizationId: Organization ID.
+            policyObjectId: Policy object ID.
 
+        """
         metadata = {
             "tags": ["organizations", "configure", "policyObjects"],
             "operation": "delete_organization_policy_object",
@@ -1385,18 +1539,21 @@ class ActionBatchOrganizations:
         return action
 
     def create_organization_saml_idp(
-        self, organizationId: str, x509certSha1Fingerprint: str, **kwargs
-    ):
-        """
-        **Create a SAML IdP for your organization.**
+        self, organizationId: str, x509certSha1Fingerprint: str, **kwargs: Any
+    ) -> dict[str, Any]:
+        """Create a SAML IdP for your organization.
+
         https://developer.cisco.com/meraki/api-v1/#!create-organization-saml-idp
 
-        - organizationId (string): Organization ID
-        - x509certSha1Fingerprint (string): Fingerprint (SHA1) of the SAML certificate provided by your Identity Provider (IdP). This will be used for encryption / validation.
-        - ssoLoginUrl (string): Dashboard will redirect users to this URL to log in again when their sessions expire.
-        - sloLogoutUrl (string): Dashboard will redirect users to this URL when they sign out.
-        """
+        Args:
+            organizationId: Organization ID.
+            x509certSha1Fingerprint: Fingerprint (SHA1) of the SAML certificate provided by your
+              Identity Provider (IdP). This will be used for encryption / validation.
+            ssoLoginUrl: Dashboard will redirect users to this URL to log in again when their
+              sessions expire.
+            sloLogoutUrl: Dashboard will redirect users to this URL when they sign out.
 
+        """
         kwargs.update(locals())
 
         metadata = {
@@ -1414,18 +1571,23 @@ class ActionBatchOrganizations:
         action = {"resource": resource, "operation": "create", "body": payload}
         return action
 
-    def update_organization_saml_idp(self, organizationId: str, idpId: str, **kwargs):
-        """
-        **Update a SAML IdP in your organization.**
+    def update_organization_saml_idp(
+        self, organizationId: str, idpId: str, **kwargs: Any
+    ) -> dict[str, Any]:
+        """Update a SAML IdP in your organization.
+
         https://developer.cisco.com/meraki/api-v1/#!update-organization-saml-idp
 
-        - organizationId (string): Organization ID
-        - idpId (string): Idp ID
-        - x509certSha1Fingerprint (string): Fingerprint (SHA1) of the SAML certificate provided by your Identity Provider (IdP). This will be used for encryption / validation.
-        - ssoLoginUrl (string): Dashboard will redirect users to this URL to log in again when their sessions expire.
-        - sloLogoutUrl (string): Dashboard will redirect users to this URL when they sign out.
-        """
+        Args:
+            organizationId: Organization ID.
+            idpId: Idp ID.
+            x509certSha1Fingerprint: Fingerprint (SHA1) of the SAML certificate provided by your
+              Identity Provider (IdP). This will be used for encryption / validation.
+            ssoLoginUrl: Dashboard will redirect users to this URL to log in again when their
+              sessions expire.
+            sloLogoutUrl: Dashboard will redirect users to this URL when they sign out.
 
+        """
         kwargs.update(locals())
 
         metadata = {
@@ -1443,15 +1605,16 @@ class ActionBatchOrganizations:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def delete_organization_saml_idp(self, organizationId: str, idpId: str):
-        """
-        **Remove a SAML IdP in your organization.**
+    def delete_organization_saml_idp(self, organizationId: str, idpId: str) -> dict[str, Any]:
+        """Remove a SAML IdP in your organization.
+
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-saml-idp
 
-        - organizationId (string): Organization ID
-        - idpId (string): Idp ID
-        """
+        Args:
+            organizationId: Organization ID.
+            idpId: Idp ID.
 
+        """
         metadata = {
             "tags": ["organizations", "configure", "saml", "idps"],
             "operation": "delete_organization_saml_idp",
@@ -1464,15 +1627,16 @@ class ActionBatchOrganizations:
         }
         return action
 
-    def delete_organization_splash_asset(self, organizationId: str, id: str):
-        """
-        **Delete a Splash Theme Asset.**
+    def delete_organization_splash_asset(self, organizationId: str, id: str) -> dict[str, Any]:
+        """Delete a Splash Theme Asset.
+
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-splash-asset
 
-        - organizationId (string): Organization ID
-        - id (string): ID
-        """
+        Args:
+            organizationId: Organization ID.
+            id: ID.
 
+        """
         metadata = {
             "tags": ["organizations", "configure", "splash", "assets"],
             "operation": "delete_organization_splash_asset",
@@ -1485,16 +1649,19 @@ class ActionBatchOrganizations:
         }
         return action
 
-    def create_organization_splash_theme(self, organizationId: str, **kwargs):
-        """
-        **Create a Splash Theme.**
+    def create_organization_splash_theme(
+        self, organizationId: str, **kwargs: Any
+    ) -> dict[str, Any]:
+        """Create a Splash Theme.
+
         https://developer.cisco.com/meraki/api-v1/#!create-organization-splash-theme
 
-        - organizationId (string): Organization ID
-        - name (string): theme name
-        - baseTheme (string): base theme id
-        """
+        Args:
+            organizationId: Organization ID.
+            name: theme name.
+            baseTheme: base theme id .
 
+        """
         kwargs.update(locals())
 
         metadata = {
@@ -1511,15 +1678,16 @@ class ActionBatchOrganizations:
         action = {"resource": resource, "operation": "create", "body": payload}
         return action
 
-    def delete_organization_splash_theme(self, organizationId: str, id: str):
-        """
-        **Delete a Splash Theme.**
+    def delete_organization_splash_theme(self, organizationId: str, id: str) -> dict[str, Any]:
+        """Delete a Splash Theme.
+
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-splash-theme
 
-        - organizationId (string): Organization ID
-        - id (string): ID
-        """
+        Args:
+            organizationId: Organization ID.
+            id: ID.
 
+        """
         metadata = {
             "tags": ["organizations", "configure", "splash", "themes"],
             "operation": "delete_organization_splash_theme",
@@ -1533,18 +1701,19 @@ class ActionBatchOrganizations:
         return action
 
     def create_organization_splash_theme_asset(
-        self, organizationId: str, themeIdentifier: str, **kwargs
-    ):
-        """
-        **Create a Splash Theme Asset.**
+        self, organizationId: str, themeIdentifier: str, **kwargs: Any
+    ) -> dict[str, Any]:
+        """Create a Splash Theme Asset.
+
         https://developer.cisco.com/meraki/api-v1/#!create-organization-splash-theme-asset
 
-        - organizationId (string): Organization ID
-        - themeIdentifier (string): Theme identifier
-        - name (string): File name. Will overwrite files with same name.
-        - content (string): a file containing the asset content
-        """
+        Args:
+            organizationId: Organization ID.
+            themeIdentifier: Theme identifier.
+            name: File name. Will overwrite files with same name.
+            content: a file containing the asset content.
 
+        """
         kwargs.update(locals())
 
         metadata = {

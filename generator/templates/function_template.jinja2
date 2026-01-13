@@ -1,11 +1,14 @@
-    def {{ operation }}(self{% if function_definition|length > 0 %}{{ function_definition }}{% endif %}):
+    def {{ operation }}(self{% if function_definition|length > 0 %}{{ function_definition }}{% endif %}) -> {{ return_type }}:
         """{{ description }}
 
         {{ doc_url }}
+        {% if descriptions|length > 0 %}
 
+        Args:
         {% for d in descriptions %}
-        - {{ d }}
+            {{ d }}
         {% endfor %}
+        {% endif %}
 
         """
         {% if kwarg_line|length > 0 %}

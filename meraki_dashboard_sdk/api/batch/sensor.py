@@ -1,5 +1,8 @@
 """ActionBatchSensor API endpoints."""
 
+import urllib
+from typing import Any
+
 
 class ActionBatchSensor:
     """ActionBatchSensor class."""
@@ -7,15 +10,20 @@ class ActionBatchSensor:
     def __init__(self) -> None:
         pass
 
-    def create_device_sensor_command(self, serial: str, operation: str):
-        """
-        **Sends a command to a sensor.**
+    def create_device_sensor_command(self, serial: str, operation: str) -> dict[str, Any]:
+        """Sends a command to a sensor.
+
         https://developer.cisco.com/meraki/api-v1/#!create-device-sensor-command
 
-        - serial (string): Serial
-        - operation (string): Operation to run on the sensor. 'enableDownstreamPower', 'disableDownstreamPower', and 'cycleDownstreamPower' turn power on/off to the device that is connected downstream of an MT40 power monitor. 'refreshData' causes an MT15 or MT40 device to upload its latest readings so that they are immediately available in the Dashboard API.
-        """
+        Args:
+            serial: Serial.
+            operation: Operation to run on the sensor. 'enableDownstreamPower',
+              'disableDownstreamPower', and 'cycleDownstreamPower' turn power on/off to
+              the device that is connected downstream of an MT40 power monitor.
+              'refreshData' causes an MT15 or MT40 device to upload its latest readings
+              so that they are immediately available in the Dashboard API.
 
+        """
         kwargs = locals()
 
         if "operation" in kwargs:
@@ -42,15 +50,18 @@ class ActionBatchSensor:
         action = {"resource": resource, "operation": "create", "body": payload}
         return action
 
-    def update_device_sensor_relationships(self, serial: str, **kwargs):
-        """
-        **Assign one or more sensor roles to a given sensor or camera device.**
+    def update_device_sensor_relationships(self, serial: str, **kwargs: Any) -> dict[str, Any]:
+        """Assign one or more sensor roles to a given sensor or camera device.
+
         https://developer.cisco.com/meraki/api-v1/#!update-device-sensor-relationships
 
-        - serial (string): Serial
-        - livestream (object): A role defined between an MT sensor and an MV camera that adds the camera's livestream to the sensor's details page. Snapshots from the camera will also appear in alert notifications that the sensor triggers.
-        """
+        Args:
+            serial: Serial.
+            livestream: A role defined between an MT sensor and an MV camera that adds the camera's
+              livestream to the sensor's details page. Snapshots from the camera will
+              also appear in alert notifications that the sensor triggers.
 
+        """
         kwargs.update(locals())
 
         metadata = {
@@ -67,22 +78,23 @@ class ActionBatchSensor:
         return action
 
     def create_network_sensor_alerts_profile(
-        self, networkId: str, name: str, conditions: list, **kwargs
-    ):
-        """
-        **Creates a sensor alert profile for a network.**
+        self, networkId: str, name: str, conditions: list, **kwargs: Any
+    ) -> dict[str, Any]:
+        """Creates a sensor alert profile for a network.
+
         https://developer.cisco.com/meraki/api-v1/#!create-network-sensor-alerts-profile
 
-        - networkId (string): Network ID
-        - name (string): Name of the sensor alert profile.
-        - conditions (array): List of conditions that will cause the profile to send an alert.
-        - schedule (object): The sensor schedule to use with the alert profile.
-        - recipients (object): List of recipients that will receive the alert.
-        - serials (array): List of device serials assigned to this sensor alert profile.
-        - includeSensorUrl (boolean): Include dashboard link to sensor in messages (default: true).
-        - message (string): A custom message that will appear in email and text message alerts.
-        """
+        Args:
+            networkId: Network ID.
+            name: Name of the sensor alert profile.
+            conditions: List of conditions that will cause the profile to send an alert.
+            schedule: The sensor schedule to use with the alert profile.
+            recipients: List of recipients that will receive the alert.
+            serials: List of device serials assigned to this sensor alert profile.
+            includeSensorUrl: Include dashboard link to sensor in messages (default: true).
+            message: A custom message that will appear in email and text message alerts.
 
+        """
         kwargs.update(locals())
 
         metadata = {
@@ -104,22 +116,25 @@ class ActionBatchSensor:
         action = {"resource": resource, "operation": "create", "body": payload}
         return action
 
-    def update_network_sensor_alerts_profile(self, networkId: str, id: str, **kwargs):
-        """
-        **Updates a sensor alert profile for a network.**
+    def update_network_sensor_alerts_profile(
+        self, networkId: str, id: str, **kwargs: Any
+    ) -> dict[str, Any]:
+        """Updates a sensor alert profile for a network.
+
         https://developer.cisco.com/meraki/api-v1/#!update-network-sensor-alerts-profile
 
-        - networkId (string): Network ID
-        - id (string): ID
-        - name (string): Name of the sensor alert profile.
-        - schedule (object): The sensor schedule to use with the alert profile.
-        - conditions (array): List of conditions that will cause the profile to send an alert.
-        - recipients (object): List of recipients that will receive the alert.
-        - serials (array): List of device serials assigned to this sensor alert profile.
-        - includeSensorUrl (boolean): Include dashboard link to sensor in messages (default: true).
-        - message (string): A custom message that will appear in email and text message alerts.
-        """
+        Args:
+            networkId: Network ID.
+            id: ID.
+            name: Name of the sensor alert profile.
+            schedule: The sensor schedule to use with the alert profile.
+            conditions: List of conditions that will cause the profile to send an alert.
+            recipients: List of recipients that will receive the alert.
+            serials: List of device serials assigned to this sensor alert profile.
+            includeSensorUrl: Include dashboard link to sensor in messages (default: true).
+            message: A custom message that will appear in email and text message alerts.
 
+        """
         kwargs.update(locals())
 
         metadata = {
@@ -141,15 +156,16 @@ class ActionBatchSensor:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def delete_network_sensor_alerts_profile(self, networkId: str, id: str):
-        """
-        **Deletes a sensor alert profile from a network.**
+    def delete_network_sensor_alerts_profile(self, networkId: str, id: str) -> dict[str, Any]:
+        """Deletes a sensor alert profile from a network.
+
         https://developer.cisco.com/meraki/api-v1/#!delete-network-sensor-alerts-profile
 
-        - networkId (string): Network ID
-        - id (string): ID
-        """
+        Args:
+            networkId: Network ID.
+            id: ID.
 
+        """
         metadata = {
             "tags": ["sensor", "configure", "alerts", "profiles"],
             "operation": "delete_network_sensor_alerts_profile",
@@ -162,16 +178,19 @@ class ActionBatchSensor:
         }
         return action
 
-    def update_network_sensor_mqtt_broker(self, networkId: str, mqttBrokerId: str, enabled: bool):
-        """
-        **Update the sensor settings of an MQTT broker.**
+    def update_network_sensor_mqtt_broker(
+        self, networkId: str, mqttBrokerId: str, enabled: bool
+    ) -> dict[str, Any]:
+        """Update the sensor settings of an MQTT broker.
+
         https://developer.cisco.com/meraki/api-v1/#!update-network-sensor-mqtt-broker
 
-        - networkId (string): Network ID
-        - mqttBrokerId (string): Mqtt broker ID
-        - enabled (boolean): Set to true to enable MQTT broker for sensor network
-        """
+        Args:
+            networkId: Network ID.
+            mqttBrokerId: Mqtt broker ID.
+            enabled: Set to true to enable MQTT broker for sensor network.
 
+        """
         kwargs = locals()
 
         metadata = {

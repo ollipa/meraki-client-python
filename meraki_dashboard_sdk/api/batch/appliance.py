@@ -1,5 +1,8 @@
 """ActionBatchAppliance API endpoints."""
 
+import urllib
+from typing import Any
+
 
 class ActionBatchAppliance:
     """ActionBatchAppliance class."""
@@ -7,17 +10,22 @@ class ActionBatchAppliance:
     def __init__(self) -> None:
         pass
 
-    def update_device_appliance_radio_settings(self, serial: str, **kwargs):
-        """
-        **Update the radio settings of an appliance.**
+    def update_device_appliance_radio_settings(self, serial: str, **kwargs: Any) -> dict[str, Any]:
+        """Update the radio settings of an appliance.
+
         https://developer.cisco.com/meraki/api-v1/#!update-device-appliance-radio-settings
 
-        - serial (string): Serial
-        - rfProfileId (string): The ID of an RF profile to assign to the device. If the value of this parameter is null, the appropriate basic RF profile (indoor or outdoor) will be assigned to the device. Assigning an RF profile will clear ALL manually configured overrides on the device (channel width, channel, power).
-        - twoFourGhzSettings (object): Manual radio settings for 2.4 GHz.
-        - fiveGhzSettings (object): Manual radio settings for 5 GHz.
-        """
+        Args:
+            serial: Serial.
+            rfProfileId: The ID of an RF profile to assign to the device. If the value of this
+              parameter is null, the appropriate basic RF profile (indoor or outdoor)
+              will be assigned to the device. Assigning an RF profile will clear ALL
+              manually configured overrides on the device (channel width, channel,
+              power).
+            twoFourGhzSettings: Manual radio settings for 2.4 GHz.
+            fiveGhzSettings: Manual radio settings for 5 GHz.
 
+        """
         kwargs.update(locals())
 
         metadata = {
@@ -35,15 +43,18 @@ class ActionBatchAppliance:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def update_device_appliance_uplinks_settings(self, serial: str, interfaces: dict):
-        """
-        **Update the uplink settings for an MX appliance.**
+    def update_device_appliance_uplinks_settings(
+        self, serial: str, interfaces: dict
+    ) -> dict[str, Any]:
+        """Update the uplink settings for an MX appliance.
+
         https://developer.cisco.com/meraki/api-v1/#!update-device-appliance-uplinks-settings
 
-        - serial (string): Serial
-        - interfaces (object): Interface settings.
-        """
+        Args:
+            serial: Serial.
+            interfaces: Interface settings.
 
+        """
         kwargs = locals()
 
         metadata = {
@@ -59,14 +70,15 @@ class ActionBatchAppliance:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def create_device_appliance_vmx_authentication_token(self, serial: str):
-        """
-        **Generate a new vMX authentication token.**
+    def create_device_appliance_vmx_authentication_token(self, serial: str) -> dict[str, Any]:
+        """Generate a new vMX authentication token.
+
         https://developer.cisco.com/meraki/api-v1/#!create-device-appliance-vmx-authentication-token
 
-        - serial (string): Serial
-        """
+        Args:
+            serial: Serial.
 
+        """
         metadata = {
             "tags": ["appliance", "configure", "vmx", "authenticationToken"],
             "operation": "create_device_appliance_vmx_authentication_token",
@@ -80,16 +92,17 @@ class ActionBatchAppliance:
         return action
 
     def update_network_appliance_connectivity_monitoring_destinations(
-        self, networkId: str, **kwargs
-    ):
-        """
-        **Update the connectivity testing destinations for an MX network.**
+        self, networkId: str, **kwargs: Any
+    ) -> dict[str, Any]:
+        """Update the connectivity testing destinations for an MX network.
+
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-connectivity-monitoring-destinations
 
-        - networkId (string): Network ID
-        - destinations (array): The list of connectivity monitoring destinations
-        """
+        Args:
+            networkId: Network ID.
+            destinations: The list of connectivity monitoring destinations.
 
+        """
         kwargs.update(locals())
 
         metadata = {
@@ -105,15 +118,18 @@ class ActionBatchAppliance:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def update_network_appliance_firewall_l7_firewall_rules(self, networkId: str, **kwargs):
-        """
-        **Update the MX L7 firewall rules for an MX network.**
+    def update_network_appliance_firewall_l7_firewall_rules(
+        self, networkId: str, **kwargs: Any
+    ) -> dict[str, Any]:
+        """Update the MX L7 firewall rules for an MX network.
+
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-firewall-l-7-firewall-rules
 
-        - networkId (string): Network ID
-        - rules (array): An ordered array of the MX L7 firewall rules
-        """
+        Args:
+            networkId: Network ID.
+            rules: An ordered array of the MX L7 firewall rules.
 
+        """
         kwargs.update(locals())
 
         metadata = {
@@ -129,15 +145,18 @@ class ActionBatchAppliance:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def update_network_appliance_firewall_multicast_forwarding(self, networkId: str, rules: list):
-        """
-        **Update static multicast forward rules for a network.**
+    def update_network_appliance_firewall_multicast_forwarding(
+        self, networkId: str, rules: list
+    ) -> dict[str, Any]:
+        """Update static multicast forward rules for a network.
+
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-firewall-multicast-forwarding
 
-        - networkId (string): Network ID
-        - rules (array): Static multicast forwarding rules. Pass an empty array to clear all rules.
-        """
+        Args:
+            networkId: Network ID.
+            rules: Static multicast forwarding rules. Pass an empty array to clear all rules.
 
+        """
         kwargs = locals()
 
         metadata = {
@@ -153,21 +172,31 @@ class ActionBatchAppliance:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def update_network_appliance_port(self, networkId: str, portId: str, **kwargs):
-        """
-        **Update the per-port VLAN settings for a single MX port.**
+    def update_network_appliance_port(
+        self, networkId: str, portId: str, **kwargs: Any
+    ) -> dict[str, Any]:
+        """Update the per-port VLAN settings for a single MX port.
+
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-port
 
-        - networkId (string): Network ID
-        - portId (string): Port ID
-        - enabled (boolean): The status of the port
-        - dropUntaggedTraffic (boolean): Trunk port can Drop all Untagged traffic. When true, no VLAN is required. Access ports cannot have dropUntaggedTraffic set to true.
-        - type (string): The type of the port: 'access' or 'trunk'.
-        - vlan (integer): Native VLAN when the port is in Trunk mode. Access VLAN when the port is in Access mode.
-        - allowedVlans (string): Comma-delimited list of the VLAN ID's allowed on the port, or 'all' to permit all VLAN's on the port.
-        - accessPolicy (string): The name of the policy. Only applicable to Access ports. Valid values are: 'open', '8021x-radius', 'mac-radius', 'hybris-radius' for MX64 or Z3 or any MX supporting the per port authentication feature. Otherwise, 'open' is the only valid value and 'open' is the default value if the field is missing.
-        """
+        Args:
+            networkId: Network ID.
+            portId: Port ID.
+            enabled: The status of the port.
+            dropUntaggedTraffic: Trunk port can Drop all Untagged traffic. When true, no VLAN is
+              required. Access ports cannot have dropUntaggedTraffic set to true.
+            type: The type of the port: 'access' or 'trunk'.
+            vlan: Native VLAN when the port is in Trunk mode. Access VLAN when the port is in Access
+              mode.
+            allowedVlans: Comma-delimited list of the VLAN ID's allowed on the port, or 'all' to
+              permit all VLAN's on the port.
+            accessPolicy: The name of the policy. Only applicable to Access ports. Valid values are:
+              'open', '8021x-radius', 'mac-radius', 'hybris-radius' for MX64 or Z3 or
+              any MX supporting the per port authentication feature. Otherwise, 'open'
+              is the only valid value and 'open' is the default value if the field is
+              missing.
 
+        """
         kwargs.update(locals())
 
         metadata = {
@@ -189,18 +218,19 @@ class ActionBatchAppliance:
         return action
 
     def create_network_appliance_prefixes_delegated_static(
-        self, networkId: str, prefix: str, origin: dict, **kwargs
-    ):
-        """
-        **Add a static delegated prefix from a network.**
+        self, networkId: str, prefix: str, origin: dict, **kwargs: Any
+    ) -> dict[str, Any]:
+        """Add a static delegated prefix from a network.
+
         https://developer.cisco.com/meraki/api-v1/#!create-network-appliance-prefixes-delegated-static
 
-        - networkId (string): Network ID
-        - prefix (string): A static IPv6 prefix
-        - origin (object): The origin of the prefix
-        - description (string): A name or description for the prefix
-        """
+        Args:
+            networkId: Network ID.
+            prefix: A static IPv6 prefix.
+            origin: The origin of the prefix.
+            description: A name or description for the prefix.
 
+        """
         kwargs.update(locals())
 
         metadata = {
@@ -219,19 +249,20 @@ class ActionBatchAppliance:
         return action
 
     def update_network_appliance_prefixes_delegated_static(
-        self, networkId: str, staticDelegatedPrefixId: str, **kwargs
-    ):
-        """
-        **Update a static delegated prefix from a network.**
+        self, networkId: str, staticDelegatedPrefixId: str, **kwargs: Any
+    ) -> dict[str, Any]:
+        """Update a static delegated prefix from a network.
+
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-prefixes-delegated-static
 
-        - networkId (string): Network ID
-        - staticDelegatedPrefixId (string): Static delegated prefix ID
-        - prefix (string): A static IPv6 prefix
-        - origin (object): The origin of the prefix
-        - description (string): A name or description for the prefix
-        """
+        Args:
+            networkId: Network ID.
+            staticDelegatedPrefixId: Static delegated prefix ID.
+            prefix: A static IPv6 prefix.
+            origin: The origin of the prefix.
+            description: A name or description for the prefix.
 
+        """
         kwargs.update(locals())
 
         metadata = {
@@ -253,15 +284,16 @@ class ActionBatchAppliance:
 
     def delete_network_appliance_prefixes_delegated_static(
         self, networkId: str, staticDelegatedPrefixId: str
-    ):
-        """
-        **Delete a static delegated prefix from a network.**
+    ) -> dict[str, Any]:
+        """Delete a static delegated prefix from a network.
+
         https://developer.cisco.com/meraki/api-v1/#!delete-network-appliance-prefixes-delegated-static
 
-        - networkId (string): Network ID
-        - staticDelegatedPrefixId (string): Static delegated prefix ID
-        """
+        Args:
+            networkId: Network ID.
+            staticDelegatedPrefixId: Static delegated prefix ID.
 
+        """
         metadata = {
             "tags": ["appliance", "configure", "prefixes", "delegated", "statics"],
             "operation": "delete_network_appliance_prefixes_delegated_static",
@@ -276,18 +308,21 @@ class ActionBatchAppliance:
         }
         return action
 
-    def create_network_appliance_rf_profile(self, networkId: str, name: str, **kwargs):
-        """
-        **Creates new RF profile for this network.**
+    def create_network_appliance_rf_profile(
+        self, networkId: str, name: str, **kwargs: Any
+    ) -> dict[str, Any]:
+        """Creates new RF profile for this network.
+
         https://developer.cisco.com/meraki/api-v1/#!create-network-appliance-rf-profile
 
-        - networkId (string): Network ID
-        - name (string): The name of the new profile. Must be unique. This param is required on creation.
-        - twoFourGhzSettings (object): Settings related to 2.4Ghz band
-        - fiveGhzSettings (object): Settings related to 5Ghz band
-        - perSsidSettings (object): Per-SSID radio settings by number.
-        """
+        Args:
+            networkId: Network ID.
+            name: The name of the new profile. Must be unique. This param is required on creation.
+            twoFourGhzSettings: Settings related to 2.4Ghz band.
+            fiveGhzSettings: Settings related to 5Ghz band.
+            perSsidSettings: Per-SSID radio settings by number.
 
+        """
         kwargs.update(locals())
 
         metadata = {
@@ -306,19 +341,22 @@ class ActionBatchAppliance:
         action = {"resource": resource, "operation": "create", "body": payload}
         return action
 
-    def update_network_appliance_rf_profile(self, networkId: str, rfProfileId: str, **kwargs):
-        """
-        **Updates specified RF profile for this network.**
+    def update_network_appliance_rf_profile(
+        self, networkId: str, rfProfileId: str, **kwargs: Any
+    ) -> dict[str, Any]:
+        """Updates specified RF profile for this network.
+
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-rf-profile
 
-        - networkId (string): Network ID
-        - rfProfileId (string): Rf profile ID
-        - name (string): The name of the new profile. Must be unique.
-        - twoFourGhzSettings (object): Settings related to 2.4Ghz band
-        - fiveGhzSettings (object): Settings related to 5Ghz band
-        - perSsidSettings (object): Per-SSID radio settings by number.
-        """
+        Args:
+            networkId: Network ID.
+            rfProfileId: Rf profile ID.
+            name: The name of the new profile. Must be unique.
+            twoFourGhzSettings: Settings related to 2.4Ghz band.
+            fiveGhzSettings: Settings related to 5Ghz band.
+            perSsidSettings: Per-SSID radio settings by number.
 
+        """
         kwargs.update(locals())
 
         metadata = {
@@ -337,15 +375,18 @@ class ActionBatchAppliance:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def delete_network_appliance_rf_profile(self, networkId: str, rfProfileId: str):
-        """
-        **Delete a RF Profile.**
+    def delete_network_appliance_rf_profile(
+        self, networkId: str, rfProfileId: str
+    ) -> dict[str, Any]:
+        """Delete a RF Profile.
+
         https://developer.cisco.com/meraki/api-v1/#!delete-network-appliance-rf-profile
 
-        - networkId (string): Network ID
-        - rfProfileId (string): Rf profile ID
-        """
+        Args:
+            networkId: Network ID.
+            rfProfileId: Rf profile ID.
 
+        """
         metadata = {
             "tags": ["appliance", "configure", "rfProfiles"],
             "operation": "delete_network_appliance_rf_profile",
@@ -358,15 +399,18 @@ class ActionBatchAppliance:
         }
         return action
 
-    def update_network_appliance_sdwan_internet_policies(self, networkId: str, **kwargs):
-        """
-        **Update SDWAN internet traffic preferences for an MX network.**
+    def update_network_appliance_sdwan_internet_policies(
+        self, networkId: str, **kwargs: Any
+    ) -> dict[str, Any]:
+        """Update SDWAN internet traffic preferences for an MX network.
+
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-sdwan-internet-policies
 
-        - networkId (string): Network ID
-        - wanTrafficUplinkPreferences (array): policies with respective traffic filters for an MX network
-        """
+        Args:
+            networkId: Network ID.
+            wanTrafficUplinkPreferences: policies with respective traffic filters for an MX network.
 
+        """
         kwargs.update(locals())
 
         metadata = {
@@ -382,17 +426,18 @@ class ActionBatchAppliance:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def update_network_appliance_settings(self, networkId: str, **kwargs):
-        """
-        **Update the appliance settings for a network.**
+    def update_network_appliance_settings(self, networkId: str, **kwargs: Any) -> dict[str, Any]:
+        """Update the appliance settings for a network.
+
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-settings
 
-        - networkId (string): Network ID
-        - clientTrackingMethod (string): Client tracking method of a network
-        - deploymentMode (string): Deployment mode of a network
-        - dynamicDns (object): Dynamic DNS settings for a network
-        """
+        Args:
+            networkId: Network ID.
+            clientTrackingMethod: Client tracking method of a network.
+            deploymentMode: Deployment mode of a network.
+            dynamicDns: Dynamic DNS settings for a network.
 
+        """
         kwargs.update(locals())
 
         if "clientTrackingMethod" in kwargs:
@@ -421,18 +466,22 @@ class ActionBatchAppliance:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def update_network_appliance_single_lan(self, networkId: str, **kwargs):
-        """
-        **Update single LAN configuration.**
+    def update_network_appliance_single_lan(self, networkId: str, **kwargs: Any) -> dict[str, Any]:
+        """Update single LAN configuration.
+
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-single-lan
 
-        - networkId (string): Network ID
-        - subnet (string): The subnet of the single LAN configuration
-        - applianceIp (string): The appliance IP address of the single LAN
-        - ipv6 (object): IPv6 configuration on the VLAN
-        - mandatoryDhcp (object): Mandatory DHCP will enforce that clients connecting to this LAN must use the IP address assigned by the DHCP server. Clients who use a static IP address won't be able to associate. Only available on firmware versions 17.0 and above
-        """
+        Args:
+            networkId: Network ID.
+            subnet: The subnet of the single LAN configuration.
+            applianceIp: The appliance IP address of the single LAN.
+            ipv6: IPv6 configuration on the VLAN.
+            mandatoryDhcp: Mandatory DHCP will enforce that clients connecting to this LAN must use
+              the IP address assigned by the DHCP server. Clients who use a static IP
+              address won't be able to associate. Only available on firmware versions
+              17.0 and above.
 
+        """
         kwargs.update(locals())
 
         metadata = {
@@ -451,26 +500,39 @@ class ActionBatchAppliance:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def update_network_appliance_ssid(self, networkId: str, number: str, **kwargs):
-        """
-        **Update the attributes of an MX SSID.**
+    def update_network_appliance_ssid(
+        self, networkId: str, number: str, **kwargs: Any
+    ) -> dict[str, Any]:
+        """Update the attributes of an MX SSID.
+
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-ssid
 
-        - networkId (string): Network ID
-        - number (string): Number
-        - name (string): The name of the SSID.
-        - enabled (boolean): Whether or not the SSID is enabled.
-        - defaultVlanId (integer): The VLAN ID of the VLAN associated to this SSID. This parameter is only valid if the network is in routed mode.
-        - authMode (string): The association control method for the SSID ('open', 'psk', '8021x-meraki' or '8021x-radius').
-        - psk (string): The passkey for the SSID. This param is only valid if the authMode is 'psk'.
-        - radiusServers (array): The RADIUS 802.1x servers to be used for authentication. This param is only valid if the authMode is '8021x-radius'.
-        - encryptionMode (string): The psk encryption mode for the SSID ('wep' or 'wpa'). This param is only valid if the authMode is 'psk'.
-        - wpaEncryptionMode (string): The types of WPA encryption. ('WPA1 and WPA2', 'WPA2 only', 'WPA3 Transition Mode' or 'WPA3 only'). This param is only valid if (1) the authMode is 'psk' & the encryptionMode is 'wpa' OR (2) the authMode is '8021x-meraki' OR (3) the authMode is '8021x-radius'
-        - visible (boolean): Boolean indicating whether the MX should advertise or hide this SSID.
-        - dhcpEnforcedDeauthentication (object): DHCP Enforced Deauthentication enables the disassociation of wireless clients in addition to Mandatory DHCP. This param is only valid on firmware versions >= MX 17.0 where the associated LAN has Mandatory DHCP Enabled
-        - dot11w (object): The current setting for Protected Management Frames (802.11w).
-        """
+        Args:
+            networkId: Network ID.
+            number: Number.
+            name: The name of the SSID.
+            enabled: Whether or not the SSID is enabled.
+            defaultVlanId: The VLAN ID of the VLAN associated to this SSID. This parameter is only
+              valid if the network is in routed mode.
+            authMode: The association control method for the SSID ('open', 'psk', '8021x-meraki' or
+              '8021x-radius').
+            psk: The passkey for the SSID. This param is only valid if the authMode is 'psk'.
+            radiusServers: The RADIUS 802.1x servers to be used for authentication. This param is
+              only valid if the authMode is '8021x-radius'.
+            encryptionMode: The psk encryption mode for the SSID ('wep' or 'wpa'). This param is
+              only valid if the authMode is 'psk'.
+            wpaEncryptionMode: The types of WPA encryption. ('WPA1 and WPA2', 'WPA2 only', 'WPA3
+              Transition Mode' or 'WPA3 only'). This param is only valid if (1) the
+              authMode is 'psk' & the encryptionMode is 'wpa' OR (2) the authMode is
+              '8021x-meraki' OR (3) the authMode is '8021x-radius'.
+            visible: Boolean indicating whether the MX should advertise or hide this SSID.
+            dhcpEnforcedDeauthentication: DHCP Enforced Deauthentication enables the disassociation
+              of wireless clients in addition to Mandatory DHCP. This param is only
+              valid on firmware versions >= MX 17.0 where the associated LAN has
+              Mandatory DHCP Enabled .
+            dot11w: The current setting for Protected Management Frames (802.11w).
 
+        """
         kwargs.update(locals())
 
         if "authMode" in kwargs:
@@ -513,19 +575,20 @@ class ActionBatchAppliance:
         return action
 
     def create_network_appliance_traffic_shaping_custom_performance_class(
-        self, networkId: str, name: str, **kwargs
-    ):
-        """
-        **Add a custom performance class for an MX network.**
+        self, networkId: str, name: str, **kwargs: Any
+    ) -> dict[str, Any]:
+        """Add a custom performance class for an MX network.
+
         https://developer.cisco.com/meraki/api-v1/#!create-network-appliance-traffic-shaping-custom-performance-class
 
-        - networkId (string): Network ID
-        - name (string): Name of the custom performance class
-        - maxLatency (integer): Maximum latency in milliseconds
-        - maxJitter (integer): Maximum jitter in milliseconds
-        - maxLossPercentage (integer): Maximum percentage of packet loss
-        """
+        Args:
+            networkId: Network ID.
+            name: Name of the custom performance class.
+            maxLatency: Maximum latency in milliseconds.
+            maxJitter: Maximum jitter in milliseconds.
+            maxLossPercentage: Maximum percentage of packet loss.
 
+        """
         kwargs.update(locals())
 
         metadata = {
@@ -545,20 +608,21 @@ class ActionBatchAppliance:
         return action
 
     def update_network_appliance_traffic_shaping_custom_performance_class(
-        self, networkId: str, customPerformanceClassId: str, **kwargs
-    ):
-        """
-        **Update a custom performance class for an MX network.**
+        self, networkId: str, customPerformanceClassId: str, **kwargs: Any
+    ) -> dict[str, Any]:
+        """Update a custom performance class for an MX network.
+
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-traffic-shaping-custom-performance-class
 
-        - networkId (string): Network ID
-        - customPerformanceClassId (string): Custom performance class ID
-        - name (string): Name of the custom performance class
-        - maxLatency (integer): Maximum latency in milliseconds
-        - maxJitter (integer): Maximum jitter in milliseconds
-        - maxLossPercentage (integer): Maximum percentage of packet loss
-        """
+        Args:
+            networkId: Network ID.
+            customPerformanceClassId: Custom performance class ID.
+            name: Name of the custom performance class.
+            maxLatency: Maximum latency in milliseconds.
+            maxJitter: Maximum jitter in milliseconds.
+            maxLossPercentage: Maximum percentage of packet loss.
 
+        """
         kwargs.update(locals())
 
         metadata = {
@@ -579,15 +643,16 @@ class ActionBatchAppliance:
 
     def delete_network_appliance_traffic_shaping_custom_performance_class(
         self, networkId: str, customPerformanceClassId: str
-    ):
-        """
-        **Delete a custom performance class from an MX network.**
+    ) -> dict[str, Any]:
+        """Delete a custom performance class from an MX network.
+
         https://developer.cisco.com/meraki/api-v1/#!delete-network-appliance-traffic-shaping-custom-performance-class
 
-        - networkId (string): Network ID
-        - customPerformanceClassId (string): Custom performance class ID
-        """
+        Args:
+            networkId: Network ID.
+            customPerformanceClassId: Custom performance class ID.
 
+        """
         metadata = {
             "tags": ["appliance", "configure", "trafficShaping", "customPerformanceClasses"],
             "operation": "delete_network_appliance_traffic_shaping_custom_performance_class",
@@ -600,19 +665,24 @@ class ActionBatchAppliance:
         }
         return action
 
-    def update_network_appliance_traffic_shaping_rules(self, networkId: str, **kwargs):
+    def update_network_appliance_traffic_shaping_rules(
+        self, networkId: str, **kwargs: Any
+    ) -> dict[str, Any]:
+        """Update the traffic shaping settings rules for an MX network.
+
+        https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-traffic-shaping-rules
+
+        Args:
+            networkId: Network ID.
+            defaultRulesEnabled: Whether default traffic shaping rules are enabled (true) or
+              disabled (false). There are 4 default rules, which can be seen on your
+              network's traffic shaping page. Note that default rules count against the
+              rule limit of 8.
+            rules:     An array of traffic shaping rules. Rules are applied in the order that
+              they are specified in. An empty list (or null) means no rules. Note that
+              you are allowed a maximum of 8 rules. .
+
         """
-            **Update the traffic shaping settings rules for an MX network.**
-            https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-traffic-shaping-rules
-
-            - networkId (string): Network ID
-            - defaultRulesEnabled (boolean): Whether default traffic shaping rules are enabled (true) or disabled (false). There are 4 default rules, which can be seen on your network's traffic shaping page. Note that default rules count against the rule limit of 8.
-            - rules (array):     An array of traffic shaping rules. Rules are applied in the order that
-        they are specified in. An empty list (or null) means no rules. Note that
-        you are allowed a maximum of 8 rules.
-
-        """
-
         kwargs.update(locals())
 
         metadata = {
@@ -629,15 +699,19 @@ class ActionBatchAppliance:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def update_network_appliance_traffic_shaping_uplink_bandwidth(self, networkId: str, **kwargs):
-        """
-        **Updates the uplink bandwidth settings for your MX network.**
+    def update_network_appliance_traffic_shaping_uplink_bandwidth(
+        self, networkId: str, **kwargs: Any
+    ) -> dict[str, Any]:
+        """Updates the uplink bandwidth settings for your MX network.
+
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-traffic-shaping-uplink-bandwidth
 
-        - networkId (string): Network ID
-        - bandwidthLimits (object): A mapping of uplinks to their bandwidth settings (be sure to check which uplinks are supported for your network)
-        """
+        Args:
+            networkId: Network ID.
+            bandwidthLimits: A mapping of uplinks to their bandwidth settings (be sure to check
+              which uplinks are supported for your network).
 
+        """
         kwargs.update(locals())
 
         metadata = {
@@ -653,20 +727,23 @@ class ActionBatchAppliance:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def update_network_appliance_traffic_shaping_uplink_selection(self, networkId: str, **kwargs):
-        """
-        **Update uplink selection settings for an MX network.**
+    def update_network_appliance_traffic_shaping_uplink_selection(
+        self, networkId: str, **kwargs: Any
+    ) -> dict[str, Any]:
+        """Update uplink selection settings for an MX network.
+
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-traffic-shaping-uplink-selection
 
-        - networkId (string): Network ID
-        - activeActiveAutoVpnEnabled (boolean): Toggle for enabling or disabling active-active AutoVPN
-        - defaultUplink (string): The default uplink. Must be a WAN interface 'wanX'
-        - loadBalancingEnabled (boolean): Toggle for enabling or disabling load balancing
-        - failoverAndFailback (object): WAN failover and failback behavior
-        - wanTrafficUplinkPreferences (array): Array of uplink preference rules for WAN traffic
-        - vpnTrafficUplinkPreferences (array): Array of uplink preference rules for VPN traffic
-        """
+        Args:
+            networkId: Network ID.
+            activeActiveAutoVpnEnabled: Toggle for enabling or disabling active-active AutoVPN.
+            defaultUplink: The default uplink. Must be a WAN interface 'wanX'.
+            loadBalancingEnabled: Toggle for enabling or disabling load balancing.
+            failoverAndFailback: WAN failover and failback behavior.
+            wanTrafficUplinkPreferences: Array of uplink preference rules for WAN traffic.
+            vpnTrafficUplinkPreferences: Array of uplink preference rules for VPN traffic.
 
+        """
         kwargs.update(locals())
 
         metadata = {
@@ -687,16 +764,20 @@ class ActionBatchAppliance:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def update_network_appliance_traffic_shaping_vpn_exclusions(self, networkId: str, **kwargs):
-        """
-        **Update VPN exclusion rules for an MX network.**
+    def update_network_appliance_traffic_shaping_vpn_exclusions(
+        self, networkId: str, **kwargs: Any
+    ) -> dict[str, Any]:
+        """Update VPN exclusion rules for an MX network.
+
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-traffic-shaping-vpn-exclusions
 
-        - networkId (string): Network ID
-        - custom (array): Custom VPN exclusion rules. Pass an empty array to clear existing rules.
-        - majorApplications (array): Major Application based VPN exclusion rules. Pass an empty array to clear existing rules.
-        """
+        Args:
+            networkId: Network ID.
+            custom: Custom VPN exclusion rules. Pass an empty array to clear existing rules.
+            majorApplications: Major Application based VPN exclusion rules. Pass an empty array to
+              clear existing rules.
 
+        """
         kwargs.update(locals())
 
         metadata = {
@@ -713,31 +794,47 @@ class ActionBatchAppliance:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def create_network_appliance_vlan(self, networkId: str, id: str, name: str, **kwargs):
-        """
-        **Add a VLAN.**
+    def create_network_appliance_vlan(
+        self, networkId: str, id: str, name: str, **kwargs: Any
+    ) -> dict[str, Any]:
+        """Add a VLAN.
+
         https://developer.cisco.com/meraki/api-v1/#!create-network-appliance-vlan
 
-        - networkId (string): Network ID
-        - id (string): The VLAN ID of the new VLAN (must be between 1 and 4094)
-        - name (string): The name of the new VLAN
-        - subnet (string): The subnet of the VLAN
-        - applianceIp (string): The local IP of the appliance on the VLAN
-        - groupPolicyId (string): The id of the desired group policy to apply to the VLAN
-        - templateVlanType (string): Type of subnetting of the VLAN. Applicable only for template network.
-        - cidr (string): CIDR of the pool of subnets. Applicable only for template network. Each network bound to the template will automatically pick a subnet from this pool to build its own VLAN.
-        - mask (integer): Mask used for the subnet of all bound to the template networks. Applicable only for template network.
-        - ipv6 (object): IPv6 configuration on the VLAN
-        - dhcpHandling (string): The appliance's handling of DHCP requests on this VLAN. One of: 'Run a DHCP server', 'Relay DHCP to another server' or 'Do not respond to DHCP requests'
-        - dhcpRelayServerIps (array): The IPs (IPv4) of the DHCP servers that DHCP requests should be relayed to. CIDR/subnet notation and hostnames are not supported.
-        - dhcpLeaseTime (string): The term of DHCP leases if the appliance is running a DHCP server on this VLAN. One of: '30 minutes', '1 hour', '4 hours', '12 hours', '1 day' or '1 week'
-        - mandatoryDhcp (object): Mandatory DHCP will enforce that clients connecting to this VLAN must use the IP address assigned by the DHCP server. Clients who use a static IP address won't be able to associate. Only available on firmware versions 17.0 and above
-        - dhcpBootOptionsEnabled (boolean): Use DHCP boot options specified in other properties
-        - dhcpBootNextServer (string): DHCP boot option to direct boot clients to the server to load the boot file from
-        - dhcpBootFilename (string): DHCP boot option for boot filename
-        - dhcpOptions (array): The list of DHCP options that will be included in DHCP responses. Each object in the list should have "code", "type", and "value" properties.
-        """
+        Args:
+            networkId: Network ID.
+            id: The VLAN ID of the new VLAN (must be between 1 and 4094).
+            name: The name of the new VLAN.
+            subnet: The subnet of the VLAN.
+            applianceIp: The local IP of the appliance on the VLAN.
+            groupPolicyId: The id of the desired group policy to apply to the VLAN.
+            templateVlanType: Type of subnetting of the VLAN. Applicable only for template network.
+            cidr: CIDR of the pool of subnets. Applicable only for template network. Each network
+              bound to the template will automatically pick a subnet from this pool to
+              build its own VLAN.
+            mask: Mask used for the subnet of all bound to the template networks. Applicable only
+              for template network.
+            ipv6: IPv6 configuration on the VLAN.
+            dhcpHandling: The appliance's handling of DHCP requests on this VLAN. One of: 'Run a
+              DHCP server', 'Relay DHCP to another server' or 'Do not respond to DHCP
+              requests'.
+            dhcpRelayServerIps: The IPs (IPv4) of the DHCP servers that DHCP requests should be
+              relayed to. CIDR/subnet notation and hostnames are not supported.
+            dhcpLeaseTime: The term of DHCP leases if the appliance is running a DHCP server on this
+              VLAN. One of: '30 minutes', '1 hour', '4 hours', '12 hours', '1 day' or '1
+              week'.
+            mandatoryDhcp: Mandatory DHCP will enforce that clients connecting to this VLAN must use
+              the IP address assigned by the DHCP server. Clients who use a static IP
+              address won't be able to associate. Only available on firmware versions
+              17.0 and above.
+            dhcpBootOptionsEnabled: Use DHCP boot options specified in other properties.
+            dhcpBootNextServer: DHCP boot option to direct boot clients to the server to load the
+              boot file from.
+            dhcpBootFilename: DHCP boot option for boot filename.
+            dhcpOptions: The list of DHCP options that will be included in DHCP responses. Each
+              object in the list should have "code", "type", and "value" properties.
 
+        """
         kwargs.update(locals())
 
         if "templateVlanType" in kwargs:
@@ -789,15 +886,19 @@ class ActionBatchAppliance:
         action = {"resource": resource, "operation": "create", "body": payload}
         return action
 
-    def update_network_appliance_vlans_settings(self, networkId: str, **kwargs):
-        """
-        **Enable/Disable VLANs for the given network.**
+    def update_network_appliance_vlans_settings(
+        self, networkId: str, **kwargs: Any
+    ) -> dict[str, Any]:
+        """Enable/Disable VLANs for the given network.
+
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-vlans-settings
 
-        - networkId (string): Network ID
-        - vlansEnabled (boolean): Boolean indicating whether to enable (true) or disable (false) VLANs for the network
-        """
+        Args:
+            networkId: Network ID.
+            vlansEnabled: Boolean indicating whether to enable (true) or disable (false) VLANs for
+              the network.
 
+        """
         kwargs.update(locals())
 
         metadata = {
@@ -813,35 +914,57 @@ class ActionBatchAppliance:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def update_network_appliance_vlan(self, networkId: str, vlanId: str, **kwargs):
-        """
-        **Update a VLAN.**
+    def update_network_appliance_vlan(
+        self, networkId: str, vlanId: str, **kwargs: Any
+    ) -> dict[str, Any]:
+        """Update a VLAN.
+
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-vlan
 
-        - networkId (string): Network ID
-        - vlanId (string): Vlan ID
-        - name (string): The name of the VLAN
-        - subnet (string): The subnet of the VLAN
-        - applianceIp (string): The local IP of the appliance on the VLAN
-        - groupPolicyId (string): The id of the desired group policy to apply to the VLAN
-        - vpnNatSubnet (string): The translated VPN subnet if VPN and VPN subnet translation are enabled on the VLAN
-        - dhcpHandling (string): The appliance's handling of DHCP requests on this VLAN. One of: 'Run a DHCP server', 'Relay DHCP to another server' or 'Do not respond to DHCP requests'
-        - dhcpRelayServerIps (array): The IPs (IPv4) of the DHCP servers that DHCP requests should be relayed to. CIDR/subnet notation and hostnames are not supported.
-        - dhcpLeaseTime (string): The term of DHCP leases if the appliance is running a DHCP server on this VLAN. One of: '30 minutes', '1 hour', '4 hours', '12 hours', '1 day' or '1 week'
-        - dhcpBootOptionsEnabled (boolean): Use DHCP boot options specified in other properties
-        - dhcpBootNextServer (string): DHCP boot option to direct boot clients to the server to load the boot file from
-        - dhcpBootFilename (string): DHCP boot option for boot filename
-        - fixedIpAssignments (object): The DHCP fixed IP assignments on the VLAN. This should be an object that contains mappings from MAC addresses to objects that themselves each contain "ip" and "name" string fields. See the sample request/response for more details.
-        - reservedIpRanges (array): The DHCP reserved IP ranges on the VLAN
-        - dnsNameservers (string): The DNS nameservers used for DHCP responses, either "upstream_dns", "google_dns", "opendns", or a newline seperated string of IP addresses or domain names
-        - dhcpOptions (array): The list of DHCP options that will be included in DHCP responses. Each object in the list should have "code", "type", and "value" properties.
-        - templateVlanType (string): Type of subnetting of the VLAN. Applicable only for template network.
-        - cidr (string): CIDR of the pool of subnets. Applicable only for template network. Each network bound to the template will automatically pick a subnet from this pool to build its own VLAN.
-        - mask (integer): Mask used for the subnet of all bound to the template networks. Applicable only for template network.
-        - ipv6 (object): IPv6 configuration on the VLAN
-        - mandatoryDhcp (object): Mandatory DHCP will enforce that clients connecting to this VLAN must use the IP address assigned by the DHCP server. Clients who use a static IP address won't be able to associate. Only available on firmware versions 17.0 and above
-        """
+        Args:
+            networkId: Network ID.
+            vlanId: Vlan ID.
+            name: The name of the VLAN.
+            subnet: The subnet of the VLAN.
+            applianceIp: The local IP of the appliance on the VLAN.
+            groupPolicyId: The id of the desired group policy to apply to the VLAN.
+            vpnNatSubnet: The translated VPN subnet if VPN and VPN subnet translation are enabled on
+              the VLAN.
+            dhcpHandling: The appliance's handling of DHCP requests on this VLAN. One of: 'Run a
+              DHCP server', 'Relay DHCP to another server' or 'Do not respond to DHCP
+              requests'.
+            dhcpRelayServerIps: The IPs (IPv4) of the DHCP servers that DHCP requests should be
+              relayed to. CIDR/subnet notation and hostnames are not supported.
+            dhcpLeaseTime: The term of DHCP leases if the appliance is running a DHCP server on this
+              VLAN. One of: '30 minutes', '1 hour', '4 hours', '12 hours', '1 day' or '1
+              week'.
+            dhcpBootOptionsEnabled: Use DHCP boot options specified in other properties.
+            dhcpBootNextServer: DHCP boot option to direct boot clients to the server to load the
+              boot file from.
+            dhcpBootFilename: DHCP boot option for boot filename.
+            fixedIpAssignments: The DHCP fixed IP assignments on the VLAN. This should be an object
+              that contains mappings from MAC addresses to objects that themselves each
+              contain "ip" and "name" string fields. See the sample request/response for
+              more details.
+            reservedIpRanges: The DHCP reserved IP ranges on the VLAN.
+            dnsNameservers: The DNS nameservers used for DHCP responses, either "upstream_dns",
+              "google_dns", "opendns", or a newline seperated string of IP addresses or
+              domain names.
+            dhcpOptions: The list of DHCP options that will be included in DHCP responses. Each
+              object in the list should have "code", "type", and "value" properties.
+            templateVlanType: Type of subnetting of the VLAN. Applicable only for template network.
+            cidr: CIDR of the pool of subnets. Applicable only for template network. Each network
+              bound to the template will automatically pick a subnet from this pool to
+              build its own VLAN.
+            mask: Mask used for the subnet of all bound to the template networks. Applicable only
+              for template network.
+            ipv6: IPv6 configuration on the VLAN.
+            mandatoryDhcp: Mandatory DHCP will enforce that clients connecting to this VLAN must use
+              the IP address assigned by the DHCP server. Clients who use a static IP
+              address won't be able to associate. Only available on firmware versions
+              17.0 and above.
 
+        """
         kwargs.update(locals())
 
         if "dhcpHandling" in kwargs:
@@ -896,15 +1019,16 @@ class ActionBatchAppliance:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def delete_network_appliance_vlan(self, networkId: str, vlanId: str):
-        """
-        **Delete a VLAN from a network.**
+    def delete_network_appliance_vlan(self, networkId: str, vlanId: str) -> dict[str, Any]:
+        """Delete a VLAN from a network.
+
         https://developer.cisco.com/meraki/api-v1/#!delete-network-appliance-vlan
 
-        - networkId (string): Network ID
-        - vlanId (string): Vlan ID
-        """
+        Args:
+            networkId: Network ID.
+            vlanId: Vlan ID.
 
+        """
         metadata = {
             "tags": ["appliance", "configure", "vlans"],
             "operation": "delete_network_appliance_vlan",
@@ -917,18 +1041,31 @@ class ActionBatchAppliance:
         }
         return action
 
-    def update_network_appliance_vpn_bgp(self, networkId: str, enabled: bool, **kwargs):
-        """
-        **Update a Hub BGP Configuration.**
+    def update_network_appliance_vpn_bgp(
+        self, networkId: str, enabled: bool, **kwargs: Any
+    ) -> dict[str, Any]:
+        """Update a Hub BGP Configuration.
+
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-vpn-bgp
 
-        - networkId (string): Network ID
-        - enabled (boolean): Boolean value to enable or disable the BGP configuration. When BGP is enabled, the asNumber (ASN) will be autopopulated with the preconfigured ASN at other Hubs or a default value if there is no ASN configured.
-        - asNumber (integer): An Autonomous System Number (ASN) is required if you are to run BGP and peer with another BGP Speaker outside of the Auto VPN domain. This ASN will be applied to the entire Auto VPN domain. The entire 4-byte ASN range is supported. So, the ASN must be an integer between 1 and 4294967295. When absent, this field is not updated. If no value exists then it defaults to 64512.
-        - ibgpHoldTimer (integer): The iBGP holdtimer in seconds. The iBGP holdtimer must be an integer between 12 and 240. When absent, this field is not updated. If no value exists then it defaults to 240.
-        - neighbors (array): List of BGP neighbors. This list replaces the existing set of neighbors. When absent, this field is not updated.
-        """
+        Args:
+            networkId: Network ID.
+            enabled: Boolean value to enable or disable the BGP configuration. When BGP is enabled,
+              the asNumber (ASN) will be autopopulated with the preconfigured ASN at
+              other Hubs or a default value if there is no ASN configured.
+            asNumber: An Autonomous System Number (ASN) is required if you are to run BGP and peer
+              with another BGP Speaker outside of the Auto VPN domain. This ASN will be
+              applied to the entire Auto VPN domain. The entire 4-byte ASN range is
+              supported. So, the ASN must be an integer between 1 and 4294967295. When
+              absent, this field is not updated. If no value exists then it defaults to
+              64512.
+            ibgpHoldTimer: The iBGP holdtimer in seconds. The iBGP holdtimer must be an integer
+              between 12 and 240. When absent, this field is not updated. If no value
+              exists then it defaults to 240.
+            neighbors: List of BGP neighbors. This list replaces the existing set of neighbors. When
+              absent, this field is not updated.
 
+        """
         kwargs.update(locals())
 
         metadata = {
@@ -947,18 +1084,22 @@ class ActionBatchAppliance:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def update_network_appliance_vpn_site_to_site_vpn(self, networkId: str, mode: str, **kwargs):
-        """
-        **Update the site-to-site VPN settings of a network.**
+    def update_network_appliance_vpn_site_to_site_vpn(
+        self, networkId: str, mode: str, **kwargs: Any
+    ) -> dict[str, Any]:
+        """Update the site-to-site VPN settings of a network.
+
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-vpn-site-to-site-vpn
 
-        - networkId (string): Network ID
-        - mode (string): The site-to-site VPN mode. Can be one of 'none', 'spoke' or 'hub'
-        - hubs (array): The list of VPN hubs, in order of preference. In spoke mode, at least 1 hub is required.
-        - subnets (array): The list of subnets and their VPN presence.
-        - subnet (object): Configuration of subnet features
-        """
+        Args:
+            networkId: Network ID.
+            mode: The site-to-site VPN mode. Can be one of 'none', 'spoke' or 'hub'.
+            hubs: The list of VPN hubs, in order of preference. In spoke mode, at least 1 hub is
+              required.
+            subnets: The list of subnets and their VPN presence.
+            subnet: Configuration of subnet features.
 
+        """
         kwargs.update(locals())
 
         if "mode" in kwargs:
@@ -983,19 +1124,22 @@ class ActionBatchAppliance:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def update_network_appliance_warm_spare(self, networkId: str, enabled: bool, **kwargs):
-        """
-        **Update MX warm spare settings.**
+    def update_network_appliance_warm_spare(
+        self, networkId: str, enabled: bool, **kwargs: Any
+    ) -> dict[str, Any]:
+        """Update MX warm spare settings.
+
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-warm-spare
 
-        - networkId (string): Network ID
-        - enabled (boolean): Enable warm spare
-        - spareSerial (string): Serial number of the warm spare appliance
-        - uplinkMode (string): Uplink mode, either virtual or public
-        - virtualIp1 (string): The WAN 1 shared IP
-        - virtualIp2 (string): The WAN 2 shared IP
-        """
+        Args:
+            networkId: Network ID.
+            enabled: Enable warm spare.
+            spareSerial: Serial number of the warm spare appliance.
+            uplinkMode: Uplink mode, either virtual or public.
+            virtualIp1: The WAN 1 shared IP.
+            virtualIp2: The WAN 2 shared IP.
 
+        """
         kwargs.update(locals())
 
         metadata = {
@@ -1015,14 +1159,15 @@ class ActionBatchAppliance:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def swap_network_appliance_warm_spare(self, networkId: str):
-        """
-        **Swap MX primary and warm spare appliances.**
+    def swap_network_appliance_warm_spare(self, networkId: str) -> dict[str, Any]:
+        """Swap MX primary and warm spare appliances.
+
         https://developer.cisco.com/meraki/api-v1/#!swap-network-appliance-warm-spare
 
-        - networkId (string): Network ID
-        """
+        Args:
+            networkId: Network ID.
 
+        """
         metadata = {
             "tags": ["appliance", "configure", "warmSpare"],
             "operation": "swap_network_appliance_warm_spare",
@@ -1035,15 +1180,18 @@ class ActionBatchAppliance:
         }
         return action
 
-    def create_organization_appliance_dns_local_profile(self, organizationId: str, name: str):
-        """
-        **Create a new local DNS profile.**
+    def create_organization_appliance_dns_local_profile(
+        self, organizationId: str, name: str
+    ) -> dict[str, Any]:
+        """Create a new local DNS profile.
+
         https://developer.cisco.com/meraki/api-v1/#!create-organization-appliance-dns-local-profile
 
-        - organizationId (string): Organization ID
-        - name (string): Name of profile
-        """
+        Args:
+            organizationId: Organization ID.
+            name: Name of profile.
 
+        """
         kwargs = locals()
 
         metadata = {
@@ -1061,15 +1209,16 @@ class ActionBatchAppliance:
 
     def bulk_organization_appliance_dns_local_profiles_assignments_create(
         self, organizationId: str, items: list
-    ):
-        """
-        **Assign the local DNS profile to networks in the organization.**
+    ) -> dict[str, Any]:
+        """Assign the local DNS profile to networks in the organization.
+
         https://developer.cisco.com/meraki/api-v1/#!bulk-organization-appliance-dns-local-profiles-assignments-create
 
-        - organizationId (string): Organization ID
-        - items (array): List containing the network ID and Profile ID
-        """
+        Args:
+            organizationId: Organization ID.
+            items: List containing the network ID and Profile ID.
 
+        """
         kwargs = locals()
 
         metadata = {
@@ -1089,15 +1238,16 @@ class ActionBatchAppliance:
 
     def create_organization_appliance_dns_local_profiles_assignments_bulk_delete(
         self, organizationId: str, items: list
-    ):
-        """
-        **Unassign the local DNS profile to networks in the organization.**
+    ) -> dict[str, Any]:
+        """Unassign the local DNS profile to networks in the organization.
+
         https://developer.cisco.com/meraki/api-v1/#!create-organization-appliance-dns-local-profiles-assignments-bulk-delete
 
-        - organizationId (string): Organization ID
-        - items (array): List containing the assignment ID
-        """
+        Args:
+            organizationId: Organization ID.
+            items: List containing the assignment ID.
 
+        """
         kwargs = locals()
 
         metadata = {
@@ -1125,16 +1275,17 @@ class ActionBatchAppliance:
 
     def update_organization_appliance_dns_local_profile(
         self, organizationId: str, profileId: str, name: str
-    ):
-        """
-        **Update a local DNS profile.**
+    ) -> dict[str, Any]:
+        """Update a local DNS profile.
+
         https://developer.cisco.com/meraki/api-v1/#!update-organization-appliance-dns-local-profile
 
-        - organizationId (string): Organization ID
-        - profileId (string): Profile ID
-        - name (string): Name of profile
-        """
+        Args:
+            organizationId: Organization ID.
+            profileId: Profile ID.
+            name: Name of profile.
 
+        """
         kwargs = locals()
 
         metadata = {
@@ -1150,15 +1301,18 @@ class ActionBatchAppliance:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def delete_organization_appliance_dns_local_profile(self, organizationId: str, profileId: str):
-        """
-        **Deletes a local DNS profile.**
+    def delete_organization_appliance_dns_local_profile(
+        self, organizationId: str, profileId: str
+    ) -> dict[str, Any]:
+        """Deletes a local DNS profile.
+
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-appliance-dns-local-profile
 
-        - organizationId (string): Organization ID
-        - profileId (string): Profile ID
-        """
+        Args:
+            organizationId: Organization ID.
+            profileId: Profile ID.
 
+        """
         metadata = {
             "tags": ["appliance", "configure", "dns", "local", "profiles"],
             "operation": "delete_organization_appliance_dns_local_profile",
@@ -1173,17 +1327,18 @@ class ActionBatchAppliance:
 
     def create_organization_appliance_dns_local_record(
         self, organizationId: str, hostname: str, address: str, profile: dict
-    ):
-        """
-        **Create a new local DNS record.**
+    ) -> dict[str, Any]:
+        """Create a new local DNS record.
+
         https://developer.cisco.com/meraki/api-v1/#!create-organization-appliance-dns-local-record
 
-        - organizationId (string): Organization ID
-        - hostname (string): Hostname for the DNS record
-        - address (string): IP for the DNS record
-        - profile (object): The profile the DNS record is associated with
-        """
+        Args:
+            organizationId: Organization ID.
+            hostname: Hostname for the DNS record.
+            address: IP for the DNS record.
+            profile: The profile the DNS record is associated with.
 
+        """
         kwargs = locals()
 
         metadata = {
@@ -1202,19 +1357,20 @@ class ActionBatchAppliance:
         return action
 
     def update_organization_appliance_dns_local_record(
-        self, organizationId: str, recordId: str, **kwargs
-    ):
-        """
-        **Updates a local DNS record.**
+        self, organizationId: str, recordId: str, **kwargs: Any
+    ) -> dict[str, Any]:
+        """Updates a local DNS record.
+
         https://developer.cisco.com/meraki/api-v1/#!update-organization-appliance-dns-local-record
 
-        - organizationId (string): Organization ID
-        - recordId (string): Record ID
-        - hostname (string): Hostname for the DNS record
-        - address (string): IP for the DNS record
-        - profile (object): The profile the DNS record is associated with
-        """
+        Args:
+            organizationId: Organization ID.
+            recordId: Record ID.
+            hostname: Hostname for the DNS record.
+            address: IP for the DNS record.
+            profile: The profile the DNS record is associated with.
 
+        """
         kwargs.update(locals())
 
         metadata = {
@@ -1232,15 +1388,18 @@ class ActionBatchAppliance:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def delete_organization_appliance_dns_local_record(self, organizationId: str, recordId: str):
-        """
-        **Deletes a local DNS record.**
+    def delete_organization_appliance_dns_local_record(
+        self, organizationId: str, recordId: str
+    ) -> dict[str, Any]:
+        """Deletes a local DNS record.
+
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-appliance-dns-local-record
 
-        - organizationId (string): Organization ID
-        - recordId (string): Record ID
-        """
+        Args:
+            organizationId: Organization ID.
+            recordId: Record ID.
 
+        """
         metadata = {
             "tags": ["appliance", "configure", "dns", "local", "records"],
             "operation": "delete_organization_appliance_dns_local_record",
@@ -1255,17 +1414,19 @@ class ActionBatchAppliance:
 
     def create_organization_appliance_dns_split_profile(
         self, organizationId: str, name: str, hostnames: list, nameservers: dict
-    ):
-        """
-        **Create a new split DNS profile.**
+    ) -> dict[str, Any]:
+        """Create a new split DNS profile.
+
         https://developer.cisco.com/meraki/api-v1/#!create-organization-appliance-dns-split-profile
 
-        - organizationId (string): Organization ID
-        - name (string): Name of profile
-        - hostnames (array): The hostname patterns to match for redirection. For more information on Split DNS hostname pattern formatting, please consult the Split DNS KB.
-        - nameservers (object): Contains the nameserver information for redirection.
-        """
+        Args:
+            organizationId: Organization ID.
+            name: Name of profile.
+            hostnames: The hostname patterns to match for redirection. For more information on Split
+              DNS hostname pattern formatting, please consult the Split DNS KB.
+            nameservers: Contains the nameserver information for redirection.
 
+        """
         kwargs = locals()
 
         metadata = {
@@ -1285,15 +1446,16 @@ class ActionBatchAppliance:
 
     def create_organization_appliance_dns_split_profiles_assignments_bulk_create(
         self, organizationId: str, items: list
-    ):
-        """
-        **Assign the split DNS profile to networks in the organization.**
+    ) -> dict[str, Any]:
+        """Assign the split DNS profile to networks in the organization.
+
         https://developer.cisco.com/meraki/api-v1/#!create-organization-appliance-dns-split-profiles-assignments-bulk-create
 
-        - organizationId (string): Organization ID
-        - items (array): List containing the network ID and Profile ID
-        """
+        Args:
+            organizationId: Organization ID.
+            items: List containing the network ID and Profile ID.
 
+        """
         kwargs = locals()
 
         metadata = {
@@ -1321,15 +1483,16 @@ class ActionBatchAppliance:
 
     def create_organization_appliance_dns_split_profiles_assignments_bulk_delete(
         self, organizationId: str, items: list
-    ):
-        """
-        **Unassign the split DNS profile to networks in the organization.**
+    ) -> dict[str, Any]:
+        """Unassign the split DNS profile to networks in the organization.
+
         https://developer.cisco.com/meraki/api-v1/#!create-organization-appliance-dns-split-profiles-assignments-bulk-delete
 
-        - organizationId (string): Organization ID
-        - items (array): List containing the assignment ID
-        """
+        Args:
+            organizationId: Organization ID.
+            items: List containing the assignment ID.
 
+        """
         kwargs = locals()
 
         metadata = {
@@ -1356,19 +1519,21 @@ class ActionBatchAppliance:
         return action
 
     def update_organization_appliance_dns_split_profile(
-        self, organizationId: str, profileId: str, **kwargs
-    ):
-        """
-        **Update a split DNS profile.**
+        self, organizationId: str, profileId: str, **kwargs: Any
+    ) -> dict[str, Any]:
+        """Update a split DNS profile.
+
         https://developer.cisco.com/meraki/api-v1/#!update-organization-appliance-dns-split-profile
 
-        - organizationId (string): Organization ID
-        - profileId (string): Profile ID
-        - name (string): Name of profile
-        - hostnames (array): The hostname patterns to match for redirection. For more information on Split DNS hostname pattern formatting, please consult the Split DNS KB.
-        - nameservers (object): Contains the nameserver information for redirection.
-        """
+        Args:
+            organizationId: Organization ID.
+            profileId: Profile ID.
+            name: Name of profile.
+            hostnames: The hostname patterns to match for redirection. For more information on Split
+              DNS hostname pattern formatting, please consult the Split DNS KB.
+            nameservers: Contains the nameserver information for redirection.
 
+        """
         kwargs.update(locals())
 
         metadata = {
@@ -1386,15 +1551,18 @@ class ActionBatchAppliance:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def delete_organization_appliance_dns_split_profile(self, organizationId: str, profileId: str):
-        """
-        **Deletes a split DNS profile.**
+    def delete_organization_appliance_dns_split_profile(
+        self, organizationId: str, profileId: str
+    ) -> dict[str, Any]:
+        """Deletes a split DNS profile.
+
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-appliance-dns-split-profile
 
-        - organizationId (string): Organization ID
-        - profileId (string): Profile ID
-        """
+        Args:
+            organizationId: Organization ID.
+            profileId: Profile ID.
 
+        """
         metadata = {
             "tags": ["appliance", "configure", "dns", "split", "profiles"],
             "operation": "delete_organization_appliance_dns_split_profile",
@@ -1408,16 +1576,17 @@ class ActionBatchAppliance:
         return action
 
     def update_organization_appliance_vpn_site_to_site_ipsec_peers_slas(
-        self, organizationId: str, **kwargs
-    ):
-        """
-        **Update the IPsec SLA policies for an organization.**
+        self, organizationId: str, **kwargs: Any
+    ) -> dict[str, Any]:
+        """Update the IPsec SLA policies for an organization.
+
         https://developer.cisco.com/meraki/api-v1/#!update-organization-appliance-vpn-site-to-site-ipsec-peers-slas
 
-        - organizationId (string): Organization ID
-        - items (array): List of IPsec SLA policies
-        """
+        Args:
+            organizationId: Organization ID.
+            items: List of IPsec SLA policies.
 
+        """
         kwargs.update(locals())
 
         metadata = {
@@ -1435,15 +1604,16 @@ class ActionBatchAppliance:
 
     def update_organization_appliance_vpn_third_party_v_p_n_peers(
         self, organizationId: str, peers: list
-    ):
-        """
-        **Update the third party VPN peers for an organization.**
+    ) -> dict[str, Any]:
+        """Update the third party VPN peers for an organization.
+
         https://developer.cisco.com/meraki/api-v1/#!update-organization-appliance-vpn-third-party-v-p-n-peers
 
-        - organizationId (string): Organization ID
-        - peers (array): The list of VPN peers
-        """
+        Args:
+            organizationId: Organization ID.
+            peers: The list of VPN peers.
 
+        """
         kwargs = locals()
 
         metadata = {

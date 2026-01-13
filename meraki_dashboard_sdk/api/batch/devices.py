@@ -1,5 +1,8 @@
 """ActionBatchDevices API endpoints."""
 
+import urllib
+from typing import Any
+
 
 class ActionBatchDevices:
     """ActionBatchDevices class."""
@@ -7,23 +10,30 @@ class ActionBatchDevices:
     def __init__(self) -> None:
         pass
 
-    def update_device(self, serial: str, **kwargs):
-        """
-        **Update the attributes of a device.**
+    def update_device(self, serial: str, **kwargs: Any) -> dict[str, Any]:
+        """Update the attributes of a device.
+
         https://developer.cisco.com/meraki/api-v1/#!update-device
 
-        - serial (string): Serial
-        - name (string): The name of a device
-        - tags (array): The list of tags of a device
-        - lat (number): The latitude of a device
-        - lng (number): The longitude of a device
-        - address (string): The address of a device
-        - notes (string): The notes for the device. String. Limited to 255 characters.
-        - moveMapMarker (boolean): Whether or not to set the latitude and longitude of a device based on the new address. Only applies when lat and lng are not specified.
-        - switchProfileId (string): The ID of a switch template to bind to the device (for available switch templates, see the 'Switch Templates' endpoint). Use null to unbind the switch device from the current profile. For a device to be bindable to a switch template, it must (1) be a switch, and (2) belong to a network that is bound to a configuration template.
-        - floorPlanId (string): The floor plan to associate to this device. null disassociates the device from the floorplan.
-        """
+        Args:
+            serial: Serial.
+            name: The name of a device.
+            tags: The list of tags of a device.
+            lat: The latitude of a device.
+            lng: The longitude of a device.
+            address: The address of a device.
+            notes: The notes for the device. String. Limited to 255 characters.
+            moveMapMarker: Whether or not to set the latitude and longitude of a device based on the
+              new address. Only applies when lat and lng are not specified.
+            switchProfileId: The ID of a switch template to bind to the device (for available switch
+              templates, see the 'Switch Templates' endpoint). Use null to unbind the
+              switch device from the current profile. For a device to be bindable to a
+              switch template, it must (1) be a switch, and (2) belong to a network that
+              is bound to a configuration template.
+            floorPlanId: The floor plan to associate to this device. null disassociates the device
+              from the floorplan.
 
+        """
         kwargs.update(locals())
 
         metadata = {"tags": ["devices", "configure"], "operation": "update_device"}
@@ -44,16 +54,20 @@ class ActionBatchDevices:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def create_device_live_tools_leds_blink(self, serial: str, duration: int, **kwargs):
-        """
-        **Enqueue a job to blink LEDs on a device.**
+    def create_device_live_tools_leds_blink(
+        self, serial: str, duration: int, **kwargs: Any
+    ) -> dict[str, Any]:
+        """Enqueue a job to blink LEDs on a device.
+
         https://developer.cisco.com/meraki/api-v1/#!create-device-live-tools-leds-blink
 
-        - serial (string): Serial
-        - duration (integer): The duration in seconds to blink LEDs.
-        - callback (object): Details for the callback. Please include either an httpServerId OR url and sharedSecret
-        """
+        Args:
+            serial: Serial.
+            duration: The duration in seconds to blink LEDs.
+            callback: Details for the callback. Please include either an httpServerId OR url and
+              sharedSecret.
 
+        """
         kwargs.update(locals())
 
         metadata = {
@@ -70,15 +84,19 @@ class ActionBatchDevices:
         action = {"resource": resource, "operation": "create", "body": payload}
         return action
 
-    def create_device_live_tools_throughput_test(self, serial: str, **kwargs):
-        """
-        **Enqueue a job to test a device throughput, the test will run for 10 secs to test throughput.**
+    def create_device_live_tools_throughput_test(
+        self, serial: str, **kwargs: Any
+    ) -> dict[str, Any]:
+        """Enqueue a job to test a device throughput, the test will run for 10 secs to test throughput.
+
         https://developer.cisco.com/meraki/api-v1/#!create-device-live-tools-throughput-test
 
-        - serial (string): Serial
-        - callback (object): Details for the callback. Please include either an httpServerId OR url and sharedSecret
-        """
+        Args:
+            serial: Serial.
+            callback: Details for the callback. Please include either an httpServerId OR url and
+              sharedSecret.
 
+        """
         kwargs.update(locals())
 
         metadata = {
@@ -94,16 +112,17 @@ class ActionBatchDevices:
         action = {"resource": resource, "operation": "create", "body": payload}
         return action
 
-    def update_device_management_interface(self, serial: str, **kwargs):
-        """
-        **Update the management interface settings for a device.**
+    def update_device_management_interface(self, serial: str, **kwargs: Any) -> dict[str, Any]:
+        """Update the management interface settings for a device.
+
         https://developer.cisco.com/meraki/api-v1/#!update-device-management-interface
 
-        - serial (string): Serial
-        - wan1 (object): WAN 1 settings
-        - wan2 (object): WAN 2 settings (only for MX devices)
-        """
+        Args:
+            serial: Serial.
+            wan1: WAN 1 settings.
+            wan2: WAN 2 settings (only for MX devices).
 
+        """
         kwargs.update(locals())
 
         metadata = {

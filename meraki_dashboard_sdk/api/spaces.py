@@ -1,6 +1,8 @@
 """Spaces API endpoints."""
 
 import urllib
+from collections.abc import Generator
+from typing import Any
 
 from meraki_dashboard_sdk.rest_session import RestSession
 
@@ -12,12 +14,15 @@ class Spaces:
         super(self).__init__()
         self._session = session
 
-    def get_organization_spaces_integrate_status(self, organizationId: str):
+    def get_organization_spaces_integrate_status(
+        self, organizationId: str
+    ) -> dict[str, Any] | None:
         """Get the status of the Spaces integration in Meraki.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-spaces-integrate-status
 
-        - organizationId (string): Organization ID
+        Args:
+            organizationId: Organization ID.
 
         """
         metadata = {
@@ -29,12 +34,13 @@ class Spaces:
 
         return self._session.get(metadata, resource)
 
-    def remove_organization_spaces_integration(self, organizationId: str):
+    def remove_organization_spaces_integration(self, organizationId: str) -> dict[str, Any] | None:
         """Remove the Spaces integration from Meraki.
 
         https://developer.cisco.com/meraki/api-v1/#!remove-organization-spaces-integration
 
-        - organizationId (string): Organization ID
+        Args:
+            organizationId: Organization ID.
 
         """
         metadata = {

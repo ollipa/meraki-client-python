@@ -1,5 +1,8 @@
 """ActionBatchCellularGateway API endpoints."""
 
+import urllib
+from typing import Any
+
 
 class ActionBatchCellularGateway:
     """ActionBatchCellularGateway class."""
@@ -7,16 +10,17 @@ class ActionBatchCellularGateway:
     def __init__(self) -> None:
         pass
 
-    def update_device_cellular_gateway_lan(self, serial: str, **kwargs):
-        """
-        **Update the LAN Settings for a single MG.**
+    def update_device_cellular_gateway_lan(self, serial: str, **kwargs: Any) -> dict[str, Any]:
+        """Update the LAN Settings for a single MG.
+
         https://developer.cisco.com/meraki/api-v1/#!update-device-cellular-gateway-lan
 
-        - serial (string): Serial
-        - reservedIpRanges (array): list of all reserved IP ranges for a single MG
-        - fixedIpAssignments (array): list of all fixed IP assignments for a single MG
-        """
+        Args:
+            serial: Serial.
+            reservedIpRanges: list of all reserved IP ranges for a single MG.
+            fixedIpAssignments: list of all fixed IP assignments for a single MG.
 
+        """
         kwargs.update(locals())
 
         metadata = {
@@ -33,15 +37,18 @@ class ActionBatchCellularGateway:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def update_device_cellular_gateway_port_forwarding_rules(self, serial: str, **kwargs):
-        """
-        **Updates the port forwarding rules for a single MG.**
+    def update_device_cellular_gateway_port_forwarding_rules(
+        self, serial: str, **kwargs: Any
+    ) -> dict[str, Any]:
+        """Updates the port forwarding rules for a single MG.
+
         https://developer.cisco.com/meraki/api-v1/#!update-device-cellular-gateway-port-forwarding-rules
 
-        - serial (string): Serial
-        - rules (array): An array of port forwarding params
-        """
+        Args:
+            serial: Serial.
+            rules: An array of port forwarding params.
 
+        """
         kwargs.update(locals())
 
         metadata = {
@@ -58,16 +65,17 @@ class ActionBatchCellularGateway:
         return action
 
     def update_network_cellular_gateway_connectivity_monitoring_destinations(
-        self, networkId: str, **kwargs
-    ):
-        """
-        **Update the connectivity testing destinations for an MG network.**
+        self, networkId: str, **kwargs: Any
+    ) -> dict[str, Any]:
+        """Update the connectivity testing destinations for an MG network.
+
         https://developer.cisco.com/meraki/api-v1/#!update-network-cellular-gateway-connectivity-monitoring-destinations
 
-        - networkId (string): Network ID
-        - destinations (array): The list of connectivity monitoring destinations
-        """
+        Args:
+            networkId: Network ID.
+            destinations: The list of connectivity monitoring destinations.
 
+        """
         kwargs.update(locals())
 
         metadata = {
@@ -83,17 +91,21 @@ class ActionBatchCellularGateway:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def update_network_cellular_gateway_dhcp(self, networkId: str, **kwargs):
-        """
-        **Update common DHCP settings of MGs.**
+    def update_network_cellular_gateway_dhcp(self, networkId: str, **kwargs: Any) -> dict[str, Any]:
+        """Update common DHCP settings of MGs.
+
         https://developer.cisco.com/meraki/api-v1/#!update-network-cellular-gateway-dhcp
 
-        - networkId (string): Network ID
-        - dhcpLeaseTime (string): DHCP Lease time for all MG of the network. Possible values are '30 minutes', '1 hour', '4 hours', '12 hours', '1 day' or '1 week'.
-        - dnsNameservers (string): DNS name servers mode for all MG of the network. Possible values are: 'upstream_dns', 'google_dns', 'opendns', 'custom'.
-        - dnsCustomNameservers (array): list of fixed IPs representing the the DNS Name servers when the mode is 'custom'
-        """
+        Args:
+            networkId: Network ID.
+            dhcpLeaseTime: DHCP Lease time for all MG of the network. Possible values are '30
+              minutes', '1 hour', '4 hours', '12 hours', '1 day' or '1 week'.
+            dnsNameservers: DNS name servers mode for all MG of the network. Possible values are:
+              'upstream_dns', 'google_dns', 'opendns', 'custom'.
+            dnsCustomNameservers: list of fixed IPs representing the the DNS Name servers when the
+              mode is 'custom'.
 
+        """
         kwargs.update(locals())
 
         metadata = {
@@ -111,16 +123,20 @@ class ActionBatchCellularGateway:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def update_network_cellular_gateway_subnet_pool(self, networkId: str, **kwargs):
-        """
-        **Update the subnet pool and mask configuration for MGs in the network.**
+    def update_network_cellular_gateway_subnet_pool(
+        self, networkId: str, **kwargs: Any
+    ) -> dict[str, Any]:
+        """Update the subnet pool and mask configuration for MGs in the network.
+
         https://developer.cisco.com/meraki/api-v1/#!update-network-cellular-gateway-subnet-pool
 
-        - networkId (string): Network ID
-        - mask (integer): Mask used for the subnet of all MGs in  this network.
-        - cidr (string): CIDR of the pool of subnets. Each MG in this network will automatically pick a subnet from this pool.
-        """
+        Args:
+            networkId: Network ID.
+            mask: Mask used for the subnet of all MGs in  this network.
+            cidr: CIDR of the pool of subnets. Each MG in this network will automatically pick a
+              subnet from this pool.
 
+        """
         kwargs.update(locals())
 
         metadata = {
@@ -137,15 +153,18 @@ class ActionBatchCellularGateway:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def update_network_cellular_gateway_uplink(self, networkId: str, **kwargs):
-        """
-        **Updates the uplink settings for your MG network.**
+    def update_network_cellular_gateway_uplink(
+        self, networkId: str, **kwargs: Any
+    ) -> dict[str, Any]:
+        """Updates the uplink settings for your MG network.
+
         https://developer.cisco.com/meraki/api-v1/#!update-network-cellular-gateway-uplink
 
-        - networkId (string): Network ID
-        - bandwidthLimits (object): The bandwidth settings for the 'cellular' uplink
-        """
+        Args:
+            networkId: Network ID.
+            bandwidthLimits: The bandwidth settings for the 'cellular' uplink.
 
+        """
         kwargs.update(locals())
 
         metadata = {
@@ -162,17 +181,18 @@ class ActionBatchCellularGateway:
         return action
 
     def update_organization_cellular_gateway_esims_inventory(
-        self, organizationId: str, id: str, **kwargs
-    ):
-        """
-        **Toggle the status of an eSIM.**
+        self, organizationId: str, id: str, **kwargs: Any
+    ) -> dict[str, Any]:
+        """Toggle the status of an eSIM.
+
         https://developer.cisco.com/meraki/api-v1/#!update-organization-cellular-gateway-esims-inventory
 
-        - organizationId (string): Organization ID
-        - id (string): ID
-        - status (string): Status the eSIM will be updated to
-        """
+        Args:
+            organizationId: Organization ID.
+            id: ID.
+            status: Status the eSIM will be updated to.
 
+        """
         kwargs.update(locals())
 
         metadata = {
@@ -196,19 +216,20 @@ class ActionBatchCellularGateway:
         serviceProvider: dict,
         title: str,
         username: str,
-    ):
-        """
-        **Add a service provider account.**
+    ) -> dict[str, Any]:
+        """Add a service provider account.
+
         https://developer.cisco.com/meraki/api-v1/#!create-organization-cellular-gateway-esims-service-providers-account
 
-        - organizationId (string): Organization ID
-        - accountId (string): Service provider account ID
-        - apiKey (string): Service provider account API key
-        - serviceProvider (object): Service Provider information
-        - title (string): Service provider account name
-        - username (string): Service provider account username
-        """
+        Args:
+            organizationId: Organization ID.
+            accountId: Service provider account ID.
+            apiKey: Service provider account API key.
+            serviceProvider: Service Provider information.
+            title: Service provider account name.
+            username: Service provider account username.
 
+        """
         kwargs = locals()
 
         metadata = {
@@ -231,18 +252,19 @@ class ActionBatchCellularGateway:
         return action
 
     def update_organization_cellular_gateway_esims_service_providers_account(
-        self, organizationId: str, accountId: str, **kwargs
-    ):
-        """
-        **Edit service provider account info stored in Meraki's database.**
+        self, organizationId: str, accountId: str, **kwargs: Any
+    ) -> dict[str, Any]:
+        """Edit service provider account info stored in Meraki's database.
+
         https://developer.cisco.com/meraki/api-v1/#!update-organization-cellular-gateway-esims-service-providers-account
 
-        - organizationId (string): Organization ID
-        - accountId (string): Account ID
-        - title (string): Service provider account name used on the Meraki UI
-        - apiKey (string): Service provider account API key
-        """
+        Args:
+            organizationId: Organization ID.
+            accountId: Account ID.
+            title: Service provider account name used on the Meraki UI.
+            apiKey: Service provider account API key.
 
+        """
         kwargs.update(locals())
 
         metadata = {
@@ -261,15 +283,16 @@ class ActionBatchCellularGateway:
 
     def delete_organization_cellular_gateway_esims_service_providers_account(
         self, organizationId: str, accountId: str
-    ):
-        """
-        **Remove a service provider account's integration with the Dashboard.**
+    ) -> dict[str, Any]:
+        """Remove a service provider account's integration with the Dashboard.
+
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-cellular-gateway-esims-service-providers-account
 
-        - organizationId (string): Organization ID
-        - accountId (string): Account ID
-        """
+        Args:
+            organizationId: Organization ID.
+            accountId: Account ID.
 
+        """
         metadata = {
             "tags": ["cellularGateway", "configure", "esims", "serviceProviders", "accounts"],
             "operation": "delete_organization_cellular_gateway_esims_service_providers_account",
@@ -282,15 +305,18 @@ class ActionBatchCellularGateway:
         }
         return action
 
-    def create_organization_cellular_gateway_esims_swap(self, organizationId: str, swaps: list):
-        """
-        **Swap which profile an eSIM uses.**
+    def create_organization_cellular_gateway_esims_swap(
+        self, organizationId: str, swaps: list
+    ) -> dict[str, Any]:
+        """Swap which profile an eSIM uses.
+
         https://developer.cisco.com/meraki/api-v1/#!create-organization-cellular-gateway-esims-swap
 
-        - organizationId (string): Organization ID
-        - swaps (array): Each object represents a swap for one eSIM
-        """
+        Args:
+            organizationId: Organization ID.
+            swaps: Each object represents a swap for one eSIM.
 
+        """
         kwargs = locals()
 
         metadata = {
@@ -306,15 +332,18 @@ class ActionBatchCellularGateway:
         action = {"resource": resource, "operation": "create", "body": payload}
         return action
 
-    def update_organization_cellular_gateway_esims_swap(self, id: str, organizationId: str):
-        """
-        **Get the status of a profile swap.**
+    def update_organization_cellular_gateway_esims_swap(
+        self, id: str, organizationId: str
+    ) -> dict[str, Any]:
+        """Get the status of a profile swap.
+
         https://developer.cisco.com/meraki/api-v1/#!update-organization-cellular-gateway-esims-swap
 
-        - id (string): eSIM EID
-        - organizationId (string): Organization ID
-        """
+        Args:
+            id: eSIM EID.
+            organizationId: Organization ID.
 
+        """
         metadata = {
             "tags": ["cellularGateway", "configure", "esims", "swap"],
             "operation": "update_organization_cellular_gateway_esims_swap",

@@ -1,6 +1,8 @@
 """Licensing API endpoints."""
 
 import urllib
+from collections.abc import Generator
+from typing import Any
 
 from meraki_dashboard_sdk.rest_session import RestSession
 
@@ -12,12 +14,13 @@ class Licensing:
         super(self).__init__()
         self._session = session
 
-    def get_administered_licensing_subscription_entitlements(self):
+    def get_administered_licensing_subscription_entitlements(self) -> dict[str, Any] | None:
         """Retrieve the list of purchasable entitlements.
 
         https://developer.cisco.com/meraki/api-v1/#!get-administered-licensing-subscription-entitlements
 
-        - skus (array): Filter to entitlements with the specified SKUs
+        Args:
+            skus: Filter to entitlements with the specified SKUs.
 
         """
         kwargs.update(locals())
@@ -44,25 +47,39 @@ class Licensing:
         return self._session.get(metadata, resource, params)
 
     def get_administered_licensing_subscription_subscriptions(
-        self, organizationIds: list, total_pages=1, direction="next", **kwargs
-    ):
+        self, organizationIds: list, total_pages=1, direction="next", **kwargs: Any
+    ) -> Generator[Any, None, None]:
         """List available subscriptions.
 
         https://developer.cisco.com/meraki/api-v1/#!get-administered-licensing-subscription-subscriptions
 
-        - organizationIds (array): Organizations to get associated subscriptions for
-        - total_pages (integer or string): use with perPage to get total results up to total_pages*perPage; -1 or "all" for all pages
-        - direction (string): direction to paginate, either "next" (default) or "prev" page
-        - perPage (integer): The number of entries per page returned. Acceptable range is 3 - 1000. Default is 1000.
-        - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - subscriptionIds (array): List of subscription ids to fetch
-        - statuses (array): List of statuses that returned subscriptions can have
-        - productTypes (array): List of product types that returned subscriptions need to have entitlements for.
-        - skus (array): List of SKUs that returned subscriptions need to have entitlements for.
-        - name (string): Search for subscription name
-        - startDate (string): Filter subscriptions by start date, ISO 8601 format. To filter with a range of dates, use 'startDate[<option>]=?' in the request. Accepted options include lt, gt, lte, gte.
-        - endDate (string): Filter subscriptions by end date, ISO 8601 format. To filter with a range of dates, use 'endDate[<option>]=?' in the request. Accepted options include lt, gt, lte, gte.
+        Args:
+            organizationIds: Organizations to get associated subscriptions for.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+            perPage: The number of entries per page returned. Acceptable range is 3 - 1000. Default
+              is 1000.
+            startingAfter: A token used by the server to indicate the start of the page. Often this
+              is a timestamp or an ID but it is not limited to those. This parameter
+              should not be defined by client applications. The link for the first,
+              last, prev, or next page in the HTTP Link header should define it.
+            endingBefore: A token used by the server to indicate the end of the page. Often this is
+              a timestamp or an ID but it is not limited to those. This parameter should
+              not be defined by client applications. The link for the first, last, prev,
+              or next page in the HTTP Link header should define it.
+            subscriptionIds: List of subscription ids to fetch.
+            statuses: List of statuses that returned subscriptions can have.
+            productTypes: List of product types that returned subscriptions need to have
+              entitlements for.
+            skus: List of SKUs that returned subscriptions need to have entitlements for.
+            name: Search for subscription name.
+            startDate: Filter subscriptions by start date, ISO 8601 format. To filter with a range
+              of dates, use 'startDate[<option>]=?' in the request. Accepted options
+              include lt, gt, lte, gte.
+            endDate: Filter subscriptions by end date, ISO 8601 format. To filter with a range of
+              dates, use 'endDate[<option>]=?' in the request. Accepted options include
+              lt, gt, lte, gte.
 
         """
         kwargs.update(locals())
@@ -103,17 +120,19 @@ class Licensing:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def claim_administered_licensing_subscription_subscriptions(
-        self, claimKey: str, organizationId: str, **kwargs
-    ):
+        self, claimKey: str, organizationId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Claim a subscription into an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!claim-administered-licensing-subscription-subscriptions
 
-        - claimKey (string): The subscription's claim key
-        - organizationId (string): The id of the organization claiming the subscription
-        - validate (boolean): Check if the provided claim key is valid and can be claimed into the organization.
-        - name (string): Friendly name to identify the subscription
-        - description (string): Extra details or notes about the subscription
+        Args:
+            claimKey: The subscription's claim key.
+            organizationId: The id of the organization claiming the subscription.
+            validate: Check if the provided claim key is valid and can be claimed into the
+              organization.
+            name: Friendly name to identify the subscription.
+            description: Extra details or notes about the subscription.
 
         """
         kwargs.update(locals())
@@ -134,12 +153,15 @@ class Licensing:
 
         return self._session.post(metadata, resource, payload)
 
-    def validate_administered_licensing_subscription_subscriptions_claim_key(self, claimKey: str):
+    def validate_administered_licensing_subscription_subscriptions_claim_key(
+        self, claimKey: str
+    ) -> dict[str, Any] | None:
         """Find a subscription by claim key.
 
         https://developer.cisco.com/meraki/api-v1/#!validate-administered-licensing-subscription-subscriptions-claim-key
 
-        - claimKey (string): The subscription's claim key
+        Args:
+            claimKey: The subscription's claim key.
 
         """
         kwargs = locals()
@@ -158,14 +180,15 @@ class Licensing:
         return self._session.post(metadata, resource, payload)
 
     def get_administered_licensing_subscription_subscriptions_compliance_statuses(
-        self, organizationIds: list, **kwargs
-    ):
+        self, organizationIds: list, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Get compliance status for requested subscriptions.
 
         https://developer.cisco.com/meraki/api-v1/#!get-administered-licensing-subscription-subscriptions-compliance-statuses
 
-        - organizationIds (array): Organizations to get subscription compliance information for
-        - subscriptionIds (array): Subscription ids
+        Args:
+            organizationIds: Organizations to get subscription compliance information for.
+            subscriptionIds: Subscription ids.
 
         """
         kwargs.update(locals())
@@ -200,14 +223,18 @@ class Licensing:
 
         return self._session.get(metadata, resource, params)
 
-    def bind_administered_licensing_subscription_subscription(self, subscriptionId: str, **kwargs):
+    def bind_administered_licensing_subscription_subscription(
+        self, subscriptionId: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Bind networks to a subscription.
 
         https://developer.cisco.com/meraki/api-v1/#!bind-administered-licensing-subscription-subscription
 
-        - subscriptionId (string): Subscription ID
-        - validate (boolean): Check if the provided networks can be bound to the subscription. Returns any licensing problems and does not commit the results.
-        - networkIds (array): List of network ids to bind to the subscription
+        Args:
+            subscriptionId: Subscription ID.
+            validate: Check if the provided networks can be bound to the subscription. Returns any
+              licensing problems and does not commit the results.
+            networkIds: List of network ids to bind to the subscription.
 
         """
         kwargs.update(locals())
@@ -227,20 +254,29 @@ class Licensing:
         return self._session.post(metadata, resource, payload)
 
     def get_organization_licensing_coterm_licenses(
-        self, organizationId: str, total_pages=1, direction="next", **kwargs
-    ):
+        self, organizationId: str, total_pages=1, direction="next", **kwargs: Any
+    ) -> Generator[Any, None, None]:
         """List the licenses in a coterm organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-licensing-coterm-licenses
 
-        - organizationId (string): Organization ID
-        - total_pages (integer or string): use with perPage to get total results up to total_pages*perPage; -1 or "all" for all pages
-        - direction (string): direction to paginate, either "next" (default) or "prev" page
-        - perPage (integer): The number of entries per page returned. Acceptable range is 3 - 1000. Default is 1000.
-        - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        - invalidated (boolean): Filter for licenses that are invalidated
-        - expired (boolean): Filter for licenses that are expired
+        Args:
+            organizationId: Organization ID.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
+            perPage: The number of entries per page returned. Acceptable range is 3 - 1000. Default
+              is 1000.
+            startingAfter: A token used by the server to indicate the start of the page. Often this
+              is a timestamp or an ID but it is not limited to those. This parameter
+              should not be defined by client applications. The link for the first,
+              last, prev, or next page in the HTTP Link header should define it.
+            endingBefore: A token used by the server to indicate the end of the page. Often this is
+              a timestamp or an ID but it is not limited to those. This parameter should
+              not be defined by client applications. The link for the first, last, prev,
+              or next page in the HTTP Link header should define it.
+            invalidated: Filter for licenses that are invalidated.
+            expired: Filter for licenses that are expired.
 
         """
         kwargs.update(locals())
@@ -265,14 +301,15 @@ class Licensing:
 
     def move_organization_licensing_coterm_licenses(
         self, organizationId: str, destination: dict, licenses: list
-    ):
+    ) -> dict[str, Any] | None:
         """Moves a license to a different organization (coterm only).
 
         https://developer.cisco.com/meraki/api-v1/#!move-organization-licensing-coterm-licenses
 
-        - organizationId (string): Organization ID
-        - destination (object): Destination data for the license move
-        - licenses (array): The list of licenses to move
+        Args:
+            organizationId: Organization ID.
+            destination: Destination data for the license move.
+            licenses: The list of licenses to move.
 
         """
         kwargs = locals()
