@@ -11,14 +11,14 @@ class ActionBatchOrganizations:
         pass
 
     def create_organization_adaptive_policy_acl(
-        self, organizationId: str, name: str, rules: list, ipVersion: str, **kwargs: Any
+        self, organization_id: str, name: str, rules: list, ipVersion: str, **kwargs: Any
     ) -> dict[str, Any]:
         """Creates new adaptive policy ACL.
 
         https://developer.cisco.com/meraki/api-v1/#!create-organization-adaptive-policy-acl
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             name: Name of the adaptive policy ACL.
             rules: An ordered array of the adaptive policy ACL rules.
             ipVersion: IP version of adpative policy ACL. One of: 'any', 'ipv4' or 'ipv6'.
@@ -37,7 +37,8 @@ class ActionBatchOrganizations:
             "tags": ["organizations", "configure", "adaptivePolicy", "acls"],
             "operation": "create_organization_adaptive_policy_acl",
         }
-        resource = f"/organizations/{organizationId}/adaptivePolicy/acls"
+        organization_id = urllib.parse.quote(organization_id, safe="")
+        resource = f"/organizations/{organization_id}/adaptivePolicy/acls"
 
         body_params = [
             "name",
@@ -50,15 +51,15 @@ class ActionBatchOrganizations:
         return action
 
     def update_organization_adaptive_policy_acl(
-        self, organizationId: str, aclId: str, **kwargs: Any
+        self, organization_id: str, acl_id: str, **kwargs: Any
     ) -> dict[str, Any]:
         """Updates an adaptive policy ACL.
 
         https://developer.cisco.com/meraki/api-v1/#!update-organization-adaptive-policy-acl
 
         Args:
-            organizationId: Organization ID.
-            aclId: Acl ID.
+            organization_id: Organization ID.
+            acl_id: Acl ID.
             name: Name of the adaptive policy ACL.
             description: Description of the adaptive policy ACL.
             rules: An ordered array of the adaptive policy ACL rules. An empty array will clear the
@@ -78,7 +79,9 @@ class ActionBatchOrganizations:
             "tags": ["organizations", "configure", "adaptivePolicy", "acls"],
             "operation": "update_organization_adaptive_policy_acl",
         }
-        resource = f"/organizations/{organizationId}/adaptivePolicy/acls/{aclId}"
+        organization_id = urllib.parse.quote(organization_id, safe="")
+        acl_id = urllib.parse.quote(acl_id, safe="")
+        resource = f"/organizations/{organization_id}/adaptivePolicy/acls/{acl_id}"
 
         body_params = [
             "name",
@@ -91,22 +94,24 @@ class ActionBatchOrganizations:
         return action
 
     def delete_organization_adaptive_policy_acl(
-        self, organizationId: str, aclId: str
+        self, organization_id: str, acl_id: str
     ) -> dict[str, Any]:
         """Deletes the specified adaptive policy ACL.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-adaptive-policy-acl
 
         Args:
-            organizationId: Organization ID.
-            aclId: Acl ID.
+            organization_id: Organization ID.
+            acl_id: Acl ID.
 
         """
         metadata = {
             "tags": ["organizations", "configure", "adaptivePolicy", "acls"],
             "operation": "delete_organization_adaptive_policy_acl",
         }
-        resource = f"/organizations/{organizationId}/adaptivePolicy/acls/{aclId}"
+        organization_id = urllib.parse.quote(organization_id, safe="")
+        acl_id = urllib.parse.quote(acl_id, safe="")
+        resource = f"/organizations/{organization_id}/adaptivePolicy/acls/{acl_id}"
 
         action = {
             "resource": resource,
@@ -115,14 +120,14 @@ class ActionBatchOrganizations:
         return action
 
     def create_organization_adaptive_policy_group(
-        self, organizationId: str, name: str, sgt: int, **kwargs: Any
+        self, organization_id: str, name: str, sgt: int, **kwargs: Any
     ) -> dict[str, Any]:
         """Creates a new adaptive policy group.
 
         https://developer.cisco.com/meraki/api-v1/#!create-organization-adaptive-policy-group
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             name: Name of the group.
             sgt: SGT value of the group.
             description: Description of the group (default: "").
@@ -138,7 +143,8 @@ class ActionBatchOrganizations:
             "tags": ["organizations", "configure", "adaptivePolicy", "groups"],
             "operation": "create_organization_adaptive_policy_group",
         }
-        resource = f"/organizations/{organizationId}/adaptivePolicy/groups"
+        organization_id = urllib.parse.quote(organization_id, safe="")
+        resource = f"/organizations/{organization_id}/adaptivePolicy/groups"
 
         body_params = [
             "name",
@@ -151,14 +157,14 @@ class ActionBatchOrganizations:
         return action
 
     def update_organization_adaptive_policy_group(
-        self, organizationId: str, id: str, **kwargs: Any
+        self, organization_id: str, id: str, **kwargs: Any
     ) -> dict[str, Any]:
         """Updates an adaptive policy group.
 
         https://developer.cisco.com/meraki/api-v1/#!update-organization-adaptive-policy-group
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             id: ID.
             name: Name of the group.
             sgt: SGT value of the group.
@@ -175,7 +181,9 @@ class ActionBatchOrganizations:
             "tags": ["organizations", "configure", "adaptivePolicy", "groups"],
             "operation": "update_organization_adaptive_policy_group",
         }
-        resource = f"/organizations/{organizationId}/adaptivePolicy/groups/{id}"
+        organization_id = urllib.parse.quote(organization_id, safe="")
+        id = urllib.parse.quote(id, safe="")
+        resource = f"/organizations/{organization_id}/adaptivePolicy/groups/{id}"
 
         body_params = [
             "name",
@@ -188,14 +196,14 @@ class ActionBatchOrganizations:
         return action
 
     def delete_organization_adaptive_policy_group(
-        self, organizationId: str, id: str
+        self, organization_id: str, id: str
     ) -> dict[str, Any]:
         """Deletes the specified adaptive policy group and any associated policies and references.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-adaptive-policy-group
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             id: ID.
 
         """
@@ -203,7 +211,9 @@ class ActionBatchOrganizations:
             "tags": ["organizations", "configure", "adaptivePolicy", "groups"],
             "operation": "delete_organization_adaptive_policy_group",
         }
-        resource = f"/organizations/{organizationId}/adaptivePolicy/groups/{id}"
+        organization_id = urllib.parse.quote(organization_id, safe="")
+        id = urllib.parse.quote(id, safe="")
+        resource = f"/organizations/{organization_id}/adaptivePolicy/groups/{id}"
 
         action = {
             "resource": resource,
@@ -212,14 +222,14 @@ class ActionBatchOrganizations:
         return action
 
     def create_organization_adaptive_policy_policy(
-        self, organizationId: str, sourceGroup: dict, destinationGroup: dict, **kwargs: Any
+        self, organization_id: str, sourceGroup: dict, destinationGroup: dict, **kwargs: Any
     ) -> dict[str, Any]:
         """Add an Adaptive Policy.
 
         https://developer.cisco.com/meraki/api-v1/#!create-organization-adaptive-policy-policy
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             sourceGroup: The source adaptive policy group (requires one unique attribute).
             destinationGroup: The destination adaptive policy group (requires one unique attribute).
             acls: An ordered array of adaptive policy ACLs (each requires one unique attribute) that
@@ -239,7 +249,8 @@ class ActionBatchOrganizations:
             "tags": ["organizations", "configure", "adaptivePolicy", "policies"],
             "operation": "create_organization_adaptive_policy_policy",
         }
-        resource = f"/organizations/{organizationId}/adaptivePolicy/policies"
+        organization_id = urllib.parse.quote(organization_id, safe="")
+        resource = f"/organizations/{organization_id}/adaptivePolicy/policies"
 
         body_params = [
             "sourceGroup",
@@ -252,14 +263,14 @@ class ActionBatchOrganizations:
         return action
 
     def update_organization_adaptive_policy_policy(
-        self, organizationId: str, id: str, **kwargs: Any
+        self, organization_id: str, id: str, **kwargs: Any
     ) -> dict[str, Any]:
         """Update an Adaptive Policy.
 
         https://developer.cisco.com/meraki/api-v1/#!update-organization-adaptive-policy-policy
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             id: ID.
             sourceGroup: The source adaptive policy group (requires one unique attribute).
             destinationGroup: The destination adaptive policy group (requires one unique attribute).
@@ -280,7 +291,9 @@ class ActionBatchOrganizations:
             "tags": ["organizations", "configure", "adaptivePolicy", "policies"],
             "operation": "update_organization_adaptive_policy_policy",
         }
-        resource = f"/organizations/{organizationId}/adaptivePolicy/policies/{id}"
+        organization_id = urllib.parse.quote(organization_id, safe="")
+        id = urllib.parse.quote(id, safe="")
+        resource = f"/organizations/{organization_id}/adaptivePolicy/policies/{id}"
 
         body_params = [
             "sourceGroup",
@@ -293,14 +306,14 @@ class ActionBatchOrganizations:
         return action
 
     def delete_organization_adaptive_policy_policy(
-        self, organizationId: str, id: str
+        self, organization_id: str, id: str
     ) -> dict[str, Any]:
         """Delete an Adaptive Policy.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-adaptive-policy-policy
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             id: ID.
 
         """
@@ -308,7 +321,9 @@ class ActionBatchOrganizations:
             "tags": ["organizations", "configure", "adaptivePolicy", "policies"],
             "operation": "delete_organization_adaptive_policy_policy",
         }
-        resource = f"/organizations/{organizationId}/adaptivePolicy/policies/{id}"
+        organization_id = urllib.parse.quote(organization_id, safe="")
+        id = urllib.parse.quote(id, safe="")
+        resource = f"/organizations/{organization_id}/adaptivePolicy/policies/{id}"
 
         action = {
             "resource": resource,
@@ -317,14 +332,14 @@ class ActionBatchOrganizations:
         return action
 
     def update_organization_adaptive_policy_settings(
-        self, organizationId: str, **kwargs: Any
+        self, organization_id: str, **kwargs: Any
     ) -> dict[str, Any]:
         """Update global adaptive policy settings.
 
         https://developer.cisco.com/meraki/api-v1/#!update-organization-adaptive-policy-settings
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             enabledNetworks: List of network IDs with adaptive policy enabled.
 
         """
@@ -334,7 +349,8 @@ class ActionBatchOrganizations:
             "tags": ["organizations", "configure", "adaptivePolicy", "settings"],
             "operation": "update_organization_adaptive_policy_settings",
         }
-        resource = f"/organizations/{organizationId}/adaptivePolicy/settings"
+        organization_id = urllib.parse.quote(organization_id, safe="")
+        resource = f"/organizations/{organization_id}/adaptivePolicy/settings"
 
         body_params = [
             "enabledNetworks",
@@ -345,7 +361,7 @@ class ActionBatchOrganizations:
 
     def create_organization_alerts_profile(
         self,
-        organizationId: str,
+        organization_id: str,
         type: str,
         alertCondition: dict,
         recipients: dict,
@@ -357,7 +373,7 @@ class ActionBatchOrganizations:
         https://developer.cisco.com/meraki/api-v1/#!create-organization-alerts-profile
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             type: The alert type.
             alertCondition: The conditions that determine if the alert triggers.
             recipients: List of recipients that will recieve the alert.
@@ -386,7 +402,8 @@ class ActionBatchOrganizations:
             "tags": ["organizations", "configure", "alerts", "profiles"],
             "operation": "create_organization_alerts_profile",
         }
-        resource = f"/organizations/{organizationId}/alerts/profiles"
+        organization_id = urllib.parse.quote(organization_id, safe="")
+        resource = f"/organizations/{organization_id}/alerts/profiles"
 
         body_params = [
             "type",
@@ -400,15 +417,15 @@ class ActionBatchOrganizations:
         return action
 
     def update_organization_alerts_profile(
-        self, organizationId: str, alertConfigId: str, **kwargs: Any
+        self, organization_id: str, alert_config_id: str, **kwargs: Any
     ) -> dict[str, Any]:
         """Update an organization-wide alert config.
 
         https://developer.cisco.com/meraki/api-v1/#!update-organization-alerts-profile
 
         Args:
-            organizationId: Organization ID.
-            alertConfigId: Alert config ID.
+            organization_id: Organization ID.
+            alert_config_id: Alert config ID.
             enabled: Is the alert config enabled.
             type: The alert type.
             alertCondition: The conditions that determine if the alert triggers.
@@ -438,7 +455,9 @@ class ActionBatchOrganizations:
             "tags": ["organizations", "configure", "alerts", "profiles"],
             "operation": "update_organization_alerts_profile",
         }
-        resource = f"/organizations/{organizationId}/alerts/profiles/{alertConfigId}"
+        organization_id = urllib.parse.quote(organization_id, safe="")
+        alert_config_id = urllib.parse.quote(alert_config_id, safe="")
+        resource = f"/organizations/{organization_id}/alerts/profiles/{alert_config_id}"
 
         body_params = [
             "enabled",
@@ -453,22 +472,24 @@ class ActionBatchOrganizations:
         return action
 
     def delete_organization_alerts_profile(
-        self, organizationId: str, alertConfigId: str
+        self, organization_id: str, alert_config_id: str
     ) -> dict[str, Any]:
         """Removes an organization-wide alert config.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-alerts-profile
 
         Args:
-            organizationId: Organization ID.
-            alertConfigId: Alert config ID.
+            organization_id: Organization ID.
+            alert_config_id: Alert config ID.
 
         """
         metadata = {
             "tags": ["organizations", "configure", "alerts", "profiles"],
             "operation": "delete_organization_alerts_profile",
         }
-        resource = f"/organizations/{organizationId}/alerts/profiles/{alertConfigId}"
+        organization_id = urllib.parse.quote(organization_id, safe="")
+        alert_config_id = urllib.parse.quote(alert_config_id, safe="")
+        resource = f"/organizations/{organization_id}/alerts/profiles/{alert_config_id}"
 
         action = {
             "resource": resource,
@@ -477,14 +498,14 @@ class ActionBatchOrganizations:
         return action
 
     def create_organization_branding_policy(
-        self, organizationId: str, name: str, **kwargs: Any
+        self, organization_id: str, name: str, **kwargs: Any
     ) -> dict[str, Any]:
         """Add a new branding policy to an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!create-organization-branding-policy
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             name: Name of the Dashboard branding policy.
             enabled: Boolean indicating whether this policy is enabled.
             adminSettings: Settings for describing which kinds of admins this policy applies to.
@@ -505,7 +526,8 @@ class ActionBatchOrganizations:
             "tags": ["organizations", "configure", "brandingPolicies"],
             "operation": "create_organization_branding_policy",
         }
-        resource = f"/organizations/{organizationId}/brandingPolicies"
+        organization_id = urllib.parse.quote(organization_id, safe="")
+        resource = f"/organizations/{organization_id}/brandingPolicies"
 
         body_params = [
             "name",
@@ -519,14 +541,14 @@ class ActionBatchOrganizations:
         return action
 
     def update_organization_branding_policies_priorities(
-        self, organizationId: str, **kwargs: Any
+        self, organization_id: str, **kwargs: Any
     ) -> dict[str, Any]:
         """Update the priority ordering of an organization's branding policies.
 
         https://developer.cisco.com/meraki/api-v1/#!update-organization-branding-policies-priorities
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             brandingPolicyIds:       An ordered list of branding policy IDs that determines the
               priority order of how to apply the policies .
 
@@ -537,7 +559,8 @@ class ActionBatchOrganizations:
             "tags": ["organizations", "configure", "brandingPolicies", "priorities"],
             "operation": "update_organization_branding_policies_priorities",
         }
-        resource = f"/organizations/{organizationId}/brandingPolicies/priorities"
+        organization_id = urllib.parse.quote(organization_id, safe="")
+        resource = f"/organizations/{organization_id}/brandingPolicies/priorities"
 
         body_params = [
             "brandingPolicyIds",
@@ -547,15 +570,15 @@ class ActionBatchOrganizations:
         return action
 
     def update_organization_branding_policy(
-        self, organizationId: str, brandingPolicyId: str, name: str, **kwargs: Any
+        self, organization_id: str, branding_policy_id: str, name: str, **kwargs: Any
     ) -> dict[str, Any]:
         """Update a branding policy.
 
         https://developer.cisco.com/meraki/api-v1/#!update-organization-branding-policy
 
         Args:
-            organizationId: Organization ID.
-            brandingPolicyId: Branding policy ID.
+            organization_id: Organization ID.
+            branding_policy_id: Branding policy ID.
             name: Name of the Dashboard branding policy.
             enabled: Boolean indicating whether this policy is enabled.
             adminSettings: Settings for describing which kinds of admins this policy applies to.
@@ -575,7 +598,9 @@ class ActionBatchOrganizations:
             "tags": ["organizations", "configure", "brandingPolicies"],
             "operation": "update_organization_branding_policy",
         }
-        resource = f"/organizations/{organizationId}/brandingPolicies/{brandingPolicyId}"
+        organization_id = urllib.parse.quote(organization_id, safe="")
+        branding_policy_id = urllib.parse.quote(branding_policy_id, safe="")
+        resource = f"/organizations/{organization_id}/brandingPolicies/{branding_policy_id}"
 
         body_params = [
             "name",
@@ -589,22 +614,24 @@ class ActionBatchOrganizations:
         return action
 
     def delete_organization_branding_policy(
-        self, organizationId: str, brandingPolicyId: str
+        self, organization_id: str, branding_policy_id: str
     ) -> dict[str, Any]:
         """Delete a branding policy.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-branding-policy
 
         Args:
-            organizationId: Organization ID.
-            brandingPolicyId: Branding policy ID.
+            organization_id: Organization ID.
+            branding_policy_id: Branding policy ID.
 
         """
         metadata = {
             "tags": ["organizations", "configure", "brandingPolicies"],
             "operation": "delete_organization_branding_policy",
         }
-        resource = f"/organizations/{organizationId}/brandingPolicies/{brandingPolicyId}"
+        organization_id = urllib.parse.quote(organization_id, safe="")
+        branding_policy_id = urllib.parse.quote(branding_policy_id, safe="")
+        resource = f"/organizations/{organization_id}/brandingPolicies/{branding_policy_id}"
 
         action = {
             "resource": resource,
@@ -613,14 +640,14 @@ class ActionBatchOrganizations:
         return action
 
     def create_organization_config_template(
-        self, organizationId: str, name: str, **kwargs: Any
+        self, organization_id: str, name: str, **kwargs: Any
     ) -> dict[str, Any]:
         """Create a new configuration template.
 
         https://developer.cisco.com/meraki/api-v1/#!create-organization-config-template
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             name: The name of the configuration template.
             timeZone: The timezone of the configuration template. For a list of allowed timezones,
               please see the 'TZ' column in the table in <a target='_blank'
@@ -635,7 +662,8 @@ class ActionBatchOrganizations:
             "tags": ["organizations", "configure", "configTemplates"],
             "operation": "create_organization_config_template",
         }
-        resource = f"/organizations/{organizationId}/configTemplates"
+        organization_id = urllib.parse.quote(organization_id, safe="")
+        resource = f"/organizations/{organization_id}/configTemplates"
 
         body_params = [
             "name",
@@ -647,15 +675,15 @@ class ActionBatchOrganizations:
         return action
 
     def update_organization_config_template(
-        self, organizationId: str, configTemplateId: str, **kwargs: Any
+        self, organization_id: str, config_template_id: str, **kwargs: Any
     ) -> dict[str, Any]:
         """Update a configuration template.
 
         https://developer.cisco.com/meraki/api-v1/#!update-organization-config-template
 
         Args:
-            organizationId: Organization ID.
-            configTemplateId: Config template ID.
+            organization_id: Organization ID.
+            config_template_id: Config template ID.
             name: The name of the configuration template.
             timeZone: The timezone of the configuration template. For a list of allowed timezones,
               please see the 'TZ' column in the table in <a target='_blank'
@@ -669,7 +697,9 @@ class ActionBatchOrganizations:
             "tags": ["organizations", "configure", "configTemplates"],
             "operation": "update_organization_config_template",
         }
-        resource = f"/organizations/{organizationId}/configTemplates/{configTemplateId}"
+        organization_id = urllib.parse.quote(organization_id, safe="")
+        config_template_id = urllib.parse.quote(config_template_id, safe="")
+        resource = f"/organizations/{organization_id}/configTemplates/{config_template_id}"
 
         body_params = [
             "name",
@@ -680,14 +710,14 @@ class ActionBatchOrganizations:
         return action
 
     def create_organization_devices_controller_migration(
-        self, organizationId: str, serials: list, target: str
+        self, organization_id: str, serials: list, target: str
     ) -> dict[str, Any]:
         """Migrate devices to another controller or management mode.
 
         https://developer.cisco.com/meraki/api-v1/#!create-organization-devices-controller-migration
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             serials: A list of Meraki Serials to migrate.
             target: The controller or management mode to which the devices will be migrated.
 
@@ -704,7 +734,8 @@ class ActionBatchOrganizations:
             "tags": ["organizations", "configure", "devices", "controller", "migrations"],
             "operation": "create_organization_devices_controller_migration",
         }
-        resource = f"/organizations/{organizationId}/devices/controller/migrations"
+        organization_id = urllib.parse.quote(organization_id, safe="")
+        resource = f"/organizations/{organization_id}/devices/controller/migrations"
 
         body_params = [
             "serials",
@@ -715,14 +746,14 @@ class ActionBatchOrganizations:
         return action
 
     def bulk_update_organization_devices_details(
-        self, organizationId: str, serials: list, details: list
+        self, organization_id: str, serials: list, details: list
     ) -> dict[str, Any]:
         """Updating device details (currently only used for Catalyst devices).
 
         https://developer.cisco.com/meraki/api-v1/#!bulk-update-organization-devices-details
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             serials: A list of serials of devices to update.
             details: An array of details.
 
@@ -733,7 +764,8 @@ class ActionBatchOrganizations:
             "tags": ["organizations", "configure", "devices", "details", "bulkUpdate"],
             "operation": "bulk_update_organization_devices_details",
         }
-        resource = f"/organizations/{organizationId}/devices/details/bulkUpdate"
+        organization_id = urllib.parse.quote(organization_id, safe="")
+        resource = f"/organizations/{organization_id}/devices/details/bulkUpdate"
 
         body_params = [
             "serials",
@@ -744,14 +776,14 @@ class ActionBatchOrganizations:
         return action
 
     def bulk_organization_devices_packet_capture_captures_delete(
-        self, organizationId: str, captureIds: list
+        self, organization_id: str, captureIds: list
     ) -> dict[str, Any]:
         """BulkDelete packet captures from cloud.
 
         https://developer.cisco.com/meraki/api-v1/#!bulk-organization-devices-packet-capture-captures-delete
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             captureIds: Delete the packet captures of the specified capture ids.
 
         """
@@ -761,7 +793,8 @@ class ActionBatchOrganizations:
             "tags": ["organizations", "configure", "devices", "packetCapture", "captures"],
             "operation": "bulk_organization_devices_packet_capture_captures_delete",
         }
-        resource = f"/organizations/{organizationId}/devices/packetCapture/captures/bulkDelete"
+        organization_id = urllib.parse.quote(organization_id, safe="")
+        resource = f"/organizations/{organization_id}/devices/packetCapture/captures/bulkDelete"
 
         body_params = [
             "captureIds",
@@ -771,22 +804,24 @@ class ActionBatchOrganizations:
         return action
 
     def delete_organization_devices_packet_capture_capture(
-        self, organizationId: str, captureId: str
+        self, organization_id: str, capture_id: str
     ) -> dict[str, Any]:
         """Delete a single packet capture from cloud using captureId.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-devices-packet-capture-capture
 
         Args:
-            organizationId: Organization ID.
-            captureId: Capture ID.
+            organization_id: Organization ID.
+            capture_id: Capture ID.
 
         """
         metadata = {
             "tags": ["organizations", "configure", "devices", "packetCapture", "captures"],
             "operation": "delete_organization_devices_packet_capture_capture",
         }
-        resource = f"/organizations/{organizationId}/devices/packetCapture/captures/{captureId}"
+        organization_id = urllib.parse.quote(organization_id, safe="")
+        capture_id = urllib.parse.quote(capture_id, safe="")
+        resource = f"/organizations/{organization_id}/devices/packetCapture/captures/{capture_id}"
 
         action = {
             "resource": resource,
@@ -795,14 +830,14 @@ class ActionBatchOrganizations:
         return action
 
     def create_organization_devices_packet_capture_schedule(
-        self, organizationId: str, devices: list, **kwargs: Any
+        self, organization_id: str, devices: list, **kwargs: Any
     ) -> dict[str, Any]:
         """Create a schedule for packet capture.
 
         https://developer.cisco.com/meraki/api-v1/#!create-organization-devices-packet-capture-schedule
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             devices: device details.
             name: Name of the packet capture file.
             notes: Reason for capture.
@@ -818,7 +853,8 @@ class ActionBatchOrganizations:
             "tags": ["organizations", "configure", "devices", "packetCapture", "schedules"],
             "operation": "create_organization_devices_packet_capture_schedule",
         }
-        resource = f"/organizations/{organizationId}/devices/packetCapture/schedules"
+        organization_id = urllib.parse.quote(organization_id, safe="")
+        resource = f"/organizations/{organization_id}/devices/packetCapture/schedules"
 
         body_params = [
             "devices",
@@ -834,14 +870,14 @@ class ActionBatchOrganizations:
         return action
 
     def reorder_organization_devices_packet_capture_schedules(
-        self, organizationId: str, order: list
+        self, organization_id: str, order: list
     ) -> dict[str, Any]:
         """Bulk update priorities of pcap schedules.
 
         https://developer.cisco.com/meraki/api-v1/#!reorder-organization-devices-packet-capture-schedules
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             order: Array of schedule IDs and their priorities to reorder.
 
         """
@@ -851,7 +887,8 @@ class ActionBatchOrganizations:
             "tags": ["organizations", "configure", "devices", "packetCapture", "schedules"],
             "operation": "reorder_organization_devices_packet_capture_schedules",
         }
-        resource = f"/organizations/{organizationId}/devices/packetCapture/schedules/reorder"
+        organization_id = urllib.parse.quote(organization_id, safe="")
+        resource = f"/organizations/{organization_id}/devices/packetCapture/schedules/reorder"
 
         body_params = [
             "order",
@@ -861,15 +898,15 @@ class ActionBatchOrganizations:
         return action
 
     def update_organization_devices_packet_capture_schedule(
-        self, organizationId: str, scheduleId: str, devices: list, **kwargs: Any
+        self, organization_id: str, schedule_id: str, devices: list, **kwargs: Any
     ) -> dict[str, Any]:
         """Update a schedule for packet capture.
 
         https://developer.cisco.com/meraki/api-v1/#!update-organization-devices-packet-capture-schedule
 
         Args:
-            organizationId: Organization ID.
-            scheduleId: Schedule ID.
+            organization_id: Organization ID.
+            schedule_id: Schedule ID.
             devices: device details.
             name: Name of the packet capture file.
             notes: Reason for capture.
@@ -885,7 +922,9 @@ class ActionBatchOrganizations:
             "tags": ["organizations", "configure", "devices", "packetCapture", "schedules"],
             "operation": "update_organization_devices_packet_capture_schedule",
         }
-        resource = f"/organizations/{organizationId}/devices/packetCapture/schedules/{scheduleId}"
+        organization_id = urllib.parse.quote(organization_id, safe="")
+        schedule_id = urllib.parse.quote(schedule_id, safe="")
+        resource = f"/organizations/{organization_id}/devices/packetCapture/schedules/{schedule_id}"
 
         body_params = [
             "devices",
@@ -901,14 +940,14 @@ class ActionBatchOrganizations:
         return action
 
     def delete_organization_devices_packet_capture_schedule(
-        self, organizationId: str, scheduleId: str
+        self, organization_id: str, scheduleId: str
     ) -> dict[str, Any]:
         """Delete schedule from cloud.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-devices-packet-capture-schedule
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             scheduleId: Delete the capture schedules of the specified capture schedule id.
 
         """
@@ -918,7 +957,8 @@ class ActionBatchOrganizations:
             "tags": ["organizations", "configure", "devices", "packetCapture", "schedules"],
             "operation": "delete_organization_devices_packet_capture_schedule",
         }
-        resource = f"/organizations/{organizationId}/devices/packetCapture/schedules/{scheduleId}"
+        organization_id = urllib.parse.quote(organization_id, safe="")
+        resource = f"/organizations/{organization_id}/devices/packetCapture/schedules/{scheduleId}"
 
         action = {
             "resource": resource,
@@ -927,15 +967,15 @@ class ActionBatchOrganizations:
         return action
 
     def update_organization_early_access_features_opt_in(
-        self, organizationId: str, optInId: str, **kwargs: Any
+        self, organization_id: str, opt_in_id: str, **kwargs: Any
     ) -> dict[str, Any]:
         """Update an early access feature opt-in for an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!update-organization-early-access-features-opt-in
 
         Args:
-            organizationId: Organization ID.
-            optInId: Opt in ID.
+            organization_id: Organization ID.
+            opt_in_id: Opt in ID.
             limitScopeToNetworks: A list of network IDs to apply the opt-in to.
 
         """
@@ -945,7 +985,9 @@ class ActionBatchOrganizations:
             "tags": ["organizations", "configure", "earlyAccess", "features", "optIns"],
             "operation": "update_organization_early_access_features_opt_in",
         }
-        resource = f"/organizations/{organizationId}/earlyAccess/features/optIns/{optInId}"
+        organization_id = urllib.parse.quote(organization_id, safe="")
+        opt_in_id = urllib.parse.quote(opt_in_id, safe="")
+        resource = f"/organizations/{organization_id}/earlyAccess/features/optIns/{opt_in_id}"
 
         body_params = [
             "limitScopeToNetworks",
@@ -955,14 +997,14 @@ class ActionBatchOrganizations:
         return action
 
     def disable_organization_integrations_xdr_networks(
-        self, organizationId: str, networks: list
+        self, organization_id: str, networks: list
     ) -> dict[str, Any]:
         """Disable XDR on networks.
 
         https://developer.cisco.com/meraki/api-v1/#!disable-organization-integrations-xdr-networks
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             networks: List containing the network ID and the product type to disable XDR on.
 
         """
@@ -972,7 +1014,8 @@ class ActionBatchOrganizations:
             "tags": ["organizations", "configure", "integrations", "xdr", "networks"],
             "operation": "disable_organization_integrations_xdr_networks",
         }
-        resource = f"/organizations/{organizationId}/integrations/xdr/networks/disable"
+        organization_id = urllib.parse.quote(organization_id, safe="")
+        resource = f"/organizations/{organization_id}/integrations/xdr/networks/disable"
 
         body_params = [
             "networks",
@@ -982,14 +1025,14 @@ class ActionBatchOrganizations:
         return action
 
     def enable_organization_integrations_xdr_networks(
-        self, organizationId: str, networks: list
+        self, organization_id: str, networks: list
     ) -> dict[str, Any]:
         """Enable XDR on networks.
 
         https://developer.cisco.com/meraki/api-v1/#!enable-organization-integrations-xdr-networks
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             networks: List containing the network ID and the product type to enable XDR on.
 
         """
@@ -999,7 +1042,8 @@ class ActionBatchOrganizations:
             "tags": ["organizations", "configure", "integrations", "xdr", "networks"],
             "operation": "enable_organization_integrations_xdr_networks",
         }
-        resource = f"/organizations/{organizationId}/integrations/xdr/networks/enable"
+        organization_id = urllib.parse.quote(organization_id, safe="")
+        resource = f"/organizations/{organization_id}/integrations/xdr/networks/enable"
 
         body_params = [
             "networks",
@@ -1009,14 +1053,14 @@ class ActionBatchOrganizations:
         return action
 
     def claim_organization_inventory_orders(
-        self, organizationId: str, claimId: str, **kwargs: Any
+        self, organization_id: str, claimId: str, **kwargs: Any
     ) -> dict[str, Any]:
         """Claim an order by the secure unique order claim number, the order claim id.
 
         https://developer.cisco.com/meraki/api-v1/#!claim-organization-inventory-orders
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             claimId: The unique order claim id.
             subscriptions: The individual subscriptions to claim.
 
@@ -1027,7 +1071,8 @@ class ActionBatchOrganizations:
             "tags": ["organizations", "configure", "inventory", "orders"],
             "operation": "claim_organization_inventory_orders",
         }
-        resource = f"/organizations/{organizationId}/inventory/orders/claim"
+        organization_id = urllib.parse.quote(organization_id, safe="")
+        resource = f"/organizations/{organization_id}/inventory/orders/claim"
 
         body_params = [
             "claimId",
@@ -1038,14 +1083,14 @@ class ActionBatchOrganizations:
         return action
 
     def assign_organization_licenses_seats(
-        self, organizationId: str, licenseId: str, networkId: str, seatCount: int
+        self, organization_id: str, licenseId: str, networkId: str, seatCount: int
     ) -> dict[str, Any]:
         """Assign SM seats to a network.
 
         https://developer.cisco.com/meraki/api-v1/#!assign-organization-licenses-seats
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             licenseId: The ID of the SM license to assign seats from.
             networkId: The ID of the SM network to assign the seats to.
             seatCount: The number of seats to assign to the SM network. Must be less than or equal
@@ -1058,7 +1103,8 @@ class ActionBatchOrganizations:
             "tags": ["organizations", "configure", "licenses"],
             "operation": "assign_organization_licenses_seats",
         }
-        resource = f"/organizations/{organizationId}/licenses/assignSeats"
+        organization_id = urllib.parse.quote(organization_id, safe="")
+        resource = f"/organizations/{organization_id}/licenses/assignSeats"
 
         body_params = [
             "licenseId",
@@ -1070,14 +1116,14 @@ class ActionBatchOrganizations:
         return action
 
     def move_organization_licenses(
-        self, organizationId: str, destOrganizationId: str, licenseIds: list
+        self, organization_id: str, destOrganizationId: str, licenseIds: list
     ) -> dict[str, Any]:
         """Move licenses to another organization.
 
         https://developer.cisco.com/meraki/api-v1/#!move-organization-licenses
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             destOrganizationId: The ID of the organization to move the licenses to.
             licenseIds: A list of IDs of licenses to move to the new organization.
 
@@ -1088,7 +1134,8 @@ class ActionBatchOrganizations:
             "tags": ["organizations", "configure", "licenses"],
             "operation": "move_organization_licenses",
         }
-        resource = f"/organizations/{organizationId}/licenses/move"
+        organization_id = urllib.parse.quote(organization_id, safe="")
+        resource = f"/organizations/{organization_id}/licenses/move"
 
         body_params = [
             "destOrganizationId",
@@ -1099,14 +1146,14 @@ class ActionBatchOrganizations:
         return action
 
     def move_organization_licenses_seats(
-        self, organizationId: str, destOrganizationId: str, licenseId: str, seatCount: int
+        self, organization_id: str, destOrganizationId: str, licenseId: str, seatCount: int
     ) -> dict[str, Any]:
         """Move SM seats to another organization.
 
         https://developer.cisco.com/meraki/api-v1/#!move-organization-licenses-seats
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             destOrganizationId: The ID of the organization to move the SM seats to.
             licenseId: The ID of the SM license to move the seats from.
             seatCount: The number of seats to move to the new organization. Must be less than or
@@ -1119,7 +1166,8 @@ class ActionBatchOrganizations:
             "tags": ["organizations", "configure", "licenses"],
             "operation": "move_organization_licenses_seats",
         }
-        resource = f"/organizations/{organizationId}/licenses/moveSeats"
+        organization_id = urllib.parse.quote(organization_id, safe="")
+        resource = f"/organizations/{organization_id}/licenses/moveSeats"
 
         body_params = [
             "destOrganizationId",
@@ -1131,14 +1179,14 @@ class ActionBatchOrganizations:
         return action
 
     def renew_organization_licenses_seats(
-        self, organizationId: str, licenseIdToRenew: str, unusedLicenseId: str
+        self, organization_id: str, licenseIdToRenew: str, unusedLicenseId: str
     ) -> dict[str, Any]:
         """Renew SM seats of a license.
 
         https://developer.cisco.com/meraki/api-v1/#!renew-organization-licenses-seats
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             licenseIdToRenew: The ID of the SM license to renew. This license must already be
               assigned to an SM network.
             unusedLicenseId: The SM license to use to renew the seats on 'licenseIdToRenew'. This
@@ -1152,7 +1200,8 @@ class ActionBatchOrganizations:
             "tags": ["organizations", "configure", "licenses"],
             "operation": "renew_organization_licenses_seats",
         }
-        resource = f"/organizations/{organizationId}/licenses/renewSeats"
+        organization_id = urllib.parse.quote(organization_id, safe="")
+        resource = f"/organizations/{organization_id}/licenses/renewSeats"
 
         body_params = [
             "licenseIdToRenew",
@@ -1163,15 +1212,15 @@ class ActionBatchOrganizations:
         return action
 
     def update_organization_license(
-        self, organizationId: str, licenseId: str, **kwargs: Any
+        self, organization_id: str, license_id: str, **kwargs: Any
     ) -> dict[str, Any]:
         """Update a license.
 
         https://developer.cisco.com/meraki/api-v1/#!update-organization-license
 
         Args:
-            organizationId: Organization ID.
-            licenseId: License ID.
+            organization_id: Organization ID.
+            license_id: License ID.
             deviceSerial: The serial number of the device to assign this license to. Set this to
               null to unassign the license. If a different license is already active on
               the device, this parameter will control queueing/dequeuing this license.
@@ -1183,7 +1232,9 @@ class ActionBatchOrganizations:
             "tags": ["organizations", "configure", "licenses"],
             "operation": "update_organization_license",
         }
-        resource = f"/organizations/{organizationId}/licenses/{licenseId}"
+        organization_id = urllib.parse.quote(organization_id, safe="")
+        license_id = urllib.parse.quote(license_id, safe="")
+        resource = f"/organizations/{organization_id}/licenses/{license_id}"
 
         body_params = [
             "deviceSerial",
@@ -1193,14 +1244,14 @@ class ActionBatchOrganizations:
         return action
 
     def update_organization_login_security(
-        self, organizationId: str, **kwargs: Any
+        self, organization_id: str, **kwargs: Any
     ) -> dict[str, Any]:
         """Update the login security settings for an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!update-organization-login-security
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             enforcePasswordExpiration: Boolean indicating whether users are forced to change their
               password every X number of days.
             passwordExpirationDays: Number of days after which users will be forced to change their
@@ -1238,7 +1289,8 @@ class ActionBatchOrganizations:
             "tags": ["organizations", "configure", "loginSecurity"],
             "operation": "update_organization_login_security",
         }
-        resource = f"/organizations/{organizationId}/loginSecurity"
+        organization_id = urllib.parse.quote(organization_id, safe="")
+        resource = f"/organizations/{organization_id}/loginSecurity"
 
         body_params = [
             "enforcePasswordExpiration",
@@ -1261,14 +1313,14 @@ class ActionBatchOrganizations:
         return action
 
     def create_organization_network(
-        self, organizationId: str, name: str, productTypes: list, **kwargs: Any
+        self, organization_id: str, name: str, productTypes: list, **kwargs: Any
     ) -> dict[str, Any]:
         """Create a network.
 
         https://developer.cisco.com/meraki/api-v1/#!create-organization-network
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             name: The name of the new network.
             productTypes: The product type(s) of the new network. If more than one type is included,
               the network will be a combined network.
@@ -1289,7 +1341,8 @@ class ActionBatchOrganizations:
             "tags": ["organizations", "configure", "networks"],
             "operation": "create_organization_network",
         }
-        resource = f"/organizations/{organizationId}/networks"
+        organization_id = urllib.parse.quote(organization_id, safe="")
+        resource = f"/organizations/{organization_id}/networks"
 
         body_params = [
             "name",
@@ -1304,14 +1357,14 @@ class ActionBatchOrganizations:
         return action
 
     def combine_organization_networks(
-        self, organizationId: str, name: str, networkIds: list, **kwargs: Any
+        self, organization_id: str, name: str, networkIds: list, **kwargs: Any
     ) -> dict[str, Any]:
         """Combine multiple networks into a single network.
 
         https://developer.cisco.com/meraki/api-v1/#!combine-organization-networks
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             name: The name of the combined network.
             networkIds: A list of the network IDs that will be combined. If an ID of a combined
               network is included in this list, the other networks in the list will be
@@ -1330,7 +1383,8 @@ class ActionBatchOrganizations:
             "tags": ["organizations", "configure", "networks"],
             "operation": "combine_organization_networks",
         }
-        resource = f"/organizations/{organizationId}/networks/combine"
+        organization_id = urllib.parse.quote(organization_id, safe="")
+        resource = f"/organizations/{organization_id}/networks/combine"
 
         body_params = [
             "name",
@@ -1342,14 +1396,14 @@ class ActionBatchOrganizations:
         return action
 
     def create_organization_policy_object(
-        self, organizationId: str, name: str, category: str, type: str, **kwargs: Any
+        self, organization_id: str, name: str, category: str, type: str, **kwargs: Any
     ) -> dict[str, Any]:
         """Creates a new Policy Object.
 
         https://developer.cisco.com/meraki/api-v1/#!create-organization-policy-object
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             name: Name of a policy object, unique within the organization (alphanumeric, space,
               dash, or underscore characters only).
             category: Category of a policy object (one of: adaptivePolicy, network).
@@ -1367,7 +1421,8 @@ class ActionBatchOrganizations:
             "tags": ["organizations", "configure", "policyObjects"],
             "operation": "create_organization_policy_object",
         }
-        resource = f"/organizations/{organizationId}/policyObjects"
+        organization_id = urllib.parse.quote(organization_id, safe="")
+        resource = f"/organizations/{organization_id}/policyObjects"
 
         body_params = [
             "name",
@@ -1384,14 +1439,14 @@ class ActionBatchOrganizations:
         return action
 
     def create_organization_policy_objects_group(
-        self, organizationId: str, name: str, **kwargs: Any
+        self, organization_id: str, name: str, **kwargs: Any
     ) -> dict[str, Any]:
         """Creates a new Policy Object Group.
 
         https://developer.cisco.com/meraki/api-v1/#!create-organization-policy-objects-group
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             name: A name for the group of network addresses, unique within the organization
               (alphanumeric, space, dash, or underscore characters only).
             category: Category of a policy object group (one of: NetworkObjectGroup,
@@ -1407,7 +1462,8 @@ class ActionBatchOrganizations:
             "tags": ["organizations", "configure", "policyObjects", "groups"],
             "operation": "create_organization_policy_objects_group",
         }
-        resource = f"/organizations/{organizationId}/policyObjects/groups"
+        organization_id = urllib.parse.quote(organization_id, safe="")
+        resource = f"/organizations/{organization_id}/policyObjects/groups"
 
         body_params = [
             "name",
@@ -1419,15 +1475,15 @@ class ActionBatchOrganizations:
         return action
 
     def update_organization_policy_objects_group(
-        self, organizationId: str, policyObjectGroupId: str, **kwargs: Any
+        self, organization_id: str, policy_object_group_id: str, **kwargs: Any
     ) -> dict[str, Any]:
         """Updates a Policy Object Group.
 
         https://developer.cisco.com/meraki/api-v1/#!update-organization-policy-objects-group
 
         Args:
-            organizationId: Organization ID.
-            policyObjectGroupId: Policy object group ID.
+            organization_id: Organization ID.
+            policy_object_group_id: Policy object group ID.
             name: A name for the group of network addresses, unique within the organization
               (alphanumeric, space, dash, or underscore characters only).
             objectIds: A list of Policy Object ID's that this NetworkObjectGroup should be
@@ -1441,7 +1497,9 @@ class ActionBatchOrganizations:
             "tags": ["organizations", "configure", "policyObjects", "groups"],
             "operation": "update_organization_policy_objects_group",
         }
-        resource = f"/organizations/{organizationId}/policyObjects/groups/{policyObjectGroupId}"
+        organization_id = urllib.parse.quote(organization_id, safe="")
+        policy_object_group_id = urllib.parse.quote(policy_object_group_id, safe="")
+        resource = f"/organizations/{organization_id}/policyObjects/groups/{policy_object_group_id}"
 
         body_params = [
             "name",
@@ -1452,22 +1510,24 @@ class ActionBatchOrganizations:
         return action
 
     def delete_organization_policy_objects_group(
-        self, organizationId: str, policyObjectGroupId: str
+        self, organization_id: str, policy_object_group_id: str
     ) -> dict[str, Any]:
         """Deletes a Policy Object Group.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-policy-objects-group
 
         Args:
-            organizationId: Organization ID.
-            policyObjectGroupId: Policy object group ID.
+            organization_id: Organization ID.
+            policy_object_group_id: Policy object group ID.
 
         """
         metadata = {
             "tags": ["organizations", "configure", "policyObjects", "groups"],
             "operation": "delete_organization_policy_objects_group",
         }
-        resource = f"/organizations/{organizationId}/policyObjects/groups/{policyObjectGroupId}"
+        organization_id = urllib.parse.quote(organization_id, safe="")
+        policy_object_group_id = urllib.parse.quote(policy_object_group_id, safe="")
+        resource = f"/organizations/{organization_id}/policyObjects/groups/{policy_object_group_id}"
 
         action = {
             "resource": resource,
@@ -1476,15 +1536,15 @@ class ActionBatchOrganizations:
         return action
 
     def update_organization_policy_object(
-        self, organizationId: str, policyObjectId: str, **kwargs: Any
+        self, organization_id: str, policy_object_id: str, **kwargs: Any
     ) -> dict[str, Any]:
         """Updates a Policy Object.
 
         https://developer.cisco.com/meraki/api-v1/#!update-organization-policy-object
 
         Args:
-            organizationId: Organization ID.
-            policyObjectId: Policy object ID.
+            organization_id: Organization ID.
+            policy_object_id: Policy object ID.
             name: Name of a policy object, unique within the organization (alphanumeric, space,
               dash, or underscore characters only).
             cidr: CIDR Value of a policy object (e.g. 10.11.12.1/24").
@@ -1500,7 +1560,9 @@ class ActionBatchOrganizations:
             "tags": ["organizations", "configure", "policyObjects"],
             "operation": "update_organization_policy_object",
         }
-        resource = f"/organizations/{organizationId}/policyObjects/{policyObjectId}"
+        organization_id = urllib.parse.quote(organization_id, safe="")
+        policy_object_id = urllib.parse.quote(policy_object_id, safe="")
+        resource = f"/organizations/{organization_id}/policyObjects/{policy_object_id}"
 
         body_params = [
             "name",
@@ -1515,22 +1577,24 @@ class ActionBatchOrganizations:
         return action
 
     def delete_organization_policy_object(
-        self, organizationId: str, policyObjectId: str
+        self, organization_id: str, policy_object_id: str
     ) -> dict[str, Any]:
         """Deletes a Policy Object.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-policy-object
 
         Args:
-            organizationId: Organization ID.
-            policyObjectId: Policy object ID.
+            organization_id: Organization ID.
+            policy_object_id: Policy object ID.
 
         """
         metadata = {
             "tags": ["organizations", "configure", "policyObjects"],
             "operation": "delete_organization_policy_object",
         }
-        resource = f"/organizations/{organizationId}/policyObjects/{policyObjectId}"
+        organization_id = urllib.parse.quote(organization_id, safe="")
+        policy_object_id = urllib.parse.quote(policy_object_id, safe="")
+        resource = f"/organizations/{organization_id}/policyObjects/{policy_object_id}"
 
         action = {
             "resource": resource,
@@ -1539,14 +1603,14 @@ class ActionBatchOrganizations:
         return action
 
     def create_organization_saml_idp(
-        self, organizationId: str, x509certSha1Fingerprint: str, **kwargs: Any
+        self, organization_id: str, x509certSha1Fingerprint: str, **kwargs: Any
     ) -> dict[str, Any]:
         """Create a SAML IdP for your organization.
 
         https://developer.cisco.com/meraki/api-v1/#!create-organization-saml-idp
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             x509certSha1Fingerprint: Fingerprint (SHA1) of the SAML certificate provided by your
               Identity Provider (IdP). This will be used for encryption / validation.
             ssoLoginUrl: Dashboard will redirect users to this URL to log in again when their
@@ -1560,7 +1624,8 @@ class ActionBatchOrganizations:
             "tags": ["organizations", "configure", "saml", "idps"],
             "operation": "create_organization_saml_idp",
         }
-        resource = f"/organizations/{organizationId}/saml/idps"
+        organization_id = urllib.parse.quote(organization_id, safe="")
+        resource = f"/organizations/{organization_id}/saml/idps"
 
         body_params = [
             "x509certSha1Fingerprint",
@@ -1572,15 +1637,15 @@ class ActionBatchOrganizations:
         return action
 
     def update_organization_saml_idp(
-        self, organizationId: str, idpId: str, **kwargs: Any
+        self, organization_id: str, idp_id: str, **kwargs: Any
     ) -> dict[str, Any]:
         """Update a SAML IdP in your organization.
 
         https://developer.cisco.com/meraki/api-v1/#!update-organization-saml-idp
 
         Args:
-            organizationId: Organization ID.
-            idpId: Idp ID.
+            organization_id: Organization ID.
+            idp_id: Idp ID.
             x509certSha1Fingerprint: Fingerprint (SHA1) of the SAML certificate provided by your
               Identity Provider (IdP). This will be used for encryption / validation.
             ssoLoginUrl: Dashboard will redirect users to this URL to log in again when their
@@ -1594,7 +1659,9 @@ class ActionBatchOrganizations:
             "tags": ["organizations", "configure", "saml", "idps"],
             "operation": "update_organization_saml_idp",
         }
-        resource = f"/organizations/{organizationId}/saml/idps/{idpId}"
+        organization_id = urllib.parse.quote(organization_id, safe="")
+        idp_id = urllib.parse.quote(idp_id, safe="")
+        resource = f"/organizations/{organization_id}/saml/idps/{idp_id}"
 
         body_params = [
             "x509certSha1Fingerprint",
@@ -1605,21 +1672,23 @@ class ActionBatchOrganizations:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def delete_organization_saml_idp(self, organizationId: str, idpId: str) -> dict[str, Any]:
+    def delete_organization_saml_idp(self, organization_id: str, idp_id: str) -> dict[str, Any]:
         """Remove a SAML IdP in your organization.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-saml-idp
 
         Args:
-            organizationId: Organization ID.
-            idpId: Idp ID.
+            organization_id: Organization ID.
+            idp_id: Idp ID.
 
         """
         metadata = {
             "tags": ["organizations", "configure", "saml", "idps"],
             "operation": "delete_organization_saml_idp",
         }
-        resource = f"/organizations/{organizationId}/saml/idps/{idpId}"
+        organization_id = urllib.parse.quote(organization_id, safe="")
+        idp_id = urllib.parse.quote(idp_id, safe="")
+        resource = f"/organizations/{organization_id}/saml/idps/{idp_id}"
 
         action = {
             "resource": resource,
@@ -1627,13 +1696,13 @@ class ActionBatchOrganizations:
         }
         return action
 
-    def delete_organization_splash_asset(self, organizationId: str, id: str) -> dict[str, Any]:
+    def delete_organization_splash_asset(self, organization_id: str, id: str) -> dict[str, Any]:
         """Delete a Splash Theme Asset.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-splash-asset
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             id: ID.
 
         """
@@ -1641,7 +1710,9 @@ class ActionBatchOrganizations:
             "tags": ["organizations", "configure", "splash", "assets"],
             "operation": "delete_organization_splash_asset",
         }
-        resource = f"/organizations/{organizationId}/splash/assets/{id}"
+        organization_id = urllib.parse.quote(organization_id, safe="")
+        id = urllib.parse.quote(id, safe="")
+        resource = f"/organizations/{organization_id}/splash/assets/{id}"
 
         action = {
             "resource": resource,
@@ -1650,14 +1721,14 @@ class ActionBatchOrganizations:
         return action
 
     def create_organization_splash_theme(
-        self, organizationId: str, **kwargs: Any
+        self, organization_id: str, **kwargs: Any
     ) -> dict[str, Any]:
         """Create a Splash Theme.
 
         https://developer.cisco.com/meraki/api-v1/#!create-organization-splash-theme
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             name: theme name.
             baseTheme: base theme id .
 
@@ -1668,7 +1739,8 @@ class ActionBatchOrganizations:
             "tags": ["organizations", "configure", "splash", "themes"],
             "operation": "create_organization_splash_theme",
         }
-        resource = f"/organizations/{organizationId}/splash/themes"
+        organization_id = urllib.parse.quote(organization_id, safe="")
+        resource = f"/organizations/{organization_id}/splash/themes"
 
         body_params = [
             "name",
@@ -1678,13 +1750,13 @@ class ActionBatchOrganizations:
         action = {"resource": resource, "operation": "create", "body": payload}
         return action
 
-    def delete_organization_splash_theme(self, organizationId: str, id: str) -> dict[str, Any]:
+    def delete_organization_splash_theme(self, organization_id: str, id: str) -> dict[str, Any]:
         """Delete a Splash Theme.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-splash-theme
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             id: ID.
 
         """
@@ -1692,7 +1764,9 @@ class ActionBatchOrganizations:
             "tags": ["organizations", "configure", "splash", "themes"],
             "operation": "delete_organization_splash_theme",
         }
-        resource = f"/organizations/{organizationId}/splash/themes/{id}"
+        organization_id = urllib.parse.quote(organization_id, safe="")
+        id = urllib.parse.quote(id, safe="")
+        resource = f"/organizations/{organization_id}/splash/themes/{id}"
 
         action = {
             "resource": resource,
@@ -1701,15 +1775,15 @@ class ActionBatchOrganizations:
         return action
 
     def create_organization_splash_theme_asset(
-        self, organizationId: str, themeIdentifier: str, **kwargs: Any
+        self, organization_id: str, theme_identifier: str, **kwargs: Any
     ) -> dict[str, Any]:
         """Create a Splash Theme Asset.
 
         https://developer.cisco.com/meraki/api-v1/#!create-organization-splash-theme-asset
 
         Args:
-            organizationId: Organization ID.
-            themeIdentifier: Theme identifier.
+            organization_id: Organization ID.
+            theme_identifier: Theme identifier.
             name: File name. Will overwrite files with same name.
             content: a file containing the asset content.
 
@@ -1720,7 +1794,9 @@ class ActionBatchOrganizations:
             "tags": ["organizations", "configure", "splash", "themes", "assets"],
             "operation": "create_organization_splash_theme_asset",
         }
-        resource = f"/organizations/{organizationId}/splash/themes/{themeIdentifier}/assets"
+        organization_id = urllib.parse.quote(organization_id, safe="")
+        theme_identifier = urllib.parse.quote(theme_identifier, safe="")
+        resource = f"/organizations/{organization_id}/splash/themes/{theme_identifier}/assets"
 
         body_params = [
             "name",

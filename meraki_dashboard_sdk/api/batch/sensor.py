@@ -41,6 +41,7 @@ class ActionBatchSensor:
             "tags": ["sensor", "configure", "commands"],
             "operation": "create_device_sensor_command",
         }
+        serial = urllib.parse.quote(serial, safe="")
         resource = f"/devices/{serial}/sensor/commands"
 
         body_params = [
@@ -68,6 +69,7 @@ class ActionBatchSensor:
             "tags": ["sensor", "configure", "relationships"],
             "operation": "update_device_sensor_relationships",
         }
+        serial = urllib.parse.quote(serial, safe="")
         resource = f"/devices/{serial}/sensor/relationships"
 
         body_params = [
@@ -78,14 +80,14 @@ class ActionBatchSensor:
         return action
 
     def create_network_sensor_alerts_profile(
-        self, networkId: str, name: str, conditions: list, **kwargs: Any
+        self, network_id: str, name: str, conditions: list, **kwargs: Any
     ) -> dict[str, Any]:
         """Creates a sensor alert profile for a network.
 
         https://developer.cisco.com/meraki/api-v1/#!create-network-sensor-alerts-profile
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             name: Name of the sensor alert profile.
             conditions: List of conditions that will cause the profile to send an alert.
             schedule: The sensor schedule to use with the alert profile.
@@ -101,7 +103,8 @@ class ActionBatchSensor:
             "tags": ["sensor", "configure", "alerts", "profiles"],
             "operation": "create_network_sensor_alerts_profile",
         }
-        resource = f"/networks/{networkId}/sensor/alerts/profiles"
+        network_id = urllib.parse.quote(network_id, safe="")
+        resource = f"/networks/{network_id}/sensor/alerts/profiles"
 
         body_params = [
             "name",
@@ -117,14 +120,14 @@ class ActionBatchSensor:
         return action
 
     def update_network_sensor_alerts_profile(
-        self, networkId: str, id: str, **kwargs: Any
+        self, network_id: str, id: str, **kwargs: Any
     ) -> dict[str, Any]:
         """Updates a sensor alert profile for a network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-sensor-alerts-profile
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             id: ID.
             name: Name of the sensor alert profile.
             schedule: The sensor schedule to use with the alert profile.
@@ -141,7 +144,9 @@ class ActionBatchSensor:
             "tags": ["sensor", "configure", "alerts", "profiles"],
             "operation": "update_network_sensor_alerts_profile",
         }
-        resource = f"/networks/{networkId}/sensor/alerts/profiles/{id}"
+        network_id = urllib.parse.quote(network_id, safe="")
+        id = urllib.parse.quote(id, safe="")
+        resource = f"/networks/{network_id}/sensor/alerts/profiles/{id}"
 
         body_params = [
             "name",
@@ -156,13 +161,13 @@ class ActionBatchSensor:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def delete_network_sensor_alerts_profile(self, networkId: str, id: str) -> dict[str, Any]:
+    def delete_network_sensor_alerts_profile(self, network_id: str, id: str) -> dict[str, Any]:
         """Deletes a sensor alert profile from a network.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-network-sensor-alerts-profile
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             id: ID.
 
         """
@@ -170,7 +175,9 @@ class ActionBatchSensor:
             "tags": ["sensor", "configure", "alerts", "profiles"],
             "operation": "delete_network_sensor_alerts_profile",
         }
-        resource = f"/networks/{networkId}/sensor/alerts/profiles/{id}"
+        network_id = urllib.parse.quote(network_id, safe="")
+        id = urllib.parse.quote(id, safe="")
+        resource = f"/networks/{network_id}/sensor/alerts/profiles/{id}"
 
         action = {
             "resource": resource,
@@ -179,15 +186,15 @@ class ActionBatchSensor:
         return action
 
     def update_network_sensor_mqtt_broker(
-        self, networkId: str, mqttBrokerId: str, enabled: bool
+        self, network_id: str, mqtt_broker_id: str, enabled: bool
     ) -> dict[str, Any]:
         """Update the sensor settings of an MQTT broker.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-sensor-mqtt-broker
 
         Args:
-            networkId: Network ID.
-            mqttBrokerId: Mqtt broker ID.
+            network_id: Network ID.
+            mqtt_broker_id: Mqtt broker ID.
             enabled: Set to true to enable MQTT broker for sensor network.
 
         """
@@ -197,7 +204,9 @@ class ActionBatchSensor:
             "tags": ["sensor", "configure", "mqttBrokers"],
             "operation": "update_network_sensor_mqtt_broker",
         }
-        resource = f"/networks/{networkId}/sensor/mqttBrokers/{mqttBrokerId}"
+        network_id = urllib.parse.quote(network_id, safe="")
+        mqtt_broker_id = urllib.parse.quote(mqtt_broker_id, safe="")
+        resource = f"/networks/{network_id}/sensor/mqttBrokers/{mqtt_broker_id}"
 
         body_params = [
             "enabled",

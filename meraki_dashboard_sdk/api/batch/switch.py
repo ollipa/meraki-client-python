@@ -26,6 +26,7 @@ class ActionBatchSwitch:
             "tags": ["switch", "liveTools", "ports"],
             "operation": "cycle_device_switch_ports",
         }
+        serial = urllib.parse.quote(serial, safe="")
         resource = f"/devices/{serial}/switch/ports/cycle"
 
         body_params = [
@@ -35,14 +36,14 @@ class ActionBatchSwitch:
         action = {"resource": resource, "operation": "create", "body": payload}
         return action
 
-    def update_device_switch_port(self, serial: str, portId: str, **kwargs: Any) -> dict[str, Any]:
+    def update_device_switch_port(self, serial: str, port_id: str, **kwargs: Any) -> dict[str, Any]:
         """Update a switch port.
 
         https://developer.cisco.com/meraki/api-v1/#!update-device-switch-port
 
         Args:
             serial: Serial.
-            portId: Port ID.
+            port_id: Port ID.
             name: The name of the switch port.
             tags: The list of tags of the switch port.
             enabled: The status of the switch port.
@@ -123,7 +124,9 @@ class ActionBatchSwitch:
             "tags": ["switch", "configure", "ports"],
             "operation": "update_device_switch_port",
         }
-        resource = f"/devices/{serial}/switch/ports/{portId}"
+        serial = urllib.parse.quote(serial, safe="")
+        port_id = urllib.parse.quote(port_id, safe="")
+        resource = f"/devices/{serial}/switch/ports/{port_id}"
 
         body_params = [
             "name",
@@ -207,6 +210,7 @@ class ActionBatchSwitch:
             "tags": ["switch", "configure", "routing", "interfaces"],
             "operation": "create_device_switch_routing_interface",
         }
+        serial = urllib.parse.quote(serial, safe="")
         resource = f"/devices/{serial}/switch/routing/interfaces"
 
         body_params = [
@@ -228,7 +232,7 @@ class ActionBatchSwitch:
         return action
 
     def update_device_switch_routing_interface(
-        self, serial: str, interfaceId: str, **kwargs: Any
+        self, serial: str, interface_id: str, **kwargs: Any
     ) -> dict[str, Any]:
         """Update a layer 3 interface for a switch.
 
@@ -236,7 +240,7 @@ class ActionBatchSwitch:
 
         Args:
             serial: Serial.
-            interfaceId: Interface ID.
+            interface_id: Interface ID.
             name: A friendly name or description for the interface or VLAN (max length 128
               characters).
             subnet: The network that this L3 interface is on, in CIDR notation (ex. 10.1.1.0/24).
@@ -268,7 +272,9 @@ class ActionBatchSwitch:
             "tags": ["switch", "configure", "routing", "interfaces"],
             "operation": "update_device_switch_routing_interface",
         }
-        resource = f"/devices/{serial}/switch/routing/interfaces/{interfaceId}"
+        serial = urllib.parse.quote(serial, safe="")
+        interface_id = urllib.parse.quote(interface_id, safe="")
+        resource = f"/devices/{serial}/switch/routing/interfaces/{interface_id}"
 
         body_params = [
             "name",
@@ -288,7 +294,7 @@ class ActionBatchSwitch:
         return action
 
     def delete_device_switch_routing_interface(
-        self, serial: str, interfaceId: str
+        self, serial: str, interface_id: str
     ) -> dict[str, Any]:
         """Delete a layer 3 interface from the switch.
 
@@ -296,14 +302,16 @@ class ActionBatchSwitch:
 
         Args:
             serial: Serial.
-            interfaceId: Interface ID.
+            interface_id: Interface ID.
 
         """
         metadata = {
             "tags": ["switch", "configure", "routing", "interfaces"],
             "operation": "delete_device_switch_routing_interface",
         }
-        resource = f"/devices/{serial}/switch/routing/interfaces/{interfaceId}"
+        serial = urllib.parse.quote(serial, safe="")
+        interface_id = urllib.parse.quote(interface_id, safe="")
+        resource = f"/devices/{serial}/switch/routing/interfaces/{interface_id}"
 
         action = {
             "resource": resource,
@@ -312,7 +320,7 @@ class ActionBatchSwitch:
         return action
 
     def update_device_switch_routing_interface_dhcp(
-        self, serial: str, interfaceId: str, **kwargs: Any
+        self, serial: str, interface_id: str, **kwargs: Any
     ) -> dict[str, Any]:
         """Update a layer 3 interface DHCP configuration for a switch.
 
@@ -320,7 +328,7 @@ class ActionBatchSwitch:
 
         Args:
             serial: Serial.
-            interfaceId: Interface ID.
+            interface_id: Interface ID.
             dhcpMode: The DHCP mode options for the switch interface        ('dhcpDisabled',
               'dhcpRelay' or 'dhcpServer').
             dhcpRelayServerIps: The DHCP relay server IPs to which DHCP packets would get relayed
@@ -368,7 +376,9 @@ class ActionBatchSwitch:
             "tags": ["switch", "configure", "routing", "interfaces", "dhcp"],
             "operation": "update_device_switch_routing_interface_dhcp",
         }
-        resource = f"/devices/{serial}/switch/routing/interfaces/{interfaceId}/dhcp"
+        serial = urllib.parse.quote(serial, safe="")
+        interface_id = urllib.parse.quote(interface_id, safe="")
+        resource = f"/devices/{serial}/switch/routing/interfaces/{interface_id}/dhcp"
 
         body_params = [
             "dhcpMode",
@@ -412,6 +422,7 @@ class ActionBatchSwitch:
             "tags": ["switch", "configure", "routing", "staticRoutes"],
             "operation": "create_device_switch_routing_static_route",
         }
+        serial = urllib.parse.quote(serial, safe="")
         resource = f"/devices/{serial}/switch/routing/staticRoutes"
 
         body_params = [
@@ -427,7 +438,7 @@ class ActionBatchSwitch:
         return action
 
     def update_device_switch_routing_static_route(
-        self, serial: str, staticRouteId: str, **kwargs: Any
+        self, serial: str, static_route_id: str, **kwargs: Any
     ) -> dict[str, Any]:
         """Update a layer 3 static route for a switch.
 
@@ -435,7 +446,7 @@ class ActionBatchSwitch:
 
         Args:
             serial: Serial.
-            staticRouteId: Static route ID.
+            static_route_id: Static route ID.
             name: Name or description for layer 3 static route.
             subnet: The subnet which is routed via this static route and should be specified in CIDR
               notation (ex. 1.2.3.0/24).
@@ -453,7 +464,9 @@ class ActionBatchSwitch:
             "tags": ["switch", "configure", "routing", "staticRoutes"],
             "operation": "update_device_switch_routing_static_route",
         }
-        resource = f"/devices/{serial}/switch/routing/staticRoutes/{staticRouteId}"
+        serial = urllib.parse.quote(serial, safe="")
+        static_route_id = urllib.parse.quote(static_route_id, safe="")
+        resource = f"/devices/{serial}/switch/routing/staticRoutes/{static_route_id}"
 
         body_params = [
             "name",
@@ -469,7 +482,7 @@ class ActionBatchSwitch:
         return action
 
     def delete_device_switch_routing_static_route(
-        self, serial: str, staticRouteId: str
+        self, serial: str, static_route_id: str
     ) -> dict[str, Any]:
         """Delete a layer 3 static route for a switch.
 
@@ -477,14 +490,16 @@ class ActionBatchSwitch:
 
         Args:
             serial: Serial.
-            staticRouteId: Static route ID.
+            static_route_id: Static route ID.
 
         """
         metadata = {
             "tags": ["switch", "configure", "routing", "staticRoutes"],
             "operation": "delete_device_switch_routing_static_route",
         }
-        resource = f"/devices/{serial}/switch/routing/staticRoutes/{staticRouteId}"
+        serial = urllib.parse.quote(serial, safe="")
+        static_route_id = urllib.parse.quote(static_route_id, safe="")
+        resource = f"/devices/{serial}/switch/routing/staticRoutes/{static_route_id}"
 
         action = {
             "resource": resource,
@@ -511,6 +526,7 @@ class ActionBatchSwitch:
             "tags": ["switch", "configure", "warmSpare"],
             "operation": "update_device_switch_warm_spare",
         }
+        serial = urllib.parse.quote(serial, safe="")
         resource = f"/devices/{serial}/switch/warmSpare"
 
         body_params = [
@@ -523,7 +539,7 @@ class ActionBatchSwitch:
 
     def create_network_switch_access_policy(
         self,
-        networkId: str,
+        network_id: str,
         name: str,
         radiusServers: list,
         radiusAccountingEnabled: bool,
@@ -534,7 +550,7 @@ class ActionBatchSwitch:
         https://developer.cisco.com/meraki/api-v1/#!create-network-switch-access-policy
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             name: Name of the access policy(max length 255).
             radiusServers: List of RADIUS servers to require connecting devices to authenticate
               against before granting network access.
@@ -588,7 +604,8 @@ class ActionBatchSwitch:
             "tags": ["switch", "configure", "accessPolicies"],
             "operation": "create_network_switch_access_policy",
         }
-        resource = f"/networks/{networkId}/switch/accessPolicies"
+        network_id = urllib.parse.quote(network_id, safe="")
+        resource = f"/networks/{network_id}/switch/accessPolicies"
 
         body_params = [
             "name",
@@ -616,15 +633,15 @@ class ActionBatchSwitch:
         return action
 
     def update_network_switch_access_policy(
-        self, networkId: str, accessPolicyNumber: str, **kwargs: Any
+        self, network_id: str, access_policy_number: str, **kwargs: Any
     ) -> dict[str, Any]:
         """Update an access policy for a switch network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-switch-access-policy
 
         Args:
-            networkId: Network ID.
-            accessPolicyNumber: Access policy number.
+            network_id: Network ID.
+            access_policy_number: Access policy number.
             name: Name of the access policy(max length 255).
             radiusServers: List of RADIUS servers to require connecting devices to authenticate
               against before granting network access.
@@ -678,7 +695,9 @@ class ActionBatchSwitch:
             "tags": ["switch", "configure", "accessPolicies"],
             "operation": "update_network_switch_access_policy",
         }
-        resource = f"/networks/{networkId}/switch/accessPolicies/{accessPolicyNumber}"
+        network_id = urllib.parse.quote(network_id, safe="")
+        access_policy_number = urllib.parse.quote(access_policy_number, safe="")
+        resource = f"/networks/{network_id}/switch/accessPolicies/{access_policy_number}"
 
         body_params = [
             "name",
@@ -706,22 +725,24 @@ class ActionBatchSwitch:
         return action
 
     def delete_network_switch_access_policy(
-        self, networkId: str, accessPolicyNumber: str
+        self, network_id: str, access_policy_number: str
     ) -> dict[str, Any]:
         """Delete an access policy for a switch network.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-network-switch-access-policy
 
         Args:
-            networkId: Network ID.
-            accessPolicyNumber: Access policy number.
+            network_id: Network ID.
+            access_policy_number: Access policy number.
 
         """
         metadata = {
             "tags": ["switch", "configure", "accessPolicies"],
             "operation": "delete_network_switch_access_policy",
         }
-        resource = f"/networks/{networkId}/switch/accessPolicies/{accessPolicyNumber}"
+        network_id = urllib.parse.quote(network_id, safe="")
+        access_policy_number = urllib.parse.quote(access_policy_number, safe="")
+        resource = f"/networks/{network_id}/switch/accessPolicies/{access_policy_number}"
 
         action = {
             "resource": resource,
@@ -730,14 +751,14 @@ class ActionBatchSwitch:
         return action
 
     def update_network_switch_alternate_management_interface(
-        self, networkId: str, **kwargs: Any
+        self, network_id: str, **kwargs: Any
     ) -> dict[str, Any]:
         """Update the switch alternate management interface for the network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-switch-alternate-management-interface
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             enabled: Boolean value to enable or disable AMI configuration. If enabled, VLAN and
               protocols must be set.
             vlanId: Alternate management VLAN, must be between 1 and 4094.
@@ -755,7 +776,8 @@ class ActionBatchSwitch:
             "tags": ["switch", "configure", "alternateManagementInterface"],
             "operation": "update_network_switch_alternate_management_interface",
         }
-        resource = f"/networks/{networkId}/switch/alternateManagementInterface"
+        network_id = urllib.parse.quote(network_id, safe="")
+        resource = f"/networks/{network_id}/switch/alternateManagementInterface"
 
         body_params = [
             "enabled",
@@ -768,14 +790,14 @@ class ActionBatchSwitch:
         return action
 
     def update_network_switch_dhcp_server_policy(
-        self, networkId: str, **kwargs: Any
+        self, network_id: str, **kwargs: Any
     ) -> dict[str, Any]:
         """Update the DHCP server settings.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-switch-dhcp-server-policy
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             alerts: Alert settings for DHCP servers.
             defaultPolicy: 'allow' or 'block' new DHCP servers. Default value is 'allow'.
             allowedServers: List the MAC addresses of DHCP servers to permit on the network when
@@ -797,7 +819,8 @@ class ActionBatchSwitch:
             "tags": ["switch", "configure", "dhcpServerPolicy"],
             "operation": "update_network_switch_dhcp_server_policy",
         }
-        resource = f"/networks/{networkId}/switch/dhcpServerPolicy"
+        network_id = urllib.parse.quote(network_id, safe="")
+        resource = f"/networks/{network_id}/switch/dhcpServerPolicy"
 
         body_params = [
             "alerts",
@@ -811,14 +834,14 @@ class ActionBatchSwitch:
         return action
 
     def create_network_switch_dhcp_server_policy_arp_inspection_trusted_server(
-        self, networkId: str, mac: str, vlan: int, ipv4: dict
+        self, network_id: str, mac: str, vlan: int, ipv4: dict
     ) -> dict[str, Any]:
         """Add a server to be trusted by Dynamic ARP Inspection on this network.
 
         https://developer.cisco.com/meraki/api-v1/#!create-network-switch-dhcp-server-policy-arp-inspection-trusted-server
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             mac: The mac address of the trusted server being added.
             vlan: The VLAN of the trusted server being added. It must be between 1 and 4094.
             ipv4: The IPv4 attributes of the trusted server being added.
@@ -830,7 +853,8 @@ class ActionBatchSwitch:
             "tags": ["switch", "configure", "dhcpServerPolicy", "arpInspection", "trustedServers"],
             "operation": "create_network_switch_dhcp_server_policy_arp_inspection_trusted_server",
         }
-        resource = f"/networks/{networkId}/switch/dhcpServerPolicy/arpInspection/trustedServers"
+        network_id = urllib.parse.quote(network_id, safe="")
+        resource = f"/networks/{network_id}/switch/dhcpServerPolicy/arpInspection/trustedServers"
 
         body_params = [
             "mac",
@@ -842,15 +866,15 @@ class ActionBatchSwitch:
         return action
 
     def update_network_switch_dhcp_server_policy_arp_inspection_trusted_server(
-        self, networkId: str, trustedServerId: str, **kwargs: Any
+        self, network_id: str, trusted_server_id: str, **kwargs: Any
     ) -> dict[str, Any]:
         """Update a server that is trusted by Dynamic ARP Inspection on this network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-switch-dhcp-server-policy-arp-inspection-trusted-server
 
         Args:
-            networkId: Network ID.
-            trustedServerId: Trusted server ID.
+            network_id: Network ID.
+            trusted_server_id: Trusted server ID.
             mac: The updated mac address of the trusted server.
             vlan: The updated VLAN of the trusted server. It must be between 1 and 4094.
             ipv4: The updated IPv4 attributes of the trusted server.
@@ -862,7 +886,9 @@ class ActionBatchSwitch:
             "tags": ["switch", "configure", "dhcpServerPolicy", "arpInspection", "trustedServers"],
             "operation": "update_network_switch_dhcp_server_policy_arp_inspection_trusted_server",
         }
-        resource = f"/networks/{networkId}/switch/dhcpServerPolicy/arpInspection/trustedServers/{trustedServerId}"
+        network_id = urllib.parse.quote(network_id, safe="")
+        trusted_server_id = urllib.parse.quote(trusted_server_id, safe="")
+        resource = f"/networks/{network_id}/switch/dhcpServerPolicy/arpInspection/trustedServers/{trusted_server_id}"
 
         body_params = [
             "mac",
@@ -874,22 +900,24 @@ class ActionBatchSwitch:
         return action
 
     def delete_network_switch_dhcp_server_policy_arp_inspection_trusted_server(
-        self, networkId: str, trustedServerId: str
+        self, network_id: str, trusted_server_id: str
     ) -> dict[str, Any]:
         """Remove a server from being trusted by Dynamic ARP Inspection on this network.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-network-switch-dhcp-server-policy-arp-inspection-trusted-server
 
         Args:
-            networkId: Network ID.
-            trustedServerId: Trusted server ID.
+            network_id: Network ID.
+            trusted_server_id: Trusted server ID.
 
         """
         metadata = {
             "tags": ["switch", "configure", "dhcpServerPolicy", "arpInspection", "trustedServers"],
             "operation": "delete_network_switch_dhcp_server_policy_arp_inspection_trusted_server",
         }
-        resource = f"/networks/{networkId}/switch/dhcpServerPolicy/arpInspection/trustedServers/{trustedServerId}"
+        network_id = urllib.parse.quote(network_id, safe="")
+        trusted_server_id = urllib.parse.quote(trusted_server_id, safe="")
+        resource = f"/networks/{network_id}/switch/dhcpServerPolicy/arpInspection/trustedServers/{trusted_server_id}"
 
         action = {
             "resource": resource,
@@ -898,14 +926,14 @@ class ActionBatchSwitch:
         return action
 
     def update_network_switch_dscp_to_cos_mappings(
-        self, networkId: str, mappings: list
+        self, network_id: str, mappings: list
     ) -> dict[str, Any]:
         """Update the DSCP to CoS mappings.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-switch-dscp-to-cos-mappings
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             mappings: An array of DSCP to CoS mappings. An empty array will reset the mappings to
               default.
 
@@ -916,7 +944,8 @@ class ActionBatchSwitch:
             "tags": ["switch", "configure", "dscpToCosMappings"],
             "operation": "update_network_switch_dscp_to_cos_mappings",
         }
-        resource = f"/networks/{networkId}/switch/dscpToCosMappings"
+        network_id = urllib.parse.quote(network_id, safe="")
+        resource = f"/networks/{network_id}/switch/dscpToCosMappings"
 
         body_params = [
             "mappings",
@@ -926,14 +955,14 @@ class ActionBatchSwitch:
         return action
 
     def create_network_switch_link_aggregation(
-        self, networkId: str, **kwargs: Any
+        self, network_id: str, **kwargs: Any
     ) -> dict[str, Any]:
         """Create a link aggregation group.
 
         https://developer.cisco.com/meraki/api-v1/#!create-network-switch-link-aggregation
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             switchPorts: Array of switch or stack ports for creating aggregation group. Minimum 2
               and maximum 8 ports are supported.
             switchProfilePorts: Array of switch profile ports for creating aggregation group.
@@ -946,7 +975,8 @@ class ActionBatchSwitch:
             "tags": ["switch", "configure", "linkAggregations"],
             "operation": "create_network_switch_link_aggregation",
         }
-        resource = f"/networks/{networkId}/switch/linkAggregations"
+        network_id = urllib.parse.quote(network_id, safe="")
+        resource = f"/networks/{network_id}/switch/linkAggregations"
 
         body_params = [
             "switchPorts",
@@ -957,15 +987,15 @@ class ActionBatchSwitch:
         return action
 
     def update_network_switch_link_aggregation(
-        self, networkId: str, linkAggregationId: str, **kwargs: Any
+        self, network_id: str, link_aggregation_id: str, **kwargs: Any
     ) -> dict[str, Any]:
         """Update a link aggregation group.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-switch-link-aggregation
 
         Args:
-            networkId: Network ID.
-            linkAggregationId: Link aggregation ID.
+            network_id: Network ID.
+            link_aggregation_id: Link aggregation ID.
             switchPorts: Array of switch or stack ports for updating aggregation group. Minimum 2
               and maximum 8 ports are supported.
             switchProfilePorts: Array of switch profile ports for updating aggregation group.
@@ -978,7 +1008,9 @@ class ActionBatchSwitch:
             "tags": ["switch", "configure", "linkAggregations"],
             "operation": "update_network_switch_link_aggregation",
         }
-        resource = f"/networks/{networkId}/switch/linkAggregations/{linkAggregationId}"
+        network_id = urllib.parse.quote(network_id, safe="")
+        link_aggregation_id = urllib.parse.quote(link_aggregation_id, safe="")
+        resource = f"/networks/{network_id}/switch/linkAggregations/{link_aggregation_id}"
 
         body_params = [
             "switchPorts",
@@ -989,22 +1021,24 @@ class ActionBatchSwitch:
         return action
 
     def delete_network_switch_link_aggregation(
-        self, networkId: str, linkAggregationId: str
+        self, network_id: str, link_aggregation_id: str
     ) -> dict[str, Any]:
         """Split a link aggregation group into separate ports.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-network-switch-link-aggregation
 
         Args:
-            networkId: Network ID.
-            linkAggregationId: Link aggregation ID.
+            network_id: Network ID.
+            link_aggregation_id: Link aggregation ID.
 
         """
         metadata = {
             "tags": ["switch", "configure", "linkAggregations"],
             "operation": "delete_network_switch_link_aggregation",
         }
-        resource = f"/networks/{networkId}/switch/linkAggregations/{linkAggregationId}"
+        network_id = urllib.parse.quote(network_id, safe="")
+        link_aggregation_id = urllib.parse.quote(link_aggregation_id, safe="")
+        resource = f"/networks/{network_id}/switch/linkAggregations/{link_aggregation_id}"
 
         action = {
             "resource": resource,
@@ -1012,13 +1046,13 @@ class ActionBatchSwitch:
         }
         return action
 
-    def update_network_switch_mtu(self, networkId: str, **kwargs: Any) -> dict[str, Any]:
+    def update_network_switch_mtu(self, network_id: str, **kwargs: Any) -> dict[str, Any]:
         """Update the MTU configuration.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-switch-mtu
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             defaultMtuSize: MTU size for the entire network. Default value is 9578.
             overrides: Override MTU size for individual switches or switch templates. An empty array
               will clear overrides.
@@ -1030,7 +1064,8 @@ class ActionBatchSwitch:
             "tags": ["switch", "configure", "mtu"],
             "operation": "update_network_switch_mtu",
         }
-        resource = f"/networks/{networkId}/switch/mtu"
+        network_id = urllib.parse.quote(network_id, safe="")
+        resource = f"/networks/{network_id}/switch/mtu"
 
         body_params = [
             "defaultMtuSize",
@@ -1041,15 +1076,15 @@ class ActionBatchSwitch:
         return action
 
     def update_network_switch_port_schedule(
-        self, networkId: str, portScheduleId: str, **kwargs: Any
+        self, network_id: str, port_schedule_id: str, **kwargs: Any
     ) -> dict[str, Any]:
         """Update a switch port schedule.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-switch-port-schedule
 
         Args:
-            networkId: Network ID.
-            portScheduleId: Port schedule ID.
+            network_id: Network ID.
+            port_schedule_id: Port schedule ID.
             name: The name for your port schedule.
             portSchedule:     The schedule for switch port scheduling. Schedules are applied to days
               of the week.     When it's empty, default schedule with all days of a week
@@ -1063,7 +1098,9 @@ class ActionBatchSwitch:
             "tags": ["switch", "configure", "portSchedules"],
             "operation": "update_network_switch_port_schedule",
         }
-        resource = f"/networks/{networkId}/switch/portSchedules/{portScheduleId}"
+        network_id = urllib.parse.quote(network_id, safe="")
+        port_schedule_id = urllib.parse.quote(port_schedule_id, safe="")
+        resource = f"/networks/{network_id}/switch/portSchedules/{port_schedule_id}"
 
         body_params = [
             "name",
@@ -1074,14 +1111,14 @@ class ActionBatchSwitch:
         return action
 
     def create_network_switch_qos_rule(
-        self, networkId: str, vlan: int, **kwargs: Any
+        self, network_id: str, vlan: int, **kwargs: Any
     ) -> dict[str, Any]:
         """Add a quality of service rule.
 
         https://developer.cisco.com/meraki/api-v1/#!create-network-switch-qos-rule
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             vlan: The VLAN of the incoming packet. A null value will match any VLAN.
             protocol: The protocol of the incoming packet. Default value is "ANY".
             srcPort: The source port of the incoming packet. Applicable only if protocol is TCP or
@@ -1108,7 +1145,8 @@ class ActionBatchSwitch:
             "tags": ["switch", "configure", "qosRules"],
             "operation": "create_network_switch_qos_rule",
         }
-        resource = f"/networks/{networkId}/switch/qosRules"
+        network_id = urllib.parse.quote(network_id, safe="")
+        resource = f"/networks/{network_id}/switch/qosRules"
 
         body_params = [
             "vlan",
@@ -1124,14 +1162,14 @@ class ActionBatchSwitch:
         return action
 
     def update_network_switch_qos_rules_order(
-        self, networkId: str, ruleIds: list
+        self, network_id: str, ruleIds: list
     ) -> dict[str, Any]:
         """Update the order in which the rules should be processed by the switch.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-switch-qos-rules-order
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             ruleIds: A list of quality of service rule IDs arranged in order in which they should be
               processed by the switch.
 
@@ -1142,7 +1180,8 @@ class ActionBatchSwitch:
             "tags": ["switch", "configure", "qosRules", "order"],
             "operation": "update_network_switch_qos_rules_order",
         }
-        resource = f"/networks/{networkId}/switch/qosRules/order"
+        network_id = urllib.parse.quote(network_id, safe="")
+        resource = f"/networks/{network_id}/switch/qosRules/order"
 
         body_params = [
             "ruleIds",
@@ -1151,21 +1190,23 @@ class ActionBatchSwitch:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def delete_network_switch_qos_rule(self, networkId: str, qosRuleId: str) -> dict[str, Any]:
+    def delete_network_switch_qos_rule(self, network_id: str, qos_rule_id: str) -> dict[str, Any]:
         """Delete a quality of service rule.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-network-switch-qos-rule
 
         Args:
-            networkId: Network ID.
-            qosRuleId: Qos rule ID.
+            network_id: Network ID.
+            qos_rule_id: Qos rule ID.
 
         """
         metadata = {
             "tags": ["switch", "configure", "qosRules"],
             "operation": "delete_network_switch_qos_rule",
         }
-        resource = f"/networks/{networkId}/switch/qosRules/{qosRuleId}"
+        network_id = urllib.parse.quote(network_id, safe="")
+        qos_rule_id = urllib.parse.quote(qos_rule_id, safe="")
+        resource = f"/networks/{network_id}/switch/qosRules/{qos_rule_id}"
 
         action = {
             "resource": resource,
@@ -1174,15 +1215,15 @@ class ActionBatchSwitch:
         return action
 
     def update_network_switch_qos_rule(
-        self, networkId: str, qosRuleId: str, **kwargs: Any
+        self, network_id: str, qos_rule_id: str, **kwargs: Any
     ) -> dict[str, Any]:
         """Update a quality of service rule.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-switch-qos-rule
 
         Args:
-            networkId: Network ID.
-            qosRuleId: Qos rule ID.
+            network_id: Network ID.
+            qos_rule_id: Qos rule ID.
             vlan: The VLAN of the incoming packet. A null value will match any VLAN.
             protocol: The protocol of the incoming packet. Default value is "ANY".
             srcPort: The source port of the incoming packet. Applicable only if protocol is TCP or
@@ -1209,7 +1250,9 @@ class ActionBatchSwitch:
             "tags": ["switch", "configure", "qosRules"],
             "operation": "update_network_switch_qos_rule",
         }
-        resource = f"/networks/{networkId}/switch/qosRules/{qosRuleId}"
+        network_id = urllib.parse.quote(network_id, safe="")
+        qos_rule_id = urllib.parse.quote(qos_rule_id, safe="")
+        resource = f"/networks/{network_id}/switch/qosRules/{qos_rule_id}"
 
         body_params = [
             "vlan",
@@ -1225,14 +1268,14 @@ class ActionBatchSwitch:
         return action
 
     def update_network_switch_routing_multicast(
-        self, networkId: str, **kwargs: Any
+        self, network_id: str, **kwargs: Any
     ) -> dict[str, Any]:
         """Update multicast settings for a network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-switch-routing-multicast
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             defaultSettings: Default multicast setting for entire network. IGMP snooping and Flood
               unknown multicast traffic settings are enabled by default.
             overrides: Array of paired switches/stacks/profiles and corresponding multicast
@@ -1245,7 +1288,8 @@ class ActionBatchSwitch:
             "tags": ["switch", "configure", "routing", "multicast"],
             "operation": "update_network_switch_routing_multicast",
         }
-        resource = f"/networks/{networkId}/switch/routing/multicast"
+        network_id = urllib.parse.quote(network_id, safe="")
+        resource = f"/networks/{network_id}/switch/routing/multicast"
 
         body_params = [
             "defaultSettings",
@@ -1256,14 +1300,14 @@ class ActionBatchSwitch:
         return action
 
     def create_network_switch_routing_multicast_rendezvous_point(
-        self, networkId: str, interfaceIp: str, multicastGroup: str, **kwargs: Any
+        self, network_id: str, interfaceIp: str, multicastGroup: str, **kwargs: Any
     ) -> dict[str, Any]:
         """Create a multicast rendezvous point.
 
         https://developer.cisco.com/meraki/api-v1/#!create-network-switch-routing-multicast-rendezvous-point
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             interfaceIp: The IP address of the interface where the RP needs to be created.
             multicastGroup: 'Any', or the IP address of a multicast group.
             vrf: The VRF with PIM enabled L3 interface.
@@ -1275,7 +1319,8 @@ class ActionBatchSwitch:
             "tags": ["switch", "configure", "routing", "multicast", "rendezvousPoints"],
             "operation": "create_network_switch_routing_multicast_rendezvous_point",
         }
-        resource = f"/networks/{networkId}/switch/routing/multicast/rendezvousPoints"
+        network_id = urllib.parse.quote(network_id, safe="")
+        resource = f"/networks/{network_id}/switch/routing/multicast/rendezvousPoints"
 
         body_params = [
             "interfaceIp",
@@ -1287,24 +1332,24 @@ class ActionBatchSwitch:
         return action
 
     def delete_network_switch_routing_multicast_rendezvous_point(
-        self, networkId: str, rendezvousPointId: str
+        self, network_id: str, rendezvous_point_id: str
     ) -> dict[str, Any]:
         """Delete a multicast rendezvous point.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-network-switch-routing-multicast-rendezvous-point
 
         Args:
-            networkId: Network ID.
-            rendezvousPointId: Rendezvous point ID.
+            network_id: Network ID.
+            rendezvous_point_id: Rendezvous point ID.
 
         """
         metadata = {
             "tags": ["switch", "configure", "routing", "multicast", "rendezvousPoints"],
             "operation": "delete_network_switch_routing_multicast_rendezvous_point",
         }
-        resource = (
-            f"/networks/{networkId}/switch/routing/multicast/rendezvousPoints/{rendezvousPointId}"
-        )
+        network_id = urllib.parse.quote(network_id, safe="")
+        rendezvous_point_id = urllib.parse.quote(rendezvous_point_id, safe="")
+        resource = f"/networks/{network_id}/switch/routing/multicast/rendezvousPoints/{rendezvous_point_id}"
 
         action = {
             "resource": resource,
@@ -1314,8 +1359,8 @@ class ActionBatchSwitch:
 
     def update_network_switch_routing_multicast_rendezvous_point(
         self,
-        networkId: str,
-        rendezvousPointId: str,
+        network_id: str,
+        rendezvous_point_id: str,
         interfaceIp: str,
         multicastGroup: str,
         **kwargs: Any,
@@ -1325,8 +1370,8 @@ class ActionBatchSwitch:
         https://developer.cisco.com/meraki/api-v1/#!update-network-switch-routing-multicast-rendezvous-point
 
         Args:
-            networkId: Network ID.
-            rendezvousPointId: Rendezvous point ID.
+            network_id: Network ID.
+            rendezvous_point_id: Rendezvous point ID.
             interfaceIp: The IP address of the interface where the RP needs to be created.
             multicastGroup: 'Any', or the IP address of a multicast group.
             vrf: The VRF with PIM enabled L3 interface.
@@ -1338,9 +1383,9 @@ class ActionBatchSwitch:
             "tags": ["switch", "configure", "routing", "multicast", "rendezvousPoints"],
             "operation": "update_network_switch_routing_multicast_rendezvous_point",
         }
-        resource = (
-            f"/networks/{networkId}/switch/routing/multicast/rendezvousPoints/{rendezvousPointId}"
-        )
+        network_id = urllib.parse.quote(network_id, safe="")
+        rendezvous_point_id = urllib.parse.quote(rendezvous_point_id, safe="")
+        resource = f"/networks/{network_id}/switch/routing/multicast/rendezvousPoints/{rendezvous_point_id}"
 
         body_params = [
             "interfaceIp",
@@ -1351,13 +1396,13 @@ class ActionBatchSwitch:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def update_network_switch_routing_ospf(self, networkId: str, **kwargs: Any) -> dict[str, Any]:
+    def update_network_switch_routing_ospf(self, network_id: str, **kwargs: Any) -> dict[str, Any]:
         """Update layer 3 OSPF routing configuration.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-switch-routing-ospf
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             vrf: The VRF to return the OSPF routing configuration for. When not provided, the
               default VRF is used. Requires IOS XE 17.18 or higher.
             enabled: Boolean value to enable or disable OSPF routing. OSPF routing is disabled by
@@ -1381,7 +1426,8 @@ class ActionBatchSwitch:
             "tags": ["switch", "configure", "routing", "ospf"],
             "operation": "update_network_switch_routing_ospf",
         }
-        resource = f"/networks/{networkId}/switch/routing/ospf"
+        network_id = urllib.parse.quote(network_id, safe="")
+        resource = f"/networks/{network_id}/switch/routing/ospf"
 
         body_params = [
             "enabled",
@@ -1396,13 +1442,13 @@ class ActionBatchSwitch:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def update_network_switch_settings(self, networkId: str, **kwargs: Any) -> dict[str, Any]:
+    def update_network_switch_settings(self, network_id: str, **kwargs: Any) -> dict[str, Any]:
         """Update switch network settings.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-switch-settings
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             vlan: Management VLAN.
             useCombinedPower: The use Combined Power as the default behavior of secondary power
               supplies on supported devices.
@@ -1418,7 +1464,8 @@ class ActionBatchSwitch:
             "tags": ["switch", "configure", "settings"],
             "operation": "update_network_switch_settings",
         }
-        resource = f"/networks/{networkId}/switch/settings"
+        network_id = urllib.parse.quote(network_id, safe="")
+        resource = f"/networks/{network_id}/switch/settings"
 
         body_params = [
             "vlan",
@@ -1433,15 +1480,15 @@ class ActionBatchSwitch:
         return action
 
     def create_network_switch_stack_routing_interface(
-        self, networkId: str, switchStackId: str, name: str, **kwargs: Any
+        self, network_id: str, switch_stack_id: str, name: str, **kwargs: Any
     ) -> dict[str, Any]:
         """Create a layer 3 interface for a switch stack.
 
         https://developer.cisco.com/meraki/api-v1/#!create-network-switch-stack-routing-interface
 
         Args:
-            networkId: Network ID.
-            switchStackId: Switch stack ID.
+            network_id: Network ID.
+            switch_stack_id: Switch stack ID.
             name: A friendly name or description for the interface or VLAN (max length 128
               characters).
             mode: L3 Interface mode, can be one of 'vlan', 'routed', 'loopback'. Default is 'vlan'.
@@ -1480,7 +1527,9 @@ class ActionBatchSwitch:
             "tags": ["switch", "configure", "stacks", "routing", "interfaces"],
             "operation": "create_network_switch_stack_routing_interface",
         }
-        resource = f"/networks/{networkId}/switch/stacks/{switchStackId}/routing/interfaces"
+        network_id = urllib.parse.quote(network_id, safe="")
+        switch_stack_id = urllib.parse.quote(switch_stack_id, safe="")
+        resource = f"/networks/{network_id}/switch/stacks/{switch_stack_id}/routing/interfaces"
 
         body_params = [
             "name",
@@ -1501,16 +1550,16 @@ class ActionBatchSwitch:
         return action
 
     def update_network_switch_stack_routing_interface(
-        self, networkId: str, switchStackId: str, interfaceId: str, **kwargs: Any
+        self, network_id: str, switch_stack_id: str, interface_id: str, **kwargs: Any
     ) -> dict[str, Any]:
         """Update a layer 3 interface for a switch stack.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-switch-stack-routing-interface
 
         Args:
-            networkId: Network ID.
-            switchStackId: Switch stack ID.
-            interfaceId: Interface ID.
+            network_id: Network ID.
+            switch_stack_id: Switch stack ID.
+            interface_id: Interface ID.
             name: A friendly name or description for the interface or VLAN (max length 128
               characters).
             subnet: The network that this L3 interface is on, in CIDR notation (ex. 10.1.1.0/24).
@@ -1542,9 +1591,10 @@ class ActionBatchSwitch:
             "tags": ["switch", "configure", "stacks", "routing", "interfaces"],
             "operation": "update_network_switch_stack_routing_interface",
         }
-        resource = (
-            f"/networks/{networkId}/switch/stacks/{switchStackId}/routing/interfaces/{interfaceId}"
-        )
+        network_id = urllib.parse.quote(network_id, safe="")
+        switch_stack_id = urllib.parse.quote(switch_stack_id, safe="")
+        interface_id = urllib.parse.quote(interface_id, safe="")
+        resource = f"/networks/{network_id}/switch/stacks/{switch_stack_id}/routing/interfaces/{interface_id}"
 
         body_params = [
             "name",
@@ -1564,25 +1614,26 @@ class ActionBatchSwitch:
         return action
 
     def delete_network_switch_stack_routing_interface(
-        self, networkId: str, switchStackId: str, interfaceId: str
+        self, network_id: str, switch_stack_id: str, interface_id: str
     ) -> dict[str, Any]:
         """Delete a layer 3 interface from a switch stack.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-network-switch-stack-routing-interface
 
         Args:
-            networkId: Network ID.
-            switchStackId: Switch stack ID.
-            interfaceId: Interface ID.
+            network_id: Network ID.
+            switch_stack_id: Switch stack ID.
+            interface_id: Interface ID.
 
         """
         metadata = {
             "tags": ["switch", "configure", "stacks", "routing", "interfaces"],
             "operation": "delete_network_switch_stack_routing_interface",
         }
-        resource = (
-            f"/networks/{networkId}/switch/stacks/{switchStackId}/routing/interfaces/{interfaceId}"
-        )
+        network_id = urllib.parse.quote(network_id, safe="")
+        switch_stack_id = urllib.parse.quote(switch_stack_id, safe="")
+        interface_id = urllib.parse.quote(interface_id, safe="")
+        resource = f"/networks/{network_id}/switch/stacks/{switch_stack_id}/routing/interfaces/{interface_id}"
 
         action = {
             "resource": resource,
@@ -1591,16 +1642,16 @@ class ActionBatchSwitch:
         return action
 
     def update_network_switch_stack_routing_interface_dhcp(
-        self, networkId: str, switchStackId: str, interfaceId: str, **kwargs: Any
+        self, network_id: str, switch_stack_id: str, interface_id: str, **kwargs: Any
     ) -> dict[str, Any]:
         """Update a layer 3 interface DHCP configuration for a switch stack.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-switch-stack-routing-interface-dhcp
 
         Args:
-            networkId: Network ID.
-            switchStackId: Switch stack ID.
-            interfaceId: Interface ID.
+            network_id: Network ID.
+            switch_stack_id: Switch stack ID.
+            interface_id: Interface ID.
             dhcpMode: The DHCP mode options for the switch stack interface         ('dhcpDisabled',
               'dhcpRelay' or 'dhcpServer').
             dhcpRelayServerIps: The DHCP relay server IPs to which DHCP packets would get relayed
@@ -1648,7 +1699,10 @@ class ActionBatchSwitch:
             "tags": ["switch", "configure", "stacks", "routing", "interfaces", "dhcp"],
             "operation": "update_network_switch_stack_routing_interface_dhcp",
         }
-        resource = f"/networks/{networkId}/switch/stacks/{switchStackId}/routing/interfaces/{interfaceId}/dhcp"
+        network_id = urllib.parse.quote(network_id, safe="")
+        switch_stack_id = urllib.parse.quote(switch_stack_id, safe="")
+        interface_id = urllib.parse.quote(interface_id, safe="")
+        resource = f"/networks/{network_id}/switch/stacks/{switch_stack_id}/routing/interfaces/{interface_id}/dhcp"
 
         body_params = [
             "dhcpMode",
@@ -1668,15 +1722,15 @@ class ActionBatchSwitch:
         return action
 
     def create_network_switch_stack_routing_static_route(
-        self, networkId: str, switchStackId: str, subnet: str, nextHopIp: str, **kwargs: Any
+        self, network_id: str, switch_stack_id: str, subnet: str, nextHopIp: str, **kwargs: Any
     ) -> dict[str, Any]:
         """Create a layer 3 static route for a switch stack.
 
         https://developer.cisco.com/meraki/api-v1/#!create-network-switch-stack-routing-static-route
 
         Args:
-            networkId: Network ID.
-            switchStackId: Switch stack ID.
+            network_id: Network ID.
+            switch_stack_id: Switch stack ID.
             subnet: The subnet which is routed via this static route and should be specified in CIDR
               notation (ex. 1.2.3.0/24).
             nextHopIp: IP address of the next hop device to which the device sends its traffic for
@@ -1693,7 +1747,9 @@ class ActionBatchSwitch:
             "tags": ["switch", "configure", "stacks", "routing", "staticRoutes"],
             "operation": "create_network_switch_stack_routing_static_route",
         }
-        resource = f"/networks/{networkId}/switch/stacks/{switchStackId}/routing/staticRoutes"
+        network_id = urllib.parse.quote(network_id, safe="")
+        switch_stack_id = urllib.parse.quote(switch_stack_id, safe="")
+        resource = f"/networks/{network_id}/switch/stacks/{switch_stack_id}/routing/staticRoutes"
 
         body_params = [
             "name",
@@ -1708,16 +1764,16 @@ class ActionBatchSwitch:
         return action
 
     def update_network_switch_stack_routing_static_route(
-        self, networkId: str, switchStackId: str, staticRouteId: str, **kwargs: Any
+        self, network_id: str, switch_stack_id: str, static_route_id: str, **kwargs: Any
     ) -> dict[str, Any]:
         """Update a layer 3 static route for a switch stack.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-switch-stack-routing-static-route
 
         Args:
-            networkId: Network ID.
-            switchStackId: Switch stack ID.
-            staticRouteId: Static route ID.
+            network_id: Network ID.
+            switch_stack_id: Switch stack ID.
+            static_route_id: Static route ID.
             name: Name or description for layer 3 static route.
             subnet: The subnet which is routed via this static route and should be specified in CIDR
               notation (ex. 1.2.3.0/24).
@@ -1735,7 +1791,10 @@ class ActionBatchSwitch:
             "tags": ["switch", "configure", "stacks", "routing", "staticRoutes"],
             "operation": "update_network_switch_stack_routing_static_route",
         }
-        resource = f"/networks/{networkId}/switch/stacks/{switchStackId}/routing/staticRoutes/{staticRouteId}"
+        network_id = urllib.parse.quote(network_id, safe="")
+        switch_stack_id = urllib.parse.quote(switch_stack_id, safe="")
+        static_route_id = urllib.parse.quote(static_route_id, safe="")
+        resource = f"/networks/{network_id}/switch/stacks/{switch_stack_id}/routing/staticRoutes/{static_route_id}"
 
         body_params = [
             "name",
@@ -1751,23 +1810,26 @@ class ActionBatchSwitch:
         return action
 
     def delete_network_switch_stack_routing_static_route(
-        self, networkId: str, switchStackId: str, staticRouteId: str
+        self, network_id: str, switch_stack_id: str, static_route_id: str
     ) -> dict[str, Any]:
         """Delete a layer 3 static route for a switch stack.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-network-switch-stack-routing-static-route
 
         Args:
-            networkId: Network ID.
-            switchStackId: Switch stack ID.
-            staticRouteId: Static route ID.
+            network_id: Network ID.
+            switch_stack_id: Switch stack ID.
+            static_route_id: Static route ID.
 
         """
         metadata = {
             "tags": ["switch", "configure", "stacks", "routing", "staticRoutes"],
             "operation": "delete_network_switch_stack_routing_static_route",
         }
-        resource = f"/networks/{networkId}/switch/stacks/{switchStackId}/routing/staticRoutes/{staticRouteId}"
+        network_id = urllib.parse.quote(network_id, safe="")
+        switch_stack_id = urllib.parse.quote(switch_stack_id, safe="")
+        static_route_id = urllib.parse.quote(static_route_id, safe="")
+        resource = f"/networks/{network_id}/switch/stacks/{switch_stack_id}/routing/staticRoutes/{static_route_id}"
 
         action = {
             "resource": resource,
@@ -1775,13 +1837,13 @@ class ActionBatchSwitch:
         }
         return action
 
-    def update_network_switch_storm_control(self, networkId: str, **kwargs: Any) -> dict[str, Any]:
+    def update_network_switch_storm_control(self, network_id: str, **kwargs: Any) -> dict[str, Any]:
         """Update the storm control configuration for a switch network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-switch-storm-control
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             broadcastThreshold: Percentage (1 to 99) of total available port bandwidth for broadcast
               traffic type. Default value 100 percent rate is to clear the
               configuration.
@@ -1800,7 +1862,8 @@ class ActionBatchSwitch:
             "tags": ["switch", "configure", "stormControl"],
             "operation": "update_network_switch_storm_control",
         }
-        resource = f"/networks/{networkId}/switch/stormControl"
+        network_id = urllib.parse.quote(network_id, safe="")
+        resource = f"/networks/{network_id}/switch/stormControl"
 
         body_params = [
             "broadcastThreshold",
@@ -1812,13 +1875,13 @@ class ActionBatchSwitch:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def update_network_switch_stp(self, networkId: str, **kwargs: Any) -> dict[str, Any]:
+    def update_network_switch_stp(self, network_id: str, **kwargs: Any) -> dict[str, Any]:
         """Updates STP settings.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-switch-stp
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             rstpEnabled: The spanning tree protocol status in network.
             stpBridgePriority: STP bridge priority for switches/stacks or switch templates. An empty
               array will clear the STP bridge priority settings.
@@ -1830,7 +1893,8 @@ class ActionBatchSwitch:
             "tags": ["switch", "configure", "stp"],
             "operation": "update_network_switch_stp",
         }
-        resource = f"/networks/{networkId}/switch/stp"
+        network_id = urllib.parse.quote(network_id, safe="")
+        resource = f"/networks/{network_id}/switch/stp"
 
         body_params = [
             "rstpEnabled",
@@ -1841,17 +1905,22 @@ class ActionBatchSwitch:
         return action
 
     def update_organization_config_template_switch_profile_port(
-        self, organizationId: str, configTemplateId: str, profileId: str, portId: str, **kwargs: Any
+        self,
+        organization_id: str,
+        config_template_id: str,
+        profile_id: str,
+        port_id: str,
+        **kwargs: Any,
     ) -> dict[str, Any]:
         """Update a switch template port.
 
         https://developer.cisco.com/meraki/api-v1/#!update-organization-config-template-switch-profile-port
 
         Args:
-            organizationId: Organization ID.
-            configTemplateId: Config template ID.
-            profileId: Profile ID.
-            portId: Port ID.
+            organization_id: Organization ID.
+            config_template_id: Config template ID.
+            profile_id: Profile ID.
+            port_id: Port ID.
             name: The name of the switch template port.
             tags: The list of tags of the switch template port.
             enabled: The status of the switch template port.
@@ -1927,7 +1996,11 @@ class ActionBatchSwitch:
             "tags": ["switch", "configure", "configTemplates", "profiles", "ports"],
             "operation": "update_organization_config_template_switch_profile_port",
         }
-        resource = f"/organizations/{organizationId}/configTemplates/{configTemplateId}/switch/profiles/{profileId}/ports/{portId}"
+        organization_id = urllib.parse.quote(organization_id, safe="")
+        config_template_id = urllib.parse.quote(config_template_id, safe="")
+        profile_id = urllib.parse.quote(profile_id, safe="")
+        port_id = urllib.parse.quote(port_id, safe="")
+        resource = f"/organizations/{organization_id}/configTemplates/{config_template_id}/switch/profiles/{profile_id}/ports/{port_id}"
 
         body_params = [
             "name",
@@ -1963,14 +2036,14 @@ class ActionBatchSwitch:
         return action
 
     def clone_organization_switch_devices(
-        self, organizationId: str, sourceSerial: str, targetSerials: list
+        self, organization_id: str, sourceSerial: str, targetSerials: list
     ) -> dict[str, Any]:
         """Clone port-level and some switch-level configuration settings from a source switch to one or more target switches.
 
         https://developer.cisco.com/meraki/api-v1/#!clone-organization-switch-devices
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             sourceSerial: Serial number of the source switch (must be on a network not bound to a
               template).
             targetSerials: Array of serial numbers of one or more target switches (must be on a
@@ -1983,7 +2056,8 @@ class ActionBatchSwitch:
             "tags": ["switch", "configure", "devices"],
             "operation": "clone_organization_switch_devices",
         }
-        resource = f"/organizations/{organizationId}/switch/devices/clone"
+        organization_id = urllib.parse.quote(organization_id, safe="")
+        resource = f"/organizations/{organization_id}/switch/devices/clone"
 
         body_params = [
             "sourceSerial",

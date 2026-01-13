@@ -15,39 +15,39 @@ class AsyncSpaces:
         self._session = session
 
     def get_organization_spaces_integrate_status(
-        self, organizationId: str
+        self, organization_id: str
     ) -> dict[str, Any] | None:
         """Get the status of the Spaces integration in Meraki.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-spaces-integrate-status
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
 
         """
         metadata = {
             "tags": ["spaces", "configure", "integrate", "status"],
             "operation": "get_organization_spaces_integrate_status",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/spaces/integrate/status"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/spaces/integrate/status"
 
         return self._session.get(metadata, resource)
 
-    def remove_organization_spaces_integration(self, organizationId: str) -> dict[str, Any] | None:
+    def remove_organization_spaces_integration(self, organization_id: str) -> dict[str, Any] | None:
         """Remove the Spaces integration from Meraki.
 
         https://developer.cisco.com/meraki/api-v1/#!remove-organization-spaces-integration
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
 
         """
         metadata = {
             "tags": ["spaces", "configure", "integration"],
             "operation": "remove_organization_spaces_integration",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/spaces/integration/remove"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/spaces/integration/remove"
 
         return self._session.post(metadata, resource)

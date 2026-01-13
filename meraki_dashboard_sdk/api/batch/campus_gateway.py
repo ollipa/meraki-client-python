@@ -12,7 +12,7 @@ class ActionBatchCampusGateway:
 
     def create_network_campus_gateway_cluster(
         self,
-        networkId: str,
+        network_id: str,
         name: str,
         uplinks: list,
         tunnels: list,
@@ -25,7 +25,7 @@ class ActionBatchCampusGateway:
         https://developer.cisco.com/meraki/api-v1/#!create-network-campus-gateway-cluster
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             name: Name of the new cluster.
             uplinks: Uplink interface settings of the cluster.
             tunnels: Tunnel interface settings of the cluster: Reuse uplink or specify tunnel
@@ -42,7 +42,8 @@ class ActionBatchCampusGateway:
             "tags": ["campusGateway", "configure", "clusters"],
             "operation": "create_network_campus_gateway_cluster",
         }
-        resource = f"/networks/{networkId}/campusGateway/clusters"
+        network_id = urllib.parse.quote(network_id, safe="")
+        resource = f"/networks/{network_id}/campusGateway/clusters"
 
         body_params = [
             "name",
@@ -58,15 +59,15 @@ class ActionBatchCampusGateway:
         return action
 
     def update_network_campus_gateway_cluster(
-        self, networkId: str, clusterId: str, **kwargs: Any
+        self, network_id: str, cluster_id: str, **kwargs: Any
     ) -> dict[str, Any]:
         """Update a cluster and add/remove campus gateways to/from it.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-campus-gateway-cluster
 
         Args:
-            networkId: Network ID.
-            clusterId: Cluster ID.
+            network_id: Network ID.
+            cluster_id: Cluster ID.
             name: Name of the cluster.
             uplinks: Uplink interface settings of the cluster.
             tunnels: Tunnel interface settings of the cluster: Reuse uplink or specify tunnel
@@ -83,7 +84,9 @@ class ActionBatchCampusGateway:
             "tags": ["campusGateway", "configure", "clusters"],
             "operation": "update_network_campus_gateway_cluster",
         }
-        resource = f"/networks/{networkId}/campusGateway/clusters/{clusterId}"
+        network_id = urllib.parse.quote(network_id, safe="")
+        cluster_id = urllib.parse.quote(cluster_id, safe="")
+        resource = f"/networks/{network_id}/campusGateway/clusters/{cluster_id}"
 
         body_params = [
             "name",

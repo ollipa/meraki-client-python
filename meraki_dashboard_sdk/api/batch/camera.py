@@ -28,6 +28,7 @@ class ActionBatchCamera:
             "tags": ["camera", "configure", "customAnalytics"],
             "operation": "update_device_camera_custom_analytics",
         }
+        serial = urllib.parse.quote(serial, safe="")
         resource = f"/devices/{serial}/camera/customAnalytics"
 
         body_params = [
@@ -98,6 +99,7 @@ class ActionBatchCamera:
             "tags": ["camera", "configure", "qualityAndRetention"],
             "operation": "update_device_camera_quality_and_retention",
         }
+        serial = urllib.parse.quote(serial, safe="")
         resource = f"/devices/{serial}/camera/qualityAndRetention"
 
         body_params = [
@@ -134,6 +136,7 @@ class ActionBatchCamera:
             "tags": ["camera", "configure", "sense"],
             "operation": "update_device_camera_sense",
         }
+        serial = urllib.parse.quote(serial, safe="")
         resource = f"/devices/{serial}/camera/sense"
 
         body_params = [
@@ -162,6 +165,7 @@ class ActionBatchCamera:
             "tags": ["camera", "configure", "video", "settings"],
             "operation": "update_device_camera_video_settings",
         }
+        serial = urllib.parse.quote(serial, safe="")
         resource = f"/devices/{serial}/camera/video/settings"
 
         body_params = [
@@ -187,6 +191,7 @@ class ActionBatchCamera:
             "tags": ["camera", "configure", "wirelessProfiles"],
             "operation": "update_device_camera_wireless_profiles",
         }
+        serial = urllib.parse.quote(serial, safe="")
         resource = f"/devices/{serial}/camera/wirelessProfiles"
 
         body_params = [

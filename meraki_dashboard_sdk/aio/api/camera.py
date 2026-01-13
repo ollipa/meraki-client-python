@@ -130,7 +130,7 @@ class AsyncCamera:
         return self._session.get(metadata, resource)
 
     def get_device_camera_analytics_zone_history(
-        self, serial: str, zoneId: str, **kwargs: Any
+        self, serial: str, zone_id: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Return historical records for analytic zones.
 
@@ -138,7 +138,7 @@ class AsyncCamera:
 
         Args:
             serial: Serial.
-            zoneId: Zone ID.
+            zone_id: Zone ID.
             t0: The beginning of the timespan for the data. The maximum lookback period is 365 days
               from today.
             t1: The end of the timespan for the data. t1 can be a maximum of 14 hours after t0.
@@ -164,8 +164,8 @@ class AsyncCamera:
             "operation": "get_device_camera_analytics_zone_history",
         }
         serial = urllib.parse.quote(str(serial), safe="")
-        zoneId = urllib.parse.quote(str(zoneId), safe="")
-        resource = f"/devices/{serial}/camera/analytics/zones/{zoneId}/history"
+        zone_id = urllib.parse.quote(str(zone_id), safe="")
+        resource = f"/devices/{serial}/camera/analytics/zones/{zone_id}/history"
 
         query_params = [
             "t0",
@@ -540,34 +540,34 @@ class AsyncCamera:
         return self._session.put(metadata, resource, payload)
 
     def get_network_camera_quality_retention_profiles(
-        self, networkId: str
+        self, network_id: str
     ) -> dict[str, Any] | None:
         """List the quality retention profiles for this network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-camera-quality-retention-profiles
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
 
         """
         metadata = {
             "tags": ["camera", "configure", "qualityRetentionProfiles"],
             "operation": "get_network_camera_quality_retention_profiles",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        resource = f"/networks/{networkId}/camera/qualityRetentionProfiles"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        resource = f"/networks/{network_id}/camera/qualityRetentionProfiles"
 
         return self._session.get(metadata, resource)
 
     def create_network_camera_quality_retention_profile(
-        self, networkId: str, name: str, **kwargs: Any
+        self, network_id: str, name: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Creates new quality retention profile for this network.
 
         https://developer.cisco.com/meraki/api-v1/#!create-network-camera-quality-retention-profile
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             name: The name of the new profile. Must be unique. This parameter is required.
             motionBasedRetentionEnabled: Deletes footage older than 3 days in which no motion was
               detected. Can be either true or false. Defaults to false. This setting
@@ -597,8 +597,8 @@ class AsyncCamera:
             "tags": ["camera", "configure", "qualityRetentionProfiles"],
             "operation": "create_network_camera_quality_retention_profile",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        resource = f"/networks/{networkId}/camera/qualityRetentionProfiles"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        resource = f"/networks/{network_id}/camera/qualityRetentionProfiles"
 
         body_params = [
             "name",
@@ -617,39 +617,41 @@ class AsyncCamera:
         return self._session.post(metadata, resource, payload)
 
     def get_network_camera_quality_retention_profile(
-        self, networkId: str, qualityRetentionProfileId: str
+        self, network_id: str, quality_retention_profile_id: str
     ) -> dict[str, Any] | None:
         """Retrieve a single quality retention profile.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-camera-quality-retention-profile
 
         Args:
-            networkId: Network ID.
-            qualityRetentionProfileId: Quality retention profile ID.
+            network_id: Network ID.
+            quality_retention_profile_id: Quality retention profile ID.
 
         """
         metadata = {
             "tags": ["camera", "configure", "qualityRetentionProfiles"],
             "operation": "get_network_camera_quality_retention_profile",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        qualityRetentionProfileId = urllib.parse.quote(str(qualityRetentionProfileId), safe="")
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        quality_retention_profile_id = urllib.parse.quote(
+            str(quality_retention_profile_id), safe=""
+        )
         resource = (
-            f"/networks/{networkId}/camera/qualityRetentionProfiles/{qualityRetentionProfileId}"
+            f"/networks/{network_id}/camera/qualityRetentionProfiles/{quality_retention_profile_id}"
         )
 
         return self._session.get(metadata, resource)
 
     def update_network_camera_quality_retention_profile(
-        self, networkId: str, qualityRetentionProfileId: str, **kwargs: Any
+        self, network_id: str, quality_retention_profile_id: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Update an existing quality retention profile for this network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-camera-quality-retention-profile
 
         Args:
-            networkId: Network ID.
-            qualityRetentionProfileId: Quality retention profile ID.
+            network_id: Network ID.
+            quality_retention_profile_id: Quality retention profile ID.
             name: The name of the new profile. Must be unique.
             motionBasedRetentionEnabled: Deletes footage older than 3 days in which no motion was
               detected. Can be either true or false. Defaults to false. This setting
@@ -679,10 +681,12 @@ class AsyncCamera:
             "tags": ["camera", "configure", "qualityRetentionProfiles"],
             "operation": "update_network_camera_quality_retention_profile",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        qualityRetentionProfileId = urllib.parse.quote(str(qualityRetentionProfileId), safe="")
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        quality_retention_profile_id = urllib.parse.quote(
+            str(quality_retention_profile_id), safe=""
+        )
         resource = (
-            f"/networks/{networkId}/camera/qualityRetentionProfiles/{qualityRetentionProfileId}"
+            f"/networks/{network_id}/camera/qualityRetentionProfiles/{quality_retention_profile_id}"
         )
 
         body_params = [
@@ -702,56 +706,58 @@ class AsyncCamera:
         return self._session.put(metadata, resource, payload)
 
     def delete_network_camera_quality_retention_profile(
-        self, networkId: str, qualityRetentionProfileId: str
+        self, network_id: str, quality_retention_profile_id: str
     ) -> None:
         """Delete an existing quality retention profile for this network.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-network-camera-quality-retention-profile
 
         Args:
-            networkId: Network ID.
-            qualityRetentionProfileId: Quality retention profile ID.
+            network_id: Network ID.
+            quality_retention_profile_id: Quality retention profile ID.
 
         """
         metadata = {
             "tags": ["camera", "configure", "qualityRetentionProfiles"],
             "operation": "delete_network_camera_quality_retention_profile",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        qualityRetentionProfileId = urllib.parse.quote(str(qualityRetentionProfileId), safe="")
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        quality_retention_profile_id = urllib.parse.quote(
+            str(quality_retention_profile_id), safe=""
+        )
         resource = (
-            f"/networks/{networkId}/camera/qualityRetentionProfiles/{qualityRetentionProfileId}"
+            f"/networks/{network_id}/camera/qualityRetentionProfiles/{quality_retention_profile_id}"
         )
 
         return self._session.delete(metadata, resource)
 
-    def get_network_camera_schedules(self, networkId: str) -> dict[str, Any] | None:
+    def get_network_camera_schedules(self, network_id: str) -> dict[str, Any] | None:
         """Returns a list of all camera recording schedules.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-camera-schedules
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
 
         """
         metadata = {
             "tags": ["camera", "configure", "schedules"],
             "operation": "get_network_camera_schedules",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        resource = f"/networks/{networkId}/camera/schedules"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        resource = f"/networks/{network_id}/camera/schedules"
 
         return self._session.get(metadata, resource)
 
     def create_network_camera_wireless_profile(
-        self, networkId: str, name: str, ssid: dict, **kwargs: Any
+        self, network_id: str, name: str, ssid: dict, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Creates a new camera wireless profile for this network.
 
         https://developer.cisco.com/meraki/api-v1/#!create-network-camera-wireless-profile
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             name: The name of the camera wireless profile. This parameter is required.
             ssid: The details of the SSID config.
             identity: The identity of the wireless profile. Required for creating wireless profiles
@@ -764,8 +770,8 @@ class AsyncCamera:
             "tags": ["camera", "configure", "wirelessProfiles"],
             "operation": "create_network_camera_wireless_profile",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        resource = f"/networks/{networkId}/camera/wirelessProfiles"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        resource = f"/networks/{network_id}/camera/wirelessProfiles"
 
         body_params = [
             "name",
@@ -776,56 +782,56 @@ class AsyncCamera:
 
         return self._session.post(metadata, resource, payload)
 
-    def get_network_camera_wireless_profiles(self, networkId: str) -> dict[str, Any] | None:
+    def get_network_camera_wireless_profiles(self, network_id: str) -> dict[str, Any] | None:
         """List the camera wireless profiles for this network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-camera-wireless-profiles
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
 
         """
         metadata = {
             "tags": ["camera", "configure", "wirelessProfiles"],
             "operation": "get_network_camera_wireless_profiles",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        resource = f"/networks/{networkId}/camera/wirelessProfiles"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        resource = f"/networks/{network_id}/camera/wirelessProfiles"
 
         return self._session.get(metadata, resource)
 
     def get_network_camera_wireless_profile(
-        self, networkId: str, wirelessProfileId: str
+        self, network_id: str, wireless_profile_id: str
     ) -> dict[str, Any] | None:
         """Retrieve a single camera wireless profile.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-camera-wireless-profile
 
         Args:
-            networkId: Network ID.
-            wirelessProfileId: Wireless profile ID.
+            network_id: Network ID.
+            wireless_profile_id: Wireless profile ID.
 
         """
         metadata = {
             "tags": ["camera", "configure", "wirelessProfiles"],
             "operation": "get_network_camera_wireless_profile",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        wirelessProfileId = urllib.parse.quote(str(wirelessProfileId), safe="")
-        resource = f"/networks/{networkId}/camera/wirelessProfiles/{wirelessProfileId}"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        wireless_profile_id = urllib.parse.quote(str(wireless_profile_id), safe="")
+        resource = f"/networks/{network_id}/camera/wirelessProfiles/{wireless_profile_id}"
 
         return self._session.get(metadata, resource)
 
     def update_network_camera_wireless_profile(
-        self, networkId: str, wirelessProfileId: str, **kwargs: Any
+        self, network_id: str, wireless_profile_id: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Update an existing camera wireless profile in this network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-camera-wireless-profile
 
         Args:
-            networkId: Network ID.
-            wirelessProfileId: Wireless profile ID.
+            network_id: Network ID.
+            wireless_profile_id: Wireless profile ID.
             name: The name of the camera wireless profile.
             ssid: The details of the SSID config.
             identity: The identity of the wireless profile. Required for creating wireless profiles
@@ -838,9 +844,9 @@ class AsyncCamera:
             "tags": ["camera", "configure", "wirelessProfiles"],
             "operation": "update_network_camera_wireless_profile",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        wirelessProfileId = urllib.parse.quote(str(wirelessProfileId), safe="")
-        resource = f"/networks/{networkId}/camera/wirelessProfiles/{wirelessProfileId}"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        wireless_profile_id = urllib.parse.quote(str(wireless_profile_id), safe="")
+        resource = f"/networks/{network_id}/camera/wirelessProfiles/{wireless_profile_id}"
 
         body_params = [
             "name",
@@ -852,36 +858,36 @@ class AsyncCamera:
         return self._session.put(metadata, resource, payload)
 
     def delete_network_camera_wireless_profile(
-        self, networkId: str, wirelessProfileId: str
+        self, network_id: str, wireless_profile_id: str
     ) -> None:
         """Delete an existing camera wireless profile for this network.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-network-camera-wireless-profile
 
         Args:
-            networkId: Network ID.
-            wirelessProfileId: Wireless profile ID.
+            network_id: Network ID.
+            wireless_profile_id: Wireless profile ID.
 
         """
         metadata = {
             "tags": ["camera", "configure", "wirelessProfiles"],
             "operation": "delete_network_camera_wireless_profile",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        wirelessProfileId = urllib.parse.quote(str(wirelessProfileId), safe="")
-        resource = f"/networks/{networkId}/camera/wirelessProfiles/{wirelessProfileId}"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        wireless_profile_id = urllib.parse.quote(str(wireless_profile_id), safe="")
+        resource = f"/networks/{network_id}/camera/wirelessProfiles/{wireless_profile_id}"
 
         return self._session.delete(metadata, resource)
 
     def get_organization_camera_boundaries_areas_by_device(
-        self, organizationId: str, **kwargs: Any
+        self, organization_id: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Returns all configured area boundaries of cameras.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-camera-boundaries-areas-by-device
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             serials: A list of serial numbers. The returned cameras will be filtered to only include
               these serials.
 
@@ -892,8 +898,8 @@ class AsyncCamera:
             "tags": ["camera", "configure", "boundaries", "areas", "byDevice"],
             "operation": "get_organization_camera_boundaries_areas_by_device",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/camera/boundaries/areas/byDevice"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/camera/boundaries/areas/byDevice"
 
         query_params = [
             "serials",
@@ -911,14 +917,14 @@ class AsyncCamera:
         return self._session.get(metadata, resource, params)
 
     def get_organization_camera_boundaries_lines_by_device(
-        self, organizationId: str, **kwargs: Any
+        self, organization_id: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Returns all configured crossingline boundaries of cameras.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-camera-boundaries-lines-by-device
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             serials: A list of serial numbers. The returned cameras will be filtered to only include
               these serials.
 
@@ -929,8 +935,8 @@ class AsyncCamera:
             "tags": ["camera", "configure", "boundaries", "lines", "byDevice"],
             "operation": "get_organization_camera_boundaries_lines_by_device",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/camera/boundaries/lines/byDevice"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/camera/boundaries/lines/byDevice"
 
         query_params = [
             "serials",
@@ -948,34 +954,34 @@ class AsyncCamera:
         return self._session.get(metadata, resource, params)
 
     def get_organization_camera_custom_analytics_artifacts(
-        self, organizationId: str
+        self, organization_id: str
     ) -> dict[str, Any] | None:
         """List Custom Analytics Artifacts.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-camera-custom-analytics-artifacts
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
 
         """
         metadata = {
             "tags": ["camera", "configure", "customAnalytics", "artifacts"],
             "operation": "get_organization_camera_custom_analytics_artifacts",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/camera/customAnalytics/artifacts"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/camera/customAnalytics/artifacts"
 
         return self._session.get(metadata, resource)
 
     def create_organization_camera_custom_analytics_artifact(
-        self, organizationId: str, **kwargs: Any
+        self, organization_id: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Create custom analytics artifact.
 
         https://developer.cisco.com/meraki/api-v1/#!create-organization-camera-custom-analytics-artifact
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             name: Unique name of the artifact.
 
         """
@@ -985,8 +991,8 @@ class AsyncCamera:
             "tags": ["camera", "configure", "customAnalytics", "artifacts"],
             "operation": "create_organization_camera_custom_analytics_artifact",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/camera/customAnalytics/artifacts"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/camera/customAnalytics/artifacts"
 
         body_params = [
             "name",
@@ -996,52 +1002,56 @@ class AsyncCamera:
         return self._session.post(metadata, resource, payload)
 
     def get_organization_camera_custom_analytics_artifact(
-        self, organizationId: str, artifactId: str
+        self, organization_id: str, artifact_id: str
     ) -> dict[str, Any] | None:
         """Get Custom Analytics Artifact.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-camera-custom-analytics-artifact
 
         Args:
-            organizationId: Organization ID.
-            artifactId: Artifact ID.
+            organization_id: Organization ID.
+            artifact_id: Artifact ID.
 
         """
         metadata = {
             "tags": ["camera", "configure", "customAnalytics", "artifacts"],
             "operation": "get_organization_camera_custom_analytics_artifact",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        artifactId = urllib.parse.quote(str(artifactId), safe="")
-        resource = f"/organizations/{organizationId}/camera/customAnalytics/artifacts/{artifactId}"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        artifact_id = urllib.parse.quote(str(artifact_id), safe="")
+        resource = (
+            f"/organizations/{organization_id}/camera/customAnalytics/artifacts/{artifact_id}"
+        )
 
         return self._session.get(metadata, resource)
 
     def delete_organization_camera_custom_analytics_artifact(
-        self, organizationId: str, artifactId: str
+        self, organization_id: str, artifact_id: str
     ) -> None:
         """Delete Custom Analytics Artifact.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-camera-custom-analytics-artifact
 
         Args:
-            organizationId: Organization ID.
-            artifactId: Artifact ID.
+            organization_id: Organization ID.
+            artifact_id: Artifact ID.
 
         """
         metadata = {
             "tags": ["camera", "configure", "customAnalytics", "artifacts"],
             "operation": "delete_organization_camera_custom_analytics_artifact",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        artifactId = urllib.parse.quote(str(artifactId), safe="")
-        resource = f"/organizations/{organizationId}/camera/customAnalytics/artifacts/{artifactId}"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        artifact_id = urllib.parse.quote(str(artifact_id), safe="")
+        resource = (
+            f"/organizations/{organization_id}/camera/customAnalytics/artifacts/{artifact_id}"
+        )
 
         return self._session.delete(metadata, resource)
 
     def get_organization_camera_detections_history_by_boundary_by_interval(
         self,
-        organizationId: str,
+        organization_id: str,
         boundaryIds: list,
         ranges: list,
         total_pages=1,
@@ -1053,7 +1063,7 @@ class AsyncCamera:
         https://developer.cisco.com/meraki/api-v1/#!get-organization-camera-detections-history-by-boundary-by-interval
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             boundaryIds: A list of boundary ids. The returned cameras will be filtered to only
               include these ids.
             ranges: A list of time ranges with intervals.
@@ -1073,9 +1083,9 @@ class AsyncCamera:
             "tags": ["camera", "configure", "detections", "history", "byBoundary", "byInterval"],
             "operation": "get_organization_camera_detections_history_by_boundary_by_interval",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = (
-            f"/organizations/{organizationId}/camera/detections/history/byBoundary/byInterval"
+            f"/organizations/{organization_id}/camera/detections/history/byBoundary/byInterval"
         )
 
         query_params = [
@@ -1100,14 +1110,14 @@ class AsyncCamera:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def get_organization_camera_onboarding_statuses(
-        self, organizationId: str, **kwargs: Any
+        self, organization_id: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Fetch onboarding status of cameras.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-camera-onboarding-statuses
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             serials: A list of serial numbers. The returned cameras will be filtered to only include
               these serials.
             networkIds: A list of network IDs. The returned cameras will be filtered to only include
@@ -1120,8 +1130,8 @@ class AsyncCamera:
             "tags": ["camera", "configure", "onboarding", "statuses"],
             "operation": "get_organization_camera_onboarding_statuses",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/camera/onboarding/statuses"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/camera/onboarding/statuses"
 
         query_params = [
             "serials",
@@ -1141,14 +1151,14 @@ class AsyncCamera:
         return self._session.get(metadata, resource, params)
 
     def update_organization_camera_onboarding_statuses(
-        self, organizationId: str, **kwargs: Any
+        self, organization_id: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Notify that credential handoff to camera has completed.
 
         https://developer.cisco.com/meraki/api-v1/#!update-organization-camera-onboarding-statuses
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             serial: Serial of camera.
             wirelessCredentialsSent: Note whether credentials were sent successfully.
 
@@ -1159,8 +1169,8 @@ class AsyncCamera:
             "tags": ["camera", "configure", "onboarding", "statuses"],
             "operation": "update_organization_camera_onboarding_statuses",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/camera/onboarding/statuses"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/camera/onboarding/statuses"
 
         body_params = [
             "serial",
@@ -1170,73 +1180,73 @@ class AsyncCamera:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_organization_camera_permissions(self, organizationId: str) -> dict[str, Any] | None:
+    def get_organization_camera_permissions(self, organization_id: str) -> dict[str, Any] | None:
         """List the permissions scopes for this organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-camera-permissions
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
 
         """
         metadata = {
             "tags": ["camera", "configure", "permissions"],
             "operation": "get_organization_camera_permissions",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/camera/permissions"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/camera/permissions"
 
         return self._session.get(metadata, resource)
 
     def get_organization_camera_permission(
-        self, organizationId: str, permissionScopeId: str
+        self, organization_id: str, permission_scope_id: str
     ) -> dict[str, Any] | None:
         """Retrieve a single permission scope.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-camera-permission
 
         Args:
-            organizationId: Organization ID.
-            permissionScopeId: Permission scope ID.
+            organization_id: Organization ID.
+            permission_scope_id: Permission scope ID.
 
         """
         metadata = {
             "tags": ["camera", "configure", "permissions"],
             "operation": "get_organization_camera_permission",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        permissionScopeId = urllib.parse.quote(str(permissionScopeId), safe="")
-        resource = f"/organizations/{organizationId}/camera/permissions/{permissionScopeId}"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        permission_scope_id = urllib.parse.quote(str(permission_scope_id), safe="")
+        resource = f"/organizations/{organization_id}/camera/permissions/{permission_scope_id}"
 
         return self._session.get(metadata, resource)
 
-    def get_organization_camera_roles(self, organizationId: str) -> dict[str, Any] | None:
+    def get_organization_camera_roles(self, organization_id: str) -> dict[str, Any] | None:
         """List all the roles in this organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-camera-roles
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
 
         """
         metadata = {
             "tags": ["camera", "configure", "roles"],
             "operation": "get_organization_camera_roles",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/camera/roles"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/camera/roles"
 
         return self._session.get(metadata, resource)
 
     def create_organization_camera_role(
-        self, organizationId: str, name: str, **kwargs: Any
+        self, organization_id: str, name: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Creates new role for this organization.
 
         https://developer.cisco.com/meraki/api-v1/#!create-organization-camera-role
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             name: The name of the new role. Must be unique. This parameter is required.
             appliedOnDevices: Device tag on which this specified permission is applied.
             appliedOnNetworks: Network tag on which this specified permission is applied.
@@ -1249,8 +1259,8 @@ class AsyncCamera:
             "tags": ["camera", "configure", "roles"],
             "operation": "create_organization_camera_role",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/camera/roles"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/camera/roles"
 
         body_params = [
             "name",
@@ -1263,57 +1273,57 @@ class AsyncCamera:
         return self._session.post(metadata, resource, payload)
 
     def get_organization_camera_role(
-        self, organizationId: str, roleId: str
+        self, organization_id: str, role_id: str
     ) -> dict[str, Any] | None:
         """Retrieve a single role.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-camera-role
 
         Args:
-            organizationId: Organization ID.
-            roleId: Role ID.
+            organization_id: Organization ID.
+            role_id: Role ID.
 
         """
         metadata = {
             "tags": ["camera", "configure", "roles"],
             "operation": "get_organization_camera_role",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        roleId = urllib.parse.quote(str(roleId), safe="")
-        resource = f"/organizations/{organizationId}/camera/roles/{roleId}"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        role_id = urllib.parse.quote(str(role_id), safe="")
+        resource = f"/organizations/{organization_id}/camera/roles/{role_id}"
 
         return self._session.get(metadata, resource)
 
-    def delete_organization_camera_role(self, organizationId: str, roleId: str) -> None:
+    def delete_organization_camera_role(self, organization_id: str, role_id: str) -> None:
         """Delete an existing role for this organization.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-camera-role
 
         Args:
-            organizationId: Organization ID.
-            roleId: Role ID.
+            organization_id: Organization ID.
+            role_id: Role ID.
 
         """
         metadata = {
             "tags": ["camera", "configure", "roles"],
             "operation": "delete_organization_camera_role",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        roleId = urllib.parse.quote(str(roleId), safe="")
-        resource = f"/organizations/{organizationId}/camera/roles/{roleId}"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        role_id = urllib.parse.quote(str(role_id), safe="")
+        resource = f"/organizations/{organization_id}/camera/roles/{role_id}"
 
         return self._session.delete(metadata, resource)
 
     def update_organization_camera_role(
-        self, organizationId: str, roleId: str, **kwargs: Any
+        self, organization_id: str, role_id: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Update an existing role in this organization.
 
         https://developer.cisco.com/meraki/api-v1/#!update-organization-camera-role
 
         Args:
-            organizationId: Organization ID.
-            roleId: Role ID.
+            organization_id: Organization ID.
+            role_id: Role ID.
             name: The name of the new role. Must be unique.
             appliedOnDevices: Device tag on which this specified permission is applied.
             appliedOnNetworks: Network tag on which this specified permission is applied.
@@ -1326,9 +1336,9 @@ class AsyncCamera:
             "tags": ["camera", "configure", "roles"],
             "operation": "update_organization_camera_role",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        roleId = urllib.parse.quote(str(roleId), safe="")
-        resource = f"/organizations/{organizationId}/camera/roles/{roleId}"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        role_id = urllib.parse.quote(str(role_id), safe="")
+        resource = f"/organizations/{organization_id}/camera/roles/{role_id}"
 
         body_params = [
             "name",

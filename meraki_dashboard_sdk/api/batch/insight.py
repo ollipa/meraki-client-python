@@ -11,14 +11,14 @@ class ActionBatchInsight:
         pass
 
     def create_organization_insight_monitored_media_server(
-        self, organizationId: str, name: str, address: str, **kwargs: Any
+        self, organization_id: str, name: str, address: str, **kwargs: Any
     ) -> dict[str, Any]:
         """Add a media server to be monitored for this organization.
 
         https://developer.cisco.com/meraki/api-v1/#!create-organization-insight-monitored-media-server
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             name: The name of the VoIP provider.
             address: The IP address (IPv4 only) or hostname of the media server to monitor.
             bestEffortMonitoringEnabled: Indicates that if the media server doesn't respond to ICMP
@@ -31,7 +31,8 @@ class ActionBatchInsight:
             "tags": ["insight", "configure", "monitoredMediaServers"],
             "operation": "create_organization_insight_monitored_media_server",
         }
-        resource = f"/organizations/{organizationId}/insight/monitoredMediaServers"
+        organization_id = urllib.parse.quote(organization_id, safe="")
+        resource = f"/organizations/{organization_id}/insight/monitoredMediaServers"
 
         body_params = [
             "name",
@@ -43,15 +44,15 @@ class ActionBatchInsight:
         return action
 
     def update_organization_insight_monitored_media_server(
-        self, organizationId: str, monitoredMediaServerId: str, **kwargs: Any
+        self, organization_id: str, monitored_media_server_id: str, **kwargs: Any
     ) -> dict[str, Any]:
         """Update a monitored media server for this organization.
 
         https://developer.cisco.com/meraki/api-v1/#!update-organization-insight-monitored-media-server
 
         Args:
-            organizationId: Organization ID.
-            monitoredMediaServerId: Monitored media server ID.
+            organization_id: Organization ID.
+            monitored_media_server_id: Monitored media server ID.
             name: The name of the VoIP provider.
             address: The IP address (IPv4 only) or hostname of the media server to monitor.
             bestEffortMonitoringEnabled: Indicates that if the media server doesn't respond to ICMP
@@ -64,7 +65,9 @@ class ActionBatchInsight:
             "tags": ["insight", "configure", "monitoredMediaServers"],
             "operation": "update_organization_insight_monitored_media_server",
         }
-        resource = f"/organizations/{organizationId}/insight/monitoredMediaServers/{monitoredMediaServerId}"
+        organization_id = urllib.parse.quote(organization_id, safe="")
+        monitored_media_server_id = urllib.parse.quote(monitored_media_server_id, safe="")
+        resource = f"/organizations/{organization_id}/insight/monitoredMediaServers/{monitored_media_server_id}"
 
         body_params = [
             "name",
@@ -76,22 +79,24 @@ class ActionBatchInsight:
         return action
 
     def delete_organization_insight_monitored_media_server(
-        self, organizationId: str, monitoredMediaServerId: str
+        self, organization_id: str, monitored_media_server_id: str
     ) -> dict[str, Any]:
         """Delete a monitored media server from this organization.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-insight-monitored-media-server
 
         Args:
-            organizationId: Organization ID.
-            monitoredMediaServerId: Monitored media server ID.
+            organization_id: Organization ID.
+            monitored_media_server_id: Monitored media server ID.
 
         """
         metadata = {
             "tags": ["insight", "configure", "monitoredMediaServers"],
             "operation": "delete_organization_insight_monitored_media_server",
         }
-        resource = f"/organizations/{organizationId}/insight/monitoredMediaServers/{monitoredMediaServerId}"
+        organization_id = urllib.parse.quote(organization_id, safe="")
+        monitored_media_server_id = urllib.parse.quote(monitored_media_server_id, safe="")
+        resource = f"/organizations/{organization_id}/insight/monitoredMediaServers/{monitored_media_server_id}"
 
         action = {
             "resource": resource,

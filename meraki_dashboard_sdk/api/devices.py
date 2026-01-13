@@ -213,7 +213,7 @@ class Devices:
         return self._session.post(metadata, resource, payload)
 
     def get_device_live_tools_arp_table(
-        self, serial: str, arpTableId: str
+        self, serial: str, arp_table_id: str
     ) -> dict[str, Any] | None:
         """Return an ARP table live tool job.
 
@@ -221,7 +221,7 @@ class Devices:
 
         Args:
             serial: Serial.
-            arpTableId: Arp table ID.
+            arp_table_id: Arp table ID.
 
         """
         metadata = {
@@ -229,8 +229,8 @@ class Devices:
             "operation": "get_device_live_tools_arp_table",
         }
         serial = urllib.parse.quote(str(serial), safe="")
-        arpTableId = urllib.parse.quote(str(arpTableId), safe="")
-        resource = f"/devices/{serial}/liveTools/arpTable/{arpTableId}"
+        arp_table_id = urllib.parse.quote(str(arp_table_id), safe="")
+        resource = f"/devices/{serial}/liveTools/arpTable/{arp_table_id}"
 
         return self._session.get(metadata, resource)
 
@@ -319,7 +319,7 @@ class Devices:
         return self._session.post(metadata, resource, payload)
 
     def get_device_live_tools_leds_blink(
-        self, serial: str, ledsBlinkId: str
+        self, serial: str, leds_blink_id: str
     ) -> dict[str, Any] | None:
         """Return a blink LEDs job.
 
@@ -327,7 +327,7 @@ class Devices:
 
         Args:
             serial: Serial.
-            ledsBlinkId: Leds blink ID.
+            leds_blink_id: Leds blink ID.
 
         """
         metadata = {
@@ -335,8 +335,8 @@ class Devices:
             "operation": "get_device_live_tools_leds_blink",
         }
         serial = urllib.parse.quote(str(serial), safe="")
-        ledsBlinkId = urllib.parse.quote(str(ledsBlinkId), safe="")
-        resource = f"/devices/{serial}/liveTools/leds/blink/{ledsBlinkId}"
+        leds_blink_id = urllib.parse.quote(str(leds_blink_id), safe="")
+        resource = f"/devices/{serial}/liveTools/leds/blink/{leds_blink_id}"
 
         return self._session.get(metadata, resource)
 
@@ -370,7 +370,7 @@ class Devices:
         return self._session.post(metadata, resource, payload)
 
     def get_device_live_tools_mac_table(
-        self, serial: str, macTableId: str
+        self, serial: str, mac_table_id: str
     ) -> dict[str, Any] | None:
         """Return a MAC table live tool job.
 
@@ -378,7 +378,7 @@ class Devices:
 
         Args:
             serial: Serial.
-            macTableId: Mac table ID.
+            mac_table_id: Mac table ID.
 
         """
         metadata = {
@@ -386,8 +386,8 @@ class Devices:
             "operation": "get_device_live_tools_mac_table",
         }
         serial = urllib.parse.quote(str(serial), safe="")
-        macTableId = urllib.parse.quote(str(macTableId), safe="")
-        resource = f"/devices/{serial}/liveTools/macTable/{macTableId}"
+        mac_table_id = urllib.parse.quote(str(mac_table_id), safe="")
+        resource = f"/devices/{serial}/liveTools/macTable/{mac_table_id}"
 
         return self._session.get(metadata, resource)
 
@@ -421,7 +421,7 @@ class Devices:
         return self._session.post(metadata, resource, payload)
 
     def get_device_live_tools_multicast_routing(
-        self, serial: str, multicastRoutingId: str
+        self, serial: str, multicast_routing_id: str
     ) -> dict[str, Any] | None:
         """Return a Multicast routing live tool job.
 
@@ -429,7 +429,7 @@ class Devices:
 
         Args:
             serial: Serial.
-            multicastRoutingId: Multicast routing ID.
+            multicast_routing_id: Multicast routing ID.
 
         """
         metadata = {
@@ -437,8 +437,8 @@ class Devices:
             "operation": "get_device_live_tools_multicast_routing",
         }
         serial = urllib.parse.quote(str(serial), safe="")
-        multicastRoutingId = urllib.parse.quote(str(multicastRoutingId), safe="")
-        resource = f"/devices/{serial}/liveTools/multicastRouting/{multicastRoutingId}"
+        multicast_routing_id = urllib.parse.quote(str(multicast_routing_id), safe="")
+        resource = f"/devices/{serial}/liveTools/multicastRouting/{multicast_routing_id}"
 
         return self._session.get(metadata, resource)
 
@@ -576,7 +576,7 @@ class Devices:
         return self._session.post(metadata, resource, payload)
 
     def get_device_live_tools_throughput_test(
-        self, serial: str, throughputTestId: str
+        self, serial: str, throughput_test_id: str
     ) -> dict[str, Any] | None:
         """Return a throughput test job.
 
@@ -584,7 +584,7 @@ class Devices:
 
         Args:
             serial: Serial.
-            throughputTestId: Throughput test ID.
+            throughput_test_id: Throughput test ID.
 
         """
         metadata = {
@@ -592,8 +592,8 @@ class Devices:
             "operation": "get_device_live_tools_throughput_test",
         }
         serial = urllib.parse.quote(str(serial), safe="")
-        throughputTestId = urllib.parse.quote(str(throughputTestId), safe="")
-        resource = f"/devices/{serial}/liveTools/throughputTest/{throughputTestId}"
+        throughput_test_id = urllib.parse.quote(str(throughput_test_id), safe="")
+        resource = f"/devices/{serial}/liveTools/throughputTest/{throughput_test_id}"
 
         return self._session.get(metadata, resource)
 
@@ -631,7 +631,7 @@ class Devices:
         return self._session.post(metadata, resource, payload)
 
     def get_device_live_tools_wake_on_lan(
-        self, serial: str, wakeOnLanId: str
+        self, serial: str, wake_on_lan_id: str
     ) -> dict[str, Any] | None:
         """Return a Wake-on-LAN job.
 
@@ -639,7 +639,7 @@ class Devices:
 
         Args:
             serial: Serial.
-            wakeOnLanId: Wake on lan ID.
+            wake_on_lan_id: Wake on lan ID.
 
         """
         metadata = {
@@ -647,8 +647,8 @@ class Devices:
             "operation": "get_device_live_tools_wake_on_lan",
         }
         serial = urllib.parse.quote(str(serial), safe="")
-        wakeOnLanId = urllib.parse.quote(str(wakeOnLanId), safe="")
-        resource = f"/devices/{serial}/liveTools/wakeOnLan/{wakeOnLanId}"
+        wake_on_lan_id = urllib.parse.quote(str(wake_on_lan_id), safe="")
+        resource = f"/devices/{serial}/liveTools/wakeOnLan/{wake_on_lan_id}"
 
         return self._session.get(metadata, resource)
 

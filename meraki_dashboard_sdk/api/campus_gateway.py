@@ -16,7 +16,7 @@ class CampusGateway:
 
     def create_network_campus_gateway_cluster(
         self,
-        networkId: str,
+        network_id: str,
         name: str,
         uplinks: list,
         tunnels: list,
@@ -29,7 +29,7 @@ class CampusGateway:
         https://developer.cisco.com/meraki/api-v1/#!create-network-campus-gateway-cluster
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             name: Name of the new cluster.
             uplinks: Uplink interface settings of the cluster.
             tunnels: Tunnel interface settings of the cluster: Reuse uplink or specify tunnel
@@ -46,8 +46,8 @@ class CampusGateway:
             "tags": ["campusGateway", "configure", "clusters"],
             "operation": "create_network_campus_gateway_cluster",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        resource = f"/networks/{networkId}/campusGateway/clusters"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        resource = f"/networks/{network_id}/campusGateway/clusters"
 
         body_params = [
             "name",
@@ -63,15 +63,15 @@ class CampusGateway:
         return self._session.post(metadata, resource, payload)
 
     def update_network_campus_gateway_cluster(
-        self, networkId: str, clusterId: str, **kwargs: Any
+        self, network_id: str, cluster_id: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Update a cluster and add/remove campus gateways to/from it.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-campus-gateway-cluster
 
         Args:
-            networkId: Network ID.
-            clusterId: Cluster ID.
+            network_id: Network ID.
+            cluster_id: Cluster ID.
             name: Name of the cluster.
             uplinks: Uplink interface settings of the cluster.
             tunnels: Tunnel interface settings of the cluster: Reuse uplink or specify tunnel
@@ -88,9 +88,9 @@ class CampusGateway:
             "tags": ["campusGateway", "configure", "clusters"],
             "operation": "update_network_campus_gateway_cluster",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        clusterId = urllib.parse.quote(str(clusterId), safe="")
-        resource = f"/networks/{networkId}/campusGateway/clusters/{clusterId}"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        cluster_id = urllib.parse.quote(str(cluster_id), safe="")
+        resource = f"/networks/{network_id}/campusGateway/clusters/{cluster_id}"
 
         body_params = [
             "name",
@@ -106,14 +106,14 @@ class CampusGateway:
         return self._session.put(metadata, resource, payload)
 
     def get_organization_campus_gateway_clusters(
-        self, organizationId: str, total_pages=1, direction="next", **kwargs: Any
+        self, organization_id: str, total_pages=1, direction="next", **kwargs: Any
     ) -> Generator[Any, None, None]:
         """Get the details of campus gateway clusters.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-campus-gateway-clusters
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
@@ -136,8 +136,8 @@ class CampusGateway:
             "tags": ["campusGateway", "configure", "clusters"],
             "operation": "get_organization_campus_gateway_clusters",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/campusGateway/clusters"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/campusGateway/clusters"
 
         query_params = [
             "networkIds",
@@ -158,14 +158,14 @@ class CampusGateway:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def get_organization_campus_gateway_devices_uplinks_local_overrides_by_device(
-        self, organizationId: str, total_pages=1, direction="next", **kwargs: Any
+        self, organization_id: str, total_pages=1, direction="next", **kwargs: Any
     ) -> Generator[Any, None, None]:
         """Uplink overrides configured locally on Campus Gateway devices in an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-campus-gateway-devices-uplinks-local-overrides-by-device
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
@@ -196,10 +196,8 @@ class CampusGateway:
             ],
             "operation": "get_organization_campus_gateway_devices_uplinks_local_overrides_by_device",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = (
-            f"/organizations/{organizationId}/campusGateway/devices/uplinks/localOverrides/byDevice"
-        )
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/campusGateway/devices/uplinks/localOverrides/byDevice"
 
         query_params = [
             "serials",

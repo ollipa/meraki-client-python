@@ -15,14 +15,14 @@ class WirelessController:
         self._session = session
 
     def get_organization_wireless_controller_availabilities_change_history(
-        self, organizationId: str, total_pages=1, direction="next", **kwargs: Any
+        self, organization_id: str, total_pages=1, direction="next", **kwargs: Any
     ) -> Generator[Any, None, None]:
         """List connectivity data of wireless LAN controllers in an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-controller-availabilities-change-history
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
@@ -52,9 +52,9 @@ class WirelessController:
             "tags": ["wirelessController", "monitor", "availabilities", "changeHistory"],
             "operation": "get_organization_wireless_controller_availabilities_change_history",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = (
-            f"/organizations/{organizationId}/wirelessController/availabilities/changeHistory"
+            f"/organizations/{organization_id}/wirelessController/availabilities/changeHistory"
         )
 
         query_params = [
@@ -79,14 +79,14 @@ class WirelessController:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def get_organization_wireless_controller_clients_overview_history_by_device_by_interval(
-        self, organizationId: str, total_pages=1, direction="next", **kwargs: Any
+        self, organization_id: str, total_pages=1, direction="next", **kwargs: Any
     ) -> Generator[Any, None, None]:
         """List wireless client counts of wireless LAN controllers over time in an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-controller-clients-overview-history-by-device-by-interval
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
@@ -128,8 +128,8 @@ class WirelessController:
             ],
             "operation": "get_organization_wireless_controller_clients_overview_history_by_device_by_interval",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/wirelessController/clients/overview/history/byDevice/byInterval"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/wirelessController/clients/overview/history/byDevice/byInterval"
 
         query_params = [
             "networkIds",
@@ -156,14 +156,14 @@ class WirelessController:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def get_organization_wireless_controller_connections(
-        self, organizationId: str, total_pages=1, direction="next", **kwargs: Any
+        self, organization_id: str, total_pages=1, direction="next", **kwargs: Any
     ) -> Generator[Any, None, None]:
         """List all access points associated with wireless LAN controllers in an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-controller-connections
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
@@ -189,8 +189,8 @@ class WirelessController:
             "tags": ["wirelessController", "monitor", "connections"],
             "operation": "get_organization_wireless_controller_connections",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/wirelessController/connections"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/wirelessController/connections"
 
         query_params = [
             "networkIds",
@@ -213,14 +213,14 @@ class WirelessController:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def get_organization_wireless_controller_devices_interfaces_l2_by_device(
-        self, organizationId: str, total_pages=1, direction="next", **kwargs: Any
+        self, organization_id: str, total_pages=1, direction="next", **kwargs: Any
     ) -> Generator[Any, None, None]:
         """List wireless LAN controller layer 2 interfaces in an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-controller-devices-interfaces-l-2-by-device
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
@@ -250,9 +250,9 @@ class WirelessController:
             "tags": ["wirelessController", "monitor", "devices", "interfaces", "l2", "byDevice"],
             "operation": "get_organization_wireless_controller_devices_interfaces_l2_by_device",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = (
-            f"/organizations/{organizationId}/wirelessController/devices/interfaces/l2/byDevice"
+            f"/organizations/{organization_id}/wirelessController/devices/interfaces/l2/byDevice"
         )
 
         query_params = [
@@ -277,14 +277,14 @@ class WirelessController:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def get_organization_wireless_controller_devices_interfaces_l2_statuses_change_history_by_device(
-        self, organizationId: str, total_pages=1, direction="next", **kwargs: Any
+        self, organization_id: str, total_pages=1, direction="next", **kwargs: Any
     ) -> Generator[Any, None, None]:
         """List wireless LAN controller layer 2 interfaces history status in an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-controller-devices-interfaces-l-2-statuses-change-history-by-device
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
@@ -326,8 +326,8 @@ class WirelessController:
             ],
             "operation": "get_organization_wireless_controller_devices_interfaces_l2_statuses_change_history_by_device",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/wirelessController/devices/interfaces/l2/statuses/changeHistory/byDevice"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/wirelessController/devices/interfaces/l2/statuses/changeHistory/byDevice"
 
         query_params = [
             "serials",
@@ -352,14 +352,14 @@ class WirelessController:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def get_organization_wireless_controller_devices_interfaces_l2_usage_history_by_interval(
-        self, organizationId: str, total_pages=1, direction="next", **kwargs: Any
+        self, organization_id: str, total_pages=1, direction="next", **kwargs: Any
     ) -> Generator[Any, None, None]:
         """List wireless LAN controller layer 2 interfaces history usage in an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-controller-devices-interfaces-l-2-usage-history-by-interval
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
@@ -398,8 +398,8 @@ class WirelessController:
             ],
             "operation": "get_organization_wireless_controller_devices_interfaces_l2_usage_history_by_interval",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/wirelessController/devices/interfaces/l2/usage/history/byInterval"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/wirelessController/devices/interfaces/l2/usage/history/byInterval"
 
         query_params = [
             "serials",
@@ -423,14 +423,14 @@ class WirelessController:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def get_organization_wireless_controller_devices_interfaces_l3_by_device(
-        self, organizationId: str, total_pages=1, direction="next", **kwargs: Any
+        self, organization_id: str, total_pages=1, direction="next", **kwargs: Any
     ) -> Generator[Any, None, None]:
         """List wireless LAN controller layer 3 interfaces in an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-controller-devices-interfaces-l-3-by-device
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
@@ -460,9 +460,9 @@ class WirelessController:
             "tags": ["wirelessController", "monitor", "devices", "interfaces", "l3", "byDevice"],
             "operation": "get_organization_wireless_controller_devices_interfaces_l3_by_device",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = (
-            f"/organizations/{organizationId}/wirelessController/devices/interfaces/l3/byDevice"
+            f"/organizations/{organization_id}/wirelessController/devices/interfaces/l3/byDevice"
         )
 
         query_params = [
@@ -487,14 +487,14 @@ class WirelessController:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def get_organization_wireless_controller_devices_interfaces_l3_statuses_change_history_by_device(
-        self, organizationId: str, total_pages=1, direction="next", **kwargs: Any
+        self, organization_id: str, total_pages=1, direction="next", **kwargs: Any
     ) -> Generator[Any, None, None]:
         """List wireless LAN controller layer 3 interfaces history status in an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-controller-devices-interfaces-l-3-statuses-change-history-by-device
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
@@ -536,8 +536,8 @@ class WirelessController:
             ],
             "operation": "get_organization_wireless_controller_devices_interfaces_l3_statuses_change_history_by_device",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/wirelessController/devices/interfaces/l3/statuses/changeHistory/byDevice"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/wirelessController/devices/interfaces/l3/statuses/changeHistory/byDevice"
 
         query_params = [
             "serials",
@@ -562,14 +562,14 @@ class WirelessController:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def get_organization_wireless_controller_devices_interfaces_l3_usage_history_by_interval(
-        self, organizationId: str, total_pages=1, direction="next", **kwargs: Any
+        self, organization_id: str, total_pages=1, direction="next", **kwargs: Any
     ) -> Generator[Any, None, None]:
         """List wireless LAN controller layer 3 interfaces history usage in an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-controller-devices-interfaces-l-3-usage-history-by-interval
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
@@ -608,8 +608,8 @@ class WirelessController:
             ],
             "operation": "get_organization_wireless_controller_devices_interfaces_l3_usage_history_by_interval",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/wirelessController/devices/interfaces/l3/usage/history/byInterval"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/wirelessController/devices/interfaces/l3/usage/history/byInterval"
 
         query_params = [
             "serials",
@@ -633,14 +633,14 @@ class WirelessController:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def get_organization_wireless_controller_devices_interfaces_packets_overview_by_device(
-        self, organizationId: str, total_pages=1, direction="next", **kwargs: Any
+        self, organization_id: str, total_pages=1, direction="next", **kwargs: Any
     ) -> Generator[Any, None, None]:
         """Retrieve the packet counters for the interfaces of a Wireless LAN controller.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-controller-devices-interfaces-packets-overview-by-device
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
@@ -680,8 +680,8 @@ class WirelessController:
             ],
             "operation": "get_organization_wireless_controller_devices_interfaces_packets_overview_by_device",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/wirelessController/devices/interfaces/packets/overview/byDevice"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/wirelessController/devices/interfaces/packets/overview/byDevice"
 
         query_params = [
             "serials",
@@ -707,14 +707,14 @@ class WirelessController:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def get_organization_wireless_controller_devices_interfaces_usage_history_by_interval(
-        self, organizationId: str, total_pages=1, direction="next", **kwargs: Any
+        self, organization_id: str, total_pages=1, direction="next", **kwargs: Any
     ) -> Generator[Any, None, None]:
         """Retrieve the traffic for the interfaces of a Wireless LAN controller.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-controller-devices-interfaces-usage-history-by-interval
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
@@ -754,8 +754,8 @@ class WirelessController:
             ],
             "operation": "get_organization_wireless_controller_devices_interfaces_usage_history_by_interval",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/wirelessController/devices/interfaces/usage/history/byInterval"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/wirelessController/devices/interfaces/usage/history/byInterval"
 
         query_params = [
             "serials",
@@ -781,14 +781,14 @@ class WirelessController:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def get_organization_wireless_controller_devices_redundancy_failover_history(
-        self, organizationId: str, total_pages=1, direction="next", **kwargs: Any
+        self, organization_id: str, total_pages=1, direction="next", **kwargs: Any
     ) -> Generator[Any, None, None]:
         """List the failover events of wireless LAN controllers in an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-controller-devices-redundancy-failover-history
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
@@ -825,8 +825,8 @@ class WirelessController:
             ],
             "operation": "get_organization_wireless_controller_devices_redundancy_failover_history",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/wirelessController/devices/redundancy/failover/history"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/wirelessController/devices/redundancy/failover/history"
 
         query_params = [
             "serials",
@@ -850,14 +850,14 @@ class WirelessController:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def get_organization_wireless_controller_devices_redundancy_statuses(
-        self, organizationId: str, total_pages=1, direction="next", **kwargs: Any
+        self, organization_id: str, total_pages=1, direction="next", **kwargs: Any
     ) -> Generator[Any, None, None]:
         """List redundancy details of wireless LAN controllers in an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-controller-devices-redundancy-statuses
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
@@ -881,8 +881,10 @@ class WirelessController:
             "tags": ["wirelessController", "monitor", "devices", "redundancy", "statuses"],
             "operation": "get_organization_wireless_controller_devices_redundancy_statuses",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/wirelessController/devices/redundancy/statuses"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = (
+            f"/organizations/{organization_id}/wirelessController/devices/redundancy/statuses"
+        )
 
         query_params = [
             "serials",
@@ -903,14 +905,14 @@ class WirelessController:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def get_organization_wireless_controller_devices_system_utilization_history_by_interval(
-        self, organizationId: str, total_pages=1, direction="next", **kwargs: Any
+        self, organization_id: str, total_pages=1, direction="next", **kwargs: Any
     ) -> Generator[Any, None, None]:
         """List cpu utilization data of wireless LAN controllers in an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-controller-devices-system-utilization-history-by-interval
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
@@ -948,8 +950,8 @@ class WirelessController:
             ],
             "operation": "get_organization_wireless_controller_devices_system_utilization_history_by_interval",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/wirelessController/devices/system/utilization/history/byInterval"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/wirelessController/devices/system/utilization/history/byInterval"
 
         query_params = [
             "serials",
@@ -973,14 +975,14 @@ class WirelessController:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def get_organization_wireless_controller_overview_by_device(
-        self, organizationId: str, total_pages=1, direction="next", **kwargs: Any
+        self, organization_id: str, total_pages=1, direction="next", **kwargs: Any
     ) -> Generator[Any, None, None]:
         """List the overview information of wireless LAN controllers in an organization and it is updated every minute.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-controller-overview-by-device
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
@@ -1006,8 +1008,8 @@ class WirelessController:
             "tags": ["wirelessController", "monitor", "overview", "byDevice"],
             "operation": "get_organization_wireless_controller_overview_by_device",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/wirelessController/overview/byDevice"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/wirelessController/overview/byDevice"
 
         query_params = [
             "networkIds",

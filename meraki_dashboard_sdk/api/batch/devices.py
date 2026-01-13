@@ -37,6 +37,7 @@ class ActionBatchDevices:
         kwargs.update(locals())
 
         metadata = {"tags": ["devices", "configure"], "operation": "update_device"}
+        serial = urllib.parse.quote(serial, safe="")
         resource = f"/devices/{serial}"
 
         body_params = [
@@ -74,6 +75,7 @@ class ActionBatchDevices:
             "tags": ["devices", "liveTools", "leds", "blink"],
             "operation": "create_device_live_tools_leds_blink",
         }
+        serial = urllib.parse.quote(serial, safe="")
         resource = f"/devices/{serial}/liveTools/leds/blink"
 
         body_params = [
@@ -103,6 +105,7 @@ class ActionBatchDevices:
             "tags": ["devices", "liveTools", "throughputTest"],
             "operation": "create_device_live_tools_throughput_test",
         }
+        serial = urllib.parse.quote(serial, safe="")
         resource = f"/devices/{serial}/liveTools/throughputTest"
 
         body_params = [
@@ -129,6 +132,7 @@ class ActionBatchDevices:
             "tags": ["devices", "configure", "managementInterface"],
             "operation": "update_device_management_interface",
         }
+        serial = urllib.parse.quote(serial, safe="")
         resource = f"/devices/{serial}/managementInterface"
 
         body_params = [

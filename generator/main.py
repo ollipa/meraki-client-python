@@ -467,6 +467,17 @@ async def generate_library(spec: dict[str, Any], version_number: str, api_versio
                     parameters = endpoint.get("parameters", None)
                     request_body = endpoint.get("requestBody", None)
 
+                    # Get path params once and convert to snake_case
+                    orig_path_params = parse_params(
+                        operation, parameters, request_body, spec, "path"
+                    )
+                    path_params = {to_snake_case(k): v for k, v in orig_path_params.items()}
+                    resource = path
+                    for orig_name in orig_path_params:
+                        resource = resource.replace(
+                            f"{{{orig_name}}}", f"{{{to_snake_case(orig_name)}}}"
+                        )
+
                     # Function definition
                     definition = ""
                     parsed_params = parse_params(
@@ -474,18 +485,19 @@ async def generate_library(spec: dict[str, Any], version_number: str, api_versio
                     )
                     if parsed_params:
                         for p, values in parsed_params.items():
+                            param_name = to_snake_case(p) if p in orig_path_params else p
                             if values["type"] == "array":
-                                definition += f", {p}: list"
+                                definition += f", {param_name}: list"
                             elif values["type"] == "number":
-                                definition += f", {p}: float"
+                                definition += f", {param_name}: float"
                             elif values["type"] == "integer":
-                                definition += f", {p}: int"
+                                definition += f", {param_name}: int"
                             elif values["type"] == "boolean":
-                                definition += f", {p}: bool"
+                                definition += f", {param_name}: bool"
                             elif values["type"] == "object":
-                                definition += f", {p}: dict"
+                                definition += f", {param_name}: dict"
                             elif values["type"] == "string":
-                                definition += f", {p}: str"
+                                definition += f", {param_name}: str"
 
                         all_parsed_params = parse_params(operation, parameters, request_body, spec)
                         if "perPage" in all_parsed_params:
@@ -513,8 +525,9 @@ async def generate_library(spec: dict[str, Any], version_number: str, api_versio
                     )
                     if all_params:
                         for p, values in all_params.items():
+                            param_name = to_snake_case(p) if p in orig_path_params else p
                             param_descriptions.append(
-                                format_param_description(p, values["description"])
+                                format_param_description(param_name, values["description"])
                             )
 
                     # Combine keyword args with locals
@@ -543,7 +556,7 @@ async def generate_library(spec: dict[str, Any], version_number: str, api_versio
                             assert_blocks.append((p, values["enum"]))
 
                     # Function body for GET endpoints
-                    query_params = array_params = body_params = path_params = {}
+                    query_params = array_params = body_params = {}
                     is_paginated = False
                     if method == "get":
                         query_params = parse_params(
@@ -551,9 +564,6 @@ async def generate_library(spec: dict[str, Any], version_number: str, api_versio
                         )
                         array_params = parse_params(
                             operation, parameters, request_body, spec, "array"
-                        )
-                        path_params = parse_params(
-                            operation, parameters, request_body, spec, "path"
                         )
                         pagination_params = parse_params(
                             operation, parameters, request_body, spec, "pagination"
@@ -583,9 +593,6 @@ async def generate_library(spec: dict[str, Any], version_number: str, api_versio
                         body_params = parse_params(
                             operation, parameters, request_body, spec, "body"
                         )
-                        path_params = parse_params(
-                            operation, parameters, request_body, spec, "path"
-                        )
                         if body_params:
                             call_line = (
                                 f"return self._session.{method}(metadata, resource, payload)"
@@ -595,9 +602,6 @@ async def generate_library(spec: dict[str, Any], version_number: str, api_versio
 
                     # Function body for DELETE endpoints
                     elif method == "delete":
-                        path_params = parse_params(
-                            operation, parameters, request_body, spec, "path"
-                        )
                         call_line = "return self._session.delete(metadata, resource)"
                     else:
                         raise ValueError(f"Unsupported method: {method}")
@@ -630,7 +634,7 @@ async def generate_library(spec: dict[str, Any], version_number: str, api_versio
                                 all_params=list(all_params.keys()),
                                 assert_blocks=assert_blocks,
                                 tags=tags,
-                                resource=path,
+                                resource=resource,
                                 query_params=query_params,
                                 array_params=array_params,
                                 body_params=body_params,
@@ -651,7 +655,7 @@ async def generate_library(spec: dict[str, Any], version_number: str, api_versio
                                 all_params=list(all_params.keys()),
                                 assert_blocks=assert_blocks,
                                 tags=tags,
-                                resource=path,
+                                resource=resource,
                                 query_params=query_params,
                                 array_params=array_params,
                                 body_params=body_params,
@@ -677,6 +681,17 @@ async def generate_library(spec: dict[str, Any], version_number: str, api_versio
                         parameters = endpoint.get("parameters", None)
                         request_body = endpoint.get("requestBody", None)
 
+                        # Get path params once and convert to snake_case
+                        orig_path_params = parse_params(
+                            operation, parameters, request_body, spec, "path"
+                        )
+                        path_params = {to_snake_case(k): v for k, v in orig_path_params.items()}
+                        resource = path
+                        for orig_name in orig_path_params:
+                            resource = resource.replace(
+                                f"{{{orig_name}}}", f"{{{to_snake_case(orig_name)}}}"
+                            )
+
                         # Function definition
                         definition = ""
                         parsed_params = parse_params(
@@ -684,18 +699,19 @@ async def generate_library(spec: dict[str, Any], version_number: str, api_versio
                         )
                         if parsed_params:
                             for p, values in parsed_params.items():
+                                param_name = to_snake_case(p) if p in orig_path_params else p
                                 if values["type"] == "array":
-                                    definition += f", {p}: list"
+                                    definition += f", {param_name}: list"
                                 elif values["type"] == "number":
-                                    definition += f", {p}: float"
+                                    definition += f", {param_name}: float"
                                 elif values["type"] == "integer":
-                                    definition += f", {p}: int"
+                                    definition += f", {param_name}: int"
                                 elif values["type"] == "boolean":
-                                    definition += f", {p}: bool"
+                                    definition += f", {param_name}: bool"
                                 elif values["type"] == "object":
-                                    definition += f", {p}: dict"
+                                    definition += f", {param_name}: dict"
                                 elif values["type"] == "string":
-                                    definition += f", {p}: str"
+                                    definition += f", {param_name}: str"
 
                             all_parsed_params = parse_params(
                                 operation, parameters, request_body, spec
@@ -725,8 +741,9 @@ async def generate_library(spec: dict[str, Any], version_number: str, api_versio
                         )
                         if all_params:
                             for p, values in all_params.items():
+                                param_name = to_snake_case(p) if p in orig_path_params else p
                                 param_descriptions.append(
-                                    format_param_description(p, values["description"])
+                                    format_param_description(param_name, values["description"])
                                 )
 
                         # Combine keyword args with locals
@@ -795,10 +812,11 @@ async def generate_library(spec: dict[str, Any], version_number: str, api_versio
                                     all_params=list(all_params.keys()),
                                     assert_blocks=assert_blocks,
                                     tags=tags,
-                                    resource=path,
+                                    resource=resource,
                                     query_params=query_params,
                                     array_params=array_params,
                                     body_params=body_params,
+                                    path_params=path_params,
                                     call_line=call_line,
                                     batch_operation=batch_operation,
                                 )

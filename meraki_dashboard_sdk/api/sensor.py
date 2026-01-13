@@ -127,14 +127,14 @@ class Sensor:
 
         return self._session.post(metadata, resource, payload)
 
-    def get_device_sensor_command(self, serial: str, commandId: str) -> dict[str, Any] | None:
+    def get_device_sensor_command(self, serial: str, command_id: str) -> dict[str, Any] | None:
         """Returns information about the command's execution, including the status.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device-sensor-command
 
         Args:
             serial: Serial.
-            commandId: Command ID.
+            command_id: Command ID.
 
         """
         metadata = {
@@ -142,8 +142,8 @@ class Sensor:
             "operation": "get_device_sensor_command",
         }
         serial = urllib.parse.quote(str(serial), safe="")
-        commandId = urllib.parse.quote(str(commandId), safe="")
-        resource = f"/devices/{serial}/sensor/commands/{commandId}"
+        command_id = urllib.parse.quote(str(command_id), safe="")
+        resource = f"/devices/{serial}/sensor/commands/{command_id}"
 
         return self._session.get(metadata, resource)
 
@@ -196,34 +196,34 @@ class Sensor:
         return self._session.put(metadata, resource, payload)
 
     def get_network_sensor_alerts_current_overview_by_metric(
-        self, networkId: str
+        self, network_id: str
     ) -> dict[str, Any] | None:
         """Return an overview of currently alerting sensors by metric.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-sensor-alerts-current-overview-by-metric
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
 
         """
         metadata = {
             "tags": ["sensor", "monitor", "alerts", "current", "overview", "byMetric"],
             "operation": "get_network_sensor_alerts_current_overview_by_metric",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        resource = f"/networks/{networkId}/sensor/alerts/current/overview/byMetric"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        resource = f"/networks/{network_id}/sensor/alerts/current/overview/byMetric"
 
         return self._session.get(metadata, resource)
 
     def get_network_sensor_alerts_overview_by_metric(
-        self, networkId: str, **kwargs: Any
+        self, network_id: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Return an overview of alert occurrences over a timespan, by metric.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-sensor-alerts-overview-by-metric
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             t0: The beginning of the timespan for the data. The maximum lookback period is 731 days
               from today.
             t1: The end of the timespan for the data. t1 can be a maximum of 366 days after t0.
@@ -242,8 +242,8 @@ class Sensor:
             "tags": ["sensor", "monitor", "alerts", "overview", "byMetric"],
             "operation": "get_network_sensor_alerts_overview_by_metric",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        resource = f"/networks/{networkId}/sensor/alerts/overview/byMetric"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        resource = f"/networks/{network_id}/sensor/alerts/overview/byMetric"
 
         query_params = [
             "t0",
@@ -255,33 +255,33 @@ class Sensor:
 
         return self._session.get(metadata, resource, params)
 
-    def get_network_sensor_alerts_profiles(self, networkId: str) -> dict[str, Any] | None:
+    def get_network_sensor_alerts_profiles(self, network_id: str) -> dict[str, Any] | None:
         """Lists all sensor alert profiles for a network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-sensor-alerts-profiles
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
 
         """
         metadata = {
             "tags": ["sensor", "configure", "alerts", "profiles"],
             "operation": "get_network_sensor_alerts_profiles",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        resource = f"/networks/{networkId}/sensor/alerts/profiles"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        resource = f"/networks/{network_id}/sensor/alerts/profiles"
 
         return self._session.get(metadata, resource)
 
     def create_network_sensor_alerts_profile(
-        self, networkId: str, name: str, conditions: list, **kwargs: Any
+        self, network_id: str, name: str, conditions: list, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Creates a sensor alert profile for a network.
 
         https://developer.cisco.com/meraki/api-v1/#!create-network-sensor-alerts-profile
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             name: Name of the sensor alert profile.
             conditions: List of conditions that will cause the profile to send an alert.
             schedule: The sensor schedule to use with the alert profile.
@@ -297,8 +297,8 @@ class Sensor:
             "tags": ["sensor", "configure", "alerts", "profiles"],
             "operation": "create_network_sensor_alerts_profile",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        resource = f"/networks/{networkId}/sensor/alerts/profiles"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        resource = f"/networks/{network_id}/sensor/alerts/profiles"
 
         body_params = [
             "name",
@@ -313,13 +313,13 @@ class Sensor:
 
         return self._session.post(metadata, resource, payload)
 
-    def get_network_sensor_alerts_profile(self, networkId: str, id: str) -> dict[str, Any] | None:
+    def get_network_sensor_alerts_profile(self, network_id: str, id: str) -> dict[str, Any] | None:
         """Show details of a sensor alert profile for a network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-sensor-alerts-profile
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             id: ID.
 
         """
@@ -327,21 +327,21 @@ class Sensor:
             "tags": ["sensor", "configure", "alerts", "profiles"],
             "operation": "get_network_sensor_alerts_profile",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
+        network_id = urllib.parse.quote(str(network_id), safe="")
         id = urllib.parse.quote(str(id), safe="")
-        resource = f"/networks/{networkId}/sensor/alerts/profiles/{id}"
+        resource = f"/networks/{network_id}/sensor/alerts/profiles/{id}"
 
         return self._session.get(metadata, resource)
 
     def update_network_sensor_alerts_profile(
-        self, networkId: str, id: str, **kwargs: Any
+        self, network_id: str, id: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Updates a sensor alert profile for a network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-sensor-alerts-profile
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             id: ID.
             name: Name of the sensor alert profile.
             schedule: The sensor schedule to use with the alert profile.
@@ -358,9 +358,9 @@ class Sensor:
             "tags": ["sensor", "configure", "alerts", "profiles"],
             "operation": "update_network_sensor_alerts_profile",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
+        network_id = urllib.parse.quote(str(network_id), safe="")
         id = urllib.parse.quote(str(id), safe="")
-        resource = f"/networks/{networkId}/sensor/alerts/profiles/{id}"
+        resource = f"/networks/{network_id}/sensor/alerts/profiles/{id}"
 
         body_params = [
             "name",
@@ -375,13 +375,13 @@ class Sensor:
 
         return self._session.put(metadata, resource, payload)
 
-    def delete_network_sensor_alerts_profile(self, networkId: str, id: str) -> None:
+    def delete_network_sensor_alerts_profile(self, network_id: str, id: str) -> None:
         """Deletes a sensor alert profile from a network.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-network-sensor-alerts-profile
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             id: ID.
 
         """
@@ -389,62 +389,62 @@ class Sensor:
             "tags": ["sensor", "configure", "alerts", "profiles"],
             "operation": "delete_network_sensor_alerts_profile",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
+        network_id = urllib.parse.quote(str(network_id), safe="")
         id = urllib.parse.quote(str(id), safe="")
-        resource = f"/networks/{networkId}/sensor/alerts/profiles/{id}"
+        resource = f"/networks/{network_id}/sensor/alerts/profiles/{id}"
 
         return self._session.delete(metadata, resource)
 
-    def get_network_sensor_mqtt_brokers(self, networkId: str) -> dict[str, Any] | None:
+    def get_network_sensor_mqtt_brokers(self, network_id: str) -> dict[str, Any] | None:
         """List the sensor settings of all MQTT brokers for this network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-sensor-mqtt-brokers
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
 
         """
         metadata = {
             "tags": ["sensor", "configure", "mqttBrokers"],
             "operation": "get_network_sensor_mqtt_brokers",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        resource = f"/networks/{networkId}/sensor/mqttBrokers"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        resource = f"/networks/{network_id}/sensor/mqttBrokers"
 
         return self._session.get(metadata, resource)
 
     def get_network_sensor_mqtt_broker(
-        self, networkId: str, mqttBrokerId: str
+        self, network_id: str, mqtt_broker_id: str
     ) -> dict[str, Any] | None:
         """Return the sensor settings of an MQTT broker.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-sensor-mqtt-broker
 
         Args:
-            networkId: Network ID.
-            mqttBrokerId: Mqtt broker ID.
+            network_id: Network ID.
+            mqtt_broker_id: Mqtt broker ID.
 
         """
         metadata = {
             "tags": ["sensor", "configure", "mqttBrokers"],
             "operation": "get_network_sensor_mqtt_broker",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        mqttBrokerId = urllib.parse.quote(str(mqttBrokerId), safe="")
-        resource = f"/networks/{networkId}/sensor/mqttBrokers/{mqttBrokerId}"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        mqtt_broker_id = urllib.parse.quote(str(mqtt_broker_id), safe="")
+        resource = f"/networks/{network_id}/sensor/mqttBrokers/{mqtt_broker_id}"
 
         return self._session.get(metadata, resource)
 
     def update_network_sensor_mqtt_broker(
-        self, networkId: str, mqttBrokerId: str, enabled: bool
+        self, network_id: str, mqtt_broker_id: str, enabled: bool
     ) -> dict[str, Any] | None:
         """Update the sensor settings of an MQTT broker.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-sensor-mqtt-broker
 
         Args:
-            networkId: Network ID.
-            mqttBrokerId: Mqtt broker ID.
+            network_id: Network ID.
+            mqtt_broker_id: Mqtt broker ID.
             enabled: Set to true to enable MQTT broker for sensor network.
 
         """
@@ -454,9 +454,9 @@ class Sensor:
             "tags": ["sensor", "configure", "mqttBrokers"],
             "operation": "update_network_sensor_mqtt_broker",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        mqttBrokerId = urllib.parse.quote(str(mqttBrokerId), safe="")
-        resource = f"/networks/{networkId}/sensor/mqttBrokers/{mqttBrokerId}"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        mqtt_broker_id = urllib.parse.quote(str(mqtt_broker_id), safe="")
+        resource = f"/networks/{network_id}/sensor/mqttBrokers/{mqtt_broker_id}"
 
         body_params = [
             "enabled",
@@ -465,33 +465,33 @@ class Sensor:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_network_sensor_relationships(self, networkId: str) -> dict[str, Any] | None:
+    def get_network_sensor_relationships(self, network_id: str) -> dict[str, Any] | None:
         """List the sensor roles for devices in a given network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-sensor-relationships
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
 
         """
         metadata = {
             "tags": ["sensor", "configure", "relationships"],
             "operation": "get_network_sensor_relationships",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        resource = f"/networks/{networkId}/sensor/relationships"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        resource = f"/networks/{network_id}/sensor/relationships"
 
         return self._session.get(metadata, resource)
 
     def get_organization_sensor_gateways_connections_latest(
-        self, organizationId: str, total_pages=1, direction="next", **kwargs: Any
+        self, organization_id: str, total_pages=1, direction="next", **kwargs: Any
     ) -> Generator[Any, None, None]:
         """Returns latest sensor-gateway connectivity data.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-sensor-gateways-connections-latest
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
@@ -514,8 +514,8 @@ class Sensor:
             "tags": ["sensor", "monitor", "gateways", "connections", "latest"],
             "operation": "get_organization_sensor_gateways_connections_latest",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/sensor/gateways/connections/latest"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/sensor/gateways/connections/latest"
 
         query_params = [
             "sensorSerials",
@@ -536,14 +536,14 @@ class Sensor:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def get_organization_sensor_readings_history(
-        self, organizationId: str, total_pages=1, direction="next", **kwargs: Any
+        self, organization_id: str, total_pages=1, direction="next", **kwargs: Any
     ) -> Generator[Any, None, None]:
         """Return all reported readings from sensors in a given timespan, sorted by timestamp.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-sensor-readings-history
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
@@ -575,8 +575,8 @@ class Sensor:
             "tags": ["sensor", "monitor", "readings", "history"],
             "operation": "get_organization_sensor_readings_history",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/sensor/readings/history"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/sensor/readings/history"
 
         query_params = [
             "perPage",
@@ -604,14 +604,14 @@ class Sensor:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def get_organization_sensor_readings_latest(
-        self, organizationId: str, total_pages=1, direction="next", **kwargs: Any
+        self, organization_id: str, total_pages=1, direction="next", **kwargs: Any
     ) -> Generator[Any, None, None]:
         """Return the latest available reading for each metric from each sensor, sorted by sensor serial.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-sensor-readings-latest
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
@@ -637,8 +637,8 @@ class Sensor:
             "tags": ["sensor", "monitor", "readings", "latest"],
             "operation": "get_organization_sensor_readings_latest",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/sensor/readings/latest"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/sensor/readings/latest"
 
         query_params = [
             "perPage",

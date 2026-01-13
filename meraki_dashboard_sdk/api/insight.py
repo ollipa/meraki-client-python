@@ -15,15 +15,15 @@ class Insight:
         self._session = session
 
     def get_network_insight_application_health_by_time(
-        self, networkId: str, applicationId: str, **kwargs: Any
+        self, network_id: str, application_id: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Get application health by time.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-insight-application-health-by-time
 
         Args:
-            networkId: Network ID.
-            applicationId: Application ID.
+            network_id: Network ID.
+            application_id: Application ID.
             t0: The beginning of the timespan for the data. The maximum lookback period is 7 days
               from today.
             t1: The end of the timespan for the data. t1 can be a maximum of 7 days after t0.
@@ -40,9 +40,9 @@ class Insight:
             "tags": ["insight", "monitor", "applications", "healthByTime"],
             "operation": "get_network_insight_application_health_by_time",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        applicationId = urllib.parse.quote(str(applicationId), safe="")
-        resource = f"/networks/{networkId}/insight/applications/{applicationId}/healthByTime"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        application_id = urllib.parse.quote(str(application_id), safe="")
+        resource = f"/networks/{network_id}/insight/applications/{application_id}/healthByTime"
 
         query_params = [
             "t0",
@@ -54,53 +54,53 @@ class Insight:
 
         return self._session.get(metadata, resource, params)
 
-    def get_organization_insight_applications(self, organizationId: str) -> dict[str, Any] | None:
+    def get_organization_insight_applications(self, organization_id: str) -> dict[str, Any] | None:
         """List all Insight tracked applications.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-insight-applications
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
 
         """
         metadata = {
             "tags": ["insight", "configure", "applications"],
             "operation": "get_organization_insight_applications",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/insight/applications"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/insight/applications"
 
         return self._session.get(metadata, resource)
 
     def get_organization_insight_monitored_media_servers(
-        self, organizationId: str
+        self, organization_id: str
     ) -> dict[str, Any] | None:
         """List the monitored media servers for this organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-insight-monitored-media-servers
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
 
         """
         metadata = {
             "tags": ["insight", "configure", "monitoredMediaServers"],
             "operation": "get_organization_insight_monitored_media_servers",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/insight/monitoredMediaServers"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/insight/monitoredMediaServers"
 
         return self._session.get(metadata, resource)
 
     def create_organization_insight_monitored_media_server(
-        self, organizationId: str, name: str, address: str, **kwargs: Any
+        self, organization_id: str, name: str, address: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Add a media server to be monitored for this organization.
 
         https://developer.cisco.com/meraki/api-v1/#!create-organization-insight-monitored-media-server
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             name: The name of the VoIP provider.
             address: The IP address (IPv4 only) or hostname of the media server to monitor.
             bestEffortMonitoringEnabled: Indicates that if the media server doesn't respond to ICMP
@@ -113,8 +113,8 @@ class Insight:
             "tags": ["insight", "configure", "monitoredMediaServers"],
             "operation": "create_organization_insight_monitored_media_server",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/insight/monitoredMediaServers"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/insight/monitoredMediaServers"
 
         body_params = [
             "name",
@@ -126,37 +126,37 @@ class Insight:
         return self._session.post(metadata, resource, payload)
 
     def get_organization_insight_monitored_media_server(
-        self, organizationId: str, monitoredMediaServerId: str
+        self, organization_id: str, monitored_media_server_id: str
     ) -> dict[str, Any] | None:
         """Return a monitored media server for this organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-insight-monitored-media-server
 
         Args:
-            organizationId: Organization ID.
-            monitoredMediaServerId: Monitored media server ID.
+            organization_id: Organization ID.
+            monitored_media_server_id: Monitored media server ID.
 
         """
         metadata = {
             "tags": ["insight", "configure", "monitoredMediaServers"],
             "operation": "get_organization_insight_monitored_media_server",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        monitoredMediaServerId = urllib.parse.quote(str(monitoredMediaServerId), safe="")
-        resource = f"/organizations/{organizationId}/insight/monitoredMediaServers/{monitoredMediaServerId}"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        monitored_media_server_id = urllib.parse.quote(str(monitored_media_server_id), safe="")
+        resource = f"/organizations/{organization_id}/insight/monitoredMediaServers/{monitored_media_server_id}"
 
         return self._session.get(metadata, resource)
 
     def update_organization_insight_monitored_media_server(
-        self, organizationId: str, monitoredMediaServerId: str, **kwargs: Any
+        self, organization_id: str, monitored_media_server_id: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Update a monitored media server for this organization.
 
         https://developer.cisco.com/meraki/api-v1/#!update-organization-insight-monitored-media-server
 
         Args:
-            organizationId: Organization ID.
-            monitoredMediaServerId: Monitored media server ID.
+            organization_id: Organization ID.
+            monitored_media_server_id: Monitored media server ID.
             name: The name of the VoIP provider.
             address: The IP address (IPv4 only) or hostname of the media server to monitor.
             bestEffortMonitoringEnabled: Indicates that if the media server doesn't respond to ICMP
@@ -169,9 +169,9 @@ class Insight:
             "tags": ["insight", "configure", "monitoredMediaServers"],
             "operation": "update_organization_insight_monitored_media_server",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        monitoredMediaServerId = urllib.parse.quote(str(monitoredMediaServerId), safe="")
-        resource = f"/organizations/{organizationId}/insight/monitoredMediaServers/{monitoredMediaServerId}"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        monitored_media_server_id = urllib.parse.quote(str(monitored_media_server_id), safe="")
+        resource = f"/organizations/{organization_id}/insight/monitoredMediaServers/{monitored_media_server_id}"
 
         body_params = [
             "name",
@@ -183,23 +183,23 @@ class Insight:
         return self._session.put(metadata, resource, payload)
 
     def delete_organization_insight_monitored_media_server(
-        self, organizationId: str, monitoredMediaServerId: str
+        self, organization_id: str, monitored_media_server_id: str
     ) -> None:
         """Delete a monitored media server from this organization.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-insight-monitored-media-server
 
         Args:
-            organizationId: Organization ID.
-            monitoredMediaServerId: Monitored media server ID.
+            organization_id: Organization ID.
+            monitored_media_server_id: Monitored media server ID.
 
         """
         metadata = {
             "tags": ["insight", "configure", "monitoredMediaServers"],
             "operation": "delete_organization_insight_monitored_media_server",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        monitoredMediaServerId = urllib.parse.quote(str(monitoredMediaServerId), safe="")
-        resource = f"/organizations/{organizationId}/insight/monitoredMediaServers/{monitoredMediaServerId}"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        monitored_media_server_id = urllib.parse.quote(str(monitored_media_server_id), safe="")
+        resource = f"/organizations/{organization_id}/insight/monitoredMediaServers/{monitored_media_server_id}"
 
         return self._session.delete(metadata, resource)

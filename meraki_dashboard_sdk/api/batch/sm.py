@@ -11,22 +11,24 @@ class ActionBatchSm:
         pass
 
     def delete_network_sm_user_access_device(
-        self, networkId: str, userAccessDeviceId: str
+        self, network_id: str, user_access_device_id: str
     ) -> dict[str, Any]:
         """Delete a User Access Device.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-network-sm-user-access-device
 
         Args:
-            networkId: Network ID.
-            userAccessDeviceId: User access device ID.
+            network_id: Network ID.
+            user_access_device_id: User access device ID.
 
         """
         metadata = {
             "tags": ["sm", "configure", "userAccessDevices"],
             "operation": "delete_network_sm_user_access_device",
         }
-        resource = f"/networks/{networkId}/sm/userAccessDevices/{userAccessDeviceId}"
+        network_id = urllib.parse.quote(network_id, safe="")
+        user_access_device_id = urllib.parse.quote(user_access_device_id, safe="")
+        resource = f"/networks/{network_id}/sm/userAccessDevices/{user_access_device_id}"
 
         action = {
             "resource": resource,
@@ -35,14 +37,14 @@ class ActionBatchSm:
         return action
 
     def create_organization_sm_admins_role(
-        self, organizationId: str, name: str, **kwargs: Any
+        self, organization_id: str, name: str, **kwargs: Any
     ) -> dict[str, Any]:
         """Create a Limited Access Role.
 
         https://developer.cisco.com/meraki/api-v1/#!create-organization-sm-admins-role
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             name: The name of the Limited Access Role.
             scope: The scope of the Limited Access Role.
             tags: The tags of the Limited Access Role.
@@ -60,7 +62,8 @@ class ActionBatchSm:
             "tags": ["sm", "configure", "admins", "roles"],
             "operation": "create_organization_sm_admins_role",
         }
-        resource = f"/organizations/{organizationId}/sm/admins/roles"
+        organization_id = urllib.parse.quote(organization_id, safe="")
+        resource = f"/organizations/{organization_id}/sm/admins/roles"
 
         body_params = [
             "name",
@@ -72,15 +75,15 @@ class ActionBatchSm:
         return action
 
     def update_organization_sm_admins_role(
-        self, organizationId: str, roleId: str, **kwargs: Any
+        self, organization_id: str, role_id: str, **kwargs: Any
     ) -> dict[str, Any]:
         """Update a Limited Access Role.
 
         https://developer.cisco.com/meraki/api-v1/#!update-organization-sm-admins-role
 
         Args:
-            organizationId: Organization ID.
-            roleId: Role ID.
+            organization_id: Organization ID.
+            role_id: Role ID.
             name: The name of the Limited Access Role.
             scope: The scope of the Limited Access Role.
             tags: The tags of the Limited Access Role.
@@ -98,7 +101,9 @@ class ActionBatchSm:
             "tags": ["sm", "configure", "admins", "roles"],
             "operation": "update_organization_sm_admins_role",
         }
-        resource = f"/organizations/{organizationId}/sm/admins/roles/{roleId}"
+        organization_id = urllib.parse.quote(organization_id, safe="")
+        role_id = urllib.parse.quote(role_id, safe="")
+        resource = f"/organizations/{organization_id}/sm/admins/roles/{role_id}"
 
         body_params = [
             "name",
@@ -110,22 +115,24 @@ class ActionBatchSm:
         return action
 
     def delete_organization_sm_admins_role(
-        self, organizationId: str, roleId: str
+        self, organization_id: str, role_id: str
     ) -> dict[str, Any]:
         """Delete a Limited Access Role.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-sm-admins-role
 
         Args:
-            organizationId: Organization ID.
-            roleId: Role ID.
+            organization_id: Organization ID.
+            role_id: Role ID.
 
         """
         metadata = {
             "tags": ["sm", "configure", "admins", "roles"],
             "operation": "delete_organization_sm_admins_role",
         }
-        resource = f"/organizations/{organizationId}/sm/admins/roles/{roleId}"
+        organization_id = urllib.parse.quote(organization_id, safe="")
+        role_id = urllib.parse.quote(role_id, safe="")
+        resource = f"/organizations/{organization_id}/sm/admins/roles/{role_id}"
 
         action = {
             "resource": resource,
@@ -134,14 +141,14 @@ class ActionBatchSm:
         return action
 
     def update_organization_sm_sentry_policies_assignments(
-        self, organizationId: str, items: list
+        self, organization_id: str, items: list
     ) -> dict[str, Any]:
         """Update an Organizations Sentry Policies using the provided list.
 
         https://developer.cisco.com/meraki/api-v1/#!update-organization-sm-sentry-policies-assignments
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             items: Sentry Group Policies for the Organization keyed by Network Id.
 
         """
@@ -151,7 +158,8 @@ class ActionBatchSm:
             "tags": ["sm", "configure", "sentry", "policies", "assignments"],
             "operation": "update_organization_sm_sentry_policies_assignments",
         }
-        resource = f"/organizations/{organizationId}/sm/sentry/policies/assignments"
+        organization_id = urllib.parse.quote(organization_id, safe="")
+        resource = f"/organizations/{organization_id}/sm/sentry/policies/assignments"
 
         body_params = [
             "items",

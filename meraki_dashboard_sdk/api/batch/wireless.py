@@ -28,6 +28,7 @@ class ActionBatchWireless:
             "tags": ["wireless", "configure", "alternateManagementInterface", "ipv6"],
             "operation": "update_device_wireless_alternate_management_interface_ipv6",
         }
+        serial = urllib.parse.quote(serial, safe="")
         resource = f"/devices/{serial}/wireless/alternateManagementInterface/ipv6"
 
         body_params = [
@@ -60,6 +61,7 @@ class ActionBatchWireless:
             "tags": ["wireless", "configure", "bluetooth", "settings"],
             "operation": "update_device_wireless_bluetooth_settings",
         }
+        serial = urllib.parse.quote(serial, safe="")
         resource = f"/devices/{serial}/wireless/bluetooth/settings"
 
         body_params = [
@@ -91,6 +93,7 @@ class ActionBatchWireless:
             "tags": ["wireless", "configure", "electronicShelfLabel"],
             "operation": "update_device_wireless_electronic_shelf_label",
         }
+        serial = urllib.parse.quote(serial, safe="")
         resource = f"/devices/{serial}/wireless/electronicShelfLabel"
 
         body_params = [
@@ -123,6 +126,7 @@ class ActionBatchWireless:
             "tags": ["wireless", "configure", "radio", "settings"],
             "operation": "update_device_wireless_radio_settings",
         }
+        serial = urllib.parse.quote(serial, safe="")
         resource = f"/devices/{serial}/wireless/radio/settings"
 
         body_params = [
@@ -135,14 +139,14 @@ class ActionBatchWireless:
         return action
 
     def create_network_wireless_air_marshal_rule(
-        self, networkId: str, type: str, match: dict
+        self, network_id: str, type: str, match: dict
     ) -> dict[str, Any]:
         """Creates a new rule.
 
         https://developer.cisco.com/meraki/api-v1/#!create-network-wireless-air-marshal-rule
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             type: Indicates if this rule will allow, block, or alert.
             match: Object describing the rule specification.
 
@@ -159,7 +163,8 @@ class ActionBatchWireless:
             "tags": ["wireless", "configure", "airMarshal", "rules"],
             "operation": "create_network_wireless_air_marshal_rule",
         }
-        resource = f"/networks/{networkId}/wireless/airMarshal/rules"
+        network_id = urllib.parse.quote(network_id, safe="")
+        resource = f"/networks/{network_id}/wireless/airMarshal/rules"
 
         body_params = [
             "type",
@@ -170,15 +175,15 @@ class ActionBatchWireless:
         return action
 
     def update_network_wireless_air_marshal_rule(
-        self, networkId: str, ruleId: str, **kwargs: Any
+        self, network_id: str, rule_id: str, **kwargs: Any
     ) -> dict[str, Any]:
         """Update a rule.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-air-marshal-rule
 
         Args:
-            networkId: Network ID.
-            ruleId: Rule ID.
+            network_id: Network ID.
+            rule_id: Rule ID.
             type: Indicates if this rule will allow, block, or alert.
             match: Object describing the rule specification.
 
@@ -195,7 +200,9 @@ class ActionBatchWireless:
             "tags": ["wireless", "configure", "airMarshal", "rules"],
             "operation": "update_network_wireless_air_marshal_rule",
         }
-        resource = f"/networks/{networkId}/wireless/airMarshal/rules/{ruleId}"
+        network_id = urllib.parse.quote(network_id, safe="")
+        rule_id = urllib.parse.quote(rule_id, safe="")
+        resource = f"/networks/{network_id}/wireless/airMarshal/rules/{rule_id}"
 
         body_params = [
             "type",
@@ -206,22 +213,24 @@ class ActionBatchWireless:
         return action
 
     def delete_network_wireless_air_marshal_rule(
-        self, networkId: str, ruleId: str
+        self, network_id: str, rule_id: str
     ) -> dict[str, Any]:
         """Delete an Air Marshal rule.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-network-wireless-air-marshal-rule
 
         Args:
-            networkId: Network ID.
-            ruleId: Rule ID.
+            network_id: Network ID.
+            rule_id: Rule ID.
 
         """
         metadata = {
             "tags": ["wireless", "configure", "airMarshal", "rules"],
             "operation": "delete_network_wireless_air_marshal_rule",
         }
-        resource = f"/networks/{networkId}/wireless/airMarshal/rules/{ruleId}"
+        network_id = urllib.parse.quote(network_id, safe="")
+        rule_id = urllib.parse.quote(rule_id, safe="")
+        resource = f"/networks/{network_id}/wireless/airMarshal/rules/{rule_id}"
 
         action = {
             "resource": resource,
@@ -230,14 +239,14 @@ class ActionBatchWireless:
         return action
 
     def update_network_wireless_air_marshal_settings(
-        self, networkId: str, defaultPolicy: str
+        self, network_id: str, defaultPolicy: str
     ) -> dict[str, Any]:
         """Updates Air Marshal settings.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-air-marshal-settings
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             defaultPolicy: Allows clients to access rogue networks. Blocked by default.
 
         """
@@ -253,7 +262,8 @@ class ActionBatchWireless:
             "tags": ["wireless", "configure", "airMarshal", "settings"],
             "operation": "update_network_wireless_air_marshal_settings",
         }
-        resource = f"/networks/{networkId}/wireless/airMarshal/settings"
+        network_id = urllib.parse.quote(network_id, safe="")
+        resource = f"/networks/{network_id}/wireless/airMarshal/settings"
 
         body_params = [
             "defaultPolicy",
@@ -263,14 +273,14 @@ class ActionBatchWireless:
         return action
 
     def update_network_wireless_alternate_management_interface(
-        self, networkId: str, **kwargs: Any
+        self, network_id: str, **kwargs: Any
     ) -> dict[str, Any]:
         """Update alternate management interface and device static IP.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-alternate-management-interface
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             enabled: Boolean value to enable or disable alternate management interface.
             vlanId: Alternate management interface VLAN, must be between 1 and 4094.
             protocols: Can be one or more of the following values: 'radius', 'snmp', 'syslog' or
@@ -288,7 +298,8 @@ class ActionBatchWireless:
             "tags": ["wireless", "configure", "alternateManagementInterface"],
             "operation": "update_network_wireless_alternate_management_interface",
         }
-        resource = f"/networks/{networkId}/wireless/alternateManagementInterface"
+        network_id = urllib.parse.quote(network_id, safe="")
+        resource = f"/networks/{network_id}/wireless/alternateManagementInterface"
 
         body_params = [
             "enabled",
@@ -300,13 +311,13 @@ class ActionBatchWireless:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def update_network_wireless_billing(self, networkId: str, **kwargs: Any) -> dict[str, Any]:
+    def update_network_wireless_billing(self, network_id: str, **kwargs: Any) -> dict[str, Any]:
         """Update the billing settings.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-billing
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             currency: The currency code of this node group's billing plans.
             plans: Array of billing plans in the node group. (Can configure a maximum of 5).
 
@@ -317,7 +328,8 @@ class ActionBatchWireless:
             "tags": ["wireless", "configure", "billing"],
             "operation": "update_network_wireless_billing",
         }
-        resource = f"/networks/{networkId}/wireless/billing"
+        network_id = urllib.parse.quote(network_id, safe="")
+        resource = f"/networks/{network_id}/wireless/billing"
 
         body_params = [
             "currency",
@@ -328,14 +340,14 @@ class ActionBatchWireless:
         return action
 
     def update_network_wireless_electronic_shelf_label(
-        self, networkId: str, **kwargs: Any
+        self, network_id: str, **kwargs: Any
     ) -> dict[str, Any]:
         """Update the ESL settings of a wireless network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-electronic-shelf-label
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             hostname: Desired ESL hostname of the network.
             enabled: Turn ESL features on and off for this network.
             mode: Electronic shelf label mode of the network. Valid options are 'Bluetooth', 'high
@@ -354,7 +366,8 @@ class ActionBatchWireless:
             "tags": ["wireless", "configure", "electronicShelfLabel"],
             "operation": "update_network_wireless_electronic_shelf_label",
         }
-        resource = f"/networks/{networkId}/wireless/electronicShelfLabel"
+        network_id = urllib.parse.quote(network_id, safe="")
+        resource = f"/networks/{network_id}/wireless/electronicShelfLabel"
 
         body_params = [
             "hostname",
@@ -366,14 +379,14 @@ class ActionBatchWireless:
         return action
 
     def create_network_wireless_ethernet_ports_profile(
-        self, networkId: str, name: str, ports: list, **kwargs: Any
+        self, network_id: str, name: str, ports: list, **kwargs: Any
     ) -> dict[str, Any]:
         """Create an AP port profile.
 
         https://developer.cisco.com/meraki/api-v1/#!create-network-wireless-ethernet-ports-profile
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             name: AP port profile name.
             ports: AP ports configuration.
             usbPorts: AP usb ports configuration.
@@ -385,7 +398,8 @@ class ActionBatchWireless:
             "tags": ["wireless", "configure", "ethernet", "ports", "profiles"],
             "operation": "create_network_wireless_ethernet_ports_profile",
         }
-        resource = f"/networks/{networkId}/wireless/ethernet/ports/profiles"
+        network_id = urllib.parse.quote(network_id, safe="")
+        resource = f"/networks/{network_id}/wireless/ethernet/ports/profiles"
 
         body_params = [
             "name",
@@ -397,14 +411,14 @@ class ActionBatchWireless:
         return action
 
     def assign_network_wireless_ethernet_ports_profiles(
-        self, networkId: str, serials: list, profileId: str
+        self, network_id: str, serials: list, profileId: str
     ) -> dict[str, Any]:
         """Assign AP port profile to list of APs.
 
         https://developer.cisco.com/meraki/api-v1/#!assign-network-wireless-ethernet-ports-profiles
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             serials: List of AP serials.
             profileId: AP profile ID.
 
@@ -415,7 +429,8 @@ class ActionBatchWireless:
             "tags": ["wireless", "configure", "ethernet", "ports", "profiles"],
             "operation": "assign_network_wireless_ethernet_ports_profiles",
         }
-        resource = f"/networks/{networkId}/wireless/ethernet/ports/profiles/assign"
+        network_id = urllib.parse.quote(network_id, safe="")
+        resource = f"/networks/{network_id}/wireless/ethernet/ports/profiles/assign"
 
         body_params = [
             "serials",
@@ -426,14 +441,14 @@ class ActionBatchWireless:
         return action
 
     def set_network_wireless_ethernet_ports_profiles_default(
-        self, networkId: str, profileId: str
+        self, network_id: str, profileId: str
     ) -> dict[str, Any]:
         """Set the AP port profile to be default for this network.
 
         https://developer.cisco.com/meraki/api-v1/#!set-network-wireless-ethernet-ports-profiles-default
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             profileId: AP profile ID.
 
         """
@@ -443,7 +458,8 @@ class ActionBatchWireless:
             "tags": ["wireless", "configure", "ethernet", "ports", "profiles"],
             "operation": "set_network_wireless_ethernet_ports_profiles_default",
         }
-        resource = f"/networks/{networkId}/wireless/ethernet/ports/profiles/setDefault"
+        network_id = urllib.parse.quote(network_id, safe="")
+        resource = f"/networks/{network_id}/wireless/ethernet/ports/profiles/setDefault"
 
         body_params = [
             "profileId",
@@ -453,15 +469,15 @@ class ActionBatchWireless:
         return action
 
     def update_network_wireless_ethernet_ports_profile(
-        self, networkId: str, profileId: str, **kwargs: Any
+        self, network_id: str, profile_id: str, **kwargs: Any
     ) -> dict[str, Any]:
         """Update the AP port profile by ID for this network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ethernet-ports-profile
 
         Args:
-            networkId: Network ID.
-            profileId: Profile ID.
+            network_id: Network ID.
+            profile_id: Profile ID.
             name: AP port profile name.
             ports: AP ports configuration.
             usbPorts: AP usb ports configuration.
@@ -473,7 +489,9 @@ class ActionBatchWireless:
             "tags": ["wireless", "configure", "ethernet", "ports", "profiles"],
             "operation": "update_network_wireless_ethernet_ports_profile",
         }
-        resource = f"/networks/{networkId}/wireless/ethernet/ports/profiles/{profileId}"
+        network_id = urllib.parse.quote(network_id, safe="")
+        profile_id = urllib.parse.quote(profile_id, safe="")
+        resource = f"/networks/{network_id}/wireless/ethernet/ports/profiles/{profile_id}"
 
         body_params = [
             "name",
@@ -485,22 +503,24 @@ class ActionBatchWireless:
         return action
 
     def delete_network_wireless_ethernet_ports_profile(
-        self, networkId: str, profileId: str
+        self, network_id: str, profile_id: str
     ) -> dict[str, Any]:
         """Delete an AP port profile.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-network-wireless-ethernet-ports-profile
 
         Args:
-            networkId: Network ID.
-            profileId: Profile ID.
+            network_id: Network ID.
+            profile_id: Profile ID.
 
         """
         metadata = {
             "tags": ["wireless", "configure", "ethernet", "ports", "profiles"],
             "operation": "delete_network_wireless_ethernet_ports_profile",
         }
-        resource = f"/networks/{networkId}/wireless/ethernet/ports/profiles/{profileId}"
+        network_id = urllib.parse.quote(network_id, safe="")
+        profile_id = urllib.parse.quote(profile_id, safe="")
+        resource = f"/networks/{network_id}/wireless/ethernet/ports/profiles/{profile_id}"
 
         action = {
             "resource": resource,
@@ -509,14 +529,14 @@ class ActionBatchWireless:
         return action
 
     def update_network_wireless_location_scanning(
-        self, networkId: str, **kwargs: Any
+        self, network_id: str, **kwargs: Any
     ) -> dict[str, Any]:
         """Change scanning API settings.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-location-scanning
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             enabled: Collect location and scanning analytics.
             api: Enable push API for scanning events, analytics must be enabled.
 
@@ -527,7 +547,8 @@ class ActionBatchWireless:
             "tags": ["wireless", "configure", "location", "scanning"],
             "operation": "update_network_wireless_location_scanning",
         }
-        resource = f"/networks/{networkId}/wireless/location/scanning"
+        network_id = urllib.parse.quote(network_id, safe="")
+        resource = f"/networks/{network_id}/wireless/location/scanning"
 
         body_params = [
             "enabled",
@@ -538,14 +559,14 @@ class ActionBatchWireless:
         return action
 
     def create_network_wireless_rf_profile(
-        self, networkId: str, name: str, bandSelectionType: str, **kwargs: Any
+        self, network_id: str, name: str, bandSelectionType: str, **kwargs: Any
     ) -> dict[str, Any]:
         """Creates new RF profile for this network.
 
         https://developer.cisco.com/meraki/api-v1/#!create-network-wireless-rf-profile
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             name: The name of the new profile. Must be unique. This param is required on creation.
             bandSelectionType: Band selection can be set to either 'ssid' or 'ap'. This param is
               required on creation.
@@ -579,7 +600,8 @@ class ActionBatchWireless:
             "tags": ["wireless", "configure", "rfProfiles"],
             "operation": "create_network_wireless_rf_profile",
         }
-        resource = f"/networks/{networkId}/wireless/rfProfiles"
+        network_id = urllib.parse.quote(network_id, safe="")
+        resource = f"/networks/{network_id}/wireless/rfProfiles"
 
         body_params = [
             "name",
@@ -599,15 +621,15 @@ class ActionBatchWireless:
         return action
 
     def update_network_wireless_rf_profile(
-        self, networkId: str, rfProfileId: str, **kwargs: Any
+        self, network_id: str, rf_profile_id: str, **kwargs: Any
     ) -> dict[str, Any]:
         """Updates specified RF profile for this network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-rf-profile
 
         Args:
-            networkId: Network ID.
-            rfProfileId: Rf profile ID.
+            network_id: Network ID.
+            rf_profile_id: Rf profile ID.
             name: The name of the new profile. Must be unique.
             isIndoorDefault: Set this profile as the default indoor rf profile. If the profile ID is
               one of 'indoor' or 'outdoor',   then a new profile will be created from
@@ -646,7 +668,9 @@ class ActionBatchWireless:
             "tags": ["wireless", "configure", "rfProfiles"],
             "operation": "update_network_wireless_rf_profile",
         }
-        resource = f"/networks/{networkId}/wireless/rfProfiles/{rfProfileId}"
+        network_id = urllib.parse.quote(network_id, safe="")
+        rf_profile_id = urllib.parse.quote(rf_profile_id, safe="")
+        resource = f"/networks/{network_id}/wireless/rfProfiles/{rf_profile_id}"
 
         body_params = [
             "name",
@@ -668,22 +692,24 @@ class ActionBatchWireless:
         return action
 
     def delete_network_wireless_rf_profile(
-        self, networkId: str, rfProfileId: str
+        self, network_id: str, rf_profile_id: str
     ) -> dict[str, Any]:
         """Delete a RF Profile.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-network-wireless-rf-profile
 
         Args:
-            networkId: Network ID.
-            rfProfileId: Rf profile ID.
+            network_id: Network ID.
+            rf_profile_id: Rf profile ID.
 
         """
         metadata = {
             "tags": ["wireless", "configure", "rfProfiles"],
             "operation": "delete_network_wireless_rf_profile",
         }
-        resource = f"/networks/{networkId}/wireless/rfProfiles/{rfProfileId}"
+        network_id = urllib.parse.quote(network_id, safe="")
+        rf_profile_id = urllib.parse.quote(rf_profile_id, safe="")
+        resource = f"/networks/{network_id}/wireless/rfProfiles/{rf_profile_id}"
 
         action = {
             "resource": resource,
@@ -691,13 +717,13 @@ class ActionBatchWireless:
         }
         return action
 
-    def update_network_wireless_settings(self, networkId: str, **kwargs: Any) -> dict[str, Any]:
+    def update_network_wireless_settings(self, network_id: str, **kwargs: Any) -> dict[str, Any]:
         """Update the wireless settings for a network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-settings
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             meshingEnabled: Toggle for enabling or disabling meshing in a network.
             ipv6BridgeEnabled: Toggle for enabling or disabling IPv6 bridging in a network (Note: if
               enabled, SSIDs must also be configured to use bridge mode).
@@ -722,7 +748,8 @@ class ActionBatchWireless:
             "tags": ["wireless", "configure", "settings"],
             "operation": "update_network_wireless_settings",
         }
-        resource = f"/networks/{networkId}/wireless/settings"
+        network_id = urllib.parse.quote(network_id, safe="")
+        resource = f"/networks/{network_id}/wireless/settings"
 
         body_params = [
             "meshingEnabled",
@@ -737,14 +764,14 @@ class ActionBatchWireless:
         return action
 
     def update_network_wireless_ssid(
-        self, networkId: str, number: str, **kwargs: Any
+        self, network_id: str, number: str, **kwargs: Any
     ) -> dict[str, Any]:
         """Update the attributes of an MR SSID.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             number: Number.
             name: The name of the SSID.
             enabled: Whether or not the SSID is enabled.
@@ -980,7 +1007,9 @@ class ActionBatchWireless:
             "tags": ["wireless", "configure", "ssids"],
             "operation": "update_network_wireless_ssid",
         }
-        resource = f"/networks/{networkId}/wireless/ssids/{number}"
+        network_id = urllib.parse.quote(network_id, safe="")
+        number = urllib.parse.quote(number, safe="")
+        resource = f"/networks/{network_id}/wireless/ssids/{number}"
 
         body_params = [
             "name",
@@ -1052,14 +1081,14 @@ class ActionBatchWireless:
         return action
 
     def update_network_wireless_ssid_bonjour_forwarding(
-        self, networkId: str, number: str, **kwargs: Any
+        self, network_id: str, number: str, **kwargs: Any
     ) -> dict[str, Any]:
         """Update the bonjour forwarding setting and rules for the SSID.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-bonjour-forwarding
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             number: Number.
             enabled: If true, Bonjour forwarding is enabled on this SSID.
             rules: List of bonjour forwarding rules.
@@ -1072,7 +1101,9 @@ class ActionBatchWireless:
             "tags": ["wireless", "configure", "ssids", "bonjourForwarding"],
             "operation": "update_network_wireless_ssid_bonjour_forwarding",
         }
-        resource = f"/networks/{networkId}/wireless/ssids/{number}/bonjourForwarding"
+        network_id = urllib.parse.quote(network_id, safe="")
+        number = urllib.parse.quote(number, safe="")
+        resource = f"/networks/{network_id}/wireless/ssids/{number}/bonjourForwarding"
 
         body_params = [
             "enabled",
@@ -1084,14 +1115,14 @@ class ActionBatchWireless:
         return action
 
     def update_network_wireless_ssid_device_type_group_policies(
-        self, networkId: str, number: str, **kwargs: Any
+        self, network_id: str, number: str, **kwargs: Any
     ) -> dict[str, Any]:
         """Update the device type group policies for the SSID.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-device-type-group-policies
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             number: Number.
             enabled: If true, the SSID device type group policies are enabled.
             deviceTypePolicies: List of device type policies.
@@ -1103,7 +1134,9 @@ class ActionBatchWireless:
             "tags": ["wireless", "configure", "ssids", "deviceTypeGroupPolicies"],
             "operation": "update_network_wireless_ssid_device_type_group_policies",
         }
-        resource = f"/networks/{networkId}/wireless/ssids/{number}/deviceTypeGroupPolicies"
+        network_id = urllib.parse.quote(network_id, safe="")
+        number = urllib.parse.quote(number, safe="")
+        resource = f"/networks/{network_id}/wireless/ssids/{number}/deviceTypeGroupPolicies"
 
         body_params = [
             "enabled",
@@ -1114,14 +1147,14 @@ class ActionBatchWireless:
         return action
 
     def update_network_wireless_ssid_eap_override(
-        self, networkId: str, number: str, **kwargs: Any
+        self, network_id: str, number: str, **kwargs: Any
     ) -> dict[str, Any]:
         """Update the EAP overridden parameters for an SSID.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-eap-override
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             number: Number.
             timeout: General EAP timeout in seconds.
             identity: EAP settings for identity requests.
@@ -1135,7 +1168,9 @@ class ActionBatchWireless:
             "tags": ["wireless", "configure", "ssids", "eapOverride"],
             "operation": "update_network_wireless_ssid_eap_override",
         }
-        resource = f"/networks/{networkId}/wireless/ssids/{number}/eapOverride"
+        network_id = urllib.parse.quote(network_id, safe="")
+        number = urllib.parse.quote(number, safe="")
+        resource = f"/networks/{network_id}/wireless/ssids/{number}/eapOverride"
 
         body_params = [
             "timeout",
@@ -1148,14 +1183,14 @@ class ActionBatchWireless:
         return action
 
     def update_network_wireless_ssid_firewall_l3_firewall_rules(
-        self, networkId: str, number: str, **kwargs: Any
+        self, network_id: str, number: str, **kwargs: Any
     ) -> dict[str, Any]:
         """Update the L3 firewall rules of an SSID on an MR network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-firewall-l-3-firewall-rules
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             number: Number.
             rules: An ordered array of the firewall rules for this SSID.
             allowLanAccess: Allow wireless client access to local LAN (boolean value - true allows
@@ -1168,7 +1203,9 @@ class ActionBatchWireless:
             "tags": ["wireless", "configure", "ssids", "firewall", "l3FirewallRules"],
             "operation": "update_network_wireless_ssid_firewall_l3_firewall_rules",
         }
-        resource = f"/networks/{networkId}/wireless/ssids/{number}/firewall/l3FirewallRules"
+        network_id = urllib.parse.quote(network_id, safe="")
+        number = urllib.parse.quote(number, safe="")
+        resource = f"/networks/{network_id}/wireless/ssids/{number}/firewall/l3FirewallRules"
 
         body_params = [
             "rules",
@@ -1179,14 +1216,14 @@ class ActionBatchWireless:
         return action
 
     def update_network_wireless_ssid_firewall_l7_firewall_rules(
-        self, networkId: str, number: str, **kwargs: Any
+        self, network_id: str, number: str, **kwargs: Any
     ) -> dict[str, Any]:
         """Update the L7 firewall rules of an SSID on an MR network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-firewall-l-7-firewall-rules
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             number: Number.
             rules: An array of L7 firewall rules for this SSID. Rules will get applied in the same
               order user has specified in request. Empty array will clear the L7
@@ -1199,7 +1236,9 @@ class ActionBatchWireless:
             "tags": ["wireless", "configure", "ssids", "firewall", "l7FirewallRules"],
             "operation": "update_network_wireless_ssid_firewall_l7_firewall_rules",
         }
-        resource = f"/networks/{networkId}/wireless/ssids/{number}/firewall/l7FirewallRules"
+        network_id = urllib.parse.quote(network_id, safe="")
+        number = urllib.parse.quote(number, safe="")
+        resource = f"/networks/{network_id}/wireless/ssids/{number}/firewall/l7FirewallRules"
 
         body_params = [
             "rules",
@@ -1209,14 +1248,14 @@ class ActionBatchWireless:
         return action
 
     def update_network_wireless_ssid_hotspot20(
-        self, networkId: str, number: str, **kwargs: Any
+        self, network_id: str, number: str, **kwargs: Any
     ) -> dict[str, Any]:
         """Update the Hotspot 2.0 settings of an SSID.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-hotspot-2-0
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             number: Number.
             enabled: Whether or not Hotspot 2.0 for this SSID is enabled.
             operator: Operator settings for this SSID.
@@ -1253,7 +1292,9 @@ class ActionBatchWireless:
             "tags": ["wireless", "configure", "ssids", "hotspot20"],
             "operation": "update_network_wireless_ssid_hotspot20",
         }
-        resource = f"/networks/{networkId}/wireless/ssids/{number}/hotspot20"
+        network_id = urllib.parse.quote(network_id, safe="")
+        number = urllib.parse.quote(number, safe="")
+        resource = f"/networks/{network_id}/wireless/ssids/{number}/hotspot20"
 
         body_params = [
             "enabled",
@@ -1270,14 +1311,14 @@ class ActionBatchWireless:
         return action
 
     def create_network_wireless_ssid_identity_psk(
-        self, networkId: str, number: str, name: str, groupPolicyId: str, **kwargs: Any
+        self, network_id: str, number: str, name: str, groupPolicyId: str, **kwargs: Any
     ) -> dict[str, Any]:
         """Create an Identity PSK.
 
         https://developer.cisco.com/meraki/api-v1/#!create-network-wireless-ssid-identity-psk
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             number: Number.
             name: The name of the Identity PSK.
             groupPolicyId: The group policy to be applied to clients.
@@ -1292,7 +1333,9 @@ class ActionBatchWireless:
             "tags": ["wireless", "configure", "ssids", "identityPsks"],
             "operation": "create_network_wireless_ssid_identity_psk",
         }
-        resource = f"/networks/{networkId}/wireless/ssids/{number}/identityPsks"
+        network_id = urllib.parse.quote(network_id, safe="")
+        number = urllib.parse.quote(number, safe="")
+        resource = f"/networks/{network_id}/wireless/ssids/{number}/identityPsks"
 
         body_params = [
             "name",
@@ -1305,16 +1348,16 @@ class ActionBatchWireless:
         return action
 
     def update_network_wireless_ssid_identity_psk(
-        self, networkId: str, number: str, identityPskId: str, **kwargs: Any
+        self, network_id: str, number: str, identity_psk_id: str, **kwargs: Any
     ) -> dict[str, Any]:
         """Update an Identity PSK.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-identity-psk
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             number: Number.
-            identityPskId: Identity psk ID.
+            identity_psk_id: Identity psk ID.
             name: The name of the Identity PSK.
             passphrase: The passphrase for client authentication.
             groupPolicyId: The group policy to be applied to clients.
@@ -1327,7 +1370,10 @@ class ActionBatchWireless:
             "tags": ["wireless", "configure", "ssids", "identityPsks"],
             "operation": "update_network_wireless_ssid_identity_psk",
         }
-        resource = f"/networks/{networkId}/wireless/ssids/{number}/identityPsks/{identityPskId}"
+        network_id = urllib.parse.quote(network_id, safe="")
+        number = urllib.parse.quote(number, safe="")
+        identity_psk_id = urllib.parse.quote(identity_psk_id, safe="")
+        resource = f"/networks/{network_id}/wireless/ssids/{number}/identityPsks/{identity_psk_id}"
 
         body_params = [
             "name",
@@ -1340,23 +1386,26 @@ class ActionBatchWireless:
         return action
 
     def delete_network_wireless_ssid_identity_psk(
-        self, networkId: str, number: str, identityPskId: str
+        self, network_id: str, number: str, identity_psk_id: str
     ) -> dict[str, Any]:
         """Delete an Identity PSK.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-network-wireless-ssid-identity-psk
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             number: Number.
-            identityPskId: Identity psk ID.
+            identity_psk_id: Identity psk ID.
 
         """
         metadata = {
             "tags": ["wireless", "configure", "ssids", "identityPsks"],
             "operation": "delete_network_wireless_ssid_identity_psk",
         }
-        resource = f"/networks/{networkId}/wireless/ssids/{number}/identityPsks/{identityPskId}"
+        network_id = urllib.parse.quote(network_id, safe="")
+        number = urllib.parse.quote(number, safe="")
+        identity_psk_id = urllib.parse.quote(identity_psk_id, safe="")
+        resource = f"/networks/{network_id}/wireless/ssids/{number}/identityPsks/{identity_psk_id}"
 
         action = {
             "resource": resource,
@@ -1365,14 +1414,14 @@ class ActionBatchWireless:
         return action
 
     def update_network_wireless_ssid_open_roaming(
-        self, networkId: str, number: str, **kwargs: Any
+        self, network_id: str, number: str, **kwargs: Any
     ) -> dict[str, Any]:
         """Update the OpenRoaming setting for the SSID.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-open-roaming
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             number: Number.
             enabled: If true, OpenRoaming is enabled on this SSID.
             tenantId: The OpenRoaming DNA Spaces tenant ID.
@@ -1384,7 +1433,9 @@ class ActionBatchWireless:
             "tags": ["wireless", "configure", "ssids", "openRoaming"],
             "operation": "update_network_wireless_ssid_open_roaming",
         }
-        resource = f"/networks/{networkId}/wireless/ssids/{number}/openRoaming"
+        network_id = urllib.parse.quote(network_id, safe="")
+        number = urllib.parse.quote(number, safe="")
+        resource = f"/networks/{network_id}/wireless/ssids/{number}/openRoaming"
 
         body_params = [
             "enabled",
@@ -1395,14 +1446,14 @@ class ActionBatchWireless:
         return action
 
     def update_network_wireless_ssid_schedules(
-        self, networkId: str, number: str, **kwargs: Any
+        self, network_id: str, number: str, **kwargs: Any
     ) -> dict[str, Any]:
         """Update the outage schedule for the SSID.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-schedules
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             number: Number.
             enabled: If true, the SSID outage schedule is enabled.
             ranges: List of outage ranges. Has a start date and time, and end date and time. If this
@@ -1419,7 +1470,9 @@ class ActionBatchWireless:
             "tags": ["wireless", "configure", "ssids", "schedules"],
             "operation": "update_network_wireless_ssid_schedules",
         }
-        resource = f"/networks/{networkId}/wireless/ssids/{number}/schedules"
+        network_id = urllib.parse.quote(network_id, safe="")
+        number = urllib.parse.quote(number, safe="")
+        resource = f"/networks/{network_id}/wireless/ssids/{number}/schedules"
 
         body_params = [
             "enabled",
@@ -1431,14 +1484,14 @@ class ActionBatchWireless:
         return action
 
     def update_network_wireless_ssid_splash_settings(
-        self, networkId: str, number: str, **kwargs: Any
+        self, network_id: str, number: str, **kwargs: Any
     ) -> dict[str, Any]:
         """Modify the splash page settings for the given SSID.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-splash-settings
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             number: Number.
             splashUrl: [optional] The custom splash URL of the click-through splash page. Note that
               the URL can be configured without necessarily being used. In order to
@@ -1506,7 +1559,9 @@ class ActionBatchWireless:
             "tags": ["wireless", "configure", "ssids", "splash", "settings"],
             "operation": "update_network_wireless_ssid_splash_settings",
         }
-        resource = f"/networks/{networkId}/wireless/ssids/{number}/splash/settings"
+        network_id = urllib.parse.quote(network_id, safe="")
+        number = urllib.parse.quote(number, safe="")
+        resource = f"/networks/{network_id}/wireless/ssids/{number}/splash/settings"
 
         body_params = [
             "splashUrl",
@@ -1532,14 +1587,14 @@ class ActionBatchWireless:
         return action
 
     def update_network_wireless_ssid_traffic_shaping_rules(
-        self, networkId: str, number: str, **kwargs: Any
+        self, network_id: str, number: str, **kwargs: Any
     ) -> dict[str, Any]:
         """Update the traffic shaping rules for an SSID on an MR network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-traffic-shaping-rules
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             number: Number.
             trafficShapingEnabled: Whether traffic shaping rules are applied to clients on your
               SSID.
@@ -1558,7 +1613,9 @@ class ActionBatchWireless:
             "tags": ["wireless", "configure", "ssids", "trafficShaping", "rules"],
             "operation": "update_network_wireless_ssid_traffic_shaping_rules",
         }
-        resource = f"/networks/{networkId}/wireless/ssids/{number}/trafficShaping/rules"
+        network_id = urllib.parse.quote(network_id, safe="")
+        number = urllib.parse.quote(number, safe="")
+        resource = f"/networks/{network_id}/wireless/ssids/{number}/trafficShaping/rules"
 
         body_params = [
             "trafficShapingEnabled",
@@ -1570,14 +1627,14 @@ class ActionBatchWireless:
         return action
 
     def update_network_wireless_ssid_vpn(
-        self, networkId: str, number: str, **kwargs: Any
+        self, network_id: str, number: str, **kwargs: Any
     ) -> dict[str, Any]:
         """Update the VPN settings for the SSID.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-vpn
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             number: Number.
             concentrator: The VPN concentrator settings for this SSID.
             splitTunnel: The VPN split tunnel settings for this SSID.
@@ -1591,7 +1648,9 @@ class ActionBatchWireless:
             "tags": ["wireless", "configure", "ssids", "vpn"],
             "operation": "update_network_wireless_ssid_vpn",
         }
-        resource = f"/networks/{networkId}/wireless/ssids/{number}/vpn"
+        network_id = urllib.parse.quote(network_id, safe="")
+        number = urllib.parse.quote(number, safe="")
+        resource = f"/networks/{network_id}/wireless/ssids/{number}/vpn"
 
         body_params = [
             "concentrator",
@@ -1602,13 +1661,13 @@ class ActionBatchWireless:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def update_network_wireless_zigbee(self, networkId: str, **kwargs: Any) -> dict[str, Any]:
+    def update_network_wireless_zigbee(self, network_id: str, **kwargs: Any) -> dict[str, Any]:
         """Update Zigbee Configs for specified network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-zigbee
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             enabled: To enable/disable Zigbee on the network.
             iotController: Zigbee's IoT controller details.
             lockManagement: Login Credentials of on-premises lock management.
@@ -1621,7 +1680,8 @@ class ActionBatchWireless:
             "tags": ["wireless", "configure", "zigbee"],
             "operation": "update_network_wireless_zigbee",
         }
-        resource = f"/networks/{networkId}/wireless/zigbee"
+        network_id = urllib.parse.quote(network_id, safe="")
+        resource = f"/networks/{network_id}/wireless/zigbee"
 
         body_params = [
             "enabled",
@@ -1635,7 +1695,7 @@ class ActionBatchWireless:
 
     def create_organization_wireless_location_scanning_receiver(
         self,
-        organizationId: str,
+        organization_id: str,
         network: dict,
         url: str,
         version: str,
@@ -1647,7 +1707,7 @@ class ActionBatchWireless:
         https://developer.cisco.com/meraki/api-v1/#!create-organization-wireless-location-scanning-receiver
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             network: Add scanning API receiver for network.
             url: Receiver Url.
             version: Scanning API Version.
@@ -1661,7 +1721,8 @@ class ActionBatchWireless:
             "tags": ["wireless", "configure", "location", "scanning", "receivers"],
             "operation": "create_organization_wireless_location_scanning_receiver",
         }
-        resource = f"/organizations/{organizationId}/wireless/location/scanning/receivers"
+        organization_id = urllib.parse.quote(organization_id, safe="")
+        resource = f"/organizations/{organization_id}/wireless/location/scanning/receivers"
 
         body_params = [
             "network",
@@ -1675,15 +1736,15 @@ class ActionBatchWireless:
         return action
 
     def update_organization_wireless_location_scanning_receiver(
-        self, organizationId: str, receiverId: str, **kwargs: Any
+        self, organization_id: str, receiver_id: str, **kwargs: Any
     ) -> dict[str, Any]:
         """Change scanning API receiver settings.
 
         https://developer.cisco.com/meraki/api-v1/#!update-organization-wireless-location-scanning-receiver
 
         Args:
-            organizationId: Organization ID.
-            receiverId: Receiver ID.
+            organization_id: Organization ID.
+            receiver_id: Receiver ID.
             url: Receiver Url.
             version: Scanning API Version.
             radio: Add scanning API Radio.
@@ -1695,8 +1756,10 @@ class ActionBatchWireless:
             "tags": ["wireless", "configure", "location", "scanning", "receivers"],
             "operation": "update_organization_wireless_location_scanning_receiver",
         }
+        organization_id = urllib.parse.quote(organization_id, safe="")
+        receiver_id = urllib.parse.quote(receiver_id, safe="")
         resource = (
-            f"/organizations/{organizationId}/wireless/location/scanning/receivers/{receiverId}"
+            f"/organizations/{organization_id}/wireless/location/scanning/receivers/{receiver_id}"
         )
 
         body_params = [
@@ -1709,23 +1772,25 @@ class ActionBatchWireless:
         return action
 
     def delete_organization_wireless_location_scanning_receiver(
-        self, organizationId: str, receiverId: str
+        self, organization_id: str, receiver_id: str
     ) -> dict[str, Any]:
         """Delete a scanning API receiver.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-wireless-location-scanning-receiver
 
         Args:
-            organizationId: Organization ID.
-            receiverId: Receiver ID.
+            organization_id: Organization ID.
+            receiver_id: Receiver ID.
 
         """
         metadata = {
             "tags": ["wireless", "configure", "location", "scanning", "receivers"],
             "operation": "delete_organization_wireless_location_scanning_receiver",
         }
+        organization_id = urllib.parse.quote(organization_id, safe="")
+        receiver_id = urllib.parse.quote(receiver_id, safe="")
         resource = (
-            f"/organizations/{organizationId}/wireless/location/scanning/receivers/{receiverId}"
+            f"/organizations/{organization_id}/wireless/location/scanning/receivers/{receiver_id}"
         )
 
         action = {
@@ -1735,14 +1800,14 @@ class ActionBatchWireless:
         return action
 
     def update_organization_wireless_mqtt_settings(
-        self, organizationId: str, network: dict, mqtt: dict, **kwargs: Any
+        self, organization_id: str, network: dict, mqtt: dict, **kwargs: Any
     ) -> dict[str, Any]:
         """Add new broker config for wireless MQTT.
 
         https://developer.cisco.com/meraki/api-v1/#!update-organization-wireless-mqtt-settings
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             network: Add MQTT Settings for network.
             mqtt: MQTT Settings for network.
             ble: MQTT BLE Settings for network.
@@ -1755,7 +1820,8 @@ class ActionBatchWireless:
             "tags": ["wireless", "configure", "mqtt", "settings"],
             "operation": "update_organization_wireless_mqtt_settings",
         }
-        resource = f"/organizations/{organizationId}/wireless/mqtt/settings"
+        organization_id = urllib.parse.quote(organization_id, safe="")
+        resource = f"/organizations/{organization_id}/wireless/mqtt/settings"
 
         body_params = [
             "network",
@@ -1768,14 +1834,14 @@ class ActionBatchWireless:
         return action
 
     def recalculate_organization_wireless_radio_auto_rf_channels(
-        self, organizationId: str, networkIds: list
+        self, organization_id: str, networkIds: list
     ) -> dict[str, Any]:
         """Recalculates automatically assigned channels for every AP within specified the specified network(s).
 
         https://developer.cisco.com/meraki/api-v1/#!recalculate-organization-wireless-radio-auto-rf-channels
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             networkIds: A list of network ids (limit: 15).
 
         """
@@ -1785,7 +1851,8 @@ class ActionBatchWireless:
             "tags": ["wireless", "configure", "radio", "autoRf", "channels"],
             "operation": "recalculate_organization_wireless_radio_auto_rf_channels",
         }
-        resource = f"/organizations/{organizationId}/wireless/radio/autoRf/channels/recalculate"
+        organization_id = urllib.parse.quote(organization_id, safe="")
+        resource = f"/organizations/{organization_id}/wireless/radio/autoRf/channels/recalculate"
 
         body_params = [
             "networkIds",
@@ -1795,14 +1862,14 @@ class ActionBatchWireless:
         return action
 
     def create_organization_wireless_ssids_firewall_isolation_allowlist_entry(
-        self, organizationId: str, client: dict, ssid: dict, network: dict, **kwargs: Any
+        self, organization_id: str, client: dict, ssid: dict, network: dict, **kwargs: Any
     ) -> dict[str, Any]:
         """Create isolation allow list MAC entry for this organization.
 
         https://developer.cisco.com/meraki/api-v1/#!create-organization-wireless-ssids-firewall-isolation-allowlist-entry
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             client: The client of allowlist.
             ssid: The SSID that allowlist belongs to.
             network: The Network that allowlist belongs to.
@@ -1823,8 +1890,9 @@ class ActionBatchWireless:
             ],
             "operation": "create_organization_wireless_ssids_firewall_isolation_allowlist_entry",
         }
+        organization_id = urllib.parse.quote(organization_id, safe="")
         resource = (
-            f"/organizations/{organizationId}/wireless/ssids/firewall/isolation/allowlist/entries"
+            f"/organizations/{organization_id}/wireless/ssids/firewall/isolation/allowlist/entries"
         )
 
         body_params = [
@@ -1838,15 +1906,15 @@ class ActionBatchWireless:
         return action
 
     def delete_organization_wireless_ssids_firewall_isolation_allowlist_entry(
-        self, organizationId: str, entryId: str
+        self, organization_id: str, entry_id: str
     ) -> dict[str, Any]:
         """Destroy isolation allow list MAC entry for this organization.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-wireless-ssids-firewall-isolation-allowlist-entry
 
         Args:
-            organizationId: Organization ID.
-            entryId: Entry ID.
+            organization_id: Organization ID.
+            entry_id: Entry ID.
 
         """
         metadata = {
@@ -1861,7 +1929,9 @@ class ActionBatchWireless:
             ],
             "operation": "delete_organization_wireless_ssids_firewall_isolation_allowlist_entry",
         }
-        resource = f"/organizations/{organizationId}/wireless/ssids/firewall/isolation/allowlist/entries/{entryId}"
+        organization_id = urllib.parse.quote(organization_id, safe="")
+        entry_id = urllib.parse.quote(entry_id, safe="")
+        resource = f"/organizations/{organization_id}/wireless/ssids/firewall/isolation/allowlist/entries/{entry_id}"
 
         action = {
             "resource": resource,
@@ -1870,15 +1940,15 @@ class ActionBatchWireless:
         return action
 
     def update_organization_wireless_ssids_firewall_isolation_allowlist_entry(
-        self, organizationId: str, entryId: str, **kwargs: Any
+        self, organization_id: str, entry_id: str, **kwargs: Any
     ) -> dict[str, Any]:
         """Update isolation allow list MAC entry info.
 
         https://developer.cisco.com/meraki/api-v1/#!update-organization-wireless-ssids-firewall-isolation-allowlist-entry
 
         Args:
-            organizationId: Organization ID.
-            entryId: Entry ID.
+            organization_id: Organization ID.
+            entry_id: Entry ID.
             description: The description of mac address.
             client: The client of allowlist.
 
@@ -1897,7 +1967,9 @@ class ActionBatchWireless:
             ],
             "operation": "update_organization_wireless_ssids_firewall_isolation_allowlist_entry",
         }
-        resource = f"/organizations/{organizationId}/wireless/ssids/firewall/isolation/allowlist/entries/{entryId}"
+        organization_id = urllib.parse.quote(organization_id, safe="")
+        entry_id = urllib.parse.quote(entry_id, safe="")
+        resource = f"/organizations/{organization_id}/wireless/ssids/firewall/isolation/allowlist/entries/{entry_id}"
 
         body_params = [
             "description",
@@ -1908,14 +1980,14 @@ class ActionBatchWireless:
         return action
 
     def update_organization_wireless_zigbee_device(
-        self, organizationId: str, id: str, enrolled: bool, **kwargs: Any
+        self, organization_id: str, id: str, enrolled: bool, **kwargs: Any
     ) -> dict[str, Any]:
         """Endpoint to update zigbee gateways.
 
         https://developer.cisco.com/meraki/api-v1/#!update-organization-wireless-zigbee-device
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             id: ID.
             enrolled: Parameter to enroll or unenroll the zigbee devices.
             channel: The new channel for the zigbee device.
@@ -1927,7 +1999,9 @@ class ActionBatchWireless:
             "tags": ["wireless", "configure", "zigbee", "devices"],
             "operation": "update_organization_wireless_zigbee_device",
         }
-        resource = f"/organizations/{organizationId}/wireless/zigbee/devices/{id}"
+        organization_id = urllib.parse.quote(organization_id, safe="")
+        id = urllib.parse.quote(id, safe="")
+        resource = f"/organizations/{organization_id}/wireless/zigbee/devices/{id}"
 
         body_params = [
             "enrolled",
@@ -1938,15 +2012,15 @@ class ActionBatchWireless:
         return action
 
     def update_organization_wireless_zigbee_door_lock(
-        self, organizationId: str, doorLockId: str, **kwargs: Any
+        self, organization_id: str, door_lock_id: str, **kwargs: Any
     ) -> dict[str, Any]:
         """Endpoint to batch update door locks params.
 
         https://developer.cisco.com/meraki/api-v1/#!update-organization-wireless-zigbee-door-lock
 
         Args:
-            organizationId: Organization ID.
-            doorLockId: Door lock ID.
+            organization_id: Organization ID.
+            door_lock_id: Door lock ID.
             name: Door lock name to update.
 
         """
@@ -1956,7 +2030,9 @@ class ActionBatchWireless:
             "tags": ["wireless", "configure", "zigbee", "doorLocks"],
             "operation": "update_organization_wireless_zigbee_door_lock",
         }
-        resource = f"/organizations/{organizationId}/wireless/zigbee/doorLocks/{doorLockId}"
+        organization_id = urllib.parse.quote(organization_id, safe="")
+        door_lock_id = urllib.parse.quote(door_lock_id, safe="")
+        resource = f"/organizations/{organization_id}/wireless/zigbee/doorLocks/{door_lock_id}"
 
         body_params = [
             "name",

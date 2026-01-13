@@ -224,14 +224,14 @@ class AsyncLicensing:
         return self._session.get(metadata, resource, params)
 
     def bind_administered_licensing_subscription_subscription(
-        self, subscriptionId: str, **kwargs: Any
+        self, subscription_id: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Bind networks to a subscription.
 
         https://developer.cisco.com/meraki/api-v1/#!bind-administered-licensing-subscription-subscription
 
         Args:
-            subscriptionId: Subscription ID.
+            subscription_id: Subscription ID.
             validate: Check if the provided networks can be bound to the subscription. Returns any
               licensing problems and does not commit the results.
             networkIds: List of network ids to bind to the subscription.
@@ -243,8 +243,8 @@ class AsyncLicensing:
             "tags": ["licensing", "configure", "subscription", "subscriptions"],
             "operation": "bind_administered_licensing_subscription_subscription",
         }
-        subscriptionId = urllib.parse.quote(str(subscriptionId), safe="")
-        resource = f"/administered/licensing/subscription/subscriptions/{subscriptionId}/bind"
+        subscription_id = urllib.parse.quote(str(subscription_id), safe="")
+        resource = f"/administered/licensing/subscription/subscriptions/{subscription_id}/bind"
 
         body_params = [
             "networkIds",
@@ -254,14 +254,14 @@ class AsyncLicensing:
         return self._session.post(metadata, resource, payload)
 
     def get_organization_licensing_coterm_licenses(
-        self, organizationId: str, total_pages=1, direction="next", **kwargs: Any
+        self, organization_id: str, total_pages=1, direction="next", **kwargs: Any
     ) -> Generator[Any, None, None]:
         """List the licenses in a coterm organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-licensing-coterm-licenses
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
@@ -285,8 +285,8 @@ class AsyncLicensing:
             "tags": ["licensing", "configure", "coterm", "licenses"],
             "operation": "get_organization_licensing_coterm_licenses",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/licensing/coterm/licenses"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/licensing/coterm/licenses"
 
         query_params = [
             "perPage",
@@ -300,14 +300,14 @@ class AsyncLicensing:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def move_organization_licensing_coterm_licenses(
-        self, organizationId: str, destination: dict, licenses: list
+        self, organization_id: str, destination: dict, licenses: list
     ) -> dict[str, Any] | None:
         """Moves a license to a different organization (coterm only).
 
         https://developer.cisco.com/meraki/api-v1/#!move-organization-licensing-coterm-licenses
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             destination: Destination data for the license move.
             licenses: The list of licenses to move.
 
@@ -318,8 +318,8 @@ class AsyncLicensing:
             "tags": ["licensing", "configure", "coterm", "licenses"],
             "operation": "move_organization_licensing_coterm_licenses",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/licensing/coterm/licenses/move"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/licensing/coterm/licenses/move"
 
         body_params = [
             "destination",

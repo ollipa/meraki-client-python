@@ -225,15 +225,15 @@ class Appliance:
         return self._session.post(metadata, resource)
 
     def get_network_appliance_client_security_events(
-        self, networkId: str, clientId: str, total_pages=1, direction="next", **kwargs: Any
+        self, network_id: str, client_id: str, total_pages=1, direction="next", **kwargs: Any
     ) -> Generator[Any, None, None]:
         """List the security events for a client.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-client-security-events
 
         Args:
-            networkId: Network ID.
-            clientId: Client ID.
+            network_id: Network ID.
+            client_id: Client ID.
             total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
@@ -269,9 +269,9 @@ class Appliance:
             "tags": ["appliance", "monitor", "clients", "security", "events"],
             "operation": "get_network_appliance_client_security_events",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        clientId = urllib.parse.quote(str(clientId), safe="")
-        resource = f"/networks/{networkId}/appliance/clients/{clientId}/security/events"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        client_id = urllib.parse.quote(str(client_id), safe="")
+        resource = f"/networks/{network_id}/appliance/clients/{client_id}/security/events"
 
         query_params = [
             "t0",
@@ -287,34 +287,34 @@ class Appliance:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def get_network_appliance_connectivity_monitoring_destinations(
-        self, networkId: str
+        self, network_id: str
     ) -> dict[str, Any] | None:
         """Return the connectivity testing destinations for an MX network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-connectivity-monitoring-destinations
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
 
         """
         metadata = {
             "tags": ["appliance", "configure", "connectivityMonitoringDestinations"],
             "operation": "get_network_appliance_connectivity_monitoring_destinations",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        resource = f"/networks/{networkId}/appliance/connectivityMonitoringDestinations"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        resource = f"/networks/{network_id}/appliance/connectivityMonitoringDestinations"
 
         return self._session.get(metadata, resource)
 
     def update_network_appliance_connectivity_monitoring_destinations(
-        self, networkId: str, **kwargs: Any
+        self, network_id: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Update the connectivity testing destinations for an MX network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-connectivity-monitoring-destinations
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             destinations: The list of connectivity monitoring destinations.
 
         """
@@ -324,8 +324,8 @@ class Appliance:
             "tags": ["appliance", "configure", "connectivityMonitoringDestinations"],
             "operation": "update_network_appliance_connectivity_monitoring_destinations",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        resource = f"/networks/{networkId}/appliance/connectivityMonitoringDestinations"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        resource = f"/networks/{network_id}/appliance/connectivityMonitoringDestinations"
 
         body_params = [
             "destinations",
@@ -334,33 +334,33 @@ class Appliance:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_network_appliance_content_filtering(self, networkId: str) -> dict[str, Any] | None:
+    def get_network_appliance_content_filtering(self, network_id: str) -> dict[str, Any] | None:
         """Return the content filtering settings for an MX network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-content-filtering
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
 
         """
         metadata = {
             "tags": ["appliance", "configure", "contentFiltering"],
             "operation": "get_network_appliance_content_filtering",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        resource = f"/networks/{networkId}/appliance/contentFiltering"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        resource = f"/networks/{network_id}/appliance/contentFiltering"
 
         return self._session.get(metadata, resource)
 
     def update_network_appliance_content_filtering(
-        self, networkId: str, **kwargs: Any
+        self, network_id: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Update the content filtering settings for an MX network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-content-filtering
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             allowedUrlPatterns: A list of URL patterns that are allowed.
             blockedUrlPatterns: A list of URL patterns that are blocked.
             blockedUrlCategories: A list of URL categories to block.
@@ -379,8 +379,8 @@ class Appliance:
             "tags": ["appliance", "configure", "contentFiltering"],
             "operation": "update_network_appliance_content_filtering",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        resource = f"/networks/{networkId}/appliance/contentFiltering"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        resource = f"/networks/{network_id}/appliance/contentFiltering"
 
         body_params = [
             "allowedUrlPatterns",
@@ -393,54 +393,54 @@ class Appliance:
         return self._session.put(metadata, resource, payload)
 
     def get_network_appliance_content_filtering_categories(
-        self, networkId: str
+        self, network_id: str
     ) -> dict[str, Any] | None:
         """List all available content filtering categories for an MX network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-content-filtering-categories
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
 
         """
         metadata = {
             "tags": ["appliance", "configure", "contentFiltering", "categories"],
             "operation": "get_network_appliance_content_filtering_categories",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        resource = f"/networks/{networkId}/appliance/contentFiltering/categories"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        resource = f"/networks/{network_id}/appliance/contentFiltering/categories"
 
         return self._session.get(metadata, resource)
 
     def get_network_appliance_firewall_cellular_firewall_rules(
-        self, networkId: str
+        self, network_id: str
     ) -> dict[str, Any] | None:
         """Return the cellular firewall rules for an MX network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-firewall-cellular-firewall-rules
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
 
         """
         metadata = {
             "tags": ["appliance", "configure", "firewall", "cellularFirewallRules"],
             "operation": "get_network_appliance_firewall_cellular_firewall_rules",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        resource = f"/networks/{networkId}/appliance/firewall/cellularFirewallRules"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        resource = f"/networks/{network_id}/appliance/firewall/cellularFirewallRules"
 
         return self._session.get(metadata, resource)
 
     def update_network_appliance_firewall_cellular_firewall_rules(
-        self, networkId: str, **kwargs: Any
+        self, network_id: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Update the cellular firewall rules of an MX network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-firewall-cellular-firewall-rules
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             rules: An ordered array of the firewall rules (not including the default rule).
 
         """
@@ -450,8 +450,8 @@ class Appliance:
             "tags": ["appliance", "configure", "firewall", "cellularFirewallRules"],
             "operation": "update_network_appliance_firewall_cellular_firewall_rules",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        resource = f"/networks/{networkId}/appliance/firewall/cellularFirewallRules"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        resource = f"/networks/{network_id}/appliance/firewall/cellularFirewallRules"
 
         body_params = [
             "rules",
@@ -461,34 +461,34 @@ class Appliance:
         return self._session.put(metadata, resource, payload)
 
     def get_network_appliance_firewall_firewalled_services(
-        self, networkId: str
+        self, network_id: str
     ) -> dict[str, Any] | None:
         """List the appliance services and their accessibility rules.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-firewall-firewalled-services
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
 
         """
         metadata = {
             "tags": ["appliance", "configure", "firewall", "firewalledServices"],
             "operation": "get_network_appliance_firewall_firewalled_services",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        resource = f"/networks/{networkId}/appliance/firewall/firewalledServices"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        resource = f"/networks/{network_id}/appliance/firewall/firewalledServices"
 
         return self._session.get(metadata, resource)
 
     def get_network_appliance_firewall_firewalled_service(
-        self, networkId: str, service: str
+        self, network_id: str, service: str
     ) -> dict[str, Any] | None:
         """Return the accessibility settings of the given service ('ICMP', 'web', or 'SNMP').
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-firewall-firewalled-service
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             service: Service.
 
         """
@@ -496,21 +496,21 @@ class Appliance:
             "tags": ["appliance", "configure", "firewall", "firewalledServices"],
             "operation": "get_network_appliance_firewall_firewalled_service",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
+        network_id = urllib.parse.quote(str(network_id), safe="")
         service = urllib.parse.quote(str(service), safe="")
-        resource = f"/networks/{networkId}/appliance/firewall/firewalledServices/{service}"
+        resource = f"/networks/{network_id}/appliance/firewall/firewalledServices/{service}"
 
         return self._session.get(metadata, resource)
 
     def update_network_appliance_firewall_firewalled_service(
-        self, networkId: str, service: str, access: str, **kwargs: Any
+        self, network_id: str, service: str, access: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Updates the accessibility settings for the given service ('ICMP', 'web', or 'SNMP').
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-firewall-firewalled-service
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             service: Service.
             access: A string indicating the rule for which IPs are allowed to use the specified
               service. Acceptable values are "blocked" (no remote IPs can access the
@@ -534,9 +534,9 @@ class Appliance:
             "tags": ["appliance", "configure", "firewall", "firewalledServices"],
             "operation": "update_network_appliance_firewall_firewalled_service",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
+        network_id = urllib.parse.quote(str(network_id), safe="")
         service = urllib.parse.quote(str(service), safe="")
-        resource = f"/networks/{networkId}/appliance/firewall/firewalledServices/{service}"
+        resource = f"/networks/{network_id}/appliance/firewall/firewalledServices/{service}"
 
         body_params = [
             "access",
@@ -547,34 +547,34 @@ class Appliance:
         return self._session.put(metadata, resource, payload)
 
     def get_network_appliance_firewall_inbound_cellular_firewall_rules(
-        self, networkId: str
+        self, network_id: str
     ) -> dict[str, Any] | None:
         """Return the inbound cellular firewall rules for an MX network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-firewall-inbound-cellular-firewall-rules
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
 
         """
         metadata = {
             "tags": ["appliance", "configure", "firewall", "inboundCellularFirewallRules"],
             "operation": "get_network_appliance_firewall_inbound_cellular_firewall_rules",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        resource = f"/networks/{networkId}/appliance/firewall/inboundCellularFirewallRules"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        resource = f"/networks/{network_id}/appliance/firewall/inboundCellularFirewallRules"
 
         return self._session.get(metadata, resource)
 
     def update_network_appliance_firewall_inbound_cellular_firewall_rules(
-        self, networkId: str, **kwargs: Any
+        self, network_id: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Update the inbound cellular firewall rules of an MX network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-firewall-inbound-cellular-firewall-rules
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             rules: An ordered array of the firewall rules (not including the default rule).
 
         """
@@ -584,8 +584,8 @@ class Appliance:
             "tags": ["appliance", "configure", "firewall", "inboundCellularFirewallRules"],
             "operation": "update_network_appliance_firewall_inbound_cellular_firewall_rules",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        resource = f"/networks/{networkId}/appliance/firewall/inboundCellularFirewallRules"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        resource = f"/networks/{network_id}/appliance/firewall/inboundCellularFirewallRules"
 
         body_params = [
             "rules",
@@ -595,34 +595,34 @@ class Appliance:
         return self._session.put(metadata, resource, payload)
 
     def get_network_appliance_firewall_inbound_firewall_rules(
-        self, networkId: str
+        self, network_id: str
     ) -> dict[str, Any] | None:
         """Return the inbound firewall rules for an MX network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-firewall-inbound-firewall-rules
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
 
         """
         metadata = {
             "tags": ["appliance", "configure", "firewall", "inboundFirewallRules"],
             "operation": "get_network_appliance_firewall_inbound_firewall_rules",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        resource = f"/networks/{networkId}/appliance/firewall/inboundFirewallRules"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        resource = f"/networks/{network_id}/appliance/firewall/inboundFirewallRules"
 
         return self._session.get(metadata, resource)
 
     def update_network_appliance_firewall_inbound_firewall_rules(
-        self, networkId: str, **kwargs: Any
+        self, network_id: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Update the inbound firewall rules of an MX network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-firewall-inbound-firewall-rules
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             rules: An ordered array of the firewall rules (not including the default rule).
             syslogDefaultRule: Log the special default rule (boolean value - enable only if you've
               configured a syslog server) (optional).
@@ -634,8 +634,8 @@ class Appliance:
             "tags": ["appliance", "configure", "firewall", "inboundFirewallRules"],
             "operation": "update_network_appliance_firewall_inbound_firewall_rules",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        resource = f"/networks/{networkId}/appliance/firewall/inboundFirewallRules"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        resource = f"/networks/{network_id}/appliance/firewall/inboundFirewallRules"
 
         body_params = [
             "rules",
@@ -646,34 +646,34 @@ class Appliance:
         return self._session.put(metadata, resource, payload)
 
     def get_network_appliance_firewall_l3_firewall_rules(
-        self, networkId: str
+        self, network_id: str
     ) -> dict[str, Any] | None:
         """Return the L3 firewall rules for an MX network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-firewall-l-3-firewall-rules
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
 
         """
         metadata = {
             "tags": ["appliance", "configure", "firewall", "l3FirewallRules"],
             "operation": "get_network_appliance_firewall_l3_firewall_rules",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        resource = f"/networks/{networkId}/appliance/firewall/l3FirewallRules"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        resource = f"/networks/{network_id}/appliance/firewall/l3FirewallRules"
 
         return self._session.get(metadata, resource)
 
     def update_network_appliance_firewall_l3_firewall_rules(
-        self, networkId: str, **kwargs: Any
+        self, network_id: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Update the L3 firewall rules of an MX network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-firewall-l-3-firewall-rules
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             rules: An ordered array of the firewall rules (not including the default rule).
             syslogDefaultRule: Log the special default rule (boolean value - enable only if you've
               configured a syslog server) (optional).
@@ -685,8 +685,8 @@ class Appliance:
             "tags": ["appliance", "configure", "firewall", "l3FirewallRules"],
             "operation": "update_network_appliance_firewall_l3_firewall_rules",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        resource = f"/networks/{networkId}/appliance/firewall/l3FirewallRules"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        resource = f"/networks/{network_id}/appliance/firewall/l3FirewallRules"
 
         body_params = [
             "rules",
@@ -697,34 +697,34 @@ class Appliance:
         return self._session.put(metadata, resource, payload)
 
     def get_network_appliance_firewall_l7_firewall_rules(
-        self, networkId: str
+        self, network_id: str
     ) -> dict[str, Any] | None:
         """List the MX L7 firewall rules for an MX network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-firewall-l-7-firewall-rules
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
 
         """
         metadata = {
             "tags": ["appliance", "configure", "firewall", "l7FirewallRules"],
             "operation": "get_network_appliance_firewall_l7_firewall_rules",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        resource = f"/networks/{networkId}/appliance/firewall/l7FirewallRules"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        resource = f"/networks/{network_id}/appliance/firewall/l7FirewallRules"
 
         return self._session.get(metadata, resource)
 
     def update_network_appliance_firewall_l7_firewall_rules(
-        self, networkId: str, **kwargs: Any
+        self, network_id: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Update the MX L7 firewall rules for an MX network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-firewall-l-7-firewall-rules
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             rules: An ordered array of the MX L7 firewall rules.
 
         """
@@ -734,8 +734,8 @@ class Appliance:
             "tags": ["appliance", "configure", "firewall", "l7FirewallRules"],
             "operation": "update_network_appliance_firewall_l7_firewall_rules",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        resource = f"/networks/{networkId}/appliance/firewall/l7FirewallRules"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        resource = f"/networks/{network_id}/appliance/firewall/l7FirewallRules"
 
         body_params = [
             "rules",
@@ -745,14 +745,14 @@ class Appliance:
         return self._session.put(metadata, resource, payload)
 
     def get_network_appliance_firewall_l7_firewall_rules_application_categories(
-        self, networkId: str
+        self, network_id: str
     ) -> dict[str, Any] | None:
         """Return the L7 firewall application categories and their associated applications for an MX network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-firewall-l-7-firewall-rules-application-categories
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
 
         """
         metadata = {
@@ -765,20 +765,22 @@ class Appliance:
             ],
             "operation": "get_network_appliance_firewall_l7_firewall_rules_application_categories",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        resource = f"/networks/{networkId}/appliance/firewall/l7FirewallRules/applicationCategories"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        resource = (
+            f"/networks/{network_id}/appliance/firewall/l7FirewallRules/applicationCategories"
+        )
 
         return self._session.get(metadata, resource)
 
     def update_network_appliance_firewall_multicast_forwarding(
-        self, networkId: str, rules: list
+        self, network_id: str, rules: list
     ) -> dict[str, Any] | None:
         """Update static multicast forward rules for a network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-firewall-multicast-forwarding
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             rules: Static multicast forwarding rules. Pass an empty array to clear all rules.
 
         """
@@ -788,8 +790,8 @@ class Appliance:
             "tags": ["appliance", "configure", "firewall", "multicastForwarding"],
             "operation": "update_network_appliance_firewall_multicast_forwarding",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        resource = f"/networks/{networkId}/appliance/firewall/multicastForwarding"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        resource = f"/networks/{network_id}/appliance/firewall/multicastForwarding"
 
         body_params = [
             "rules",
@@ -799,34 +801,34 @@ class Appliance:
         return self._session.put(metadata, resource, payload)
 
     def get_network_appliance_firewall_one_to_many_nat_rules(
-        self, networkId: str
+        self, network_id: str
     ) -> dict[str, Any] | None:
         """Return the 1:Many NAT mapping rules for an MX network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-firewall-one-to-many-nat-rules
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
 
         """
         metadata = {
             "tags": ["appliance", "configure", "firewall", "oneToManyNatRules"],
             "operation": "get_network_appliance_firewall_one_to_many_nat_rules",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        resource = f"/networks/{networkId}/appliance/firewall/oneToManyNatRules"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        resource = f"/networks/{network_id}/appliance/firewall/oneToManyNatRules"
 
         return self._session.get(metadata, resource)
 
     def update_network_appliance_firewall_one_to_many_nat_rules(
-        self, networkId: str, rules: list
+        self, network_id: str, rules: list
     ) -> dict[str, Any] | None:
         """Set the 1:Many NAT mapping rules for an MX network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-firewall-one-to-many-nat-rules
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             rules: An array of 1:Many nat rules.
 
         """
@@ -836,8 +838,8 @@ class Appliance:
             "tags": ["appliance", "configure", "firewall", "oneToManyNatRules"],
             "operation": "update_network_appliance_firewall_one_to_many_nat_rules",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        resource = f"/networks/{networkId}/appliance/firewall/oneToManyNatRules"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        resource = f"/networks/{network_id}/appliance/firewall/oneToManyNatRules"
 
         body_params = [
             "rules",
@@ -847,34 +849,34 @@ class Appliance:
         return self._session.put(metadata, resource, payload)
 
     def get_network_appliance_firewall_one_to_one_nat_rules(
-        self, networkId: str
+        self, network_id: str
     ) -> dict[str, Any] | None:
         """Return the 1:1 NAT mapping rules for an MX network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-firewall-one-to-one-nat-rules
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
 
         """
         metadata = {
             "tags": ["appliance", "configure", "firewall", "oneToOneNatRules"],
             "operation": "get_network_appliance_firewall_one_to_one_nat_rules",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        resource = f"/networks/{networkId}/appliance/firewall/oneToOneNatRules"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        resource = f"/networks/{network_id}/appliance/firewall/oneToOneNatRules"
 
         return self._session.get(metadata, resource)
 
     def update_network_appliance_firewall_one_to_one_nat_rules(
-        self, networkId: str, rules: list
+        self, network_id: str, rules: list
     ) -> dict[str, Any] | None:
         """Set the 1:1 NAT mapping rules for an MX network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-firewall-one-to-one-nat-rules
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             rules: An array of 1:1 nat rules.
 
         """
@@ -884,8 +886,8 @@ class Appliance:
             "tags": ["appliance", "configure", "firewall", "oneToOneNatRules"],
             "operation": "update_network_appliance_firewall_one_to_one_nat_rules",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        resource = f"/networks/{networkId}/appliance/firewall/oneToOneNatRules"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        resource = f"/networks/{network_id}/appliance/firewall/oneToOneNatRules"
 
         body_params = [
             "rules",
@@ -895,34 +897,34 @@ class Appliance:
         return self._session.put(metadata, resource, payload)
 
     def get_network_appliance_firewall_port_forwarding_rules(
-        self, networkId: str
+        self, network_id: str
     ) -> dict[str, Any] | None:
         """Return the port forwarding rules for an MX network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-firewall-port-forwarding-rules
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
 
         """
         metadata = {
             "tags": ["appliance", "configure", "firewall", "portForwardingRules"],
             "operation": "get_network_appliance_firewall_port_forwarding_rules",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        resource = f"/networks/{networkId}/appliance/firewall/portForwardingRules"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        resource = f"/networks/{network_id}/appliance/firewall/portForwardingRules"
 
         return self._session.get(metadata, resource)
 
     def update_network_appliance_firewall_port_forwarding_rules(
-        self, networkId: str, rules: list
+        self, network_id: str, rules: list
     ) -> dict[str, Any] | None:
         """Update the port forwarding rules for an MX network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-firewall-port-forwarding-rules
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             rules: An array of port forwarding params.
 
         """
@@ -932,8 +934,8 @@ class Appliance:
             "tags": ["appliance", "configure", "firewall", "portForwardingRules"],
             "operation": "update_network_appliance_firewall_port_forwarding_rules",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        resource = f"/networks/{networkId}/appliance/firewall/portForwardingRules"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        resource = f"/networks/{network_id}/appliance/firewall/portForwardingRules"
 
         body_params = [
             "rules",
@@ -942,33 +944,33 @@ class Appliance:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_network_appliance_firewall_settings(self, networkId: str) -> dict[str, Any] | None:
+    def get_network_appliance_firewall_settings(self, network_id: str) -> dict[str, Any] | None:
         """Return the firewall settings for this network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-firewall-settings
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
 
         """
         metadata = {
             "tags": ["appliance", "configure", "firewall", "settings"],
             "operation": "get_network_appliance_firewall_settings",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        resource = f"/networks/{networkId}/appliance/firewall/settings"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        resource = f"/networks/{network_id}/appliance/firewall/settings"
 
         return self._session.get(metadata, resource)
 
     def update_network_appliance_firewall_settings(
-        self, networkId: str, **kwargs: Any
+        self, network_id: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Update the firewall settings for this network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-firewall-settings
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             spoofingProtection: Spoofing protection settings.
 
         """
@@ -978,8 +980,8 @@ class Appliance:
             "tags": ["appliance", "configure", "firewall", "settings"],
             "operation": "update_network_appliance_firewall_settings",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        resource = f"/networks/{networkId}/appliance/firewall/settings"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        resource = f"/networks/{network_id}/appliance/firewall/settings"
 
         body_params = [
             "spoofingProtection",
@@ -988,54 +990,54 @@ class Appliance:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_network_appliance_ports(self, networkId: str) -> dict[str, Any] | None:
+    def get_network_appliance_ports(self, network_id: str) -> dict[str, Any] | None:
         """List per-port VLAN settings for all ports of a MX.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-ports
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
 
         """
         metadata = {
             "tags": ["appliance", "configure", "ports"],
             "operation": "get_network_appliance_ports",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        resource = f"/networks/{networkId}/appliance/ports"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        resource = f"/networks/{network_id}/appliance/ports"
 
         return self._session.get(metadata, resource)
 
-    def get_network_appliance_port(self, networkId: str, portId: str) -> dict[str, Any] | None:
+    def get_network_appliance_port(self, network_id: str, port_id: str) -> dict[str, Any] | None:
         """Return per-port VLAN settings for a single MX port.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-port
 
         Args:
-            networkId: Network ID.
-            portId: Port ID.
+            network_id: Network ID.
+            port_id: Port ID.
 
         """
         metadata = {
             "tags": ["appliance", "configure", "ports"],
             "operation": "get_network_appliance_port",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        portId = urllib.parse.quote(str(portId), safe="")
-        resource = f"/networks/{networkId}/appliance/ports/{portId}"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        port_id = urllib.parse.quote(str(port_id), safe="")
+        resource = f"/networks/{network_id}/appliance/ports/{port_id}"
 
         return self._session.get(metadata, resource)
 
     def update_network_appliance_port(
-        self, networkId: str, portId: str, **kwargs: Any
+        self, network_id: str, port_id: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Update the per-port VLAN settings for a single MX port.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-port
 
         Args:
-            networkId: Network ID.
-            portId: Port ID.
+            network_id: Network ID.
+            port_id: Port ID.
             enabled: The status of the port.
             dropUntaggedTraffic: Trunk port can Drop all Untagged traffic. When true, no VLAN is
               required. Access ports cannot have dropUntaggedTraffic set to true.
@@ -1057,9 +1059,9 @@ class Appliance:
             "tags": ["appliance", "configure", "ports"],
             "operation": "update_network_appliance_port",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        portId = urllib.parse.quote(str(portId), safe="")
-        resource = f"/networks/{networkId}/appliance/ports/{portId}"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        port_id = urllib.parse.quote(str(port_id), safe="")
+        resource = f"/networks/{network_id}/appliance/ports/{port_id}"
 
         body_params = [
             "enabled",
@@ -1074,34 +1076,34 @@ class Appliance:
         return self._session.put(metadata, resource, payload)
 
     def get_network_appliance_prefixes_delegated_statics(
-        self, networkId: str
+        self, network_id: str
     ) -> dict[str, Any] | None:
         """List static delegated prefixes for a network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-prefixes-delegated-statics
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
 
         """
         metadata = {
             "tags": ["appliance", "configure", "prefixes", "delegated", "statics"],
             "operation": "get_network_appliance_prefixes_delegated_statics",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        resource = f"/networks/{networkId}/appliance/prefixes/delegated/statics"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        resource = f"/networks/{network_id}/appliance/prefixes/delegated/statics"
 
         return self._session.get(metadata, resource)
 
     def create_network_appliance_prefixes_delegated_static(
-        self, networkId: str, prefix: str, origin: dict, **kwargs: Any
+        self, network_id: str, prefix: str, origin: dict, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Add a static delegated prefix from a network.
 
         https://developer.cisco.com/meraki/api-v1/#!create-network-appliance-prefixes-delegated-static
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             prefix: A static IPv6 prefix.
             origin: The origin of the prefix.
             description: A name or description for the prefix.
@@ -1113,8 +1115,8 @@ class Appliance:
             "tags": ["appliance", "configure", "prefixes", "delegated", "statics"],
             "operation": "create_network_appliance_prefixes_delegated_static",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        resource = f"/networks/{networkId}/appliance/prefixes/delegated/statics"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        resource = f"/networks/{network_id}/appliance/prefixes/delegated/statics"
 
         body_params = [
             "prefix",
@@ -1126,39 +1128,37 @@ class Appliance:
         return self._session.post(metadata, resource, payload)
 
     def get_network_appliance_prefixes_delegated_static(
-        self, networkId: str, staticDelegatedPrefixId: str
+        self, network_id: str, static_delegated_prefix_id: str
     ) -> dict[str, Any] | None:
         """Return a static delegated prefix from a network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-prefixes-delegated-static
 
         Args:
-            networkId: Network ID.
-            staticDelegatedPrefixId: Static delegated prefix ID.
+            network_id: Network ID.
+            static_delegated_prefix_id: Static delegated prefix ID.
 
         """
         metadata = {
             "tags": ["appliance", "configure", "prefixes", "delegated", "statics"],
             "operation": "get_network_appliance_prefixes_delegated_static",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        staticDelegatedPrefixId = urllib.parse.quote(str(staticDelegatedPrefixId), safe="")
-        resource = (
-            f"/networks/{networkId}/appliance/prefixes/delegated/statics/{staticDelegatedPrefixId}"
-        )
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        static_delegated_prefix_id = urllib.parse.quote(str(static_delegated_prefix_id), safe="")
+        resource = f"/networks/{network_id}/appliance/prefixes/delegated/statics/{static_delegated_prefix_id}"
 
         return self._session.get(metadata, resource)
 
     def update_network_appliance_prefixes_delegated_static(
-        self, networkId: str, staticDelegatedPrefixId: str, **kwargs: Any
+        self, network_id: str, static_delegated_prefix_id: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Update a static delegated prefix from a network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-prefixes-delegated-static
 
         Args:
-            networkId: Network ID.
-            staticDelegatedPrefixId: Static delegated prefix ID.
+            network_id: Network ID.
+            static_delegated_prefix_id: Static delegated prefix ID.
             prefix: A static IPv6 prefix.
             origin: The origin of the prefix.
             description: A name or description for the prefix.
@@ -1170,11 +1170,9 @@ class Appliance:
             "tags": ["appliance", "configure", "prefixes", "delegated", "statics"],
             "operation": "update_network_appliance_prefixes_delegated_static",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        staticDelegatedPrefixId = urllib.parse.quote(str(staticDelegatedPrefixId), safe="")
-        resource = (
-            f"/networks/{networkId}/appliance/prefixes/delegated/statics/{staticDelegatedPrefixId}"
-        )
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        static_delegated_prefix_id = urllib.parse.quote(str(static_delegated_prefix_id), safe="")
+        resource = f"/networks/{network_id}/appliance/prefixes/delegated/statics/{static_delegated_prefix_id}"
 
         body_params = [
             "prefix",
@@ -1186,56 +1184,54 @@ class Appliance:
         return self._session.put(metadata, resource, payload)
 
     def delete_network_appliance_prefixes_delegated_static(
-        self, networkId: str, staticDelegatedPrefixId: str
+        self, network_id: str, static_delegated_prefix_id: str
     ) -> None:
         """Delete a static delegated prefix from a network.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-network-appliance-prefixes-delegated-static
 
         Args:
-            networkId: Network ID.
-            staticDelegatedPrefixId: Static delegated prefix ID.
+            network_id: Network ID.
+            static_delegated_prefix_id: Static delegated prefix ID.
 
         """
         metadata = {
             "tags": ["appliance", "configure", "prefixes", "delegated", "statics"],
             "operation": "delete_network_appliance_prefixes_delegated_static",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        staticDelegatedPrefixId = urllib.parse.quote(str(staticDelegatedPrefixId), safe="")
-        resource = (
-            f"/networks/{networkId}/appliance/prefixes/delegated/statics/{staticDelegatedPrefixId}"
-        )
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        static_delegated_prefix_id = urllib.parse.quote(str(static_delegated_prefix_id), safe="")
+        resource = f"/networks/{network_id}/appliance/prefixes/delegated/statics/{static_delegated_prefix_id}"
 
         return self._session.delete(metadata, resource)
 
-    def get_network_appliance_rf_profiles(self, networkId: str) -> dict[str, Any] | None:
+    def get_network_appliance_rf_profiles(self, network_id: str) -> dict[str, Any] | None:
         """List the RF profiles for this network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-rf-profiles
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
 
         """
         metadata = {
             "tags": ["appliance", "configure", "rfProfiles"],
             "operation": "get_network_appliance_rf_profiles",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        resource = f"/networks/{networkId}/appliance/rfProfiles"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        resource = f"/networks/{network_id}/appliance/rfProfiles"
 
         return self._session.get(metadata, resource)
 
     def create_network_appliance_rf_profile(
-        self, networkId: str, name: str, **kwargs: Any
+        self, network_id: str, name: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Creates new RF profile for this network.
 
         https://developer.cisco.com/meraki/api-v1/#!create-network-appliance-rf-profile
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             name: The name of the new profile. Must be unique. This param is required on creation.
             twoFourGhzSettings: Settings related to 2.4Ghz band.
             fiveGhzSettings: Settings related to 5Ghz band.
@@ -1248,8 +1244,8 @@ class Appliance:
             "tags": ["appliance", "configure", "rfProfiles"],
             "operation": "create_network_appliance_rf_profile",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        resource = f"/networks/{networkId}/appliance/rfProfiles"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        resource = f"/networks/{network_id}/appliance/rfProfiles"
 
         body_params = [
             "name",
@@ -1262,15 +1258,15 @@ class Appliance:
         return self._session.post(metadata, resource, payload)
 
     def update_network_appliance_rf_profile(
-        self, networkId: str, rfProfileId: str, **kwargs: Any
+        self, network_id: str, rf_profile_id: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Updates specified RF profile for this network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-rf-profile
 
         Args:
-            networkId: Network ID.
-            rfProfileId: Rf profile ID.
+            network_id: Network ID.
+            rf_profile_id: Rf profile ID.
             name: The name of the new profile. Must be unique.
             twoFourGhzSettings: Settings related to 2.4Ghz band.
             fiveGhzSettings: Settings related to 5Ghz band.
@@ -1283,9 +1279,9 @@ class Appliance:
             "tags": ["appliance", "configure", "rfProfiles"],
             "operation": "update_network_appliance_rf_profile",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        rfProfileId = urllib.parse.quote(str(rfProfileId), safe="")
-        resource = f"/networks/{networkId}/appliance/rfProfiles/{rfProfileId}"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        rf_profile_id = urllib.parse.quote(str(rf_profile_id), safe="")
+        resource = f"/networks/{network_id}/appliance/rfProfiles/{rf_profile_id}"
 
         body_params = [
             "name",
@@ -1297,57 +1293,57 @@ class Appliance:
 
         return self._session.put(metadata, resource, payload)
 
-    def delete_network_appliance_rf_profile(self, networkId: str, rfProfileId: str) -> None:
+    def delete_network_appliance_rf_profile(self, network_id: str, rf_profile_id: str) -> None:
         """Delete a RF Profile.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-network-appliance-rf-profile
 
         Args:
-            networkId: Network ID.
-            rfProfileId: Rf profile ID.
+            network_id: Network ID.
+            rf_profile_id: Rf profile ID.
 
         """
         metadata = {
             "tags": ["appliance", "configure", "rfProfiles"],
             "operation": "delete_network_appliance_rf_profile",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        rfProfileId = urllib.parse.quote(str(rfProfileId), safe="")
-        resource = f"/networks/{networkId}/appliance/rfProfiles/{rfProfileId}"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        rf_profile_id = urllib.parse.quote(str(rf_profile_id), safe="")
+        resource = f"/networks/{network_id}/appliance/rfProfiles/{rf_profile_id}"
 
         return self._session.delete(metadata, resource)
 
     def get_network_appliance_rf_profile(
-        self, networkId: str, rfProfileId: str
+        self, network_id: str, rf_profile_id: str
     ) -> dict[str, Any] | None:
         """Return a RF profile.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-rf-profile
 
         Args:
-            networkId: Network ID.
-            rfProfileId: Rf profile ID.
+            network_id: Network ID.
+            rf_profile_id: Rf profile ID.
 
         """
         metadata = {
             "tags": ["appliance", "configure", "rfProfiles"],
             "operation": "get_network_appliance_rf_profile",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        rfProfileId = urllib.parse.quote(str(rfProfileId), safe="")
-        resource = f"/networks/{networkId}/appliance/rfProfiles/{rfProfileId}"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        rf_profile_id = urllib.parse.quote(str(rf_profile_id), safe="")
+        resource = f"/networks/{network_id}/appliance/rfProfiles/{rf_profile_id}"
 
         return self._session.get(metadata, resource)
 
     def update_network_appliance_sdwan_internet_policies(
-        self, networkId: str, **kwargs: Any
+        self, network_id: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Update SDWAN internet traffic preferences for an MX network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-sdwan-internet-policies
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             wanTrafficUplinkPreferences: policies with respective traffic filters for an MX network.
 
         """
@@ -1357,8 +1353,8 @@ class Appliance:
             "tags": ["appliance", "configure", "sdwan", "internetPolicies"],
             "operation": "update_network_appliance_sdwan_internet_policies",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        resource = f"/networks/{networkId}/appliance/sdwan/internetPolicies"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        resource = f"/networks/{network_id}/appliance/sdwan/internetPolicies"
 
         body_params = [
             "wanTrafficUplinkPreferences",
@@ -1368,14 +1364,14 @@ class Appliance:
         return self._session.put(metadata, resource, payload)
 
     def get_network_appliance_security_events(
-        self, networkId: str, total_pages=1, direction="next", **kwargs: Any
+        self, network_id: str, total_pages=1, direction="next", **kwargs: Any
     ) -> Generator[Any, None, None]:
         """List the security events for a network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-security-events
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
@@ -1411,8 +1407,8 @@ class Appliance:
             "tags": ["appliance", "monitor", "security", "events"],
             "operation": "get_network_appliance_security_events",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        resource = f"/networks/{networkId}/appliance/security/events"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        resource = f"/networks/{network_id}/appliance/security/events"
 
         query_params = [
             "t0",
@@ -1427,33 +1423,33 @@ class Appliance:
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
-    def get_network_appliance_security_intrusion(self, networkId: str) -> dict[str, Any] | None:
+    def get_network_appliance_security_intrusion(self, network_id: str) -> dict[str, Any] | None:
         """Returns all supported intrusion settings for an MX network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-security-intrusion
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
 
         """
         metadata = {
             "tags": ["appliance", "configure", "security", "intrusion"],
             "operation": "get_network_appliance_security_intrusion",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        resource = f"/networks/{networkId}/appliance/security/intrusion"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        resource = f"/networks/{network_id}/appliance/security/intrusion"
 
         return self._session.get(metadata, resource)
 
     def update_network_appliance_security_intrusion(
-        self, networkId: str, **kwargs: Any
+        self, network_id: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Set the supported intrusion settings for an MX network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-security-intrusion
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             mode: Set mode to 'disabled'/'detection'/'prevention' (optional - omitting will leave
               current config unchanged).
             idsRulesets: Set the detection ruleset 'connectivity'/'balanced'/'security' (optional -
@@ -1481,8 +1477,8 @@ class Appliance:
             "tags": ["appliance", "configure", "security", "intrusion"],
             "operation": "update_network_appliance_security_intrusion",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        resource = f"/networks/{networkId}/appliance/security/intrusion"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        resource = f"/networks/{network_id}/appliance/security/intrusion"
 
         body_params = [
             "mode",
@@ -1493,33 +1489,33 @@ class Appliance:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_network_appliance_security_malware(self, networkId: str) -> dict[str, Any] | None:
+    def get_network_appliance_security_malware(self, network_id: str) -> dict[str, Any] | None:
         """Returns all supported malware settings for an MX network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-security-malware
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
 
         """
         metadata = {
             "tags": ["appliance", "configure", "security", "malware"],
             "operation": "get_network_appliance_security_malware",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        resource = f"/networks/{networkId}/appliance/security/malware"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        resource = f"/networks/{network_id}/appliance/security/malware"
 
         return self._session.get(metadata, resource)
 
     def update_network_appliance_security_malware(
-        self, networkId: str, mode: str, **kwargs: Any
+        self, network_id: str, mode: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Set the supported malware settings for an MX network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-security-malware
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             mode: Set mode to 'enabled' to enable malware prevention, otherwise 'disabled'.
             allowedUrls: The urls that should be permitted by the malware detection engine. If
               omitted, the current config will remain unchanged. This is available only
@@ -1541,8 +1537,8 @@ class Appliance:
             "tags": ["appliance", "configure", "security", "malware"],
             "operation": "update_network_appliance_security_malware",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        resource = f"/networks/{networkId}/appliance/security/malware"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        resource = f"/networks/{network_id}/appliance/security/malware"
 
         body_params = [
             "mode",
@@ -1553,33 +1549,33 @@ class Appliance:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_network_appliance_settings(self, networkId: str) -> dict[str, Any] | None:
+    def get_network_appliance_settings(self, network_id: str) -> dict[str, Any] | None:
         """Return the appliance settings for a network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-settings
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
 
         """
         metadata = {
             "tags": ["appliance", "configure", "settings"],
             "operation": "get_network_appliance_settings",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        resource = f"/networks/{networkId}/appliance/settings"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        resource = f"/networks/{network_id}/appliance/settings"
 
         return self._session.get(metadata, resource)
 
     def update_network_appliance_settings(
-        self, networkId: str, **kwargs: Any
+        self, network_id: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Update the appliance settings for a network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-settings
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             clientTrackingMethod: Client tracking method of a network.
             deploymentMode: Deployment mode of a network.
             dynamicDns: Dynamic DNS settings for a network.
@@ -1602,8 +1598,8 @@ class Appliance:
             "tags": ["appliance", "configure", "settings"],
             "operation": "update_network_appliance_settings",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        resource = f"/networks/{networkId}/appliance/settings"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        resource = f"/networks/{network_id}/appliance/settings"
 
         body_params = [
             "clientTrackingMethod",
@@ -1614,33 +1610,33 @@ class Appliance:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_network_appliance_single_lan(self, networkId: str) -> dict[str, Any] | None:
+    def get_network_appliance_single_lan(self, network_id: str) -> dict[str, Any] | None:
         """Return single LAN configuration.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-single-lan
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
 
         """
         metadata = {
             "tags": ["appliance", "configure", "singleLan"],
             "operation": "get_network_appliance_single_lan",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        resource = f"/networks/{networkId}/appliance/singleLan"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        resource = f"/networks/{network_id}/appliance/singleLan"
 
         return self._session.get(metadata, resource)
 
     def update_network_appliance_single_lan(
-        self, networkId: str, **kwargs: Any
+        self, network_id: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Update single LAN configuration.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-single-lan
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             subnet: The subnet of the single LAN configuration.
             applianceIp: The appliance IP address of the single LAN.
             ipv6: IPv6 configuration on the VLAN.
@@ -1656,8 +1652,8 @@ class Appliance:
             "tags": ["appliance", "configure", "singleLan"],
             "operation": "update_network_appliance_single_lan",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        resource = f"/networks/{networkId}/appliance/singleLan"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        resource = f"/networks/{network_id}/appliance/singleLan"
 
         body_params = [
             "subnet",
@@ -1669,31 +1665,31 @@ class Appliance:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_network_appliance_ssids(self, networkId: str) -> dict[str, Any] | None:
+    def get_network_appliance_ssids(self, network_id: str) -> dict[str, Any] | None:
         """List the MX SSIDs in a network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-ssids
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
 
         """
         metadata = {
             "tags": ["appliance", "configure", "ssids"],
             "operation": "get_network_appliance_ssids",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        resource = f"/networks/{networkId}/appliance/ssids"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        resource = f"/networks/{network_id}/appliance/ssids"
 
         return self._session.get(metadata, resource)
 
-    def get_network_appliance_ssid(self, networkId: str, number: str) -> dict[str, Any] | None:
+    def get_network_appliance_ssid(self, network_id: str, number: str) -> dict[str, Any] | None:
         """Return a single MX SSID.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-ssid
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             number: Number.
 
         """
@@ -1701,21 +1697,21 @@ class Appliance:
             "tags": ["appliance", "configure", "ssids"],
             "operation": "get_network_appliance_ssid",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
+        network_id = urllib.parse.quote(str(network_id), safe="")
         number = urllib.parse.quote(str(number), safe="")
-        resource = f"/networks/{networkId}/appliance/ssids/{number}"
+        resource = f"/networks/{network_id}/appliance/ssids/{number}"
 
         return self._session.get(metadata, resource)
 
     def update_network_appliance_ssid(
-        self, networkId: str, number: str, **kwargs: Any
+        self, network_id: str, number: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Update the attributes of an MX SSID.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-ssid
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             number: Number.
             name: The name of the SSID.
             enabled: Whether or not the SSID is enabled.
@@ -1762,9 +1758,9 @@ class Appliance:
             "tags": ["appliance", "configure", "ssids"],
             "operation": "update_network_appliance_ssid",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
+        network_id = urllib.parse.quote(str(network_id), safe="")
         number = urllib.parse.quote(str(number), safe="")
-        resource = f"/networks/{networkId}/appliance/ssids/{number}"
+        resource = f"/networks/{network_id}/appliance/ssids/{number}"
 
         body_params = [
             "name",
@@ -1783,33 +1779,33 @@ class Appliance:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_network_appliance_static_routes(self, networkId: str) -> dict[str, Any] | None:
+    def get_network_appliance_static_routes(self, network_id: str) -> dict[str, Any] | None:
         """List the static routes for an MX or teleworker network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-static-routes
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
 
         """
         metadata = {
             "tags": ["appliance", "configure", "staticRoutes"],
             "operation": "get_network_appliance_static_routes",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        resource = f"/networks/{networkId}/appliance/staticRoutes"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        resource = f"/networks/{network_id}/appliance/staticRoutes"
 
         return self._session.get(metadata, resource)
 
     def create_network_appliance_static_route(
-        self, networkId: str, name: str, subnet: str, gatewayIp: str, **kwargs: Any
+        self, network_id: str, name: str, subnet: str, gatewayIp: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Add a static route for an MX or teleworker network.
 
         https://developer.cisco.com/meraki/api-v1/#!create-network-appliance-static-route
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             name: Name of the route.
             subnet: Subnet of the route.
             gatewayIp: Gateway IP address (next hop).
@@ -1822,8 +1818,8 @@ class Appliance:
             "tags": ["appliance", "configure", "staticRoutes"],
             "operation": "create_network_appliance_static_route",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        resource = f"/networks/{networkId}/appliance/staticRoutes"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        resource = f"/networks/{network_id}/appliance/staticRoutes"
 
         body_params = [
             "name",
@@ -1836,37 +1832,37 @@ class Appliance:
         return self._session.post(metadata, resource, payload)
 
     def get_network_appliance_static_route(
-        self, networkId: str, staticRouteId: str
+        self, network_id: str, static_route_id: str
     ) -> dict[str, Any] | None:
         """Return a static route for an MX or teleworker network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-static-route
 
         Args:
-            networkId: Network ID.
-            staticRouteId: Static route ID.
+            network_id: Network ID.
+            static_route_id: Static route ID.
 
         """
         metadata = {
             "tags": ["appliance", "configure", "staticRoutes"],
             "operation": "get_network_appliance_static_route",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        staticRouteId = urllib.parse.quote(str(staticRouteId), safe="")
-        resource = f"/networks/{networkId}/appliance/staticRoutes/{staticRouteId}"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        static_route_id = urllib.parse.quote(str(static_route_id), safe="")
+        resource = f"/networks/{network_id}/appliance/staticRoutes/{static_route_id}"
 
         return self._session.get(metadata, resource)
 
     def update_network_appliance_static_route(
-        self, networkId: str, staticRouteId: str, **kwargs: Any
+        self, network_id: str, static_route_id: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Update a static route for an MX or teleworker network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-static-route
 
         Args:
-            networkId: Network ID.
-            staticRouteId: Static route ID.
+            network_id: Network ID.
+            static_route_id: Static route ID.
             name: Name of the route.
             subnet: Subnet of the route.
             gatewayIp: Gateway IP address (next hop).
@@ -1882,9 +1878,9 @@ class Appliance:
             "tags": ["appliance", "configure", "staticRoutes"],
             "operation": "update_network_appliance_static_route",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        staticRouteId = urllib.parse.quote(str(staticRouteId), safe="")
-        resource = f"/networks/{networkId}/appliance/staticRoutes/{staticRouteId}"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        static_route_id = urllib.parse.quote(str(static_route_id), safe="")
+        resource = f"/networks/{network_id}/appliance/staticRoutes/{static_route_id}"
 
         body_params = [
             "name",
@@ -1899,53 +1895,53 @@ class Appliance:
 
         return self._session.put(metadata, resource, payload)
 
-    def delete_network_appliance_static_route(self, networkId: str, staticRouteId: str) -> None:
+    def delete_network_appliance_static_route(self, network_id: str, static_route_id: str) -> None:
         """Delete a static route from an MX or teleworker network.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-network-appliance-static-route
 
         Args:
-            networkId: Network ID.
-            staticRouteId: Static route ID.
+            network_id: Network ID.
+            static_route_id: Static route ID.
 
         """
         metadata = {
             "tags": ["appliance", "configure", "staticRoutes"],
             "operation": "delete_network_appliance_static_route",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        staticRouteId = urllib.parse.quote(str(staticRouteId), safe="")
-        resource = f"/networks/{networkId}/appliance/staticRoutes/{staticRouteId}"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        static_route_id = urllib.parse.quote(str(static_route_id), safe="")
+        resource = f"/networks/{network_id}/appliance/staticRoutes/{static_route_id}"
 
         return self._session.delete(metadata, resource)
 
-    def get_network_appliance_traffic_shaping(self, networkId: str) -> dict[str, Any] | None:
+    def get_network_appliance_traffic_shaping(self, network_id: str) -> dict[str, Any] | None:
         """Display the traffic shaping settings for an MX network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-traffic-shaping
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
 
         """
         metadata = {
             "tags": ["appliance", "configure", "trafficShaping"],
             "operation": "get_network_appliance_traffic_shaping",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        resource = f"/networks/{networkId}/appliance/trafficShaping"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        resource = f"/networks/{network_id}/appliance/trafficShaping"
 
         return self._session.get(metadata, resource)
 
     def update_network_appliance_traffic_shaping(
-        self, networkId: str, **kwargs: Any
+        self, network_id: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Update the traffic shaping settings for an MX network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-traffic-shaping
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             globalBandwidthLimits: Global per-client bandwidth limit.
 
         """
@@ -1955,8 +1951,8 @@ class Appliance:
             "tags": ["appliance", "configure", "trafficShaping"],
             "operation": "update_network_appliance_traffic_shaping",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        resource = f"/networks/{networkId}/appliance/trafficShaping"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        resource = f"/networks/{network_id}/appliance/trafficShaping"
 
         body_params = [
             "globalBandwidthLimits",
@@ -1966,34 +1962,34 @@ class Appliance:
         return self._session.put(metadata, resource, payload)
 
     def get_network_appliance_traffic_shaping_custom_performance_classes(
-        self, networkId: str
+        self, network_id: str
     ) -> dict[str, Any] | None:
         """List all custom performance classes for an MX network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-traffic-shaping-custom-performance-classes
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
 
         """
         metadata = {
             "tags": ["appliance", "configure", "trafficShaping", "customPerformanceClasses"],
             "operation": "get_network_appliance_traffic_shaping_custom_performance_classes",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        resource = f"/networks/{networkId}/appliance/trafficShaping/customPerformanceClasses"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        resource = f"/networks/{network_id}/appliance/trafficShaping/customPerformanceClasses"
 
         return self._session.get(metadata, resource)
 
     def create_network_appliance_traffic_shaping_custom_performance_class(
-        self, networkId: str, name: str, **kwargs: Any
+        self, network_id: str, name: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Add a custom performance class for an MX network.
 
         https://developer.cisco.com/meraki/api-v1/#!create-network-appliance-traffic-shaping-custom-performance-class
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             name: Name of the custom performance class.
             maxLatency: Maximum latency in milliseconds.
             maxJitter: Maximum jitter in milliseconds.
@@ -2006,8 +2002,8 @@ class Appliance:
             "tags": ["appliance", "configure", "trafficShaping", "customPerformanceClasses"],
             "operation": "create_network_appliance_traffic_shaping_custom_performance_class",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        resource = f"/networks/{networkId}/appliance/trafficShaping/customPerformanceClasses"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        resource = f"/networks/{network_id}/appliance/trafficShaping/customPerformanceClasses"
 
         body_params = [
             "name",
@@ -2020,37 +2016,37 @@ class Appliance:
         return self._session.post(metadata, resource, payload)
 
     def get_network_appliance_traffic_shaping_custom_performance_class(
-        self, networkId: str, customPerformanceClassId: str
+        self, network_id: str, custom_performance_class_id: str
     ) -> dict[str, Any] | None:
         """Return a custom performance class for an MX network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-traffic-shaping-custom-performance-class
 
         Args:
-            networkId: Network ID.
-            customPerformanceClassId: Custom performance class ID.
+            network_id: Network ID.
+            custom_performance_class_id: Custom performance class ID.
 
         """
         metadata = {
             "tags": ["appliance", "configure", "trafficShaping", "customPerformanceClasses"],
             "operation": "get_network_appliance_traffic_shaping_custom_performance_class",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        customPerformanceClassId = urllib.parse.quote(str(customPerformanceClassId), safe="")
-        resource = f"/networks/{networkId}/appliance/trafficShaping/customPerformanceClasses/{customPerformanceClassId}"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        custom_performance_class_id = urllib.parse.quote(str(custom_performance_class_id), safe="")
+        resource = f"/networks/{network_id}/appliance/trafficShaping/customPerformanceClasses/{custom_performance_class_id}"
 
         return self._session.get(metadata, resource)
 
     def update_network_appliance_traffic_shaping_custom_performance_class(
-        self, networkId: str, customPerformanceClassId: str, **kwargs: Any
+        self, network_id: str, custom_performance_class_id: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Update a custom performance class for an MX network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-traffic-shaping-custom-performance-class
 
         Args:
-            networkId: Network ID.
-            customPerformanceClassId: Custom performance class ID.
+            network_id: Network ID.
+            custom_performance_class_id: Custom performance class ID.
             name: Name of the custom performance class.
             maxLatency: Maximum latency in milliseconds.
             maxJitter: Maximum jitter in milliseconds.
@@ -2063,9 +2059,9 @@ class Appliance:
             "tags": ["appliance", "configure", "trafficShaping", "customPerformanceClasses"],
             "operation": "update_network_appliance_traffic_shaping_custom_performance_class",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        customPerformanceClassId = urllib.parse.quote(str(customPerformanceClassId), safe="")
-        resource = f"/networks/{networkId}/appliance/trafficShaping/customPerformanceClasses/{customPerformanceClassId}"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        custom_performance_class_id = urllib.parse.quote(str(custom_performance_class_id), safe="")
+        resource = f"/networks/{network_id}/appliance/trafficShaping/customPerformanceClasses/{custom_performance_class_id}"
 
         body_params = [
             "name",
@@ -2078,36 +2074,36 @@ class Appliance:
         return self._session.put(metadata, resource, payload)
 
     def delete_network_appliance_traffic_shaping_custom_performance_class(
-        self, networkId: str, customPerformanceClassId: str
+        self, network_id: str, custom_performance_class_id: str
     ) -> None:
         """Delete a custom performance class from an MX network.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-network-appliance-traffic-shaping-custom-performance-class
 
         Args:
-            networkId: Network ID.
-            customPerformanceClassId: Custom performance class ID.
+            network_id: Network ID.
+            custom_performance_class_id: Custom performance class ID.
 
         """
         metadata = {
             "tags": ["appliance", "configure", "trafficShaping", "customPerformanceClasses"],
             "operation": "delete_network_appliance_traffic_shaping_custom_performance_class",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        customPerformanceClassId = urllib.parse.quote(str(customPerformanceClassId), safe="")
-        resource = f"/networks/{networkId}/appliance/trafficShaping/customPerformanceClasses/{customPerformanceClassId}"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        custom_performance_class_id = urllib.parse.quote(str(custom_performance_class_id), safe="")
+        resource = f"/networks/{network_id}/appliance/trafficShaping/customPerformanceClasses/{custom_performance_class_id}"
 
         return self._session.delete(metadata, resource)
 
     def update_network_appliance_traffic_shaping_rules(
-        self, networkId: str, **kwargs: Any
+        self, network_id: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Update the traffic shaping settings rules for an MX network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-traffic-shaping-rules
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             defaultRulesEnabled: Whether default traffic shaping rules are enabled (true) or
               disabled (false). There are 4 default rules, which can be seen on your
               network's traffic shaping page. Note that default rules count against the
@@ -2123,8 +2119,8 @@ class Appliance:
             "tags": ["appliance", "configure", "trafficShaping", "rules"],
             "operation": "update_network_appliance_traffic_shaping_rules",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        resource = f"/networks/{networkId}/appliance/trafficShaping/rules"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        resource = f"/networks/{network_id}/appliance/trafficShaping/rules"
 
         body_params = [
             "defaultRulesEnabled",
@@ -2134,53 +2130,53 @@ class Appliance:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_network_appliance_traffic_shaping_rules(self, networkId: str) -> dict[str, Any] | None:
+    def get_network_appliance_traffic_shaping_rules(self, network_id: str) -> dict[str, Any] | None:
         """Display the traffic shaping settings rules for an MX network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-traffic-shaping-rules
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
 
         """
         metadata = {
             "tags": ["appliance", "configure", "trafficShaping", "rules"],
             "operation": "get_network_appliance_traffic_shaping_rules",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        resource = f"/networks/{networkId}/appliance/trafficShaping/rules"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        resource = f"/networks/{network_id}/appliance/trafficShaping/rules"
 
         return self._session.get(metadata, resource)
 
     def get_network_appliance_traffic_shaping_uplink_bandwidth(
-        self, networkId: str
+        self, network_id: str
     ) -> dict[str, Any] | None:
         """Returns the uplink bandwidth limits for your MX network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-traffic-shaping-uplink-bandwidth
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
 
         """
         metadata = {
             "tags": ["appliance", "configure", "trafficShaping", "uplinkBandwidth"],
             "operation": "get_network_appliance_traffic_shaping_uplink_bandwidth",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        resource = f"/networks/{networkId}/appliance/trafficShaping/uplinkBandwidth"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        resource = f"/networks/{network_id}/appliance/trafficShaping/uplinkBandwidth"
 
         return self._session.get(metadata, resource)
 
     def update_network_appliance_traffic_shaping_uplink_bandwidth(
-        self, networkId: str, **kwargs: Any
+        self, network_id: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Updates the uplink bandwidth settings for your MX network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-traffic-shaping-uplink-bandwidth
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             bandwidthLimits: A mapping of uplinks to their bandwidth settings (be sure to check
               which uplinks are supported for your network).
 
@@ -2191,8 +2187,8 @@ class Appliance:
             "tags": ["appliance", "configure", "trafficShaping", "uplinkBandwidth"],
             "operation": "update_network_appliance_traffic_shaping_uplink_bandwidth",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        resource = f"/networks/{networkId}/appliance/trafficShaping/uplinkBandwidth"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        resource = f"/networks/{network_id}/appliance/trafficShaping/uplinkBandwidth"
 
         body_params = [
             "bandwidthLimits",
@@ -2202,34 +2198,34 @@ class Appliance:
         return self._session.put(metadata, resource, payload)
 
     def get_network_appliance_traffic_shaping_uplink_selection(
-        self, networkId: str
+        self, network_id: str
     ) -> dict[str, Any] | None:
         """Show uplink selection settings for an MX network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-traffic-shaping-uplink-selection
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
 
         """
         metadata = {
             "tags": ["appliance", "configure", "trafficShaping", "uplinkSelection"],
             "operation": "get_network_appliance_traffic_shaping_uplink_selection",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        resource = f"/networks/{networkId}/appliance/trafficShaping/uplinkSelection"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        resource = f"/networks/{network_id}/appliance/trafficShaping/uplinkSelection"
 
         return self._session.get(metadata, resource)
 
     def update_network_appliance_traffic_shaping_uplink_selection(
-        self, networkId: str, **kwargs: Any
+        self, network_id: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Update uplink selection settings for an MX network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-traffic-shaping-uplink-selection
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             activeActiveAutoVpnEnabled: Toggle for enabling or disabling active-active AutoVPN.
             defaultUplink: The default uplink. Must be a WAN interface 'wanX'.
             loadBalancingEnabled: Toggle for enabling or disabling load balancing.
@@ -2244,8 +2240,8 @@ class Appliance:
             "tags": ["appliance", "configure", "trafficShaping", "uplinkSelection"],
             "operation": "update_network_appliance_traffic_shaping_uplink_selection",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        resource = f"/networks/{networkId}/appliance/trafficShaping/uplinkSelection"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        resource = f"/networks/{network_id}/appliance/trafficShaping/uplinkSelection"
 
         body_params = [
             "activeActiveAutoVpnEnabled",
@@ -2260,14 +2256,14 @@ class Appliance:
         return self._session.put(metadata, resource, payload)
 
     def update_network_appliance_traffic_shaping_vpn_exclusions(
-        self, networkId: str, **kwargs: Any
+        self, network_id: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Update VPN exclusion rules for an MX network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-traffic-shaping-vpn-exclusions
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             custom: Custom VPN exclusion rules. Pass an empty array to clear existing rules.
             majorApplications: Major Application based VPN exclusion rules. Pass an empty array to
               clear existing rules.
@@ -2279,8 +2275,8 @@ class Appliance:
             "tags": ["appliance", "configure", "trafficShaping", "vpnExclusions"],
             "operation": "update_network_appliance_traffic_shaping_vpn_exclusions",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        resource = f"/networks/{networkId}/appliance/trafficShaping/vpnExclusions"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        resource = f"/networks/{network_id}/appliance/trafficShaping/vpnExclusions"
 
         body_params = [
             "custom",
@@ -2291,14 +2287,14 @@ class Appliance:
         return self._session.put(metadata, resource, payload)
 
     def get_network_appliance_uplinks_usage_history(
-        self, networkId: str, **kwargs: Any
+        self, network_id: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Get the sent and received bytes for each uplink of a network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-uplinks-usage-history
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             t0: The beginning of the timespan for the data. The maximum lookback period is 365 days
               from today.
             t1: The end of the timespan for the data. t1 can be a maximum of 31 days after t0.
@@ -2315,8 +2311,8 @@ class Appliance:
             "tags": ["appliance", "monitor", "uplinks", "usageHistory"],
             "operation": "get_network_appliance_uplinks_usage_history",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        resource = f"/networks/{networkId}/appliance/uplinks/usageHistory"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        resource = f"/networks/{network_id}/appliance/uplinks/usageHistory"
 
         query_params = [
             "t0",
@@ -2328,33 +2324,33 @@ class Appliance:
 
         return self._session.get(metadata, resource, params)
 
-    def get_network_appliance_vlans(self, networkId: str) -> dict[str, Any] | None:
+    def get_network_appliance_vlans(self, network_id: str) -> dict[str, Any] | None:
         """List the VLANs for a Cisco Secure Router network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-vlans
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
 
         """
         metadata = {
             "tags": ["appliance", "configure", "vlans"],
             "operation": "get_network_appliance_vlans",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        resource = f"/networks/{networkId}/appliance/vlans"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        resource = f"/networks/{network_id}/appliance/vlans"
 
         return self._session.get(metadata, resource)
 
     def create_network_appliance_vlan(
-        self, networkId: str, id: str, name: str, **kwargs: Any
+        self, network_id: str, id: str, name: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Add a VLAN.
 
         https://developer.cisco.com/meraki/api-v1/#!create-network-appliance-vlan
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             id: The VLAN ID of the new VLAN (must be between 1 and 4094).
             name: The name of the new VLAN.
             subnet: The subnet of the VLAN.
@@ -2413,8 +2409,8 @@ class Appliance:
             "tags": ["appliance", "configure", "vlans"],
             "operation": "create_network_appliance_vlan",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        resource = f"/networks/{networkId}/appliance/vlans"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        resource = f"/networks/{network_id}/appliance/vlans"
 
         body_params = [
             "id",
@@ -2439,33 +2435,33 @@ class Appliance:
 
         return self._session.post(metadata, resource, payload)
 
-    def get_network_appliance_vlans_settings(self, networkId: str) -> dict[str, Any] | None:
+    def get_network_appliance_vlans_settings(self, network_id: str) -> dict[str, Any] | None:
         """Returns the enabled status of VLANs for the network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-vlans-settings
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
 
         """
         metadata = {
             "tags": ["appliance", "configure", "vlans", "settings"],
             "operation": "get_network_appliance_vlans_settings",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        resource = f"/networks/{networkId}/appliance/vlans/settings"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        resource = f"/networks/{network_id}/appliance/vlans/settings"
 
         return self._session.get(metadata, resource)
 
     def update_network_appliance_vlans_settings(
-        self, networkId: str, **kwargs: Any
+        self, network_id: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Enable/Disable VLANs for the given network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-vlans-settings
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             vlansEnabled: Boolean indicating whether to enable (true) or disable (false) VLANs for
               the network.
 
@@ -2476,8 +2472,8 @@ class Appliance:
             "tags": ["appliance", "configure", "vlans", "settings"],
             "operation": "update_network_appliance_vlans_settings",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        resource = f"/networks/{networkId}/appliance/vlans/settings"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        resource = f"/networks/{network_id}/appliance/vlans/settings"
 
         body_params = [
             "vlansEnabled",
@@ -2486,36 +2482,36 @@ class Appliance:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_network_appliance_vlan(self, networkId: str, vlanId: str) -> dict[str, Any] | None:
+    def get_network_appliance_vlan(self, network_id: str, vlan_id: str) -> dict[str, Any] | None:
         """Return a VLAN.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-vlan
 
         Args:
-            networkId: Network ID.
-            vlanId: Vlan ID.
+            network_id: Network ID.
+            vlan_id: Vlan ID.
 
         """
         metadata = {
             "tags": ["appliance", "configure", "vlans"],
             "operation": "get_network_appliance_vlan",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        vlanId = urllib.parse.quote(str(vlanId), safe="")
-        resource = f"/networks/{networkId}/appliance/vlans/{vlanId}"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        vlan_id = urllib.parse.quote(str(vlan_id), safe="")
+        resource = f"/networks/{network_id}/appliance/vlans/{vlan_id}"
 
         return self._session.get(metadata, resource)
 
     def update_network_appliance_vlan(
-        self, networkId: str, vlanId: str, **kwargs: Any
+        self, network_id: str, vlan_id: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Update a VLAN.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-vlan
 
         Args:
-            networkId: Network ID.
-            vlanId: Vlan ID.
+            network_id: Network ID.
+            vlan_id: Vlan ID.
             name: The name of the VLAN.
             subnet: The subnet of the VLAN.
             applianceIp: The local IP of the appliance on the VLAN.
@@ -2583,9 +2579,9 @@ class Appliance:
             "tags": ["appliance", "configure", "vlans"],
             "operation": "update_network_appliance_vlan",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        vlanId = urllib.parse.quote(str(vlanId), safe="")
-        resource = f"/networks/{networkId}/appliance/vlans/{vlanId}"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        vlan_id = urllib.parse.quote(str(vlan_id), safe="")
+        resource = f"/networks/{network_id}/appliance/vlans/{vlan_id}"
 
         body_params = [
             "name",
@@ -2613,53 +2609,53 @@ class Appliance:
 
         return self._session.put(metadata, resource, payload)
 
-    def delete_network_appliance_vlan(self, networkId: str, vlanId: str) -> None:
+    def delete_network_appliance_vlan(self, network_id: str, vlan_id: str) -> None:
         """Delete a VLAN from a network.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-network-appliance-vlan
 
         Args:
-            networkId: Network ID.
-            vlanId: Vlan ID.
+            network_id: Network ID.
+            vlan_id: Vlan ID.
 
         """
         metadata = {
             "tags": ["appliance", "configure", "vlans"],
             "operation": "delete_network_appliance_vlan",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        vlanId = urllib.parse.quote(str(vlanId), safe="")
-        resource = f"/networks/{networkId}/appliance/vlans/{vlanId}"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        vlan_id = urllib.parse.quote(str(vlan_id), safe="")
+        resource = f"/networks/{network_id}/appliance/vlans/{vlan_id}"
 
         return self._session.delete(metadata, resource)
 
-    def get_network_appliance_vpn_bgp(self, networkId: str) -> dict[str, Any] | None:
+    def get_network_appliance_vpn_bgp(self, network_id: str) -> dict[str, Any] | None:
         """Return a Hub BGP Configuration.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-vpn-bgp
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
 
         """
         metadata = {
             "tags": ["appliance", "configure", "vpn", "bgp"],
             "operation": "get_network_appliance_vpn_bgp",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        resource = f"/networks/{networkId}/appliance/vpn/bgp"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        resource = f"/networks/{network_id}/appliance/vpn/bgp"
 
         return self._session.get(metadata, resource)
 
     def update_network_appliance_vpn_bgp(
-        self, networkId: str, enabled: bool, **kwargs: Any
+        self, network_id: str, enabled: bool, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Update a Hub BGP Configuration.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-vpn-bgp
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             enabled: Boolean value to enable or disable the BGP configuration. When BGP is enabled,
               the asNumber (ASN) will be autopopulated with the preconfigured ASN at
               other Hubs or a default value if there is no ASN configured.
@@ -2682,8 +2678,8 @@ class Appliance:
             "tags": ["appliance", "configure", "vpn", "bgp"],
             "operation": "update_network_appliance_vpn_bgp",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        resource = f"/networks/{networkId}/appliance/vpn/bgp"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        resource = f"/networks/{network_id}/appliance/vpn/bgp"
 
         body_params = [
             "enabled",
@@ -2695,33 +2691,33 @@ class Appliance:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_network_appliance_vpn_site_to_site_vpn(self, networkId: str) -> dict[str, Any] | None:
+    def get_network_appliance_vpn_site_to_site_vpn(self, network_id: str) -> dict[str, Any] | None:
         """Return the site-to-site VPN settings of a network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-vpn-site-to-site-vpn
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
 
         """
         metadata = {
             "tags": ["appliance", "configure", "vpn", "siteToSiteVpn"],
             "operation": "get_network_appliance_vpn_site_to_site_vpn",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        resource = f"/networks/{networkId}/appliance/vpn/siteToSiteVpn"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        resource = f"/networks/{network_id}/appliance/vpn/siteToSiteVpn"
 
         return self._session.get(metadata, resource)
 
     def update_network_appliance_vpn_site_to_site_vpn(
-        self, networkId: str, mode: str, **kwargs: Any
+        self, network_id: str, mode: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Update the site-to-site VPN settings of a network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-vpn-site-to-site-vpn
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             mode: The site-to-site VPN mode. Can be one of 'none', 'spoke' or 'hub'.
             hubs: The list of VPN hubs, in order of preference. In spoke mode, at least 1 hub is
               required.
@@ -2741,8 +2737,8 @@ class Appliance:
             "tags": ["appliance", "configure", "vpn", "siteToSiteVpn"],
             "operation": "update_network_appliance_vpn_site_to_site_vpn",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        resource = f"/networks/{networkId}/appliance/vpn/siteToSiteVpn"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        resource = f"/networks/{network_id}/appliance/vpn/siteToSiteVpn"
 
         body_params = [
             "mode",
@@ -2754,33 +2750,33 @@ class Appliance:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_network_appliance_warm_spare(self, networkId: str) -> dict[str, Any] | None:
+    def get_network_appliance_warm_spare(self, network_id: str) -> dict[str, Any] | None:
         """Return MX warm spare settings.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-warm-spare
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
 
         """
         metadata = {
             "tags": ["appliance", "configure", "warmSpare"],
             "operation": "get_network_appliance_warm_spare",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        resource = f"/networks/{networkId}/appliance/warmSpare"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        resource = f"/networks/{network_id}/appliance/warmSpare"
 
         return self._session.get(metadata, resource)
 
     def update_network_appliance_warm_spare(
-        self, networkId: str, enabled: bool, **kwargs: Any
+        self, network_id: str, enabled: bool, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Update MX warm spare settings.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-warm-spare
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             enabled: Enable warm spare.
             spareSerial: Serial number of the warm spare appliance.
             uplinkMode: Uplink mode, either virtual or public.
@@ -2794,8 +2790,8 @@ class Appliance:
             "tags": ["appliance", "configure", "warmSpare"],
             "operation": "update_network_appliance_warm_spare",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        resource = f"/networks/{networkId}/appliance/warmSpare"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        resource = f"/networks/{network_id}/appliance/warmSpare"
 
         body_params = [
             "enabled",
@@ -2808,33 +2804,33 @@ class Appliance:
 
         return self._session.put(metadata, resource, payload)
 
-    def swap_network_appliance_warm_spare(self, networkId: str) -> dict[str, Any] | None:
+    def swap_network_appliance_warm_spare(self, network_id: str) -> dict[str, Any] | None:
         """Swap MX primary and warm spare appliances.
 
         https://developer.cisco.com/meraki/api-v1/#!swap-network-appliance-warm-spare
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
 
         """
         metadata = {
             "tags": ["appliance", "configure", "warmSpare"],
             "operation": "swap_network_appliance_warm_spare",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        resource = f"/networks/{networkId}/appliance/warmSpare/swap"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        resource = f"/networks/{network_id}/appliance/warmSpare/swap"
 
         return self._session.post(metadata, resource)
 
     def get_organization_appliance_dns_local_profiles(
-        self, organizationId: str, **kwargs: Any
+        self, organization_id: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Fetch the local DNS profiles used in the organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-dns-local-profiles
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             profileIds: Optional parameter to filter the results by profile IDs.
 
         """
@@ -2844,8 +2840,8 @@ class Appliance:
             "tags": ["appliance", "configure", "dns", "local", "profiles"],
             "operation": "get_organization_appliance_dns_local_profiles",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/appliance/dns/local/profiles"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/appliance/dns/local/profiles"
 
         query_params = [
             "profileIds",
@@ -2863,14 +2859,14 @@ class Appliance:
         return self._session.get(metadata, resource, params)
 
     def create_organization_appliance_dns_local_profile(
-        self, organizationId: str, name: str
+        self, organization_id: str, name: str
     ) -> dict[str, Any] | None:
         """Create a new local DNS profile.
 
         https://developer.cisco.com/meraki/api-v1/#!create-organization-appliance-dns-local-profile
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             name: Name of profile.
 
         """
@@ -2880,8 +2876,8 @@ class Appliance:
             "tags": ["appliance", "configure", "dns", "local", "profiles"],
             "operation": "create_organization_appliance_dns_local_profile",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/appliance/dns/local/profiles"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/appliance/dns/local/profiles"
 
         body_params = [
             "name",
@@ -2891,14 +2887,14 @@ class Appliance:
         return self._session.post(metadata, resource, payload)
 
     def get_organization_appliance_dns_local_profiles_assignments(
-        self, organizationId: str, **kwargs: Any
+        self, organization_id: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Fetch the local DNS profile assignments in the organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-dns-local-profiles-assignments
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             profileIds: Optional parameter to filter the results by profile IDs.
             networkIds: Optional parameter to filter the results by network IDs.
 
@@ -2909,8 +2905,8 @@ class Appliance:
             "tags": ["appliance", "configure", "dns", "local", "profiles", "assignments"],
             "operation": "get_organization_appliance_dns_local_profiles_assignments",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/appliance/dns/local/profiles/assignments"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/appliance/dns/local/profiles/assignments"
 
         query_params = [
             "profileIds",
@@ -2930,14 +2926,14 @@ class Appliance:
         return self._session.get(metadata, resource, params)
 
     def bulk_organization_appliance_dns_local_profiles_assignments_create(
-        self, organizationId: str, items: list
+        self, organization_id: str, items: list
     ) -> dict[str, Any] | None:
         """Assign the local DNS profile to networks in the organization.
 
         https://developer.cisco.com/meraki/api-v1/#!bulk-organization-appliance-dns-local-profiles-assignments-create
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             items: List containing the network ID and Profile ID.
 
         """
@@ -2947,9 +2943,9 @@ class Appliance:
             "tags": ["appliance", "configure", "dns", "local", "profiles", "assignments"],
             "operation": "bulk_organization_appliance_dns_local_profiles_assignments_create",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = (
-            f"/organizations/{organizationId}/appliance/dns/local/profiles/assignments/bulkCreate"
+            f"/organizations/{organization_id}/appliance/dns/local/profiles/assignments/bulkCreate"
         )
 
         body_params = [
@@ -2960,14 +2956,14 @@ class Appliance:
         return self._session.post(metadata, resource, payload)
 
     def create_organization_appliance_dns_local_profiles_assignments_bulk_delete(
-        self, organizationId: str, items: list
+        self, organization_id: str, items: list
     ) -> dict[str, Any] | None:
         """Unassign the local DNS profile to networks in the organization.
 
         https://developer.cisco.com/meraki/api-v1/#!create-organization-appliance-dns-local-profiles-assignments-bulk-delete
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             items: List containing the assignment ID.
 
         """
@@ -2985,9 +2981,9 @@ class Appliance:
             ],
             "operation": "create_organization_appliance_dns_local_profiles_assignments_bulk_delete",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = (
-            f"/organizations/{organizationId}/appliance/dns/local/profiles/assignments/bulkDelete"
+            f"/organizations/{organization_id}/appliance/dns/local/profiles/assignments/bulkDelete"
         )
 
         body_params = [
@@ -2998,15 +2994,15 @@ class Appliance:
         return self._session.post(metadata, resource, payload)
 
     def update_organization_appliance_dns_local_profile(
-        self, organizationId: str, profileId: str, name: str
+        self, organization_id: str, profile_id: str, name: str
     ) -> dict[str, Any] | None:
         """Update a local DNS profile.
 
         https://developer.cisco.com/meraki/api-v1/#!update-organization-appliance-dns-local-profile
 
         Args:
-            organizationId: Organization ID.
-            profileId: Profile ID.
+            organization_id: Organization ID.
+            profile_id: Profile ID.
             name: Name of profile.
 
         """
@@ -3016,9 +3012,9 @@ class Appliance:
             "tags": ["appliance", "configure", "dns", "local", "profiles"],
             "operation": "update_organization_appliance_dns_local_profile",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        profileId = urllib.parse.quote(str(profileId), safe="")
-        resource = f"/organizations/{organizationId}/appliance/dns/local/profiles/{profileId}"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        profile_id = urllib.parse.quote(str(profile_id), safe="")
+        resource = f"/organizations/{organization_id}/appliance/dns/local/profiles/{profile_id}"
 
         body_params = [
             "name",
@@ -3028,36 +3024,36 @@ class Appliance:
         return self._session.put(metadata, resource, payload)
 
     def delete_organization_appliance_dns_local_profile(
-        self, organizationId: str, profileId: str
+        self, organization_id: str, profile_id: str
     ) -> None:
         """Deletes a local DNS profile.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-appliance-dns-local-profile
 
         Args:
-            organizationId: Organization ID.
-            profileId: Profile ID.
+            organization_id: Organization ID.
+            profile_id: Profile ID.
 
         """
         metadata = {
             "tags": ["appliance", "configure", "dns", "local", "profiles"],
             "operation": "delete_organization_appliance_dns_local_profile",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        profileId = urllib.parse.quote(str(profileId), safe="")
-        resource = f"/organizations/{organizationId}/appliance/dns/local/profiles/{profileId}"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        profile_id = urllib.parse.quote(str(profile_id), safe="")
+        resource = f"/organizations/{organization_id}/appliance/dns/local/profiles/{profile_id}"
 
         return self._session.delete(metadata, resource)
 
     def get_organization_appliance_dns_local_records(
-        self, organizationId: str, **kwargs: Any
+        self, organization_id: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Fetch the DNS records used in local DNS profiles.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-dns-local-records
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             profileIds: Optional parameter to filter the results by profile IDs.
 
         """
@@ -3067,8 +3063,8 @@ class Appliance:
             "tags": ["appliance", "configure", "dns", "local", "records"],
             "operation": "get_organization_appliance_dns_local_records",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/appliance/dns/local/records"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/appliance/dns/local/records"
 
         query_params = [
             "profileIds",
@@ -3086,14 +3082,14 @@ class Appliance:
         return self._session.get(metadata, resource, params)
 
     def create_organization_appliance_dns_local_record(
-        self, organizationId: str, hostname: str, address: str, profile: dict
+        self, organization_id: str, hostname: str, address: str, profile: dict
     ) -> dict[str, Any] | None:
         """Create a new local DNS record.
 
         https://developer.cisco.com/meraki/api-v1/#!create-organization-appliance-dns-local-record
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             hostname: Hostname for the DNS record.
             address: IP for the DNS record.
             profile: The profile the DNS record is associated with.
@@ -3105,8 +3101,8 @@ class Appliance:
             "tags": ["appliance", "configure", "dns", "local", "records"],
             "operation": "create_organization_appliance_dns_local_record",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/appliance/dns/local/records"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/appliance/dns/local/records"
 
         body_params = [
             "hostname",
@@ -3118,15 +3114,15 @@ class Appliance:
         return self._session.post(metadata, resource, payload)
 
     def update_organization_appliance_dns_local_record(
-        self, organizationId: str, recordId: str, **kwargs: Any
+        self, organization_id: str, record_id: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Updates a local DNS record.
 
         https://developer.cisco.com/meraki/api-v1/#!update-organization-appliance-dns-local-record
 
         Args:
-            organizationId: Organization ID.
-            recordId: Record ID.
+            organization_id: Organization ID.
+            record_id: Record ID.
             hostname: Hostname for the DNS record.
             address: IP for the DNS record.
             profile: The profile the DNS record is associated with.
@@ -3138,9 +3134,9 @@ class Appliance:
             "tags": ["appliance", "configure", "dns", "local", "records"],
             "operation": "update_organization_appliance_dns_local_record",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        recordId = urllib.parse.quote(str(recordId), safe="")
-        resource = f"/organizations/{organizationId}/appliance/dns/local/records/{recordId}"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        record_id = urllib.parse.quote(str(record_id), safe="")
+        resource = f"/organizations/{organization_id}/appliance/dns/local/records/{record_id}"
 
         body_params = [
             "hostname",
@@ -3152,36 +3148,36 @@ class Appliance:
         return self._session.put(metadata, resource, payload)
 
     def delete_organization_appliance_dns_local_record(
-        self, organizationId: str, recordId: str
+        self, organization_id: str, record_id: str
     ) -> None:
         """Deletes a local DNS record.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-appliance-dns-local-record
 
         Args:
-            organizationId: Organization ID.
-            recordId: Record ID.
+            organization_id: Organization ID.
+            record_id: Record ID.
 
         """
         metadata = {
             "tags": ["appliance", "configure", "dns", "local", "records"],
             "operation": "delete_organization_appliance_dns_local_record",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        recordId = urllib.parse.quote(str(recordId), safe="")
-        resource = f"/organizations/{organizationId}/appliance/dns/local/records/{recordId}"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        record_id = urllib.parse.quote(str(record_id), safe="")
+        resource = f"/organizations/{organization_id}/appliance/dns/local/records/{record_id}"
 
         return self._session.delete(metadata, resource)
 
     def get_organization_appliance_dns_split_profiles(
-        self, organizationId: str, **kwargs: Any
+        self, organization_id: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Fetch the split DNS profiles used in the organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-dns-split-profiles
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             profileIds: Optional parameter to filter the results by profile IDs.
 
         """
@@ -3191,8 +3187,8 @@ class Appliance:
             "tags": ["appliance", "configure", "dns", "split", "profiles"],
             "operation": "get_organization_appliance_dns_split_profiles",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/appliance/dns/split/profiles"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/appliance/dns/split/profiles"
 
         query_params = [
             "profileIds",
@@ -3210,14 +3206,14 @@ class Appliance:
         return self._session.get(metadata, resource, params)
 
     def create_organization_appliance_dns_split_profile(
-        self, organizationId: str, name: str, hostnames: list, nameservers: dict
+        self, organization_id: str, name: str, hostnames: list, nameservers: dict
     ) -> dict[str, Any] | None:
         """Create a new split DNS profile.
 
         https://developer.cisco.com/meraki/api-v1/#!create-organization-appliance-dns-split-profile
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             name: Name of profile.
             hostnames: The hostname patterns to match for redirection. For more information on Split
               DNS hostname pattern formatting, please consult the Split DNS KB.
@@ -3230,8 +3226,8 @@ class Appliance:
             "tags": ["appliance", "configure", "dns", "split", "profiles"],
             "operation": "create_organization_appliance_dns_split_profile",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/appliance/dns/split/profiles"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/appliance/dns/split/profiles"
 
         body_params = [
             "name",
@@ -3243,14 +3239,14 @@ class Appliance:
         return self._session.post(metadata, resource, payload)
 
     def get_organization_appliance_dns_split_profiles_assignments(
-        self, organizationId: str, **kwargs: Any
+        self, organization_id: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Fetch the split DNS profile assignments in the organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-dns-split-profiles-assignments
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             profileIds: Optional parameter to filter the results by profile IDs.
             networkIds: Optional parameter to filter the results by network IDs.
 
@@ -3261,8 +3257,8 @@ class Appliance:
             "tags": ["appliance", "configure", "dns", "split", "profiles", "assignments"],
             "operation": "get_organization_appliance_dns_split_profiles_assignments",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/appliance/dns/split/profiles/assignments"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/appliance/dns/split/profiles/assignments"
 
         query_params = [
             "profileIds",
@@ -3282,14 +3278,14 @@ class Appliance:
         return self._session.get(metadata, resource, params)
 
     def create_organization_appliance_dns_split_profiles_assignments_bulk_create(
-        self, organizationId: str, items: list
+        self, organization_id: str, items: list
     ) -> dict[str, Any] | None:
         """Assign the split DNS profile to networks in the organization.
 
         https://developer.cisco.com/meraki/api-v1/#!create-organization-appliance-dns-split-profiles-assignments-bulk-create
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             items: List containing the network ID and Profile ID.
 
         """
@@ -3307,9 +3303,9 @@ class Appliance:
             ],
             "operation": "create_organization_appliance_dns_split_profiles_assignments_bulk_create",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = (
-            f"/organizations/{organizationId}/appliance/dns/split/profiles/assignments/bulkCreate"
+            f"/organizations/{organization_id}/appliance/dns/split/profiles/assignments/bulkCreate"
         )
 
         body_params = [
@@ -3320,14 +3316,14 @@ class Appliance:
         return self._session.post(metadata, resource, payload)
 
     def create_organization_appliance_dns_split_profiles_assignments_bulk_delete(
-        self, organizationId: str, items: list
+        self, organization_id: str, items: list
     ) -> dict[str, Any] | None:
         """Unassign the split DNS profile to networks in the organization.
 
         https://developer.cisco.com/meraki/api-v1/#!create-organization-appliance-dns-split-profiles-assignments-bulk-delete
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             items: List containing the assignment ID.
 
         """
@@ -3345,9 +3341,9 @@ class Appliance:
             ],
             "operation": "create_organization_appliance_dns_split_profiles_assignments_bulk_delete",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = (
-            f"/organizations/{organizationId}/appliance/dns/split/profiles/assignments/bulkDelete"
+            f"/organizations/{organization_id}/appliance/dns/split/profiles/assignments/bulkDelete"
         )
 
         body_params = [
@@ -3358,15 +3354,15 @@ class Appliance:
         return self._session.post(metadata, resource, payload)
 
     def update_organization_appliance_dns_split_profile(
-        self, organizationId: str, profileId: str, **kwargs: Any
+        self, organization_id: str, profile_id: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Update a split DNS profile.
 
         https://developer.cisco.com/meraki/api-v1/#!update-organization-appliance-dns-split-profile
 
         Args:
-            organizationId: Organization ID.
-            profileId: Profile ID.
+            organization_id: Organization ID.
+            profile_id: Profile ID.
             name: Name of profile.
             hostnames: The hostname patterns to match for redirection. For more information on Split
               DNS hostname pattern formatting, please consult the Split DNS KB.
@@ -3379,9 +3375,9 @@ class Appliance:
             "tags": ["appliance", "configure", "dns", "split", "profiles"],
             "operation": "update_organization_appliance_dns_split_profile",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        profileId = urllib.parse.quote(str(profileId), safe="")
-        resource = f"/organizations/{organizationId}/appliance/dns/split/profiles/{profileId}"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        profile_id = urllib.parse.quote(str(profile_id), safe="")
+        resource = f"/organizations/{organization_id}/appliance/dns/split/profiles/{profile_id}"
 
         body_params = [
             "name",
@@ -3393,36 +3389,36 @@ class Appliance:
         return self._session.put(metadata, resource, payload)
 
     def delete_organization_appliance_dns_split_profile(
-        self, organizationId: str, profileId: str
+        self, organization_id: str, profile_id: str
     ) -> None:
         """Deletes a split DNS profile.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-appliance-dns-split-profile
 
         Args:
-            organizationId: Organization ID.
-            profileId: Profile ID.
+            organization_id: Organization ID.
+            profile_id: Profile ID.
 
         """
         metadata = {
             "tags": ["appliance", "configure", "dns", "split", "profiles"],
             "operation": "delete_organization_appliance_dns_split_profile",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        profileId = urllib.parse.quote(str(profileId), safe="")
-        resource = f"/organizations/{organizationId}/appliance/dns/split/profiles/{profileId}"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        profile_id = urllib.parse.quote(str(profile_id), safe="")
+        resource = f"/organizations/{organization_id}/appliance/dns/split/profiles/{profile_id}"
 
         return self._session.delete(metadata, resource)
 
     def get_organization_appliance_firewall_multicast_forwarding_by_network(
-        self, organizationId: str, total_pages=1, direction="next", **kwargs: Any
+        self, organization_id: str, total_pages=1, direction="next", **kwargs: Any
     ) -> Generator[Any, None, None]:
         """List Static Multicasting forwarding settings for MX networks.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-firewall-multicast-forwarding-by-network
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
@@ -3445,9 +3441,9 @@ class Appliance:
             "tags": ["appliance", "configure", "firewall", "multicastForwarding", "byNetwork"],
             "operation": "get_organization_appliance_firewall_multicast_forwarding_by_network",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = (
-            f"/organizations/{organizationId}/appliance/firewall/multicastForwarding/byNetwork"
+            f"/organizations/{organization_id}/appliance/firewall/multicastForwarding/byNetwork"
         )
 
         query_params = [
@@ -3469,14 +3465,14 @@ class Appliance:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def get_organization_appliance_security_events(
-        self, organizationId: str, total_pages=1, direction="next", **kwargs: Any
+        self, organization_id: str, total_pages=1, direction="next", **kwargs: Any
     ) -> Generator[Any, None, None]:
         """List the security events for an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-security-events
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
@@ -3512,8 +3508,8 @@ class Appliance:
             "tags": ["appliance", "monitor", "security", "events"],
             "operation": "get_organization_appliance_security_events",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/appliance/security/events"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/appliance/security/events"
 
         query_params = [
             "t0",
@@ -3529,34 +3525,34 @@ class Appliance:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def get_organization_appliance_security_intrusion(
-        self, organizationId: str
+        self, organization_id: str
     ) -> dict[str, Any] | None:
         """Returns all supported intrusion settings for an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-security-intrusion
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
 
         """
         metadata = {
             "tags": ["appliance", "configure", "security", "intrusion"],
             "operation": "get_organization_appliance_security_intrusion",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/appliance/security/intrusion"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/appliance/security/intrusion"
 
         return self._session.get(metadata, resource)
 
     def update_organization_appliance_security_intrusion(
-        self, organizationId: str, allowedRules: list
+        self, organization_id: str, allowedRules: list
     ) -> dict[str, Any] | None:
         """Sets supported intrusion settings for an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!update-organization-appliance-security-intrusion
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             allowedRules: Sets a list of specific SNORT signatures to allow.
 
         """
@@ -3566,8 +3562,8 @@ class Appliance:
             "tags": ["appliance", "configure", "security", "intrusion"],
             "operation": "update_organization_appliance_security_intrusion",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/appliance/security/intrusion"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/appliance/security/intrusion"
 
         body_params = [
             "allowedRules",
@@ -3577,14 +3573,14 @@ class Appliance:
         return self._session.put(metadata, resource, payload)
 
     def get_organization_appliance_traffic_shaping_vpn_exclusions_by_network(
-        self, organizationId: str, total_pages=1, direction="next", **kwargs: Any
+        self, organization_id: str, total_pages=1, direction="next", **kwargs: Any
     ) -> Generator[Any, None, None]:
         """Display VPN exclusion rules for MX networks.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-traffic-shaping-vpn-exclusions-by-network
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
@@ -3607,9 +3603,9 @@ class Appliance:
             "tags": ["appliance", "configure", "trafficShaping", "vpnExclusions", "byNetwork"],
             "operation": "get_organization_appliance_traffic_shaping_vpn_exclusions_by_network",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = (
-            f"/organizations/{organizationId}/appliance/trafficShaping/vpnExclusions/byNetwork"
+            f"/organizations/{organization_id}/appliance/trafficShaping/vpnExclusions/byNetwork"
         )
 
         query_params = [
@@ -3631,14 +3627,14 @@ class Appliance:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def get_organization_appliance_uplink_statuses(
-        self, organizationId: str, total_pages=1, direction="next", **kwargs: Any
+        self, organization_id: str, total_pages=1, direction="next", **kwargs: Any
     ) -> Generator[Any, None, None]:
         """List the uplink status of every Meraki MX and Z series appliances in the organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-uplink-statuses
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
@@ -3666,8 +3662,8 @@ class Appliance:
             "tags": ["appliance", "monitor", "uplinks", "statuses"],
             "operation": "get_organization_appliance_uplink_statuses",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/appliance/uplink/statuses"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/appliance/uplink/statuses"
 
         query_params = [
             "perPage",
@@ -3692,14 +3688,14 @@ class Appliance:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def get_organization_appliance_uplinks_statuses_overview(
-        self, organizationId: str, **kwargs: Any
+        self, organization_id: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Returns an overview of uplink statuses.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-uplinks-statuses-overview
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             networkIds: A list of network IDs. The returned devices will be filtered to only include
               these networks.
 
@@ -3710,8 +3706,8 @@ class Appliance:
             "tags": ["appliance", "monitor", "uplinks", "statuses", "overview"],
             "operation": "get_organization_appliance_uplinks_statuses_overview",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/appliance/uplinks/statuses/overview"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/appliance/uplinks/statuses/overview"
 
         query_params = [
             "networkIds",
@@ -3729,14 +3725,14 @@ class Appliance:
         return self._session.get(metadata, resource, params)
 
     def get_organization_appliance_uplinks_usage_by_network(
-        self, organizationId: str, **kwargs: Any
+        self, organization_id: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Get the sent and received bytes for each uplink of all MX and Z networks within an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-uplinks-usage-by-network
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             t0: The beginning of the timespan for the data. The maximum lookback period is 30 days
               from today.
             t1: The end of the timespan for the data. t1 can be a maximum of 14 days after t0.
@@ -3751,8 +3747,8 @@ class Appliance:
             "tags": ["appliance", "monitor", "uplinks", "usage", "byNetwork"],
             "operation": "get_organization_appliance_uplinks_usage_by_network",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/appliance/uplinks/usage/byNetwork"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/appliance/uplinks/usage/byNetwork"
 
         query_params = [
             "t0",
@@ -3764,34 +3760,34 @@ class Appliance:
         return self._session.get(metadata, resource, params)
 
     def get_organization_appliance_vpn_site_to_site_ipsec_peers_slas(
-        self, organizationId: str
+        self, organization_id: str
     ) -> dict[str, Any] | None:
         """Get the list of available IPsec SLA policies for an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-vpn-site-to-site-ipsec-peers-slas
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
 
         """
         metadata = {
             "tags": ["appliance", "configure", "vpn", "siteToSite", "ipsec", "peers", "slas"],
             "operation": "get_organization_appliance_vpn_site_to_site_ipsec_peers_slas",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/appliance/vpn/siteToSite/ipsec/peers/slas"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/appliance/vpn/siteToSite/ipsec/peers/slas"
 
         return self._session.get(metadata, resource)
 
     def update_organization_appliance_vpn_site_to_site_ipsec_peers_slas(
-        self, organizationId: str, **kwargs: Any
+        self, organization_id: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Update the IPsec SLA policies for an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!update-organization-appliance-vpn-site-to-site-ipsec-peers-slas
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             items: List of IPsec SLA policies.
 
         """
@@ -3801,8 +3797,8 @@ class Appliance:
             "tags": ["appliance", "configure", "vpn", "siteToSite", "ipsec", "peers", "slas"],
             "operation": "update_organization_appliance_vpn_site_to_site_ipsec_peers_slas",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/appliance/vpn/siteToSite/ipsec/peers/slas"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/appliance/vpn/siteToSite/ipsec/peers/slas"
 
         body_params = [
             "items",
@@ -3812,14 +3808,14 @@ class Appliance:
         return self._session.put(metadata, resource, payload)
 
     def get_organization_appliance_vpn_stats(
-        self, organizationId: str, total_pages=1, direction="next", **kwargs: Any
+        self, organization_id: str, total_pages=1, direction="next", **kwargs: Any
     ) -> Generator[Any, None, None]:
         """Show VPN history stat for networks in an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-vpn-stats
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
@@ -3849,8 +3845,8 @@ class Appliance:
             "tags": ["appliance", "monitor", "vpn", "stats"],
             "operation": "get_organization_appliance_vpn_stats",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/appliance/vpn/stats"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/appliance/vpn/stats"
 
         query_params = [
             "perPage",
@@ -3874,14 +3870,14 @@ class Appliance:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def get_organization_appliance_vpn_statuses(
-        self, organizationId: str, total_pages=1, direction="next", **kwargs: Any
+        self, organization_id: str, total_pages=1, direction="next", **kwargs: Any
     ) -> Generator[Any, None, None]:
         """Show VPN status for networks in an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-vpn-statuses
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
@@ -3905,8 +3901,8 @@ class Appliance:
             "tags": ["appliance", "monitor", "vpn", "statuses"],
             "operation": "get_organization_appliance_vpn_statuses",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/appliance/vpn/statuses"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/appliance/vpn/statuses"
 
         query_params = [
             "perPage",
@@ -3927,34 +3923,34 @@ class Appliance:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def get_organization_appliance_vpn_third_party_v_p_n_peers(
-        self, organizationId: str
+        self, organization_id: str
     ) -> dict[str, Any] | None:
         """Return the third party VPN peers for an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-vpn-third-party-v-p-n-peers
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
 
         """
         metadata = {
             "tags": ["appliance", "configure", "vpn", "thirdPartyVPNPeers"],
             "operation": "get_organization_appliance_vpn_third_party_v_p_n_peers",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/appliance/vpn/thirdPartyVPNPeers"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/appliance/vpn/thirdPartyVPNPeers"
 
         return self._session.get(metadata, resource)
 
     def update_organization_appliance_vpn_third_party_v_p_n_peers(
-        self, organizationId: str, peers: list
+        self, organization_id: str, peers: list
     ) -> dict[str, Any] | None:
         """Update the third party VPN peers for an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!update-organization-appliance-vpn-third-party-v-p-n-peers
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             peers: The list of VPN peers.
 
         """
@@ -3964,8 +3960,8 @@ class Appliance:
             "tags": ["appliance", "configure", "vpn", "thirdPartyVPNPeers"],
             "operation": "update_organization_appliance_vpn_third_party_v_p_n_peers",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/appliance/vpn/thirdPartyVPNPeers"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/appliance/vpn/thirdPartyVPNPeers"
 
         body_params = [
             "peers",
@@ -3975,34 +3971,34 @@ class Appliance:
         return self._session.put(metadata, resource, payload)
 
     def get_organization_appliance_vpn_vpn_firewall_rules(
-        self, organizationId: str
+        self, organization_id: str
     ) -> dict[str, Any] | None:
         """Return the firewall rules for an organization's site-to-site VPN.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-vpn-vpn-firewall-rules
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
 
         """
         metadata = {
             "tags": ["appliance", "configure", "vpn", "vpnFirewallRules"],
             "operation": "get_organization_appliance_vpn_vpn_firewall_rules",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/appliance/vpn/vpnFirewallRules"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/appliance/vpn/vpnFirewallRules"
 
         return self._session.get(metadata, resource)
 
     def update_organization_appliance_vpn_vpn_firewall_rules(
-        self, organizationId: str, **kwargs: Any
+        self, organization_id: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Update the firewall rules of an organization's site-to-site VPN.
 
         https://developer.cisco.com/meraki/api-v1/#!update-organization-appliance-vpn-vpn-firewall-rules
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             rules: An ordered array of the firewall rules (not including the default rule).
             syslogDefaultRule: Log the special default rule (boolean value - enable only if you've
               configured a syslog server) (optional).
@@ -4014,8 +4010,8 @@ class Appliance:
             "tags": ["appliance", "configure", "vpn", "vpnFirewallRules"],
             "operation": "update_organization_appliance_vpn_vpn_firewall_rules",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/appliance/vpn/vpnFirewallRules"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/appliance/vpn/vpnFirewallRules"
 
         body_params = [
             "rules",

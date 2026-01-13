@@ -11,14 +11,14 @@ class ActionBatchNac:
         pass
 
     def create_organization_nac_certificates_authorities_crl(
-        self, organizationId: str, caId: str, content: str, isDelta: bool
+        self, organization_id: str, caId: str, content: str, isDelta: bool
     ) -> dict[str, Any]:
         """Create a new CRL (either base or delta) for an existing CA.
 
         https://developer.cisco.com/meraki/api-v1/#!create-organization-nac-certificates-authorities-crl
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             caId: ID of the CRL issuer.
             content: CRL content in PEM format.
             isDelta: Whether it's a delta CRL or not.
@@ -30,7 +30,8 @@ class ActionBatchNac:
             "tags": ["nac", "configure", "certificates", "authorities", "crls"],
             "operation": "create_organization_nac_certificates_authorities_crl",
         }
-        resource = f"/organizations/{organizationId}/nac/certificates/authorities/crls"
+        organization_id = urllib.parse.quote(organization_id, safe="")
+        resource = f"/organizations/{organization_id}/nac/certificates/authorities/crls"
 
         body_params = [
             "caId",

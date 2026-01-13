@@ -72,28 +72,28 @@ class AsyncOrganizations:
 
         return self._session.post(metadata, resource, payload)
 
-    def get_organization(self, organizationId: str) -> dict[str, Any] | None:
+    def get_organization(self, organization_id: str) -> dict[str, Any] | None:
         """Return an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
 
         """
         metadata = {"tags": ["organizations", "configure"], "operation": "get_organization"}
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}"
 
         return self._session.get(metadata, resource)
 
-    def update_organization(self, organizationId: str, **kwargs: Any) -> dict[str, Any] | None:
+    def update_organization(self, organization_id: str, **kwargs: Any) -> dict[str, Any] | None:
         """Update an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!update-organization
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             name: The name of the organization.
             management: Information about the organization's management system.
             api: API-specific settings.
@@ -102,8 +102,8 @@ class AsyncOrganizations:
         kwargs.update(locals())
 
         metadata = {"tags": ["organizations", "configure"], "operation": "update_organization"}
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}"
 
         body_params = [
             "name",
@@ -114,30 +114,30 @@ class AsyncOrganizations:
 
         return self._session.put(metadata, resource, payload)
 
-    def delete_organization(self, organizationId: str) -> None:
+    def delete_organization(self, organization_id: str) -> None:
         """Delete an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-organization
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
 
         """
         metadata = {"tags": ["organizations", "configure"], "operation": "delete_organization"}
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}"
 
         return self._session.delete(metadata, resource)
 
     def create_organization_action_batch(
-        self, organizationId: str, actions: list, **kwargs: Any
+        self, organization_id: str, actions: list, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Create an action batch.
 
         https://developer.cisco.com/meraki/api-v1/#!create-organization-action-batch
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             actions: A set of changes to make as part of this action (<a
               href='https://developer.cisco.com/meraki/api/#/rest/guides/action-
               batches/'>more details</a>).
@@ -156,8 +156,8 @@ class AsyncOrganizations:
             "tags": ["organizations", "configure", "actionBatches"],
             "operation": "create_organization_action_batch",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/actionBatches"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/actionBatches"
 
         body_params = [
             "confirmed",
@@ -170,14 +170,14 @@ class AsyncOrganizations:
         return self._session.post(metadata, resource, payload)
 
     def get_organization_action_batches(
-        self, organizationId: str, **kwargs: Any
+        self, organization_id: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Return the list of action batches in the organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-action-batches
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             status: Filter batches by status. Valid types are pending, completed, and failed.
 
         """
@@ -193,8 +193,8 @@ class AsyncOrganizations:
             "tags": ["organizations", "configure", "actionBatches"],
             "operation": "get_organization_action_batches",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/actionBatches"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/actionBatches"
 
         query_params = [
             "status",
@@ -204,57 +204,57 @@ class AsyncOrganizations:
         return self._session.get(metadata, resource, params)
 
     def get_organization_action_batch(
-        self, organizationId: str, actionBatchId: str
+        self, organization_id: str, action_batch_id: str
     ) -> dict[str, Any] | None:
         """Return an action batch.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-action-batch
 
         Args:
-            organizationId: Organization ID.
-            actionBatchId: Action batch ID.
+            organization_id: Organization ID.
+            action_batch_id: Action batch ID.
 
         """
         metadata = {
             "tags": ["organizations", "configure", "actionBatches"],
             "operation": "get_organization_action_batch",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        actionBatchId = urllib.parse.quote(str(actionBatchId), safe="")
-        resource = f"/organizations/{organizationId}/actionBatches/{actionBatchId}"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        action_batch_id = urllib.parse.quote(str(action_batch_id), safe="")
+        resource = f"/organizations/{organization_id}/actionBatches/{action_batch_id}"
 
         return self._session.get(metadata, resource)
 
-    def delete_organization_action_batch(self, organizationId: str, actionBatchId: str) -> None:
+    def delete_organization_action_batch(self, organization_id: str, action_batch_id: str) -> None:
         """Delete an action batch.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-action-batch
 
         Args:
-            organizationId: Organization ID.
-            actionBatchId: Action batch ID.
+            organization_id: Organization ID.
+            action_batch_id: Action batch ID.
 
         """
         metadata = {
             "tags": ["organizations", "configure", "actionBatches"],
             "operation": "delete_organization_action_batch",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        actionBatchId = urllib.parse.quote(str(actionBatchId), safe="")
-        resource = f"/organizations/{organizationId}/actionBatches/{actionBatchId}"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        action_batch_id = urllib.parse.quote(str(action_batch_id), safe="")
+        resource = f"/organizations/{organization_id}/actionBatches/{action_batch_id}"
 
         return self._session.delete(metadata, resource)
 
     def update_organization_action_batch(
-        self, organizationId: str, actionBatchId: str, **kwargs: Any
+        self, organization_id: str, action_batch_id: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Update an action batch.
 
         https://developer.cisco.com/meraki/api-v1/#!update-organization-action-batch
 
         Args:
-            organizationId: Organization ID.
-            actionBatchId: Action batch ID.
+            organization_id: Organization ID.
+            action_batch_id: Action batch ID.
             confirmed: A boolean representing whether or not the batch has been confirmed. This
               property cannot be unset once it is true.
             synchronous: Set to true to force the batch to run synchronous. There can be at most 20
@@ -267,9 +267,9 @@ class AsyncOrganizations:
             "tags": ["organizations", "configure", "actionBatches"],
             "operation": "update_organization_action_batch",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        actionBatchId = urllib.parse.quote(str(actionBatchId), safe="")
-        resource = f"/organizations/{organizationId}/actionBatches/{actionBatchId}"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        action_batch_id = urllib.parse.quote(str(action_batch_id), safe="")
+        resource = f"/organizations/{organization_id}/actionBatches/{action_batch_id}"
 
         body_params = [
             "confirmed",
@@ -279,33 +279,33 @@ class AsyncOrganizations:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_organization_adaptive_policy_acls(self, organizationId: str) -> dict[str, Any] | None:
+    def get_organization_adaptive_policy_acls(self, organization_id: str) -> dict[str, Any] | None:
         """List adaptive policy ACLs in a organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-adaptive-policy-acls
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
 
         """
         metadata = {
             "tags": ["organizations", "configure", "adaptivePolicy", "acls"],
             "operation": "get_organization_adaptive_policy_acls",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/adaptivePolicy/acls"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/adaptivePolicy/acls"
 
         return self._session.get(metadata, resource)
 
     def create_organization_adaptive_policy_acl(
-        self, organizationId: str, name: str, rules: list, ipVersion: str, **kwargs: Any
+        self, organization_id: str, name: str, rules: list, ipVersion: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Creates new adaptive policy ACL.
 
         https://developer.cisco.com/meraki/api-v1/#!create-organization-adaptive-policy-acl
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             name: Name of the adaptive policy ACL.
             rules: An ordered array of the adaptive policy ACL rules.
             ipVersion: IP version of adpative policy ACL. One of: 'any', 'ipv4' or 'ipv6'.
@@ -324,8 +324,8 @@ class AsyncOrganizations:
             "tags": ["organizations", "configure", "adaptivePolicy", "acls"],
             "operation": "create_organization_adaptive_policy_acl",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/adaptivePolicy/acls"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/adaptivePolicy/acls"
 
         body_params = [
             "name",
@@ -338,37 +338,37 @@ class AsyncOrganizations:
         return self._session.post(metadata, resource, payload)
 
     def get_organization_adaptive_policy_acl(
-        self, organizationId: str, aclId: str
+        self, organization_id: str, acl_id: str
     ) -> dict[str, Any] | None:
         """Returns the adaptive policy ACL information.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-adaptive-policy-acl
 
         Args:
-            organizationId: Organization ID.
-            aclId: Acl ID.
+            organization_id: Organization ID.
+            acl_id: Acl ID.
 
         """
         metadata = {
             "tags": ["organizations", "configure", "adaptivePolicy", "acls"],
             "operation": "get_organization_adaptive_policy_acl",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        aclId = urllib.parse.quote(str(aclId), safe="")
-        resource = f"/organizations/{organizationId}/adaptivePolicy/acls/{aclId}"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        acl_id = urllib.parse.quote(str(acl_id), safe="")
+        resource = f"/organizations/{organization_id}/adaptivePolicy/acls/{acl_id}"
 
         return self._session.get(metadata, resource)
 
     def update_organization_adaptive_policy_acl(
-        self, organizationId: str, aclId: str, **kwargs: Any
+        self, organization_id: str, acl_id: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Updates an adaptive policy ACL.
 
         https://developer.cisco.com/meraki/api-v1/#!update-organization-adaptive-policy-acl
 
         Args:
-            organizationId: Organization ID.
-            aclId: Acl ID.
+            organization_id: Organization ID.
+            acl_id: Acl ID.
             name: Name of the adaptive policy ACL.
             description: Description of the adaptive policy ACL.
             rules: An ordered array of the adaptive policy ACL rules. An empty array will clear the
@@ -388,9 +388,9 @@ class AsyncOrganizations:
             "tags": ["organizations", "configure", "adaptivePolicy", "acls"],
             "operation": "update_organization_adaptive_policy_acl",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        aclId = urllib.parse.quote(str(aclId), safe="")
-        resource = f"/organizations/{organizationId}/adaptivePolicy/acls/{aclId}"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        acl_id = urllib.parse.quote(str(acl_id), safe="")
+        resource = f"/organizations/{organization_id}/adaptivePolicy/acls/{acl_id}"
 
         body_params = [
             "name",
@@ -402,53 +402,55 @@ class AsyncOrganizations:
 
         return self._session.put(metadata, resource, payload)
 
-    def delete_organization_adaptive_policy_acl(self, organizationId: str, aclId: str) -> None:
+    def delete_organization_adaptive_policy_acl(self, organization_id: str, acl_id: str) -> None:
         """Deletes the specified adaptive policy ACL.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-adaptive-policy-acl
 
         Args:
-            organizationId: Organization ID.
-            aclId: Acl ID.
+            organization_id: Organization ID.
+            acl_id: Acl ID.
 
         """
         metadata = {
             "tags": ["organizations", "configure", "adaptivePolicy", "acls"],
             "operation": "delete_organization_adaptive_policy_acl",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        aclId = urllib.parse.quote(str(aclId), safe="")
-        resource = f"/organizations/{organizationId}/adaptivePolicy/acls/{aclId}"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        acl_id = urllib.parse.quote(str(acl_id), safe="")
+        resource = f"/organizations/{organization_id}/adaptivePolicy/acls/{acl_id}"
 
         return self._session.delete(metadata, resource)
 
-    def get_organization_adaptive_policy_groups(self, organizationId: str) -> dict[str, Any] | None:
+    def get_organization_adaptive_policy_groups(
+        self, organization_id: str
+    ) -> dict[str, Any] | None:
         """List adaptive policy groups in a organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-adaptive-policy-groups
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
 
         """
         metadata = {
             "tags": ["organizations", "configure", "adaptivePolicy", "groups"],
             "operation": "get_organization_adaptive_policy_groups",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/adaptivePolicy/groups"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/adaptivePolicy/groups"
 
         return self._session.get(metadata, resource)
 
     def create_organization_adaptive_policy_group(
-        self, organizationId: str, name: str, sgt: int, **kwargs: Any
+        self, organization_id: str, name: str, sgt: int, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Creates a new adaptive policy group.
 
         https://developer.cisco.com/meraki/api-v1/#!create-organization-adaptive-policy-group
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             name: Name of the group.
             sgt: SGT value of the group.
             description: Description of the group (default: "").
@@ -464,8 +466,8 @@ class AsyncOrganizations:
             "tags": ["organizations", "configure", "adaptivePolicy", "groups"],
             "operation": "create_organization_adaptive_policy_group",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/adaptivePolicy/groups"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/adaptivePolicy/groups"
 
         body_params = [
             "name",
@@ -478,14 +480,14 @@ class AsyncOrganizations:
         return self._session.post(metadata, resource, payload)
 
     def get_organization_adaptive_policy_group(
-        self, organizationId: str, id: str
+        self, organization_id: str, id: str
     ) -> dict[str, Any] | None:
         """Returns an adaptive policy group.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-adaptive-policy-group
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             id: ID.
 
         """
@@ -493,21 +495,21 @@ class AsyncOrganizations:
             "tags": ["organizations", "configure", "adaptivePolicy", "groups"],
             "operation": "get_organization_adaptive_policy_group",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
         id = urllib.parse.quote(str(id), safe="")
-        resource = f"/organizations/{organizationId}/adaptivePolicy/groups/{id}"
+        resource = f"/organizations/{organization_id}/adaptivePolicy/groups/{id}"
 
         return self._session.get(metadata, resource)
 
     def update_organization_adaptive_policy_group(
-        self, organizationId: str, id: str, **kwargs: Any
+        self, organization_id: str, id: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Updates an adaptive policy group.
 
         https://developer.cisco.com/meraki/api-v1/#!update-organization-adaptive-policy-group
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             id: ID.
             name: Name of the group.
             sgt: SGT value of the group.
@@ -524,9 +526,9 @@ class AsyncOrganizations:
             "tags": ["organizations", "configure", "adaptivePolicy", "groups"],
             "operation": "update_organization_adaptive_policy_group",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
         id = urllib.parse.quote(str(id), safe="")
-        resource = f"/organizations/{organizationId}/adaptivePolicy/groups/{id}"
+        resource = f"/organizations/{organization_id}/adaptivePolicy/groups/{id}"
 
         body_params = [
             "name",
@@ -538,13 +540,13 @@ class AsyncOrganizations:
 
         return self._session.put(metadata, resource, payload)
 
-    def delete_organization_adaptive_policy_group(self, organizationId: str, id: str) -> None:
+    def delete_organization_adaptive_policy_group(self, organization_id: str, id: str) -> None:
         """Deletes the specified adaptive policy group and any associated policies and references.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-adaptive-policy-group
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             id: ID.
 
         """
@@ -552,61 +554,61 @@ class AsyncOrganizations:
             "tags": ["organizations", "configure", "adaptivePolicy", "groups"],
             "operation": "delete_organization_adaptive_policy_group",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
         id = urllib.parse.quote(str(id), safe="")
-        resource = f"/organizations/{organizationId}/adaptivePolicy/groups/{id}"
+        resource = f"/organizations/{organization_id}/adaptivePolicy/groups/{id}"
 
         return self._session.delete(metadata, resource)
 
     def get_organization_adaptive_policy_overview(
-        self, organizationId: str
+        self, organization_id: str
     ) -> dict[str, Any] | None:
         """Returns adaptive policy aggregate statistics for an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-adaptive-policy-overview
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
 
         """
         metadata = {
             "tags": ["organizations", "monitor", "adaptivePolicy", "overview"],
             "operation": "get_organization_adaptive_policy_overview",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/adaptivePolicy/overview"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/adaptivePolicy/overview"
 
         return self._session.get(metadata, resource)
 
     def get_organization_adaptive_policy_policies(
-        self, organizationId: str
+        self, organization_id: str
     ) -> dict[str, Any] | None:
         """List adaptive policies in an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-adaptive-policy-policies
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
 
         """
         metadata = {
             "tags": ["organizations", "configure", "adaptivePolicy", "policies"],
             "operation": "get_organization_adaptive_policy_policies",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/adaptivePolicy/policies"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/adaptivePolicy/policies"
 
         return self._session.get(metadata, resource)
 
     def create_organization_adaptive_policy_policy(
-        self, organizationId: str, sourceGroup: dict, destinationGroup: dict, **kwargs: Any
+        self, organization_id: str, sourceGroup: dict, destinationGroup: dict, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Add an Adaptive Policy.
 
         https://developer.cisco.com/meraki/api-v1/#!create-organization-adaptive-policy-policy
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             sourceGroup: The source adaptive policy group (requires one unique attribute).
             destinationGroup: The destination adaptive policy group (requires one unique attribute).
             acls: An ordered array of adaptive policy ACLs (each requires one unique attribute) that
@@ -626,8 +628,8 @@ class AsyncOrganizations:
             "tags": ["organizations", "configure", "adaptivePolicy", "policies"],
             "operation": "create_organization_adaptive_policy_policy",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/adaptivePolicy/policies"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/adaptivePolicy/policies"
 
         body_params = [
             "sourceGroup",
@@ -640,14 +642,14 @@ class AsyncOrganizations:
         return self._session.post(metadata, resource, payload)
 
     def get_organization_adaptive_policy_policy(
-        self, organizationId: str, id: str
+        self, organization_id: str, id: str
     ) -> dict[str, Any] | None:
         """Return an adaptive policy.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-adaptive-policy-policy
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             id: ID.
 
         """
@@ -655,21 +657,21 @@ class AsyncOrganizations:
             "tags": ["organizations", "configure", "adaptivePolicy", "policies"],
             "operation": "get_organization_adaptive_policy_policy",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
         id = urllib.parse.quote(str(id), safe="")
-        resource = f"/organizations/{organizationId}/adaptivePolicy/policies/{id}"
+        resource = f"/organizations/{organization_id}/adaptivePolicy/policies/{id}"
 
         return self._session.get(metadata, resource)
 
     def update_organization_adaptive_policy_policy(
-        self, organizationId: str, id: str, **kwargs: Any
+        self, organization_id: str, id: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Update an Adaptive Policy.
 
         https://developer.cisco.com/meraki/api-v1/#!update-organization-adaptive-policy-policy
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             id: ID.
             sourceGroup: The source adaptive policy group (requires one unique attribute).
             destinationGroup: The destination adaptive policy group (requires one unique attribute).
@@ -690,9 +692,9 @@ class AsyncOrganizations:
             "tags": ["organizations", "configure", "adaptivePolicy", "policies"],
             "operation": "update_organization_adaptive_policy_policy",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
         id = urllib.parse.quote(str(id), safe="")
-        resource = f"/organizations/{organizationId}/adaptivePolicy/policies/{id}"
+        resource = f"/organizations/{organization_id}/adaptivePolicy/policies/{id}"
 
         body_params = [
             "sourceGroup",
@@ -704,13 +706,13 @@ class AsyncOrganizations:
 
         return self._session.put(metadata, resource, payload)
 
-    def delete_organization_adaptive_policy_policy(self, organizationId: str, id: str) -> None:
+    def delete_organization_adaptive_policy_policy(self, organization_id: str, id: str) -> None:
         """Delete an Adaptive Policy.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-adaptive-policy-policy
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             id: ID.
 
         """
@@ -718,41 +720,41 @@ class AsyncOrganizations:
             "tags": ["organizations", "configure", "adaptivePolicy", "policies"],
             "operation": "delete_organization_adaptive_policy_policy",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
         id = urllib.parse.quote(str(id), safe="")
-        resource = f"/organizations/{organizationId}/adaptivePolicy/policies/{id}"
+        resource = f"/organizations/{organization_id}/adaptivePolicy/policies/{id}"
 
         return self._session.delete(metadata, resource)
 
     def get_organization_adaptive_policy_settings(
-        self, organizationId: str
+        self, organization_id: str
     ) -> dict[str, Any] | None:
         """Returns global adaptive policy settings in an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-adaptive-policy-settings
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
 
         """
         metadata = {
             "tags": ["organizations", "configure", "adaptivePolicy", "settings"],
             "operation": "get_organization_adaptive_policy_settings",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/adaptivePolicy/settings"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/adaptivePolicy/settings"
 
         return self._session.get(metadata, resource)
 
     def update_organization_adaptive_policy_settings(
-        self, organizationId: str, **kwargs: Any
+        self, organization_id: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Update global adaptive policy settings.
 
         https://developer.cisco.com/meraki/api-v1/#!update-organization-adaptive-policy-settings
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             enabledNetworks: List of network IDs with adaptive policy enabled.
 
         """
@@ -762,8 +764,8 @@ class AsyncOrganizations:
             "tags": ["organizations", "configure", "adaptivePolicy", "settings"],
             "operation": "update_organization_adaptive_policy_settings",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/adaptivePolicy/settings"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/adaptivePolicy/settings"
 
         body_params = [
             "enabledNetworks",
@@ -772,13 +774,13 @@ class AsyncOrganizations:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_organization_admins(self, organizationId: str, **kwargs: Any) -> dict[str, Any] | None:
+    def get_organization_admins(self, organization_id: str, **kwargs: Any) -> dict[str, Any] | None:
         """List the dashboard administrators in this organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-admins
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             networkIds: Optional parameter to filter the result set by the included set of network
               IDs.
 
@@ -789,8 +791,8 @@ class AsyncOrganizations:
             "tags": ["organizations", "configure", "admins"],
             "operation": "get_organization_admins",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/admins"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/admins"
 
         query_params = [
             "networkIds",
@@ -808,14 +810,14 @@ class AsyncOrganizations:
         return self._session.get(metadata, resource, params)
 
     def create_organization_admin(
-        self, organizationId: str, email: str, name: str, orgAccess: str, **kwargs: Any
+        self, organization_id: str, email: str, name: str, orgAccess: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Create a new dashboard administrator.
 
         https://developer.cisco.com/meraki/api-v1/#!create-organization-admin
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             email: The email of the dashboard administrator. This attribute can not be updated.
             name: The name of the dashboard administrator.
             orgAccess: The privilege of the dashboard administrator on the organization. Can be one
@@ -843,8 +845,8 @@ class AsyncOrganizations:
             "tags": ["organizations", "configure", "admins"],
             "operation": "create_organization_admin",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/admins"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/admins"
 
         body_params = [
             "email",
@@ -859,15 +861,15 @@ class AsyncOrganizations:
         return self._session.post(metadata, resource, payload)
 
     def update_organization_admin(
-        self, organizationId: str, adminId: str, **kwargs: Any
+        self, organization_id: str, admin_id: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Update an administrator.
 
         https://developer.cisco.com/meraki/api-v1/#!update-organization-admin
 
         Args:
-            organizationId: Organization ID.
-            adminId: Admin ID.
+            organization_id: Organization ID.
+            admin_id: Admin ID.
             name: The name of the dashboard administrator.
             orgAccess: The privilege of the dashboard administrator on the organization. Can be one
               of 'full', 'read-only', 'enterprise' or 'none'.
@@ -887,9 +889,9 @@ class AsyncOrganizations:
             "tags": ["organizations", "configure", "admins"],
             "operation": "update_organization_admin",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        adminId = urllib.parse.quote(str(adminId), safe="")
-        resource = f"/organizations/{organizationId}/admins/{adminId}"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        admin_id = urllib.parse.quote(str(admin_id), safe="")
+        resource = f"/organizations/{organization_id}/admins/{admin_id}"
 
         body_params = [
             "name",
@@ -901,47 +903,47 @@ class AsyncOrganizations:
 
         return self._session.put(metadata, resource, payload)
 
-    def delete_organization_admin(self, organizationId: str, adminId: str) -> None:
+    def delete_organization_admin(self, organization_id: str, admin_id: str) -> None:
         """Revoke all access for a dashboard administrator within this organization.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-admin
 
         Args:
-            organizationId: Organization ID.
-            adminId: Admin ID.
+            organization_id: Organization ID.
+            admin_id: Admin ID.
 
         """
         metadata = {
             "tags": ["organizations", "configure", "admins"],
             "operation": "delete_organization_admin",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        adminId = urllib.parse.quote(str(adminId), safe="")
-        resource = f"/organizations/{organizationId}/admins/{adminId}"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        admin_id = urllib.parse.quote(str(admin_id), safe="")
+        resource = f"/organizations/{organization_id}/admins/{admin_id}"
 
         return self._session.delete(metadata, resource)
 
-    def get_organization_alerts_profiles(self, organizationId: str) -> dict[str, Any] | None:
+    def get_organization_alerts_profiles(self, organization_id: str) -> dict[str, Any] | None:
         """List all organization-wide alert configurations.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-alerts-profiles
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
 
         """
         metadata = {
             "tags": ["organizations", "configure", "alerts", "profiles"],
             "operation": "get_organization_alerts_profiles",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/alerts/profiles"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/alerts/profiles"
 
         return self._session.get(metadata, resource)
 
     def create_organization_alerts_profile(
         self,
-        organizationId: str,
+        organization_id: str,
         type: str,
         alertCondition: dict,
         recipients: dict,
@@ -953,7 +955,7 @@ class AsyncOrganizations:
         https://developer.cisco.com/meraki/api-v1/#!create-organization-alerts-profile
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             type: The alert type.
             alertCondition: The conditions that determine if the alert triggers.
             recipients: List of recipients that will recieve the alert.
@@ -982,8 +984,8 @@ class AsyncOrganizations:
             "tags": ["organizations", "configure", "alerts", "profiles"],
             "operation": "create_organization_alerts_profile",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/alerts/profiles"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/alerts/profiles"
 
         body_params = [
             "type",
@@ -997,15 +999,15 @@ class AsyncOrganizations:
         return self._session.post(metadata, resource, payload)
 
     def update_organization_alerts_profile(
-        self, organizationId: str, alertConfigId: str, **kwargs: Any
+        self, organization_id: str, alert_config_id: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Update an organization-wide alert config.
 
         https://developer.cisco.com/meraki/api-v1/#!update-organization-alerts-profile
 
         Args:
-            organizationId: Organization ID.
-            alertConfigId: Alert config ID.
+            organization_id: Organization ID.
+            alert_config_id: Alert config ID.
             enabled: Is the alert config enabled.
             type: The alert type.
             alertCondition: The conditions that determine if the alert triggers.
@@ -1035,9 +1037,9 @@ class AsyncOrganizations:
             "tags": ["organizations", "configure", "alerts", "profiles"],
             "operation": "update_organization_alerts_profile",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        alertConfigId = urllib.parse.quote(str(alertConfigId), safe="")
-        resource = f"/organizations/{organizationId}/alerts/profiles/{alertConfigId}"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        alert_config_id = urllib.parse.quote(str(alert_config_id), safe="")
+        resource = f"/organizations/{organization_id}/alerts/profiles/{alert_config_id}"
 
         body_params = [
             "enabled",
@@ -1051,35 +1053,37 @@ class AsyncOrganizations:
 
         return self._session.put(metadata, resource, payload)
 
-    def delete_organization_alerts_profile(self, organizationId: str, alertConfigId: str) -> None:
+    def delete_organization_alerts_profile(
+        self, organization_id: str, alert_config_id: str
+    ) -> None:
         """Removes an organization-wide alert config.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-alerts-profile
 
         Args:
-            organizationId: Organization ID.
-            alertConfigId: Alert config ID.
+            organization_id: Organization ID.
+            alert_config_id: Alert config ID.
 
         """
         metadata = {
             "tags": ["organizations", "configure", "alerts", "profiles"],
             "operation": "delete_organization_alerts_profile",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        alertConfigId = urllib.parse.quote(str(alertConfigId), safe="")
-        resource = f"/organizations/{organizationId}/alerts/profiles/{alertConfigId}"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        alert_config_id = urllib.parse.quote(str(alert_config_id), safe="")
+        resource = f"/organizations/{organization_id}/alerts/profiles/{alert_config_id}"
 
         return self._session.delete(metadata, resource)
 
     def get_organization_api_requests(
-        self, organizationId: str, total_pages=1, direction="next", **kwargs: Any
+        self, organization_id: str, total_pages=1, direction="next", **kwargs: Any
     ) -> Generator[Any, None, None]:
         """List the API requests made by an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-api-requests
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
@@ -1127,8 +1131,8 @@ class AsyncOrganizations:
             "tags": ["organizations", "monitor", "apiRequests"],
             "operation": "get_organization_api_requests",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/apiRequests"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/apiRequests"
 
         query_params = [
             "t0",
@@ -1159,14 +1163,14 @@ class AsyncOrganizations:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def get_organization_api_requests_overview(
-        self, organizationId: str, **kwargs: Any
+        self, organization_id: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Return an aggregated overview of API requests data.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-api-requests-overview
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             t0: The beginning of the timespan for the data. The maximum lookback period is 31 days
               from today.
             t1: The end of the timespan for the data. t1 can be a maximum of 31 days after t0.
@@ -1181,8 +1185,8 @@ class AsyncOrganizations:
             "tags": ["organizations", "monitor", "apiRequests", "overview"],
             "operation": "get_organization_api_requests_overview",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/apiRequests/overview"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/apiRequests/overview"
 
         query_params = [
             "t0",
@@ -1194,14 +1198,14 @@ class AsyncOrganizations:
         return self._session.get(metadata, resource, params)
 
     def get_organization_api_requests_overview_response_codes_by_interval(
-        self, organizationId: str, **kwargs: Any
+        self, organization_id: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Tracks organizations' API requests by response code across a given time period.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-api-requests-overview-response-codes-by-interval
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             t0: The beginning of the timespan for the data. The maximum lookback period is 31 days
               from today.
             t1: The end of the timespan for the data. t1 can be a maximum of 31 days after t0.
@@ -1239,8 +1243,8 @@ class AsyncOrganizations:
             ],
             "operation": "get_organization_api_requests_overview_response_codes_by_interval",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/apiRequests/overview/responseCodes/byInterval"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/apiRequests/overview/responseCodes/byInterval"
 
         query_params = [
             "t0",
@@ -1268,14 +1272,14 @@ class AsyncOrganizations:
         return self._session.get(metadata, resource, params)
 
     def get_organization_assurance_alerts(
-        self, organizationId: str, total_pages=1, direction="next", **kwargs: Any
+        self, organization_id: str, total_pages=1, direction="next", **kwargs: Any
     ) -> Generator[Any, None, None]:
         """Return all health alerts for an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-assurance-alerts
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
@@ -1333,8 +1337,8 @@ class AsyncOrganizations:
             "tags": ["organizations", "monitor", "alerts"],
             "operation": "get_organization_assurance_alerts",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/assurance/alerts"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/assurance/alerts"
 
         query_params = [
             "perPage",
@@ -1372,14 +1376,14 @@ class AsyncOrganizations:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def dismiss_organization_assurance_alerts(
-        self, organizationId: str, alertIds: list
+        self, organization_id: str, alertIds: list
     ) -> dict[str, Any] | None:
         """Dismiss health alerts.
 
         https://developer.cisco.com/meraki/api-v1/#!dismiss-organization-assurance-alerts
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             alertIds: Array of alert IDs to dismiss.
 
         """
@@ -1389,8 +1393,8 @@ class AsyncOrganizations:
             "tags": ["organizations", "monitor", "alerts"],
             "operation": "dismiss_organization_assurance_alerts",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/assurance/alerts/dismiss"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/assurance/alerts/dismiss"
 
         body_params = [
             "alertIds",
@@ -1400,14 +1404,14 @@ class AsyncOrganizations:
         return self._session.post(metadata, resource, payload)
 
     def get_organization_assurance_alerts_overview(
-        self, organizationId: str, **kwargs: Any
+        self, organization_id: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Return overview of active health alerts for an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-assurance-alerts-overview
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             networkId: Optional parameter to filter alerts overview by network ids.
             severity: Optional parameter to filter alerts overview by severity type.
             types: Optional parameter to filter by alert type.
@@ -1439,8 +1443,8 @@ class AsyncOrganizations:
             "tags": ["organizations", "monitor", "alerts", "overview"],
             "operation": "get_organization_assurance_alerts_overview",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/assurance/alerts/overview"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/assurance/alerts/overview"
 
         query_params = [
             "networkId",
@@ -1473,14 +1477,14 @@ class AsyncOrganizations:
         return self._session.get(metadata, resource, params)
 
     def get_organization_assurance_alerts_overview_by_network(
-        self, organizationId: str, total_pages=1, direction="next", **kwargs: Any
+        self, organization_id: str, total_pages=1, direction="next", **kwargs: Any
     ) -> Generator[Any, None, None]:
         """Return a Summary of Alerts grouped by network and severity.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-assurance-alerts-overview-by-network
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
@@ -1532,8 +1536,8 @@ class AsyncOrganizations:
             "tags": ["organizations", "monitor", "alerts", "overview", "byNetwork"],
             "operation": "get_organization_assurance_alerts_overview_by_network",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/assurance/alerts/overview/byNetwork"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/assurance/alerts/overview/byNetwork"
 
         query_params = [
             "perPage",
@@ -1570,14 +1574,14 @@ class AsyncOrganizations:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def get_organization_assurance_alerts_overview_by_type(
-        self, organizationId: str, total_pages=1, direction="next", **kwargs: Any
+        self, organization_id: str, total_pages=1, direction="next", **kwargs: Any
     ) -> Generator[Any, None, None]:
         """Return a Summary of Alerts grouped by type and severity.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-assurance-alerts-overview-by-type
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
@@ -1635,8 +1639,8 @@ class AsyncOrganizations:
             "tags": ["organizations", "monitor", "alerts", "overview", "byType"],
             "operation": "get_organization_assurance_alerts_overview_by_type",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/assurance/alerts/overview/byType"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/assurance/alerts/overview/byType"
 
         query_params = [
             "perPage",
@@ -1674,14 +1678,14 @@ class AsyncOrganizations:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def get_organization_assurance_alerts_overview_historical(
-        self, organizationId: str, segmentDuration: int, tsStart: str, **kwargs: Any
+        self, organization_id: str, segmentDuration: int, tsStart: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Returns historical health alert overviews.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-assurance-alerts-overview-historical
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             segmentDuration: Amount of time in seconds for each segment in the returned dataset.
             tsStart: Parameter to define starting timestamp of historical totals.
             networkId: Optional parameter to filter alerts overview by network ids.
@@ -1705,8 +1709,8 @@ class AsyncOrganizations:
             "tags": ["organizations", "monitor", "alerts", "overview", "historical"],
             "operation": "get_organization_assurance_alerts_overview_historical",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/assurance/alerts/overview/historical"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/assurance/alerts/overview/historical"
 
         query_params = [
             "segmentDuration",
@@ -1734,14 +1738,14 @@ class AsyncOrganizations:
         return self._session.get(metadata, resource, params)
 
     def restore_organization_assurance_alerts(
-        self, organizationId: str, alertIds: list
+        self, organization_id: str, alertIds: list
     ) -> dict[str, Any] | None:
         """Restore health alerts from dismissed.
 
         https://developer.cisco.com/meraki/api-v1/#!restore-organization-assurance-alerts
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             alertIds: Array of alert IDs to restore.
 
         """
@@ -1751,8 +1755,8 @@ class AsyncOrganizations:
             "tags": ["organizations", "monitor", "alerts"],
             "operation": "restore_organization_assurance_alerts",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/assurance/alerts/restore"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/assurance/alerts/restore"
 
         body_params = [
             "alertIds",
@@ -1762,54 +1766,54 @@ class AsyncOrganizations:
         return self._session.post(metadata, resource, payload)
 
     def get_organization_assurance_alerts_taxonomy_categories(
-        self, organizationId: str
+        self, organization_id: str
     ) -> dict[str, Any] | None:
         """Return a list of Category Types.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-assurance-alerts-taxonomy-categories
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
 
         """
         metadata = {
             "tags": ["organizations", "monitor", "alerts", "taxonomy", "categories"],
             "operation": "get_organization_assurance_alerts_taxonomy_categories",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/assurance/alerts/taxonomy/categories"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/assurance/alerts/taxonomy/categories"
 
         return self._session.get(metadata, resource)
 
     def get_organization_assurance_alerts_taxonomy_types(
-        self, organizationId: str
+        self, organization_id: str
     ) -> dict[str, Any] | None:
         """Return a list of alert types.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-assurance-alerts-taxonomy-types
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
 
         """
         metadata = {
             "tags": ["organizations", "monitor", "alerts", "taxonomy", "types"],
             "operation": "get_organization_assurance_alerts_taxonomy_types",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/assurance/alerts/taxonomy/types"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/assurance/alerts/taxonomy/types"
 
         return self._session.get(metadata, resource)
 
     def get_organization_assurance_alert(
-        self, organizationId: str, id: str
+        self, organization_id: str, id: str
     ) -> dict[str, Any] | None:
         """Return a singular Health Alert by its id.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-assurance-alert
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             id: ID.
 
         """
@@ -1817,39 +1821,39 @@ class AsyncOrganizations:
             "tags": ["organizations", "monitor", "alerts"],
             "operation": "get_organization_assurance_alert",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
         id = urllib.parse.quote(str(id), safe="")
-        resource = f"/organizations/{organizationId}/assurance/alerts/{id}"
+        resource = f"/organizations/{organization_id}/assurance/alerts/{id}"
 
         return self._session.get(metadata, resource)
 
-    def get_organization_branding_policies(self, organizationId: str) -> dict[str, Any] | None:
+    def get_organization_branding_policies(self, organization_id: str) -> dict[str, Any] | None:
         """List the branding policies of an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-branding-policies
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
 
         """
         metadata = {
             "tags": ["organizations", "configure", "brandingPolicies"],
             "operation": "get_organization_branding_policies",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/brandingPolicies"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/brandingPolicies"
 
         return self._session.get(metadata, resource)
 
     def create_organization_branding_policy(
-        self, organizationId: str, name: str, **kwargs: Any
+        self, organization_id: str, name: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Add a new branding policy to an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!create-organization-branding-policy
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             name: Name of the Dashboard branding policy.
             enabled: Boolean indicating whether this policy is enabled.
             adminSettings: Settings for describing which kinds of admins this policy applies to.
@@ -1870,8 +1874,8 @@ class AsyncOrganizations:
             "tags": ["organizations", "configure", "brandingPolicies"],
             "operation": "create_organization_branding_policy",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/brandingPolicies"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/brandingPolicies"
 
         body_params = [
             "name",
@@ -1885,34 +1889,34 @@ class AsyncOrganizations:
         return self._session.post(metadata, resource, payload)
 
     def get_organization_branding_policies_priorities(
-        self, organizationId: str
+        self, organization_id: str
     ) -> dict[str, Any] | None:
         """Return the branding policy IDs of an organization in priority order.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-branding-policies-priorities
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
 
         """
         metadata = {
             "tags": ["organizations", "configure", "brandingPolicies", "priorities"],
             "operation": "get_organization_branding_policies_priorities",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/brandingPolicies/priorities"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/brandingPolicies/priorities"
 
         return self._session.get(metadata, resource)
 
     def update_organization_branding_policies_priorities(
-        self, organizationId: str, **kwargs: Any
+        self, organization_id: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Update the priority ordering of an organization's branding policies.
 
         https://developer.cisco.com/meraki/api-v1/#!update-organization-branding-policies-priorities
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             brandingPolicyIds:       An ordered list of branding policy IDs that determines the
               priority order of how to apply the policies .
 
@@ -1923,8 +1927,8 @@ class AsyncOrganizations:
             "tags": ["organizations", "configure", "brandingPolicies", "priorities"],
             "operation": "update_organization_branding_policies_priorities",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/brandingPolicies/priorities"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/brandingPolicies/priorities"
 
         body_params = [
             "brandingPolicyIds",
@@ -1934,37 +1938,37 @@ class AsyncOrganizations:
         return self._session.put(metadata, resource, payload)
 
     def get_organization_branding_policy(
-        self, organizationId: str, brandingPolicyId: str
+        self, organization_id: str, branding_policy_id: str
     ) -> dict[str, Any] | None:
         """Return a branding policy.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-branding-policy
 
         Args:
-            organizationId: Organization ID.
-            brandingPolicyId: Branding policy ID.
+            organization_id: Organization ID.
+            branding_policy_id: Branding policy ID.
 
         """
         metadata = {
             "tags": ["organizations", "configure", "brandingPolicies"],
             "operation": "get_organization_branding_policy",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        brandingPolicyId = urllib.parse.quote(str(brandingPolicyId), safe="")
-        resource = f"/organizations/{organizationId}/brandingPolicies/{brandingPolicyId}"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        branding_policy_id = urllib.parse.quote(str(branding_policy_id), safe="")
+        resource = f"/organizations/{organization_id}/brandingPolicies/{branding_policy_id}"
 
         return self._session.get(metadata, resource)
 
     def update_organization_branding_policy(
-        self, organizationId: str, brandingPolicyId: str, name: str, **kwargs: Any
+        self, organization_id: str, branding_policy_id: str, name: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Update a branding policy.
 
         https://developer.cisco.com/meraki/api-v1/#!update-organization-branding-policy
 
         Args:
-            organizationId: Organization ID.
-            brandingPolicyId: Branding policy ID.
+            organization_id: Organization ID.
+            branding_policy_id: Branding policy ID.
             name: Name of the Dashboard branding policy.
             enabled: Boolean indicating whether this policy is enabled.
             adminSettings: Settings for describing which kinds of admins this policy applies to.
@@ -1984,9 +1988,9 @@ class AsyncOrganizations:
             "tags": ["organizations", "configure", "brandingPolicies"],
             "operation": "update_organization_branding_policy",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        brandingPolicyId = urllib.parse.quote(str(brandingPolicyId), safe="")
-        resource = f"/organizations/{organizationId}/brandingPolicies/{brandingPolicyId}"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        branding_policy_id = urllib.parse.quote(str(branding_policy_id), safe="")
+        resource = f"/organizations/{organization_id}/brandingPolicies/{branding_policy_id}"
 
         body_params = [
             "name",
@@ -2000,34 +2004,34 @@ class AsyncOrganizations:
         return self._session.put(metadata, resource, payload)
 
     def delete_organization_branding_policy(
-        self, organizationId: str, brandingPolicyId: str
+        self, organization_id: str, branding_policy_id: str
     ) -> None:
         """Delete a branding policy.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-branding-policy
 
         Args:
-            organizationId: Organization ID.
-            brandingPolicyId: Branding policy ID.
+            organization_id: Organization ID.
+            branding_policy_id: Branding policy ID.
 
         """
         metadata = {
             "tags": ["organizations", "configure", "brandingPolicies"],
             "operation": "delete_organization_branding_policy",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        brandingPolicyId = urllib.parse.quote(str(brandingPolicyId), safe="")
-        resource = f"/organizations/{organizationId}/brandingPolicies/{brandingPolicyId}"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        branding_policy_id = urllib.parse.quote(str(branding_policy_id), safe="")
+        resource = f"/organizations/{organization_id}/brandingPolicies/{branding_policy_id}"
 
         return self._session.delete(metadata, resource)
 
-    def claim_into_organization(self, organizationId: str, **kwargs: Any) -> dict[str, Any] | None:
+    def claim_into_organization(self, organization_id: str, **kwargs: Any) -> dict[str, Any] | None:
         """Claim a list of devices, licenses, and/or orders into an organization inventory.
 
         https://developer.cisco.com/meraki/api-v1/#!claim-into-organization
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             orders: The numbers of the orders that should be claimed.
             serials: The serials of the devices that should be claimed.
             licenses: The licenses that should be claimed.
@@ -2036,8 +2040,8 @@ class AsyncOrganizations:
         kwargs.update(locals())
 
         metadata = {"tags": ["organizations", "configure"], "operation": "claim_into_organization"}
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/claim"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/claim"
 
         body_params = [
             "orders",
@@ -2049,14 +2053,14 @@ class AsyncOrganizations:
         return self._session.post(metadata, resource, payload)
 
     def get_organization_clients_bandwidth_usage_history(
-        self, organizationId: str, **kwargs: Any
+        self, organization_id: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Return data usage (in megabits per second) over time for all clients in the given organization within a given time range.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-clients-bandwidth-usage-history
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             networkTag: Match result to an exact network tag.
             deviceTag: Match result to an exact device tag.
             ssidName: Filter results by ssid name.
@@ -2074,8 +2078,8 @@ class AsyncOrganizations:
             "tags": ["organizations", "monitor", "clients", "bandwidthUsageHistory"],
             "operation": "get_organization_clients_bandwidth_usage_history",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/clients/bandwidthUsageHistory"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/clients/bandwidthUsageHistory"
 
         query_params = [
             "networkTag",
@@ -2091,14 +2095,14 @@ class AsyncOrganizations:
         return self._session.get(metadata, resource, params)
 
     def get_organization_clients_overview(
-        self, organizationId: str, **kwargs: Any
+        self, organization_id: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Return summary information around client data usage (in kb) across the given organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-clients-overview
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             t0: The beginning of the timespan for the data.
             t1: The end of the timespan for the data. t1 can be a maximum of 31 days after t0.
             timespan: The timespan for which the information will be fetched. If specifying
@@ -2112,8 +2116,8 @@ class AsyncOrganizations:
             "tags": ["organizations", "monitor", "clients", "overview"],
             "operation": "get_organization_clients_overview",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/clients/overview"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/clients/overview"
 
         query_params = [
             "t0",
@@ -2125,14 +2129,14 @@ class AsyncOrganizations:
         return self._session.get(metadata, resource, params)
 
     def get_organization_clients_search(
-        self, organizationId: str, mac: str, total_pages=1, direction="next", **kwargs: Any
+        self, organization_id: str, mac: str, total_pages=1, direction="next", **kwargs: Any
     ) -> Generator[Any, None, None]:
         """Return the client details in an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-clients-search
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             mac: The MAC address of the client. Required.
             total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
               "all" for all pages.
@@ -2155,8 +2159,8 @@ class AsyncOrganizations:
             "tags": ["organizations", "configure", "clients", "search"],
             "operation": "get_organization_clients_search",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/clients/search"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/clients/search"
 
         query_params = [
             "perPage",
@@ -2168,21 +2172,21 @@ class AsyncOrganizations:
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
-    def clone_organization(self, organizationId: str, name: str) -> dict[str, Any] | None:
+    def clone_organization(self, organization_id: str, name: str) -> dict[str, Any] | None:
         """Create a new organization by cloning the addressed organization.
 
         https://developer.cisco.com/meraki/api-v1/#!clone-organization
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             name: The name of the new organization.
 
         """
         kwargs = locals()
 
         metadata = {"tags": ["organizations", "configure"], "operation": "clone_organization"}
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/clone"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/clone"
 
         body_params = [
             "name",
@@ -2191,33 +2195,33 @@ class AsyncOrganizations:
 
         return self._session.post(metadata, resource, payload)
 
-    def get_organization_config_templates(self, organizationId: str) -> dict[str, Any] | None:
+    def get_organization_config_templates(self, organization_id: str) -> dict[str, Any] | None:
         """List the configuration templates for this organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-config-templates
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
 
         """
         metadata = {
             "tags": ["organizations", "configure", "configTemplates"],
             "operation": "get_organization_config_templates",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/configTemplates"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/configTemplates"
 
         return self._session.get(metadata, resource)
 
     def create_organization_config_template(
-        self, organizationId: str, name: str, **kwargs: Any
+        self, organization_id: str, name: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Create a new configuration template.
 
         https://developer.cisco.com/meraki/api-v1/#!create-organization-config-template
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             name: The name of the configuration template.
             timeZone: The timezone of the configuration template. For a list of allowed timezones,
               please see the 'TZ' column in the table in <a target='_blank'
@@ -2232,8 +2236,8 @@ class AsyncOrganizations:
             "tags": ["organizations", "configure", "configTemplates"],
             "operation": "create_organization_config_template",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/configTemplates"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/configTemplates"
 
         body_params = [
             "name",
@@ -2245,37 +2249,37 @@ class AsyncOrganizations:
         return self._session.post(metadata, resource, payload)
 
     def get_organization_config_template(
-        self, organizationId: str, configTemplateId: str
+        self, organization_id: str, config_template_id: str
     ) -> dict[str, Any] | None:
         """Return a single configuration template.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-config-template
 
         Args:
-            organizationId: Organization ID.
-            configTemplateId: Config template ID.
+            organization_id: Organization ID.
+            config_template_id: Config template ID.
 
         """
         metadata = {
             "tags": ["organizations", "configure", "configTemplates"],
             "operation": "get_organization_config_template",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        configTemplateId = urllib.parse.quote(str(configTemplateId), safe="")
-        resource = f"/organizations/{organizationId}/configTemplates/{configTemplateId}"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        config_template_id = urllib.parse.quote(str(config_template_id), safe="")
+        resource = f"/organizations/{organization_id}/configTemplates/{config_template_id}"
 
         return self._session.get(metadata, resource)
 
     def update_organization_config_template(
-        self, organizationId: str, configTemplateId: str, **kwargs: Any
+        self, organization_id: str, config_template_id: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Update a configuration template.
 
         https://developer.cisco.com/meraki/api-v1/#!update-organization-config-template
 
         Args:
-            organizationId: Organization ID.
-            configTemplateId: Config template ID.
+            organization_id: Organization ID.
+            config_template_id: Config template ID.
             name: The name of the configuration template.
             timeZone: The timezone of the configuration template. For a list of allowed timezones,
               please see the 'TZ' column in the table in <a target='_blank'
@@ -2289,9 +2293,9 @@ class AsyncOrganizations:
             "tags": ["organizations", "configure", "configTemplates"],
             "operation": "update_organization_config_template",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        configTemplateId = urllib.parse.quote(str(configTemplateId), safe="")
-        resource = f"/organizations/{organizationId}/configTemplates/{configTemplateId}"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        config_template_id = urllib.parse.quote(str(config_template_id), safe="")
+        resource = f"/organizations/{organization_id}/configTemplates/{config_template_id}"
 
         body_params = [
             "name",
@@ -2302,36 +2306,36 @@ class AsyncOrganizations:
         return self._session.put(metadata, resource, payload)
 
     def delete_organization_config_template(
-        self, organizationId: str, configTemplateId: str
+        self, organization_id: str, config_template_id: str
     ) -> None:
         """Remove a configuration template.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-config-template
 
         Args:
-            organizationId: Organization ID.
-            configTemplateId: Config template ID.
+            organization_id: Organization ID.
+            config_template_id: Config template ID.
 
         """
         metadata = {
             "tags": ["organizations", "configure", "configTemplates"],
             "operation": "delete_organization_config_template",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        configTemplateId = urllib.parse.quote(str(configTemplateId), safe="")
-        resource = f"/organizations/{organizationId}/configTemplates/{configTemplateId}"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        config_template_id = urllib.parse.quote(str(config_template_id), safe="")
+        resource = f"/organizations/{organization_id}/configTemplates/{config_template_id}"
 
         return self._session.delete(metadata, resource)
 
     def get_organization_configuration_changes(
-        self, organizationId: str, total_pages=1, direction="prev", **kwargs: Any
+        self, organization_id: str, total_pages=1, direction="prev", **kwargs: Any
     ) -> Generator[Any, None, None]:
         """View the Change Log for your organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-configuration-changes
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" or "prev" (default) page.
@@ -2361,8 +2365,8 @@ class AsyncOrganizations:
             "tags": ["organizations", "monitor", "configurationChanges"],
             "operation": "get_organization_configuration_changes",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/configurationChanges"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/configurationChanges"
 
         query_params = [
             "t0",
@@ -2379,14 +2383,14 @@ class AsyncOrganizations:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def get_organization_devices(
-        self, organizationId: str, total_pages=1, direction="next", **kwargs: Any
+        self, organization_id: str, total_pages=1, direction="next", **kwargs: Any
     ) -> Generator[Any, None, None]:
         """List the devices in an organization that have been assigned to a network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-devices
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
@@ -2442,8 +2446,8 @@ class AsyncOrganizations:
             "tags": ["organizations", "configure", "devices"],
             "operation": "get_organization_devices",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/devices"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/devices"
 
         query_params = [
             "perPage",
@@ -2484,14 +2488,14 @@ class AsyncOrganizations:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def get_organization_devices_availabilities(
-        self, organizationId: str, total_pages=1, direction="next", **kwargs: Any
+        self, organization_id: str, total_pages=1, direction="next", **kwargs: Any
     ) -> Generator[Any, None, None]:
         """List the availability information for devices in an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-devices-availabilities
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
@@ -2535,8 +2539,8 @@ class AsyncOrganizations:
             "tags": ["organizations", "monitor", "devices", "availabilities"],
             "operation": "get_organization_devices_availabilities",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/devices/availabilities"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/devices/availabilities"
 
         query_params = [
             "perPage",
@@ -2566,14 +2570,14 @@ class AsyncOrganizations:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def get_organization_devices_availabilities_change_history(
-        self, organizationId: str, total_pages=1, direction="next", **kwargs: Any
+        self, organization_id: str, total_pages=1, direction="next", **kwargs: Any
     ) -> Generator[Any, None, None]:
         """List the availability history information for devices in an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-devices-availabilities-change-history
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
@@ -2607,8 +2611,8 @@ class AsyncOrganizations:
             "tags": ["organizations", "monitor", "devices", "availabilities", "changeHistory"],
             "operation": "get_organization_devices_availabilities_change_history",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/devices/availabilities/changeHistory"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/devices/availabilities/changeHistory"
 
         query_params = [
             "perPage",
@@ -2638,14 +2642,14 @@ class AsyncOrganizations:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def create_organization_devices_controller_migration(
-        self, organizationId: str, serials: list, target: str
+        self, organization_id: str, serials: list, target: str
     ) -> dict[str, Any] | None:
         """Migrate devices to another controller or management mode.
 
         https://developer.cisco.com/meraki/api-v1/#!create-organization-devices-controller-migration
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             serials: A list of Meraki Serials to migrate.
             target: The controller or management mode to which the devices will be migrated.
 
@@ -2662,8 +2666,8 @@ class AsyncOrganizations:
             "tags": ["organizations", "configure", "devices", "controller", "migrations"],
             "operation": "create_organization_devices_controller_migration",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/devices/controller/migrations"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/devices/controller/migrations"
 
         body_params = [
             "serials",
@@ -2674,14 +2678,14 @@ class AsyncOrganizations:
         return self._session.post(metadata, resource, payload)
 
     def get_organization_devices_controller_migrations(
-        self, organizationId: str, total_pages=1, direction="next", **kwargs: Any
+        self, organization_id: str, total_pages=1, direction="next", **kwargs: Any
     ) -> Generator[Any, None, None]:
         """Retrieve device migration statuses in an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-devices-controller-migrations
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
@@ -2712,8 +2716,8 @@ class AsyncOrganizations:
             "tags": ["organizations", "configure", "devices", "controller", "migrations"],
             "operation": "get_organization_devices_controller_migrations",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/devices/controller/migrations"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/devices/controller/migrations"
 
         query_params = [
             "serials",
@@ -2737,14 +2741,14 @@ class AsyncOrganizations:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def bulk_update_organization_devices_details(
-        self, organizationId: str, serials: list, details: list
+        self, organization_id: str, serials: list, details: list
     ) -> dict[str, Any] | None:
         """Updating device details (currently only used for Catalyst devices).
 
         https://developer.cisco.com/meraki/api-v1/#!bulk-update-organization-devices-details
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             serials: A list of serials of devices to update.
             details: An array of details.
 
@@ -2755,8 +2759,8 @@ class AsyncOrganizations:
             "tags": ["organizations", "configure", "devices", "details", "bulkUpdate"],
             "operation": "bulk_update_organization_devices_details",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/devices/details/bulkUpdate"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/devices/details/bulkUpdate"
 
         body_params = [
             "serials",
@@ -2767,14 +2771,14 @@ class AsyncOrganizations:
         return self._session.post(metadata, resource, payload)
 
     def get_organization_devices_overview_by_model(
-        self, organizationId: str, **kwargs: Any
+        self, organization_id: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Lists the count for each device model.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-devices-overview-by-model
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             models: Optional parameter to filter devices by one or more models. All returned devices
               will have a model that is an exact match.
             networkIds: Optional parameter to filter devices by networkId.
@@ -2788,8 +2792,8 @@ class AsyncOrganizations:
             "tags": ["organizations", "configure", "devices", "overview", "byModel"],
             "operation": "get_organization_devices_overview_by_model",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/devices/overview/byModel"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/devices/overview/byModel"
 
         query_params = [
             "models",
@@ -2811,14 +2815,14 @@ class AsyncOrganizations:
         return self._session.get(metadata, resource, params)
 
     def get_organization_devices_packet_capture_captures(
-        self, organizationId: str, total_pages=1, direction="next", **kwargs: Any
+        self, organization_id: str, total_pages=1, direction="next", **kwargs: Any
     ) -> Generator[Any, None, None]:
         """List Packet Captures.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-devices-packet-capture-captures
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
@@ -2864,8 +2868,8 @@ class AsyncOrganizations:
             "tags": ["organizations", "configure", "devices", "packetCapture", "captures"],
             "operation": "get_organization_devices_packet_capture_captures",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/devices/packetCapture/captures"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/devices/packetCapture/captures"
 
         query_params = [
             "captureIds",
@@ -2905,14 +2909,14 @@ class AsyncOrganizations:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def create_organization_devices_packet_capture_capture(
-        self, organizationId: str, serials: list, name: str, **kwargs: Any
+        self, organization_id: str, serials: list, name: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Perform a packet capture on a device and store in Meraki Cloud.
 
         https://developer.cisco.com/meraki/api-v1/#!create-organization-devices-packet-capture-capture
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             serials: The serial(s) of the device(s).
             name: Name of packet capture file.
             outputType: Output type of packet capture file. Possible values: text, pcap, cloudshark,
@@ -2933,8 +2937,8 @@ class AsyncOrganizations:
             "tags": ["organizations", "configure", "devices", "packetCapture", "captures"],
             "operation": "create_organization_devices_packet_capture_capture",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/devices/packetCapture/captures"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/devices/packetCapture/captures"
 
         body_params = [
             "serials",
@@ -2953,14 +2957,14 @@ class AsyncOrganizations:
         return self._session.post(metadata, resource, payload)
 
     def bulk_organization_devices_packet_capture_captures_create(
-        self, organizationId: str, devices: list, name: str, **kwargs: Any
+        self, organization_id: str, devices: list, name: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Perform a packet capture on multiple devices and store in Meraki Cloud.
 
         https://developer.cisco.com/meraki/api-v1/#!bulk-organization-devices-packet-capture-captures-create
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             devices: Device details (maximum of 20 devices allowed).
             name: Name of packet capture file.
             notes: Reason for capture.
@@ -2975,8 +2979,8 @@ class AsyncOrganizations:
             "tags": ["organizations", "configure", "devices", "packetCapture", "captures"],
             "operation": "bulk_organization_devices_packet_capture_captures_create",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/devices/packetCapture/captures/bulkCreate"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/devices/packetCapture/captures/bulkCreate"
 
         body_params = [
             "devices",
@@ -2991,14 +2995,14 @@ class AsyncOrganizations:
         return self._session.post(metadata, resource, payload)
 
     def bulk_organization_devices_packet_capture_captures_delete(
-        self, organizationId: str, captureIds: list
+        self, organization_id: str, captureIds: list
     ) -> dict[str, Any] | None:
         """BulkDelete packet captures from cloud.
 
         https://developer.cisco.com/meraki/api-v1/#!bulk-organization-devices-packet-capture-captures-delete
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             captureIds: Delete the packet captures of the specified capture ids.
 
         """
@@ -3008,8 +3012,8 @@ class AsyncOrganizations:
             "tags": ["organizations", "configure", "devices", "packetCapture", "captures"],
             "operation": "bulk_organization_devices_packet_capture_captures_delete",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/devices/packetCapture/captures/bulkDelete"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/devices/packetCapture/captures/bulkDelete"
 
         body_params = [
             "captureIds",
@@ -3019,37 +3023,37 @@ class AsyncOrganizations:
         return self._session.post(metadata, resource, payload)
 
     def delete_organization_devices_packet_capture_capture(
-        self, organizationId: str, captureId: str
+        self, organization_id: str, capture_id: str
     ) -> None:
         """Delete a single packet capture from cloud using captureId.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-devices-packet-capture-capture
 
         Args:
-            organizationId: Organization ID.
-            captureId: Capture ID.
+            organization_id: Organization ID.
+            capture_id: Capture ID.
 
         """
         metadata = {
             "tags": ["organizations", "configure", "devices", "packetCapture", "captures"],
             "operation": "delete_organization_devices_packet_capture_capture",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        captureId = urllib.parse.quote(str(captureId), safe="")
-        resource = f"/organizations/{organizationId}/devices/packetCapture/captures/{captureId}"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        capture_id = urllib.parse.quote(str(capture_id), safe="")
+        resource = f"/organizations/{organization_id}/devices/packetCapture/captures/{capture_id}"
 
         return self._session.delete(metadata, resource)
 
     def generate_organization_devices_packet_capture_capture_download_url(
-        self, organizationId: str, captureId: str
+        self, organization_id: str, capture_id: str
     ) -> dict[str, Any] | None:
         """Get presigned download URL for given packet capture id.
 
         https://developer.cisco.com/meraki/api-v1/#!generate-organization-devices-packet-capture-capture-download-url
 
         Args:
-            organizationId: Organization ID.
-            captureId: Capture ID.
+            organization_id: Organization ID.
+            capture_id: Capture ID.
 
         """
         metadata = {
@@ -3063,22 +3067,22 @@ class AsyncOrganizations:
             ],
             "operation": "generate_organization_devices_packet_capture_capture_download_url",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        captureId = urllib.parse.quote(str(captureId), safe="")
-        resource = f"/organizations/{organizationId}/devices/packetCapture/captures/{captureId}/downloadUrl/generate"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        capture_id = urllib.parse.quote(str(capture_id), safe="")
+        resource = f"/organizations/{organization_id}/devices/packetCapture/captures/{capture_id}/downloadUrl/generate"
 
         return self._session.post(metadata, resource)
 
     def stop_organization_devices_packet_capture_capture(
-        self, organizationId: str, captureId: str, serials: list
+        self, organization_id: str, capture_id: str, serials: list
     ) -> dict[str, Any] | None:
         """Stop a specific packet capture (not supported for Catalyst devices).
 
         https://developer.cisco.com/meraki/api-v1/#!stop-organization-devices-packet-capture-capture
 
         Args:
-            organizationId: Organization ID.
-            captureId: Capture ID.
+            organization_id: Organization ID.
+            capture_id: Capture ID.
             serials: The serial(s) of the device(s) to stop the capture on.
 
         """
@@ -3088,10 +3092,10 @@ class AsyncOrganizations:
             "tags": ["organizations", "configure", "devices", "packetCapture", "captures"],
             "operation": "stop_organization_devices_packet_capture_capture",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        captureId = urllib.parse.quote(str(captureId), safe="")
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        capture_id = urllib.parse.quote(str(capture_id), safe="")
         resource = (
-            f"/organizations/{organizationId}/devices/packetCapture/captures/{captureId}/stop"
+            f"/organizations/{organization_id}/devices/packetCapture/captures/{capture_id}/stop"
         )
 
         body_params = [
@@ -3102,14 +3106,14 @@ class AsyncOrganizations:
         return self._session.post(metadata, resource, payload)
 
     def get_organization_devices_packet_capture_schedules(
-        self, organizationId: str, **kwargs: Any
+        self, organization_id: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """List the Packet Capture Schedules.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-devices-packet-capture-schedules
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             scheduleIds: Return the packet captures schedules of the specified packet capture
               schedule ids.
             networkIds: Return the scheduled packet captures of the specified network(s).
@@ -3122,8 +3126,8 @@ class AsyncOrganizations:
             "tags": ["organizations", "configure", "devices", "packetCapture", "schedules"],
             "operation": "get_organization_devices_packet_capture_schedules",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/devices/packetCapture/schedules"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/devices/packetCapture/schedules"
 
         query_params = [
             "scheduleIds",
@@ -3145,14 +3149,14 @@ class AsyncOrganizations:
         return self._session.get(metadata, resource, params)
 
     def create_organization_devices_packet_capture_schedule(
-        self, organizationId: str, devices: list, **kwargs: Any
+        self, organization_id: str, devices: list, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Create a schedule for packet capture.
 
         https://developer.cisco.com/meraki/api-v1/#!create-organization-devices-packet-capture-schedule
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             devices: device details.
             name: Name of the packet capture file.
             notes: Reason for capture.
@@ -3168,8 +3172,8 @@ class AsyncOrganizations:
             "tags": ["organizations", "configure", "devices", "packetCapture", "schedules"],
             "operation": "create_organization_devices_packet_capture_schedule",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/devices/packetCapture/schedules"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/devices/packetCapture/schedules"
 
         body_params = [
             "devices",
@@ -3185,14 +3189,14 @@ class AsyncOrganizations:
         return self._session.post(metadata, resource, payload)
 
     def reorder_organization_devices_packet_capture_schedules(
-        self, organizationId: str, order: list
+        self, organization_id: str, order: list
     ) -> dict[str, Any] | None:
         """Bulk update priorities of pcap schedules.
 
         https://developer.cisco.com/meraki/api-v1/#!reorder-organization-devices-packet-capture-schedules
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             order: Array of schedule IDs and their priorities to reorder.
 
         """
@@ -3202,8 +3206,8 @@ class AsyncOrganizations:
             "tags": ["organizations", "configure", "devices", "packetCapture", "schedules"],
             "operation": "reorder_organization_devices_packet_capture_schedules",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/devices/packetCapture/schedules/reorder"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/devices/packetCapture/schedules/reorder"
 
         body_params = [
             "order",
@@ -3213,15 +3217,15 @@ class AsyncOrganizations:
         return self._session.post(metadata, resource, payload)
 
     def update_organization_devices_packet_capture_schedule(
-        self, organizationId: str, scheduleId: str, devices: list, **kwargs: Any
+        self, organization_id: str, schedule_id: str, devices: list, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Update a schedule for packet capture.
 
         https://developer.cisco.com/meraki/api-v1/#!update-organization-devices-packet-capture-schedule
 
         Args:
-            organizationId: Organization ID.
-            scheduleId: Schedule ID.
+            organization_id: Organization ID.
+            schedule_id: Schedule ID.
             devices: device details.
             name: Name of the packet capture file.
             notes: Reason for capture.
@@ -3237,9 +3241,9 @@ class AsyncOrganizations:
             "tags": ["organizations", "configure", "devices", "packetCapture", "schedules"],
             "operation": "update_organization_devices_packet_capture_schedule",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        scheduleId = urllib.parse.quote(str(scheduleId), safe="")
-        resource = f"/organizations/{organizationId}/devices/packetCapture/schedules/{scheduleId}"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        schedule_id = urllib.parse.quote(str(schedule_id), safe="")
+        resource = f"/organizations/{organization_id}/devices/packetCapture/schedules/{schedule_id}"
 
         body_params = [
             "devices",
@@ -3255,14 +3259,14 @@ class AsyncOrganizations:
         return self._session.put(metadata, resource, payload)
 
     def delete_organization_devices_packet_capture_schedule(
-        self, organizationId: str, scheduleId: str
+        self, organization_id: str, scheduleId: str
     ) -> None:
         """Delete schedule from cloud.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-devices-packet-capture-schedule
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             scheduleId: Delete the capture schedules of the specified capture schedule id.
 
         """
@@ -3272,20 +3276,20 @@ class AsyncOrganizations:
             "tags": ["organizations", "configure", "devices", "packetCapture", "schedules"],
             "operation": "delete_organization_devices_packet_capture_schedule",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/devices/packetCapture/schedules/{scheduleId}"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/devices/packetCapture/schedules/{scheduleId}"
 
         return self._session.delete(metadata, resource)
 
     def get_organization_devices_power_modules_statuses_by_device(
-        self, organizationId: str, total_pages=1, direction="next", **kwargs: Any
+        self, organization_id: str, total_pages=1, direction="next", **kwargs: Any
     ) -> Generator[Any, None, None]:
         """List the most recent status information for power modules in rackmount MX and MS devices that support them.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-devices-power-modules-statuses-by-device
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
@@ -3325,8 +3329,8 @@ class AsyncOrganizations:
             "tags": ["organizations", "monitor", "devices", "powerModules", "statuses", "byDevice"],
             "operation": "get_organization_devices_power_modules_statuses_by_device",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/devices/powerModules/statuses/byDevice"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/devices/powerModules/statuses/byDevice"
 
         query_params = [
             "perPage",
@@ -3354,14 +3358,14 @@ class AsyncOrganizations:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def get_organization_devices_provisioning_statuses(
-        self, organizationId: str, total_pages=1, direction="next", **kwargs: Any
+        self, organization_id: str, total_pages=1, direction="next", **kwargs: Any
     ) -> Generator[Any, None, None]:
         """List the provisioning statuses information for devices in an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-devices-provisioning-statuses
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
@@ -3408,8 +3412,8 @@ class AsyncOrganizations:
             "tags": ["organizations", "monitor", "devices", "provisioning", "statuses"],
             "operation": "get_organization_devices_provisioning_statuses",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/devices/provisioning/statuses"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/devices/provisioning/statuses"
 
         query_params = [
             "perPage",
@@ -3438,14 +3442,14 @@ class AsyncOrganizations:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def get_organization_devices_statuses(
-        self, organizationId: str, total_pages=1, direction="next", **kwargs: Any
+        self, organization_id: str, total_pages=1, direction="next", **kwargs: Any
     ) -> Generator[Any, None, None]:
         """List the status of every Meraki device in the organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-devices-statuses
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
@@ -3488,8 +3492,8 @@ class AsyncOrganizations:
             "tags": ["organizations", "monitor", "devices", "statuses"],
             "operation": "get_organization_devices_statuses",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/devices/statuses"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/devices/statuses"
 
         query_params = [
             "perPage",
@@ -3521,14 +3525,14 @@ class AsyncOrganizations:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def get_organization_devices_statuses_overview(
-        self, organizationId: str, **kwargs: Any
+        self, organization_id: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Return an overview of current device statuses.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-devices-statuses-overview
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             productTypes: An optional parameter to filter device statuses by product type. Valid
               types are wireless, appliance, switch, systemsManager, camera,
               cellularGateway, sensor, wirelessController, campusGateway, and
@@ -3542,8 +3546,8 @@ class AsyncOrganizations:
             "tags": ["organizations", "monitor", "devices", "statuses", "overview"],
             "operation": "get_organization_devices_statuses_overview",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/devices/statuses/overview"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/devices/statuses/overview"
 
         query_params = [
             "productTypes",
@@ -3563,14 +3567,14 @@ class AsyncOrganizations:
         return self._session.get(metadata, resource, params)
 
     def get_organization_devices_system_memory_usage_history_by_interval(
-        self, organizationId: str, total_pages=1, direction="next", **kwargs: Any
+        self, organization_id: str, total_pages=1, direction="next", **kwargs: Any
     ) -> Generator[Any, None, None]:
         """Return the memory utilization history in kB for devices in the organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-devices-system-memory-usage-history-by-interval
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
@@ -3618,8 +3622,10 @@ class AsyncOrganizations:
             ],
             "operation": "get_organization_devices_system_memory_usage_history_by_interval",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/devices/system/memory/usage/history/byInterval"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = (
+            f"/organizations/{organization_id}/devices/system/memory/usage/history/byInterval"
+        )
 
         query_params = [
             "perPage",
@@ -3648,14 +3654,14 @@ class AsyncOrganizations:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def get_organization_devices_uplinks_addresses_by_device(
-        self, organizationId: str, total_pages=1, direction="next", **kwargs: Any
+        self, organization_id: str, total_pages=1, direction="next", **kwargs: Any
     ) -> Generator[Any, None, None]:
         """List the current uplink addresses for devices in an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-devices-uplinks-addresses-by-device
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
@@ -3695,8 +3701,8 @@ class AsyncOrganizations:
             "tags": ["organizations", "monitor", "devices", "uplinks", "addresses", "byDevice"],
             "operation": "get_organization_devices_uplinks_addresses_by_device",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/devices/uplinks/addresses/byDevice"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/devices/uplinks/addresses/byDevice"
 
         query_params = [
             "perPage",
@@ -3724,14 +3730,14 @@ class AsyncOrganizations:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def get_organization_devices_uplinks_loss_and_latency(
-        self, organizationId: str, **kwargs: Any
+        self, organization_id: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Return the uplink loss and latency for every MX in the organization from at latest 2 minutes ago.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-devices-uplinks-loss-and-latency
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             t0: The beginning of the timespan for the data. The maximum lookback period is 60 days
               from today.
             t1: The end of the timespan for the data. t1 can be a maximum of 5 minutes after t0. The
@@ -3757,8 +3763,8 @@ class AsyncOrganizations:
             "tags": ["organizations", "monitor", "devices", "uplinks", "uplinksLossAndLatency"],
             "operation": "get_organization_devices_uplinks_loss_and_latency",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/devices/uplinksLossAndLatency"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/devices/uplinksLossAndLatency"
 
         query_params = [
             "t0",
@@ -3771,53 +3777,53 @@ class AsyncOrganizations:
 
         return self._session.get(metadata, resource, params)
 
-    def get_organization_early_access_features(self, organizationId: str) -> dict[str, Any] | None:
+    def get_organization_early_access_features(self, organization_id: str) -> dict[str, Any] | None:
         """List the available early access features for organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-early-access-features
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
 
         """
         metadata = {
             "tags": ["organizations", "configure", "earlyAccess", "features"],
             "operation": "get_organization_early_access_features",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/earlyAccess/features"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/earlyAccess/features"
 
         return self._session.get(metadata, resource)
 
     def get_organization_early_access_features_opt_ins(
-        self, organizationId: str
+        self, organization_id: str
     ) -> dict[str, Any] | None:
         """List the early access feature opt-ins for an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-early-access-features-opt-ins
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
 
         """
         metadata = {
             "tags": ["organizations", "configure", "earlyAccess", "features", "optIns"],
             "operation": "get_organization_early_access_features_opt_ins",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/earlyAccess/features/optIns"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/earlyAccess/features/optIns"
 
         return self._session.get(metadata, resource)
 
     def create_organization_early_access_features_opt_in(
-        self, organizationId: str, shortName: str, **kwargs: Any
+        self, organization_id: str, shortName: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Create a new early access feature opt-in for an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!create-organization-early-access-features-opt-in
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             shortName: Short name of the early access feature.
             limitScopeToNetworks: A list of network IDs to apply the opt-in to.
 
@@ -3828,8 +3834,8 @@ class AsyncOrganizations:
             "tags": ["organizations", "configure", "earlyAccess", "features", "optIns"],
             "operation": "create_organization_early_access_features_opt_in",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/earlyAccess/features/optIns"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/earlyAccess/features/optIns"
 
         body_params = [
             "shortName",
@@ -3840,37 +3846,37 @@ class AsyncOrganizations:
         return self._session.post(metadata, resource, payload)
 
     def get_organization_early_access_features_opt_in(
-        self, organizationId: str, optInId: str
+        self, organization_id: str, opt_in_id: str
     ) -> dict[str, Any] | None:
         """Show an early access feature opt-in for an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-early-access-features-opt-in
 
         Args:
-            organizationId: Organization ID.
-            optInId: Opt in ID.
+            organization_id: Organization ID.
+            opt_in_id: Opt in ID.
 
         """
         metadata = {
             "tags": ["organizations", "configure", "earlyAccess", "features", "optIns"],
             "operation": "get_organization_early_access_features_opt_in",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        optInId = urllib.parse.quote(str(optInId), safe="")
-        resource = f"/organizations/{organizationId}/earlyAccess/features/optIns/{optInId}"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        opt_in_id = urllib.parse.quote(str(opt_in_id), safe="")
+        resource = f"/organizations/{organization_id}/earlyAccess/features/optIns/{opt_in_id}"
 
         return self._session.get(metadata, resource)
 
     def update_organization_early_access_features_opt_in(
-        self, organizationId: str, optInId: str, **kwargs: Any
+        self, organization_id: str, opt_in_id: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Update an early access feature opt-in for an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!update-organization-early-access-features-opt-in
 
         Args:
-            organizationId: Organization ID.
-            optInId: Opt in ID.
+            organization_id: Organization ID.
+            opt_in_id: Opt in ID.
             limitScopeToNetworks: A list of network IDs to apply the opt-in to.
 
         """
@@ -3880,9 +3886,9 @@ class AsyncOrganizations:
             "tags": ["organizations", "configure", "earlyAccess", "features", "optIns"],
             "operation": "update_organization_early_access_features_opt_in",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        optInId = urllib.parse.quote(str(optInId), safe="")
-        resource = f"/organizations/{organizationId}/earlyAccess/features/optIns/{optInId}"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        opt_in_id = urllib.parse.quote(str(opt_in_id), safe="")
+        resource = f"/organizations/{organization_id}/earlyAccess/features/optIns/{opt_in_id}"
 
         body_params = [
             "limitScopeToNetworks",
@@ -3892,36 +3898,36 @@ class AsyncOrganizations:
         return self._session.put(metadata, resource, payload)
 
     def delete_organization_early_access_features_opt_in(
-        self, organizationId: str, optInId: str
+        self, organization_id: str, opt_in_id: str
     ) -> None:
         """Delete an early access feature opt-in.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-early-access-features-opt-in
 
         Args:
-            organizationId: Organization ID.
-            optInId: Opt in ID.
+            organization_id: Organization ID.
+            opt_in_id: Opt in ID.
 
         """
         metadata = {
             "tags": ["organizations", "configure", "earlyAccess", "features", "optIns"],
             "operation": "delete_organization_early_access_features_opt_in",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        optInId = urllib.parse.quote(str(optInId), safe="")
-        resource = f"/organizations/{organizationId}/earlyAccess/features/optIns/{optInId}"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        opt_in_id = urllib.parse.quote(str(opt_in_id), safe="")
+        resource = f"/organizations/{organization_id}/earlyAccess/features/optIns/{opt_in_id}"
 
         return self._session.delete(metadata, resource)
 
     def get_organization_firmware_upgrades(
-        self, organizationId: str, total_pages=1, direction="next", **kwargs: Any
+        self, organization_id: str, total_pages=1, direction="next", **kwargs: Any
     ) -> Generator[Any, None, None]:
         """Get firmware upgrade information for an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-firmware-upgrades
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
@@ -3945,8 +3951,8 @@ class AsyncOrganizations:
             "tags": ["organizations", "configure", "firmware", "upgrades"],
             "operation": "get_organization_firmware_upgrades",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/firmware/upgrades"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/firmware/upgrades"
 
         query_params = [
             "perPage",
@@ -3969,14 +3975,14 @@ class AsyncOrganizations:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def get_organization_firmware_upgrades_by_device(
-        self, organizationId: str, total_pages=1, direction="next", **kwargs: Any
+        self, organization_id: str, total_pages=1, direction="next", **kwargs: Any
     ) -> Generator[Any, None, None]:
         """Get firmware upgrade status for the filtered devices.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-firmware-upgrades-by-device
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
@@ -4009,8 +4015,8 @@ class AsyncOrganizations:
             "tags": ["organizations", "configure", "firmware", "upgrades", "byDevice"],
             "operation": "get_organization_firmware_upgrades_by_device",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/firmware/upgrades/byDevice"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/firmware/upgrades/byDevice"
 
         query_params = [
             "perPage",
@@ -4041,14 +4047,14 @@ class AsyncOrganizations:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def get_organization_floor_plans_auto_locate_devices(
-        self, organizationId: str, total_pages=1, direction="next", **kwargs: Any
+        self, organization_id: str, total_pages=1, direction="next", **kwargs: Any
     ) -> Generator[Any, None, None]:
         """List auto locate details for each device in your organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-floor-plans-auto-locate-devices
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
@@ -4072,8 +4078,8 @@ class AsyncOrganizations:
             "tags": ["organizations", "configure", "floorPlans", "autoLocate", "devices"],
             "operation": "get_organization_floor_plans_auto_locate_devices",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/floorPlans/autoLocate/devices"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/floorPlans/autoLocate/devices"
 
         query_params = [
             "perPage",
@@ -4096,14 +4102,14 @@ class AsyncOrganizations:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def get_organization_floor_plans_auto_locate_statuses(
-        self, organizationId: str, total_pages=1, direction="next", **kwargs: Any
+        self, organization_id: str, total_pages=1, direction="next", **kwargs: Any
     ) -> Generator[Any, None, None]:
         """List the status of auto locate for each floorplan in your organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-floor-plans-auto-locate-statuses
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
@@ -4127,8 +4133,8 @@ class AsyncOrganizations:
             "tags": ["organizations", "configure", "floorPlans", "autoLocate", "statuses"],
             "operation": "get_organization_floor_plans_auto_locate_statuses",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/floorPlans/autoLocate/statuses"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/floorPlans/autoLocate/statuses"
 
         query_params = [
             "perPage",
@@ -4151,14 +4157,14 @@ class AsyncOrganizations:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def get_organization_integrations_xdr_networks(
-        self, organizationId: str, total_pages=1, direction="next", **kwargs: Any
+        self, organization_id: str, total_pages=1, direction="next", **kwargs: Any
     ) -> Generator[Any, None, None]:
         """Returns the networks in the organization that have XDR enabled.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-integrations-xdr-networks
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
@@ -4181,8 +4187,8 @@ class AsyncOrganizations:
             "tags": ["organizations", "configure", "integrations", "xdr", "networks"],
             "operation": "get_organization_integrations_xdr_networks",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/integrations/xdr/networks"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/integrations/xdr/networks"
 
         query_params = [
             "networkIds",
@@ -4203,14 +4209,14 @@ class AsyncOrganizations:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def disable_organization_integrations_xdr_networks(
-        self, organizationId: str, networks: list
+        self, organization_id: str, networks: list
     ) -> dict[str, Any] | None:
         """Disable XDR on networks.
 
         https://developer.cisco.com/meraki/api-v1/#!disable-organization-integrations-xdr-networks
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             networks: List containing the network ID and the product type to disable XDR on.
 
         """
@@ -4220,8 +4226,8 @@ class AsyncOrganizations:
             "tags": ["organizations", "configure", "integrations", "xdr", "networks"],
             "operation": "disable_organization_integrations_xdr_networks",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/integrations/xdr/networks/disable"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/integrations/xdr/networks/disable"
 
         body_params = [
             "networks",
@@ -4231,14 +4237,14 @@ class AsyncOrganizations:
         return self._session.post(metadata, resource, payload)
 
     def enable_organization_integrations_xdr_networks(
-        self, organizationId: str, networks: list
+        self, organization_id: str, networks: list
     ) -> dict[str, Any] | None:
         """Enable XDR on networks.
 
         https://developer.cisco.com/meraki/api-v1/#!enable-organization-integrations-xdr-networks
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             networks: List containing the network ID and the product type to enable XDR on.
 
         """
@@ -4248,8 +4254,8 @@ class AsyncOrganizations:
             "tags": ["organizations", "configure", "integrations", "xdr", "networks"],
             "operation": "enable_organization_integrations_xdr_networks",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/integrations/xdr/networks/enable"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/integrations/xdr/networks/enable"
 
         body_params = [
             "networks",
@@ -4259,14 +4265,14 @@ class AsyncOrganizations:
         return self._session.post(metadata, resource, payload)
 
     def claim_into_organization_inventory(
-        self, organizationId: str, **kwargs: Any
+        self, organization_id: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Claim a list of devices, licenses, and/or orders into an organization inventory.
 
         https://developer.cisco.com/meraki/api-v1/#!claim-into-organization-inventory
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             orders: The numbers of the orders that should be claimed.
             serials: The serials of the devices that should be claimed.
             licenses: The licenses that should be claimed.
@@ -4278,8 +4284,8 @@ class AsyncOrganizations:
             "tags": ["organizations", "configure", "inventory"],
             "operation": "claim_into_organization_inventory",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/inventory/claim"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/inventory/claim"
 
         body_params = [
             "orders",
@@ -4291,14 +4297,14 @@ class AsyncOrganizations:
         return self._session.post(metadata, resource, payload)
 
     def get_organization_inventory_devices(
-        self, organizationId: str, total_pages=1, direction="next", **kwargs: Any
+        self, organization_id: str, total_pages=1, direction="next", **kwargs: Any
     ) -> Generator[Any, None, None]:
         """Return the device inventory for an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-inventory-devices
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
@@ -4348,8 +4354,8 @@ class AsyncOrganizations:
             "tags": ["organizations", "configure", "inventory", "devices"],
             "operation": "get_organization_inventory_devices",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/inventory/devices"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/inventory/devices"
 
         query_params = [
             "perPage",
@@ -4385,14 +4391,14 @@ class AsyncOrganizations:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def create_organization_inventory_devices_swaps_bulk(
-        self, organizationId: str, swaps: list
+        self, organization_id: str, swaps: list
     ) -> dict[str, Any] | None:
         """Swap the devices identified by devices.old with a devices.new, then perform the :afterAction on the devices.old.
 
         https://developer.cisco.com/meraki/api-v1/#!create-organization-inventory-devices-swaps-bulk
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             swaps: List of replacments to perform.
 
         """
@@ -4402,8 +4408,8 @@ class AsyncOrganizations:
             "tags": ["organizations", "configure", "inventory", "devices", "swaps", "bulk"],
             "operation": "create_organization_inventory_devices_swaps_bulk",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/inventory/devices/swaps/bulk"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/inventory/devices/swaps/bulk"
 
         body_params = [
             "swaps",
@@ -4413,14 +4419,14 @@ class AsyncOrganizations:
         return self._session.post(metadata, resource, payload)
 
     def get_organization_inventory_devices_swaps_bulk(
-        self, organizationId: str, id: str
+        self, organization_id: str, id: str
     ) -> dict[str, Any] | None:
         """List of device swaps for a given request ID ({id}).
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-inventory-devices-swaps-bulk
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             id: ID.
 
         """
@@ -4428,21 +4434,21 @@ class AsyncOrganizations:
             "tags": ["organizations", "configure", "inventory", "devices", "swaps", "bulk"],
             "operation": "get_organization_inventory_devices_swaps_bulk",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
         id = urllib.parse.quote(str(id), safe="")
-        resource = f"/organizations/{organizationId}/inventory/devices/swaps/bulk/{id}"
+        resource = f"/organizations/{organization_id}/inventory/devices/swaps/bulk/{id}"
 
         return self._session.get(metadata, resource)
 
     def get_organization_inventory_device(
-        self, organizationId: str, serial: str
+        self, organization_id: str, serial: str
     ) -> dict[str, Any] | None:
         """Return a single device from the inventory of an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-inventory-device
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             serial: Serial.
 
         """
@@ -4450,21 +4456,21 @@ class AsyncOrganizations:
             "tags": ["organizations", "configure", "inventory", "devices"],
             "operation": "get_organization_inventory_device",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
         serial = urllib.parse.quote(str(serial), safe="")
-        resource = f"/organizations/{organizationId}/inventory/devices/{serial}"
+        resource = f"/organizations/{organization_id}/inventory/devices/{serial}"
 
         return self._session.get(metadata, resource)
 
     def create_organization_inventory_onboarding_cloud_monitoring_export_event(
-        self, organizationId: str, logEvent: str, timestamp: int, **kwargs: Any
+        self, organization_id: str, logEvent: str, timestamp: int, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Imports event logs related to the onboarding app into elastisearch.
 
         https://developer.cisco.com/meraki/api-v1/#!create-organization-inventory-onboarding-cloud-monitoring-export-event
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             logEvent: The type of log event this is recording, e.g. download or opening a banner.
             timestamp: A JavaScript UTC datetime stamp for when the even occurred.
             targetOS: The name of the onboarding distro being downloaded.
@@ -4485,9 +4491,9 @@ class AsyncOrganizations:
             ],
             "operation": "create_organization_inventory_onboarding_cloud_monitoring_export_event",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = (
-            f"/organizations/{organizationId}/inventory/onboarding/cloudMonitoring/exportEvents"
+            f"/organizations/{organization_id}/inventory/onboarding/cloudMonitoring/exportEvents"
         )
 
         body_params = [
@@ -4501,14 +4507,14 @@ class AsyncOrganizations:
         return self._session.post(metadata, resource, payload)
 
     def create_organization_inventory_onboarding_cloud_monitoring_import(
-        self, organizationId: str, devices: list
+        self, organization_id: str, devices: list
     ) -> dict[str, Any] | None:
         """Commits the import operation to complete the onboarding of a device into Dashboard for monitoring.
 
         https://developer.cisco.com/meraki/api-v1/#!create-organization-inventory-onboarding-cloud-monitoring-import
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             devices: A set of device imports to commit.
 
         """
@@ -4525,8 +4531,8 @@ class AsyncOrganizations:
             ],
             "operation": "create_organization_inventory_onboarding_cloud_monitoring_import",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/inventory/onboarding/cloudMonitoring/imports"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/inventory/onboarding/cloudMonitoring/imports"
 
         body_params = [
             "devices",
@@ -4536,14 +4542,14 @@ class AsyncOrganizations:
         return self._session.post(metadata, resource, payload)
 
     def get_organization_inventory_onboarding_cloud_monitoring_imports(
-        self, organizationId: str, importIds: list
+        self, organization_id: str, importIds: list
     ) -> dict[str, Any] | None:
         """Check the status of a committed Import operation.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-inventory-onboarding-cloud-monitoring-imports
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             importIds: import ids from an imports.
 
         """
@@ -4560,8 +4566,8 @@ class AsyncOrganizations:
             ],
             "operation": "get_organization_inventory_onboarding_cloud_monitoring_imports",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/inventory/onboarding/cloudMonitoring/imports"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/inventory/onboarding/cloudMonitoring/imports"
 
         query_params = [
             "importIds",
@@ -4579,14 +4585,14 @@ class AsyncOrganizations:
         return self._session.get(metadata, resource, params)
 
     def get_organization_inventory_onboarding_cloud_monitoring_networks(
-        self, organizationId: str, deviceType: str, total_pages=1, direction="next", **kwargs: Any
+        self, organization_id: str, deviceType: str, total_pages=1, direction="next", **kwargs: Any
     ) -> Generator[Any, None, None]:
         """Returns list of networks eligible for adding cloud monitored device.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-inventory-onboarding-cloud-monitoring-networks
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             deviceType: Device Type switch or wireless controller.
             total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
               "all" for all pages.
@@ -4623,8 +4629,8 @@ class AsyncOrganizations:
             ],
             "operation": "get_organization_inventory_onboarding_cloud_monitoring_networks",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/inventory/onboarding/cloudMonitoring/networks"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/inventory/onboarding/cloudMonitoring/networks"
 
         query_params = [
             "deviceType",
@@ -4638,14 +4644,14 @@ class AsyncOrganizations:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def create_organization_inventory_onboarding_cloud_monitoring_prepare(
-        self, organizationId: str, devices: list, **kwargs: Any
+        self, organization_id: str, devices: list, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Initiates or updates an import session.
 
         https://developer.cisco.com/meraki/api-v1/#!create-organization-inventory-onboarding-cloud-monitoring-prepare
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             devices: A set of devices to import (or update).
             options: Additional options for the import.
 
@@ -4663,8 +4669,8 @@ class AsyncOrganizations:
             ],
             "operation": "create_organization_inventory_onboarding_cloud_monitoring_prepare",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/inventory/onboarding/cloudMonitoring/prepare"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/inventory/onboarding/cloudMonitoring/prepare"
 
         body_params = [
             "devices",
@@ -4675,14 +4681,14 @@ class AsyncOrganizations:
         return self._session.post(metadata, resource, payload)
 
     def claim_organization_inventory_orders(
-        self, organizationId: str, claimId: str, **kwargs: Any
+        self, organization_id: str, claimId: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Claim an order by the secure unique order claim number, the order claim id.
 
         https://developer.cisco.com/meraki/api-v1/#!claim-organization-inventory-orders
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             claimId: The unique order claim id.
             subscriptions: The individual subscriptions to claim.
 
@@ -4693,8 +4699,8 @@ class AsyncOrganizations:
             "tags": ["organizations", "configure", "inventory", "orders"],
             "operation": "claim_organization_inventory_orders",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/inventory/orders/claim"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/inventory/orders/claim"
 
         body_params = [
             "claimId",
@@ -4705,14 +4711,14 @@ class AsyncOrganizations:
         return self._session.post(metadata, resource, payload)
 
     def preview_organization_inventory_orders(
-        self, organizationId: str, claimId: str
+        self, organization_id: str, claimId: str
     ) -> dict[str, Any] | None:
         """Preview the results and status of an order claim by the secure order id.
 
         https://developer.cisco.com/meraki/api-v1/#!preview-organization-inventory-orders
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             claimId: The unique order claim id.
 
         """
@@ -4722,8 +4728,8 @@ class AsyncOrganizations:
             "tags": ["organizations", "configure", "inventory", "orders"],
             "operation": "preview_organization_inventory_orders",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/inventory/orders/preview"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/inventory/orders/preview"
 
         body_params = [
             "claimId",
@@ -4733,14 +4739,14 @@ class AsyncOrganizations:
         return self._session.post(metadata, resource, payload)
 
     def release_from_organization_inventory(
-        self, organizationId: str, **kwargs: Any
+        self, organization_id: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Release a list of claimed devices from an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!release-from-organization-inventory
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             serials: Serials of the devices that should be released.
 
         """
@@ -4750,8 +4756,8 @@ class AsyncOrganizations:
             "tags": ["organizations", "configure", "inventory"],
             "operation": "release_from_organization_inventory",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/inventory/release"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/inventory/release"
 
         body_params = [
             "serials",
@@ -4761,14 +4767,14 @@ class AsyncOrganizations:
         return self._session.post(metadata, resource, payload)
 
     def get_organization_licenses(
-        self, organizationId: str, total_pages=1, direction="next", **kwargs: Any
+        self, organization_id: str, total_pages=1, direction="next", **kwargs: Any
     ) -> Generator[Any, None, None]:
         """List the licenses for an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-licenses
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
@@ -4801,8 +4807,8 @@ class AsyncOrganizations:
             "tags": ["organizations", "configure", "licenses"],
             "operation": "get_organization_licenses",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/licenses"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/licenses"
 
         query_params = [
             "perPage",
@@ -4817,14 +4823,14 @@ class AsyncOrganizations:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def assign_organization_licenses_seats(
-        self, organizationId: str, licenseId: str, networkId: str, seatCount: int
+        self, organization_id: str, licenseId: str, networkId: str, seatCount: int
     ) -> dict[str, Any] | None:
         """Assign SM seats to a network.
 
         https://developer.cisco.com/meraki/api-v1/#!assign-organization-licenses-seats
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             licenseId: The ID of the SM license to assign seats from.
             networkId: The ID of the SM network to assign the seats to.
             seatCount: The number of seats to assign to the SM network. Must be less than or equal
@@ -4837,8 +4843,8 @@ class AsyncOrganizations:
             "tags": ["organizations", "configure", "licenses"],
             "operation": "assign_organization_licenses_seats",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/licenses/assignSeats"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/licenses/assignSeats"
 
         body_params = [
             "licenseId",
@@ -4850,14 +4856,14 @@ class AsyncOrganizations:
         return self._session.post(metadata, resource, payload)
 
     def move_organization_licenses(
-        self, organizationId: str, destOrganizationId: str, licenseIds: list
+        self, organization_id: str, destOrganizationId: str, licenseIds: list
     ) -> dict[str, Any] | None:
         """Move licenses to another organization.
 
         https://developer.cisco.com/meraki/api-v1/#!move-organization-licenses
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             destOrganizationId: The ID of the organization to move the licenses to.
             licenseIds: A list of IDs of licenses to move to the new organization.
 
@@ -4868,8 +4874,8 @@ class AsyncOrganizations:
             "tags": ["organizations", "configure", "licenses"],
             "operation": "move_organization_licenses",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/licenses/move"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/licenses/move"
 
         body_params = [
             "destOrganizationId",
@@ -4880,14 +4886,14 @@ class AsyncOrganizations:
         return self._session.post(metadata, resource, payload)
 
     def move_organization_licenses_seats(
-        self, organizationId: str, destOrganizationId: str, licenseId: str, seatCount: int
+        self, organization_id: str, destOrganizationId: str, licenseId: str, seatCount: int
     ) -> dict[str, Any] | None:
         """Move SM seats to another organization.
 
         https://developer.cisco.com/meraki/api-v1/#!move-organization-licenses-seats
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             destOrganizationId: The ID of the organization to move the SM seats to.
             licenseId: The ID of the SM license to move the seats from.
             seatCount: The number of seats to move to the new organization. Must be less than or
@@ -4900,8 +4906,8 @@ class AsyncOrganizations:
             "tags": ["organizations", "configure", "licenses"],
             "operation": "move_organization_licenses_seats",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/licenses/moveSeats"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/licenses/moveSeats"
 
         body_params = [
             "destOrganizationId",
@@ -4912,33 +4918,33 @@ class AsyncOrganizations:
 
         return self._session.post(metadata, resource, payload)
 
-    def get_organization_licenses_overview(self, organizationId: str) -> dict[str, Any] | None:
+    def get_organization_licenses_overview(self, organization_id: str) -> dict[str, Any] | None:
         """Return an overview of the license state for an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-licenses-overview
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
 
         """
         metadata = {
             "tags": ["organizations", "monitor", "licenses", "overview"],
             "operation": "get_organization_licenses_overview",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/licenses/overview"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/licenses/overview"
 
         return self._session.get(metadata, resource)
 
     def renew_organization_licenses_seats(
-        self, organizationId: str, licenseIdToRenew: str, unusedLicenseId: str
+        self, organization_id: str, licenseIdToRenew: str, unusedLicenseId: str
     ) -> dict[str, Any] | None:
         """Renew SM seats of a license.
 
         https://developer.cisco.com/meraki/api-v1/#!renew-organization-licenses-seats
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             licenseIdToRenew: The ID of the SM license to renew. This license must already be
               assigned to an SM network.
             unusedLicenseId: The SM license to use to renew the seats on 'licenseIdToRenew'. This
@@ -4952,8 +4958,8 @@ class AsyncOrganizations:
             "tags": ["organizations", "configure", "licenses"],
             "operation": "renew_organization_licenses_seats",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/licenses/renewSeats"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/licenses/renewSeats"
 
         body_params = [
             "licenseIdToRenew",
@@ -4964,37 +4970,37 @@ class AsyncOrganizations:
         return self._session.post(metadata, resource, payload)
 
     def get_organization_license(
-        self, organizationId: str, licenseId: str
+        self, organization_id: str, license_id: str
     ) -> dict[str, Any] | None:
         """Display a license.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-license
 
         Args:
-            organizationId: Organization ID.
-            licenseId: License ID.
+            organization_id: Organization ID.
+            license_id: License ID.
 
         """
         metadata = {
             "tags": ["organizations", "configure", "licenses"],
             "operation": "get_organization_license",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        licenseId = urllib.parse.quote(str(licenseId), safe="")
-        resource = f"/organizations/{organizationId}/licenses/{licenseId}"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        license_id = urllib.parse.quote(str(license_id), safe="")
+        resource = f"/organizations/{organization_id}/licenses/{license_id}"
 
         return self._session.get(metadata, resource)
 
     def update_organization_license(
-        self, organizationId: str, licenseId: str, **kwargs: Any
+        self, organization_id: str, license_id: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Update a license.
 
         https://developer.cisco.com/meraki/api-v1/#!update-organization-license
 
         Args:
-            organizationId: Organization ID.
-            licenseId: License ID.
+            organization_id: Organization ID.
+            license_id: License ID.
             deviceSerial: The serial number of the device to assign this license to. Set this to
               null to unassign the license. If a different license is already active on
               the device, this parameter will control queueing/dequeuing this license.
@@ -5006,9 +5012,9 @@ class AsyncOrganizations:
             "tags": ["organizations", "configure", "licenses"],
             "operation": "update_organization_license",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        licenseId = urllib.parse.quote(str(licenseId), safe="")
-        resource = f"/organizations/{organizationId}/licenses/{licenseId}"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        license_id = urllib.parse.quote(str(license_id), safe="")
+        resource = f"/organizations/{organization_id}/licenses/{license_id}"
 
         body_params = [
             "deviceSerial",
@@ -5017,33 +5023,33 @@ class AsyncOrganizations:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_organization_login_security(self, organizationId: str) -> dict[str, Any] | None:
+    def get_organization_login_security(self, organization_id: str) -> dict[str, Any] | None:
         """Returns the login security settings for an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-login-security
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
 
         """
         metadata = {
             "tags": ["organizations", "configure", "loginSecurity"],
             "operation": "get_organization_login_security",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/loginSecurity"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/loginSecurity"
 
         return self._session.get(metadata, resource)
 
     def update_organization_login_security(
-        self, organizationId: str, **kwargs: Any
+        self, organization_id: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Update the login security settings for an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!update-organization-login-security
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             enforcePasswordExpiration: Boolean indicating whether users are forced to change their
               password every X number of days.
             passwordExpirationDays: Number of days after which users will be forced to change their
@@ -5081,8 +5087,8 @@ class AsyncOrganizations:
             "tags": ["organizations", "configure", "loginSecurity"],
             "operation": "update_organization_login_security",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/loginSecurity"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/loginSecurity"
 
         body_params = [
             "enforcePasswordExpiration",
@@ -5105,14 +5111,14 @@ class AsyncOrganizations:
         return self._session.put(metadata, resource, payload)
 
     def get_organization_networks(
-        self, organizationId: str, total_pages=1, direction="next", **kwargs: Any
+        self, organization_id: str, total_pages=1, direction="next", **kwargs: Any
     ) -> Generator[Any, None, None]:
         """List the networks that the user has privileges on in an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-networks
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
@@ -5152,8 +5158,8 @@ class AsyncOrganizations:
             "tags": ["organizations", "configure", "networks"],
             "operation": "get_organization_networks",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/networks"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/networks"
 
         query_params = [
             "configTemplateId",
@@ -5179,14 +5185,14 @@ class AsyncOrganizations:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def create_organization_network(
-        self, organizationId: str, name: str, productTypes: list, **kwargs: Any
+        self, organization_id: str, name: str, productTypes: list, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Create a network.
 
         https://developer.cisco.com/meraki/api-v1/#!create-organization-network
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             name: The name of the new network.
             productTypes: The product type(s) of the new network. If more than one type is included,
               the network will be a combined network.
@@ -5207,8 +5213,8 @@ class AsyncOrganizations:
             "tags": ["organizations", "configure", "networks"],
             "operation": "create_organization_network",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/networks"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/networks"
 
         body_params = [
             "name",
@@ -5223,14 +5229,14 @@ class AsyncOrganizations:
         return self._session.post(metadata, resource, payload)
 
     def combine_organization_networks(
-        self, organizationId: str, name: str, networkIds: list, **kwargs: Any
+        self, organization_id: str, name: str, networkIds: list, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Combine multiple networks into a single network.
 
         https://developer.cisco.com/meraki/api-v1/#!combine-organization-networks
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             name: The name of the combined network.
             networkIds: A list of the network IDs that will be combined. If an ID of a combined
               network is included in this list, the other networks in the list will be
@@ -5249,8 +5255,8 @@ class AsyncOrganizations:
             "tags": ["organizations", "configure", "networks"],
             "operation": "combine_organization_networks",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/networks/combine"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/networks/combine"
 
         body_params = [
             "name",
@@ -5262,14 +5268,14 @@ class AsyncOrganizations:
         return self._session.post(metadata, resource, payload)
 
     def get_organization_openapi_spec(
-        self, organizationId: str, **kwargs: Any
+        self, organization_id: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Return the OpenAPI Specification of the organization's API documentation in JSON.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-openapi-spec
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             version: OpenAPI Specification version to return. Default is 2.
 
         """
@@ -5285,8 +5291,8 @@ class AsyncOrganizations:
             "tags": ["organizations", "monitor", "openapiSpec"],
             "operation": "get_organization_openapi_spec",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/openapiSpec"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/openapiSpec"
 
         query_params = [
             "version",
@@ -5296,14 +5302,14 @@ class AsyncOrganizations:
         return self._session.get(metadata, resource, params)
 
     def get_organization_policies_assignments_by_client(
-        self, organizationId: str, networkIds: list, total_pages=1, direction="next", **kwargs: Any
+        self, organization_id: str, networkIds: list, total_pages=1, direction="next", **kwargs: Any
     ) -> Generator[Any, None, None]:
         """Get policies for all clients with policies.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-policies-assignments-by-client
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             networkIds: Network Ids (minimum: 1, maximum: 30).
             total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
               "all" for all pages.
@@ -5333,8 +5339,8 @@ class AsyncOrganizations:
             "tags": ["organizations", "configure", "policies", "assignments", "byClient"],
             "operation": "get_organization_policies_assignments_by_client",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/policies/assignments/byClient"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/policies/assignments/byClient"
 
         query_params = [
             "perPage",
@@ -5358,14 +5364,14 @@ class AsyncOrganizations:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def get_organization_policy_objects(
-        self, organizationId: str, total_pages=1, direction="next", **kwargs: Any
+        self, organization_id: str, total_pages=1, direction="next", **kwargs: Any
     ) -> Generator[Any, None, None]:
         """Lists Policy Objects belonging to the organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-policy-objects
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
@@ -5387,8 +5393,8 @@ class AsyncOrganizations:
             "tags": ["organizations", "configure", "policyObjects"],
             "operation": "get_organization_policy_objects",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/policyObjects"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/policyObjects"
 
         query_params = [
             "perPage",
@@ -5400,14 +5406,14 @@ class AsyncOrganizations:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def create_organization_policy_object(
-        self, organizationId: str, name: str, category: str, type: str, **kwargs: Any
+        self, organization_id: str, name: str, category: str, type: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Creates a new Policy Object.
 
         https://developer.cisco.com/meraki/api-v1/#!create-organization-policy-object
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             name: Name of a policy object, unique within the organization (alphanumeric, space,
               dash, or underscore characters only).
             category: Category of a policy object (one of: adaptivePolicy, network).
@@ -5425,8 +5431,8 @@ class AsyncOrganizations:
             "tags": ["organizations", "configure", "policyObjects"],
             "operation": "create_organization_policy_object",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/policyObjects"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/policyObjects"
 
         body_params = [
             "name",
@@ -5443,14 +5449,14 @@ class AsyncOrganizations:
         return self._session.post(metadata, resource, payload)
 
     def get_organization_policy_objects_groups(
-        self, organizationId: str, total_pages=1, direction="next", **kwargs: Any
+        self, organization_id: str, total_pages=1, direction="next", **kwargs: Any
     ) -> Generator[Any, None, None]:
         """Lists Policy Object Groups belonging to the organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-policy-objects-groups
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
@@ -5472,8 +5478,8 @@ class AsyncOrganizations:
             "tags": ["organizations", "configure", "policyObjects", "groups"],
             "operation": "get_organization_policy_objects_groups",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/policyObjects/groups"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/policyObjects/groups"
 
         query_params = [
             "perPage",
@@ -5485,14 +5491,14 @@ class AsyncOrganizations:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def create_organization_policy_objects_group(
-        self, organizationId: str, name: str, **kwargs: Any
+        self, organization_id: str, name: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Creates a new Policy Object Group.
 
         https://developer.cisco.com/meraki/api-v1/#!create-organization-policy-objects-group
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             name: A name for the group of network addresses, unique within the organization
               (alphanumeric, space, dash, or underscore characters only).
             category: Category of a policy object group (one of: NetworkObjectGroup,
@@ -5508,8 +5514,8 @@ class AsyncOrganizations:
             "tags": ["organizations", "configure", "policyObjects", "groups"],
             "operation": "create_organization_policy_objects_group",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/policyObjects/groups"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/policyObjects/groups"
 
         body_params = [
             "name",
@@ -5521,37 +5527,37 @@ class AsyncOrganizations:
         return self._session.post(metadata, resource, payload)
 
     def get_organization_policy_objects_group(
-        self, organizationId: str, policyObjectGroupId: str
+        self, organization_id: str, policy_object_group_id: str
     ) -> dict[str, Any] | None:
         """Shows details of a Policy Object Group.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-policy-objects-group
 
         Args:
-            organizationId: Organization ID.
-            policyObjectGroupId: Policy object group ID.
+            organization_id: Organization ID.
+            policy_object_group_id: Policy object group ID.
 
         """
         metadata = {
             "tags": ["organizations", "configure", "policyObjects", "groups"],
             "operation": "get_organization_policy_objects_group",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        policyObjectGroupId = urllib.parse.quote(str(policyObjectGroupId), safe="")
-        resource = f"/organizations/{organizationId}/policyObjects/groups/{policyObjectGroupId}"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        policy_object_group_id = urllib.parse.quote(str(policy_object_group_id), safe="")
+        resource = f"/organizations/{organization_id}/policyObjects/groups/{policy_object_group_id}"
 
         return self._session.get(metadata, resource)
 
     def update_organization_policy_objects_group(
-        self, organizationId: str, policyObjectGroupId: str, **kwargs: Any
+        self, organization_id: str, policy_object_group_id: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Updates a Policy Object Group.
 
         https://developer.cisco.com/meraki/api-v1/#!update-organization-policy-objects-group
 
         Args:
-            organizationId: Organization ID.
-            policyObjectGroupId: Policy object group ID.
+            organization_id: Organization ID.
+            policy_object_group_id: Policy object group ID.
             name: A name for the group of network addresses, unique within the organization
               (alphanumeric, space, dash, or underscore characters only).
             objectIds: A list of Policy Object ID's that this NetworkObjectGroup should be
@@ -5565,9 +5571,9 @@ class AsyncOrganizations:
             "tags": ["organizations", "configure", "policyObjects", "groups"],
             "operation": "update_organization_policy_objects_group",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        policyObjectGroupId = urllib.parse.quote(str(policyObjectGroupId), safe="")
-        resource = f"/organizations/{organizationId}/policyObjects/groups/{policyObjectGroupId}"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        policy_object_group_id = urllib.parse.quote(str(policy_object_group_id), safe="")
+        resource = f"/organizations/{organization_id}/policyObjects/groups/{policy_object_group_id}"
 
         body_params = [
             "name",
@@ -5578,59 +5584,59 @@ class AsyncOrganizations:
         return self._session.put(metadata, resource, payload)
 
     def delete_organization_policy_objects_group(
-        self, organizationId: str, policyObjectGroupId: str
+        self, organization_id: str, policy_object_group_id: str
     ) -> None:
         """Deletes a Policy Object Group.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-policy-objects-group
 
         Args:
-            organizationId: Organization ID.
-            policyObjectGroupId: Policy object group ID.
+            organization_id: Organization ID.
+            policy_object_group_id: Policy object group ID.
 
         """
         metadata = {
             "tags": ["organizations", "configure", "policyObjects", "groups"],
             "operation": "delete_organization_policy_objects_group",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        policyObjectGroupId = urllib.parse.quote(str(policyObjectGroupId), safe="")
-        resource = f"/organizations/{organizationId}/policyObjects/groups/{policyObjectGroupId}"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        policy_object_group_id = urllib.parse.quote(str(policy_object_group_id), safe="")
+        resource = f"/organizations/{organization_id}/policyObjects/groups/{policy_object_group_id}"
 
         return self._session.delete(metadata, resource)
 
     def get_organization_policy_object(
-        self, organizationId: str, policyObjectId: str
+        self, organization_id: str, policy_object_id: str
     ) -> dict[str, Any] | None:
         """Shows details of a Policy Object.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-policy-object
 
         Args:
-            organizationId: Organization ID.
-            policyObjectId: Policy object ID.
+            organization_id: Organization ID.
+            policy_object_id: Policy object ID.
 
         """
         metadata = {
             "tags": ["organizations", "configure", "policyObjects"],
             "operation": "get_organization_policy_object",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        policyObjectId = urllib.parse.quote(str(policyObjectId), safe="")
-        resource = f"/organizations/{organizationId}/policyObjects/{policyObjectId}"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        policy_object_id = urllib.parse.quote(str(policy_object_id), safe="")
+        resource = f"/organizations/{organization_id}/policyObjects/{policy_object_id}"
 
         return self._session.get(metadata, resource)
 
     def update_organization_policy_object(
-        self, organizationId: str, policyObjectId: str, **kwargs: Any
+        self, organization_id: str, policy_object_id: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Updates a Policy Object.
 
         https://developer.cisco.com/meraki/api-v1/#!update-organization-policy-object
 
         Args:
-            organizationId: Organization ID.
-            policyObjectId: Policy object ID.
+            organization_id: Organization ID.
+            policy_object_id: Policy object ID.
             name: Name of a policy object, unique within the organization (alphanumeric, space,
               dash, or underscore characters only).
             cidr: CIDR Value of a policy object (e.g. 10.11.12.1/24").
@@ -5646,9 +5652,9 @@ class AsyncOrganizations:
             "tags": ["organizations", "configure", "policyObjects"],
             "operation": "update_organization_policy_object",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        policyObjectId = urllib.parse.quote(str(policyObjectId), safe="")
-        resource = f"/organizations/{organizationId}/policyObjects/{policyObjectId}"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        policy_object_id = urllib.parse.quote(str(policy_object_id), safe="")
+        resource = f"/organizations/{organization_id}/policyObjects/{policy_object_id}"
 
         body_params = [
             "name",
@@ -5662,51 +5668,55 @@ class AsyncOrganizations:
 
         return self._session.put(metadata, resource, payload)
 
-    def delete_organization_policy_object(self, organizationId: str, policyObjectId: str) -> None:
+    def delete_organization_policy_object(
+        self, organization_id: str, policy_object_id: str
+    ) -> None:
         """Deletes a Policy Object.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-policy-object
 
         Args:
-            organizationId: Organization ID.
-            policyObjectId: Policy object ID.
+            organization_id: Organization ID.
+            policy_object_id: Policy object ID.
 
         """
         metadata = {
             "tags": ["organizations", "configure", "policyObjects"],
             "operation": "delete_organization_policy_object",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        policyObjectId = urllib.parse.quote(str(policyObjectId), safe="")
-        resource = f"/organizations/{organizationId}/policyObjects/{policyObjectId}"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        policy_object_id = urllib.parse.quote(str(policy_object_id), safe="")
+        resource = f"/organizations/{organization_id}/policyObjects/{policy_object_id}"
 
         return self._session.delete(metadata, resource)
 
-    def get_organization_saml(self, organizationId: str) -> dict[str, Any] | None:
+    def get_organization_saml(self, organization_id: str) -> dict[str, Any] | None:
         """Returns the SAML SSO enabled settings for an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-saml
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
 
         """
         metadata = {
             "tags": ["organizations", "configure", "saml"],
             "operation": "get_organization_saml",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/saml"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/saml"
 
         return self._session.get(metadata, resource)
 
-    def update_organization_saml(self, organizationId: str, **kwargs: Any) -> dict[str, Any] | None:
+    def update_organization_saml(
+        self, organization_id: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Updates the SAML SSO enabled settings for an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!update-organization-saml
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             enabled: Boolean for updating SAML SSO enabled settings.
             spInitiated: SP-Initiated SSO settings.
 
@@ -5717,8 +5727,8 @@ class AsyncOrganizations:
             "tags": ["organizations", "configure", "saml"],
             "operation": "update_organization_saml",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/saml"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/saml"
 
         body_params = [
             "enabled",
@@ -5728,33 +5738,33 @@ class AsyncOrganizations:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_organization_saml_idps(self, organizationId: str) -> dict[str, Any] | None:
+    def get_organization_saml_idps(self, organization_id: str) -> dict[str, Any] | None:
         """List the SAML IdPs in your organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-saml-idps
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
 
         """
         metadata = {
             "tags": ["organizations", "configure", "saml", "idps"],
             "operation": "get_organization_saml_idps",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/saml/idps"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/saml/idps"
 
         return self._session.get(metadata, resource)
 
     def create_organization_saml_idp(
-        self, organizationId: str, x509certSha1Fingerprint: str, **kwargs: Any
+        self, organization_id: str, x509certSha1Fingerprint: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Create a SAML IdP for your organization.
 
         https://developer.cisco.com/meraki/api-v1/#!create-organization-saml-idp
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             x509certSha1Fingerprint: Fingerprint (SHA1) of the SAML certificate provided by your
               Identity Provider (IdP). This will be used for encryption / validation.
             ssoLoginUrl: Dashboard will redirect users to this URL to log in again when their
@@ -5768,8 +5778,8 @@ class AsyncOrganizations:
             "tags": ["organizations", "configure", "saml", "idps"],
             "operation": "create_organization_saml_idp",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/saml/idps"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/saml/idps"
 
         body_params = [
             "x509certSha1Fingerprint",
@@ -5781,15 +5791,15 @@ class AsyncOrganizations:
         return self._session.post(metadata, resource, payload)
 
     def update_organization_saml_idp(
-        self, organizationId: str, idpId: str, **kwargs: Any
+        self, organization_id: str, idp_id: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Update a SAML IdP in your organization.
 
         https://developer.cisco.com/meraki/api-v1/#!update-organization-saml-idp
 
         Args:
-            organizationId: Organization ID.
-            idpId: Idp ID.
+            organization_id: Organization ID.
+            idp_id: Idp ID.
             x509certSha1Fingerprint: Fingerprint (SHA1) of the SAML certificate provided by your
               Identity Provider (IdP). This will be used for encryption / validation.
             ssoLoginUrl: Dashboard will redirect users to this URL to log in again when their
@@ -5803,9 +5813,9 @@ class AsyncOrganizations:
             "tags": ["organizations", "configure", "saml", "idps"],
             "operation": "update_organization_saml_idp",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        idpId = urllib.parse.quote(str(idpId), safe="")
-        resource = f"/organizations/{organizationId}/saml/idps/{idpId}"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        idp_id = urllib.parse.quote(str(idp_id), safe="")
+        resource = f"/organizations/{organization_id}/saml/idps/{idp_id}"
 
         body_params = [
             "x509certSha1Fingerprint",
@@ -5816,73 +5826,73 @@ class AsyncOrganizations:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_organization_saml_idp(self, organizationId: str, idpId: str) -> dict[str, Any] | None:
+    def get_organization_saml_idp(self, organization_id: str, idp_id: str) -> dict[str, Any] | None:
         """Get a SAML IdP from your organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-saml-idp
 
         Args:
-            organizationId: Organization ID.
-            idpId: Idp ID.
+            organization_id: Organization ID.
+            idp_id: Idp ID.
 
         """
         metadata = {
             "tags": ["organizations", "configure", "saml", "idps"],
             "operation": "get_organization_saml_idp",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        idpId = urllib.parse.quote(str(idpId), safe="")
-        resource = f"/organizations/{organizationId}/saml/idps/{idpId}"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        idp_id = urllib.parse.quote(str(idp_id), safe="")
+        resource = f"/organizations/{organization_id}/saml/idps/{idp_id}"
 
         return self._session.get(metadata, resource)
 
-    def delete_organization_saml_idp(self, organizationId: str, idpId: str) -> None:
+    def delete_organization_saml_idp(self, organization_id: str, idp_id: str) -> None:
         """Remove a SAML IdP in your organization.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-saml-idp
 
         Args:
-            organizationId: Organization ID.
-            idpId: Idp ID.
+            organization_id: Organization ID.
+            idp_id: Idp ID.
 
         """
         metadata = {
             "tags": ["organizations", "configure", "saml", "idps"],
             "operation": "delete_organization_saml_idp",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        idpId = urllib.parse.quote(str(idpId), safe="")
-        resource = f"/organizations/{organizationId}/saml/idps/{idpId}"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        idp_id = urllib.parse.quote(str(idp_id), safe="")
+        resource = f"/organizations/{organization_id}/saml/idps/{idp_id}"
 
         return self._session.delete(metadata, resource)
 
-    def get_organization_saml_roles(self, organizationId: str) -> dict[str, Any] | None:
+    def get_organization_saml_roles(self, organization_id: str) -> dict[str, Any] | None:
         """List the SAML roles for this organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-saml-roles
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
 
         """
         metadata = {
             "tags": ["organizations", "configure", "samlRoles"],
             "operation": "get_organization_saml_roles",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/samlRoles"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/samlRoles"
 
         return self._session.get(metadata, resource)
 
     def create_organization_saml_role(
-        self, organizationId: str, role: str, orgAccess: str, **kwargs: Any
+        self, organization_id: str, role: str, orgAccess: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Create a SAML role.
 
         https://developer.cisco.com/meraki/api-v1/#!create-organization-saml-role
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             role: The role of the SAML administrator.
             orgAccess: The privilege of the SAML administrator on the organization. Can be one of
               'none', 'read-only', 'full' or 'enterprise' or a custom role in the format
@@ -5897,8 +5907,8 @@ class AsyncOrganizations:
             "tags": ["organizations", "configure", "samlRoles"],
             "operation": "create_organization_saml_role",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/samlRoles"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/samlRoles"
 
         body_params = [
             "role",
@@ -5911,37 +5921,37 @@ class AsyncOrganizations:
         return self._session.post(metadata, resource, payload)
 
     def get_organization_saml_role(
-        self, organizationId: str, samlRoleId: str
+        self, organization_id: str, saml_role_id: str
     ) -> dict[str, Any] | None:
         """Return a SAML role.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-saml-role
 
         Args:
-            organizationId: Organization ID.
-            samlRoleId: Saml role ID.
+            organization_id: Organization ID.
+            saml_role_id: Saml role ID.
 
         """
         metadata = {
             "tags": ["organizations", "configure", "samlRoles"],
             "operation": "get_organization_saml_role",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        samlRoleId = urllib.parse.quote(str(samlRoleId), safe="")
-        resource = f"/organizations/{organizationId}/samlRoles/{samlRoleId}"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        saml_role_id = urllib.parse.quote(str(saml_role_id), safe="")
+        resource = f"/organizations/{organization_id}/samlRoles/{saml_role_id}"
 
         return self._session.get(metadata, resource)
 
     def update_organization_saml_role(
-        self, organizationId: str, samlRoleId: str, **kwargs: Any
+        self, organization_id: str, saml_role_id: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Update a SAML role.
 
         https://developer.cisco.com/meraki/api-v1/#!update-organization-saml-role
 
         Args:
-            organizationId: Organization ID.
-            samlRoleId: Saml role ID.
+            organization_id: Organization ID.
+            saml_role_id: Saml role ID.
             role: The role of the SAML administrator.
             orgAccess: The privilege of the SAML administrator on the organization. Can be one of
               'none', 'read-only', 'full' or 'enterprise' or a custom role in the format
@@ -5956,9 +5966,9 @@ class AsyncOrganizations:
             "tags": ["organizations", "configure", "samlRoles"],
             "operation": "update_organization_saml_role",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        samlRoleId = urllib.parse.quote(str(samlRoleId), safe="")
-        resource = f"/organizations/{organizationId}/samlRoles/{samlRoleId}"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        saml_role_id = urllib.parse.quote(str(saml_role_id), safe="")
+        resource = f"/organizations/{organization_id}/samlRoles/{saml_role_id}"
 
         body_params = [
             "role",
@@ -5970,51 +5980,53 @@ class AsyncOrganizations:
 
         return self._session.put(metadata, resource, payload)
 
-    def delete_organization_saml_role(self, organizationId: str, samlRoleId: str) -> None:
+    def delete_organization_saml_role(self, organization_id: str, saml_role_id: str) -> None:
         """Remove a SAML role.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-saml-role
 
         Args:
-            organizationId: Organization ID.
-            samlRoleId: Saml role ID.
+            organization_id: Organization ID.
+            saml_role_id: Saml role ID.
 
         """
         metadata = {
             "tags": ["organizations", "configure", "samlRoles"],
             "operation": "delete_organization_saml_role",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        samlRoleId = urllib.parse.quote(str(samlRoleId), safe="")
-        resource = f"/organizations/{organizationId}/samlRoles/{samlRoleId}"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        saml_role_id = urllib.parse.quote(str(saml_role_id), safe="")
+        resource = f"/organizations/{organization_id}/samlRoles/{saml_role_id}"
 
         return self._session.delete(metadata, resource)
 
-    def get_organization_snmp(self, organizationId: str) -> dict[str, Any] | None:
+    def get_organization_snmp(self, organization_id: str) -> dict[str, Any] | None:
         """Return the SNMP settings for an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-snmp
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
 
         """
         metadata = {
             "tags": ["organizations", "configure", "snmp"],
             "operation": "get_organization_snmp",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/snmp"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/snmp"
 
         return self._session.get(metadata, resource)
 
-    def update_organization_snmp(self, organizationId: str, **kwargs: Any) -> dict[str, Any] | None:
+    def update_organization_snmp(
+        self, organization_id: str, **kwargs: Any
+    ) -> dict[str, Any] | None:
         """Update the SNMP settings for an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!update-organization-snmp
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             v2cEnabled: Boolean indicating whether SNMP version 2c is enabled for the organization.
             v3Enabled: Boolean indicating whether SNMP version 3 is enabled for the organization.
             v3AuthMode: The SNMP version 3 authentication mode. Can be either 'MD5' or 'SHA'.
@@ -6043,8 +6055,8 @@ class AsyncOrganizations:
             "tags": ["organizations", "configure", "snmp"],
             "operation": "update_organization_snmp",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/snmp"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/snmp"
 
         body_params = [
             "v2cEnabled",
@@ -6059,13 +6071,13 @@ class AsyncOrganizations:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_organization_splash_asset(self, organizationId: str, id: str) -> dict[str, Any] | None:
+    def get_organization_splash_asset(self, organization_id: str, id: str) -> dict[str, Any] | None:
         """Get a Splash Theme Asset.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-splash-asset
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             id: ID.
 
         """
@@ -6073,19 +6085,19 @@ class AsyncOrganizations:
             "tags": ["organizations", "configure", "splash", "assets"],
             "operation": "get_organization_splash_asset",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
         id = urllib.parse.quote(str(id), safe="")
-        resource = f"/organizations/{organizationId}/splash/assets/{id}"
+        resource = f"/organizations/{organization_id}/splash/assets/{id}"
 
         return self._session.get(metadata, resource)
 
-    def delete_organization_splash_asset(self, organizationId: str, id: str) -> None:
+    def delete_organization_splash_asset(self, organization_id: str, id: str) -> None:
         """Delete a Splash Theme Asset.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-splash-asset
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             id: ID.
 
         """
@@ -6093,39 +6105,39 @@ class AsyncOrganizations:
             "tags": ["organizations", "configure", "splash", "assets"],
             "operation": "delete_organization_splash_asset",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
         id = urllib.parse.quote(str(id), safe="")
-        resource = f"/organizations/{organizationId}/splash/assets/{id}"
+        resource = f"/organizations/{organization_id}/splash/assets/{id}"
 
         return self._session.delete(metadata, resource)
 
-    def get_organization_splash_themes(self, organizationId: str) -> dict[str, Any] | None:
+    def get_organization_splash_themes(self, organization_id: str) -> dict[str, Any] | None:
         """List Splash Themes.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-splash-themes
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
 
         """
         metadata = {
             "tags": ["organizations", "configure", "splash", "themes"],
             "operation": "get_organization_splash_themes",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/splash/themes"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/splash/themes"
 
         return self._session.get(metadata, resource)
 
     def create_organization_splash_theme(
-        self, organizationId: str, **kwargs: Any
+        self, organization_id: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Create a Splash Theme.
 
         https://developer.cisco.com/meraki/api-v1/#!create-organization-splash-theme
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             name: theme name.
             baseTheme: base theme id .
 
@@ -6136,8 +6148,8 @@ class AsyncOrganizations:
             "tags": ["organizations", "configure", "splash", "themes"],
             "operation": "create_organization_splash_theme",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/splash/themes"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/splash/themes"
 
         body_params = [
             "name",
@@ -6147,13 +6159,13 @@ class AsyncOrganizations:
 
         return self._session.post(metadata, resource, payload)
 
-    def delete_organization_splash_theme(self, organizationId: str, id: str) -> None:
+    def delete_organization_splash_theme(self, organization_id: str, id: str) -> None:
         """Delete a Splash Theme.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-splash-theme
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             id: ID.
 
         """
@@ -6161,22 +6173,22 @@ class AsyncOrganizations:
             "tags": ["organizations", "configure", "splash", "themes"],
             "operation": "delete_organization_splash_theme",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
         id = urllib.parse.quote(str(id), safe="")
-        resource = f"/organizations/{organizationId}/splash/themes/{id}"
+        resource = f"/organizations/{organization_id}/splash/themes/{id}"
 
         return self._session.delete(metadata, resource)
 
     def create_organization_splash_theme_asset(
-        self, organizationId: str, themeIdentifier: str, **kwargs: Any
+        self, organization_id: str, theme_identifier: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Create a Splash Theme Asset.
 
         https://developer.cisco.com/meraki/api-v1/#!create-organization-splash-theme-asset
 
         Args:
-            organizationId: Organization ID.
-            themeIdentifier: Theme identifier.
+            organization_id: Organization ID.
+            theme_identifier: Theme identifier.
             name: File name. Will overwrite files with same name.
             content: a file containing the asset content.
 
@@ -6187,9 +6199,9 @@ class AsyncOrganizations:
             "tags": ["organizations", "configure", "splash", "themes", "assets"],
             "operation": "create_organization_splash_theme_asset",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        themeIdentifier = urllib.parse.quote(str(themeIdentifier), safe="")
-        resource = f"/organizations/{organizationId}/splash/themes/{themeIdentifier}/assets"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        theme_identifier = urllib.parse.quote(str(theme_identifier), safe="")
+        resource = f"/organizations/{organization_id}/splash/themes/{theme_identifier}/assets"
 
         body_params = [
             "name",
@@ -6200,14 +6212,14 @@ class AsyncOrganizations:
         return self._session.post(metadata, resource, payload)
 
     def get_organization_summary_top_appliances_by_utilization(
-        self, organizationId: str, **kwargs: Any
+        self, organization_id: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Return the top 10 appliances sorted by utilization over given time range.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-summary-top-appliances-by-utilization
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             networkTag: Match result to an exact network tag.
             deviceTag: Match result to an exact device tag.
             quantity: Set number of desired results to return. Default is 10. Maximum is 50.
@@ -6227,8 +6239,8 @@ class AsyncOrganizations:
             "tags": ["organizations", "monitor", "summary", "top", "appliances", "byUtilization"],
             "operation": "get_organization_summary_top_appliances_by_utilization",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/summary/top/appliances/byUtilization"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/summary/top/appliances/byUtilization"
 
         query_params = [
             "networkTag",
@@ -6245,14 +6257,14 @@ class AsyncOrganizations:
         return self._session.get(metadata, resource, params)
 
     def get_organization_summary_top_applications_by_usage(
-        self, organizationId: str, **kwargs: Any
+        self, organization_id: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Return the top applications sorted by data usage over given time range.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-summary-top-applications-by-usage
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             networkTag: Match result to an exact network tag.
             device: Match result to an exact device tag.
             networkId: Match result to an exact network id.
@@ -6273,8 +6285,8 @@ class AsyncOrganizations:
             "tags": ["organizations", "monitor", "summary", "top", "applications", "byUsage"],
             "operation": "get_organization_summary_top_applications_by_usage",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/summary/top/applications/byUsage"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/summary/top/applications/byUsage"
 
         query_params = [
             "networkTag",
@@ -6292,14 +6304,14 @@ class AsyncOrganizations:
         return self._session.get(metadata, resource, params)
 
     def get_organization_summary_top_applications_categories_by_usage(
-        self, organizationId: str, **kwargs: Any
+        self, organization_id: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Return the top application categories sorted by data usage over given time range.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-summary-top-applications-categories-by-usage
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             networkTag: Match result to an exact network tag.
             deviceTag: Match result to an exact device tag.
             networkId: Match result to an exact network id.
@@ -6328,8 +6340,8 @@ class AsyncOrganizations:
             ],
             "operation": "get_organization_summary_top_applications_categories_by_usage",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/summary/top/applications/categories/byUsage"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/summary/top/applications/categories/byUsage"
 
         query_params = [
             "networkTag",
@@ -6347,14 +6359,14 @@ class AsyncOrganizations:
         return self._session.get(metadata, resource, params)
 
     def get_organization_summary_top_clients_by_usage(
-        self, organizationId: str, **kwargs: Any
+        self, organization_id: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Return metrics for organization's top 10 clients by data usage (in mb) over given time range.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-summary-top-clients-by-usage
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             networkTag: Match result to an exact network tag.
             deviceTag: Match result to an exact device tag.
             quantity: Set number of desired results to return. Default is 10. Maximum is 50.
@@ -6374,8 +6386,8 @@ class AsyncOrganizations:
             "tags": ["organizations", "monitor", "summary", "top", "clients", "byUsage"],
             "operation": "get_organization_summary_top_clients_by_usage",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/summary/top/clients/byUsage"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/summary/top/clients/byUsage"
 
         query_params = [
             "networkTag",
@@ -6392,14 +6404,14 @@ class AsyncOrganizations:
         return self._session.get(metadata, resource, params)
 
     def get_organization_summary_top_clients_manufacturers_by_usage(
-        self, organizationId: str, **kwargs: Any
+        self, organization_id: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Return metrics for organization's top clients by data usage (in mb) over given time range, grouped by manufacturer.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-summary-top-clients-manufacturers-by-usage
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             networkTag: Match result to an exact network tag.
             deviceTag: Match result to an exact device tag.
             quantity: Set number of desired results to return. Default is 10. Maximum is 50.
@@ -6426,8 +6438,8 @@ class AsyncOrganizations:
             ],
             "operation": "get_organization_summary_top_clients_manufacturers_by_usage",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/summary/top/clients/manufacturers/byUsage"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/summary/top/clients/manufacturers/byUsage"
 
         query_params = [
             "networkTag",
@@ -6444,14 +6456,14 @@ class AsyncOrganizations:
         return self._session.get(metadata, resource, params)
 
     def get_organization_summary_top_devices_by_usage(
-        self, organizationId: str, **kwargs: Any
+        self, organization_id: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Return metrics for organization's top 10 devices sorted by data usage over given time range.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-summary-top-devices-by-usage
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             networkTag: Match result to an exact network tag.
             deviceTag: Match result to an exact device tag.
             quantity: Set number of desired results to return. Default is 10. Maximum is 50.
@@ -6471,8 +6483,8 @@ class AsyncOrganizations:
             "tags": ["organizations", "monitor", "summary", "top", "devices", "byUsage"],
             "operation": "get_organization_summary_top_devices_by_usage",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/summary/top/devices/byUsage"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/summary/top/devices/byUsage"
 
         query_params = [
             "networkTag",
@@ -6489,14 +6501,14 @@ class AsyncOrganizations:
         return self._session.get(metadata, resource, params)
 
     def get_organization_summary_top_devices_models_by_usage(
-        self, organizationId: str, **kwargs: Any
+        self, organization_id: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Return metrics for organization's top 10 device models sorted by data usage over given time range.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-summary-top-devices-models-by-usage
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             networkTag: Match result to an exact network tag.
             deviceTag: Match result to an exact device tag.
             quantity: Set number of desired results to return. Default is 10. Maximum is 50.
@@ -6516,8 +6528,8 @@ class AsyncOrganizations:
             "tags": ["organizations", "monitor", "summary", "top", "devices", "models", "byUsage"],
             "operation": "get_organization_summary_top_devices_models_by_usage",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/summary/top/devices/models/byUsage"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/summary/top/devices/models/byUsage"
 
         query_params = [
             "networkTag",
@@ -6534,14 +6546,14 @@ class AsyncOrganizations:
         return self._session.get(metadata, resource, params)
 
     def get_organization_summary_top_networks_by_status(
-        self, organizationId: str, total_pages=1, direction="next", **kwargs: Any
+        self, organization_id: str, total_pages=1, direction="next", **kwargs: Any
     ) -> Generator[Any, None, None]:
         """List the client and status overview information for the networks in an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-summary-top-networks-by-status
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
@@ -6567,8 +6579,8 @@ class AsyncOrganizations:
             "tags": ["organizations", "monitor", "summary", "top", "networks", "byStatus"],
             "operation": "get_organization_summary_top_networks_by_status",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/summary/top/networks/byStatus"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/summary/top/networks/byStatus"
 
         query_params = [
             "networkTag",
@@ -6585,14 +6597,14 @@ class AsyncOrganizations:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def get_organization_summary_top_ssids_by_usage(
-        self, organizationId: str, **kwargs: Any
+        self, organization_id: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Return metrics for organization's top 10 ssids by data usage over given time range.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-summary-top-ssids-by-usage
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             networkTag: Match result to an exact network tag.
             deviceTag: Match result to an exact device tag.
             quantity: Set number of desired results to return. Default is 10. Maximum is 50.
@@ -6612,8 +6624,8 @@ class AsyncOrganizations:
             "tags": ["organizations", "monitor", "summary", "top", "ssids", "byUsage"],
             "operation": "get_organization_summary_top_ssids_by_usage",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/summary/top/ssids/byUsage"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/summary/top/ssids/byUsage"
 
         query_params = [
             "networkTag",
@@ -6630,14 +6642,14 @@ class AsyncOrganizations:
         return self._session.get(metadata, resource, params)
 
     def get_organization_summary_top_switches_by_energy_usage(
-        self, organizationId: str, **kwargs: Any
+        self, organization_id: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Return metrics for organization's top 10 switches by energy usage over given time range.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-summary-top-switches-by-energy-usage
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             networkTag: Match result to an exact network tag.
             deviceTag: Match result to an exact device tag.
             quantity: Set number of desired results to return. Default is 10. Maximum is 50.
@@ -6657,8 +6669,8 @@ class AsyncOrganizations:
             "tags": ["organizations", "monitor", "summary", "top", "switches", "byEnergyUsage"],
             "operation": "get_organization_summary_top_switches_by_energy_usage",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/summary/top/switches/byEnergyUsage"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/summary/top/switches/byEnergyUsage"
 
         query_params = [
             "networkTag",
@@ -6675,14 +6687,14 @@ class AsyncOrganizations:
         return self._session.get(metadata, resource, params)
 
     def get_organization_uplinks_statuses(
-        self, organizationId: str, total_pages=1, direction="next", **kwargs: Any
+        self, organization_id: str, total_pages=1, direction="next", **kwargs: Any
     ) -> Generator[Any, None, None]:
         """List the uplink status of every Meraki MX, MG and Z series devices in the organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-uplinks-statuses
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
@@ -6710,8 +6722,8 @@ class AsyncOrganizations:
             "tags": ["organizations", "monitor", "uplinks", "statuses"],
             "operation": "get_organization_uplinks_statuses",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/uplinks/statuses"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/uplinks/statuses"
 
         query_params = [
             "perPage",
@@ -6736,14 +6748,14 @@ class AsyncOrganizations:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def get_organization_webhooks_alert_types(
-        self, organizationId: str, **kwargs: Any
+        self, organization_id: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Return a list of alert types to be used with managing webhook alerts.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-webhooks-alert-types
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             productType: Filter sample alerts to a specific product type.
 
         """
@@ -6768,8 +6780,8 @@ class AsyncOrganizations:
             "tags": ["organizations", "monitor", "webhooks", "alertTypes"],
             "operation": "get_organization_webhooks_alert_types",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/webhooks/alertTypes"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/webhooks/alertTypes"
 
         query_params = [
             "productType",
@@ -6779,36 +6791,36 @@ class AsyncOrganizations:
         return self._session.get(metadata, resource, params)
 
     def get_organization_webhooks_callbacks_status(
-        self, organizationId: str, callbackId: str
+        self, organization_id: str, callback_id: str
     ) -> dict[str, Any] | None:
         """Return the status of an API callback.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-webhooks-callbacks-status
 
         Args:
-            organizationId: Organization ID.
-            callbackId: Callback ID.
+            organization_id: Organization ID.
+            callback_id: Callback ID.
 
         """
         metadata = {
             "tags": ["organizations", "configure", "webhooks", "callbacks", "statuses"],
             "operation": "get_organization_webhooks_callbacks_status",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        callbackId = urllib.parse.quote(str(callbackId), safe="")
-        resource = f"/organizations/{organizationId}/webhooks/callbacks/statuses/{callbackId}"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        callback_id = urllib.parse.quote(str(callback_id), safe="")
+        resource = f"/organizations/{organization_id}/webhooks/callbacks/statuses/{callback_id}"
 
         return self._session.get(metadata, resource)
 
     def get_organization_webhooks_logs(
-        self, organizationId: str, total_pages=1, direction="next", **kwargs: Any
+        self, organization_id: str, total_pages=1, direction="next", **kwargs: Any
     ) -> Generator[Any, None, None]:
         """Return the log of webhook POSTs sent.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-webhooks-logs
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
@@ -6837,8 +6849,8 @@ class AsyncOrganizations:
             "tags": ["organizations", "monitor", "webhooks", "logs"],
             "operation": "get_organization_webhooks_logs",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/webhooks/logs"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/webhooks/logs"
 
         query_params = [
             "t0",

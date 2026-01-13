@@ -124,25 +124,25 @@ class AsyncSwitch:
 
         return self._session.get(metadata, resource, params)
 
-    def get_device_switch_port(self, serial: str, portId: str) -> dict[str, Any] | None:
+    def get_device_switch_port(self, serial: str, port_id: str) -> dict[str, Any] | None:
         """Return a switch port.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device-switch-port
 
         Args:
             serial: Serial.
-            portId: Port ID.
+            port_id: Port ID.
 
         """
         metadata = {"tags": ["switch", "configure", "ports"], "operation": "get_device_switch_port"}
         serial = urllib.parse.quote(str(serial), safe="")
-        portId = urllib.parse.quote(str(portId), safe="")
-        resource = f"/devices/{serial}/switch/ports/{portId}"
+        port_id = urllib.parse.quote(str(port_id), safe="")
+        resource = f"/devices/{serial}/switch/ports/{port_id}"
 
         return self._session.get(metadata, resource)
 
     def update_device_switch_port(
-        self, serial: str, portId: str, **kwargs: Any
+        self, serial: str, port_id: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Update a switch port.
 
@@ -150,7 +150,7 @@ class AsyncSwitch:
 
         Args:
             serial: Serial.
-            portId: Port ID.
+            port_id: Port ID.
             name: The name of the switch port.
             tags: The list of tags of the switch port.
             enabled: The status of the switch port.
@@ -232,8 +232,8 @@ class AsyncSwitch:
             "operation": "update_device_switch_port",
         }
         serial = urllib.parse.quote(str(serial), safe="")
-        portId = urllib.parse.quote(str(portId), safe="")
-        resource = f"/devices/{serial}/switch/ports/{portId}"
+        port_id = urllib.parse.quote(str(port_id), safe="")
+        resource = f"/devices/{serial}/switch/ports/{port_id}"
 
         body_params = [
             "name",
@@ -380,7 +380,7 @@ class AsyncSwitch:
         return self._session.post(metadata, resource, payload)
 
     def get_device_switch_routing_interface(
-        self, serial: str, interfaceId: str
+        self, serial: str, interface_id: str
     ) -> dict[str, Any] | None:
         """Return a layer 3 interface for a switch.
 
@@ -388,7 +388,7 @@ class AsyncSwitch:
 
         Args:
             serial: Serial.
-            interfaceId: Interface ID.
+            interface_id: Interface ID.
 
         """
         metadata = {
@@ -396,13 +396,13 @@ class AsyncSwitch:
             "operation": "get_device_switch_routing_interface",
         }
         serial = urllib.parse.quote(str(serial), safe="")
-        interfaceId = urllib.parse.quote(str(interfaceId), safe="")
-        resource = f"/devices/{serial}/switch/routing/interfaces/{interfaceId}"
+        interface_id = urllib.parse.quote(str(interface_id), safe="")
+        resource = f"/devices/{serial}/switch/routing/interfaces/{interface_id}"
 
         return self._session.get(metadata, resource)
 
     def update_device_switch_routing_interface(
-        self, serial: str, interfaceId: str, **kwargs: Any
+        self, serial: str, interface_id: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Update a layer 3 interface for a switch.
 
@@ -410,7 +410,7 @@ class AsyncSwitch:
 
         Args:
             serial: Serial.
-            interfaceId: Interface ID.
+            interface_id: Interface ID.
             name: A friendly name or description for the interface or VLAN (max length 128
               characters).
             subnet: The network that this L3 interface is on, in CIDR notation (ex. 10.1.1.0/24).
@@ -443,8 +443,8 @@ class AsyncSwitch:
             "operation": "update_device_switch_routing_interface",
         }
         serial = urllib.parse.quote(str(serial), safe="")
-        interfaceId = urllib.parse.quote(str(interfaceId), safe="")
-        resource = f"/devices/{serial}/switch/routing/interfaces/{interfaceId}"
+        interface_id = urllib.parse.quote(str(interface_id), safe="")
+        resource = f"/devices/{serial}/switch/routing/interfaces/{interface_id}"
 
         body_params = [
             "name",
@@ -463,14 +463,14 @@ class AsyncSwitch:
 
         return self._session.put(metadata, resource, payload)
 
-    def delete_device_switch_routing_interface(self, serial: str, interfaceId: str) -> None:
+    def delete_device_switch_routing_interface(self, serial: str, interface_id: str) -> None:
         """Delete a layer 3 interface from the switch.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-device-switch-routing-interface
 
         Args:
             serial: Serial.
-            interfaceId: Interface ID.
+            interface_id: Interface ID.
 
         """
         metadata = {
@@ -478,13 +478,13 @@ class AsyncSwitch:
             "operation": "delete_device_switch_routing_interface",
         }
         serial = urllib.parse.quote(str(serial), safe="")
-        interfaceId = urllib.parse.quote(str(interfaceId), safe="")
-        resource = f"/devices/{serial}/switch/routing/interfaces/{interfaceId}"
+        interface_id = urllib.parse.quote(str(interface_id), safe="")
+        resource = f"/devices/{serial}/switch/routing/interfaces/{interface_id}"
 
         return self._session.delete(metadata, resource)
 
     def get_device_switch_routing_interface_dhcp(
-        self, serial: str, interfaceId: str
+        self, serial: str, interface_id: str
     ) -> dict[str, Any] | None:
         """Return a layer 3 interface DHCP configuration for a switch.
 
@@ -492,7 +492,7 @@ class AsyncSwitch:
 
         Args:
             serial: Serial.
-            interfaceId: Interface ID.
+            interface_id: Interface ID.
 
         """
         metadata = {
@@ -500,13 +500,13 @@ class AsyncSwitch:
             "operation": "get_device_switch_routing_interface_dhcp",
         }
         serial = urllib.parse.quote(str(serial), safe="")
-        interfaceId = urllib.parse.quote(str(interfaceId), safe="")
-        resource = f"/devices/{serial}/switch/routing/interfaces/{interfaceId}/dhcp"
+        interface_id = urllib.parse.quote(str(interface_id), safe="")
+        resource = f"/devices/{serial}/switch/routing/interfaces/{interface_id}/dhcp"
 
         return self._session.get(metadata, resource)
 
     def update_device_switch_routing_interface_dhcp(
-        self, serial: str, interfaceId: str, **kwargs: Any
+        self, serial: str, interface_id: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Update a layer 3 interface DHCP configuration for a switch.
 
@@ -514,7 +514,7 @@ class AsyncSwitch:
 
         Args:
             serial: Serial.
-            interfaceId: Interface ID.
+            interface_id: Interface ID.
             dhcpMode: The DHCP mode options for the switch interface        ('dhcpDisabled',
               'dhcpRelay' or 'dhcpServer').
             dhcpRelayServerIps: The DHCP relay server IPs to which DHCP packets would get relayed
@@ -563,8 +563,8 @@ class AsyncSwitch:
             "operation": "update_device_switch_routing_interface_dhcp",
         }
         serial = urllib.parse.quote(str(serial), safe="")
-        interfaceId = urllib.parse.quote(str(interfaceId), safe="")
-        resource = f"/devices/{serial}/switch/routing/interfaces/{interfaceId}/dhcp"
+        interface_id = urllib.parse.quote(str(interface_id), safe="")
+        resource = f"/devices/{serial}/switch/routing/interfaces/{interface_id}/dhcp"
 
         body_params = [
             "dhcpMode",
@@ -642,7 +642,7 @@ class AsyncSwitch:
         return self._session.post(metadata, resource, payload)
 
     def get_device_switch_routing_static_route(
-        self, serial: str, staticRouteId: str
+        self, serial: str, static_route_id: str
     ) -> dict[str, Any] | None:
         """Return a layer 3 static route for a switch.
 
@@ -650,7 +650,7 @@ class AsyncSwitch:
 
         Args:
             serial: Serial.
-            staticRouteId: Static route ID.
+            static_route_id: Static route ID.
 
         """
         metadata = {
@@ -658,13 +658,13 @@ class AsyncSwitch:
             "operation": "get_device_switch_routing_static_route",
         }
         serial = urllib.parse.quote(str(serial), safe="")
-        staticRouteId = urllib.parse.quote(str(staticRouteId), safe="")
-        resource = f"/devices/{serial}/switch/routing/staticRoutes/{staticRouteId}"
+        static_route_id = urllib.parse.quote(str(static_route_id), safe="")
+        resource = f"/devices/{serial}/switch/routing/staticRoutes/{static_route_id}"
 
         return self._session.get(metadata, resource)
 
     def update_device_switch_routing_static_route(
-        self, serial: str, staticRouteId: str, **kwargs: Any
+        self, serial: str, static_route_id: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Update a layer 3 static route for a switch.
 
@@ -672,7 +672,7 @@ class AsyncSwitch:
 
         Args:
             serial: Serial.
-            staticRouteId: Static route ID.
+            static_route_id: Static route ID.
             name: Name or description for layer 3 static route.
             subnet: The subnet which is routed via this static route and should be specified in CIDR
               notation (ex. 1.2.3.0/24).
@@ -691,8 +691,8 @@ class AsyncSwitch:
             "operation": "update_device_switch_routing_static_route",
         }
         serial = urllib.parse.quote(str(serial), safe="")
-        staticRouteId = urllib.parse.quote(str(staticRouteId), safe="")
-        resource = f"/devices/{serial}/switch/routing/staticRoutes/{staticRouteId}"
+        static_route_id = urllib.parse.quote(str(static_route_id), safe="")
+        resource = f"/devices/{serial}/switch/routing/staticRoutes/{static_route_id}"
 
         body_params = [
             "name",
@@ -707,14 +707,14 @@ class AsyncSwitch:
 
         return self._session.put(metadata, resource, payload)
 
-    def delete_device_switch_routing_static_route(self, serial: str, staticRouteId: str) -> None:
+    def delete_device_switch_routing_static_route(self, serial: str, static_route_id: str) -> None:
         """Delete a layer 3 static route for a switch.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-device-switch-routing-static-route
 
         Args:
             serial: Serial.
-            staticRouteId: Static route ID.
+            static_route_id: Static route ID.
 
         """
         metadata = {
@@ -722,8 +722,8 @@ class AsyncSwitch:
             "operation": "delete_device_switch_routing_static_route",
         }
         serial = urllib.parse.quote(str(serial), safe="")
-        staticRouteId = urllib.parse.quote(str(staticRouteId), safe="")
-        resource = f"/devices/{serial}/switch/routing/staticRoutes/{staticRouteId}"
+        static_route_id = urllib.parse.quote(str(static_route_id), safe="")
+        resource = f"/devices/{serial}/switch/routing/staticRoutes/{static_route_id}"
 
         return self._session.delete(metadata, resource)
 
@@ -775,33 +775,33 @@ class AsyncSwitch:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_network_switch_access_control_lists(self, networkId: str) -> dict[str, Any] | None:
+    def get_network_switch_access_control_lists(self, network_id: str) -> dict[str, Any] | None:
         """Return the access control lists for a MS network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-switch-access-control-lists
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
 
         """
         metadata = {
             "tags": ["switch", "configure", "accessControlLists"],
             "operation": "get_network_switch_access_control_lists",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        resource = f"/networks/{networkId}/switch/accessControlLists"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        resource = f"/networks/{network_id}/switch/accessControlLists"
 
         return self._session.get(metadata, resource)
 
     def update_network_switch_access_control_lists(
-        self, networkId: str, rules: list
+        self, network_id: str, rules: list
     ) -> dict[str, Any] | None:
         """Update the access control lists for a MS network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-switch-access-control-lists
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             rules: An ordered array of the access control list rules (not including the default
               rule). An empty array will clear the rules.
 
@@ -812,8 +812,8 @@ class AsyncSwitch:
             "tags": ["switch", "configure", "accessControlLists"],
             "operation": "update_network_switch_access_control_lists",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        resource = f"/networks/{networkId}/switch/accessControlLists"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        resource = f"/networks/{network_id}/switch/accessControlLists"
 
         body_params = [
             "rules",
@@ -822,27 +822,27 @@ class AsyncSwitch:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_network_switch_access_policies(self, networkId: str) -> dict[str, Any] | None:
+    def get_network_switch_access_policies(self, network_id: str) -> dict[str, Any] | None:
         """List the access policies for a switch network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-switch-access-policies
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
 
         """
         metadata = {
             "tags": ["switch", "configure", "accessPolicies"],
             "operation": "get_network_switch_access_policies",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        resource = f"/networks/{networkId}/switch/accessPolicies"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        resource = f"/networks/{network_id}/switch/accessPolicies"
 
         return self._session.get(metadata, resource)
 
     def create_network_switch_access_policy(
         self,
-        networkId: str,
+        network_id: str,
         name: str,
         radiusServers: list,
         radiusAccountingEnabled: bool,
@@ -853,7 +853,7 @@ class AsyncSwitch:
         https://developer.cisco.com/meraki/api-v1/#!create-network-switch-access-policy
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             name: Name of the access policy(max length 255).
             radiusServers: List of RADIUS servers to require connecting devices to authenticate
               against before granting network access.
@@ -907,8 +907,8 @@ class AsyncSwitch:
             "tags": ["switch", "configure", "accessPolicies"],
             "operation": "create_network_switch_access_policy",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        resource = f"/networks/{networkId}/switch/accessPolicies"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        resource = f"/networks/{network_id}/switch/accessPolicies"
 
         body_params = [
             "name",
@@ -936,37 +936,37 @@ class AsyncSwitch:
         return self._session.post(metadata, resource, payload)
 
     def get_network_switch_access_policy(
-        self, networkId: str, accessPolicyNumber: str
+        self, network_id: str, access_policy_number: str
     ) -> dict[str, Any] | None:
         """Return a specific access policy for a switch network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-switch-access-policy
 
         Args:
-            networkId: Network ID.
-            accessPolicyNumber: Access policy number.
+            network_id: Network ID.
+            access_policy_number: Access policy number.
 
         """
         metadata = {
             "tags": ["switch", "configure", "accessPolicies"],
             "operation": "get_network_switch_access_policy",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        accessPolicyNumber = urllib.parse.quote(str(accessPolicyNumber), safe="")
-        resource = f"/networks/{networkId}/switch/accessPolicies/{accessPolicyNumber}"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        access_policy_number = urllib.parse.quote(str(access_policy_number), safe="")
+        resource = f"/networks/{network_id}/switch/accessPolicies/{access_policy_number}"
 
         return self._session.get(metadata, resource)
 
     def update_network_switch_access_policy(
-        self, networkId: str, accessPolicyNumber: str, **kwargs: Any
+        self, network_id: str, access_policy_number: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Update an access policy for a switch network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-switch-access-policy
 
         Args:
-            networkId: Network ID.
-            accessPolicyNumber: Access policy number.
+            network_id: Network ID.
+            access_policy_number: Access policy number.
             name: Name of the access policy(max length 255).
             radiusServers: List of RADIUS servers to require connecting devices to authenticate
               against before granting network access.
@@ -1020,9 +1020,9 @@ class AsyncSwitch:
             "tags": ["switch", "configure", "accessPolicies"],
             "operation": "update_network_switch_access_policy",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        accessPolicyNumber = urllib.parse.quote(str(accessPolicyNumber), safe="")
-        resource = f"/networks/{networkId}/switch/accessPolicies/{accessPolicyNumber}"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        access_policy_number = urllib.parse.quote(str(access_policy_number), safe="")
+        resource = f"/networks/{network_id}/switch/accessPolicies/{access_policy_number}"
 
         body_params = [
             "name",
@@ -1049,55 +1049,57 @@ class AsyncSwitch:
 
         return self._session.put(metadata, resource, payload)
 
-    def delete_network_switch_access_policy(self, networkId: str, accessPolicyNumber: str) -> None:
+    def delete_network_switch_access_policy(
+        self, network_id: str, access_policy_number: str
+    ) -> None:
         """Delete an access policy for a switch network.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-network-switch-access-policy
 
         Args:
-            networkId: Network ID.
-            accessPolicyNumber: Access policy number.
+            network_id: Network ID.
+            access_policy_number: Access policy number.
 
         """
         metadata = {
             "tags": ["switch", "configure", "accessPolicies"],
             "operation": "delete_network_switch_access_policy",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        accessPolicyNumber = urllib.parse.quote(str(accessPolicyNumber), safe="")
-        resource = f"/networks/{networkId}/switch/accessPolicies/{accessPolicyNumber}"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        access_policy_number = urllib.parse.quote(str(access_policy_number), safe="")
+        resource = f"/networks/{network_id}/switch/accessPolicies/{access_policy_number}"
 
         return self._session.delete(metadata, resource)
 
     def get_network_switch_alternate_management_interface(
-        self, networkId: str
+        self, network_id: str
     ) -> dict[str, Any] | None:
         """Return the switch alternate management interface for the network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-switch-alternate-management-interface
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
 
         """
         metadata = {
             "tags": ["switch", "configure", "alternateManagementInterface"],
             "operation": "get_network_switch_alternate_management_interface",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        resource = f"/networks/{networkId}/switch/alternateManagementInterface"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        resource = f"/networks/{network_id}/switch/alternateManagementInterface"
 
         return self._session.get(metadata, resource)
 
     def update_network_switch_alternate_management_interface(
-        self, networkId: str, **kwargs: Any
+        self, network_id: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Update the switch alternate management interface for the network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-switch-alternate-management-interface
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             enabled: Boolean value to enable or disable AMI configuration. If enabled, VLAN and
               protocols must be set.
             vlanId: Alternate management VLAN, must be between 1 and 4094.
@@ -1115,8 +1117,8 @@ class AsyncSwitch:
             "tags": ["switch", "configure", "alternateManagementInterface"],
             "operation": "update_network_switch_alternate_management_interface",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        resource = f"/networks/{networkId}/switch/alternateManagementInterface"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        resource = f"/networks/{network_id}/switch/alternateManagementInterface"
 
         body_params = [
             "enabled",
@@ -1129,14 +1131,14 @@ class AsyncSwitch:
         return self._session.put(metadata, resource, payload)
 
     def get_network_switch_dhcp_v4_servers_seen(
-        self, networkId: str, total_pages=1, direction="next", **kwargs: Any
+        self, network_id: str, total_pages=1, direction="next", **kwargs: Any
     ) -> Generator[Any, None, None]:
         """Return the network's DHCPv4 servers seen within the selected timeframe (default 1 day).
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-switch-dhcp-v-4-servers-seen
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
@@ -1163,8 +1165,8 @@ class AsyncSwitch:
             "tags": ["switch", "configure", "dhcp", "v4", "servers", "seen"],
             "operation": "get_network_switch_dhcp_v4_servers_seen",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        resource = f"/networks/{networkId}/switch/dhcp/v4/servers/seen"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        resource = f"/networks/{network_id}/switch/dhcp/v4/servers/seen"
 
         query_params = [
             "t0",
@@ -1177,33 +1179,33 @@ class AsyncSwitch:
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
-    def get_network_switch_dhcp_server_policy(self, networkId: str) -> dict[str, Any] | None:
+    def get_network_switch_dhcp_server_policy(self, network_id: str) -> dict[str, Any] | None:
         """Return the DHCP server settings.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-switch-dhcp-server-policy
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
 
         """
         metadata = {
             "tags": ["switch", "configure", "dhcpServerPolicy"],
             "operation": "get_network_switch_dhcp_server_policy",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        resource = f"/networks/{networkId}/switch/dhcpServerPolicy"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        resource = f"/networks/{network_id}/switch/dhcpServerPolicy"
 
         return self._session.get(metadata, resource)
 
     def update_network_switch_dhcp_server_policy(
-        self, networkId: str, **kwargs: Any
+        self, network_id: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Update the DHCP server settings.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-switch-dhcp-server-policy
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             alerts: Alert settings for DHCP servers.
             defaultPolicy: 'allow' or 'block' new DHCP servers. Default value is 'allow'.
             allowedServers: List the MAC addresses of DHCP servers to permit on the network when
@@ -1225,8 +1227,8 @@ class AsyncSwitch:
             "tags": ["switch", "configure", "dhcpServerPolicy"],
             "operation": "update_network_switch_dhcp_server_policy",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        resource = f"/networks/{networkId}/switch/dhcpServerPolicy"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        resource = f"/networks/{network_id}/switch/dhcpServerPolicy"
 
         body_params = [
             "alerts",
@@ -1240,14 +1242,14 @@ class AsyncSwitch:
         return self._session.put(metadata, resource, payload)
 
     def get_network_switch_dhcp_server_policy_arp_inspection_trusted_servers(
-        self, networkId: str, total_pages=1, direction="next", **kwargs: Any
+        self, network_id: str, total_pages=1, direction="next", **kwargs: Any
     ) -> Generator[Any, None, None]:
         """Return the list of servers trusted by Dynamic ARP Inspection on this network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-switch-dhcp-server-policy-arp-inspection-trusted-servers
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
@@ -1269,8 +1271,8 @@ class AsyncSwitch:
             "tags": ["switch", "configure", "dhcpServerPolicy", "arpInspection", "trustedServers"],
             "operation": "get_network_switch_dhcp_server_policy_arp_inspection_trusted_servers",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        resource = f"/networks/{networkId}/switch/dhcpServerPolicy/arpInspection/trustedServers"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        resource = f"/networks/{network_id}/switch/dhcpServerPolicy/arpInspection/trustedServers"
 
         query_params = [
             "perPage",
@@ -1282,14 +1284,14 @@ class AsyncSwitch:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def create_network_switch_dhcp_server_policy_arp_inspection_trusted_server(
-        self, networkId: str, mac: str, vlan: int, ipv4: dict
+        self, network_id: str, mac: str, vlan: int, ipv4: dict
     ) -> dict[str, Any] | None:
         """Add a server to be trusted by Dynamic ARP Inspection on this network.
 
         https://developer.cisco.com/meraki/api-v1/#!create-network-switch-dhcp-server-policy-arp-inspection-trusted-server
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             mac: The mac address of the trusted server being added.
             vlan: The VLAN of the trusted server being added. It must be between 1 and 4094.
             ipv4: The IPv4 attributes of the trusted server being added.
@@ -1301,8 +1303,8 @@ class AsyncSwitch:
             "tags": ["switch", "configure", "dhcpServerPolicy", "arpInspection", "trustedServers"],
             "operation": "create_network_switch_dhcp_server_policy_arp_inspection_trusted_server",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        resource = f"/networks/{networkId}/switch/dhcpServerPolicy/arpInspection/trustedServers"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        resource = f"/networks/{network_id}/switch/dhcpServerPolicy/arpInspection/trustedServers"
 
         body_params = [
             "mac",
@@ -1314,15 +1316,15 @@ class AsyncSwitch:
         return self._session.post(metadata, resource, payload)
 
     def update_network_switch_dhcp_server_policy_arp_inspection_trusted_server(
-        self, networkId: str, trustedServerId: str, **kwargs: Any
+        self, network_id: str, trusted_server_id: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Update a server that is trusted by Dynamic ARP Inspection on this network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-switch-dhcp-server-policy-arp-inspection-trusted-server
 
         Args:
-            networkId: Network ID.
-            trustedServerId: Trusted server ID.
+            network_id: Network ID.
+            trusted_server_id: Trusted server ID.
             mac: The updated mac address of the trusted server.
             vlan: The updated VLAN of the trusted server. It must be between 1 and 4094.
             ipv4: The updated IPv4 attributes of the trusted server.
@@ -1334,9 +1336,9 @@ class AsyncSwitch:
             "tags": ["switch", "configure", "dhcpServerPolicy", "arpInspection", "trustedServers"],
             "operation": "update_network_switch_dhcp_server_policy_arp_inspection_trusted_server",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        trustedServerId = urllib.parse.quote(str(trustedServerId), safe="")
-        resource = f"/networks/{networkId}/switch/dhcpServerPolicy/arpInspection/trustedServers/{trustedServerId}"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        trusted_server_id = urllib.parse.quote(str(trusted_server_id), safe="")
+        resource = f"/networks/{network_id}/switch/dhcpServerPolicy/arpInspection/trustedServers/{trusted_server_id}"
 
         body_params = [
             "mac",
@@ -1348,36 +1350,36 @@ class AsyncSwitch:
         return self._session.put(metadata, resource, payload)
 
     def delete_network_switch_dhcp_server_policy_arp_inspection_trusted_server(
-        self, networkId: str, trustedServerId: str
+        self, network_id: str, trusted_server_id: str
     ) -> None:
         """Remove a server from being trusted by Dynamic ARP Inspection on this network.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-network-switch-dhcp-server-policy-arp-inspection-trusted-server
 
         Args:
-            networkId: Network ID.
-            trustedServerId: Trusted server ID.
+            network_id: Network ID.
+            trusted_server_id: Trusted server ID.
 
         """
         metadata = {
             "tags": ["switch", "configure", "dhcpServerPolicy", "arpInspection", "trustedServers"],
             "operation": "delete_network_switch_dhcp_server_policy_arp_inspection_trusted_server",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        trustedServerId = urllib.parse.quote(str(trustedServerId), safe="")
-        resource = f"/networks/{networkId}/switch/dhcpServerPolicy/arpInspection/trustedServers/{trustedServerId}"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        trusted_server_id = urllib.parse.quote(str(trusted_server_id), safe="")
+        resource = f"/networks/{network_id}/switch/dhcpServerPolicy/arpInspection/trustedServers/{trusted_server_id}"
 
         return self._session.delete(metadata, resource)
 
     def get_network_switch_dhcp_server_policy_arp_inspection_warnings_by_device(
-        self, networkId: str, total_pages=1, direction="next", **kwargs: Any
+        self, network_id: str, total_pages=1, direction="next", **kwargs: Any
     ) -> Generator[Any, None, None]:
         """Return the devices that have a Dynamic ARP Inspection warning and their warnings.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-switch-dhcp-server-policy-arp-inspection-warnings-by-device
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
@@ -1406,8 +1408,8 @@ class AsyncSwitch:
             ],
             "operation": "get_network_switch_dhcp_server_policy_arp_inspection_warnings_by_device",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        resource = f"/networks/{networkId}/switch/dhcpServerPolicy/arpInspection/warnings/byDevice"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        resource = f"/networks/{network_id}/switch/dhcpServerPolicy/arpInspection/warnings/byDevice"
 
         query_params = [
             "perPage",
@@ -1418,33 +1420,33 @@ class AsyncSwitch:
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
-    def get_network_switch_dscp_to_cos_mappings(self, networkId: str) -> dict[str, Any] | None:
+    def get_network_switch_dscp_to_cos_mappings(self, network_id: str) -> dict[str, Any] | None:
         """Return the DSCP to CoS mappings.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-switch-dscp-to-cos-mappings
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
 
         """
         metadata = {
             "tags": ["switch", "configure", "dscpToCosMappings"],
             "operation": "get_network_switch_dscp_to_cos_mappings",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        resource = f"/networks/{networkId}/switch/dscpToCosMappings"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        resource = f"/networks/{network_id}/switch/dscpToCosMappings"
 
         return self._session.get(metadata, resource)
 
     def update_network_switch_dscp_to_cos_mappings(
-        self, networkId: str, mappings: list
+        self, network_id: str, mappings: list
     ) -> dict[str, Any] | None:
         """Update the DSCP to CoS mappings.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-switch-dscp-to-cos-mappings
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             mappings: An array of DSCP to CoS mappings. An empty array will reset the mappings to
               default.
 
@@ -1455,8 +1457,8 @@ class AsyncSwitch:
             "tags": ["switch", "configure", "dscpToCosMappings"],
             "operation": "update_network_switch_dscp_to_cos_mappings",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        resource = f"/networks/{networkId}/switch/dscpToCosMappings"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        resource = f"/networks/{network_id}/switch/dscpToCosMappings"
 
         body_params = [
             "mappings",
@@ -1465,33 +1467,33 @@ class AsyncSwitch:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_network_switch_link_aggregations(self, networkId: str) -> dict[str, Any] | None:
+    def get_network_switch_link_aggregations(self, network_id: str) -> dict[str, Any] | None:
         """List link aggregation groups.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-switch-link-aggregations
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
 
         """
         metadata = {
             "tags": ["switch", "configure", "linkAggregations"],
             "operation": "get_network_switch_link_aggregations",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        resource = f"/networks/{networkId}/switch/linkAggregations"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        resource = f"/networks/{network_id}/switch/linkAggregations"
 
         return self._session.get(metadata, resource)
 
     def create_network_switch_link_aggregation(
-        self, networkId: str, **kwargs: Any
+        self, network_id: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Create a link aggregation group.
 
         https://developer.cisco.com/meraki/api-v1/#!create-network-switch-link-aggregation
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             switchPorts: Array of switch or stack ports for creating aggregation group. Minimum 2
               and maximum 8 ports are supported.
             switchProfilePorts: Array of switch profile ports for creating aggregation group.
@@ -1504,8 +1506,8 @@ class AsyncSwitch:
             "tags": ["switch", "configure", "linkAggregations"],
             "operation": "create_network_switch_link_aggregation",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        resource = f"/networks/{networkId}/switch/linkAggregations"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        resource = f"/networks/{network_id}/switch/linkAggregations"
 
         body_params = [
             "switchPorts",
@@ -1516,15 +1518,15 @@ class AsyncSwitch:
         return self._session.post(metadata, resource, payload)
 
     def update_network_switch_link_aggregation(
-        self, networkId: str, linkAggregationId: str, **kwargs: Any
+        self, network_id: str, link_aggregation_id: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Update a link aggregation group.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-switch-link-aggregation
 
         Args:
-            networkId: Network ID.
-            linkAggregationId: Link aggregation ID.
+            network_id: Network ID.
+            link_aggregation_id: Link aggregation ID.
             switchPorts: Array of switch or stack ports for updating aggregation group. Minimum 2
               and maximum 8 ports are supported.
             switchProfilePorts: Array of switch profile ports for updating aggregation group.
@@ -1537,9 +1539,9 @@ class AsyncSwitch:
             "tags": ["switch", "configure", "linkAggregations"],
             "operation": "update_network_switch_link_aggregation",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        linkAggregationId = urllib.parse.quote(str(linkAggregationId), safe="")
-        resource = f"/networks/{networkId}/switch/linkAggregations/{linkAggregationId}"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        link_aggregation_id = urllib.parse.quote(str(link_aggregation_id), safe="")
+        resource = f"/networks/{network_id}/switch/linkAggregations/{link_aggregation_id}"
 
         body_params = [
             "switchPorts",
@@ -1550,49 +1552,49 @@ class AsyncSwitch:
         return self._session.put(metadata, resource, payload)
 
     def delete_network_switch_link_aggregation(
-        self, networkId: str, linkAggregationId: str
+        self, network_id: str, link_aggregation_id: str
     ) -> None:
         """Split a link aggregation group into separate ports.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-network-switch-link-aggregation
 
         Args:
-            networkId: Network ID.
-            linkAggregationId: Link aggregation ID.
+            network_id: Network ID.
+            link_aggregation_id: Link aggregation ID.
 
         """
         metadata = {
             "tags": ["switch", "configure", "linkAggregations"],
             "operation": "delete_network_switch_link_aggregation",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        linkAggregationId = urllib.parse.quote(str(linkAggregationId), safe="")
-        resource = f"/networks/{networkId}/switch/linkAggregations/{linkAggregationId}"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        link_aggregation_id = urllib.parse.quote(str(link_aggregation_id), safe="")
+        resource = f"/networks/{network_id}/switch/linkAggregations/{link_aggregation_id}"
 
         return self._session.delete(metadata, resource)
 
-    def get_network_switch_mtu(self, networkId: str) -> dict[str, Any] | None:
+    def get_network_switch_mtu(self, network_id: str) -> dict[str, Any] | None:
         """Return the MTU configuration.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-switch-mtu
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
 
         """
         metadata = {"tags": ["switch", "configure", "mtu"], "operation": "get_network_switch_mtu"}
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        resource = f"/networks/{networkId}/switch/mtu"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        resource = f"/networks/{network_id}/switch/mtu"
 
         return self._session.get(metadata, resource)
 
-    def update_network_switch_mtu(self, networkId: str, **kwargs: Any) -> dict[str, Any] | None:
+    def update_network_switch_mtu(self, network_id: str, **kwargs: Any) -> dict[str, Any] | None:
         """Update the MTU configuration.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-switch-mtu
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             defaultMtuSize: MTU size for the entire network. Default value is 9578.
             overrides: Override MTU size for individual switches or switch templates. An empty array
               will clear overrides.
@@ -1604,8 +1606,8 @@ class AsyncSwitch:
             "tags": ["switch", "configure", "mtu"],
             "operation": "update_network_switch_mtu",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        resource = f"/networks/{networkId}/switch/mtu"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        resource = f"/networks/{network_id}/switch/mtu"
 
         body_params = [
             "defaultMtuSize",
@@ -1615,33 +1617,33 @@ class AsyncSwitch:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_network_switch_port_schedules(self, networkId: str) -> dict[str, Any] | None:
+    def get_network_switch_port_schedules(self, network_id: str) -> dict[str, Any] | None:
         """List switch port schedules.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-switch-port-schedules
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
 
         """
         metadata = {
             "tags": ["switch", "configure", "portSchedules"],
             "operation": "get_network_switch_port_schedules",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        resource = f"/networks/{networkId}/switch/portSchedules"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        resource = f"/networks/{network_id}/switch/portSchedules"
 
         return self._session.get(metadata, resource)
 
     def create_network_switch_port_schedule(
-        self, networkId: str, name: str, **kwargs: Any
+        self, network_id: str, name: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Add a switch port schedule.
 
         https://developer.cisco.com/meraki/api-v1/#!create-network-switch-port-schedule
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             name: The name for your port schedule. Required.
             portSchedule:     The schedule for switch port scheduling. Schedules are applied to days
               of the week.     When it's empty, default schedule with all days of a week
@@ -1655,8 +1657,8 @@ class AsyncSwitch:
             "tags": ["switch", "configure", "portSchedules"],
             "operation": "create_network_switch_port_schedule",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        resource = f"/networks/{networkId}/switch/portSchedules"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        resource = f"/networks/{network_id}/switch/portSchedules"
 
         body_params = [
             "name",
@@ -1666,36 +1668,36 @@ class AsyncSwitch:
 
         return self._session.post(metadata, resource, payload)
 
-    def delete_network_switch_port_schedule(self, networkId: str, portScheduleId: str) -> None:
+    def delete_network_switch_port_schedule(self, network_id: str, port_schedule_id: str) -> None:
         """Delete a switch port schedule.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-network-switch-port-schedule
 
         Args:
-            networkId: Network ID.
-            portScheduleId: Port schedule ID.
+            network_id: Network ID.
+            port_schedule_id: Port schedule ID.
 
         """
         metadata = {
             "tags": ["switch", "configure", "portSchedules"],
             "operation": "delete_network_switch_port_schedule",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        portScheduleId = urllib.parse.quote(str(portScheduleId), safe="")
-        resource = f"/networks/{networkId}/switch/portSchedules/{portScheduleId}"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        port_schedule_id = urllib.parse.quote(str(port_schedule_id), safe="")
+        resource = f"/networks/{network_id}/switch/portSchedules/{port_schedule_id}"
 
         return self._session.delete(metadata, resource)
 
     def update_network_switch_port_schedule(
-        self, networkId: str, portScheduleId: str, **kwargs: Any
+        self, network_id: str, port_schedule_id: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Update a switch port schedule.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-switch-port-schedule
 
         Args:
-            networkId: Network ID.
-            portScheduleId: Port schedule ID.
+            network_id: Network ID.
+            port_schedule_id: Port schedule ID.
             name: The name for your port schedule.
             portSchedule:     The schedule for switch port scheduling. Schedules are applied to days
               of the week.     When it's empty, default schedule with all days of a week
@@ -1709,9 +1711,9 @@ class AsyncSwitch:
             "tags": ["switch", "configure", "portSchedules"],
             "operation": "update_network_switch_port_schedule",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        portScheduleId = urllib.parse.quote(str(portScheduleId), safe="")
-        resource = f"/networks/{networkId}/switch/portSchedules/{portScheduleId}"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        port_schedule_id = urllib.parse.quote(str(port_schedule_id), safe="")
+        resource = f"/networks/{network_id}/switch/portSchedules/{port_schedule_id}"
 
         body_params = [
             "name",
@@ -1721,33 +1723,33 @@ class AsyncSwitch:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_network_switch_qos_rules(self, networkId: str) -> dict[str, Any] | None:
+    def get_network_switch_qos_rules(self, network_id: str) -> dict[str, Any] | None:
         """List quality of service rules.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-switch-qos-rules
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
 
         """
         metadata = {
             "tags": ["switch", "configure", "qosRules"],
             "operation": "get_network_switch_qos_rules",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        resource = f"/networks/{networkId}/switch/qosRules"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        resource = f"/networks/{network_id}/switch/qosRules"
 
         return self._session.get(metadata, resource)
 
     def create_network_switch_qos_rule(
-        self, networkId: str, vlan: int, **kwargs: Any
+        self, network_id: str, vlan: int, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Add a quality of service rule.
 
         https://developer.cisco.com/meraki/api-v1/#!create-network-switch-qos-rule
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             vlan: The VLAN of the incoming packet. A null value will match any VLAN.
             protocol: The protocol of the incoming packet. Default value is "ANY".
             srcPort: The source port of the incoming packet. Applicable only if protocol is TCP or
@@ -1774,8 +1776,8 @@ class AsyncSwitch:
             "tags": ["switch", "configure", "qosRules"],
             "operation": "create_network_switch_qos_rule",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        resource = f"/networks/{networkId}/switch/qosRules"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        resource = f"/networks/{network_id}/switch/qosRules"
 
         body_params = [
             "vlan",
@@ -1790,33 +1792,33 @@ class AsyncSwitch:
 
         return self._session.post(metadata, resource, payload)
 
-    def get_network_switch_qos_rules_order(self, networkId: str) -> dict[str, Any] | None:
+    def get_network_switch_qos_rules_order(self, network_id: str) -> dict[str, Any] | None:
         """Return the quality of service rule IDs by order in which they will be processed by the switch.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-switch-qos-rules-order
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
 
         """
         metadata = {
             "tags": ["switch", "configure", "qosRules", "order"],
             "operation": "get_network_switch_qos_rules_order",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        resource = f"/networks/{networkId}/switch/qosRules/order"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        resource = f"/networks/{network_id}/switch/qosRules/order"
 
         return self._session.get(metadata, resource)
 
     def update_network_switch_qos_rules_order(
-        self, networkId: str, ruleIds: list
+        self, network_id: str, ruleIds: list
     ) -> dict[str, Any] | None:
         """Update the order in which the rules should be processed by the switch.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-switch-qos-rules-order
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             ruleIds: A list of quality of service rule IDs arranged in order in which they should be
               processed by the switch.
 
@@ -1827,8 +1829,8 @@ class AsyncSwitch:
             "tags": ["switch", "configure", "qosRules", "order"],
             "operation": "update_network_switch_qos_rules_order",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        resource = f"/networks/{networkId}/switch/qosRules/order"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        resource = f"/networks/{network_id}/switch/qosRules/order"
 
         body_params = [
             "ruleIds",
@@ -1837,56 +1839,58 @@ class AsyncSwitch:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_network_switch_qos_rule(self, networkId: str, qosRuleId: str) -> dict[str, Any] | None:
+    def get_network_switch_qos_rule(
+        self, network_id: str, qos_rule_id: str
+    ) -> dict[str, Any] | None:
         """Return a quality of service rule.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-switch-qos-rule
 
         Args:
-            networkId: Network ID.
-            qosRuleId: Qos rule ID.
+            network_id: Network ID.
+            qos_rule_id: Qos rule ID.
 
         """
         metadata = {
             "tags": ["switch", "configure", "qosRules"],
             "operation": "get_network_switch_qos_rule",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        qosRuleId = urllib.parse.quote(str(qosRuleId), safe="")
-        resource = f"/networks/{networkId}/switch/qosRules/{qosRuleId}"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        qos_rule_id = urllib.parse.quote(str(qos_rule_id), safe="")
+        resource = f"/networks/{network_id}/switch/qosRules/{qos_rule_id}"
 
         return self._session.get(metadata, resource)
 
-    def delete_network_switch_qos_rule(self, networkId: str, qosRuleId: str) -> None:
+    def delete_network_switch_qos_rule(self, network_id: str, qos_rule_id: str) -> None:
         """Delete a quality of service rule.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-network-switch-qos-rule
 
         Args:
-            networkId: Network ID.
-            qosRuleId: Qos rule ID.
+            network_id: Network ID.
+            qos_rule_id: Qos rule ID.
 
         """
         metadata = {
             "tags": ["switch", "configure", "qosRules"],
             "operation": "delete_network_switch_qos_rule",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        qosRuleId = urllib.parse.quote(str(qosRuleId), safe="")
-        resource = f"/networks/{networkId}/switch/qosRules/{qosRuleId}"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        qos_rule_id = urllib.parse.quote(str(qos_rule_id), safe="")
+        resource = f"/networks/{network_id}/switch/qosRules/{qos_rule_id}"
 
         return self._session.delete(metadata, resource)
 
     def update_network_switch_qos_rule(
-        self, networkId: str, qosRuleId: str, **kwargs: Any
+        self, network_id: str, qos_rule_id: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Update a quality of service rule.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-switch-qos-rule
 
         Args:
-            networkId: Network ID.
-            qosRuleId: Qos rule ID.
+            network_id: Network ID.
+            qos_rule_id: Qos rule ID.
             vlan: The VLAN of the incoming packet. A null value will match any VLAN.
             protocol: The protocol of the incoming packet. Default value is "ANY".
             srcPort: The source port of the incoming packet. Applicable only if protocol is TCP or
@@ -1913,9 +1917,9 @@ class AsyncSwitch:
             "tags": ["switch", "configure", "qosRules"],
             "operation": "update_network_switch_qos_rule",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        qosRuleId = urllib.parse.quote(str(qosRuleId), safe="")
-        resource = f"/networks/{networkId}/switch/qosRules/{qosRuleId}"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        qos_rule_id = urllib.parse.quote(str(qos_rule_id), safe="")
+        resource = f"/networks/{network_id}/switch/qosRules/{qos_rule_id}"
 
         body_params = [
             "vlan",
@@ -1930,33 +1934,33 @@ class AsyncSwitch:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_network_switch_routing_multicast(self, networkId: str) -> dict[str, Any] | None:
+    def get_network_switch_routing_multicast(self, network_id: str) -> dict[str, Any] | None:
         """Return multicast settings for a network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-switch-routing-multicast
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
 
         """
         metadata = {
             "tags": ["switch", "configure", "routing", "multicast"],
             "operation": "get_network_switch_routing_multicast",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        resource = f"/networks/{networkId}/switch/routing/multicast"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        resource = f"/networks/{network_id}/switch/routing/multicast"
 
         return self._session.get(metadata, resource)
 
     def update_network_switch_routing_multicast(
-        self, networkId: str, **kwargs: Any
+        self, network_id: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Update multicast settings for a network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-switch-routing-multicast
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             defaultSettings: Default multicast setting for entire network. IGMP snooping and Flood
               unknown multicast traffic settings are enabled by default.
             overrides: Array of paired switches/stacks/profiles and corresponding multicast
@@ -1969,8 +1973,8 @@ class AsyncSwitch:
             "tags": ["switch", "configure", "routing", "multicast"],
             "operation": "update_network_switch_routing_multicast",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        resource = f"/networks/{networkId}/switch/routing/multicast"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        resource = f"/networks/{network_id}/switch/routing/multicast"
 
         body_params = [
             "defaultSettings",
@@ -1981,34 +1985,34 @@ class AsyncSwitch:
         return self._session.put(metadata, resource, payload)
 
     def get_network_switch_routing_multicast_rendezvous_points(
-        self, networkId: str
+        self, network_id: str
     ) -> dict[str, Any] | None:
         """List multicast rendezvous points.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-switch-routing-multicast-rendezvous-points
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
 
         """
         metadata = {
             "tags": ["switch", "configure", "routing", "multicast", "rendezvousPoints"],
             "operation": "get_network_switch_routing_multicast_rendezvous_points",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        resource = f"/networks/{networkId}/switch/routing/multicast/rendezvousPoints"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        resource = f"/networks/{network_id}/switch/routing/multicast/rendezvousPoints"
 
         return self._session.get(metadata, resource)
 
     def create_network_switch_routing_multicast_rendezvous_point(
-        self, networkId: str, interfaceIp: str, multicastGroup: str, **kwargs: Any
+        self, network_id: str, interfaceIp: str, multicastGroup: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Create a multicast rendezvous point.
 
         https://developer.cisco.com/meraki/api-v1/#!create-network-switch-routing-multicast-rendezvous-point
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             interfaceIp: The IP address of the interface where the RP needs to be created.
             multicastGroup: 'Any', or the IP address of a multicast group.
             vrf: The VRF with PIM enabled L3 interface.
@@ -2020,8 +2024,8 @@ class AsyncSwitch:
             "tags": ["switch", "configure", "routing", "multicast", "rendezvousPoints"],
             "operation": "create_network_switch_routing_multicast_rendezvous_point",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        resource = f"/networks/{networkId}/switch/routing/multicast/rendezvousPoints"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        resource = f"/networks/{network_id}/switch/routing/multicast/rendezvousPoints"
 
         body_params = [
             "interfaceIp",
@@ -2033,57 +2037,53 @@ class AsyncSwitch:
         return self._session.post(metadata, resource, payload)
 
     def get_network_switch_routing_multicast_rendezvous_point(
-        self, networkId: str, rendezvousPointId: str
+        self, network_id: str, rendezvous_point_id: str
     ) -> dict[str, Any] | None:
         """Return a multicast rendezvous point.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-switch-routing-multicast-rendezvous-point
 
         Args:
-            networkId: Network ID.
-            rendezvousPointId: Rendezvous point ID.
+            network_id: Network ID.
+            rendezvous_point_id: Rendezvous point ID.
 
         """
         metadata = {
             "tags": ["switch", "configure", "routing", "multicast", "rendezvousPoints"],
             "operation": "get_network_switch_routing_multicast_rendezvous_point",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        rendezvousPointId = urllib.parse.quote(str(rendezvousPointId), safe="")
-        resource = (
-            f"/networks/{networkId}/switch/routing/multicast/rendezvousPoints/{rendezvousPointId}"
-        )
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        rendezvous_point_id = urllib.parse.quote(str(rendezvous_point_id), safe="")
+        resource = f"/networks/{network_id}/switch/routing/multicast/rendezvousPoints/{rendezvous_point_id}"
 
         return self._session.get(metadata, resource)
 
     def delete_network_switch_routing_multicast_rendezvous_point(
-        self, networkId: str, rendezvousPointId: str
+        self, network_id: str, rendezvous_point_id: str
     ) -> None:
         """Delete a multicast rendezvous point.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-network-switch-routing-multicast-rendezvous-point
 
         Args:
-            networkId: Network ID.
-            rendezvousPointId: Rendezvous point ID.
+            network_id: Network ID.
+            rendezvous_point_id: Rendezvous point ID.
 
         """
         metadata = {
             "tags": ["switch", "configure", "routing", "multicast", "rendezvousPoints"],
             "operation": "delete_network_switch_routing_multicast_rendezvous_point",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        rendezvousPointId = urllib.parse.quote(str(rendezvousPointId), safe="")
-        resource = (
-            f"/networks/{networkId}/switch/routing/multicast/rendezvousPoints/{rendezvousPointId}"
-        )
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        rendezvous_point_id = urllib.parse.quote(str(rendezvous_point_id), safe="")
+        resource = f"/networks/{network_id}/switch/routing/multicast/rendezvousPoints/{rendezvous_point_id}"
 
         return self._session.delete(metadata, resource)
 
     def update_network_switch_routing_multicast_rendezvous_point(
         self,
-        networkId: str,
-        rendezvousPointId: str,
+        network_id: str,
+        rendezvous_point_id: str,
         interfaceIp: str,
         multicastGroup: str,
         **kwargs: Any,
@@ -2093,8 +2093,8 @@ class AsyncSwitch:
         https://developer.cisco.com/meraki/api-v1/#!update-network-switch-routing-multicast-rendezvous-point
 
         Args:
-            networkId: Network ID.
-            rendezvousPointId: Rendezvous point ID.
+            network_id: Network ID.
+            rendezvous_point_id: Rendezvous point ID.
             interfaceIp: The IP address of the interface where the RP needs to be created.
             multicastGroup: 'Any', or the IP address of a multicast group.
             vrf: The VRF with PIM enabled L3 interface.
@@ -2106,11 +2106,9 @@ class AsyncSwitch:
             "tags": ["switch", "configure", "routing", "multicast", "rendezvousPoints"],
             "operation": "update_network_switch_routing_multicast_rendezvous_point",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        rendezvousPointId = urllib.parse.quote(str(rendezvousPointId), safe="")
-        resource = (
-            f"/networks/{networkId}/switch/routing/multicast/rendezvousPoints/{rendezvousPointId}"
-        )
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        rendezvous_point_id = urllib.parse.quote(str(rendezvous_point_id), safe="")
+        resource = f"/networks/{network_id}/switch/routing/multicast/rendezvousPoints/{rendezvous_point_id}"
 
         body_params = [
             "interfaceIp",
@@ -2122,14 +2120,14 @@ class AsyncSwitch:
         return self._session.put(metadata, resource, payload)
 
     def get_network_switch_routing_ospf(
-        self, networkId: str, **kwargs: Any
+        self, network_id: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Return layer 3 OSPF routing configuration.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-switch-routing-ospf
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             vrf: The VRF to return the OSPF routing configuration for. When not provided, the
               default VRF is used. Included on networks with IOS XE 17.18 or higher.
 
@@ -2140,8 +2138,8 @@ class AsyncSwitch:
             "tags": ["switch", "configure", "routing", "ospf"],
             "operation": "get_network_switch_routing_ospf",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        resource = f"/networks/{networkId}/switch/routing/ospf"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        resource = f"/networks/{network_id}/switch/routing/ospf"
 
         query_params = [
             "vrf",
@@ -2151,14 +2149,14 @@ class AsyncSwitch:
         return self._session.get(metadata, resource, params)
 
     def update_network_switch_routing_ospf(
-        self, networkId: str, **kwargs: Any
+        self, network_id: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Update layer 3 OSPF routing configuration.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-switch-routing-ospf
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             vrf: The VRF to return the OSPF routing configuration for. When not provided, the
               default VRF is used. Requires IOS XE 17.18 or higher.
             enabled: Boolean value to enable or disable OSPF routing. OSPF routing is disabled by
@@ -2182,8 +2180,8 @@ class AsyncSwitch:
             "tags": ["switch", "configure", "routing", "ospf"],
             "operation": "update_network_switch_routing_ospf",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        resource = f"/networks/{networkId}/switch/routing/ospf"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        resource = f"/networks/{network_id}/switch/routing/ospf"
 
         body_params = [
             "enabled",
@@ -2198,33 +2196,33 @@ class AsyncSwitch:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_network_switch_settings(self, networkId: str) -> dict[str, Any] | None:
+    def get_network_switch_settings(self, network_id: str) -> dict[str, Any] | None:
         """Returns the switch network settings.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-switch-settings
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
 
         """
         metadata = {
             "tags": ["switch", "configure", "settings"],
             "operation": "get_network_switch_settings",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        resource = f"/networks/{networkId}/switch/settings"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        resource = f"/networks/{network_id}/switch/settings"
 
         return self._session.get(metadata, resource)
 
     def update_network_switch_settings(
-        self, networkId: str, **kwargs: Any
+        self, network_id: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Update switch network settings.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-switch-settings
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             vlan: Management VLAN.
             useCombinedPower: The use Combined Power as the default behavior of secondary power
               supplies on supported devices.
@@ -2240,8 +2238,8 @@ class AsyncSwitch:
             "tags": ["switch", "configure", "settings"],
             "operation": "update_network_switch_settings",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        resource = f"/networks/{networkId}/switch/settings"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        resource = f"/networks/{network_id}/switch/settings"
 
         body_params = [
             "vlan",
@@ -2255,33 +2253,33 @@ class AsyncSwitch:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_network_switch_stacks(self, networkId: str) -> dict[str, Any] | None:
+    def get_network_switch_stacks(self, network_id: str) -> dict[str, Any] | None:
         """List the switch stacks in a network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-switch-stacks
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
 
         """
         metadata = {
             "tags": ["switch", "configure", "stacks"],
             "operation": "get_network_switch_stacks",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        resource = f"/networks/{networkId}/switch/stacks"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        resource = f"/networks/{network_id}/switch/stacks"
 
         return self._session.get(metadata, resource)
 
     def create_network_switch_stack(
-        self, networkId: str, name: str, serials: list
+        self, network_id: str, name: str, serials: list
     ) -> dict[str, Any] | None:
         """Create a switch stack.
 
         https://developer.cisco.com/meraki/api-v1/#!create-network-switch-stack
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             name: The name of the new stack.
             serials: An array of switch serials to be added into the new stack.
 
@@ -2292,8 +2290,8 @@ class AsyncSwitch:
             "tags": ["switch", "configure", "stacks"],
             "operation": "create_network_switch_stack",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        resource = f"/networks/{networkId}/switch/stacks"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        resource = f"/networks/{network_id}/switch/stacks"
 
         body_params = [
             "name",
@@ -2303,56 +2301,58 @@ class AsyncSwitch:
 
         return self._session.post(metadata, resource, payload)
 
-    def get_network_switch_stack(self, networkId: str, switchStackId: str) -> dict[str, Any] | None:
+    def get_network_switch_stack(
+        self, network_id: str, switch_stack_id: str
+    ) -> dict[str, Any] | None:
         """Show a switch stack.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-switch-stack
 
         Args:
-            networkId: Network ID.
-            switchStackId: Switch stack ID.
+            network_id: Network ID.
+            switch_stack_id: Switch stack ID.
 
         """
         metadata = {
             "tags": ["switch", "configure", "stacks"],
             "operation": "get_network_switch_stack",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        switchStackId = urllib.parse.quote(str(switchStackId), safe="")
-        resource = f"/networks/{networkId}/switch/stacks/{switchStackId}"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        switch_stack_id = urllib.parse.quote(str(switch_stack_id), safe="")
+        resource = f"/networks/{network_id}/switch/stacks/{switch_stack_id}"
 
         return self._session.get(metadata, resource)
 
-    def delete_network_switch_stack(self, networkId: str, switchStackId: str) -> None:
+    def delete_network_switch_stack(self, network_id: str, switch_stack_id: str) -> None:
         """Delete a stack.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-network-switch-stack
 
         Args:
-            networkId: Network ID.
-            switchStackId: Switch stack ID.
+            network_id: Network ID.
+            switch_stack_id: Switch stack ID.
 
         """
         metadata = {
             "tags": ["switch", "configure", "stacks"],
             "operation": "delete_network_switch_stack",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        switchStackId = urllib.parse.quote(str(switchStackId), safe="")
-        resource = f"/networks/{networkId}/switch/stacks/{switchStackId}"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        switch_stack_id = urllib.parse.quote(str(switch_stack_id), safe="")
+        resource = f"/networks/{network_id}/switch/stacks/{switch_stack_id}"
 
         return self._session.delete(metadata, resource)
 
     def add_network_switch_stack(
-        self, networkId: str, switchStackId: str, serial: str
+        self, network_id: str, switch_stack_id: str, serial: str
     ) -> dict[str, Any] | None:
         """Add a switch to a stack.
 
         https://developer.cisco.com/meraki/api-v1/#!add-network-switch-stack
 
         Args:
-            networkId: Network ID.
-            switchStackId: Switch stack ID.
+            network_id: Network ID.
+            switch_stack_id: Switch stack ID.
             serial: The serial of the switch to be added.
 
         """
@@ -2362,9 +2362,9 @@ class AsyncSwitch:
             "tags": ["switch", "configure", "stacks"],
             "operation": "add_network_switch_stack",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        switchStackId = urllib.parse.quote(str(switchStackId), safe="")
-        resource = f"/networks/{networkId}/switch/stacks/{switchStackId}/add"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        switch_stack_id = urllib.parse.quote(str(switch_stack_id), safe="")
+        resource = f"/networks/{network_id}/switch/stacks/{switch_stack_id}/add"
 
         body_params = [
             "serial",
@@ -2374,15 +2374,15 @@ class AsyncSwitch:
         return self._session.post(metadata, resource, payload)
 
     def remove_network_switch_stack(
-        self, networkId: str, switchStackId: str, serial: str
+        self, network_id: str, switch_stack_id: str, serial: str
     ) -> dict[str, Any] | None:
         """Remove a switch from a stack.
 
         https://developer.cisco.com/meraki/api-v1/#!remove-network-switch-stack
 
         Args:
-            networkId: Network ID.
-            switchStackId: Switch stack ID.
+            network_id: Network ID.
+            switch_stack_id: Switch stack ID.
             serial: The serial of the switch to be removed.
 
         """
@@ -2392,9 +2392,9 @@ class AsyncSwitch:
             "tags": ["switch", "configure", "stacks"],
             "operation": "remove_network_switch_stack",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        switchStackId = urllib.parse.quote(str(switchStackId), safe="")
-        resource = f"/networks/{networkId}/switch/stacks/{switchStackId}/remove"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        switch_stack_id = urllib.parse.quote(str(switch_stack_id), safe="")
+        resource = f"/networks/{network_id}/switch/stacks/{switch_stack_id}/remove"
 
         body_params = [
             "serial",
@@ -2404,15 +2404,15 @@ class AsyncSwitch:
         return self._session.post(metadata, resource, payload)
 
     def get_network_switch_stack_routing_interfaces(
-        self, networkId: str, switchStackId: str, **kwargs: Any
+        self, network_id: str, switch_stack_id: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """List layer 3 interfaces for a switch stack.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-switch-stack-routing-interfaces
 
         Args:
-            networkId: Network ID.
-            switchStackId: Switch stack ID.
+            network_id: Network ID.
+            switch_stack_id: Switch stack ID.
             mode: Optional parameter to filter L3 interfaces by mode.
             protocol: Optional parameter to filter L3 interfaces by protocol.
 
@@ -2434,9 +2434,9 @@ class AsyncSwitch:
             "tags": ["switch", "configure", "stacks", "routing", "interfaces"],
             "operation": "get_network_switch_stack_routing_interfaces",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        switchStackId = urllib.parse.quote(str(switchStackId), safe="")
-        resource = f"/networks/{networkId}/switch/stacks/{switchStackId}/routing/interfaces"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        switch_stack_id = urllib.parse.quote(str(switch_stack_id), safe="")
+        resource = f"/networks/{network_id}/switch/stacks/{switch_stack_id}/routing/interfaces"
 
         query_params = [
             "mode",
@@ -2447,15 +2447,15 @@ class AsyncSwitch:
         return self._session.get(metadata, resource, params)
 
     def create_network_switch_stack_routing_interface(
-        self, networkId: str, switchStackId: str, name: str, **kwargs: Any
+        self, network_id: str, switch_stack_id: str, name: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Create a layer 3 interface for a switch stack.
 
         https://developer.cisco.com/meraki/api-v1/#!create-network-switch-stack-routing-interface
 
         Args:
-            networkId: Network ID.
-            switchStackId: Switch stack ID.
+            network_id: Network ID.
+            switch_stack_id: Switch stack ID.
             name: A friendly name or description for the interface or VLAN (max length 128
               characters).
             mode: L3 Interface mode, can be one of 'vlan', 'routed', 'loopback'. Default is 'vlan'.
@@ -2494,9 +2494,9 @@ class AsyncSwitch:
             "tags": ["switch", "configure", "stacks", "routing", "interfaces"],
             "operation": "create_network_switch_stack_routing_interface",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        switchStackId = urllib.parse.quote(str(switchStackId), safe="")
-        resource = f"/networks/{networkId}/switch/stacks/{switchStackId}/routing/interfaces"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        switch_stack_id = urllib.parse.quote(str(switch_stack_id), safe="")
+        resource = f"/networks/{network_id}/switch/stacks/{switch_stack_id}/routing/interfaces"
 
         body_params = [
             "name",
@@ -2517,42 +2517,40 @@ class AsyncSwitch:
         return self._session.post(metadata, resource, payload)
 
     def get_network_switch_stack_routing_interface(
-        self, networkId: str, switchStackId: str, interfaceId: str
+        self, network_id: str, switch_stack_id: str, interface_id: str
     ) -> dict[str, Any] | None:
         """Return a layer 3 interface from a switch stack.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-switch-stack-routing-interface
 
         Args:
-            networkId: Network ID.
-            switchStackId: Switch stack ID.
-            interfaceId: Interface ID.
+            network_id: Network ID.
+            switch_stack_id: Switch stack ID.
+            interface_id: Interface ID.
 
         """
         metadata = {
             "tags": ["switch", "configure", "stacks", "routing", "interfaces"],
             "operation": "get_network_switch_stack_routing_interface",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        switchStackId = urllib.parse.quote(str(switchStackId), safe="")
-        interfaceId = urllib.parse.quote(str(interfaceId), safe="")
-        resource = (
-            f"/networks/{networkId}/switch/stacks/{switchStackId}/routing/interfaces/{interfaceId}"
-        )
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        switch_stack_id = urllib.parse.quote(str(switch_stack_id), safe="")
+        interface_id = urllib.parse.quote(str(interface_id), safe="")
+        resource = f"/networks/{network_id}/switch/stacks/{switch_stack_id}/routing/interfaces/{interface_id}"
 
         return self._session.get(metadata, resource)
 
     def update_network_switch_stack_routing_interface(
-        self, networkId: str, switchStackId: str, interfaceId: str, **kwargs: Any
+        self, network_id: str, switch_stack_id: str, interface_id: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Update a layer 3 interface for a switch stack.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-switch-stack-routing-interface
 
         Args:
-            networkId: Network ID.
-            switchStackId: Switch stack ID.
-            interfaceId: Interface ID.
+            network_id: Network ID.
+            switch_stack_id: Switch stack ID.
+            interface_id: Interface ID.
             name: A friendly name or description for the interface or VLAN (max length 128
               characters).
             subnet: The network that this L3 interface is on, in CIDR notation (ex. 10.1.1.0/24).
@@ -2584,12 +2582,10 @@ class AsyncSwitch:
             "tags": ["switch", "configure", "stacks", "routing", "interfaces"],
             "operation": "update_network_switch_stack_routing_interface",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        switchStackId = urllib.parse.quote(str(switchStackId), safe="")
-        interfaceId = urllib.parse.quote(str(interfaceId), safe="")
-        resource = (
-            f"/networks/{networkId}/switch/stacks/{switchStackId}/routing/interfaces/{interfaceId}"
-        )
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        switch_stack_id = urllib.parse.quote(str(switch_stack_id), safe="")
+        interface_id = urllib.parse.quote(str(interface_id), safe="")
+        resource = f"/networks/{network_id}/switch/stacks/{switch_stack_id}/routing/interfaces/{interface_id}"
 
         body_params = [
             "name",
@@ -2609,66 +2605,64 @@ class AsyncSwitch:
         return self._session.put(metadata, resource, payload)
 
     def delete_network_switch_stack_routing_interface(
-        self, networkId: str, switchStackId: str, interfaceId: str
+        self, network_id: str, switch_stack_id: str, interface_id: str
     ) -> None:
         """Delete a layer 3 interface from a switch stack.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-network-switch-stack-routing-interface
 
         Args:
-            networkId: Network ID.
-            switchStackId: Switch stack ID.
-            interfaceId: Interface ID.
+            network_id: Network ID.
+            switch_stack_id: Switch stack ID.
+            interface_id: Interface ID.
 
         """
         metadata = {
             "tags": ["switch", "configure", "stacks", "routing", "interfaces"],
             "operation": "delete_network_switch_stack_routing_interface",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        switchStackId = urllib.parse.quote(str(switchStackId), safe="")
-        interfaceId = urllib.parse.quote(str(interfaceId), safe="")
-        resource = (
-            f"/networks/{networkId}/switch/stacks/{switchStackId}/routing/interfaces/{interfaceId}"
-        )
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        switch_stack_id = urllib.parse.quote(str(switch_stack_id), safe="")
+        interface_id = urllib.parse.quote(str(interface_id), safe="")
+        resource = f"/networks/{network_id}/switch/stacks/{switch_stack_id}/routing/interfaces/{interface_id}"
 
         return self._session.delete(metadata, resource)
 
     def get_network_switch_stack_routing_interface_dhcp(
-        self, networkId: str, switchStackId: str, interfaceId: str
+        self, network_id: str, switch_stack_id: str, interface_id: str
     ) -> dict[str, Any] | None:
         """Return a layer 3 interface DHCP configuration for a switch stack.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-switch-stack-routing-interface-dhcp
 
         Args:
-            networkId: Network ID.
-            switchStackId: Switch stack ID.
-            interfaceId: Interface ID.
+            network_id: Network ID.
+            switch_stack_id: Switch stack ID.
+            interface_id: Interface ID.
 
         """
         metadata = {
             "tags": ["switch", "configure", "stacks", "routing", "interfaces", "dhcp"],
             "operation": "get_network_switch_stack_routing_interface_dhcp",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        switchStackId = urllib.parse.quote(str(switchStackId), safe="")
-        interfaceId = urllib.parse.quote(str(interfaceId), safe="")
-        resource = f"/networks/{networkId}/switch/stacks/{switchStackId}/routing/interfaces/{interfaceId}/dhcp"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        switch_stack_id = urllib.parse.quote(str(switch_stack_id), safe="")
+        interface_id = urllib.parse.quote(str(interface_id), safe="")
+        resource = f"/networks/{network_id}/switch/stacks/{switch_stack_id}/routing/interfaces/{interface_id}/dhcp"
 
         return self._session.get(metadata, resource)
 
     def update_network_switch_stack_routing_interface_dhcp(
-        self, networkId: str, switchStackId: str, interfaceId: str, **kwargs: Any
+        self, network_id: str, switch_stack_id: str, interface_id: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Update a layer 3 interface DHCP configuration for a switch stack.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-switch-stack-routing-interface-dhcp
 
         Args:
-            networkId: Network ID.
-            switchStackId: Switch stack ID.
-            interfaceId: Interface ID.
+            network_id: Network ID.
+            switch_stack_id: Switch stack ID.
+            interface_id: Interface ID.
             dhcpMode: The DHCP mode options for the switch stack interface         ('dhcpDisabled',
               'dhcpRelay' or 'dhcpServer').
             dhcpRelayServerIps: The DHCP relay server IPs to which DHCP packets would get relayed
@@ -2716,10 +2710,10 @@ class AsyncSwitch:
             "tags": ["switch", "configure", "stacks", "routing", "interfaces", "dhcp"],
             "operation": "update_network_switch_stack_routing_interface_dhcp",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        switchStackId = urllib.parse.quote(str(switchStackId), safe="")
-        interfaceId = urllib.parse.quote(str(interfaceId), safe="")
-        resource = f"/networks/{networkId}/switch/stacks/{switchStackId}/routing/interfaces/{interfaceId}/dhcp"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        switch_stack_id = urllib.parse.quote(str(switch_stack_id), safe="")
+        interface_id = urllib.parse.quote(str(interface_id), safe="")
+        resource = f"/networks/{network_id}/switch/stacks/{switch_stack_id}/routing/interfaces/{interface_id}/dhcp"
 
         body_params = [
             "dhcpMode",
@@ -2739,37 +2733,37 @@ class AsyncSwitch:
         return self._session.put(metadata, resource, payload)
 
     def get_network_switch_stack_routing_static_routes(
-        self, networkId: str, switchStackId: str
+        self, network_id: str, switch_stack_id: str
     ) -> dict[str, Any] | None:
         """List layer 3 static routes for a switch stack.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-switch-stack-routing-static-routes
 
         Args:
-            networkId: Network ID.
-            switchStackId: Switch stack ID.
+            network_id: Network ID.
+            switch_stack_id: Switch stack ID.
 
         """
         metadata = {
             "tags": ["switch", "configure", "stacks", "routing", "staticRoutes"],
             "operation": "get_network_switch_stack_routing_static_routes",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        switchStackId = urllib.parse.quote(str(switchStackId), safe="")
-        resource = f"/networks/{networkId}/switch/stacks/{switchStackId}/routing/staticRoutes"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        switch_stack_id = urllib.parse.quote(str(switch_stack_id), safe="")
+        resource = f"/networks/{network_id}/switch/stacks/{switch_stack_id}/routing/staticRoutes"
 
         return self._session.get(metadata, resource)
 
     def create_network_switch_stack_routing_static_route(
-        self, networkId: str, switchStackId: str, subnet: str, nextHopIp: str, **kwargs: Any
+        self, network_id: str, switch_stack_id: str, subnet: str, nextHopIp: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Create a layer 3 static route for a switch stack.
 
         https://developer.cisco.com/meraki/api-v1/#!create-network-switch-stack-routing-static-route
 
         Args:
-            networkId: Network ID.
-            switchStackId: Switch stack ID.
+            network_id: Network ID.
+            switch_stack_id: Switch stack ID.
             subnet: The subnet which is routed via this static route and should be specified in CIDR
               notation (ex. 1.2.3.0/24).
             nextHopIp: IP address of the next hop device to which the device sends its traffic for
@@ -2786,9 +2780,9 @@ class AsyncSwitch:
             "tags": ["switch", "configure", "stacks", "routing", "staticRoutes"],
             "operation": "create_network_switch_stack_routing_static_route",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        switchStackId = urllib.parse.quote(str(switchStackId), safe="")
-        resource = f"/networks/{networkId}/switch/stacks/{switchStackId}/routing/staticRoutes"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        switch_stack_id = urllib.parse.quote(str(switch_stack_id), safe="")
+        resource = f"/networks/{network_id}/switch/stacks/{switch_stack_id}/routing/staticRoutes"
 
         body_params = [
             "name",
@@ -2803,40 +2797,40 @@ class AsyncSwitch:
         return self._session.post(metadata, resource, payload)
 
     def get_network_switch_stack_routing_static_route(
-        self, networkId: str, switchStackId: str, staticRouteId: str
+        self, network_id: str, switch_stack_id: str, static_route_id: str
     ) -> dict[str, Any] | None:
         """Return a layer 3 static route for a switch stack.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-switch-stack-routing-static-route
 
         Args:
-            networkId: Network ID.
-            switchStackId: Switch stack ID.
-            staticRouteId: Static route ID.
+            network_id: Network ID.
+            switch_stack_id: Switch stack ID.
+            static_route_id: Static route ID.
 
         """
         metadata = {
             "tags": ["switch", "configure", "stacks", "routing", "staticRoutes"],
             "operation": "get_network_switch_stack_routing_static_route",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        switchStackId = urllib.parse.quote(str(switchStackId), safe="")
-        staticRouteId = urllib.parse.quote(str(staticRouteId), safe="")
-        resource = f"/networks/{networkId}/switch/stacks/{switchStackId}/routing/staticRoutes/{staticRouteId}"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        switch_stack_id = urllib.parse.quote(str(switch_stack_id), safe="")
+        static_route_id = urllib.parse.quote(str(static_route_id), safe="")
+        resource = f"/networks/{network_id}/switch/stacks/{switch_stack_id}/routing/staticRoutes/{static_route_id}"
 
         return self._session.get(metadata, resource)
 
     def update_network_switch_stack_routing_static_route(
-        self, networkId: str, switchStackId: str, staticRouteId: str, **kwargs: Any
+        self, network_id: str, switch_stack_id: str, static_route_id: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Update a layer 3 static route for a switch stack.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-switch-stack-routing-static-route
 
         Args:
-            networkId: Network ID.
-            switchStackId: Switch stack ID.
-            staticRouteId: Static route ID.
+            network_id: Network ID.
+            switch_stack_id: Switch stack ID.
+            static_route_id: Static route ID.
             name: Name or description for layer 3 static route.
             subnet: The subnet which is routed via this static route and should be specified in CIDR
               notation (ex. 1.2.3.0/24).
@@ -2854,10 +2848,10 @@ class AsyncSwitch:
             "tags": ["switch", "configure", "stacks", "routing", "staticRoutes"],
             "operation": "update_network_switch_stack_routing_static_route",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        switchStackId = urllib.parse.quote(str(switchStackId), safe="")
-        staticRouteId = urllib.parse.quote(str(staticRouteId), safe="")
-        resource = f"/networks/{networkId}/switch/stacks/{switchStackId}/routing/staticRoutes/{staticRouteId}"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        switch_stack_id = urllib.parse.quote(str(switch_stack_id), safe="")
+        static_route_id = urllib.parse.quote(str(static_route_id), safe="")
+        resource = f"/networks/{network_id}/switch/stacks/{switch_stack_id}/routing/staticRoutes/{static_route_id}"
 
         body_params = [
             "name",
@@ -2873,56 +2867,56 @@ class AsyncSwitch:
         return self._session.put(metadata, resource, payload)
 
     def delete_network_switch_stack_routing_static_route(
-        self, networkId: str, switchStackId: str, staticRouteId: str
+        self, network_id: str, switch_stack_id: str, static_route_id: str
     ) -> None:
         """Delete a layer 3 static route for a switch stack.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-network-switch-stack-routing-static-route
 
         Args:
-            networkId: Network ID.
-            switchStackId: Switch stack ID.
-            staticRouteId: Static route ID.
+            network_id: Network ID.
+            switch_stack_id: Switch stack ID.
+            static_route_id: Static route ID.
 
         """
         metadata = {
             "tags": ["switch", "configure", "stacks", "routing", "staticRoutes"],
             "operation": "delete_network_switch_stack_routing_static_route",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        switchStackId = urllib.parse.quote(str(switchStackId), safe="")
-        staticRouteId = urllib.parse.quote(str(staticRouteId), safe="")
-        resource = f"/networks/{networkId}/switch/stacks/{switchStackId}/routing/staticRoutes/{staticRouteId}"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        switch_stack_id = urllib.parse.quote(str(switch_stack_id), safe="")
+        static_route_id = urllib.parse.quote(str(static_route_id), safe="")
+        resource = f"/networks/{network_id}/switch/stacks/{switch_stack_id}/routing/staticRoutes/{static_route_id}"
 
         return self._session.delete(metadata, resource)
 
-    def get_network_switch_storm_control(self, networkId: str) -> dict[str, Any] | None:
+    def get_network_switch_storm_control(self, network_id: str) -> dict[str, Any] | None:
         """Return the storm control configuration for a switch network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-switch-storm-control
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
 
         """
         metadata = {
             "tags": ["switch", "configure", "stormControl"],
             "operation": "get_network_switch_storm_control",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        resource = f"/networks/{networkId}/switch/stormControl"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        resource = f"/networks/{network_id}/switch/stormControl"
 
         return self._session.get(metadata, resource)
 
     def update_network_switch_storm_control(
-        self, networkId: str, **kwargs: Any
+        self, network_id: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Update the storm control configuration for a switch network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-switch-storm-control
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             broadcastThreshold: Percentage (1 to 99) of total available port bandwidth for broadcast
               traffic type. Default value 100 percent rate is to clear the
               configuration.
@@ -2941,8 +2935,8 @@ class AsyncSwitch:
             "tags": ["switch", "configure", "stormControl"],
             "operation": "update_network_switch_storm_control",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        resource = f"/networks/{networkId}/switch/stormControl"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        resource = f"/networks/{network_id}/switch/stormControl"
 
         body_params = [
             "broadcastThreshold",
@@ -2954,28 +2948,28 @@ class AsyncSwitch:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_network_switch_stp(self, networkId: str) -> dict[str, Any] | None:
+    def get_network_switch_stp(self, network_id: str) -> dict[str, Any] | None:
         """Returns STP settings.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-switch-stp
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
 
         """
         metadata = {"tags": ["switch", "configure", "stp"], "operation": "get_network_switch_stp"}
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        resource = f"/networks/{networkId}/switch/stp"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        resource = f"/networks/{network_id}/switch/stp"
 
         return self._session.get(metadata, resource)
 
-    def update_network_switch_stp(self, networkId: str, **kwargs: Any) -> dict[str, Any] | None:
+    def update_network_switch_stp(self, network_id: str, **kwargs: Any) -> dict[str, Any] | None:
         """Updates STP settings.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-switch-stp
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             rstpEnabled: The spanning tree protocol status in network.
             stpBridgePriority: STP bridge priority for switches/stacks or switch templates. An empty
               array will clear the STP bridge priority settings.
@@ -2987,8 +2981,8 @@ class AsyncSwitch:
             "tags": ["switch", "configure", "stp"],
             "operation": "update_network_switch_stp",
         }
-        networkId = urllib.parse.quote(str(networkId), safe="")
-        resource = f"/networks/{networkId}/switch/stp"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        resource = f"/networks/{network_id}/switch/stp"
 
         body_params = [
             "rstpEnabled",
@@ -2999,91 +2993,96 @@ class AsyncSwitch:
         return self._session.put(metadata, resource, payload)
 
     def get_organization_config_template_switch_profiles(
-        self, organizationId: str, configTemplateId: str
+        self, organization_id: str, config_template_id: str
     ) -> dict[str, Any] | None:
         """List the switch templates for your switch template configuration.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-config-template-switch-profiles
 
         Args:
-            organizationId: Organization ID.
-            configTemplateId: Config template ID.
+            organization_id: Organization ID.
+            config_template_id: Config template ID.
 
         """
         metadata = {
             "tags": ["switch", "configure", "configTemplates", "profiles"],
             "operation": "get_organization_config_template_switch_profiles",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        configTemplateId = urllib.parse.quote(str(configTemplateId), safe="")
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        config_template_id = urllib.parse.quote(str(config_template_id), safe="")
         resource = (
-            f"/organizations/{organizationId}/configTemplates/{configTemplateId}/switch/profiles"
+            f"/organizations/{organization_id}/configTemplates/{config_template_id}/switch/profiles"
         )
 
         return self._session.get(metadata, resource)
 
     def get_organization_config_template_switch_profile_ports(
-        self, organizationId: str, configTemplateId: str, profileId: str
+        self, organization_id: str, config_template_id: str, profile_id: str
     ) -> dict[str, Any] | None:
         """Return all the ports of a switch template.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-config-template-switch-profile-ports
 
         Args:
-            organizationId: Organization ID.
-            configTemplateId: Config template ID.
-            profileId: Profile ID.
+            organization_id: Organization ID.
+            config_template_id: Config template ID.
+            profile_id: Profile ID.
 
         """
         metadata = {
             "tags": ["switch", "configure", "configTemplates", "profiles", "ports"],
             "operation": "get_organization_config_template_switch_profile_ports",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        configTemplateId = urllib.parse.quote(str(configTemplateId), safe="")
-        profileId = urllib.parse.quote(str(profileId), safe="")
-        resource = f"/organizations/{organizationId}/configTemplates/{configTemplateId}/switch/profiles/{profileId}/ports"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        config_template_id = urllib.parse.quote(str(config_template_id), safe="")
+        profile_id = urllib.parse.quote(str(profile_id), safe="")
+        resource = f"/organizations/{organization_id}/configTemplates/{config_template_id}/switch/profiles/{profile_id}/ports"
 
         return self._session.get(metadata, resource)
 
     def get_organization_config_template_switch_profile_port(
-        self, organizationId: str, configTemplateId: str, profileId: str, portId: str
+        self, organization_id: str, config_template_id: str, profile_id: str, port_id: str
     ) -> dict[str, Any] | None:
         """Return a switch template port.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-config-template-switch-profile-port
 
         Args:
-            organizationId: Organization ID.
-            configTemplateId: Config template ID.
-            profileId: Profile ID.
-            portId: Port ID.
+            organization_id: Organization ID.
+            config_template_id: Config template ID.
+            profile_id: Profile ID.
+            port_id: Port ID.
 
         """
         metadata = {
             "tags": ["switch", "configure", "configTemplates", "profiles", "ports"],
             "operation": "get_organization_config_template_switch_profile_port",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        configTemplateId = urllib.parse.quote(str(configTemplateId), safe="")
-        profileId = urllib.parse.quote(str(profileId), safe="")
-        portId = urllib.parse.quote(str(portId), safe="")
-        resource = f"/organizations/{organizationId}/configTemplates/{configTemplateId}/switch/profiles/{profileId}/ports/{portId}"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        config_template_id = urllib.parse.quote(str(config_template_id), safe="")
+        profile_id = urllib.parse.quote(str(profile_id), safe="")
+        port_id = urllib.parse.quote(str(port_id), safe="")
+        resource = f"/organizations/{organization_id}/configTemplates/{config_template_id}/switch/profiles/{profile_id}/ports/{port_id}"
 
         return self._session.get(metadata, resource)
 
     def update_organization_config_template_switch_profile_port(
-        self, organizationId: str, configTemplateId: str, profileId: str, portId: str, **kwargs: Any
+        self,
+        organization_id: str,
+        config_template_id: str,
+        profile_id: str,
+        port_id: str,
+        **kwargs: Any,
     ) -> dict[str, Any] | None:
         """Update a switch template port.
 
         https://developer.cisco.com/meraki/api-v1/#!update-organization-config-template-switch-profile-port
 
         Args:
-            organizationId: Organization ID.
-            configTemplateId: Config template ID.
-            profileId: Profile ID.
-            portId: Port ID.
+            organization_id: Organization ID.
+            config_template_id: Config template ID.
+            profile_id: Profile ID.
+            port_id: Port ID.
             name: The name of the switch template port.
             tags: The list of tags of the switch template port.
             enabled: The status of the switch template port.
@@ -3159,11 +3158,11 @@ class AsyncSwitch:
             "tags": ["switch", "configure", "configTemplates", "profiles", "ports"],
             "operation": "update_organization_config_template_switch_profile_port",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        configTemplateId = urllib.parse.quote(str(configTemplateId), safe="")
-        profileId = urllib.parse.quote(str(profileId), safe="")
-        portId = urllib.parse.quote(str(portId), safe="")
-        resource = f"/organizations/{organizationId}/configTemplates/{configTemplateId}/switch/profiles/{profileId}/ports/{portId}"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        config_template_id = urllib.parse.quote(str(config_template_id), safe="")
+        profile_id = urllib.parse.quote(str(profile_id), safe="")
+        port_id = urllib.parse.quote(str(port_id), safe="")
+        resource = f"/organizations/{organization_id}/configTemplates/{config_template_id}/switch/profiles/{profile_id}/ports/{port_id}"
 
         body_params = [
             "name",
@@ -3199,14 +3198,14 @@ class AsyncSwitch:
         return self._session.put(metadata, resource, payload)
 
     def get_organization_summary_switch_power_history(
-        self, organizationId: str, **kwargs: Any
+        self, organization_id: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Returns the total PoE power draw for all switch ports in the organization over the requested timespan (by default the last 24 hours).
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-summary-switch-power-history
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             t0: The beginning of the timespan for the data.
             t1: The end of the timespan for the data. t1 can be a maximum of 186 days after t0.
             timespan: The timespan for which the information will be fetched. If specifying
@@ -3220,8 +3219,8 @@ class AsyncSwitch:
             "tags": ["switch", "monitor", "summary", "power", "history"],
             "operation": "get_organization_summary_switch_power_history",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/summary/switch/power/history"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/summary/switch/power/history"
 
         query_params = [
             "t0",
@@ -3233,14 +3232,14 @@ class AsyncSwitch:
         return self._session.get(metadata, resource, params)
 
     def clone_organization_switch_devices(
-        self, organizationId: str, sourceSerial: str, targetSerials: list
+        self, organization_id: str, sourceSerial: str, targetSerials: list
     ) -> dict[str, Any] | None:
         """Clone port-level and some switch-level configuration settings from a source switch to one or more target switches.
 
         https://developer.cisco.com/meraki/api-v1/#!clone-organization-switch-devices
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             sourceSerial: Serial number of the source switch (must be on a network not bound to a
               template).
             targetSerials: Array of serial numbers of one or more target switches (must be on a
@@ -3253,8 +3252,8 @@ class AsyncSwitch:
             "tags": ["switch", "configure", "devices"],
             "operation": "clone_organization_switch_devices",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/switch/devices/clone"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/switch/devices/clone"
 
         body_params = [
             "sourceSerial",
@@ -3265,14 +3264,14 @@ class AsyncSwitch:
         return self._session.post(metadata, resource, payload)
 
     def get_organization_switch_ports_by_switch(
-        self, organizationId: str, total_pages=1, direction="next", **kwargs: Any
+        self, organization_id: str, total_pages=1, direction="next", **kwargs: Any
     ) -> Generator[Any, None, None]:
         """List the switchports in an organization by switch.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-switch-ports-by-switch
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
@@ -3310,8 +3309,8 @@ class AsyncSwitch:
             "tags": ["switch", "configure", "ports", "bySwitch"],
             "operation": "get_organization_switch_ports_by_switch",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/switch/ports/bySwitch"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/switch/ports/bySwitch"
 
         query_params = [
             "perPage",
@@ -3342,14 +3341,14 @@ class AsyncSwitch:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def get_organization_switch_ports_clients_overview_by_device(
-        self, organizationId: str, total_pages=1, direction="next", **kwargs: Any
+        self, organization_id: str, total_pages=1, direction="next", **kwargs: Any
     ) -> Generator[Any, None, None]:
         """List the number of clients for all switchports with at least one online client in an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-switch-ports-clients-overview-by-device
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
@@ -3392,8 +3391,8 @@ class AsyncSwitch:
             "tags": ["switch", "monitor", "ports", "clients", "overview", "byDevice"],
             "operation": "get_organization_switch_ports_clients_overview_by_device",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/switch/ports/clients/overview/byDevice"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/switch/ports/clients/overview/byDevice"
 
         query_params = [
             "t0",
@@ -3426,14 +3425,14 @@ class AsyncSwitch:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def get_organization_switch_ports_overview(
-        self, organizationId: str, **kwargs: Any
+        self, organization_id: str, **kwargs: Any
     ) -> dict[str, Any] | None:
         """Returns the counts of all active ports for the requested timespan, grouped by speed.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-switch-ports-overview
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             t0: The beginning of the timespan for the data.
             t1: The end of the timespan for the data. t1 can be a maximum of 186 days after t0.
             timespan: The timespan for which the information will be fetched. If specifying
@@ -3448,8 +3447,8 @@ class AsyncSwitch:
             "tags": ["switch", "monitor", "ports", "overview"],
             "operation": "get_organization_switch_ports_overview",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/switch/ports/overview"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/switch/ports/overview"
 
         query_params = [
             "t0",
@@ -3461,14 +3460,14 @@ class AsyncSwitch:
         return self._session.get(metadata, resource, params)
 
     def get_organization_switch_ports_statuses_by_switch(
-        self, organizationId: str, total_pages=1, direction="next", **kwargs: Any
+        self, organization_id: str, total_pages=1, direction="next", **kwargs: Any
     ) -> Generator[Any, None, None]:
         """List the switchports in an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-switch-ports-statuses-by-switch
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
@@ -3506,8 +3505,8 @@ class AsyncSwitch:
             "tags": ["switch", "monitor", "ports", "statuses", "bySwitch"],
             "operation": "get_organization_switch_ports_statuses_by_switch",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/switch/ports/statuses/bySwitch"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/switch/ports/statuses/bySwitch"
 
         query_params = [
             "perPage",
@@ -3538,14 +3537,14 @@ class AsyncSwitch:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def get_organization_switch_ports_topology_discovery_by_device(
-        self, organizationId: str, total_pages=1, direction="next", **kwargs: Any
+        self, organization_id: str, total_pages=1, direction="next", **kwargs: Any
     ) -> Generator[Any, None, None]:
         """List most recently seen LLDP/CDP discovery and topology information per switch port in an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-switch-ports-topology-discovery-by-device
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
@@ -3588,8 +3587,8 @@ class AsyncSwitch:
             "tags": ["switch", "monitor", "ports", "topology", "discovery", "byDevice"],
             "operation": "get_organization_switch_ports_topology_discovery_by_device",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/switch/ports/topology/discovery/byDevice"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/switch/ports/topology/discovery/byDevice"
 
         query_params = [
             "t0",
@@ -3622,14 +3621,14 @@ class AsyncSwitch:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def get_organization_switch_ports_usage_history_by_device_by_interval(
-        self, organizationId: str, total_pages=1, direction="next", **kwargs: Any
+        self, organization_id: str, total_pages=1, direction="next", **kwargs: Any
     ) -> Generator[Any, None, None]:
         """List the historical usage and traffic data of switchports in an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-switch-ports-usage-history-by-device-by-interval
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
@@ -3677,8 +3676,10 @@ class AsyncSwitch:
             "tags": ["switch", "monitor", "ports", "usage", "history", "byDevice", "byInterval"],
             "operation": "get_organization_switch_ports_usage_history_by_device_by_interval",
         }
-        organizationId = urllib.parse.quote(str(organizationId), safe="")
-        resource = f"/organizations/{organizationId}/switch/ports/usage/history/byDevice/byInterval"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = (
+            f"/organizations/{organization_id}/switch/ports/usage/history/byDevice/byInterval"
+        )
 
         query_params = [
             "t0",

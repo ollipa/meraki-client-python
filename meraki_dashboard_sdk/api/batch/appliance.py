@@ -32,6 +32,7 @@ class ActionBatchAppliance:
             "tags": ["appliance", "configure", "radio", "settings"],
             "operation": "update_device_appliance_radio_settings",
         }
+        serial = urllib.parse.quote(serial, safe="")
         resource = f"/devices/{serial}/appliance/radio/settings"
 
         body_params = [
@@ -61,6 +62,7 @@ class ActionBatchAppliance:
             "tags": ["appliance", "configure", "uplinks", "settings"],
             "operation": "update_device_appliance_uplinks_settings",
         }
+        serial = urllib.parse.quote(serial, safe="")
         resource = f"/devices/{serial}/appliance/uplinks/settings"
 
         body_params = [
@@ -83,6 +85,7 @@ class ActionBatchAppliance:
             "tags": ["appliance", "configure", "vmx", "authenticationToken"],
             "operation": "create_device_appliance_vmx_authentication_token",
         }
+        serial = urllib.parse.quote(serial, safe="")
         resource = f"/devices/{serial}/appliance/vmx/authenticationToken"
 
         action = {
@@ -92,14 +95,14 @@ class ActionBatchAppliance:
         return action
 
     def update_network_appliance_connectivity_monitoring_destinations(
-        self, networkId: str, **kwargs: Any
+        self, network_id: str, **kwargs: Any
     ) -> dict[str, Any]:
         """Update the connectivity testing destinations for an MX network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-connectivity-monitoring-destinations
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             destinations: The list of connectivity monitoring destinations.
 
         """
@@ -109,7 +112,8 @@ class ActionBatchAppliance:
             "tags": ["appliance", "configure", "connectivityMonitoringDestinations"],
             "operation": "update_network_appliance_connectivity_monitoring_destinations",
         }
-        resource = f"/networks/{networkId}/appliance/connectivityMonitoringDestinations"
+        network_id = urllib.parse.quote(network_id, safe="")
+        resource = f"/networks/{network_id}/appliance/connectivityMonitoringDestinations"
 
         body_params = [
             "destinations",
@@ -119,14 +123,14 @@ class ActionBatchAppliance:
         return action
 
     def update_network_appliance_firewall_l7_firewall_rules(
-        self, networkId: str, **kwargs: Any
+        self, network_id: str, **kwargs: Any
     ) -> dict[str, Any]:
         """Update the MX L7 firewall rules for an MX network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-firewall-l-7-firewall-rules
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             rules: An ordered array of the MX L7 firewall rules.
 
         """
@@ -136,7 +140,8 @@ class ActionBatchAppliance:
             "tags": ["appliance", "configure", "firewall", "l7FirewallRules"],
             "operation": "update_network_appliance_firewall_l7_firewall_rules",
         }
-        resource = f"/networks/{networkId}/appliance/firewall/l7FirewallRules"
+        network_id = urllib.parse.quote(network_id, safe="")
+        resource = f"/networks/{network_id}/appliance/firewall/l7FirewallRules"
 
         body_params = [
             "rules",
@@ -146,14 +151,14 @@ class ActionBatchAppliance:
         return action
 
     def update_network_appliance_firewall_multicast_forwarding(
-        self, networkId: str, rules: list
+        self, network_id: str, rules: list
     ) -> dict[str, Any]:
         """Update static multicast forward rules for a network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-firewall-multicast-forwarding
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             rules: Static multicast forwarding rules. Pass an empty array to clear all rules.
 
         """
@@ -163,7 +168,8 @@ class ActionBatchAppliance:
             "tags": ["appliance", "configure", "firewall", "multicastForwarding"],
             "operation": "update_network_appliance_firewall_multicast_forwarding",
         }
-        resource = f"/networks/{networkId}/appliance/firewall/multicastForwarding"
+        network_id = urllib.parse.quote(network_id, safe="")
+        resource = f"/networks/{network_id}/appliance/firewall/multicastForwarding"
 
         body_params = [
             "rules",
@@ -173,15 +179,15 @@ class ActionBatchAppliance:
         return action
 
     def update_network_appliance_port(
-        self, networkId: str, portId: str, **kwargs: Any
+        self, network_id: str, port_id: str, **kwargs: Any
     ) -> dict[str, Any]:
         """Update the per-port VLAN settings for a single MX port.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-port
 
         Args:
-            networkId: Network ID.
-            portId: Port ID.
+            network_id: Network ID.
+            port_id: Port ID.
             enabled: The status of the port.
             dropUntaggedTraffic: Trunk port can Drop all Untagged traffic. When true, no VLAN is
               required. Access ports cannot have dropUntaggedTraffic set to true.
@@ -203,7 +209,9 @@ class ActionBatchAppliance:
             "tags": ["appliance", "configure", "ports"],
             "operation": "update_network_appliance_port",
         }
-        resource = f"/networks/{networkId}/appliance/ports/{portId}"
+        network_id = urllib.parse.quote(network_id, safe="")
+        port_id = urllib.parse.quote(port_id, safe="")
+        resource = f"/networks/{network_id}/appliance/ports/{port_id}"
 
         body_params = [
             "enabled",
@@ -218,14 +226,14 @@ class ActionBatchAppliance:
         return action
 
     def create_network_appliance_prefixes_delegated_static(
-        self, networkId: str, prefix: str, origin: dict, **kwargs: Any
+        self, network_id: str, prefix: str, origin: dict, **kwargs: Any
     ) -> dict[str, Any]:
         """Add a static delegated prefix from a network.
 
         https://developer.cisco.com/meraki/api-v1/#!create-network-appliance-prefixes-delegated-static
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             prefix: A static IPv6 prefix.
             origin: The origin of the prefix.
             description: A name or description for the prefix.
@@ -237,7 +245,8 @@ class ActionBatchAppliance:
             "tags": ["appliance", "configure", "prefixes", "delegated", "statics"],
             "operation": "create_network_appliance_prefixes_delegated_static",
         }
-        resource = f"/networks/{networkId}/appliance/prefixes/delegated/statics"
+        network_id = urllib.parse.quote(network_id, safe="")
+        resource = f"/networks/{network_id}/appliance/prefixes/delegated/statics"
 
         body_params = [
             "prefix",
@@ -249,15 +258,15 @@ class ActionBatchAppliance:
         return action
 
     def update_network_appliance_prefixes_delegated_static(
-        self, networkId: str, staticDelegatedPrefixId: str, **kwargs: Any
+        self, network_id: str, static_delegated_prefix_id: str, **kwargs: Any
     ) -> dict[str, Any]:
         """Update a static delegated prefix from a network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-prefixes-delegated-static
 
         Args:
-            networkId: Network ID.
-            staticDelegatedPrefixId: Static delegated prefix ID.
+            network_id: Network ID.
+            static_delegated_prefix_id: Static delegated prefix ID.
             prefix: A static IPv6 prefix.
             origin: The origin of the prefix.
             description: A name or description for the prefix.
@@ -269,9 +278,9 @@ class ActionBatchAppliance:
             "tags": ["appliance", "configure", "prefixes", "delegated", "statics"],
             "operation": "update_network_appliance_prefixes_delegated_static",
         }
-        resource = (
-            f"/networks/{networkId}/appliance/prefixes/delegated/statics/{staticDelegatedPrefixId}"
-        )
+        network_id = urllib.parse.quote(network_id, safe="")
+        static_delegated_prefix_id = urllib.parse.quote(static_delegated_prefix_id, safe="")
+        resource = f"/networks/{network_id}/appliance/prefixes/delegated/statics/{static_delegated_prefix_id}"
 
         body_params = [
             "prefix",
@@ -283,24 +292,24 @@ class ActionBatchAppliance:
         return action
 
     def delete_network_appliance_prefixes_delegated_static(
-        self, networkId: str, staticDelegatedPrefixId: str
+        self, network_id: str, static_delegated_prefix_id: str
     ) -> dict[str, Any]:
         """Delete a static delegated prefix from a network.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-network-appliance-prefixes-delegated-static
 
         Args:
-            networkId: Network ID.
-            staticDelegatedPrefixId: Static delegated prefix ID.
+            network_id: Network ID.
+            static_delegated_prefix_id: Static delegated prefix ID.
 
         """
         metadata = {
             "tags": ["appliance", "configure", "prefixes", "delegated", "statics"],
             "operation": "delete_network_appliance_prefixes_delegated_static",
         }
-        resource = (
-            f"/networks/{networkId}/appliance/prefixes/delegated/statics/{staticDelegatedPrefixId}"
-        )
+        network_id = urllib.parse.quote(network_id, safe="")
+        static_delegated_prefix_id = urllib.parse.quote(static_delegated_prefix_id, safe="")
+        resource = f"/networks/{network_id}/appliance/prefixes/delegated/statics/{static_delegated_prefix_id}"
 
         action = {
             "resource": resource,
@@ -309,14 +318,14 @@ class ActionBatchAppliance:
         return action
 
     def create_network_appliance_rf_profile(
-        self, networkId: str, name: str, **kwargs: Any
+        self, network_id: str, name: str, **kwargs: Any
     ) -> dict[str, Any]:
         """Creates new RF profile for this network.
 
         https://developer.cisco.com/meraki/api-v1/#!create-network-appliance-rf-profile
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             name: The name of the new profile. Must be unique. This param is required on creation.
             twoFourGhzSettings: Settings related to 2.4Ghz band.
             fiveGhzSettings: Settings related to 5Ghz band.
@@ -329,7 +338,8 @@ class ActionBatchAppliance:
             "tags": ["appliance", "configure", "rfProfiles"],
             "operation": "create_network_appliance_rf_profile",
         }
-        resource = f"/networks/{networkId}/appliance/rfProfiles"
+        network_id = urllib.parse.quote(network_id, safe="")
+        resource = f"/networks/{network_id}/appliance/rfProfiles"
 
         body_params = [
             "name",
@@ -342,15 +352,15 @@ class ActionBatchAppliance:
         return action
 
     def update_network_appliance_rf_profile(
-        self, networkId: str, rfProfileId: str, **kwargs: Any
+        self, network_id: str, rf_profile_id: str, **kwargs: Any
     ) -> dict[str, Any]:
         """Updates specified RF profile for this network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-rf-profile
 
         Args:
-            networkId: Network ID.
-            rfProfileId: Rf profile ID.
+            network_id: Network ID.
+            rf_profile_id: Rf profile ID.
             name: The name of the new profile. Must be unique.
             twoFourGhzSettings: Settings related to 2.4Ghz band.
             fiveGhzSettings: Settings related to 5Ghz band.
@@ -363,7 +373,9 @@ class ActionBatchAppliance:
             "tags": ["appliance", "configure", "rfProfiles"],
             "operation": "update_network_appliance_rf_profile",
         }
-        resource = f"/networks/{networkId}/appliance/rfProfiles/{rfProfileId}"
+        network_id = urllib.parse.quote(network_id, safe="")
+        rf_profile_id = urllib.parse.quote(rf_profile_id, safe="")
+        resource = f"/networks/{network_id}/appliance/rfProfiles/{rf_profile_id}"
 
         body_params = [
             "name",
@@ -376,22 +388,24 @@ class ActionBatchAppliance:
         return action
 
     def delete_network_appliance_rf_profile(
-        self, networkId: str, rfProfileId: str
+        self, network_id: str, rf_profile_id: str
     ) -> dict[str, Any]:
         """Delete a RF Profile.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-network-appliance-rf-profile
 
         Args:
-            networkId: Network ID.
-            rfProfileId: Rf profile ID.
+            network_id: Network ID.
+            rf_profile_id: Rf profile ID.
 
         """
         metadata = {
             "tags": ["appliance", "configure", "rfProfiles"],
             "operation": "delete_network_appliance_rf_profile",
         }
-        resource = f"/networks/{networkId}/appliance/rfProfiles/{rfProfileId}"
+        network_id = urllib.parse.quote(network_id, safe="")
+        rf_profile_id = urllib.parse.quote(rf_profile_id, safe="")
+        resource = f"/networks/{network_id}/appliance/rfProfiles/{rf_profile_id}"
 
         action = {
             "resource": resource,
@@ -400,14 +414,14 @@ class ActionBatchAppliance:
         return action
 
     def update_network_appliance_sdwan_internet_policies(
-        self, networkId: str, **kwargs: Any
+        self, network_id: str, **kwargs: Any
     ) -> dict[str, Any]:
         """Update SDWAN internet traffic preferences for an MX network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-sdwan-internet-policies
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             wanTrafficUplinkPreferences: policies with respective traffic filters for an MX network.
 
         """
@@ -417,7 +431,8 @@ class ActionBatchAppliance:
             "tags": ["appliance", "configure", "sdwan", "internetPolicies"],
             "operation": "update_network_appliance_sdwan_internet_policies",
         }
-        resource = f"/networks/{networkId}/appliance/sdwan/internetPolicies"
+        network_id = urllib.parse.quote(network_id, safe="")
+        resource = f"/networks/{network_id}/appliance/sdwan/internetPolicies"
 
         body_params = [
             "wanTrafficUplinkPreferences",
@@ -426,13 +441,13 @@ class ActionBatchAppliance:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def update_network_appliance_settings(self, networkId: str, **kwargs: Any) -> dict[str, Any]:
+    def update_network_appliance_settings(self, network_id: str, **kwargs: Any) -> dict[str, Any]:
         """Update the appliance settings for a network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-settings
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             clientTrackingMethod: Client tracking method of a network.
             deploymentMode: Deployment mode of a network.
             dynamicDns: Dynamic DNS settings for a network.
@@ -455,7 +470,8 @@ class ActionBatchAppliance:
             "tags": ["appliance", "configure", "settings"],
             "operation": "update_network_appliance_settings",
         }
-        resource = f"/networks/{networkId}/appliance/settings"
+        network_id = urllib.parse.quote(network_id, safe="")
+        resource = f"/networks/{network_id}/appliance/settings"
 
         body_params = [
             "clientTrackingMethod",
@@ -466,13 +482,13 @@ class ActionBatchAppliance:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def update_network_appliance_single_lan(self, networkId: str, **kwargs: Any) -> dict[str, Any]:
+    def update_network_appliance_single_lan(self, network_id: str, **kwargs: Any) -> dict[str, Any]:
         """Update single LAN configuration.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-single-lan
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             subnet: The subnet of the single LAN configuration.
             applianceIp: The appliance IP address of the single LAN.
             ipv6: IPv6 configuration on the VLAN.
@@ -488,7 +504,8 @@ class ActionBatchAppliance:
             "tags": ["appliance", "configure", "singleLan"],
             "operation": "update_network_appliance_single_lan",
         }
-        resource = f"/networks/{networkId}/appliance/singleLan"
+        network_id = urllib.parse.quote(network_id, safe="")
+        resource = f"/networks/{network_id}/appliance/singleLan"
 
         body_params = [
             "subnet",
@@ -501,14 +518,14 @@ class ActionBatchAppliance:
         return action
 
     def update_network_appliance_ssid(
-        self, networkId: str, number: str, **kwargs: Any
+        self, network_id: str, number: str, **kwargs: Any
     ) -> dict[str, Any]:
         """Update the attributes of an MX SSID.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-ssid
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             number: Number.
             name: The name of the SSID.
             enabled: Whether or not the SSID is enabled.
@@ -555,7 +572,9 @@ class ActionBatchAppliance:
             "tags": ["appliance", "configure", "ssids"],
             "operation": "update_network_appliance_ssid",
         }
-        resource = f"/networks/{networkId}/appliance/ssids/{number}"
+        network_id = urllib.parse.quote(network_id, safe="")
+        number = urllib.parse.quote(number, safe="")
+        resource = f"/networks/{network_id}/appliance/ssids/{number}"
 
         body_params = [
             "name",
@@ -575,14 +594,14 @@ class ActionBatchAppliance:
         return action
 
     def create_network_appliance_traffic_shaping_custom_performance_class(
-        self, networkId: str, name: str, **kwargs: Any
+        self, network_id: str, name: str, **kwargs: Any
     ) -> dict[str, Any]:
         """Add a custom performance class for an MX network.
 
         https://developer.cisco.com/meraki/api-v1/#!create-network-appliance-traffic-shaping-custom-performance-class
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             name: Name of the custom performance class.
             maxLatency: Maximum latency in milliseconds.
             maxJitter: Maximum jitter in milliseconds.
@@ -595,7 +614,8 @@ class ActionBatchAppliance:
             "tags": ["appliance", "configure", "trafficShaping", "customPerformanceClasses"],
             "operation": "create_network_appliance_traffic_shaping_custom_performance_class",
         }
-        resource = f"/networks/{networkId}/appliance/trafficShaping/customPerformanceClasses"
+        network_id = urllib.parse.quote(network_id, safe="")
+        resource = f"/networks/{network_id}/appliance/trafficShaping/customPerformanceClasses"
 
         body_params = [
             "name",
@@ -608,15 +628,15 @@ class ActionBatchAppliance:
         return action
 
     def update_network_appliance_traffic_shaping_custom_performance_class(
-        self, networkId: str, customPerformanceClassId: str, **kwargs: Any
+        self, network_id: str, custom_performance_class_id: str, **kwargs: Any
     ) -> dict[str, Any]:
         """Update a custom performance class for an MX network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-traffic-shaping-custom-performance-class
 
         Args:
-            networkId: Network ID.
-            customPerformanceClassId: Custom performance class ID.
+            network_id: Network ID.
+            custom_performance_class_id: Custom performance class ID.
             name: Name of the custom performance class.
             maxLatency: Maximum latency in milliseconds.
             maxJitter: Maximum jitter in milliseconds.
@@ -629,7 +649,9 @@ class ActionBatchAppliance:
             "tags": ["appliance", "configure", "trafficShaping", "customPerformanceClasses"],
             "operation": "update_network_appliance_traffic_shaping_custom_performance_class",
         }
-        resource = f"/networks/{networkId}/appliance/trafficShaping/customPerformanceClasses/{customPerformanceClassId}"
+        network_id = urllib.parse.quote(network_id, safe="")
+        custom_performance_class_id = urllib.parse.quote(custom_performance_class_id, safe="")
+        resource = f"/networks/{network_id}/appliance/trafficShaping/customPerformanceClasses/{custom_performance_class_id}"
 
         body_params = [
             "name",
@@ -642,22 +664,24 @@ class ActionBatchAppliance:
         return action
 
     def delete_network_appliance_traffic_shaping_custom_performance_class(
-        self, networkId: str, customPerformanceClassId: str
+        self, network_id: str, custom_performance_class_id: str
     ) -> dict[str, Any]:
         """Delete a custom performance class from an MX network.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-network-appliance-traffic-shaping-custom-performance-class
 
         Args:
-            networkId: Network ID.
-            customPerformanceClassId: Custom performance class ID.
+            network_id: Network ID.
+            custom_performance_class_id: Custom performance class ID.
 
         """
         metadata = {
             "tags": ["appliance", "configure", "trafficShaping", "customPerformanceClasses"],
             "operation": "delete_network_appliance_traffic_shaping_custom_performance_class",
         }
-        resource = f"/networks/{networkId}/appliance/trafficShaping/customPerformanceClasses/{customPerformanceClassId}"
+        network_id = urllib.parse.quote(network_id, safe="")
+        custom_performance_class_id = urllib.parse.quote(custom_performance_class_id, safe="")
+        resource = f"/networks/{network_id}/appliance/trafficShaping/customPerformanceClasses/{custom_performance_class_id}"
 
         action = {
             "resource": resource,
@@ -666,14 +690,14 @@ class ActionBatchAppliance:
         return action
 
     def update_network_appliance_traffic_shaping_rules(
-        self, networkId: str, **kwargs: Any
+        self, network_id: str, **kwargs: Any
     ) -> dict[str, Any]:
         """Update the traffic shaping settings rules for an MX network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-traffic-shaping-rules
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             defaultRulesEnabled: Whether default traffic shaping rules are enabled (true) or
               disabled (false). There are 4 default rules, which can be seen on your
               network's traffic shaping page. Note that default rules count against the
@@ -689,7 +713,8 @@ class ActionBatchAppliance:
             "tags": ["appliance", "configure", "trafficShaping", "rules"],
             "operation": "update_network_appliance_traffic_shaping_rules",
         }
-        resource = f"/networks/{networkId}/appliance/trafficShaping/rules"
+        network_id = urllib.parse.quote(network_id, safe="")
+        resource = f"/networks/{network_id}/appliance/trafficShaping/rules"
 
         body_params = [
             "defaultRulesEnabled",
@@ -700,14 +725,14 @@ class ActionBatchAppliance:
         return action
 
     def update_network_appliance_traffic_shaping_uplink_bandwidth(
-        self, networkId: str, **kwargs: Any
+        self, network_id: str, **kwargs: Any
     ) -> dict[str, Any]:
         """Updates the uplink bandwidth settings for your MX network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-traffic-shaping-uplink-bandwidth
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             bandwidthLimits: A mapping of uplinks to their bandwidth settings (be sure to check
               which uplinks are supported for your network).
 
@@ -718,7 +743,8 @@ class ActionBatchAppliance:
             "tags": ["appliance", "configure", "trafficShaping", "uplinkBandwidth"],
             "operation": "update_network_appliance_traffic_shaping_uplink_bandwidth",
         }
-        resource = f"/networks/{networkId}/appliance/trafficShaping/uplinkBandwidth"
+        network_id = urllib.parse.quote(network_id, safe="")
+        resource = f"/networks/{network_id}/appliance/trafficShaping/uplinkBandwidth"
 
         body_params = [
             "bandwidthLimits",
@@ -728,14 +754,14 @@ class ActionBatchAppliance:
         return action
 
     def update_network_appliance_traffic_shaping_uplink_selection(
-        self, networkId: str, **kwargs: Any
+        self, network_id: str, **kwargs: Any
     ) -> dict[str, Any]:
         """Update uplink selection settings for an MX network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-traffic-shaping-uplink-selection
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             activeActiveAutoVpnEnabled: Toggle for enabling or disabling active-active AutoVPN.
             defaultUplink: The default uplink. Must be a WAN interface 'wanX'.
             loadBalancingEnabled: Toggle for enabling or disabling load balancing.
@@ -750,7 +776,8 @@ class ActionBatchAppliance:
             "tags": ["appliance", "configure", "trafficShaping", "uplinkSelection"],
             "operation": "update_network_appliance_traffic_shaping_uplink_selection",
         }
-        resource = f"/networks/{networkId}/appliance/trafficShaping/uplinkSelection"
+        network_id = urllib.parse.quote(network_id, safe="")
+        resource = f"/networks/{network_id}/appliance/trafficShaping/uplinkSelection"
 
         body_params = [
             "activeActiveAutoVpnEnabled",
@@ -765,14 +792,14 @@ class ActionBatchAppliance:
         return action
 
     def update_network_appliance_traffic_shaping_vpn_exclusions(
-        self, networkId: str, **kwargs: Any
+        self, network_id: str, **kwargs: Any
     ) -> dict[str, Any]:
         """Update VPN exclusion rules for an MX network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-traffic-shaping-vpn-exclusions
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             custom: Custom VPN exclusion rules. Pass an empty array to clear existing rules.
             majorApplications: Major Application based VPN exclusion rules. Pass an empty array to
               clear existing rules.
@@ -784,7 +811,8 @@ class ActionBatchAppliance:
             "tags": ["appliance", "configure", "trafficShaping", "vpnExclusions"],
             "operation": "update_network_appliance_traffic_shaping_vpn_exclusions",
         }
-        resource = f"/networks/{networkId}/appliance/trafficShaping/vpnExclusions"
+        network_id = urllib.parse.quote(network_id, safe="")
+        resource = f"/networks/{network_id}/appliance/trafficShaping/vpnExclusions"
 
         body_params = [
             "custom",
@@ -795,14 +823,14 @@ class ActionBatchAppliance:
         return action
 
     def create_network_appliance_vlan(
-        self, networkId: str, id: str, name: str, **kwargs: Any
+        self, network_id: str, id: str, name: str, **kwargs: Any
     ) -> dict[str, Any]:
         """Add a VLAN.
 
         https://developer.cisco.com/meraki/api-v1/#!create-network-appliance-vlan
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             id: The VLAN ID of the new VLAN (must be between 1 and 4094).
             name: The name of the new VLAN.
             subnet: The subnet of the VLAN.
@@ -861,7 +889,8 @@ class ActionBatchAppliance:
             "tags": ["appliance", "configure", "vlans"],
             "operation": "create_network_appliance_vlan",
         }
-        resource = f"/networks/{networkId}/appliance/vlans"
+        network_id = urllib.parse.quote(network_id, safe="")
+        resource = f"/networks/{network_id}/appliance/vlans"
 
         body_params = [
             "id",
@@ -887,14 +916,14 @@ class ActionBatchAppliance:
         return action
 
     def update_network_appliance_vlans_settings(
-        self, networkId: str, **kwargs: Any
+        self, network_id: str, **kwargs: Any
     ) -> dict[str, Any]:
         """Enable/Disable VLANs for the given network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-vlans-settings
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             vlansEnabled: Boolean indicating whether to enable (true) or disable (false) VLANs for
               the network.
 
@@ -905,7 +934,8 @@ class ActionBatchAppliance:
             "tags": ["appliance", "configure", "vlans", "settings"],
             "operation": "update_network_appliance_vlans_settings",
         }
-        resource = f"/networks/{networkId}/appliance/vlans/settings"
+        network_id = urllib.parse.quote(network_id, safe="")
+        resource = f"/networks/{network_id}/appliance/vlans/settings"
 
         body_params = [
             "vlansEnabled",
@@ -915,15 +945,15 @@ class ActionBatchAppliance:
         return action
 
     def update_network_appliance_vlan(
-        self, networkId: str, vlanId: str, **kwargs: Any
+        self, network_id: str, vlan_id: str, **kwargs: Any
     ) -> dict[str, Any]:
         """Update a VLAN.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-vlan
 
         Args:
-            networkId: Network ID.
-            vlanId: Vlan ID.
+            network_id: Network ID.
+            vlan_id: Vlan ID.
             name: The name of the VLAN.
             subnet: The subnet of the VLAN.
             applianceIp: The local IP of the appliance on the VLAN.
@@ -991,7 +1021,9 @@ class ActionBatchAppliance:
             "tags": ["appliance", "configure", "vlans"],
             "operation": "update_network_appliance_vlan",
         }
-        resource = f"/networks/{networkId}/appliance/vlans/{vlanId}"
+        network_id = urllib.parse.quote(network_id, safe="")
+        vlan_id = urllib.parse.quote(vlan_id, safe="")
+        resource = f"/networks/{network_id}/appliance/vlans/{vlan_id}"
 
         body_params = [
             "name",
@@ -1019,21 +1051,23 @@ class ActionBatchAppliance:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def delete_network_appliance_vlan(self, networkId: str, vlanId: str) -> dict[str, Any]:
+    def delete_network_appliance_vlan(self, network_id: str, vlan_id: str) -> dict[str, Any]:
         """Delete a VLAN from a network.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-network-appliance-vlan
 
         Args:
-            networkId: Network ID.
-            vlanId: Vlan ID.
+            network_id: Network ID.
+            vlan_id: Vlan ID.
 
         """
         metadata = {
             "tags": ["appliance", "configure", "vlans"],
             "operation": "delete_network_appliance_vlan",
         }
-        resource = f"/networks/{networkId}/appliance/vlans/{vlanId}"
+        network_id = urllib.parse.quote(network_id, safe="")
+        vlan_id = urllib.parse.quote(vlan_id, safe="")
+        resource = f"/networks/{network_id}/appliance/vlans/{vlan_id}"
 
         action = {
             "resource": resource,
@@ -1042,14 +1076,14 @@ class ActionBatchAppliance:
         return action
 
     def update_network_appliance_vpn_bgp(
-        self, networkId: str, enabled: bool, **kwargs: Any
+        self, network_id: str, enabled: bool, **kwargs: Any
     ) -> dict[str, Any]:
         """Update a Hub BGP Configuration.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-vpn-bgp
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             enabled: Boolean value to enable or disable the BGP configuration. When BGP is enabled,
               the asNumber (ASN) will be autopopulated with the preconfigured ASN at
               other Hubs or a default value if there is no ASN configured.
@@ -1072,7 +1106,8 @@ class ActionBatchAppliance:
             "tags": ["appliance", "configure", "vpn", "bgp"],
             "operation": "update_network_appliance_vpn_bgp",
         }
-        resource = f"/networks/{networkId}/appliance/vpn/bgp"
+        network_id = urllib.parse.quote(network_id, safe="")
+        resource = f"/networks/{network_id}/appliance/vpn/bgp"
 
         body_params = [
             "enabled",
@@ -1085,14 +1120,14 @@ class ActionBatchAppliance:
         return action
 
     def update_network_appliance_vpn_site_to_site_vpn(
-        self, networkId: str, mode: str, **kwargs: Any
+        self, network_id: str, mode: str, **kwargs: Any
     ) -> dict[str, Any]:
         """Update the site-to-site VPN settings of a network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-vpn-site-to-site-vpn
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             mode: The site-to-site VPN mode. Can be one of 'none', 'spoke' or 'hub'.
             hubs: The list of VPN hubs, in order of preference. In spoke mode, at least 1 hub is
               required.
@@ -1112,7 +1147,8 @@ class ActionBatchAppliance:
             "tags": ["appliance", "configure", "vpn", "siteToSiteVpn"],
             "operation": "update_network_appliance_vpn_site_to_site_vpn",
         }
-        resource = f"/networks/{networkId}/appliance/vpn/siteToSiteVpn"
+        network_id = urllib.parse.quote(network_id, safe="")
+        resource = f"/networks/{network_id}/appliance/vpn/siteToSiteVpn"
 
         body_params = [
             "mode",
@@ -1125,14 +1161,14 @@ class ActionBatchAppliance:
         return action
 
     def update_network_appliance_warm_spare(
-        self, networkId: str, enabled: bool, **kwargs: Any
+        self, network_id: str, enabled: bool, **kwargs: Any
     ) -> dict[str, Any]:
         """Update MX warm spare settings.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-warm-spare
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
             enabled: Enable warm spare.
             spareSerial: Serial number of the warm spare appliance.
             uplinkMode: Uplink mode, either virtual or public.
@@ -1146,7 +1182,8 @@ class ActionBatchAppliance:
             "tags": ["appliance", "configure", "warmSpare"],
             "operation": "update_network_appliance_warm_spare",
         }
-        resource = f"/networks/{networkId}/appliance/warmSpare"
+        network_id = urllib.parse.quote(network_id, safe="")
+        resource = f"/networks/{network_id}/appliance/warmSpare"
 
         body_params = [
             "enabled",
@@ -1159,20 +1196,21 @@ class ActionBatchAppliance:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def swap_network_appliance_warm_spare(self, networkId: str) -> dict[str, Any]:
+    def swap_network_appliance_warm_spare(self, network_id: str) -> dict[str, Any]:
         """Swap MX primary and warm spare appliances.
 
         https://developer.cisco.com/meraki/api-v1/#!swap-network-appliance-warm-spare
 
         Args:
-            networkId: Network ID.
+            network_id: Network ID.
 
         """
         metadata = {
             "tags": ["appliance", "configure", "warmSpare"],
             "operation": "swap_network_appliance_warm_spare",
         }
-        resource = f"/networks/{networkId}/appliance/warmSpare/swap"
+        network_id = urllib.parse.quote(network_id, safe="")
+        resource = f"/networks/{network_id}/appliance/warmSpare/swap"
 
         action = {
             "resource": resource,
@@ -1181,14 +1219,14 @@ class ActionBatchAppliance:
         return action
 
     def create_organization_appliance_dns_local_profile(
-        self, organizationId: str, name: str
+        self, organization_id: str, name: str
     ) -> dict[str, Any]:
         """Create a new local DNS profile.
 
         https://developer.cisco.com/meraki/api-v1/#!create-organization-appliance-dns-local-profile
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             name: Name of profile.
 
         """
@@ -1198,7 +1236,8 @@ class ActionBatchAppliance:
             "tags": ["appliance", "configure", "dns", "local", "profiles"],
             "operation": "create_organization_appliance_dns_local_profile",
         }
-        resource = f"/organizations/{organizationId}/appliance/dns/local/profiles"
+        organization_id = urllib.parse.quote(organization_id, safe="")
+        resource = f"/organizations/{organization_id}/appliance/dns/local/profiles"
 
         body_params = [
             "name",
@@ -1208,14 +1247,14 @@ class ActionBatchAppliance:
         return action
 
     def bulk_organization_appliance_dns_local_profiles_assignments_create(
-        self, organizationId: str, items: list
+        self, organization_id: str, items: list
     ) -> dict[str, Any]:
         """Assign the local DNS profile to networks in the organization.
 
         https://developer.cisco.com/meraki/api-v1/#!bulk-organization-appliance-dns-local-profiles-assignments-create
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             items: List containing the network ID and Profile ID.
 
         """
@@ -1225,8 +1264,9 @@ class ActionBatchAppliance:
             "tags": ["appliance", "configure", "dns", "local", "profiles", "assignments"],
             "operation": "bulk_organization_appliance_dns_local_profiles_assignments_create",
         }
+        organization_id = urllib.parse.quote(organization_id, safe="")
         resource = (
-            f"/organizations/{organizationId}/appliance/dns/local/profiles/assignments/bulkCreate"
+            f"/organizations/{organization_id}/appliance/dns/local/profiles/assignments/bulkCreate"
         )
 
         body_params = [
@@ -1237,14 +1277,14 @@ class ActionBatchAppliance:
         return action
 
     def create_organization_appliance_dns_local_profiles_assignments_bulk_delete(
-        self, organizationId: str, items: list
+        self, organization_id: str, items: list
     ) -> dict[str, Any]:
         """Unassign the local DNS profile to networks in the organization.
 
         https://developer.cisco.com/meraki/api-v1/#!create-organization-appliance-dns-local-profiles-assignments-bulk-delete
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             items: List containing the assignment ID.
 
         """
@@ -1262,8 +1302,9 @@ class ActionBatchAppliance:
             ],
             "operation": "create_organization_appliance_dns_local_profiles_assignments_bulk_delete",
         }
+        organization_id = urllib.parse.quote(organization_id, safe="")
         resource = (
-            f"/organizations/{organizationId}/appliance/dns/local/profiles/assignments/bulkDelete"
+            f"/organizations/{organization_id}/appliance/dns/local/profiles/assignments/bulkDelete"
         )
 
         body_params = [
@@ -1274,15 +1315,15 @@ class ActionBatchAppliance:
         return action
 
     def update_organization_appliance_dns_local_profile(
-        self, organizationId: str, profileId: str, name: str
+        self, organization_id: str, profile_id: str, name: str
     ) -> dict[str, Any]:
         """Update a local DNS profile.
 
         https://developer.cisco.com/meraki/api-v1/#!update-organization-appliance-dns-local-profile
 
         Args:
-            organizationId: Organization ID.
-            profileId: Profile ID.
+            organization_id: Organization ID.
+            profile_id: Profile ID.
             name: Name of profile.
 
         """
@@ -1292,7 +1333,9 @@ class ActionBatchAppliance:
             "tags": ["appliance", "configure", "dns", "local", "profiles"],
             "operation": "update_organization_appliance_dns_local_profile",
         }
-        resource = f"/organizations/{organizationId}/appliance/dns/local/profiles/{profileId}"
+        organization_id = urllib.parse.quote(organization_id, safe="")
+        profile_id = urllib.parse.quote(profile_id, safe="")
+        resource = f"/organizations/{organization_id}/appliance/dns/local/profiles/{profile_id}"
 
         body_params = [
             "name",
@@ -1302,22 +1345,24 @@ class ActionBatchAppliance:
         return action
 
     def delete_organization_appliance_dns_local_profile(
-        self, organizationId: str, profileId: str
+        self, organization_id: str, profile_id: str
     ) -> dict[str, Any]:
         """Deletes a local DNS profile.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-appliance-dns-local-profile
 
         Args:
-            organizationId: Organization ID.
-            profileId: Profile ID.
+            organization_id: Organization ID.
+            profile_id: Profile ID.
 
         """
         metadata = {
             "tags": ["appliance", "configure", "dns", "local", "profiles"],
             "operation": "delete_organization_appliance_dns_local_profile",
         }
-        resource = f"/organizations/{organizationId}/appliance/dns/local/profiles/{profileId}"
+        organization_id = urllib.parse.quote(organization_id, safe="")
+        profile_id = urllib.parse.quote(profile_id, safe="")
+        resource = f"/organizations/{organization_id}/appliance/dns/local/profiles/{profile_id}"
 
         action = {
             "resource": resource,
@@ -1326,14 +1371,14 @@ class ActionBatchAppliance:
         return action
 
     def create_organization_appliance_dns_local_record(
-        self, organizationId: str, hostname: str, address: str, profile: dict
+        self, organization_id: str, hostname: str, address: str, profile: dict
     ) -> dict[str, Any]:
         """Create a new local DNS record.
 
         https://developer.cisco.com/meraki/api-v1/#!create-organization-appliance-dns-local-record
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             hostname: Hostname for the DNS record.
             address: IP for the DNS record.
             profile: The profile the DNS record is associated with.
@@ -1345,7 +1390,8 @@ class ActionBatchAppliance:
             "tags": ["appliance", "configure", "dns", "local", "records"],
             "operation": "create_organization_appliance_dns_local_record",
         }
-        resource = f"/organizations/{organizationId}/appliance/dns/local/records"
+        organization_id = urllib.parse.quote(organization_id, safe="")
+        resource = f"/organizations/{organization_id}/appliance/dns/local/records"
 
         body_params = [
             "hostname",
@@ -1357,15 +1403,15 @@ class ActionBatchAppliance:
         return action
 
     def update_organization_appliance_dns_local_record(
-        self, organizationId: str, recordId: str, **kwargs: Any
+        self, organization_id: str, record_id: str, **kwargs: Any
     ) -> dict[str, Any]:
         """Updates a local DNS record.
 
         https://developer.cisco.com/meraki/api-v1/#!update-organization-appliance-dns-local-record
 
         Args:
-            organizationId: Organization ID.
-            recordId: Record ID.
+            organization_id: Organization ID.
+            record_id: Record ID.
             hostname: Hostname for the DNS record.
             address: IP for the DNS record.
             profile: The profile the DNS record is associated with.
@@ -1377,7 +1423,9 @@ class ActionBatchAppliance:
             "tags": ["appliance", "configure", "dns", "local", "records"],
             "operation": "update_organization_appliance_dns_local_record",
         }
-        resource = f"/organizations/{organizationId}/appliance/dns/local/records/{recordId}"
+        organization_id = urllib.parse.quote(organization_id, safe="")
+        record_id = urllib.parse.quote(record_id, safe="")
+        resource = f"/organizations/{organization_id}/appliance/dns/local/records/{record_id}"
 
         body_params = [
             "hostname",
@@ -1389,22 +1437,24 @@ class ActionBatchAppliance:
         return action
 
     def delete_organization_appliance_dns_local_record(
-        self, organizationId: str, recordId: str
+        self, organization_id: str, record_id: str
     ) -> dict[str, Any]:
         """Deletes a local DNS record.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-appliance-dns-local-record
 
         Args:
-            organizationId: Organization ID.
-            recordId: Record ID.
+            organization_id: Organization ID.
+            record_id: Record ID.
 
         """
         metadata = {
             "tags": ["appliance", "configure", "dns", "local", "records"],
             "operation": "delete_organization_appliance_dns_local_record",
         }
-        resource = f"/organizations/{organizationId}/appliance/dns/local/records/{recordId}"
+        organization_id = urllib.parse.quote(organization_id, safe="")
+        record_id = urllib.parse.quote(record_id, safe="")
+        resource = f"/organizations/{organization_id}/appliance/dns/local/records/{record_id}"
 
         action = {
             "resource": resource,
@@ -1413,14 +1463,14 @@ class ActionBatchAppliance:
         return action
 
     def create_organization_appliance_dns_split_profile(
-        self, organizationId: str, name: str, hostnames: list, nameservers: dict
+        self, organization_id: str, name: str, hostnames: list, nameservers: dict
     ) -> dict[str, Any]:
         """Create a new split DNS profile.
 
         https://developer.cisco.com/meraki/api-v1/#!create-organization-appliance-dns-split-profile
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             name: Name of profile.
             hostnames: The hostname patterns to match for redirection. For more information on Split
               DNS hostname pattern formatting, please consult the Split DNS KB.
@@ -1433,7 +1483,8 @@ class ActionBatchAppliance:
             "tags": ["appliance", "configure", "dns", "split", "profiles"],
             "operation": "create_organization_appliance_dns_split_profile",
         }
-        resource = f"/organizations/{organizationId}/appliance/dns/split/profiles"
+        organization_id = urllib.parse.quote(organization_id, safe="")
+        resource = f"/organizations/{organization_id}/appliance/dns/split/profiles"
 
         body_params = [
             "name",
@@ -1445,14 +1496,14 @@ class ActionBatchAppliance:
         return action
 
     def create_organization_appliance_dns_split_profiles_assignments_bulk_create(
-        self, organizationId: str, items: list
+        self, organization_id: str, items: list
     ) -> dict[str, Any]:
         """Assign the split DNS profile to networks in the organization.
 
         https://developer.cisco.com/meraki/api-v1/#!create-organization-appliance-dns-split-profiles-assignments-bulk-create
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             items: List containing the network ID and Profile ID.
 
         """
@@ -1470,8 +1521,9 @@ class ActionBatchAppliance:
             ],
             "operation": "create_organization_appliance_dns_split_profiles_assignments_bulk_create",
         }
+        organization_id = urllib.parse.quote(organization_id, safe="")
         resource = (
-            f"/organizations/{organizationId}/appliance/dns/split/profiles/assignments/bulkCreate"
+            f"/organizations/{organization_id}/appliance/dns/split/profiles/assignments/bulkCreate"
         )
 
         body_params = [
@@ -1482,14 +1534,14 @@ class ActionBatchAppliance:
         return action
 
     def create_organization_appliance_dns_split_profiles_assignments_bulk_delete(
-        self, organizationId: str, items: list
+        self, organization_id: str, items: list
     ) -> dict[str, Any]:
         """Unassign the split DNS profile to networks in the organization.
 
         https://developer.cisco.com/meraki/api-v1/#!create-organization-appliance-dns-split-profiles-assignments-bulk-delete
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             items: List containing the assignment ID.
 
         """
@@ -1507,8 +1559,9 @@ class ActionBatchAppliance:
             ],
             "operation": "create_organization_appliance_dns_split_profiles_assignments_bulk_delete",
         }
+        organization_id = urllib.parse.quote(organization_id, safe="")
         resource = (
-            f"/organizations/{organizationId}/appliance/dns/split/profiles/assignments/bulkDelete"
+            f"/organizations/{organization_id}/appliance/dns/split/profiles/assignments/bulkDelete"
         )
 
         body_params = [
@@ -1519,15 +1572,15 @@ class ActionBatchAppliance:
         return action
 
     def update_organization_appliance_dns_split_profile(
-        self, organizationId: str, profileId: str, **kwargs: Any
+        self, organization_id: str, profile_id: str, **kwargs: Any
     ) -> dict[str, Any]:
         """Update a split DNS profile.
 
         https://developer.cisco.com/meraki/api-v1/#!update-organization-appliance-dns-split-profile
 
         Args:
-            organizationId: Organization ID.
-            profileId: Profile ID.
+            organization_id: Organization ID.
+            profile_id: Profile ID.
             name: Name of profile.
             hostnames: The hostname patterns to match for redirection. For more information on Split
               DNS hostname pattern formatting, please consult the Split DNS KB.
@@ -1540,7 +1593,9 @@ class ActionBatchAppliance:
             "tags": ["appliance", "configure", "dns", "split", "profiles"],
             "operation": "update_organization_appliance_dns_split_profile",
         }
-        resource = f"/organizations/{organizationId}/appliance/dns/split/profiles/{profileId}"
+        organization_id = urllib.parse.quote(organization_id, safe="")
+        profile_id = urllib.parse.quote(profile_id, safe="")
+        resource = f"/organizations/{organization_id}/appliance/dns/split/profiles/{profile_id}"
 
         body_params = [
             "name",
@@ -1552,22 +1607,24 @@ class ActionBatchAppliance:
         return action
 
     def delete_organization_appliance_dns_split_profile(
-        self, organizationId: str, profileId: str
+        self, organization_id: str, profile_id: str
     ) -> dict[str, Any]:
         """Deletes a split DNS profile.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-appliance-dns-split-profile
 
         Args:
-            organizationId: Organization ID.
-            profileId: Profile ID.
+            organization_id: Organization ID.
+            profile_id: Profile ID.
 
         """
         metadata = {
             "tags": ["appliance", "configure", "dns", "split", "profiles"],
             "operation": "delete_organization_appliance_dns_split_profile",
         }
-        resource = f"/organizations/{organizationId}/appliance/dns/split/profiles/{profileId}"
+        organization_id = urllib.parse.quote(organization_id, safe="")
+        profile_id = urllib.parse.quote(profile_id, safe="")
+        resource = f"/organizations/{organization_id}/appliance/dns/split/profiles/{profile_id}"
 
         action = {
             "resource": resource,
@@ -1576,14 +1633,14 @@ class ActionBatchAppliance:
         return action
 
     def update_organization_appliance_vpn_site_to_site_ipsec_peers_slas(
-        self, organizationId: str, **kwargs: Any
+        self, organization_id: str, **kwargs: Any
     ) -> dict[str, Any]:
         """Update the IPsec SLA policies for an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!update-organization-appliance-vpn-site-to-site-ipsec-peers-slas
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             items: List of IPsec SLA policies.
 
         """
@@ -1593,7 +1650,8 @@ class ActionBatchAppliance:
             "tags": ["appliance", "configure", "vpn", "siteToSite", "ipsec", "peers", "slas"],
             "operation": "update_organization_appliance_vpn_site_to_site_ipsec_peers_slas",
         }
-        resource = f"/organizations/{organizationId}/appliance/vpn/siteToSite/ipsec/peers/slas"
+        organization_id = urllib.parse.quote(organization_id, safe="")
+        resource = f"/organizations/{organization_id}/appliance/vpn/siteToSite/ipsec/peers/slas"
 
         body_params = [
             "items",
@@ -1603,14 +1661,14 @@ class ActionBatchAppliance:
         return action
 
     def update_organization_appliance_vpn_third_party_v_p_n_peers(
-        self, organizationId: str, peers: list
+        self, organization_id: str, peers: list
     ) -> dict[str, Any]:
         """Update the third party VPN peers for an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!update-organization-appliance-vpn-third-party-v-p-n-peers
 
         Args:
-            organizationId: Organization ID.
+            organization_id: Organization ID.
             peers: The list of VPN peers.
 
         """
@@ -1620,7 +1678,8 @@ class ActionBatchAppliance:
             "tags": ["appliance", "configure", "vpn", "thirdPartyVPNPeers"],
             "operation": "update_organization_appliance_vpn_third_party_v_p_n_peers",
         }
-        resource = f"/organizations/{organizationId}/appliance/vpn/thirdPartyVPNPeers"
+        organization_id = urllib.parse.quote(organization_id, safe="")
+        resource = f"/organizations/{organization_id}/appliance/vpn/thirdPartyVPNPeers"
 
         body_params = [
             "peers",
