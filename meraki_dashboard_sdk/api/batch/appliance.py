@@ -7,9 +7,9 @@ class ActionBatchAppliance:
     def __init__(self) -> None:
         pass
 
-    def updateDeviceApplianceRadioSettings(self, serial: str, **kwargs):
+    def update_device_appliance_radio_settings(self, serial: str, **kwargs):
         """
-        **Update the radio settings of an appliance**
+        **Update the radio settings of an appliance.**
         https://developer.cisco.com/meraki/api-v1/#!update-device-appliance-radio-settings
 
         - serial (string): Serial
@@ -22,7 +22,7 @@ class ActionBatchAppliance:
 
         metadata = {
             "tags": ["appliance", "configure", "radio", "settings"],
-            "operation": "updateDeviceApplianceRadioSettings",
+            "operation": "update_device_appliance_radio_settings",
         }
         resource = f"/devices/{serial}/appliance/radio/settings"
 
@@ -35,9 +35,9 @@ class ActionBatchAppliance:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def updateDeviceApplianceUplinksSettings(self, serial: str, interfaces: dict):
+    def update_device_appliance_uplinks_settings(self, serial: str, interfaces: dict):
         """
-        **Update the uplink settings for an MX appliance**
+        **Update the uplink settings for an MX appliance.**
         https://developer.cisco.com/meraki/api-v1/#!update-device-appliance-uplinks-settings
 
         - serial (string): Serial
@@ -48,7 +48,7 @@ class ActionBatchAppliance:
 
         metadata = {
             "tags": ["appliance", "configure", "uplinks", "settings"],
-            "operation": "updateDeviceApplianceUplinksSettings",
+            "operation": "update_device_appliance_uplinks_settings",
         }
         resource = f"/devices/{serial}/appliance/uplinks/settings"
 
@@ -59,9 +59,9 @@ class ActionBatchAppliance:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def createDeviceApplianceVmxAuthenticationToken(self, serial: str):
+    def create_device_appliance_vmx_authentication_token(self, serial: str):
         """
-        **Generate a new vMX authentication token**
+        **Generate a new vMX authentication token.**
         https://developer.cisco.com/meraki/api-v1/#!create-device-appliance-vmx-authentication-token
 
         - serial (string): Serial
@@ -69,7 +69,7 @@ class ActionBatchAppliance:
 
         metadata = {
             "tags": ["appliance", "configure", "vmx", "authenticationToken"],
-            "operation": "createDeviceApplianceVmxAuthenticationToken",
+            "operation": "create_device_appliance_vmx_authentication_token",
         }
         resource = f"/devices/{serial}/appliance/vmx/authenticationToken"
 
@@ -79,9 +79,11 @@ class ActionBatchAppliance:
         }
         return action
 
-    def updateNetworkApplianceConnectivityMonitoringDestinations(self, networkId: str, **kwargs):
+    def update_network_appliance_connectivity_monitoring_destinations(
+        self, networkId: str, **kwargs
+    ):
         """
-        **Update the connectivity testing destinations for an MX network**
+        **Update the connectivity testing destinations for an MX network.**
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-connectivity-monitoring-destinations
 
         - networkId (string): Network ID
@@ -92,7 +94,7 @@ class ActionBatchAppliance:
 
         metadata = {
             "tags": ["appliance", "configure", "connectivityMonitoringDestinations"],
-            "operation": "updateNetworkApplianceConnectivityMonitoringDestinations",
+            "operation": "update_network_appliance_connectivity_monitoring_destinations",
         }
         resource = f"/networks/{networkId}/appliance/connectivityMonitoringDestinations"
 
@@ -103,9 +105,9 @@ class ActionBatchAppliance:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def updateNetworkApplianceFirewallL7FirewallRules(self, networkId: str, **kwargs):
+    def update_network_appliance_firewall_l7_firewall_rules(self, networkId: str, **kwargs):
         """
-        **Update the MX L7 firewall rules for an MX network**
+        **Update the MX L7 firewall rules for an MX network.**
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-firewall-l-7-firewall-rules
 
         - networkId (string): Network ID
@@ -116,7 +118,7 @@ class ActionBatchAppliance:
 
         metadata = {
             "tags": ["appliance", "configure", "firewall", "l7FirewallRules"],
-            "operation": "updateNetworkApplianceFirewallL7FirewallRules",
+            "operation": "update_network_appliance_firewall_l7_firewall_rules",
         }
         resource = f"/networks/{networkId}/appliance/firewall/l7FirewallRules"
 
@@ -127,9 +129,9 @@ class ActionBatchAppliance:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def updateNetworkApplianceFirewallMulticastForwarding(self, networkId: str, rules: list):
+    def update_network_appliance_firewall_multicast_forwarding(self, networkId: str, rules: list):
         """
-        **Update static multicast forward rules for a network**
+        **Update static multicast forward rules for a network.**
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-firewall-multicast-forwarding
 
         - networkId (string): Network ID
@@ -140,7 +142,7 @@ class ActionBatchAppliance:
 
         metadata = {
             "tags": ["appliance", "configure", "firewall", "multicastForwarding"],
-            "operation": "updateNetworkApplianceFirewallMulticastForwarding",
+            "operation": "update_network_appliance_firewall_multicast_forwarding",
         }
         resource = f"/networks/{networkId}/appliance/firewall/multicastForwarding"
 
@@ -151,7 +153,7 @@ class ActionBatchAppliance:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def updateNetworkAppliancePort(self, networkId: str, portId: str, **kwargs):
+    def update_network_appliance_port(self, networkId: str, portId: str, **kwargs):
         """
         **Update the per-port VLAN settings for a single MX port.**
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-port
@@ -170,7 +172,7 @@ class ActionBatchAppliance:
 
         metadata = {
             "tags": ["appliance", "configure", "ports"],
-            "operation": "updateNetworkAppliancePort",
+            "operation": "update_network_appliance_port",
         }
         resource = f"/networks/{networkId}/appliance/ports/{portId}"
 
@@ -186,11 +188,11 @@ class ActionBatchAppliance:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def createNetworkAppliancePrefixesDelegatedStatic(
+    def create_network_appliance_prefixes_delegated_static(
         self, networkId: str, prefix: str, origin: dict, **kwargs
     ):
         """
-        **Add a static delegated prefix from a network**
+        **Add a static delegated prefix from a network.**
         https://developer.cisco.com/meraki/api-v1/#!create-network-appliance-prefixes-delegated-static
 
         - networkId (string): Network ID
@@ -203,7 +205,7 @@ class ActionBatchAppliance:
 
         metadata = {
             "tags": ["appliance", "configure", "prefixes", "delegated", "statics"],
-            "operation": "createNetworkAppliancePrefixesDelegatedStatic",
+            "operation": "create_network_appliance_prefixes_delegated_static",
         }
         resource = f"/networks/{networkId}/appliance/prefixes/delegated/statics"
 
@@ -216,11 +218,11 @@ class ActionBatchAppliance:
         action = {"resource": resource, "operation": "create", "body": payload}
         return action
 
-    def updateNetworkAppliancePrefixesDelegatedStatic(
+    def update_network_appliance_prefixes_delegated_static(
         self, networkId: str, staticDelegatedPrefixId: str, **kwargs
     ):
         """
-        **Update a static delegated prefix from a network**
+        **Update a static delegated prefix from a network.**
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-prefixes-delegated-static
 
         - networkId (string): Network ID
@@ -234,7 +236,7 @@ class ActionBatchAppliance:
 
         metadata = {
             "tags": ["appliance", "configure", "prefixes", "delegated", "statics"],
-            "operation": "updateNetworkAppliancePrefixesDelegatedStatic",
+            "operation": "update_network_appliance_prefixes_delegated_static",
         }
         resource = (
             f"/networks/{networkId}/appliance/prefixes/delegated/statics/{staticDelegatedPrefixId}"
@@ -249,11 +251,11 @@ class ActionBatchAppliance:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def deleteNetworkAppliancePrefixesDelegatedStatic(
+    def delete_network_appliance_prefixes_delegated_static(
         self, networkId: str, staticDelegatedPrefixId: str
     ):
         """
-        **Delete a static delegated prefix from a network**
+        **Delete a static delegated prefix from a network.**
         https://developer.cisco.com/meraki/api-v1/#!delete-network-appliance-prefixes-delegated-static
 
         - networkId (string): Network ID
@@ -262,7 +264,7 @@ class ActionBatchAppliance:
 
         metadata = {
             "tags": ["appliance", "configure", "prefixes", "delegated", "statics"],
-            "operation": "deleteNetworkAppliancePrefixesDelegatedStatic",
+            "operation": "delete_network_appliance_prefixes_delegated_static",
         }
         resource = (
             f"/networks/{networkId}/appliance/prefixes/delegated/statics/{staticDelegatedPrefixId}"
@@ -274,9 +276,9 @@ class ActionBatchAppliance:
         }
         return action
 
-    def createNetworkApplianceRfProfile(self, networkId: str, name: str, **kwargs):
+    def create_network_appliance_rf_profile(self, networkId: str, name: str, **kwargs):
         """
-        **Creates new RF profile for this network**
+        **Creates new RF profile for this network.**
         https://developer.cisco.com/meraki/api-v1/#!create-network-appliance-rf-profile
 
         - networkId (string): Network ID
@@ -290,7 +292,7 @@ class ActionBatchAppliance:
 
         metadata = {
             "tags": ["appliance", "configure", "rfProfiles"],
-            "operation": "createNetworkApplianceRfProfile",
+            "operation": "create_network_appliance_rf_profile",
         }
         resource = f"/networks/{networkId}/appliance/rfProfiles"
 
@@ -304,9 +306,9 @@ class ActionBatchAppliance:
         action = {"resource": resource, "operation": "create", "body": payload}
         return action
 
-    def updateNetworkApplianceRfProfile(self, networkId: str, rfProfileId: str, **kwargs):
+    def update_network_appliance_rf_profile(self, networkId: str, rfProfileId: str, **kwargs):
         """
-        **Updates specified RF profile for this network**
+        **Updates specified RF profile for this network.**
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-rf-profile
 
         - networkId (string): Network ID
@@ -321,7 +323,7 @@ class ActionBatchAppliance:
 
         metadata = {
             "tags": ["appliance", "configure", "rfProfiles"],
-            "operation": "updateNetworkApplianceRfProfile",
+            "operation": "update_network_appliance_rf_profile",
         }
         resource = f"/networks/{networkId}/appliance/rfProfiles/{rfProfileId}"
 
@@ -335,9 +337,9 @@ class ActionBatchAppliance:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def deleteNetworkApplianceRfProfile(self, networkId: str, rfProfileId: str):
+    def delete_network_appliance_rf_profile(self, networkId: str, rfProfileId: str):
         """
-        **Delete a RF Profile**
+        **Delete a RF Profile.**
         https://developer.cisco.com/meraki/api-v1/#!delete-network-appliance-rf-profile
 
         - networkId (string): Network ID
@@ -346,7 +348,7 @@ class ActionBatchAppliance:
 
         metadata = {
             "tags": ["appliance", "configure", "rfProfiles"],
-            "operation": "deleteNetworkApplianceRfProfile",
+            "operation": "delete_network_appliance_rf_profile",
         }
         resource = f"/networks/{networkId}/appliance/rfProfiles/{rfProfileId}"
 
@@ -356,9 +358,9 @@ class ActionBatchAppliance:
         }
         return action
 
-    def updateNetworkApplianceSdwanInternetPolicies(self, networkId: str, **kwargs):
+    def update_network_appliance_sdwan_internet_policies(self, networkId: str, **kwargs):
         """
-        **Update SDWAN internet traffic preferences for an MX network**
+        **Update SDWAN internet traffic preferences for an MX network.**
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-sdwan-internet-policies
 
         - networkId (string): Network ID
@@ -369,7 +371,7 @@ class ActionBatchAppliance:
 
         metadata = {
             "tags": ["appliance", "configure", "sdwan", "internetPolicies"],
-            "operation": "updateNetworkApplianceSdwanInternetPolicies",
+            "operation": "update_network_appliance_sdwan_internet_policies",
         }
         resource = f"/networks/{networkId}/appliance/sdwan/internetPolicies"
 
@@ -380,9 +382,9 @@ class ActionBatchAppliance:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def updateNetworkApplianceSettings(self, networkId: str, **kwargs):
+    def update_network_appliance_settings(self, networkId: str, **kwargs):
         """
-        **Update the appliance settings for a network**
+        **Update the appliance settings for a network.**
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-settings
 
         - networkId (string): Network ID
@@ -406,7 +408,7 @@ class ActionBatchAppliance:
 
         metadata = {
             "tags": ["appliance", "configure", "settings"],
-            "operation": "updateNetworkApplianceSettings",
+            "operation": "update_network_appliance_settings",
         }
         resource = f"/networks/{networkId}/appliance/settings"
 
@@ -419,9 +421,9 @@ class ActionBatchAppliance:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def updateNetworkApplianceSingleLan(self, networkId: str, **kwargs):
+    def update_network_appliance_single_lan(self, networkId: str, **kwargs):
         """
-        **Update single LAN configuration**
+        **Update single LAN configuration.**
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-single-lan
 
         - networkId (string): Network ID
@@ -435,7 +437,7 @@ class ActionBatchAppliance:
 
         metadata = {
             "tags": ["appliance", "configure", "singleLan"],
-            "operation": "updateNetworkApplianceSingleLan",
+            "operation": "update_network_appliance_single_lan",
         }
         resource = f"/networks/{networkId}/appliance/singleLan"
 
@@ -449,9 +451,9 @@ class ActionBatchAppliance:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def updateNetworkApplianceSsid(self, networkId: str, number: str, **kwargs):
+    def update_network_appliance_ssid(self, networkId: str, number: str, **kwargs):
         """
-        **Update the attributes of an MX SSID**
+        **Update the attributes of an MX SSID.**
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-ssid
 
         - networkId (string): Network ID
@@ -489,7 +491,7 @@ class ActionBatchAppliance:
 
         metadata = {
             "tags": ["appliance", "configure", "ssids"],
-            "operation": "updateNetworkApplianceSsid",
+            "operation": "update_network_appliance_ssid",
         }
         resource = f"/networks/{networkId}/appliance/ssids/{number}"
 
@@ -510,11 +512,11 @@ class ActionBatchAppliance:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def createNetworkApplianceTrafficShapingCustomPerformanceClass(
+    def create_network_appliance_traffic_shaping_custom_performance_class(
         self, networkId: str, name: str, **kwargs
     ):
         """
-        **Add a custom performance class for an MX network**
+        **Add a custom performance class for an MX network.**
         https://developer.cisco.com/meraki/api-v1/#!create-network-appliance-traffic-shaping-custom-performance-class
 
         - networkId (string): Network ID
@@ -528,7 +530,7 @@ class ActionBatchAppliance:
 
         metadata = {
             "tags": ["appliance", "configure", "trafficShaping", "customPerformanceClasses"],
-            "operation": "createNetworkApplianceTrafficShapingCustomPerformanceClass",
+            "operation": "create_network_appliance_traffic_shaping_custom_performance_class",
         }
         resource = f"/networks/{networkId}/appliance/trafficShaping/customPerformanceClasses"
 
@@ -542,11 +544,11 @@ class ActionBatchAppliance:
         action = {"resource": resource, "operation": "create", "body": payload}
         return action
 
-    def updateNetworkApplianceTrafficShapingCustomPerformanceClass(
+    def update_network_appliance_traffic_shaping_custom_performance_class(
         self, networkId: str, customPerformanceClassId: str, **kwargs
     ):
         """
-        **Update a custom performance class for an MX network**
+        **Update a custom performance class for an MX network.**
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-traffic-shaping-custom-performance-class
 
         - networkId (string): Network ID
@@ -561,7 +563,7 @@ class ActionBatchAppliance:
 
         metadata = {
             "tags": ["appliance", "configure", "trafficShaping", "customPerformanceClasses"],
-            "operation": "updateNetworkApplianceTrafficShapingCustomPerformanceClass",
+            "operation": "update_network_appliance_traffic_shaping_custom_performance_class",
         }
         resource = f"/networks/{networkId}/appliance/trafficShaping/customPerformanceClasses/{customPerformanceClassId}"
 
@@ -575,11 +577,11 @@ class ActionBatchAppliance:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def deleteNetworkApplianceTrafficShapingCustomPerformanceClass(
+    def delete_network_appliance_traffic_shaping_custom_performance_class(
         self, networkId: str, customPerformanceClassId: str
     ):
         """
-        **Delete a custom performance class from an MX network**
+        **Delete a custom performance class from an MX network.**
         https://developer.cisco.com/meraki/api-v1/#!delete-network-appliance-traffic-shaping-custom-performance-class
 
         - networkId (string): Network ID
@@ -588,7 +590,7 @@ class ActionBatchAppliance:
 
         metadata = {
             "tags": ["appliance", "configure", "trafficShaping", "customPerformanceClasses"],
-            "operation": "deleteNetworkApplianceTrafficShapingCustomPerformanceClass",
+            "operation": "delete_network_appliance_traffic_shaping_custom_performance_class",
         }
         resource = f"/networks/{networkId}/appliance/trafficShaping/customPerformanceClasses/{customPerformanceClassId}"
 
@@ -598,9 +600,9 @@ class ActionBatchAppliance:
         }
         return action
 
-    def updateNetworkApplianceTrafficShapingRules(self, networkId: str, **kwargs):
+    def update_network_appliance_traffic_shaping_rules(self, networkId: str, **kwargs):
         """
-            **Update the traffic shaping settings rules for an MX network**
+            **Update the traffic shaping settings rules for an MX network.**
             https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-traffic-shaping-rules
 
             - networkId (string): Network ID
@@ -615,7 +617,7 @@ class ActionBatchAppliance:
 
         metadata = {
             "tags": ["appliance", "configure", "trafficShaping", "rules"],
-            "operation": "updateNetworkApplianceTrafficShapingRules",
+            "operation": "update_network_appliance_traffic_shaping_rules",
         }
         resource = f"/networks/{networkId}/appliance/trafficShaping/rules"
 
@@ -627,7 +629,7 @@ class ActionBatchAppliance:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def updateNetworkApplianceTrafficShapingUplinkBandwidth(self, networkId: str, **kwargs):
+    def update_network_appliance_traffic_shaping_uplink_bandwidth(self, networkId: str, **kwargs):
         """
         **Updates the uplink bandwidth settings for your MX network.**
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-traffic-shaping-uplink-bandwidth
@@ -640,7 +642,7 @@ class ActionBatchAppliance:
 
         metadata = {
             "tags": ["appliance", "configure", "trafficShaping", "uplinkBandwidth"],
-            "operation": "updateNetworkApplianceTrafficShapingUplinkBandwidth",
+            "operation": "update_network_appliance_traffic_shaping_uplink_bandwidth",
         }
         resource = f"/networks/{networkId}/appliance/trafficShaping/uplinkBandwidth"
 
@@ -651,9 +653,9 @@ class ActionBatchAppliance:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def updateNetworkApplianceTrafficShapingUplinkSelection(self, networkId: str, **kwargs):
+    def update_network_appliance_traffic_shaping_uplink_selection(self, networkId: str, **kwargs):
         """
-        **Update uplink selection settings for an MX network**
+        **Update uplink selection settings for an MX network.**
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-traffic-shaping-uplink-selection
 
         - networkId (string): Network ID
@@ -669,7 +671,7 @@ class ActionBatchAppliance:
 
         metadata = {
             "tags": ["appliance", "configure", "trafficShaping", "uplinkSelection"],
-            "operation": "updateNetworkApplianceTrafficShapingUplinkSelection",
+            "operation": "update_network_appliance_traffic_shaping_uplink_selection",
         }
         resource = f"/networks/{networkId}/appliance/trafficShaping/uplinkSelection"
 
@@ -685,7 +687,7 @@ class ActionBatchAppliance:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def updateNetworkApplianceTrafficShapingVpnExclusions(self, networkId: str, **kwargs):
+    def update_network_appliance_traffic_shaping_vpn_exclusions(self, networkId: str, **kwargs):
         """
         **Update VPN exclusion rules for an MX network.**
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-traffic-shaping-vpn-exclusions
@@ -699,7 +701,7 @@ class ActionBatchAppliance:
 
         metadata = {
             "tags": ["appliance", "configure", "trafficShaping", "vpnExclusions"],
-            "operation": "updateNetworkApplianceTrafficShapingVpnExclusions",
+            "operation": "update_network_appliance_traffic_shaping_vpn_exclusions",
         }
         resource = f"/networks/{networkId}/appliance/trafficShaping/vpnExclusions"
 
@@ -711,9 +713,9 @@ class ActionBatchAppliance:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def createNetworkApplianceVlan(self, networkId: str, id: str, name: str, **kwargs):
+    def create_network_appliance_vlan(self, networkId: str, id: str, name: str, **kwargs):
         """
-        **Add a VLAN**
+        **Add a VLAN.**
         https://developer.cisco.com/meraki/api-v1/#!create-network-appliance-vlan
 
         - networkId (string): Network ID
@@ -760,7 +762,7 @@ class ActionBatchAppliance:
 
         metadata = {
             "tags": ["appliance", "configure", "vlans"],
-            "operation": "createNetworkApplianceVlan",
+            "operation": "create_network_appliance_vlan",
         }
         resource = f"/networks/{networkId}/appliance/vlans"
 
@@ -787,9 +789,9 @@ class ActionBatchAppliance:
         action = {"resource": resource, "operation": "create", "body": payload}
         return action
 
-    def updateNetworkApplianceVlansSettings(self, networkId: str, **kwargs):
+    def update_network_appliance_vlans_settings(self, networkId: str, **kwargs):
         """
-        **Enable/Disable VLANs for the given network**
+        **Enable/Disable VLANs for the given network.**
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-vlans-settings
 
         - networkId (string): Network ID
@@ -800,7 +802,7 @@ class ActionBatchAppliance:
 
         metadata = {
             "tags": ["appliance", "configure", "vlans", "settings"],
-            "operation": "updateNetworkApplianceVlansSettings",
+            "operation": "update_network_appliance_vlans_settings",
         }
         resource = f"/networks/{networkId}/appliance/vlans/settings"
 
@@ -811,9 +813,9 @@ class ActionBatchAppliance:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def updateNetworkApplianceVlan(self, networkId: str, vlanId: str, **kwargs):
+    def update_network_appliance_vlan(self, networkId: str, vlanId: str, **kwargs):
         """
-        **Update a VLAN**
+        **Update a VLAN.**
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-vlan
 
         - networkId (string): Network ID
@@ -864,7 +866,7 @@ class ActionBatchAppliance:
 
         metadata = {
             "tags": ["appliance", "configure", "vlans"],
-            "operation": "updateNetworkApplianceVlan",
+            "operation": "update_network_appliance_vlan",
         }
         resource = f"/networks/{networkId}/appliance/vlans/{vlanId}"
 
@@ -894,9 +896,9 @@ class ActionBatchAppliance:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def deleteNetworkApplianceVlan(self, networkId: str, vlanId: str):
+    def delete_network_appliance_vlan(self, networkId: str, vlanId: str):
         """
-        **Delete a VLAN from a network**
+        **Delete a VLAN from a network.**
         https://developer.cisco.com/meraki/api-v1/#!delete-network-appliance-vlan
 
         - networkId (string): Network ID
@@ -905,7 +907,7 @@ class ActionBatchAppliance:
 
         metadata = {
             "tags": ["appliance", "configure", "vlans"],
-            "operation": "deleteNetworkApplianceVlan",
+            "operation": "delete_network_appliance_vlan",
         }
         resource = f"/networks/{networkId}/appliance/vlans/{vlanId}"
 
@@ -915,9 +917,9 @@ class ActionBatchAppliance:
         }
         return action
 
-    def updateNetworkApplianceVpnBgp(self, networkId: str, enabled: bool, **kwargs):
+    def update_network_appliance_vpn_bgp(self, networkId: str, enabled: bool, **kwargs):
         """
-        **Update a Hub BGP Configuration**
+        **Update a Hub BGP Configuration.**
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-vpn-bgp
 
         - networkId (string): Network ID
@@ -931,7 +933,7 @@ class ActionBatchAppliance:
 
         metadata = {
             "tags": ["appliance", "configure", "vpn", "bgp"],
-            "operation": "updateNetworkApplianceVpnBgp",
+            "operation": "update_network_appliance_vpn_bgp",
         }
         resource = f"/networks/{networkId}/appliance/vpn/bgp"
 
@@ -945,9 +947,9 @@ class ActionBatchAppliance:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def updateNetworkApplianceVpnSiteToSiteVpn(self, networkId: str, mode: str, **kwargs):
+    def update_network_appliance_vpn_site_to_site_vpn(self, networkId: str, mode: str, **kwargs):
         """
-        **Update the site-to-site VPN settings of a network**
+        **Update the site-to-site VPN settings of a network.**
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-vpn-site-to-site-vpn
 
         - networkId (string): Network ID
@@ -967,7 +969,7 @@ class ActionBatchAppliance:
 
         metadata = {
             "tags": ["appliance", "configure", "vpn", "siteToSiteVpn"],
-            "operation": "updateNetworkApplianceVpnSiteToSiteVpn",
+            "operation": "update_network_appliance_vpn_site_to_site_vpn",
         }
         resource = f"/networks/{networkId}/appliance/vpn/siteToSiteVpn"
 
@@ -981,9 +983,9 @@ class ActionBatchAppliance:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def updateNetworkApplianceWarmSpare(self, networkId: str, enabled: bool, **kwargs):
+    def update_network_appliance_warm_spare(self, networkId: str, enabled: bool, **kwargs):
         """
-        **Update MX warm spare settings**
+        **Update MX warm spare settings.**
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-warm-spare
 
         - networkId (string): Network ID
@@ -998,7 +1000,7 @@ class ActionBatchAppliance:
 
         metadata = {
             "tags": ["appliance", "configure", "warmSpare"],
-            "operation": "updateNetworkApplianceWarmSpare",
+            "operation": "update_network_appliance_warm_spare",
         }
         resource = f"/networks/{networkId}/appliance/warmSpare"
 
@@ -1013,9 +1015,9 @@ class ActionBatchAppliance:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def swapNetworkApplianceWarmSpare(self, networkId: str):
+    def swap_network_appliance_warm_spare(self, networkId: str):
         """
-        **Swap MX primary and warm spare appliances**
+        **Swap MX primary and warm spare appliances.**
         https://developer.cisco.com/meraki/api-v1/#!swap-network-appliance-warm-spare
 
         - networkId (string): Network ID
@@ -1023,7 +1025,7 @@ class ActionBatchAppliance:
 
         metadata = {
             "tags": ["appliance", "configure", "warmSpare"],
-            "operation": "swapNetworkApplianceWarmSpare",
+            "operation": "swap_network_appliance_warm_spare",
         }
         resource = f"/networks/{networkId}/appliance/warmSpare/swap"
 
@@ -1033,9 +1035,9 @@ class ActionBatchAppliance:
         }
         return action
 
-    def createOrganizationApplianceDnsLocalProfile(self, organizationId: str, name: str):
+    def create_organization_appliance_dns_local_profile(self, organizationId: str, name: str):
         """
-        **Create a new local DNS profile**
+        **Create a new local DNS profile.**
         https://developer.cisco.com/meraki/api-v1/#!create-organization-appliance-dns-local-profile
 
         - organizationId (string): Organization ID
@@ -1046,7 +1048,7 @@ class ActionBatchAppliance:
 
         metadata = {
             "tags": ["appliance", "configure", "dns", "local", "profiles"],
-            "operation": "createOrganizationApplianceDnsLocalProfile",
+            "operation": "create_organization_appliance_dns_local_profile",
         }
         resource = f"/organizations/{organizationId}/appliance/dns/local/profiles"
 
@@ -1057,11 +1059,11 @@ class ActionBatchAppliance:
         action = {"resource": resource, "operation": "create", "body": payload}
         return action
 
-    def bulkOrganizationApplianceDnsLocalProfilesAssignmentsCreate(
+    def bulk_organization_appliance_dns_local_profiles_assignments_create(
         self, organizationId: str, items: list
     ):
         """
-        **Assign the local DNS profile to networks in the organization**
+        **Assign the local DNS profile to networks in the organization.**
         https://developer.cisco.com/meraki/api-v1/#!bulk-organization-appliance-dns-local-profiles-assignments-create
 
         - organizationId (string): Organization ID
@@ -1072,7 +1074,7 @@ class ActionBatchAppliance:
 
         metadata = {
             "tags": ["appliance", "configure", "dns", "local", "profiles", "assignments"],
-            "operation": "bulkOrganizationApplianceDnsLocalProfilesAssignmentsCreate",
+            "operation": "bulk_organization_appliance_dns_local_profiles_assignments_create",
         }
         resource = (
             f"/organizations/{organizationId}/appliance/dns/local/profiles/assignments/bulkCreate"
@@ -1085,11 +1087,11 @@ class ActionBatchAppliance:
         action = {"resource": resource, "operation": "create", "body": payload}
         return action
 
-    def createOrganizationApplianceDnsLocalProfilesAssignmentsBulkDelete(
+    def create_organization_appliance_dns_local_profiles_assignments_bulk_delete(
         self, organizationId: str, items: list
     ):
         """
-        **Unassign the local DNS profile to networks in the organization**
+        **Unassign the local DNS profile to networks in the organization.**
         https://developer.cisco.com/meraki/api-v1/#!create-organization-appliance-dns-local-profiles-assignments-bulk-delete
 
         - organizationId (string): Organization ID
@@ -1108,7 +1110,7 @@ class ActionBatchAppliance:
                 "assignments",
                 "bulkDelete",
             ],
-            "operation": "createOrganizationApplianceDnsLocalProfilesAssignmentsBulkDelete",
+            "operation": "create_organization_appliance_dns_local_profiles_assignments_bulk_delete",
         }
         resource = (
             f"/organizations/{organizationId}/appliance/dns/local/profiles/assignments/bulkDelete"
@@ -1121,11 +1123,11 @@ class ActionBatchAppliance:
         action = {"resource": resource, "operation": "create", "body": payload}
         return action
 
-    def updateOrganizationApplianceDnsLocalProfile(
+    def update_organization_appliance_dns_local_profile(
         self, organizationId: str, profileId: str, name: str
     ):
         """
-        **Update a local DNS profile**
+        **Update a local DNS profile.**
         https://developer.cisco.com/meraki/api-v1/#!update-organization-appliance-dns-local-profile
 
         - organizationId (string): Organization ID
@@ -1137,7 +1139,7 @@ class ActionBatchAppliance:
 
         metadata = {
             "tags": ["appliance", "configure", "dns", "local", "profiles"],
-            "operation": "updateOrganizationApplianceDnsLocalProfile",
+            "operation": "update_organization_appliance_dns_local_profile",
         }
         resource = f"/organizations/{organizationId}/appliance/dns/local/profiles/{profileId}"
 
@@ -1148,9 +1150,9 @@ class ActionBatchAppliance:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def deleteOrganizationApplianceDnsLocalProfile(self, organizationId: str, profileId: str):
+    def delete_organization_appliance_dns_local_profile(self, organizationId: str, profileId: str):
         """
-        **Deletes a local DNS profile**
+        **Deletes a local DNS profile.**
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-appliance-dns-local-profile
 
         - organizationId (string): Organization ID
@@ -1159,7 +1161,7 @@ class ActionBatchAppliance:
 
         metadata = {
             "tags": ["appliance", "configure", "dns", "local", "profiles"],
-            "operation": "deleteOrganizationApplianceDnsLocalProfile",
+            "operation": "delete_organization_appliance_dns_local_profile",
         }
         resource = f"/organizations/{organizationId}/appliance/dns/local/profiles/{profileId}"
 
@@ -1169,11 +1171,11 @@ class ActionBatchAppliance:
         }
         return action
 
-    def createOrganizationApplianceDnsLocalRecord(
+    def create_organization_appliance_dns_local_record(
         self, organizationId: str, hostname: str, address: str, profile: dict
     ):
         """
-        **Create a new local DNS record**
+        **Create a new local DNS record.**
         https://developer.cisco.com/meraki/api-v1/#!create-organization-appliance-dns-local-record
 
         - organizationId (string): Organization ID
@@ -1186,7 +1188,7 @@ class ActionBatchAppliance:
 
         metadata = {
             "tags": ["appliance", "configure", "dns", "local", "records"],
-            "operation": "createOrganizationApplianceDnsLocalRecord",
+            "operation": "create_organization_appliance_dns_local_record",
         }
         resource = f"/organizations/{organizationId}/appliance/dns/local/records"
 
@@ -1199,11 +1201,11 @@ class ActionBatchAppliance:
         action = {"resource": resource, "operation": "create", "body": payload}
         return action
 
-    def updateOrganizationApplianceDnsLocalRecord(
+    def update_organization_appliance_dns_local_record(
         self, organizationId: str, recordId: str, **kwargs
     ):
         """
-        **Updates a local DNS record**
+        **Updates a local DNS record.**
         https://developer.cisco.com/meraki/api-v1/#!update-organization-appliance-dns-local-record
 
         - organizationId (string): Organization ID
@@ -1217,7 +1219,7 @@ class ActionBatchAppliance:
 
         metadata = {
             "tags": ["appliance", "configure", "dns", "local", "records"],
-            "operation": "updateOrganizationApplianceDnsLocalRecord",
+            "operation": "update_organization_appliance_dns_local_record",
         }
         resource = f"/organizations/{organizationId}/appliance/dns/local/records/{recordId}"
 
@@ -1230,9 +1232,9 @@ class ActionBatchAppliance:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def deleteOrganizationApplianceDnsLocalRecord(self, organizationId: str, recordId: str):
+    def delete_organization_appliance_dns_local_record(self, organizationId: str, recordId: str):
         """
-        **Deletes a local DNS record**
+        **Deletes a local DNS record.**
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-appliance-dns-local-record
 
         - organizationId (string): Organization ID
@@ -1241,7 +1243,7 @@ class ActionBatchAppliance:
 
         metadata = {
             "tags": ["appliance", "configure", "dns", "local", "records"],
-            "operation": "deleteOrganizationApplianceDnsLocalRecord",
+            "operation": "delete_organization_appliance_dns_local_record",
         }
         resource = f"/organizations/{organizationId}/appliance/dns/local/records/{recordId}"
 
@@ -1251,11 +1253,11 @@ class ActionBatchAppliance:
         }
         return action
 
-    def createOrganizationApplianceDnsSplitProfile(
+    def create_organization_appliance_dns_split_profile(
         self, organizationId: str, name: str, hostnames: list, nameservers: dict
     ):
         """
-        **Create a new split DNS profile**
+        **Create a new split DNS profile.**
         https://developer.cisco.com/meraki/api-v1/#!create-organization-appliance-dns-split-profile
 
         - organizationId (string): Organization ID
@@ -1268,7 +1270,7 @@ class ActionBatchAppliance:
 
         metadata = {
             "tags": ["appliance", "configure", "dns", "split", "profiles"],
-            "operation": "createOrganizationApplianceDnsSplitProfile",
+            "operation": "create_organization_appliance_dns_split_profile",
         }
         resource = f"/organizations/{organizationId}/appliance/dns/split/profiles"
 
@@ -1281,11 +1283,11 @@ class ActionBatchAppliance:
         action = {"resource": resource, "operation": "create", "body": payload}
         return action
 
-    def createOrganizationApplianceDnsSplitProfilesAssignmentsBulkCreate(
+    def create_organization_appliance_dns_split_profiles_assignments_bulk_create(
         self, organizationId: str, items: list
     ):
         """
-        **Assign the split DNS profile to networks in the organization**
+        **Assign the split DNS profile to networks in the organization.**
         https://developer.cisco.com/meraki/api-v1/#!create-organization-appliance-dns-split-profiles-assignments-bulk-create
 
         - organizationId (string): Organization ID
@@ -1304,7 +1306,7 @@ class ActionBatchAppliance:
                 "assignments",
                 "bulkCreate",
             ],
-            "operation": "createOrganizationApplianceDnsSplitProfilesAssignmentsBulkCreate",
+            "operation": "create_organization_appliance_dns_split_profiles_assignments_bulk_create",
         }
         resource = (
             f"/organizations/{organizationId}/appliance/dns/split/profiles/assignments/bulkCreate"
@@ -1317,11 +1319,11 @@ class ActionBatchAppliance:
         action = {"resource": resource, "operation": "create", "body": payload}
         return action
 
-    def createOrganizationApplianceDnsSplitProfilesAssignmentsBulkDelete(
+    def create_organization_appliance_dns_split_profiles_assignments_bulk_delete(
         self, organizationId: str, items: list
     ):
         """
-        **Unassign the split DNS profile to networks in the organization**
+        **Unassign the split DNS profile to networks in the organization.**
         https://developer.cisco.com/meraki/api-v1/#!create-organization-appliance-dns-split-profiles-assignments-bulk-delete
 
         - organizationId (string): Organization ID
@@ -1340,7 +1342,7 @@ class ActionBatchAppliance:
                 "assignments",
                 "bulkDelete",
             ],
-            "operation": "createOrganizationApplianceDnsSplitProfilesAssignmentsBulkDelete",
+            "operation": "create_organization_appliance_dns_split_profiles_assignments_bulk_delete",
         }
         resource = (
             f"/organizations/{organizationId}/appliance/dns/split/profiles/assignments/bulkDelete"
@@ -1353,11 +1355,11 @@ class ActionBatchAppliance:
         action = {"resource": resource, "operation": "create", "body": payload}
         return action
 
-    def updateOrganizationApplianceDnsSplitProfile(
+    def update_organization_appliance_dns_split_profile(
         self, organizationId: str, profileId: str, **kwargs
     ):
         """
-        **Update a split DNS profile**
+        **Update a split DNS profile.**
         https://developer.cisco.com/meraki/api-v1/#!update-organization-appliance-dns-split-profile
 
         - organizationId (string): Organization ID
@@ -1371,7 +1373,7 @@ class ActionBatchAppliance:
 
         metadata = {
             "tags": ["appliance", "configure", "dns", "split", "profiles"],
-            "operation": "updateOrganizationApplianceDnsSplitProfile",
+            "operation": "update_organization_appliance_dns_split_profile",
         }
         resource = f"/organizations/{organizationId}/appliance/dns/split/profiles/{profileId}"
 
@@ -1384,9 +1386,9 @@ class ActionBatchAppliance:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def deleteOrganizationApplianceDnsSplitProfile(self, organizationId: str, profileId: str):
+    def delete_organization_appliance_dns_split_profile(self, organizationId: str, profileId: str):
         """
-        **Deletes a split DNS profile**
+        **Deletes a split DNS profile.**
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-appliance-dns-split-profile
 
         - organizationId (string): Organization ID
@@ -1395,7 +1397,7 @@ class ActionBatchAppliance:
 
         metadata = {
             "tags": ["appliance", "configure", "dns", "split", "profiles"],
-            "operation": "deleteOrganizationApplianceDnsSplitProfile",
+            "operation": "delete_organization_appliance_dns_split_profile",
         }
         resource = f"/organizations/{organizationId}/appliance/dns/split/profiles/{profileId}"
 
@@ -1405,9 +1407,11 @@ class ActionBatchAppliance:
         }
         return action
 
-    def updateOrganizationApplianceVpnSiteToSiteIpsecPeersSlas(self, organizationId: str, **kwargs):
+    def update_organization_appliance_vpn_site_to_site_ipsec_peers_slas(
+        self, organizationId: str, **kwargs
+    ):
         """
-        **Update the IPsec SLA policies for an organization**
+        **Update the IPsec SLA policies for an organization.**
         https://developer.cisco.com/meraki/api-v1/#!update-organization-appliance-vpn-site-to-site-ipsec-peers-slas
 
         - organizationId (string): Organization ID
@@ -1418,7 +1422,7 @@ class ActionBatchAppliance:
 
         metadata = {
             "tags": ["appliance", "configure", "vpn", "siteToSite", "ipsec", "peers", "slas"],
-            "operation": "updateOrganizationApplianceVpnSiteToSiteIpsecPeersSlas",
+            "operation": "update_organization_appliance_vpn_site_to_site_ipsec_peers_slas",
         }
         resource = f"/organizations/{organizationId}/appliance/vpn/siteToSite/ipsec/peers/slas"
 
@@ -1429,9 +1433,11 @@ class ActionBatchAppliance:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def updateOrganizationApplianceVpnThirdPartyVPNPeers(self, organizationId: str, peers: list):
+    def update_organization_appliance_vpn_third_party_v_p_n_peers(
+        self, organizationId: str, peers: list
+    ):
         """
-        **Update the third party VPN peers for an organization**
+        **Update the third party VPN peers for an organization.**
         https://developer.cisco.com/meraki/api-v1/#!update-organization-appliance-vpn-third-party-v-p-n-peers
 
         - organizationId (string): Organization ID
@@ -1442,7 +1448,7 @@ class ActionBatchAppliance:
 
         metadata = {
             "tags": ["appliance", "configure", "vpn", "thirdPartyVPNPeers"],
-            "operation": "updateOrganizationApplianceVpnThirdPartyVPNPeers",
+            "operation": "update_organization_appliance_vpn_third_party_v_p_n_peers",
         }
         resource = f"/organizations/{organizationId}/appliance/vpn/thirdPartyVPNPeers"
 

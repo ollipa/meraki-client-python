@@ -12,19 +12,19 @@ class AsyncLicensing:
         super().__init__()
         self._session = session
 
-    def getAdministeredLicensingSubscriptionEntitlements(self):
-        """Retrieve the list of purchasable entitlements
+    def get_administered_licensing_subscription_entitlements(self):
+        """Retrieve the list of purchasable entitlements.
 
         https://developer.cisco.com/meraki/api-v1/#!get-administered-licensing-subscription-entitlements
 
         - skus (array): Filter to entitlements with the specified SKUs
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["licensing", "configure", "subscription", "entitlements"],
-            "operation": "getAdministeredLicensingSubscriptionEntitlements",
+            "operation": "get_administered_licensing_subscription_entitlements",
         }
         resource = f"/administered/licensing/subscription/entitlements"
 
@@ -43,10 +43,10 @@ class AsyncLicensing:
 
         return self._session.get(metadata, resource, params)
 
-    def getAdministeredLicensingSubscriptionSubscriptions(
+    def get_administered_licensing_subscription_subscriptions(
         self, organizationIds: list, total_pages=1, direction="next", **kwargs
     ):
-        """List available subscriptions
+        """List available subscriptions.
 
         https://developer.cisco.com/meraki/api-v1/#!get-administered-licensing-subscription-subscriptions
 
@@ -63,13 +63,13 @@ class AsyncLicensing:
         - name (string): Search for subscription name
         - startDate (string): Filter subscriptions by start date, ISO 8601 format. To filter with a range of dates, use 'startDate[<option>]=?' in the request. Accepted options include lt, gt, lte, gte.
         - endDate (string): Filter subscriptions by end date, ISO 8601 format. To filter with a range of dates, use 'endDate[<option>]=?' in the request. Accepted options include lt, gt, lte, gte.
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["licensing", "configure", "subscription", "subscriptions"],
-            "operation": "getAdministeredLicensingSubscriptionSubscriptions",
+            "operation": "get_administered_licensing_subscription_subscriptions",
         }
         resource = f"/administered/licensing/subscription/subscriptions"
 
@@ -102,7 +102,7 @@ class AsyncLicensing:
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
-    def claimAdministeredLicensingSubscriptionSubscriptions(
+    def claim_administered_licensing_subscription_subscriptions(
         self, claimKey: str, organizationId: str, **kwargs
     ):
         """Claim a subscription into an organization.
@@ -114,13 +114,13 @@ class AsyncLicensing:
         - validate (boolean): Check if the provided claim key is valid and can be claimed into the organization.
         - name (string): Friendly name to identify the subscription
         - description (string): Extra details or notes about the subscription
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["licensing", "configure", "subscription", "subscriptions"],
-            "operation": "claimAdministeredLicensingSubscriptionSubscriptions",
+            "operation": "claim_administered_licensing_subscription_subscriptions",
         }
         resource = f"/administered/licensing/subscription/subscriptions/claim"
 
@@ -134,19 +134,19 @@ class AsyncLicensing:
 
         return self._session.post(metadata, resource, payload)
 
-    def validateAdministeredLicensingSubscriptionSubscriptionsClaimKey(self, claimKey: str):
-        """Find a subscription by claim key
+    def validate_administered_licensing_subscription_subscriptions_claim_key(self, claimKey: str):
+        """Find a subscription by claim key.
 
         https://developer.cisco.com/meraki/api-v1/#!validate-administered-licensing-subscription-subscriptions-claim-key
 
         - claimKey (string): The subscription's claim key
-        """
 
+        """
         kwargs = locals()
 
         metadata = {
             "tags": ["licensing", "configure", "subscription", "subscriptions", "claimKey"],
-            "operation": "validateAdministeredLicensingSubscriptionSubscriptionsClaimKey",
+            "operation": "validate_administered_licensing_subscription_subscriptions_claim_key",
         }
         resource = f"/administered/licensing/subscription/subscriptions/claimKey/validate"
 
@@ -157,17 +157,17 @@ class AsyncLicensing:
 
         return self._session.post(metadata, resource, payload)
 
-    def getAdministeredLicensingSubscriptionSubscriptionsComplianceStatuses(
+    def get_administered_licensing_subscription_subscriptions_compliance_statuses(
         self, organizationIds: list, **kwargs
     ):
-        """Get compliance status for requested subscriptions
+        """Get compliance status for requested subscriptions.
 
         https://developer.cisco.com/meraki/api-v1/#!get-administered-licensing-subscription-subscriptions-compliance-statuses
 
         - organizationIds (array): Organizations to get subscription compliance information for
         - subscriptionIds (array): Subscription ids
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
@@ -179,7 +179,7 @@ class AsyncLicensing:
                 "compliance",
                 "statuses",
             ],
-            "operation": "getAdministeredLicensingSubscriptionSubscriptionsComplianceStatuses",
+            "operation": "get_administered_licensing_subscription_subscriptions_compliance_statuses",
         }
         resource = f"/administered/licensing/subscription/subscriptions/compliance/statuses"
 
@@ -200,21 +200,21 @@ class AsyncLicensing:
 
         return self._session.get(metadata, resource, params)
 
-    def bindAdministeredLicensingSubscriptionSubscription(self, subscriptionId: str, **kwargs):
-        """Bind networks to a subscription
+    def bind_administered_licensing_subscription_subscription(self, subscriptionId: str, **kwargs):
+        """Bind networks to a subscription.
 
         https://developer.cisco.com/meraki/api-v1/#!bind-administered-licensing-subscription-subscription
 
         - subscriptionId (string): Subscription ID
         - validate (boolean): Check if the provided networks can be bound to the subscription. Returns any licensing problems and does not commit the results.
         - networkIds (array): List of network ids to bind to the subscription
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["licensing", "configure", "subscription", "subscriptions"],
-            "operation": "bindAdministeredLicensingSubscriptionSubscription",
+            "operation": "bind_administered_licensing_subscription_subscription",
         }
         subscriptionId = urllib.parse.quote(str(subscriptionId), safe="")
         resource = f"/administered/licensing/subscription/subscriptions/{subscriptionId}/bind"
@@ -226,10 +226,10 @@ class AsyncLicensing:
 
         return self._session.post(metadata, resource, payload)
 
-    def getOrganizationLicensingCotermLicenses(
+    def get_organization_licensing_coterm_licenses(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
-        """List the licenses in a coterm organization
+        """List the licenses in a coterm organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-licensing-coterm-licenses
 
@@ -241,13 +241,13 @@ class AsyncLicensing:
         - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
         - invalidated (boolean): Filter for licenses that are invalidated
         - expired (boolean): Filter for licenses that are expired
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["licensing", "configure", "coterm", "licenses"],
-            "operation": "getOrganizationLicensingCotermLicenses",
+            "operation": "get_organization_licensing_coterm_licenses",
         }
         organizationId = urllib.parse.quote(str(organizationId), safe="")
         resource = f"/organizations/{organizationId}/licensing/coterm/licenses"
@@ -263,23 +263,23 @@ class AsyncLicensing:
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
-    def moveOrganizationLicensingCotermLicenses(
+    def move_organization_licensing_coterm_licenses(
         self, organizationId: str, destination: dict, licenses: list
     ):
-        """Moves a license to a different organization (coterm only)
+        """Moves a license to a different organization (coterm only).
 
         https://developer.cisco.com/meraki/api-v1/#!move-organization-licensing-coterm-licenses
 
         - organizationId (string): Organization ID
         - destination (object): Destination data for the license move
         - licenses (array): The list of licenses to move
-        """
 
+        """
         kwargs = locals()
 
         metadata = {
             "tags": ["licensing", "configure", "coterm", "licenses"],
-            "operation": "moveOrganizationLicensingCotermLicenses",
+            "operation": "move_organization_licensing_coterm_licenses",
         }
         organizationId = urllib.parse.quote(str(organizationId), safe="")
         resource = f"/organizations/{organizationId}/licensing/coterm/licenses/move"

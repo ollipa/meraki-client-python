@@ -7,9 +7,9 @@ class ActionBatchDevices:
     def __init__(self) -> None:
         pass
 
-    def updateDevice(self, serial: str, **kwargs):
+    def update_device(self, serial: str, **kwargs):
         """
-        **Update the attributes of a device**
+        **Update the attributes of a device.**
         https://developer.cisco.com/meraki/api-v1/#!update-device
 
         - serial (string): Serial
@@ -26,7 +26,7 @@ class ActionBatchDevices:
 
         kwargs.update(locals())
 
-        metadata = {"tags": ["devices", "configure"], "operation": "updateDevice"}
+        metadata = {"tags": ["devices", "configure"], "operation": "update_device"}
         resource = f"/devices/{serial}"
 
         body_params = [
@@ -44,9 +44,9 @@ class ActionBatchDevices:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def createDeviceLiveToolsLedsBlink(self, serial: str, duration: int, **kwargs):
+    def create_device_live_tools_leds_blink(self, serial: str, duration: int, **kwargs):
         """
-        **Enqueue a job to blink LEDs on a device**
+        **Enqueue a job to blink LEDs on a device.**
         https://developer.cisco.com/meraki/api-v1/#!create-device-live-tools-leds-blink
 
         - serial (string): Serial
@@ -58,7 +58,7 @@ class ActionBatchDevices:
 
         metadata = {
             "tags": ["devices", "liveTools", "leds", "blink"],
-            "operation": "createDeviceLiveToolsLedsBlink",
+            "operation": "create_device_live_tools_leds_blink",
         }
         resource = f"/devices/{serial}/liveTools/leds/blink"
 
@@ -70,9 +70,9 @@ class ActionBatchDevices:
         action = {"resource": resource, "operation": "create", "body": payload}
         return action
 
-    def createDeviceLiveToolsThroughputTest(self, serial: str, **kwargs):
+    def create_device_live_tools_throughput_test(self, serial: str, **kwargs):
         """
-        **Enqueue a job to test a device throughput, the test will run for 10 secs to test throughput**
+        **Enqueue a job to test a device throughput, the test will run for 10 secs to test throughput.**
         https://developer.cisco.com/meraki/api-v1/#!create-device-live-tools-throughput-test
 
         - serial (string): Serial
@@ -83,7 +83,7 @@ class ActionBatchDevices:
 
         metadata = {
             "tags": ["devices", "liveTools", "throughputTest"],
-            "operation": "createDeviceLiveToolsThroughputTest",
+            "operation": "create_device_live_tools_throughput_test",
         }
         resource = f"/devices/{serial}/liveTools/throughputTest"
 
@@ -94,9 +94,9 @@ class ActionBatchDevices:
         action = {"resource": resource, "operation": "create", "body": payload}
         return action
 
-    def updateDeviceManagementInterface(self, serial: str, **kwargs):
+    def update_device_management_interface(self, serial: str, **kwargs):
         """
-        **Update the management interface settings for a device**
+        **Update the management interface settings for a device.**
         https://developer.cisco.com/meraki/api-v1/#!update-device-management-interface
 
         - serial (string): Serial
@@ -108,7 +108,7 @@ class ActionBatchDevices:
 
         metadata = {
             "tags": ["devices", "configure", "managementInterface"],
-            "operation": "updateDeviceManagementInterface",
+            "operation": "update_device_management_interface",
         }
         resource = f"/devices/{serial}/managementInterface"
 

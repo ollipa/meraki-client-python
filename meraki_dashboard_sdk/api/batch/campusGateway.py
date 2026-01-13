@@ -7,7 +7,7 @@ class ActionBatchCampusGateway:
     def __init__(self) -> None:
         pass
 
-    def createNetworkCampusGatewayCluster(
+    def create_network_campus_gateway_cluster(
         self,
         networkId: str,
         name: str,
@@ -18,7 +18,7 @@ class ActionBatchCampusGateway:
         **kwargs,
     ):
         """
-        **Create a cluster and add campus gateways to it**
+        **Create a cluster and add campus gateways to it.**
         https://developer.cisco.com/meraki/api-v1/#!create-network-campus-gateway-cluster
 
         - networkId (string): Network ID
@@ -35,7 +35,7 @@ class ActionBatchCampusGateway:
 
         metadata = {
             "tags": ["campusGateway", "configure", "clusters"],
-            "operation": "createNetworkCampusGatewayCluster",
+            "operation": "create_network_campus_gateway_cluster",
         }
         resource = f"/networks/{networkId}/campusGateway/clusters"
 
@@ -52,9 +52,9 @@ class ActionBatchCampusGateway:
         action = {"resource": resource, "operation": "create", "body": payload}
         return action
 
-    def updateNetworkCampusGatewayCluster(self, networkId: str, clusterId: str, **kwargs):
+    def update_network_campus_gateway_cluster(self, networkId: str, clusterId: str, **kwargs):
         """
-        **Update a cluster and add/remove campus gateways to/from it**
+        **Update a cluster and add/remove campus gateways to/from it.**
         https://developer.cisco.com/meraki/api-v1/#!update-network-campus-gateway-cluster
 
         - networkId (string): Network ID
@@ -72,7 +72,7 @@ class ActionBatchCampusGateway:
 
         metadata = {
             "tags": ["campusGateway", "configure", "clusters"],
-            "operation": "updateNetworkCampusGatewayCluster",
+            "operation": "update_network_campus_gateway_cluster",
         }
         resource = f"/networks/{networkId}/campusGateway/clusters/{clusterId}"
 

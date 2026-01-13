@@ -7,9 +7,9 @@ class ActionBatchSm:
     def __init__(self) -> None:
         pass
 
-    def deleteNetworkSmUserAccessDevice(self, networkId: str, userAccessDeviceId: str):
+    def delete_network_sm_user_access_device(self, networkId: str, userAccessDeviceId: str):
         """
-        **Delete a User Access Device**
+        **Delete a User Access Device.**
         https://developer.cisco.com/meraki/api-v1/#!delete-network-sm-user-access-device
 
         - networkId (string): Network ID
@@ -18,7 +18,7 @@ class ActionBatchSm:
 
         metadata = {
             "tags": ["sm", "configure", "userAccessDevices"],
-            "operation": "deleteNetworkSmUserAccessDevice",
+            "operation": "delete_network_sm_user_access_device",
         }
         resource = f"/networks/{networkId}/sm/userAccessDevices/{userAccessDeviceId}"
 
@@ -28,9 +28,9 @@ class ActionBatchSm:
         }
         return action
 
-    def createOrganizationSmAdminsRole(self, organizationId: str, name: str, **kwargs):
+    def create_organization_sm_admins_role(self, organizationId: str, name: str, **kwargs):
         """
-        **Create a Limited Access Role**
+        **Create a Limited Access Role.**
         https://developer.cisco.com/meraki/api-v1/#!create-organization-sm-admins-role
 
         - organizationId (string): Organization ID
@@ -49,7 +49,7 @@ class ActionBatchSm:
 
         metadata = {
             "tags": ["sm", "configure", "admins", "roles"],
-            "operation": "createOrganizationSmAdminsRole",
+            "operation": "create_organization_sm_admins_role",
         }
         resource = f"/organizations/{organizationId}/sm/admins/roles"
 
@@ -62,9 +62,9 @@ class ActionBatchSm:
         action = {"resource": resource, "operation": "create", "body": payload}
         return action
 
-    def updateOrganizationSmAdminsRole(self, organizationId: str, roleId: str, **kwargs):
+    def update_organization_sm_admins_role(self, organizationId: str, roleId: str, **kwargs):
         """
-        **Update a Limited Access Role**
+        **Update a Limited Access Role.**
         https://developer.cisco.com/meraki/api-v1/#!update-organization-sm-admins-role
 
         - organizationId (string): Organization ID
@@ -84,7 +84,7 @@ class ActionBatchSm:
 
         metadata = {
             "tags": ["sm", "configure", "admins", "roles"],
-            "operation": "updateOrganizationSmAdminsRole",
+            "operation": "update_organization_sm_admins_role",
         }
         resource = f"/organizations/{organizationId}/sm/admins/roles/{roleId}"
 
@@ -97,9 +97,9 @@ class ActionBatchSm:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def deleteOrganizationSmAdminsRole(self, organizationId: str, roleId: str):
+    def delete_organization_sm_admins_role(self, organizationId: str, roleId: str):
         """
-        **Delete a Limited Access Role**
+        **Delete a Limited Access Role.**
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-sm-admins-role
 
         - organizationId (string): Organization ID
@@ -108,7 +108,7 @@ class ActionBatchSm:
 
         metadata = {
             "tags": ["sm", "configure", "admins", "roles"],
-            "operation": "deleteOrganizationSmAdminsRole",
+            "operation": "delete_organization_sm_admins_role",
         }
         resource = f"/organizations/{organizationId}/sm/admins/roles/{roleId}"
 
@@ -118,9 +118,9 @@ class ActionBatchSm:
         }
         return action
 
-    def updateOrganizationSmSentryPoliciesAssignments(self, organizationId: str, items: list):
+    def update_organization_sm_sentry_policies_assignments(self, organizationId: str, items: list):
         """
-        **Update an Organizations Sentry Policies using the provided list**
+        **Update an Organizations Sentry Policies using the provided list.**
         https://developer.cisco.com/meraki/api-v1/#!update-organization-sm-sentry-policies-assignments
 
         - organizationId (string): Organization ID
@@ -131,7 +131,7 @@ class ActionBatchSm:
 
         metadata = {
             "tags": ["sm", "configure", "sentry", "policies", "assignments"],
-            "operation": "updateOrganizationSmSentryPoliciesAssignments",
+            "operation": "update_organization_sm_sentry_policies_assignments",
         }
         resource = f"/organizations/{organizationId}/sm/sentry/policies/assignments"
 

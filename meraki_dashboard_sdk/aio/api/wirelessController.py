@@ -12,10 +12,10 @@ class AsyncWirelessController:
         super().__init__()
         self._session = session
 
-    def getOrganizationWirelessControllerAvailabilitiesChangeHistory(
+    def get_organization_wireless_controller_availabilities_change_history(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
-        """List connectivity data of wireless LAN controllers in an organization
+        """List connectivity data of wireless LAN controllers in an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-controller-availabilities-change-history
 
@@ -29,13 +29,13 @@ class AsyncWirelessController:
         - perPage (integer): The number of entries per page returned. Acceptable range is 3 - 1000. Default is 1000.
         - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
         - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["wirelessController", "monitor", "availabilities", "changeHistory"],
-            "operation": "getOrganizationWirelessControllerAvailabilitiesChangeHistory",
+            "operation": "get_organization_wireless_controller_availabilities_change_history",
         }
         organizationId = urllib.parse.quote(str(organizationId), safe="")
         resource = (
@@ -63,10 +63,10 @@ class AsyncWirelessController:
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
-    def getOrganizationWirelessControllerClientsOverviewHistoryByDeviceByInterval(
+    def get_organization_wireless_controller_clients_overview_history_by_device_by_interval(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
-        """List wireless client counts of wireless LAN controllers over time in an organization
+        """List wireless client counts of wireless LAN controllers over time in an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-controller-clients-overview-history-by-device-by-interval
 
@@ -82,8 +82,8 @@ class AsyncWirelessController:
         - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
         - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
         - resolution (integer): The time resolution in seconds for returned data. The valid resolutions are: 300, 600, 1200, 3600, 14400, 86400. The default is 86400.
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
@@ -96,7 +96,7 @@ class AsyncWirelessController:
                 "byDevice",
                 "byInterval",
             ],
-            "operation": "getOrganizationWirelessControllerClientsOverviewHistoryByDeviceByInterval",
+            "operation": "get_organization_wireless_controller_clients_overview_history_by_device_by_interval",
         }
         organizationId = urllib.parse.quote(str(organizationId), safe="")
         resource = f"/organizations/{organizationId}/wirelessController/clients/overview/history/byDevice/byInterval"
@@ -125,10 +125,10 @@ class AsyncWirelessController:
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
-    def getOrganizationWirelessControllerConnections(
+    def get_organization_wireless_controller_connections(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
-        """List all access points associated with wireless LAN controllers in an organization
+        """List all access points associated with wireless LAN controllers in an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-controller-connections
 
@@ -140,13 +140,13 @@ class AsyncWirelessController:
         - perPage (integer): The number of entries per page returned. Acceptable range is 3 - 1000. Default is 1000.
         - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
         - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["wirelessController", "monitor", "connections"],
-            "operation": "getOrganizationWirelessControllerConnections",
+            "operation": "get_organization_wireless_controller_connections",
         }
         organizationId = urllib.parse.quote(str(organizationId), safe="")
         resource = f"/organizations/{organizationId}/wirelessController/connections"
@@ -171,10 +171,10 @@ class AsyncWirelessController:
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
-    def getOrganizationWirelessControllerDevicesInterfacesL2ByDevice(
+    def get_organization_wireless_controller_devices_interfaces_l2_by_device(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
-        """List wireless LAN controller layer 2 interfaces in an organization
+        """List wireless LAN controller layer 2 interfaces in an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-controller-devices-interfaces-l-2-by-device
 
@@ -188,13 +188,13 @@ class AsyncWirelessController:
         - perPage (integer): The number of entries per page returned. Acceptable range is 3 - 1000. Default is 1000.
         - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
         - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["wirelessController", "monitor", "devices", "interfaces", "l2", "byDevice"],
-            "operation": "getOrganizationWirelessControllerDevicesInterfacesL2ByDevice",
+            "operation": "get_organization_wireless_controller_devices_interfaces_l2_by_device",
         }
         organizationId = urllib.parse.quote(str(organizationId), safe="")
         resource = (
@@ -222,10 +222,10 @@ class AsyncWirelessController:
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
-    def getOrganizationWirelessControllerDevicesInterfacesL2StatusesChangeHistoryByDevice(
+    def get_organization_wireless_controller_devices_interfaces_l2_statuses_change_history_by_device(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
-        """List wireless LAN controller layer 2 interfaces history status in an organization
+        """List wireless LAN controller layer 2 interfaces history status in an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-controller-devices-interfaces-l-2-statuses-change-history-by-device
 
@@ -240,8 +240,8 @@ class AsyncWirelessController:
         - perPage (integer): The number of entries per page returned. Acceptable range is 3 - 1000. Default is 1000.
         - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
         - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
@@ -255,7 +255,7 @@ class AsyncWirelessController:
                 "changeHistory",
                 "byDevice",
             ],
-            "operation": "getOrganizationWirelessControllerDevicesInterfacesL2StatusesChangeHistoryByDevice",
+            "operation": "get_organization_wireless_controller_devices_interfaces_l2_statuses_change_history_by_device",
         }
         organizationId = urllib.parse.quote(str(organizationId), safe="")
         resource = f"/organizations/{organizationId}/wirelessController/devices/interfaces/l2/statuses/changeHistory/byDevice"
@@ -282,10 +282,10 @@ class AsyncWirelessController:
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
-    def getOrganizationWirelessControllerDevicesInterfacesL2UsageHistoryByInterval(
+    def get_organization_wireless_controller_devices_interfaces_l2_usage_history_by_interval(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
-        """List wireless LAN controller layer 2 interfaces history usage in an organization
+        """List wireless LAN controller layer 2 interfaces history usage in an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-controller-devices-interfaces-l-2-usage-history-by-interval
 
@@ -299,8 +299,8 @@ class AsyncWirelessController:
         - perPage (integer): The number of entries per page returned. Acceptable range is 3 - 1000. Default is 1000.
         - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
         - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
@@ -314,7 +314,7 @@ class AsyncWirelessController:
                 "history",
                 "byInterval",
             ],
-            "operation": "getOrganizationWirelessControllerDevicesInterfacesL2UsageHistoryByInterval",
+            "operation": "get_organization_wireless_controller_devices_interfaces_l2_usage_history_by_interval",
         }
         organizationId = urllib.parse.quote(str(organizationId), safe="")
         resource = f"/organizations/{organizationId}/wirelessController/devices/interfaces/l2/usage/history/byInterval"
@@ -340,10 +340,10 @@ class AsyncWirelessController:
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
-    def getOrganizationWirelessControllerDevicesInterfacesL3ByDevice(
+    def get_organization_wireless_controller_devices_interfaces_l3_by_device(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
-        """List wireless LAN controller layer 3 interfaces in an organization
+        """List wireless LAN controller layer 3 interfaces in an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-controller-devices-interfaces-l-3-by-device
 
@@ -357,13 +357,13 @@ class AsyncWirelessController:
         - perPage (integer): The number of entries per page returned. Acceptable range is 3 - 1000. Default is 1000.
         - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
         - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["wirelessController", "monitor", "devices", "interfaces", "l3", "byDevice"],
-            "operation": "getOrganizationWirelessControllerDevicesInterfacesL3ByDevice",
+            "operation": "get_organization_wireless_controller_devices_interfaces_l3_by_device",
         }
         organizationId = urllib.parse.quote(str(organizationId), safe="")
         resource = (
@@ -391,10 +391,10 @@ class AsyncWirelessController:
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
-    def getOrganizationWirelessControllerDevicesInterfacesL3StatusesChangeHistoryByDevice(
+    def get_organization_wireless_controller_devices_interfaces_l3_statuses_change_history_by_device(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
-        """List wireless LAN controller layer 3 interfaces history status in an organization
+        """List wireless LAN controller layer 3 interfaces history status in an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-controller-devices-interfaces-l-3-statuses-change-history-by-device
 
@@ -409,8 +409,8 @@ class AsyncWirelessController:
         - perPage (integer): The number of entries per page returned. Acceptable range is 3 - 1000. Default is 1000.
         - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
         - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
@@ -424,7 +424,7 @@ class AsyncWirelessController:
                 "changeHistory",
                 "byDevice",
             ],
-            "operation": "getOrganizationWirelessControllerDevicesInterfacesL3StatusesChangeHistoryByDevice",
+            "operation": "get_organization_wireless_controller_devices_interfaces_l3_statuses_change_history_by_device",
         }
         organizationId = urllib.parse.quote(str(organizationId), safe="")
         resource = f"/organizations/{organizationId}/wirelessController/devices/interfaces/l3/statuses/changeHistory/byDevice"
@@ -451,10 +451,10 @@ class AsyncWirelessController:
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
-    def getOrganizationWirelessControllerDevicesInterfacesL3UsageHistoryByInterval(
+    def get_organization_wireless_controller_devices_interfaces_l3_usage_history_by_interval(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
-        """List wireless LAN controller layer 3 interfaces history usage in an organization
+        """List wireless LAN controller layer 3 interfaces history usage in an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-controller-devices-interfaces-l-3-usage-history-by-interval
 
@@ -468,8 +468,8 @@ class AsyncWirelessController:
         - perPage (integer): The number of entries per page returned. Acceptable range is 3 - 1000. Default is 1000.
         - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
         - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
@@ -483,7 +483,7 @@ class AsyncWirelessController:
                 "history",
                 "byInterval",
             ],
-            "operation": "getOrganizationWirelessControllerDevicesInterfacesL3UsageHistoryByInterval",
+            "operation": "get_organization_wireless_controller_devices_interfaces_l3_usage_history_by_interval",
         }
         organizationId = urllib.parse.quote(str(organizationId), safe="")
         resource = f"/organizations/{organizationId}/wirelessController/devices/interfaces/l3/usage/history/byInterval"
@@ -509,10 +509,10 @@ class AsyncWirelessController:
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
-    def getOrganizationWirelessControllerDevicesInterfacesPacketsOverviewByDevice(
+    def get_organization_wireless_controller_devices_interfaces_packets_overview_by_device(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
-        """Retrieve the packet counters for the interfaces of a Wireless LAN controller
+        """Retrieve the packet counters for the interfaces of a Wireless LAN controller.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-controller-devices-interfaces-packets-overview-by-device
 
@@ -527,8 +527,8 @@ class AsyncWirelessController:
         - perPage (integer): The number of entries per page returned. Acceptable range is 3 - 1000. Default is 1000.
         - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
         - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
@@ -541,7 +541,7 @@ class AsyncWirelessController:
                 "overview",
                 "byDevice",
             ],
-            "operation": "getOrganizationWirelessControllerDevicesInterfacesPacketsOverviewByDevice",
+            "operation": "get_organization_wireless_controller_devices_interfaces_packets_overview_by_device",
         }
         organizationId = urllib.parse.quote(str(organizationId), safe="")
         resource = f"/organizations/{organizationId}/wirelessController/devices/interfaces/packets/overview/byDevice"
@@ -569,10 +569,10 @@ class AsyncWirelessController:
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
-    def getOrganizationWirelessControllerDevicesInterfacesUsageHistoryByInterval(
+    def get_organization_wireless_controller_devices_interfaces_usage_history_by_interval(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
-        """Retrieve the traffic for the interfaces of a Wireless LAN controller
+        """Retrieve the traffic for the interfaces of a Wireless LAN controller.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-controller-devices-interfaces-usage-history-by-interval
 
@@ -587,8 +587,8 @@ class AsyncWirelessController:
         - perPage (integer): The number of entries per page returned. Acceptable range is 3 - 1000. Default is 1000.
         - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
         - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
@@ -601,7 +601,7 @@ class AsyncWirelessController:
                 "history",
                 "byInterval",
             ],
-            "operation": "getOrganizationWirelessControllerDevicesInterfacesUsageHistoryByInterval",
+            "operation": "get_organization_wireless_controller_devices_interfaces_usage_history_by_interval",
         }
         organizationId = urllib.parse.quote(str(organizationId), safe="")
         resource = f"/organizations/{organizationId}/wirelessController/devices/interfaces/usage/history/byInterval"
@@ -629,10 +629,10 @@ class AsyncWirelessController:
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
-    def getOrganizationWirelessControllerDevicesRedundancyFailoverHistory(
+    def get_organization_wireless_controller_devices_redundancy_failover_history(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
-        """List the failover events of wireless LAN controllers in an organization
+        """List the failover events of wireless LAN controllers in an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-controller-devices-redundancy-failover-history
 
@@ -646,8 +646,8 @@ class AsyncWirelessController:
         - perPage (integer): The number of entries per page returned. Acceptable range is 3 - 1000. Default is 1000.
         - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
         - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
@@ -659,7 +659,7 @@ class AsyncWirelessController:
                 "failover",
                 "history",
             ],
-            "operation": "getOrganizationWirelessControllerDevicesRedundancyFailoverHistory",
+            "operation": "get_organization_wireless_controller_devices_redundancy_failover_history",
         }
         organizationId = urllib.parse.quote(str(organizationId), safe="")
         resource = f"/organizations/{organizationId}/wirelessController/devices/redundancy/failover/history"
@@ -685,10 +685,10 @@ class AsyncWirelessController:
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
-    def getOrganizationWirelessControllerDevicesRedundancyStatuses(
+    def get_organization_wireless_controller_devices_redundancy_statuses(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
-        """List redundancy details of wireless LAN controllers in an organization
+        """List redundancy details of wireless LAN controllers in an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-controller-devices-redundancy-statuses
 
@@ -699,13 +699,13 @@ class AsyncWirelessController:
         - perPage (integer): The number of entries per page returned. Acceptable range is 3 - 1000. Default is 1000.
         - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
         - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["wirelessController", "monitor", "devices", "redundancy", "statuses"],
-            "operation": "getOrganizationWirelessControllerDevicesRedundancyStatuses",
+            "operation": "get_organization_wireless_controller_devices_redundancy_statuses",
         }
         organizationId = urllib.parse.quote(str(organizationId), safe="")
         resource = f"/organizations/{organizationId}/wirelessController/devices/redundancy/statuses"
@@ -728,10 +728,10 @@ class AsyncWirelessController:
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
-    def getOrganizationWirelessControllerDevicesSystemUtilizationHistoryByInterval(
+    def get_organization_wireless_controller_devices_system_utilization_history_by_interval(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
-        """List cpu utilization data of wireless LAN controllers in an organization
+        """List cpu utilization data of wireless LAN controllers in an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-controller-devices-system-utilization-history-by-interval
 
@@ -745,8 +745,8 @@ class AsyncWirelessController:
         - perPage (integer): The number of entries per page returned. Acceptable range is 3 - 1000. Default is 1000.
         - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
         - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
@@ -759,7 +759,7 @@ class AsyncWirelessController:
                 "history",
                 "byInterval",
             ],
-            "operation": "getOrganizationWirelessControllerDevicesSystemUtilizationHistoryByInterval",
+            "operation": "get_organization_wireless_controller_devices_system_utilization_history_by_interval",
         }
         organizationId = urllib.parse.quote(str(organizationId), safe="")
         resource = f"/organizations/{organizationId}/wirelessController/devices/system/utilization/history/byInterval"
@@ -785,7 +785,7 @@ class AsyncWirelessController:
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
-    def getOrganizationWirelessControllerOverviewByDevice(
+    def get_organization_wireless_controller_overview_by_device(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
         """List the overview information of wireless LAN controllers in an organization and it is updated every minute.
@@ -800,13 +800,13 @@ class AsyncWirelessController:
         - perPage (integer): The number of entries per page returned. Acceptable range is 3 - 1000. Default is 1000.
         - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
         - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["wirelessController", "monitor", "overview", "byDevice"],
-            "operation": "getOrganizationWirelessControllerOverviewByDevice",
+            "operation": "get_organization_wireless_controller_overview_by_device",
         }
         organizationId = urllib.parse.quote(str(organizationId), safe="")
         resource = f"/organizations/{organizationId}/wirelessController/overview/byDevice"

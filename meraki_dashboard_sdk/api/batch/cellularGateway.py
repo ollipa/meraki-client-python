@@ -7,7 +7,7 @@ class ActionBatchCellularGateway:
     def __init__(self) -> None:
         pass
 
-    def updateDeviceCellularGatewayLan(self, serial: str, **kwargs):
+    def update_device_cellular_gateway_lan(self, serial: str, **kwargs):
         """
         **Update the LAN Settings for a single MG.**
         https://developer.cisco.com/meraki/api-v1/#!update-device-cellular-gateway-lan
@@ -21,7 +21,7 @@ class ActionBatchCellularGateway:
 
         metadata = {
             "tags": ["cellularGateway", "configure", "lan"],
-            "operation": "updateDeviceCellularGatewayLan",
+            "operation": "update_device_cellular_gateway_lan",
         }
         resource = f"/devices/{serial}/cellularGateway/lan"
 
@@ -33,7 +33,7 @@ class ActionBatchCellularGateway:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def updateDeviceCellularGatewayPortForwardingRules(self, serial: str, **kwargs):
+    def update_device_cellular_gateway_port_forwarding_rules(self, serial: str, **kwargs):
         """
         **Updates the port forwarding rules for a single MG.**
         https://developer.cisco.com/meraki/api-v1/#!update-device-cellular-gateway-port-forwarding-rules
@@ -46,7 +46,7 @@ class ActionBatchCellularGateway:
 
         metadata = {
             "tags": ["cellularGateway", "configure", "portForwardingRules"],
-            "operation": "updateDeviceCellularGatewayPortForwardingRules",
+            "operation": "update_device_cellular_gateway_port_forwarding_rules",
         }
         resource = f"/devices/{serial}/cellularGateway/portForwardingRules"
 
@@ -57,11 +57,11 @@ class ActionBatchCellularGateway:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def updateNetworkCellularGatewayConnectivityMonitoringDestinations(
+    def update_network_cellular_gateway_connectivity_monitoring_destinations(
         self, networkId: str, **kwargs
     ):
         """
-        **Update the connectivity testing destinations for an MG network**
+        **Update the connectivity testing destinations for an MG network.**
         https://developer.cisco.com/meraki/api-v1/#!update-network-cellular-gateway-connectivity-monitoring-destinations
 
         - networkId (string): Network ID
@@ -72,7 +72,7 @@ class ActionBatchCellularGateway:
 
         metadata = {
             "tags": ["cellularGateway", "configure", "connectivityMonitoringDestinations"],
-            "operation": "updateNetworkCellularGatewayConnectivityMonitoringDestinations",
+            "operation": "update_network_cellular_gateway_connectivity_monitoring_destinations",
         }
         resource = f"/networks/{networkId}/cellularGateway/connectivityMonitoringDestinations"
 
@@ -83,9 +83,9 @@ class ActionBatchCellularGateway:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def updateNetworkCellularGatewayDhcp(self, networkId: str, **kwargs):
+    def update_network_cellular_gateway_dhcp(self, networkId: str, **kwargs):
         """
-        **Update common DHCP settings of MGs**
+        **Update common DHCP settings of MGs.**
         https://developer.cisco.com/meraki/api-v1/#!update-network-cellular-gateway-dhcp
 
         - networkId (string): Network ID
@@ -98,7 +98,7 @@ class ActionBatchCellularGateway:
 
         metadata = {
             "tags": ["cellularGateway", "configure", "dhcp"],
-            "operation": "updateNetworkCellularGatewayDhcp",
+            "operation": "update_network_cellular_gateway_dhcp",
         }
         resource = f"/networks/{networkId}/cellularGateway/dhcp"
 
@@ -111,7 +111,7 @@ class ActionBatchCellularGateway:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def updateNetworkCellularGatewaySubnetPool(self, networkId: str, **kwargs):
+    def update_network_cellular_gateway_subnet_pool(self, networkId: str, **kwargs):
         """
         **Update the subnet pool and mask configuration for MGs in the network.**
         https://developer.cisco.com/meraki/api-v1/#!update-network-cellular-gateway-subnet-pool
@@ -125,7 +125,7 @@ class ActionBatchCellularGateway:
 
         metadata = {
             "tags": ["cellularGateway", "configure", "subnetPool"],
-            "operation": "updateNetworkCellularGatewaySubnetPool",
+            "operation": "update_network_cellular_gateway_subnet_pool",
         }
         resource = f"/networks/{networkId}/cellularGateway/subnetPool"
 
@@ -137,7 +137,7 @@ class ActionBatchCellularGateway:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def updateNetworkCellularGatewayUplink(self, networkId: str, **kwargs):
+    def update_network_cellular_gateway_uplink(self, networkId: str, **kwargs):
         """
         **Updates the uplink settings for your MG network.**
         https://developer.cisco.com/meraki/api-v1/#!update-network-cellular-gateway-uplink
@@ -150,7 +150,7 @@ class ActionBatchCellularGateway:
 
         metadata = {
             "tags": ["cellularGateway", "configure", "uplink"],
-            "operation": "updateNetworkCellularGatewayUplink",
+            "operation": "update_network_cellular_gateway_uplink",
         }
         resource = f"/networks/{networkId}/cellularGateway/uplink"
 
@@ -161,11 +161,11 @@ class ActionBatchCellularGateway:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def updateOrganizationCellularGatewayEsimsInventory(
+    def update_organization_cellular_gateway_esims_inventory(
         self, organizationId: str, id: str, **kwargs
     ):
         """
-        **Toggle the status of an eSIM**
+        **Toggle the status of an eSIM.**
         https://developer.cisco.com/meraki/api-v1/#!update-organization-cellular-gateway-esims-inventory
 
         - organizationId (string): Organization ID
@@ -177,7 +177,7 @@ class ActionBatchCellularGateway:
 
         metadata = {
             "tags": ["cellularGateway", "configure", "esims", "inventory"],
-            "operation": "updateOrganizationCellularGatewayEsimsInventory",
+            "operation": "update_organization_cellular_gateway_esims_inventory",
         }
         resource = f"/organizations/{organizationId}/cellularGateway/esims/inventory/{id}"
 
@@ -188,7 +188,7 @@ class ActionBatchCellularGateway:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def createOrganizationCellularGatewayEsimsServiceProvidersAccount(
+    def create_organization_cellular_gateway_esims_service_providers_account(
         self,
         organizationId: str,
         accountId: str,
@@ -213,7 +213,7 @@ class ActionBatchCellularGateway:
 
         metadata = {
             "tags": ["cellularGateway", "configure", "esims", "serviceProviders", "accounts"],
-            "operation": "createOrganizationCellularGatewayEsimsServiceProvidersAccount",
+            "operation": "create_organization_cellular_gateway_esims_service_providers_account",
         }
         resource = (
             f"/organizations/{organizationId}/cellularGateway/esims/serviceProviders/accounts"
@@ -230,7 +230,7 @@ class ActionBatchCellularGateway:
         action = {"resource": resource, "operation": "create", "body": payload}
         return action
 
-    def updateOrganizationCellularGatewayEsimsServiceProvidersAccount(
+    def update_organization_cellular_gateway_esims_service_providers_account(
         self, organizationId: str, accountId: str, **kwargs
     ):
         """
@@ -247,7 +247,7 @@ class ActionBatchCellularGateway:
 
         metadata = {
             "tags": ["cellularGateway", "configure", "esims", "serviceProviders", "accounts"],
-            "operation": "updateOrganizationCellularGatewayEsimsServiceProvidersAccount",
+            "operation": "update_organization_cellular_gateway_esims_service_providers_account",
         }
         resource = f"/organizations/{organizationId}/cellularGateway/esims/serviceProviders/accounts/{accountId}"
 
@@ -259,7 +259,7 @@ class ActionBatchCellularGateway:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def deleteOrganizationCellularGatewayEsimsServiceProvidersAccount(
+    def delete_organization_cellular_gateway_esims_service_providers_account(
         self, organizationId: str, accountId: str
     ):
         """
@@ -272,7 +272,7 @@ class ActionBatchCellularGateway:
 
         metadata = {
             "tags": ["cellularGateway", "configure", "esims", "serviceProviders", "accounts"],
-            "operation": "deleteOrganizationCellularGatewayEsimsServiceProvidersAccount",
+            "operation": "delete_organization_cellular_gateway_esims_service_providers_account",
         }
         resource = f"/organizations/{organizationId}/cellularGateway/esims/serviceProviders/accounts/{accountId}"
 
@@ -282,7 +282,7 @@ class ActionBatchCellularGateway:
         }
         return action
 
-    def createOrganizationCellularGatewayEsimsSwap(self, organizationId: str, swaps: list):
+    def create_organization_cellular_gateway_esims_swap(self, organizationId: str, swaps: list):
         """
         **Swap which profile an eSIM uses.**
         https://developer.cisco.com/meraki/api-v1/#!create-organization-cellular-gateway-esims-swap
@@ -295,7 +295,7 @@ class ActionBatchCellularGateway:
 
         metadata = {
             "tags": ["cellularGateway", "configure", "esims", "swap"],
-            "operation": "createOrganizationCellularGatewayEsimsSwap",
+            "operation": "create_organization_cellular_gateway_esims_swap",
         }
         resource = f"/organizations/{organizationId}/cellularGateway/esims/swap"
 
@@ -306,7 +306,7 @@ class ActionBatchCellularGateway:
         action = {"resource": resource, "operation": "create", "body": payload}
         return action
 
-    def updateOrganizationCellularGatewayEsimsSwap(self, id: str, organizationId: str):
+    def update_organization_cellular_gateway_esims_swap(self, id: str, organizationId: str):
         """
         **Get the status of a profile swap.**
         https://developer.cisco.com/meraki/api-v1/#!update-organization-cellular-gateway-esims-swap
@@ -317,7 +317,7 @@ class ActionBatchCellularGateway:
 
         metadata = {
             "tags": ["cellularGateway", "configure", "esims", "swap"],
-            "operation": "updateOrganizationCellularGatewayEsimsSwap",
+            "operation": "update_organization_cellular_gateway_esims_swap",
         }
         resource = f"/organizations/{organizationId}/cellularGateway/esims/swap/{id}"
 

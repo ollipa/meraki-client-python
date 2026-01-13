@@ -12,22 +12,22 @@ class AsyncNetworks:
         super().__init__()
         self._session = session
 
-    def getNetwork(self, networkId: str):
-        """Return a network
+    def get_network(self, networkId: str):
+        """Return a network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network
 
         - networkId (string): Network ID
-        """
 
-        metadata = {"tags": ["networks", "configure"], "operation": "getNetwork"}
+        """
+        metadata = {"tags": ["networks", "configure"], "operation": "get_network"}
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}"
 
         return self._session.get(metadata, resource)
 
-    def updateNetwork(self, networkId: str, **kwargs):
-        """Update a network
+    def update_network(self, networkId: str, **kwargs):
+        """Update a network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network
 
@@ -37,11 +37,11 @@ class AsyncNetworks:
         - tags (array): A list of tags to be applied to the network
         - enrollmentString (string): A unique identifier which can be used for device enrollment or easy access through the Meraki SM Registration page or the Self Service Portal. Please note that changing this field may cause existing bookmarks to break.
         - notes (string): Add any notes or additional information about this network here.
-        """
 
+        """
         kwargs.update(locals())
 
-        metadata = {"tags": ["networks", "configure"], "operation": "updateNetwork"}
+        metadata = {"tags": ["networks", "configure"], "operation": "update_network"}
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}"
 
@@ -56,22 +56,22 @@ class AsyncNetworks:
 
         return self._session.put(metadata, resource, payload)
 
-    def deleteNetwork(self, networkId: str):
-        """Delete a network
+    def delete_network(self, networkId: str):
+        """Delete a network.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-network
 
         - networkId (string): Network ID
-        """
 
-        metadata = {"tags": ["networks", "configure"], "operation": "deleteNetwork"}
+        """
+        metadata = {"tags": ["networks", "configure"], "operation": "delete_network"}
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}"
 
         return self._session.delete(metadata, resource)
 
-    def getNetworkAlertsHistory(self, networkId: str, total_pages=1, direction="next", **kwargs):
-        """Return the alert history for this network
+    def get_network_alerts_history(self, networkId: str, total_pages=1, direction="next", **kwargs):
+        """Return the alert history for this network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-alerts-history
 
@@ -81,13 +81,13 @@ class AsyncNetworks:
         - perPage (integer): The number of entries per page returned. Acceptable range is 3 - 1000. Default is 100.
         - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
         - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["networks", "monitor", "alerts", "history"],
-            "operation": "getNetworkAlertsHistory",
+            "operation": "get_network_alerts_history",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/alerts/history"
@@ -101,25 +101,25 @@ class AsyncNetworks:
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
-    def getNetworkAlertsSettings(self, networkId: str):
-        """Return the alert configuration for this network
+    def get_network_alerts_settings(self, networkId: str):
+        """Return the alert configuration for this network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-alerts-settings
 
         - networkId (string): Network ID
-        """
 
+        """
         metadata = {
             "tags": ["networks", "configure", "alerts", "settings"],
-            "operation": "getNetworkAlertsSettings",
+            "operation": "get_network_alerts_settings",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/alerts/settings"
 
         return self._session.get(metadata, resource)
 
-    def updateNetworkAlertsSettings(self, networkId: str, **kwargs):
-        """Update the alert configuration for this network
+    def update_network_alerts_settings(self, networkId: str, **kwargs):
+        """Update the alert configuration for this network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-alerts-settings
 
@@ -127,13 +127,13 @@ class AsyncNetworks:
         - defaultDestinations (object): The network-wide destinations for all alerts on the network.
         - alerts (array): Alert-specific configuration for each type. Only alerts that pertain to the network can be updated.
         - muting (object): Mute alerts under certain conditions
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["networks", "configure", "alerts", "settings"],
-            "operation": "updateNetworkAlertsSettings",
+            "operation": "update_network_alerts_settings",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/alerts/settings"
@@ -147,7 +147,7 @@ class AsyncNetworks:
 
         return self._session.put(metadata, resource, payload)
 
-    def bindNetwork(self, networkId: str, configTemplateId: str, **kwargs):
+    def bind_network(self, networkId: str, configTemplateId: str, **kwargs):
         """Bind a network to a template.
 
         https://developer.cisco.com/meraki/api-v1/#!bind-network
@@ -155,11 +155,11 @@ class AsyncNetworks:
         - networkId (string): Network ID
         - configTemplateId (string): The ID of the template to which the network should be bound.
         - autoBind (boolean): Optional boolean indicating whether the network's switches should automatically bind to profiles of the same model. Defaults to false if left unspecified. This option only affects switch networks and switch templates. Auto-bind is not valid unless the switch template has at least one profile and has at most one profile per switch model.
-        """
 
+        """
         kwargs.update(locals())
 
-        metadata = {"tags": ["networks", "configure"], "operation": "bindNetwork"}
+        metadata = {"tags": ["networks", "configure"], "operation": "bind_network"}
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/bind"
 
@@ -171,8 +171,10 @@ class AsyncNetworks:
 
         return self._session.post(metadata, resource, payload)
 
-    def getNetworkBluetoothClients(self, networkId: str, total_pages=1, direction="next", **kwargs):
-        """List the Bluetooth clients seen by APs in this network
+    def get_network_bluetooth_clients(
+        self, networkId: str, total_pages=1, direction="next", **kwargs
+    ):
+        """List the Bluetooth clients seen by APs in this network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-bluetooth-clients
 
@@ -185,13 +187,13 @@ class AsyncNetworks:
         - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
         - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
         - includeConnectivityHistory (boolean): Include the connectivity history for this client
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["networks", "monitor", "bluetoothClients"],
-            "operation": "getNetworkBluetoothClients",
+            "operation": "get_network_bluetooth_clients",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/bluetoothClients"
@@ -208,8 +210,8 @@ class AsyncNetworks:
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
-    def getNetworkBluetoothClient(self, networkId: str, bluetoothClientId: str, **kwargs):
-        """Return a Bluetooth client
+    def get_network_bluetooth_client(self, networkId: str, bluetoothClientId: str, **kwargs):
+        """Return a Bluetooth client.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-bluetooth-client
 
@@ -217,13 +219,13 @@ class AsyncNetworks:
         - bluetoothClientId (string): Bluetooth client ID
         - includeConnectivityHistory (boolean): Include the connectivity history for this client
         - connectivityHistoryTimespan (integer): The timespan, in seconds, for the connectivityHistory data. By default 1 day, 86400, will be used.
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["networks", "monitor", "bluetoothClients"],
-            "operation": "getNetworkBluetoothClient",
+            "operation": "get_network_bluetooth_client",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         bluetoothClientId = urllib.parse.quote(str(bluetoothClientId), safe="")
@@ -237,8 +239,8 @@ class AsyncNetworks:
 
         return self._session.get(metadata, resource, params)
 
-    def getNetworkClients(self, networkId: str, total_pages=1, direction="next", **kwargs):
-        """List the clients that have used this network in the timespan
+    def get_network_clients(self, networkId: str, total_pages=1, direction="next", **kwargs):
+        """List the clients that have used this network in the timespan.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-clients
 
@@ -261,11 +263,11 @@ class AsyncNetworks:
         - vlan (string): Filters clients based on the full match for the VLAN field.
         - namedVlan (string): Filters clients based on the partial or full match for the named VLAN field.
         - recentDeviceConnections (array): Filters clients based on recent connection type. Can be one of 'Wired' or 'Wireless'.
-        """
 
+        """
         kwargs.update(locals())
 
-        metadata = {"tags": ["networks", "monitor", "clients"], "operation": "getNetworkClients"}
+        metadata = {"tags": ["networks", "monitor", "clients"], "operation": "get_network_clients"}
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/clients"
 
@@ -300,10 +302,10 @@ class AsyncNetworks:
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
-    def getNetworkClientsApplicationUsage(
+    def get_network_clients_application_usage(
         self, networkId: str, clients: str, total_pages=1, direction="next", **kwargs
     ):
-        """Return the application usage data for clients
+        """Return the application usage data for clients.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-clients-application-usage
 
@@ -318,8 +320,8 @@ class AsyncNetworks:
         - t0 (string): The beginning of the timespan for the data. The maximum lookback period is 31 days from today.
         - t1 (string): The end of the timespan for the data. t1 can be a maximum of 31 days after t0.
         - timespan (number): The timespan for which the information will be fetched. If specifying timespan, do not specify parameters t0 and t1. The value must be in seconds and be less than or equal to 31 days. The default is 1 day.
-        """
 
+        """
         kwargs.update(locals())
 
         if "ssidNumber" in kwargs:
@@ -330,7 +332,7 @@ class AsyncNetworks:
 
         metadata = {
             "tags": ["networks", "monitor", "clients", "applicationUsage"],
-            "operation": "getNetworkClientsApplicationUsage",
+            "operation": "get_network_clients_application_usage",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/clients/applicationUsage"
@@ -349,7 +351,7 @@ class AsyncNetworks:
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
-    def getNetworkClientsBandwidthUsageHistory(
+    def get_network_clients_bandwidth_usage_history(
         self, networkId: str, total_pages=1, direction="next", **kwargs
     ):
         """Returns a timeseries of total traffic consumption rates for all clients on a network within a given timespan, in megabits per second.
@@ -365,13 +367,13 @@ class AsyncNetworks:
         - perPage (integer): The number of entries per page returned. Acceptable range is 3 - 1000. Default is 1000.
         - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
         - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["networks", "monitor", "clients", "bandwidthUsageHistory"],
-            "operation": "getNetworkClientsBandwidthUsageHistory",
+            "operation": "get_network_clients_bandwidth_usage_history",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/clients/bandwidthUsageHistory"
@@ -388,8 +390,8 @@ class AsyncNetworks:
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
-    def getNetworkClientsOverview(self, networkId: str, **kwargs):
-        """Return overview statistics for network clients
+    def get_network_clients_overview(self, networkId: str, **kwargs):
+        """Return overview statistics for network clients.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-clients-overview
 
@@ -398,13 +400,13 @@ class AsyncNetworks:
         - t1 (string): The end of the timespan for the data. t1 can be a maximum of 31 days after t0.
         - timespan (number): The timespan for which the information will be fetched. If specifying timespan, do not specify parameters t0 and t1. The value must be in seconds and be less than or equal to 31 days. The default is 1 day.
         - resolution (integer): The time resolution in seconds for returned data. The valid resolutions are: 7200, 86400, 604800, 2592000. The default is 604800.
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["networks", "monitor", "clients", "overview"],
-            "operation": "getNetworkClientsOverview",
+            "operation": "get_network_clients_overview",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/clients/overview"
@@ -419,8 +421,8 @@ class AsyncNetworks:
 
         return self._session.get(metadata, resource, params)
 
-    def provisionNetworkClients(self, networkId: str, clients: list, devicePolicy: str, **kwargs):
-        """Provisions a client with a name and policy
+    def provision_network_clients(self, networkId: str, clients: list, devicePolicy: str, **kwargs):
+        """Provisions a client with a name and policy.
 
         https://developer.cisco.com/meraki/api-v1/#!provision-network-clients
 
@@ -430,8 +432,8 @@ class AsyncNetworks:
         - groupPolicyId (string): The ID of the desired group policy to apply to the client. Required if 'devicePolicy' is set to "Group policy". Otherwise this is ignored.
         - policiesBySecurityAppliance (object): An object, describing what the policy-connection association is for the security appliance. (Only relevant if the security appliance is actually within the network)
         - policiesBySsid (object): An object, describing the policy-connection associations for each active SSID within the network. Keys should be the number of enabled SSIDs, mapping to an object describing the client's policy
-        """
 
+        """
         kwargs.update(locals())
 
         if "devicePolicy" in kwargs:
@@ -442,7 +444,7 @@ class AsyncNetworks:
 
         metadata = {
             "tags": ["networks", "configure", "clients"],
-            "operation": "provisionNetworkClients",
+            "operation": "provision_network_clients",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/clients/provision"
@@ -458,10 +460,10 @@ class AsyncNetworks:
 
         return self._session.post(metadata, resource, payload)
 
-    def getNetworkClientsUsageHistories(
+    def get_network_clients_usage_histories(
         self, networkId: str, clients: str, total_pages=1, direction="next", **kwargs
     ):
-        """Return the usage histories for clients
+        """Return the usage histories for clients.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-clients-usage-histories
 
@@ -476,8 +478,8 @@ class AsyncNetworks:
         - t0 (string): The beginning of the timespan for the data. The maximum lookback period is 31 days from today.
         - t1 (string): The end of the timespan for the data. t1 can be a maximum of 31 days after t0.
         - timespan (number): The timespan for which the information will be fetched. If specifying timespan, do not specify parameters t0 and t1. The value must be in seconds and be less than or equal to 31 days. The default is 1 day.
-        """
 
+        """
         kwargs.update(locals())
 
         if "ssidNumber" in kwargs:
@@ -488,7 +490,7 @@ class AsyncNetworks:
 
         metadata = {
             "tags": ["networks", "monitor", "clients", "usageHistories"],
-            "operation": "getNetworkClientsUsageHistories",
+            "operation": "get_network_clients_usage_histories",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/clients/usageHistories"
@@ -507,34 +509,34 @@ class AsyncNetworks:
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
-    def getNetworkClient(self, networkId: str, clientId: str):
-        """Return the client associated with the given identifier
+    def get_network_client(self, networkId: str, clientId: str):
+        """Return the client associated with the given identifier.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-client
 
         - networkId (string): Network ID
         - clientId (string): Client ID
-        """
 
-        metadata = {"tags": ["networks", "monitor", "clients"], "operation": "getNetworkClient"}
+        """
+        metadata = {"tags": ["networks", "monitor", "clients"], "operation": "get_network_client"}
         networkId = urllib.parse.quote(str(networkId), safe="")
         clientId = urllib.parse.quote(str(clientId), safe="")
         resource = f"/networks/{networkId}/clients/{clientId}"
 
         return self._session.get(metadata, resource)
 
-    def getNetworkClientPolicy(self, networkId: str, clientId: str):
-        """Return the policy assigned to a client on the network
+    def get_network_client_policy(self, networkId: str, clientId: str):
+        """Return the policy assigned to a client on the network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-client-policy
 
         - networkId (string): Network ID
         - clientId (string): Client ID
-        """
 
+        """
         metadata = {
             "tags": ["networks", "configure", "clients", "policy"],
-            "operation": "getNetworkClientPolicy",
+            "operation": "get_network_client_policy",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         clientId = urllib.parse.quote(str(clientId), safe="")
@@ -542,8 +544,10 @@ class AsyncNetworks:
 
         return self._session.get(metadata, resource)
 
-    def updateNetworkClientPolicy(self, networkId: str, clientId: str, devicePolicy: str, **kwargs):
-        """Update the policy assigned to a client on the network
+    def update_network_client_policy(
+        self, networkId: str, clientId: str, devicePolicy: str, **kwargs
+    ):
+        """Update the policy assigned to a client on the network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-client-policy
 
@@ -551,13 +555,13 @@ class AsyncNetworks:
         - clientId (string): Client ID
         - devicePolicy (string): The policy to assign. Can be 'Whitelisted', 'Blocked', 'Normal' or 'Group policy'. Required.
         - groupPolicyId (string): [Optional] If 'devicePolicy' is set to 'Group policy' this param is used to specify the group policy ID.
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["networks", "configure", "clients", "policy"],
-            "operation": "updateNetworkClientPolicy",
+            "operation": "update_network_client_policy",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         clientId = urllib.parse.quote(str(clientId), safe="")
@@ -571,18 +575,18 @@ class AsyncNetworks:
 
         return self._session.put(metadata, resource, payload)
 
-    def getNetworkClientSplashAuthorizationStatus(self, networkId: str, clientId: str):
-        """Return the splash authorization for a client, for each SSID they've associated with through splash
+    def get_network_client_splash_authorization_status(self, networkId: str, clientId: str):
+        """Return the splash authorization for a client, for each SSID they've associated with through splash.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-client-splash-authorization-status
 
         - networkId (string): Network ID
         - clientId (string): Client ID
-        """
 
+        """
         metadata = {
             "tags": ["networks", "configure", "clients", "splashAuthorizationStatus"],
-            "operation": "getNetworkClientSplashAuthorizationStatus",
+            "operation": "get_network_client_splash_authorization_status",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         clientId = urllib.parse.quote(str(clientId), safe="")
@@ -590,23 +594,23 @@ class AsyncNetworks:
 
         return self._session.get(metadata, resource)
 
-    def updateNetworkClientSplashAuthorizationStatus(
+    def update_network_client_splash_authorization_status(
         self, networkId: str, clientId: str, ssids: dict
     ):
-        """Update a client's splash authorization
+        """Update a client's splash authorization.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-client-splash-authorization-status
 
         - networkId (string): Network ID
         - clientId (string): Client ID
         - ssids (object): The target SSIDs. Each SSID must be enabled and must have Click-through splash enabled. For each SSID where isAuthorized is true, the expiration time will automatically be set according to the SSID's splash frequency. Not all networks support configuring all SSIDs
-        """
 
+        """
         kwargs = locals()
 
         metadata = {
             "tags": ["networks", "configure", "clients", "splashAuthorizationStatus"],
-            "operation": "updateNetworkClientSplashAuthorizationStatus",
+            "operation": "update_network_client_splash_authorization_status",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         clientId = urllib.parse.quote(str(clientId), safe="")
@@ -619,10 +623,10 @@ class AsyncNetworks:
 
         return self._session.put(metadata, resource, payload)
 
-    def getNetworkClientTrafficHistory(
+    def get_network_client_traffic_history(
         self, networkId: str, clientId: str, total_pages=1, direction="next", **kwargs
     ):
-        """Return the client's network traffic data over time
+        """Return the client's network traffic data over time.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-client-traffic-history
 
@@ -633,13 +637,13 @@ class AsyncNetworks:
         - perPage (integer): The number of entries per page returned. Acceptable range is 3 - 1000.
         - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
         - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["networks", "monitor", "clients", "trafficHistory"],
-            "operation": "getNetworkClientTrafficHistory",
+            "operation": "get_network_client_traffic_history",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         clientId = urllib.parse.quote(str(clientId), safe="")
@@ -654,18 +658,18 @@ class AsyncNetworks:
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
-    def getNetworkClientUsageHistory(self, networkId: str, clientId: str):
-        """Return the client's daily usage history
+    def get_network_client_usage_history(self, networkId: str, clientId: str):
+        """Return the client's daily usage history.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-client-usage-history
 
         - networkId (string): Network ID
         - clientId (string): Client ID
-        """
 
+        """
         metadata = {
             "tags": ["networks", "monitor", "clients", "usageHistory"],
-            "operation": "getNetworkClientUsageHistory",
+            "operation": "get_network_client_usage_history",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         clientId = urllib.parse.quote(str(clientId), safe="")
@@ -673,22 +677,25 @@ class AsyncNetworks:
 
         return self._session.get(metadata, resource)
 
-    def getNetworkDevices(self, networkId: str):
-        """List the devices in a network
+    def get_network_devices(self, networkId: str):
+        """List the devices in a network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-devices
 
         - networkId (string): Network ID
-        """
 
-        metadata = {"tags": ["networks", "configure", "devices"], "operation": "getNetworkDevices"}
+        """
+        metadata = {
+            "tags": ["networks", "configure", "devices"],
+            "operation": "get_network_devices",
+        }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/devices"
 
         return self._session.get(metadata, resource)
 
-    def claimNetworkDevices(self, networkId: str, serials: list, **kwargs):
-        """Claim devices into a network. (Note: for recently claimed devices, it may take a few minutes for API requests against that device to succeed)
+    def claim_network_devices(self, networkId: str, serials: list, **kwargs):
+        """Claim devices into a network. (Note: for recently claimed devices, it may take a few minutes for API requests against that device to succeed).
 
         https://developer.cisco.com/meraki/api-v1/#!claim-network-devices
 
@@ -696,13 +703,13 @@ class AsyncNetworks:
         - serials (array): A list of serials of devices to claim
         - addAtomically (boolean): Whether to claim devices atomically. If true, all devices will be claimed or none will be claimed. Default is true.
         - detailsByDevice (array): Optional details for claimed devices (currently only used for Catalyst devices)
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["networks", "configure", "devices"],
-            "operation": "claimNetworkDevices",
+            "operation": "claim_network_devices",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/devices/claim"
@@ -715,15 +722,15 @@ class AsyncNetworks:
 
         return self._session.post(metadata, resource, payload)
 
-    def vmxNetworkDevicesClaim(self, networkId: str, size: str):
-        """Claim a vMX into a network
+    def vmx_network_devices_claim(self, networkId: str, size: str):
+        """Claim a vMX into a network.
 
         https://developer.cisco.com/meraki/api-v1/#!vmx-network-devices-claim
 
         - networkId (string): Network ID
         - size (string): The size of the vMX you claim. It can be one of: small, medium, large, xlarge, 100
-        """
 
+        """
         kwargs = locals()
 
         if "size" in kwargs:
@@ -734,7 +741,7 @@ class AsyncNetworks:
 
         metadata = {
             "tags": ["networks", "configure", "devices", "claim"],
-            "operation": "vmxNetworkDevicesClaim",
+            "operation": "vmx_network_devices_claim",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/devices/claim/vmx"
@@ -746,20 +753,20 @@ class AsyncNetworks:
 
         return self._session.post(metadata, resource, payload)
 
-    def removeNetworkDevices(self, networkId: str, serial: str):
-        """Remove a single device
+    def remove_network_devices(self, networkId: str, serial: str):
+        """Remove a single device.
 
         https://developer.cisco.com/meraki/api-v1/#!remove-network-devices
 
         - networkId (string): Network ID
         - serial (string): The serial of a device
-        """
 
+        """
         kwargs = locals()
 
         metadata = {
             "tags": ["networks", "configure", "devices"],
-            "operation": "removeNetworkDevices",
+            "operation": "remove_network_devices",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/devices/remove"
@@ -771,10 +778,10 @@ class AsyncNetworks:
 
         return self._session.post(metadata, resource, payload)
 
-    def getNetworkEvents(
+    def get_network_events(
         self, networkId: str, total_pages=1, direction="prev", event_log_end_time=None, **kwargs
     ):
-        """List the events for the network
+        """List the events for the network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-events
 
@@ -799,8 +806,8 @@ class AsyncNetworks:
         - perPage (integer): The number of entries per page returned. Acceptable range is 3 - 1000. Default is 10.
         - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
         - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        """
 
+        """
         kwargs.update(locals())
 
         if "productType" in kwargs:
@@ -819,7 +826,7 @@ class AsyncNetworks:
                 f'''"productType" cannot be "{kwargs["productType"]}", & must be set to one of: {options}'''
             )
 
-        metadata = {"tags": ["networks", "monitor", "events"], "operation": "getNetworkEvents"}
+        metadata = {"tags": ["networks", "monitor", "events"], "operation": "get_network_events"}
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/events"
 
@@ -857,42 +864,42 @@ class AsyncNetworks:
             metadata, resource, params, total_pages, direction, event_log_end_time
         )
 
-    def getNetworkEventsEventTypes(self, networkId: str):
-        """List the event type to human-readable description
+    def get_network_events_event_types(self, networkId: str):
+        """List the event type to human-readable description.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-events-event-types
 
         - networkId (string): Network ID
-        """
 
+        """
         metadata = {
             "tags": ["networks", "monitor", "events", "eventTypes"],
-            "operation": "getNetworkEventsEventTypes",
+            "operation": "get_network_events_event_types",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/events/eventTypes"
 
         return self._session.get(metadata, resource)
 
-    def getNetworkFirmwareUpgrades(self, networkId: str):
-        """Get firmware upgrade information for a network
+    def get_network_firmware_upgrades(self, networkId: str):
+        """Get firmware upgrade information for a network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-firmware-upgrades
 
         - networkId (string): Network ID
-        """
 
+        """
         metadata = {
             "tags": ["networks", "configure", "firmwareUpgrades"],
-            "operation": "getNetworkFirmwareUpgrades",
+            "operation": "get_network_firmware_upgrades",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/firmwareUpgrades"
 
         return self._session.get(metadata, resource)
 
-    def updateNetworkFirmwareUpgrades(self, networkId: str, **kwargs):
-        """Update firmware upgrade information for a network
+    def update_network_firmware_upgrades(self, networkId: str, **kwargs):
+        """Update firmware upgrade information for a network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-firmware-upgrades
 
@@ -900,13 +907,13 @@ class AsyncNetworks:
         - upgradeWindow (object): Upgrade window for devices in network
         - timezone (string): The timezone for the network
         - products (object): Contains information about the network to update
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["networks", "configure", "firmwareUpgrades"],
-            "operation": "updateNetworkFirmwareUpgrades",
+            "operation": "update_network_firmware_upgrades",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/firmwareUpgrades"
@@ -920,8 +927,8 @@ class AsyncNetworks:
 
         return self._session.put(metadata, resource, payload)
 
-    def createNetworkFirmwareUpgradesRollback(self, networkId: str, reasons: list, **kwargs):
-        """Rollback a Firmware Upgrade For A Network
+    def create_network_firmware_upgrades_rollback(self, networkId: str, reasons: list, **kwargs):
+        """Rollback a Firmware Upgrade For A Network.
 
         https://developer.cisco.com/meraki/api-v1/#!create-network-firmware-upgrades-rollback
 
@@ -930,8 +937,8 @@ class AsyncNetworks:
         - product (string): Product type to rollback (if the network is a combined network)
         - time (string): Scheduled time for the rollback
         - toVersion (object): Version to downgrade to (if the network has firmware flexibility)
-        """
 
+        """
         kwargs.update(locals())
 
         if "product" in kwargs:
@@ -951,7 +958,7 @@ class AsyncNetworks:
 
         metadata = {
             "tags": ["networks", "configure", "firmwareUpgrades", "rollbacks"],
-            "operation": "createNetworkFirmwareUpgradesRollback",
+            "operation": "create_network_firmware_upgrades_rollback",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/firmwareUpgrades/rollbacks"
@@ -966,38 +973,38 @@ class AsyncNetworks:
 
         return self._session.post(metadata, resource, payload)
 
-    def getNetworkFirmwareUpgradesStagedEvents(self, networkId: str):
-        """Get the Staged Upgrade Event from a network
+    def get_network_firmware_upgrades_staged_events(self, networkId: str):
+        """Get the Staged Upgrade Event from a network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-firmware-upgrades-staged-events
 
         - networkId (string): Network ID
-        """
 
+        """
         metadata = {
             "tags": ["networks", "configure", "firmwareUpgrades", "staged", "events"],
-            "operation": "getNetworkFirmwareUpgradesStagedEvents",
+            "operation": "get_network_firmware_upgrades_staged_events",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/firmwareUpgrades/staged/events"
 
         return self._session.get(metadata, resource)
 
-    def createNetworkFirmwareUpgradesStagedEvent(self, networkId: str, stages: list, **kwargs):
-        """Create a Staged Upgrade Event for a network
+    def create_network_firmware_upgrades_staged_event(self, networkId: str, stages: list, **kwargs):
+        """Create a Staged Upgrade Event for a network.
 
         https://developer.cisco.com/meraki/api-v1/#!create-network-firmware-upgrades-staged-event
 
         - networkId (string): Network ID
         - stages (array): All firmware upgrade stages in the network with their start time.
         - products (object): Contains firmware upgrade version information
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["networks", "configure", "firmwareUpgrades", "staged", "events"],
-            "operation": "createNetworkFirmwareUpgradesStagedEvent",
+            "operation": "create_network_firmware_upgrades_staged_event",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/firmwareUpgrades/staged/events"
@@ -1010,20 +1017,20 @@ class AsyncNetworks:
 
         return self._session.post(metadata, resource, payload)
 
-    def updateNetworkFirmwareUpgradesStagedEvents(self, networkId: str, stages: list):
-        """Update the Staged Upgrade Event for a network
+    def update_network_firmware_upgrades_staged_events(self, networkId: str, stages: list):
+        """Update the Staged Upgrade Event for a network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-firmware-upgrades-staged-events
 
         - networkId (string): Network ID
         - stages (array): All firmware upgrade stages in the network with their start time.
-        """
 
+        """
         kwargs = locals()
 
         metadata = {
             "tags": ["networks", "configure", "firmwareUpgrades", "staged", "events"],
-            "operation": "updateNetworkFirmwareUpgradesStagedEvents",
+            "operation": "update_network_firmware_upgrades_staged_events",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/firmwareUpgrades/staged/events"
@@ -1035,38 +1042,40 @@ class AsyncNetworks:
 
         return self._session.put(metadata, resource, payload)
 
-    def deferNetworkFirmwareUpgradesStagedEvents(self, networkId: str):
-        """Postpone by 1 week all pending staged upgrade stages for a network
+    def defer_network_firmware_upgrades_staged_events(self, networkId: str):
+        """Postpone by 1 week all pending staged upgrade stages for a network.
 
         https://developer.cisco.com/meraki/api-v1/#!defer-network-firmware-upgrades-staged-events
 
         - networkId (string): Network ID
-        """
 
+        """
         metadata = {
             "tags": ["networks", "configure", "firmwareUpgrades", "staged", "events"],
-            "operation": "deferNetworkFirmwareUpgradesStagedEvents",
+            "operation": "defer_network_firmware_upgrades_staged_events",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/firmwareUpgrades/staged/events/defer"
 
         return self._session.post(metadata, resource)
 
-    def rollbacksNetworkFirmwareUpgradesStagedEvents(self, networkId: str, stages: list, **kwargs):
-        """Rollback a Staged Upgrade Event for a network
+    def rollbacks_network_firmware_upgrades_staged_events(
+        self, networkId: str, stages: list, **kwargs
+    ):
+        """Rollback a Staged Upgrade Event for a network.
 
         https://developer.cisco.com/meraki/api-v1/#!rollbacks-network-firmware-upgrades-staged-events
 
         - networkId (string): Network ID
         - stages (array): All completed or in-progress stages in the network with their new start times. All pending stages will be canceled
         - reasons (array): The reason for rolling back the staged upgrade
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["networks", "configure", "firmwareUpgrades", "staged", "events"],
-            "operation": "rollbacksNetworkFirmwareUpgradesStagedEvents",
+            "operation": "rollbacks_network_firmware_upgrades_staged_events",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/firmwareUpgrades/staged/events/rollbacks"
@@ -1079,27 +1088,27 @@ class AsyncNetworks:
 
         return self._session.post(metadata, resource, payload)
 
-    def getNetworkFirmwareUpgradesStagedGroups(self, networkId: str):
-        """List of Staged Upgrade Groups in a network
+    def get_network_firmware_upgrades_staged_groups(self, networkId: str):
+        """List of Staged Upgrade Groups in a network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-firmware-upgrades-staged-groups
 
         - networkId (string): Network ID
-        """
 
+        """
         metadata = {
             "tags": ["networks", "configure", "firmwareUpgrades", "staged", "groups"],
-            "operation": "getNetworkFirmwareUpgradesStagedGroups",
+            "operation": "get_network_firmware_upgrades_staged_groups",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/firmwareUpgrades/staged/groups"
 
         return self._session.get(metadata, resource)
 
-    def createNetworkFirmwareUpgradesStagedGroup(
+    def create_network_firmware_upgrades_staged_group(
         self, networkId: str, name: str, isDefault: bool, **kwargs
     ):
-        """Create a Staged Upgrade Group for a network
+        """Create a Staged Upgrade Group for a network.
 
         https://developer.cisco.com/meraki/api-v1/#!create-network-firmware-upgrades-staged-group
 
@@ -1108,13 +1117,13 @@ class AsyncNetworks:
         - isDefault (boolean): Boolean indicating the default Group. Any device that does not have a group explicitly assigned will upgrade with this group
         - description (string): Description of the Staged Upgrade Group. Length must be 1 to 255 characters
         - assignedDevices (object): The devices and Switch Stacks assigned to the Group
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["networks", "configure", "firmwareUpgrades", "staged", "groups"],
-            "operation": "createNetworkFirmwareUpgradesStagedGroup",
+            "operation": "create_network_firmware_upgrades_staged_group",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/firmwareUpgrades/staged/groups"
@@ -1129,18 +1138,18 @@ class AsyncNetworks:
 
         return self._session.post(metadata, resource, payload)
 
-    def getNetworkFirmwareUpgradesStagedGroup(self, networkId: str, groupId: str):
-        """Get a Staged Upgrade Group from a network
+    def get_network_firmware_upgrades_staged_group(self, networkId: str, groupId: str):
+        """Get a Staged Upgrade Group from a network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-firmware-upgrades-staged-group
 
         - networkId (string): Network ID
         - groupId (string): Group ID
-        """
 
+        """
         metadata = {
             "tags": ["networks", "configure", "firmwareUpgrades", "staged", "groups"],
-            "operation": "getNetworkFirmwareUpgradesStagedGroup",
+            "operation": "get_network_firmware_upgrades_staged_group",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         groupId = urllib.parse.quote(str(groupId), safe="")
@@ -1148,10 +1157,10 @@ class AsyncNetworks:
 
         return self._session.get(metadata, resource)
 
-    def updateNetworkFirmwareUpgradesStagedGroup(
+    def update_network_firmware_upgrades_staged_group(
         self, networkId: str, groupId: str, name: str, isDefault: bool, **kwargs
     ):
-        """Update a Staged Upgrade Group for a network
+        """Update a Staged Upgrade Group for a network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-firmware-upgrades-staged-group
 
@@ -1161,13 +1170,13 @@ class AsyncNetworks:
         - isDefault (boolean): Boolean indicating the default Group. Any device that does not have a group explicitly assigned will upgrade with this group
         - description (string): Description of the Staged Upgrade Group. Length must be 1 to 255 characters
         - assignedDevices (object): The devices and Switch Stacks assigned to the Group
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["networks", "configure", "firmwareUpgrades", "staged", "groups"],
-            "operation": "updateNetworkFirmwareUpgradesStagedGroup",
+            "operation": "update_network_firmware_upgrades_staged_group",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         groupId = urllib.parse.quote(str(groupId), safe="")
@@ -1183,18 +1192,18 @@ class AsyncNetworks:
 
         return self._session.put(metadata, resource, payload)
 
-    def deleteNetworkFirmwareUpgradesStagedGroup(self, networkId: str, groupId: str):
-        """Delete a Staged Upgrade Group
+    def delete_network_firmware_upgrades_staged_group(self, networkId: str, groupId: str):
+        """Delete a Staged Upgrade Group.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-network-firmware-upgrades-staged-group
 
         - networkId (string): Network ID
         - groupId (string): Group ID
-        """
 
+        """
         metadata = {
             "tags": ["networks", "configure", "firmwareUpgrades", "staged", "groups"],
-            "operation": "deleteNetworkFirmwareUpgradesStagedGroup",
+            "operation": "delete_network_firmware_upgrades_staged_group",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         groupId = urllib.parse.quote(str(groupId), safe="")
@@ -1202,37 +1211,37 @@ class AsyncNetworks:
 
         return self._session.delete(metadata, resource)
 
-    def getNetworkFirmwareUpgradesStagedStages(self, networkId: str):
-        """Order of Staged Upgrade Groups in a network
+    def get_network_firmware_upgrades_staged_stages(self, networkId: str):
+        """Order of Staged Upgrade Groups in a network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-firmware-upgrades-staged-stages
 
         - networkId (string): Network ID
-        """
 
+        """
         metadata = {
             "tags": ["networks", "configure", "firmwareUpgrades", "staged", "stages"],
-            "operation": "getNetworkFirmwareUpgradesStagedStages",
+            "operation": "get_network_firmware_upgrades_staged_stages",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/firmwareUpgrades/staged/stages"
 
         return self._session.get(metadata, resource)
 
-    def updateNetworkFirmwareUpgradesStagedStages(self, networkId: str, **kwargs):
+    def update_network_firmware_upgrades_staged_stages(self, networkId: str, **kwargs):
         """Assign Staged Upgrade Group order in the sequence.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-firmware-upgrades-staged-stages
 
         - networkId (string): Network ID
         - _json (array): Array of Staged Upgrade Groups
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["networks", "configure", "firmwareUpgrades", "staged", "stages"],
-            "operation": "updateNetworkFirmwareUpgradesStagedStages",
+            "operation": "update_network_firmware_upgrades_staged_stages",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/firmwareUpgrades/staged/stages"
@@ -1244,25 +1253,25 @@ class AsyncNetworks:
 
         return self._session.put(metadata, resource, payload)
 
-    def getNetworkFloorPlans(self, networkId: str):
-        """List the floor plans that belong to your network
+    def get_network_floor_plans(self, networkId: str):
+        """List the floor plans that belong to your network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-floor-plans
 
         - networkId (string): Network ID
-        """
 
+        """
         metadata = {
             "tags": ["networks", "configure", "floorPlans"],
-            "operation": "getNetworkFloorPlans",
+            "operation": "get_network_floor_plans",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/floorPlans"
 
         return self._session.get(metadata, resource)
 
-    def createNetworkFloorPlan(self, networkId: str, name: str, imageContents: str, **kwargs):
-        """Upload a floor plan
+    def create_network_floor_plan(self, networkId: str, name: str, imageContents: str, **kwargs):
+        """Upload a floor plan.
 
         https://developer.cisco.com/meraki/api-v1/#!create-network-floor-plan
 
@@ -1275,13 +1284,13 @@ class AsyncNetworks:
         - topLeftCorner (object): The longitude and latitude of the top left corner of your floor plan.
         - topRightCorner (object): The longitude and latitude of the top right corner of your floor plan.
         - floorNumber (number): The floor number of the floors within the building
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["networks", "configure", "floorPlans"],
-            "operation": "createNetworkFloorPlan",
+            "operation": "create_network_floor_plan",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/floorPlans"
@@ -1300,20 +1309,20 @@ class AsyncNetworks:
 
         return self._session.post(metadata, resource, payload)
 
-    def batchNetworkFloorPlansAutoLocateJobs(self, networkId: str, jobs: list):
-        """Schedule auto locate jobs for one or more floor plans in a network
+    def batch_network_floor_plans_auto_locate_jobs(self, networkId: str, jobs: list):
+        """Schedule auto locate jobs for one or more floor plans in a network.
 
         https://developer.cisco.com/meraki/api-v1/#!batch-network-floor-plans-auto-locate-jobs
 
         - networkId (string): Network ID
         - jobs (array): The list of auto locate jobs to be scheduled. Up to 100 jobs can be provided in a request.
-        """
 
+        """
         kwargs = locals()
 
         metadata = {
             "tags": ["networks", "configure", "floorPlans", "autoLocate", "jobs"],
-            "operation": "batchNetworkFloorPlansAutoLocateJobs",
+            "operation": "batch_network_floor_plans_auto_locate_jobs",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/floorPlans/autoLocate/jobs/batch"
@@ -1325,18 +1334,18 @@ class AsyncNetworks:
 
         return self._session.post(metadata, resource, payload)
 
-    def cancelNetworkFloorPlansAutoLocateJob(self, networkId: str, jobId: str):
-        """Cancel a scheduled or running auto locate job
+    def cancel_network_floor_plans_auto_locate_job(self, networkId: str, jobId: str):
+        """Cancel a scheduled or running auto locate job.
 
         https://developer.cisco.com/meraki/api-v1/#!cancel-network-floor-plans-auto-locate-job
 
         - networkId (string): Network ID
         - jobId (string): Job ID
-        """
 
+        """
         metadata = {
             "tags": ["networks", "configure", "floorPlans", "autoLocate", "jobs"],
-            "operation": "cancelNetworkFloorPlansAutoLocateJob",
+            "operation": "cancel_network_floor_plans_auto_locate_job",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         jobId = urllib.parse.quote(str(jobId), safe="")
@@ -1344,21 +1353,21 @@ class AsyncNetworks:
 
         return self._session.post(metadata, resource)
 
-    def publishNetworkFloorPlansAutoLocateJob(self, networkId: str, jobId: str, **kwargs):
-        """Update the status of a finished auto locate job to be published, and update device locations
+    def publish_network_floor_plans_auto_locate_job(self, networkId: str, jobId: str, **kwargs):
+        """Update the status of a finished auto locate job to be published, and update device locations.
 
         https://developer.cisco.com/meraki/api-v1/#!publish-network-floor-plans-auto-locate-job
 
         - networkId (string): Network ID
         - jobId (string): Job ID
         - devices (array): The list of devices to publish positions for
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["networks", "configure", "floorPlans", "autoLocate", "jobs"],
-            "operation": "publishNetworkFloorPlansAutoLocateJob",
+            "operation": "publish_network_floor_plans_auto_locate_job",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         jobId = urllib.parse.quote(str(jobId), safe="")
@@ -1371,21 +1380,21 @@ class AsyncNetworks:
 
         return self._session.post(metadata, resource, payload)
 
-    def recalculateNetworkFloorPlansAutoLocateJob(self, networkId: str, jobId: str, **kwargs):
-        """Trigger auto locate recalculation for a job, and optionally set anchors
+    def recalculate_network_floor_plans_auto_locate_job(self, networkId: str, jobId: str, **kwargs):
+        """Trigger auto locate recalculation for a job, and optionally set anchors.
 
         https://developer.cisco.com/meraki/api-v1/#!recalculate-network-floor-plans-auto-locate-job
 
         - networkId (string): Network ID
         - jobId (string): Job ID
         - devices (array): The list of devices to update anchor positions for
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["networks", "configure", "floorPlans", "autoLocate", "jobs"],
-            "operation": "recalculateNetworkFloorPlansAutoLocateJob",
+            "operation": "recalculate_network_floor_plans_auto_locate_job",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         jobId = urllib.parse.quote(str(jobId), safe="")
@@ -1398,20 +1407,20 @@ class AsyncNetworks:
 
         return self._session.post(metadata, resource, payload)
 
-    def batchNetworkFloorPlansDevicesUpdate(self, networkId: str, assignments: list):
-        """Update floorplan assignments for a batch of devices
+    def batch_network_floor_plans_devices_update(self, networkId: str, assignments: list):
+        """Update floorplan assignments for a batch of devices.
 
         https://developer.cisco.com/meraki/api-v1/#!batch-network-floor-plans-devices-update
 
         - networkId (string): Network ID
         - assignments (array): List of floorplan assignments to update. Up to 100 floor plan assignments can be provided in a request.
-        """
 
+        """
         kwargs = locals()
 
         metadata = {
             "tags": ["networks", "configure", "floorPlans", "devices"],
-            "operation": "batchNetworkFloorPlansDevicesUpdate",
+            "operation": "batch_network_floor_plans_devices_update",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/floorPlans/devices/batchUpdate"
@@ -1423,18 +1432,18 @@ class AsyncNetworks:
 
         return self._session.post(metadata, resource, payload)
 
-    def getNetworkFloorPlan(self, networkId: str, floorPlanId: str):
-        """Find a floor plan by ID
+    def get_network_floor_plan(self, networkId: str, floorPlanId: str):
+        """Find a floor plan by ID.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-floor-plan
 
         - networkId (string): Network ID
         - floorPlanId (string): Floor plan ID
-        """
 
+        """
         metadata = {
             "tags": ["networks", "configure", "floorPlans"],
-            "operation": "getNetworkFloorPlan",
+            "operation": "get_network_floor_plan",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         floorPlanId = urllib.parse.quote(str(floorPlanId), safe="")
@@ -1442,8 +1451,8 @@ class AsyncNetworks:
 
         return self._session.get(metadata, resource)
 
-    def updateNetworkFloorPlan(self, networkId: str, floorPlanId: str, **kwargs):
-        """Update a floor plan's geolocation and other meta data
+    def update_network_floor_plan(self, networkId: str, floorPlanId: str, **kwargs):
+        """Update a floor plan's geolocation and other meta data.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-floor-plan
 
@@ -1457,13 +1466,13 @@ class AsyncNetworks:
         - topRightCorner (object): The longitude and latitude of the top right corner of your floor plan.
         - floorNumber (number): The floor number of the floors within the building
         - imageContents (string): The file contents (a base 64 encoded string) of your new image. Supported formats are PNG, GIF, and JPG. Note that all images are saved as PNG files, regardless of the format they are uploaded in. If you upload a new image, and you do NOT specify any new geolocation fields ('center, 'topLeftCorner', etc), the floor plan will be recentered with no rotation in order to maintain the aspect ratio of your new image.
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["networks", "configure", "floorPlans"],
-            "operation": "updateNetworkFloorPlan",
+            "operation": "update_network_floor_plan",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         floorPlanId = urllib.parse.quote(str(floorPlanId), safe="")
@@ -1483,18 +1492,18 @@ class AsyncNetworks:
 
         return self._session.put(metadata, resource, payload)
 
-    def deleteNetworkFloorPlan(self, networkId: str, floorPlanId: str):
-        """Destroy a floor plan
+    def delete_network_floor_plan(self, networkId: str, floorPlanId: str):
+        """Destroy a floor plan.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-network-floor-plan
 
         - networkId (string): Network ID
         - floorPlanId (string): Floor plan ID
-        """
 
+        """
         metadata = {
             "tags": ["networks", "configure", "floorPlans"],
-            "operation": "deleteNetworkFloorPlan",
+            "operation": "delete_network_floor_plan",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         floorPlanId = urllib.parse.quote(str(floorPlanId), safe="")
@@ -1502,25 +1511,25 @@ class AsyncNetworks:
 
         return self._session.delete(metadata, resource)
 
-    def getNetworkGroupPolicies(self, networkId: str):
-        """List the group policies in a network
+    def get_network_group_policies(self, networkId: str):
+        """List the group policies in a network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-group-policies
 
         - networkId (string): Network ID
-        """
 
+        """
         metadata = {
             "tags": ["networks", "configure", "groupPolicies"],
-            "operation": "getNetworkGroupPolicies",
+            "operation": "get_network_group_policies",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/groupPolicies"
 
         return self._session.get(metadata, resource)
 
-    def createNetworkGroupPolicy(self, networkId: str, name: str, **kwargs):
-        """Create a group policy
+    def create_network_group_policy(self, networkId: str, name: str, **kwargs):
+        """Create a group policy.
 
         https://developer.cisco.com/meraki/api-v1/#!create-network-group-policy
 
@@ -1536,8 +1545,8 @@ class AsyncNetworks:
         - splashAuthSettings (string): Whether clients bound to your policy will bypass splash authorization or behave according to the network's rules. Can be one of 'network default' or 'bypass'. Only available if your network has a wireless configuration.
         - vlanTagging (object): The VLAN tagging settings for your group policy. Only available if your network has a wireless configuration.
         - bonjourForwarding (object): The Bonjour settings for your group policy. Only valid if your network has a wireless configuration.
-        """
 
+        """
         kwargs.update(locals())
 
         if "splashAuthSettings" in kwargs:
@@ -1548,7 +1557,7 @@ class AsyncNetworks:
 
         metadata = {
             "tags": ["networks", "configure", "groupPolicies"],
-            "operation": "createNetworkGroupPolicy",
+            "operation": "create_network_group_policy",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/groupPolicies"
@@ -1567,18 +1576,18 @@ class AsyncNetworks:
 
         return self._session.post(metadata, resource, payload)
 
-    def getNetworkGroupPolicy(self, networkId: str, groupPolicyId: str):
-        """Display a group policy
+    def get_network_group_policy(self, networkId: str, groupPolicyId: str):
+        """Display a group policy.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-group-policy
 
         - networkId (string): Network ID
         - groupPolicyId (string): Group policy ID
-        """
 
+        """
         metadata = {
             "tags": ["networks", "configure", "groupPolicies"],
-            "operation": "getNetworkGroupPolicy",
+            "operation": "get_network_group_policy",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         groupPolicyId = urllib.parse.quote(str(groupPolicyId), safe="")
@@ -1586,8 +1595,8 @@ class AsyncNetworks:
 
         return self._session.get(metadata, resource)
 
-    def updateNetworkGroupPolicy(self, networkId: str, groupPolicyId: str, **kwargs):
-        """Update a group policy
+    def update_network_group_policy(self, networkId: str, groupPolicyId: str, **kwargs):
+        """Update a group policy.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-group-policy
 
@@ -1604,8 +1613,8 @@ class AsyncNetworks:
         - splashAuthSettings (string): Whether clients bound to your policy will bypass splash authorization or behave according to the network's rules. Can be one of 'network default' or 'bypass'. Only available if your network has a wireless configuration.
         - vlanTagging (object): The VLAN tagging settings for your group policy. Only available if your network has a wireless configuration.
         - bonjourForwarding (object): The Bonjour settings for your group policy. Only valid if your network has a wireless configuration.
-        """
 
+        """
         kwargs.update(locals())
 
         if "splashAuthSettings" in kwargs:
@@ -1616,7 +1625,7 @@ class AsyncNetworks:
 
         metadata = {
             "tags": ["networks", "configure", "groupPolicies"],
-            "operation": "updateNetworkGroupPolicy",
+            "operation": "update_network_group_policy",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         groupPolicyId = urllib.parse.quote(str(groupPolicyId), safe="")
@@ -1636,21 +1645,21 @@ class AsyncNetworks:
 
         return self._session.put(metadata, resource, payload)
 
-    def deleteNetworkGroupPolicy(self, networkId: str, groupPolicyId: str, **kwargs):
-        """Delete a group policy
+    def delete_network_group_policy(self, networkId: str, groupPolicyId: str, **kwargs):
+        """Delete a group policy.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-network-group-policy
 
         - networkId (string): Network ID
         - groupPolicyId (string): Group policy ID
         - force (boolean): If true, the system deletes the GP even if there are active clients using the GP. After deletion, active clients that were assigned to that Group Policy will be left without any policy applied. Default is false.
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["networks", "configure", "groupPolicies"],
-            "operation": "deleteNetworkGroupPolicy",
+            "operation": "delete_network_group_policy",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         groupPolicyId = urllib.parse.quote(str(groupPolicyId), safe="")
@@ -1658,44 +1667,44 @@ class AsyncNetworks:
 
         return self._session.delete(metadata, resource)
 
-    def getNetworkHealthAlerts(self, networkId: str):
-        """Return all global alerts on this network
+    def get_network_health_alerts(self, networkId: str):
+        """Return all global alerts on this network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-health-alerts
 
         - networkId (string): Network ID
-        """
 
+        """
         metadata = {
             "tags": ["networks", "configure", "health", "alerts"],
-            "operation": "getNetworkHealthAlerts",
+            "operation": "get_network_health_alerts",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/health/alerts"
 
         return self._session.get(metadata, resource)
 
-    def getNetworkMerakiAuthUsers(self, networkId: str):
-        """List the authorized users configured under Meraki Authentication for a network (splash guest or RADIUS users for a wireless network, or client VPN users for a MX network)
+    def get_network_meraki_auth_users(self, networkId: str):
+        """List the authorized users configured under Meraki Authentication for a network (splash guest or RADIUS users for a wireless network, or client VPN users for a MX network).
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-meraki-auth-users
 
         - networkId (string): Network ID
-        """
 
+        """
         metadata = {
             "tags": ["networks", "configure", "merakiAuthUsers"],
-            "operation": "getNetworkMerakiAuthUsers",
+            "operation": "get_network_meraki_auth_users",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/merakiAuthUsers"
 
         return self._session.get(metadata, resource)
 
-    def createNetworkMerakiAuthUser(
+    def create_network_meraki_auth_user(
         self, networkId: str, email: str, authorizations: list, **kwargs
     ):
-        """Authorize a user configured with Meraki Authentication for a network (currently supports 802.1X, splash guest, and client VPN users, and currently, organizations have a 50,000 user cap)
+        """Authorize a user configured with Meraki Authentication for a network (currently supports 802.1X, splash guest, and client VPN users, and currently, organizations have a 50,000 user cap).
 
         https://developer.cisco.com/meraki/api-v1/#!create-network-meraki-auth-user
 
@@ -1707,8 +1716,8 @@ class AsyncNetworks:
         - accountType (string): Authorization type for user. Can be 'Guest' or '802.1X' for wireless networks, or 'Client VPN' for MX networks. Defaults to '802.1X'.
         - emailPasswordToUser (boolean): Whether or not Meraki should email the password to user. Default is false.
         - isAdmin (boolean): Whether or not the user is a Dashboard administrator.
-        """
 
+        """
         kwargs.update(locals())
 
         if "accountType" in kwargs:
@@ -1719,7 +1728,7 @@ class AsyncNetworks:
 
         metadata = {
             "tags": ["networks", "configure", "merakiAuthUsers"],
-            "operation": "createNetworkMerakiAuthUser",
+            "operation": "create_network_meraki_auth_user",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/merakiAuthUsers"
@@ -1737,18 +1746,18 @@ class AsyncNetworks:
 
         return self._session.post(metadata, resource, payload)
 
-    def getNetworkMerakiAuthUser(self, networkId: str, merakiAuthUserId: str):
-        """Return the Meraki Auth splash guest, RADIUS, or client VPN user
+    def get_network_meraki_auth_user(self, networkId: str, merakiAuthUserId: str):
+        """Return the Meraki Auth splash guest, RADIUS, or client VPN user.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-meraki-auth-user
 
         - networkId (string): Network ID
         - merakiAuthUserId (string): Meraki auth user ID
-        """
 
+        """
         metadata = {
             "tags": ["networks", "configure", "merakiAuthUsers"],
-            "operation": "getNetworkMerakiAuthUser",
+            "operation": "get_network_meraki_auth_user",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         merakiAuthUserId = urllib.parse.quote(str(merakiAuthUserId), safe="")
@@ -1756,7 +1765,7 @@ class AsyncNetworks:
 
         return self._session.get(metadata, resource)
 
-    def deleteNetworkMerakiAuthUser(self, networkId: str, merakiAuthUserId: str, **kwargs):
+    def delete_network_meraki_auth_user(self, networkId: str, merakiAuthUserId: str, **kwargs):
         """Delete an 802.1X RADIUS user, or deauthorize and optionally delete a splash guest or client VPN user.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-network-meraki-auth-user
@@ -1764,13 +1773,13 @@ class AsyncNetworks:
         - networkId (string): Network ID
         - merakiAuthUserId (string): Meraki auth user ID
         - delete (boolean): If the ID supplied is for a splash guest or client VPN user, and that user is not authorized for any other networks in the organization, then also delete the user. 802.1X RADIUS users are always deleted regardless of this optional attribute.
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["networks", "configure", "merakiAuthUsers"],
-            "operation": "deleteNetworkMerakiAuthUser",
+            "operation": "delete_network_meraki_auth_user",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         merakiAuthUserId = urllib.parse.quote(str(merakiAuthUserId), safe="")
@@ -1778,8 +1787,8 @@ class AsyncNetworks:
 
         return self._session.delete(metadata, resource)
 
-    def updateNetworkMerakiAuthUser(self, networkId: str, merakiAuthUserId: str, **kwargs):
-        """Update a user configured with Meraki Authentication (currently, 802.1X RADIUS, splash guest, and client VPN users can be updated)
+    def update_network_meraki_auth_user(self, networkId: str, merakiAuthUserId: str, **kwargs):
+        """Update a user configured with Meraki Authentication (currently, 802.1X RADIUS, splash guest, and client VPN users can be updated).
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-meraki-auth-user
 
@@ -1789,13 +1798,13 @@ class AsyncNetworks:
         - password (string): The password for this user account. Only allowed If the user is not Dashboard administrator.
         - emailPasswordToUser (boolean): Whether or not Meraki should email the password to user. Default is false.
         - authorizations (array): Authorization zones and expiration dates for the user.
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["networks", "configure", "merakiAuthUsers"],
-            "operation": "updateNetworkMerakiAuthUser",
+            "operation": "update_network_meraki_auth_user",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         merakiAuthUserId = urllib.parse.quote(str(merakiAuthUserId), safe="")
@@ -1811,25 +1820,25 @@ class AsyncNetworks:
 
         return self._session.put(metadata, resource, payload)
 
-    def getNetworkMqttBrokers(self, networkId: str):
-        """List the MQTT brokers for this network
+    def get_network_mqtt_brokers(self, networkId: str):
+        """List the MQTT brokers for this network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-mqtt-brokers
 
         - networkId (string): Network ID
-        """
 
+        """
         metadata = {
             "tags": ["networks", "configure", "mqttBrokers"],
-            "operation": "getNetworkMqttBrokers",
+            "operation": "get_network_mqtt_brokers",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/mqttBrokers"
 
         return self._session.get(metadata, resource)
 
-    def createNetworkMqttBroker(self, networkId: str, name: str, host: str, port: int, **kwargs):
-        """Add an MQTT broker
+    def create_network_mqtt_broker(self, networkId: str, name: str, host: str, port: int, **kwargs):
+        """Add an MQTT broker.
 
         https://developer.cisco.com/meraki/api-v1/#!create-network-mqtt-broker
 
@@ -1839,13 +1848,13 @@ class AsyncNetworks:
         - port (integer): Host port though which the MQTT broker can be reached.
         - security (object): Security settings of the MQTT broker.
         - authentication (object): Authentication settings of the MQTT broker
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["networks", "configure", "mqttBrokers"],
-            "operation": "createNetworkMqttBroker",
+            "operation": "create_network_mqtt_broker",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/mqttBrokers"
@@ -1861,18 +1870,18 @@ class AsyncNetworks:
 
         return self._session.post(metadata, resource, payload)
 
-    def getNetworkMqttBroker(self, networkId: str, mqttBrokerId: str):
-        """Return an MQTT broker
+    def get_network_mqtt_broker(self, networkId: str, mqttBrokerId: str):
+        """Return an MQTT broker.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-mqtt-broker
 
         - networkId (string): Network ID
         - mqttBrokerId (string): Mqtt broker ID
-        """
 
+        """
         metadata = {
             "tags": ["networks", "configure", "mqttBrokers"],
-            "operation": "getNetworkMqttBroker",
+            "operation": "get_network_mqtt_broker",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         mqttBrokerId = urllib.parse.quote(str(mqttBrokerId), safe="")
@@ -1880,8 +1889,8 @@ class AsyncNetworks:
 
         return self._session.get(metadata, resource)
 
-    def updateNetworkMqttBroker(self, networkId: str, mqttBrokerId: str, **kwargs):
-        """Update an MQTT broker
+    def update_network_mqtt_broker(self, networkId: str, mqttBrokerId: str, **kwargs):
+        """Update an MQTT broker.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-mqtt-broker
 
@@ -1892,13 +1901,13 @@ class AsyncNetworks:
         - port (integer): Host port though which the MQTT broker can be reached.
         - security (object): Security settings of the MQTT broker.
         - authentication (object): Authentication settings of the MQTT broker
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["networks", "configure", "mqttBrokers"],
-            "operation": "updateNetworkMqttBroker",
+            "operation": "update_network_mqtt_broker",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         mqttBrokerId = urllib.parse.quote(str(mqttBrokerId), safe="")
@@ -1915,18 +1924,18 @@ class AsyncNetworks:
 
         return self._session.put(metadata, resource, payload)
 
-    def deleteNetworkMqttBroker(self, networkId: str, mqttBrokerId: str):
-        """Delete an MQTT broker
+    def delete_network_mqtt_broker(self, networkId: str, mqttBrokerId: str):
+        """Delete an MQTT broker.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-network-mqtt-broker
 
         - networkId (string): Network ID
         - mqttBrokerId (string): Mqtt broker ID
-        """
 
+        """
         metadata = {
             "tags": ["networks", "configure", "mqttBrokers"],
-            "operation": "deleteNetworkMqttBroker",
+            "operation": "delete_network_mqtt_broker",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         mqttBrokerId = urllib.parse.quote(str(mqttBrokerId), safe="")
@@ -1934,22 +1943,25 @@ class AsyncNetworks:
 
         return self._session.delete(metadata, resource)
 
-    def getNetworkNetflow(self, networkId: str):
-        """Return the NetFlow traffic reporting settings for a network
+    def get_network_netflow(self, networkId: str):
+        """Return the NetFlow traffic reporting settings for a network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-netflow
 
         - networkId (string): Network ID
-        """
 
-        metadata = {"tags": ["networks", "configure", "netflow"], "operation": "getNetworkNetflow"}
+        """
+        metadata = {
+            "tags": ["networks", "configure", "netflow"],
+            "operation": "get_network_netflow",
+        }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/netflow"
 
         return self._session.get(metadata, resource)
 
-    def updateNetworkNetflow(self, networkId: str, **kwargs):
-        """Update the NetFlow traffic reporting settings for a network
+    def update_network_netflow(self, networkId: str, **kwargs):
+        """Update the NetFlow traffic reporting settings for a network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-netflow
 
@@ -1959,13 +1971,13 @@ class AsyncNetworks:
         - collectorPort (integer): The port that the NetFlow collector will be listening on.
         - etaEnabled (boolean): Boolean indicating whether Encrypted Traffic Analytics is enabled (true) or disabled (false).
         - etaDstPort (integer): The port that the Encrypted Traffic Analytics collector will be listening on.
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["networks", "configure", "netflow"],
-            "operation": "updateNetworkNetflow",
+            "operation": "update_network_netflow",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/netflow"
@@ -1981,7 +1993,7 @@ class AsyncNetworks:
 
         return self._session.put(metadata, resource, payload)
 
-    def getNetworkNetworkHealthChannelUtilization(
+    def get_network_network_health_channel_utilization(
         self, networkId: str, total_pages=1, direction="next", **kwargs
     ):
         """Get the channel utilization over each radio for all APs in a network.
@@ -1998,13 +2010,13 @@ class AsyncNetworks:
         - perPage (integer): The number of entries per page returned. Acceptable range is 3 - 100. Default is 10.
         - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
         - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["networks", "monitor", "networkHealth", "channelUtilization"],
-            "operation": "getNetworkNetworkHealthChannelUtilization",
+            "operation": "get_network_network_health_channel_utilization",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/networkHealth/channelUtilization"
@@ -2022,8 +2034,8 @@ class AsyncNetworks:
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
-    def getNetworkPiiPiiKeys(self, networkId: str, **kwargs):
-        """List the keys required to access Personally Identifiable Information (PII) for a given identifier
+    def get_network_pii_pii_keys(self, networkId: str, **kwargs):
+        """List the keys required to access Personally Identifiable Information (PII) for a given identifier.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-pii-pii-keys
 
@@ -2034,13 +2046,13 @@ class AsyncNetworks:
         - serial (string): The serial of a Systems Manager device
         - imei (string): The IMEI of a Systems Manager device
         - bluetoothMac (string): The MAC of a Bluetooth client
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["networks", "configure", "pii", "piiKeys"],
-            "operation": "getNetworkPiiPiiKeys",
+            "operation": "get_network_pii_pii_keys",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/pii/piiKeys"
@@ -2057,25 +2069,25 @@ class AsyncNetworks:
 
         return self._session.get(metadata, resource, params)
 
-    def getNetworkPiiRequests(self, networkId: str):
-        """List the PII requests for this network or organization
+    def get_network_pii_requests(self, networkId: str):
+        """List the PII requests for this network or organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-pii-requests
 
         - networkId (string): Network ID
-        """
 
+        """
         metadata = {
             "tags": ["networks", "configure", "pii", "requests"],
-            "operation": "getNetworkPiiRequests",
+            "operation": "get_network_pii_requests",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/pii/requests"
 
         return self._session.get(metadata, resource)
 
-    def createNetworkPiiRequest(self, networkId: str, **kwargs):
-        """Submit a new delete or restrict processing PII request
+    def create_network_pii_request(self, networkId: str, **kwargs):
+        """Submit a new delete or restrict processing PII request.
 
         https://developer.cisco.com/meraki/api-v1/#!create-network-pii-request
 
@@ -2087,8 +2099,8 @@ class AsyncNetworks:
         - mac (string): The MAC of a network client device. Applies to both "restrict processing" and "delete" requests.
         - smDeviceId (string): The sm_device_id of a Systems Manager device. The only way to "restrict processing" or "delete" a Systems Manager device. Must include "device" in the dataset for a "delete" request to destroy the device.
         - smUserId (string): The sm_user_id of a Systems Manager user. The only way to "restrict processing" or "delete" a Systems Manager user. Must include "user" in the dataset for a "delete" request to destroy the user.
-        """
 
+        """
         kwargs.update(locals())
 
         if "type" in kwargs:
@@ -2099,7 +2111,7 @@ class AsyncNetworks:
 
         metadata = {
             "tags": ["networks", "configure", "pii", "requests"],
-            "operation": "createNetworkPiiRequest",
+            "operation": "create_network_pii_request",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/pii/requests"
@@ -2117,18 +2129,18 @@ class AsyncNetworks:
 
         return self._session.post(metadata, resource, payload)
 
-    def getNetworkPiiRequest(self, networkId: str, requestId: str):
-        """Return a PII request
+    def get_network_pii_request(self, networkId: str, requestId: str):
+        """Return a PII request.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-pii-request
 
         - networkId (string): Network ID
         - requestId (string): Request ID
-        """
 
+        """
         metadata = {
             "tags": ["networks", "configure", "pii", "requests"],
-            "operation": "getNetworkPiiRequest",
+            "operation": "get_network_pii_request",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         requestId = urllib.parse.quote(str(requestId), safe="")
@@ -2136,18 +2148,18 @@ class AsyncNetworks:
 
         return self._session.get(metadata, resource)
 
-    def deleteNetworkPiiRequest(self, networkId: str, requestId: str):
-        """Delete a restrict processing PII request
+    def delete_network_pii_request(self, networkId: str, requestId: str):
+        """Delete a restrict processing PII request.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-network-pii-request
 
         - networkId (string): Network ID
         - requestId (string): Request ID
-        """
 
+        """
         metadata = {
             "tags": ["networks", "configure", "pii", "requests"],
-            "operation": "deleteNetworkPiiRequest",
+            "operation": "delete_network_pii_request",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         requestId = urllib.parse.quote(str(requestId), safe="")
@@ -2155,8 +2167,8 @@ class AsyncNetworks:
 
         return self._session.delete(metadata, resource)
 
-    def getNetworkPiiSmDevicesForKey(self, networkId: str, **kwargs):
-        """Given a piece of Personally Identifiable Information (PII), return the Systems Manager device ID(s) associated with that identifier
+    def get_network_pii_sm_devices_for_key(self, networkId: str, **kwargs):
+        """Given a piece of Personally Identifiable Information (PII), return the Systems Manager device ID(s) associated with that identifier.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-pii-sm-devices-for-key
 
@@ -2167,13 +2179,13 @@ class AsyncNetworks:
         - serial (string): The serial of a Systems Manager device
         - imei (string): The IMEI of a Systems Manager device
         - bluetoothMac (string): The MAC of a Bluetooth client
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["networks", "configure", "pii", "smDevicesForKey"],
-            "operation": "getNetworkPiiSmDevicesForKey",
+            "operation": "get_network_pii_sm_devices_for_key",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/pii/smDevicesForKey"
@@ -2190,8 +2202,8 @@ class AsyncNetworks:
 
         return self._session.get(metadata, resource, params)
 
-    def getNetworkPiiSmOwnersForKey(self, networkId: str, **kwargs):
-        """Given a piece of Personally Identifiable Information (PII), return the Systems Manager owner ID(s) associated with that identifier
+    def get_network_pii_sm_owners_for_key(self, networkId: str, **kwargs):
+        """Given a piece of Personally Identifiable Information (PII), return the Systems Manager owner ID(s) associated with that identifier.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-pii-sm-owners-for-key
 
@@ -2202,13 +2214,13 @@ class AsyncNetworks:
         - serial (string): The serial of a Systems Manager device
         - imei (string): The IMEI of a Systems Manager device
         - bluetoothMac (string): The MAC of a Bluetooth client
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["networks", "configure", "pii", "smOwnersForKey"],
-            "operation": "getNetworkPiiSmOwnersForKey",
+            "operation": "get_network_pii_sm_owners_for_key",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/pii/smOwnersForKey"
@@ -2225,8 +2237,10 @@ class AsyncNetworks:
 
         return self._session.get(metadata, resource, params)
 
-    def getNetworkPoliciesByClient(self, networkId: str, total_pages=1, direction="next", **kwargs):
-        """Get policies for all clients with policies
+    def get_network_policies_by_client(
+        self, networkId: str, total_pages=1, direction="next", **kwargs
+    ):
+        """Get policies for all clients with policies.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-policies-by-client
 
@@ -2238,13 +2252,13 @@ class AsyncNetworks:
         - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
         - t0 (string): The beginning of the timespan for the data. The maximum lookback period is 31 days from today.
         - timespan (number): The timespan for which the information will be fetched. If specifying timespan, do not specify parameter t0. The value must be in seconds and be less than or equal to 31 days. The default is 1 day.
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["networks", "configure", "policies", "byClient"],
-            "operation": "getNetworkPoliciesByClient",
+            "operation": "get_network_policies_by_client",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/policies/byClient"
@@ -2260,25 +2274,25 @@ class AsyncNetworks:
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
-    def getNetworkSettings(self, networkId: str):
-        """Return the settings for a network
+    def get_network_settings(self, networkId: str):
+        """Return the settings for a network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-settings
 
         - networkId (string): Network ID
-        """
 
+        """
         metadata = {
             "tags": ["networks", "configure", "settings"],
-            "operation": "getNetworkSettings",
+            "operation": "get_network_settings",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/settings"
 
         return self._session.get(metadata, resource)
 
-    def updateNetworkSettings(self, networkId: str, **kwargs):
-        """Update the settings for a network
+    def update_network_settings(self, networkId: str, **kwargs):
+        """Update the settings for a network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-settings
 
@@ -2288,13 +2302,13 @@ class AsyncNetworks:
         - localStatusPage (object): A hash of Local Status page(s)' authentication options applied to the Network.
         - securePort (object): A hash of SecureConnect options applied to the Network.
         - namedVlans (object): A hash of Named VLANs options applied to the Network.
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["networks", "configure", "settings"],
-            "operation": "updateNetworkSettings",
+            "operation": "update_network_settings",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/settings"
@@ -2310,22 +2324,22 @@ class AsyncNetworks:
 
         return self._session.put(metadata, resource, payload)
 
-    def getNetworkSnmp(self, networkId: str):
-        """Return the SNMP settings for a network
+    def get_network_snmp(self, networkId: str):
+        """Return the SNMP settings for a network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-snmp
 
         - networkId (string): Network ID
-        """
 
-        metadata = {"tags": ["networks", "configure", "snmp"], "operation": "getNetworkSnmp"}
+        """
+        metadata = {"tags": ["networks", "configure", "snmp"], "operation": "get_network_snmp"}
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/snmp"
 
         return self._session.get(metadata, resource)
 
-    def updateNetworkSnmp(self, networkId: str, **kwargs):
-        """Update the SNMP settings for a network
+    def update_network_snmp(self, networkId: str, **kwargs):
+        """Update the SNMP settings for a network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-snmp
 
@@ -2333,8 +2347,8 @@ class AsyncNetworks:
         - access (string): The type of SNMP access. Can be one of 'none' (disabled), 'community' (V1/V2c), or 'users' (V3).
         - communityString (string): The SNMP community string. Only relevant if 'access' is set to 'community'.
         - users (array): The list of SNMP users. Only relevant if 'access' is set to 'users'.
-        """
 
+        """
         kwargs.update(locals())
 
         if "access" in kwargs:
@@ -2343,7 +2357,7 @@ class AsyncNetworks:
                 f'''"access" cannot be "{kwargs["access"]}", & must be set to one of: {options}'''
             )
 
-        metadata = {"tags": ["networks", "configure", "snmp"], "operation": "updateNetworkSnmp"}
+        metadata = {"tags": ["networks", "configure", "snmp"], "operation": "update_network_snmp"}
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/snmp"
 
@@ -2356,8 +2370,8 @@ class AsyncNetworks:
 
         return self._session.put(metadata, resource, payload)
 
-    def getNetworkSplashLoginAttempts(self, networkId: str, **kwargs):
-        """List the splash login attempts for a network
+    def get_network_splash_login_attempts(self, networkId: str, **kwargs):
+        """List the splash login attempts for a network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-splash-login-attempts
 
@@ -2365,8 +2379,8 @@ class AsyncNetworks:
         - ssidNumber (integer): Only return the login attempts for the specified SSID
         - loginIdentifier (string): The username, email, or phone number used during login
         - timespan (integer): The timespan, in seconds, for the login attempts. The period will be from [timespan] seconds ago until now. The maximum timespan is 3 months
-        """
 
+        """
         kwargs.update(locals())
 
         if "ssidNumber" in kwargs:
@@ -2377,7 +2391,7 @@ class AsyncNetworks:
 
         metadata = {
             "tags": ["networks", "monitor", "splashLoginAttempts"],
-            "operation": "getNetworkSplashLoginAttempts",
+            "operation": "get_network_splash_login_attempts",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/splashLoginAttempts"
@@ -2391,51 +2405,51 @@ class AsyncNetworks:
 
         return self._session.get(metadata, resource, params)
 
-    def splitNetwork(self, networkId: str):
-        """Split a combined network into individual networks for each type of device
+    def split_network(self, networkId: str):
+        """Split a combined network into individual networks for each type of device.
 
         https://developer.cisco.com/meraki/api-v1/#!split-network
 
         - networkId (string): Network ID
-        """
 
-        metadata = {"tags": ["networks", "configure"], "operation": "splitNetwork"}
+        """
+        metadata = {"tags": ["networks", "configure"], "operation": "split_network"}
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/split"
 
         return self._session.post(metadata, resource)
 
-    def getNetworkSyslogServers(self, networkId: str):
-        """List the syslog servers for a network
+    def get_network_syslog_servers(self, networkId: str):
+        """List the syslog servers for a network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-syslog-servers
 
         - networkId (string): Network ID
-        """
 
+        """
         metadata = {
             "tags": ["networks", "configure", "syslogServers"],
-            "operation": "getNetworkSyslogServers",
+            "operation": "get_network_syslog_servers",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/syslogServers"
 
         return self._session.get(metadata, resource)
 
-    def updateNetworkSyslogServers(self, networkId: str, servers: list):
-        """Update the syslog servers for a network
+    def update_network_syslog_servers(self, networkId: str, servers: list):
+        """Update the syslog servers for a network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-syslog-servers
 
         - networkId (string): Network ID
         - servers (array): A list of the syslog servers for this network
-        """
 
+        """
         kwargs = locals()
 
         metadata = {
             "tags": ["networks", "configure", "syslogServers"],
-            "operation": "updateNetworkSyslogServers",
+            "operation": "update_network_syslog_servers",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/syslogServers"
@@ -2447,25 +2461,25 @@ class AsyncNetworks:
 
         return self._session.put(metadata, resource, payload)
 
-    def getNetworkTopologyLinkLayer(self, networkId: str):
-        """List the LLDP and CDP information for all discovered devices and connections in a network
+    def get_network_topology_link_layer(self, networkId: str):
+        """List the LLDP and CDP information for all discovered devices and connections in a network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-topology-link-layer
 
         - networkId (string): Network ID
-        """
 
+        """
         metadata = {
             "tags": ["networks", "monitor", "topology", "linkLayer"],
-            "operation": "getNetworkTopologyLinkLayer",
+            "operation": "get_network_topology_link_layer",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/topology/linkLayer"
 
         return self._session.get(metadata, resource)
 
-    def getNetworkTraffic(self, networkId: str, **kwargs):
-        """Return the traffic analysis data for this network
+    def get_network_traffic(self, networkId: str, **kwargs):
+        """Return the traffic analysis data for this network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-traffic
 
@@ -2473,8 +2487,8 @@ class AsyncNetworks:
         - t0 (string): The beginning of the timespan for the data. The maximum lookback period is 30 days from today.
         - timespan (number): The timespan for which the information will be fetched. If specifying timespan, do not specify parameter t0. The value must be in seconds and be less than or equal to 30 days.
         - deviceType (string): Filter the data by device type: 'combined', 'wireless', 'switch' or 'appliance'. Defaults to 'combined'. When using 'combined', for each rule the data will come from the device type with the most usage.
-        """
 
+        """
         kwargs.update(locals())
 
         if "deviceType" in kwargs:
@@ -2483,7 +2497,7 @@ class AsyncNetworks:
                 f'''"deviceType" cannot be "{kwargs["deviceType"]}", & must be set to one of: {options}'''
             )
 
-        metadata = {"tags": ["networks", "monitor", "traffic"], "operation": "getNetworkTraffic"}
+        metadata = {"tags": ["networks", "monitor", "traffic"], "operation": "get_network_traffic"}
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/traffic"
 
@@ -2496,25 +2510,25 @@ class AsyncNetworks:
 
         return self._session.get(metadata, resource, params)
 
-    def getNetworkTrafficAnalysis(self, networkId: str):
-        """Return the traffic analysis settings for a network
+    def get_network_traffic_analysis(self, networkId: str):
+        """Return the traffic analysis settings for a network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-traffic-analysis
 
         - networkId (string): Network ID
-        """
 
+        """
         metadata = {
             "tags": ["networks", "configure", "trafficAnalysis"],
-            "operation": "getNetworkTrafficAnalysis",
+            "operation": "get_network_traffic_analysis",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/trafficAnalysis"
 
         return self._session.get(metadata, resource)
 
-    def updateNetworkTrafficAnalysis(self, networkId: str, **kwargs):
-        """Update the traffic analysis settings for a network
+    def update_network_traffic_analysis(self, networkId: str, **kwargs):
+        """Update the traffic analysis settings for a network.
 
             https://developer.cisco.com/meraki/api-v1/#!update-network-traffic-analysis
 
@@ -2523,8 +2537,8 @@ class AsyncNetworks:
         'basic' (collect generic traffic categories), or 'detailed' (collect destination hostnames).
 
             - customPieChartItems (array): The list of items that make up the custom pie chart for traffic reporting.
-        """
 
+        """
         kwargs.update(locals())
 
         if "mode" in kwargs:
@@ -2535,7 +2549,7 @@ class AsyncNetworks:
 
         metadata = {
             "tags": ["networks", "configure", "trafficAnalysis"],
-            "operation": "updateNetworkTrafficAnalysis",
+            "operation": "update_network_traffic_analysis",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/trafficAnalysis"
@@ -2548,52 +2562,52 @@ class AsyncNetworks:
 
         return self._session.put(metadata, resource, payload)
 
-    def getNetworkTrafficShapingApplicationCategories(self, networkId: str):
-        """Returns the application categories for traffic shaping rules
+    def get_network_traffic_shaping_application_categories(self, networkId: str):
+        """Returns the application categories for traffic shaping rules.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-traffic-shaping-application-categories
 
         - networkId (string): Network ID
-        """
 
+        """
         metadata = {
             "tags": ["networks", "configure", "trafficShaping", "applicationCategories"],
-            "operation": "getNetworkTrafficShapingApplicationCategories",
+            "operation": "get_network_traffic_shaping_application_categories",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/trafficShaping/applicationCategories"
 
         return self._session.get(metadata, resource)
 
-    def getNetworkTrafficShapingDscpTaggingOptions(self, networkId: str):
+    def get_network_traffic_shaping_dscp_tagging_options(self, networkId: str):
         """Returns the available DSCP tagging options for your traffic shaping rules.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-traffic-shaping-dscp-tagging-options
 
         - networkId (string): Network ID
-        """
 
+        """
         metadata = {
             "tags": ["networks", "configure", "trafficShaping", "dscpTaggingOptions"],
-            "operation": "getNetworkTrafficShapingDscpTaggingOptions",
+            "operation": "get_network_traffic_shaping_dscp_tagging_options",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/trafficShaping/dscpTaggingOptions"
 
         return self._session.get(metadata, resource)
 
-    def unbindNetwork(self, networkId: str, **kwargs):
+    def unbind_network(self, networkId: str, **kwargs):
         """Unbind a network from a template.
 
         https://developer.cisco.com/meraki/api-v1/#!unbind-network
 
         - networkId (string): Network ID
         - retainConfigs (boolean): Optional boolean to retain all the current configs given by the template.
-        """
 
+        """
         kwargs.update(locals())
 
-        metadata = {"tags": ["networks", "configure"], "operation": "unbindNetwork"}
+        metadata = {"tags": ["networks", "configure"], "operation": "unbind_network"}
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/unbind"
 
@@ -2604,27 +2618,27 @@ class AsyncNetworks:
 
         return self._session.post(metadata, resource, payload)
 
-    def getNetworkVlanProfiles(self, networkId: str):
-        """List VLAN profiles for a network
+    def get_network_vlan_profiles(self, networkId: str):
+        """List VLAN profiles for a network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-vlan-profiles
 
         - networkId (string): Network ID
-        """
 
+        """
         metadata = {
             "tags": ["networks", "configure", "vlanProfiles"],
-            "operation": "getNetworkVlanProfiles",
+            "operation": "get_network_vlan_profiles",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/vlanProfiles"
 
         return self._session.get(metadata, resource)
 
-    def createNetworkVlanProfile(
+    def create_network_vlan_profile(
         self, networkId: str, name: str, vlanNames: list, vlanGroups: list, iname: str
     ):
-        """Create a VLAN profile for a network
+        """Create a VLAN profile for a network.
 
         https://developer.cisco.com/meraki/api-v1/#!create-network-vlan-profile
 
@@ -2633,13 +2647,13 @@ class AsyncNetworks:
         - vlanNames (array): An array of named VLANs
         - vlanGroups (array): An array of VLAN groups
         - iname (string): IName of the profile
-        """
 
+        """
         kwargs = locals()
 
         metadata = {
             "tags": ["networks", "configure", "vlanProfiles"],
-            "operation": "createNetworkVlanProfile",
+            "operation": "create_network_vlan_profile",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/vlanProfiles"
@@ -2654,10 +2668,10 @@ class AsyncNetworks:
 
         return self._session.post(metadata, resource, payload)
 
-    def getNetworkVlanProfilesAssignmentsByDevice(
+    def get_network_vlan_profiles_assignments_by_device(
         self, networkId: str, total_pages=1, direction="next", **kwargs
     ):
-        """Get the assigned VLAN Profiles for devices in a network
+        """Get the assigned VLAN Profiles for devices in a network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-vlan-profiles-assignments-by-device
 
@@ -2670,13 +2684,13 @@ class AsyncNetworks:
         - serials (array): Optional parameter to filter devices by serials. All devices returned belong to serial numbers that are an exact match.
         - productTypes (array): Optional parameter to filter devices by product types.
         - stackIds (array): Optional parameter to filter devices by Switch Stack ids.
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["networks", "configure", "vlanProfiles", "assignments", "byDevice"],
-            "operation": "getNetworkVlanProfilesAssignmentsByDevice",
+            "operation": "get_network_vlan_profiles_assignments_by_device",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/vlanProfiles/assignments/byDevice"
@@ -2703,10 +2717,10 @@ class AsyncNetworks:
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
-    def reassignNetworkVlanProfilesAssignments(
+    def reassign_network_vlan_profiles_assignments(
         self, networkId: str, serials: list, stackIds: list, **kwargs
     ):
-        """Update the assigned VLAN Profile for devices in a network
+        """Update the assigned VLAN Profile for devices in a network.
 
         https://developer.cisco.com/meraki/api-v1/#!reassign-network-vlan-profiles-assignments
 
@@ -2714,13 +2728,13 @@ class AsyncNetworks:
         - serials (array): Array of Device Serials
         - stackIds (array): Array of Switch Stack IDs
         - vlanProfile (object): The VLAN Profile
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["networks", "configure", "vlanProfiles", "assignments"],
-            "operation": "reassignNetworkVlanProfilesAssignments",
+            "operation": "reassign_network_vlan_profiles_assignments",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/vlanProfiles/assignments/reassign"
@@ -2734,18 +2748,18 @@ class AsyncNetworks:
 
         return self._session.post(metadata, resource, payload)
 
-    def getNetworkVlanProfile(self, networkId: str, iname: str):
-        """Get an existing VLAN profile of a network
+    def get_network_vlan_profile(self, networkId: str, iname: str):
+        """Get an existing VLAN profile of a network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-vlan-profile
 
         - networkId (string): Network ID
         - iname (string): Iname
-        """
 
+        """
         metadata = {
             "tags": ["networks", "configure", "vlanProfiles"],
-            "operation": "getNetworkVlanProfile",
+            "operation": "get_network_vlan_profile",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         iname = urllib.parse.quote(str(iname), safe="")
@@ -2753,10 +2767,10 @@ class AsyncNetworks:
 
         return self._session.get(metadata, resource)
 
-    def updateNetworkVlanProfile(
+    def update_network_vlan_profile(
         self, networkId: str, iname: str, name: str, vlanNames: list, vlanGroups: list
     ):
-        """Update an existing VLAN profile of a network
+        """Update an existing VLAN profile of a network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-vlan-profile
 
@@ -2765,13 +2779,13 @@ class AsyncNetworks:
         - name (string): Name of the profile, string length must be from 1 to 255 characters
         - vlanNames (array): An array of named VLANs
         - vlanGroups (array): An array of VLAN groups
-        """
 
+        """
         kwargs = locals()
 
         metadata = {
             "tags": ["networks", "configure", "vlanProfiles"],
-            "operation": "updateNetworkVlanProfile",
+            "operation": "update_network_vlan_profile",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         iname = urllib.parse.quote(str(iname), safe="")
@@ -2786,18 +2800,18 @@ class AsyncNetworks:
 
         return self._session.put(metadata, resource, payload)
 
-    def deleteNetworkVlanProfile(self, networkId: str, iname: str):
-        """Delete a VLAN profile of a network
+    def delete_network_vlan_profile(self, networkId: str, iname: str):
+        """Delete a VLAN profile of a network.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-network-vlan-profile
 
         - networkId (string): Network ID
         - iname (string): Iname
-        """
 
+        """
         metadata = {
             "tags": ["networks", "configure", "vlanProfiles"],
-            "operation": "deleteNetworkVlanProfile",
+            "operation": "delete_network_vlan_profile",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         iname = urllib.parse.quote(str(iname), safe="")
@@ -2805,25 +2819,25 @@ class AsyncNetworks:
 
         return self._session.delete(metadata, resource)
 
-    def getNetworkWebhooksHttpServers(self, networkId: str):
-        """List the HTTP servers for a network
+    def get_network_webhooks_http_servers(self, networkId: str):
+        """List the HTTP servers for a network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-webhooks-http-servers
 
         - networkId (string): Network ID
-        """
 
+        """
         metadata = {
             "tags": ["networks", "configure", "webhooks", "httpServers"],
-            "operation": "getNetworkWebhooksHttpServers",
+            "operation": "get_network_webhooks_http_servers",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/webhooks/httpServers"
 
         return self._session.get(metadata, resource)
 
-    def createNetworkWebhooksHttpServer(self, networkId: str, name: str, url: str, **kwargs):
-        """Add an HTTP server to a network
+    def create_network_webhooks_http_server(self, networkId: str, name: str, url: str, **kwargs):
+        """Add an HTTP server to a network.
 
         https://developer.cisco.com/meraki/api-v1/#!create-network-webhooks-http-server
 
@@ -2832,13 +2846,13 @@ class AsyncNetworks:
         - url (string): The URL of the HTTP server. Once set, cannot be updated.
         - sharedSecret (string): A shared secret that will be included in POSTs sent to the HTTP server. This secret can be used to verify that the request was sent by Meraki.
         - payloadTemplate (object): The payload template to use when posting data to the HTTP server.
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["networks", "configure", "webhooks", "httpServers"],
-            "operation": "createNetworkWebhooksHttpServer",
+            "operation": "create_network_webhooks_http_server",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/webhooks/httpServers"
@@ -2853,18 +2867,18 @@ class AsyncNetworks:
 
         return self._session.post(metadata, resource, payload)
 
-    def getNetworkWebhooksHttpServer(self, networkId: str, httpServerId: str):
-        """Return an HTTP server for a network
+    def get_network_webhooks_http_server(self, networkId: str, httpServerId: str):
+        """Return an HTTP server for a network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-webhooks-http-server
 
         - networkId (string): Network ID
         - httpServerId (string): Http server ID
-        """
 
+        """
         metadata = {
             "tags": ["networks", "configure", "webhooks", "httpServers"],
-            "operation": "getNetworkWebhooksHttpServer",
+            "operation": "get_network_webhooks_http_server",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         httpServerId = urllib.parse.quote(str(httpServerId), safe="")
@@ -2872,8 +2886,8 @@ class AsyncNetworks:
 
         return self._session.get(metadata, resource)
 
-    def updateNetworkWebhooksHttpServer(self, networkId: str, httpServerId: str, **kwargs):
-        """Update an HTTP server
+    def update_network_webhooks_http_server(self, networkId: str, httpServerId: str, **kwargs):
+        """Update an HTTP server.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-webhooks-http-server
 
@@ -2882,13 +2896,13 @@ class AsyncNetworks:
         - name (string): A name for easy reference to the HTTP server
         - sharedSecret (string): A shared secret that will be included in POSTs sent to the HTTP server. This secret can be used to verify that the request was sent by Meraki.
         - payloadTemplate (object): The payload template to use when posting data to the HTTP server.
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["networks", "configure", "webhooks", "httpServers"],
-            "operation": "updateNetworkWebhooksHttpServer",
+            "operation": "update_network_webhooks_http_server",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         httpServerId = urllib.parse.quote(str(httpServerId), safe="")
@@ -2903,18 +2917,18 @@ class AsyncNetworks:
 
         return self._session.put(metadata, resource, payload)
 
-    def deleteNetworkWebhooksHttpServer(self, networkId: str, httpServerId: str):
-        """Delete an HTTP server from a network
+    def delete_network_webhooks_http_server(self, networkId: str, httpServerId: str):
+        """Delete an HTTP server from a network.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-network-webhooks-http-server
 
         - networkId (string): Network ID
         - httpServerId (string): Http server ID
-        """
 
+        """
         metadata = {
             "tags": ["networks", "configure", "webhooks", "httpServers"],
-            "operation": "deleteNetworkWebhooksHttpServer",
+            "operation": "delete_network_webhooks_http_server",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         httpServerId = urllib.parse.quote(str(httpServerId), safe="")
@@ -2922,25 +2936,25 @@ class AsyncNetworks:
 
         return self._session.delete(metadata, resource)
 
-    def getNetworkWebhooksPayloadTemplates(self, networkId: str):
-        """List the webhook payload templates for a network
+    def get_network_webhooks_payload_templates(self, networkId: str):
+        """List the webhook payload templates for a network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-webhooks-payload-templates
 
         - networkId (string): Network ID
-        """
 
+        """
         metadata = {
             "tags": ["networks", "configure", "webhooks", "payloadTemplates"],
-            "operation": "getNetworkWebhooksPayloadTemplates",
+            "operation": "get_network_webhooks_payload_templates",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/webhooks/payloadTemplates"
 
         return self._session.get(metadata, resource)
 
-    def createNetworkWebhooksPayloadTemplate(self, networkId: str, name: str, **kwargs):
-        """Create a webhook payload template for a network
+    def create_network_webhooks_payload_template(self, networkId: str, name: str, **kwargs):
+        """Create a webhook payload template for a network.
 
         https://developer.cisco.com/meraki/api-v1/#!create-network-webhooks-payload-template
 
@@ -2950,13 +2964,13 @@ class AsyncNetworks:
         - headers (array): The liquid template used with the webhook headers.
         - bodyFile (string): A Base64 encoded file containing liquid template used for the body of the webhook message. Either `body` or `bodyFile` must be specified.
         - headersFile (string): A Base64 encoded file containing the liquid template used with the webhook headers.
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["networks", "configure", "webhooks", "payloadTemplates"],
-            "operation": "createNetworkWebhooksPayloadTemplate",
+            "operation": "create_network_webhooks_payload_template",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/webhooks/payloadTemplates"
@@ -2972,18 +2986,18 @@ class AsyncNetworks:
 
         return self._session.post(metadata, resource, payload)
 
-    def getNetworkWebhooksPayloadTemplate(self, networkId: str, payloadTemplateId: str):
-        """Get the webhook payload template for a network
+    def get_network_webhooks_payload_template(self, networkId: str, payloadTemplateId: str):
+        """Get the webhook payload template for a network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-webhooks-payload-template
 
         - networkId (string): Network ID
         - payloadTemplateId (string): Payload template ID
-        """
 
+        """
         metadata = {
             "tags": ["networks", "configure", "webhooks", "payloadTemplates"],
-            "operation": "getNetworkWebhooksPayloadTemplate",
+            "operation": "get_network_webhooks_payload_template",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         payloadTemplateId = urllib.parse.quote(str(payloadTemplateId), safe="")
@@ -2991,18 +3005,18 @@ class AsyncNetworks:
 
         return self._session.get(metadata, resource)
 
-    def deleteNetworkWebhooksPayloadTemplate(self, networkId: str, payloadTemplateId: str):
-        """Destroy a webhook payload template for a network
+    def delete_network_webhooks_payload_template(self, networkId: str, payloadTemplateId: str):
+        """Destroy a webhook payload template for a network.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-network-webhooks-payload-template
 
         - networkId (string): Network ID
         - payloadTemplateId (string): Payload template ID
-        """
 
+        """
         metadata = {
             "tags": ["networks", "configure", "webhooks", "payloadTemplates"],
-            "operation": "deleteNetworkWebhooksPayloadTemplate",
+            "operation": "delete_network_webhooks_payload_template",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         payloadTemplateId = urllib.parse.quote(str(payloadTemplateId), safe="")
@@ -3010,10 +3024,10 @@ class AsyncNetworks:
 
         return self._session.delete(metadata, resource)
 
-    def updateNetworkWebhooksPayloadTemplate(
+    def update_network_webhooks_payload_template(
         self, networkId: str, payloadTemplateId: str, **kwargs
     ):
-        """Update a webhook payload template for a network
+        """Update a webhook payload template for a network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-webhooks-payload-template
 
@@ -3024,13 +3038,13 @@ class AsyncNetworks:
         - headers (array): The liquid template used with the webhook headers.
         - bodyFile (string): A file containing liquid template used for the body of the webhook message.
         - headersFile (string): A file containing the liquid template used with the webhook headers.
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["networks", "configure", "webhooks", "payloadTemplates"],
-            "operation": "updateNetworkWebhooksPayloadTemplate",
+            "operation": "update_network_webhooks_payload_template",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         payloadTemplateId = urllib.parse.quote(str(payloadTemplateId), safe="")
@@ -3047,8 +3061,8 @@ class AsyncNetworks:
 
         return self._session.put(metadata, resource, payload)
 
-    def createNetworkWebhooksWebhookTest(self, networkId: str, url: str, **kwargs):
-        """Send a test webhook for a network
+    def create_network_webhooks_webhook_test(self, networkId: str, url: str, **kwargs):
+        """Send a test webhook for a network.
 
         https://developer.cisco.com/meraki/api-v1/#!create-network-webhooks-webhook-test
 
@@ -3058,13 +3072,13 @@ class AsyncNetworks:
         - payloadTemplateId (string): The ID of the payload template of the test webhook. Defaults to the HTTP server's template ID if one exists for the given URL, or Generic template ID otherwise
         - payloadTemplateName (string): The name of the payload template.
         - alertTypeId (string): The type of alert which the test webhook will send. Optional. Defaults to power_supply_down.
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["networks", "configure", "webhooks", "webhookTests"],
-            "operation": "createNetworkWebhooksWebhookTest",
+            "operation": "create_network_webhooks_webhook_test",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/webhooks/webhookTests"
@@ -3080,18 +3094,18 @@ class AsyncNetworks:
 
         return self._session.post(metadata, resource, payload)
 
-    def getNetworkWebhooksWebhookTest(self, networkId: str, webhookTestId: str):
-        """Return the status of a webhook test for a network
+    def get_network_webhooks_webhook_test(self, networkId: str, webhookTestId: str):
+        """Return the status of a webhook test for a network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-webhooks-webhook-test
 
         - networkId (string): Network ID
         - webhookTestId (string): Webhook test ID
-        """
 
+        """
         metadata = {
             "tags": ["networks", "configure", "webhooks", "webhookTests"],
-            "operation": "getNetworkWebhooksWebhookTest",
+            "operation": "get_network_webhooks_webhook_test",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         webhookTestId = urllib.parse.quote(str(webhookTestId), safe="")

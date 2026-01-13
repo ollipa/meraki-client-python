@@ -7,9 +7,9 @@ class ActionBatchCamera:
     def __init__(self) -> None:
         pass
 
-    def updateDeviceCameraCustomAnalytics(self, serial: str, **kwargs):
+    def update_device_camera_custom_analytics(self, serial: str, **kwargs):
         """
-        **Update custom analytics settings for a camera**
+        **Update custom analytics settings for a camera.**
         https://developer.cisco.com/meraki/api-v1/#!update-device-camera-custom-analytics
 
         - serial (string): Serial
@@ -22,7 +22,7 @@ class ActionBatchCamera:
 
         metadata = {
             "tags": ["camera", "configure", "customAnalytics"],
-            "operation": "updateDeviceCameraCustomAnalytics",
+            "operation": "update_device_camera_custom_analytics",
         }
         resource = f"/devices/{serial}/camera/customAnalytics"
 
@@ -35,9 +35,9 @@ class ActionBatchCamera:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def updateDeviceCameraQualityAndRetention(self, serial: str, **kwargs):
+    def update_device_camera_quality_and_retention(self, serial: str, **kwargs):
         """
-        **Update quality and retention settings for the given camera**
+        **Update quality and retention settings for the given camera.**
         https://developer.cisco.com/meraki/api-v1/#!update-device-camera-quality-and-retention
 
         - serial (string): Serial
@@ -78,7 +78,7 @@ class ActionBatchCamera:
 
         metadata = {
             "tags": ["camera", "configure", "qualityAndRetention"],
-            "operation": "updateDeviceCameraQualityAndRetention",
+            "operation": "update_device_camera_quality_and_retention",
         }
         resource = f"/devices/{serial}/camera/qualityAndRetention"
 
@@ -95,9 +95,9 @@ class ActionBatchCamera:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def updateDeviceCameraSense(self, serial: str, **kwargs):
+    def update_device_camera_sense(self, serial: str, **kwargs):
         """
-        **Update sense settings for the given camera**
+        **Update sense settings for the given camera.**
         https://developer.cisco.com/meraki/api-v1/#!update-device-camera-sense
 
         - serial (string): Serial
@@ -111,7 +111,7 @@ class ActionBatchCamera:
 
         metadata = {
             "tags": ["camera", "configure", "sense"],
-            "operation": "updateDeviceCameraSense",
+            "operation": "update_device_camera_sense",
         }
         resource = f"/devices/{serial}/camera/sense"
 
@@ -125,9 +125,9 @@ class ActionBatchCamera:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def updateDeviceCameraVideoSettings(self, serial: str, **kwargs):
+    def update_device_camera_video_settings(self, serial: str, **kwargs):
         """
-        **Update video settings for the given camera**
+        **Update video settings for the given camera.**
         https://developer.cisco.com/meraki/api-v1/#!update-device-camera-video-settings
 
         - serial (string): Serial
@@ -138,7 +138,7 @@ class ActionBatchCamera:
 
         metadata = {
             "tags": ["camera", "configure", "video", "settings"],
-            "operation": "updateDeviceCameraVideoSettings",
+            "operation": "update_device_camera_video_settings",
         }
         resource = f"/devices/{serial}/camera/video/settings"
 
@@ -149,9 +149,9 @@ class ActionBatchCamera:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def updateDeviceCameraWirelessProfiles(self, serial: str, ids: dict):
+    def update_device_camera_wireless_profiles(self, serial: str, ids: dict):
         """
-        **Assign wireless profiles to the given camera**
+        **Assign wireless profiles to the given camera.**
         https://developer.cisco.com/meraki/api-v1/#!update-device-camera-wireless-profiles
 
         - serial (string): Serial
@@ -162,7 +162,7 @@ class ActionBatchCamera:
 
         metadata = {
             "tags": ["camera", "configure", "wirelessProfiles"],
-            "operation": "updateDeviceCameraWirelessProfiles",
+            "operation": "update_device_camera_wireless_profiles",
         }
         resource = f"/devices/{serial}/camera/wirelessProfiles"
 

@@ -7,11 +7,11 @@ class ActionBatchOrganizations:
     def __init__(self) -> None:
         pass
 
-    def createOrganizationAdaptivePolicyAcl(
+    def create_organization_adaptive_policy_acl(
         self, organizationId: str, name: str, rules: list, ipVersion: str, **kwargs
     ):
         """
-        **Creates new adaptive policy ACL**
+        **Creates new adaptive policy ACL.**
         https://developer.cisco.com/meraki/api-v1/#!create-organization-adaptive-policy-acl
 
         - organizationId (string): Organization ID
@@ -31,7 +31,7 @@ class ActionBatchOrganizations:
 
         metadata = {
             "tags": ["organizations", "configure", "adaptivePolicy", "acls"],
-            "operation": "createOrganizationAdaptivePolicyAcl",
+            "operation": "create_organization_adaptive_policy_acl",
         }
         resource = f"/organizations/{organizationId}/adaptivePolicy/acls"
 
@@ -45,9 +45,9 @@ class ActionBatchOrganizations:
         action = {"resource": resource, "operation": "create", "body": payload}
         return action
 
-    def updateOrganizationAdaptivePolicyAcl(self, organizationId: str, aclId: str, **kwargs):
+    def update_organization_adaptive_policy_acl(self, organizationId: str, aclId: str, **kwargs):
         """
-        **Updates an adaptive policy ACL**
+        **Updates an adaptive policy ACL.**
         https://developer.cisco.com/meraki/api-v1/#!update-organization-adaptive-policy-acl
 
         - organizationId (string): Organization ID
@@ -68,7 +68,7 @@ class ActionBatchOrganizations:
 
         metadata = {
             "tags": ["organizations", "configure", "adaptivePolicy", "acls"],
-            "operation": "updateOrganizationAdaptivePolicyAcl",
+            "operation": "update_organization_adaptive_policy_acl",
         }
         resource = f"/organizations/{organizationId}/adaptivePolicy/acls/{aclId}"
 
@@ -82,9 +82,9 @@ class ActionBatchOrganizations:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def deleteOrganizationAdaptivePolicyAcl(self, organizationId: str, aclId: str):
+    def delete_organization_adaptive_policy_acl(self, organizationId: str, aclId: str):
         """
-        **Deletes the specified adaptive policy ACL**
+        **Deletes the specified adaptive policy ACL.**
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-adaptive-policy-acl
 
         - organizationId (string): Organization ID
@@ -93,7 +93,7 @@ class ActionBatchOrganizations:
 
         metadata = {
             "tags": ["organizations", "configure", "adaptivePolicy", "acls"],
-            "operation": "deleteOrganizationAdaptivePolicyAcl",
+            "operation": "delete_organization_adaptive_policy_acl",
         }
         resource = f"/organizations/{organizationId}/adaptivePolicy/acls/{aclId}"
 
@@ -103,11 +103,11 @@ class ActionBatchOrganizations:
         }
         return action
 
-    def createOrganizationAdaptivePolicyGroup(
+    def create_organization_adaptive_policy_group(
         self, organizationId: str, name: str, sgt: int, **kwargs
     ):
         """
-        **Creates a new adaptive policy group**
+        **Creates a new adaptive policy group.**
         https://developer.cisco.com/meraki/api-v1/#!create-organization-adaptive-policy-group
 
         - organizationId (string): Organization ID
@@ -121,7 +121,7 @@ class ActionBatchOrganizations:
 
         metadata = {
             "tags": ["organizations", "configure", "adaptivePolicy", "groups"],
-            "operation": "createOrganizationAdaptivePolicyGroup",
+            "operation": "create_organization_adaptive_policy_group",
         }
         resource = f"/organizations/{organizationId}/adaptivePolicy/groups"
 
@@ -135,9 +135,9 @@ class ActionBatchOrganizations:
         action = {"resource": resource, "operation": "create", "body": payload}
         return action
 
-    def updateOrganizationAdaptivePolicyGroup(self, organizationId: str, id: str, **kwargs):
+    def update_organization_adaptive_policy_group(self, organizationId: str, id: str, **kwargs):
         """
-        **Updates an adaptive policy group**
+        **Updates an adaptive policy group.**
         https://developer.cisco.com/meraki/api-v1/#!update-organization-adaptive-policy-group
 
         - organizationId (string): Organization ID
@@ -152,7 +152,7 @@ class ActionBatchOrganizations:
 
         metadata = {
             "tags": ["organizations", "configure", "adaptivePolicy", "groups"],
-            "operation": "updateOrganizationAdaptivePolicyGroup",
+            "operation": "update_organization_adaptive_policy_group",
         }
         resource = f"/organizations/{organizationId}/adaptivePolicy/groups/{id}"
 
@@ -166,9 +166,9 @@ class ActionBatchOrganizations:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def deleteOrganizationAdaptivePolicyGroup(self, organizationId: str, id: str):
+    def delete_organization_adaptive_policy_group(self, organizationId: str, id: str):
         """
-        **Deletes the specified adaptive policy group and any associated policies and references**
+        **Deletes the specified adaptive policy group and any associated policies and references.**
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-adaptive-policy-group
 
         - organizationId (string): Organization ID
@@ -177,7 +177,7 @@ class ActionBatchOrganizations:
 
         metadata = {
             "tags": ["organizations", "configure", "adaptivePolicy", "groups"],
-            "operation": "deleteOrganizationAdaptivePolicyGroup",
+            "operation": "delete_organization_adaptive_policy_group",
         }
         resource = f"/organizations/{organizationId}/adaptivePolicy/groups/{id}"
 
@@ -187,11 +187,11 @@ class ActionBatchOrganizations:
         }
         return action
 
-    def createOrganizationAdaptivePolicyPolicy(
+    def create_organization_adaptive_policy_policy(
         self, organizationId: str, sourceGroup: dict, destinationGroup: dict, **kwargs
     ):
         """
-        **Add an Adaptive Policy**
+        **Add an Adaptive Policy.**
         https://developer.cisco.com/meraki/api-v1/#!create-organization-adaptive-policy-policy
 
         - organizationId (string): Organization ID
@@ -211,7 +211,7 @@ class ActionBatchOrganizations:
 
         metadata = {
             "tags": ["organizations", "configure", "adaptivePolicy", "policies"],
-            "operation": "createOrganizationAdaptivePolicyPolicy",
+            "operation": "create_organization_adaptive_policy_policy",
         }
         resource = f"/organizations/{organizationId}/adaptivePolicy/policies"
 
@@ -225,9 +225,9 @@ class ActionBatchOrganizations:
         action = {"resource": resource, "operation": "create", "body": payload}
         return action
 
-    def updateOrganizationAdaptivePolicyPolicy(self, organizationId: str, id: str, **kwargs):
+    def update_organization_adaptive_policy_policy(self, organizationId: str, id: str, **kwargs):
         """
-        **Update an Adaptive Policy**
+        **Update an Adaptive Policy.**
         https://developer.cisco.com/meraki/api-v1/#!update-organization-adaptive-policy-policy
 
         - organizationId (string): Organization ID
@@ -248,7 +248,7 @@ class ActionBatchOrganizations:
 
         metadata = {
             "tags": ["organizations", "configure", "adaptivePolicy", "policies"],
-            "operation": "updateOrganizationAdaptivePolicyPolicy",
+            "operation": "update_organization_adaptive_policy_policy",
         }
         resource = f"/organizations/{organizationId}/adaptivePolicy/policies/{id}"
 
@@ -262,9 +262,9 @@ class ActionBatchOrganizations:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def deleteOrganizationAdaptivePolicyPolicy(self, organizationId: str, id: str):
+    def delete_organization_adaptive_policy_policy(self, organizationId: str, id: str):
         """
-        **Delete an Adaptive Policy**
+        **Delete an Adaptive Policy.**
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-adaptive-policy-policy
 
         - organizationId (string): Organization ID
@@ -273,7 +273,7 @@ class ActionBatchOrganizations:
 
         metadata = {
             "tags": ["organizations", "configure", "adaptivePolicy", "policies"],
-            "operation": "deleteOrganizationAdaptivePolicyPolicy",
+            "operation": "delete_organization_adaptive_policy_policy",
         }
         resource = f"/organizations/{organizationId}/adaptivePolicy/policies/{id}"
 
@@ -283,9 +283,9 @@ class ActionBatchOrganizations:
         }
         return action
 
-    def updateOrganizationAdaptivePolicySettings(self, organizationId: str, **kwargs):
+    def update_organization_adaptive_policy_settings(self, organizationId: str, **kwargs):
         """
-        **Update global adaptive policy settings**
+        **Update global adaptive policy settings.**
         https://developer.cisco.com/meraki/api-v1/#!update-organization-adaptive-policy-settings
 
         - organizationId (string): Organization ID
@@ -296,7 +296,7 @@ class ActionBatchOrganizations:
 
         metadata = {
             "tags": ["organizations", "configure", "adaptivePolicy", "settings"],
-            "operation": "updateOrganizationAdaptivePolicySettings",
+            "operation": "update_organization_adaptive_policy_settings",
         }
         resource = f"/organizations/{organizationId}/adaptivePolicy/settings"
 
@@ -307,7 +307,7 @@ class ActionBatchOrganizations:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def createOrganizationAlertsProfile(
+    def create_organization_alerts_profile(
         self,
         organizationId: str,
         type: str,
@@ -317,7 +317,7 @@ class ActionBatchOrganizations:
         **kwargs,
     ):
         """
-        **Create an organization-wide alert configuration**
+        **Create an organization-wide alert configuration.**
         https://developer.cisco.com/meraki/api-v1/#!create-organization-alerts-profile
 
         - organizationId (string): Organization ID
@@ -347,7 +347,7 @@ class ActionBatchOrganizations:
 
         metadata = {
             "tags": ["organizations", "configure", "alerts", "profiles"],
-            "operation": "createOrganizationAlertsProfile",
+            "operation": "create_organization_alerts_profile",
         }
         resource = f"/organizations/{organizationId}/alerts/profiles"
 
@@ -362,9 +362,9 @@ class ActionBatchOrganizations:
         action = {"resource": resource, "operation": "create", "body": payload}
         return action
 
-    def updateOrganizationAlertsProfile(self, organizationId: str, alertConfigId: str, **kwargs):
+    def update_organization_alerts_profile(self, organizationId: str, alertConfigId: str, **kwargs):
         """
-        **Update an organization-wide alert config**
+        **Update an organization-wide alert config.**
         https://developer.cisco.com/meraki/api-v1/#!update-organization-alerts-profile
 
         - organizationId (string): Organization ID
@@ -396,7 +396,7 @@ class ActionBatchOrganizations:
 
         metadata = {
             "tags": ["organizations", "configure", "alerts", "profiles"],
-            "operation": "updateOrganizationAlertsProfile",
+            "operation": "update_organization_alerts_profile",
         }
         resource = f"/organizations/{organizationId}/alerts/profiles/{alertConfigId}"
 
@@ -412,9 +412,9 @@ class ActionBatchOrganizations:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def deleteOrganizationAlertsProfile(self, organizationId: str, alertConfigId: str):
+    def delete_organization_alerts_profile(self, organizationId: str, alertConfigId: str):
         """
-        **Removes an organization-wide alert config**
+        **Removes an organization-wide alert config.**
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-alerts-profile
 
         - organizationId (string): Organization ID
@@ -423,7 +423,7 @@ class ActionBatchOrganizations:
 
         metadata = {
             "tags": ["organizations", "configure", "alerts", "profiles"],
-            "operation": "deleteOrganizationAlertsProfile",
+            "operation": "delete_organization_alerts_profile",
         }
         resource = f"/organizations/{organizationId}/alerts/profiles/{alertConfigId}"
 
@@ -433,9 +433,9 @@ class ActionBatchOrganizations:
         }
         return action
 
-    def createOrganizationBrandingPolicy(self, organizationId: str, name: str, **kwargs):
+    def create_organization_branding_policy(self, organizationId: str, name: str, **kwargs):
         """
-               **Add a new branding policy to an organization**
+               **Add a new branding policy to an organization.**
                https://developer.cisco.com/meraki/api-v1/#!create-organization-branding-policy
 
                - organizationId (string): Organization ID
@@ -454,7 +454,7 @@ class ActionBatchOrganizations:
 
         metadata = {
             "tags": ["organizations", "configure", "brandingPolicies"],
-            "operation": "createOrganizationBrandingPolicy",
+            "operation": "create_organization_branding_policy",
         }
         resource = f"/organizations/{organizationId}/brandingPolicies"
 
@@ -469,7 +469,7 @@ class ActionBatchOrganizations:
         action = {"resource": resource, "operation": "create", "body": payload}
         return action
 
-    def updateOrganizationBrandingPoliciesPriorities(self, organizationId: str, **kwargs):
+    def update_organization_branding_policies_priorities(self, organizationId: str, **kwargs):
         """
         **Update the priority ordering of an organization's branding policies.**
         https://developer.cisco.com/meraki/api-v1/#!update-organization-branding-policies-priorities
@@ -483,7 +483,7 @@ class ActionBatchOrganizations:
 
         metadata = {
             "tags": ["organizations", "configure", "brandingPolicies", "priorities"],
-            "operation": "updateOrganizationBrandingPoliciesPriorities",
+            "operation": "update_organization_branding_policies_priorities",
         }
         resource = f"/organizations/{organizationId}/brandingPolicies/priorities"
 
@@ -494,11 +494,11 @@ class ActionBatchOrganizations:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def updateOrganizationBrandingPolicy(
+    def update_organization_branding_policy(
         self, organizationId: str, brandingPolicyId: str, name: str, **kwargs
     ):
         """
-          **Update a branding policy**
+          **Update a branding policy.**
           https://developer.cisco.com/meraki/api-v1/#!update-organization-branding-policy
 
           - organizationId (string): Organization ID
@@ -518,7 +518,7 @@ class ActionBatchOrganizations:
 
         metadata = {
             "tags": ["organizations", "configure", "brandingPolicies"],
-            "operation": "updateOrganizationBrandingPolicy",
+            "operation": "update_organization_branding_policy",
         }
         resource = f"/organizations/{organizationId}/brandingPolicies/{brandingPolicyId}"
 
@@ -533,9 +533,9 @@ class ActionBatchOrganizations:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def deleteOrganizationBrandingPolicy(self, organizationId: str, brandingPolicyId: str):
+    def delete_organization_branding_policy(self, organizationId: str, brandingPolicyId: str):
         """
-        **Delete a branding policy**
+        **Delete a branding policy.**
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-branding-policy
 
         - organizationId (string): Organization ID
@@ -544,7 +544,7 @@ class ActionBatchOrganizations:
 
         metadata = {
             "tags": ["organizations", "configure", "brandingPolicies"],
-            "operation": "deleteOrganizationBrandingPolicy",
+            "operation": "delete_organization_branding_policy",
         }
         resource = f"/organizations/{organizationId}/brandingPolicies/{brandingPolicyId}"
 
@@ -554,9 +554,9 @@ class ActionBatchOrganizations:
         }
         return action
 
-    def createOrganizationConfigTemplate(self, organizationId: str, name: str, **kwargs):
+    def create_organization_config_template(self, organizationId: str, name: str, **kwargs):
         """
-        **Create a new configuration template**
+        **Create a new configuration template.**
         https://developer.cisco.com/meraki/api-v1/#!create-organization-config-template
 
         - organizationId (string): Organization ID
@@ -569,7 +569,7 @@ class ActionBatchOrganizations:
 
         metadata = {
             "tags": ["organizations", "configure", "configTemplates"],
-            "operation": "createOrganizationConfigTemplate",
+            "operation": "create_organization_config_template",
         }
         resource = f"/organizations/{organizationId}/configTemplates"
 
@@ -582,11 +582,11 @@ class ActionBatchOrganizations:
         action = {"resource": resource, "operation": "create", "body": payload}
         return action
 
-    def updateOrganizationConfigTemplate(
+    def update_organization_config_template(
         self, organizationId: str, configTemplateId: str, **kwargs
     ):
         """
-        **Update a configuration template**
+        **Update a configuration template.**
         https://developer.cisco.com/meraki/api-v1/#!update-organization-config-template
 
         - organizationId (string): Organization ID
@@ -599,7 +599,7 @@ class ActionBatchOrganizations:
 
         metadata = {
             "tags": ["organizations", "configure", "configTemplates"],
-            "operation": "updateOrganizationConfigTemplate",
+            "operation": "update_organization_config_template",
         }
         resource = f"/organizations/{organizationId}/configTemplates/{configTemplateId}"
 
@@ -611,11 +611,11 @@ class ActionBatchOrganizations:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def createOrganizationDevicesControllerMigration(
+    def create_organization_devices_controller_migration(
         self, organizationId: str, serials: list, target: str
     ):
         """
-        **Migrate devices to another controller or management mode**
+        **Migrate devices to another controller or management mode.**
         https://developer.cisco.com/meraki/api-v1/#!create-organization-devices-controller-migration
 
         - organizationId (string): Organization ID
@@ -633,7 +633,7 @@ class ActionBatchOrganizations:
 
         metadata = {
             "tags": ["organizations", "configure", "devices", "controller", "migrations"],
-            "operation": "createOrganizationDevicesControllerMigration",
+            "operation": "create_organization_devices_controller_migration",
         }
         resource = f"/organizations/{organizationId}/devices/controller/migrations"
 
@@ -645,11 +645,11 @@ class ActionBatchOrganizations:
         action = {"resource": resource, "operation": "create", "body": payload}
         return action
 
-    def bulkUpdateOrganizationDevicesDetails(
+    def bulk_update_organization_devices_details(
         self, organizationId: str, serials: list, details: list
     ):
         """
-        **Updating device details (currently only used for Catalyst devices)**
+        **Updating device details (currently only used for Catalyst devices).**
         https://developer.cisco.com/meraki/api-v1/#!bulk-update-organization-devices-details
 
         - organizationId (string): Organization ID
@@ -661,7 +661,7 @@ class ActionBatchOrganizations:
 
         metadata = {
             "tags": ["organizations", "configure", "devices", "details", "bulkUpdate"],
-            "operation": "bulkUpdateOrganizationDevicesDetails",
+            "operation": "bulk_update_organization_devices_details",
         }
         resource = f"/organizations/{organizationId}/devices/details/bulkUpdate"
 
@@ -673,11 +673,11 @@ class ActionBatchOrganizations:
         action = {"resource": resource, "operation": "create", "body": payload}
         return action
 
-    def bulkOrganizationDevicesPacketCaptureCapturesDelete(
+    def bulk_organization_devices_packet_capture_captures_delete(
         self, organizationId: str, captureIds: list
     ):
         """
-        **BulkDelete packet captures from cloud**
+        **BulkDelete packet captures from cloud.**
         https://developer.cisco.com/meraki/api-v1/#!bulk-organization-devices-packet-capture-captures-delete
 
         - organizationId (string): Organization ID
@@ -688,7 +688,7 @@ class ActionBatchOrganizations:
 
         metadata = {
             "tags": ["organizations", "configure", "devices", "packetCapture", "captures"],
-            "operation": "bulkOrganizationDevicesPacketCaptureCapturesDelete",
+            "operation": "bulk_organization_devices_packet_capture_captures_delete",
         }
         resource = f"/organizations/{organizationId}/devices/packetCapture/captures/bulkDelete"
 
@@ -699,9 +699,11 @@ class ActionBatchOrganizations:
         action = {"resource": resource, "operation": "create", "body": payload}
         return action
 
-    def deleteOrganizationDevicesPacketCaptureCapture(self, organizationId: str, captureId: str):
+    def delete_organization_devices_packet_capture_capture(
+        self, organizationId: str, captureId: str
+    ):
         """
-        **Delete a single packet capture from cloud using captureId**
+        **Delete a single packet capture from cloud using captureId.**
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-devices-packet-capture-capture
 
         - organizationId (string): Organization ID
@@ -710,7 +712,7 @@ class ActionBatchOrganizations:
 
         metadata = {
             "tags": ["organizations", "configure", "devices", "packetCapture", "captures"],
-            "operation": "deleteOrganizationDevicesPacketCaptureCapture",
+            "operation": "delete_organization_devices_packet_capture_capture",
         }
         resource = f"/organizations/{organizationId}/devices/packetCapture/captures/{captureId}"
 
@@ -720,11 +722,11 @@ class ActionBatchOrganizations:
         }
         return action
 
-    def createOrganizationDevicesPacketCaptureSchedule(
+    def create_organization_devices_packet_capture_schedule(
         self, organizationId: str, devices: list, **kwargs
     ):
         """
-        **Create a schedule for packet capture**
+        **Create a schedule for packet capture.**
         https://developer.cisco.com/meraki/api-v1/#!create-organization-devices-packet-capture-schedule
 
         - organizationId (string): Organization ID
@@ -741,7 +743,7 @@ class ActionBatchOrganizations:
 
         metadata = {
             "tags": ["organizations", "configure", "devices", "packetCapture", "schedules"],
-            "operation": "createOrganizationDevicesPacketCaptureSchedule",
+            "operation": "create_organization_devices_packet_capture_schedule",
         }
         resource = f"/organizations/{organizationId}/devices/packetCapture/schedules"
 
@@ -758,9 +760,11 @@ class ActionBatchOrganizations:
         action = {"resource": resource, "operation": "create", "body": payload}
         return action
 
-    def reorderOrganizationDevicesPacketCaptureSchedules(self, organizationId: str, order: list):
+    def reorder_organization_devices_packet_capture_schedules(
+        self, organizationId: str, order: list
+    ):
         """
-        **Bulk update priorities of pcap schedules**
+        **Bulk update priorities of pcap schedules.**
         https://developer.cisco.com/meraki/api-v1/#!reorder-organization-devices-packet-capture-schedules
 
         - organizationId (string): Organization ID
@@ -771,7 +775,7 @@ class ActionBatchOrganizations:
 
         metadata = {
             "tags": ["organizations", "configure", "devices", "packetCapture", "schedules"],
-            "operation": "reorderOrganizationDevicesPacketCaptureSchedules",
+            "operation": "reorder_organization_devices_packet_capture_schedules",
         }
         resource = f"/organizations/{organizationId}/devices/packetCapture/schedules/reorder"
 
@@ -782,11 +786,11 @@ class ActionBatchOrganizations:
         action = {"resource": resource, "operation": "create", "body": payload}
         return action
 
-    def updateOrganizationDevicesPacketCaptureSchedule(
+    def update_organization_devices_packet_capture_schedule(
         self, organizationId: str, scheduleId: str, devices: list, **kwargs
     ):
         """
-        **Update a schedule for packet capture**
+        **Update a schedule for packet capture.**
         https://developer.cisco.com/meraki/api-v1/#!update-organization-devices-packet-capture-schedule
 
         - organizationId (string): Organization ID
@@ -804,7 +808,7 @@ class ActionBatchOrganizations:
 
         metadata = {
             "tags": ["organizations", "configure", "devices", "packetCapture", "schedules"],
-            "operation": "updateOrganizationDevicesPacketCaptureSchedule",
+            "operation": "update_organization_devices_packet_capture_schedule",
         }
         resource = f"/organizations/{organizationId}/devices/packetCapture/schedules/{scheduleId}"
 
@@ -821,9 +825,11 @@ class ActionBatchOrganizations:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def deleteOrganizationDevicesPacketCaptureSchedule(self, organizationId: str, scheduleId: str):
+    def delete_organization_devices_packet_capture_schedule(
+        self, organizationId: str, scheduleId: str
+    ):
         """
-        **Delete schedule from cloud**
+        **Delete schedule from cloud.**
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-devices-packet-capture-schedule
 
         - organizationId (string): Organization ID
@@ -834,7 +840,7 @@ class ActionBatchOrganizations:
 
         metadata = {
             "tags": ["organizations", "configure", "devices", "packetCapture", "schedules"],
-            "operation": "deleteOrganizationDevicesPacketCaptureSchedule",
+            "operation": "delete_organization_devices_packet_capture_schedule",
         }
         resource = f"/organizations/{organizationId}/devices/packetCapture/schedules/{scheduleId}"
 
@@ -844,11 +850,11 @@ class ActionBatchOrganizations:
         }
         return action
 
-    def updateOrganizationEarlyAccessFeaturesOptIn(
+    def update_organization_early_access_features_opt_in(
         self, organizationId: str, optInId: str, **kwargs
     ):
         """
-        **Update an early access feature opt-in for an organization**
+        **Update an early access feature opt-in for an organization.**
         https://developer.cisco.com/meraki/api-v1/#!update-organization-early-access-features-opt-in
 
         - organizationId (string): Organization ID
@@ -860,7 +866,7 @@ class ActionBatchOrganizations:
 
         metadata = {
             "tags": ["organizations", "configure", "earlyAccess", "features", "optIns"],
-            "operation": "updateOrganizationEarlyAccessFeaturesOptIn",
+            "operation": "update_organization_early_access_features_opt_in",
         }
         resource = f"/organizations/{organizationId}/earlyAccess/features/optIns/{optInId}"
 
@@ -871,9 +877,9 @@ class ActionBatchOrganizations:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def disableOrganizationIntegrationsXdrNetworks(self, organizationId: str, networks: list):
+    def disable_organization_integrations_xdr_networks(self, organizationId: str, networks: list):
         """
-        **Disable XDR on networks**
+        **Disable XDR on networks.**
         https://developer.cisco.com/meraki/api-v1/#!disable-organization-integrations-xdr-networks
 
         - organizationId (string): Organization ID
@@ -884,7 +890,7 @@ class ActionBatchOrganizations:
 
         metadata = {
             "tags": ["organizations", "configure", "integrations", "xdr", "networks"],
-            "operation": "disableOrganizationIntegrationsXdrNetworks",
+            "operation": "disable_organization_integrations_xdr_networks",
         }
         resource = f"/organizations/{organizationId}/integrations/xdr/networks/disable"
 
@@ -895,9 +901,9 @@ class ActionBatchOrganizations:
         action = {"resource": resource, "operation": "create", "body": payload}
         return action
 
-    def enableOrganizationIntegrationsXdrNetworks(self, organizationId: str, networks: list):
+    def enable_organization_integrations_xdr_networks(self, organizationId: str, networks: list):
         """
-        **Enable XDR on networks**
+        **Enable XDR on networks.**
         https://developer.cisco.com/meraki/api-v1/#!enable-organization-integrations-xdr-networks
 
         - organizationId (string): Organization ID
@@ -908,7 +914,7 @@ class ActionBatchOrganizations:
 
         metadata = {
             "tags": ["organizations", "configure", "integrations", "xdr", "networks"],
-            "operation": "enableOrganizationIntegrationsXdrNetworks",
+            "operation": "enable_organization_integrations_xdr_networks",
         }
         resource = f"/organizations/{organizationId}/integrations/xdr/networks/enable"
 
@@ -919,9 +925,9 @@ class ActionBatchOrganizations:
         action = {"resource": resource, "operation": "create", "body": payload}
         return action
 
-    def claimOrganizationInventoryOrders(self, organizationId: str, claimId: str, **kwargs):
+    def claim_organization_inventory_orders(self, organizationId: str, claimId: str, **kwargs):
         """
-        **Claim an order by the secure unique order claim number, the order claim id**
+        **Claim an order by the secure unique order claim number, the order claim id.**
         https://developer.cisco.com/meraki/api-v1/#!claim-organization-inventory-orders
 
         - organizationId (string): Organization ID
@@ -933,7 +939,7 @@ class ActionBatchOrganizations:
 
         metadata = {
             "tags": ["organizations", "configure", "inventory", "orders"],
-            "operation": "claimOrganizationInventoryOrders",
+            "operation": "claim_organization_inventory_orders",
         }
         resource = f"/organizations/{organizationId}/inventory/orders/claim"
 
@@ -945,11 +951,11 @@ class ActionBatchOrganizations:
         action = {"resource": resource, "operation": "create", "body": payload}
         return action
 
-    def assignOrganizationLicensesSeats(
+    def assign_organization_licenses_seats(
         self, organizationId: str, licenseId: str, networkId: str, seatCount: int
     ):
         """
-        **Assign SM seats to a network**
+        **Assign SM seats to a network.**
         https://developer.cisco.com/meraki/api-v1/#!assign-organization-licenses-seats
 
         - organizationId (string): Organization ID
@@ -962,7 +968,7 @@ class ActionBatchOrganizations:
 
         metadata = {
             "tags": ["organizations", "configure", "licenses"],
-            "operation": "assignOrganizationLicensesSeats",
+            "operation": "assign_organization_licenses_seats",
         }
         resource = f"/organizations/{organizationId}/licenses/assignSeats"
 
@@ -975,11 +981,11 @@ class ActionBatchOrganizations:
         action = {"resource": resource, "operation": "create", "body": payload}
         return action
 
-    def moveOrganizationLicenses(
+    def move_organization_licenses(
         self, organizationId: str, destOrganizationId: str, licenseIds: list
     ):
         """
-        **Move licenses to another organization**
+        **Move licenses to another organization.**
         https://developer.cisco.com/meraki/api-v1/#!move-organization-licenses
 
         - organizationId (string): Organization ID
@@ -991,7 +997,7 @@ class ActionBatchOrganizations:
 
         metadata = {
             "tags": ["organizations", "configure", "licenses"],
-            "operation": "moveOrganizationLicenses",
+            "operation": "move_organization_licenses",
         }
         resource = f"/organizations/{organizationId}/licenses/move"
 
@@ -1003,11 +1009,11 @@ class ActionBatchOrganizations:
         action = {"resource": resource, "operation": "create", "body": payload}
         return action
 
-    def moveOrganizationLicensesSeats(
+    def move_organization_licenses_seats(
         self, organizationId: str, destOrganizationId: str, licenseId: str, seatCount: int
     ):
         """
-        **Move SM seats to another organization**
+        **Move SM seats to another organization.**
         https://developer.cisco.com/meraki/api-v1/#!move-organization-licenses-seats
 
         - organizationId (string): Organization ID
@@ -1020,7 +1026,7 @@ class ActionBatchOrganizations:
 
         metadata = {
             "tags": ["organizations", "configure", "licenses"],
-            "operation": "moveOrganizationLicensesSeats",
+            "operation": "move_organization_licenses_seats",
         }
         resource = f"/organizations/{organizationId}/licenses/moveSeats"
 
@@ -1033,11 +1039,11 @@ class ActionBatchOrganizations:
         action = {"resource": resource, "operation": "create", "body": payload}
         return action
 
-    def renewOrganizationLicensesSeats(
+    def renew_organization_licenses_seats(
         self, organizationId: str, licenseIdToRenew: str, unusedLicenseId: str
     ):
         """
-        **Renew SM seats of a license**
+        **Renew SM seats of a license.**
         https://developer.cisco.com/meraki/api-v1/#!renew-organization-licenses-seats
 
         - organizationId (string): Organization ID
@@ -1049,7 +1055,7 @@ class ActionBatchOrganizations:
 
         metadata = {
             "tags": ["organizations", "configure", "licenses"],
-            "operation": "renewOrganizationLicensesSeats",
+            "operation": "renew_organization_licenses_seats",
         }
         resource = f"/organizations/{organizationId}/licenses/renewSeats"
 
@@ -1061,9 +1067,9 @@ class ActionBatchOrganizations:
         action = {"resource": resource, "operation": "create", "body": payload}
         return action
 
-    def updateOrganizationLicense(self, organizationId: str, licenseId: str, **kwargs):
+    def update_organization_license(self, organizationId: str, licenseId: str, **kwargs):
         """
-        **Update a license**
+        **Update a license.**
         https://developer.cisco.com/meraki/api-v1/#!update-organization-license
 
         - organizationId (string): Organization ID
@@ -1075,7 +1081,7 @@ class ActionBatchOrganizations:
 
         metadata = {
             "tags": ["organizations", "configure", "licenses"],
-            "operation": "updateOrganizationLicense",
+            "operation": "update_organization_license",
         }
         resource = f"/organizations/{organizationId}/licenses/{licenseId}"
 
@@ -1086,9 +1092,9 @@ class ActionBatchOrganizations:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def updateOrganizationLoginSecurity(self, organizationId: str, **kwargs):
+    def update_organization_login_security(self, organizationId: str, **kwargs):
         """
-        **Update the login security settings for an organization**
+        **Update the login security settings for an organization.**
         https://developer.cisco.com/meraki/api-v1/#!update-organization-login-security
 
         - organizationId (string): Organization ID
@@ -1112,7 +1118,7 @@ class ActionBatchOrganizations:
 
         metadata = {
             "tags": ["organizations", "configure", "loginSecurity"],
-            "operation": "updateOrganizationLoginSecurity",
+            "operation": "update_organization_login_security",
         }
         resource = f"/organizations/{organizationId}/loginSecurity"
 
@@ -1136,11 +1142,11 @@ class ActionBatchOrganizations:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def createOrganizationNetwork(
+    def create_organization_network(
         self, organizationId: str, name: str, productTypes: list, **kwargs
     ):
         """
-        **Create a network**
+        **Create a network.**
         https://developer.cisco.com/meraki/api-v1/#!create-organization-network
 
         - organizationId (string): Organization ID
@@ -1156,7 +1162,7 @@ class ActionBatchOrganizations:
 
         metadata = {
             "tags": ["organizations", "configure", "networks"],
-            "operation": "createOrganizationNetwork",
+            "operation": "create_organization_network",
         }
         resource = f"/organizations/{organizationId}/networks"
 
@@ -1172,11 +1178,11 @@ class ActionBatchOrganizations:
         action = {"resource": resource, "operation": "create", "body": payload}
         return action
 
-    def combineOrganizationNetworks(
+    def combine_organization_networks(
         self, organizationId: str, name: str, networkIds: list, **kwargs
     ):
         """
-        **Combine multiple networks into a single network**
+        **Combine multiple networks into a single network.**
         https://developer.cisco.com/meraki/api-v1/#!combine-organization-networks
 
         - organizationId (string): Organization ID
@@ -1189,7 +1195,7 @@ class ActionBatchOrganizations:
 
         metadata = {
             "tags": ["organizations", "configure", "networks"],
-            "operation": "combineOrganizationNetworks",
+            "operation": "combine_organization_networks",
         }
         resource = f"/organizations/{organizationId}/networks/combine"
 
@@ -1202,7 +1208,7 @@ class ActionBatchOrganizations:
         action = {"resource": resource, "operation": "create", "body": payload}
         return action
 
-    def createOrganizationPolicyObject(
+    def create_organization_policy_object(
         self, organizationId: str, name: str, category: str, type: str, **kwargs
     ):
         """
@@ -1224,7 +1230,7 @@ class ActionBatchOrganizations:
 
         metadata = {
             "tags": ["organizations", "configure", "policyObjects"],
-            "operation": "createOrganizationPolicyObject",
+            "operation": "create_organization_policy_object",
         }
         resource = f"/organizations/{organizationId}/policyObjects"
 
@@ -1242,7 +1248,7 @@ class ActionBatchOrganizations:
         action = {"resource": resource, "operation": "create", "body": payload}
         return action
 
-    def createOrganizationPolicyObjectsGroup(self, organizationId: str, name: str, **kwargs):
+    def create_organization_policy_objects_group(self, organizationId: str, name: str, **kwargs):
         """
         **Creates a new Policy Object Group.**
         https://developer.cisco.com/meraki/api-v1/#!create-organization-policy-objects-group
@@ -1257,7 +1263,7 @@ class ActionBatchOrganizations:
 
         metadata = {
             "tags": ["organizations", "configure", "policyObjects", "groups"],
-            "operation": "createOrganizationPolicyObjectsGroup",
+            "operation": "create_organization_policy_objects_group",
         }
         resource = f"/organizations/{organizationId}/policyObjects/groups"
 
@@ -1270,7 +1276,7 @@ class ActionBatchOrganizations:
         action = {"resource": resource, "operation": "create", "body": payload}
         return action
 
-    def updateOrganizationPolicyObjectsGroup(
+    def update_organization_policy_objects_group(
         self, organizationId: str, policyObjectGroupId: str, **kwargs
     ):
         """
@@ -1287,7 +1293,7 @@ class ActionBatchOrganizations:
 
         metadata = {
             "tags": ["organizations", "configure", "policyObjects", "groups"],
-            "operation": "updateOrganizationPolicyObjectsGroup",
+            "operation": "update_organization_policy_objects_group",
         }
         resource = f"/organizations/{organizationId}/policyObjects/groups/{policyObjectGroupId}"
 
@@ -1299,7 +1305,9 @@ class ActionBatchOrganizations:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def deleteOrganizationPolicyObjectsGroup(self, organizationId: str, policyObjectGroupId: str):
+    def delete_organization_policy_objects_group(
+        self, organizationId: str, policyObjectGroupId: str
+    ):
         """
         **Deletes a Policy Object Group.**
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-policy-objects-group
@@ -1310,7 +1318,7 @@ class ActionBatchOrganizations:
 
         metadata = {
             "tags": ["organizations", "configure", "policyObjects", "groups"],
-            "operation": "deleteOrganizationPolicyObjectsGroup",
+            "operation": "delete_organization_policy_objects_group",
         }
         resource = f"/organizations/{organizationId}/policyObjects/groups/{policyObjectGroupId}"
 
@@ -1320,7 +1328,7 @@ class ActionBatchOrganizations:
         }
         return action
 
-    def updateOrganizationPolicyObject(self, organizationId: str, policyObjectId: str, **kwargs):
+    def update_organization_policy_object(self, organizationId: str, policyObjectId: str, **kwargs):
         """
         **Updates a Policy Object.**
         https://developer.cisco.com/meraki/api-v1/#!update-organization-policy-object
@@ -1339,7 +1347,7 @@ class ActionBatchOrganizations:
 
         metadata = {
             "tags": ["organizations", "configure", "policyObjects"],
-            "operation": "updateOrganizationPolicyObject",
+            "operation": "update_organization_policy_object",
         }
         resource = f"/organizations/{organizationId}/policyObjects/{policyObjectId}"
 
@@ -1355,7 +1363,7 @@ class ActionBatchOrganizations:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def deleteOrganizationPolicyObject(self, organizationId: str, policyObjectId: str):
+    def delete_organization_policy_object(self, organizationId: str, policyObjectId: str):
         """
         **Deletes a Policy Object.**
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-policy-object
@@ -1366,7 +1374,7 @@ class ActionBatchOrganizations:
 
         metadata = {
             "tags": ["organizations", "configure", "policyObjects"],
-            "operation": "deleteOrganizationPolicyObject",
+            "operation": "delete_organization_policy_object",
         }
         resource = f"/organizations/{organizationId}/policyObjects/{policyObjectId}"
 
@@ -1376,7 +1384,7 @@ class ActionBatchOrganizations:
         }
         return action
 
-    def createOrganizationSamlIdp(
+    def create_organization_saml_idp(
         self, organizationId: str, x509certSha1Fingerprint: str, **kwargs
     ):
         """
@@ -1393,7 +1401,7 @@ class ActionBatchOrganizations:
 
         metadata = {
             "tags": ["organizations", "configure", "saml", "idps"],
-            "operation": "createOrganizationSamlIdp",
+            "operation": "create_organization_saml_idp",
         }
         resource = f"/organizations/{organizationId}/saml/idps"
 
@@ -1406,9 +1414,9 @@ class ActionBatchOrganizations:
         action = {"resource": resource, "operation": "create", "body": payload}
         return action
 
-    def updateOrganizationSamlIdp(self, organizationId: str, idpId: str, **kwargs):
+    def update_organization_saml_idp(self, organizationId: str, idpId: str, **kwargs):
         """
-        **Update a SAML IdP in your organization**
+        **Update a SAML IdP in your organization.**
         https://developer.cisco.com/meraki/api-v1/#!update-organization-saml-idp
 
         - organizationId (string): Organization ID
@@ -1422,7 +1430,7 @@ class ActionBatchOrganizations:
 
         metadata = {
             "tags": ["organizations", "configure", "saml", "idps"],
-            "operation": "updateOrganizationSamlIdp",
+            "operation": "update_organization_saml_idp",
         }
         resource = f"/organizations/{organizationId}/saml/idps/{idpId}"
 
@@ -1435,7 +1443,7 @@ class ActionBatchOrganizations:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def deleteOrganizationSamlIdp(self, organizationId: str, idpId: str):
+    def delete_organization_saml_idp(self, organizationId: str, idpId: str):
         """
         **Remove a SAML IdP in your organization.**
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-saml-idp
@@ -1446,7 +1454,7 @@ class ActionBatchOrganizations:
 
         metadata = {
             "tags": ["organizations", "configure", "saml", "idps"],
-            "operation": "deleteOrganizationSamlIdp",
+            "operation": "delete_organization_saml_idp",
         }
         resource = f"/organizations/{organizationId}/saml/idps/{idpId}"
 
@@ -1456,9 +1464,9 @@ class ActionBatchOrganizations:
         }
         return action
 
-    def deleteOrganizationSplashAsset(self, organizationId: str, id: str):
+    def delete_organization_splash_asset(self, organizationId: str, id: str):
         """
-        **Delete a Splash Theme Asset**
+        **Delete a Splash Theme Asset.**
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-splash-asset
 
         - organizationId (string): Organization ID
@@ -1467,7 +1475,7 @@ class ActionBatchOrganizations:
 
         metadata = {
             "tags": ["organizations", "configure", "splash", "assets"],
-            "operation": "deleteOrganizationSplashAsset",
+            "operation": "delete_organization_splash_asset",
         }
         resource = f"/organizations/{organizationId}/splash/assets/{id}"
 
@@ -1477,9 +1485,9 @@ class ActionBatchOrganizations:
         }
         return action
 
-    def createOrganizationSplashTheme(self, organizationId: str, **kwargs):
+    def create_organization_splash_theme(self, organizationId: str, **kwargs):
         """
-        **Create a Splash Theme**
+        **Create a Splash Theme.**
         https://developer.cisco.com/meraki/api-v1/#!create-organization-splash-theme
 
         - organizationId (string): Organization ID
@@ -1491,7 +1499,7 @@ class ActionBatchOrganizations:
 
         metadata = {
             "tags": ["organizations", "configure", "splash", "themes"],
-            "operation": "createOrganizationSplashTheme",
+            "operation": "create_organization_splash_theme",
         }
         resource = f"/organizations/{organizationId}/splash/themes"
 
@@ -1503,9 +1511,9 @@ class ActionBatchOrganizations:
         action = {"resource": resource, "operation": "create", "body": payload}
         return action
 
-    def deleteOrganizationSplashTheme(self, organizationId: str, id: str):
+    def delete_organization_splash_theme(self, organizationId: str, id: str):
         """
-        **Delete a Splash Theme**
+        **Delete a Splash Theme.**
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-splash-theme
 
         - organizationId (string): Organization ID
@@ -1514,7 +1522,7 @@ class ActionBatchOrganizations:
 
         metadata = {
             "tags": ["organizations", "configure", "splash", "themes"],
-            "operation": "deleteOrganizationSplashTheme",
+            "operation": "delete_organization_splash_theme",
         }
         resource = f"/organizations/{organizationId}/splash/themes/{id}"
 
@@ -1524,11 +1532,11 @@ class ActionBatchOrganizations:
         }
         return action
 
-    def createOrganizationSplashThemeAsset(
+    def create_organization_splash_theme_asset(
         self, organizationId: str, themeIdentifier: str, **kwargs
     ):
         """
-        **Create a Splash Theme Asset**
+        **Create a Splash Theme Asset.**
         https://developer.cisco.com/meraki/api-v1/#!create-organization-splash-theme-asset
 
         - organizationId (string): Organization ID
@@ -1541,7 +1549,7 @@ class ActionBatchOrganizations:
 
         metadata = {
             "tags": ["organizations", "configure", "splash", "themes", "assets"],
-            "operation": "createOrganizationSplashThemeAsset",
+            "operation": "create_organization_splash_theme_asset",
         }
         resource = f"/organizations/{organizationId}/splash/themes/{themeIdentifier}/assets"
 

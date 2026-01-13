@@ -7,9 +7,9 @@ class ActionBatchSwitch:
     def __init__(self) -> None:
         pass
 
-    def cycleDeviceSwitchPorts(self, serial: str, ports: list):
+    def cycle_device_switch_ports(self, serial: str, ports: list):
         """
-        **Cycle a set of switch ports**
+        **Cycle a set of switch ports.**
         https://developer.cisco.com/meraki/api-v1/#!cycle-device-switch-ports
 
         - serial (string): Serial
@@ -18,7 +18,10 @@ class ActionBatchSwitch:
 
         kwargs = locals()
 
-        metadata = {"tags": ["switch", "liveTools", "ports"], "operation": "cycleDeviceSwitchPorts"}
+        metadata = {
+            "tags": ["switch", "liveTools", "ports"],
+            "operation": "cycle_device_switch_ports",
+        }
         resource = f"/devices/{serial}/switch/ports/cycle"
 
         body_params = [
@@ -28,9 +31,9 @@ class ActionBatchSwitch:
         action = {"resource": resource, "operation": "create", "body": payload}
         return action
 
-    def updateDeviceSwitchPort(self, serial: str, portId: str, **kwargs):
+    def update_device_switch_port(self, serial: str, portId: str, **kwargs):
         """
-        **Update a switch port**
+        **Update a switch port.**
         https://developer.cisco.com/meraki/api-v1/#!update-device-switch-port
 
         - serial (string): Serial
@@ -90,7 +93,10 @@ class ActionBatchSwitch:
                 f'''"accessPolicyType" cannot be "{kwargs["accessPolicyType"]}", & must be set to one of: {options}'''
             )
 
-        metadata = {"tags": ["switch", "configure", "ports"], "operation": "updateDeviceSwitchPort"}
+        metadata = {
+            "tags": ["switch", "configure", "ports"],
+            "operation": "update_device_switch_port",
+        }
         resource = f"/devices/{serial}/switch/ports/{portId}"
 
         body_params = [
@@ -128,9 +134,9 @@ class ActionBatchSwitch:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def createDeviceSwitchRoutingInterface(self, serial: str, name: str, **kwargs):
+    def create_device_switch_routing_interface(self, serial: str, name: str, **kwargs):
         """
-        **Create a layer 3 interface for a switch**
+        **Create a layer 3 interface for a switch.**
         https://developer.cisco.com/meraki/api-v1/#!create-device-switch-routing-interface
 
         - serial (string): Serial
@@ -163,7 +169,7 @@ class ActionBatchSwitch:
 
         metadata = {
             "tags": ["switch", "configure", "routing", "interfaces"],
-            "operation": "createDeviceSwitchRoutingInterface",
+            "operation": "create_device_switch_routing_interface",
         }
         resource = f"/devices/{serial}/switch/routing/interfaces"
 
@@ -185,9 +191,9 @@ class ActionBatchSwitch:
         action = {"resource": resource, "operation": "create", "body": payload}
         return action
 
-    def updateDeviceSwitchRoutingInterface(self, serial: str, interfaceId: str, **kwargs):
+    def update_device_switch_routing_interface(self, serial: str, interfaceId: str, **kwargs):
         """
-        **Update a layer 3 interface for a switch**
+        **Update a layer 3 interface for a switch.**
         https://developer.cisco.com/meraki/api-v1/#!update-device-switch-routing-interface
 
         - serial (string): Serial
@@ -215,7 +221,7 @@ class ActionBatchSwitch:
 
         metadata = {
             "tags": ["switch", "configure", "routing", "interfaces"],
-            "operation": "updateDeviceSwitchRoutingInterface",
+            "operation": "update_device_switch_routing_interface",
         }
         resource = f"/devices/{serial}/switch/routing/interfaces/{interfaceId}"
 
@@ -236,9 +242,9 @@ class ActionBatchSwitch:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def deleteDeviceSwitchRoutingInterface(self, serial: str, interfaceId: str):
+    def delete_device_switch_routing_interface(self, serial: str, interfaceId: str):
         """
-        **Delete a layer 3 interface from the switch**
+        **Delete a layer 3 interface from the switch.**
         https://developer.cisco.com/meraki/api-v1/#!delete-device-switch-routing-interface
 
         - serial (string): Serial
@@ -247,7 +253,7 @@ class ActionBatchSwitch:
 
         metadata = {
             "tags": ["switch", "configure", "routing", "interfaces"],
-            "operation": "deleteDeviceSwitchRoutingInterface",
+            "operation": "delete_device_switch_routing_interface",
         }
         resource = f"/devices/{serial}/switch/routing/interfaces/{interfaceId}"
 
@@ -257,9 +263,9 @@ class ActionBatchSwitch:
         }
         return action
 
-    def updateDeviceSwitchRoutingInterfaceDhcp(self, serial: str, interfaceId: str, **kwargs):
+    def update_device_switch_routing_interface_dhcp(self, serial: str, interfaceId: str, **kwargs):
         """
-         **Update a layer 3 interface DHCP configuration for a switch**
+         **Update a layer 3 interface DHCP configuration for a switch.**
          https://developer.cisco.com/meraki/api-v1/#!update-device-switch-routing-interface-dhcp
 
          - serial (string): Serial
@@ -302,7 +308,7 @@ class ActionBatchSwitch:
 
         metadata = {
             "tags": ["switch", "configure", "routing", "interfaces", "dhcp"],
-            "operation": "updateDeviceSwitchRoutingInterfaceDhcp",
+            "operation": "update_device_switch_routing_interface_dhcp",
         }
         resource = f"/devices/{serial}/switch/routing/interfaces/{interfaceId}/dhcp"
 
@@ -323,11 +329,11 @@ class ActionBatchSwitch:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def createDeviceSwitchRoutingStaticRoute(
+    def create_device_switch_routing_static_route(
         self, serial: str, subnet: str, nextHopIp: str, **kwargs
     ):
         """
-        **Create a layer 3 static route for a switch**
+        **Create a layer 3 static route for a switch.**
         https://developer.cisco.com/meraki/api-v1/#!create-device-switch-routing-static-route
 
         - serial (string): Serial
@@ -343,7 +349,7 @@ class ActionBatchSwitch:
 
         metadata = {
             "tags": ["switch", "configure", "routing", "staticRoutes"],
-            "operation": "createDeviceSwitchRoutingStaticRoute",
+            "operation": "create_device_switch_routing_static_route",
         }
         resource = f"/devices/{serial}/switch/routing/staticRoutes"
 
@@ -359,9 +365,9 @@ class ActionBatchSwitch:
         action = {"resource": resource, "operation": "create", "body": payload}
         return action
 
-    def updateDeviceSwitchRoutingStaticRoute(self, serial: str, staticRouteId: str, **kwargs):
+    def update_device_switch_routing_static_route(self, serial: str, staticRouteId: str, **kwargs):
         """
-        **Update a layer 3 static route for a switch**
+        **Update a layer 3 static route for a switch.**
         https://developer.cisco.com/meraki/api-v1/#!update-device-switch-routing-static-route
 
         - serial (string): Serial
@@ -379,7 +385,7 @@ class ActionBatchSwitch:
 
         metadata = {
             "tags": ["switch", "configure", "routing", "staticRoutes"],
-            "operation": "updateDeviceSwitchRoutingStaticRoute",
+            "operation": "update_device_switch_routing_static_route",
         }
         resource = f"/devices/{serial}/switch/routing/staticRoutes/{staticRouteId}"
 
@@ -396,9 +402,9 @@ class ActionBatchSwitch:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def deleteDeviceSwitchRoutingStaticRoute(self, serial: str, staticRouteId: str):
+    def delete_device_switch_routing_static_route(self, serial: str, staticRouteId: str):
         """
-        **Delete a layer 3 static route for a switch**
+        **Delete a layer 3 static route for a switch.**
         https://developer.cisco.com/meraki/api-v1/#!delete-device-switch-routing-static-route
 
         - serial (string): Serial
@@ -407,7 +413,7 @@ class ActionBatchSwitch:
 
         metadata = {
             "tags": ["switch", "configure", "routing", "staticRoutes"],
-            "operation": "deleteDeviceSwitchRoutingStaticRoute",
+            "operation": "delete_device_switch_routing_static_route",
         }
         resource = f"/devices/{serial}/switch/routing/staticRoutes/{staticRouteId}"
 
@@ -417,9 +423,9 @@ class ActionBatchSwitch:
         }
         return action
 
-    def updateDeviceSwitchWarmSpare(self, serial: str, enabled: bool, **kwargs):
+    def update_device_switch_warm_spare(self, serial: str, enabled: bool, **kwargs):
         """
-        **Update warm spare configuration for a switch**
+        **Update warm spare configuration for a switch.**
         https://developer.cisco.com/meraki/api-v1/#!update-device-switch-warm-spare
 
         - serial (string): Serial
@@ -431,7 +437,7 @@ class ActionBatchSwitch:
 
         metadata = {
             "tags": ["switch", "configure", "warmSpare"],
-            "operation": "updateDeviceSwitchWarmSpare",
+            "operation": "update_device_switch_warm_spare",
         }
         resource = f"/devices/{serial}/switch/warmSpare"
 
@@ -443,7 +449,7 @@ class ActionBatchSwitch:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def createNetworkSwitchAccessPolicy(
+    def create_network_switch_access_policy(
         self,
         networkId: str,
         name: str,
@@ -452,7 +458,7 @@ class ActionBatchSwitch:
         **kwargs,
     ):
         """
-        **Create an access policy for a switch network**
+        **Create an access policy for a switch network.**
         https://developer.cisco.com/meraki/api-v1/#!create-network-switch-access-policy
 
         - networkId (string): Network ID
@@ -492,7 +498,7 @@ class ActionBatchSwitch:
 
         metadata = {
             "tags": ["switch", "configure", "accessPolicies"],
-            "operation": "createNetworkSwitchAccessPolicy",
+            "operation": "create_network_switch_access_policy",
         }
         resource = f"/networks/{networkId}/switch/accessPolicies"
 
@@ -521,9 +527,11 @@ class ActionBatchSwitch:
         action = {"resource": resource, "operation": "create", "body": payload}
         return action
 
-    def updateNetworkSwitchAccessPolicy(self, networkId: str, accessPolicyNumber: str, **kwargs):
+    def update_network_switch_access_policy(
+        self, networkId: str, accessPolicyNumber: str, **kwargs
+    ):
         """
-        **Update an access policy for a switch network**
+        **Update an access policy for a switch network.**
         https://developer.cisco.com/meraki/api-v1/#!update-network-switch-access-policy
 
         - networkId (string): Network ID
@@ -564,7 +572,7 @@ class ActionBatchSwitch:
 
         metadata = {
             "tags": ["switch", "configure", "accessPolicies"],
-            "operation": "updateNetworkSwitchAccessPolicy",
+            "operation": "update_network_switch_access_policy",
         }
         resource = f"/networks/{networkId}/switch/accessPolicies/{accessPolicyNumber}"
 
@@ -593,9 +601,9 @@ class ActionBatchSwitch:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def deleteNetworkSwitchAccessPolicy(self, networkId: str, accessPolicyNumber: str):
+    def delete_network_switch_access_policy(self, networkId: str, accessPolicyNumber: str):
         """
-        **Delete an access policy for a switch network**
+        **Delete an access policy for a switch network.**
         https://developer.cisco.com/meraki/api-v1/#!delete-network-switch-access-policy
 
         - networkId (string): Network ID
@@ -604,7 +612,7 @@ class ActionBatchSwitch:
 
         metadata = {
             "tags": ["switch", "configure", "accessPolicies"],
-            "operation": "deleteNetworkSwitchAccessPolicy",
+            "operation": "delete_network_switch_access_policy",
         }
         resource = f"/networks/{networkId}/switch/accessPolicies/{accessPolicyNumber}"
 
@@ -614,9 +622,9 @@ class ActionBatchSwitch:
         }
         return action
 
-    def updateNetworkSwitchAlternateManagementInterface(self, networkId: str, **kwargs):
+    def update_network_switch_alternate_management_interface(self, networkId: str, **kwargs):
         """
-        **Update the switch alternate management interface for the network**
+        **Update the switch alternate management interface for the network.**
         https://developer.cisco.com/meraki/api-v1/#!update-network-switch-alternate-management-interface
 
         - networkId (string): Network ID
@@ -630,7 +638,7 @@ class ActionBatchSwitch:
 
         metadata = {
             "tags": ["switch", "configure", "alternateManagementInterface"],
-            "operation": "updateNetworkSwitchAlternateManagementInterface",
+            "operation": "update_network_switch_alternate_management_interface",
         }
         resource = f"/networks/{networkId}/switch/alternateManagementInterface"
 
@@ -644,9 +652,9 @@ class ActionBatchSwitch:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def updateNetworkSwitchDhcpServerPolicy(self, networkId: str, **kwargs):
+    def update_network_switch_dhcp_server_policy(self, networkId: str, **kwargs):
         """
-        **Update the DHCP server settings**
+        **Update the DHCP server settings.**
         https://developer.cisco.com/meraki/api-v1/#!update-network-switch-dhcp-server-policy
 
         - networkId (string): Network ID
@@ -667,7 +675,7 @@ class ActionBatchSwitch:
 
         metadata = {
             "tags": ["switch", "configure", "dhcpServerPolicy"],
-            "operation": "updateNetworkSwitchDhcpServerPolicy",
+            "operation": "update_network_switch_dhcp_server_policy",
         }
         resource = f"/networks/{networkId}/switch/dhcpServerPolicy"
 
@@ -682,11 +690,11 @@ class ActionBatchSwitch:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def createNetworkSwitchDhcpServerPolicyArpInspectionTrustedServer(
+    def create_network_switch_dhcp_server_policy_arp_inspection_trusted_server(
         self, networkId: str, mac: str, vlan: int, ipv4: dict
     ):
         """
-        **Add a server to be trusted by Dynamic ARP Inspection on this network**
+        **Add a server to be trusted by Dynamic ARP Inspection on this network.**
         https://developer.cisco.com/meraki/api-v1/#!create-network-switch-dhcp-server-policy-arp-inspection-trusted-server
 
         - networkId (string): Network ID
@@ -699,7 +707,7 @@ class ActionBatchSwitch:
 
         metadata = {
             "tags": ["switch", "configure", "dhcpServerPolicy", "arpInspection", "trustedServers"],
-            "operation": "createNetworkSwitchDhcpServerPolicyArpInspectionTrustedServer",
+            "operation": "create_network_switch_dhcp_server_policy_arp_inspection_trusted_server",
         }
         resource = f"/networks/{networkId}/switch/dhcpServerPolicy/arpInspection/trustedServers"
 
@@ -712,11 +720,11 @@ class ActionBatchSwitch:
         action = {"resource": resource, "operation": "create", "body": payload}
         return action
 
-    def updateNetworkSwitchDhcpServerPolicyArpInspectionTrustedServer(
+    def update_network_switch_dhcp_server_policy_arp_inspection_trusted_server(
         self, networkId: str, trustedServerId: str, **kwargs
     ):
         """
-        **Update a server that is trusted by Dynamic ARP Inspection on this network**
+        **Update a server that is trusted by Dynamic ARP Inspection on this network.**
         https://developer.cisco.com/meraki/api-v1/#!update-network-switch-dhcp-server-policy-arp-inspection-trusted-server
 
         - networkId (string): Network ID
@@ -730,7 +738,7 @@ class ActionBatchSwitch:
 
         metadata = {
             "tags": ["switch", "configure", "dhcpServerPolicy", "arpInspection", "trustedServers"],
-            "operation": "updateNetworkSwitchDhcpServerPolicyArpInspectionTrustedServer",
+            "operation": "update_network_switch_dhcp_server_policy_arp_inspection_trusted_server",
         }
         resource = f"/networks/{networkId}/switch/dhcpServerPolicy/arpInspection/trustedServers/{trustedServerId}"
 
@@ -743,11 +751,11 @@ class ActionBatchSwitch:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def deleteNetworkSwitchDhcpServerPolicyArpInspectionTrustedServer(
+    def delete_network_switch_dhcp_server_policy_arp_inspection_trusted_server(
         self, networkId: str, trustedServerId: str
     ):
         """
-        **Remove a server from being trusted by Dynamic ARP Inspection on this network**
+        **Remove a server from being trusted by Dynamic ARP Inspection on this network.**
         https://developer.cisco.com/meraki/api-v1/#!delete-network-switch-dhcp-server-policy-arp-inspection-trusted-server
 
         - networkId (string): Network ID
@@ -756,7 +764,7 @@ class ActionBatchSwitch:
 
         metadata = {
             "tags": ["switch", "configure", "dhcpServerPolicy", "arpInspection", "trustedServers"],
-            "operation": "deleteNetworkSwitchDhcpServerPolicyArpInspectionTrustedServer",
+            "operation": "delete_network_switch_dhcp_server_policy_arp_inspection_trusted_server",
         }
         resource = f"/networks/{networkId}/switch/dhcpServerPolicy/arpInspection/trustedServers/{trustedServerId}"
 
@@ -766,9 +774,9 @@ class ActionBatchSwitch:
         }
         return action
 
-    def updateNetworkSwitchDscpToCosMappings(self, networkId: str, mappings: list):
+    def update_network_switch_dscp_to_cos_mappings(self, networkId: str, mappings: list):
         """
-        **Update the DSCP to CoS mappings**
+        **Update the DSCP to CoS mappings.**
         https://developer.cisco.com/meraki/api-v1/#!update-network-switch-dscp-to-cos-mappings
 
         - networkId (string): Network ID
@@ -779,7 +787,7 @@ class ActionBatchSwitch:
 
         metadata = {
             "tags": ["switch", "configure", "dscpToCosMappings"],
-            "operation": "updateNetworkSwitchDscpToCosMappings",
+            "operation": "update_network_switch_dscp_to_cos_mappings",
         }
         resource = f"/networks/{networkId}/switch/dscpToCosMappings"
 
@@ -790,9 +798,9 @@ class ActionBatchSwitch:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def createNetworkSwitchLinkAggregation(self, networkId: str, **kwargs):
+    def create_network_switch_link_aggregation(self, networkId: str, **kwargs):
         """
-        **Create a link aggregation group**
+        **Create a link aggregation group.**
         https://developer.cisco.com/meraki/api-v1/#!create-network-switch-link-aggregation
 
         - networkId (string): Network ID
@@ -804,7 +812,7 @@ class ActionBatchSwitch:
 
         metadata = {
             "tags": ["switch", "configure", "linkAggregations"],
-            "operation": "createNetworkSwitchLinkAggregation",
+            "operation": "create_network_switch_link_aggregation",
         }
         resource = f"/networks/{networkId}/switch/linkAggregations"
 
@@ -816,9 +824,11 @@ class ActionBatchSwitch:
         action = {"resource": resource, "operation": "create", "body": payload}
         return action
 
-    def updateNetworkSwitchLinkAggregation(self, networkId: str, linkAggregationId: str, **kwargs):
+    def update_network_switch_link_aggregation(
+        self, networkId: str, linkAggregationId: str, **kwargs
+    ):
         """
-        **Update a link aggregation group**
+        **Update a link aggregation group.**
         https://developer.cisco.com/meraki/api-v1/#!update-network-switch-link-aggregation
 
         - networkId (string): Network ID
@@ -831,7 +841,7 @@ class ActionBatchSwitch:
 
         metadata = {
             "tags": ["switch", "configure", "linkAggregations"],
-            "operation": "updateNetworkSwitchLinkAggregation",
+            "operation": "update_network_switch_link_aggregation",
         }
         resource = f"/networks/{networkId}/switch/linkAggregations/{linkAggregationId}"
 
@@ -843,9 +853,9 @@ class ActionBatchSwitch:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def deleteNetworkSwitchLinkAggregation(self, networkId: str, linkAggregationId: str):
+    def delete_network_switch_link_aggregation(self, networkId: str, linkAggregationId: str):
         """
-        **Split a link aggregation group into separate ports**
+        **Split a link aggregation group into separate ports.**
         https://developer.cisco.com/meraki/api-v1/#!delete-network-switch-link-aggregation
 
         - networkId (string): Network ID
@@ -854,7 +864,7 @@ class ActionBatchSwitch:
 
         metadata = {
             "tags": ["switch", "configure", "linkAggregations"],
-            "operation": "deleteNetworkSwitchLinkAggregation",
+            "operation": "delete_network_switch_link_aggregation",
         }
         resource = f"/networks/{networkId}/switch/linkAggregations/{linkAggregationId}"
 
@@ -864,9 +874,9 @@ class ActionBatchSwitch:
         }
         return action
 
-    def updateNetworkSwitchMtu(self, networkId: str, **kwargs):
+    def update_network_switch_mtu(self, networkId: str, **kwargs):
         """
-        **Update the MTU configuration**
+        **Update the MTU configuration.**
         https://developer.cisco.com/meraki/api-v1/#!update-network-switch-mtu
 
         - networkId (string): Network ID
@@ -876,7 +886,10 @@ class ActionBatchSwitch:
 
         kwargs.update(locals())
 
-        metadata = {"tags": ["switch", "configure", "mtu"], "operation": "updateNetworkSwitchMtu"}
+        metadata = {
+            "tags": ["switch", "configure", "mtu"],
+            "operation": "update_network_switch_mtu",
+        }
         resource = f"/networks/{networkId}/switch/mtu"
 
         body_params = [
@@ -887,9 +900,9 @@ class ActionBatchSwitch:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def updateNetworkSwitchPortSchedule(self, networkId: str, portScheduleId: str, **kwargs):
+    def update_network_switch_port_schedule(self, networkId: str, portScheduleId: str, **kwargs):
         """
-            **Update a switch port schedule**
+            **Update a switch port schedule.**
             https://developer.cisco.com/meraki/api-v1/#!update-network-switch-port-schedule
 
             - networkId (string): Network ID
@@ -905,7 +918,7 @@ class ActionBatchSwitch:
 
         metadata = {
             "tags": ["switch", "configure", "portSchedules"],
-            "operation": "updateNetworkSwitchPortSchedule",
+            "operation": "update_network_switch_port_schedule",
         }
         resource = f"/networks/{networkId}/switch/portSchedules/{portScheduleId}"
 
@@ -917,9 +930,9 @@ class ActionBatchSwitch:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def createNetworkSwitchQosRule(self, networkId: str, vlan: int, **kwargs):
+    def create_network_switch_qos_rule(self, networkId: str, vlan: int, **kwargs):
         """
-        **Add a quality of service rule**
+        **Add a quality of service rule.**
         https://developer.cisco.com/meraki/api-v1/#!create-network-switch-qos-rule
 
         - networkId (string): Network ID
@@ -942,7 +955,7 @@ class ActionBatchSwitch:
 
         metadata = {
             "tags": ["switch", "configure", "qosRules"],
-            "operation": "createNetworkSwitchQosRule",
+            "operation": "create_network_switch_qos_rule",
         }
         resource = f"/networks/{networkId}/switch/qosRules"
 
@@ -959,9 +972,9 @@ class ActionBatchSwitch:
         action = {"resource": resource, "operation": "create", "body": payload}
         return action
 
-    def updateNetworkSwitchQosRulesOrder(self, networkId: str, ruleIds: list):
+    def update_network_switch_qos_rules_order(self, networkId: str, ruleIds: list):
         """
-        **Update the order in which the rules should be processed by the switch**
+        **Update the order in which the rules should be processed by the switch.**
         https://developer.cisco.com/meraki/api-v1/#!update-network-switch-qos-rules-order
 
         - networkId (string): Network ID
@@ -972,7 +985,7 @@ class ActionBatchSwitch:
 
         metadata = {
             "tags": ["switch", "configure", "qosRules", "order"],
-            "operation": "updateNetworkSwitchQosRulesOrder",
+            "operation": "update_network_switch_qos_rules_order",
         }
         resource = f"/networks/{networkId}/switch/qosRules/order"
 
@@ -983,9 +996,9 @@ class ActionBatchSwitch:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def deleteNetworkSwitchQosRule(self, networkId: str, qosRuleId: str):
+    def delete_network_switch_qos_rule(self, networkId: str, qosRuleId: str):
         """
-        **Delete a quality of service rule**
+        **Delete a quality of service rule.**
         https://developer.cisco.com/meraki/api-v1/#!delete-network-switch-qos-rule
 
         - networkId (string): Network ID
@@ -994,7 +1007,7 @@ class ActionBatchSwitch:
 
         metadata = {
             "tags": ["switch", "configure", "qosRules"],
-            "operation": "deleteNetworkSwitchQosRule",
+            "operation": "delete_network_switch_qos_rule",
         }
         resource = f"/networks/{networkId}/switch/qosRules/{qosRuleId}"
 
@@ -1004,9 +1017,9 @@ class ActionBatchSwitch:
         }
         return action
 
-    def updateNetworkSwitchQosRule(self, networkId: str, qosRuleId: str, **kwargs):
+    def update_network_switch_qos_rule(self, networkId: str, qosRuleId: str, **kwargs):
         """
-        **Update a quality of service rule**
+        **Update a quality of service rule.**
         https://developer.cisco.com/meraki/api-v1/#!update-network-switch-qos-rule
 
         - networkId (string): Network ID
@@ -1030,7 +1043,7 @@ class ActionBatchSwitch:
 
         metadata = {
             "tags": ["switch", "configure", "qosRules"],
-            "operation": "updateNetworkSwitchQosRule",
+            "operation": "update_network_switch_qos_rule",
         }
         resource = f"/networks/{networkId}/switch/qosRules/{qosRuleId}"
 
@@ -1047,9 +1060,9 @@ class ActionBatchSwitch:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def updateNetworkSwitchRoutingMulticast(self, networkId: str, **kwargs):
+    def update_network_switch_routing_multicast(self, networkId: str, **kwargs):
         """
-        **Update multicast settings for a network**
+        **Update multicast settings for a network.**
         https://developer.cisco.com/meraki/api-v1/#!update-network-switch-routing-multicast
 
         - networkId (string): Network ID
@@ -1061,7 +1074,7 @@ class ActionBatchSwitch:
 
         metadata = {
             "tags": ["switch", "configure", "routing", "multicast"],
-            "operation": "updateNetworkSwitchRoutingMulticast",
+            "operation": "update_network_switch_routing_multicast",
         }
         resource = f"/networks/{networkId}/switch/routing/multicast"
 
@@ -1073,11 +1086,11 @@ class ActionBatchSwitch:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def createNetworkSwitchRoutingMulticastRendezvousPoint(
+    def create_network_switch_routing_multicast_rendezvous_point(
         self, networkId: str, interfaceIp: str, multicastGroup: str, **kwargs
     ):
         """
-        **Create a multicast rendezvous point**
+        **Create a multicast rendezvous point.**
         https://developer.cisco.com/meraki/api-v1/#!create-network-switch-routing-multicast-rendezvous-point
 
         - networkId (string): Network ID
@@ -1090,7 +1103,7 @@ class ActionBatchSwitch:
 
         metadata = {
             "tags": ["switch", "configure", "routing", "multicast", "rendezvousPoints"],
-            "operation": "createNetworkSwitchRoutingMulticastRendezvousPoint",
+            "operation": "create_network_switch_routing_multicast_rendezvous_point",
         }
         resource = f"/networks/{networkId}/switch/routing/multicast/rendezvousPoints"
 
@@ -1103,11 +1116,11 @@ class ActionBatchSwitch:
         action = {"resource": resource, "operation": "create", "body": payload}
         return action
 
-    def deleteNetworkSwitchRoutingMulticastRendezvousPoint(
+    def delete_network_switch_routing_multicast_rendezvous_point(
         self, networkId: str, rendezvousPointId: str
     ):
         """
-        **Delete a multicast rendezvous point**
+        **Delete a multicast rendezvous point.**
         https://developer.cisco.com/meraki/api-v1/#!delete-network-switch-routing-multicast-rendezvous-point
 
         - networkId (string): Network ID
@@ -1116,7 +1129,7 @@ class ActionBatchSwitch:
 
         metadata = {
             "tags": ["switch", "configure", "routing", "multicast", "rendezvousPoints"],
-            "operation": "deleteNetworkSwitchRoutingMulticastRendezvousPoint",
+            "operation": "delete_network_switch_routing_multicast_rendezvous_point",
         }
         resource = (
             f"/networks/{networkId}/switch/routing/multicast/rendezvousPoints/{rendezvousPointId}"
@@ -1128,7 +1141,7 @@ class ActionBatchSwitch:
         }
         return action
 
-    def updateNetworkSwitchRoutingMulticastRendezvousPoint(
+    def update_network_switch_routing_multicast_rendezvous_point(
         self,
         networkId: str,
         rendezvousPointId: str,
@@ -1137,7 +1150,7 @@ class ActionBatchSwitch:
         **kwargs,
     ):
         """
-        **Update a multicast rendezvous point**
+        **Update a multicast rendezvous point.**
         https://developer.cisco.com/meraki/api-v1/#!update-network-switch-routing-multicast-rendezvous-point
 
         - networkId (string): Network ID
@@ -1151,7 +1164,7 @@ class ActionBatchSwitch:
 
         metadata = {
             "tags": ["switch", "configure", "routing", "multicast", "rendezvousPoints"],
-            "operation": "updateNetworkSwitchRoutingMulticastRendezvousPoint",
+            "operation": "update_network_switch_routing_multicast_rendezvous_point",
         }
         resource = (
             f"/networks/{networkId}/switch/routing/multicast/rendezvousPoints/{rendezvousPointId}"
@@ -1166,9 +1179,9 @@ class ActionBatchSwitch:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def updateNetworkSwitchRoutingOspf(self, networkId: str, **kwargs):
+    def update_network_switch_routing_ospf(self, networkId: str, **kwargs):
         """
-        **Update layer 3 OSPF routing configuration**
+        **Update layer 3 OSPF routing configuration.**
         https://developer.cisco.com/meraki/api-v1/#!update-network-switch-routing-ospf
 
         - networkId (string): Network ID
@@ -1186,7 +1199,7 @@ class ActionBatchSwitch:
 
         metadata = {
             "tags": ["switch", "configure", "routing", "ospf"],
-            "operation": "updateNetworkSwitchRoutingOspf",
+            "operation": "update_network_switch_routing_ospf",
         }
         resource = f"/networks/{networkId}/switch/routing/ospf"
 
@@ -1203,9 +1216,9 @@ class ActionBatchSwitch:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def updateNetworkSwitchSettings(self, networkId: str, **kwargs):
+    def update_network_switch_settings(self, networkId: str, **kwargs):
         """
-        **Update switch network settings**
+        **Update switch network settings.**
         https://developer.cisco.com/meraki/api-v1/#!update-network-switch-settings
 
         - networkId (string): Network ID
@@ -1221,7 +1234,7 @@ class ActionBatchSwitch:
 
         metadata = {
             "tags": ["switch", "configure", "settings"],
-            "operation": "updateNetworkSwitchSettings",
+            "operation": "update_network_switch_settings",
         }
         resource = f"/networks/{networkId}/switch/settings"
 
@@ -1237,11 +1250,11 @@ class ActionBatchSwitch:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def createNetworkSwitchStackRoutingInterface(
+    def create_network_switch_stack_routing_interface(
         self, networkId: str, switchStackId: str, name: str, **kwargs
     ):
         """
-        **Create a layer 3 interface for a switch stack**
+        **Create a layer 3 interface for a switch stack.**
         https://developer.cisco.com/meraki/api-v1/#!create-network-switch-stack-routing-interface
 
         - networkId (string): Network ID
@@ -1275,7 +1288,7 @@ class ActionBatchSwitch:
 
         metadata = {
             "tags": ["switch", "configure", "stacks", "routing", "interfaces"],
-            "operation": "createNetworkSwitchStackRoutingInterface",
+            "operation": "create_network_switch_stack_routing_interface",
         }
         resource = f"/networks/{networkId}/switch/stacks/{switchStackId}/routing/interfaces"
 
@@ -1297,11 +1310,11 @@ class ActionBatchSwitch:
         action = {"resource": resource, "operation": "create", "body": payload}
         return action
 
-    def updateNetworkSwitchStackRoutingInterface(
+    def update_network_switch_stack_routing_interface(
         self, networkId: str, switchStackId: str, interfaceId: str, **kwargs
     ):
         """
-        **Update a layer 3 interface for a switch stack**
+        **Update a layer 3 interface for a switch stack.**
         https://developer.cisco.com/meraki/api-v1/#!update-network-switch-stack-routing-interface
 
         - networkId (string): Network ID
@@ -1330,7 +1343,7 @@ class ActionBatchSwitch:
 
         metadata = {
             "tags": ["switch", "configure", "stacks", "routing", "interfaces"],
-            "operation": "updateNetworkSwitchStackRoutingInterface",
+            "operation": "update_network_switch_stack_routing_interface",
         }
         resource = (
             f"/networks/{networkId}/switch/stacks/{switchStackId}/routing/interfaces/{interfaceId}"
@@ -1353,11 +1366,11 @@ class ActionBatchSwitch:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def deleteNetworkSwitchStackRoutingInterface(
+    def delete_network_switch_stack_routing_interface(
         self, networkId: str, switchStackId: str, interfaceId: str
     ):
         """
-        **Delete a layer 3 interface from a switch stack**
+        **Delete a layer 3 interface from a switch stack.**
         https://developer.cisco.com/meraki/api-v1/#!delete-network-switch-stack-routing-interface
 
         - networkId (string): Network ID
@@ -1367,7 +1380,7 @@ class ActionBatchSwitch:
 
         metadata = {
             "tags": ["switch", "configure", "stacks", "routing", "interfaces"],
-            "operation": "deleteNetworkSwitchStackRoutingInterface",
+            "operation": "delete_network_switch_stack_routing_interface",
         }
         resource = (
             f"/networks/{networkId}/switch/stacks/{switchStackId}/routing/interfaces/{interfaceId}"
@@ -1379,11 +1392,11 @@ class ActionBatchSwitch:
         }
         return action
 
-    def updateNetworkSwitchStackRoutingInterfaceDhcp(
+    def update_network_switch_stack_routing_interface_dhcp(
         self, networkId: str, switchStackId: str, interfaceId: str, **kwargs
     ):
         """
-        **Update a layer 3 interface DHCP configuration for a switch stack**
+        **Update a layer 3 interface DHCP configuration for a switch stack.**
         https://developer.cisco.com/meraki/api-v1/#!update-network-switch-stack-routing-interface-dhcp
 
         - networkId (string): Network ID
@@ -1428,7 +1441,7 @@ class ActionBatchSwitch:
 
         metadata = {
             "tags": ["switch", "configure", "stacks", "routing", "interfaces", "dhcp"],
-            "operation": "updateNetworkSwitchStackRoutingInterfaceDhcp",
+            "operation": "update_network_switch_stack_routing_interface_dhcp",
         }
         resource = f"/networks/{networkId}/switch/stacks/{switchStackId}/routing/interfaces/{interfaceId}/dhcp"
 
@@ -1449,11 +1462,11 @@ class ActionBatchSwitch:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def createNetworkSwitchStackRoutingStaticRoute(
+    def create_network_switch_stack_routing_static_route(
         self, networkId: str, switchStackId: str, subnet: str, nextHopIp: str, **kwargs
     ):
         """
-        **Create a layer 3 static route for a switch stack**
+        **Create a layer 3 static route for a switch stack.**
         https://developer.cisco.com/meraki/api-v1/#!create-network-switch-stack-routing-static-route
 
         - networkId (string): Network ID
@@ -1470,7 +1483,7 @@ class ActionBatchSwitch:
 
         metadata = {
             "tags": ["switch", "configure", "stacks", "routing", "staticRoutes"],
-            "operation": "createNetworkSwitchStackRoutingStaticRoute",
+            "operation": "create_network_switch_stack_routing_static_route",
         }
         resource = f"/networks/{networkId}/switch/stacks/{switchStackId}/routing/staticRoutes"
 
@@ -1486,11 +1499,11 @@ class ActionBatchSwitch:
         action = {"resource": resource, "operation": "create", "body": payload}
         return action
 
-    def updateNetworkSwitchStackRoutingStaticRoute(
+    def update_network_switch_stack_routing_static_route(
         self, networkId: str, switchStackId: str, staticRouteId: str, **kwargs
     ):
         """
-        **Update a layer 3 static route for a switch stack**
+        **Update a layer 3 static route for a switch stack.**
         https://developer.cisco.com/meraki/api-v1/#!update-network-switch-stack-routing-static-route
 
         - networkId (string): Network ID
@@ -1509,7 +1522,7 @@ class ActionBatchSwitch:
 
         metadata = {
             "tags": ["switch", "configure", "stacks", "routing", "staticRoutes"],
-            "operation": "updateNetworkSwitchStackRoutingStaticRoute",
+            "operation": "update_network_switch_stack_routing_static_route",
         }
         resource = f"/networks/{networkId}/switch/stacks/{switchStackId}/routing/staticRoutes/{staticRouteId}"
 
@@ -1526,11 +1539,11 @@ class ActionBatchSwitch:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def deleteNetworkSwitchStackRoutingStaticRoute(
+    def delete_network_switch_stack_routing_static_route(
         self, networkId: str, switchStackId: str, staticRouteId: str
     ):
         """
-        **Delete a layer 3 static route for a switch stack**
+        **Delete a layer 3 static route for a switch stack.**
         https://developer.cisco.com/meraki/api-v1/#!delete-network-switch-stack-routing-static-route
 
         - networkId (string): Network ID
@@ -1540,7 +1553,7 @@ class ActionBatchSwitch:
 
         metadata = {
             "tags": ["switch", "configure", "stacks", "routing", "staticRoutes"],
-            "operation": "deleteNetworkSwitchStackRoutingStaticRoute",
+            "operation": "delete_network_switch_stack_routing_static_route",
         }
         resource = f"/networks/{networkId}/switch/stacks/{switchStackId}/routing/staticRoutes/{staticRouteId}"
 
@@ -1550,9 +1563,9 @@ class ActionBatchSwitch:
         }
         return action
 
-    def updateNetworkSwitchStormControl(self, networkId: str, **kwargs):
+    def update_network_switch_storm_control(self, networkId: str, **kwargs):
         """
-        **Update the storm control configuration for a switch network**
+        **Update the storm control configuration for a switch network.**
         https://developer.cisco.com/meraki/api-v1/#!update-network-switch-storm-control
 
         - networkId (string): Network ID
@@ -1566,7 +1579,7 @@ class ActionBatchSwitch:
 
         metadata = {
             "tags": ["switch", "configure", "stormControl"],
-            "operation": "updateNetworkSwitchStormControl",
+            "operation": "update_network_switch_storm_control",
         }
         resource = f"/networks/{networkId}/switch/stormControl"
 
@@ -1580,9 +1593,9 @@ class ActionBatchSwitch:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def updateNetworkSwitchStp(self, networkId: str, **kwargs):
+    def update_network_switch_stp(self, networkId: str, **kwargs):
         """
-        **Updates STP settings**
+        **Updates STP settings.**
         https://developer.cisco.com/meraki/api-v1/#!update-network-switch-stp
 
         - networkId (string): Network ID
@@ -1592,7 +1605,10 @@ class ActionBatchSwitch:
 
         kwargs.update(locals())
 
-        metadata = {"tags": ["switch", "configure", "stp"], "operation": "updateNetworkSwitchStp"}
+        metadata = {
+            "tags": ["switch", "configure", "stp"],
+            "operation": "update_network_switch_stp",
+        }
         resource = f"/networks/{networkId}/switch/stp"
 
         body_params = [
@@ -1603,11 +1619,11 @@ class ActionBatchSwitch:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def updateOrganizationConfigTemplateSwitchProfilePort(
+    def update_organization_config_template_switch_profile_port(
         self, organizationId: str, configTemplateId: str, profileId: str, portId: str, **kwargs
     ):
         """
-        **Update a switch template port**
+        **Update a switch template port.**
         https://developer.cisco.com/meraki/api-v1/#!update-organization-config-template-switch-profile-port
 
         - organizationId (string): Organization ID
@@ -1669,7 +1685,7 @@ class ActionBatchSwitch:
 
         metadata = {
             "tags": ["switch", "configure", "configTemplates", "profiles", "ports"],
-            "operation": "updateOrganizationConfigTemplateSwitchProfilePort",
+            "operation": "update_organization_config_template_switch_profile_port",
         }
         resource = f"/organizations/{organizationId}/configTemplates/{configTemplateId}/switch/profiles/{profileId}/ports/{portId}"
 
@@ -1706,11 +1722,11 @@ class ActionBatchSwitch:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def cloneOrganizationSwitchDevices(
+    def clone_organization_switch_devices(
         self, organizationId: str, sourceSerial: str, targetSerials: list
     ):
         """
-        **Clone port-level and some switch-level configuration settings from a source switch to one or more target switches**
+        **Clone port-level and some switch-level configuration settings from a source switch to one or more target switches.**
         https://developer.cisco.com/meraki/api-v1/#!clone-organization-switch-devices
 
         - organizationId (string): Organization ID
@@ -1722,7 +1738,7 @@ class ActionBatchSwitch:
 
         metadata = {
             "tags": ["switch", "configure", "devices"],
-            "operation": "cloneOrganizationSwitchDevices",
+            "operation": "clone_organization_switch_devices",
         }
         resource = f"/organizations/{organizationId}/switch/devices/clone"
 

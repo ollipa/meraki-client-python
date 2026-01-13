@@ -12,20 +12,20 @@ class AsyncSm:
         super().__init__()
         self._session = session
 
-    def createNetworkSmBypassActivationLockAttempt(self, networkId: str, ids: list):
-        """Bypass activation lock attempt
+    def create_network_sm_bypass_activation_lock_attempt(self, networkId: str, ids: list):
+        """Bypass activation lock attempt.
 
         https://developer.cisco.com/meraki/api-v1/#!create-network-sm-bypass-activation-lock-attempt
 
         - networkId (string): Network ID
         - ids (array): The ids of the devices to attempt activation lock bypass.
-        """
 
+        """
         kwargs = locals()
 
         metadata = {
             "tags": ["sm", "configure", "bypassActivationLockAttempts"],
-            "operation": "createNetworkSmBypassActivationLockAttempt",
+            "operation": "create_network_sm_bypass_activation_lock_attempt",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/sm/bypassActivationLockAttempts"
@@ -37,18 +37,18 @@ class AsyncSm:
 
         return self._session.post(metadata, resource, payload)
 
-    def getNetworkSmBypassActivationLockAttempt(self, networkId: str, attemptId: str):
-        """Bypass activation lock attempt status
+    def get_network_sm_bypass_activation_lock_attempt(self, networkId: str, attemptId: str):
+        """Bypass activation lock attempt status.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-sm-bypass-activation-lock-attempt
 
         - networkId (string): Network ID
         - attemptId (string): Attempt ID
-        """
 
+        """
         metadata = {
             "tags": ["sm", "configure", "bypassActivationLockAttempts"],
-            "operation": "getNetworkSmBypassActivationLockAttempt",
+            "operation": "get_network_sm_bypass_activation_lock_attempt",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         attemptId = urllib.parse.quote(str(attemptId), safe="")
@@ -56,8 +56,8 @@ class AsyncSm:
 
         return self._session.get(metadata, resource)
 
-    def getNetworkSmDevices(self, networkId: str, total_pages=1, direction="next", **kwargs):
-        """List the devices enrolled in an SM network with various specified fields and filters
+    def get_network_sm_devices(self, networkId: str, total_pages=1, direction="next", **kwargs):
+        """List the devices enrolled in an SM network with various specified fields and filters.
 
             https://developer.cisco.com/meraki/api-v1/#!get-network-sm-devices
 
@@ -80,11 +80,11 @@ class AsyncSm:
             - perPage (integer): The number of entries per page returned. Acceptable range is 3 - 1000. Default is 1000.
             - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
             - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        """
 
+        """
         kwargs.update(locals())
 
-        metadata = {"tags": ["sm", "configure", "devices"], "operation": "getNetworkSmDevices"}
+        metadata = {"tags": ["sm", "configure", "devices"], "operation": "get_network_sm_devices"}
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/sm/devices"
 
@@ -118,8 +118,8 @@ class AsyncSm:
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
-    def checkinNetworkSmDevices(self, networkId: str, **kwargs):
-        """Force check-in a set of devices
+    def checkin_network_sm_devices(self, networkId: str, **kwargs):
+        """Force check-in a set of devices.
 
         https://developer.cisco.com/meraki/api-v1/#!checkin-network-sm-devices
 
@@ -128,11 +128,14 @@ class AsyncSm:
         - ids (array): The ids of the devices to be checked-in.
         - serials (array): The serials of the devices to be checked-in.
         - scope (array): The scope (one of all, none, withAny, withAll, withoutAny, or withoutAll) and a set of tags of the devices to be checked-in.
-        """
 
+        """
         kwargs.update(locals())
 
-        metadata = {"tags": ["sm", "configure", "devices"], "operation": "checkinNetworkSmDevices"}
+        metadata = {
+            "tags": ["sm", "configure", "devices"],
+            "operation": "checkin_network_sm_devices",
+        }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/sm/devices/checkin"
 
@@ -146,8 +149,8 @@ class AsyncSm:
 
         return self._session.post(metadata, resource, payload)
 
-    def updateNetworkSmDevicesFields(self, networkId: str, deviceFields: dict, **kwargs):
-        """Modify the fields of a device
+    def update_network_sm_devices_fields(self, networkId: str, deviceFields: dict, **kwargs):
+        """Modify the fields of a device.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-sm-devices-fields
 
@@ -156,13 +159,13 @@ class AsyncSm:
         - wifiMac (string): The wifiMac of the device to be modified.
         - id (string): The id of the device to be modified.
         - serial (string): The serial of the device to be modified.
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["sm", "configure", "devices", "fields"],
-            "operation": "updateNetworkSmDevicesFields",
+            "operation": "update_network_sm_devices_fields",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/sm/devices/fields"
@@ -177,8 +180,8 @@ class AsyncSm:
 
         return self._session.put(metadata, resource, payload)
 
-    def lockNetworkSmDevices(self, networkId: str, **kwargs):
-        """Lock a set of devices
+    def lock_network_sm_devices(self, networkId: str, **kwargs):
+        """Lock a set of devices.
 
         https://developer.cisco.com/meraki/api-v1/#!lock-network-sm-devices
 
@@ -188,11 +191,11 @@ class AsyncSm:
         - serials (array): The serials of the devices to be locked.
         - scope (array): The scope (one of all, none, withAny, withAll, withoutAny, or withoutAll) and a set of tags of the devices to be locked.
         - pin (integer): The pin number for locking macOS devices (a six digit number). Required only for macOS devices.
-        """
 
+        """
         kwargs.update(locals())
 
-        metadata = {"tags": ["sm", "configure", "devices"], "operation": "lockNetworkSmDevices"}
+        metadata = {"tags": ["sm", "configure", "devices"], "operation": "lock_network_sm_devices"}
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/sm/devices/lock"
 
@@ -207,8 +210,10 @@ class AsyncSm:
 
         return self._session.post(metadata, resource, payload)
 
-    def modifyNetworkSmDevicesTags(self, networkId: str, tags: list, updateAction: str, **kwargs):
-        """Add, delete, or update the tags of a set of devices
+    def modify_network_sm_devices_tags(
+        self, networkId: str, tags: list, updateAction: str, **kwargs
+    ):
+        """Add, delete, or update the tags of a set of devices.
 
         https://developer.cisco.com/meraki/api-v1/#!modify-network-sm-devices-tags
 
@@ -219,13 +224,13 @@ class AsyncSm:
         - ids (array): The ids of the devices to be modified.
         - serials (array): The serials of the devices to be modified.
         - scope (array): The scope (one of all, none, withAny, withAll, withoutAny, or withoutAll) and a set of tags of the devices to be modified.
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["sm", "configure", "devices"],
-            "operation": "modifyNetworkSmDevicesTags",
+            "operation": "modify_network_sm_devices_tags",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/sm/devices/modifyTags"
@@ -242,8 +247,8 @@ class AsyncSm:
 
         return self._session.post(metadata, resource, payload)
 
-    def moveNetworkSmDevices(self, networkId: str, newNetwork: str, **kwargs):
-        """Move a set of devices to a new network
+    def move_network_sm_devices(self, networkId: str, newNetwork: str, **kwargs):
+        """Move a set of devices to a new network.
 
         https://developer.cisco.com/meraki/api-v1/#!move-network-sm-devices
 
@@ -253,11 +258,11 @@ class AsyncSm:
         - ids (array): The ids of the devices to be moved.
         - serials (array): The serials of the devices to be moved.
         - scope (array): The scope (one of all, none, withAny, withAll, withoutAny, or withoutAll) and a set of tags of the devices to be moved.
-        """
 
+        """
         kwargs.update(locals())
 
-        metadata = {"tags": ["sm", "configure", "devices"], "operation": "moveNetworkSmDevices"}
+        metadata = {"tags": ["sm", "configure", "devices"], "operation": "move_network_sm_devices"}
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/sm/devices/move"
 
@@ -272,8 +277,8 @@ class AsyncSm:
 
         return self._session.post(metadata, resource, payload)
 
-    def rebootNetworkSmDevices(self, networkId: str, **kwargs):
-        """Reboot a set of endpoints
+    def reboot_network_sm_devices(self, networkId: str, **kwargs):
+        """Reboot a set of endpoints.
 
         https://developer.cisco.com/meraki/api-v1/#!reboot-network-sm-devices
 
@@ -286,11 +291,14 @@ class AsyncSm:
         - notifyUser (boolean): Whether or not to notify the user before rebooting the endpoint. Available for macOS 11.3+
         - rebuildKernelCache (boolean): Whether or not to rebuild the kernel cache when rebooting the endpoint. Available for macOS 11+
         - requestRequiresNetworkTether (boolean): Whether or not the request requires network tethering. Available for macOS and supervised iOS or tvOS
-        """
 
+        """
         kwargs.update(locals())
 
-        metadata = {"tags": ["sm", "configure", "devices"], "operation": "rebootNetworkSmDevices"}
+        metadata = {
+            "tags": ["sm", "configure", "devices"],
+            "operation": "reboot_network_sm_devices",
+        }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/sm/devices/reboot"
 
@@ -308,8 +316,8 @@ class AsyncSm:
 
         return self._session.post(metadata, resource, payload)
 
-    def shutdownNetworkSmDevices(self, networkId: str, **kwargs):
-        """Shutdown a set of endpoints
+    def shutdown_network_sm_devices(self, networkId: str, **kwargs):
+        """Shutdown a set of endpoints.
 
         https://developer.cisco.com/meraki/api-v1/#!shutdown-network-sm-devices
 
@@ -318,11 +326,14 @@ class AsyncSm:
         - ids (array): The ids of the endpoints to be shutdown.
         - serials (array): The serials of the endpoints to be shutdown.
         - scope (array): The scope (one of all, none, withAny, withAll, withoutAny, or withoutAll) and a set of tags of the endpoints to be shutdown.
-        """
 
+        """
         kwargs.update(locals())
 
-        metadata = {"tags": ["sm", "configure", "devices"], "operation": "shutdownNetworkSmDevices"}
+        metadata = {
+            "tags": ["sm", "configure", "devices"],
+            "operation": "shutdown_network_sm_devices",
+        }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/sm/devices/shutdown"
 
@@ -336,8 +347,8 @@ class AsyncSm:
 
         return self._session.post(metadata, resource, payload)
 
-    def wipeNetworkSmDevices(self, networkId: str, **kwargs):
-        """Wipe a device
+    def wipe_network_sm_devices(self, networkId: str, **kwargs):
+        """Wipe a device.
 
         https://developer.cisco.com/meraki/api-v1/#!wipe-network-sm-devices
 
@@ -346,11 +357,11 @@ class AsyncSm:
         - id (string): The id of the device to be wiped.
         - serial (string): The serial of the device to be wiped.
         - pin (integer): The pin number (a six digit value) for wiping a macOS device. Required only for macOS devices.
-        """
 
+        """
         kwargs.update(locals())
 
-        metadata = {"tags": ["sm", "configure", "devices"], "operation": "wipeNetworkSmDevices"}
+        metadata = {"tags": ["sm", "configure", "devices"], "operation": "wipe_network_sm_devices"}
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/sm/devices/wipe"
 
@@ -364,18 +375,18 @@ class AsyncSm:
 
         return self._session.post(metadata, resource, payload)
 
-    def getNetworkSmDeviceCellularUsageHistory(self, networkId: str, deviceId: str):
-        """Return the client's daily cellular data usage history
+    def get_network_sm_device_cellular_usage_history(self, networkId: str, deviceId: str):
+        """Return the client's daily cellular data usage history.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-sm-device-cellular-usage-history
 
         - networkId (string): Network ID
         - deviceId (string): Device ID
-        """
 
+        """
         metadata = {
             "tags": ["sm", "monitor", "devices", "cellularUsageHistory"],
-            "operation": "getNetworkSmDeviceCellularUsageHistory",
+            "operation": "get_network_sm_device_cellular_usage_history",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         deviceId = urllib.parse.quote(str(deviceId), safe="")
@@ -383,18 +394,18 @@ class AsyncSm:
 
         return self._session.get(metadata, resource)
 
-    def getNetworkSmDeviceCerts(self, networkId: str, deviceId: str):
-        """List the certs on a device
+    def get_network_sm_device_certs(self, networkId: str, deviceId: str):
+        """List the certs on a device.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-sm-device-certs
 
         - networkId (string): Network ID
         - deviceId (string): Device ID
-        """
 
+        """
         metadata = {
             "tags": ["sm", "configure", "devices", "certs"],
-            "operation": "getNetworkSmDeviceCerts",
+            "operation": "get_network_sm_device_certs",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         deviceId = urllib.parse.quote(str(deviceId), safe="")
@@ -402,7 +413,7 @@ class AsyncSm:
 
         return self._session.get(metadata, resource)
 
-    def getNetworkSmDeviceConnectivity(
+    def get_network_sm_device_connectivity(
         self, networkId: str, deviceId: str, total_pages=1, direction="next", **kwargs
     ):
         """Returns historical connectivity data (whether a device is regularly checking in to Dashboard).
@@ -416,13 +427,13 @@ class AsyncSm:
         - perPage (integer): The number of entries per page returned. Acceptable range is 3 - 1000. Default is 1000.
         - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
         - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["sm", "monitor", "devices", "connectivity"],
-            "operation": "getNetworkSmDeviceConnectivity",
+            "operation": "get_network_sm_device_connectivity",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         deviceId = urllib.parse.quote(str(deviceId), safe="")
@@ -437,7 +448,7 @@ class AsyncSm:
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
-    def getNetworkSmDeviceDesktopLogs(
+    def get_network_sm_device_desktop_logs(
         self, networkId: str, deviceId: str, total_pages=1, direction="next", **kwargs
     ):
         """Return historical records of various Systems Manager network connection details for desktop devices.
@@ -451,13 +462,13 @@ class AsyncSm:
         - perPage (integer): The number of entries per page returned. Acceptable range is 3 - 1000. Default is 1000.
         - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
         - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["sm", "monitor", "devices", "desktopLogs"],
-            "operation": "getNetworkSmDeviceDesktopLogs",
+            "operation": "get_network_sm_device_desktop_logs",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         deviceId = urllib.parse.quote(str(deviceId), safe="")
@@ -472,10 +483,10 @@ class AsyncSm:
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
-    def getNetworkSmDeviceDeviceCommandLogs(
+    def get_network_sm_device_device_command_logs(
         self, networkId: str, deviceId: str, total_pages=1, direction="next", **kwargs
     ):
-        """Return historical records of commands sent to Systems Manager devices
+        """Return historical records of commands sent to Systems Manager devices.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-sm-device-device-command-logs
 
@@ -486,13 +497,13 @@ class AsyncSm:
         - perPage (integer): The number of entries per page returned. Acceptable range is 3 - 1000. Default is 1000.
         - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
         - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["sm", "monitor", "devices", "deviceCommandLogs"],
-            "operation": "getNetworkSmDeviceDeviceCommandLogs",
+            "operation": "get_network_sm_device_device_command_logs",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         deviceId = urllib.parse.quote(str(deviceId), safe="")
@@ -507,18 +518,18 @@ class AsyncSm:
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
-    def getNetworkSmDeviceDeviceProfiles(self, networkId: str, deviceId: str):
-        """Get the installed profiles associated with a device
+    def get_network_sm_device_device_profiles(self, networkId: str, deviceId: str):
+        """Get the installed profiles associated with a device.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-sm-device-device-profiles
 
         - networkId (string): Network ID
         - deviceId (string): Device ID
-        """
 
+        """
         metadata = {
             "tags": ["sm", "configure", "devices", "deviceProfiles"],
-            "operation": "getNetworkSmDeviceDeviceProfiles",
+            "operation": "get_network_sm_device_device_profiles",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         deviceId = urllib.parse.quote(str(deviceId), safe="")
@@ -526,8 +537,8 @@ class AsyncSm:
 
         return self._session.get(metadata, resource)
 
-    def installNetworkSmDeviceApps(self, networkId: str, deviceId: str, appIds: list, **kwargs):
-        """Install applications on a device
+    def install_network_sm_device_apps(self, networkId: str, deviceId: str, appIds: list, **kwargs):
+        """Install applications on a device.
 
         https://developer.cisco.com/meraki/api-v1/#!install-network-sm-device-apps
 
@@ -535,13 +546,13 @@ class AsyncSm:
         - deviceId (string): Device ID
         - appIds (array): ids of applications to be installed
         - force (boolean): By default, installation of an app which is believed to already be present on the device will be skipped. If you'd like to force the installation of the app, set this parameter to true.
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["sm", "configure", "devices"],
-            "operation": "installNetworkSmDeviceApps",
+            "operation": "install_network_sm_device_apps",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         deviceId = urllib.parse.quote(str(deviceId), safe="")
@@ -555,18 +566,18 @@ class AsyncSm:
 
         return self._session.post(metadata, resource, payload)
 
-    def getNetworkSmDeviceNetworkAdapters(self, networkId: str, deviceId: str):
-        """List the network adapters of a device
+    def get_network_sm_device_network_adapters(self, networkId: str, deviceId: str):
+        """List the network adapters of a device.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-sm-device-network-adapters
 
         - networkId (string): Network ID
         - deviceId (string): Device ID
-        """
 
+        """
         metadata = {
             "tags": ["sm", "configure", "devices", "networkAdapters"],
-            "operation": "getNetworkSmDeviceNetworkAdapters",
+            "operation": "get_network_sm_device_network_adapters",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         deviceId = urllib.parse.quote(str(deviceId), safe="")
@@ -574,7 +585,7 @@ class AsyncSm:
 
         return self._session.get(metadata, resource)
 
-    def getNetworkSmDevicePerformanceHistory(
+    def get_network_sm_device_performance_history(
         self, networkId: str, deviceId: str, total_pages=1, direction="next", **kwargs
     ):
         """Return historical records of various Systems Manager client metrics for desktop devices.
@@ -588,13 +599,13 @@ class AsyncSm:
         - perPage (integer): The number of entries per page returned. Acceptable range is 3 - 1000. Default is 1000.
         - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
         - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["sm", "monitor", "devices", "performanceHistory"],
-            "operation": "getNetworkSmDevicePerformanceHistory",
+            "operation": "get_network_sm_device_performance_history",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         deviceId = urllib.parse.quote(str(deviceId), safe="")
@@ -609,18 +620,18 @@ class AsyncSm:
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
-    def refreshNetworkSmDeviceDetails(self, networkId: str, deviceId: str):
-        """Refresh the details of a device
+    def refresh_network_sm_device_details(self, networkId: str, deviceId: str):
+        """Refresh the details of a device.
 
         https://developer.cisco.com/meraki/api-v1/#!refresh-network-sm-device-details
 
         - networkId (string): Network ID
         - deviceId (string): Device ID
-        """
 
+        """
         metadata = {
             "tags": ["sm", "configure", "devices"],
-            "operation": "refreshNetworkSmDeviceDetails",
+            "operation": "refresh_network_sm_device_details",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         deviceId = urllib.parse.quote(str(deviceId), safe="")
@@ -628,18 +639,18 @@ class AsyncSm:
 
         return self._session.post(metadata, resource)
 
-    def getNetworkSmDeviceRestrictions(self, networkId: str, deviceId: str):
-        """List the restrictions on a device
+    def get_network_sm_device_restrictions(self, networkId: str, deviceId: str):
+        """List the restrictions on a device.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-sm-device-restrictions
 
         - networkId (string): Network ID
         - deviceId (string): Device ID
-        """
 
+        """
         metadata = {
             "tags": ["sm", "configure", "devices", "restrictions"],
-            "operation": "getNetworkSmDeviceRestrictions",
+            "operation": "get_network_sm_device_restrictions",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         deviceId = urllib.parse.quote(str(deviceId), safe="")
@@ -647,18 +658,18 @@ class AsyncSm:
 
         return self._session.get(metadata, resource)
 
-    def getNetworkSmDeviceSecurityCenters(self, networkId: str, deviceId: str):
-        """List the security centers on a device
+    def get_network_sm_device_security_centers(self, networkId: str, deviceId: str):
+        """List the security centers on a device.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-sm-device-security-centers
 
         - networkId (string): Network ID
         - deviceId (string): Device ID
-        """
 
+        """
         metadata = {
             "tags": ["sm", "configure", "devices", "securityCenters"],
-            "operation": "getNetworkSmDeviceSecurityCenters",
+            "operation": "get_network_sm_device_security_centers",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         deviceId = urllib.parse.quote(str(deviceId), safe="")
@@ -666,18 +677,18 @@ class AsyncSm:
 
         return self._session.get(metadata, resource)
 
-    def getNetworkSmDeviceSoftwares(self, networkId: str, deviceId: str):
-        """Get a list of softwares associated with a device
+    def get_network_sm_device_softwares(self, networkId: str, deviceId: str):
+        """Get a list of softwares associated with a device.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-sm-device-softwares
 
         - networkId (string): Network ID
         - deviceId (string): Device ID
-        """
 
+        """
         metadata = {
             "tags": ["sm", "configure", "devices", "softwares"],
-            "operation": "getNetworkSmDeviceSoftwares",
+            "operation": "get_network_sm_device_softwares",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         deviceId = urllib.parse.quote(str(deviceId), safe="")
@@ -685,37 +696,40 @@ class AsyncSm:
 
         return self._session.get(metadata, resource)
 
-    def unenrollNetworkSmDevice(self, networkId: str, deviceId: str):
-        """Unenroll a device
+    def unenroll_network_sm_device(self, networkId: str, deviceId: str):
+        """Unenroll a device.
 
         https://developer.cisco.com/meraki/api-v1/#!unenroll-network-sm-device
 
         - networkId (string): Network ID
         - deviceId (string): Device ID
-        """
 
-        metadata = {"tags": ["sm", "configure", "devices"], "operation": "unenrollNetworkSmDevice"}
+        """
+        metadata = {
+            "tags": ["sm", "configure", "devices"],
+            "operation": "unenroll_network_sm_device",
+        }
         networkId = urllib.parse.quote(str(networkId), safe="")
         deviceId = urllib.parse.quote(str(deviceId), safe="")
         resource = f"/networks/{networkId}/sm/devices/{deviceId}/unenroll"
 
         return self._session.post(metadata, resource)
 
-    def uninstallNetworkSmDeviceApps(self, networkId: str, deviceId: str, appIds: list):
-        """Uninstall applications on a device
+    def uninstall_network_sm_device_apps(self, networkId: str, deviceId: str, appIds: list):
+        """Uninstall applications on a device.
 
         https://developer.cisco.com/meraki/api-v1/#!uninstall-network-sm-device-apps
 
         - networkId (string): Network ID
         - deviceId (string): Device ID
         - appIds (array): ids of applications to be uninstalled
-        """
 
+        """
         kwargs = locals()
 
         metadata = {
             "tags": ["sm", "configure", "devices"],
-            "operation": "uninstallNetworkSmDeviceApps",
+            "operation": "uninstall_network_sm_device_apps",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         deviceId = urllib.parse.quote(str(deviceId), safe="")
@@ -728,18 +742,18 @@ class AsyncSm:
 
         return self._session.post(metadata, resource, payload)
 
-    def getNetworkSmDeviceWlanLists(self, networkId: str, deviceId: str):
-        """List the saved SSID names on a device
+    def get_network_sm_device_wlan_lists(self, networkId: str, deviceId: str):
+        """List the saved SSID names on a device.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-sm-device-wlan-lists
 
         - networkId (string): Network ID
         - deviceId (string): Device ID
-        """
 
+        """
         metadata = {
             "tags": ["sm", "configure", "devices", "wlanLists"],
-            "operation": "getNetworkSmDeviceWlanLists",
+            "operation": "get_network_sm_device_wlan_lists",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         deviceId = urllib.parse.quote(str(deviceId), safe="")
@@ -747,18 +761,18 @@ class AsyncSm:
 
         return self._session.get(metadata, resource)
 
-    def getNetworkSmProfiles(self, networkId: str, **kwargs):
-        """List all profiles in a network
+    def get_network_sm_profiles(self, networkId: str, **kwargs):
+        """List all profiles in a network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-sm-profiles
 
         - networkId (string): Network ID
         - payloadTypes (array): Filter by payload types
-        """
 
+        """
         kwargs.update(locals())
 
-        metadata = {"tags": ["sm", "configure", "profiles"], "operation": "getNetworkSmProfiles"}
+        metadata = {"tags": ["sm", "configure", "profiles"], "operation": "get_network_sm_profiles"}
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/sm/profiles"
 
@@ -777,20 +791,20 @@ class AsyncSm:
 
         return self._session.get(metadata, resource, params)
 
-    def getNetworkSmTargetGroups(self, networkId: str, **kwargs):
-        """List the target groups in this network
+    def get_network_sm_target_groups(self, networkId: str, **kwargs):
+        """List the target groups in this network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-sm-target-groups
 
         - networkId (string): Network ID
         - withDetails (boolean): Boolean indicating if the the ids of the devices or users scoped by the target group should be included in the response
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["sm", "configure", "targetGroups"],
-            "operation": "getNetworkSmTargetGroups",
+            "operation": "get_network_sm_target_groups",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/sm/targetGroups"
@@ -802,21 +816,21 @@ class AsyncSm:
 
         return self._session.get(metadata, resource, params)
 
-    def createNetworkSmTargetGroup(self, networkId: str, **kwargs):
-        """Add a target group
+    def create_network_sm_target_group(self, networkId: str, **kwargs):
+        """Add a target group.
 
         https://developer.cisco.com/meraki/api-v1/#!create-network-sm-target-group
 
         - networkId (string): Network ID
         - name (string): The name of this target group
         - scope (string): The scope and tag options of the target group. Comma separated values beginning with one of withAny, withAll, withoutAny, withoutAll, all, none, followed by tags. Default to none if empty.
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["sm", "configure", "targetGroups"],
-            "operation": "createNetworkSmTargetGroup",
+            "operation": "create_network_sm_target_group",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/sm/targetGroups"
@@ -829,21 +843,21 @@ class AsyncSm:
 
         return self._session.post(metadata, resource, payload)
 
-    def getNetworkSmTargetGroup(self, networkId: str, targetGroupId: str, **kwargs):
-        """Return a target group
+    def get_network_sm_target_group(self, networkId: str, targetGroupId: str, **kwargs):
+        """Return a target group.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-sm-target-group
 
         - networkId (string): Network ID
         - targetGroupId (string): Target group ID
         - withDetails (boolean): Boolean indicating if the the ids of the devices or users scoped by the target group should be included in the response
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["sm", "configure", "targetGroups"],
-            "operation": "getNetworkSmTargetGroup",
+            "operation": "get_network_sm_target_group",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         targetGroupId = urllib.parse.quote(str(targetGroupId), safe="")
@@ -856,8 +870,8 @@ class AsyncSm:
 
         return self._session.get(metadata, resource, params)
 
-    def updateNetworkSmTargetGroup(self, networkId: str, targetGroupId: str, **kwargs):
-        """Update a target group
+    def update_network_sm_target_group(self, networkId: str, targetGroupId: str, **kwargs):
+        """Update a target group.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-sm-target-group
 
@@ -865,13 +879,13 @@ class AsyncSm:
         - targetGroupId (string): Target group ID
         - name (string): The name of this target group
         - scope (string): The scope and tag options of the target group. Comma separated values beginning with one of withAny, withAll, withoutAny, withoutAll, all, none, followed by tags. Default to none if empty.
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["sm", "configure", "targetGroups"],
-            "operation": "updateNetworkSmTargetGroup",
+            "operation": "update_network_sm_target_group",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         targetGroupId = urllib.parse.quote(str(targetGroupId), safe="")
@@ -885,18 +899,18 @@ class AsyncSm:
 
         return self._session.put(metadata, resource, payload)
 
-    def deleteNetworkSmTargetGroup(self, networkId: str, targetGroupId: str):
-        """Delete a target group from a network
+    def delete_network_sm_target_group(self, networkId: str, targetGroupId: str):
+        """Delete a target group from a network.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-network-sm-target-group
 
         - networkId (string): Network ID
         - targetGroupId (string): Target group ID
-        """
 
+        """
         metadata = {
             "tags": ["sm", "configure", "targetGroups"],
-            "operation": "deleteNetworkSmTargetGroup",
+            "operation": "delete_network_sm_target_group",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         targetGroupId = urllib.parse.quote(str(targetGroupId), safe="")
@@ -904,10 +918,10 @@ class AsyncSm:
 
         return self._session.delete(metadata, resource)
 
-    def getNetworkSmTrustedAccessConfigs(
+    def get_network_sm_trusted_access_configs(
         self, networkId: str, total_pages=1, direction="next", **kwargs
     ):
-        """List Trusted Access Configs
+        """List Trusted Access Configs.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-sm-trusted-access-configs
 
@@ -917,13 +931,13 @@ class AsyncSm:
         - perPage (integer): The number of entries per page returned. Acceptable range is 3 - 1000. Default is 100.
         - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
         - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["sm", "configure", "trustedAccessConfigs"],
-            "operation": "getNetworkSmTrustedAccessConfigs",
+            "operation": "get_network_sm_trusted_access_configs",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/sm/trustedAccessConfigs"
@@ -937,10 +951,10 @@ class AsyncSm:
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
-    def getNetworkSmUserAccessDevices(
+    def get_network_sm_user_access_devices(
         self, networkId: str, total_pages=1, direction="next", **kwargs
     ):
-        """List User Access Devices and its Trusted Access Connections
+        """List User Access Devices and its Trusted Access Connections.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-sm-user-access-devices
 
@@ -950,13 +964,13 @@ class AsyncSm:
         - perPage (integer): The number of entries per page returned. Acceptable range is 3 - 1000. Default is 100.
         - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
         - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["sm", "configure", "userAccessDevices"],
-            "operation": "getNetworkSmUserAccessDevices",
+            "operation": "get_network_sm_user_access_devices",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/sm/userAccessDevices"
@@ -970,18 +984,18 @@ class AsyncSm:
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
-    def deleteNetworkSmUserAccessDevice(self, networkId: str, userAccessDeviceId: str):
-        """Delete a User Access Device
+    def delete_network_sm_user_access_device(self, networkId: str, userAccessDeviceId: str):
+        """Delete a User Access Device.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-network-sm-user-access-device
 
         - networkId (string): Network ID
         - userAccessDeviceId (string): User access device ID
-        """
 
+        """
         metadata = {
             "tags": ["sm", "configure", "userAccessDevices"],
-            "operation": "deleteNetworkSmUserAccessDevice",
+            "operation": "delete_network_sm_user_access_device",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         userAccessDeviceId = urllib.parse.quote(str(userAccessDeviceId), safe="")
@@ -989,8 +1003,8 @@ class AsyncSm:
 
         return self._session.delete(metadata, resource)
 
-    def getNetworkSmUsers(self, networkId: str, **kwargs):
-        """List the owners in an SM network with various specified fields and filters
+    def get_network_sm_users(self, networkId: str, **kwargs):
+        """List the owners in an SM network with various specified fields and filters.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-sm-users
 
@@ -999,11 +1013,11 @@ class AsyncSm:
         - usernames (array): Filter users by username(s).
         - emails (array): Filter users by email(s).
         - scope (array): Specifiy a scope (one of all, none, withAny, withAll, withoutAny, withoutAll) and a set of tags.
-        """
 
+        """
         kwargs.update(locals())
 
-        metadata = {"tags": ["sm", "configure"], "operation": "getNetworkSmUsers"}
+        metadata = {"tags": ["sm", "configure"], "operation": "get_network_sm_users"}
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/sm/users"
 
@@ -1028,18 +1042,18 @@ class AsyncSm:
 
         return self._session.get(metadata, resource, params)
 
-    def getNetworkSmUserDeviceProfiles(self, networkId: str, userId: str):
-        """Get the profiles associated with a user
+    def get_network_sm_user_device_profiles(self, networkId: str, userId: str):
+        """Get the profiles associated with a user.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-sm-user-device-profiles
 
         - networkId (string): Network ID
         - userId (string): User ID
-        """
 
+        """
         metadata = {
             "tags": ["sm", "configure", "deviceProfiles"],
-            "operation": "getNetworkSmUserDeviceProfiles",
+            "operation": "get_network_sm_user_device_profiles",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         userId = urllib.parse.quote(str(userId), safe="")
@@ -1047,18 +1061,18 @@ class AsyncSm:
 
         return self._session.get(metadata, resource)
 
-    def getNetworkSmUserSoftwares(self, networkId: str, userId: str):
-        """Get a list of softwares associated with a user
+    def get_network_sm_user_softwares(self, networkId: str, userId: str):
+        """Get a list of softwares associated with a user.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-sm-user-softwares
 
         - networkId (string): Network ID
         - userId (string): User ID
-        """
 
+        """
         metadata = {
             "tags": ["sm", "configure", "softwares"],
-            "operation": "getNetworkSmUserSoftwares",
+            "operation": "get_network_sm_user_softwares",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         userId = urllib.parse.quote(str(userId), safe="")
@@ -1066,10 +1080,10 @@ class AsyncSm:
 
         return self._session.get(metadata, resource)
 
-    def getOrganizationSmAdminsRoles(
+    def get_organization_sm_admins_roles(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
-        """List the Limited Access Roles for an organization
+        """List the Limited Access Roles for an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-sm-admins-roles
 
@@ -1079,13 +1093,13 @@ class AsyncSm:
         - perPage (integer): The number of entries per page returned. Acceptable range is 3 - 1000. Default is 50.
         - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
         - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["sm", "configure", "admins", "roles"],
-            "operation": "getOrganizationSmAdminsRoles",
+            "operation": "get_organization_sm_admins_roles",
         }
         organizationId = urllib.parse.quote(str(organizationId), safe="")
         resource = f"/organizations/{organizationId}/sm/admins/roles"
@@ -1099,8 +1113,8 @@ class AsyncSm:
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
-    def createOrganizationSmAdminsRole(self, organizationId: str, name: str, **kwargs):
-        """Create a Limited Access Role
+    def create_organization_sm_admins_role(self, organizationId: str, name: str, **kwargs):
+        """Create a Limited Access Role.
 
         https://developer.cisco.com/meraki/api-v1/#!create-organization-sm-admins-role
 
@@ -1108,8 +1122,8 @@ class AsyncSm:
         - name (string): The name of the Limited Access Role
         - scope (string): The scope of the Limited Access Role
         - tags (array): The tags of the Limited Access Role
-        """
 
+        """
         kwargs.update(locals())
 
         if "scope" in kwargs:
@@ -1120,7 +1134,7 @@ class AsyncSm:
 
         metadata = {
             "tags": ["sm", "configure", "admins", "roles"],
-            "operation": "createOrganizationSmAdminsRole",
+            "operation": "create_organization_sm_admins_role",
         }
         organizationId = urllib.parse.quote(str(organizationId), safe="")
         resource = f"/organizations/{organizationId}/sm/admins/roles"
@@ -1134,18 +1148,18 @@ class AsyncSm:
 
         return self._session.post(metadata, resource, payload)
 
-    def getOrganizationSmAdminsRole(self, organizationId: str, roleId: str):
-        """Return a Limited Access Role
+    def get_organization_sm_admins_role(self, organizationId: str, roleId: str):
+        """Return a Limited Access Role.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-sm-admins-role
 
         - organizationId (string): Organization ID
         - roleId (string): Role ID
-        """
 
+        """
         metadata = {
             "tags": ["sm", "configure", "admins", "roles"],
-            "operation": "getOrganizationSmAdminsRole",
+            "operation": "get_organization_sm_admins_role",
         }
         organizationId = urllib.parse.quote(str(organizationId), safe="")
         roleId = urllib.parse.quote(str(roleId), safe="")
@@ -1153,8 +1167,8 @@ class AsyncSm:
 
         return self._session.get(metadata, resource)
 
-    def updateOrganizationSmAdminsRole(self, organizationId: str, roleId: str, **kwargs):
-        """Update a Limited Access Role
+    def update_organization_sm_admins_role(self, organizationId: str, roleId: str, **kwargs):
+        """Update a Limited Access Role.
 
         https://developer.cisco.com/meraki/api-v1/#!update-organization-sm-admins-role
 
@@ -1163,8 +1177,8 @@ class AsyncSm:
         - name (string): The name of the Limited Access Role
         - scope (string): The scope of the Limited Access Role
         - tags (array): The tags of the Limited Access Role
-        """
 
+        """
         kwargs.update(locals())
 
         if "scope" in kwargs:
@@ -1175,7 +1189,7 @@ class AsyncSm:
 
         metadata = {
             "tags": ["sm", "configure", "admins", "roles"],
-            "operation": "updateOrganizationSmAdminsRole",
+            "operation": "update_organization_sm_admins_role",
         }
         organizationId = urllib.parse.quote(str(organizationId), safe="")
         roleId = urllib.parse.quote(str(roleId), safe="")
@@ -1190,18 +1204,18 @@ class AsyncSm:
 
         return self._session.put(metadata, resource, payload)
 
-    def deleteOrganizationSmAdminsRole(self, organizationId: str, roleId: str):
-        """Delete a Limited Access Role
+    def delete_organization_sm_admins_role(self, organizationId: str, roleId: str):
+        """Delete a Limited Access Role.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-sm-admins-role
 
         - organizationId (string): Organization ID
         - roleId (string): Role ID
-        """
 
+        """
         metadata = {
             "tags": ["sm", "configure", "admins", "roles"],
-            "operation": "deleteOrganizationSmAdminsRole",
+            "operation": "delete_organization_sm_admins_role",
         }
         organizationId = urllib.parse.quote(str(organizationId), safe="")
         roleId = urllib.parse.quote(str(roleId), safe="")
@@ -1209,37 +1223,37 @@ class AsyncSm:
 
         return self._session.delete(metadata, resource)
 
-    def getOrganizationSmApnsCert(self, organizationId: str):
-        """Get the organization's APNS certificate
+    def get_organization_sm_apns_cert(self, organizationId: str):
+        """Get the organization's APNS certificate.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-sm-apns-cert
 
         - organizationId (string): Organization ID
-        """
 
+        """
         metadata = {
             "tags": ["sm", "configure", "apnsCert"],
-            "operation": "getOrganizationSmApnsCert",
+            "operation": "get_organization_sm_apns_cert",
         }
         organizationId = urllib.parse.quote(str(organizationId), safe="")
         resource = f"/organizations/{organizationId}/sm/apnsCert"
 
         return self._session.get(metadata, resource)
 
-    def updateOrganizationSmSentryPoliciesAssignments(self, organizationId: str, items: list):
-        """Update an Organizations Sentry Policies using the provided list
+    def update_organization_sm_sentry_policies_assignments(self, organizationId: str, items: list):
+        """Update an Organizations Sentry Policies using the provided list.
 
         https://developer.cisco.com/meraki/api-v1/#!update-organization-sm-sentry-policies-assignments
 
         - organizationId (string): Organization ID
         - items (array): Sentry Group Policies for the Organization keyed by Network Id
-        """
 
+        """
         kwargs = locals()
 
         metadata = {
             "tags": ["sm", "configure", "sentry", "policies", "assignments"],
-            "operation": "updateOrganizationSmSentryPoliciesAssignments",
+            "operation": "update_organization_sm_sentry_policies_assignments",
         }
         organizationId = urllib.parse.quote(str(organizationId), safe="")
         resource = f"/organizations/{organizationId}/sm/sentry/policies/assignments"
@@ -1251,10 +1265,10 @@ class AsyncSm:
 
         return self._session.put(metadata, resource, payload)
 
-    def getOrganizationSmSentryPoliciesAssignmentsByNetwork(
+    def get_organization_sm_sentry_policies_assignments_by_network(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
-        """List the Sentry Policies for an organization ordered in ascending order of priority
+        """List the Sentry Policies for an organization ordered in ascending order of priority.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-sm-sentry-policies-assignments-by-network
 
@@ -1265,13 +1279,13 @@ class AsyncSm:
         - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
         - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
         - networkIds (array): Optional parameter to filter Sentry Policies by Network Id
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["sm", "configure", "sentry", "policies", "assignments", "byNetwork"],
-            "operation": "getOrganizationSmSentryPoliciesAssignmentsByNetwork",
+            "operation": "get_organization_sm_sentry_policies_assignments_by_network",
         }
         organizationId = urllib.parse.quote(str(organizationId), safe="")
         resource = f"/organizations/{organizationId}/sm/sentry/policies/assignments/byNetwork"
@@ -1294,35 +1308,35 @@ class AsyncSm:
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
-    def getOrganizationSmVppAccounts(self, organizationId: str):
-        """List the VPP accounts in the organization
+    def get_organization_sm_vpp_accounts(self, organizationId: str):
+        """List the VPP accounts in the organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-sm-vpp-accounts
 
         - organizationId (string): Organization ID
-        """
 
+        """
         metadata = {
             "tags": ["sm", "configure", "vppAccounts"],
-            "operation": "getOrganizationSmVppAccounts",
+            "operation": "get_organization_sm_vpp_accounts",
         }
         organizationId = urllib.parse.quote(str(organizationId), safe="")
         resource = f"/organizations/{organizationId}/sm/vppAccounts"
 
         return self._session.get(metadata, resource)
 
-    def getOrganizationSmVppAccount(self, organizationId: str, vppAccountId: str):
-        """Get a hash containing the unparsed token of the VPP account with the given ID
+    def get_organization_sm_vpp_account(self, organizationId: str, vppAccountId: str):
+        """Get a hash containing the unparsed token of the VPP account with the given ID.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-sm-vpp-account
 
         - organizationId (string): Organization ID
         - vppAccountId (string): Vpp account ID
-        """
 
+        """
         metadata = {
             "tags": ["sm", "configure", "vppAccounts"],
-            "operation": "getOrganizationSmVppAccount",
+            "operation": "get_organization_sm_vpp_account",
         }
         organizationId = urllib.parse.quote(str(organizationId), safe="")
         vppAccountId = urllib.parse.quote(str(vppAccountId), safe="")

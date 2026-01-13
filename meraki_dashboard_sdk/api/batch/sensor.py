@@ -7,9 +7,9 @@ class ActionBatchSensor:
     def __init__(self) -> None:
         pass
 
-    def createDeviceSensorCommand(self, serial: str, operation: str):
+    def create_device_sensor_command(self, serial: str, operation: str):
         """
-        **Sends a command to a sensor**
+        **Sends a command to a sensor.**
         https://developer.cisco.com/meraki/api-v1/#!create-device-sensor-command
 
         - serial (string): Serial
@@ -31,7 +31,7 @@ class ActionBatchSensor:
 
         metadata = {
             "tags": ["sensor", "configure", "commands"],
-            "operation": "createDeviceSensorCommand",
+            "operation": "create_device_sensor_command",
         }
         resource = f"/devices/{serial}/sensor/commands"
 
@@ -42,7 +42,7 @@ class ActionBatchSensor:
         action = {"resource": resource, "operation": "create", "body": payload}
         return action
 
-    def updateDeviceSensorRelationships(self, serial: str, **kwargs):
+    def update_device_sensor_relationships(self, serial: str, **kwargs):
         """
         **Assign one or more sensor roles to a given sensor or camera device.**
         https://developer.cisco.com/meraki/api-v1/#!update-device-sensor-relationships
@@ -55,7 +55,7 @@ class ActionBatchSensor:
 
         metadata = {
             "tags": ["sensor", "configure", "relationships"],
-            "operation": "updateDeviceSensorRelationships",
+            "operation": "update_device_sensor_relationships",
         }
         resource = f"/devices/{serial}/sensor/relationships"
 
@@ -66,7 +66,7 @@ class ActionBatchSensor:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def createNetworkSensorAlertsProfile(
+    def create_network_sensor_alerts_profile(
         self, networkId: str, name: str, conditions: list, **kwargs
     ):
         """
@@ -87,7 +87,7 @@ class ActionBatchSensor:
 
         metadata = {
             "tags": ["sensor", "configure", "alerts", "profiles"],
-            "operation": "createNetworkSensorAlertsProfile",
+            "operation": "create_network_sensor_alerts_profile",
         }
         resource = f"/networks/{networkId}/sensor/alerts/profiles"
 
@@ -104,7 +104,7 @@ class ActionBatchSensor:
         action = {"resource": resource, "operation": "create", "body": payload}
         return action
 
-    def updateNetworkSensorAlertsProfile(self, networkId: str, id: str, **kwargs):
+    def update_network_sensor_alerts_profile(self, networkId: str, id: str, **kwargs):
         """
         **Updates a sensor alert profile for a network.**
         https://developer.cisco.com/meraki/api-v1/#!update-network-sensor-alerts-profile
@@ -124,7 +124,7 @@ class ActionBatchSensor:
 
         metadata = {
             "tags": ["sensor", "configure", "alerts", "profiles"],
-            "operation": "updateNetworkSensorAlertsProfile",
+            "operation": "update_network_sensor_alerts_profile",
         }
         resource = f"/networks/{networkId}/sensor/alerts/profiles/{id}"
 
@@ -141,7 +141,7 @@ class ActionBatchSensor:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def deleteNetworkSensorAlertsProfile(self, networkId: str, id: str):
+    def delete_network_sensor_alerts_profile(self, networkId: str, id: str):
         """
         **Deletes a sensor alert profile from a network.**
         https://developer.cisco.com/meraki/api-v1/#!delete-network-sensor-alerts-profile
@@ -152,7 +152,7 @@ class ActionBatchSensor:
 
         metadata = {
             "tags": ["sensor", "configure", "alerts", "profiles"],
-            "operation": "deleteNetworkSensorAlertsProfile",
+            "operation": "delete_network_sensor_alerts_profile",
         }
         resource = f"/networks/{networkId}/sensor/alerts/profiles/{id}"
 
@@ -162,9 +162,9 @@ class ActionBatchSensor:
         }
         return action
 
-    def updateNetworkSensorMqttBroker(self, networkId: str, mqttBrokerId: str, enabled: bool):
+    def update_network_sensor_mqtt_broker(self, networkId: str, mqttBrokerId: str, enabled: bool):
         """
-        **Update the sensor settings of an MQTT broker**
+        **Update the sensor settings of an MQTT broker.**
         https://developer.cisco.com/meraki/api-v1/#!update-network-sensor-mqtt-broker
 
         - networkId (string): Network ID
@@ -176,7 +176,7 @@ class ActionBatchSensor:
 
         metadata = {
             "tags": ["sensor", "configure", "mqttBrokers"],
-            "operation": "updateNetworkSensorMqttBroker",
+            "operation": "update_network_sensor_mqtt_broker",
         }
         resource = f"/networks/{networkId}/sensor/mqttBrokers/{mqttBrokerId}"
 

@@ -7,9 +7,9 @@ class ActionBatchNetworks:
     def __init__(self) -> None:
         pass
 
-    def updateNetwork(self, networkId: str, **kwargs):
+    def update_network(self, networkId: str, **kwargs):
         """
-        **Update a network**
+        **Update a network.**
         https://developer.cisco.com/meraki/api-v1/#!update-network
 
         - networkId (string): Network ID
@@ -22,7 +22,7 @@ class ActionBatchNetworks:
 
         kwargs.update(locals())
 
-        metadata = {"tags": ["networks", "configure"], "operation": "updateNetwork"}
+        metadata = {"tags": ["networks", "configure"], "operation": "update_network"}
         resource = f"/networks/{networkId}"
 
         body_params = [
@@ -36,15 +36,15 @@ class ActionBatchNetworks:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def deleteNetwork(self, networkId: str):
+    def delete_network(self, networkId: str):
         """
-        **Delete a network**
+        **Delete a network.**
         https://developer.cisco.com/meraki/api-v1/#!delete-network
 
         - networkId (string): Network ID
         """
 
-        metadata = {"tags": ["networks", "configure"], "operation": "deleteNetwork"}
+        metadata = {"tags": ["networks", "configure"], "operation": "delete_network"}
         resource = f"/networks/{networkId}"
 
         action = {
@@ -53,7 +53,7 @@ class ActionBatchNetworks:
         }
         return action
 
-    def bindNetwork(self, networkId: str, configTemplateId: str, **kwargs):
+    def bind_network(self, networkId: str, configTemplateId: str, **kwargs):
         """
         **Bind a network to a template.**
         https://developer.cisco.com/meraki/api-v1/#!bind-network
@@ -65,7 +65,7 @@ class ActionBatchNetworks:
 
         kwargs.update(locals())
 
-        metadata = {"tags": ["networks", "configure"], "operation": "bindNetwork"}
+        metadata = {"tags": ["networks", "configure"], "operation": "bind_network"}
         resource = f"/networks/{networkId}/bind"
 
         body_params = [
@@ -76,9 +76,9 @@ class ActionBatchNetworks:
         action = {"resource": resource, "operation": "create", "body": payload}
         return action
 
-    def provisionNetworkClients(self, networkId: str, clients: list, devicePolicy: str, **kwargs):
+    def provision_network_clients(self, networkId: str, clients: list, devicePolicy: str, **kwargs):
         """
-        **Provisions a client with a name and policy**
+        **Provisions a client with a name and policy.**
         https://developer.cisco.com/meraki/api-v1/#!provision-network-clients
 
         - networkId (string): Network ID
@@ -99,7 +99,7 @@ class ActionBatchNetworks:
 
         metadata = {
             "tags": ["networks", "configure", "clients"],
-            "operation": "provisionNetworkClients",
+            "operation": "provision_network_clients",
         }
         resource = f"/networks/{networkId}/clients/provision"
 
@@ -114,9 +114,9 @@ class ActionBatchNetworks:
         action = {"resource": resource, "operation": "create", "body": payload}
         return action
 
-    def claimNetworkDevices(self, networkId: str, serials: list, **kwargs):
+    def claim_network_devices(self, networkId: str, serials: list, **kwargs):
         """
-        **Claim devices into a network. (Note: for recently claimed devices, it may take a few minutes for API requests against that device to succeed)**
+        **Claim devices into a network. (Note: for recently claimed devices, it may take a few minutes for API requests against that device to succeed).**
         https://developer.cisco.com/meraki/api-v1/#!claim-network-devices
 
         - networkId (string): Network ID
@@ -129,7 +129,7 @@ class ActionBatchNetworks:
 
         metadata = {
             "tags": ["networks", "configure", "devices"],
-            "operation": "claimNetworkDevices",
+            "operation": "claim_network_devices",
         }
         resource = f"/networks/{networkId}/devices/claim"
 
@@ -141,9 +141,9 @@ class ActionBatchNetworks:
         action = {"resource": resource, "operation": "create", "body": payload}
         return action
 
-    def vmxNetworkDevicesClaim(self, networkId: str, size: str):
+    def vmx_network_devices_claim(self, networkId: str, size: str):
         """
-        **Claim a vMX into a network**
+        **Claim a vMX into a network.**
         https://developer.cisco.com/meraki/api-v1/#!vmx-network-devices-claim
 
         - networkId (string): Network ID
@@ -160,7 +160,7 @@ class ActionBatchNetworks:
 
         metadata = {
             "tags": ["networks", "configure", "devices", "claim"],
-            "operation": "vmxNetworkDevicesClaim",
+            "operation": "vmx_network_devices_claim",
         }
         resource = f"/networks/{networkId}/devices/claim/vmx"
 
@@ -171,9 +171,9 @@ class ActionBatchNetworks:
         action = {"resource": resource, "operation": "create", "body": payload}
         return action
 
-    def removeNetworkDevices(self, networkId: str, serial: str):
+    def remove_network_devices(self, networkId: str, serial: str):
         """
-        **Remove a single device**
+        **Remove a single device.**
         https://developer.cisco.com/meraki/api-v1/#!remove-network-devices
 
         - networkId (string): Network ID
@@ -184,7 +184,7 @@ class ActionBatchNetworks:
 
         metadata = {
             "tags": ["networks", "configure", "devices"],
-            "operation": "removeNetworkDevices",
+            "operation": "remove_network_devices",
         }
         resource = f"/networks/{networkId}/devices/remove"
 
@@ -195,9 +195,9 @@ class ActionBatchNetworks:
         action = {"resource": resource, "operation": "create", "body": payload}
         return action
 
-    def updateNetworkFirmwareUpgrades(self, networkId: str, **kwargs):
+    def update_network_firmware_upgrades(self, networkId: str, **kwargs):
         """
-        **Update firmware upgrade information for a network**
+        **Update firmware upgrade information for a network.**
         https://developer.cisco.com/meraki/api-v1/#!update-network-firmware-upgrades
 
         - networkId (string): Network ID
@@ -210,7 +210,7 @@ class ActionBatchNetworks:
 
         metadata = {
             "tags": ["networks", "configure", "firmwareUpgrades"],
-            "operation": "updateNetworkFirmwareUpgrades",
+            "operation": "update_network_firmware_upgrades",
         }
         resource = f"/networks/{networkId}/firmwareUpgrades"
 
@@ -223,9 +223,9 @@ class ActionBatchNetworks:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def createNetworkFirmwareUpgradesRollback(self, networkId: str, reasons: list, **kwargs):
+    def create_network_firmware_upgrades_rollback(self, networkId: str, reasons: list, **kwargs):
         """
-        **Rollback a Firmware Upgrade For A Network**
+        **Rollback a Firmware Upgrade For A Network.**
         https://developer.cisco.com/meraki/api-v1/#!create-network-firmware-upgrades-rollback
 
         - networkId (string): Network ID
@@ -254,7 +254,7 @@ class ActionBatchNetworks:
 
         metadata = {
             "tags": ["networks", "configure", "firmwareUpgrades", "rollbacks"],
-            "operation": "createNetworkFirmwareUpgradesRollback",
+            "operation": "create_network_firmware_upgrades_rollback",
         }
         resource = f"/networks/{networkId}/firmwareUpgrades/rollbacks"
 
@@ -268,11 +268,11 @@ class ActionBatchNetworks:
         action = {"resource": resource, "operation": "create", "body": payload}
         return action
 
-    def createNetworkFirmwareUpgradesStagedGroup(
+    def create_network_firmware_upgrades_staged_group(
         self, networkId: str, name: str, isDefault: bool, **kwargs
     ):
         """
-        **Create a Staged Upgrade Group for a network**
+        **Create a Staged Upgrade Group for a network.**
         https://developer.cisco.com/meraki/api-v1/#!create-network-firmware-upgrades-staged-group
 
         - networkId (string): Network ID
@@ -286,7 +286,7 @@ class ActionBatchNetworks:
 
         metadata = {
             "tags": ["networks", "configure", "firmwareUpgrades", "staged", "groups"],
-            "operation": "createNetworkFirmwareUpgradesStagedGroup",
+            "operation": "create_network_firmware_upgrades_staged_group",
         }
         resource = f"/networks/{networkId}/firmwareUpgrades/staged/groups"
 
@@ -300,9 +300,9 @@ class ActionBatchNetworks:
         action = {"resource": resource, "operation": "create", "body": payload}
         return action
 
-    def deleteNetworkFirmwareUpgradesStagedGroup(self, networkId: str, groupId: str):
+    def delete_network_firmware_upgrades_staged_group(self, networkId: str, groupId: str):
         """
-        **Delete a Staged Upgrade Group**
+        **Delete a Staged Upgrade Group.**
         https://developer.cisco.com/meraki/api-v1/#!delete-network-firmware-upgrades-staged-group
 
         - networkId (string): Network ID
@@ -311,7 +311,7 @@ class ActionBatchNetworks:
 
         metadata = {
             "tags": ["networks", "configure", "firmwareUpgrades", "staged", "groups"],
-            "operation": "deleteNetworkFirmwareUpgradesStagedGroup",
+            "operation": "delete_network_firmware_upgrades_staged_group",
         }
         resource = f"/networks/{networkId}/firmwareUpgrades/staged/groups/{groupId}"
 
@@ -321,9 +321,9 @@ class ActionBatchNetworks:
         }
         return action
 
-    def batchNetworkFloorPlansAutoLocateJobs(self, networkId: str, jobs: list):
+    def batch_network_floor_plans_auto_locate_jobs(self, networkId: str, jobs: list):
         """
-        **Schedule auto locate jobs for one or more floor plans in a network**
+        **Schedule auto locate jobs for one or more floor plans in a network.**
         https://developer.cisco.com/meraki/api-v1/#!batch-network-floor-plans-auto-locate-jobs
 
         - networkId (string): Network ID
@@ -334,7 +334,7 @@ class ActionBatchNetworks:
 
         metadata = {
             "tags": ["networks", "configure", "floorPlans", "autoLocate", "jobs"],
-            "operation": "batchNetworkFloorPlansAutoLocateJobs",
+            "operation": "batch_network_floor_plans_auto_locate_jobs",
         }
         resource = f"/networks/{networkId}/floorPlans/autoLocate/jobs/batch"
 
@@ -345,9 +345,9 @@ class ActionBatchNetworks:
         action = {"resource": resource, "operation": "create", "body": payload}
         return action
 
-    def cancelNetworkFloorPlansAutoLocateJob(self, networkId: str, jobId: str):
+    def cancel_network_floor_plans_auto_locate_job(self, networkId: str, jobId: str):
         """
-        **Cancel a scheduled or running auto locate job**
+        **Cancel a scheduled or running auto locate job.**
         https://developer.cisco.com/meraki/api-v1/#!cancel-network-floor-plans-auto-locate-job
 
         - networkId (string): Network ID
@@ -356,7 +356,7 @@ class ActionBatchNetworks:
 
         metadata = {
             "tags": ["networks", "configure", "floorPlans", "autoLocate", "jobs"],
-            "operation": "cancelNetworkFloorPlansAutoLocateJob",
+            "operation": "cancel_network_floor_plans_auto_locate_job",
         }
         resource = f"/networks/{networkId}/floorPlans/autoLocate/jobs/{jobId}/cancel"
 
@@ -366,9 +366,9 @@ class ActionBatchNetworks:
         }
         return action
 
-    def publishNetworkFloorPlansAutoLocateJob(self, networkId: str, jobId: str, **kwargs):
+    def publish_network_floor_plans_auto_locate_job(self, networkId: str, jobId: str, **kwargs):
         """
-        **Update the status of a finished auto locate job to be published, and update device locations**
+        **Update the status of a finished auto locate job to be published, and update device locations.**
         https://developer.cisco.com/meraki/api-v1/#!publish-network-floor-plans-auto-locate-job
 
         - networkId (string): Network ID
@@ -380,7 +380,7 @@ class ActionBatchNetworks:
 
         metadata = {
             "tags": ["networks", "configure", "floorPlans", "autoLocate", "jobs"],
-            "operation": "publishNetworkFloorPlansAutoLocateJob",
+            "operation": "publish_network_floor_plans_auto_locate_job",
         }
         resource = f"/networks/{networkId}/floorPlans/autoLocate/jobs/{jobId}/publish"
 
@@ -391,9 +391,9 @@ class ActionBatchNetworks:
         action = {"resource": resource, "operation": "create", "body": payload}
         return action
 
-    def recalculateNetworkFloorPlansAutoLocateJob(self, networkId: str, jobId: str, **kwargs):
+    def recalculate_network_floor_plans_auto_locate_job(self, networkId: str, jobId: str, **kwargs):
         """
-        **Trigger auto locate recalculation for a job, and optionally set anchors**
+        **Trigger auto locate recalculation for a job, and optionally set anchors.**
         https://developer.cisco.com/meraki/api-v1/#!recalculate-network-floor-plans-auto-locate-job
 
         - networkId (string): Network ID
@@ -405,7 +405,7 @@ class ActionBatchNetworks:
 
         metadata = {
             "tags": ["networks", "configure", "floorPlans", "autoLocate", "jobs"],
-            "operation": "recalculateNetworkFloorPlansAutoLocateJob",
+            "operation": "recalculate_network_floor_plans_auto_locate_job",
         }
         resource = f"/networks/{networkId}/floorPlans/autoLocate/jobs/{jobId}/recalculate"
 
@@ -416,9 +416,9 @@ class ActionBatchNetworks:
         action = {"resource": resource, "operation": "create", "body": payload}
         return action
 
-    def batchNetworkFloorPlansDevicesUpdate(self, networkId: str, assignments: list):
+    def batch_network_floor_plans_devices_update(self, networkId: str, assignments: list):
         """
-        **Update floorplan assignments for a batch of devices**
+        **Update floorplan assignments for a batch of devices.**
         https://developer.cisco.com/meraki/api-v1/#!batch-network-floor-plans-devices-update
 
         - networkId (string): Network ID
@@ -429,7 +429,7 @@ class ActionBatchNetworks:
 
         metadata = {
             "tags": ["networks", "configure", "floorPlans", "devices"],
-            "operation": "batchNetworkFloorPlansDevicesUpdate",
+            "operation": "batch_network_floor_plans_devices_update",
         }
         resource = f"/networks/{networkId}/floorPlans/devices/batchUpdate"
 
@@ -440,9 +440,9 @@ class ActionBatchNetworks:
         action = {"resource": resource, "operation": "create", "body": payload}
         return action
 
-    def updateNetworkFloorPlan(self, networkId: str, floorPlanId: str, **kwargs):
+    def update_network_floor_plan(self, networkId: str, floorPlanId: str, **kwargs):
         """
-        **Update a floor plan's geolocation and other meta data**
+        **Update a floor plan's geolocation and other meta data.**
         https://developer.cisco.com/meraki/api-v1/#!update-network-floor-plan
 
         - networkId (string): Network ID
@@ -461,7 +461,7 @@ class ActionBatchNetworks:
 
         metadata = {
             "tags": ["networks", "configure", "floorPlans"],
-            "operation": "updateNetworkFloorPlan",
+            "operation": "update_network_floor_plan",
         }
         resource = f"/networks/{networkId}/floorPlans/{floorPlanId}"
 
@@ -479,9 +479,9 @@ class ActionBatchNetworks:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def deleteNetworkFloorPlan(self, networkId: str, floorPlanId: str):
+    def delete_network_floor_plan(self, networkId: str, floorPlanId: str):
         """
-        **Destroy a floor plan**
+        **Destroy a floor plan.**
         https://developer.cisco.com/meraki/api-v1/#!delete-network-floor-plan
 
         - networkId (string): Network ID
@@ -490,7 +490,7 @@ class ActionBatchNetworks:
 
         metadata = {
             "tags": ["networks", "configure", "floorPlans"],
-            "operation": "deleteNetworkFloorPlan",
+            "operation": "delete_network_floor_plan",
         }
         resource = f"/networks/{networkId}/floorPlans/{floorPlanId}"
 
@@ -500,9 +500,9 @@ class ActionBatchNetworks:
         }
         return action
 
-    def createNetworkGroupPolicy(self, networkId: str, name: str, **kwargs):
+    def create_network_group_policy(self, networkId: str, name: str, **kwargs):
         """
-        **Create a group policy**
+        **Create a group policy.**
         https://developer.cisco.com/meraki/api-v1/#!create-network-group-policy
 
         - networkId (string): Network ID
@@ -529,7 +529,7 @@ class ActionBatchNetworks:
 
         metadata = {
             "tags": ["networks", "configure", "groupPolicies"],
-            "operation": "createNetworkGroupPolicy",
+            "operation": "create_network_group_policy",
         }
         resource = f"/networks/{networkId}/groupPolicies"
 
@@ -547,9 +547,9 @@ class ActionBatchNetworks:
         action = {"resource": resource, "operation": "create", "body": payload}
         return action
 
-    def updateNetworkGroupPolicy(self, networkId: str, groupPolicyId: str, **kwargs):
+    def update_network_group_policy(self, networkId: str, groupPolicyId: str, **kwargs):
         """
-        **Update a group policy**
+        **Update a group policy.**
         https://developer.cisco.com/meraki/api-v1/#!update-network-group-policy
 
         - networkId (string): Network ID
@@ -577,7 +577,7 @@ class ActionBatchNetworks:
 
         metadata = {
             "tags": ["networks", "configure", "groupPolicies"],
-            "operation": "updateNetworkGroupPolicy",
+            "operation": "update_network_group_policy",
         }
         resource = f"/networks/{networkId}/groupPolicies/{groupPolicyId}"
 
@@ -595,9 +595,9 @@ class ActionBatchNetworks:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def deleteNetworkGroupPolicy(self, networkId: str, groupPolicyId: str, **kwargs):
+    def delete_network_group_policy(self, networkId: str, groupPolicyId: str, **kwargs):
         """
-        **Delete a group policy**
+        **Delete a group policy.**
         https://developer.cisco.com/meraki/api-v1/#!delete-network-group-policy
 
         - networkId (string): Network ID
@@ -609,7 +609,7 @@ class ActionBatchNetworks:
 
         metadata = {
             "tags": ["networks", "configure", "groupPolicies"],
-            "operation": "deleteNetworkGroupPolicy",
+            "operation": "delete_network_group_policy",
         }
         resource = f"/networks/{networkId}/groupPolicies/{groupPolicyId}"
 
@@ -619,11 +619,11 @@ class ActionBatchNetworks:
         }
         return action
 
-    def createNetworkMerakiAuthUser(
+    def create_network_meraki_auth_user(
         self, networkId: str, email: str, authorizations: list, **kwargs
     ):
         """
-        **Authorize a user configured with Meraki Authentication for a network (currently supports 802.1X, splash guest, and client VPN users, and currently, organizations have a 50,000 user cap)**
+        **Authorize a user configured with Meraki Authentication for a network (currently supports 802.1X, splash guest, and client VPN users, and currently, organizations have a 50,000 user cap).**
         https://developer.cisco.com/meraki/api-v1/#!create-network-meraki-auth-user
 
         - networkId (string): Network ID
@@ -646,7 +646,7 @@ class ActionBatchNetworks:
 
         metadata = {
             "tags": ["networks", "configure", "merakiAuthUsers"],
-            "operation": "createNetworkMerakiAuthUser",
+            "operation": "create_network_meraki_auth_user",
         }
         resource = f"/networks/{networkId}/merakiAuthUsers"
 
@@ -663,7 +663,7 @@ class ActionBatchNetworks:
         action = {"resource": resource, "operation": "create", "body": payload}
         return action
 
-    def deleteNetworkMerakiAuthUser(self, networkId: str, merakiAuthUserId: str, **kwargs):
+    def delete_network_meraki_auth_user(self, networkId: str, merakiAuthUserId: str, **kwargs):
         """
         **Delete an 802.1X RADIUS user, or deauthorize and optionally delete a splash guest or client VPN user.**
         https://developer.cisco.com/meraki/api-v1/#!delete-network-meraki-auth-user
@@ -677,7 +677,7 @@ class ActionBatchNetworks:
 
         metadata = {
             "tags": ["networks", "configure", "merakiAuthUsers"],
-            "operation": "deleteNetworkMerakiAuthUser",
+            "operation": "delete_network_meraki_auth_user",
         }
         resource = f"/networks/{networkId}/merakiAuthUsers/{merakiAuthUserId}"
 
@@ -687,9 +687,9 @@ class ActionBatchNetworks:
         }
         return action
 
-    def updateNetworkMerakiAuthUser(self, networkId: str, merakiAuthUserId: str, **kwargs):
+    def update_network_meraki_auth_user(self, networkId: str, merakiAuthUserId: str, **kwargs):
         """
-        **Update a user configured with Meraki Authentication (currently, 802.1X RADIUS, splash guest, and client VPN users can be updated)**
+        **Update a user configured with Meraki Authentication (currently, 802.1X RADIUS, splash guest, and client VPN users can be updated).**
         https://developer.cisco.com/meraki/api-v1/#!update-network-meraki-auth-user
 
         - networkId (string): Network ID
@@ -704,7 +704,7 @@ class ActionBatchNetworks:
 
         metadata = {
             "tags": ["networks", "configure", "merakiAuthUsers"],
-            "operation": "updateNetworkMerakiAuthUser",
+            "operation": "update_network_meraki_auth_user",
         }
         resource = f"/networks/{networkId}/merakiAuthUsers/{merakiAuthUserId}"
 
@@ -718,9 +718,9 @@ class ActionBatchNetworks:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def createNetworkMqttBroker(self, networkId: str, name: str, host: str, port: int, **kwargs):
+    def create_network_mqtt_broker(self, networkId: str, name: str, host: str, port: int, **kwargs):
         """
-        **Add an MQTT broker**
+        **Add an MQTT broker.**
         https://developer.cisco.com/meraki/api-v1/#!create-network-mqtt-broker
 
         - networkId (string): Network ID
@@ -735,7 +735,7 @@ class ActionBatchNetworks:
 
         metadata = {
             "tags": ["networks", "configure", "mqttBrokers"],
-            "operation": "createNetworkMqttBroker",
+            "operation": "create_network_mqtt_broker",
         }
         resource = f"/networks/{networkId}/mqttBrokers"
 
@@ -750,9 +750,9 @@ class ActionBatchNetworks:
         action = {"resource": resource, "operation": "create", "body": payload}
         return action
 
-    def updateNetworkMqttBroker(self, networkId: str, mqttBrokerId: str, **kwargs):
+    def update_network_mqtt_broker(self, networkId: str, mqttBrokerId: str, **kwargs):
         """
-        **Update an MQTT broker**
+        **Update an MQTT broker.**
         https://developer.cisco.com/meraki/api-v1/#!update-network-mqtt-broker
 
         - networkId (string): Network ID
@@ -768,7 +768,7 @@ class ActionBatchNetworks:
 
         metadata = {
             "tags": ["networks", "configure", "mqttBrokers"],
-            "operation": "updateNetworkMqttBroker",
+            "operation": "update_network_mqtt_broker",
         }
         resource = f"/networks/{networkId}/mqttBrokers/{mqttBrokerId}"
 
@@ -783,9 +783,9 @@ class ActionBatchNetworks:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def deleteNetworkMqttBroker(self, networkId: str, mqttBrokerId: str):
+    def delete_network_mqtt_broker(self, networkId: str, mqttBrokerId: str):
         """
-        **Delete an MQTT broker**
+        **Delete an MQTT broker.**
         https://developer.cisco.com/meraki/api-v1/#!delete-network-mqtt-broker
 
         - networkId (string): Network ID
@@ -794,7 +794,7 @@ class ActionBatchNetworks:
 
         metadata = {
             "tags": ["networks", "configure", "mqttBrokers"],
-            "operation": "deleteNetworkMqttBroker",
+            "operation": "delete_network_mqtt_broker",
         }
         resource = f"/networks/{networkId}/mqttBrokers/{mqttBrokerId}"
 
@@ -804,9 +804,9 @@ class ActionBatchNetworks:
         }
         return action
 
-    def updateNetworkSettings(self, networkId: str, **kwargs):
+    def update_network_settings(self, networkId: str, **kwargs):
         """
-        **Update the settings for a network**
+        **Update the settings for a network.**
         https://developer.cisco.com/meraki/api-v1/#!update-network-settings
 
         - networkId (string): Network ID
@@ -821,7 +821,7 @@ class ActionBatchNetworks:
 
         metadata = {
             "tags": ["networks", "configure", "settings"],
-            "operation": "updateNetworkSettings",
+            "operation": "update_network_settings",
         }
         resource = f"/networks/{networkId}/settings"
 
@@ -836,15 +836,15 @@ class ActionBatchNetworks:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def splitNetwork(self, networkId: str):
+    def split_network(self, networkId: str):
         """
-        **Split a combined network into individual networks for each type of device**
+        **Split a combined network into individual networks for each type of device.**
         https://developer.cisco.com/meraki/api-v1/#!split-network
 
         - networkId (string): Network ID
         """
 
-        metadata = {"tags": ["networks", "configure"], "operation": "splitNetwork"}
+        metadata = {"tags": ["networks", "configure"], "operation": "split_network"}
         resource = f"/networks/{networkId}/split"
 
         action = {
@@ -853,7 +853,7 @@ class ActionBatchNetworks:
         }
         return action
 
-    def unbindNetwork(self, networkId: str, **kwargs):
+    def unbind_network(self, networkId: str, **kwargs):
         """
         **Unbind a network from a template.**
         https://developer.cisco.com/meraki/api-v1/#!unbind-network
@@ -864,7 +864,7 @@ class ActionBatchNetworks:
 
         kwargs.update(locals())
 
-        metadata = {"tags": ["networks", "configure"], "operation": "unbindNetwork"}
+        metadata = {"tags": ["networks", "configure"], "operation": "unbind_network"}
         resource = f"/networks/{networkId}/unbind"
 
         body_params = [
@@ -874,11 +874,11 @@ class ActionBatchNetworks:
         action = {"resource": resource, "operation": "create", "body": payload}
         return action
 
-    def createNetworkVlanProfile(
+    def create_network_vlan_profile(
         self, networkId: str, name: str, vlanNames: list, vlanGroups: list, iname: str
     ):
         """
-        **Create a VLAN profile for a network**
+        **Create a VLAN profile for a network.**
         https://developer.cisco.com/meraki/api-v1/#!create-network-vlan-profile
 
         - networkId (string): Network ID
@@ -892,7 +892,7 @@ class ActionBatchNetworks:
 
         metadata = {
             "tags": ["networks", "configure", "vlanProfiles"],
-            "operation": "createNetworkVlanProfile",
+            "operation": "create_network_vlan_profile",
         }
         resource = f"/networks/{networkId}/vlanProfiles"
 
@@ -906,9 +906,9 @@ class ActionBatchNetworks:
         action = {"resource": resource, "operation": "create", "body": payload}
         return action
 
-    def deleteNetworkVlanProfile(self, networkId: str, iname: str):
+    def delete_network_vlan_profile(self, networkId: str, iname: str):
         """
-        **Delete a VLAN profile of a network**
+        **Delete a VLAN profile of a network.**
         https://developer.cisco.com/meraki/api-v1/#!delete-network-vlan-profile
 
         - networkId (string): Network ID
@@ -917,7 +917,7 @@ class ActionBatchNetworks:
 
         metadata = {
             "tags": ["networks", "configure", "vlanProfiles"],
-            "operation": "deleteNetworkVlanProfile",
+            "operation": "delete_network_vlan_profile",
         }
         resource = f"/networks/{networkId}/vlanProfiles/{iname}"
 
@@ -927,9 +927,9 @@ class ActionBatchNetworks:
         }
         return action
 
-    def createNetworkWebhooksPayloadTemplate(self, networkId: str, name: str, **kwargs):
+    def create_network_webhooks_payload_template(self, networkId: str, name: str, **kwargs):
         """
-        **Create a webhook payload template for a network**
+        **Create a webhook payload template for a network.**
         https://developer.cisco.com/meraki/api-v1/#!create-network-webhooks-payload-template
 
         - networkId (string): Network ID
@@ -944,7 +944,7 @@ class ActionBatchNetworks:
 
         metadata = {
             "tags": ["networks", "configure", "webhooks", "payloadTemplates"],
-            "operation": "createNetworkWebhooksPayloadTemplate",
+            "operation": "create_network_webhooks_payload_template",
         }
         resource = f"/networks/{networkId}/webhooks/payloadTemplates"
 
@@ -959,9 +959,9 @@ class ActionBatchNetworks:
         action = {"resource": resource, "operation": "create", "body": payload}
         return action
 
-    def deleteNetworkWebhooksPayloadTemplate(self, networkId: str, payloadTemplateId: str):
+    def delete_network_webhooks_payload_template(self, networkId: str, payloadTemplateId: str):
         """
-        **Destroy a webhook payload template for a network**
+        **Destroy a webhook payload template for a network.**
         https://developer.cisco.com/meraki/api-v1/#!delete-network-webhooks-payload-template
 
         - networkId (string): Network ID
@@ -970,7 +970,7 @@ class ActionBatchNetworks:
 
         metadata = {
             "tags": ["networks", "configure", "webhooks", "payloadTemplates"],
-            "operation": "deleteNetworkWebhooksPayloadTemplate",
+            "operation": "delete_network_webhooks_payload_template",
         }
         resource = f"/networks/{networkId}/webhooks/payloadTemplates/{payloadTemplateId}"
 
@@ -980,11 +980,11 @@ class ActionBatchNetworks:
         }
         return action
 
-    def updateNetworkWebhooksPayloadTemplate(
+    def update_network_webhooks_payload_template(
         self, networkId: str, payloadTemplateId: str, **kwargs
     ):
         """
-        **Update a webhook payload template for a network**
+        **Update a webhook payload template for a network.**
         https://developer.cisco.com/meraki/api-v1/#!update-network-webhooks-payload-template
 
         - networkId (string): Network ID
@@ -1000,7 +1000,7 @@ class ActionBatchNetworks:
 
         metadata = {
             "tags": ["networks", "configure", "webhooks", "payloadTemplates"],
-            "operation": "updateNetworkWebhooksPayloadTemplate",
+            "operation": "update_network_webhooks_payload_template",
         }
         resource = f"/networks/{networkId}/webhooks/payloadTemplates/{payloadTemplateId}"
 

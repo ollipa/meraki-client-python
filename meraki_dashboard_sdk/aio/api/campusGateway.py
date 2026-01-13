@@ -12,7 +12,7 @@ class AsyncCampusGateway:
         super().__init__()
         self._session = session
 
-    def createNetworkCampusGatewayCluster(
+    def create_network_campus_gateway_cluster(
         self,
         networkId: str,
         name: str,
@@ -22,7 +22,7 @@ class AsyncCampusGateway:
         portChannels: list,
         **kwargs,
     ):
-        """Create a cluster and add campus gateways to it
+        """Create a cluster and add campus gateways to it.
 
         https://developer.cisco.com/meraki/api-v1/#!create-network-campus-gateway-cluster
 
@@ -34,13 +34,13 @@ class AsyncCampusGateway:
         - portChannels (array): Port channel settings of the cluster
         - devices (array): Devices to be added to the cluster
         - notes (string): Notes about cluster with max size of 511 characters allowed
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["campusGateway", "configure", "clusters"],
-            "operation": "createNetworkCampusGatewayCluster",
+            "operation": "create_network_campus_gateway_cluster",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/campusGateway/clusters"
@@ -58,8 +58,8 @@ class AsyncCampusGateway:
 
         return self._session.post(metadata, resource, payload)
 
-    def updateNetworkCampusGatewayCluster(self, networkId: str, clusterId: str, **kwargs):
-        """Update a cluster and add/remove campus gateways to/from it
+    def update_network_campus_gateway_cluster(self, networkId: str, clusterId: str, **kwargs):
+        """Update a cluster and add/remove campus gateways to/from it.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-campus-gateway-cluster
 
@@ -72,13 +72,13 @@ class AsyncCampusGateway:
         - portChannels (array): Port channel settings of the cluster
         - devices (array): Devices in the cluster
         - notes (string): Notes about cluster with max size of 511 characters allowed
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["campusGateway", "configure", "clusters"],
-            "operation": "updateNetworkCampusGatewayCluster",
+            "operation": "update_network_campus_gateway_cluster",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         clusterId = urllib.parse.quote(str(clusterId), safe="")
@@ -97,10 +97,10 @@ class AsyncCampusGateway:
 
         return self._session.put(metadata, resource, payload)
 
-    def getOrganizationCampusGatewayClusters(
+    def get_organization_campus_gateway_clusters(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
-        """Get the details of campus gateway clusters
+        """Get the details of campus gateway clusters.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-campus-gateway-clusters
 
@@ -111,13 +111,13 @@ class AsyncCampusGateway:
         - perPage (integer): The number of entries per page returned. Acceptable range is 3 - 100. Default is 50.
         - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
         - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["campusGateway", "configure", "clusters"],
-            "operation": "getOrganizationCampusGatewayClusters",
+            "operation": "get_organization_campus_gateway_clusters",
         }
         organizationId = urllib.parse.quote(str(organizationId), safe="")
         resource = f"/organizations/{organizationId}/campusGateway/clusters"
@@ -140,7 +140,7 @@ class AsyncCampusGateway:
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
-    def getOrganizationCampusGatewayDevicesUplinksLocalOverridesByDevice(
+    def get_organization_campus_gateway_devices_uplinks_local_overrides_by_device(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
         """Uplink overrides configured locally on Campus Gateway devices in an organization.
@@ -154,8 +154,8 @@ class AsyncCampusGateway:
         - perPage (integer): The number of entries per page returned. Acceptable range is 3 - 1000. Default is 1000.
         - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
         - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
@@ -167,7 +167,7 @@ class AsyncCampusGateway:
                 "localOverrides",
                 "byDevice",
             ],
-            "operation": "getOrganizationCampusGatewayDevicesUplinksLocalOverridesByDevice",
+            "operation": "get_organization_campus_gateway_devices_uplinks_local_overrides_by_device",
         }
         organizationId = urllib.parse.quote(str(organizationId), safe="")
         resource = (

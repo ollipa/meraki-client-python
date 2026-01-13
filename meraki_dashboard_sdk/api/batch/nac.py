@@ -7,11 +7,11 @@ class ActionBatchNac:
     def __init__(self) -> None:
         pass
 
-    def createOrganizationNacCertificatesAuthoritiesCrl(
+    def create_organization_nac_certificates_authorities_crl(
         self, organizationId: str, caId: str, content: str, isDelta: bool
     ):
         """
-        **Create a new CRL (either base or delta) for an existing CA**
+        **Create a new CRL (either base or delta) for an existing CA.**
         https://developer.cisco.com/meraki/api-v1/#!create-organization-nac-certificates-authorities-crl
 
         - organizationId (string): Organization ID
@@ -24,7 +24,7 @@ class ActionBatchNac:
 
         metadata = {
             "tags": ["nac", "configure", "certificates", "authorities", "crls"],
-            "operation": "createOrganizationNacCertificatesAuthoritiesCrl",
+            "operation": "create_organization_nac_certificates_authorities_crl",
         }
         resource = f"/organizations/{organizationId}/nac/certificates/authorities/crls"
 

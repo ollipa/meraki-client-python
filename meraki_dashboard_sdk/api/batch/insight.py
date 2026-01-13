@@ -7,11 +7,11 @@ class ActionBatchInsight:
     def __init__(self) -> None:
         pass
 
-    def createOrganizationInsightMonitoredMediaServer(
+    def create_organization_insight_monitored_media_server(
         self, organizationId: str, name: str, address: str, **kwargs
     ):
         """
-        **Add a media server to be monitored for this organization**
+        **Add a media server to be monitored for this organization.**
         https://developer.cisco.com/meraki/api-v1/#!create-organization-insight-monitored-media-server
 
         - organizationId (string): Organization ID
@@ -24,7 +24,7 @@ class ActionBatchInsight:
 
         metadata = {
             "tags": ["insight", "configure", "monitoredMediaServers"],
-            "operation": "createOrganizationInsightMonitoredMediaServer",
+            "operation": "create_organization_insight_monitored_media_server",
         }
         resource = f"/organizations/{organizationId}/insight/monitoredMediaServers"
 
@@ -37,11 +37,11 @@ class ActionBatchInsight:
         action = {"resource": resource, "operation": "create", "body": payload}
         return action
 
-    def updateOrganizationInsightMonitoredMediaServer(
+    def update_organization_insight_monitored_media_server(
         self, organizationId: str, monitoredMediaServerId: str, **kwargs
     ):
         """
-        **Update a monitored media server for this organization**
+        **Update a monitored media server for this organization.**
         https://developer.cisco.com/meraki/api-v1/#!update-organization-insight-monitored-media-server
 
         - organizationId (string): Organization ID
@@ -55,7 +55,7 @@ class ActionBatchInsight:
 
         metadata = {
             "tags": ["insight", "configure", "monitoredMediaServers"],
-            "operation": "updateOrganizationInsightMonitoredMediaServer",
+            "operation": "update_organization_insight_monitored_media_server",
         }
         resource = f"/organizations/{organizationId}/insight/monitoredMediaServers/{monitoredMediaServerId}"
 
@@ -68,11 +68,11 @@ class ActionBatchInsight:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def deleteOrganizationInsightMonitoredMediaServer(
+    def delete_organization_insight_monitored_media_server(
         self, organizationId: str, monitoredMediaServerId: str
     ):
         """
-        **Delete a monitored media server from this organization**
+        **Delete a monitored media server from this organization.**
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-insight-monitored-media-server
 
         - organizationId (string): Organization ID
@@ -81,7 +81,7 @@ class ActionBatchInsight:
 
         metadata = {
             "tags": ["insight", "configure", "monitoredMediaServers"],
-            "operation": "deleteOrganizationInsightMonitoredMediaServer",
+            "operation": "delete_organization_insight_monitored_media_server",
         }
         resource = f"/organizations/{organizationId}/insight/monitoredMediaServers/{monitoredMediaServerId}"
 

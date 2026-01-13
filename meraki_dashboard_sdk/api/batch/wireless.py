@@ -7,9 +7,9 @@ class ActionBatchWireless:
     def __init__(self) -> None:
         pass
 
-    def updateDeviceWirelessAlternateManagementInterfaceIpv6(self, serial: str, **kwargs):
+    def update_device_wireless_alternate_management_interface_ipv6(self, serial: str, **kwargs):
         """
-        **Update alternate management interface IPv6 address**
+        **Update alternate management interface IPv6 address.**
         https://developer.cisco.com/meraki/api-v1/#!update-device-wireless-alternate-management-interface-ipv-6
 
         - serial (string): Serial
@@ -20,7 +20,7 @@ class ActionBatchWireless:
 
         metadata = {
             "tags": ["wireless", "configure", "alternateManagementInterface", "ipv6"],
-            "operation": "updateDeviceWirelessAlternateManagementInterfaceIpv6",
+            "operation": "update_device_wireless_alternate_management_interface_ipv6",
         }
         resource = f"/devices/{serial}/wireless/alternateManagementInterface/ipv6"
 
@@ -31,9 +31,9 @@ class ActionBatchWireless:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def updateDeviceWirelessBluetoothSettings(self, serial: str, **kwargs):
+    def update_device_wireless_bluetooth_settings(self, serial: str, **kwargs):
         """
-        **Update the bluetooth settings for a wireless device**
+        **Update the bluetooth settings for a wireless device.**
         https://developer.cisco.com/meraki/api-v1/#!update-device-wireless-bluetooth-settings
 
         - serial (string): Serial
@@ -49,7 +49,7 @@ class ActionBatchWireless:
 
         metadata = {
             "tags": ["wireless", "configure", "bluetooth", "settings"],
-            "operation": "updateDeviceWirelessBluetoothSettings",
+            "operation": "update_device_wireless_bluetooth_settings",
         }
         resource = f"/devices/{serial}/wireless/bluetooth/settings"
 
@@ -62,9 +62,9 @@ class ActionBatchWireless:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def updateDeviceWirelessElectronicShelfLabel(self, serial: str, **kwargs):
+    def update_device_wireless_electronic_shelf_label(self, serial: str, **kwargs):
         """
-        **Update the ESL settings of a device**
+        **Update the ESL settings of a device.**
         https://developer.cisco.com/meraki/api-v1/#!update-device-wireless-electronic-shelf-label
 
         - serial (string): Serial
@@ -76,7 +76,7 @@ class ActionBatchWireless:
 
         metadata = {
             "tags": ["wireless", "configure", "electronicShelfLabel"],
-            "operation": "updateDeviceWirelessElectronicShelfLabel",
+            "operation": "update_device_wireless_electronic_shelf_label",
         }
         resource = f"/devices/{serial}/wireless/electronicShelfLabel"
 
@@ -88,7 +88,7 @@ class ActionBatchWireless:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def updateDeviceWirelessRadioSettings(self, serial: str, **kwargs):
+    def update_device_wireless_radio_settings(self, serial: str, **kwargs):
         """
         **Update the radio settings overrides of a device, which take precedence over RF profiles.**
         https://developer.cisco.com/meraki/api-v1/#!update-device-wireless-radio-settings
@@ -103,7 +103,7 @@ class ActionBatchWireless:
 
         metadata = {
             "tags": ["wireless", "configure", "radio", "settings"],
-            "operation": "updateDeviceWirelessRadioSettings",
+            "operation": "update_device_wireless_radio_settings",
         }
         resource = f"/devices/{serial}/wireless/radio/settings"
 
@@ -116,9 +116,9 @@ class ActionBatchWireless:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def createNetworkWirelessAirMarshalRule(self, networkId: str, type: str, match: dict):
+    def create_network_wireless_air_marshal_rule(self, networkId: str, type: str, match: dict):
         """
-        **Creates a new rule**
+        **Creates a new rule.**
         https://developer.cisco.com/meraki/api-v1/#!create-network-wireless-air-marshal-rule
 
         - networkId (string): Network ID
@@ -136,7 +136,7 @@ class ActionBatchWireless:
 
         metadata = {
             "tags": ["wireless", "configure", "airMarshal", "rules"],
-            "operation": "createNetworkWirelessAirMarshalRule",
+            "operation": "create_network_wireless_air_marshal_rule",
         }
         resource = f"/networks/{networkId}/wireless/airMarshal/rules"
 
@@ -148,9 +148,9 @@ class ActionBatchWireless:
         action = {"resource": resource, "operation": "create", "body": payload}
         return action
 
-    def updateNetworkWirelessAirMarshalRule(self, networkId: str, ruleId: str, **kwargs):
+    def update_network_wireless_air_marshal_rule(self, networkId: str, ruleId: str, **kwargs):
         """
-        **Update a rule**
+        **Update a rule.**
         https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-air-marshal-rule
 
         - networkId (string): Network ID
@@ -169,7 +169,7 @@ class ActionBatchWireless:
 
         metadata = {
             "tags": ["wireless", "configure", "airMarshal", "rules"],
-            "operation": "updateNetworkWirelessAirMarshalRule",
+            "operation": "update_network_wireless_air_marshal_rule",
         }
         resource = f"/networks/{networkId}/wireless/airMarshal/rules/{ruleId}"
 
@@ -181,7 +181,7 @@ class ActionBatchWireless:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def deleteNetworkWirelessAirMarshalRule(self, networkId: str, ruleId: str):
+    def delete_network_wireless_air_marshal_rule(self, networkId: str, ruleId: str):
         """
         **Delete an Air Marshal rule.**
         https://developer.cisco.com/meraki/api-v1/#!delete-network-wireless-air-marshal-rule
@@ -192,7 +192,7 @@ class ActionBatchWireless:
 
         metadata = {
             "tags": ["wireless", "configure", "airMarshal", "rules"],
-            "operation": "deleteNetworkWirelessAirMarshalRule",
+            "operation": "delete_network_wireless_air_marshal_rule",
         }
         resource = f"/networks/{networkId}/wireless/airMarshal/rules/{ruleId}"
 
@@ -202,7 +202,7 @@ class ActionBatchWireless:
         }
         return action
 
-    def updateNetworkWirelessAirMarshalSettings(self, networkId: str, defaultPolicy: str):
+    def update_network_wireless_air_marshal_settings(self, networkId: str, defaultPolicy: str):
         """
         **Updates Air Marshal settings.**
         https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-air-marshal-settings
@@ -221,7 +221,7 @@ class ActionBatchWireless:
 
         metadata = {
             "tags": ["wireless", "configure", "airMarshal", "settings"],
-            "operation": "updateNetworkWirelessAirMarshalSettings",
+            "operation": "update_network_wireless_air_marshal_settings",
         }
         resource = f"/networks/{networkId}/wireless/airMarshal/settings"
 
@@ -232,9 +232,9 @@ class ActionBatchWireless:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def updateNetworkWirelessAlternateManagementInterface(self, networkId: str, **kwargs):
+    def update_network_wireless_alternate_management_interface(self, networkId: str, **kwargs):
         """
-        **Update alternate management interface and device static IP**
+        **Update alternate management interface and device static IP.**
         https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-alternate-management-interface
 
         - networkId (string): Network ID
@@ -248,7 +248,7 @@ class ActionBatchWireless:
 
         metadata = {
             "tags": ["wireless", "configure", "alternateManagementInterface"],
-            "operation": "updateNetworkWirelessAlternateManagementInterface",
+            "operation": "update_network_wireless_alternate_management_interface",
         }
         resource = f"/networks/{networkId}/wireless/alternateManagementInterface"
 
@@ -262,9 +262,9 @@ class ActionBatchWireless:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def updateNetworkWirelessBilling(self, networkId: str, **kwargs):
+    def update_network_wireless_billing(self, networkId: str, **kwargs):
         """
-        **Update the billing settings**
+        **Update the billing settings.**
         https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-billing
 
         - networkId (string): Network ID
@@ -276,7 +276,7 @@ class ActionBatchWireless:
 
         metadata = {
             "tags": ["wireless", "configure", "billing"],
-            "operation": "updateNetworkWirelessBilling",
+            "operation": "update_network_wireless_billing",
         }
         resource = f"/networks/{networkId}/wireless/billing"
 
@@ -288,9 +288,9 @@ class ActionBatchWireless:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def updateNetworkWirelessElectronicShelfLabel(self, networkId: str, **kwargs):
+    def update_network_wireless_electronic_shelf_label(self, networkId: str, **kwargs):
         """
-        **Update the ESL settings of a wireless network**
+        **Update the ESL settings of a wireless network.**
         https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-electronic-shelf-label
 
         - networkId (string): Network ID
@@ -309,7 +309,7 @@ class ActionBatchWireless:
 
         metadata = {
             "tags": ["wireless", "configure", "electronicShelfLabel"],
-            "operation": "updateNetworkWirelessElectronicShelfLabel",
+            "operation": "update_network_wireless_electronic_shelf_label",
         }
         resource = f"/networks/{networkId}/wireless/electronicShelfLabel"
 
@@ -322,11 +322,11 @@ class ActionBatchWireless:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def createNetworkWirelessEthernetPortsProfile(
+    def create_network_wireless_ethernet_ports_profile(
         self, networkId: str, name: str, ports: list, **kwargs
     ):
         """
-        **Create an AP port profile**
+        **Create an AP port profile.**
         https://developer.cisco.com/meraki/api-v1/#!create-network-wireless-ethernet-ports-profile
 
         - networkId (string): Network ID
@@ -339,7 +339,7 @@ class ActionBatchWireless:
 
         metadata = {
             "tags": ["wireless", "configure", "ethernet", "ports", "profiles"],
-            "operation": "createNetworkWirelessEthernetPortsProfile",
+            "operation": "create_network_wireless_ethernet_ports_profile",
         }
         resource = f"/networks/{networkId}/wireless/ethernet/ports/profiles"
 
@@ -352,11 +352,11 @@ class ActionBatchWireless:
         action = {"resource": resource, "operation": "create", "body": payload}
         return action
 
-    def assignNetworkWirelessEthernetPortsProfiles(
+    def assign_network_wireless_ethernet_ports_profiles(
         self, networkId: str, serials: list, profileId: str
     ):
         """
-        **Assign AP port profile to list of APs**
+        **Assign AP port profile to list of APs.**
         https://developer.cisco.com/meraki/api-v1/#!assign-network-wireless-ethernet-ports-profiles
 
         - networkId (string): Network ID
@@ -368,7 +368,7 @@ class ActionBatchWireless:
 
         metadata = {
             "tags": ["wireless", "configure", "ethernet", "ports", "profiles"],
-            "operation": "assignNetworkWirelessEthernetPortsProfiles",
+            "operation": "assign_network_wireless_ethernet_ports_profiles",
         }
         resource = f"/networks/{networkId}/wireless/ethernet/ports/profiles/assign"
 
@@ -380,9 +380,9 @@ class ActionBatchWireless:
         action = {"resource": resource, "operation": "create", "body": payload}
         return action
 
-    def setNetworkWirelessEthernetPortsProfilesDefault(self, networkId: str, profileId: str):
+    def set_network_wireless_ethernet_ports_profiles_default(self, networkId: str, profileId: str):
         """
-        **Set the AP port profile to be default for this network**
+        **Set the AP port profile to be default for this network.**
         https://developer.cisco.com/meraki/api-v1/#!set-network-wireless-ethernet-ports-profiles-default
 
         - networkId (string): Network ID
@@ -393,7 +393,7 @@ class ActionBatchWireless:
 
         metadata = {
             "tags": ["wireless", "configure", "ethernet", "ports", "profiles"],
-            "operation": "setNetworkWirelessEthernetPortsProfilesDefault",
+            "operation": "set_network_wireless_ethernet_ports_profiles_default",
         }
         resource = f"/networks/{networkId}/wireless/ethernet/ports/profiles/setDefault"
 
@@ -404,9 +404,11 @@ class ActionBatchWireless:
         action = {"resource": resource, "operation": "create", "body": payload}
         return action
 
-    def updateNetworkWirelessEthernetPortsProfile(self, networkId: str, profileId: str, **kwargs):
+    def update_network_wireless_ethernet_ports_profile(
+        self, networkId: str, profileId: str, **kwargs
+    ):
         """
-        **Update the AP port profile by ID for this network**
+        **Update the AP port profile by ID for this network.**
         https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ethernet-ports-profile
 
         - networkId (string): Network ID
@@ -420,7 +422,7 @@ class ActionBatchWireless:
 
         metadata = {
             "tags": ["wireless", "configure", "ethernet", "ports", "profiles"],
-            "operation": "updateNetworkWirelessEthernetPortsProfile",
+            "operation": "update_network_wireless_ethernet_ports_profile",
         }
         resource = f"/networks/{networkId}/wireless/ethernet/ports/profiles/{profileId}"
 
@@ -433,9 +435,9 @@ class ActionBatchWireless:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def deleteNetworkWirelessEthernetPortsProfile(self, networkId: str, profileId: str):
+    def delete_network_wireless_ethernet_ports_profile(self, networkId: str, profileId: str):
         """
-        **Delete an AP port profile**
+        **Delete an AP port profile.**
         https://developer.cisco.com/meraki/api-v1/#!delete-network-wireless-ethernet-ports-profile
 
         - networkId (string): Network ID
@@ -444,7 +446,7 @@ class ActionBatchWireless:
 
         metadata = {
             "tags": ["wireless", "configure", "ethernet", "ports", "profiles"],
-            "operation": "deleteNetworkWirelessEthernetPortsProfile",
+            "operation": "delete_network_wireless_ethernet_ports_profile",
         }
         resource = f"/networks/{networkId}/wireless/ethernet/ports/profiles/{profileId}"
 
@@ -454,9 +456,9 @@ class ActionBatchWireless:
         }
         return action
 
-    def updateNetworkWirelessLocationScanning(self, networkId: str, **kwargs):
+    def update_network_wireless_location_scanning(self, networkId: str, **kwargs):
         """
-        **Change scanning API settings**
+        **Change scanning API settings.**
         https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-location-scanning
 
         - networkId (string): Network ID
@@ -468,7 +470,7 @@ class ActionBatchWireless:
 
         metadata = {
             "tags": ["wireless", "configure", "location", "scanning"],
-            "operation": "updateNetworkWirelessLocationScanning",
+            "operation": "update_network_wireless_location_scanning",
         }
         resource = f"/networks/{networkId}/wireless/location/scanning"
 
@@ -480,11 +482,11 @@ class ActionBatchWireless:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def createNetworkWirelessRfProfile(
+    def create_network_wireless_rf_profile(
         self, networkId: str, name: str, bandSelectionType: str, **kwargs
     ):
         """
-        **Creates new RF profile for this network**
+        **Creates new RF profile for this network.**
         https://developer.cisco.com/meraki/api-v1/#!create-network-wireless-rf-profile
 
         - networkId (string): Network ID
@@ -516,7 +518,7 @@ class ActionBatchWireless:
 
         metadata = {
             "tags": ["wireless", "configure", "rfProfiles"],
-            "operation": "createNetworkWirelessRfProfile",
+            "operation": "create_network_wireless_rf_profile",
         }
         resource = f"/networks/{networkId}/wireless/rfProfiles"
 
@@ -537,9 +539,9 @@ class ActionBatchWireless:
         action = {"resource": resource, "operation": "create", "body": payload}
         return action
 
-    def updateNetworkWirelessRfProfile(self, networkId: str, rfProfileId: str, **kwargs):
+    def update_network_wireless_rf_profile(self, networkId: str, rfProfileId: str, **kwargs):
         """
-        **Updates specified RF profile for this network**
+        **Updates specified RF profile for this network.**
         https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-rf-profile
 
         - networkId (string): Network ID
@@ -574,7 +576,7 @@ class ActionBatchWireless:
 
         metadata = {
             "tags": ["wireless", "configure", "rfProfiles"],
-            "operation": "updateNetworkWirelessRfProfile",
+            "operation": "update_network_wireless_rf_profile",
         }
         resource = f"/networks/{networkId}/wireless/rfProfiles/{rfProfileId}"
 
@@ -597,9 +599,9 @@ class ActionBatchWireless:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def deleteNetworkWirelessRfProfile(self, networkId: str, rfProfileId: str):
+    def delete_network_wireless_rf_profile(self, networkId: str, rfProfileId: str):
         """
-        **Delete a RF Profile**
+        **Delete a RF Profile.**
         https://developer.cisco.com/meraki/api-v1/#!delete-network-wireless-rf-profile
 
         - networkId (string): Network ID
@@ -608,7 +610,7 @@ class ActionBatchWireless:
 
         metadata = {
             "tags": ["wireless", "configure", "rfProfiles"],
-            "operation": "deleteNetworkWirelessRfProfile",
+            "operation": "delete_network_wireless_rf_profile",
         }
         resource = f"/networks/{networkId}/wireless/rfProfiles/{rfProfileId}"
 
@@ -618,9 +620,9 @@ class ActionBatchWireless:
         }
         return action
 
-    def updateNetworkWirelessSettings(self, networkId: str, **kwargs):
+    def update_network_wireless_settings(self, networkId: str, **kwargs):
         """
-        **Update the wireless settings for a network**
+        **Update the wireless settings for a network.**
         https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-settings
 
         - networkId (string): Network ID
@@ -642,7 +644,7 @@ class ActionBatchWireless:
 
         metadata = {
             "tags": ["wireless", "configure", "settings"],
-            "operation": "updateNetworkWirelessSettings",
+            "operation": "update_network_wireless_settings",
         }
         resource = f"/networks/{networkId}/wireless/settings"
 
@@ -658,9 +660,9 @@ class ActionBatchWireless:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def updateNetworkWirelessSsid(self, networkId: str, number: str, **kwargs):
+    def update_network_wireless_ssid(self, networkId: str, number: str, **kwargs):
         """
-        **Update the attributes of an MR SSID**
+        **Update the attributes of an MR SSID.**
         https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid
 
         - networkId (string): Network ID
@@ -814,7 +816,7 @@ class ActionBatchWireless:
 
         metadata = {
             "tags": ["wireless", "configure", "ssids"],
-            "operation": "updateNetworkWirelessSsid",
+            "operation": "update_network_wireless_ssid",
         }
         resource = f"/networks/{networkId}/wireless/ssids/{number}"
 
@@ -887,9 +889,11 @@ class ActionBatchWireless:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def updateNetworkWirelessSsidBonjourForwarding(self, networkId: str, number: str, **kwargs):
+    def update_network_wireless_ssid_bonjour_forwarding(
+        self, networkId: str, number: str, **kwargs
+    ):
         """
-        **Update the bonjour forwarding setting and rules for the SSID**
+        **Update the bonjour forwarding setting and rules for the SSID.**
         https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-bonjour-forwarding
 
         - networkId (string): Network ID
@@ -903,7 +907,7 @@ class ActionBatchWireless:
 
         metadata = {
             "tags": ["wireless", "configure", "ssids", "bonjourForwarding"],
-            "operation": "updateNetworkWirelessSsidBonjourForwarding",
+            "operation": "update_network_wireless_ssid_bonjour_forwarding",
         }
         resource = f"/networks/{networkId}/wireless/ssids/{number}/bonjourForwarding"
 
@@ -916,11 +920,11 @@ class ActionBatchWireless:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def updateNetworkWirelessSsidDeviceTypeGroupPolicies(
+    def update_network_wireless_ssid_device_type_group_policies(
         self, networkId: str, number: str, **kwargs
     ):
         """
-        **Update the device type group policies for the SSID**
+        **Update the device type group policies for the SSID.**
         https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-device-type-group-policies
 
         - networkId (string): Network ID
@@ -933,7 +937,7 @@ class ActionBatchWireless:
 
         metadata = {
             "tags": ["wireless", "configure", "ssids", "deviceTypeGroupPolicies"],
-            "operation": "updateNetworkWirelessSsidDeviceTypeGroupPolicies",
+            "operation": "update_network_wireless_ssid_device_type_group_policies",
         }
         resource = f"/networks/{networkId}/wireless/ssids/{number}/deviceTypeGroupPolicies"
 
@@ -945,7 +949,7 @@ class ActionBatchWireless:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def updateNetworkWirelessSsidEapOverride(self, networkId: str, number: str, **kwargs):
+    def update_network_wireless_ssid_eap_override(self, networkId: str, number: str, **kwargs):
         """
         **Update the EAP overridden parameters for an SSID.**
         https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-eap-override
@@ -962,7 +966,7 @@ class ActionBatchWireless:
 
         metadata = {
             "tags": ["wireless", "configure", "ssids", "eapOverride"],
-            "operation": "updateNetworkWirelessSsidEapOverride",
+            "operation": "update_network_wireless_ssid_eap_override",
         }
         resource = f"/networks/{networkId}/wireless/ssids/{number}/eapOverride"
 
@@ -976,11 +980,11 @@ class ActionBatchWireless:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def updateNetworkWirelessSsidFirewallL3FirewallRules(
+    def update_network_wireless_ssid_firewall_l3_firewall_rules(
         self, networkId: str, number: str, **kwargs
     ):
         """
-        **Update the L3 firewall rules of an SSID on an MR network**
+        **Update the L3 firewall rules of an SSID on an MR network.**
         https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-firewall-l-3-firewall-rules
 
         - networkId (string): Network ID
@@ -993,7 +997,7 @@ class ActionBatchWireless:
 
         metadata = {
             "tags": ["wireless", "configure", "ssids", "firewall", "l3FirewallRules"],
-            "operation": "updateNetworkWirelessSsidFirewallL3FirewallRules",
+            "operation": "update_network_wireless_ssid_firewall_l3_firewall_rules",
         }
         resource = f"/networks/{networkId}/wireless/ssids/{number}/firewall/l3FirewallRules"
 
@@ -1005,11 +1009,11 @@ class ActionBatchWireless:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def updateNetworkWirelessSsidFirewallL7FirewallRules(
+    def update_network_wireless_ssid_firewall_l7_firewall_rules(
         self, networkId: str, number: str, **kwargs
     ):
         """
-        **Update the L7 firewall rules of an SSID on an MR network**
+        **Update the L7 firewall rules of an SSID on an MR network.**
         https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-firewall-l-7-firewall-rules
 
         - networkId (string): Network ID
@@ -1021,7 +1025,7 @@ class ActionBatchWireless:
 
         metadata = {
             "tags": ["wireless", "configure", "ssids", "firewall", "l7FirewallRules"],
-            "operation": "updateNetworkWirelessSsidFirewallL7FirewallRules",
+            "operation": "update_network_wireless_ssid_firewall_l7_firewall_rules",
         }
         resource = f"/networks/{networkId}/wireless/ssids/{number}/firewall/l7FirewallRules"
 
@@ -1032,9 +1036,9 @@ class ActionBatchWireless:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def updateNetworkWirelessSsidHotspot20(self, networkId: str, number: str, **kwargs):
+    def update_network_wireless_ssid_hotspot20(self, networkId: str, number: str, **kwargs):
         """
-        **Update the Hotspot 2.0 settings of an SSID**
+        **Update the Hotspot 2.0 settings of an SSID.**
         https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-hotspot-2-0
 
         - networkId (string): Network ID
@@ -1068,7 +1072,7 @@ class ActionBatchWireless:
 
         metadata = {
             "tags": ["wireless", "configure", "ssids", "hotspot20"],
-            "operation": "updateNetworkWirelessSsidHotspot20",
+            "operation": "update_network_wireless_ssid_hotspot20",
         }
         resource = f"/networks/{networkId}/wireless/ssids/{number}/hotspot20"
 
@@ -1086,11 +1090,11 @@ class ActionBatchWireless:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def createNetworkWirelessSsidIdentityPsk(
+    def create_network_wireless_ssid_identity_psk(
         self, networkId: str, number: str, name: str, groupPolicyId: str, **kwargs
     ):
         """
-        **Create an Identity PSK**
+        **Create an Identity PSK.**
         https://developer.cisco.com/meraki/api-v1/#!create-network-wireless-ssid-identity-psk
 
         - networkId (string): Network ID
@@ -1105,7 +1109,7 @@ class ActionBatchWireless:
 
         metadata = {
             "tags": ["wireless", "configure", "ssids", "identityPsks"],
-            "operation": "createNetworkWirelessSsidIdentityPsk",
+            "operation": "create_network_wireless_ssid_identity_psk",
         }
         resource = f"/networks/{networkId}/wireless/ssids/{number}/identityPsks"
 
@@ -1119,11 +1123,11 @@ class ActionBatchWireless:
         action = {"resource": resource, "operation": "create", "body": payload}
         return action
 
-    def updateNetworkWirelessSsidIdentityPsk(
+    def update_network_wireless_ssid_identity_psk(
         self, networkId: str, number: str, identityPskId: str, **kwargs
     ):
         """
-        **Update an Identity PSK**
+        **Update an Identity PSK.**
         https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-identity-psk
 
         - networkId (string): Network ID
@@ -1139,7 +1143,7 @@ class ActionBatchWireless:
 
         metadata = {
             "tags": ["wireless", "configure", "ssids", "identityPsks"],
-            "operation": "updateNetworkWirelessSsidIdentityPsk",
+            "operation": "update_network_wireless_ssid_identity_psk",
         }
         resource = f"/networks/{networkId}/wireless/ssids/{number}/identityPsks/{identityPskId}"
 
@@ -1153,9 +1157,11 @@ class ActionBatchWireless:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def deleteNetworkWirelessSsidIdentityPsk(self, networkId: str, number: str, identityPskId: str):
+    def delete_network_wireless_ssid_identity_psk(
+        self, networkId: str, number: str, identityPskId: str
+    ):
         """
-        **Delete an Identity PSK**
+        **Delete an Identity PSK.**
         https://developer.cisco.com/meraki/api-v1/#!delete-network-wireless-ssid-identity-psk
 
         - networkId (string): Network ID
@@ -1165,7 +1171,7 @@ class ActionBatchWireless:
 
         metadata = {
             "tags": ["wireless", "configure", "ssids", "identityPsks"],
-            "operation": "deleteNetworkWirelessSsidIdentityPsk",
+            "operation": "delete_network_wireless_ssid_identity_psk",
         }
         resource = f"/networks/{networkId}/wireless/ssids/{number}/identityPsks/{identityPskId}"
 
@@ -1175,9 +1181,9 @@ class ActionBatchWireless:
         }
         return action
 
-    def updateNetworkWirelessSsidOpenRoaming(self, networkId: str, number: str, **kwargs):
+    def update_network_wireless_ssid_open_roaming(self, networkId: str, number: str, **kwargs):
         """
-        **Update the OpenRoaming setting for the SSID**
+        **Update the OpenRoaming setting for the SSID.**
         https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-open-roaming
 
         - networkId (string): Network ID
@@ -1190,7 +1196,7 @@ class ActionBatchWireless:
 
         metadata = {
             "tags": ["wireless", "configure", "ssids", "openRoaming"],
-            "operation": "updateNetworkWirelessSsidOpenRoaming",
+            "operation": "update_network_wireless_ssid_open_roaming",
         }
         resource = f"/networks/{networkId}/wireless/ssids/{number}/openRoaming"
 
@@ -1202,9 +1208,9 @@ class ActionBatchWireless:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def updateNetworkWirelessSsidSchedules(self, networkId: str, number: str, **kwargs):
+    def update_network_wireless_ssid_schedules(self, networkId: str, number: str, **kwargs):
         """
-        **Update the outage schedule for the SSID**
+        **Update the outage schedule for the SSID.**
         https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-schedules
 
         - networkId (string): Network ID
@@ -1218,7 +1224,7 @@ class ActionBatchWireless:
 
         metadata = {
             "tags": ["wireless", "configure", "ssids", "schedules"],
-            "operation": "updateNetworkWirelessSsidSchedules",
+            "operation": "update_network_wireless_ssid_schedules",
         }
         resource = f"/networks/{networkId}/wireless/ssids/{number}/schedules"
 
@@ -1231,9 +1237,9 @@ class ActionBatchWireless:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def updateNetworkWirelessSsidSplashSettings(self, networkId: str, number: str, **kwargs):
+    def update_network_wireless_ssid_splash_settings(self, networkId: str, number: str, **kwargs):
         """
-        **Modify the splash page settings for the given SSID**
+        **Modify the splash page settings for the given SSID.**
         https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-splash-settings
 
         - networkId (string): Network ID
@@ -1289,7 +1295,7 @@ class ActionBatchWireless:
 
         metadata = {
             "tags": ["wireless", "configure", "ssids", "splash", "settings"],
-            "operation": "updateNetworkWirelessSsidSplashSettings",
+            "operation": "update_network_wireless_ssid_splash_settings",
         }
         resource = f"/networks/{networkId}/wireless/ssids/{number}/splash/settings"
 
@@ -1316,7 +1322,9 @@ class ActionBatchWireless:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def updateNetworkWirelessSsidTrafficShapingRules(self, networkId: str, number: str, **kwargs):
+    def update_network_wireless_ssid_traffic_shaping_rules(
+        self, networkId: str, number: str, **kwargs
+    ):
         """
             **Update the traffic shaping rules for an SSID on an MR network.**
             https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-traffic-shaping-rules
@@ -1335,7 +1343,7 @@ class ActionBatchWireless:
 
         metadata = {
             "tags": ["wireless", "configure", "ssids", "trafficShaping", "rules"],
-            "operation": "updateNetworkWirelessSsidTrafficShapingRules",
+            "operation": "update_network_wireless_ssid_traffic_shaping_rules",
         }
         resource = f"/networks/{networkId}/wireless/ssids/{number}/trafficShaping/rules"
 
@@ -1348,9 +1356,9 @@ class ActionBatchWireless:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def updateNetworkWirelessSsidVpn(self, networkId: str, number: str, **kwargs):
+    def update_network_wireless_ssid_vpn(self, networkId: str, number: str, **kwargs):
         """
-        **Update the VPN settings for the SSID**
+        **Update the VPN settings for the SSID.**
         https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-vpn
 
         - networkId (string): Network ID
@@ -1364,7 +1372,7 @@ class ActionBatchWireless:
 
         metadata = {
             "tags": ["wireless", "configure", "ssids", "vpn"],
-            "operation": "updateNetworkWirelessSsidVpn",
+            "operation": "update_network_wireless_ssid_vpn",
         }
         resource = f"/networks/{networkId}/wireless/ssids/{number}/vpn"
 
@@ -1377,9 +1385,9 @@ class ActionBatchWireless:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def updateNetworkWirelessZigbee(self, networkId: str, **kwargs):
+    def update_network_wireless_zigbee(self, networkId: str, **kwargs):
         """
-        **Update Zigbee Configs for specified network**
+        **Update Zigbee Configs for specified network.**
         https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-zigbee
 
         - networkId (string): Network ID
@@ -1393,7 +1401,7 @@ class ActionBatchWireless:
 
         metadata = {
             "tags": ["wireless", "configure", "zigbee"],
-            "operation": "updateNetworkWirelessZigbee",
+            "operation": "update_network_wireless_zigbee",
         }
         resource = f"/networks/{networkId}/wireless/zigbee"
 
@@ -1407,7 +1415,7 @@ class ActionBatchWireless:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def createOrganizationWirelessLocationScanningReceiver(
+    def create_organization_wireless_location_scanning_receiver(
         self,
         organizationId: str,
         network: dict,
@@ -1417,7 +1425,7 @@ class ActionBatchWireless:
         sharedSecret: str,
     ):
         """
-        **Add new receiver for scanning API**
+        **Add new receiver for scanning API.**
         https://developer.cisco.com/meraki/api-v1/#!create-organization-wireless-location-scanning-receiver
 
         - organizationId (string): Organization ID
@@ -1432,7 +1440,7 @@ class ActionBatchWireless:
 
         metadata = {
             "tags": ["wireless", "configure", "location", "scanning", "receivers"],
-            "operation": "createOrganizationWirelessLocationScanningReceiver",
+            "operation": "create_organization_wireless_location_scanning_receiver",
         }
         resource = f"/organizations/{organizationId}/wireless/location/scanning/receivers"
 
@@ -1447,11 +1455,11 @@ class ActionBatchWireless:
         action = {"resource": resource, "operation": "create", "body": payload}
         return action
 
-    def updateOrganizationWirelessLocationScanningReceiver(
+    def update_organization_wireless_location_scanning_receiver(
         self, organizationId: str, receiverId: str, **kwargs
     ):
         """
-        **Change scanning API receiver settings**
+        **Change scanning API receiver settings.**
         https://developer.cisco.com/meraki/api-v1/#!update-organization-wireless-location-scanning-receiver
 
         - organizationId (string): Organization ID
@@ -1465,7 +1473,7 @@ class ActionBatchWireless:
 
         metadata = {
             "tags": ["wireless", "configure", "location", "scanning", "receivers"],
-            "operation": "updateOrganizationWirelessLocationScanningReceiver",
+            "operation": "update_organization_wireless_location_scanning_receiver",
         }
         resource = (
             f"/organizations/{organizationId}/wireless/location/scanning/receivers/{receiverId}"
@@ -1480,11 +1488,11 @@ class ActionBatchWireless:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def deleteOrganizationWirelessLocationScanningReceiver(
+    def delete_organization_wireless_location_scanning_receiver(
         self, organizationId: str, receiverId: str
     ):
         """
-        **Delete a scanning API receiver**
+        **Delete a scanning API receiver.**
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-wireless-location-scanning-receiver
 
         - organizationId (string): Organization ID
@@ -1493,7 +1501,7 @@ class ActionBatchWireless:
 
         metadata = {
             "tags": ["wireless", "configure", "location", "scanning", "receivers"],
-            "operation": "deleteOrganizationWirelessLocationScanningReceiver",
+            "operation": "delete_organization_wireless_location_scanning_receiver",
         }
         resource = (
             f"/organizations/{organizationId}/wireless/location/scanning/receivers/{receiverId}"
@@ -1505,11 +1513,11 @@ class ActionBatchWireless:
         }
         return action
 
-    def updateOrganizationWirelessMqttSettings(
+    def update_organization_wireless_mqtt_settings(
         self, organizationId: str, network: dict, mqtt: dict, **kwargs
     ):
         """
-        **Add new broker config for wireless MQTT**
+        **Add new broker config for wireless MQTT.**
         https://developer.cisco.com/meraki/api-v1/#!update-organization-wireless-mqtt-settings
 
         - organizationId (string): Organization ID
@@ -1523,7 +1531,7 @@ class ActionBatchWireless:
 
         metadata = {
             "tags": ["wireless", "configure", "mqtt", "settings"],
-            "operation": "updateOrganizationWirelessMqttSettings",
+            "operation": "update_organization_wireless_mqtt_settings",
         }
         resource = f"/organizations/{organizationId}/wireless/mqtt/settings"
 
@@ -1537,11 +1545,11 @@ class ActionBatchWireless:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def recalculateOrganizationWirelessRadioAutoRfChannels(
+    def recalculate_organization_wireless_radio_auto_rf_channels(
         self, organizationId: str, networkIds: list
     ):
         """
-        **Recalculates automatically assigned channels for every AP within specified the specified network(s)**
+        **Recalculates automatically assigned channels for every AP within specified the specified network(s).**
         https://developer.cisco.com/meraki/api-v1/#!recalculate-organization-wireless-radio-auto-rf-channels
 
         - organizationId (string): Organization ID
@@ -1552,7 +1560,7 @@ class ActionBatchWireless:
 
         metadata = {
             "tags": ["wireless", "configure", "radio", "autoRf", "channels"],
-            "operation": "recalculateOrganizationWirelessRadioAutoRfChannels",
+            "operation": "recalculate_organization_wireless_radio_auto_rf_channels",
         }
         resource = f"/organizations/{organizationId}/wireless/radio/autoRf/channels/recalculate"
 
@@ -1563,11 +1571,11 @@ class ActionBatchWireless:
         action = {"resource": resource, "operation": "create", "body": payload}
         return action
 
-    def createOrganizationWirelessSsidsFirewallIsolationAllowlistEntry(
+    def create_organization_wireless_ssids_firewall_isolation_allowlist_entry(
         self, organizationId: str, client: dict, ssid: dict, network: dict, **kwargs
     ):
         """
-        **Create isolation allow list MAC entry for this organization**
+        **Create isolation allow list MAC entry for this organization.**
         https://developer.cisco.com/meraki/api-v1/#!create-organization-wireless-ssids-firewall-isolation-allowlist-entry
 
         - organizationId (string): Organization ID
@@ -1589,7 +1597,7 @@ class ActionBatchWireless:
                 "allowlist",
                 "entries",
             ],
-            "operation": "createOrganizationWirelessSsidsFirewallIsolationAllowlistEntry",
+            "operation": "create_organization_wireless_ssids_firewall_isolation_allowlist_entry",
         }
         resource = (
             f"/organizations/{organizationId}/wireless/ssids/firewall/isolation/allowlist/entries"
@@ -1605,11 +1613,11 @@ class ActionBatchWireless:
         action = {"resource": resource, "operation": "create", "body": payload}
         return action
 
-    def deleteOrganizationWirelessSsidsFirewallIsolationAllowlistEntry(
+    def delete_organization_wireless_ssids_firewall_isolation_allowlist_entry(
         self, organizationId: str, entryId: str
     ):
         """
-        **Destroy isolation allow list MAC entry for this organization**
+        **Destroy isolation allow list MAC entry for this organization.**
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-wireless-ssids-firewall-isolation-allowlist-entry
 
         - organizationId (string): Organization ID
@@ -1626,7 +1634,7 @@ class ActionBatchWireless:
                 "allowlist",
                 "entries",
             ],
-            "operation": "deleteOrganizationWirelessSsidsFirewallIsolationAllowlistEntry",
+            "operation": "delete_organization_wireless_ssids_firewall_isolation_allowlist_entry",
         }
         resource = f"/organizations/{organizationId}/wireless/ssids/firewall/isolation/allowlist/entries/{entryId}"
 
@@ -1636,11 +1644,11 @@ class ActionBatchWireless:
         }
         return action
 
-    def updateOrganizationWirelessSsidsFirewallIsolationAllowlistEntry(
+    def update_organization_wireless_ssids_firewall_isolation_allowlist_entry(
         self, organizationId: str, entryId: str, **kwargs
     ):
         """
-        **Update isolation allow list MAC entry info**
+        **Update isolation allow list MAC entry info.**
         https://developer.cisco.com/meraki/api-v1/#!update-organization-wireless-ssids-firewall-isolation-allowlist-entry
 
         - organizationId (string): Organization ID
@@ -1661,7 +1669,7 @@ class ActionBatchWireless:
                 "allowlist",
                 "entries",
             ],
-            "operation": "updateOrganizationWirelessSsidsFirewallIsolationAllowlistEntry",
+            "operation": "update_organization_wireless_ssids_firewall_isolation_allowlist_entry",
         }
         resource = f"/organizations/{organizationId}/wireless/ssids/firewall/isolation/allowlist/entries/{entryId}"
 
@@ -1673,11 +1681,11 @@ class ActionBatchWireless:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def updateOrganizationWirelessZigbeeDevice(
+    def update_organization_wireless_zigbee_device(
         self, organizationId: str, id: str, enrolled: bool, **kwargs
     ):
         """
-        **Endpoint to update zigbee gateways**
+        **Endpoint to update zigbee gateways.**
         https://developer.cisco.com/meraki/api-v1/#!update-organization-wireless-zigbee-device
 
         - organizationId (string): Organization ID
@@ -1690,7 +1698,7 @@ class ActionBatchWireless:
 
         metadata = {
             "tags": ["wireless", "configure", "zigbee", "devices"],
-            "operation": "updateOrganizationWirelessZigbeeDevice",
+            "operation": "update_organization_wireless_zigbee_device",
         }
         resource = f"/organizations/{organizationId}/wireless/zigbee/devices/{id}"
 
@@ -1702,11 +1710,11 @@ class ActionBatchWireless:
         action = {"resource": resource, "operation": "update", "body": payload}
         return action
 
-    def updateOrganizationWirelessZigbeeDoorLock(
+    def update_organization_wireless_zigbee_door_lock(
         self, organizationId: str, doorLockId: str, **kwargs
     ):
         """
-        **Endpoint to batch update door locks params**
+        **Endpoint to batch update door locks params.**
         https://developer.cisco.com/meraki/api-v1/#!update-organization-wireless-zigbee-door-lock
 
         - organizationId (string): Organization ID
@@ -1718,7 +1726,7 @@ class ActionBatchWireless:
 
         metadata = {
             "tags": ["wireless", "configure", "zigbee", "doorLocks"],
-            "operation": "updateOrganizationWirelessZigbeeDoorLock",
+            "operation": "update_organization_wireless_zigbee_door_lock",
         }
         resource = f"/organizations/{organizationId}/wireless/zigbee/doorLocks/{doorLockId}"
 

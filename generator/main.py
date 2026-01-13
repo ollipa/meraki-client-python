@@ -3,6 +3,7 @@
 import argparse
 import asyncio
 import os
+import re
 import shutil
 import sys
 from pathlib import Path
@@ -103,6 +104,11 @@ def docs_url(operation: str) -> str:
         else:
             ret += f"-{letter.lower()}"
     return base_url + ret
+
+
+def to_snake_case(name: str) -> str:
+    """Convert camelCase or PascalCase to snake_case."""
+    return re.sub(r"(?<!^)(?=[A-Z])", "_", name).lower()
 
 
 def return_params(
@@ -430,7 +436,9 @@ async def generate_library(spec: dict[str, Any], version_number: str, api_versio
                     # Get metadata
                     tags = endpoint["tags"]
                     operation = endpoint["operationId"]
-                    description = endpoint["summary"]
+                    description = str(endpoint["summary"])
+                    if not description.endswith("."):
+                        description += "."
 
                     # OASv3: parameters are for path/query/header/cookie, requestBody is separate
                     parameters = endpoint.get("parameters", None)
@@ -580,7 +588,7 @@ async def generate_library(spec: dict[str, Any], version_number: str, api_versio
                         output.write(
                             "\n\n"
                             + template.render(
-                                operation=operation,
+                                operation=to_snake_case(operation),
                                 function_definition=definition,
                                 description=description,
                                 doc_url=docs_url(operation),
@@ -600,7 +608,7 @@ async def generate_library(spec: dict[str, Any], version_number: str, api_versio
                         async_output.write(
                             "\n\n"
                             + template.render(
-                                operation=operation,
+                                operation=to_snake_case(operation),
                                 function_definition=definition,
                                 description=description,
                                 doc_url=docs_url(operation),
@@ -625,7 +633,9 @@ async def generate_library(spec: dict[str, Any], version_number: str, api_versio
                         # Get metadata
                         tags = endpoint["tags"]
                         operation = endpoint["operationId"]
-                        description = endpoint["summary"]
+                        description = str(endpoint["summary"])
+                        if not description.endswith("."):
+                            description += "."
 
                         # OASv3: parameters are for path/query/header/cookie
                         # and requestBody is separate
@@ -741,7 +751,7 @@ async def generate_library(spec: dict[str, Any], version_number: str, api_versio
                             batch_output.write(
                                 "\n\n"
                                 + template.render(
-                                    operation=operation,
+                                    operation=to_snake_case(operation),
                                     function_definition=definition,
                                     description=description,
                                     doc_url=docs_url(operation),

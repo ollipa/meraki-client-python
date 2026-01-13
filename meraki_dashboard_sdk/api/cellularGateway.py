@@ -12,24 +12,24 @@ class CellularGateway:
         super(self).__init__()
         self._session = session
 
-    def getDeviceCellularGatewayLan(self, serial: str):
-        """Show the LAN Settings of a MG
+    def get_device_cellular_gateway_lan(self, serial: str):
+        """Show the LAN Settings of a MG.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device-cellular-gateway-lan
 
         - serial (string): Serial
-        """
 
+        """
         metadata = {
             "tags": ["cellularGateway", "configure", "lan"],
-            "operation": "getDeviceCellularGatewayLan",
+            "operation": "get_device_cellular_gateway_lan",
         }
         serial = urllib.parse.quote(str(serial), safe="")
         resource = f"/devices/{serial}/cellularGateway/lan"
 
         return self._session.get(metadata, resource)
 
-    def updateDeviceCellularGatewayLan(self, serial: str, **kwargs):
+    def update_device_cellular_gateway_lan(self, serial: str, **kwargs):
         """Update the LAN Settings for a single MG.
 
         https://developer.cisco.com/meraki/api-v1/#!update-device-cellular-gateway-lan
@@ -37,13 +37,13 @@ class CellularGateway:
         - serial (string): Serial
         - reservedIpRanges (array): list of all reserved IP ranges for a single MG
         - fixedIpAssignments (array): list of all fixed IP assignments for a single MG
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["cellularGateway", "configure", "lan"],
-            "operation": "updateDeviceCellularGatewayLan",
+            "operation": "update_device_cellular_gateway_lan",
         }
         serial = urllib.parse.quote(str(serial), safe="")
         resource = f"/devices/{serial}/cellularGateway/lan"
@@ -56,37 +56,37 @@ class CellularGateway:
 
         return self._session.put(metadata, resource, payload)
 
-    def getDeviceCellularGatewayPortForwardingRules(self, serial: str):
+    def get_device_cellular_gateway_port_forwarding_rules(self, serial: str):
         """Returns the port forwarding rules for a single MG.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device-cellular-gateway-port-forwarding-rules
 
         - serial (string): Serial
-        """
 
+        """
         metadata = {
             "tags": ["cellularGateway", "configure", "portForwardingRules"],
-            "operation": "getDeviceCellularGatewayPortForwardingRules",
+            "operation": "get_device_cellular_gateway_port_forwarding_rules",
         }
         serial = urllib.parse.quote(str(serial), safe="")
         resource = f"/devices/{serial}/cellularGateway/portForwardingRules"
 
         return self._session.get(metadata, resource)
 
-    def updateDeviceCellularGatewayPortForwardingRules(self, serial: str, **kwargs):
+    def update_device_cellular_gateway_port_forwarding_rules(self, serial: str, **kwargs):
         """Updates the port forwarding rules for a single MG.
 
         https://developer.cisco.com/meraki/api-v1/#!update-device-cellular-gateway-port-forwarding-rules
 
         - serial (string): Serial
         - rules (array): An array of port forwarding params
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["cellularGateway", "configure", "portForwardingRules"],
-            "operation": "updateDeviceCellularGatewayPortForwardingRules",
+            "operation": "update_device_cellular_gateway_port_forwarding_rules",
         }
         serial = urllib.parse.quote(str(serial), safe="")
         resource = f"/devices/{serial}/cellularGateway/portForwardingRules"
@@ -98,39 +98,39 @@ class CellularGateway:
 
         return self._session.put(metadata, resource, payload)
 
-    def getNetworkCellularGatewayConnectivityMonitoringDestinations(self, networkId: str):
-        """Return the connectivity testing destinations for an MG network
+    def get_network_cellular_gateway_connectivity_monitoring_destinations(self, networkId: str):
+        """Return the connectivity testing destinations for an MG network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-cellular-gateway-connectivity-monitoring-destinations
 
         - networkId (string): Network ID
-        """
 
+        """
         metadata = {
             "tags": ["cellularGateway", "configure", "connectivityMonitoringDestinations"],
-            "operation": "getNetworkCellularGatewayConnectivityMonitoringDestinations",
+            "operation": "get_network_cellular_gateway_connectivity_monitoring_destinations",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/cellularGateway/connectivityMonitoringDestinations"
 
         return self._session.get(metadata, resource)
 
-    def updateNetworkCellularGatewayConnectivityMonitoringDestinations(
+    def update_network_cellular_gateway_connectivity_monitoring_destinations(
         self, networkId: str, **kwargs
     ):
-        """Update the connectivity testing destinations for an MG network
+        """Update the connectivity testing destinations for an MG network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-cellular-gateway-connectivity-monitoring-destinations
 
         - networkId (string): Network ID
         - destinations (array): The list of connectivity monitoring destinations
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["cellularGateway", "configure", "connectivityMonitoringDestinations"],
-            "operation": "updateNetworkCellularGatewayConnectivityMonitoringDestinations",
+            "operation": "update_network_cellular_gateway_connectivity_monitoring_destinations",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/cellularGateway/connectivityMonitoringDestinations"
@@ -142,25 +142,25 @@ class CellularGateway:
 
         return self._session.put(metadata, resource, payload)
 
-    def getNetworkCellularGatewayDhcp(self, networkId: str):
-        """List common DHCP settings of MGs
+    def get_network_cellular_gateway_dhcp(self, networkId: str):
+        """List common DHCP settings of MGs.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-cellular-gateway-dhcp
 
         - networkId (string): Network ID
-        """
 
+        """
         metadata = {
             "tags": ["cellularGateway", "configure", "dhcp"],
-            "operation": "getNetworkCellularGatewayDhcp",
+            "operation": "get_network_cellular_gateway_dhcp",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/cellularGateway/dhcp"
 
         return self._session.get(metadata, resource)
 
-    def updateNetworkCellularGatewayDhcp(self, networkId: str, **kwargs):
-        """Update common DHCP settings of MGs
+    def update_network_cellular_gateway_dhcp(self, networkId: str, **kwargs):
+        """Update common DHCP settings of MGs.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-cellular-gateway-dhcp
 
@@ -168,13 +168,13 @@ class CellularGateway:
         - dhcpLeaseTime (string): DHCP Lease time for all MG of the network. Possible values are '30 minutes', '1 hour', '4 hours', '12 hours', '1 day' or '1 week'.
         - dnsNameservers (string): DNS name servers mode for all MG of the network. Possible values are: 'upstream_dns', 'google_dns', 'opendns', 'custom'.
         - dnsCustomNameservers (array): list of fixed IPs representing the the DNS Name servers when the mode is 'custom'
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["cellularGateway", "configure", "dhcp"],
-            "operation": "updateNetworkCellularGatewayDhcp",
+            "operation": "update_network_cellular_gateway_dhcp",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/cellularGateway/dhcp"
@@ -188,24 +188,24 @@ class CellularGateway:
 
         return self._session.put(metadata, resource, payload)
 
-    def getNetworkCellularGatewaySubnetPool(self, networkId: str):
+    def get_network_cellular_gateway_subnet_pool(self, networkId: str):
         """Return the subnet pool and mask configured for MGs in the network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-cellular-gateway-subnet-pool
 
         - networkId (string): Network ID
-        """
 
+        """
         metadata = {
             "tags": ["cellularGateway", "configure", "subnetPool"],
-            "operation": "getNetworkCellularGatewaySubnetPool",
+            "operation": "get_network_cellular_gateway_subnet_pool",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/cellularGateway/subnetPool"
 
         return self._session.get(metadata, resource)
 
-    def updateNetworkCellularGatewaySubnetPool(self, networkId: str, **kwargs):
+    def update_network_cellular_gateway_subnet_pool(self, networkId: str, **kwargs):
         """Update the subnet pool and mask configuration for MGs in the network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-cellular-gateway-subnet-pool
@@ -213,13 +213,13 @@ class CellularGateway:
         - networkId (string): Network ID
         - mask (integer): Mask used for the subnet of all MGs in  this network.
         - cidr (string): CIDR of the pool of subnets. Each MG in this network will automatically pick a subnet from this pool.
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["cellularGateway", "configure", "subnetPool"],
-            "operation": "updateNetworkCellularGatewaySubnetPool",
+            "operation": "update_network_cellular_gateway_subnet_pool",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/cellularGateway/subnetPool"
@@ -232,37 +232,37 @@ class CellularGateway:
 
         return self._session.put(metadata, resource, payload)
 
-    def getNetworkCellularGatewayUplink(self, networkId: str):
+    def get_network_cellular_gateway_uplink(self, networkId: str):
         """Returns the uplink settings for your MG network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-cellular-gateway-uplink
 
         - networkId (string): Network ID
-        """
 
+        """
         metadata = {
             "tags": ["cellularGateway", "configure", "uplink"],
-            "operation": "getNetworkCellularGatewayUplink",
+            "operation": "get_network_cellular_gateway_uplink",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/cellularGateway/uplink"
 
         return self._session.get(metadata, resource)
 
-    def updateNetworkCellularGatewayUplink(self, networkId: str, **kwargs):
+    def update_network_cellular_gateway_uplink(self, networkId: str, **kwargs):
         """Updates the uplink settings for your MG network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-cellular-gateway-uplink
 
         - networkId (string): Network ID
         - bandwidthLimits (object): The bandwidth settings for the 'cellular' uplink
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["cellularGateway", "configure", "uplink"],
-            "operation": "updateNetworkCellularGatewayUplink",
+            "operation": "update_network_cellular_gateway_uplink",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/cellularGateway/uplink"
@@ -274,20 +274,20 @@ class CellularGateway:
 
         return self._session.put(metadata, resource, payload)
 
-    def getOrganizationCellularGatewayEsimsInventory(self, organizationId: str, **kwargs):
+    def get_organization_cellular_gateway_esims_inventory(self, organizationId: str, **kwargs):
         """The eSIM inventory of a given organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-cellular-gateway-esims-inventory
 
         - organizationId (string): Organization ID
         - eids (array): Optional parameter to filter the results by EID.
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["cellularGateway", "configure", "esims", "inventory"],
-            "operation": "getOrganizationCellularGatewayEsimsInventory",
+            "operation": "get_organization_cellular_gateway_esims_inventory",
         }
         organizationId = urllib.parse.quote(str(organizationId), safe="")
         resource = f"/organizations/{organizationId}/cellularGateway/esims/inventory"
@@ -307,23 +307,23 @@ class CellularGateway:
 
         return self._session.get(metadata, resource, params)
 
-    def updateOrganizationCellularGatewayEsimsInventory(
+    def update_organization_cellular_gateway_esims_inventory(
         self, organizationId: str, id: str, **kwargs
     ):
-        """Toggle the status of an eSIM
+        """Toggle the status of an eSIM.
 
         https://developer.cisco.com/meraki/api-v1/#!update-organization-cellular-gateway-esims-inventory
 
         - organizationId (string): Organization ID
         - id (string): ID
         - status (string): Status the eSIM will be updated to
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["cellularGateway", "configure", "esims", "inventory"],
-            "operation": "updateOrganizationCellularGatewayEsimsInventory",
+            "operation": "update_organization_cellular_gateway_esims_inventory",
         }
         organizationId = urllib.parse.quote(str(organizationId), safe="")
         id = urllib.parse.quote(str(id), safe="")
@@ -336,24 +336,24 @@ class CellularGateway:
 
         return self._session.put(metadata, resource, payload)
 
-    def getOrganizationCellularGatewayEsimsServiceProviders(self, organizationId: str):
+    def get_organization_cellular_gateway_esims_service_providers(self, organizationId: str):
         """Service providers customers can add accounts for.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-cellular-gateway-esims-service-providers
 
         - organizationId (string): Organization ID
-        """
 
+        """
         metadata = {
             "tags": ["cellularGateway", "configure", "esims", "serviceProviders"],
-            "operation": "getOrganizationCellularGatewayEsimsServiceProviders",
+            "operation": "get_organization_cellular_gateway_esims_service_providers",
         }
         organizationId = urllib.parse.quote(str(organizationId), safe="")
         resource = f"/organizations/{organizationId}/cellularGateway/esims/serviceProviders"
 
         return self._session.get(metadata, resource)
 
-    def getOrganizationCellularGatewayEsimsServiceProvidersAccounts(
+    def get_organization_cellular_gateway_esims_service_providers_accounts(
         self, organizationId: str, **kwargs
     ):
         """Inventory of service provider accounts tied to the organization.
@@ -362,13 +362,13 @@ class CellularGateway:
 
         - organizationId (string): Organization ID
         - accountIds (array): Optional parameter to filter the results by service provider account IDs.
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["cellularGateway", "configure", "esims", "serviceProviders", "accounts"],
-            "operation": "getOrganizationCellularGatewayEsimsServiceProvidersAccounts",
+            "operation": "get_organization_cellular_gateway_esims_service_providers_accounts",
         }
         organizationId = urllib.parse.quote(str(organizationId), safe="")
         resource = (
@@ -390,7 +390,7 @@ class CellularGateway:
 
         return self._session.get(metadata, resource, params)
 
-    def createOrganizationCellularGatewayEsimsServiceProvidersAccount(
+    def create_organization_cellular_gateway_esims_service_providers_account(
         self,
         organizationId: str,
         accountId: str,
@@ -409,13 +409,13 @@ class CellularGateway:
         - serviceProvider (object): Service Provider information
         - title (string): Service provider account name
         - username (string): Service provider account username
-        """
 
+        """
         kwargs = locals()
 
         metadata = {
             "tags": ["cellularGateway", "configure", "esims", "serviceProviders", "accounts"],
-            "operation": "createOrganizationCellularGatewayEsimsServiceProvidersAccount",
+            "operation": "create_organization_cellular_gateway_esims_service_providers_account",
         }
         organizationId = urllib.parse.quote(str(organizationId), safe="")
         resource = (
@@ -433,7 +433,7 @@ class CellularGateway:
 
         return self._session.post(metadata, resource, payload)
 
-    def getOrganizationCellularGatewayEsimsServiceProvidersAccountsCommunicationPlans(
+    def get_organization_cellular_gateway_esims_service_providers_accounts_communication_plans(
         self, organizationId: str, accountIds: list
     ):
         """The communication plans available for a given provider.
@@ -442,8 +442,8 @@ class CellularGateway:
 
         - organizationId (string): Organization ID
         - accountIds (array): Account IDs that communication plans will be fetched for
-        """
 
+        """
         kwargs = locals()
 
         metadata = {
@@ -455,7 +455,7 @@ class CellularGateway:
                 "accounts",
                 "communicationPlans",
             ],
-            "operation": "getOrganizationCellularGatewayEsimsServiceProvidersAccountsCommunicationPlans",
+            "operation": "get_organization_cellular_gateway_esims_service_providers_accounts_communication_plans",
         }
         organizationId = urllib.parse.quote(str(organizationId), safe="")
         resource = f"/organizations/{organizationId}/cellularGateway/esims/serviceProviders/accounts/communicationPlans"
@@ -475,7 +475,7 @@ class CellularGateway:
 
         return self._session.get(metadata, resource, params)
 
-    def getOrganizationCellularGatewayEsimsServiceProvidersAccountsRatePlans(
+    def get_organization_cellular_gateway_esims_service_providers_accounts_rate_plans(
         self, organizationId: str, accountIds: list
     ):
         """The rate plans available for a given provider.
@@ -484,8 +484,8 @@ class CellularGateway:
 
         - organizationId (string): Organization ID
         - accountIds (array): Account IDs that rate plans will be fetched for
-        """
 
+        """
         kwargs = locals()
 
         metadata = {
@@ -497,7 +497,7 @@ class CellularGateway:
                 "accounts",
                 "ratePlans",
             ],
-            "operation": "getOrganizationCellularGatewayEsimsServiceProvidersAccountsRatePlans",
+            "operation": "get_organization_cellular_gateway_esims_service_providers_accounts_rate_plans",
         }
         organizationId = urllib.parse.quote(str(organizationId), safe="")
         resource = f"/organizations/{organizationId}/cellularGateway/esims/serviceProviders/accounts/ratePlans"
@@ -517,7 +517,7 @@ class CellularGateway:
 
         return self._session.get(metadata, resource, params)
 
-    def updateOrganizationCellularGatewayEsimsServiceProvidersAccount(
+    def update_organization_cellular_gateway_esims_service_providers_account(
         self, organizationId: str, accountId: str, **kwargs
     ):
         """Edit service provider account info stored in Meraki's database.
@@ -528,13 +528,13 @@ class CellularGateway:
         - accountId (string): Account ID
         - title (string): Service provider account name used on the Meraki UI
         - apiKey (string): Service provider account API key
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["cellularGateway", "configure", "esims", "serviceProviders", "accounts"],
-            "operation": "updateOrganizationCellularGatewayEsimsServiceProvidersAccount",
+            "operation": "update_organization_cellular_gateway_esims_service_providers_account",
         }
         organizationId = urllib.parse.quote(str(organizationId), safe="")
         accountId = urllib.parse.quote(str(accountId), safe="")
@@ -548,7 +548,7 @@ class CellularGateway:
 
         return self._session.put(metadata, resource, payload)
 
-    def deleteOrganizationCellularGatewayEsimsServiceProvidersAccount(
+    def delete_organization_cellular_gateway_esims_service_providers_account(
         self, organizationId: str, accountId: str
     ):
         """Remove a service provider account's integration with the Dashboard.
@@ -557,11 +557,11 @@ class CellularGateway:
 
         - organizationId (string): Organization ID
         - accountId (string): Account ID
-        """
 
+        """
         metadata = {
             "tags": ["cellularGateway", "configure", "esims", "serviceProviders", "accounts"],
-            "operation": "deleteOrganizationCellularGatewayEsimsServiceProvidersAccount",
+            "operation": "delete_organization_cellular_gateway_esims_service_providers_account",
         }
         organizationId = urllib.parse.quote(str(organizationId), safe="")
         accountId = urllib.parse.quote(str(accountId), safe="")
@@ -569,20 +569,20 @@ class CellularGateway:
 
         return self._session.delete(metadata, resource)
 
-    def createOrganizationCellularGatewayEsimsSwap(self, organizationId: str, swaps: list):
+    def create_organization_cellular_gateway_esims_swap(self, organizationId: str, swaps: list):
         """Swap which profile an eSIM uses.
 
         https://developer.cisco.com/meraki/api-v1/#!create-organization-cellular-gateway-esims-swap
 
         - organizationId (string): Organization ID
         - swaps (array): Each object represents a swap for one eSIM
-        """
 
+        """
         kwargs = locals()
 
         metadata = {
             "tags": ["cellularGateway", "configure", "esims", "swap"],
-            "operation": "createOrganizationCellularGatewayEsimsSwap",
+            "operation": "create_organization_cellular_gateway_esims_swap",
         }
         organizationId = urllib.parse.quote(str(organizationId), safe="")
         resource = f"/organizations/{organizationId}/cellularGateway/esims/swap"
@@ -594,18 +594,18 @@ class CellularGateway:
 
         return self._session.post(metadata, resource, payload)
 
-    def updateOrganizationCellularGatewayEsimsSwap(self, id: str, organizationId: str):
+    def update_organization_cellular_gateway_esims_swap(self, id: str, organizationId: str):
         """Get the status of a profile swap.
 
         https://developer.cisco.com/meraki/api-v1/#!update-organization-cellular-gateway-esims-swap
 
         - id (string): eSIM EID
         - organizationId (string): Organization ID
-        """
 
+        """
         metadata = {
             "tags": ["cellularGateway", "configure", "esims", "swap"],
-            "operation": "updateOrganizationCellularGatewayEsimsSwap",
+            "operation": "update_organization_cellular_gateway_esims_swap",
         }
         id = urllib.parse.quote(str(id), safe="")
         organizationId = urllib.parse.quote(str(organizationId), safe="")
@@ -613,10 +613,10 @@ class CellularGateway:
 
         return self._session.put(metadata, resource)
 
-    def getOrganizationCellularGatewayUplinkStatuses(
+    def get_organization_cellular_gateway_uplink_statuses(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
-        """List the uplink status of every Meraki MG cellular gateway in the organization
+        """List the uplink status of every Meraki MG cellular gateway in the organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-cellular-gateway-uplink-statuses
 
@@ -629,13 +629,13 @@ class CellularGateway:
         - networkIds (array): A list of network IDs. The returned devices will be filtered to only include these networks.
         - serials (array): A list of serial numbers. The returned devices will be filtered to only include these serials.
         - iccids (array): A list of ICCIDs. The returned devices will be filtered to only include these ICCIDs.
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["cellularGateway", "monitor", "uplink", "statuses"],
-            "operation": "getOrganizationCellularGatewayUplinkStatuses",
+            "operation": "get_organization_cellular_gateway_uplink_statuses",
         }
         organizationId = urllib.parse.quote(str(organizationId), safe="")
         resource = f"/organizations/{organizationId}/cellularGateway/uplink/statuses"

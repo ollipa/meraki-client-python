@@ -12,34 +12,34 @@ class AsyncSpaces:
         super().__init__()
         self._session = session
 
-    def getOrganizationSpacesIntegrateStatus(self, organizationId: str):
-        """Get the status of the Spaces integration in Meraki
+    def get_organization_spaces_integrate_status(self, organizationId: str):
+        """Get the status of the Spaces integration in Meraki.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-spaces-integrate-status
 
         - organizationId (string): Organization ID
-        """
 
+        """
         metadata = {
             "tags": ["spaces", "configure", "integrate", "status"],
-            "operation": "getOrganizationSpacesIntegrateStatus",
+            "operation": "get_organization_spaces_integrate_status",
         }
         organizationId = urllib.parse.quote(str(organizationId), safe="")
         resource = f"/organizations/{organizationId}/spaces/integrate/status"
 
         return self._session.get(metadata, resource)
 
-    def removeOrganizationSpacesIntegration(self, organizationId: str):
-        """Remove the Spaces integration from Meraki
+    def remove_organization_spaces_integration(self, organizationId: str):
+        """Remove the Spaces integration from Meraki.
 
         https://developer.cisco.com/meraki/api-v1/#!remove-organization-spaces-integration
 
         - organizationId (string): Organization ID
-        """
 
+        """
         metadata = {
             "tags": ["spaces", "configure", "integration"],
-            "operation": "removeOrganizationSpacesIntegration",
+            "operation": "remove_organization_spaces_integration",
         }
         organizationId = urllib.parse.quote(str(organizationId), safe="")
         resource = f"/organizations/{organizationId}/spaces/integration/remove"

@@ -7,9 +7,9 @@ class ActionBatchSpaces:
     def __init__(self) -> None:
         pass
 
-    def removeOrganizationSpacesIntegration(self, organizationId: str):
+    def remove_organization_spaces_integration(self, organizationId: str):
         """
-        **Remove the Spaces integration from Meraki**
+        **Remove the Spaces integration from Meraki.**
         https://developer.cisco.com/meraki/api-v1/#!remove-organization-spaces-integration
 
         - organizationId (string): Organization ID
@@ -17,7 +17,7 @@ class ActionBatchSpaces:
 
         metadata = {
             "tags": ["spaces", "configure", "integration"],
-            "operation": "removeOrganizationSpacesIntegration",
+            "operation": "remove_organization_spaces_integration",
         }
         resource = f"/organizations/{organizationId}/spaces/integration/remove"
 

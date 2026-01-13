@@ -12,20 +12,20 @@ class Wireless:
         super(self).__init__()
         self._session = session
 
-    def updateDeviceWirelessAlternateManagementInterfaceIpv6(self, serial: str, **kwargs):
-        """Update alternate management interface IPv6 address
+    def update_device_wireless_alternate_management_interface_ipv6(self, serial: str, **kwargs):
+        """Update alternate management interface IPv6 address.
 
         https://developer.cisco.com/meraki/api-v1/#!update-device-wireless-alternate-management-interface-ipv-6
 
         - serial (string): Serial
         - addresses (array): configured alternate management interface addresses
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["wireless", "configure", "alternateManagementInterface", "ipv6"],
-            "operation": "updateDeviceWirelessAlternateManagementInterfaceIpv6",
+            "operation": "update_device_wireless_alternate_management_interface_ipv6",
         }
         serial = urllib.parse.quote(str(serial), safe="")
         resource = f"/devices/{serial}/wireless/alternateManagementInterface/ipv6"
@@ -37,25 +37,25 @@ class Wireless:
 
         return self._session.put(metadata, resource, payload)
 
-    def getDeviceWirelessBluetoothSettings(self, serial: str):
-        """Return the bluetooth settings for a wireless device
+    def get_device_wireless_bluetooth_settings(self, serial: str):
+        """Return the bluetooth settings for a wireless device.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device-wireless-bluetooth-settings
 
         - serial (string): Serial
-        """
 
+        """
         metadata = {
             "tags": ["wireless", "configure", "bluetooth", "settings"],
-            "operation": "getDeviceWirelessBluetoothSettings",
+            "operation": "get_device_wireless_bluetooth_settings",
         }
         serial = urllib.parse.quote(str(serial), safe="")
         resource = f"/devices/{serial}/wireless/bluetooth/settings"
 
         return self._session.get(metadata, resource)
 
-    def updateDeviceWirelessBluetoothSettings(self, serial: str, **kwargs):
-        """Update the bluetooth settings for a wireless device
+    def update_device_wireless_bluetooth_settings(self, serial: str, **kwargs):
+        """Update the bluetooth settings for a wireless device.
 
         https://developer.cisco.com/meraki/api-v1/#!update-device-wireless-bluetooth-settings
 
@@ -66,13 +66,13 @@ class Wireless:
           Dashboard's automatically generated value.
         - minor (integer): Desired minor value of the beacon. If the value is set to null it will reset to
           Dashboard's automatically generated value.
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["wireless", "configure", "bluetooth", "settings"],
-            "operation": "updateDeviceWirelessBluetoothSettings",
+            "operation": "update_device_wireless_bluetooth_settings",
         }
         serial = urllib.parse.quote(str(serial), safe="")
         resource = f"/devices/{serial}/wireless/bluetooth/settings"
@@ -86,8 +86,8 @@ class Wireless:
 
         return self._session.put(metadata, resource, payload)
 
-    def getDeviceWirelessConnectionStats(self, serial: str, **kwargs):
-        """Aggregated connectivity info for a given AP on this network
+    def get_device_wireless_connection_stats(self, serial: str, **kwargs):
+        """Aggregated connectivity info for a given AP on this network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device-wireless-connection-stats
 
@@ -98,8 +98,8 @@ class Wireless:
         - band (string): Filter results by band (either '2.4', '5' or '6'). Note that data prior to February 2020 will not have band information.
         - ssid (integer): Filter results by SSID
         - apTag (string): Filter results by AP Tag
-        """
 
+        """
         kwargs.update(locals())
 
         if "band" in kwargs:
@@ -110,7 +110,7 @@ class Wireless:
 
         metadata = {
             "tags": ["wireless", "monitor", "connectionStats"],
-            "operation": "getDeviceWirelessConnectionStats",
+            "operation": "get_device_wireless_connection_stats",
         }
         serial = urllib.parse.quote(str(serial), safe="")
         resource = f"/devices/{serial}/wireless/connectionStats"
@@ -127,38 +127,38 @@ class Wireless:
 
         return self._session.get(metadata, resource, params)
 
-    def getDeviceWirelessElectronicShelfLabel(self, serial: str):
-        """Return the ESL settings of a device
+    def get_device_wireless_electronic_shelf_label(self, serial: str):
+        """Return the ESL settings of a device.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device-wireless-electronic-shelf-label
 
         - serial (string): Serial
-        """
 
+        """
         metadata = {
             "tags": ["wireless", "configure", "electronicShelfLabel"],
-            "operation": "getDeviceWirelessElectronicShelfLabel",
+            "operation": "get_device_wireless_electronic_shelf_label",
         }
         serial = urllib.parse.quote(str(serial), safe="")
         resource = f"/devices/{serial}/wireless/electronicShelfLabel"
 
         return self._session.get(metadata, resource)
 
-    def updateDeviceWirelessElectronicShelfLabel(self, serial: str, **kwargs):
-        """Update the ESL settings of a device
+    def update_device_wireless_electronic_shelf_label(self, serial: str, **kwargs):
+        """Update the ESL settings of a device.
 
         https://developer.cisco.com/meraki/api-v1/#!update-device-wireless-electronic-shelf-label
 
         - serial (string): Serial
         - channel (string): Desired ESL channel for the device, or 'Auto' (case insensitive) to use the recommended channel
         - enabled (boolean): Turn ESL features on and off for this device
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["wireless", "configure", "electronicShelfLabel"],
-            "operation": "updateDeviceWirelessElectronicShelfLabel",
+            "operation": "update_device_wireless_electronic_shelf_label",
         }
         serial = urllib.parse.quote(str(serial), safe="")
         resource = f"/devices/{serial}/wireless/electronicShelfLabel"
@@ -171,8 +171,8 @@ class Wireless:
 
         return self._session.put(metadata, resource, payload)
 
-    def getDeviceWirelessLatencyStats(self, serial: str, **kwargs):
-        """Aggregated latency info for a given AP on this network
+    def get_device_wireless_latency_stats(self, serial: str, **kwargs):
+        """Aggregated latency info for a given AP on this network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device-wireless-latency-stats
 
@@ -185,8 +185,8 @@ class Wireless:
         - apTag (string): Filter results by AP Tag
         - vlan (integer): Filter results by VLAN
         - fields (string): Partial selection: If present, this call will return only the selected fields of ["rawDistribution", "avg"]. All fields will be returned by default. Selected fields must be entered as a comma separated string.
-        """
 
+        """
         kwargs.update(locals())
 
         if "band" in kwargs:
@@ -197,7 +197,7 @@ class Wireless:
 
         metadata = {
             "tags": ["wireless", "monitor", "latencyStats"],
-            "operation": "getDeviceWirelessLatencyStats",
+            "operation": "get_device_wireless_latency_stats",
         }
         serial = urllib.parse.quote(str(serial), safe="")
         resource = f"/devices/{serial}/wireless/latencyStats"
@@ -216,24 +216,24 @@ class Wireless:
 
         return self._session.get(metadata, resource, params)
 
-    def getDeviceWirelessRadioSettings(self, serial: str):
+    def get_device_wireless_radio_settings(self, serial: str):
         """Return the manually configured radio settings overrides of a device, which take precedence over RF profiles.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device-wireless-radio-settings
 
         - serial (string): Serial
-        """
 
+        """
         metadata = {
             "tags": ["wireless", "configure", "radio", "settings"],
-            "operation": "getDeviceWirelessRadioSettings",
+            "operation": "get_device_wireless_radio_settings",
         }
         serial = urllib.parse.quote(str(serial), safe="")
         resource = f"/devices/{serial}/wireless/radio/settings"
 
         return self._session.get(metadata, resource)
 
-    def updateDeviceWirelessRadioSettings(self, serial: str, **kwargs):
+    def update_device_wireless_radio_settings(self, serial: str, **kwargs):
         """Update the radio settings overrides of a device, which take precedence over RF profiles.
 
         https://developer.cisco.com/meraki/api-v1/#!update-device-wireless-radio-settings
@@ -242,13 +242,13 @@ class Wireless:
         - rfProfileId (string): The ID of an RF profile to assign to the device. If the value of this parameter is null, the appropriate basic RF profile (indoor or outdoor) will be assigned to the device. Assigning an RF profile will clear ALL manually configured overrides on the device (channel width, channel, power).
         - twoFourGhzSettings (object): Manual radio settings for 2.4 GHz.
         - fiveGhzSettings (object): Manual radio settings for 5 GHz.
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["wireless", "configure", "radio", "settings"],
-            "operation": "updateDeviceWirelessRadioSettings",
+            "operation": "update_device_wireless_radio_settings",
         }
         serial = urllib.parse.quote(str(serial), safe="")
         resource = f"/devices/{serial}/wireless/radio/settings"
@@ -262,52 +262,52 @@ class Wireless:
 
         return self._session.put(metadata, resource, payload)
 
-    def getDeviceWirelessStatus(self, serial: str):
-        """Return the SSID statuses of an access point
+    def get_device_wireless_status(self, serial: str):
+        """Return the SSID statuses of an access point.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device-wireless-status
 
         - serial (string): Serial
-        """
 
+        """
         metadata = {
             "tags": ["wireless", "monitor", "status"],
-            "operation": "getDeviceWirelessStatus",
+            "operation": "get_device_wireless_status",
         }
         serial = urllib.parse.quote(str(serial), safe="")
         resource = f"/devices/{serial}/wireless/status"
 
         return self._session.get(metadata, resource)
 
-    def createDeviceWirelessZigbeeEnrollment(self, serial: str):
-        """Enqueue a job to start enrolling door locks on zigbee configured wireless devices
+    def create_device_wireless_zigbee_enrollment(self, serial: str):
+        """Enqueue a job to start enrolling door locks on zigbee configured wireless devices.
 
         https://developer.cisco.com/meraki/api-v1/#!create-device-wireless-zigbee-enrollment
 
         - serial (string): Serial
-        """
 
+        """
         metadata = {
             "tags": ["wireless", "configure", "zigbee", "enrollments"],
-            "operation": "createDeviceWirelessZigbeeEnrollment",
+            "operation": "create_device_wireless_zigbee_enrollment",
         }
         serial = urllib.parse.quote(str(serial), safe="")
         resource = f"/devices/{serial}/wireless/zigbee/enrollments"
 
         return self._session.post(metadata, resource)
 
-    def getDeviceWirelessZigbeeEnrollment(self, serial: str, enrollmentId: str):
-        """Return an enrollment
+    def get_device_wireless_zigbee_enrollment(self, serial: str, enrollmentId: str):
+        """Return an enrollment.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device-wireless-zigbee-enrollment
 
         - serial (string): Serial
         - enrollmentId (string): Enrollment ID
-        """
 
+        """
         metadata = {
             "tags": ["wireless", "configure", "zigbee", "enrollments"],
-            "operation": "getDeviceWirelessZigbeeEnrollment",
+            "operation": "get_device_wireless_zigbee_enrollment",
         }
         serial = urllib.parse.quote(str(serial), safe="")
         enrollmentId = urllib.parse.quote(str(enrollmentId), safe="")
@@ -315,21 +315,21 @@ class Wireless:
 
         return self._session.get(metadata, resource)
 
-    def getNetworkWirelessAirMarshal(self, networkId: str, **kwargs):
-        """List Air Marshal scan results from a network
+    def get_network_wireless_air_marshal(self, networkId: str, **kwargs):
+        """List Air Marshal scan results from a network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-air-marshal
 
         - networkId (string): Network ID
         - t0 (string): The beginning of the timespan for the data. The maximum lookback period is 31 days from today.
         - timespan (number): The timespan for which the information will be fetched. If specifying timespan, do not specify parameter t0. The value must be in seconds and be less than or equal to 31 days. The default is 7 days.
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["wireless", "monitor", "airMarshal"],
-            "operation": "getNetworkWirelessAirMarshal",
+            "operation": "get_network_wireless_air_marshal",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/wireless/airMarshal"
@@ -342,16 +342,16 @@ class Wireless:
 
         return self._session.get(metadata, resource, params)
 
-    def createNetworkWirelessAirMarshalRule(self, networkId: str, type: str, match: dict):
-        """Creates a new rule
+    def create_network_wireless_air_marshal_rule(self, networkId: str, type: str, match: dict):
+        """Creates a new rule.
 
         https://developer.cisco.com/meraki/api-v1/#!create-network-wireless-air-marshal-rule
 
         - networkId (string): Network ID
         - type (string): Indicates if this rule will allow, block, or alert.
         - match (object): Object describing the rule specification.
-        """
 
+        """
         kwargs = locals()
 
         if "type" in kwargs:
@@ -362,7 +362,7 @@ class Wireless:
 
         metadata = {
             "tags": ["wireless", "configure", "airMarshal", "rules"],
-            "operation": "createNetworkWirelessAirMarshalRule",
+            "operation": "create_network_wireless_air_marshal_rule",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/wireless/airMarshal/rules"
@@ -375,8 +375,8 @@ class Wireless:
 
         return self._session.post(metadata, resource, payload)
 
-    def updateNetworkWirelessAirMarshalRule(self, networkId: str, ruleId: str, **kwargs):
-        """Update a rule
+    def update_network_wireless_air_marshal_rule(self, networkId: str, ruleId: str, **kwargs):
+        """Update a rule.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-air-marshal-rule
 
@@ -384,8 +384,8 @@ class Wireless:
         - ruleId (string): Rule ID
         - type (string): Indicates if this rule will allow, block, or alert.
         - match (object): Object describing the rule specification.
-        """
 
+        """
         kwargs.update(locals())
 
         if "type" in kwargs:
@@ -396,7 +396,7 @@ class Wireless:
 
         metadata = {
             "tags": ["wireless", "configure", "airMarshal", "rules"],
-            "operation": "updateNetworkWirelessAirMarshalRule",
+            "operation": "update_network_wireless_air_marshal_rule",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         ruleId = urllib.parse.quote(str(ruleId), safe="")
@@ -410,18 +410,18 @@ class Wireless:
 
         return self._session.put(metadata, resource, payload)
 
-    def deleteNetworkWirelessAirMarshalRule(self, networkId: str, ruleId: str):
+    def delete_network_wireless_air_marshal_rule(self, networkId: str, ruleId: str):
         """Delete an Air Marshal rule.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-network-wireless-air-marshal-rule
 
         - networkId (string): Network ID
         - ruleId (string): Rule ID
-        """
 
+        """
         metadata = {
             "tags": ["wireless", "configure", "airMarshal", "rules"],
-            "operation": "deleteNetworkWirelessAirMarshalRule",
+            "operation": "delete_network_wireless_air_marshal_rule",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         ruleId = urllib.parse.quote(str(ruleId), safe="")
@@ -429,15 +429,15 @@ class Wireless:
 
         return self._session.delete(metadata, resource)
 
-    def updateNetworkWirelessAirMarshalSettings(self, networkId: str, defaultPolicy: str):
+    def update_network_wireless_air_marshal_settings(self, networkId: str, defaultPolicy: str):
         """Updates Air Marshal settings.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-air-marshal-settings
 
         - networkId (string): Network ID
         - defaultPolicy (string): Allows clients to access rogue networks. Blocked by default.
-        """
 
+        """
         kwargs = locals()
 
         if "defaultPolicy" in kwargs:
@@ -448,7 +448,7 @@ class Wireless:
 
         metadata = {
             "tags": ["wireless", "configure", "airMarshal", "settings"],
-            "operation": "updateNetworkWirelessAirMarshalSettings",
+            "operation": "update_network_wireless_air_marshal_settings",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/wireless/airMarshal/settings"
@@ -460,25 +460,25 @@ class Wireless:
 
         return self._session.put(metadata, resource, payload)
 
-    def getNetworkWirelessAlternateManagementInterface(self, networkId: str):
-        """Return alternate management interface and devices with IP assigned
+    def get_network_wireless_alternate_management_interface(self, networkId: str):
+        """Return alternate management interface and devices with IP assigned.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-alternate-management-interface
 
         - networkId (string): Network ID
-        """
 
+        """
         metadata = {
             "tags": ["wireless", "configure", "alternateManagementInterface"],
-            "operation": "getNetworkWirelessAlternateManagementInterface",
+            "operation": "get_network_wireless_alternate_management_interface",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/wireless/alternateManagementInterface"
 
         return self._session.get(metadata, resource)
 
-    def updateNetworkWirelessAlternateManagementInterface(self, networkId: str, **kwargs):
-        """Update alternate management interface and device static IP
+    def update_network_wireless_alternate_management_interface(self, networkId: str, **kwargs):
+        """Update alternate management interface and device static IP.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-alternate-management-interface
 
@@ -487,13 +487,13 @@ class Wireless:
         - vlanId (integer): Alternate management interface VLAN, must be between 1 and 4094
         - protocols (array): Can be one or more of the following values: 'radius', 'snmp', 'syslog' or 'ldap'
         - accessPoints (array): Array of access point serial number and IP assignment. Note: accessPoints IP assignment is not applicable for template networks, in other words, do not put 'accessPoints' in the body when updating template networks. Also, an empty 'accessPoints' array will remove all previous static IP assignments
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["wireless", "configure", "alternateManagementInterface"],
-            "operation": "updateNetworkWirelessAlternateManagementInterface",
+            "operation": "update_network_wireless_alternate_management_interface",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/wireless/alternateManagementInterface"
@@ -508,38 +508,38 @@ class Wireless:
 
         return self._session.put(metadata, resource, payload)
 
-    def getNetworkWirelessBilling(self, networkId: str):
-        """Return the billing settings of this network
+    def get_network_wireless_billing(self, networkId: str):
+        """Return the billing settings of this network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-billing
 
         - networkId (string): Network ID
-        """
 
+        """
         metadata = {
             "tags": ["wireless", "configure", "billing"],
-            "operation": "getNetworkWirelessBilling",
+            "operation": "get_network_wireless_billing",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/wireless/billing"
 
         return self._session.get(metadata, resource)
 
-    def updateNetworkWirelessBilling(self, networkId: str, **kwargs):
-        """Update the billing settings
+    def update_network_wireless_billing(self, networkId: str, **kwargs):
+        """Update the billing settings.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-billing
 
         - networkId (string): Network ID
         - currency (string): The currency code of this node group's billing plans
         - plans (array): Array of billing plans in the node group. (Can configure a maximum of 5)
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["wireless", "configure", "billing"],
-            "operation": "updateNetworkWirelessBilling",
+            "operation": "update_network_wireless_billing",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/wireless/billing"
@@ -552,25 +552,25 @@ class Wireless:
 
         return self._session.put(metadata, resource, payload)
 
-    def getNetworkWirelessBluetoothSettings(self, networkId: str):
+    def get_network_wireless_bluetooth_settings(self, networkId: str):
         """Return the Bluetooth settings for a network. <a href="https://documentation.meraki.com/MR/Bluetooth/Bluetooth_Low_Energy_(BLE)">Bluetooth settings</a> must be enabled on the network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-bluetooth-settings
 
         - networkId (string): Network ID
-        """
 
+        """
         metadata = {
             "tags": ["wireless", "configure", "bluetooth", "settings"],
-            "operation": "getNetworkWirelessBluetoothSettings",
+            "operation": "get_network_wireless_bluetooth_settings",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/wireless/bluetooth/settings"
 
         return self._session.get(metadata, resource)
 
-    def updateNetworkWirelessBluetoothSettings(self, networkId: str, **kwargs):
-        """Update the Bluetooth settings for a network
+    def update_network_wireless_bluetooth_settings(self, networkId: str, **kwargs):
+        """Update the Bluetooth settings for a network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-bluetooth-settings
 
@@ -581,8 +581,8 @@ class Wireless:
         - majorMinorAssignmentMode (string): The way major and minor number should be assigned to nodes in the network. ('Unique', 'Non-unique')
         - major (integer): The major number to be used in the beacon identifier. Only valid in 'Non-unique' mode.
         - minor (integer): The minor number to be used in the beacon identifier. Only valid in 'Non-unique' mode.
-        """
 
+        """
         kwargs.update(locals())
 
         if "majorMinorAssignmentMode" in kwargs:
@@ -593,7 +593,7 @@ class Wireless:
 
         metadata = {
             "tags": ["wireless", "configure", "bluetooth", "settings"],
-            "operation": "updateNetworkWirelessBluetoothSettings",
+            "operation": "update_network_wireless_bluetooth_settings",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/wireless/bluetooth/settings"
@@ -610,8 +610,8 @@ class Wireless:
 
         return self._session.put(metadata, resource, payload)
 
-    def getNetworkWirelessChannelUtilizationHistory(self, networkId: str, **kwargs):
-        """Return AP channel utilization over time for a device or network client
+    def get_network_wireless_channel_utilization_history(self, networkId: str, **kwargs):
+        """Return AP channel utilization over time for a device or network client.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-channel-utilization-history
 
@@ -625,8 +625,8 @@ class Wireless:
         - deviceSerial (string): Filter results by device to return AP channel utilization metrics for the queried device; either :band or :clientId must be jointly specified.
         - apTag (string): Filter results by AP tag to return AP channel utilization metrics for devices labeled with the given tag; either :clientId or :deviceSerial must be jointly specified.
         - band (string): Filter results by band (either '2.4', '5' or '6').
-        """
 
+        """
         kwargs.update(locals())
 
         if "band" in kwargs:
@@ -637,7 +637,7 @@ class Wireless:
 
         metadata = {
             "tags": ["wireless", "monitor", "channelUtilizationHistory"],
-            "operation": "getNetworkWirelessChannelUtilizationHistory",
+            "operation": "get_network_wireless_channel_utilization_history",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/wireless/channelUtilizationHistory"
@@ -657,8 +657,8 @@ class Wireless:
 
         return self._session.get(metadata, resource, params)
 
-    def getNetworkWirelessClientCountHistory(self, networkId: str, **kwargs):
-        """Return wireless client counts over time for a network, device, or network client
+    def get_network_wireless_client_count_history(self, networkId: str, **kwargs):
+        """Return wireless client counts over time for a network, device, or network client.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-client-count-history
 
@@ -673,8 +673,8 @@ class Wireless:
         - apTag (string): Filter results by AP tag.
         - band (string): Filter results by band (either '2.4', '5' or '6').
         - ssid (integer): Filter results by SSID number.
-        """
 
+        """
         kwargs.update(locals())
 
         if "band" in kwargs:
@@ -685,7 +685,7 @@ class Wireless:
 
         metadata = {
             "tags": ["wireless", "monitor", "clientCountHistory"],
-            "operation": "getNetworkWirelessClientCountHistory",
+            "operation": "get_network_wireless_client_count_history",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/wireless/clientCountHistory"
@@ -706,8 +706,8 @@ class Wireless:
 
         return self._session.get(metadata, resource, params)
 
-    def getNetworkWirelessClientsConnectionStats(self, networkId: str, **kwargs):
-        """Aggregated connectivity info for this network, grouped by clients
+    def get_network_wireless_clients_connection_stats(self, networkId: str, **kwargs):
+        """Aggregated connectivity info for this network, grouped by clients.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-clients-connection-stats
 
@@ -718,8 +718,8 @@ class Wireless:
         - band (string): Filter results by band (either '2.4', '5' or '6'). Note that data prior to February 2020 will not have band information.
         - ssid (integer): Filter results by SSID
         - apTag (string): Filter results by AP Tag
-        """
 
+        """
         kwargs.update(locals())
 
         if "band" in kwargs:
@@ -730,7 +730,7 @@ class Wireless:
 
         metadata = {
             "tags": ["wireless", "monitor", "clients", "connectionStats"],
-            "operation": "getNetworkWirelessClientsConnectionStats",
+            "operation": "get_network_wireless_clients_connection_stats",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/wireless/clients/connectionStats"
@@ -747,8 +747,8 @@ class Wireless:
 
         return self._session.get(metadata, resource, params)
 
-    def getNetworkWirelessClientsLatencyStats(self, networkId: str, **kwargs):
-        """Aggregated latency info for this network, grouped by clients
+    def get_network_wireless_clients_latency_stats(self, networkId: str, **kwargs):
+        """Aggregated latency info for this network, grouped by clients.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-clients-latency-stats
 
@@ -761,8 +761,8 @@ class Wireless:
         - apTag (string): Filter results by AP Tag
         - vlan (integer): Filter results by VLAN
         - fields (string): Partial selection: If present, this call will return only the selected fields of ["rawDistribution", "avg"]. All fields will be returned by default. Selected fields must be entered as a comma separated string.
-        """
 
+        """
         kwargs.update(locals())
 
         if "band" in kwargs:
@@ -773,7 +773,7 @@ class Wireless:
 
         metadata = {
             "tags": ["wireless", "monitor", "clients", "latencyStats"],
-            "operation": "getNetworkWirelessClientsLatencyStats",
+            "operation": "get_network_wireless_clients_latency_stats",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/wireless/clients/latencyStats"
@@ -792,8 +792,8 @@ class Wireless:
 
         return self._session.get(metadata, resource, params)
 
-    def getNetworkWirelessClientConnectionStats(self, networkId: str, clientId: str, **kwargs):
-        """Aggregated connectivity info for a given client on this network
+    def get_network_wireless_client_connection_stats(self, networkId: str, clientId: str, **kwargs):
+        """Aggregated connectivity info for a given client on this network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-client-connection-stats
 
@@ -805,8 +805,8 @@ class Wireless:
         - band (string): Filter results by band (either '2.4', '5' or '6'). Note that data prior to February 2020 will not have band information.
         - ssid (integer): Filter results by SSID
         - apTag (string): Filter results by AP Tag
-        """
 
+        """
         kwargs.update(locals())
 
         if "band" in kwargs:
@@ -817,7 +817,7 @@ class Wireless:
 
         metadata = {
             "tags": ["wireless", "monitor", "clients", "connectionStats"],
-            "operation": "getNetworkWirelessClientConnectionStats",
+            "operation": "get_network_wireless_client_connection_stats",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         clientId = urllib.parse.quote(str(clientId), safe="")
@@ -835,7 +835,7 @@ class Wireless:
 
         return self._session.get(metadata, resource, params)
 
-    def getNetworkWirelessClientConnectivityEvents(
+    def get_network_wireless_client_connectivity_events(
         self, networkId: str, clientId: str, total_pages=1, direction="next", **kwargs
     ):
         """List the wireless connectivity events for a client within a network in the timespan.
@@ -858,8 +858,8 @@ class Wireless:
         - ssidNumber (integer): Filter results by SSID. If not specified, events for all SSIDs will be returned.
         - includedSeverities (array): A list of severities to include. If not specified, events of all severities will be returned. Valid severities are 'good', 'info', 'warn' and/or 'bad'.
         - deviceSerial (string): Filter results by an AP's serial number.
-        """
 
+        """
         kwargs.update(locals())
 
         if "sortOrder" in kwargs:
@@ -880,7 +880,7 @@ class Wireless:
 
         metadata = {
             "tags": ["wireless", "monitor", "clients", "connectivityEvents"],
-            "operation": "getNetworkWirelessClientConnectivityEvents",
+            "operation": "get_network_wireless_client_connectivity_events",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         clientId = urllib.parse.quote(str(clientId), safe="")
@@ -913,8 +913,8 @@ class Wireless:
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
-    def getNetworkWirelessClientLatencyHistory(self, networkId: str, clientId: str, **kwargs):
-        """Return the latency history for a client
+    def get_network_wireless_client_latency_history(self, networkId: str, clientId: str, **kwargs):
+        """Return the latency history for a client.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-client-latency-history
 
@@ -924,13 +924,13 @@ class Wireless:
         - t1 (string): The end of the timespan for the data. t1 can be a maximum of 791 days after t0.
         - timespan (number): The timespan for which the information will be fetched. If specifying timespan, do not specify parameters t0 and t1. The value must be in seconds and be less than or equal to 791 days. The default is 1 day.
         - resolution (integer): The time resolution in seconds for returned data. The valid resolutions are: 86400. The default is 86400.
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["wireless", "monitor", "clients", "latencyHistory"],
-            "operation": "getNetworkWirelessClientLatencyHistory",
+            "operation": "get_network_wireless_client_latency_history",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         clientId = urllib.parse.quote(str(clientId), safe="")
@@ -946,8 +946,8 @@ class Wireless:
 
         return self._session.get(metadata, resource, params)
 
-    def getNetworkWirelessClientLatencyStats(self, networkId: str, clientId: str, **kwargs):
-        """Aggregated latency info for a given client on this network
+    def get_network_wireless_client_latency_stats(self, networkId: str, clientId: str, **kwargs):
+        """Aggregated latency info for a given client on this network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-client-latency-stats
 
@@ -961,8 +961,8 @@ class Wireless:
         - apTag (string): Filter results by AP Tag
         - vlan (integer): Filter results by VLAN
         - fields (string): Partial selection: If present, this call will return only the selected fields of ["rawDistribution", "avg"]. All fields will be returned by default. Selected fields must be entered as a comma separated string.
-        """
 
+        """
         kwargs.update(locals())
 
         if "band" in kwargs:
@@ -973,7 +973,7 @@ class Wireless:
 
         metadata = {
             "tags": ["wireless", "monitor", "clients", "latencyStats"],
-            "operation": "getNetworkWirelessClientLatencyStats",
+            "operation": "get_network_wireless_client_latency_stats",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         clientId = urllib.parse.quote(str(clientId), safe="")
@@ -993,8 +993,8 @@ class Wireless:
 
         return self._session.get(metadata, resource, params)
 
-    def getNetworkWirelessConnectionStats(self, networkId: str, **kwargs):
-        """Aggregated connectivity info for this network
+    def get_network_wireless_connection_stats(self, networkId: str, **kwargs):
+        """Aggregated connectivity info for this network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-connection-stats
 
@@ -1005,8 +1005,8 @@ class Wireless:
         - band (string): Filter results by band (either '2.4', '5' or '6'). Note that data prior to February 2020 will not have band information.
         - ssid (integer): Filter results by SSID
         - apTag (string): Filter results by AP Tag
-        """
 
+        """
         kwargs.update(locals())
 
         if "band" in kwargs:
@@ -1017,7 +1017,7 @@ class Wireless:
 
         metadata = {
             "tags": ["wireless", "monitor", "connectionStats"],
-            "operation": "getNetworkWirelessConnectionStats",
+            "operation": "get_network_wireless_connection_stats",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/wireless/connectionStats"
@@ -1034,8 +1034,8 @@ class Wireless:
 
         return self._session.get(metadata, resource, params)
 
-    def getNetworkWirelessDataRateHistory(self, networkId: str, **kwargs):
-        """Return PHY data rates over time for a network, device, or network client
+    def get_network_wireless_data_rate_history(self, networkId: str, **kwargs):
+        """Return PHY data rates over time for a network, device, or network client.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-data-rate-history
 
@@ -1050,8 +1050,8 @@ class Wireless:
         - apTag (string): Filter results by AP tag.
         - band (string): Filter results by band (either '2.4', '5' or '6').
         - ssid (integer): Filter results by SSID number.
-        """
 
+        """
         kwargs.update(locals())
 
         if "band" in kwargs:
@@ -1062,7 +1062,7 @@ class Wireless:
 
         metadata = {
             "tags": ["wireless", "monitor", "dataRateHistory"],
-            "operation": "getNetworkWirelessDataRateHistory",
+            "operation": "get_network_wireless_data_rate_history",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/wireless/dataRateHistory"
@@ -1083,8 +1083,8 @@ class Wireless:
 
         return self._session.get(metadata, resource, params)
 
-    def getNetworkWirelessDevicesConnectionStats(self, networkId: str, **kwargs):
-        """Aggregated connectivity info for this network, grouped by node
+    def get_network_wireless_devices_connection_stats(self, networkId: str, **kwargs):
+        """Aggregated connectivity info for this network, grouped by node.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-devices-connection-stats
 
@@ -1095,8 +1095,8 @@ class Wireless:
         - band (string): Filter results by band (either '2.4', '5' or '6'). Note that data prior to February 2020 will not have band information.
         - ssid (integer): Filter results by SSID
         - apTag (string): Filter results by AP Tag
-        """
 
+        """
         kwargs.update(locals())
 
         if "band" in kwargs:
@@ -1107,7 +1107,7 @@ class Wireless:
 
         metadata = {
             "tags": ["wireless", "monitor", "devices", "connectionStats"],
-            "operation": "getNetworkWirelessDevicesConnectionStats",
+            "operation": "get_network_wireless_devices_connection_stats",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/wireless/devices/connectionStats"
@@ -1124,8 +1124,8 @@ class Wireless:
 
         return self._session.get(metadata, resource, params)
 
-    def getNetworkWirelessDevicesLatencyStats(self, networkId: str, **kwargs):
-        """Aggregated latency info for this network, grouped by node
+    def get_network_wireless_devices_latency_stats(self, networkId: str, **kwargs):
+        """Aggregated latency info for this network, grouped by node.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-devices-latency-stats
 
@@ -1138,8 +1138,8 @@ class Wireless:
         - apTag (string): Filter results by AP Tag
         - vlan (integer): Filter results by VLAN
         - fields (string): Partial selection: If present, this call will return only the selected fields of ["rawDistribution", "avg"]. All fields will be returned by default. Selected fields must be entered as a comma separated string.
-        """
 
+        """
         kwargs.update(locals())
 
         if "band" in kwargs:
@@ -1150,7 +1150,7 @@ class Wireless:
 
         metadata = {
             "tags": ["wireless", "monitor", "devices", "latencyStats"],
-            "operation": "getNetworkWirelessDevicesLatencyStats",
+            "operation": "get_network_wireless_devices_latency_stats",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/wireless/devices/latencyStats"
@@ -1169,25 +1169,25 @@ class Wireless:
 
         return self._session.get(metadata, resource, params)
 
-    def getNetworkWirelessElectronicShelfLabel(self, networkId: str):
-        """Return the ESL settings of a wireless network
+    def get_network_wireless_electronic_shelf_label(self, networkId: str):
+        """Return the ESL settings of a wireless network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-electronic-shelf-label
 
         - networkId (string): Network ID
-        """
 
+        """
         metadata = {
             "tags": ["wireless", "configure", "electronicShelfLabel"],
-            "operation": "getNetworkWirelessElectronicShelfLabel",
+            "operation": "get_network_wireless_electronic_shelf_label",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/wireless/electronicShelfLabel"
 
         return self._session.get(metadata, resource)
 
-    def updateNetworkWirelessElectronicShelfLabel(self, networkId: str, **kwargs):
-        """Update the ESL settings of a wireless network
+    def update_network_wireless_electronic_shelf_label(self, networkId: str, **kwargs):
+        """Update the ESL settings of a wireless network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-electronic-shelf-label
 
@@ -1195,8 +1195,8 @@ class Wireless:
         - hostname (string): Desired ESL hostname of the network
         - enabled (boolean): Turn ESL features on and off for this network
         - mode (string): Electronic shelf label mode of the network. Valid options are 'Bluetooth', 'high frequency'
-        """
 
+        """
         kwargs.update(locals())
 
         if "mode" in kwargs:
@@ -1207,7 +1207,7 @@ class Wireless:
 
         metadata = {
             "tags": ["wireless", "configure", "electronicShelfLabel"],
-            "operation": "updateNetworkWirelessElectronicShelfLabel",
+            "operation": "update_network_wireless_electronic_shelf_label",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/wireless/electronicShelfLabel"
@@ -1221,44 +1221,44 @@ class Wireless:
 
         return self._session.put(metadata, resource, payload)
 
-    def getNetworkWirelessElectronicShelfLabelConfiguredDevices(self, networkId: str):
-        """Get a list of all ESL eligible devices of a network
+    def get_network_wireless_electronic_shelf_label_configured_devices(self, networkId: str):
+        """Get a list of all ESL eligible devices of a network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-electronic-shelf-label-configured-devices
 
         - networkId (string): Network ID
-        """
 
+        """
         metadata = {
             "tags": ["wireless", "configure", "electronicShelfLabel", "configuredDevices"],
-            "operation": "getNetworkWirelessElectronicShelfLabelConfiguredDevices",
+            "operation": "get_network_wireless_electronic_shelf_label_configured_devices",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/wireless/electronicShelfLabel/configuredDevices"
 
         return self._session.get(metadata, resource)
 
-    def getNetworkWirelessEthernetPortsProfiles(self, networkId: str):
-        """List the AP port profiles for this network
+    def get_network_wireless_ethernet_ports_profiles(self, networkId: str):
+        """List the AP port profiles for this network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-ethernet-ports-profiles
 
         - networkId (string): Network ID
-        """
 
+        """
         metadata = {
             "tags": ["wireless", "configure", "ethernet", "ports", "profiles"],
-            "operation": "getNetworkWirelessEthernetPortsProfiles",
+            "operation": "get_network_wireless_ethernet_ports_profiles",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/wireless/ethernet/ports/profiles"
 
         return self._session.get(metadata, resource)
 
-    def createNetworkWirelessEthernetPortsProfile(
+    def create_network_wireless_ethernet_ports_profile(
         self, networkId: str, name: str, ports: list, **kwargs
     ):
-        """Create an AP port profile
+        """Create an AP port profile.
 
         https://developer.cisco.com/meraki/api-v1/#!create-network-wireless-ethernet-ports-profile
 
@@ -1266,13 +1266,13 @@ class Wireless:
         - name (string): AP port profile name
         - ports (array): AP ports configuration
         - usbPorts (array): AP usb ports configuration
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["wireless", "configure", "ethernet", "ports", "profiles"],
-            "operation": "createNetworkWirelessEthernetPortsProfile",
+            "operation": "create_network_wireless_ethernet_ports_profile",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/wireless/ethernet/ports/profiles"
@@ -1286,23 +1286,23 @@ class Wireless:
 
         return self._session.post(metadata, resource, payload)
 
-    def assignNetworkWirelessEthernetPortsProfiles(
+    def assign_network_wireless_ethernet_ports_profiles(
         self, networkId: str, serials: list, profileId: str
     ):
-        """Assign AP port profile to list of APs
+        """Assign AP port profile to list of APs.
 
         https://developer.cisco.com/meraki/api-v1/#!assign-network-wireless-ethernet-ports-profiles
 
         - networkId (string): Network ID
         - serials (array): List of AP serials
         - profileId (string): AP profile ID
-        """
 
+        """
         kwargs = locals()
 
         metadata = {
             "tags": ["wireless", "configure", "ethernet", "ports", "profiles"],
-            "operation": "assignNetworkWirelessEthernetPortsProfiles",
+            "operation": "assign_network_wireless_ethernet_ports_profiles",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/wireless/ethernet/ports/profiles/assign"
@@ -1315,20 +1315,20 @@ class Wireless:
 
         return self._session.post(metadata, resource, payload)
 
-    def setNetworkWirelessEthernetPortsProfilesDefault(self, networkId: str, profileId: str):
-        """Set the AP port profile to be default for this network
+    def set_network_wireless_ethernet_ports_profiles_default(self, networkId: str, profileId: str):
+        """Set the AP port profile to be default for this network.
 
         https://developer.cisco.com/meraki/api-v1/#!set-network-wireless-ethernet-ports-profiles-default
 
         - networkId (string): Network ID
         - profileId (string): AP profile ID
-        """
 
+        """
         kwargs = locals()
 
         metadata = {
             "tags": ["wireless", "configure", "ethernet", "ports", "profiles"],
-            "operation": "setNetworkWirelessEthernetPortsProfilesDefault",
+            "operation": "set_network_wireless_ethernet_ports_profiles_default",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/wireless/ethernet/ports/profiles/setDefault"
@@ -1340,18 +1340,18 @@ class Wireless:
 
         return self._session.post(metadata, resource, payload)
 
-    def getNetworkWirelessEthernetPortsProfile(self, networkId: str, profileId: str):
-        """Show the AP port profile by ID for this network
+    def get_network_wireless_ethernet_ports_profile(self, networkId: str, profileId: str):
+        """Show the AP port profile by ID for this network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-ethernet-ports-profile
 
         - networkId (string): Network ID
         - profileId (string): Profile ID
-        """
 
+        """
         metadata = {
             "tags": ["wireless", "configure", "ethernet", "ports", "profiles"],
-            "operation": "getNetworkWirelessEthernetPortsProfile",
+            "operation": "get_network_wireless_ethernet_ports_profile",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         profileId = urllib.parse.quote(str(profileId), safe="")
@@ -1359,8 +1359,10 @@ class Wireless:
 
         return self._session.get(metadata, resource)
 
-    def updateNetworkWirelessEthernetPortsProfile(self, networkId: str, profileId: str, **kwargs):
-        """Update the AP port profile by ID for this network
+    def update_network_wireless_ethernet_ports_profile(
+        self, networkId: str, profileId: str, **kwargs
+    ):
+        """Update the AP port profile by ID for this network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ethernet-ports-profile
 
@@ -1369,13 +1371,13 @@ class Wireless:
         - name (string): AP port profile name
         - ports (array): AP ports configuration
         - usbPorts (array): AP usb ports configuration
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["wireless", "configure", "ethernet", "ports", "profiles"],
-            "operation": "updateNetworkWirelessEthernetPortsProfile",
+            "operation": "update_network_wireless_ethernet_ports_profile",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         profileId = urllib.parse.quote(str(profileId), safe="")
@@ -1390,18 +1392,18 @@ class Wireless:
 
         return self._session.put(metadata, resource, payload)
 
-    def deleteNetworkWirelessEthernetPortsProfile(self, networkId: str, profileId: str):
-        """Delete an AP port profile
+    def delete_network_wireless_ethernet_ports_profile(self, networkId: str, profileId: str):
+        """Delete an AP port profile.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-network-wireless-ethernet-ports-profile
 
         - networkId (string): Network ID
         - profileId (string): Profile ID
-        """
 
+        """
         metadata = {
             "tags": ["wireless", "configure", "ethernet", "ports", "profiles"],
-            "operation": "deleteNetworkWirelessEthernetPortsProfile",
+            "operation": "delete_network_wireless_ethernet_ports_profile",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         profileId = urllib.parse.quote(str(profileId), safe="")
@@ -1409,8 +1411,8 @@ class Wireless:
 
         return self._session.delete(metadata, resource)
 
-    def getNetworkWirelessFailedConnections(self, networkId: str, **kwargs):
-        """List of all failed client connection events on this network in a given time range
+    def get_network_wireless_failed_connections(self, networkId: str, **kwargs):
+        """List of all failed client connection events on this network in a given time range.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-failed-connections
 
@@ -1423,8 +1425,8 @@ class Wireless:
         - apTag (string): Filter results by AP Tag
         - serial (string): Filter by AP
         - clientId (string): Filter by client MAC
-        """
 
+        """
         kwargs.update(locals())
 
         if "band" in kwargs:
@@ -1435,7 +1437,7 @@ class Wireless:
 
         metadata = {
             "tags": ["wireless", "monitor", "failedConnections"],
-            "operation": "getNetworkWirelessFailedConnections",
+            "operation": "get_network_wireless_failed_connections",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/wireless/failedConnections"
@@ -1454,8 +1456,8 @@ class Wireless:
 
         return self._session.get(metadata, resource, params)
 
-    def getNetworkWirelessLatencyHistory(self, networkId: str, **kwargs):
-        """Return average wireless latency over time for a network, device, or network client
+    def get_network_wireless_latency_history(self, networkId: str, **kwargs):
+        """Return average wireless latency over time for a network, device, or network client.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-latency-history
 
@@ -1471,8 +1473,8 @@ class Wireless:
         - band (string): Filter results by band (either '2.4', '5' or '6').
         - ssid (integer): Filter results by SSID number.
         - accessCategory (string): Filter by access category.
-        """
 
+        """
         kwargs.update(locals())
 
         if "band" in kwargs:
@@ -1488,7 +1490,7 @@ class Wireless:
 
         metadata = {
             "tags": ["wireless", "monitor", "latencyHistory"],
-            "operation": "getNetworkWirelessLatencyHistory",
+            "operation": "get_network_wireless_latency_history",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/wireless/latencyHistory"
@@ -1510,8 +1512,8 @@ class Wireless:
 
         return self._session.get(metadata, resource, params)
 
-    def getNetworkWirelessLatencyStats(self, networkId: str, **kwargs):
-        """Aggregated latency info for this network
+    def get_network_wireless_latency_stats(self, networkId: str, **kwargs):
+        """Aggregated latency info for this network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-latency-stats
 
@@ -1524,8 +1526,8 @@ class Wireless:
         - apTag (string): Filter results by AP Tag
         - vlan (integer): Filter results by VLAN
         - fields (string): Partial selection: If present, this call will return only the selected fields of ["rawDistribution", "avg"]. All fields will be returned by default. Selected fields must be entered as a comma separated string.
-        """
 
+        """
         kwargs.update(locals())
 
         if "band" in kwargs:
@@ -1536,7 +1538,7 @@ class Wireless:
 
         metadata = {
             "tags": ["wireless", "monitor", "latencyStats"],
-            "operation": "getNetworkWirelessLatencyStats",
+            "operation": "get_network_wireless_latency_stats",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/wireless/latencyStats"
@@ -1555,21 +1557,21 @@ class Wireless:
 
         return self._session.get(metadata, resource, params)
 
-    def updateNetworkWirelessLocationScanning(self, networkId: str, **kwargs):
-        """Change scanning API settings
+    def update_network_wireless_location_scanning(self, networkId: str, **kwargs):
+        """Change scanning API settings.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-location-scanning
 
         - networkId (string): Network ID
         - enabled (boolean): Collect location and scanning analytics
         - api (object): Enable push API for scanning events, analytics must be enabled
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["wireless", "configure", "location", "scanning"],
-            "operation": "updateNetworkWirelessLocationScanning",
+            "operation": "update_network_wireless_location_scanning",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/wireless/location/scanning"
@@ -1582,10 +1584,10 @@ class Wireless:
 
         return self._session.put(metadata, resource, payload)
 
-    def getNetworkWirelessMeshStatuses(
+    def get_network_wireless_mesh_statuses(
         self, networkId: str, total_pages=1, direction="next", **kwargs
     ):
-        """List wireless mesh statuses for repeaters
+        """List wireless mesh statuses for repeaters.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-mesh-statuses
 
@@ -1595,13 +1597,13 @@ class Wireless:
         - perPage (integer): The number of entries per page returned. Acceptable range is 3 - 500. Default is 50.
         - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
         - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["wireless", "monitor", "meshStatuses"],
-            "operation": "getNetworkWirelessMeshStatuses",
+            "operation": "get_network_wireless_mesh_statuses",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/wireless/meshStatuses"
@@ -1615,20 +1617,20 @@ class Wireless:
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
-    def getNetworkWirelessRfProfiles(self, networkId: str, **kwargs):
-        """List RF profiles for this network
+    def get_network_wireless_rf_profiles(self, networkId: str, **kwargs):
+        """List RF profiles for this network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-rf-profiles
 
         - networkId (string): Network ID
         - includeTemplateProfiles (boolean): If the network is bound to a template, this parameter controls whether or not the non-basic RF profiles defined on the template should be included in the response alongside the non-basic profiles defined on the bound network. Defaults to false.
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["wireless", "configure", "rfProfiles"],
-            "operation": "getNetworkWirelessRfProfiles",
+            "operation": "get_network_wireless_rf_profiles",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/wireless/rfProfiles"
@@ -1640,10 +1642,10 @@ class Wireless:
 
         return self._session.get(metadata, resource, params)
 
-    def createNetworkWirelessRfProfile(
+    def create_network_wireless_rf_profile(
         self, networkId: str, name: str, bandSelectionType: str, **kwargs
     ):
-        """Creates new RF profile for this network
+        """Creates new RF profile for this network.
 
         https://developer.cisco.com/meraki/api-v1/#!create-network-wireless-rf-profile
 
@@ -1659,8 +1661,8 @@ class Wireless:
         - transmission (object): Settings related to radio transmission.
         - perSsidSettings (object): Per-SSID radio settings by number.
         - flexRadios (object): Flex radio settings.
-        """
 
+        """
         kwargs.update(locals())
 
         if "minBitrateType" in kwargs:
@@ -1676,7 +1678,7 @@ class Wireless:
 
         metadata = {
             "tags": ["wireless", "configure", "rfProfiles"],
-            "operation": "createNetworkWirelessRfProfile",
+            "operation": "create_network_wireless_rf_profile",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/wireless/rfProfiles"
@@ -1698,8 +1700,8 @@ class Wireless:
 
         return self._session.post(metadata, resource, payload)
 
-    def updateNetworkWirelessRfProfile(self, networkId: str, rfProfileId: str, **kwargs):
-        """Updates specified RF profile for this network
+    def update_network_wireless_rf_profile(self, networkId: str, rfProfileId: str, **kwargs):
+        """Updates specified RF profile for this network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-rf-profile
 
@@ -1718,8 +1720,8 @@ class Wireless:
         - transmission (object): Settings related to radio transmission.
         - perSsidSettings (object): Per-SSID radio settings by number.
         - flexRadios (object): Flex radio settings.
-        """
 
+        """
         kwargs.update(locals())
 
         if "minBitrateType" in kwargs:
@@ -1735,7 +1737,7 @@ class Wireless:
 
         metadata = {
             "tags": ["wireless", "configure", "rfProfiles"],
-            "operation": "updateNetworkWirelessRfProfile",
+            "operation": "update_network_wireless_rf_profile",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         rfProfileId = urllib.parse.quote(str(rfProfileId), safe="")
@@ -1760,18 +1762,18 @@ class Wireless:
 
         return self._session.put(metadata, resource, payload)
 
-    def deleteNetworkWirelessRfProfile(self, networkId: str, rfProfileId: str):
-        """Delete a RF Profile
+    def delete_network_wireless_rf_profile(self, networkId: str, rfProfileId: str):
+        """Delete a RF Profile.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-network-wireless-rf-profile
 
         - networkId (string): Network ID
         - rfProfileId (string): Rf profile ID
-        """
 
+        """
         metadata = {
             "tags": ["wireless", "configure", "rfProfiles"],
-            "operation": "deleteNetworkWirelessRfProfile",
+            "operation": "delete_network_wireless_rf_profile",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         rfProfileId = urllib.parse.quote(str(rfProfileId), safe="")
@@ -1779,18 +1781,18 @@ class Wireless:
 
         return self._session.delete(metadata, resource)
 
-    def getNetworkWirelessRfProfile(self, networkId: str, rfProfileId: str):
-        """Return a RF profile
+    def get_network_wireless_rf_profile(self, networkId: str, rfProfileId: str):
+        """Return a RF profile.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-rf-profile
 
         - networkId (string): Network ID
         - rfProfileId (string): Rf profile ID
-        """
 
+        """
         metadata = {
             "tags": ["wireless", "configure", "rfProfiles"],
-            "operation": "getNetworkWirelessRfProfile",
+            "operation": "get_network_wireless_rf_profile",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         rfProfileId = urllib.parse.quote(str(rfProfileId), safe="")
@@ -1798,25 +1800,25 @@ class Wireless:
 
         return self._session.get(metadata, resource)
 
-    def getNetworkWirelessSettings(self, networkId: str):
-        """Return the wireless settings for a network
+    def get_network_wireless_settings(self, networkId: str):
+        """Return the wireless settings for a network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-settings
 
         - networkId (string): Network ID
-        """
 
+        """
         metadata = {
             "tags": ["wireless", "configure", "settings"],
-            "operation": "getNetworkWirelessSettings",
+            "operation": "get_network_wireless_settings",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/wireless/settings"
 
         return self._session.get(metadata, resource)
 
-    def updateNetworkWirelessSettings(self, networkId: str, **kwargs):
-        """Update the wireless settings for a network
+    def update_network_wireless_settings(self, networkId: str, **kwargs):
+        """Update the wireless settings for a network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-settings
 
@@ -1827,8 +1829,8 @@ class Wireless:
         - upgradeStrategy (string): The default strategy that network devices will use to perform an upgrade. Requires firmware version MR 26.8 or higher.
         - ledLightsOn (boolean): Toggle for enabling or disabling LED lights on all APs in the network (making them run dark)
         - namedVlans (object): Named VLAN settings for wireless networks.
-        """
 
+        """
         kwargs.update(locals())
 
         if "upgradeStrategy" in kwargs:
@@ -1839,7 +1841,7 @@ class Wireless:
 
         metadata = {
             "tags": ["wireless", "configure", "settings"],
-            "operation": "updateNetworkWirelessSettings",
+            "operation": "update_network_wireless_settings",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/wireless/settings"
@@ -1856,8 +1858,8 @@ class Wireless:
 
         return self._session.put(metadata, resource, payload)
 
-    def getNetworkWirelessSignalQualityHistory(self, networkId: str, **kwargs):
-        """Return signal quality (SNR/RSSI) over time for a device or network client
+    def get_network_wireless_signal_quality_history(self, networkId: str, **kwargs):
+        """Return signal quality (SNR/RSSI) over time for a device or network client.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-signal-quality-history
 
@@ -1872,8 +1874,8 @@ class Wireless:
         - apTag (string): Filter results by AP tag; either :clientId or :deviceSerial must be jointly specified.
         - band (string): Filter results by band (either '2.4', '5' or '6').
         - ssid (integer): Filter results by SSID number.
-        """
 
+        """
         kwargs.update(locals())
 
         if "band" in kwargs:
@@ -1884,7 +1886,7 @@ class Wireless:
 
         metadata = {
             "tags": ["wireless", "monitor", "signalQualityHistory"],
-            "operation": "getNetworkWirelessSignalQualityHistory",
+            "operation": "get_network_wireless_signal_quality_history",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/wireless/signalQualityHistory"
@@ -1905,35 +1907,35 @@ class Wireless:
 
         return self._session.get(metadata, resource, params)
 
-    def getNetworkWirelessSsids(self, networkId: str):
-        """List the MR SSIDs in a network
+    def get_network_wireless_ssids(self, networkId: str):
+        """List the MR SSIDs in a network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-ssids
 
         - networkId (string): Network ID
-        """
 
+        """
         metadata = {
             "tags": ["wireless", "configure", "ssids"],
-            "operation": "getNetworkWirelessSsids",
+            "operation": "get_network_wireless_ssids",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/wireless/ssids"
 
         return self._session.get(metadata, resource)
 
-    def getNetworkWirelessSsid(self, networkId: str, number: str):
-        """Return a single MR SSID
+    def get_network_wireless_ssid(self, networkId: str, number: str):
+        """Return a single MR SSID.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-ssid
 
         - networkId (string): Network ID
         - number (string): Number
-        """
 
+        """
         metadata = {
             "tags": ["wireless", "configure", "ssids"],
-            "operation": "getNetworkWirelessSsid",
+            "operation": "get_network_wireless_ssid",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         number = urllib.parse.quote(str(number), safe="")
@@ -1941,8 +1943,8 @@ class Wireless:
 
         return self._session.get(metadata, resource)
 
-    def updateNetworkWirelessSsid(self, networkId: str, number: str, **kwargs):
-        """Update the attributes of an MR SSID
+    def update_network_wireless_ssid(self, networkId: str, number: str, **kwargs):
+        """Update the attributes of an MR SSID.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid
 
@@ -2011,8 +2013,8 @@ class Wireless:
         - namedVlans (object): Named VLAN settings.
         - localAuthFallback (object): The current configuration for Local Authentication Fallback. Enables the Access Point (AP) to store client authentication data for a specified duration that can be adjusted as needed.
         - radiusAccountingStartDelay (integer): The delay (in seconds) before sending the first RADIUS accounting start message. Must be between 0 and 60 seconds.
-        """
 
+        """
         kwargs.update(locals())
 
         if "authMode" in kwargs:
@@ -2097,7 +2099,7 @@ class Wireless:
 
         metadata = {
             "tags": ["wireless", "configure", "ssids"],
-            "operation": "updateNetworkWirelessSsid",
+            "operation": "update_network_wireless_ssid",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         number = urllib.parse.quote(str(number), safe="")
@@ -2172,18 +2174,18 @@ class Wireless:
 
         return self._session.put(metadata, resource, payload)
 
-    def getNetworkWirelessSsidBonjourForwarding(self, networkId: str, number: str):
-        """List the Bonjour forwarding setting and rules for the SSID
+    def get_network_wireless_ssid_bonjour_forwarding(self, networkId: str, number: str):
+        """List the Bonjour forwarding setting and rules for the SSID.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-ssid-bonjour-forwarding
 
         - networkId (string): Network ID
         - number (string): Number
-        """
 
+        """
         metadata = {
             "tags": ["wireless", "configure", "ssids", "bonjourForwarding"],
-            "operation": "getNetworkWirelessSsidBonjourForwarding",
+            "operation": "get_network_wireless_ssid_bonjour_forwarding",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         number = urllib.parse.quote(str(number), safe="")
@@ -2191,8 +2193,10 @@ class Wireless:
 
         return self._session.get(metadata, resource)
 
-    def updateNetworkWirelessSsidBonjourForwarding(self, networkId: str, number: str, **kwargs):
-        """Update the bonjour forwarding setting and rules for the SSID
+    def update_network_wireless_ssid_bonjour_forwarding(
+        self, networkId: str, number: str, **kwargs
+    ):
+        """Update the bonjour forwarding setting and rules for the SSID.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-bonjour-forwarding
 
@@ -2201,13 +2205,13 @@ class Wireless:
         - enabled (boolean): If true, Bonjour forwarding is enabled on this SSID.
         - rules (array): List of bonjour forwarding rules.
         - exception (object): Bonjour forwarding exception
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["wireless", "configure", "ssids", "bonjourForwarding"],
-            "operation": "updateNetworkWirelessSsidBonjourForwarding",
+            "operation": "update_network_wireless_ssid_bonjour_forwarding",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         number = urllib.parse.quote(str(number), safe="")
@@ -2222,18 +2226,18 @@ class Wireless:
 
         return self._session.put(metadata, resource, payload)
 
-    def getNetworkWirelessSsidDeviceTypeGroupPolicies(self, networkId: str, number: str):
-        """List the device type group policies for the SSID
+    def get_network_wireless_ssid_device_type_group_policies(self, networkId: str, number: str):
+        """List the device type group policies for the SSID.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-ssid-device-type-group-policies
 
         - networkId (string): Network ID
         - number (string): Number
-        """
 
+        """
         metadata = {
             "tags": ["wireless", "configure", "ssids", "deviceTypeGroupPolicies"],
-            "operation": "getNetworkWirelessSsidDeviceTypeGroupPolicies",
+            "operation": "get_network_wireless_ssid_device_type_group_policies",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         number = urllib.parse.quote(str(number), safe="")
@@ -2241,10 +2245,10 @@ class Wireless:
 
         return self._session.get(metadata, resource)
 
-    def updateNetworkWirelessSsidDeviceTypeGroupPolicies(
+    def update_network_wireless_ssid_device_type_group_policies(
         self, networkId: str, number: str, **kwargs
     ):
-        """Update the device type group policies for the SSID
+        """Update the device type group policies for the SSID.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-device-type-group-policies
 
@@ -2252,13 +2256,13 @@ class Wireless:
         - number (string): Number
         - enabled (boolean): If true, the SSID device type group policies are enabled.
         - deviceTypePolicies (array): List of device type policies.
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["wireless", "configure", "ssids", "deviceTypeGroupPolicies"],
-            "operation": "updateNetworkWirelessSsidDeviceTypeGroupPolicies",
+            "operation": "update_network_wireless_ssid_device_type_group_policies",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         number = urllib.parse.quote(str(number), safe="")
@@ -2272,18 +2276,18 @@ class Wireless:
 
         return self._session.put(metadata, resource, payload)
 
-    def getNetworkWirelessSsidEapOverride(self, networkId: str, number: str):
-        """Return the EAP overridden parameters for an SSID
+    def get_network_wireless_ssid_eap_override(self, networkId: str, number: str):
+        """Return the EAP overridden parameters for an SSID.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-ssid-eap-override
 
         - networkId (string): Network ID
         - number (string): Number
-        """
 
+        """
         metadata = {
             "tags": ["wireless", "configure", "ssids", "eapOverride"],
-            "operation": "getNetworkWirelessSsidEapOverride",
+            "operation": "get_network_wireless_ssid_eap_override",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         number = urllib.parse.quote(str(number), safe="")
@@ -2291,7 +2295,7 @@ class Wireless:
 
         return self._session.get(metadata, resource)
 
-    def updateNetworkWirelessSsidEapOverride(self, networkId: str, number: str, **kwargs):
+    def update_network_wireless_ssid_eap_override(self, networkId: str, number: str, **kwargs):
         """Update the EAP overridden parameters for an SSID.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-eap-override
@@ -2302,13 +2306,13 @@ class Wireless:
         - identity (object): EAP settings for identity requests.
         - maxRetries (integer): Maximum number of general EAP retries.
         - eapolKey (object): EAPOL Key settings.
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["wireless", "configure", "ssids", "eapOverride"],
-            "operation": "updateNetworkWirelessSsidEapOverride",
+            "operation": "update_network_wireless_ssid_eap_override",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         number = urllib.parse.quote(str(number), safe="")
@@ -2324,18 +2328,18 @@ class Wireless:
 
         return self._session.put(metadata, resource, payload)
 
-    def getNetworkWirelessSsidFirewallL3FirewallRules(self, networkId: str, number: str):
-        """Return the L3 firewall rules for an SSID on an MR network
+    def get_network_wireless_ssid_firewall_l3_firewall_rules(self, networkId: str, number: str):
+        """Return the L3 firewall rules for an SSID on an MR network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-ssid-firewall-l-3-firewall-rules
 
         - networkId (string): Network ID
         - number (string): Number
-        """
 
+        """
         metadata = {
             "tags": ["wireless", "configure", "ssids", "firewall", "l3FirewallRules"],
-            "operation": "getNetworkWirelessSsidFirewallL3FirewallRules",
+            "operation": "get_network_wireless_ssid_firewall_l3_firewall_rules",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         number = urllib.parse.quote(str(number), safe="")
@@ -2343,10 +2347,10 @@ class Wireless:
 
         return self._session.get(metadata, resource)
 
-    def updateNetworkWirelessSsidFirewallL3FirewallRules(
+    def update_network_wireless_ssid_firewall_l3_firewall_rules(
         self, networkId: str, number: str, **kwargs
     ):
-        """Update the L3 firewall rules of an SSID on an MR network
+        """Update the L3 firewall rules of an SSID on an MR network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-firewall-l-3-firewall-rules
 
@@ -2354,13 +2358,13 @@ class Wireless:
         - number (string): Number
         - rules (array): An ordered array of the firewall rules for this SSID.
         - allowLanAccess (boolean): Allow wireless client access to local LAN (boolean value - true allows access and false denies access) (optional)
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["wireless", "configure", "ssids", "firewall", "l3FirewallRules"],
-            "operation": "updateNetworkWirelessSsidFirewallL3FirewallRules",
+            "operation": "update_network_wireless_ssid_firewall_l3_firewall_rules",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         number = urllib.parse.quote(str(number), safe="")
@@ -2374,18 +2378,18 @@ class Wireless:
 
         return self._session.put(metadata, resource, payload)
 
-    def getNetworkWirelessSsidFirewallL7FirewallRules(self, networkId: str, number: str):
-        """Return the L7 firewall rules for an SSID on an MR network
+    def get_network_wireless_ssid_firewall_l7_firewall_rules(self, networkId: str, number: str):
+        """Return the L7 firewall rules for an SSID on an MR network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-ssid-firewall-l-7-firewall-rules
 
         - networkId (string): Network ID
         - number (string): Number
-        """
 
+        """
         metadata = {
             "tags": ["wireless", "configure", "ssids", "firewall", "l7FirewallRules"],
-            "operation": "getNetworkWirelessSsidFirewallL7FirewallRules",
+            "operation": "get_network_wireless_ssid_firewall_l7_firewall_rules",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         number = urllib.parse.quote(str(number), safe="")
@@ -2393,23 +2397,23 @@ class Wireless:
 
         return self._session.get(metadata, resource)
 
-    def updateNetworkWirelessSsidFirewallL7FirewallRules(
+    def update_network_wireless_ssid_firewall_l7_firewall_rules(
         self, networkId: str, number: str, **kwargs
     ):
-        """Update the L7 firewall rules of an SSID on an MR network
+        """Update the L7 firewall rules of an SSID on an MR network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-firewall-l-7-firewall-rules
 
         - networkId (string): Network ID
         - number (string): Number
         - rules (array): An array of L7 firewall rules for this SSID. Rules will get applied in the same order user has specified in request. Empty array will clear the L7 firewall rule configuration.
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["wireless", "configure", "ssids", "firewall", "l7FirewallRules"],
-            "operation": "updateNetworkWirelessSsidFirewallL7FirewallRules",
+            "operation": "update_network_wireless_ssid_firewall_l7_firewall_rules",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         number = urllib.parse.quote(str(number), safe="")
@@ -2422,18 +2426,18 @@ class Wireless:
 
         return self._session.put(metadata, resource, payload)
 
-    def getNetworkWirelessSsidHotspot20(self, networkId: str, number: str):
-        """Return the Hotspot 2.0 settings for an SSID
+    def get_network_wireless_ssid_hotspot20(self, networkId: str, number: str):
+        """Return the Hotspot 2.0 settings for an SSID.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-ssid-hotspot-2-0
 
         - networkId (string): Network ID
         - number (string): Number
-        """
 
+        """
         metadata = {
             "tags": ["wireless", "configure", "ssids", "hotspot20"],
-            "operation": "getNetworkWirelessSsidHotspot20",
+            "operation": "get_network_wireless_ssid_hotspot20",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         number = urllib.parse.quote(str(number), safe="")
@@ -2441,8 +2445,8 @@ class Wireless:
 
         return self._session.get(metadata, resource)
 
-    def updateNetworkWirelessSsidHotspot20(self, networkId: str, number: str, **kwargs):
-        """Update the Hotspot 2.0 settings of an SSID
+    def update_network_wireless_ssid_hotspot20(self, networkId: str, number: str, **kwargs):
+        """Update the Hotspot 2.0 settings of an SSID.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-hotspot-2-0
 
@@ -2456,8 +2460,8 @@ class Wireless:
         - roamConsortOis (array): An array of roaming consortium OIs (hexadecimal number 3-5 octets in length)
         - mccMncs (array): An array of MCC/MNC pairs
         - naiRealms (array): An array of NAI realms
-        """
 
+        """
         kwargs.update(locals())
 
         if "networkAccessType" in kwargs:
@@ -2477,7 +2481,7 @@ class Wireless:
 
         metadata = {
             "tags": ["wireless", "configure", "ssids", "hotspot20"],
-            "operation": "updateNetworkWirelessSsidHotspot20",
+            "operation": "update_network_wireless_ssid_hotspot20",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         number = urllib.parse.quote(str(number), safe="")
@@ -2497,18 +2501,18 @@ class Wireless:
 
         return self._session.put(metadata, resource, payload)
 
-    def getNetworkWirelessSsidIdentityPsks(self, networkId: str, number: str):
-        """List all Identity PSKs in a wireless network
+    def get_network_wireless_ssid_identity_psks(self, networkId: str, number: str):
+        """List all Identity PSKs in a wireless network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-ssid-identity-psks
 
         - networkId (string): Network ID
         - number (string): Number
-        """
 
+        """
         metadata = {
             "tags": ["wireless", "configure", "ssids", "identityPsks"],
-            "operation": "getNetworkWirelessSsidIdentityPsks",
+            "operation": "get_network_wireless_ssid_identity_psks",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         number = urllib.parse.quote(str(number), safe="")
@@ -2516,10 +2520,10 @@ class Wireless:
 
         return self._session.get(metadata, resource)
 
-    def createNetworkWirelessSsidIdentityPsk(
+    def create_network_wireless_ssid_identity_psk(
         self, networkId: str, number: str, name: str, groupPolicyId: str, **kwargs
     ):
-        """Create an Identity PSK
+        """Create an Identity PSK.
 
         https://developer.cisco.com/meraki/api-v1/#!create-network-wireless-ssid-identity-psk
 
@@ -2529,13 +2533,13 @@ class Wireless:
         - groupPolicyId (string): The group policy to be applied to clients
         - passphrase (string): The passphrase for client authentication. If left blank, one will be auto-generated.
         - expiresAt (string): Timestamp for when the Identity PSK expires. Will not expire if left blank.
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["wireless", "configure", "ssids", "identityPsks"],
-            "operation": "createNetworkWirelessSsidIdentityPsk",
+            "operation": "create_network_wireless_ssid_identity_psk",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         number = urllib.parse.quote(str(number), safe="")
@@ -2551,19 +2555,21 @@ class Wireless:
 
         return self._session.post(metadata, resource, payload)
 
-    def getNetworkWirelessSsidIdentityPsk(self, networkId: str, number: str, identityPskId: str):
-        """Return an Identity PSK
+    def get_network_wireless_ssid_identity_psk(
+        self, networkId: str, number: str, identityPskId: str
+    ):
+        """Return an Identity PSK.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-ssid-identity-psk
 
         - networkId (string): Network ID
         - number (string): Number
         - identityPskId (string): Identity psk ID
-        """
 
+        """
         metadata = {
             "tags": ["wireless", "configure", "ssids", "identityPsks"],
-            "operation": "getNetworkWirelessSsidIdentityPsk",
+            "operation": "get_network_wireless_ssid_identity_psk",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         number = urllib.parse.quote(str(number), safe="")
@@ -2572,10 +2578,10 @@ class Wireless:
 
         return self._session.get(metadata, resource)
 
-    def updateNetworkWirelessSsidIdentityPsk(
+    def update_network_wireless_ssid_identity_psk(
         self, networkId: str, number: str, identityPskId: str, **kwargs
     ):
-        """Update an Identity PSK
+        """Update an Identity PSK.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-identity-psk
 
@@ -2586,13 +2592,13 @@ class Wireless:
         - passphrase (string): The passphrase for client authentication
         - groupPolicyId (string): The group policy to be applied to clients
         - expiresAt (string): Timestamp for when the Identity PSK expires, or 'null' to never expire
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["wireless", "configure", "ssids", "identityPsks"],
-            "operation": "updateNetworkWirelessSsidIdentityPsk",
+            "operation": "update_network_wireless_ssid_identity_psk",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         number = urllib.parse.quote(str(number), safe="")
@@ -2609,19 +2615,21 @@ class Wireless:
 
         return self._session.put(metadata, resource, payload)
 
-    def deleteNetworkWirelessSsidIdentityPsk(self, networkId: str, number: str, identityPskId: str):
-        """Delete an Identity PSK
+    def delete_network_wireless_ssid_identity_psk(
+        self, networkId: str, number: str, identityPskId: str
+    ):
+        """Delete an Identity PSK.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-network-wireless-ssid-identity-psk
 
         - networkId (string): Network ID
         - number (string): Number
         - identityPskId (string): Identity psk ID
-        """
 
+        """
         metadata = {
             "tags": ["wireless", "configure", "ssids", "identityPsks"],
-            "operation": "deleteNetworkWirelessSsidIdentityPsk",
+            "operation": "delete_network_wireless_ssid_identity_psk",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         number = urllib.parse.quote(str(number), safe="")
@@ -2630,8 +2638,8 @@ class Wireless:
 
         return self._session.delete(metadata, resource)
 
-    def updateNetworkWirelessSsidOpenRoaming(self, networkId: str, number: str, **kwargs):
-        """Update the OpenRoaming setting for the SSID
+    def update_network_wireless_ssid_open_roaming(self, networkId: str, number: str, **kwargs):
+        """Update the OpenRoaming setting for the SSID.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-open-roaming
 
@@ -2639,13 +2647,13 @@ class Wireless:
         - number (string): Number
         - enabled (boolean): If true, OpenRoaming is enabled on this SSID.
         - tenantId (string): The OpenRoaming DNA Spaces tenant ID.
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["wireless", "configure", "ssids", "openRoaming"],
-            "operation": "updateNetworkWirelessSsidOpenRoaming",
+            "operation": "update_network_wireless_ssid_open_roaming",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         number = urllib.parse.quote(str(number), safe="")
@@ -2659,18 +2667,18 @@ class Wireless:
 
         return self._session.put(metadata, resource, payload)
 
-    def getNetworkWirelessSsidSchedules(self, networkId: str, number: str):
-        """List the outage schedule for the SSID
+    def get_network_wireless_ssid_schedules(self, networkId: str, number: str):
+        """List the outage schedule for the SSID.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-ssid-schedules
 
         - networkId (string): Network ID
         - number (string): Number
-        """
 
+        """
         metadata = {
             "tags": ["wireless", "configure", "ssids", "schedules"],
-            "operation": "getNetworkWirelessSsidSchedules",
+            "operation": "get_network_wireless_ssid_schedules",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         number = urllib.parse.quote(str(number), safe="")
@@ -2678,8 +2686,8 @@ class Wireless:
 
         return self._session.get(metadata, resource)
 
-    def updateNetworkWirelessSsidSchedules(self, networkId: str, number: str, **kwargs):
-        """Update the outage schedule for the SSID
+    def update_network_wireless_ssid_schedules(self, networkId: str, number: str, **kwargs):
+        """Update the outage schedule for the SSID.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-schedules
 
@@ -2688,13 +2696,13 @@ class Wireless:
         - enabled (boolean): If true, the SSID outage schedule is enabled.
         - ranges (array): List of outage ranges. Has a start date and time, and end date and time. If this parameter is passed in along with rangesInSeconds parameter, this will take precedence.
         - rangesInSeconds (array): List of outage ranges in seconds since Sunday at Midnight. Has a start and end. If this parameter is passed in along with the ranges parameter, ranges will take precedence.
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["wireless", "configure", "ssids", "schedules"],
-            "operation": "updateNetworkWirelessSsidSchedules",
+            "operation": "update_network_wireless_ssid_schedules",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         number = urllib.parse.quote(str(number), safe="")
@@ -2709,18 +2717,18 @@ class Wireless:
 
         return self._session.put(metadata, resource, payload)
 
-    def getNetworkWirelessSsidSplashSettings(self, networkId: str, number: str):
-        """Display the splash page settings for the given SSID
+    def get_network_wireless_ssid_splash_settings(self, networkId: str, number: str):
+        """Display the splash page settings for the given SSID.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-ssid-splash-settings
 
         - networkId (string): Network ID
         - number (string): Number
-        """
 
+        """
         metadata = {
             "tags": ["wireless", "configure", "ssids", "splash", "settings"],
-            "operation": "getNetworkWirelessSsidSplashSettings",
+            "operation": "get_network_wireless_ssid_splash_settings",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         number = urllib.parse.quote(str(number), safe="")
@@ -2728,8 +2736,8 @@ class Wireless:
 
         return self._session.get(metadata, resource)
 
-    def updateNetworkWirelessSsidSplashSettings(self, networkId: str, number: str, **kwargs):
-        """Modify the splash page settings for the given SSID
+    def update_network_wireless_ssid_splash_settings(self, networkId: str, number: str, **kwargs):
+        """Modify the splash page settings for the given SSID.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-splash-settings
 
@@ -2752,8 +2760,8 @@ class Wireless:
         - billing (object): Details associated with billing splash.
         - sentryEnrollment (object): Systems Manager sentry enrollment splash settings.
         - selfRegistration (object): Self-registration settings for splash with Meraki authentication.
-        """
 
+        """
         kwargs.update(locals())
 
         if "splashTimeout" in kwargs:
@@ -2786,7 +2794,7 @@ class Wireless:
 
         metadata = {
             "tags": ["wireless", "configure", "ssids", "splash", "settings"],
-            "operation": "updateNetworkWirelessSsidSplashSettings",
+            "operation": "update_network_wireless_ssid_splash_settings",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         number = urllib.parse.quote(str(number), safe="")
@@ -2815,7 +2823,9 @@ class Wireless:
 
         return self._session.put(metadata, resource, payload)
 
-    def updateNetworkWirelessSsidTrafficShapingRules(self, networkId: str, number: str, **kwargs):
+    def update_network_wireless_ssid_traffic_shaping_rules(
+        self, networkId: str, number: str, **kwargs
+    ):
         """Update the traffic shaping rules for an SSID on an MR network.
 
             https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-traffic-shaping-rules
@@ -2828,13 +2838,13 @@ class Wireless:
         they are specified in. An empty list (or null) means no rules. Note that
         you are allowed a maximum of 8 rules.
 
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["wireless", "configure", "ssids", "trafficShaping", "rules"],
-            "operation": "updateNetworkWirelessSsidTrafficShapingRules",
+            "operation": "update_network_wireless_ssid_traffic_shaping_rules",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         number = urllib.parse.quote(str(number), safe="")
@@ -2849,18 +2859,18 @@ class Wireless:
 
         return self._session.put(metadata, resource, payload)
 
-    def getNetworkWirelessSsidTrafficShapingRules(self, networkId: str, number: str):
-        """Display the traffic shaping settings for a SSID on an MR network
+    def get_network_wireless_ssid_traffic_shaping_rules(self, networkId: str, number: str):
+        """Display the traffic shaping settings for a SSID on an MR network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-ssid-traffic-shaping-rules
 
         - networkId (string): Network ID
         - number (string): Number
-        """
 
+        """
         metadata = {
             "tags": ["wireless", "configure", "ssids", "trafficShaping", "rules"],
-            "operation": "getNetworkWirelessSsidTrafficShapingRules",
+            "operation": "get_network_wireless_ssid_traffic_shaping_rules",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         number = urllib.parse.quote(str(number), safe="")
@@ -2868,18 +2878,18 @@ class Wireless:
 
         return self._session.get(metadata, resource)
 
-    def getNetworkWirelessSsidVpn(self, networkId: str, number: str):
+    def get_network_wireless_ssid_vpn(self, networkId: str, number: str):
         """List the VPN settings for the SSID.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-ssid-vpn
 
         - networkId (string): Network ID
         - number (string): Number
-        """
 
+        """
         metadata = {
             "tags": ["wireless", "configure", "ssids", "vpn"],
-            "operation": "getNetworkWirelessSsidVpn",
+            "operation": "get_network_wireless_ssid_vpn",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         number = urllib.parse.quote(str(number), safe="")
@@ -2887,8 +2897,8 @@ class Wireless:
 
         return self._session.get(metadata, resource)
 
-    def updateNetworkWirelessSsidVpn(self, networkId: str, number: str, **kwargs):
-        """Update the VPN settings for the SSID
+    def update_network_wireless_ssid_vpn(self, networkId: str, number: str, **kwargs):
+        """Update the VPN settings for the SSID.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-ssid-vpn
 
@@ -2897,13 +2907,13 @@ class Wireless:
         - concentrator (object): The VPN concentrator settings for this SSID.
         - splitTunnel (object): The VPN split tunnel settings for this SSID.
         - failover (object): Secondary VPN concentrator settings. This is only used when two VPN concentrators are configured on the SSID.
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["wireless", "configure", "ssids", "vpn"],
-            "operation": "updateNetworkWirelessSsidVpn",
+            "operation": "update_network_wireless_ssid_vpn",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         number = urllib.parse.quote(str(number), safe="")
@@ -2918,8 +2928,8 @@ class Wireless:
 
         return self._session.put(metadata, resource, payload)
 
-    def getNetworkWirelessUsageHistory(self, networkId: str, **kwargs):
-        """Return AP usage over time for a device or network client
+    def get_network_wireless_usage_history(self, networkId: str, **kwargs):
+        """Return AP usage over time for a device or network client.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-usage-history
 
@@ -2934,8 +2944,8 @@ class Wireless:
         - apTag (string): Filter results by AP tag; either :clientId or :deviceSerial must be jointly specified.
         - band (string): Filter results by band (either '2.4', '5' or '6').
         - ssid (integer): Filter results by SSID number.
-        """
 
+        """
         kwargs.update(locals())
 
         if "band" in kwargs:
@@ -2946,7 +2956,7 @@ class Wireless:
 
         metadata = {
             "tags": ["wireless", "monitor", "usageHistory"],
-            "operation": "getNetworkWirelessUsageHistory",
+            "operation": "get_network_wireless_usage_history",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/wireless/usageHistory"
@@ -2967,8 +2977,8 @@ class Wireless:
 
         return self._session.get(metadata, resource, params)
 
-    def updateNetworkWirelessZigbee(self, networkId: str, **kwargs):
-        """Update Zigbee Configs for specified network
+    def update_network_wireless_zigbee(self, networkId: str, **kwargs):
+        """Update Zigbee Configs for specified network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-wireless-zigbee
 
@@ -2977,13 +2987,13 @@ class Wireless:
         - iotController (object): Zigbee's IoT controller details
         - lockManagement (object): Login Credentials of on-premises lock management
         - defaults (object): Default Settings for Zigbee Devices
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["wireless", "configure", "zigbee"],
-            "operation": "updateNetworkWirelessZigbee",
+            "operation": "update_network_wireless_zigbee",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/wireless/zigbee"
@@ -2998,10 +3008,10 @@ class Wireless:
 
         return self._session.put(metadata, resource, payload)
 
-    def getOrganizationWirelessAirMarshalRules(
+    def get_organization_wireless_air_marshal_rules(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
-        """Returns the current Air Marshal rules for this organization
+        """Returns the current Air Marshal rules for this organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-air-marshal-rules
 
@@ -3012,13 +3022,13 @@ class Wireless:
         - perPage (integer): The number of entries per page returned. Acceptable range is 3 - 1000. Default is 1000.
         - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
         - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["wireless", "configure", "airMarshal", "rules"],
-            "operation": "getOrganizationWirelessAirMarshalRules",
+            "operation": "get_organization_wireless_air_marshal_rules",
         }
         organizationId = urllib.parse.quote(str(organizationId), safe="")
         resource = f"/organizations/{organizationId}/wireless/airMarshal/rules"
@@ -3041,10 +3051,10 @@ class Wireless:
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
-    def getOrganizationWirelessAirMarshalSettingsByNetwork(
+    def get_organization_wireless_air_marshal_settings_by_network(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
-        """Returns the current Air Marshal settings for this network
+        """Returns the current Air Marshal settings for this network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-air-marshal-settings-by-network
 
@@ -3055,13 +3065,13 @@ class Wireless:
         - perPage (integer): The number of entries per page returned. Acceptable range is 3 - 1000. Default is 1000.
         - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
         - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["wireless", "configure", "airMarshal", "settings", "byNetwork"],
-            "operation": "getOrganizationWirelessAirMarshalSettingsByNetwork",
+            "operation": "get_organization_wireless_air_marshal_settings_by_network",
         }
         organizationId = urllib.parse.quote(str(organizationId), safe="")
         resource = f"/organizations/{organizationId}/wireless/airMarshal/settings/byNetwork"
@@ -3084,10 +3094,10 @@ class Wireless:
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
-    def getOrganizationWirelessClientsOverviewByDevice(
+    def get_organization_wireless_clients_overview_by_device(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
-        """List access point client count at the moment in an organization
+        """List access point client count at the moment in an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-clients-overview-by-device
 
@@ -3100,13 +3110,13 @@ class Wireless:
         - perPage (integer): The number of entries per page returned. Acceptable range is 3 - 1000. Default is 1000.
         - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
         - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["wireless", "monitor", "clients", "overview", "byDevice"],
-            "operation": "getOrganizationWirelessClientsOverviewByDevice",
+            "operation": "get_organization_wireless_clients_overview_by_device",
         }
         organizationId = urllib.parse.quote(str(organizationId), safe="")
         resource = f"/organizations/{organizationId}/wireless/clients/overview/byDevice"
@@ -3133,10 +3143,10 @@ class Wireless:
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
-    def getOrganizationWirelessDevicesChannelUtilizationByDevice(
+    def get_organization_wireless_devices_channel_utilization_by_device(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
-        """Get average channel utilization for all bands in a network, split by AP
+        """Get average channel utilization for all bands in a network, split by AP.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-devices-channel-utilization-by-device
 
@@ -3152,13 +3162,13 @@ class Wireless:
         - t1 (string): The end of the timespan for the data. t1 can be a maximum of 90 days after t0.
         - timespan (number): The timespan for which the information will be fetched. If specifying timespan, do not specify parameters t0 and t1. The value must be in seconds and be less than or equal to 90 days. The default is 7 days.
         - interval (integer): The time interval in seconds for returned data. The valid intervals are: 300, 600, 3600, 7200, 14400, 21600. The default is 3600.
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["wireless", "monitor", "devices", "channelUtilization", "byDevice"],
-            "operation": "getOrganizationWirelessDevicesChannelUtilizationByDevice",
+            "operation": "get_organization_wireless_devices_channel_utilization_by_device",
         }
         organizationId = urllib.parse.quote(str(organizationId), safe="")
         resource = f"/organizations/{organizationId}/wireless/devices/channelUtilization/byDevice"
@@ -3187,10 +3197,10 @@ class Wireless:
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
-    def getOrganizationWirelessDevicesChannelUtilizationByNetwork(
+    def get_organization_wireless_devices_channel_utilization_by_network(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
-        """Get average channel utilization across all bands for all networks in the organization
+        """Get average channel utilization across all bands for all networks in the organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-devices-channel-utilization-by-network
 
@@ -3206,13 +3216,13 @@ class Wireless:
         - t1 (string): The end of the timespan for the data. t1 can be a maximum of 90 days after t0.
         - timespan (number): The timespan for which the information will be fetched. If specifying timespan, do not specify parameters t0 and t1. The value must be in seconds and be less than or equal to 90 days. The default is 7 days.
         - interval (integer): The time interval in seconds for returned data. The valid intervals are: 300, 600, 3600, 7200, 14400, 21600. The default is 3600.
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["wireless", "monitor", "devices", "channelUtilization", "byNetwork"],
-            "operation": "getOrganizationWirelessDevicesChannelUtilizationByNetwork",
+            "operation": "get_organization_wireless_devices_channel_utilization_by_network",
         }
         organizationId = urllib.parse.quote(str(organizationId), safe="")
         resource = f"/organizations/{organizationId}/wireless/devices/channelUtilization/byNetwork"
@@ -3241,7 +3251,7 @@ class Wireless:
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
-    def getOrganizationWirelessDevicesChannelUtilizationHistoryByDeviceByInterval(
+    def get_organization_wireless_devices_channel_utilization_history_by_device_by_interval(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
         """Get a time-series of average channel utilization for all bands, segmented by device.
@@ -3260,8 +3270,8 @@ class Wireless:
         - t1 (string): The end of the timespan for the data. t1 can be a maximum of 31 days after t0.
         - timespan (number): The timespan for which the information will be fetched. If specifying timespan, do not specify parameters t0 and t1. The value must be in seconds and be less than or equal to 31 days. The default is 7 days.
         - interval (integer): The time interval in seconds for returned data. The valid intervals are: 300, 600, 3600, 7200, 14400, 21600. The default is 3600.
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
@@ -3274,7 +3284,7 @@ class Wireless:
                 "byDevice",
                 "byInterval",
             ],
-            "operation": "getOrganizationWirelessDevicesChannelUtilizationHistoryByDeviceByInterval",
+            "operation": "get_organization_wireless_devices_channel_utilization_history_by_device_by_interval",
         }
         organizationId = urllib.parse.quote(str(organizationId), safe="")
         resource = f"/organizations/{organizationId}/wireless/devices/channelUtilization/history/byDevice/byInterval"
@@ -3303,10 +3313,10 @@ class Wireless:
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
-    def getOrganizationWirelessDevicesChannelUtilizationHistoryByNetworkByInterval(
+    def get_organization_wireless_devices_channel_utilization_history_by_network_by_interval(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
-        """Get a time-series of average channel utilization for all bands
+        """Get a time-series of average channel utilization for all bands.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-devices-channel-utilization-history-by-network-by-interval
 
@@ -3322,8 +3332,8 @@ class Wireless:
         - t1 (string): The end of the timespan for the data. t1 can be a maximum of 31 days after t0.
         - timespan (number): The timespan for which the information will be fetched. If specifying timespan, do not specify parameters t0 and t1. The value must be in seconds and be less than or equal to 31 days. The default is 7 days.
         - interval (integer): The time interval in seconds for returned data. The valid intervals are: 300, 600, 3600, 7200, 14400, 21600. The default is 3600.
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
@@ -3336,7 +3346,7 @@ class Wireless:
                 "byNetwork",
                 "byInterval",
             ],
-            "operation": "getOrganizationWirelessDevicesChannelUtilizationHistoryByNetworkByInterval",
+            "operation": "get_organization_wireless_devices_channel_utilization_history_by_network_by_interval",
         }
         organizationId = urllib.parse.quote(str(organizationId), safe="")
         resource = f"/organizations/{organizationId}/wireless/devices/channelUtilization/history/byNetwork/byInterval"
@@ -3365,7 +3375,7 @@ class Wireless:
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
-    def getOrganizationWirelessDevicesEthernetStatuses(
+    def get_organization_wireless_devices_ethernet_statuses(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
         """List the most recent Ethernet link speed, duplex, aggregation and power mode and status information for wireless devices.
@@ -3379,13 +3389,13 @@ class Wireless:
         - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
         - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
         - networkIds (array): A list of Meraki network IDs to filter results to contain only specified networks. E.g.: networkIds[]=N_12345678&networkIds[]=L_3456
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["wireless", "monitor", "devices", "ethernet", "statuses"],
-            "operation": "getOrganizationWirelessDevicesEthernetStatuses",
+            "operation": "get_organization_wireless_devices_ethernet_statuses",
         }
         organizationId = urllib.parse.quote(str(organizationId), safe="")
         resource = f"/organizations/{organizationId}/wireless/devices/ethernet/statuses"
@@ -3408,7 +3418,7 @@ class Wireless:
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
-    def getOrganizationWirelessDevicesPacketLossByClient(
+    def get_organization_wireless_devices_packet_loss_by_client(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
         """Get average packet loss for the given timespan for all clients in the organization.
@@ -3428,13 +3438,13 @@ class Wireless:
         - t0 (string): The beginning of the timespan for the data. The maximum lookback period is 90 days from today.
         - t1 (string): The end of the timespan for the data. t1 can be a maximum of 90 days after t0.
         - timespan (number): The timespan for which the information will be fetched. If specifying timespan, do not specify parameters t0 and t1. The value must be in seconds and be greater than or equal to 5 minutes and be less than or equal to 90 days. The default is 7 days.
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["wireless", "monitor", "devices", "packetLoss", "byClient"],
-            "operation": "getOrganizationWirelessDevicesPacketLossByClient",
+            "operation": "get_organization_wireless_devices_packet_loss_by_client",
         }
         organizationId = urllib.parse.quote(str(organizationId), safe="")
         resource = f"/organizations/{organizationId}/wireless/devices/packetLoss/byClient"
@@ -3466,10 +3476,10 @@ class Wireless:
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
-    def getOrganizationWirelessDevicesPacketLossByDevice(
+    def get_organization_wireless_devices_packet_loss_by_device(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
-        """Get average packet loss for the given timespan for all devices in the organization
+        """Get average packet loss for the given timespan for all devices in the organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-devices-packet-loss-by-device
 
@@ -3486,13 +3496,13 @@ class Wireless:
         - t0 (string): The beginning of the timespan for the data. The maximum lookback period is 90 days from today.
         - t1 (string): The end of the timespan for the data. t1 can be a maximum of 90 days after t0.
         - timespan (number): The timespan for which the information will be fetched. If specifying timespan, do not specify parameters t0 and t1. The value must be in seconds and be greater than or equal to 5 minutes and be less than or equal to 90 days. The default is 7 days.
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["wireless", "monitor", "devices", "packetLoss", "byDevice"],
-            "operation": "getOrganizationWirelessDevicesPacketLossByDevice",
+            "operation": "get_organization_wireless_devices_packet_loss_by_device",
         }
         organizationId = urllib.parse.quote(str(organizationId), safe="")
         resource = f"/organizations/{organizationId}/wireless/devices/packetLoss/byDevice"
@@ -3524,7 +3534,7 @@ class Wireless:
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
-    def getOrganizationWirelessDevicesPacketLossByNetwork(
+    def get_organization_wireless_devices_packet_loss_by_network(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
         """Get average packet loss for the given timespan for all networks in the organization.
@@ -3544,13 +3554,13 @@ class Wireless:
         - t0 (string): The beginning of the timespan for the data. The maximum lookback period is 90 days from today.
         - t1 (string): The end of the timespan for the data. t1 can be a maximum of 90 days after t0.
         - timespan (number): The timespan for which the information will be fetched. If specifying timespan, do not specify parameters t0 and t1. The value must be in seconds and be greater than or equal to 5 minutes and be less than or equal to 90 days. The default is 7 days.
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["wireless", "monitor", "devices", "packetLoss", "byNetwork"],
-            "operation": "getOrganizationWirelessDevicesPacketLossByNetwork",
+            "operation": "get_organization_wireless_devices_packet_loss_by_network",
         }
         organizationId = urllib.parse.quote(str(organizationId), safe="")
         resource = f"/organizations/{organizationId}/wireless/devices/packetLoss/byNetwork"
@@ -3582,10 +3592,10 @@ class Wireless:
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
-    def getOrganizationWirelessDevicesPowerModeHistory(
+    def get_organization_wireless_devices_power_mode_history(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
-        """Return a record of power mode changes for wireless devices in the organization
+        """Return a record of power mode changes for wireless devices in the organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-devices-power-mode-history
 
@@ -3600,13 +3610,13 @@ class Wireless:
         - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
         - networkIds (array): Optional parameter to filter the result set by the included set of network IDs
         - serials (array): Optional parameter to filter device availabilities history by device serial numbers
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["wireless", "monitor", "devices", "power", "mode", "history"],
-            "operation": "getOrganizationWirelessDevicesPowerModeHistory",
+            "operation": "get_organization_wireless_devices_power_mode_history",
         }
         organizationId = urllib.parse.quote(str(organizationId), safe="")
         resource = f"/organizations/{organizationId}/wireless/devices/power/mode/history"
@@ -3634,22 +3644,22 @@ class Wireless:
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
-    def getOrganizationWirelessDevicesRadsecCertificatesAuthorities(
+    def get_organization_wireless_devices_radsec_certificates_authorities(
         self, organizationId: str, **kwargs
     ):
-        """Query for details on the organization's RADSEC device Certificate Authority certificates (CAs)
+        """Query for details on the organization's RADSEC device Certificate Authority certificates (CAs).
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-devices-radsec-certificates-authorities
 
         - organizationId (string): Organization ID
         - certificateAuthorityIds (array): Optional parameter to filter CAs by one or more CA IDs. All returned CAs will have an ID that is an exact match.
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["wireless", "configure", "devices", "radsec", "certificates", "authorities"],
-            "operation": "getOrganizationWirelessDevicesRadsecCertificatesAuthorities",
+            "operation": "get_organization_wireless_devices_radsec_certificates_authorities",
         }
         organizationId = urllib.parse.quote(str(organizationId), safe="")
         resource = (
@@ -3671,23 +3681,23 @@ class Wireless:
 
         return self._session.get(metadata, resource, params)
 
-    def updateOrganizationWirelessDevicesRadsecCertificatesAuthorities(
+    def update_organization_wireless_devices_radsec_certificates_authorities(
         self, organizationId: str, **kwargs
     ):
-        """Update an organization's RADSEC device Certificate Authority (CA) state
+        """Update an organization's RADSEC device Certificate Authority (CA) state.
 
         https://developer.cisco.com/meraki/api-v1/#!update-organization-wireless-devices-radsec-certificates-authorities
 
         - organizationId (string): Organization ID
         - status (string): The "status" to update the Certificate Authority to. Only valid option is "trusted".
         - certificateAuthorityId (string): The ID of the Certificate Authority to update.
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["wireless", "configure", "devices", "radsec", "certificates", "authorities"],
-            "operation": "updateOrganizationWirelessDevicesRadsecCertificatesAuthorities",
+            "operation": "update_organization_wireless_devices_radsec_certificates_authorities",
         }
         organizationId = urllib.parse.quote(str(organizationId), safe="")
         resource = (
@@ -3702,17 +3712,19 @@ class Wireless:
 
         return self._session.put(metadata, resource, payload)
 
-    def createOrganizationWirelessDevicesRadsecCertificatesAuthority(self, organizationId: str):
-        """Create an organization's RADSEC device Certificate Authority (CA)
+    def create_organization_wireless_devices_radsec_certificates_authority(
+        self, organizationId: str
+    ):
+        """Create an organization's RADSEC device Certificate Authority (CA).
 
         https://developer.cisco.com/meraki/api-v1/#!create-organization-wireless-devices-radsec-certificates-authority
 
         - organizationId (string): Organization ID
-        """
 
+        """
         metadata = {
             "tags": ["wireless", "configure", "devices", "radsec", "certificates", "authorities"],
-            "operation": "createOrganizationWirelessDevicesRadsecCertificatesAuthority",
+            "operation": "create_organization_wireless_devices_radsec_certificates_authority",
         }
         organizationId = urllib.parse.quote(str(organizationId), safe="")
         resource = (
@@ -3721,7 +3733,7 @@ class Wireless:
 
         return self._session.post(metadata, resource)
 
-    def getOrganizationWirelessDevicesRadsecCertificatesAuthoritiesCrls(
+    def get_organization_wireless_devices_radsec_certificates_authorities_crls(
         self, organizationId: str, **kwargs
     ):
         """Query for certificate revocation list (CRL) for the organization's RADSEC device Certificate Authorities (CAs).
@@ -3730,8 +3742,8 @@ class Wireless:
 
         - organizationId (string): Organization ID
         - certificateAuthorityIds (array): Optional parameter to filter CAs by one or more CA IDs. All returned CAs will have an ID that is an exact match.
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
@@ -3744,7 +3756,7 @@ class Wireless:
                 "authorities",
                 "crls",
             ],
-            "operation": "getOrganizationWirelessDevicesRadsecCertificatesAuthoritiesCrls",
+            "operation": "get_organization_wireless_devices_radsec_certificates_authorities_crls",
         }
         organizationId = urllib.parse.quote(str(organizationId), safe="")
         resource = (
@@ -3766,7 +3778,7 @@ class Wireless:
 
         return self._session.get(metadata, resource, params)
 
-    def getOrganizationWirelessDevicesRadsecCertificatesAuthoritiesCrlsDeltas(
+    def get_organization_wireless_devices_radsec_certificates_authorities_crls_deltas(
         self, organizationId: str, **kwargs
     ):
         """Query for all delta certificate revocation list (CRL) for the organization's RADSEC device Certificate Authority (CA) with the given id.
@@ -3775,8 +3787,8 @@ class Wireless:
 
         - organizationId (string): Organization ID
         - certificateAuthorityIds (array): Parameter to filter CAs by one or more CA IDs. All returned CAs will have an ID that is an exact match.
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
@@ -3790,7 +3802,7 @@ class Wireless:
                 "crls",
                 "deltas",
             ],
-            "operation": "getOrganizationWirelessDevicesRadsecCertificatesAuthoritiesCrlsDeltas",
+            "operation": "get_organization_wireless_devices_radsec_certificates_authorities_crls_deltas",
         }
         organizationId = urllib.parse.quote(str(organizationId), safe="")
         resource = f"/organizations/{organizationId}/wireless/devices/radsec/certificates/authorities/crls/deltas"
@@ -3810,7 +3822,7 @@ class Wireless:
 
         return self._session.get(metadata, resource, params)
 
-    def getOrganizationWirelessDevicesSystemCpuLoadHistory(
+    def get_organization_wireless_devices_system_cpu_load_history(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
         """Return the CPU Load history for a list of wireless devices in the organization.
@@ -3828,13 +3840,13 @@ class Wireless:
         - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
         - networkIds (array): Optional parameter to filter the result set by the included set of network IDs
         - serials (array): Optional parameter to filter device availabilities history by device serial numbers
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["wireless", "monitor", "devices", "system", "cpu", "load", "history"],
-            "operation": "getOrganizationWirelessDevicesSystemCpuLoadHistory",
+            "operation": "get_organization_wireless_devices_system_cpu_load_history",
         }
         organizationId = urllib.parse.quote(str(organizationId), safe="")
         resource = f"/organizations/{organizationId}/wireless/devices/system/cpu/load/history"
@@ -3862,10 +3874,10 @@ class Wireless:
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
-    def getOrganizationWirelessDevicesWirelessControllersByDevice(
+    def get_organization_wireless_devices_wireless_controllers_by_device(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
-        """List of Catalyst access points information
+        """List of Catalyst access points information.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-devices-wireless-controllers-by-device
 
@@ -3878,13 +3890,13 @@ class Wireless:
         - perPage (integer): The number of entries per page returned. Acceptable range is 3 - 1000. Default is 100.
         - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
         - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["wireless", "monitor", "devices", "wirelessControllers", "byDevice"],
-            "operation": "getOrganizationWirelessDevicesWirelessControllersByDevice",
+            "operation": "get_organization_wireless_devices_wireless_controllers_by_device",
         }
         organizationId = urllib.parse.quote(str(organizationId), safe="")
         resource = f"/organizations/{organizationId}/wireless/devices/wirelessControllers/byDevice"
@@ -3911,10 +3923,10 @@ class Wireless:
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
-    def getOrganizationWirelessLocationScanningByNetwork(
+    def get_organization_wireless_location_scanning_by_network(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
-        """Return scanning API settings
+        """Return scanning API settings.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-location-scanning-by-network
 
@@ -3925,13 +3937,13 @@ class Wireless:
         - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
         - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
         - networkIds (array): Optional parameter to filter scanning settings by network ID.
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["wireless", "configure", "location", "scanning", "byNetwork"],
-            "operation": "getOrganizationWirelessLocationScanningByNetwork",
+            "operation": "get_organization_wireless_location_scanning_by_network",
         }
         organizationId = urllib.parse.quote(str(organizationId), safe="")
         resource = f"/organizations/{organizationId}/wireless/location/scanning/byNetwork"
@@ -3954,10 +3966,10 @@ class Wireless:
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
-    def getOrganizationWirelessLocationScanningReceivers(
+    def get_organization_wireless_location_scanning_receivers(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
-        """Return scanning API receivers
+        """Return scanning API receivers.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-location-scanning-receivers
 
@@ -3968,13 +3980,13 @@ class Wireless:
         - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
         - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
         - networkIds (array): Optional parameter to filter scanning API receivers by network ID.
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["wireless", "configure", "location", "scanning", "receivers"],
-            "operation": "getOrganizationWirelessLocationScanningReceivers",
+            "operation": "get_organization_wireless_location_scanning_receivers",
         }
         organizationId = urllib.parse.quote(str(organizationId), safe="")
         resource = f"/organizations/{organizationId}/wireless/location/scanning/receivers"
@@ -3997,7 +4009,7 @@ class Wireless:
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
-    def createOrganizationWirelessLocationScanningReceiver(
+    def create_organization_wireless_location_scanning_receiver(
         self,
         organizationId: str,
         network: dict,
@@ -4006,7 +4018,7 @@ class Wireless:
         radio: dict,
         sharedSecret: str,
     ):
-        """Add new receiver for scanning API
+        """Add new receiver for scanning API.
 
         https://developer.cisco.com/meraki/api-v1/#!create-organization-wireless-location-scanning-receiver
 
@@ -4016,13 +4028,13 @@ class Wireless:
         - version (string): Scanning API Version
         - radio (object): Add scanning API Radio
         - sharedSecret (string): Secret Value for Receiver
-        """
 
+        """
         kwargs = locals()
 
         metadata = {
             "tags": ["wireless", "configure", "location", "scanning", "receivers"],
-            "operation": "createOrganizationWirelessLocationScanningReceiver",
+            "operation": "create_organization_wireless_location_scanning_receiver",
         }
         organizationId = urllib.parse.quote(str(organizationId), safe="")
         resource = f"/organizations/{organizationId}/wireless/location/scanning/receivers"
@@ -4038,10 +4050,10 @@ class Wireless:
 
         return self._session.post(metadata, resource, payload)
 
-    def updateOrganizationWirelessLocationScanningReceiver(
+    def update_organization_wireless_location_scanning_receiver(
         self, organizationId: str, receiverId: str, **kwargs
     ):
-        """Change scanning API receiver settings
+        """Change scanning API receiver settings.
 
         https://developer.cisco.com/meraki/api-v1/#!update-organization-wireless-location-scanning-receiver
 
@@ -4050,13 +4062,13 @@ class Wireless:
         - url (string): Receiver Url
         - version (string): Scanning API Version
         - radio (object): Add scanning API Radio
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["wireless", "configure", "location", "scanning", "receivers"],
-            "operation": "updateOrganizationWirelessLocationScanningReceiver",
+            "operation": "update_organization_wireless_location_scanning_receiver",
         }
         organizationId = urllib.parse.quote(str(organizationId), safe="")
         receiverId = urllib.parse.quote(str(receiverId), safe="")
@@ -4073,20 +4085,20 @@ class Wireless:
 
         return self._session.put(metadata, resource, payload)
 
-    def deleteOrganizationWirelessLocationScanningReceiver(
+    def delete_organization_wireless_location_scanning_receiver(
         self, organizationId: str, receiverId: str
     ):
-        """Delete a scanning API receiver
+        """Delete a scanning API receiver.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-wireless-location-scanning-receiver
 
         - organizationId (string): Organization ID
         - receiverId (string): Receiver ID
-        """
 
+        """
         metadata = {
             "tags": ["wireless", "configure", "location", "scanning", "receivers"],
-            "operation": "deleteOrganizationWirelessLocationScanningReceiver",
+            "operation": "delete_organization_wireless_location_scanning_receiver",
         }
         organizationId = urllib.parse.quote(str(organizationId), safe="")
         receiverId = urllib.parse.quote(str(receiverId), safe="")
@@ -4096,10 +4108,10 @@ class Wireless:
 
         return self._session.delete(metadata, resource)
 
-    def getOrganizationWirelessMqttSettings(
+    def get_organization_wireless_mqtt_settings(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
-        """Return MQTT Settings for networks
+        """Return MQTT Settings for networks.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-mqtt-settings
 
@@ -4110,13 +4122,13 @@ class Wireless:
         - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
         - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
         - networkIds (array): Optional parameter to filter mqtt settings by network ID.
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["wireless", "configure", "mqtt", "settings"],
-            "operation": "getOrganizationWirelessMqttSettings",
+            "operation": "get_organization_wireless_mqtt_settings",
         }
         organizationId = urllib.parse.quote(str(organizationId), safe="")
         resource = f"/organizations/{organizationId}/wireless/mqtt/settings"
@@ -4139,10 +4151,10 @@ class Wireless:
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
-    def updateOrganizationWirelessMqttSettings(
+    def update_organization_wireless_mqtt_settings(
         self, organizationId: str, network: dict, mqtt: dict, **kwargs
     ):
-        """Add new broker config for wireless MQTT
+        """Add new broker config for wireless MQTT.
 
         https://developer.cisco.com/meraki/api-v1/#!update-organization-wireless-mqtt-settings
 
@@ -4151,13 +4163,13 @@ class Wireless:
         - mqtt (object): MQTT Settings for network
         - ble (object): MQTT BLE Settings for network
         - wifi (object): MQTT Wi-Fi Settings for network
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["wireless", "configure", "mqtt", "settings"],
-            "operation": "updateOrganizationWirelessMqttSettings",
+            "operation": "update_organization_wireless_mqtt_settings",
         }
         organizationId = urllib.parse.quote(str(organizationId), safe="")
         resource = f"/organizations/{organizationId}/wireless/mqtt/settings"
@@ -4172,22 +4184,22 @@ class Wireless:
 
         return self._session.put(metadata, resource, payload)
 
-    def recalculateOrganizationWirelessRadioAutoRfChannels(
+    def recalculate_organization_wireless_radio_auto_rf_channels(
         self, organizationId: str, networkIds: list
     ):
-        """Recalculates automatically assigned channels for every AP within specified the specified network(s)
+        """Recalculates automatically assigned channels for every AP within specified the specified network(s).
 
         https://developer.cisco.com/meraki/api-v1/#!recalculate-organization-wireless-radio-auto-rf-channels
 
         - organizationId (string): Organization ID
         - networkIds (array): A list of network ids (limit: 15).
-        """
 
+        """
         kwargs = locals()
 
         metadata = {
             "tags": ["wireless", "configure", "radio", "autoRf", "channels"],
-            "operation": "recalculateOrganizationWirelessRadioAutoRfChannels",
+            "operation": "recalculate_organization_wireless_radio_auto_rf_channels",
         }
         organizationId = urllib.parse.quote(str(organizationId), safe="")
         resource = f"/organizations/{organizationId}/wireless/radio/autoRf/channels/recalculate"
@@ -4199,10 +4211,10 @@ class Wireless:
 
         return self._session.post(metadata, resource, payload)
 
-    def getOrganizationWirelessRfProfilesAssignmentsByDevice(
+    def get_organization_wireless_rf_profiles_assignments_by_device(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
-        """List the RF profiles of an organization by device
+        """List the RF profiles of an organization by device.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-rf-profiles-assignments-by-device
 
@@ -4221,13 +4233,13 @@ class Wireless:
         - macs (array): Optional parameter to filter RF profiles by one or more device MAC addresses. All returned devices will have a MAC address that is an exact match.
         - serials (array): Optional parameter to filter RF profiles by one or more device serial numbers. All returned devices will have a serial number that is an exact match.
         - models (array): Optional parameter to filter RF profiles by one or more device models. All returned devices will have a model that is an exact match.
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["wireless", "configure", "rfProfiles", "assignments", "byDevice"],
-            "operation": "getOrganizationWirelessRfProfilesAssignmentsByDevice",
+            "operation": "get_organization_wireless_rf_profiles_assignments_by_device",
         }
         organizationId = urllib.parse.quote(str(organizationId), safe="")
         resource = f"/organizations/{organizationId}/wireless/rfProfiles/assignments/byDevice"
@@ -4262,10 +4274,10 @@ class Wireless:
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
-    def getOrganizationWirelessSsidsFirewallIsolationAllowlistEntries(
+    def get_organization_wireless_ssids_firewall_isolation_allowlist_entries(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
-        """List the L2 isolation allow list MAC entry in an organization
+        """List the L2 isolation allow list MAC entry in an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-ssids-firewall-isolation-allowlist-entries
 
@@ -4277,8 +4289,8 @@ class Wireless:
         - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
         - networkIds (array): networkIds array to filter out results
         - ssids (array): ssids number array to filter out results
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
@@ -4291,7 +4303,7 @@ class Wireless:
                 "allowlist",
                 "entries",
             ],
-            "operation": "getOrganizationWirelessSsidsFirewallIsolationAllowlistEntries",
+            "operation": "get_organization_wireless_ssids_firewall_isolation_allowlist_entries",
         }
         organizationId = urllib.parse.quote(str(organizationId), safe="")
         resource = (
@@ -4318,10 +4330,10 @@ class Wireless:
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
-    def createOrganizationWirelessSsidsFirewallIsolationAllowlistEntry(
+    def create_organization_wireless_ssids_firewall_isolation_allowlist_entry(
         self, organizationId: str, client: dict, ssid: dict, network: dict, **kwargs
     ):
-        """Create isolation allow list MAC entry for this organization
+        """Create isolation allow list MAC entry for this organization.
 
         https://developer.cisco.com/meraki/api-v1/#!create-organization-wireless-ssids-firewall-isolation-allowlist-entry
 
@@ -4330,8 +4342,8 @@ class Wireless:
         - ssid (object): The SSID that allowlist belongs to
         - network (object): The Network that allowlist belongs to
         - description (string): The description of mac address
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
@@ -4344,7 +4356,7 @@ class Wireless:
                 "allowlist",
                 "entries",
             ],
-            "operation": "createOrganizationWirelessSsidsFirewallIsolationAllowlistEntry",
+            "operation": "create_organization_wireless_ssids_firewall_isolation_allowlist_entry",
         }
         organizationId = urllib.parse.quote(str(organizationId), safe="")
         resource = (
@@ -4361,17 +4373,17 @@ class Wireless:
 
         return self._session.post(metadata, resource, payload)
 
-    def deleteOrganizationWirelessSsidsFirewallIsolationAllowlistEntry(
+    def delete_organization_wireless_ssids_firewall_isolation_allowlist_entry(
         self, organizationId: str, entryId: str
     ):
-        """Destroy isolation allow list MAC entry for this organization
+        """Destroy isolation allow list MAC entry for this organization.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-wireless-ssids-firewall-isolation-allowlist-entry
 
         - organizationId (string): Organization ID
         - entryId (string): Entry ID
-        """
 
+        """
         metadata = {
             "tags": [
                 "wireless",
@@ -4382,7 +4394,7 @@ class Wireless:
                 "allowlist",
                 "entries",
             ],
-            "operation": "deleteOrganizationWirelessSsidsFirewallIsolationAllowlistEntry",
+            "operation": "delete_organization_wireless_ssids_firewall_isolation_allowlist_entry",
         }
         organizationId = urllib.parse.quote(str(organizationId), safe="")
         entryId = urllib.parse.quote(str(entryId), safe="")
@@ -4390,10 +4402,10 @@ class Wireless:
 
         return self._session.delete(metadata, resource)
 
-    def updateOrganizationWirelessSsidsFirewallIsolationAllowlistEntry(
+    def update_organization_wireless_ssids_firewall_isolation_allowlist_entry(
         self, organizationId: str, entryId: str, **kwargs
     ):
-        """Update isolation allow list MAC entry info
+        """Update isolation allow list MAC entry info.
 
         https://developer.cisco.com/meraki/api-v1/#!update-organization-wireless-ssids-firewall-isolation-allowlist-entry
 
@@ -4401,8 +4413,8 @@ class Wireless:
         - entryId (string): Entry ID
         - description (string): The description of mac address
         - client (object): The client of allowlist
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
@@ -4415,7 +4427,7 @@ class Wireless:
                 "allowlist",
                 "entries",
             ],
-            "operation": "updateOrganizationWirelessSsidsFirewallIsolationAllowlistEntry",
+            "operation": "update_organization_wireless_ssids_firewall_isolation_allowlist_entry",
         }
         organizationId = urllib.parse.quote(str(organizationId), safe="")
         entryId = urllib.parse.quote(str(entryId), safe="")
@@ -4429,10 +4441,10 @@ class Wireless:
 
         return self._session.put(metadata, resource, payload)
 
-    def getOrganizationWirelessSsidsOpenRoamingByNetwork(
+    def get_organization_wireless_ssids_open_roaming_by_network(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
-        """Returns an array of objects, each containing SSID OpenRoaming configs for the corresponding network
+        """Returns an array of objects, each containing SSID OpenRoaming configs for the corresponding network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-ssids-open-roaming-by-network
 
@@ -4444,13 +4456,13 @@ class Wireless:
         - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
         - networkIds (array): Optional parameter to filter OpenRoaming configuration by Network Id.
         - includeDisabledSsids (boolean): Optional parameter to include OpenRoaming configuration for disabled ssids.
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["wireless", "configure", "ssids", "openRoaming", "byNetwork"],
-            "operation": "getOrganizationWirelessSsidsOpenRoamingByNetwork",
+            "operation": "get_organization_wireless_ssids_open_roaming_by_network",
         }
         organizationId = urllib.parse.quote(str(organizationId), safe="")
         resource = f"/organizations/{organizationId}/wireless/ssids/openRoaming/byNetwork"
@@ -4474,10 +4486,10 @@ class Wireless:
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
-    def getOrganizationWirelessSsidsStatusesByDevice(
+    def get_organization_wireless_ssids_statuses_by_device(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
-        """List status information of all BSSIDs in your organization
+        """List status information of all BSSIDs in your organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-ssids-statuses-by-device
 
@@ -4491,13 +4503,13 @@ class Wireless:
         - perPage (integer): The number of entries per page returned. Acceptable range is 3 - 500. Default is 100.
         - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
         - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["wireless", "monitor", "ssids", "statuses", "byDevice"],
-            "operation": "getOrganizationWirelessSsidsStatusesByDevice",
+            "operation": "get_organization_wireless_ssids_statuses_by_device",
         }
         organizationId = urllib.parse.quote(str(organizationId), safe="")
         resource = f"/organizations/{organizationId}/wireless/ssids/statuses/byDevice"
@@ -4525,10 +4537,10 @@ class Wireless:
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
-    def getOrganizationWirelessZigbeeByNetwork(
+    def get_organization_wireless_zigbee_by_network(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
-        """Return list of Zigbee configs
+        """Return list of Zigbee configs.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-zigbee-by-network
 
@@ -4539,13 +4551,13 @@ class Wireless:
         - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
         - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
         - networkIds (array): Filter by specified Network IDs
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["wireless", "configure", "zigbee", "byNetwork"],
-            "operation": "getOrganizationWirelessZigbeeByNetwork",
+            "operation": "get_organization_wireless_zigbee_by_network",
         }
         organizationId = urllib.parse.quote(str(organizationId), safe="")
         resource = f"/organizations/{organizationId}/wireless/zigbee/byNetwork"
@@ -4568,10 +4580,10 @@ class Wireless:
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
-    def getOrganizationWirelessZigbeeDevices(
+    def get_organization_wireless_zigbee_devices(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
-        """List the Zigbee wireless devices for an organization or the supplied network(s)
+        """List the Zigbee wireless devices for an organization or the supplied network(s).
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-zigbee-devices
 
@@ -4584,13 +4596,13 @@ class Wireless:
         - networkIds (array): Parameter of networks you want the zigbee devices for. E.g.: networkIds[]=N_12345678&networkIds[]=N_3456
         - isEnrolled (boolean): Filter devices based on if they are enrolled or not
         - search (string): Filter devices by their name, tag or serial
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["wireless", "configure", "zigbee", "devices"],
-            "operation": "getOrganizationWirelessZigbeeDevices",
+            "operation": "get_organization_wireless_zigbee_devices",
         }
         organizationId = urllib.parse.quote(str(organizationId), safe="")
         resource = f"/organizations/{organizationId}/wireless/zigbee/devices"
@@ -4615,10 +4627,10 @@ class Wireless:
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
-    def updateOrganizationWirelessZigbeeDevice(
+    def update_organization_wireless_zigbee_device(
         self, organizationId: str, id: str, enrolled: bool, **kwargs
     ):
-        """Endpoint to update zigbee gateways
+        """Endpoint to update zigbee gateways.
 
         https://developer.cisco.com/meraki/api-v1/#!update-organization-wireless-zigbee-device
 
@@ -4626,13 +4638,13 @@ class Wireless:
         - id (string): ID
         - enrolled (boolean): Parameter to enroll or unenroll the zigbee devices
         - channel (string): The new channel for the zigbee device
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["wireless", "configure", "zigbee", "devices"],
-            "operation": "updateOrganizationWirelessZigbeeDevice",
+            "operation": "update_organization_wireless_zigbee_device",
         }
         organizationId = urllib.parse.quote(str(organizationId), safe="")
         id = urllib.parse.quote(str(id), safe="")
@@ -4646,20 +4658,20 @@ class Wireless:
 
         return self._session.put(metadata, resource, payload)
 
-    def createOrganizationWirelessZigbeeDisenrollment(self, organizationId: str, **kwargs):
-        """Enqueue a job to start disenrolling door locks on zigbee configured wireless devices
+    def create_organization_wireless_zigbee_disenrollment(self, organizationId: str, **kwargs):
+        """Enqueue a job to start disenrolling door locks on zigbee configured wireless devices.
 
         https://developer.cisco.com/meraki/api-v1/#!create-organization-wireless-zigbee-disenrollment
 
         - organizationId (string): Organization ID
         - doorLockIds (array): A list of Meraki door lock ids to disenroll from the device
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["wireless", "configure", "zigbee", "disenrollments"],
-            "operation": "createOrganizationWirelessZigbeeDisenrollment",
+            "operation": "create_organization_wireless_zigbee_disenrollment",
         }
         organizationId = urllib.parse.quote(str(organizationId), safe="")
         resource = f"/organizations/{organizationId}/wireless/zigbee/disenrollments"
@@ -4671,18 +4683,20 @@ class Wireless:
 
         return self._session.post(metadata, resource, payload)
 
-    def getOrganizationWirelessZigbeeDisenrollment(self, organizationId: str, disenrollmentId: str):
-        """Return a disenrollment
+    def get_organization_wireless_zigbee_disenrollment(
+        self, organizationId: str, disenrollmentId: str
+    ):
+        """Return a disenrollment.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-zigbee-disenrollment
 
         - organizationId (string): Organization ID
         - disenrollmentId (string): Disenrollment ID
-        """
 
+        """
         metadata = {
             "tags": ["wireless", "configure", "zigbee", "disenrollments"],
-            "operation": "getOrganizationWirelessZigbeeDisenrollment",
+            "operation": "get_organization_wireless_zigbee_disenrollment",
         }
         organizationId = urllib.parse.quote(str(organizationId), safe="")
         disenrollmentId = urllib.parse.quote(str(disenrollmentId), safe="")
@@ -4692,10 +4706,10 @@ class Wireless:
 
         return self._session.get(metadata, resource)
 
-    def getOrganizationWirelessZigbeeDoorLocks(
+    def get_organization_wireless_zigbee_door_locks(
         self, organizationId: str, total_pages=1, direction="next", **kwargs
     ):
-        """Return the list of door locks for a network
+        """Return the list of door locks for a network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-zigbee-door-locks
 
@@ -4707,13 +4721,13 @@ class Wireless:
         - perPage (integer): The number of entries per page returned. Acceptable range is 3 - 500. Default is 50.
         - startingAfter (string): A token used by the server to indicate the start of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
         - endingBefore (string): A token used by the server to indicate the end of the page. Often this is a timestamp or an ID but it is not limited to those. This parameter should not be defined by client applications. The link for the first, last, prev, or next page in the HTTP Link header should define it.
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["wireless", "configure", "zigbee", "doorLocks"],
-            "operation": "getOrganizationWirelessZigbeeDoorLocks",
+            "operation": "get_organization_wireless_zigbee_door_locks",
         }
         organizationId = urllib.parse.quote(str(organizationId), safe="")
         resource = f"/organizations/{organizationId}/wireless/zigbee/doorLocks"
@@ -4737,23 +4751,23 @@ class Wireless:
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
-    def updateOrganizationWirelessZigbeeDoorLock(
+    def update_organization_wireless_zigbee_door_lock(
         self, organizationId: str, doorLockId: str, **kwargs
     ):
-        """Endpoint to batch update door locks params
+        """Endpoint to batch update door locks params.
 
         https://developer.cisco.com/meraki/api-v1/#!update-organization-wireless-zigbee-door-lock
 
         - organizationId (string): Organization ID
         - doorLockId (string): Door lock ID
         - name (string): Door lock name to update
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["wireless", "configure", "zigbee", "doorLocks"],
-            "operation": "updateOrganizationWirelessZigbeeDoorLock",
+            "operation": "update_organization_wireless_zigbee_door_lock",
         }
         organizationId = urllib.parse.quote(str(organizationId), safe="")
         doorLockId = urllib.parse.quote(str(doorLockId), safe="")

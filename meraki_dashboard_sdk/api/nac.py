@@ -12,10 +12,10 @@ class Nac:
         super(self).__init__()
         self._session = session
 
-    def createOrganizationNacCertificatesAuthoritiesCrl(
+    def create_organization_nac_certificates_authorities_crl(
         self, organizationId: str, caId: str, content: str, isDelta: bool
     ):
-        """Create a new CRL (either base or delta) for an existing CA
+        """Create a new CRL (either base or delta) for an existing CA.
 
         https://developer.cisco.com/meraki/api-v1/#!create-organization-nac-certificates-authorities-crl
 
@@ -23,13 +23,13 @@ class Nac:
         - caId (string): ID of the CRL issuer
         - content (string): CRL content in PEM format
         - isDelta (boolean): Whether it's a delta CRL or not
-        """
 
+        """
         kwargs = locals()
 
         metadata = {
             "tags": ["nac", "configure", "certificates", "authorities", "crls"],
-            "operation": "createOrganizationNacCertificatesAuthoritiesCrl",
+            "operation": "create_organization_nac_certificates_authorities_crl",
         }
         organizationId = urllib.parse.quote(str(organizationId), safe="")
         resource = f"/organizations/{organizationId}/nac/certificates/authorities/crls"

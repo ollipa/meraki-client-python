@@ -12,25 +12,25 @@ class AsyncCamera:
         super().__init__()
         self._session = session
 
-    def getDeviceCameraAnalyticsLive(self, serial: str):
-        """Returns live state from camera analytics zones
+    def get_device_camera_analytics_live(self, serial: str):
+        """Returns live state from camera analytics zones.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device-camera-analytics-live
 
         - serial (string): Serial
-        """
 
+        """
         metadata = {
             "tags": ["camera", "monitor", "analytics", "live"],
-            "operation": "getDeviceCameraAnalyticsLive",
+            "operation": "get_device_camera_analytics_live",
         }
         serial = urllib.parse.quote(str(serial), safe="")
         resource = f"/devices/{serial}/camera/analytics/live"
 
         return self._session.get(metadata, resource)
 
-    def getDeviceCameraAnalyticsOverview(self, serial: str, **kwargs):
-        """Returns an overview of aggregate analytics data for a timespan
+    def get_device_camera_analytics_overview(self, serial: str, **kwargs):
+        """Returns an overview of aggregate analytics data for a timespan.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device-camera-analytics-overview
 
@@ -39,8 +39,8 @@ class AsyncCamera:
         - t1 (string): The end of the timespan for the data. t1 can be a maximum of 7 days after t0.
         - timespan (number): The timespan for which the information will be fetched. If specifying timespan, do not specify parameters t0 and t1. The value must be in seconds and be less than or equal to 7 days. The default is 1 hour.
         - objectType (string): [optional] The object type for which analytics will be retrieved. The default object type is person. The available types are [person, vehicle].
-        """
 
+        """
         kwargs.update(locals())
 
         if "objectType" in kwargs:
@@ -51,7 +51,7 @@ class AsyncCamera:
 
         metadata = {
             "tags": ["camera", "monitor", "analytics", "overview"],
-            "operation": "getDeviceCameraAnalyticsOverview",
+            "operation": "get_device_camera_analytics_overview",
         }
         serial = urllib.parse.quote(str(serial), safe="")
         resource = f"/devices/{serial}/camera/analytics/overview"
@@ -66,15 +66,15 @@ class AsyncCamera:
 
         return self._session.get(metadata, resource, params)
 
-    def getDeviceCameraAnalyticsRecent(self, serial: str, **kwargs):
-        """Returns most recent record for analytics zones
+    def get_device_camera_analytics_recent(self, serial: str, **kwargs):
+        """Returns most recent record for analytics zones.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device-camera-analytics-recent
 
         - serial (string): Serial
         - objectType (string): [optional] The object type for which analytics will be retrieved. The default object type is person. The available types are [person, vehicle].
-        """
 
+        """
         kwargs.update(locals())
 
         if "objectType" in kwargs:
@@ -85,7 +85,7 @@ class AsyncCamera:
 
         metadata = {
             "tags": ["camera", "monitor", "analytics", "recent"],
-            "operation": "getDeviceCameraAnalyticsRecent",
+            "operation": "get_device_camera_analytics_recent",
         }
         serial = urllib.parse.quote(str(serial), safe="")
         resource = f"/devices/{serial}/camera/analytics/recent"
@@ -97,25 +97,25 @@ class AsyncCamera:
 
         return self._session.get(metadata, resource, params)
 
-    def getDeviceCameraAnalyticsZones(self, serial: str):
-        """Returns all configured analytic zones for this camera
+    def get_device_camera_analytics_zones(self, serial: str):
+        """Returns all configured analytic zones for this camera.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device-camera-analytics-zones
 
         - serial (string): Serial
-        """
 
+        """
         metadata = {
             "tags": ["camera", "monitor", "analytics", "zones"],
-            "operation": "getDeviceCameraAnalyticsZones",
+            "operation": "get_device_camera_analytics_zones",
         }
         serial = urllib.parse.quote(str(serial), safe="")
         resource = f"/devices/{serial}/camera/analytics/zones"
 
         return self._session.get(metadata, resource)
 
-    def getDeviceCameraAnalyticsZoneHistory(self, serial: str, zoneId: str, **kwargs):
-        """Return historical records for analytic zones
+    def get_device_camera_analytics_zone_history(self, serial: str, zoneId: str, **kwargs):
+        """Return historical records for analytic zones.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device-camera-analytics-zone-history
 
@@ -126,8 +126,8 @@ class AsyncCamera:
         - timespan (number): The timespan for which the information will be fetched. If specifying timespan, do not specify parameters t0 and t1. The value must be in seconds and be less than or equal to 14 hours. The default is 1 hour.
         - resolution (integer): The time resolution in seconds for returned data. The valid resolutions are: 60. The default is 60.
         - objectType (string): [optional] The object type for which analytics will be retrieved. The default object type is person. The available types are [person, vehicle].
-        """
 
+        """
         kwargs.update(locals())
 
         if "objectType" in kwargs:
@@ -138,7 +138,7 @@ class AsyncCamera:
 
         metadata = {
             "tags": ["camera", "monitor", "analytics", "zones", "history"],
-            "operation": "getDeviceCameraAnalyticsZoneHistory",
+            "operation": "get_device_camera_analytics_zone_history",
         }
         serial = urllib.parse.quote(str(serial), safe="")
         zoneId = urllib.parse.quote(str(zoneId), safe="")
@@ -155,25 +155,25 @@ class AsyncCamera:
 
         return self._session.get(metadata, resource, params)
 
-    def getDeviceCameraCustomAnalytics(self, serial: str):
-        """Return custom analytics settings for a camera
+    def get_device_camera_custom_analytics(self, serial: str):
+        """Return custom analytics settings for a camera.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device-camera-custom-analytics
 
         - serial (string): Serial
-        """
 
+        """
         metadata = {
             "tags": ["camera", "configure", "customAnalytics"],
-            "operation": "getDeviceCameraCustomAnalytics",
+            "operation": "get_device_camera_custom_analytics",
         }
         serial = urllib.parse.quote(str(serial), safe="")
         resource = f"/devices/{serial}/camera/customAnalytics"
 
         return self._session.get(metadata, resource)
 
-    def updateDeviceCameraCustomAnalytics(self, serial: str, **kwargs):
-        """Update custom analytics settings for a camera
+    def update_device_camera_custom_analytics(self, serial: str, **kwargs):
+        """Update custom analytics settings for a camera.
 
         https://developer.cisco.com/meraki/api-v1/#!update-device-camera-custom-analytics
 
@@ -181,13 +181,13 @@ class AsyncCamera:
         - enabled (boolean): Enable custom analytics
         - artifactId (string): The ID of the custom analytics artifact
         - parameters (array): Parameters for the custom analytics workload
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["camera", "configure", "customAnalytics"],
-            "operation": "updateDeviceCameraCustomAnalytics",
+            "operation": "update_device_camera_custom_analytics",
         }
         serial = urllib.parse.quote(str(serial), safe="")
         resource = f"/devices/{serial}/camera/customAnalytics"
@@ -201,7 +201,7 @@ class AsyncCamera:
 
         return self._session.put(metadata, resource, payload)
 
-    def generateDeviceCameraSnapshot(self, serial: str, **kwargs):
+    def generate_device_camera_snapshot(self, serial: str, **kwargs):
         """Generate a snapshot of what the camera sees at the specified time and return a link to that image.
 
         https://developer.cisco.com/meraki/api-v1/#!generate-device-camera-snapshot
@@ -209,11 +209,11 @@ class AsyncCamera:
         - serial (string): Serial
         - timestamp (string): [optional] The snapshot will be taken from this time on the camera. The timestamp is expected to be in ISO 8601 format. If no timestamp is specified, we will assume current time.
         - fullframe (boolean): [optional] If set to "true" the snapshot will be taken at full sensor resolution. This will error if used with timestamp.
-        """
 
+        """
         kwargs.update(locals())
 
-        metadata = {"tags": ["camera", "monitor"], "operation": "generateDeviceCameraSnapshot"}
+        metadata = {"tags": ["camera", "monitor"], "operation": "generate_device_camera_snapshot"}
         serial = urllib.parse.quote(str(serial), safe="")
         resource = f"/devices/{serial}/camera/generateSnapshot"
 
@@ -225,25 +225,25 @@ class AsyncCamera:
 
         return self._session.post(metadata, resource, payload)
 
-    def getDeviceCameraQualityAndRetention(self, serial: str):
-        """Returns quality and retention settings for the given camera
+    def get_device_camera_quality_and_retention(self, serial: str):
+        """Returns quality and retention settings for the given camera.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device-camera-quality-and-retention
 
         - serial (string): Serial
-        """
 
+        """
         metadata = {
             "tags": ["camera", "configure", "qualityAndRetention"],
-            "operation": "getDeviceCameraQualityAndRetention",
+            "operation": "get_device_camera_quality_and_retention",
         }
         serial = urllib.parse.quote(str(serial), safe="")
         resource = f"/devices/{serial}/camera/qualityAndRetention"
 
         return self._session.get(metadata, resource)
 
-    def updateDeviceCameraQualityAndRetention(self, serial: str, **kwargs):
-        """Update quality and retention settings for the given camera
+    def update_device_camera_quality_and_retention(self, serial: str, **kwargs):
+        """Update quality and retention settings for the given camera.
 
         https://developer.cisco.com/meraki/api-v1/#!update-device-camera-quality-and-retention
 
@@ -255,8 +255,8 @@ class AsyncCamera:
         - quality (string): Quality of the camera. Can be one of 'Standard', 'High', 'Enhanced' or 'Ultra'. Not all qualities are supported by every camera model.
         - resolution (string): Resolution of the camera. Can be one of '1280x720', '1920x1080', '1080x1080', '2112x2112', '2880x2880', '2688x1512' or '3840x2160'.Not all resolutions are supported by every camera model.
         - motionDetectorVersion (integer): The version of the motion detector that will be used by the camera. Only applies to Gen 2 cameras. Defaults to v2.
-        """
 
+        """
         kwargs.update(locals())
 
         if "quality" in kwargs:
@@ -285,7 +285,7 @@ class AsyncCamera:
 
         metadata = {
             "tags": ["camera", "configure", "qualityAndRetention"],
-            "operation": "updateDeviceCameraQualityAndRetention",
+            "operation": "update_device_camera_quality_and_retention",
         }
         serial = urllib.parse.quote(str(serial), safe="")
         resource = f"/devices/{serial}/camera/qualityAndRetention"
@@ -303,22 +303,25 @@ class AsyncCamera:
 
         return self._session.put(metadata, resource, payload)
 
-    def getDeviceCameraSense(self, serial: str):
-        """Returns sense settings for a given camera
+    def get_device_camera_sense(self, serial: str):
+        """Returns sense settings for a given camera.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device-camera-sense
 
         - serial (string): Serial
-        """
 
-        metadata = {"tags": ["camera", "configure", "sense"], "operation": "getDeviceCameraSense"}
+        """
+        metadata = {
+            "tags": ["camera", "configure", "sense"],
+            "operation": "get_device_camera_sense",
+        }
         serial = urllib.parse.quote(str(serial), safe="")
         resource = f"/devices/{serial}/camera/sense"
 
         return self._session.get(metadata, resource)
 
-    def updateDeviceCameraSense(self, serial: str, **kwargs):
-        """Update sense settings for the given camera
+    def update_device_camera_sense(self, serial: str, **kwargs):
+        """Update sense settings for the given camera.
 
         https://developer.cisco.com/meraki/api-v1/#!update-device-camera-sense
 
@@ -327,13 +330,13 @@ class AsyncCamera:
         - mqttBrokerId (string): The ID of the MQTT broker to be enabled on the camera. A value of null will disable MQTT on the camera
         - audioDetection (object): The details of the audio detection config.
         - detectionModelId (string): The ID of the object detection model
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["camera", "configure", "sense"],
-            "operation": "updateDeviceCameraSense",
+            "operation": "update_device_camera_sense",
         }
         serial = urllib.parse.quote(str(serial), safe="")
         resource = f"/devices/{serial}/camera/sense"
@@ -348,54 +351,54 @@ class AsyncCamera:
 
         return self._session.put(metadata, resource, payload)
 
-    def getDeviceCameraSenseObjectDetectionModels(self, serial: str):
-        """Returns the MV Sense object detection model list for the given camera
+    def get_device_camera_sense_object_detection_models(self, serial: str):
+        """Returns the MV Sense object detection model list for the given camera.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device-camera-sense-object-detection-models
 
         - serial (string): Serial
-        """
 
+        """
         metadata = {
             "tags": ["camera", "configure", "sense", "objectDetectionModels"],
-            "operation": "getDeviceCameraSenseObjectDetectionModels",
+            "operation": "get_device_camera_sense_object_detection_models",
         }
         serial = urllib.parse.quote(str(serial), safe="")
         resource = f"/devices/{serial}/camera/sense/objectDetectionModels"
 
         return self._session.get(metadata, resource)
 
-    def getDeviceCameraVideoSettings(self, serial: str):
-        """Returns video settings for the given camera
+    def get_device_camera_video_settings(self, serial: str):
+        """Returns video settings for the given camera.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device-camera-video-settings
 
         - serial (string): Serial
-        """
 
+        """
         metadata = {
             "tags": ["camera", "configure", "video", "settings"],
-            "operation": "getDeviceCameraVideoSettings",
+            "operation": "get_device_camera_video_settings",
         }
         serial = urllib.parse.quote(str(serial), safe="")
         resource = f"/devices/{serial}/camera/video/settings"
 
         return self._session.get(metadata, resource)
 
-    def updateDeviceCameraVideoSettings(self, serial: str, **kwargs):
-        """Update video settings for the given camera
+    def update_device_camera_video_settings(self, serial: str, **kwargs):
+        """Update video settings for the given camera.
 
         https://developer.cisco.com/meraki/api-v1/#!update-device-camera-video-settings
 
         - serial (string): Serial
         - externalRtspEnabled (boolean): Boolean indicating if external rtsp stream is exposed
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["camera", "configure", "video", "settings"],
-            "operation": "updateDeviceCameraVideoSettings",
+            "operation": "update_device_camera_video_settings",
         }
         serial = urllib.parse.quote(str(serial), safe="")
         resource = f"/devices/{serial}/camera/video/settings"
@@ -407,20 +410,20 @@ class AsyncCamera:
 
         return self._session.put(metadata, resource, payload)
 
-    def getDeviceCameraVideoLink(self, serial: str, **kwargs):
-        """Returns video link to the specified camera
+    def get_device_camera_video_link(self, serial: str, **kwargs):
+        """Returns video link to the specified camera.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device-camera-video-link
 
         - serial (string): Serial
         - timestamp (string): [optional] The video link will start at this time. The timestamp should be a string in ISO8601 format. If no timestamp is specified, we will assume current time.
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["camera", "configure", "videoLink"],
-            "operation": "getDeviceCameraVideoLink",
+            "operation": "get_device_camera_video_link",
         }
         serial = urllib.parse.quote(str(serial), safe="")
         resource = f"/devices/{serial}/camera/videoLink"
@@ -432,37 +435,37 @@ class AsyncCamera:
 
         return self._session.get(metadata, resource, params)
 
-    def getDeviceCameraWirelessProfiles(self, serial: str):
-        """Returns wireless profile assigned to the given camera
+    def get_device_camera_wireless_profiles(self, serial: str):
+        """Returns wireless profile assigned to the given camera.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device-camera-wireless-profiles
 
         - serial (string): Serial
-        """
 
+        """
         metadata = {
             "tags": ["camera", "configure", "wirelessProfiles"],
-            "operation": "getDeviceCameraWirelessProfiles",
+            "operation": "get_device_camera_wireless_profiles",
         }
         serial = urllib.parse.quote(str(serial), safe="")
         resource = f"/devices/{serial}/camera/wirelessProfiles"
 
         return self._session.get(metadata, resource)
 
-    def updateDeviceCameraWirelessProfiles(self, serial: str, ids: dict):
-        """Assign wireless profiles to the given camera
+    def update_device_camera_wireless_profiles(self, serial: str, ids: dict):
+        """Assign wireless profiles to the given camera.
 
         https://developer.cisco.com/meraki/api-v1/#!update-device-camera-wireless-profiles
 
         - serial (string): Serial
         - ids (object): The ids of the wireless profile to assign to the given camera
-        """
 
+        """
         kwargs = locals()
 
         metadata = {
             "tags": ["camera", "configure", "wirelessProfiles"],
-            "operation": "updateDeviceCameraWirelessProfiles",
+            "operation": "update_device_camera_wireless_profiles",
         }
         serial = urllib.parse.quote(str(serial), safe="")
         resource = f"/devices/{serial}/camera/wirelessProfiles"
@@ -474,24 +477,24 @@ class AsyncCamera:
 
         return self._session.put(metadata, resource, payload)
 
-    def getNetworkCameraQualityRetentionProfiles(self, networkId: str):
-        """List the quality retention profiles for this network
+    def get_network_camera_quality_retention_profiles(self, networkId: str):
+        """List the quality retention profiles for this network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-camera-quality-retention-profiles
 
         - networkId (string): Network ID
-        """
 
+        """
         metadata = {
             "tags": ["camera", "configure", "qualityRetentionProfiles"],
-            "operation": "getNetworkCameraQualityRetentionProfiles",
+            "operation": "get_network_camera_quality_retention_profiles",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/camera/qualityRetentionProfiles"
 
         return self._session.get(metadata, resource)
 
-    def createNetworkCameraQualityRetentionProfile(self, networkId: str, name: str, **kwargs):
+    def create_network_camera_quality_retention_profile(self, networkId: str, name: str, **kwargs):
         """Creates new quality retention profile for this network.
 
         https://developer.cisco.com/meraki/api-v1/#!create-network-camera-quality-retention-profile
@@ -507,13 +510,13 @@ class AsyncCamera:
         - scheduleId (string): Schedule for which this camera will record video, or 'null' to always record.
         - maxRetentionDays (integer): The maximum number of days for which the data will be stored, or 'null' to keep data until storage space runs out. If the former, it can be in the range of one to ninety days.
         - videoSettings (object): Video quality and resolution settings for all the camera models.
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["camera", "configure", "qualityRetentionProfiles"],
-            "operation": "createNetworkCameraQualityRetentionProfile",
+            "operation": "create_network_camera_quality_retention_profile",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/camera/qualityRetentionProfiles"
@@ -534,20 +537,20 @@ class AsyncCamera:
 
         return self._session.post(metadata, resource, payload)
 
-    def getNetworkCameraQualityRetentionProfile(
+    def get_network_camera_quality_retention_profile(
         self, networkId: str, qualityRetentionProfileId: str
     ):
-        """Retrieve a single quality retention profile
+        """Retrieve a single quality retention profile.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-camera-quality-retention-profile
 
         - networkId (string): Network ID
         - qualityRetentionProfileId (string): Quality retention profile ID
-        """
 
+        """
         metadata = {
             "tags": ["camera", "configure", "qualityRetentionProfiles"],
-            "operation": "getNetworkCameraQualityRetentionProfile",
+            "operation": "get_network_camera_quality_retention_profile",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         qualityRetentionProfileId = urllib.parse.quote(str(qualityRetentionProfileId), safe="")
@@ -557,7 +560,7 @@ class AsyncCamera:
 
         return self._session.get(metadata, resource)
 
-    def updateNetworkCameraQualityRetentionProfile(
+    def update_network_camera_quality_retention_profile(
         self, networkId: str, qualityRetentionProfileId: str, **kwargs
     ):
         """Update an existing quality retention profile for this network.
@@ -576,13 +579,13 @@ class AsyncCamera:
         - scheduleId (string): Schedule for which this camera will record video, or 'null' to always record.
         - maxRetentionDays (integer): The maximum number of days for which the data will be stored, or 'null' to keep data until storage space runs out. If the former, it can be in the range of one to ninety days.
         - videoSettings (object): Video quality and resolution settings for all the camera models.
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["camera", "configure", "qualityRetentionProfiles"],
-            "operation": "updateNetworkCameraQualityRetentionProfile",
+            "operation": "update_network_camera_quality_retention_profile",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         qualityRetentionProfileId = urllib.parse.quote(str(qualityRetentionProfileId), safe="")
@@ -606,7 +609,7 @@ class AsyncCamera:
 
         return self._session.put(metadata, resource, payload)
 
-    def deleteNetworkCameraQualityRetentionProfile(
+    def delete_network_camera_quality_retention_profile(
         self, networkId: str, qualityRetentionProfileId: str
     ):
         """Delete an existing quality retention profile for this network.
@@ -615,11 +618,11 @@ class AsyncCamera:
 
         - networkId (string): Network ID
         - qualityRetentionProfileId (string): Quality retention profile ID
-        """
 
+        """
         metadata = {
             "tags": ["camera", "configure", "qualityRetentionProfiles"],
-            "operation": "deleteNetworkCameraQualityRetentionProfile",
+            "operation": "delete_network_camera_quality_retention_profile",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         qualityRetentionProfileId = urllib.parse.quote(str(qualityRetentionProfileId), safe="")
@@ -629,24 +632,26 @@ class AsyncCamera:
 
         return self._session.delete(metadata, resource)
 
-    def getNetworkCameraSchedules(self, networkId: str):
+    def get_network_camera_schedules(self, networkId: str):
         """Returns a list of all camera recording schedules.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-camera-schedules
 
         - networkId (string): Network ID
-        """
 
+        """
         metadata = {
             "tags": ["camera", "configure", "schedules"],
-            "operation": "getNetworkCameraSchedules",
+            "operation": "get_network_camera_schedules",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/camera/schedules"
 
         return self._session.get(metadata, resource)
 
-    def createNetworkCameraWirelessProfile(self, networkId: str, name: str, ssid: dict, **kwargs):
+    def create_network_camera_wireless_profile(
+        self, networkId: str, name: str, ssid: dict, **kwargs
+    ):
         """Creates a new camera wireless profile for this network.
 
         https://developer.cisco.com/meraki/api-v1/#!create-network-camera-wireless-profile
@@ -655,13 +660,13 @@ class AsyncCamera:
         - name (string): The name of the camera wireless profile. This parameter is required.
         - ssid (object): The details of the SSID config.
         - identity (object): The identity of the wireless profile. Required for creating wireless profiles in 8021x-radius auth mode.
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["camera", "configure", "wirelessProfiles"],
-            "operation": "createNetworkCameraWirelessProfile",
+            "operation": "create_network_camera_wireless_profile",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/camera/wirelessProfiles"
@@ -675,35 +680,35 @@ class AsyncCamera:
 
         return self._session.post(metadata, resource, payload)
 
-    def getNetworkCameraWirelessProfiles(self, networkId: str):
+    def get_network_camera_wireless_profiles(self, networkId: str):
         """List the camera wireless profiles for this network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-camera-wireless-profiles
 
         - networkId (string): Network ID
-        """
 
+        """
         metadata = {
             "tags": ["camera", "configure", "wirelessProfiles"],
-            "operation": "getNetworkCameraWirelessProfiles",
+            "operation": "get_network_camera_wireless_profiles",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         resource = f"/networks/{networkId}/camera/wirelessProfiles"
 
         return self._session.get(metadata, resource)
 
-    def getNetworkCameraWirelessProfile(self, networkId: str, wirelessProfileId: str):
+    def get_network_camera_wireless_profile(self, networkId: str, wirelessProfileId: str):
         """Retrieve a single camera wireless profile.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-camera-wireless-profile
 
         - networkId (string): Network ID
         - wirelessProfileId (string): Wireless profile ID
-        """
 
+        """
         metadata = {
             "tags": ["camera", "configure", "wirelessProfiles"],
-            "operation": "getNetworkCameraWirelessProfile",
+            "operation": "get_network_camera_wireless_profile",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         wirelessProfileId = urllib.parse.quote(str(wirelessProfileId), safe="")
@@ -711,7 +716,9 @@ class AsyncCamera:
 
         return self._session.get(metadata, resource)
 
-    def updateNetworkCameraWirelessProfile(self, networkId: str, wirelessProfileId: str, **kwargs):
+    def update_network_camera_wireless_profile(
+        self, networkId: str, wirelessProfileId: str, **kwargs
+    ):
         """Update an existing camera wireless profile in this network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-camera-wireless-profile
@@ -721,13 +728,13 @@ class AsyncCamera:
         - name (string): The name of the camera wireless profile.
         - ssid (object): The details of the SSID config.
         - identity (object): The identity of the wireless profile. Required for creating wireless profiles in 8021x-radius auth mode.
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["camera", "configure", "wirelessProfiles"],
-            "operation": "updateNetworkCameraWirelessProfile",
+            "operation": "update_network_camera_wireless_profile",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         wirelessProfileId = urllib.parse.quote(str(wirelessProfileId), safe="")
@@ -742,18 +749,18 @@ class AsyncCamera:
 
         return self._session.put(metadata, resource, payload)
 
-    def deleteNetworkCameraWirelessProfile(self, networkId: str, wirelessProfileId: str):
+    def delete_network_camera_wireless_profile(self, networkId: str, wirelessProfileId: str):
         """Delete an existing camera wireless profile for this network.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-network-camera-wireless-profile
 
         - networkId (string): Network ID
         - wirelessProfileId (string): Wireless profile ID
-        """
 
+        """
         metadata = {
             "tags": ["camera", "configure", "wirelessProfiles"],
-            "operation": "deleteNetworkCameraWirelessProfile",
+            "operation": "delete_network_camera_wireless_profile",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         wirelessProfileId = urllib.parse.quote(str(wirelessProfileId), safe="")
@@ -761,20 +768,20 @@ class AsyncCamera:
 
         return self._session.delete(metadata, resource)
 
-    def getOrganizationCameraBoundariesAreasByDevice(self, organizationId: str, **kwargs):
-        """Returns all configured area boundaries of cameras
+    def get_organization_camera_boundaries_areas_by_device(self, organizationId: str, **kwargs):
+        """Returns all configured area boundaries of cameras.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-camera-boundaries-areas-by-device
 
         - organizationId (string): Organization ID
         - serials (array): A list of serial numbers. The returned cameras will be filtered to only include these serials.
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["camera", "configure", "boundaries", "areas", "byDevice"],
-            "operation": "getOrganizationCameraBoundariesAreasByDevice",
+            "operation": "get_organization_camera_boundaries_areas_by_device",
         }
         organizationId = urllib.parse.quote(str(organizationId), safe="")
         resource = f"/organizations/{organizationId}/camera/boundaries/areas/byDevice"
@@ -794,20 +801,20 @@ class AsyncCamera:
 
         return self._session.get(metadata, resource, params)
 
-    def getOrganizationCameraBoundariesLinesByDevice(self, organizationId: str, **kwargs):
-        """Returns all configured crossingline boundaries of cameras
+    def get_organization_camera_boundaries_lines_by_device(self, organizationId: str, **kwargs):
+        """Returns all configured crossingline boundaries of cameras.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-camera-boundaries-lines-by-device
 
         - organizationId (string): Organization ID
         - serials (array): A list of serial numbers. The returned cameras will be filtered to only include these serials.
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["camera", "configure", "boundaries", "lines", "byDevice"],
-            "operation": "getOrganizationCameraBoundariesLinesByDevice",
+            "operation": "get_organization_camera_boundaries_lines_by_device",
         }
         organizationId = urllib.parse.quote(str(organizationId), safe="")
         resource = f"/organizations/{organizationId}/camera/boundaries/lines/byDevice"
@@ -827,37 +834,37 @@ class AsyncCamera:
 
         return self._session.get(metadata, resource, params)
 
-    def getOrganizationCameraCustomAnalyticsArtifacts(self, organizationId: str):
-        """List Custom Analytics Artifacts
+    def get_organization_camera_custom_analytics_artifacts(self, organizationId: str):
+        """List Custom Analytics Artifacts.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-camera-custom-analytics-artifacts
 
         - organizationId (string): Organization ID
-        """
 
+        """
         metadata = {
             "tags": ["camera", "configure", "customAnalytics", "artifacts"],
-            "operation": "getOrganizationCameraCustomAnalyticsArtifacts",
+            "operation": "get_organization_camera_custom_analytics_artifacts",
         }
         organizationId = urllib.parse.quote(str(organizationId), safe="")
         resource = f"/organizations/{organizationId}/camera/customAnalytics/artifacts"
 
         return self._session.get(metadata, resource)
 
-    def createOrganizationCameraCustomAnalyticsArtifact(self, organizationId: str, **kwargs):
-        """Create custom analytics artifact
+    def create_organization_camera_custom_analytics_artifact(self, organizationId: str, **kwargs):
+        """Create custom analytics artifact.
 
         https://developer.cisco.com/meraki/api-v1/#!create-organization-camera-custom-analytics-artifact
 
         - organizationId (string): Organization ID
         - name (string): Unique name of the artifact
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["camera", "configure", "customAnalytics", "artifacts"],
-            "operation": "createOrganizationCameraCustomAnalyticsArtifact",
+            "operation": "create_organization_camera_custom_analytics_artifact",
         }
         organizationId = urllib.parse.quote(str(organizationId), safe="")
         resource = f"/organizations/{organizationId}/camera/customAnalytics/artifacts"
@@ -869,18 +876,20 @@ class AsyncCamera:
 
         return self._session.post(metadata, resource, payload)
 
-    def getOrganizationCameraCustomAnalyticsArtifact(self, organizationId: str, artifactId: str):
-        """Get Custom Analytics Artifact
+    def get_organization_camera_custom_analytics_artifact(
+        self, organizationId: str, artifactId: str
+    ):
+        """Get Custom Analytics Artifact.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-camera-custom-analytics-artifact
 
         - organizationId (string): Organization ID
         - artifactId (string): Artifact ID
-        """
 
+        """
         metadata = {
             "tags": ["camera", "configure", "customAnalytics", "artifacts"],
-            "operation": "getOrganizationCameraCustomAnalyticsArtifact",
+            "operation": "get_organization_camera_custom_analytics_artifact",
         }
         organizationId = urllib.parse.quote(str(organizationId), safe="")
         artifactId = urllib.parse.quote(str(artifactId), safe="")
@@ -888,18 +897,20 @@ class AsyncCamera:
 
         return self._session.get(metadata, resource)
 
-    def deleteOrganizationCameraCustomAnalyticsArtifact(self, organizationId: str, artifactId: str):
-        """Delete Custom Analytics Artifact
+    def delete_organization_camera_custom_analytics_artifact(
+        self, organizationId: str, artifactId: str
+    ):
+        """Delete Custom Analytics Artifact.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-camera-custom-analytics-artifact
 
         - organizationId (string): Organization ID
         - artifactId (string): Artifact ID
-        """
 
+        """
         metadata = {
             "tags": ["camera", "configure", "customAnalytics", "artifacts"],
-            "operation": "deleteOrganizationCameraCustomAnalyticsArtifact",
+            "operation": "delete_organization_camera_custom_analytics_artifact",
         }
         organizationId = urllib.parse.quote(str(organizationId), safe="")
         artifactId = urllib.parse.quote(str(artifactId), safe="")
@@ -907,7 +918,7 @@ class AsyncCamera:
 
         return self._session.delete(metadata, resource)
 
-    def getOrganizationCameraDetectionsHistoryByBoundaryByInterval(
+    def get_organization_camera_detections_history_by_boundary_by_interval(
         self,
         organizationId: str,
         boundaryIds: list,
@@ -916,7 +927,7 @@ class AsyncCamera:
         direction="next",
         **kwargs,
     ):
-        """Returns analytics data for timespans
+        """Returns analytics data for timespans.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-camera-detections-history-by-boundary-by-interval
 
@@ -928,13 +939,13 @@ class AsyncCamera:
         - duration (integer): The minimum time, in seconds, that the person or car remains in the area to be counted. Defaults to boundary configuration or 60.
         - perPage (integer): The number of entries per page returned. Acceptable range is 1 - 1000. Defaults to 1000.
         - boundaryTypes (array): The detection types. Defaults to 'person'.
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["camera", "configure", "detections", "history", "byBoundary", "byInterval"],
-            "operation": "getOrganizationCameraDetectionsHistoryByBoundaryByInterval",
+            "operation": "get_organization_camera_detections_history_by_boundary_by_interval",
         }
         organizationId = urllib.parse.quote(str(organizationId), safe="")
         resource = (
@@ -962,21 +973,21 @@ class AsyncCamera:
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
-    def getOrganizationCameraOnboardingStatuses(self, organizationId: str, **kwargs):
-        """Fetch onboarding status of cameras
+    def get_organization_camera_onboarding_statuses(self, organizationId: str, **kwargs):
+        """Fetch onboarding status of cameras.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-camera-onboarding-statuses
 
         - organizationId (string): Organization ID
         - serials (array): A list of serial numbers. The returned cameras will be filtered to only include these serials.
         - networkIds (array): A list of network IDs. The returned cameras will be filtered to only include these networks.
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["camera", "configure", "onboarding", "statuses"],
-            "operation": "getOrganizationCameraOnboardingStatuses",
+            "operation": "get_organization_camera_onboarding_statuses",
         }
         organizationId = urllib.parse.quote(str(organizationId), safe="")
         resource = f"/organizations/{organizationId}/camera/onboarding/statuses"
@@ -998,21 +1009,21 @@ class AsyncCamera:
 
         return self._session.get(metadata, resource, params)
 
-    def updateOrganizationCameraOnboardingStatuses(self, organizationId: str, **kwargs):
-        """Notify that credential handoff to camera has completed
+    def update_organization_camera_onboarding_statuses(self, organizationId: str, **kwargs):
+        """Notify that credential handoff to camera has completed.
 
         https://developer.cisco.com/meraki/api-v1/#!update-organization-camera-onboarding-statuses
 
         - organizationId (string): Organization ID
         - serial (string): Serial of camera
         - wirelessCredentialsSent (boolean): Note whether credentials were sent successfully
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["camera", "configure", "onboarding", "statuses"],
-            "operation": "updateOrganizationCameraOnboardingStatuses",
+            "operation": "update_organization_camera_onboarding_statuses",
         }
         organizationId = urllib.parse.quote(str(organizationId), safe="")
         resource = f"/organizations/{organizationId}/camera/onboarding/statuses"
@@ -1025,35 +1036,35 @@ class AsyncCamera:
 
         return self._session.put(metadata, resource, payload)
 
-    def getOrganizationCameraPermissions(self, organizationId: str):
-        """List the permissions scopes for this organization
+    def get_organization_camera_permissions(self, organizationId: str):
+        """List the permissions scopes for this organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-camera-permissions
 
         - organizationId (string): Organization ID
-        """
 
+        """
         metadata = {
             "tags": ["camera", "configure", "permissions"],
-            "operation": "getOrganizationCameraPermissions",
+            "operation": "get_organization_camera_permissions",
         }
         organizationId = urllib.parse.quote(str(organizationId), safe="")
         resource = f"/organizations/{organizationId}/camera/permissions"
 
         return self._session.get(metadata, resource)
 
-    def getOrganizationCameraPermission(self, organizationId: str, permissionScopeId: str):
-        """Retrieve a single permission scope
+    def get_organization_camera_permission(self, organizationId: str, permissionScopeId: str):
+        """Retrieve a single permission scope.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-camera-permission
 
         - organizationId (string): Organization ID
         - permissionScopeId (string): Permission scope ID
-        """
 
+        """
         metadata = {
             "tags": ["camera", "configure", "permissions"],
-            "operation": "getOrganizationCameraPermission",
+            "operation": "get_organization_camera_permission",
         }
         organizationId = urllib.parse.quote(str(organizationId), safe="")
         permissionScopeId = urllib.parse.quote(str(permissionScopeId), safe="")
@@ -1061,24 +1072,24 @@ class AsyncCamera:
 
         return self._session.get(metadata, resource)
 
-    def getOrganizationCameraRoles(self, organizationId: str):
-        """List all the roles in this organization
+    def get_organization_camera_roles(self, organizationId: str):
+        """List all the roles in this organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-camera-roles
 
         - organizationId (string): Organization ID
-        """
 
+        """
         metadata = {
             "tags": ["camera", "configure", "roles"],
-            "operation": "getOrganizationCameraRoles",
+            "operation": "get_organization_camera_roles",
         }
         organizationId = urllib.parse.quote(str(organizationId), safe="")
         resource = f"/organizations/{organizationId}/camera/roles"
 
         return self._session.get(metadata, resource)
 
-    def createOrganizationCameraRole(self, organizationId: str, name: str, **kwargs):
+    def create_organization_camera_role(self, organizationId: str, name: str, **kwargs):
         """Creates new role for this organization.
 
         https://developer.cisco.com/meraki/api-v1/#!create-organization-camera-role
@@ -1088,13 +1099,13 @@ class AsyncCamera:
         - appliedOnDevices (array): Device tag on which this specified permission is applied.
         - appliedOnNetworks (array): Network tag on which this specified permission is applied.
         - appliedOrgWide (array): Permissions to be applied org wide.
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["camera", "configure", "roles"],
-            "operation": "createOrganizationCameraRole",
+            "operation": "create_organization_camera_role",
         }
         organizationId = urllib.parse.quote(str(organizationId), safe="")
         resource = f"/organizations/{organizationId}/camera/roles"
@@ -1109,18 +1120,18 @@ class AsyncCamera:
 
         return self._session.post(metadata, resource, payload)
 
-    def getOrganizationCameraRole(self, organizationId: str, roleId: str):
+    def get_organization_camera_role(self, organizationId: str, roleId: str):
         """Retrieve a single role.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-camera-role
 
         - organizationId (string): Organization ID
         - roleId (string): Role ID
-        """
 
+        """
         metadata = {
             "tags": ["camera", "configure", "roles"],
-            "operation": "getOrganizationCameraRole",
+            "operation": "get_organization_camera_role",
         }
         organizationId = urllib.parse.quote(str(organizationId), safe="")
         roleId = urllib.parse.quote(str(roleId), safe="")
@@ -1128,18 +1139,18 @@ class AsyncCamera:
 
         return self._session.get(metadata, resource)
 
-    def deleteOrganizationCameraRole(self, organizationId: str, roleId: str):
+    def delete_organization_camera_role(self, organizationId: str, roleId: str):
         """Delete an existing role for this organization.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-camera-role
 
         - organizationId (string): Organization ID
         - roleId (string): Role ID
-        """
 
+        """
         metadata = {
             "tags": ["camera", "configure", "roles"],
-            "operation": "deleteOrganizationCameraRole",
+            "operation": "delete_organization_camera_role",
         }
         organizationId = urllib.parse.quote(str(organizationId), safe="")
         roleId = urllib.parse.quote(str(roleId), safe="")
@@ -1147,7 +1158,7 @@ class AsyncCamera:
 
         return self._session.delete(metadata, resource)
 
-    def updateOrganizationCameraRole(self, organizationId: str, roleId: str, **kwargs):
+    def update_organization_camera_role(self, organizationId: str, roleId: str, **kwargs):
         """Update an existing role in this organization.
 
         https://developer.cisco.com/meraki/api-v1/#!update-organization-camera-role
@@ -1158,13 +1169,13 @@ class AsyncCamera:
         - appliedOnDevices (array): Device tag on which this specified permission is applied.
         - appliedOnNetworks (array): Network tag on which this specified permission is applied.
         - appliedOrgWide (array): Permissions to be applied org wide.
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["camera", "configure", "roles"],
-            "operation": "updateOrganizationCameraRole",
+            "operation": "update_organization_camera_role",
         }
         organizationId = urllib.parse.quote(str(organizationId), safe="")
         roleId = urllib.parse.quote(str(roleId), safe="")

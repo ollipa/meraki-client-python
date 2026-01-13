@@ -12,10 +12,10 @@ class AsyncInsight:
         super().__init__()
         self._session = session
 
-    def getNetworkInsightApplicationHealthByTime(
+    def get_network_insight_application_health_by_time(
         self, networkId: str, applicationId: str, **kwargs
     ):
-        """Get application health by time
+        """Get application health by time.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-insight-application-health-by-time
 
@@ -25,13 +25,13 @@ class AsyncInsight:
         - t1 (string): The end of the timespan for the data. t1 can be a maximum of 7 days after t0.
         - timespan (number): The timespan for which the information will be fetched. If specifying timespan, do not specify parameters t0 and t1. The value must be in seconds and be less than or equal to 7 days. The default is 2 hours.
         - resolution (integer): The time resolution in seconds for returned data. The valid resolutions are: 60, 300, 3600, 86400. The default is 300.
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["insight", "monitor", "applications", "healthByTime"],
-            "operation": "getNetworkInsightApplicationHealthByTime",
+            "operation": "get_network_insight_application_health_by_time",
         }
         networkId = urllib.parse.quote(str(networkId), safe="")
         applicationId = urllib.parse.quote(str(applicationId), safe="")
@@ -47,44 +47,44 @@ class AsyncInsight:
 
         return self._session.get(metadata, resource, params)
 
-    def getOrganizationInsightApplications(self, organizationId: str):
-        """List all Insight tracked applications
+    def get_organization_insight_applications(self, organizationId: str):
+        """List all Insight tracked applications.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-insight-applications
 
         - organizationId (string): Organization ID
-        """
 
+        """
         metadata = {
             "tags": ["insight", "configure", "applications"],
-            "operation": "getOrganizationInsightApplications",
+            "operation": "get_organization_insight_applications",
         }
         organizationId = urllib.parse.quote(str(organizationId), safe="")
         resource = f"/organizations/{organizationId}/insight/applications"
 
         return self._session.get(metadata, resource)
 
-    def getOrganizationInsightMonitoredMediaServers(self, organizationId: str):
-        """List the monitored media servers for this organization
+    def get_organization_insight_monitored_media_servers(self, organizationId: str):
+        """List the monitored media servers for this organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-insight-monitored-media-servers
 
         - organizationId (string): Organization ID
-        """
 
+        """
         metadata = {
             "tags": ["insight", "configure", "monitoredMediaServers"],
-            "operation": "getOrganizationInsightMonitoredMediaServers",
+            "operation": "get_organization_insight_monitored_media_servers",
         }
         organizationId = urllib.parse.quote(str(organizationId), safe="")
         resource = f"/organizations/{organizationId}/insight/monitoredMediaServers"
 
         return self._session.get(metadata, resource)
 
-    def createOrganizationInsightMonitoredMediaServer(
+    def create_organization_insight_monitored_media_server(
         self, organizationId: str, name: str, address: str, **kwargs
     ):
-        """Add a media server to be monitored for this organization
+        """Add a media server to be monitored for this organization.
 
         https://developer.cisco.com/meraki/api-v1/#!create-organization-insight-monitored-media-server
 
@@ -92,13 +92,13 @@ class AsyncInsight:
         - name (string): The name of the VoIP provider
         - address (string): The IP address (IPv4 only) or hostname of the media server to monitor
         - bestEffortMonitoringEnabled (boolean): Indicates that if the media server doesn't respond to ICMP pings, the nearest hop will be used in its stead.
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["insight", "configure", "monitoredMediaServers"],
-            "operation": "createOrganizationInsightMonitoredMediaServer",
+            "operation": "create_organization_insight_monitored_media_server",
         }
         organizationId = urllib.parse.quote(str(organizationId), safe="")
         resource = f"/organizations/{organizationId}/insight/monitoredMediaServers"
@@ -112,20 +112,20 @@ class AsyncInsight:
 
         return self._session.post(metadata, resource, payload)
 
-    def getOrganizationInsightMonitoredMediaServer(
+    def get_organization_insight_monitored_media_server(
         self, organizationId: str, monitoredMediaServerId: str
     ):
-        """Return a monitored media server for this organization
+        """Return a monitored media server for this organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-insight-monitored-media-server
 
         - organizationId (string): Organization ID
         - monitoredMediaServerId (string): Monitored media server ID
-        """
 
+        """
         metadata = {
             "tags": ["insight", "configure", "monitoredMediaServers"],
-            "operation": "getOrganizationInsightMonitoredMediaServer",
+            "operation": "get_organization_insight_monitored_media_server",
         }
         organizationId = urllib.parse.quote(str(organizationId), safe="")
         monitoredMediaServerId = urllib.parse.quote(str(monitoredMediaServerId), safe="")
@@ -133,10 +133,10 @@ class AsyncInsight:
 
         return self._session.get(metadata, resource)
 
-    def updateOrganizationInsightMonitoredMediaServer(
+    def update_organization_insight_monitored_media_server(
         self, organizationId: str, monitoredMediaServerId: str, **kwargs
     ):
-        """Update a monitored media server for this organization
+        """Update a monitored media server for this organization.
 
         https://developer.cisco.com/meraki/api-v1/#!update-organization-insight-monitored-media-server
 
@@ -145,13 +145,13 @@ class AsyncInsight:
         - name (string): The name of the VoIP provider
         - address (string): The IP address (IPv4 only) or hostname of the media server to monitor
         - bestEffortMonitoringEnabled (boolean): Indicates that if the media server doesn't respond to ICMP pings, the nearest hop will be used in its stead.
-        """
 
+        """
         kwargs.update(locals())
 
         metadata = {
             "tags": ["insight", "configure", "monitoredMediaServers"],
-            "operation": "updateOrganizationInsightMonitoredMediaServer",
+            "operation": "update_organization_insight_monitored_media_server",
         }
         organizationId = urllib.parse.quote(str(organizationId), safe="")
         monitoredMediaServerId = urllib.parse.quote(str(monitoredMediaServerId), safe="")
@@ -166,20 +166,20 @@ class AsyncInsight:
 
         return self._session.put(metadata, resource, payload)
 
-    def deleteOrganizationInsightMonitoredMediaServer(
+    def delete_organization_insight_monitored_media_server(
         self, organizationId: str, monitoredMediaServerId: str
     ):
-        """Delete a monitored media server from this organization
+        """Delete a monitored media server from this organization.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-insight-monitored-media-server
 
         - organizationId (string): Organization ID
         - monitoredMediaServerId (string): Monitored media server ID
-        """
 
+        """
         metadata = {
             "tags": ["insight", "configure", "monitoredMediaServers"],
-            "operation": "deleteOrganizationInsightMonitoredMediaServer",
+            "operation": "delete_organization_insight_monitored_media_server",
         }
         organizationId = urllib.parse.quote(str(organizationId), safe="")
         monitoredMediaServerId = urllib.parse.quote(str(monitoredMediaServerId), safe="")
