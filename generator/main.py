@@ -1,15 +1,16 @@
-"""This script generates the Meraki Python library using the public OpenAPI specification."""
+"""A script that generates the Meraki Python library using the public OpenAPI specification."""
 
 import argparse
 import asyncio
 import os
 import shutil
 import sys
-import tomllib
 from pathlib import Path
+from typing import Any
 
 import httpx
 import jinja2
+import tomllib
 
 # Get the directory where this script is located
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -29,9 +30,9 @@ def get_client_version() -> str:
 
 
 # Helper function to resolve $ref references in OASv3
-def resolve_ref(spec, ref):
-    """
-    Resolve a $ref reference in OASv3 spec.
+def resolve_ref(spec: dict[str, Any], ref: str) -> dict[str, Any] | None:
+    """Resolve a $ref reference in OASv3 spec.
+
     Example: #/components/schemas/Network -> spec['components']['schemas']['Network']
     """
     if not ref.startswith("#/"):
@@ -48,9 +49,9 @@ def resolve_ref(spec, ref):
 
 
 # Helper function to get schema from OASv3 parameter or requestBody
-def get_schema_from_item(item, spec):
-    """
-    Extract schema from an OASv3 parameter or requestBody content item.
+def get_schema_from_item(item: dict[str, Any], spec: dict[str, Any]) -> dict[str, Any] | None:
+    """Extract schema from an OASv3 parameter or requestBody content item.
+
     Handles both inline schemas and $ref references.
     """
     if "schema" in item:
@@ -64,7 +65,7 @@ def get_schema_from_item(item, spec):
     return None
 
 
-def generate_pagination_parameters(operation):
+def generate_pagination_parameters(operation: str) -> dict[str, dict[str, str]]:
     """Helper function to return pagination parameters depending on endpoint."""
     ret = {
         "total_pages": {
@@ -92,7 +93,7 @@ def generate_pagination_parameters(operation):
     return ret
 
 
-def docs_url(operation):
+def docs_url(operation: str) -> str:
     """Returns full link to endpoint's documentation on Developer Hub."""
     base_url = "https://developer.cisco.com/meraki/api-v1/#!"
     ret = ""
@@ -104,33 +105,34 @@ def docs_url(operation):
     return base_url + ret
 
 
-def return_params(operation, params, param_filters):
+def return_params(
+    operation: str, params: dict[str, Any], param_filters: list[str]
+) -> dict[str, Any]:
     """Helper function to return the right params; used in parse_params."""
     # Return parameters based on matching input filters
     if not param_filters:
         return params
-    else:
-        ret = {}
-        if "required" in param_filters:
-            ret.update({k: v for k, v in params.items() if "required" in v and v["required"]})
-        if "pagination" in param_filters:
-            ret.update(generate_pagination_parameters(operation) if "perPage" in params else {})
-        if "optional" in param_filters:
-            ret.update({k: v for k, v in params.items() if "required" in v and not v["required"]})
-        if "path" in param_filters:
-            ret.update({k: v for k, v in params.items() if "in" in v and v["in"] == "path"})
-        if "query" in param_filters:
-            ret.update({k: v for k, v in params.items() if "in" in v and v["in"] == "query"})
-        if "body" in param_filters:
-            ret.update({k: v for k, v in params.items() if "in" in v and v["in"] == "body"})
-        if "array" in param_filters:
-            ret.update({k: v for k, v in params.items() if "in" in v and v["type"] == "array"})
-        if "enum" in param_filters:
-            ret.update({k: v for k, v in params.items() if "enum" in v})
-        return ret
+    ret = {}
+    if "required" in param_filters:
+        ret.update({k: v for k, v in params.items() if v.get("required")})
+    if "pagination" in param_filters:
+        ret.update(generate_pagination_parameters(operation) if "perPage" in params else {})
+    if "optional" in param_filters:
+        ret.update({k: v for k, v in params.items() if "required" in v and not v["required"]})
+    if "path" in param_filters:
+        ret.update({k: v for k, v in params.items() if "in" in v and v["in"] == "path"})
+    if "query" in param_filters:
+        ret.update({k: v for k, v in params.items() if "in" in v and v["in"] == "query"})
+    if "body" in param_filters:
+        ret.update({k: v for k, v in params.items() if "in" in v and v["in"] == "body"})
+    if "array" in param_filters:
+        ret.update({k: v for k, v in params.items() if "in" in v and v["type"] == "array"})
+    if "enum" in param_filters:
+        ret.update({k: v for k, v in params.items() if "enum" in v})
+    return ret
 
 
-def parse_request_body(request_body, spec):
+def parse_request_body(request_body: dict[str, Any], spec: dict[str, Any]) -> dict[str, Any]:
     """Parse requestBody from OASv3 specification.
 
     In OASv3, requestBody has a 'content' object with media types (e.g., 'application/json').
@@ -158,7 +160,7 @@ def parse_request_body(request_body, spec):
                     if "$ref" in prop_schema:
                         resolved = resolve_ref(spec, prop_schema["$ref"])
                         if resolved:
-                            prop_schema = resolved
+                            prop_schema = resolved  # noqa: PLW2901
 
                     params[prop_name] = {
                         "required": prop_name in required_fields,
@@ -184,7 +186,13 @@ def parse_request_body(request_body, spec):
     return params
 
 
-def parse_params(operation, parameters, request_body, spec, param_filters=None):
+def parse_params(
+    operation: str,
+    parameters: list[dict[str, Any]],
+    request_body: dict[str, Any],
+    spec: dict[str, Any],
+    param_filters: list[str] | None = None,
+) -> dict[str, Any]:
     """Parse parameters from OASv3 specification.
 
     In OASv3, body parameters are in requestBody, not in parameters with in='body'.
@@ -250,7 +258,7 @@ def parse_params(operation, parameters, request_body, spec, param_filters=None):
     return return_params(operation, params, param_filters)
 
 
-async def generate_library(spec, version_number, api_version):
+async def generate_library(spec: dict[str, Any], version_number: str, api_version: str) -> None:  # noqa: PLR0912, PLR0915
     """Generate the Meraki Python library using the public OpenAPI specification."""
     # Supported scopes list will include organizations, networks, devices, and all product types.
     supported_scopes = [
@@ -316,7 +324,7 @@ async def generate_library(spec, version_number, api_version):
 
         # Update versions in __init__.py
         if file == "__init__.py":
-            with open(dst, "r", encoding="utf-8") as f:
+            with open(dst, encoding="utf-8") as f:  # noqa: ASYNC230
                 contents = f.read()
             # Update __version__
             start = contents.find("__version__ = ")
@@ -326,7 +334,7 @@ async def generate_library(spec, version_number, api_version):
             start = contents.find("__api_version__ = ")
             end = contents.find("\n", start)
             contents = f"{contents[:start]}__api_version__ = '{api_version}'{contents[end:]}"
-            with open(dst, "w", encoding="utf-8") as f:
+            with open(dst, "w", encoding="utf-8") as f:  # noqa: ASYNC230
                 f.write(contents)
 
     # Organize data from OpenAPI specification
@@ -335,7 +343,7 @@ async def generate_library(spec, version_number, api_version):
         # method is the HTTP action, e.g. get, put, etc.
         for method in methods:
             # endpoint is the method for that specific path
-            endpoint = paths[path][method]
+            endpoint = methods[method]
 
             # the endpoint has tags
             tags = endpoint["tags"]
@@ -362,16 +370,15 @@ async def generate_library(spec, version_number, api_version):
     # Generate API libraries
     # We will use newline=None to ensure that line breaks are handled correctly,
     # especially when generating on Windows and using git autocrlf true
-    jinja_env = jinja2.Environment(trim_blocks=True, lstrip_blocks=True, keep_trailing_newline=True)
+    jinja_env = jinja2.Environment(trim_blocks=True, lstrip_blocks=True, keep_trailing_newline=True)  # noqa: S701
 
     # Iterate through the scopes creating standard, asyncio and batch modules for each
-    for scope in scopes:
+    for scope, section in scopes.items():
         print(f"...generating {scope}")
-        section = scopes[scope]
 
         # Generate the standard module
-        with open(f"{OUTPUT_DIR}/api/{scope}.py", "w", encoding="utf-8", newline=None) as output:
-            with open(
+        with open(f"{OUTPUT_DIR}/api/{scope}.py", "w", encoding="utf-8", newline=None) as output:  # noqa: ASYNC230
+            with open(  # noqa: ASYNC230
                 os.path.join(TEMPLATE_DIR, "class_template.jinja2"),
                 encoding="utf-8",
                 newline=None,
@@ -385,10 +392,10 @@ async def generate_library(spec, version_number, api_version):
                 )
 
             # Generate Asyncio API libraries
-            async_output = open(
+            async_output = open(  # noqa: ASYNC230, SIM115
                 f"{OUTPUT_DIR}/aio/api/{scope}.py", "w", encoding="utf-8", newline=None
             )
-            with open(
+            with open(  # noqa: ASYNC230
                 os.path.join(TEMPLATE_DIR, "async_class_template.jinja2"),
                 encoding="utf-8",
                 newline=None,
@@ -402,24 +409,20 @@ async def generate_library(spec, version_number, api_version):
                 )
 
             # Generate Action Batch API libraries
-            batch_output = open(
+            batch_output = open(  # noqa: ASYNC230, SIM115
                 f"{OUTPUT_DIR}/api/batch/{scope}.py",
                 "w",
                 encoding="utf-8",
                 newline=None,
             )
-            with open(
+            with open(  # noqa: ASYNC230
                 os.path.join(TEMPLATE_DIR, "batch_class_template.jinja2"),
                 encoding="utf-8",
                 newline=None,
             ) as fp:
                 class_template = fp.read()
                 template = jinja_env.from_string(class_template)
-                batch_output.write(
-                    template.render(
-                        class_name=scope[0].upper() + scope[1:],
-                    )
-                )
+                batch_output.write(template.render(class_name=scope[0].upper() + scope[1:]))
 
             # Generate API & Asyncio API functions
             for path, methods in section.items():
@@ -567,7 +570,7 @@ async def generate_library(spec, version_number, api_version):
                         raise ValueError(f"Unsupported method: {method}")
 
                     # Add function to files
-                    with open(
+                    with open(  # noqa: ASYNC230
                         os.path.join(TEMPLATE_DIR, "function_template.jinja2"),
                         encoding="utf-8",
                         newline=None,
@@ -703,7 +706,7 @@ async def generate_library(spec, version_number, api_version):
                         enum_params = parse_params(
                             operation, parameters, request_body, spec, ["enum"]
                         )
-                        assert_blocks = list()
+                        assert_blocks = []
                         if enum_params:
                             for p, values in enum_params.items():
                                 assert_blocks.append((p, values["enum"]))
@@ -712,14 +715,11 @@ async def generate_library(spec, version_number, api_version):
                         query_params = array_params = body_params = {}
 
                         # Function body for POST/PUT endpoints
-                        if method == "post" or method == "put":
+                        if method in {"post", "put"}:
                             body_params = parse_params(
                                 operation, parameters, request_body, spec, "body"
                             )
-                            if method == "post":
-                                batch_operation = "create"
-                            else:
-                                batch_operation = "update"
+                            batch_operation = "create" if method == "post" else "update"
 
                         # Function body for DELETE endpoints
                         elif method == "delete":
@@ -731,7 +731,7 @@ async def generate_library(spec, version_number, api_version):
                         call_line = "return action"
 
                         # Add function to files
-                        with open(
+                        with open(  # noqa: ASYNC230
                             os.path.join(TEMPLATE_DIR, "batch_function_template.jinja2"),
                             encoding="utf-8",
                             newline=None,
