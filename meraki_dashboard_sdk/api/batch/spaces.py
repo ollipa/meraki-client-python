@@ -23,7 +23,7 @@ class ActionBatchSpaces:
             "tags": ["spaces", "configure", "integration"],
             "operation": "remove_organization_spaces_integration",
         }
-        organization_id = urllib.parse.quote(organization_id, safe="")
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/spaces/integration/remove"
 
         action = {

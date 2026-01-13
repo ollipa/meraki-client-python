@@ -14,42 +14,51 @@ class Organizations:
         super(self).__init__()
         self._session = session
 
-    def get_organizations(self) -> Generator[Any, None, None]:
+    def get_organizations(
+        self,
+        *,
+        per_page: int | None = None,
+        starting_after: str | None = None,
+        ending_before: str | None = None,
+        total_pages: str = 1,
+        direction: str = "next",
+    ) -> Generator[Any, None, None]:
         """List the organizations that the user has privileges on.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organizations
 
         Args:
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
-              "all" for all pages.
-            direction: direction to paginate, either "next" (default) or "prev" page.
-            perPage: The number of entries per page returned. Acceptable range is 3 - 9000. Default
+            per_page: The number of entries per page returned. Acceptable range is 3 - 9000. Default
               is 9000.
-            startingAfter: A token used by the server to indicate the start of the page. Often this
+            starting_after: A token used by the server to indicate the start of the page. Often this
               is a timestamp or an ID but it is not limited to those. This parameter
               should not be defined by client applications. The link for the first,
               last, prev, or next page in the HTTP Link header should define it.
-            endingBefore: A token used by the server to indicate the end of the page. Often this is
+            ending_before: A token used by the server to indicate the end of the page. Often this is
               a timestamp or an ID but it is not limited to those. This parameter should
               not be defined by client applications. The link for the first, last, prev,
               or next page in the HTTP Link header should define it.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        kwargs.update(locals())
-
         metadata = {"tags": ["organizations", "configure"], "operation": "get_organizations"}
         resource = f"/organizations"
 
-        query_params = [
-            "perPage",
-            "startingAfter",
-            "endingBefore",
-        ]
-        params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
+        params = {}
+        if per_page is not None:
+            params["perPage"] = per_page
+        if starting_after is not None:
+            params["startingAfter"] = starting_after
+        if ending_before is not None:
+            params["endingBefore"] = ending_before
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
-    def create_organization(self, name: str, **kwargs: Any) -> dict[str, Any] | None:
+    def create_organization(
+        self, name: str, *, management: dict | None = None
+    ) -> dict[str, Any] | None:
         """Create a new organization.
 
         https://developer.cisco.com/meraki/api-v1/#!create-organization
@@ -59,16 +68,14 @@ class Organizations:
             management: Information about the organization's management system.
 
         """
-        kwargs.update(locals())
-
         metadata = {"tags": ["organizations", "configure"], "operation": "create_organization"}
         resource = f"/organizations"
 
-        body_params = [
-            "name",
-            "management",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if name is not None:
+            payload["name"] = name
+        if management is not None:
+            payload["management"] = management
 
         return self._session.post(metadata, resource, payload)
 
@@ -87,7 +94,14 @@ class Organizations:
 
         return self._session.get(metadata, resource)
 
-    def update_organization(self, organization_id: str, **kwargs: Any) -> dict[str, Any] | None:
+    def update_organization(
+        self,
+        organization_id: str,
+        *,
+        name: str | None = None,
+        management: dict | None = None,
+        api: dict | None = None,
+    ) -> dict[str, Any] | None:
         """Update an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!update-organization
@@ -99,18 +113,17 @@ class Organizations:
             api: API-specific settings.
 
         """
-        kwargs.update(locals())
-
         metadata = {"tags": ["organizations", "configure"], "operation": "update_organization"}
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}"
 
-        body_params = [
-            "name",
-            "management",
-            "api",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if name is not None:
+            payload["name"] = name
+        if management is not None:
+            payload["management"] = management
+        if api is not None:
+            payload["api"] = api
 
         return self._session.put(metadata, resource, payload)
 
@@ -130,7 +143,13 @@ class Organizations:
         return self._session.delete(metadata, resource)
 
     def create_organization_action_batch(
-        self, organization_id: str, actions: list, **kwargs: Any
+        self,
+        organization_id: str,
+        actions: list,
+        *,
+        confirmed: bool | None = None,
+        synchronous: bool | None = None,
+        callback: dict | None = None,
     ) -> dict[str, Any] | None:
         """Create an action batch.
 
@@ -138,20 +157,18 @@ class Organizations:
 
         Args:
             organization_id: Organization ID.
-            actions: A set of changes to make as part of this action (<a
-              href='https://developer.cisco.com/meraki/api/#/rest/guides/action-
-              batches/'>more details</a>).
             confirmed: Set to true for immediate execution. Set to false if the action should be
               previewed before executing. This property cannot be unset once it is true.
               Defaults to false.
             synchronous: Set to true to force the batch to run synchronous. There can be at most 20
               actions in synchronous batch. Defaults to false.
+            actions: A set of changes to make as part of this action (<a
+              href='https://developer.cisco.com/meraki/api/#/rest/guides/action-
+              batches/'>more details</a>).
             callback: Details for the callback. Please include either an httpServerId OR url and
               sharedSecret.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["organizations", "configure", "actionBatches"],
             "operation": "create_organization_action_batch",
@@ -159,18 +176,20 @@ class Organizations:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/actionBatches"
 
-        body_params = [
-            "confirmed",
-            "synchronous",
-            "actions",
-            "callback",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if confirmed is not None:
+            payload["confirmed"] = confirmed
+        if synchronous is not None:
+            payload["synchronous"] = synchronous
+        if actions is not None:
+            payload["actions"] = actions
+        if callback is not None:
+            payload["callback"] = callback
 
         return self._session.post(metadata, resource, payload)
 
     def get_organization_action_batches(
-        self, organization_id: str, **kwargs: Any
+        self, organization_id: str, *, status: str | None = None
     ) -> dict[str, Any] | None:
         """Return the list of action batches in the organization.
 
@@ -181,12 +200,10 @@ class Organizations:
             status: Filter batches by status. Valid types are pending, completed, and failed.
 
         """
-        kwargs.update(locals())
-
-        if "status" in kwargs:
+        if status is not None:
             options = ["completed", "failed", "pending"]
-            assert kwargs["status"] in options, (
-                f'''"status" cannot be "{kwargs["status"]}", & must be set to one of: {options}'''
+            assert status in options, (
+                f'"status" cannot be "{status}", & must be set to one of: {options}'
             )
 
         metadata = {
@@ -196,10 +213,9 @@ class Organizations:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/actionBatches"
 
-        query_params = [
-            "status",
-        ]
-        params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
+        params = {}
+        if status is not None:
+            params["status"] = status
 
         return self._session.get(metadata, resource, params)
 
@@ -246,7 +262,12 @@ class Organizations:
         return self._session.delete(metadata, resource)
 
     def update_organization_action_batch(
-        self, organization_id: str, action_batch_id: str, **kwargs: Any
+        self,
+        organization_id: str,
+        action_batch_id: str,
+        *,
+        confirmed: bool | None = None,
+        synchronous: bool | None = None,
     ) -> dict[str, Any] | None:
         """Update an action batch.
 
@@ -261,8 +282,6 @@ class Organizations:
               actions in synchronous batch.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["organizations", "configure", "actionBatches"],
             "operation": "update_organization_action_batch",
@@ -271,11 +290,11 @@ class Organizations:
         action_batch_id = urllib.parse.quote(str(action_batch_id), safe="")
         resource = f"/organizations/{organization_id}/actionBatches/{action_batch_id}"
 
-        body_params = [
-            "confirmed",
-            "synchronous",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if confirmed is not None:
+            payload["confirmed"] = confirmed
+        if synchronous is not None:
+            payload["synchronous"] = synchronous
 
         return self._session.put(metadata, resource, payload)
 
@@ -298,7 +317,13 @@ class Organizations:
         return self._session.get(metadata, resource)
 
     def create_organization_adaptive_policy_acl(
-        self, organization_id: str, name: str, rules: list, ipVersion: str, **kwargs: Any
+        self,
+        organization_id: str,
+        name: str,
+        rules: list,
+        ip_version: str,
+        *,
+        description: str | None = None,
     ) -> dict[str, Any] | None:
         """Creates new adaptive policy ACL.
 
@@ -307,17 +332,15 @@ class Organizations:
         Args:
             organization_id: Organization ID.
             name: Name of the adaptive policy ACL.
-            rules: An ordered array of the adaptive policy ACL rules.
-            ipVersion: IP version of adpative policy ACL. One of: 'any', 'ipv4' or 'ipv6'.
             description: Description of the adaptive policy ACL.
+            rules: An ordered array of the adaptive policy ACL rules.
+            ip_version: IP version of adpative policy ACL. One of: 'any', 'ipv4' or 'ipv6'.
 
         """
-        kwargs.update(locals())
-
-        if "ipVersion" in kwargs:
+        if ip_version is not None:
             options = ["any", "ipv4", "ipv6"]
-            assert kwargs["ipVersion"] in options, (
-                f'''"ipVersion" cannot be "{kwargs["ipVersion"]}", & must be set to one of: {options}'''
+            assert ip_version in options, (
+                f'"ip_version" cannot be "{ip_version}", & must be set to one of: {options}'
             )
 
         metadata = {
@@ -327,13 +350,15 @@ class Organizations:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/adaptivePolicy/acls"
 
-        body_params = [
-            "name",
-            "description",
-            "rules",
-            "ipVersion",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if name is not None:
+            payload["name"] = name
+        if description is not None:
+            payload["description"] = description
+        if rules is not None:
+            payload["rules"] = rules
+        if ip_version is not None:
+            payload["ipVersion"] = ip_version
 
         return self._session.post(metadata, resource, payload)
 
@@ -360,7 +385,14 @@ class Organizations:
         return self._session.get(metadata, resource)
 
     def update_organization_adaptive_policy_acl(
-        self, organization_id: str, acl_id: str, **kwargs: Any
+        self,
+        organization_id: str,
+        acl_id: str,
+        *,
+        name: str | None = None,
+        description: str | None = None,
+        rules: list | None = None,
+        ip_version: str | None = None,
     ) -> dict[str, Any] | None:
         """Updates an adaptive policy ACL.
 
@@ -373,15 +405,13 @@ class Organizations:
             description: Description of the adaptive policy ACL.
             rules: An ordered array of the adaptive policy ACL rules. An empty array will clear the
               rules.
-            ipVersion: IP version of adpative policy ACL. One of: 'any', 'ipv4' or 'ipv6'.
+            ip_version: IP version of adpative policy ACL. One of: 'any', 'ipv4' or 'ipv6'.
 
         """
-        kwargs.update(locals())
-
-        if "ipVersion" in kwargs:
+        if ip_version is not None:
             options = ["any", "ipv4", "ipv6"]
-            assert kwargs["ipVersion"] in options, (
-                f'''"ipVersion" cannot be "{kwargs["ipVersion"]}", & must be set to one of: {options}'''
+            assert ip_version in options, (
+                f'"ip_version" cannot be "{ip_version}", & must be set to one of: {options}'
             )
 
         metadata = {
@@ -392,13 +422,15 @@ class Organizations:
         acl_id = urllib.parse.quote(str(acl_id), safe="")
         resource = f"/organizations/{organization_id}/adaptivePolicy/acls/{acl_id}"
 
-        body_params = [
-            "name",
-            "description",
-            "rules",
-            "ipVersion",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if name is not None:
+            payload["name"] = name
+        if description is not None:
+            payload["description"] = description
+        if rules is not None:
+            payload["rules"] = rules
+        if ip_version is not None:
+            payload["ipVersion"] = ip_version
 
         return self._session.put(metadata, resource, payload)
 
@@ -443,7 +475,13 @@ class Organizations:
         return self._session.get(metadata, resource)
 
     def create_organization_adaptive_policy_group(
-        self, organization_id: str, name: str, sgt: int, **kwargs: Any
+        self,
+        organization_id: str,
+        name: str,
+        sgt: int,
+        *,
+        description: str | None = None,
+        policy_objects: list | None = None,
     ) -> dict[str, Any] | None:
         """Creates a new adaptive policy group.
 
@@ -454,14 +492,12 @@ class Organizations:
             name: Name of the group.
             sgt: SGT value of the group.
             description: Description of the group (default: "").
-            policyObjects: The policy objects that belong to this group; traffic from addresses
+            policy_objects: The policy objects that belong to this group; traffic from addresses
               specified by these policy objects will be tagged with this group's SGT
               value if no other tagging scheme is being used (each requires one unique
               attribute) (default: []).
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["organizations", "configure", "adaptivePolicy", "groups"],
             "operation": "create_organization_adaptive_policy_group",
@@ -469,18 +505,20 @@ class Organizations:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/adaptivePolicy/groups"
 
-        body_params = [
-            "name",
-            "sgt",
-            "description",
-            "policyObjects",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if name is not None:
+            payload["name"] = name
+        if sgt is not None:
+            payload["sgt"] = sgt
+        if description is not None:
+            payload["description"] = description
+        if policy_objects is not None:
+            payload["policyObjects"] = policy_objects
 
         return self._session.post(metadata, resource, payload)
 
     def get_organization_adaptive_policy_group(
-        self, organization_id: str, id: str
+        self, organization_id: str, id_: str
     ) -> dict[str, Any] | None:
         """Returns an adaptive policy group.
 
@@ -488,7 +526,7 @@ class Organizations:
 
         Args:
             organization_id: Organization ID.
-            id: ID.
+            id_: ID.
 
         """
         metadata = {
@@ -496,13 +534,20 @@ class Organizations:
             "operation": "get_organization_adaptive_policy_group",
         }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        id = urllib.parse.quote(str(id), safe="")
-        resource = f"/organizations/{organization_id}/adaptivePolicy/groups/{id}"
+        id_ = urllib.parse.quote(str(id_), safe="")
+        resource = f"/organizations/{organization_id}/adaptivePolicy/groups/{id_}"
 
         return self._session.get(metadata, resource)
 
     def update_organization_adaptive_policy_group(
-        self, organization_id: str, id: str, **kwargs: Any
+        self,
+        organization_id: str,
+        id_: str,
+        *,
+        name: str | None = None,
+        sgt: int | None = None,
+        description: str | None = None,
+        policy_objects: list | None = None,
     ) -> dict[str, Any] | None:
         """Updates an adaptive policy group.
 
@@ -510,44 +555,44 @@ class Organizations:
 
         Args:
             organization_id: Organization ID.
-            id: ID.
+            id_: ID.
             name: Name of the group.
             sgt: SGT value of the group.
             description: Description of the group.
-            policyObjects: The policy objects that belong to this group; traffic from addresses
+            policy_objects: The policy objects that belong to this group; traffic from addresses
               specified by these policy objects will be tagged with this group's SGT
               value if no other tagging scheme is being used (each requires one unique
               attribute).
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["organizations", "configure", "adaptivePolicy", "groups"],
             "operation": "update_organization_adaptive_policy_group",
         }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        id = urllib.parse.quote(str(id), safe="")
-        resource = f"/organizations/{organization_id}/adaptivePolicy/groups/{id}"
+        id_ = urllib.parse.quote(str(id_), safe="")
+        resource = f"/organizations/{organization_id}/adaptivePolicy/groups/{id_}"
 
-        body_params = [
-            "name",
-            "sgt",
-            "description",
-            "policyObjects",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if name is not None:
+            payload["name"] = name
+        if sgt is not None:
+            payload["sgt"] = sgt
+        if description is not None:
+            payload["description"] = description
+        if policy_objects is not None:
+            payload["policyObjects"] = policy_objects
 
         return self._session.put(metadata, resource, payload)
 
-    def delete_organization_adaptive_policy_group(self, organization_id: str, id: str) -> None:
+    def delete_organization_adaptive_policy_group(self, organization_id: str, id_: str) -> None:
         """Deletes the specified adaptive policy group and any associated policies and references.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-adaptive-policy-group
 
         Args:
             organization_id: Organization ID.
-            id: ID.
+            id_: ID.
 
         """
         metadata = {
@@ -555,8 +600,8 @@ class Organizations:
             "operation": "delete_organization_adaptive_policy_group",
         }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        id = urllib.parse.quote(str(id), safe="")
-        resource = f"/organizations/{organization_id}/adaptivePolicy/groups/{id}"
+        id_ = urllib.parse.quote(str(id_), safe="")
+        resource = f"/organizations/{organization_id}/adaptivePolicy/groups/{id_}"
 
         return self._session.delete(metadata, resource)
 
@@ -601,7 +646,13 @@ class Organizations:
         return self._session.get(metadata, resource)
 
     def create_organization_adaptive_policy_policy(
-        self, organization_id: str, sourceGroup: dict, destinationGroup: dict, **kwargs: Any
+        self,
+        organization_id: str,
+        source_group: dict,
+        destination_group: dict,
+        *,
+        acls: list | None = None,
+        last_entry_rule: str | None = None,
     ) -> dict[str, Any] | None:
         """Add an Adaptive Policy.
 
@@ -609,19 +660,18 @@ class Organizations:
 
         Args:
             organization_id: Organization ID.
-            sourceGroup: The source adaptive policy group (requires one unique attribute).
-            destinationGroup: The destination adaptive policy group (requires one unique attribute).
+            source_group: The source adaptive policy group (requires one unique attribute).
+            destination_group: The destination adaptive policy group (requires one unique
+              attribute).
             acls: An ordered array of adaptive policy ACLs (each requires one unique attribute) that
               apply to this policy (default: []).
-            lastEntryRule: The rule to apply if there is no matching ACL (default: "default").
+            last_entry_rule: The rule to apply if there is no matching ACL (default: "default").
 
         """
-        kwargs.update(locals())
-
-        if "lastEntryRule" in kwargs:
+        if last_entry_rule is not None:
             options = ["allow", "default", "deny"]
-            assert kwargs["lastEntryRule"] in options, (
-                f'''"lastEntryRule" cannot be "{kwargs["lastEntryRule"]}", & must be set to one of: {options}'''
+            assert last_entry_rule in options, (
+                f'"last_entry_rule" cannot be "{last_entry_rule}", & must be set to one of: {options}'
             )
 
         metadata = {
@@ -631,18 +681,20 @@ class Organizations:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/adaptivePolicy/policies"
 
-        body_params = [
-            "sourceGroup",
-            "destinationGroup",
-            "acls",
-            "lastEntryRule",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if source_group is not None:
+            payload["sourceGroup"] = source_group
+        if destination_group is not None:
+            payload["destinationGroup"] = destination_group
+        if acls is not None:
+            payload["acls"] = acls
+        if last_entry_rule is not None:
+            payload["lastEntryRule"] = last_entry_rule
 
         return self._session.post(metadata, resource, payload)
 
     def get_organization_adaptive_policy_policy(
-        self, organization_id: str, id: str
+        self, organization_id: str, id_: str
     ) -> dict[str, Any] | None:
         """Return an adaptive policy.
 
@@ -650,7 +702,7 @@ class Organizations:
 
         Args:
             organization_id: Organization ID.
-            id: ID.
+            id_: ID.
 
         """
         metadata = {
@@ -658,13 +710,20 @@ class Organizations:
             "operation": "get_organization_adaptive_policy_policy",
         }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        id = urllib.parse.quote(str(id), safe="")
-        resource = f"/organizations/{organization_id}/adaptivePolicy/policies/{id}"
+        id_ = urllib.parse.quote(str(id_), safe="")
+        resource = f"/organizations/{organization_id}/adaptivePolicy/policies/{id_}"
 
         return self._session.get(metadata, resource)
 
     def update_organization_adaptive_policy_policy(
-        self, organization_id: str, id: str, **kwargs: Any
+        self,
+        organization_id: str,
+        id_: str,
+        *,
+        source_group: dict | None = None,
+        destination_group: dict | None = None,
+        acls: list | None = None,
+        last_entry_rule: str | None = None,
     ) -> dict[str, Any] | None:
         """Update an Adaptive Policy.
 
@@ -672,20 +731,19 @@ class Organizations:
 
         Args:
             organization_id: Organization ID.
-            id: ID.
-            sourceGroup: The source adaptive policy group (requires one unique attribute).
-            destinationGroup: The destination adaptive policy group (requires one unique attribute).
+            id_: ID.
+            source_group: The source adaptive policy group (requires one unique attribute).
+            destination_group: The destination adaptive policy group (requires one unique
+              attribute).
             acls: An ordered array of adaptive policy ACLs (each requires one unique attribute) that
               apply to this policy.
-            lastEntryRule: The rule to apply if there is no matching ACL.
+            last_entry_rule: The rule to apply if there is no matching ACL.
 
         """
-        kwargs.update(locals())
-
-        if "lastEntryRule" in kwargs:
+        if last_entry_rule is not None:
             options = ["allow", "default", "deny"]
-            assert kwargs["lastEntryRule"] in options, (
-                f'''"lastEntryRule" cannot be "{kwargs["lastEntryRule"]}", & must be set to one of: {options}'''
+            assert last_entry_rule in options, (
+                f'"last_entry_rule" cannot be "{last_entry_rule}", & must be set to one of: {options}'
             )
 
         metadata = {
@@ -693,27 +751,29 @@ class Organizations:
             "operation": "update_organization_adaptive_policy_policy",
         }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        id = urllib.parse.quote(str(id), safe="")
-        resource = f"/organizations/{organization_id}/adaptivePolicy/policies/{id}"
+        id_ = urllib.parse.quote(str(id_), safe="")
+        resource = f"/organizations/{organization_id}/adaptivePolicy/policies/{id_}"
 
-        body_params = [
-            "sourceGroup",
-            "destinationGroup",
-            "acls",
-            "lastEntryRule",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if source_group is not None:
+            payload["sourceGroup"] = source_group
+        if destination_group is not None:
+            payload["destinationGroup"] = destination_group
+        if acls is not None:
+            payload["acls"] = acls
+        if last_entry_rule is not None:
+            payload["lastEntryRule"] = last_entry_rule
 
         return self._session.put(metadata, resource, payload)
 
-    def delete_organization_adaptive_policy_policy(self, organization_id: str, id: str) -> None:
+    def delete_organization_adaptive_policy_policy(self, organization_id: str, id_: str) -> None:
         """Delete an Adaptive Policy.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-adaptive-policy-policy
 
         Args:
             organization_id: Organization ID.
-            id: ID.
+            id_: ID.
 
         """
         metadata = {
@@ -721,8 +781,8 @@ class Organizations:
             "operation": "delete_organization_adaptive_policy_policy",
         }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        id = urllib.parse.quote(str(id), safe="")
-        resource = f"/organizations/{organization_id}/adaptivePolicy/policies/{id}"
+        id_ = urllib.parse.quote(str(id_), safe="")
+        resource = f"/organizations/{organization_id}/adaptivePolicy/policies/{id_}"
 
         return self._session.delete(metadata, resource)
 
@@ -747,7 +807,7 @@ class Organizations:
         return self._session.get(metadata, resource)
 
     def update_organization_adaptive_policy_settings(
-        self, organization_id: str, **kwargs: Any
+        self, organization_id: str, *, enabled_networks: list | None = None
     ) -> dict[str, Any] | None:
         """Update global adaptive policy settings.
 
@@ -755,11 +815,9 @@ class Organizations:
 
         Args:
             organization_id: Organization ID.
-            enabledNetworks: List of network IDs with adaptive policy enabled.
+            enabled_networks: List of network IDs with adaptive policy enabled.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["organizations", "configure", "adaptivePolicy", "settings"],
             "operation": "update_organization_adaptive_policy_settings",
@@ -767,26 +825,25 @@ class Organizations:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/adaptivePolicy/settings"
 
-        body_params = [
-            "enabledNetworks",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if enabled_networks is not None:
+            payload["enabledNetworks"] = enabled_networks
 
         return self._session.put(metadata, resource, payload)
 
-    def get_organization_admins(self, organization_id: str, **kwargs: Any) -> dict[str, Any] | None:
+    def get_organization_admins(
+        self, organization_id: str, *, network_ids: list | None = None
+    ) -> dict[str, Any] | None:
         """List the dashboard administrators in this organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-admins
 
         Args:
             organization_id: Organization ID.
-            networkIds: Optional parameter to filter the result set by the included set of network
+            network_ids: Optional parameter to filter the result set by the included set of network
               IDs.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["organizations", "configure", "admins"],
             "operation": "get_organization_admins",
@@ -794,23 +851,22 @@ class Organizations:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/admins"
 
-        query_params = [
-            "networkIds",
-        ]
-        params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
-
-        array_params = [
-            "networkIds",
-        ]
-        for k in kwargs:
-            if k.strip() in array_params:
-                params[f"{k.strip()}[]"] = kwargs[f"{k}"]
-                params.pop(k.strip())
+        params = {}
+        if network_ids is not None:
+            params["networkIds[]"] = network_ids
 
         return self._session.get(metadata, resource, params)
 
     def create_organization_admin(
-        self, organization_id: str, email: str, name: str, orgAccess: str, **kwargs: Any
+        self,
+        organization_id: str,
+        email: str,
+        name: str,
+        org_access: str,
+        *,
+        tags: list | None = None,
+        networks: list | None = None,
+        authentication_method: str | None = None,
     ) -> dict[str, Any] | None:
         """Create a new dashboard administrator.
 
@@ -820,25 +876,23 @@ class Organizations:
             organization_id: Organization ID.
             email: The email of the dashboard administrator. This attribute can not be updated.
             name: The name of the dashboard administrator.
-            orgAccess: The privilege of the dashboard administrator on the organization. Can be one
+            org_access: The privilege of the dashboard administrator on the organization. Can be one
               of 'full', 'read-only', 'enterprise' or 'none'.
             tags: The list of tags that the dashboard administrator has privileges on.
             networks: The list of networks that the dashboard administrator has privileges on.
-            authenticationMethod: No longer used as of Cisco SecureX end-of-life. Can be one of
+            authentication_method: No longer used as of Cisco SecureX end-of-life. Can be one of
               'Email'. The default is Email authentication.
 
         """
-        kwargs.update(locals())
-
-        if "orgAccess" in kwargs:
+        if org_access is not None:
             options = ["enterprise", "full", "none", "read-only"]
-            assert kwargs["orgAccess"] in options, (
-                f'''"orgAccess" cannot be "{kwargs["orgAccess"]}", & must be set to one of: {options}'''
+            assert org_access in options, (
+                f'"org_access" cannot be "{org_access}", & must be set to one of: {options}'
             )
-        if "authenticationMethod" in kwargs:
+        if authentication_method is not None:
             options = ["Email"]
-            assert kwargs["authenticationMethod"] in options, (
-                f'''"authenticationMethod" cannot be "{kwargs["authenticationMethod"]}", & must be set to one of: {options}'''
+            assert authentication_method in options, (
+                f'"authentication_method" cannot be "{authentication_method}", & must be set to one of: {options}'
             )
 
         metadata = {
@@ -848,20 +902,31 @@ class Organizations:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/admins"
 
-        body_params = [
-            "email",
-            "name",
-            "orgAccess",
-            "tags",
-            "networks",
-            "authenticationMethod",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if email is not None:
+            payload["email"] = email
+        if name is not None:
+            payload["name"] = name
+        if org_access is not None:
+            payload["orgAccess"] = org_access
+        if tags is not None:
+            payload["tags"] = tags
+        if networks is not None:
+            payload["networks"] = networks
+        if authentication_method is not None:
+            payload["authenticationMethod"] = authentication_method
 
         return self._session.post(metadata, resource, payload)
 
     def update_organization_admin(
-        self, organization_id: str, admin_id: str, **kwargs: Any
+        self,
+        organization_id: str,
+        admin_id: str,
+        *,
+        name: str | None = None,
+        org_access: str | None = None,
+        tags: list | None = None,
+        networks: list | None = None,
     ) -> dict[str, Any] | None:
         """Update an administrator.
 
@@ -871,18 +936,16 @@ class Organizations:
             organization_id: Organization ID.
             admin_id: Admin ID.
             name: The name of the dashboard administrator.
-            orgAccess: The privilege of the dashboard administrator on the organization. Can be one
+            org_access: The privilege of the dashboard administrator on the organization. Can be one
               of 'full', 'read-only', 'enterprise' or 'none'.
             tags: The list of tags that the dashboard administrator has privileges on.
             networks: The list of networks that the dashboard administrator has privileges on.
 
         """
-        kwargs.update(locals())
-
-        if "orgAccess" in kwargs:
+        if org_access is not None:
             options = ["enterprise", "full", "none", "read-only"]
-            assert kwargs["orgAccess"] in options, (
-                f'''"orgAccess" cannot be "{kwargs["orgAccess"]}", & must be set to one of: {options}'''
+            assert org_access in options, (
+                f'"org_access" cannot be "{org_access}", & must be set to one of: {options}'
             )
 
         metadata = {
@@ -893,13 +956,15 @@ class Organizations:
         admin_id = urllib.parse.quote(str(admin_id), safe="")
         resource = f"/organizations/{organization_id}/admins/{admin_id}"
 
-        body_params = [
-            "name",
-            "orgAccess",
-            "tags",
-            "networks",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if name is not None:
+            payload["name"] = name
+        if org_access is not None:
+            payload["orgAccess"] = org_access
+        if tags is not None:
+            payload["tags"] = tags
+        if networks is not None:
+            payload["networks"] = networks
 
         return self._session.put(metadata, resource, payload)
 
@@ -944,11 +1009,12 @@ class Organizations:
     def create_organization_alerts_profile(
         self,
         organization_id: str,
-        type: str,
-        alertCondition: dict,
+        type_: str,
+        alert_condition: dict,
         recipients: dict,
-        networkTags: list,
-        **kwargs: Any,
+        network_tags: list,
+        *,
+        description: str | None = None,
     ) -> dict[str, Any] | None:
         """Create an organization-wide alert configuration.
 
@@ -956,16 +1022,14 @@ class Organizations:
 
         Args:
             organization_id: Organization ID.
-            type: The alert type.
-            alertCondition: The conditions that determine if the alert triggers.
+            type_: The alert type.
+            alert_condition: The conditions that determine if the alert triggers.
             recipients: List of recipients that will recieve the alert.
-            networkTags: Networks with these tags will be monitored for the alert.
+            network_tags: Networks with these tags will be monitored for the alert.
             description: User supplied description of the alert.
 
         """
-        kwargs.update(locals())
-
-        if "type" in kwargs:
+        if type_ is not None:
             options = [
                 "appOutage",
                 "voipJitter",
@@ -976,8 +1040,8 @@ class Organizations:
                 "wanStatus",
                 "wanUtilization",
             ]
-            assert kwargs["type"] in options, (
-                f'''"type" cannot be "{kwargs["type"]}", & must be set to one of: {options}'''
+            assert type_ in options, (
+                f'"type_" cannot be "{type_}", & must be set to one of: {options}'
             )
 
         metadata = {
@@ -987,19 +1051,31 @@ class Organizations:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/alerts/profiles"
 
-        body_params = [
-            "type",
-            "alertCondition",
-            "recipients",
-            "networkTags",
-            "description",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if type_ is not None:
+            payload["type"] = type_
+        if alert_condition is not None:
+            payload["alertCondition"] = alert_condition
+        if recipients is not None:
+            payload["recipients"] = recipients
+        if network_tags is not None:
+            payload["networkTags"] = network_tags
+        if description is not None:
+            payload["description"] = description
 
         return self._session.post(metadata, resource, payload)
 
     def update_organization_alerts_profile(
-        self, organization_id: str, alert_config_id: str, **kwargs: Any
+        self,
+        organization_id: str,
+        alert_config_id: str,
+        *,
+        enabled: bool | None = None,
+        type_: str | None = None,
+        alert_condition: dict | None = None,
+        recipients: dict | None = None,
+        network_tags: list | None = None,
+        description: str | None = None,
     ) -> dict[str, Any] | None:
         """Update an organization-wide alert config.
 
@@ -1009,16 +1085,14 @@ class Organizations:
             organization_id: Organization ID.
             alert_config_id: Alert config ID.
             enabled: Is the alert config enabled.
-            type: The alert type.
-            alertCondition: The conditions that determine if the alert triggers.
+            type_: The alert type.
+            alert_condition: The conditions that determine if the alert triggers.
             recipients: List of recipients that will recieve the alert.
-            networkTags: Networks with these tags will be monitored for the alert.
+            network_tags: Networks with these tags will be monitored for the alert.
             description: User supplied description of the alert.
 
         """
-        kwargs.update(locals())
-
-        if "type" in kwargs:
+        if type_ is not None:
             options = [
                 "appOutage",
                 "voipJitter",
@@ -1029,8 +1103,8 @@ class Organizations:
                 "wanStatus",
                 "wanUtilization",
             ]
-            assert kwargs["type"] in options, (
-                f'''"type" cannot be "{kwargs["type"]}", & must be set to one of: {options}'''
+            assert type_ in options, (
+                f'"type_" cannot be "{type_}", & must be set to one of: {options}'
             )
 
         metadata = {
@@ -1041,15 +1115,19 @@ class Organizations:
         alert_config_id = urllib.parse.quote(str(alert_config_id), safe="")
         resource = f"/organizations/{organization_id}/alerts/profiles/{alert_config_id}"
 
-        body_params = [
-            "enabled",
-            "type",
-            "alertCondition",
-            "recipients",
-            "networkTags",
-            "description",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if enabled is not None:
+            payload["enabled"] = enabled
+        if type_ is not None:
+            payload["type"] = type_
+        if alert_condition is not None:
+            payload["alertCondition"] = alert_condition
+        if recipients is not None:
+            payload["recipients"] = recipients
+        if network_tags is not None:
+            payload["networkTags"] = network_tags
+        if description is not None:
+            payload["description"] = description
 
         return self._session.put(metadata, resource, payload)
 
@@ -1076,7 +1154,25 @@ class Organizations:
         return self._session.delete(metadata, resource)
 
     def get_organization_api_requests(
-        self, organization_id: str, total_pages=1, direction="next", **kwargs: Any
+        self,
+        organization_id: str,
+        *,
+        t0: str | None = None,
+        t1: str | None = None,
+        timespan: float | None = None,
+        per_page: int | None = None,
+        starting_after: str | None = None,
+        ending_before: str | None = None,
+        admin_id: str | None = None,
+        path: str | None = None,
+        method: str | None = None,
+        response_code: int | None = None,
+        source_ip: str | None = None,
+        user_agent: str | None = None,
+        version: int | None = None,
+        operation_ids: list | None = None,
+        total_pages: str = 1,
+        direction: str = "next",
     ) -> Generator[Any, None, None]:
         """List the API requests made by an organization.
 
@@ -1084,47 +1180,45 @@ class Organizations:
 
         Args:
             organization_id: Organization ID.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
-              "all" for all pages.
-            direction: direction to paginate, either "next" (default) or "prev" page.
             t0: The beginning of the timespan for the data. The maximum lookback period is 31 days
               from today.
             t1: The end of the timespan for the data. t1 can be a maximum of 31 days after t0.
             timespan: The timespan for which the information will be fetched. If specifying
               timespan, do not specify parameters t0 and t1. The value must be in
               seconds and be less than or equal to 31 days. The default is 31 days.
-            perPage: The number of entries per page returned. Acceptable range is 3 - 1000. Default
+            per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
               is 50.
-            startingAfter: A token used by the server to indicate the start of the page. Often this
+            starting_after: A token used by the server to indicate the start of the page. Often this
               is a timestamp or an ID but it is not limited to those. This parameter
               should not be defined by client applications. The link for the first,
               last, prev, or next page in the HTTP Link header should define it.
-            endingBefore: A token used by the server to indicate the end of the page. Often this is
+            ending_before: A token used by the server to indicate the end of the page. Often this is
               a timestamp or an ID but it is not limited to those. This parameter should
               not be defined by client applications. The link for the first, last, prev,
               or next page in the HTTP Link header should define it.
-            adminId: Filter the results by the ID of the admin who made the API requests.
+            admin_id: Filter the results by the ID of the admin who made the API requests.
             path: Filter the results by the path of the API requests.
             method: Filter the results by the method of the API requests (must be 'GET', 'PUT',
               'POST' or 'DELETE').
-            responseCode: Filter the results by the response code of the API requests.
-            sourceIp: Filter the results by the IP address of the originating API request.
-            userAgent: Filter the results by the user agent string of the API request.
+            response_code: Filter the results by the response code of the API requests.
+            source_ip: Filter the results by the IP address of the originating API request.
+            user_agent: Filter the results by the user agent string of the API request.
             version: Filter the results by the API version of the API request.
-            operationIds: Filter the results by one or more operation IDs for the API request.
+            operation_ids: Filter the results by one or more operation IDs for the API request.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        kwargs.update(locals())
-
-        if "method" in kwargs:
+        if method is not None:
             options = ["DELETE", "GET", "POST", "PUT"]
-            assert kwargs["method"] in options, (
-                f'''"method" cannot be "{kwargs["method"]}", & must be set to one of: {options}'''
+            assert method in options, (
+                f'"method" cannot be "{method}", & must be set to one of: {options}'
             )
-        if "version" in kwargs:
+        if version is not None:
             options = [0, 1]
-            assert kwargs["version"] in options, (
-                f'''"version" cannot be "{kwargs["version"]}", & must be set to one of: {options}'''
+            assert version in options, (
+                f'"version" cannot be "{version}", & must be set to one of: {options}'
             )
 
         metadata = {
@@ -1134,36 +1228,45 @@ class Organizations:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/apiRequests"
 
-        query_params = [
-            "t0",
-            "t1",
-            "timespan",
-            "perPage",
-            "startingAfter",
-            "endingBefore",
-            "adminId",
-            "path",
-            "method",
-            "responseCode",
-            "sourceIp",
-            "userAgent",
-            "version",
-            "operationIds",
-        ]
-        params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
-
-        array_params = [
-            "operationIds",
-        ]
-        for k in kwargs:
-            if k.strip() in array_params:
-                params[f"{k.strip()}[]"] = kwargs[f"{k}"]
-                params.pop(k.strip())
+        params = {}
+        if t0 is not None:
+            params["t0"] = t0
+        if t1 is not None:
+            params["t1"] = t1
+        if timespan is not None:
+            params["timespan"] = timespan
+        if per_page is not None:
+            params["perPage"] = per_page
+        if starting_after is not None:
+            params["startingAfter"] = starting_after
+        if ending_before is not None:
+            params["endingBefore"] = ending_before
+        if admin_id is not None:
+            params["adminId"] = admin_id
+        if path is not None:
+            params["path"] = path
+        if method is not None:
+            params["method"] = method
+        if response_code is not None:
+            params["responseCode"] = response_code
+        if source_ip is not None:
+            params["sourceIp"] = source_ip
+        if user_agent is not None:
+            params["userAgent"] = user_agent
+        if version is not None:
+            params["version"] = version
+        if operation_ids is not None:
+            params["operationIds[]"] = operation_ids
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def get_organization_api_requests_overview(
-        self, organization_id: str, **kwargs: Any
+        self,
+        organization_id: str,
+        *,
+        t0: str | None = None,
+        t1: str | None = None,
+        timespan: float | None = None,
     ) -> dict[str, Any] | None:
         """Return an aggregated overview of API requests data.
 
@@ -1179,8 +1282,6 @@ class Organizations:
               seconds and be less than or equal to 31 days. The default is 31 days.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["organizations", "monitor", "apiRequests", "overview"],
             "operation": "get_organization_api_requests_overview",
@@ -1188,17 +1289,29 @@ class Organizations:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/apiRequests/overview"
 
-        query_params = [
-            "t0",
-            "t1",
-            "timespan",
-        ]
-        params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
+        params = {}
+        if t0 is not None:
+            params["t0"] = t0
+        if t1 is not None:
+            params["t1"] = t1
+        if timespan is not None:
+            params["timespan"] = timespan
 
         return self._session.get(metadata, resource, params)
 
     def get_organization_api_requests_overview_response_codes_by_interval(
-        self, organization_id: str, **kwargs: Any
+        self,
+        organization_id: str,
+        *,
+        t0: str | None = None,
+        t1: str | None = None,
+        timespan: float | None = None,
+        interval: int | None = None,
+        version: int | None = None,
+        operation_ids: list | None = None,
+        source_ips: list | None = None,
+        admin_ids: list | None = None,
+        user_agent: str | None = None,
     ) -> dict[str, Any] | None:
         """Tracks organizations' API requests by response code across a given time period.
 
@@ -1217,19 +1330,17 @@ class Organizations:
               3600, 14400, 21600. The default is 21600. Interval is calculated if time
               params are provided.
             version: Filter by API version of the endpoint. Allowable values are: [0, 1].
-            operationIds: Filter by operation ID of the endpoint.
-            sourceIps: Filter by source IP that made the API request.
-            adminIds: Filter by admin ID of user that made the API request.
-            userAgent: Filter by user agent string for API request. This will filter by a complete
+            operation_ids: Filter by operation ID of the endpoint.
+            source_ips: Filter by source IP that made the API request.
+            admin_ids: Filter by admin ID of user that made the API request.
+            user_agent: Filter by user agent string for API request. This will filter by a complete
               or partial match.
 
         """
-        kwargs.update(locals())
-
-        if "version" in kwargs:
+        if version is not None:
             options = [0, 1]
-            assert kwargs["version"] in options, (
-                f'''"version" cannot be "{kwargs["version"]}", & must be set to one of: {options}'''
+            assert version in options, (
+                f'"version" cannot be "{version}", & must be set to one of: {options}'
             )
 
         metadata = {
@@ -1246,33 +1357,52 @@ class Organizations:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/apiRequests/overview/responseCodes/byInterval"
 
-        query_params = [
-            "t0",
-            "t1",
-            "timespan",
-            "interval",
-            "version",
-            "operationIds",
-            "sourceIps",
-            "adminIds",
-            "userAgent",
-        ]
-        params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
-
-        array_params = [
-            "operationIds",
-            "sourceIps",
-            "adminIds",
-        ]
-        for k in kwargs:
-            if k.strip() in array_params:
-                params[f"{k.strip()}[]"] = kwargs[f"{k}"]
-                params.pop(k.strip())
+        params = {}
+        if t0 is not None:
+            params["t0"] = t0
+        if t1 is not None:
+            params["t1"] = t1
+        if timespan is not None:
+            params["timespan"] = timespan
+        if interval is not None:
+            params["interval"] = interval
+        if version is not None:
+            params["version"] = version
+        if operation_ids is not None:
+            params["operationIds[]"] = operation_ids
+        if source_ips is not None:
+            params["sourceIps[]"] = source_ips
+        if admin_ids is not None:
+            params["adminIds[]"] = admin_ids
+        if user_agent is not None:
+            params["userAgent"] = user_agent
 
         return self._session.get(metadata, resource, params)
 
     def get_organization_assurance_alerts(
-        self, organization_id: str, total_pages=1, direction="next", **kwargs: Any
+        self,
+        organization_id: str,
+        *,
+        per_page: int | None = None,
+        starting_after: str | None = None,
+        ending_before: str | None = None,
+        sort_order: str | None = None,
+        network_id: str | None = None,
+        severity: str | None = None,
+        types: list | None = None,
+        ts_start: str | None = None,
+        ts_end: str | None = None,
+        category: str | None = None,
+        sort_by: str | None = None,
+        serials: list | None = None,
+        device_types: list | None = None,
+        device_tags: list | None = None,
+        active: bool | None = None,
+        dismissed: bool | None = None,
+        resolved: bool | None = None,
+        suppress_alerts_for_offline_nodes: bool | None = None,
+        total_pages: str = 1,
+        direction: str = "next",
     ) -> Generator[Any, None, None]:
         """Return all health alerts for an organization.
 
@@ -1280,57 +1410,55 @@ class Organizations:
 
         Args:
             organization_id: Organization ID.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
-              "all" for all pages.
-            direction: direction to paginate, either "next" (default) or "prev" page.
-            perPage: The number of entries per page returned. Acceptable range is 4 - 300. Default
+            per_page: The number of entries per page returned. Acceptable range is 4 - 300. Default
               is 30.
-            startingAfter: A token used by the server to indicate the start of the page. Often this
+            starting_after: A token used by the server to indicate the start of the page. Often this
               is a timestamp or an ID but it is not limited to those. This parameter
               should not be defined by client applications. The link for the first,
               last, prev, or next page in the HTTP Link header should define it.
-            endingBefore: A token used by the server to indicate the end of the page. Often this is
+            ending_before: A token used by the server to indicate the end of the page. Often this is
               a timestamp or an ID but it is not limited to those. This parameter should
               not be defined by client applications. The link for the first, last, prev,
               or next page in the HTTP Link header should define it.
-            sortOrder: Sorted order of entries. Order options are 'ascending' and 'descending'.
+            sort_order: Sorted order of entries. Order options are 'ascending' and 'descending'.
               Default is 'ascending'.
-            networkId: Optional parameter to filter alerts by network ids.
+            network_id: Optional parameter to filter alerts by network ids.
             severity: Optional parameter to filter by severity type.
             types: Optional parameter to filter by alert type.
-            tsStart: Optional parameter to filter by starting timestamp.
-            tsEnd: Optional parameter to filter by end timestamp.
+            ts_start: Optional parameter to filter by starting timestamp.
+            ts_end: Optional parameter to filter by end timestamp.
             category: Optional parameter to filter by category.
-            sortBy: Optional parameter to set column to sort by.
+            sort_by: Optional parameter to set column to sort by.
             serials: Optional parameter to filter by primary device serial.
-            deviceTypes: Optional parameter to filter by device types.
-            deviceTags: Optional parameter to filter by device tags.
+            device_types: Optional parameter to filter by device types.
+            device_tags: Optional parameter to filter by device tags.
             active: Optional parameter to filter by active alerts defaults to true.
             dismissed: Optional parameter to filter by dismissed alerts defaults to false.
             resolved: Optional parameter to filter by resolved alerts defaults to false.
-            suppressAlertsForOfflineNodes: When set to true the api will only return connectivity
-              alerts for a given device if that device is in an offline state. This only
-              applies to devices. This is ignored when resolved is true. Example:  If a
-              Switch has a VLan Mismatch and is Unreachable. only the Unreachable alert
-              will be returned. Defaults to false.
+            suppress_alerts_for_offline_nodes: When set to true the api will only return
+              connectivity alerts for a given device if that device is in an offline
+              state. This only applies to devices. This is ignored when resolved is
+              true. Example: If a Switch has a VLan Mismatch and is Unreachable. only
+              the Unreachable alert will be returned. Defaults to false.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        kwargs.update(locals())
-
-        if "sortOrder" in kwargs:
+        if sort_order is not None:
             options = ["ascending", "descending"]
-            assert kwargs["sortOrder"] in options, (
-                f'''"sortOrder" cannot be "{kwargs["sortOrder"]}", & must be set to one of: {options}'''
+            assert sort_order in options, (
+                f'"sort_order" cannot be "{sort_order}", & must be set to one of: {options}'
             )
-        if "category" in kwargs:
+        if category is not None:
             options = ["configuration", "connectivity", "device_health", "insights"]
-            assert kwargs["category"] in options, (
-                f'''"category" cannot be "{kwargs["category"]}", & must be set to one of: {options}'''
+            assert category in options, (
+                f'"category" cannot be "{category}", & must be set to one of: {options}'
             )
-        if "sortBy" in kwargs:
+        if sort_by is not None:
             options = ["category", "dismissedAt", "resolvedAt", "severity", "startedAt"]
-            assert kwargs["sortBy"] in options, (
-                f'''"sortBy" cannot be "{kwargs["sortBy"]}", & must be set to one of: {options}'''
+            assert sort_by in options, (
+                f'"sort_by" cannot be "{sort_by}", & must be set to one of: {options}'
             )
 
         metadata = {
@@ -1340,43 +1468,48 @@ class Organizations:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/assurance/alerts"
 
-        query_params = [
-            "perPage",
-            "startingAfter",
-            "endingBefore",
-            "sortOrder",
-            "networkId",
-            "severity",
-            "types",
-            "tsStart",
-            "tsEnd",
-            "category",
-            "sortBy",
-            "serials",
-            "deviceTypes",
-            "deviceTags",
-            "active",
-            "dismissed",
-            "resolved",
-            "suppressAlertsForOfflineNodes",
-        ]
-        params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
-
-        array_params = [
-            "types",
-            "serials",
-            "deviceTypes",
-            "deviceTags",
-        ]
-        for k in kwargs:
-            if k.strip() in array_params:
-                params[f"{k.strip()}[]"] = kwargs[f"{k}"]
-                params.pop(k.strip())
+        params = {}
+        if per_page is not None:
+            params["perPage"] = per_page
+        if starting_after is not None:
+            params["startingAfter"] = starting_after
+        if ending_before is not None:
+            params["endingBefore"] = ending_before
+        if sort_order is not None:
+            params["sortOrder"] = sort_order
+        if network_id is not None:
+            params["networkId"] = network_id
+        if severity is not None:
+            params["severity"] = severity
+        if types is not None:
+            params["types[]"] = types
+        if ts_start is not None:
+            params["tsStart"] = ts_start
+        if ts_end is not None:
+            params["tsEnd"] = ts_end
+        if category is not None:
+            params["category"] = category
+        if sort_by is not None:
+            params["sortBy"] = sort_by
+        if serials is not None:
+            params["serials[]"] = serials
+        if device_types is not None:
+            params["deviceTypes[]"] = device_types
+        if device_tags is not None:
+            params["deviceTags[]"] = device_tags
+        if active is not None:
+            params["active"] = active
+        if dismissed is not None:
+            params["dismissed"] = dismissed
+        if resolved is not None:
+            params["resolved"] = resolved
+        if suppress_alerts_for_offline_nodes is not None:
+            params["suppressAlertsForOfflineNodes"] = suppress_alerts_for_offline_nodes
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def dismiss_organization_assurance_alerts(
-        self, organization_id: str, alertIds: list
+        self, organization_id: str, alert_ids: list
     ) -> dict[str, Any] | None:
         """Dismiss health alerts.
 
@@ -1384,11 +1517,9 @@ class Organizations:
 
         Args:
             organization_id: Organization ID.
-            alertIds: Array of alert IDs to dismiss.
+            alert_ids: Array of alert IDs to dismiss.
 
         """
-        kwargs = locals()
-
         metadata = {
             "tags": ["organizations", "monitor", "alerts"],
             "operation": "dismiss_organization_assurance_alerts",
@@ -1396,15 +1527,29 @@ class Organizations:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/assurance/alerts/dismiss"
 
-        body_params = [
-            "alertIds",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if alert_ids is not None:
+            payload["alertIds"] = alert_ids
 
         return self._session.post(metadata, resource, payload)
 
     def get_organization_assurance_alerts_overview(
-        self, organization_id: str, **kwargs: Any
+        self,
+        organization_id: str,
+        *,
+        network_id: str | None = None,
+        severity: str | None = None,
+        types: list | None = None,
+        ts_start: str | None = None,
+        ts_end: str | None = None,
+        category: str | None = None,
+        serials: list | None = None,
+        device_types: list | None = None,
+        device_tags: list | None = None,
+        active: bool | None = None,
+        dismissed: bool | None = None,
+        resolved: bool | None = None,
+        suppress_alerts_for_offline_nodes: bool | None = None,
     ) -> dict[str, Any] | None:
         """Return overview of active health alerts for an organization.
 
@@ -1412,31 +1557,29 @@ class Organizations:
 
         Args:
             organization_id: Organization ID.
-            networkId: Optional parameter to filter alerts overview by network ids.
+            network_id: Optional parameter to filter alerts overview by network ids.
             severity: Optional parameter to filter alerts overview by severity type.
             types: Optional parameter to filter by alert type.
-            tsStart: Optional parameter to filter by starting timestamp.
-            tsEnd: Optional parameter to filter by end timestamp.
+            ts_start: Optional parameter to filter by starting timestamp.
+            ts_end: Optional parameter to filter by end timestamp.
             category: Optional parameter to filter by category.
             serials: Optional parameter to filter by primary device serial.
-            deviceTypes: Optional parameter to filter by device types.
-            deviceTags: Optional parameter to filter by device tags.
+            device_types: Optional parameter to filter by device types.
+            device_tags: Optional parameter to filter by device tags.
             active: Optional parameter to filter by active alerts defaults to true.
             dismissed: Optional parameter to filter by dismissed alerts defaults to false.
             resolved: Optional parameter to filter by resolved alerts defaults to false.
-            suppressAlertsForOfflineNodes: When set to true the api will only return connectivity
-              alerts for a given device if that device is in an offline state. This only
-              applies to devices. This is ignored when resolved is true. Example:  If a
-              Switch has a VLan Mismatch and is Unreachable. only the Unreachable alert
-              will be returned. Defaults to false.
+            suppress_alerts_for_offline_nodes: When set to true the api will only return
+              connectivity alerts for a given device if that device is in an offline
+              state. This only applies to devices. This is ignored when resolved is
+              true. Example: If a Switch has a VLan Mismatch and is Unreachable. only
+              the Unreachable alert will be returned. Defaults to false.
 
         """
-        kwargs.update(locals())
-
-        if "category" in kwargs:
+        if category is not None:
             options = ["configuration", "connectivity", "device_health", "insights"]
-            assert kwargs["category"] in options, (
-                f'''"category" cannot be "{kwargs["category"]}", & must be set to one of: {options}'''
+            assert category in options, (
+                f'"category" cannot be "{category}", & must be set to one of: {options}'
             )
 
         metadata = {
@@ -1446,38 +1589,59 @@ class Organizations:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/assurance/alerts/overview"
 
-        query_params = [
-            "networkId",
-            "severity",
-            "types",
-            "tsStart",
-            "tsEnd",
-            "category",
-            "serials",
-            "deviceTypes",
-            "deviceTags",
-            "active",
-            "dismissed",
-            "resolved",
-            "suppressAlertsForOfflineNodes",
-        ]
-        params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
-
-        array_params = [
-            "types",
-            "serials",
-            "deviceTypes",
-            "deviceTags",
-        ]
-        for k in kwargs:
-            if k.strip() in array_params:
-                params[f"{k.strip()}[]"] = kwargs[f"{k}"]
-                params.pop(k.strip())
+        params = {}
+        if network_id is not None:
+            params["networkId"] = network_id
+        if severity is not None:
+            params["severity"] = severity
+        if types is not None:
+            params["types[]"] = types
+        if ts_start is not None:
+            params["tsStart"] = ts_start
+        if ts_end is not None:
+            params["tsEnd"] = ts_end
+        if category is not None:
+            params["category"] = category
+        if serials is not None:
+            params["serials[]"] = serials
+        if device_types is not None:
+            params["deviceTypes[]"] = device_types
+        if device_tags is not None:
+            params["deviceTags[]"] = device_tags
+        if active is not None:
+            params["active"] = active
+        if dismissed is not None:
+            params["dismissed"] = dismissed
+        if resolved is not None:
+            params["resolved"] = resolved
+        if suppress_alerts_for_offline_nodes is not None:
+            params["suppressAlertsForOfflineNodes"] = suppress_alerts_for_offline_nodes
 
         return self._session.get(metadata, resource, params)
 
     def get_organization_assurance_alerts_overview_by_network(
-        self, organization_id: str, total_pages=1, direction="next", **kwargs: Any
+        self,
+        organization_id: str,
+        *,
+        per_page: int | None = None,
+        starting_after: str | None = None,
+        ending_before: str | None = None,
+        sort_order: str | None = None,
+        network_id: str | None = None,
+        severity: str | None = None,
+        types: list | None = None,
+        ts_start: str | None = None,
+        ts_end: str | None = None,
+        category: str | None = None,
+        serials: list | None = None,
+        device_types: list | None = None,
+        device_tags: list | None = None,
+        active: bool | None = None,
+        dismissed: bool | None = None,
+        resolved: bool | None = None,
+        suppress_alerts_for_offline_nodes: bool | None = None,
+        total_pages: str = 1,
+        direction: str = "next",
     ) -> Generator[Any, None, None]:
         """Return a Summary of Alerts grouped by network and severity.
 
@@ -1485,51 +1649,49 @@ class Organizations:
 
         Args:
             organization_id: Organization ID.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
-              "all" for all pages.
-            direction: direction to paginate, either "next" (default) or "prev" page.
-            perPage: The number of entries per page returned. Acceptable range is 3 - 1000. Default
+            per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
               is 1000.
-            startingAfter: A token used by the server to indicate the start of the page. Often this
+            starting_after: A token used by the server to indicate the start of the page. Often this
               is a timestamp or an ID but it is not limited to those. This parameter
               should not be defined by client applications. The link for the first,
               last, prev, or next page in the HTTP Link header should define it.
-            endingBefore: A token used by the server to indicate the end of the page. Often this is
+            ending_before: A token used by the server to indicate the end of the page. Often this is
               a timestamp or an ID but it is not limited to those. This parameter should
               not be defined by client applications. The link for the first, last, prev,
               or next page in the HTTP Link header should define it.
-            sortOrder: Sorted order of entries. Order options are 'ascending' and 'descending'.
+            sort_order: Sorted order of entries. Order options are 'ascending' and 'descending'.
               Default is 'ascending'.
-            networkId: Optional parameter to filter alerts overview by network id.
+            network_id: Optional parameter to filter alerts overview by network id.
             severity: Optional parameter to filter alerts overview by severity type.
             types: Optional parameter to filter by alert type.
-            tsStart: Optional parameter to filter by starting timestamp.
-            tsEnd: Optional parameter to filter by end timestamp.
+            ts_start: Optional parameter to filter by starting timestamp.
+            ts_end: Optional parameter to filter by end timestamp.
             category: Optional parameter to filter by category.
             serials: Optional parameter to filter by primary device serial.
-            deviceTypes: Optional parameter to filter by device types.
-            deviceTags: Optional parameter to filter by device tags.
+            device_types: Optional parameter to filter by device types.
+            device_tags: Optional parameter to filter by device tags.
             active: Optional parameter to filter by active alerts defaults to true.
             dismissed: Optional parameter to filter by dismissed alerts defaults to false.
             resolved: Optional parameter to filter by resolved alerts defaults to false.
-            suppressAlertsForOfflineNodes: When set to true the api will only return connectivity
-              alerts for a given device if that device is in an offline state. This only
-              applies to devices. This is ignored when resolved is true. Example:  If a
-              Switch has a VLan Mismatch and is Unreachable. only the Unreachable alert
-              will be returned. Defaults to false.
+            suppress_alerts_for_offline_nodes: When set to true the api will only return
+              connectivity alerts for a given device if that device is in an offline
+              state. This only applies to devices. This is ignored when resolved is
+              true. Example: If a Switch has a VLan Mismatch and is Unreachable. only
+              the Unreachable alert will be returned. Defaults to false.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        kwargs.update(locals())
-
-        if "sortOrder" in kwargs:
+        if sort_order is not None:
             options = ["ascending", "descending"]
-            assert kwargs["sortOrder"] in options, (
-                f'''"sortOrder" cannot be "{kwargs["sortOrder"]}", & must be set to one of: {options}'''
+            assert sort_order in options, (
+                f'"sort_order" cannot be "{sort_order}", & must be set to one of: {options}'
             )
-        if "category" in kwargs:
+        if category is not None:
             options = ["configuration", "connectivity", "device_health", "insights"]
-            assert kwargs["category"] in options, (
-                f'''"category" cannot be "{kwargs["category"]}", & must be set to one of: {options}'''
+            assert category in options, (
+                f'"category" cannot be "{category}", & must be set to one of: {options}'
             )
 
         metadata = {
@@ -1539,42 +1701,68 @@ class Organizations:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/assurance/alerts/overview/byNetwork"
 
-        query_params = [
-            "perPage",
-            "startingAfter",
-            "endingBefore",
-            "sortOrder",
-            "networkId",
-            "severity",
-            "types",
-            "tsStart",
-            "tsEnd",
-            "category",
-            "serials",
-            "deviceTypes",
-            "deviceTags",
-            "active",
-            "dismissed",
-            "resolved",
-            "suppressAlertsForOfflineNodes",
-        ]
-        params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
-
-        array_params = [
-            "types",
-            "serials",
-            "deviceTypes",
-            "deviceTags",
-        ]
-        for k in kwargs:
-            if k.strip() in array_params:
-                params[f"{k.strip()}[]"] = kwargs[f"{k}"]
-                params.pop(k.strip())
+        params = {}
+        if per_page is not None:
+            params["perPage"] = per_page
+        if starting_after is not None:
+            params["startingAfter"] = starting_after
+        if ending_before is not None:
+            params["endingBefore"] = ending_before
+        if sort_order is not None:
+            params["sortOrder"] = sort_order
+        if network_id is not None:
+            params["networkId"] = network_id
+        if severity is not None:
+            params["severity"] = severity
+        if types is not None:
+            params["types[]"] = types
+        if ts_start is not None:
+            params["tsStart"] = ts_start
+        if ts_end is not None:
+            params["tsEnd"] = ts_end
+        if category is not None:
+            params["category"] = category
+        if serials is not None:
+            params["serials[]"] = serials
+        if device_types is not None:
+            params["deviceTypes[]"] = device_types
+        if device_tags is not None:
+            params["deviceTags[]"] = device_tags
+        if active is not None:
+            params["active"] = active
+        if dismissed is not None:
+            params["dismissed"] = dismissed
+        if resolved is not None:
+            params["resolved"] = resolved
+        if suppress_alerts_for_offline_nodes is not None:
+            params["suppressAlertsForOfflineNodes"] = suppress_alerts_for_offline_nodes
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def get_organization_assurance_alerts_overview_by_type(
-        self, organization_id: str, total_pages=1, direction="next", **kwargs: Any
+        self,
+        organization_id: str,
+        *,
+        per_page: int | None = None,
+        starting_after: str | None = None,
+        ending_before: str | None = None,
+        sort_order: str | None = None,
+        network_id: str | None = None,
+        severity: str | None = None,
+        types: list | None = None,
+        ts_start: str | None = None,
+        ts_end: str | None = None,
+        category: str | None = None,
+        sort_by: str | None = None,
+        serials: list | None = None,
+        device_types: list | None = None,
+        device_tags: list | None = None,
+        active: bool | None = None,
+        dismissed: bool | None = None,
+        resolved: bool | None = None,
+        suppress_alerts_for_offline_nodes: bool | None = None,
+        total_pages: str = 1,
+        direction: str = "next",
     ) -> Generator[Any, None, None]:
         """Return a Summary of Alerts grouped by type and severity.
 
@@ -1582,57 +1770,55 @@ class Organizations:
 
         Args:
             organization_id: Organization ID.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
-              "all" for all pages.
-            direction: direction to paginate, either "next" (default) or "prev" page.
-            perPage: The number of entries per page returned. Acceptable range is 3 - 1000. Default
+            per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
               is 1000.
-            startingAfter: A token used by the server to indicate the start of the page. Often this
+            starting_after: A token used by the server to indicate the start of the page. Often this
               is a timestamp or an ID but it is not limited to those. This parameter
               should not be defined by client applications. The link for the first,
               last, prev, or next page in the HTTP Link header should define it.
-            endingBefore: A token used by the server to indicate the end of the page. Often this is
+            ending_before: A token used by the server to indicate the end of the page. Often this is
               a timestamp or an ID but it is not limited to those. This parameter should
               not be defined by client applications. The link for the first, last, prev,
               or next page in the HTTP Link header should define it.
-            sortOrder: Sorted order of entries. Order options are 'ascending' and 'descending'.
+            sort_order: Sorted order of entries. Order options are 'ascending' and 'descending'.
               Default is 'ascending'.
-            networkId: Optional parameter to filter alerts overview by network ids.
+            network_id: Optional parameter to filter alerts overview by network ids.
             severity: Optional parameter to filter alerts overview by severity type.
             types: Optional parameter to filter by alert type.
-            tsStart: Optional parameter to filter by starting timestamp.
-            tsEnd: Optional parameter to filter by end timestamp.
+            ts_start: Optional parameter to filter by starting timestamp.
+            ts_end: Optional parameter to filter by end timestamp.
             category: Optional parameter to filter by category.
-            sortBy: Optional parameter to set column to sort by.
+            sort_by: Optional parameter to set column to sort by.
             serials: Optional parameter to filter by primary device serial.
-            deviceTypes: Optional parameter to filter by device types.
-            deviceTags: Optional parameter to filter by device tags.
+            device_types: Optional parameter to filter by device types.
+            device_tags: Optional parameter to filter by device tags.
             active: Optional parameter to filter by active alerts defaults to true.
             dismissed: Optional parameter to filter by dismissed alerts defaults to false.
             resolved: Optional parameter to filter by resolved alerts defaults to false.
-            suppressAlertsForOfflineNodes: When set to true the api will only return connectivity
-              alerts for a given device if that device is in an offline state. This only
-              applies to devices. This is ignored when resolved is true. Example:  If a
-              Switch has a VLan Mismatch and is Unreachable. only the Unreachable alert
-              will be returned. Defaults to false.
+            suppress_alerts_for_offline_nodes: When set to true the api will only return
+              connectivity alerts for a given device if that device is in an offline
+              state. This only applies to devices. This is ignored when resolved is
+              true. Example: If a Switch has a VLan Mismatch and is Unreachable. only
+              the Unreachable alert will be returned. Defaults to false.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        kwargs.update(locals())
-
-        if "sortOrder" in kwargs:
+        if sort_order is not None:
             options = ["ascending", "descending"]
-            assert kwargs["sortOrder"] in options, (
-                f'''"sortOrder" cannot be "{kwargs["sortOrder"]}", & must be set to one of: {options}'''
+            assert sort_order in options, (
+                f'"sort_order" cannot be "{sort_order}", & must be set to one of: {options}'
             )
-        if "category" in kwargs:
+        if category is not None:
             options = ["configuration", "connectivity", "device_health", "insights"]
-            assert kwargs["category"] in options, (
-                f'''"category" cannot be "{kwargs["category"]}", & must be set to one of: {options}'''
+            assert category in options, (
+                f'"category" cannot be "{category}", & must be set to one of: {options}'
             )
-        if "sortBy" in kwargs:
+        if sort_by is not None:
             options = ["count", "lastAlertedAt", "networkCount", "severity", "startedAt"]
-            assert kwargs["sortBy"] in options, (
-                f'''"sortBy" cannot be "{kwargs["sortBy"]}", & must be set to one of: {options}'''
+            assert sort_by in options, (
+                f'"sort_by" cannot be "{sort_by}", & must be set to one of: {options}'
             )
 
         metadata = {
@@ -1642,43 +1828,59 @@ class Organizations:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/assurance/alerts/overview/byType"
 
-        query_params = [
-            "perPage",
-            "startingAfter",
-            "endingBefore",
-            "sortOrder",
-            "networkId",
-            "severity",
-            "types",
-            "tsStart",
-            "tsEnd",
-            "category",
-            "sortBy",
-            "serials",
-            "deviceTypes",
-            "deviceTags",
-            "active",
-            "dismissed",
-            "resolved",
-            "suppressAlertsForOfflineNodes",
-        ]
-        params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
-
-        array_params = [
-            "types",
-            "serials",
-            "deviceTypes",
-            "deviceTags",
-        ]
-        for k in kwargs:
-            if k.strip() in array_params:
-                params[f"{k.strip()}[]"] = kwargs[f"{k}"]
-                params.pop(k.strip())
+        params = {}
+        if per_page is not None:
+            params["perPage"] = per_page
+        if starting_after is not None:
+            params["startingAfter"] = starting_after
+        if ending_before is not None:
+            params["endingBefore"] = ending_before
+        if sort_order is not None:
+            params["sortOrder"] = sort_order
+        if network_id is not None:
+            params["networkId"] = network_id
+        if severity is not None:
+            params["severity"] = severity
+        if types is not None:
+            params["types[]"] = types
+        if ts_start is not None:
+            params["tsStart"] = ts_start
+        if ts_end is not None:
+            params["tsEnd"] = ts_end
+        if category is not None:
+            params["category"] = category
+        if sort_by is not None:
+            params["sortBy"] = sort_by
+        if serials is not None:
+            params["serials[]"] = serials
+        if device_types is not None:
+            params["deviceTypes[]"] = device_types
+        if device_tags is not None:
+            params["deviceTags[]"] = device_tags
+        if active is not None:
+            params["active"] = active
+        if dismissed is not None:
+            params["dismissed"] = dismissed
+        if resolved is not None:
+            params["resolved"] = resolved
+        if suppress_alerts_for_offline_nodes is not None:
+            params["suppressAlertsForOfflineNodes"] = suppress_alerts_for_offline_nodes
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def get_organization_assurance_alerts_overview_historical(
-        self, organization_id: str, segmentDuration: int, tsStart: str, **kwargs: Any
+        self,
+        organization_id: str,
+        segment_duration: int,
+        ts_start: str,
+        *,
+        network_id: str | None = None,
+        severity: str | None = None,
+        types: list | None = None,
+        ts_end: str | None = None,
+        category: str | None = None,
+        serials: list | None = None,
+        device_types: list | None = None,
     ) -> dict[str, Any] | None:
         """Returns historical health alert overviews.
 
@@ -1686,23 +1888,21 @@ class Organizations:
 
         Args:
             organization_id: Organization ID.
-            segmentDuration: Amount of time in seconds for each segment in the returned dataset.
-            tsStart: Parameter to define starting timestamp of historical totals.
-            networkId: Optional parameter to filter alerts overview by network ids.
+            segment_duration: Amount of time in seconds for each segment in the returned dataset.
+            network_id: Optional parameter to filter alerts overview by network ids.
             severity: Optional parameter to filter alerts overview by severity type.
             types: Optional parameter to filter by alert type.
-            tsEnd: Optional parameter to filter by end timestamp defaults to the current time.
+            ts_start: Parameter to define starting timestamp of historical totals.
+            ts_end: Optional parameter to filter by end timestamp defaults to the current time.
             category: Optional parameter to filter by category.
             serials: Optional parameter to filter by primary device serial.
-            deviceTypes: Optional parameter to filter by device types.
+            device_types: Optional parameter to filter by device types.
 
         """
-        kwargs.update(locals())
-
-        if "category" in kwargs:
+        if category is not None:
             options = ["configuration", "connectivity", "device_health", "insights"]
-            assert kwargs["category"] in options, (
-                f'''"category" cannot be "{kwargs["category"]}", & must be set to one of: {options}'''
+            assert category in options, (
+                f'"category" cannot be "{category}", & must be set to one of: {options}'
             )
 
         metadata = {
@@ -1712,33 +1912,30 @@ class Organizations:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/assurance/alerts/overview/historical"
 
-        query_params = [
-            "segmentDuration",
-            "networkId",
-            "severity",
-            "types",
-            "tsStart",
-            "tsEnd",
-            "category",
-            "serials",
-            "deviceTypes",
-        ]
-        params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
-
-        array_params = [
-            "types",
-            "serials",
-            "deviceTypes",
-        ]
-        for k in kwargs:
-            if k.strip() in array_params:
-                params[f"{k.strip()}[]"] = kwargs[f"{k}"]
-                params.pop(k.strip())
+        params = {}
+        if segment_duration is not None:
+            params["segmentDuration"] = segment_duration
+        if network_id is not None:
+            params["networkId"] = network_id
+        if severity is not None:
+            params["severity"] = severity
+        if types is not None:
+            params["types[]"] = types
+        if ts_start is not None:
+            params["tsStart"] = ts_start
+        if ts_end is not None:
+            params["tsEnd"] = ts_end
+        if category is not None:
+            params["category"] = category
+        if serials is not None:
+            params["serials[]"] = serials
+        if device_types is not None:
+            params["deviceTypes[]"] = device_types
 
         return self._session.get(metadata, resource, params)
 
     def restore_organization_assurance_alerts(
-        self, organization_id: str, alertIds: list
+        self, organization_id: str, alert_ids: list
     ) -> dict[str, Any] | None:
         """Restore health alerts from dismissed.
 
@@ -1746,11 +1943,9 @@ class Organizations:
 
         Args:
             organization_id: Organization ID.
-            alertIds: Array of alert IDs to restore.
+            alert_ids: Array of alert IDs to restore.
 
         """
-        kwargs = locals()
-
         metadata = {
             "tags": ["organizations", "monitor", "alerts"],
             "operation": "restore_organization_assurance_alerts",
@@ -1758,10 +1953,9 @@ class Organizations:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/assurance/alerts/restore"
 
-        body_params = [
-            "alertIds",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if alert_ids is not None:
+            payload["alertIds"] = alert_ids
 
         return self._session.post(metadata, resource, payload)
 
@@ -1806,7 +2000,7 @@ class Organizations:
         return self._session.get(metadata, resource)
 
     def get_organization_assurance_alert(
-        self, organization_id: str, id: str
+        self, organization_id: str, id_: str
     ) -> dict[str, Any] | None:
         """Return a singular Health Alert by its id.
 
@@ -1814,7 +2008,7 @@ class Organizations:
 
         Args:
             organization_id: Organization ID.
-            id: ID.
+            id_: ID.
 
         """
         metadata = {
@@ -1822,8 +2016,8 @@ class Organizations:
             "operation": "get_organization_assurance_alert",
         }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        id = urllib.parse.quote(str(id), safe="")
-        resource = f"/organizations/{organization_id}/assurance/alerts/{id}"
+        id_ = urllib.parse.quote(str(id_), safe="")
+        resource = f"/organizations/{organization_id}/assurance/alerts/{id_}"
 
         return self._session.get(metadata, resource)
 
@@ -1846,7 +2040,14 @@ class Organizations:
         return self._session.get(metadata, resource)
 
     def create_organization_branding_policy(
-        self, organization_id: str, name: str, **kwargs: Any
+        self,
+        organization_id: str,
+        name: str,
+        *,
+        enabled: bool | None = None,
+        admin_settings: dict | None = None,
+        help_settings: dict | None = None,
+        custom_logo: dict | None = None,
     ) -> dict[str, Any] | None:
         """Add a new branding policy to an organization.
 
@@ -1856,20 +2057,17 @@ class Organizations:
             organization_id: Organization ID.
             name: Name of the Dashboard branding policy.
             enabled: Boolean indicating whether this policy is enabled.
-            adminSettings: Settings for describing which kinds of admins this policy applies to.
-            helpSettings:       Settings for describing the modifications to various Help page
-              features. Each property in this object accepts one of       'default or
-              inherit' (do not modify functionality), 'hide' (remove the section from
-              Dashboard), or 'show' (always show       the section on Dashboard). Some
-              properties in this object also accept custom HTML used to replace the
-              section on       Dashboard; see the documentation for each property to see
-              the allowed values.  Each property defaults to 'default or inherit' when
-              not provided.
-            customLogo: Properties describing the custom logo attached to the branding policy.
+            admin_settings: Settings for describing which kinds of admins this policy applies to.
+            help_settings: Settings for describing the modifications to various Help page features.
+              Each property in this object accepts one of 'default or inherit' (do not
+              modify functionality), 'hide' (remove the section from Dashboard), or
+              'show' (always show the section on Dashboard). Some properties in this
+              object also accept custom HTML used to replace the section on Dashboard;
+              see the documentation for each property to see the allowed values. Each
+              property defaults to 'default or inherit' when not provided.
+            custom_logo: Properties describing the custom logo attached to the branding policy.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["organizations", "configure", "brandingPolicies"],
             "operation": "create_organization_branding_policy",
@@ -1877,14 +2075,17 @@ class Organizations:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/brandingPolicies"
 
-        body_params = [
-            "name",
-            "enabled",
-            "adminSettings",
-            "helpSettings",
-            "customLogo",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if name is not None:
+            payload["name"] = name
+        if enabled is not None:
+            payload["enabled"] = enabled
+        if admin_settings is not None:
+            payload["adminSettings"] = admin_settings
+        if help_settings is not None:
+            payload["helpSettings"] = help_settings
+        if custom_logo is not None:
+            payload["customLogo"] = custom_logo
 
         return self._session.post(metadata, resource, payload)
 
@@ -1909,7 +2110,7 @@ class Organizations:
         return self._session.get(metadata, resource)
 
     def update_organization_branding_policies_priorities(
-        self, organization_id: str, **kwargs: Any
+        self, organization_id: str, *, branding_policy_ids: list | None = None
     ) -> dict[str, Any] | None:
         """Update the priority ordering of an organization's branding policies.
 
@@ -1917,12 +2118,10 @@ class Organizations:
 
         Args:
             organization_id: Organization ID.
-            brandingPolicyIds:       An ordered list of branding policy IDs that determines the
-              priority order of how to apply the policies .
+            branding_policy_ids: An ordered list of branding policy IDs that determines the priority
+              order of how to apply the policies.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["organizations", "configure", "brandingPolicies", "priorities"],
             "operation": "update_organization_branding_policies_priorities",
@@ -1930,10 +2129,9 @@ class Organizations:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/brandingPolicies/priorities"
 
-        body_params = [
-            "brandingPolicyIds",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if branding_policy_ids is not None:
+            payload["brandingPolicyIds"] = branding_policy_ids
 
         return self._session.put(metadata, resource, payload)
 
@@ -1960,7 +2158,15 @@ class Organizations:
         return self._session.get(metadata, resource)
 
     def update_organization_branding_policy(
-        self, organization_id: str, branding_policy_id: str, name: str, **kwargs: Any
+        self,
+        organization_id: str,
+        branding_policy_id: str,
+        name: str,
+        *,
+        enabled: bool | None = None,
+        admin_settings: dict | None = None,
+        help_settings: dict | None = None,
+        custom_logo: dict | None = None,
     ) -> dict[str, Any] | None:
         """Update a branding policy.
 
@@ -1971,19 +2177,16 @@ class Organizations:
             branding_policy_id: Branding policy ID.
             name: Name of the Dashboard branding policy.
             enabled: Boolean indicating whether this policy is enabled.
-            adminSettings: Settings for describing which kinds of admins this policy applies to.
-            helpSettings:       Settings for describing the modifications to various Help page
-              features. Each property in this object accepts one of       'default or
-              inherit' (do not modify functionality), 'hide' (remove the section from
-              Dashboard), or 'show' (always show       the section on Dashboard). Some
-              properties in this object also accept custom HTML used to replace the
-              section on       Dashboard; see the documentation for each property to see
-              the allowed values. .
-            customLogo: Properties describing the custom logo attached to the branding policy.
+            admin_settings: Settings for describing which kinds of admins this policy applies to.
+            help_settings: Settings for describing the modifications to various Help page features.
+              Each property in this object accepts one of 'default or inherit' (do not
+              modify functionality), 'hide' (remove the section from Dashboard), or
+              'show' (always show the section on Dashboard). Some properties in this
+              object also accept custom HTML used to replace the section on Dashboard;
+              see the documentation for each property to see the allowed values.
+            custom_logo: Properties describing the custom logo attached to the branding policy.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["organizations", "configure", "brandingPolicies"],
             "operation": "update_organization_branding_policy",
@@ -1992,14 +2195,17 @@ class Organizations:
         branding_policy_id = urllib.parse.quote(str(branding_policy_id), safe="")
         resource = f"/organizations/{organization_id}/brandingPolicies/{branding_policy_id}"
 
-        body_params = [
-            "name",
-            "enabled",
-            "adminSettings",
-            "helpSettings",
-            "customLogo",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if name is not None:
+            payload["name"] = name
+        if enabled is not None:
+            payload["enabled"] = enabled
+        if admin_settings is not None:
+            payload["adminSettings"] = admin_settings
+        if help_settings is not None:
+            payload["helpSettings"] = help_settings
+        if custom_logo is not None:
+            payload["customLogo"] = custom_logo
 
         return self._session.put(metadata, resource, payload)
 
@@ -2025,7 +2231,14 @@ class Organizations:
 
         return self._session.delete(metadata, resource)
 
-    def claim_into_organization(self, organization_id: str, **kwargs: Any) -> dict[str, Any] | None:
+    def claim_into_organization(
+        self,
+        organization_id: str,
+        *,
+        orders: list | None = None,
+        serials: list | None = None,
+        licenses: list | None = None,
+    ) -> dict[str, Any] | None:
         """Claim a list of devices, licenses, and/or orders into an organization inventory.
 
         https://developer.cisco.com/meraki/api-v1/#!claim-into-organization
@@ -2037,23 +2250,31 @@ class Organizations:
             licenses: The licenses that should be claimed.
 
         """
-        kwargs.update(locals())
-
         metadata = {"tags": ["organizations", "configure"], "operation": "claim_into_organization"}
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/claim"
 
-        body_params = [
-            "orders",
-            "serials",
-            "licenses",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if orders is not None:
+            payload["orders"] = orders
+        if serials is not None:
+            payload["serials"] = serials
+        if licenses is not None:
+            payload["licenses"] = licenses
 
         return self._session.post(metadata, resource, payload)
 
     def get_organization_clients_bandwidth_usage_history(
-        self, organization_id: str, **kwargs: Any
+        self,
+        organization_id: str,
+        *,
+        network_tag: str | None = None,
+        device_tag: str | None = None,
+        ssid_name: str | None = None,
+        usage_uplink: str | None = None,
+        t0: str | None = None,
+        t1: str | None = None,
+        timespan: float | None = None,
     ) -> dict[str, Any] | None:
         """Return data usage (in megabits per second) over time for all clients in the given organization within a given time range.
 
@@ -2061,10 +2282,10 @@ class Organizations:
 
         Args:
             organization_id: Organization ID.
-            networkTag: Match result to an exact network tag.
-            deviceTag: Match result to an exact device tag.
-            ssidName: Filter results by ssid name.
-            usageUplink: Filter results by usage uplink.
+            network_tag: Match result to an exact network tag.
+            device_tag: Match result to an exact device tag.
+            ssid_name: Filter results by ssid name.
+            usage_uplink: Filter results by usage uplink.
             t0: The beginning of the timespan for the data.
             t1: The end of the timespan for the data. t1 can be a maximum of 186 days after t0.
             timespan: The timespan for which the information will be fetched. If specifying
@@ -2072,8 +2293,6 @@ class Organizations:
               seconds and be less than or equal to 186 days. The default is 1 day.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["organizations", "monitor", "clients", "bandwidthUsageHistory"],
             "operation": "get_organization_clients_bandwidth_usage_history",
@@ -2081,21 +2300,31 @@ class Organizations:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/clients/bandwidthUsageHistory"
 
-        query_params = [
-            "networkTag",
-            "deviceTag",
-            "ssidName",
-            "usageUplink",
-            "t0",
-            "t1",
-            "timespan",
-        ]
-        params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
+        params = {}
+        if network_tag is not None:
+            params["networkTag"] = network_tag
+        if device_tag is not None:
+            params["deviceTag"] = device_tag
+        if ssid_name is not None:
+            params["ssidName"] = ssid_name
+        if usage_uplink is not None:
+            params["usageUplink"] = usage_uplink
+        if t0 is not None:
+            params["t0"] = t0
+        if t1 is not None:
+            params["t1"] = t1
+        if timespan is not None:
+            params["timespan"] = timespan
 
         return self._session.get(metadata, resource, params)
 
     def get_organization_clients_overview(
-        self, organization_id: str, **kwargs: Any
+        self,
+        organization_id: str,
+        *,
+        t0: str | None = None,
+        t1: str | None = None,
+        timespan: float | None = None,
     ) -> dict[str, Any] | None:
         """Return summary information around client data usage (in kb) across the given organization.
 
@@ -2110,8 +2339,6 @@ class Organizations:
               seconds and be less than or equal to 31 days. The default is 1 day.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["organizations", "monitor", "clients", "overview"],
             "operation": "get_organization_clients_overview",
@@ -2119,17 +2346,26 @@ class Organizations:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/clients/overview"
 
-        query_params = [
-            "t0",
-            "t1",
-            "timespan",
-        ]
-        params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
+        params = {}
+        if t0 is not None:
+            params["t0"] = t0
+        if t1 is not None:
+            params["t1"] = t1
+        if timespan is not None:
+            params["timespan"] = timespan
 
         return self._session.get(metadata, resource, params)
 
     def get_organization_clients_search(
-        self, organization_id: str, mac: str, total_pages=1, direction="next", **kwargs: Any
+        self,
+        organization_id: str,
+        mac: str,
+        *,
+        per_page: int | None = None,
+        starting_after: str | None = None,
+        ending_before: str | None = None,
+        total_pages: str = 1,
+        direction: str = "next",
     ) -> Generator[Any, None, None]:
         """Return the client details in an organization.
 
@@ -2137,24 +2373,22 @@ class Organizations:
 
         Args:
             organization_id: Organization ID.
+            per_page: The number of entries per page returned. Acceptable range is 3 - 5. Default is
+              5.
+            starting_after: A token used by the server to indicate the start of the page. Often this
+              is a timestamp or an ID but it is not limited to those. This parameter
+              should not be defined by client applications. The link for the first,
+              last, prev, or next page in the HTTP Link header should define it.
+            ending_before: A token used by the server to indicate the end of the page. Often this is
+              a timestamp or an ID but it is not limited to those. This parameter should
+              not be defined by client applications. The link for the first, last, prev,
+              or next page in the HTTP Link header should define it.
             mac: The MAC address of the client. Required.
             total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
-            perPage: The number of entries per page returned. Acceptable range is 3 - 5. Default is
-              5.
-            startingAfter: A token used by the server to indicate the start of the page. Often this
-              is a timestamp or an ID but it is not limited to those. This parameter
-              should not be defined by client applications. The link for the first,
-              last, prev, or next page in the HTTP Link header should define it.
-            endingBefore: A token used by the server to indicate the end of the page. Often this is
-              a timestamp or an ID but it is not limited to those. This parameter should
-              not be defined by client applications. The link for the first, last, prev,
-              or next page in the HTTP Link header should define it.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["organizations", "configure", "clients", "search"],
             "operation": "get_organization_clients_search",
@@ -2162,13 +2396,15 @@ class Organizations:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/clients/search"
 
-        query_params = [
-            "perPage",
-            "startingAfter",
-            "endingBefore",
-            "mac",
-        ]
-        params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
+        params = {}
+        if per_page is not None:
+            params["perPage"] = per_page
+        if starting_after is not None:
+            params["startingAfter"] = starting_after
+        if ending_before is not None:
+            params["endingBefore"] = ending_before
+        if mac is not None:
+            params["mac"] = mac
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
@@ -2182,16 +2418,13 @@ class Organizations:
             name: The name of the new organization.
 
         """
-        kwargs = locals()
-
         metadata = {"tags": ["organizations", "configure"], "operation": "clone_organization"}
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/clone"
 
-        body_params = [
-            "name",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if name is not None:
+            payload["name"] = name
 
         return self._session.post(metadata, resource, payload)
 
@@ -2214,7 +2447,12 @@ class Organizations:
         return self._session.get(metadata, resource)
 
     def create_organization_config_template(
-        self, organization_id: str, name: str, **kwargs: Any
+        self,
+        organization_id: str,
+        name: str,
+        *,
+        time_zone: str | None = None,
+        copy_from_network_id: str | None = None,
     ) -> dict[str, Any] | None:
         """Create a new configuration template.
 
@@ -2223,15 +2461,14 @@ class Organizations:
         Args:
             organization_id: Organization ID.
             name: The name of the configuration template.
-            timeZone: The timezone of the configuration template. For a list of allowed timezones,
+            time_zone: The timezone of the configuration template. For a list of allowed timezones,
               please see the 'TZ' column in the table in <a target='_blank'
               href='https://en.wikipedia.org/wiki/List_of_tz_database_time_zones'>this
               article</a>. Not applicable if copying from existing network or template.
-            copyFromNetworkId: The ID of the network or config template to copy configuration from.
+            copy_from_network_id: The ID of the network or config template to copy configuration
+              from.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["organizations", "configure", "configTemplates"],
             "operation": "create_organization_config_template",
@@ -2239,12 +2476,13 @@ class Organizations:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/configTemplates"
 
-        body_params = [
-            "name",
-            "timeZone",
-            "copyFromNetworkId",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if name is not None:
+            payload["name"] = name
+        if time_zone is not None:
+            payload["timeZone"] = time_zone
+        if copy_from_network_id is not None:
+            payload["copyFromNetworkId"] = copy_from_network_id
 
         return self._session.post(metadata, resource, payload)
 
@@ -2271,7 +2509,12 @@ class Organizations:
         return self._session.get(metadata, resource)
 
     def update_organization_config_template(
-        self, organization_id: str, config_template_id: str, **kwargs: Any
+        self,
+        organization_id: str,
+        config_template_id: str,
+        *,
+        name: str | None = None,
+        time_zone: str | None = None,
     ) -> dict[str, Any] | None:
         """Update a configuration template.
 
@@ -2281,14 +2524,12 @@ class Organizations:
             organization_id: Organization ID.
             config_template_id: Config template ID.
             name: The name of the configuration template.
-            timeZone: The timezone of the configuration template. For a list of allowed timezones,
+            time_zone: The timezone of the configuration template. For a list of allowed timezones,
               please see the 'TZ' column in the table in <a target='_blank'
               href='https://en.wikipedia.org/wiki/List_of_tz_database_time_zones'>this
               article.</a>.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["organizations", "configure", "configTemplates"],
             "operation": "update_organization_config_template",
@@ -2297,11 +2538,11 @@ class Organizations:
         config_template_id = urllib.parse.quote(str(config_template_id), safe="")
         resource = f"/organizations/{organization_id}/configTemplates/{config_template_id}"
 
-        body_params = [
-            "name",
-            "timeZone",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if name is not None:
+            payload["name"] = name
+        if time_zone is not None:
+            payload["timeZone"] = time_zone
 
         return self._session.put(metadata, resource, payload)
 
@@ -2328,7 +2569,19 @@ class Organizations:
         return self._session.delete(metadata, resource)
 
     def get_organization_configuration_changes(
-        self, organization_id: str, total_pages=1, direction="prev", **kwargs: Any
+        self,
+        organization_id: str,
+        *,
+        t0: str | None = None,
+        t1: str | None = None,
+        timespan: float | None = None,
+        per_page: int | None = None,
+        starting_after: str | None = None,
+        ending_before: str | None = None,
+        network_id: str | None = None,
+        admin_id: str | None = None,
+        total_pages: str = 1,
+        direction: str = "prev",
     ) -> Generator[Any, None, None]:
         """View the Change Log for your organization.
 
@@ -2336,31 +2589,29 @@ class Organizations:
 
         Args:
             organization_id: Organization ID.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
-              "all" for all pages.
-            direction: direction to paginate, either "next" or "prev" (default) page.
             t0: The beginning of the timespan for the data. The maximum lookback period is 365 days
               from today.
             t1: The end of the timespan for the data. t1 can be a maximum of 365 days after t0.
             timespan: The timespan for which the information will be fetched. If specifying
               timespan, do not specify parameters t0 and t1. The value must be in
               seconds and be less than or equal to 365 days. The default is 365 days.
-            perPage: The number of entries per page returned. Acceptable range is 3 - 5000. Default
+            per_page: The number of entries per page returned. Acceptable range is 3 - 5000. Default
               is 5000.
-            startingAfter: A token used by the server to indicate the start of the page. Often this
+            starting_after: A token used by the server to indicate the start of the page. Often this
               is a timestamp or an ID but it is not limited to those. This parameter
               should not be defined by client applications. The link for the first,
               last, prev, or next page in the HTTP Link header should define it.
-            endingBefore: A token used by the server to indicate the end of the page. Often this is
+            ending_before: A token used by the server to indicate the end of the page. Often this is
               a timestamp or an ID but it is not limited to those. This parameter should
               not be defined by client applications. The link for the first, last, prev,
               or next page in the HTTP Link header should define it.
-            networkId: Filters on the given network.
-            adminId: Filters on the given Admin.
+            network_id: Filters on the given network.
+            admin_id: Filters on the given Admin.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" or "prev" (default) page.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["organizations", "monitor", "configurationChanges"],
             "operation": "get_organization_configuration_changes",
@@ -2368,22 +2619,49 @@ class Organizations:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/configurationChanges"
 
-        query_params = [
-            "t0",
-            "t1",
-            "timespan",
-            "perPage",
-            "startingAfter",
-            "endingBefore",
-            "networkId",
-            "adminId",
-        ]
-        params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
+        params = {}
+        if t0 is not None:
+            params["t0"] = t0
+        if t1 is not None:
+            params["t1"] = t1
+        if timespan is not None:
+            params["timespan"] = timespan
+        if per_page is not None:
+            params["perPage"] = per_page
+        if starting_after is not None:
+            params["startingAfter"] = starting_after
+        if ending_before is not None:
+            params["endingBefore"] = ending_before
+        if network_id is not None:
+            params["networkId"] = network_id
+        if admin_id is not None:
+            params["adminId"] = admin_id
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def get_organization_devices(
-        self, organization_id: str, total_pages=1, direction="next", **kwargs: Any
+        self,
+        organization_id: str,
+        *,
+        per_page: int | None = None,
+        starting_after: str | None = None,
+        ending_before: str | None = None,
+        configuration_updated_after: str | None = None,
+        network_ids: list | None = None,
+        product_types: list | None = None,
+        tags: list | None = None,
+        tags_filter_type: str | None = None,
+        name: str | None = None,
+        mac: str | None = None,
+        serial: str | None = None,
+        model: str | None = None,
+        macs: list | None = None,
+        serials: list | None = None,
+        sensor_metrics: list | None = None,
+        sensor_alert_profile_ids: list | None = None,
+        models: list | None = None,
+        total_pages: str = 1,
+        direction: str = "next",
     ) -> Generator[Any, None, None]:
         """List the devices in an organization that have been assigned to a network.
 
@@ -2391,27 +2669,24 @@ class Organizations:
 
         Args:
             organization_id: Organization ID.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
-              "all" for all pages.
-            direction: direction to paginate, either "next" (default) or "prev" page.
-            perPage: The number of entries per page returned. Acceptable range is 3 - 5000. Default
+            per_page: The number of entries per page returned. Acceptable range is 3 - 5000. Default
               is 1000.
-            startingAfter: A token used by the server to indicate the start of the page. Often this
+            starting_after: A token used by the server to indicate the start of the page. Often this
               is a timestamp or an ID but it is not limited to those. This parameter
               should not be defined by client applications. The link for the first,
               last, prev, or next page in the HTTP Link header should define it.
-            endingBefore: A token used by the server to indicate the end of the page. Often this is
+            ending_before: A token used by the server to indicate the end of the page. Often this is
               a timestamp or an ID but it is not limited to those. This parameter should
               not be defined by client applications. The link for the first, last, prev,
               or next page in the HTTP Link header should define it.
-            configurationUpdatedAfter: Filter results by whether or not the device's configuration
+            configuration_updated_after: Filter results by whether or not the device's configuration
               has been updated after the given timestamp.
-            networkIds: Optional parameter to filter devices by network.
-            productTypes: Optional parameter to filter devices by product type. Valid types are
+            network_ids: Optional parameter to filter devices by network.
+            product_types: Optional parameter to filter devices by product type. Valid types are
               wireless, appliance, switch, systemsManager, camera, cellularGateway,
               sensor, wirelessController, campusGateway, and secureConnect.
             tags: Optional parameter to filter devices by tags.
-            tagsFilterType: Optional parameter of value 'withAnyTags' or 'withAllTags' to indicate
+            tags_filter_type: Optional parameter of value 'withAnyTags' or 'withAllTags' to indicate
               whether to return networks which contain ANY or ALL of the included tags.
               If no type is included, 'withAnyTags' will be selected.
             name: Optional parameter to filter devices by name. All returned devices will have a
@@ -2426,20 +2701,21 @@ class Organizations:
               devices will have a MAC address that is an exact match.
             serials: Optional parameter to filter devices by one or more serial numbers. All
               returned devices will have a serial number that is an exact match.
-            sensorMetrics: Optional parameter to filter devices by the metrics that they provide.
+            sensor_metrics: Optional parameter to filter devices by the metrics that they provide.
               Only applies to sensor devices.
-            sensorAlertProfileIds: Optional parameter to filter devices by the alert profiles that
-              are bound to them. Only applies to sensor devices.
+            sensor_alert_profile_ids: Optional parameter to filter devices by the alert profiles
+              that are bound to them. Only applies to sensor devices.
             models: Optional parameter to filter devices by one or more models. All returned devices
               will have a model that is an exact match.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        kwargs.update(locals())
-
-        if "tagsFilterType" in kwargs:
+        if tags_filter_type is not None:
             options = ["withAllTags", "withAnyTags"]
-            assert kwargs["tagsFilterType"] in options, (
-                f'''"tagsFilterType" cannot be "{kwargs["tagsFilterType"]}", & must be set to one of: {options}'''
+            assert tags_filter_type in options, (
+                f'"tags_filter_type" cannot be "{tags_filter_type}", & must be set to one of: {options}'
             )
 
         metadata = {
@@ -2449,46 +2725,59 @@ class Organizations:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/devices"
 
-        query_params = [
-            "perPage",
-            "startingAfter",
-            "endingBefore",
-            "configurationUpdatedAfter",
-            "networkIds",
-            "productTypes",
-            "tags",
-            "tagsFilterType",
-            "name",
-            "mac",
-            "serial",
-            "model",
-            "macs",
-            "serials",
-            "sensorMetrics",
-            "sensorAlertProfileIds",
-            "models",
-        ]
-        params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
-
-        array_params = [
-            "networkIds",
-            "productTypes",
-            "tags",
-            "macs",
-            "serials",
-            "sensorMetrics",
-            "sensorAlertProfileIds",
-            "models",
-        ]
-        for k in kwargs:
-            if k.strip() in array_params:
-                params[f"{k.strip()}[]"] = kwargs[f"{k}"]
-                params.pop(k.strip())
+        params = {}
+        if per_page is not None:
+            params["perPage"] = per_page
+        if starting_after is not None:
+            params["startingAfter"] = starting_after
+        if ending_before is not None:
+            params["endingBefore"] = ending_before
+        if configuration_updated_after is not None:
+            params["configurationUpdatedAfter"] = configuration_updated_after
+        if network_ids is not None:
+            params["networkIds[]"] = network_ids
+        if product_types is not None:
+            params["productTypes[]"] = product_types
+        if tags is not None:
+            params["tags[]"] = tags
+        if tags_filter_type is not None:
+            params["tagsFilterType"] = tags_filter_type
+        if name is not None:
+            params["name"] = name
+        if mac is not None:
+            params["mac"] = mac
+        if serial is not None:
+            params["serial"] = serial
+        if model is not None:
+            params["model"] = model
+        if macs is not None:
+            params["macs[]"] = macs
+        if serials is not None:
+            params["serials[]"] = serials
+        if sensor_metrics is not None:
+            params["sensorMetrics[]"] = sensor_metrics
+        if sensor_alert_profile_ids is not None:
+            params["sensorAlertProfileIds[]"] = sensor_alert_profile_ids
+        if models is not None:
+            params["models[]"] = models
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def get_organization_devices_availabilities(
-        self, organization_id: str, total_pages=1, direction="next", **kwargs: Any
+        self,
+        organization_id: str,
+        *,
+        per_page: int | None = None,
+        starting_after: str | None = None,
+        ending_before: str | None = None,
+        network_ids: list | None = None,
+        product_types: list | None = None,
+        serials: list | None = None,
+        tags: list | None = None,
+        tags_filter_type: str | None = None,
+        statuses: list | None = None,
+        total_pages: str = 1,
+        direction: str = "next",
     ) -> Generator[Any, None, None]:
         """List the availability information for devices in an organization.
 
@@ -2496,22 +2785,19 @@ class Organizations:
 
         Args:
             organization_id: Organization ID.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
-              "all" for all pages.
-            direction: direction to paginate, either "next" (default) or "prev" page.
-            perPage: The number of entries per page returned. Acceptable range is 3 - 1000. Default
+            per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
               is 1000.
-            startingAfter: A token used by the server to indicate the start of the page. Often this
+            starting_after: A token used by the server to indicate the start of the page. Often this
               is a timestamp or an ID but it is not limited to those. This parameter
               should not be defined by client applications. The link for the first,
               last, prev, or next page in the HTTP Link header should define it.
-            endingBefore: A token used by the server to indicate the end of the page. Often this is
+            ending_before: A token used by the server to indicate the end of the page. Often this is
               a timestamp or an ID but it is not limited to those. This parameter should
               not be defined by client applications. The link for the first, last, prev,
               or next page in the HTTP Link header should define it.
-            networkIds: Optional parameter to filter device availabilities by network ID. This
+            network_ids: Optional parameter to filter device availabilities by network ID. This
               filter uses multiple exact matches.
-            productTypes: Optional parameter to filter device availabilities by device product
+            product_types: Optional parameter to filter device availabilities by device product
               types. This filter uses multiple exact matches. Valid types are wireless,
               appliance, switch, camera, cellularGateway, sensor, wirelessController,
               and campusGateway.
@@ -2520,19 +2806,20 @@ class Organizations:
             tags: An optional parameter to filter devices by tags. The filtering is case-sensitive.
               If tags are included, 'tagsFilterType' should also be included (see
               below). This filter uses multiple exact matches.
-            tagsFilterType: An optional parameter of value 'withAnyTags' or 'withAllTags' to
+            tags_filter_type: An optional parameter of value 'withAnyTags' or 'withAllTags' to
               indicate whether to return devices which contain ANY or ALL of the
               included tags. If no type is included, 'withAnyTags' will be selected.
             statuses: Optional parameter to filter device availabilities by device status. This
               filter uses multiple exact matches.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        kwargs.update(locals())
-
-        if "tagsFilterType" in kwargs:
+        if tags_filter_type is not None:
             options = ["withAllTags", "withAnyTags"]
-            assert kwargs["tagsFilterType"] in options, (
-                f'''"tagsFilterType" cannot be "{kwargs["tagsFilterType"]}", & must be set to one of: {options}'''
+            assert tags_filter_type in options, (
+                f'"tags_filter_type" cannot be "{tags_filter_type}", & must be set to one of: {options}'
             )
 
         metadata = {
@@ -2542,35 +2829,44 @@ class Organizations:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/devices/availabilities"
 
-        query_params = [
-            "perPage",
-            "startingAfter",
-            "endingBefore",
-            "networkIds",
-            "productTypes",
-            "serials",
-            "tags",
-            "tagsFilterType",
-            "statuses",
-        ]
-        params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
-
-        array_params = [
-            "networkIds",
-            "productTypes",
-            "serials",
-            "tags",
-            "statuses",
-        ]
-        for k in kwargs:
-            if k.strip() in array_params:
-                params[f"{k.strip()}[]"] = kwargs[f"{k}"]
-                params.pop(k.strip())
+        params = {}
+        if per_page is not None:
+            params["perPage"] = per_page
+        if starting_after is not None:
+            params["startingAfter"] = starting_after
+        if ending_before is not None:
+            params["endingBefore"] = ending_before
+        if network_ids is not None:
+            params["networkIds[]"] = network_ids
+        if product_types is not None:
+            params["productTypes[]"] = product_types
+        if serials is not None:
+            params["serials[]"] = serials
+        if tags is not None:
+            params["tags[]"] = tags
+        if tags_filter_type is not None:
+            params["tagsFilterType"] = tags_filter_type
+        if statuses is not None:
+            params["statuses[]"] = statuses
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def get_organization_devices_availabilities_change_history(
-        self, organization_id: str, total_pages=1, direction="next", **kwargs: Any
+        self,
+        organization_id: str,
+        *,
+        per_page: int | None = None,
+        starting_after: str | None = None,
+        ending_before: str | None = None,
+        t0: str | None = None,
+        t1: str | None = None,
+        timespan: float | None = None,
+        serials: list | None = None,
+        product_types: list | None = None,
+        network_ids: list | None = None,
+        statuses: list | None = None,
+        total_pages: str = 1,
+        direction: str = "next",
     ) -> Generator[Any, None, None]:
         """List the availability history information for devices in an organization.
 
@@ -2578,16 +2874,13 @@ class Organizations:
 
         Args:
             organization_id: Organization ID.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
-              "all" for all pages.
-            direction: direction to paginate, either "next" (default) or "prev" page.
-            perPage: The number of entries per page returned. Acceptable range is 3 - 1000. Default
+            per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
               is 1000.
-            startingAfter: A token used by the server to indicate the start of the page. Often this
+            starting_after: A token used by the server to indicate the start of the page. Often this
               is a timestamp or an ID but it is not limited to those. This parameter
               should not be defined by client applications. The link for the first,
               last, prev, or next page in the HTTP Link header should define it.
-            endingBefore: A token used by the server to indicate the end of the page. Often this is
+            ending_before: A token used by the server to indicate the end of the page. Often this is
               a timestamp or an ID but it is not limited to those. This parameter should
               not be defined by client applications. The link for the first, last, prev,
               or next page in the HTTP Link header should define it.
@@ -2599,14 +2892,15 @@ class Organizations:
               seconds and be less than or equal to 31 days. The default is 1 day.
             serials: Optional parameter to filter device availabilities history by device serial
               numbers.
-            productTypes: Optional parameter to filter device availabilities history by device
+            product_types: Optional parameter to filter device availabilities history by device
               product types.
-            networkIds: Optional parameter to filter device availabilities history by network IDs.
+            network_ids: Optional parameter to filter device availabilities history by network IDs.
             statuses: Optional parameter to filter device availabilities history by device statuses.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["organizations", "monitor", "devices", "availabilities", "changeHistory"],
             "operation": "get_organization_devices_availabilities_change_history",
@@ -2614,30 +2908,27 @@ class Organizations:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/devices/availabilities/changeHistory"
 
-        query_params = [
-            "perPage",
-            "startingAfter",
-            "endingBefore",
-            "t0",
-            "t1",
-            "timespan",
-            "serials",
-            "productTypes",
-            "networkIds",
-            "statuses",
-        ]
-        params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
-
-        array_params = [
-            "serials",
-            "productTypes",
-            "networkIds",
-            "statuses",
-        ]
-        for k in kwargs:
-            if k.strip() in array_params:
-                params[f"{k.strip()}[]"] = kwargs[f"{k}"]
-                params.pop(k.strip())
+        params = {}
+        if per_page is not None:
+            params["perPage"] = per_page
+        if starting_after is not None:
+            params["startingAfter"] = starting_after
+        if ending_before is not None:
+            params["endingBefore"] = ending_before
+        if t0 is not None:
+            params["t0"] = t0
+        if t1 is not None:
+            params["t1"] = t1
+        if timespan is not None:
+            params["timespan"] = timespan
+        if serials is not None:
+            params["serials[]"] = serials
+        if product_types is not None:
+            params["productTypes[]"] = product_types
+        if network_ids is not None:
+            params["networkIds[]"] = network_ids
+        if statuses is not None:
+            params["statuses[]"] = statuses
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
@@ -2654,12 +2945,10 @@ class Organizations:
             target: The controller or management mode to which the devices will be migrated.
 
         """
-        kwargs = locals()
-
-        if "target" in kwargs:
+        if target is not None:
             options = ["wirelessController"]
-            assert kwargs["target"] in options, (
-                f'''"target" cannot be "{kwargs["target"]}", & must be set to one of: {options}'''
+            assert target in options, (
+                f'"target" cannot be "{target}", & must be set to one of: {options}'
             )
 
         metadata = {
@@ -2669,16 +2958,26 @@ class Organizations:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/devices/controller/migrations"
 
-        body_params = [
-            "serials",
-            "target",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if serials is not None:
+            payload["serials"] = serials
+        if target is not None:
+            payload["target"] = target
 
         return self._session.post(metadata, resource, payload)
 
     def get_organization_devices_controller_migrations(
-        self, organization_id: str, total_pages=1, direction="next", **kwargs: Any
+        self,
+        organization_id: str,
+        *,
+        serials: list | None = None,
+        network_ids: list | None = None,
+        target: str | None = None,
+        per_page: int | None = None,
+        starting_after: str | None = None,
+        ending_before: str | None = None,
+        total_pages: str = 1,
+        direction: str = "next",
     ) -> Generator[Any, None, None]:
         """Retrieve device migration statuses in an organization.
 
@@ -2686,30 +2985,28 @@ class Organizations:
 
         Args:
             organization_id: Organization ID.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
-              "all" for all pages.
-            direction: direction to paginate, either "next" (default) or "prev" page.
             serials: A list of Meraki Serials for which to retrieve migrations.
-            networkIds: Filter device migrations by network IDs.
+            network_ids: Filter device migrations by network IDs.
             target: Filter device migrations by target destination.
-            perPage: The number of entries per page returned. Acceptable range is 3 - 1000. Default
+            per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
               is 100.
-            startingAfter: A token used by the server to indicate the start of the page. Often this
+            starting_after: A token used by the server to indicate the start of the page. Often this
               is a timestamp or an ID but it is not limited to those. This parameter
               should not be defined by client applications. The link for the first,
               last, prev, or next page in the HTTP Link header should define it.
-            endingBefore: A token used by the server to indicate the end of the page. Often this is
+            ending_before: A token used by the server to indicate the end of the page. Often this is
               a timestamp or an ID but it is not limited to those. This parameter should
               not be defined by client applications. The link for the first, last, prev,
               or next page in the HTTP Link header should define it.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        kwargs.update(locals())
-
-        if "target" in kwargs:
+        if target is not None:
             options = ["wirelessController"]
-            assert kwargs["target"] in options, (
-                f'''"target" cannot be "{kwargs["target"]}", & must be set to one of: {options}'''
+            assert target in options, (
+                f'"target" cannot be "{target}", & must be set to one of: {options}'
             )
 
         metadata = {
@@ -2719,24 +3016,19 @@ class Organizations:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/devices/controller/migrations"
 
-        query_params = [
-            "serials",
-            "networkIds",
-            "target",
-            "perPage",
-            "startingAfter",
-            "endingBefore",
-        ]
-        params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
-
-        array_params = [
-            "serials",
-            "networkIds",
-        ]
-        for k in kwargs:
-            if k.strip() in array_params:
-                params[f"{k.strip()}[]"] = kwargs[f"{k}"]
-                params.pop(k.strip())
+        params = {}
+        if serials is not None:
+            params["serials[]"] = serials
+        if network_ids is not None:
+            params["networkIds[]"] = network_ids
+        if target is not None:
+            params["target"] = target
+        if per_page is not None:
+            params["perPage"] = per_page
+        if starting_after is not None:
+            params["startingAfter"] = starting_after
+        if ending_before is not None:
+            params["endingBefore"] = ending_before
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
@@ -2753,8 +3045,6 @@ class Organizations:
             details: An array of details.
 
         """
-        kwargs = locals()
-
         metadata = {
             "tags": ["organizations", "configure", "devices", "details", "bulkUpdate"],
             "operation": "bulk_update_organization_devices_details",
@@ -2762,16 +3052,21 @@ class Organizations:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/devices/details/bulkUpdate"
 
-        body_params = [
-            "serials",
-            "details",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if serials is not None:
+            payload["serials"] = serials
+        if details is not None:
+            payload["details"] = details
 
         return self._session.post(metadata, resource, payload)
 
     def get_organization_devices_overview_by_model(
-        self, organization_id: str, **kwargs: Any
+        self,
+        organization_id: str,
+        *,
+        models: list | None = None,
+        network_ids: list | None = None,
+        product_types: list | None = None,
     ) -> dict[str, Any] | None:
         """Lists the count for each device model.
 
@@ -2781,13 +3076,11 @@ class Organizations:
             organization_id: Organization ID.
             models: Optional parameter to filter devices by one or more models. All returned devices
               will have a model that is an exact match.
-            networkIds: Optional parameter to filter devices by networkId.
-            productTypes: Optional parameter to filter device by device product types. This filter
+            network_ids: Optional parameter to filter devices by networkId.
+            product_types: Optional parameter to filter device by device product types. This filter
               uses multiple exact matches.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["organizations", "configure", "devices", "overview", "byModel"],
             "operation": "get_organization_devices_overview_by_model",
@@ -2795,27 +3088,39 @@ class Organizations:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/devices/overview/byModel"
 
-        query_params = [
-            "models",
-            "networkIds",
-            "productTypes",
-        ]
-        params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
-
-        array_params = [
-            "models",
-            "networkIds",
-            "productTypes",
-        ]
-        for k in kwargs:
-            if k.strip() in array_params:
-                params[f"{k.strip()}[]"] = kwargs[f"{k}"]
-                params.pop(k.strip())
+        params = {}
+        if models is not None:
+            params["models[]"] = models
+        if network_ids is not None:
+            params["networkIds[]"] = network_ids
+        if product_types is not None:
+            params["productTypes[]"] = product_types
 
         return self._session.get(metadata, resource, params)
 
     def get_organization_devices_packet_capture_captures(
-        self, organization_id: str, total_pages=1, direction="next", **kwargs: Any
+        self,
+        organization_id: str,
+        *,
+        capture_ids: list | None = None,
+        network_ids: list | None = None,
+        serials: list | None = None,
+        process: list | None = None,
+        capture_status: list | None = None,
+        name: list | None = None,
+        client_mac: list | None = None,
+        notes: str | None = None,
+        device_name: str | None = None,
+        admin_name: str | None = None,
+        t0: str | None = None,
+        t1: str | None = None,
+        timespan: float | None = None,
+        per_page: int | None = None,
+        starting_after: str | None = None,
+        ending_before: str | None = None,
+        sort_order: str | None = None,
+        total_pages: str = 1,
+        direction: str = "next",
     ) -> Generator[Any, None, None]:
         """List Packet Captures.
 
@@ -2823,45 +3128,43 @@ class Organizations:
 
         Args:
             organization_id: Organization ID.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
-              "all" for all pages.
-            direction: direction to paginate, either "next" (default) or "prev" page.
-            captureIds: Return the packet captures of the specified capture ids.
-            networkIds: Return the packet captures of the specified network(s).
+            capture_ids: Return the packet captures of the specified capture ids.
+            network_ids: Return the packet captures of the specified network(s).
             serials: Return the packet captures of the specified device(s).
             process: Return the packet captures of the specified process.
-            captureStatus: Return the packet captures of the specified capture status.
+            capture_status: Return the packet captures of the specified capture status.
             name: Return the packet captures matching the specified name.
-            clientMac: Return the packet captures matching the specified client macs.
+            client_mac: Return the packet captures matching the specified client macs.
             notes: Return the packet captures matching the specified notes.
-            deviceName: Return the packet captures matching the specified device name.
-            adminName: Return the packet captures matching the admin name.
+            device_name: Return the packet captures matching the specified device name.
+            admin_name: Return the packet captures matching the admin name.
             t0: The beginning of the timespan for the data. The maximum lookback period is 365 days
               from today.
             t1: The end of the timespan for the data. t1 can be a maximum of 365 days after t0.
             timespan: The timespan for which the information will be fetched. If specifying
               timespan, do not specify parameters t0 and t1. The value must be in
               seconds and be less than or equal to 365 days. The default is 365 days.
-            perPage: The number of entries per page returned. Acceptable range is 3 - 100. Default
+            per_page: The number of entries per page returned. Acceptable range is 3 - 100. Default
               is 10.
-            startingAfter: A token used by the server to indicate the start of the page. Often this
+            starting_after: A token used by the server to indicate the start of the page. Often this
               is a timestamp or an ID but it is not limited to those. This parameter
               should not be defined by client applications. The link for the first,
               last, prev, or next page in the HTTP Link header should define it.
-            endingBefore: A token used by the server to indicate the end of the page. Often this is
+            ending_before: A token used by the server to indicate the end of the page. Often this is
               a timestamp or an ID but it is not limited to those. This parameter should
               not be defined by client applications. The link for the first, last, prev,
               or next page in the HTTP Link header should define it.
-            sortOrder: Sorted order of entries. Order options are 'ascending' and 'descending'.
+            sort_order: Sorted order of entries. Order options are 'ascending' and 'descending'.
               Default is 'descending'.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        kwargs.update(locals())
-
-        if "sortOrder" in kwargs:
+        if sort_order is not None:
             options = ["ascending", "descending"]
-            assert kwargs["sortOrder"] in options, (
-                f'''"sortOrder" cannot be "{kwargs["sortOrder"]}", & must be set to one of: {options}'''
+            assert sort_order in options, (
+                f'"sort_order" cannot be "{sort_order}", & must be set to one of: {options}'
             )
 
         metadata = {
@@ -2871,45 +3174,58 @@ class Organizations:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/devices/packetCapture/captures"
 
-        query_params = [
-            "captureIds",
-            "networkIds",
-            "serials",
-            "process",
-            "captureStatus",
-            "name",
-            "clientMac",
-            "notes",
-            "deviceName",
-            "adminName",
-            "t0",
-            "t1",
-            "timespan",
-            "perPage",
-            "startingAfter",
-            "endingBefore",
-            "sortOrder",
-        ]
-        params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
-
-        array_params = [
-            "captureIds",
-            "networkIds",
-            "serials",
-            "process",
-            "captureStatus",
-            "name",
-            "clientMac",
-        ]
-        for k in kwargs:
-            if k.strip() in array_params:
-                params[f"{k.strip()}[]"] = kwargs[f"{k}"]
-                params.pop(k.strip())
+        params = {}
+        if capture_ids is not None:
+            params["captureIds[]"] = capture_ids
+        if network_ids is not None:
+            params["networkIds[]"] = network_ids
+        if serials is not None:
+            params["serials[]"] = serials
+        if process is not None:
+            params["process[]"] = process
+        if capture_status is not None:
+            params["captureStatus[]"] = capture_status
+        if name is not None:
+            params["name[]"] = name
+        if client_mac is not None:
+            params["clientMac[]"] = client_mac
+        if notes is not None:
+            params["notes"] = notes
+        if device_name is not None:
+            params["deviceName"] = device_name
+        if admin_name is not None:
+            params["adminName"] = admin_name
+        if t0 is not None:
+            params["t0"] = t0
+        if t1 is not None:
+            params["t1"] = t1
+        if timespan is not None:
+            params["timespan"] = timespan
+        if per_page is not None:
+            params["perPage"] = per_page
+        if starting_after is not None:
+            params["startingAfter"] = starting_after
+        if ending_before is not None:
+            params["endingBefore"] = ending_before
+        if sort_order is not None:
+            params["sortOrder"] = sort_order
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def create_organization_devices_packet_capture_capture(
-        self, organization_id: str, serials: list, name: str, **kwargs: Any
+        self,
+        organization_id: str,
+        serials: list,
+        name: str,
+        *,
+        output_type: str | None = None,
+        destination: str | None = None,
+        ports: str | None = None,
+        notes: str | None = None,
+        duration: int | None = None,
+        filter_expression: str | None = None,
+        interface: str | None = None,
+        advanced: dict | None = None,
     ) -> dict[str, Any] | None:
         """Perform a packet capture on a device and store in Meraki Cloud.
 
@@ -2919,20 +3235,18 @@ class Organizations:
             organization_id: Organization ID.
             serials: The serial(s) of the device(s).
             name: Name of packet capture file.
-            outputType: Output type of packet capture file. Possible values: text, pcap, cloudshark,
-              or upload_to_cloud.
+            output_type: Output type of packet capture file. Possible values: text, pcap,
+              cloudshark, or upload_to_cloud.
             destination: Destination of packet capture file. Possible values: [upload_to_cloud].
             ports: Ports of packet capture file, comma-separated.
             notes: Reason for taking the packet capture.
             duration: Duration in seconds of packet capture.
-            filterExpression: Filter expression for packet capture.
+            filter_expression: Filter expression for packet capture.
             interface: Interface of the device.
             advanced: Advanced filters for IOSXE devices (supported for Campus Gateway devices
               only).
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["organizations", "configure", "devices", "packetCapture", "captures"],
             "operation": "create_organization_devices_packet_capture_capture",
@@ -2940,24 +3254,40 @@ class Organizations:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/devices/packetCapture/captures"
 
-        body_params = [
-            "serials",
-            "name",
-            "outputType",
-            "destination",
-            "ports",
-            "notes",
-            "duration",
-            "filterExpression",
-            "interface",
-            "advanced",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if serials is not None:
+            payload["serials"] = serials
+        if name is not None:
+            payload["name"] = name
+        if output_type is not None:
+            payload["outputType"] = output_type
+        if destination is not None:
+            payload["destination"] = destination
+        if ports is not None:
+            payload["ports"] = ports
+        if notes is not None:
+            payload["notes"] = notes
+        if duration is not None:
+            payload["duration"] = duration
+        if filter_expression is not None:
+            payload["filterExpression"] = filter_expression
+        if interface is not None:
+            payload["interface"] = interface
+        if advanced is not None:
+            payload["advanced"] = advanced
 
         return self._session.post(metadata, resource, payload)
 
     def bulk_organization_devices_packet_capture_captures_create(
-        self, organization_id: str, devices: list, name: str, **kwargs: Any
+        self,
+        organization_id: str,
+        devices: list,
+        name: str,
+        *,
+        notes: str | None = None,
+        duration: int | None = None,
+        filter_expression: str | None = None,
+        advanced: dict | None = None,
     ) -> dict[str, Any] | None:
         """Perform a packet capture on multiple devices and store in Meraki Cloud.
 
@@ -2966,15 +3296,13 @@ class Organizations:
         Args:
             organization_id: Organization ID.
             devices: Device details (maximum of 20 devices allowed).
-            name: Name of packet capture file.
             notes: Reason for capture.
             duration: Duration of the capture in seconds.
-            filterExpression: Filter expression for the capture.
+            filter_expression: Filter expression for the capture.
+            name: Name of packet capture file.
             advanced: Advanced capture options (optional).
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["organizations", "configure", "devices", "packetCapture", "captures"],
             "operation": "bulk_organization_devices_packet_capture_captures_create",
@@ -2982,20 +3310,24 @@ class Organizations:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/devices/packetCapture/captures/bulkCreate"
 
-        body_params = [
-            "devices",
-            "notes",
-            "duration",
-            "filterExpression",
-            "name",
-            "advanced",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if devices is not None:
+            payload["devices"] = devices
+        if notes is not None:
+            payload["notes"] = notes
+        if duration is not None:
+            payload["duration"] = duration
+        if filter_expression is not None:
+            payload["filterExpression"] = filter_expression
+        if name is not None:
+            payload["name"] = name
+        if advanced is not None:
+            payload["advanced"] = advanced
 
         return self._session.post(metadata, resource, payload)
 
     def bulk_organization_devices_packet_capture_captures_delete(
-        self, organization_id: str, captureIds: list
+        self, organization_id: str, capture_ids: list
     ) -> dict[str, Any] | None:
         """BulkDelete packet captures from cloud.
 
@@ -3003,11 +3335,9 @@ class Organizations:
 
         Args:
             organization_id: Organization ID.
-            captureIds: Delete the packet captures of the specified capture ids.
+            capture_ids: Delete the packet captures of the specified capture ids.
 
         """
-        kwargs = locals()
-
         metadata = {
             "tags": ["organizations", "configure", "devices", "packetCapture", "captures"],
             "operation": "bulk_organization_devices_packet_capture_captures_delete",
@@ -3015,10 +3345,9 @@ class Organizations:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/devices/packetCapture/captures/bulkDelete"
 
-        body_params = [
-            "captureIds",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if capture_ids is not None:
+            payload["captureIds"] = capture_ids
 
         return self._session.post(metadata, resource, payload)
 
@@ -3086,8 +3415,6 @@ class Organizations:
             serials: The serial(s) of the device(s) to stop the capture on.
 
         """
-        kwargs = locals()
-
         metadata = {
             "tags": ["organizations", "configure", "devices", "packetCapture", "captures"],
             "operation": "stop_organization_devices_packet_capture_capture",
@@ -3098,15 +3425,19 @@ class Organizations:
             f"/organizations/{organization_id}/devices/packetCapture/captures/{capture_id}/stop"
         )
 
-        body_params = [
-            "serials",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if serials is not None:
+            payload["serials"] = serials
 
         return self._session.post(metadata, resource, payload)
 
     def get_organization_devices_packet_capture_schedules(
-        self, organization_id: str, **kwargs: Any
+        self,
+        organization_id: str,
+        *,
+        schedule_ids: list | None = None,
+        network_ids: list | None = None,
+        device_ids: list | None = None,
     ) -> dict[str, Any] | None:
         """List the Packet Capture Schedules.
 
@@ -3114,14 +3445,12 @@ class Organizations:
 
         Args:
             organization_id: Organization ID.
-            scheduleIds: Return the packet captures schedules of the specified packet capture
+            schedule_ids: Return the packet captures schedules of the specified packet capture
               schedule ids.
-            networkIds: Return the scheduled packet captures of the specified network(s).
-            deviceIds: Return the scheduled packet captures of the specified device(s).
+            network_ids: Return the scheduled packet captures of the specified network(s).
+            device_ids: Return the scheduled packet captures of the specified device(s).
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["organizations", "configure", "devices", "packetCapture", "schedules"],
             "operation": "get_organization_devices_packet_capture_schedules",
@@ -3129,27 +3458,27 @@ class Organizations:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/devices/packetCapture/schedules"
 
-        query_params = [
-            "scheduleIds",
-            "networkIds",
-            "deviceIds",
-        ]
-        params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
-
-        array_params = [
-            "scheduleIds",
-            "networkIds",
-            "deviceIds",
-        ]
-        for k in kwargs:
-            if k.strip() in array_params:
-                params[f"{k.strip()}[]"] = kwargs[f"{k}"]
-                params.pop(k.strip())
+        params = {}
+        if schedule_ids is not None:
+            params["scheduleIds[]"] = schedule_ids
+        if network_ids is not None:
+            params["networkIds[]"] = network_ids
+        if device_ids is not None:
+            params["deviceIds[]"] = device_ids
 
         return self._session.get(metadata, resource, params)
 
     def create_organization_devices_packet_capture_schedule(
-        self, organization_id: str, devices: list, **kwargs: Any
+        self,
+        organization_id: str,
+        devices: list,
+        *,
+        name: str | None = None,
+        notes: str | None = None,
+        duration: int | None = None,
+        filter_expression: str | None = None,
+        enabled: bool | None = None,
+        schedule: dict | None = None,
     ) -> dict[str, Any] | None:
         """Create a schedule for packet capture.
 
@@ -3161,13 +3490,11 @@ class Organizations:
             name: Name of the packet capture file.
             notes: Reason for capture.
             duration: Duration of the capture in seconds.
-            filterExpression: Filter expression for the capture.
+            filter_expression: Filter expression for the capture.
             enabled: Enable or disable the schedule.
             schedule: Schedule details.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["organizations", "configure", "devices", "packetCapture", "schedules"],
             "operation": "create_organization_devices_packet_capture_schedule",
@@ -3175,16 +3502,21 @@ class Organizations:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/devices/packetCapture/schedules"
 
-        body_params = [
-            "devices",
-            "name",
-            "notes",
-            "duration",
-            "filterExpression",
-            "enabled",
-            "schedule",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if devices is not None:
+            payload["devices"] = devices
+        if name is not None:
+            payload["name"] = name
+        if notes is not None:
+            payload["notes"] = notes
+        if duration is not None:
+            payload["duration"] = duration
+        if filter_expression is not None:
+            payload["filterExpression"] = filter_expression
+        if enabled is not None:
+            payload["enabled"] = enabled
+        if schedule is not None:
+            payload["schedule"] = schedule
 
         return self._session.post(metadata, resource, payload)
 
@@ -3200,8 +3532,6 @@ class Organizations:
             order: Array of schedule IDs and their priorities to reorder.
 
         """
-        kwargs = locals()
-
         metadata = {
             "tags": ["organizations", "configure", "devices", "packetCapture", "schedules"],
             "operation": "reorder_organization_devices_packet_capture_schedules",
@@ -3209,15 +3539,24 @@ class Organizations:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/devices/packetCapture/schedules/reorder"
 
-        body_params = [
-            "order",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if order is not None:
+            payload["order"] = order
 
         return self._session.post(metadata, resource, payload)
 
     def update_organization_devices_packet_capture_schedule(
-        self, organization_id: str, schedule_id: str, devices: list, **kwargs: Any
+        self,
+        organization_id: str,
+        schedule_id: str,
+        devices: list,
+        *,
+        name: str | None = None,
+        notes: str | None = None,
+        duration: int | None = None,
+        filter_expression: str | None = None,
+        enabled: bool | None = None,
+        schedule: dict | None = None,
     ) -> dict[str, Any] | None:
         """Update a schedule for packet capture.
 
@@ -3230,13 +3569,11 @@ class Organizations:
             name: Name of the packet capture file.
             notes: Reason for capture.
             duration: Duration of the capture in seconds.
-            filterExpression: Filter expression for the capture.
+            filter_expression: Filter expression for the capture.
             enabled: Enable or disable the schedule.
             schedule: Schedule details.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["organizations", "configure", "devices", "packetCapture", "schedules"],
             "operation": "update_organization_devices_packet_capture_schedule",
@@ -3245,21 +3582,26 @@ class Organizations:
         schedule_id = urllib.parse.quote(str(schedule_id), safe="")
         resource = f"/organizations/{organization_id}/devices/packetCapture/schedules/{schedule_id}"
 
-        body_params = [
-            "devices",
-            "name",
-            "notes",
-            "duration",
-            "filterExpression",
-            "enabled",
-            "schedule",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if devices is not None:
+            payload["devices"] = devices
+        if name is not None:
+            payload["name"] = name
+        if notes is not None:
+            payload["notes"] = notes
+        if duration is not None:
+            payload["duration"] = duration
+        if filter_expression is not None:
+            payload["filterExpression"] = filter_expression
+        if enabled is not None:
+            payload["enabled"] = enabled
+        if schedule is not None:
+            payload["schedule"] = schedule
 
         return self._session.put(metadata, resource, payload)
 
     def delete_organization_devices_packet_capture_schedule(
-        self, organization_id: str, scheduleId: str
+        self, organization_id: str, schedule_id: str
     ) -> None:
         """Delete schedule from cloud.
 
@@ -3267,22 +3609,36 @@ class Organizations:
 
         Args:
             organization_id: Organization ID.
-            scheduleId: Delete the capture schedules of the specified capture schedule id.
+            schedule_id: Delete the capture schedules of the specified capture schedule id.
 
         """
-        kwargs = locals()
-
         metadata = {
             "tags": ["organizations", "configure", "devices", "packetCapture", "schedules"],
             "operation": "delete_organization_devices_packet_capture_schedule",
         }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/devices/packetCapture/schedules/{scheduleId}"
+        resource = f"/organizations/{organization_id}/devices/packetCapture/schedules/{schedule_id}"
+
+        payload = {}
+        if schedule_id is not None:
+            payload["scheduleId"] = schedule_id
 
         return self._session.delete(metadata, resource)
 
     def get_organization_devices_power_modules_statuses_by_device(
-        self, organization_id: str, total_pages=1, direction="next", **kwargs: Any
+        self,
+        organization_id: str,
+        *,
+        per_page: int | None = None,
+        starting_after: str | None = None,
+        ending_before: str | None = None,
+        network_ids: list | None = None,
+        product_types: list | None = None,
+        serials: list | None = None,
+        tags: list | None = None,
+        tags_filter_type: str | None = None,
+        total_pages: str = 1,
+        direction: str = "next",
     ) -> Generator[Any, None, None]:
         """List the most recent status information for power modules in rackmount MX and MS devices that support them.
 
@@ -3290,39 +3646,37 @@ class Organizations:
 
         Args:
             organization_id: Organization ID.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
-              "all" for all pages.
-            direction: direction to paginate, either "next" (default) or "prev" page.
-            perPage: The number of entries per page returned. Acceptable range is 3 - 1000. Default
+            per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
               is 1000.
-            startingAfter: A token used by the server to indicate the start of the page. Often this
+            starting_after: A token used by the server to indicate the start of the page. Often this
               is a timestamp or an ID but it is not limited to those. This parameter
               should not be defined by client applications. The link for the first,
               last, prev, or next page in the HTTP Link header should define it.
-            endingBefore: A token used by the server to indicate the end of the page. Often this is
+            ending_before: A token used by the server to indicate the end of the page. Often this is
               a timestamp or an ID but it is not limited to those. This parameter should
               not be defined by client applications. The link for the first, last, prev,
               or next page in the HTTP Link header should define it.
-            networkIds: Optional parameter to filter device availabilities by network ID. This
+            network_ids: Optional parameter to filter device availabilities by network ID. This
               filter uses multiple exact matches.
-            productTypes: Optional parameter to filter device availabilities by device product
+            product_types: Optional parameter to filter device availabilities by device product
               types. This filter uses multiple exact matches.
             serials: Optional parameter to filter device availabilities by device serial numbers.
               This filter uses multiple exact matches.
             tags: An optional parameter to filter devices by tags. The filtering is case-sensitive.
               If tags are included, 'tagsFilterType' should also be included (see
               below). This filter uses multiple exact matches.
-            tagsFilterType: An optional parameter of value 'withAnyTags' or 'withAllTags' to
+            tags_filter_type: An optional parameter of value 'withAnyTags' or 'withAllTags' to
               indicate whether to return devices which contain ANY or ALL of the
               included tags. If no type is included, 'withAnyTags' will be selected.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        kwargs.update(locals())
-
-        if "tagsFilterType" in kwargs:
+        if tags_filter_type is not None:
             options = ["withAllTags", "withAnyTags"]
-            assert kwargs["tagsFilterType"] in options, (
-                f'''"tagsFilterType" cannot be "{kwargs["tagsFilterType"]}", & must be set to one of: {options}'''
+            assert tags_filter_type in options, (
+                f'"tags_filter_type" cannot be "{tags_filter_type}", & must be set to one of: {options}'
             )
 
         metadata = {
@@ -3332,33 +3686,41 @@ class Organizations:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/devices/powerModules/statuses/byDevice"
 
-        query_params = [
-            "perPage",
-            "startingAfter",
-            "endingBefore",
-            "networkIds",
-            "productTypes",
-            "serials",
-            "tags",
-            "tagsFilterType",
-        ]
-        params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
-
-        array_params = [
-            "networkIds",
-            "productTypes",
-            "serials",
-            "tags",
-        ]
-        for k in kwargs:
-            if k.strip() in array_params:
-                params[f"{k.strip()}[]"] = kwargs[f"{k}"]
-                params.pop(k.strip())
+        params = {}
+        if per_page is not None:
+            params["perPage"] = per_page
+        if starting_after is not None:
+            params["startingAfter"] = starting_after
+        if ending_before is not None:
+            params["endingBefore"] = ending_before
+        if network_ids is not None:
+            params["networkIds[]"] = network_ids
+        if product_types is not None:
+            params["productTypes[]"] = product_types
+        if serials is not None:
+            params["serials[]"] = serials
+        if tags is not None:
+            params["tags[]"] = tags
+        if tags_filter_type is not None:
+            params["tagsFilterType"] = tags_filter_type
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def get_organization_devices_provisioning_statuses(
-        self, organization_id: str, total_pages=1, direction="next", **kwargs: Any
+        self,
+        organization_id: str,
+        *,
+        per_page: int | None = None,
+        starting_after: str | None = None,
+        ending_before: str | None = None,
+        network_ids: list | None = None,
+        product_types: list | None = None,
+        serials: list | None = None,
+        status: str | None = None,
+        tags: list | None = None,
+        tags_filter_type: str | None = None,
+        total_pages: str = 1,
+        direction: str = "next",
     ) -> Generator[Any, None, None]:
         """List the provisioning statuses information for devices in an organization.
 
@@ -3366,22 +3728,19 @@ class Organizations:
 
         Args:
             organization_id: Organization ID.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
-              "all" for all pages.
-            direction: direction to paginate, either "next" (default) or "prev" page.
-            perPage: The number of entries per page returned. Acceptable range is 3 - 1000. Default
+            per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
               is 1000.
-            startingAfter: A token used by the server to indicate the start of the page. Often this
+            starting_after: A token used by the server to indicate the start of the page. Often this
               is a timestamp or an ID but it is not limited to those. This parameter
               should not be defined by client applications. The link for the first,
               last, prev, or next page in the HTTP Link header should define it.
-            endingBefore: A token used by the server to indicate the end of the page. Often this is
+            ending_before: A token used by the server to indicate the end of the page. Often this is
               a timestamp or an ID but it is not limited to those. This parameter should
               not be defined by client applications. The link for the first, last, prev,
               or next page in the HTTP Link header should define it.
-            networkIds: Optional parameter to filter device by network ID. This filter uses multiple
-              exact matches.
-            productTypes: Optional parameter to filter device by device product types. This filter
+            network_ids: Optional parameter to filter device by network ID. This filter uses
+              multiple exact matches.
+            product_types: Optional parameter to filter device by device product types. This filter
               uses multiple exact matches.
             serials: Optional parameter to filter device by device serial numbers. This filter uses
               multiple exact matches.
@@ -3390,22 +3749,23 @@ class Organizations:
             tags: An optional parameter to filter devices by tags. The filtering is case-sensitive.
               If tags are included, 'tagsFilterType' should also be included (see
               below). This filter uses multiple exact matches.
-            tagsFilterType: An optional parameter of value 'withAnyTags' or 'withAllTags' to
+            tags_filter_type: An optional parameter of value 'withAnyTags' or 'withAllTags' to
               indicate whether to return devices which contain ANY or ALL of the
               included tags. If no type is included, 'withAnyTags' will be selected.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        kwargs.update(locals())
-
-        if "status" in kwargs:
+        if status is not None:
             options = ["complete", "incomplete", "unprovisioned"]
-            assert kwargs["status"] in options, (
-                f'''"status" cannot be "{kwargs["status"]}", & must be set to one of: {options}'''
+            assert status in options, (
+                f'"status" cannot be "{status}", & must be set to one of: {options}'
             )
-        if "tagsFilterType" in kwargs:
+        if tags_filter_type is not None:
             options = ["withAllTags", "withAnyTags"]
-            assert kwargs["tagsFilterType"] in options, (
-                f'''"tagsFilterType" cannot be "{kwargs["tagsFilterType"]}", & must be set to one of: {options}'''
+            assert tags_filter_type in options, (
+                f'"tags_filter_type" cannot be "{tags_filter_type}", & must be set to one of: {options}'
             )
 
         metadata = {
@@ -3415,34 +3775,44 @@ class Organizations:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/devices/provisioning/statuses"
 
-        query_params = [
-            "perPage",
-            "startingAfter",
-            "endingBefore",
-            "networkIds",
-            "productTypes",
-            "serials",
-            "status",
-            "tags",
-            "tagsFilterType",
-        ]
-        params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
-
-        array_params = [
-            "networkIds",
-            "productTypes",
-            "serials",
-            "tags",
-        ]
-        for k in kwargs:
-            if k.strip() in array_params:
-                params[f"{k.strip()}[]"] = kwargs[f"{k}"]
-                params.pop(k.strip())
+        params = {}
+        if per_page is not None:
+            params["perPage"] = per_page
+        if starting_after is not None:
+            params["startingAfter"] = starting_after
+        if ending_before is not None:
+            params["endingBefore"] = ending_before
+        if network_ids is not None:
+            params["networkIds[]"] = network_ids
+        if product_types is not None:
+            params["productTypes[]"] = product_types
+        if serials is not None:
+            params["serials[]"] = serials
+        if status is not None:
+            params["status"] = status
+        if tags is not None:
+            params["tags[]"] = tags
+        if tags_filter_type is not None:
+            params["tagsFilterType"] = tags_filter_type
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def get_organization_devices_statuses(
-        self, organization_id: str, total_pages=1, direction="next", **kwargs: Any
+        self,
+        organization_id: str,
+        *,
+        per_page: int | None = None,
+        starting_after: str | None = None,
+        ending_before: str | None = None,
+        network_ids: list | None = None,
+        serials: list | None = None,
+        statuses: list | None = None,
+        product_types: list | None = None,
+        models: list | None = None,
+        tags: list | None = None,
+        tags_filter_type: str | None = None,
+        total_pages: str = 1,
+        direction: str = "next",
     ) -> Generator[Any, None, None]:
         """List the status of every Meraki device in the organization.
 
@@ -3450,24 +3820,21 @@ class Organizations:
 
         Args:
             organization_id: Organization ID.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
-              "all" for all pages.
-            direction: direction to paginate, either "next" (default) or "prev" page.
-            perPage: The number of entries per page returned. Acceptable range is 3 - 1000. Default
+            per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
               is 1000.
-            startingAfter: A token used by the server to indicate the start of the page. Often this
+            starting_after: A token used by the server to indicate the start of the page. Often this
               is a timestamp or an ID but it is not limited to those. This parameter
               should not be defined by client applications. The link for the first,
               last, prev, or next page in the HTTP Link header should define it.
-            endingBefore: A token used by the server to indicate the end of the page. Often this is
+            ending_before: A token used by the server to indicate the end of the page. Often this is
               a timestamp or an ID but it is not limited to those. This parameter should
               not be defined by client applications. The link for the first, last, prev,
               or next page in the HTTP Link header should define it.
-            networkIds: Optional parameter to filter devices by network ids.
+            network_ids: Optional parameter to filter devices by network ids.
             serials: Optional parameter to filter devices by serials.
             statuses: Optional parameter to filter devices by statuses. Valid statuses are
               ["online", "alerting", "offline", "dormant"].
-            productTypes: An optional parameter to filter device statuses by product type. Valid
+            product_types: An optional parameter to filter device statuses by product type. Valid
               types are wireless, appliance, switch, systemsManager, camera,
               cellularGateway, sensor, wirelessController, campusGateway, and
               secureConnect.
@@ -3475,17 +3842,18 @@ class Organizations:
             tags: An optional parameter to filter devices by tags. The filtering is case-sensitive.
               If tags are included, 'tagsFilterType' should also be included (see
               below).
-            tagsFilterType: An optional parameter of value 'withAnyTags' or 'withAllTags' to
+            tags_filter_type: An optional parameter of value 'withAnyTags' or 'withAllTags' to
               indicate whether to return devices which contain ANY or ALL of the
               included tags. If no type is included, 'withAnyTags' will be selected.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        kwargs.update(locals())
-
-        if "tagsFilterType" in kwargs:
+        if tags_filter_type is not None:
             options = ["withAllTags", "withAnyTags"]
-            assert kwargs["tagsFilterType"] in options, (
-                f'''"tagsFilterType" cannot be "{kwargs["tagsFilterType"]}", & must be set to one of: {options}'''
+            assert tags_filter_type in options, (
+                f'"tags_filter_type" cannot be "{tags_filter_type}", & must be set to one of: {options}'
             )
 
         metadata = {
@@ -3495,37 +3863,36 @@ class Organizations:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/devices/statuses"
 
-        query_params = [
-            "perPage",
-            "startingAfter",
-            "endingBefore",
-            "networkIds",
-            "serials",
-            "statuses",
-            "productTypes",
-            "models",
-            "tags",
-            "tagsFilterType",
-        ]
-        params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
-
-        array_params = [
-            "networkIds",
-            "serials",
-            "statuses",
-            "productTypes",
-            "models",
-            "tags",
-        ]
-        for k in kwargs:
-            if k.strip() in array_params:
-                params[f"{k.strip()}[]"] = kwargs[f"{k}"]
-                params.pop(k.strip())
+        params = {}
+        if per_page is not None:
+            params["perPage"] = per_page
+        if starting_after is not None:
+            params["startingAfter"] = starting_after
+        if ending_before is not None:
+            params["endingBefore"] = ending_before
+        if network_ids is not None:
+            params["networkIds[]"] = network_ids
+        if serials is not None:
+            params["serials[]"] = serials
+        if statuses is not None:
+            params["statuses[]"] = statuses
+        if product_types is not None:
+            params["productTypes[]"] = product_types
+        if models is not None:
+            params["models[]"] = models
+        if tags is not None:
+            params["tags[]"] = tags
+        if tags_filter_type is not None:
+            params["tagsFilterType"] = tags_filter_type
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def get_organization_devices_statuses_overview(
-        self, organization_id: str, **kwargs: Any
+        self,
+        organization_id: str,
+        *,
+        product_types: list | None = None,
+        network_ids: list | None = None,
     ) -> dict[str, Any] | None:
         """Return an overview of current device statuses.
 
@@ -3533,15 +3900,13 @@ class Organizations:
 
         Args:
             organization_id: Organization ID.
-            productTypes: An optional parameter to filter device statuses by product type. Valid
+            product_types: An optional parameter to filter device statuses by product type. Valid
               types are wireless, appliance, switch, systemsManager, camera,
               cellularGateway, sensor, wirelessController, campusGateway, and
               secureConnect.
-            networkIds: An optional parameter to filter device statuses by network.
+            network_ids: An optional parameter to filter device statuses by network.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["organizations", "monitor", "devices", "statuses", "overview"],
             "operation": "get_organization_devices_statuses_overview",
@@ -3549,25 +3914,30 @@ class Organizations:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/devices/statuses/overview"
 
-        query_params = [
-            "productTypes",
-            "networkIds",
-        ]
-        params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
-
-        array_params = [
-            "productTypes",
-            "networkIds",
-        ]
-        for k in kwargs:
-            if k.strip() in array_params:
-                params[f"{k.strip()}[]"] = kwargs[f"{k}"]
-                params.pop(k.strip())
+        params = {}
+        if product_types is not None:
+            params["productTypes[]"] = product_types
+        if network_ids is not None:
+            params["networkIds[]"] = network_ids
 
         return self._session.get(metadata, resource, params)
 
     def get_organization_devices_system_memory_usage_history_by_interval(
-        self, organization_id: str, total_pages=1, direction="next", **kwargs: Any
+        self,
+        organization_id: str,
+        *,
+        per_page: int | None = None,
+        starting_after: str | None = None,
+        ending_before: str | None = None,
+        t0: str | None = None,
+        t1: str | None = None,
+        timespan: float | None = None,
+        interval: int | None = None,
+        network_ids: list | None = None,
+        serials: list | None = None,
+        product_types: list | None = None,
+        total_pages: str = 1,
+        direction: str = "next",
     ) -> Generator[Any, None, None]:
         """Return the memory utilization history in kB for devices in the organization.
 
@@ -3575,16 +3945,13 @@ class Organizations:
 
         Args:
             organization_id: Organization ID.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
-              "all" for all pages.
-            direction: direction to paginate, either "next" (default) or "prev" page.
-            perPage: The number of entries per page returned. Acceptable range is 3 - 20. Default is
-              10.
-            startingAfter: A token used by the server to indicate the start of the page. Often this
+            per_page: The number of entries per page returned. Acceptable range is 3 - 20. Default
+              is 10.
+            starting_after: A token used by the server to indicate the start of the page. Often this
               is a timestamp or an ID but it is not limited to those. This parameter
               should not be defined by client applications. The link for the first,
               last, prev, or next page in the HTTP Link header should define it.
-            endingBefore: A token used by the server to indicate the end of the page. Often this is
+            ending_before: A token used by the server to indicate the end of the page. Often this is
               a timestamp or an ID but it is not limited to those. This parameter should
               not be defined by client applications. The link for the first, last, prev,
               or next page in the HTTP Link header should define it.
@@ -3598,17 +3965,18 @@ class Organizations:
             interval: The time interval in seconds for returned data. The valid intervals are: 300,
               1200, 3600, 14400. The default is 300. Interval is calculated if time
               params are provided.
-            networkIds: Optional parameter to filter the result set by the included set of network
+            network_ids: Optional parameter to filter the result set by the included set of network
               IDs.
             serials: Optional parameter to filter device availabilities history by device serial
               numbers.
-            productTypes: Optional parameter to filter device statuses by product type. Valid types
+            product_types: Optional parameter to filter device statuses by product type. Valid types
               are wireless, appliance, switch, systemsManager, camera, cellularGateway,
               sensor, wirelessController, campusGateway, and secureConnect.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": [
                 "organizations",
@@ -3627,34 +3995,44 @@ class Organizations:
             f"/organizations/{organization_id}/devices/system/memory/usage/history/byInterval"
         )
 
-        query_params = [
-            "perPage",
-            "startingAfter",
-            "endingBefore",
-            "t0",
-            "t1",
-            "timespan",
-            "interval",
-            "networkIds",
-            "serials",
-            "productTypes",
-        ]
-        params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
-
-        array_params = [
-            "networkIds",
-            "serials",
-            "productTypes",
-        ]
-        for k in kwargs:
-            if k.strip() in array_params:
-                params[f"{k.strip()}[]"] = kwargs[f"{k}"]
-                params.pop(k.strip())
+        params = {}
+        if per_page is not None:
+            params["perPage"] = per_page
+        if starting_after is not None:
+            params["startingAfter"] = starting_after
+        if ending_before is not None:
+            params["endingBefore"] = ending_before
+        if t0 is not None:
+            params["t0"] = t0
+        if t1 is not None:
+            params["t1"] = t1
+        if timespan is not None:
+            params["timespan"] = timespan
+        if interval is not None:
+            params["interval"] = interval
+        if network_ids is not None:
+            params["networkIds[]"] = network_ids
+        if serials is not None:
+            params["serials[]"] = serials
+        if product_types is not None:
+            params["productTypes[]"] = product_types
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def get_organization_devices_uplinks_addresses_by_device(
-        self, organization_id: str, total_pages=1, direction="next", **kwargs: Any
+        self,
+        organization_id: str,
+        *,
+        per_page: int | None = None,
+        starting_after: str | None = None,
+        ending_before: str | None = None,
+        network_ids: list | None = None,
+        product_types: list | None = None,
+        serials: list | None = None,
+        tags: list | None = None,
+        tags_filter_type: str | None = None,
+        total_pages: str = 1,
+        direction: str = "next",
     ) -> Generator[Any, None, None]:
         """List the current uplink addresses for devices in an organization.
 
@@ -3662,39 +4040,37 @@ class Organizations:
 
         Args:
             organization_id: Organization ID.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
-              "all" for all pages.
-            direction: direction to paginate, either "next" (default) or "prev" page.
-            perPage: The number of entries per page returned. Acceptable range is 3 - 1000. Default
+            per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
               is 1000.
-            startingAfter: A token used by the server to indicate the start of the page. Often this
+            starting_after: A token used by the server to indicate the start of the page. Often this
               is a timestamp or an ID but it is not limited to those. This parameter
               should not be defined by client applications. The link for the first,
               last, prev, or next page in the HTTP Link header should define it.
-            endingBefore: A token used by the server to indicate the end of the page. Often this is
+            ending_before: A token used by the server to indicate the end of the page. Often this is
               a timestamp or an ID but it is not limited to those. This parameter should
               not be defined by client applications. The link for the first, last, prev,
               or next page in the HTTP Link header should define it.
-            networkIds: Optional parameter to filter device uplinks by network ID. This filter uses
+            network_ids: Optional parameter to filter device uplinks by network ID. This filter uses
               multiple exact matches.
-            productTypes: Optional parameter to filter device uplinks by device product types. This
+            product_types: Optional parameter to filter device uplinks by device product types. This
               filter uses multiple exact matches.
             serials: Optional parameter to filter device availabilities by device serial numbers.
               This filter uses multiple exact matches.
             tags: An optional parameter to filter devices by tags. The filtering is case-sensitive.
               If tags are included, 'tagsFilterType' should also be included (see
               below). This filter uses multiple exact matches.
-            tagsFilterType: An optional parameter of value 'withAnyTags' or 'withAllTags' to
+            tags_filter_type: An optional parameter of value 'withAnyTags' or 'withAllTags' to
               indicate whether to return devices which contain ANY or ALL of the
               included tags. If no type is included, 'withAnyTags' will be selected.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        kwargs.update(locals())
-
-        if "tagsFilterType" in kwargs:
+        if tags_filter_type is not None:
             options = ["withAllTags", "withAnyTags"]
-            assert kwargs["tagsFilterType"] in options, (
-                f'''"tagsFilterType" cannot be "{kwargs["tagsFilterType"]}", & must be set to one of: {options}'''
+            assert tags_filter_type in options, (
+                f'"tags_filter_type" cannot be "{tags_filter_type}", & must be set to one of: {options}'
             )
 
         metadata = {
@@ -3704,33 +4080,35 @@ class Organizations:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/devices/uplinks/addresses/byDevice"
 
-        query_params = [
-            "perPage",
-            "startingAfter",
-            "endingBefore",
-            "networkIds",
-            "productTypes",
-            "serials",
-            "tags",
-            "tagsFilterType",
-        ]
-        params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
-
-        array_params = [
-            "networkIds",
-            "productTypes",
-            "serials",
-            "tags",
-        ]
-        for k in kwargs:
-            if k.strip() in array_params:
-                params[f"{k.strip()}[]"] = kwargs[f"{k}"]
-                params.pop(k.strip())
+        params = {}
+        if per_page is not None:
+            params["perPage"] = per_page
+        if starting_after is not None:
+            params["startingAfter"] = starting_after
+        if ending_before is not None:
+            params["endingBefore"] = ending_before
+        if network_ids is not None:
+            params["networkIds[]"] = network_ids
+        if product_types is not None:
+            params["productTypes[]"] = product_types
+        if serials is not None:
+            params["serials[]"] = serials
+        if tags is not None:
+            params["tags[]"] = tags
+        if tags_filter_type is not None:
+            params["tagsFilterType"] = tags_filter_type
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def get_organization_devices_uplinks_loss_and_latency(
-        self, organization_id: str, **kwargs: Any
+        self,
+        organization_id: str,
+        *,
+        t0: str | None = None,
+        t1: str | None = None,
+        timespan: float | None = None,
+        uplink: str | None = None,
+        ip: str | None = None,
     ) -> dict[str, Any] | None:
         """Return the uplink loss and latency for every MX in the organization from at latest 2 minutes ago.
 
@@ -3751,12 +4129,10 @@ class Organizations:
               IPs.
 
         """
-        kwargs.update(locals())
-
-        if "uplink" in kwargs:
+        if uplink is not None:
             options = ["cellular", "wan1", "wan2", "wan3"]
-            assert kwargs["uplink"] in options, (
-                f'''"uplink" cannot be "{kwargs["uplink"]}", & must be set to one of: {options}'''
+            assert uplink in options, (
+                f'"uplink" cannot be "{uplink}", & must be set to one of: {options}'
             )
 
         metadata = {
@@ -3766,14 +4142,17 @@ class Organizations:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/devices/uplinksLossAndLatency"
 
-        query_params = [
-            "t0",
-            "t1",
-            "timespan",
-            "uplink",
-            "ip",
-        ]
-        params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
+        params = {}
+        if t0 is not None:
+            params["t0"] = t0
+        if t1 is not None:
+            params["t1"] = t1
+        if timespan is not None:
+            params["timespan"] = timespan
+        if uplink is not None:
+            params["uplink"] = uplink
+        if ip is not None:
+            params["ip"] = ip
 
         return self._session.get(metadata, resource, params)
 
@@ -3816,7 +4195,7 @@ class Organizations:
         return self._session.get(metadata, resource)
 
     def create_organization_early_access_features_opt_in(
-        self, organization_id: str, shortName: str, **kwargs: Any
+        self, organization_id: str, short_name: str, *, limit_scope_to_networks: list | None = None
     ) -> dict[str, Any] | None:
         """Create a new early access feature opt-in for an organization.
 
@@ -3824,12 +4203,10 @@ class Organizations:
 
         Args:
             organization_id: Organization ID.
-            shortName: Short name of the early access feature.
-            limitScopeToNetworks: A list of network IDs to apply the opt-in to.
+            short_name: Short name of the early access feature.
+            limit_scope_to_networks: A list of network IDs to apply the opt-in to.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["organizations", "configure", "earlyAccess", "features", "optIns"],
             "operation": "create_organization_early_access_features_opt_in",
@@ -3837,11 +4214,11 @@ class Organizations:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/earlyAccess/features/optIns"
 
-        body_params = [
-            "shortName",
-            "limitScopeToNetworks",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if short_name is not None:
+            payload["shortName"] = short_name
+        if limit_scope_to_networks is not None:
+            payload["limitScopeToNetworks"] = limit_scope_to_networks
 
         return self._session.post(metadata, resource, payload)
 
@@ -3868,7 +4245,7 @@ class Organizations:
         return self._session.get(metadata, resource)
 
     def update_organization_early_access_features_opt_in(
-        self, organization_id: str, opt_in_id: str, **kwargs: Any
+        self, organization_id: str, opt_in_id: str, *, limit_scope_to_networks: list | None = None
     ) -> dict[str, Any] | None:
         """Update an early access feature opt-in for an organization.
 
@@ -3877,11 +4254,9 @@ class Organizations:
         Args:
             organization_id: Organization ID.
             opt_in_id: Opt in ID.
-            limitScopeToNetworks: A list of network IDs to apply the opt-in to.
+            limit_scope_to_networks: A list of network IDs to apply the opt-in to.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["organizations", "configure", "earlyAccess", "features", "optIns"],
             "operation": "update_organization_early_access_features_opt_in",
@@ -3890,10 +4265,9 @@ class Organizations:
         opt_in_id = urllib.parse.quote(str(opt_in_id), safe="")
         resource = f"/organizations/{organization_id}/earlyAccess/features/optIns/{opt_in_id}"
 
-        body_params = [
-            "limitScopeToNetworks",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if limit_scope_to_networks is not None:
+            payload["limitScopeToNetworks"] = limit_scope_to_networks
 
         return self._session.put(metadata, resource, payload)
 
@@ -3920,7 +4294,16 @@ class Organizations:
         return self._session.delete(metadata, resource)
 
     def get_organization_firmware_upgrades(
-        self, organization_id: str, total_pages=1, direction="next", **kwargs: Any
+        self,
+        organization_id: str,
+        *,
+        per_page: int | None = None,
+        starting_after: str | None = None,
+        ending_before: str | None = None,
+        status: list | None = None,
+        product_types: list | None = None,
+        total_pages: str = 1,
+        direction: str = "next",
     ) -> Generator[Any, None, None]:
         """Get firmware upgrade information for an organization.
 
@@ -3928,25 +4311,23 @@ class Organizations:
 
         Args:
             organization_id: Organization ID.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
-              "all" for all pages.
-            direction: direction to paginate, either "next" (default) or "prev" page.
-            perPage: The number of entries per page returned. Acceptable range is 3 - 1000. Default
+            per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
               is 1000.
-            startingAfter: A token used by the server to indicate the start of the page. Often this
+            starting_after: A token used by the server to indicate the start of the page. Often this
               is a timestamp or an ID but it is not limited to those. This parameter
               should not be defined by client applications. The link for the first,
               last, prev, or next page in the HTTP Link header should define it.
-            endingBefore: A token used by the server to indicate the end of the page. Often this is
+            ending_before: A token used by the server to indicate the end of the page. Often this is
               a timestamp or an ID but it is not limited to those. This parameter should
               not be defined by client applications. The link for the first, last, prev,
               or next page in the HTTP Link header should define it.
             status: Optional parameter to filter the upgrade by status.
-            productTypes: Optional parameter to filter the upgrade by product type.
+            product_types: Optional parameter to filter the upgrade by product type.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["organizations", "configure", "firmware", "upgrades"],
             "operation": "get_organization_firmware_upgrades",
@@ -3954,28 +4335,36 @@ class Organizations:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/firmware/upgrades"
 
-        query_params = [
-            "perPage",
-            "startingAfter",
-            "endingBefore",
-            "status",
-            "productTypes",
-        ]
-        params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
-
-        array_params = [
-            "status",
-            "productTypes",
-        ]
-        for k in kwargs:
-            if k.strip() in array_params:
-                params[f"{k.strip()}[]"] = kwargs[f"{k}"]
-                params.pop(k.strip())
+        params = {}
+        if per_page is not None:
+            params["perPage"] = per_page
+        if starting_after is not None:
+            params["startingAfter"] = starting_after
+        if ending_before is not None:
+            params["endingBefore"] = ending_before
+        if status is not None:
+            params["status[]"] = status
+        if product_types is not None:
+            params["productTypes[]"] = product_types
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def get_organization_firmware_upgrades_by_device(
-        self, organization_id: str, total_pages=1, direction="next", **kwargs: Any
+        self,
+        organization_id: str,
+        *,
+        per_page: int | None = None,
+        starting_after: str | None = None,
+        ending_before: str | None = None,
+        network_ids: list | None = None,
+        serials: list | None = None,
+        macs: list | None = None,
+        firmware_upgrade_batch_ids: list | None = None,
+        upgrade_statuses: list | None = None,
+        current_upgrades_only: bool | None = None,
+        limit_per_device: int | None = None,
+        total_pages: str = 1,
+        direction: str = "next",
     ) -> Generator[Any, None, None]:
         """Get firmware upgrade status for the filtered devices.
 
@@ -3983,34 +4372,32 @@ class Organizations:
 
         Args:
             organization_id: Organization ID.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
-              "all" for all pages.
-            direction: direction to paginate, either "next" (default) or "prev" page.
-            perPage: The number of entries per page returned. Acceptable range is 3 - 1000. Default
+            per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
               is 50.
-            startingAfter: A token used by the server to indicate the start of the page. Often this
+            starting_after: A token used by the server to indicate the start of the page. Often this
               is a timestamp or an ID but it is not limited to those. This parameter
               should not be defined by client applications. The link for the first,
               last, prev, or next page in the HTTP Link header should define it.
-            endingBefore: A token used by the server to indicate the end of the page. Often this is
+            ending_before: A token used by the server to indicate the end of the page. Often this is
               a timestamp or an ID but it is not limited to those. This parameter should
               not be defined by client applications. The link for the first, last, prev,
               or next page in the HTTP Link header should define it.
-            networkIds: Optional parameter to filter by network.
-            serials: Optional parameter to filter by serial number.  All returned devices will have
-              a serial number that is an exact match.
+            network_ids: Optional parameter to filter by network.
+            serials: Optional parameter to filter by serial number. All returned devices will have a
+              serial number that is an exact match.
             macs: Optional parameter to filter by one or more MAC addresses belonging to devices.
               All devices returned belong to MAC addresses that are an exact match.
-            firmwareUpgradeBatchIds: Optional parameter to filter by firmware upgrade batch ids.
-            upgradeStatuses: Optional parameter to filter by firmware upgrade statuses.
-            currentUpgradesOnly: Optional parameter to filter to only current or pending upgrade
+            firmware_upgrade_batch_ids: Optional parameter to filter by firmware upgrade batch ids.
+            upgrade_statuses: Optional parameter to filter by firmware upgrade statuses.
+            current_upgrades_only: Optional parameter to filter to only current or pending upgrade
               statuses.
-            limitPerDevice: Optional parameter to limit the number of upgrade statuses returned per
-              device. If omitted, a value of 5 is used.
+            limit_per_device: Optional parameter to limit the number of upgrade statuses returned
+              per device. If omitted, a value of 5 is used.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["organizations", "configure", "firmware", "upgrades", "byDevice"],
             "operation": "get_organization_firmware_upgrades_by_device",
@@ -4018,36 +4405,41 @@ class Organizations:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/firmware/upgrades/byDevice"
 
-        query_params = [
-            "perPage",
-            "startingAfter",
-            "endingBefore",
-            "networkIds",
-            "serials",
-            "macs",
-            "firmwareUpgradeBatchIds",
-            "upgradeStatuses",
-            "currentUpgradesOnly",
-            "limitPerDevice",
-        ]
-        params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
-
-        array_params = [
-            "networkIds",
-            "serials",
-            "macs",
-            "firmwareUpgradeBatchIds",
-            "upgradeStatuses",
-        ]
-        for k in kwargs:
-            if k.strip() in array_params:
-                params[f"{k.strip()}[]"] = kwargs[f"{k}"]
-                params.pop(k.strip())
+        params = {}
+        if per_page is not None:
+            params["perPage"] = per_page
+        if starting_after is not None:
+            params["startingAfter"] = starting_after
+        if ending_before is not None:
+            params["endingBefore"] = ending_before
+        if network_ids is not None:
+            params["networkIds[]"] = network_ids
+        if serials is not None:
+            params["serials[]"] = serials
+        if macs is not None:
+            params["macs[]"] = macs
+        if firmware_upgrade_batch_ids is not None:
+            params["firmwareUpgradeBatchIds[]"] = firmware_upgrade_batch_ids
+        if upgrade_statuses is not None:
+            params["upgradeStatuses[]"] = upgrade_statuses
+        if current_upgrades_only is not None:
+            params["currentUpgradesOnly"] = current_upgrades_only
+        if limit_per_device is not None:
+            params["limitPerDevice"] = limit_per_device
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def get_organization_floor_plans_auto_locate_devices(
-        self, organization_id: str, total_pages=1, direction="next", **kwargs: Any
+        self,
+        organization_id: str,
+        *,
+        per_page: int | None = None,
+        starting_after: str | None = None,
+        ending_before: str | None = None,
+        network_ids: list | None = None,
+        floor_plan_ids: list | None = None,
+        total_pages: str = 1,
+        direction: str = "next",
     ) -> Generator[Any, None, None]:
         """List auto locate details for each device in your organization.
 
@@ -4055,25 +4447,23 @@ class Organizations:
 
         Args:
             organization_id: Organization ID.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
-              "all" for all pages.
-            direction: direction to paginate, either "next" (default) or "prev" page.
-            perPage: The number of entries per page returned. Acceptable range is 3 - 10000. Default
-              is 1000.
-            startingAfter: A token used by the server to indicate the start of the page. Often this
+            per_page: The number of entries per page returned. Acceptable range is 3 - 10000.
+              Default is 1000.
+            starting_after: A token used by the server to indicate the start of the page. Often this
               is a timestamp or an ID but it is not limited to those. This parameter
               should not be defined by client applications. The link for the first,
               last, prev, or next page in the HTTP Link header should define it.
-            endingBefore: A token used by the server to indicate the end of the page. Often this is
+            ending_before: A token used by the server to indicate the end of the page. Often this is
               a timestamp or an ID but it is not limited to those. This parameter should
               not be defined by client applications. The link for the first, last, prev,
               or next page in the HTTP Link header should define it.
-            networkIds: Optional parameter to filter devices by one or more network IDs.
-            floorPlanIds: Optional parameter to filter devices by one or more floorplan IDs.
+            network_ids: Optional parameter to filter devices by one or more network IDs.
+            floor_plan_ids: Optional parameter to filter devices by one or more floorplan IDs.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["organizations", "configure", "floorPlans", "autoLocate", "devices"],
             "operation": "get_organization_floor_plans_auto_locate_devices",
@@ -4081,28 +4471,31 @@ class Organizations:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/floorPlans/autoLocate/devices"
 
-        query_params = [
-            "perPage",
-            "startingAfter",
-            "endingBefore",
-            "networkIds",
-            "floorPlanIds",
-        ]
-        params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
-
-        array_params = [
-            "networkIds",
-            "floorPlanIds",
-        ]
-        for k in kwargs:
-            if k.strip() in array_params:
-                params[f"{k.strip()}[]"] = kwargs[f"{k}"]
-                params.pop(k.strip())
+        params = {}
+        if per_page is not None:
+            params["perPage"] = per_page
+        if starting_after is not None:
+            params["startingAfter"] = starting_after
+        if ending_before is not None:
+            params["endingBefore"] = ending_before
+        if network_ids is not None:
+            params["networkIds[]"] = network_ids
+        if floor_plan_ids is not None:
+            params["floorPlanIds[]"] = floor_plan_ids
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def get_organization_floor_plans_auto_locate_statuses(
-        self, organization_id: str, total_pages=1, direction="next", **kwargs: Any
+        self,
+        organization_id: str,
+        *,
+        per_page: int | None = None,
+        starting_after: str | None = None,
+        ending_before: str | None = None,
+        network_ids: list | None = None,
+        floor_plan_ids: list | None = None,
+        total_pages: str = 1,
+        direction: str = "next",
     ) -> Generator[Any, None, None]:
         """List the status of auto locate for each floorplan in your organization.
 
@@ -4110,25 +4503,23 @@ class Organizations:
 
         Args:
             organization_id: Organization ID.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
-              "all" for all pages.
-            direction: direction to paginate, either "next" (default) or "prev" page.
-            perPage: The number of entries per page returned. Acceptable range is 3 - 10000. Default
-              is 1000.
-            startingAfter: A token used by the server to indicate the start of the page. Often this
+            per_page: The number of entries per page returned. Acceptable range is 3 - 10000.
+              Default is 1000.
+            starting_after: A token used by the server to indicate the start of the page. Often this
               is a timestamp or an ID but it is not limited to those. This parameter
               should not be defined by client applications. The link for the first,
               last, prev, or next page in the HTTP Link header should define it.
-            endingBefore: A token used by the server to indicate the end of the page. Often this is
+            ending_before: A token used by the server to indicate the end of the page. Often this is
               a timestamp or an ID but it is not limited to those. This parameter should
               not be defined by client applications. The link for the first, last, prev,
               or next page in the HTTP Link header should define it.
-            networkIds: Optional parameter to filter floorplans by one or more network IDs.
-            floorPlanIds: Optional parameter to filter floorplans by one or more floorplan IDs.
+            network_ids: Optional parameter to filter floorplans by one or more network IDs.
+            floor_plan_ids: Optional parameter to filter floorplans by one or more floorplan IDs.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["organizations", "configure", "floorPlans", "autoLocate", "statuses"],
             "operation": "get_organization_floor_plans_auto_locate_statuses",
@@ -4136,28 +4527,30 @@ class Organizations:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/floorPlans/autoLocate/statuses"
 
-        query_params = [
-            "perPage",
-            "startingAfter",
-            "endingBefore",
-            "networkIds",
-            "floorPlanIds",
-        ]
-        params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
-
-        array_params = [
-            "networkIds",
-            "floorPlanIds",
-        ]
-        for k in kwargs:
-            if k.strip() in array_params:
-                params[f"{k.strip()}[]"] = kwargs[f"{k}"]
-                params.pop(k.strip())
+        params = {}
+        if per_page is not None:
+            params["perPage"] = per_page
+        if starting_after is not None:
+            params["startingAfter"] = starting_after
+        if ending_before is not None:
+            params["endingBefore"] = ending_before
+        if network_ids is not None:
+            params["networkIds[]"] = network_ids
+        if floor_plan_ids is not None:
+            params["floorPlanIds[]"] = floor_plan_ids
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def get_organization_integrations_xdr_networks(
-        self, organization_id: str, total_pages=1, direction="next", **kwargs: Any
+        self,
+        organization_id: str,
+        *,
+        network_ids: list | None = None,
+        per_page: int | None = None,
+        starting_after: str | None = None,
+        ending_before: str | None = None,
+        total_pages: str = 1,
+        direction: str = "next",
     ) -> Generator[Any, None, None]:
         """Returns the networks in the organization that have XDR enabled.
 
@@ -4165,24 +4558,22 @@ class Organizations:
 
         Args:
             organization_id: Organization ID.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
-              "all" for all pages.
-            direction: direction to paginate, either "next" (default) or "prev" page.
-            networkIds: Optional parameter to filter the results by network IDs.
-            perPage: The number of entries per page returned. Acceptable range is 3 - 100. Default
+            network_ids: Optional parameter to filter the results by network IDs.
+            per_page: The number of entries per page returned. Acceptable range is 3 - 100. Default
               is 20.
-            startingAfter: A token used by the server to indicate the start of the page. Often this
+            starting_after: A token used by the server to indicate the start of the page. Often this
               is a timestamp or an ID but it is not limited to those. This parameter
               should not be defined by client applications. The link for the first,
               last, prev, or next page in the HTTP Link header should define it.
-            endingBefore: A token used by the server to indicate the end of the page. Often this is
+            ending_before: A token used by the server to indicate the end of the page. Often this is
               a timestamp or an ID but it is not limited to those. This parameter should
               not be defined by client applications. The link for the first, last, prev,
               or next page in the HTTP Link header should define it.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["organizations", "configure", "integrations", "xdr", "networks"],
             "operation": "get_organization_integrations_xdr_networks",
@@ -4190,21 +4581,15 @@ class Organizations:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/integrations/xdr/networks"
 
-        query_params = [
-            "networkIds",
-            "perPage",
-            "startingAfter",
-            "endingBefore",
-        ]
-        params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
-
-        array_params = [
-            "networkIds",
-        ]
-        for k in kwargs:
-            if k.strip() in array_params:
-                params[f"{k.strip()}[]"] = kwargs[f"{k}"]
-                params.pop(k.strip())
+        params = {}
+        if network_ids is not None:
+            params["networkIds[]"] = network_ids
+        if per_page is not None:
+            params["perPage"] = per_page
+        if starting_after is not None:
+            params["startingAfter"] = starting_after
+        if ending_before is not None:
+            params["endingBefore"] = ending_before
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
@@ -4220,8 +4605,6 @@ class Organizations:
             networks: List containing the network ID and the product type to disable XDR on.
 
         """
-        kwargs = locals()
-
         metadata = {
             "tags": ["organizations", "configure", "integrations", "xdr", "networks"],
             "operation": "disable_organization_integrations_xdr_networks",
@@ -4229,10 +4612,9 @@ class Organizations:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/integrations/xdr/networks/disable"
 
-        body_params = [
-            "networks",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if networks is not None:
+            payload["networks"] = networks
 
         return self._session.post(metadata, resource, payload)
 
@@ -4248,8 +4630,6 @@ class Organizations:
             networks: List containing the network ID and the product type to enable XDR on.
 
         """
-        kwargs = locals()
-
         metadata = {
             "tags": ["organizations", "configure", "integrations", "xdr", "networks"],
             "operation": "enable_organization_integrations_xdr_networks",
@@ -4257,15 +4637,19 @@ class Organizations:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/integrations/xdr/networks/enable"
 
-        body_params = [
-            "networks",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if networks is not None:
+            payload["networks"] = networks
 
         return self._session.post(metadata, resource, payload)
 
     def claim_into_organization_inventory(
-        self, organization_id: str, **kwargs: Any
+        self,
+        organization_id: str,
+        *,
+        orders: list | None = None,
+        serials: list | None = None,
+        licenses: list | None = None,
     ) -> dict[str, Any] | None:
         """Claim a list of devices, licenses, and/or orders into an organization inventory.
 
@@ -4278,8 +4662,6 @@ class Organizations:
             licenses: The licenses that should be claimed.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["organizations", "configure", "inventory"],
             "operation": "claim_into_organization_inventory",
@@ -4287,17 +4669,35 @@ class Organizations:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/inventory/claim"
 
-        body_params = [
-            "orders",
-            "serials",
-            "licenses",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if orders is not None:
+            payload["orders"] = orders
+        if serials is not None:
+            payload["serials"] = serials
+        if licenses is not None:
+            payload["licenses"] = licenses
 
         return self._session.post(metadata, resource, payload)
 
     def get_organization_inventory_devices(
-        self, organization_id: str, total_pages=1, direction="next", **kwargs: Any
+        self,
+        organization_id: str,
+        *,
+        per_page: int | None = None,
+        starting_after: str | None = None,
+        ending_before: str | None = None,
+        used_state: str | None = None,
+        search: str | None = None,
+        macs: list | None = None,
+        network_ids: list | None = None,
+        serials: list | None = None,
+        models: list | None = None,
+        order_numbers: list | None = None,
+        tags: list | None = None,
+        tags_filter_type: str | None = None,
+        product_types: list | None = None,
+        total_pages: str = 1,
+        direction: str = "next",
     ) -> Generator[Any, None, None]:
         """Return the device inventory for an organization.
 
@@ -4305,49 +4705,47 @@ class Organizations:
 
         Args:
             organization_id: Organization ID.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
-              "all" for all pages.
-            direction: direction to paginate, either "next" (default) or "prev" page.
-            perPage: The number of entries per page returned. Acceptable range is 3 - 1000. Default
+            per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
               is 1000.
-            startingAfter: A token used by the server to indicate the start of the page. Often this
+            starting_after: A token used by the server to indicate the start of the page. Often this
               is a timestamp or an ID but it is not limited to those. This parameter
               should not be defined by client applications. The link for the first,
               last, prev, or next page in the HTTP Link header should define it.
-            endingBefore: A token used by the server to indicate the end of the page. Often this is
+            ending_before: A token used by the server to indicate the end of the page. Often this is
               a timestamp or an ID but it is not limited to those. This parameter should
               not be defined by client applications. The link for the first, last, prev,
               or next page in the HTTP Link header should define it.
-            usedState: Filter results by used or unused inventory. Accepted values are 'used' or
+            used_state: Filter results by used or unused inventory. Accepted values are 'used' or
               'unused'.
             search: Search for devices in inventory based on serial number, mac address, or model.
             macs: Search for devices in inventory based on mac addresses.
-            networkIds: Search for devices in inventory based on network ids. Use explicit 'null'
+            network_ids: Search for devices in inventory based on network ids. Use explicit 'null'
               value to get available devices only.
             serials: Search for devices in inventory based on serials.
             models: Search for devices in inventory based on model.
-            orderNumbers: Search for devices in inventory based on order numbers.
+            order_numbers: Search for devices in inventory based on order numbers.
             tags: Filter devices by tags. The filtering is case-sensitive. If tags are included,
               'tagsFilterType' should also be included (see below).
-            tagsFilterType: To use with 'tags' parameter, to filter devices which contain ANY or ALL
-              given tags. Accepted values are 'withAnyTags' or 'withAllTags', default is
-              'withAnyTags'.
-            productTypes: Filter devices by product type. Accepted values are appliance, camera,
+            tags_filter_type: To use with 'tags' parameter, to filter devices which contain ANY or
+              ALL given tags. Accepted values are 'withAnyTags' or 'withAllTags',
+              default is 'withAnyTags'.
+            product_types: Filter devices by product type. Accepted values are appliance, camera,
               campusGateway, cellularGateway, secureConnect, sensor, switch,
               systemsManager, wireless, and wirelessController.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        kwargs.update(locals())
-
-        if "usedState" in kwargs:
+        if used_state is not None:
             options = ["unused", "used"]
-            assert kwargs["usedState"] in options, (
-                f'''"usedState" cannot be "{kwargs["usedState"]}", & must be set to one of: {options}'''
+            assert used_state in options, (
+                f'"used_state" cannot be "{used_state}", & must be set to one of: {options}'
             )
-        if "tagsFilterType" in kwargs:
+        if tags_filter_type is not None:
             options = ["withAllTags", "withAnyTags"]
-            assert kwargs["tagsFilterType"] in options, (
-                f'''"tagsFilterType" cannot be "{kwargs["tagsFilterType"]}", & must be set to one of: {options}'''
+            assert tags_filter_type in options, (
+                f'"tags_filter_type" cannot be "{tags_filter_type}", & must be set to one of: {options}'
             )
 
         metadata = {
@@ -4357,36 +4755,33 @@ class Organizations:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/inventory/devices"
 
-        query_params = [
-            "perPage",
-            "startingAfter",
-            "endingBefore",
-            "usedState",
-            "search",
-            "macs",
-            "networkIds",
-            "serials",
-            "models",
-            "orderNumbers",
-            "tags",
-            "tagsFilterType",
-            "productTypes",
-        ]
-        params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
-
-        array_params = [
-            "macs",
-            "networkIds",
-            "serials",
-            "models",
-            "orderNumbers",
-            "tags",
-            "productTypes",
-        ]
-        for k in kwargs:
-            if k.strip() in array_params:
-                params[f"{k.strip()}[]"] = kwargs[f"{k}"]
-                params.pop(k.strip())
+        params = {}
+        if per_page is not None:
+            params["perPage"] = per_page
+        if starting_after is not None:
+            params["startingAfter"] = starting_after
+        if ending_before is not None:
+            params["endingBefore"] = ending_before
+        if used_state is not None:
+            params["usedState"] = used_state
+        if search is not None:
+            params["search"] = search
+        if macs is not None:
+            params["macs[]"] = macs
+        if network_ids is not None:
+            params["networkIds[]"] = network_ids
+        if serials is not None:
+            params["serials[]"] = serials
+        if models is not None:
+            params["models[]"] = models
+        if order_numbers is not None:
+            params["orderNumbers[]"] = order_numbers
+        if tags is not None:
+            params["tags[]"] = tags
+        if tags_filter_type is not None:
+            params["tagsFilterType"] = tags_filter_type
+        if product_types is not None:
+            params["productTypes[]"] = product_types
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
@@ -4402,8 +4797,6 @@ class Organizations:
             swaps: List of replacments to perform.
 
         """
-        kwargs = locals()
-
         metadata = {
             "tags": ["organizations", "configure", "inventory", "devices", "swaps", "bulk"],
             "operation": "create_organization_inventory_devices_swaps_bulk",
@@ -4411,15 +4804,14 @@ class Organizations:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/inventory/devices/swaps/bulk"
 
-        body_params = [
-            "swaps",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if swaps is not None:
+            payload["swaps"] = swaps
 
         return self._session.post(metadata, resource, payload)
 
     def get_organization_inventory_devices_swaps_bulk(
-        self, organization_id: str, id: str
+        self, organization_id: str, id_: str
     ) -> dict[str, Any] | None:
         """List of device swaps for a given request ID ({id}).
 
@@ -4427,7 +4819,7 @@ class Organizations:
 
         Args:
             organization_id: Organization ID.
-            id: ID.
+            id_: ID.
 
         """
         metadata = {
@@ -4435,8 +4827,8 @@ class Organizations:
             "operation": "get_organization_inventory_devices_swaps_bulk",
         }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        id = urllib.parse.quote(str(id), safe="")
-        resource = f"/organizations/{organization_id}/inventory/devices/swaps/bulk/{id}"
+        id_ = urllib.parse.quote(str(id_), safe="")
+        resource = f"/organizations/{organization_id}/inventory/devices/swaps/bulk/{id_}"
 
         return self._session.get(metadata, resource)
 
@@ -4463,7 +4855,13 @@ class Organizations:
         return self._session.get(metadata, resource)
 
     def create_organization_inventory_onboarding_cloud_monitoring_export_event(
-        self, organization_id: str, logEvent: str, timestamp: int, **kwargs: Any
+        self,
+        organization_id: str,
+        log_event: str,
+        timestamp: int,
+        *,
+        target_o_s: str | None = None,
+        request: str | None = None,
     ) -> dict[str, Any] | None:
         """Imports event logs related to the onboarding app into elastisearch.
 
@@ -4471,15 +4869,13 @@ class Organizations:
 
         Args:
             organization_id: Organization ID.
-            logEvent: The type of log event this is recording, e.g. download or opening a banner.
+            log_event: The type of log event this is recording, e.g. download or opening a banner.
             timestamp: A JavaScript UTC datetime stamp for when the even occurred.
-            targetOS: The name of the onboarding distro being downloaded.
+            target_o_s: The name of the onboarding distro being downloaded.
             request: Used to describe if this event was the result of a redirect. E.g. a query param
               if an info banner is being used.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": [
                 "organizations",
@@ -4496,13 +4892,15 @@ class Organizations:
             f"/organizations/{organization_id}/inventory/onboarding/cloudMonitoring/exportEvents"
         )
 
-        body_params = [
-            "logEvent",
-            "timestamp",
-            "targetOS",
-            "request",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if log_event is not None:
+            payload["logEvent"] = log_event
+        if timestamp is not None:
+            payload["timestamp"] = timestamp
+        if target_o_s is not None:
+            payload["targetOS"] = target_o_s
+        if request is not None:
+            payload["request"] = request
 
         return self._session.post(metadata, resource, payload)
 
@@ -4518,8 +4916,6 @@ class Organizations:
             devices: A set of device imports to commit.
 
         """
-        kwargs = locals()
-
         metadata = {
             "tags": [
                 "organizations",
@@ -4534,15 +4930,14 @@ class Organizations:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/inventory/onboarding/cloudMonitoring/imports"
 
-        body_params = [
-            "devices",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if devices is not None:
+            payload["devices"] = devices
 
         return self._session.post(metadata, resource, payload)
 
     def get_organization_inventory_onboarding_cloud_monitoring_imports(
-        self, organization_id: str, importIds: list
+        self, organization_id: str, import_ids: list
     ) -> dict[str, Any] | None:
         """Check the status of a committed Import operation.
 
@@ -4550,11 +4945,9 @@ class Organizations:
 
         Args:
             organization_id: Organization ID.
-            importIds: import ids from an imports.
+            import_ids: import ids from an imports.
 
         """
-        kwargs = locals()
-
         metadata = {
             "tags": [
                 "organizations",
@@ -4569,23 +4962,23 @@ class Organizations:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/inventory/onboarding/cloudMonitoring/imports"
 
-        query_params = [
-            "importIds",
-        ]
-        params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
-
-        array_params = [
-            "importIds",
-        ]
-        for k in kwargs:
-            if k.strip() in array_params:
-                params[f"{k.strip()}[]"] = kwargs[f"{k}"]
-                params.pop(k.strip())
+        params = {}
+        if import_ids is not None:
+            params["importIds[]"] = import_ids
 
         return self._session.get(metadata, resource, params)
 
     def get_organization_inventory_onboarding_cloud_monitoring_networks(
-        self, organization_id: str, deviceType: str, total_pages=1, direction="next", **kwargs: Any
+        self,
+        organization_id: str,
+        device_type: str,
+        *,
+        search: str | None = None,
+        per_page: int | None = None,
+        starting_after: str | None = None,
+        ending_before: str | None = None,
+        total_pages: str = 1,
+        direction: str = "next",
     ) -> Generator[Any, None, None]:
         """Returns list of networks eligible for adding cloud monitored device.
 
@@ -4593,29 +4986,27 @@ class Organizations:
 
         Args:
             organization_id: Organization ID.
-            deviceType: Device Type switch or wireless controller.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
-              "all" for all pages.
-            direction: direction to paginate, either "next" (default) or "prev" page.
+            device_type: Device Type switch or wireless controller.
             search: Optional parameter to search on network name.
-            perPage: The number of entries per page returned. Acceptable range is 3 - 100000.
+            per_page: The number of entries per page returned. Acceptable range is 3 - 100000.
               Default is 1000.
-            startingAfter: A token used by the server to indicate the start of the page. Often this
+            starting_after: A token used by the server to indicate the start of the page. Often this
               is a timestamp or an ID but it is not limited to those. This parameter
               should not be defined by client applications. The link for the first,
               last, prev, or next page in the HTTP Link header should define it.
-            endingBefore: A token used by the server to indicate the end of the page. Often this is
+            ending_before: A token used by the server to indicate the end of the page. Often this is
               a timestamp or an ID but it is not limited to those. This parameter should
               not be defined by client applications. The link for the first, last, prev,
               or next page in the HTTP Link header should define it.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        kwargs.update(locals())
-
-        if "deviceType" in kwargs:
+        if device_type is not None:
             options = ["switch", "wireless_controller"]
-            assert kwargs["deviceType"] in options, (
-                f'''"deviceType" cannot be "{kwargs["deviceType"]}", & must be set to one of: {options}'''
+            assert device_type in options, (
+                f'"device_type" cannot be "{device_type}", & must be set to one of: {options}'
             )
 
         metadata = {
@@ -4632,19 +5023,22 @@ class Organizations:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/inventory/onboarding/cloudMonitoring/networks"
 
-        query_params = [
-            "deviceType",
-            "search",
-            "perPage",
-            "startingAfter",
-            "endingBefore",
-        ]
-        params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
+        params = {}
+        if device_type is not None:
+            params["deviceType"] = device_type
+        if search is not None:
+            params["search"] = search
+        if per_page is not None:
+            params["perPage"] = per_page
+        if starting_after is not None:
+            params["startingAfter"] = starting_after
+        if ending_before is not None:
+            params["endingBefore"] = ending_before
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def create_organization_inventory_onboarding_cloud_monitoring_prepare(
-        self, organization_id: str, devices: list, **kwargs: Any
+        self, organization_id: str, devices: list, *, options: dict | None = None
     ) -> dict[str, Any] | None:
         """Initiates or updates an import session.
 
@@ -4656,8 +5050,6 @@ class Organizations:
             options: Additional options for the import.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": [
                 "organizations",
@@ -4672,16 +5064,16 @@ class Organizations:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/inventory/onboarding/cloudMonitoring/prepare"
 
-        body_params = [
-            "devices",
-            "options",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if devices is not None:
+            payload["devices"] = devices
+        if options is not None:
+            payload["options"] = options
 
         return self._session.post(metadata, resource, payload)
 
     def claim_organization_inventory_orders(
-        self, organization_id: str, claimId: str, **kwargs: Any
+        self, organization_id: str, claim_id: str, *, subscriptions: list | None = None
     ) -> dict[str, Any] | None:
         """Claim an order by the secure unique order claim number, the order claim id.
 
@@ -4689,12 +5081,10 @@ class Organizations:
 
         Args:
             organization_id: Organization ID.
-            claimId: The unique order claim id.
+            claim_id: The unique order claim id.
             subscriptions: The individual subscriptions to claim.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["organizations", "configure", "inventory", "orders"],
             "operation": "claim_organization_inventory_orders",
@@ -4702,16 +5092,16 @@ class Organizations:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/inventory/orders/claim"
 
-        body_params = [
-            "claimId",
-            "subscriptions",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if claim_id is not None:
+            payload["claimId"] = claim_id
+        if subscriptions is not None:
+            payload["subscriptions"] = subscriptions
 
         return self._session.post(metadata, resource, payload)
 
     def preview_organization_inventory_orders(
-        self, organization_id: str, claimId: str
+        self, organization_id: str, claim_id: str
     ) -> dict[str, Any] | None:
         """Preview the results and status of an order claim by the secure order id.
 
@@ -4719,11 +5109,9 @@ class Organizations:
 
         Args:
             organization_id: Organization ID.
-            claimId: The unique order claim id.
+            claim_id: The unique order claim id.
 
         """
-        kwargs = locals()
-
         metadata = {
             "tags": ["organizations", "configure", "inventory", "orders"],
             "operation": "preview_organization_inventory_orders",
@@ -4731,15 +5119,14 @@ class Organizations:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/inventory/orders/preview"
 
-        body_params = [
-            "claimId",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if claim_id is not None:
+            payload["claimId"] = claim_id
 
         return self._session.post(metadata, resource, payload)
 
     def release_from_organization_inventory(
-        self, organization_id: str, **kwargs: Any
+        self, organization_id: str, *, serials: list | None = None
     ) -> dict[str, Any] | None:
         """Release a list of claimed devices from an organization.
 
@@ -4750,8 +5137,6 @@ class Organizations:
             serials: Serials of the devices that should be released.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["organizations", "configure", "inventory"],
             "operation": "release_from_organization_inventory",
@@ -4759,15 +5144,24 @@ class Organizations:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/inventory/release"
 
-        body_params = [
-            "serials",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if serials is not None:
+            payload["serials"] = serials
 
         return self._session.post(metadata, resource, payload)
 
     def get_organization_licenses(
-        self, organization_id: str, total_pages=1, direction="next", **kwargs: Any
+        self,
+        organization_id: str,
+        *,
+        per_page: int | None = None,
+        starting_after: str | None = None,
+        ending_before: str | None = None,
+        device_serial: str | None = None,
+        network_id: str | None = None,
+        state: str | None = None,
+        total_pages: str = 1,
+        direction: str = "next",
     ) -> Generator[Any, None, None]:
         """List the licenses for an organization.
 
@@ -4775,32 +5169,30 @@ class Organizations:
 
         Args:
             organization_id: Organization ID.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
-              "all" for all pages.
-            direction: direction to paginate, either "next" (default) or "prev" page.
-            perPage: The number of entries per page returned. Acceptable range is 3 - 1000. Default
+            per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
               is 1000.
-            startingAfter: A token used by the server to indicate the start of the page. Often this
+            starting_after: A token used by the server to indicate the start of the page. Often this
               is a timestamp or an ID but it is not limited to those. This parameter
               should not be defined by client applications. The link for the first,
               last, prev, or next page in the HTTP Link header should define it.
-            endingBefore: A token used by the server to indicate the end of the page. Often this is
+            ending_before: A token used by the server to indicate the end of the page. Often this is
               a timestamp or an ID but it is not limited to those. This parameter should
               not be defined by client applications. The link for the first, last, prev,
               or next page in the HTTP Link header should define it.
-            deviceSerial: Filter the licenses to those assigned to a particular device. Returned in
+            device_serial: Filter the licenses to those assigned to a particular device. Returned in
               the same order that they are queued to the device.
-            networkId: Filter the licenses to those assigned in a particular network.
+            network_id: Filter the licenses to those assigned in a particular network.
             state: Filter the licenses to those in a particular state. Can be one of 'active',
               'expired', 'expiring', 'recentlyQueued', 'unused' or 'unusedActive'.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        kwargs.update(locals())
-
-        if "state" in kwargs:
+        if state is not None:
             options = ["active", "expired", "expiring", "recentlyQueued", "unused", "unusedActive"]
-            assert kwargs["state"] in options, (
-                f'''"state" cannot be "{kwargs["state"]}", & must be set to one of: {options}'''
+            assert state in options, (
+                f'"state" cannot be "{state}", & must be set to one of: {options}'
             )
 
         metadata = {
@@ -4810,20 +5202,24 @@ class Organizations:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/licenses"
 
-        query_params = [
-            "perPage",
-            "startingAfter",
-            "endingBefore",
-            "deviceSerial",
-            "networkId",
-            "state",
-        ]
-        params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
+        params = {}
+        if per_page is not None:
+            params["perPage"] = per_page
+        if starting_after is not None:
+            params["startingAfter"] = starting_after
+        if ending_before is not None:
+            params["endingBefore"] = ending_before
+        if device_serial is not None:
+            params["deviceSerial"] = device_serial
+        if network_id is not None:
+            params["networkId"] = network_id
+        if state is not None:
+            params["state"] = state
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def assign_organization_licenses_seats(
-        self, organization_id: str, licenseId: str, networkId: str, seatCount: int
+        self, organization_id: str, license_id: str, network_id: str, seat_count: int
     ) -> dict[str, Any] | None:
         """Assign SM seats to a network.
 
@@ -4831,14 +5227,12 @@ class Organizations:
 
         Args:
             organization_id: Organization ID.
-            licenseId: The ID of the SM license to assign seats from.
-            networkId: The ID of the SM network to assign the seats to.
-            seatCount: The number of seats to assign to the SM network. Must be less than or equal
+            license_id: The ID of the SM license to assign seats from.
+            network_id: The ID of the SM network to assign the seats to.
+            seat_count: The number of seats to assign to the SM network. Must be less than or equal
               to the total number of seats of the license.
 
         """
-        kwargs = locals()
-
         metadata = {
             "tags": ["organizations", "configure", "licenses"],
             "operation": "assign_organization_licenses_seats",
@@ -4846,17 +5240,18 @@ class Organizations:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/licenses/assignSeats"
 
-        body_params = [
-            "licenseId",
-            "networkId",
-            "seatCount",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if license_id is not None:
+            payload["licenseId"] = license_id
+        if network_id is not None:
+            payload["networkId"] = network_id
+        if seat_count is not None:
+            payload["seatCount"] = seat_count
 
         return self._session.post(metadata, resource, payload)
 
     def move_organization_licenses(
-        self, organization_id: str, destOrganizationId: str, licenseIds: list
+        self, organization_id: str, dest_organization_id: str, license_ids: list
     ) -> dict[str, Any] | None:
         """Move licenses to another organization.
 
@@ -4864,12 +5259,10 @@ class Organizations:
 
         Args:
             organization_id: Organization ID.
-            destOrganizationId: The ID of the organization to move the licenses to.
-            licenseIds: A list of IDs of licenses to move to the new organization.
+            dest_organization_id: The ID of the organization to move the licenses to.
+            license_ids: A list of IDs of licenses to move to the new organization.
 
         """
-        kwargs = locals()
-
         metadata = {
             "tags": ["organizations", "configure", "licenses"],
             "operation": "move_organization_licenses",
@@ -4877,16 +5270,16 @@ class Organizations:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/licenses/move"
 
-        body_params = [
-            "destOrganizationId",
-            "licenseIds",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if dest_organization_id is not None:
+            payload["destOrganizationId"] = dest_organization_id
+        if license_ids is not None:
+            payload["licenseIds"] = license_ids
 
         return self._session.post(metadata, resource, payload)
 
     def move_organization_licenses_seats(
-        self, organization_id: str, destOrganizationId: str, licenseId: str, seatCount: int
+        self, organization_id: str, dest_organization_id: str, license_id: str, seat_count: int
     ) -> dict[str, Any] | None:
         """Move SM seats to another organization.
 
@@ -4894,14 +5287,12 @@ class Organizations:
 
         Args:
             organization_id: Organization ID.
-            destOrganizationId: The ID of the organization to move the SM seats to.
-            licenseId: The ID of the SM license to move the seats from.
-            seatCount: The number of seats to move to the new organization. Must be less than or
+            dest_organization_id: The ID of the organization to move the SM seats to.
+            license_id: The ID of the SM license to move the seats from.
+            seat_count: The number of seats to move to the new organization. Must be less than or
               equal to the total number of seats of the license.
 
         """
-        kwargs = locals()
-
         metadata = {
             "tags": ["organizations", "configure", "licenses"],
             "operation": "move_organization_licenses_seats",
@@ -4909,12 +5300,13 @@ class Organizations:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/licenses/moveSeats"
 
-        body_params = [
-            "destOrganizationId",
-            "licenseId",
-            "seatCount",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if dest_organization_id is not None:
+            payload["destOrganizationId"] = dest_organization_id
+        if license_id is not None:
+            payload["licenseId"] = license_id
+        if seat_count is not None:
+            payload["seatCount"] = seat_count
 
         return self._session.post(metadata, resource, payload)
 
@@ -4937,7 +5329,7 @@ class Organizations:
         return self._session.get(metadata, resource)
 
     def renew_organization_licenses_seats(
-        self, organization_id: str, licenseIdToRenew: str, unusedLicenseId: str
+        self, organization_id: str, license_id_to_renew: str, unused_license_id: str
     ) -> dict[str, Any] | None:
         """Renew SM seats of a license.
 
@@ -4945,15 +5337,13 @@ class Organizations:
 
         Args:
             organization_id: Organization ID.
-            licenseIdToRenew: The ID of the SM license to renew. This license must already be
+            license_id_to_renew: The ID of the SM license to renew. This license must already be
               assigned to an SM network.
-            unusedLicenseId: The SM license to use to renew the seats on 'licenseIdToRenew'. This
+            unused_license_id: The SM license to use to renew the seats on 'licenseIdToRenew'. This
               license must have at least as many seats available as there are seats on
               'licenseIdToRenew'.
 
         """
-        kwargs = locals()
-
         metadata = {
             "tags": ["organizations", "configure", "licenses"],
             "operation": "renew_organization_licenses_seats",
@@ -4961,11 +5351,11 @@ class Organizations:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/licenses/renewSeats"
 
-        body_params = [
-            "licenseIdToRenew",
-            "unusedLicenseId",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if license_id_to_renew is not None:
+            payload["licenseIdToRenew"] = license_id_to_renew
+        if unused_license_id is not None:
+            payload["unusedLicenseId"] = unused_license_id
 
         return self._session.post(metadata, resource, payload)
 
@@ -4992,7 +5382,7 @@ class Organizations:
         return self._session.get(metadata, resource)
 
     def update_organization_license(
-        self, organization_id: str, license_id: str, **kwargs: Any
+        self, organization_id: str, license_id: str, *, device_serial: str | None = None
     ) -> dict[str, Any] | None:
         """Update a license.
 
@@ -5001,13 +5391,11 @@ class Organizations:
         Args:
             organization_id: Organization ID.
             license_id: License ID.
-            deviceSerial: The serial number of the device to assign this license to. Set this to
+            device_serial: The serial number of the device to assign this license to. Set this to
               null to unassign the license. If a different license is already active on
               the device, this parameter will control queueing/dequeuing this license.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["organizations", "configure", "licenses"],
             "operation": "update_organization_license",
@@ -5016,10 +5404,9 @@ class Organizations:
         license_id = urllib.parse.quote(str(license_id), safe="")
         resource = f"/organizations/{organization_id}/licenses/{license_id}"
 
-        body_params = [
-            "deviceSerial",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if device_serial is not None:
+            payload["deviceSerial"] = device_serial
 
         return self._session.put(metadata, resource, payload)
 
@@ -5042,7 +5429,23 @@ class Organizations:
         return self._session.get(metadata, resource)
 
     def update_organization_login_security(
-        self, organization_id: str, **kwargs: Any
+        self,
+        organization_id: str,
+        *,
+        enforce_password_expiration: bool | None = None,
+        password_expiration_days: int | None = None,
+        enforce_different_passwords: bool | None = None,
+        num_different_passwords: int | None = None,
+        enforce_strong_passwords: bool | None = None,
+        minimum_password_length: int | None = None,
+        enforce_account_lockout: bool | None = None,
+        account_lockout_attempts: int | None = None,
+        enforce_idle_timeout: bool | None = None,
+        idle_timeout_minutes: int | None = None,
+        enforce_two_factor_auth: bool | None = None,
+        enforce_login_ip_ranges: bool | None = None,
+        login_ip_ranges: list | None = None,
+        api_authentication: dict | None = None,
     ) -> dict[str, Any] | None:
         """Update the login security settings for an organization.
 
@@ -5050,39 +5453,37 @@ class Organizations:
 
         Args:
             organization_id: Organization ID.
-            enforcePasswordExpiration: Boolean indicating whether users are forced to change their
+            enforce_password_expiration: Boolean indicating whether users are forced to change their
               password every X number of days.
-            passwordExpirationDays: Number of days after which users will be forced to change their
-              password.
-            enforceDifferentPasswords: Boolean indicating whether users, when setting a new
+            password_expiration_days: Number of days after which users will be forced to change
+              their password.
+            enforce_different_passwords: Boolean indicating whether users, when setting a new
               password, are forced to choose a new password that is different from any
               past passwords.
-            numDifferentPasswords: Number of recent passwords that new password must be distinct
+            num_different_passwords: Number of recent passwords that new password must be distinct
               from.
-            enforceStrongPasswords: Deprecated. Values of 'false' are always ignored.
-            minimumPasswordLength: Minimum number of characters required in admins' passwords.
-            enforceAccountLockout: Boolean indicating whether users' Dashboard accounts will be
+            enforce_strong_passwords: Deprecated. Values of 'false' are always ignored.
+            minimum_password_length: Minimum number of characters required in admins' passwords.
+            enforce_account_lockout: Boolean indicating whether users' Dashboard accounts will be
               locked out after a specified number of consecutive failed login attempts.
-            accountLockoutAttempts: Number of consecutive failed login attempts after which users'
+            account_lockout_attempts: Number of consecutive failed login attempts after which users'
               accounts will be locked.
-            enforceIdleTimeout: Boolean indicating whether users will be logged out after being idle
-              for the specified number of minutes.
-            idleTimeoutMinutes: Number of minutes users can remain idle before being logged out of
+            enforce_idle_timeout: Boolean indicating whether users will be logged out after being
+              idle for the specified number of minutes.
+            idle_timeout_minutes: Number of minutes users can remain idle before being logged out of
               their accounts.
-            enforceTwoFactorAuth: Boolean indicating whether users in this organization will be
+            enforce_two_factor_auth: Boolean indicating whether users in this organization will be
               required to use an extra verification code when logging in to Dashboard.
               This code will be sent to their mobile phone via SMS, or can be generated
               by the authenticator application.
-            enforceLoginIpRanges: Boolean indicating whether organization will restrict access to
+            enforce_login_ip_ranges: Boolean indicating whether organization will restrict access to
               Dashboard (including the API) from certain IP addresses.
-            loginIpRanges: List of acceptable IP ranges. Entries can be single IP addresses, IP
+            login_ip_ranges: List of acceptable IP ranges. Entries can be single IP addresses, IP
               address ranges, and CIDR subnets.
-            apiAuthentication: Details for indicating whether organization will restrict access to
+            api_authentication: Details for indicating whether organization will restrict access to
               API (but not Dashboard) to certain IP addresses.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["organizations", "configure", "loginSecurity"],
             "operation": "update_organization_login_security",
@@ -5090,28 +5491,52 @@ class Organizations:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/loginSecurity"
 
-        body_params = [
-            "enforcePasswordExpiration",
-            "passwordExpirationDays",
-            "enforceDifferentPasswords",
-            "numDifferentPasswords",
-            "enforceStrongPasswords",
-            "minimumPasswordLength",
-            "enforceAccountLockout",
-            "accountLockoutAttempts",
-            "enforceIdleTimeout",
-            "idleTimeoutMinutes",
-            "enforceTwoFactorAuth",
-            "enforceLoginIpRanges",
-            "loginIpRanges",
-            "apiAuthentication",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if enforce_password_expiration is not None:
+            payload["enforcePasswordExpiration"] = enforce_password_expiration
+        if password_expiration_days is not None:
+            payload["passwordExpirationDays"] = password_expiration_days
+        if enforce_different_passwords is not None:
+            payload["enforceDifferentPasswords"] = enforce_different_passwords
+        if num_different_passwords is not None:
+            payload["numDifferentPasswords"] = num_different_passwords
+        if enforce_strong_passwords is not None:
+            payload["enforceStrongPasswords"] = enforce_strong_passwords
+        if minimum_password_length is not None:
+            payload["minimumPasswordLength"] = minimum_password_length
+        if enforce_account_lockout is not None:
+            payload["enforceAccountLockout"] = enforce_account_lockout
+        if account_lockout_attempts is not None:
+            payload["accountLockoutAttempts"] = account_lockout_attempts
+        if enforce_idle_timeout is not None:
+            payload["enforceIdleTimeout"] = enforce_idle_timeout
+        if idle_timeout_minutes is not None:
+            payload["idleTimeoutMinutes"] = idle_timeout_minutes
+        if enforce_two_factor_auth is not None:
+            payload["enforceTwoFactorAuth"] = enforce_two_factor_auth
+        if enforce_login_ip_ranges is not None:
+            payload["enforceLoginIpRanges"] = enforce_login_ip_ranges
+        if login_ip_ranges is not None:
+            payload["loginIpRanges"] = login_ip_ranges
+        if api_authentication is not None:
+            payload["apiAuthentication"] = api_authentication
 
         return self._session.put(metadata, resource, payload)
 
     def get_organization_networks(
-        self, organization_id: str, total_pages=1, direction="next", **kwargs: Any
+        self,
+        organization_id: str,
+        *,
+        config_template_id: str | None = None,
+        is_bound_to_config_template: bool | None = None,
+        tags: list | None = None,
+        tags_filter_type: str | None = None,
+        product_types: list | None = None,
+        per_page: int | None = None,
+        starting_after: str | None = None,
+        ending_before: str | None = None,
+        total_pages: str = 1,
+        direction: str = "next",
     ) -> Generator[Any, None, None]:
         """List the networks that the user has privileges on in an organization.
 
@@ -5119,39 +5544,37 @@ class Organizations:
 
         Args:
             organization_id: Organization ID.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
-              "all" for all pages.
-            direction: direction to paginate, either "next" (default) or "prev" page.
-            configTemplateId: An optional parameter that is the ID of a config template. Will return
-              all networks bound to that template.
-            isBoundToConfigTemplate: An optional parameter to filter config template bound networks.
-              If configTemplateId is set, this cannot be false.
+            config_template_id: An optional parameter that is the ID of a config template. Will
+              return all networks bound to that template.
+            is_bound_to_config_template: An optional parameter to filter config template bound
+              networks. If configTemplateId is set, this cannot be false.
             tags: An optional parameter to filter networks by tags. The filtering is case-sensitive.
               If tags are included, 'tagsFilterType' should also be included (see
               below).
-            tagsFilterType: An optional parameter of value 'withAnyTags' or 'withAllTags' to
+            tags_filter_type: An optional parameter of value 'withAnyTags' or 'withAllTags' to
               indicate whether to return networks which contain ANY or ALL of the
               included tags. If no type is included, 'withAnyTags' will be selected.
-            productTypes: An optional parameter to filter networks by product type. Results will
+            product_types: An optional parameter to filter networks by product type. Results will
               have at least one of the included product types.
-            perPage: The number of entries per page returned. Acceptable range is 3 - 100000.
+            per_page: The number of entries per page returned. Acceptable range is 3 - 100000.
               Default is 1000.
-            startingAfter: A token used by the server to indicate the start of the page. Often this
+            starting_after: A token used by the server to indicate the start of the page. Often this
               is a timestamp or an ID but it is not limited to those. This parameter
               should not be defined by client applications. The link for the first,
               last, prev, or next page in the HTTP Link header should define it.
-            endingBefore: A token used by the server to indicate the end of the page. Often this is
+            ending_before: A token used by the server to indicate the end of the page. Often this is
               a timestamp or an ID but it is not limited to those. This parameter should
               not be defined by client applications. The link for the first, last, prev,
               or next page in the HTTP Link header should define it.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        kwargs.update(locals())
-
-        if "tagsFilterType" in kwargs:
+        if tags_filter_type is not None:
             options = ["withAllTags", "withAnyTags"]
-            assert kwargs["tagsFilterType"] in options, (
-                f'''"tagsFilterType" cannot be "{kwargs["tagsFilterType"]}", & must be set to one of: {options}'''
+            assert tags_filter_type in options, (
+                f'"tags_filter_type" cannot be "{tags_filter_type}", & must be set to one of: {options}'
             )
 
         metadata = {
@@ -5161,31 +5584,36 @@ class Organizations:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/networks"
 
-        query_params = [
-            "configTemplateId",
-            "isBoundToConfigTemplate",
-            "tags",
-            "tagsFilterType",
-            "productTypes",
-            "perPage",
-            "startingAfter",
-            "endingBefore",
-        ]
-        params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
-
-        array_params = [
-            "tags",
-            "productTypes",
-        ]
-        for k in kwargs:
-            if k.strip() in array_params:
-                params[f"{k.strip()}[]"] = kwargs[f"{k}"]
-                params.pop(k.strip())
+        params = {}
+        if config_template_id is not None:
+            params["configTemplateId"] = config_template_id
+        if is_bound_to_config_template is not None:
+            params["isBoundToConfigTemplate"] = is_bound_to_config_template
+        if tags is not None:
+            params["tags[]"] = tags
+        if tags_filter_type is not None:
+            params["tagsFilterType"] = tags_filter_type
+        if product_types is not None:
+            params["productTypes[]"] = product_types
+        if per_page is not None:
+            params["perPage"] = per_page
+        if starting_after is not None:
+            params["startingAfter"] = starting_after
+        if ending_before is not None:
+            params["endingBefore"] = ending_before
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def create_organization_network(
-        self, organization_id: str, name: str, productTypes: list, **kwargs: Any
+        self,
+        organization_id: str,
+        name: str,
+        product_types: list,
+        *,
+        tags: list | None = None,
+        time_zone: str | None = None,
+        copy_from_network_id: str | None = None,
+        notes: str | None = None,
     ) -> dict[str, Any] | None:
         """Create a network.
 
@@ -5194,21 +5622,19 @@ class Organizations:
         Args:
             organization_id: Organization ID.
             name: The name of the new network.
-            productTypes: The product type(s) of the new network. If more than one type is included,
-              the network will be a combined network.
+            product_types: The product type(s) of the new network. If more than one type is
+              included, the network will be a combined network.
             tags: A list of tags to be applied to the network.
-            timeZone: The timezone of the network. For a list of allowed timezones, please see the
+            time_zone: The timezone of the network. For a list of allowed timezones, please see the
               'TZ' column in the table in <a target='_blank'
               href='https://en.wikipedia.org/wiki/List_of_tz_database_time_zones'>this
               article.</a>.
-            copyFromNetworkId: The ID of the network to copy configuration from. Other provided
+            copy_from_network_id: The ID of the network to copy configuration from. Other provided
               parameters will override the copied configuration, except type which must
               match this network's type exactly.
             notes: Add any notes or additional information about this network here.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["organizations", "configure", "networks"],
             "operation": "create_organization_network",
@@ -5216,20 +5642,29 @@ class Organizations:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/networks"
 
-        body_params = [
-            "name",
-            "productTypes",
-            "tags",
-            "timeZone",
-            "copyFromNetworkId",
-            "notes",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if name is not None:
+            payload["name"] = name
+        if product_types is not None:
+            payload["productTypes"] = product_types
+        if tags is not None:
+            payload["tags"] = tags
+        if time_zone is not None:
+            payload["timeZone"] = time_zone
+        if copy_from_network_id is not None:
+            payload["copyFromNetworkId"] = copy_from_network_id
+        if notes is not None:
+            payload["notes"] = notes
 
         return self._session.post(metadata, resource, payload)
 
     def combine_organization_networks(
-        self, organization_id: str, name: str, networkIds: list, **kwargs: Any
+        self,
+        organization_id: str,
+        name: str,
+        network_ids: list,
+        *,
+        enrollment_string: str | None = None,
     ) -> dict[str, Any] | None:
         """Combine multiple networks into a single network.
 
@@ -5238,10 +5673,10 @@ class Organizations:
         Args:
             organization_id: Organization ID.
             name: The name of the combined network.
-            networkIds: A list of the network IDs that will be combined. If an ID of a combined
+            network_ids: A list of the network IDs that will be combined. If an ID of a combined
               network is included in this list, the other networks in the list will be
               grouped into that network.
-            enrollmentString: A unique identifier which can be used for device enrollment or easy
+            enrollment_string: A unique identifier which can be used for device enrollment or easy
               access through the Meraki SM Registration page or the Self Service Portal.
               Please note that changing this field may cause existing bookmarks to
               break. All networks that are part of this combined network will have their
@@ -5249,8 +5684,6 @@ class Organizations:
               enrollment strings will be deleted.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["organizations", "configure", "networks"],
             "operation": "combine_organization_networks",
@@ -5258,17 +5691,18 @@ class Organizations:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/networks/combine"
 
-        body_params = [
-            "name",
-            "networkIds",
-            "enrollmentString",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if name is not None:
+            payload["name"] = name
+        if network_ids is not None:
+            payload["networkIds"] = network_ids
+        if enrollment_string is not None:
+            payload["enrollmentString"] = enrollment_string
 
         return self._session.post(metadata, resource, payload)
 
     def get_organization_openapi_spec(
-        self, organization_id: str, **kwargs: Any
+        self, organization_id: str, *, version: int | None = None
     ) -> dict[str, Any] | None:
         """Return the OpenAPI Specification of the organization's API documentation in JSON.
 
@@ -5279,12 +5713,10 @@ class Organizations:
             version: OpenAPI Specification version to return. Default is 2.
 
         """
-        kwargs.update(locals())
-
-        if "version" in kwargs:
+        if version is not None:
             options = [2, 3]
-            assert kwargs["version"] in options, (
-                f'''"version" cannot be "{kwargs["version"]}", & must be set to one of: {options}'''
+            assert version in options, (
+                f'"version" cannot be "{version}", & must be set to one of: {options}'
             )
 
         metadata = {
@@ -5294,15 +5726,25 @@ class Organizations:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/openapiSpec"
 
-        query_params = [
-            "version",
-        ]
-        params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
+        params = {}
+        if version is not None:
+            params["version"] = version
 
         return self._session.get(metadata, resource, params)
 
     def get_organization_policies_assignments_by_client(
-        self, organization_id: str, networkIds: list, total_pages=1, direction="next", **kwargs: Any
+        self,
+        organization_id: str,
+        network_ids: list,
+        *,
+        per_page: int | None = None,
+        starting_after: str | None = None,
+        ending_before: str | None = None,
+        t0: str | None = None,
+        timespan: float | None = None,
+        include_undetected_clients: bool | None = None,
+        total_pages: str = 1,
+        direction: str = "next",
     ) -> Generator[Any, None, None]:
         """Get policies for all clients with policies.
 
@@ -5310,17 +5752,13 @@ class Organizations:
 
         Args:
             organization_id: Organization ID.
-            networkIds: Network Ids (minimum: 1, maximum: 30).
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
-              "all" for all pages.
-            direction: direction to paginate, either "next" (default) or "prev" page.
-            perPage: The number of entries per page returned. Acceptable range is 3 - 1000. Default
+            per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
               is 50.
-            startingAfter: A token used by the server to indicate the start of the page. Often this
+            starting_after: A token used by the server to indicate the start of the page. Often this
               is a timestamp or an ID but it is not limited to those. This parameter
               should not be defined by client applications. The link for the first,
               last, prev, or next page in the HTTP Link header should define it.
-            endingBefore: A token used by the server to indicate the end of the page. Often this is
+            ending_before: A token used by the server to indicate the end of the page. Often this is
               a timestamp or an ID but it is not limited to those. This parameter should
               not be defined by client applications. The link for the first, last, prev,
               or next page in the HTTP Link header should define it.
@@ -5329,12 +5767,14 @@ class Organizations:
             timespan: The timespan for which the information will be fetched. If specifying
               timespan, do not specify parameter t0. The value must be in seconds and be
               less than or equal to 31 days. The default is 1 day.
-            includeUndetectedClients: Include provisioned clients that have not associated to the
+            include_undetected_clients: Include provisioned clients that have not associated to the
               network. Default: false.
+            network_ids: Network Ids (minimum: 1, maximum: 30).
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["organizations", "configure", "policies", "assignments", "byClient"],
             "operation": "get_organization_policies_assignments_by_client",
@@ -5342,29 +5782,33 @@ class Organizations:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/policies/assignments/byClient"
 
-        query_params = [
-            "perPage",
-            "startingAfter",
-            "endingBefore",
-            "t0",
-            "timespan",
-            "includeUndetectedClients",
-            "networkIds",
-        ]
-        params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
-
-        array_params = [
-            "networkIds",
-        ]
-        for k in kwargs:
-            if k.strip() in array_params:
-                params[f"{k.strip()}[]"] = kwargs[f"{k}"]
-                params.pop(k.strip())
+        params = {}
+        if per_page is not None:
+            params["perPage"] = per_page
+        if starting_after is not None:
+            params["startingAfter"] = starting_after
+        if ending_before is not None:
+            params["endingBefore"] = ending_before
+        if t0 is not None:
+            params["t0"] = t0
+        if timespan is not None:
+            params["timespan"] = timespan
+        if include_undetected_clients is not None:
+            params["includeUndetectedClients"] = include_undetected_clients
+        if network_ids is not None:
+            params["networkIds[]"] = network_ids
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def get_organization_policy_objects(
-        self, organization_id: str, total_pages=1, direction="next", **kwargs: Any
+        self,
+        organization_id: str,
+        *,
+        per_page: int | None = None,
+        starting_after: str | None = None,
+        ending_before: str | None = None,
+        total_pages: str = 1,
+        direction: str = "next",
     ) -> Generator[Any, None, None]:
         """Lists Policy Objects belonging to the organization.
 
@@ -5372,23 +5816,21 @@ class Organizations:
 
         Args:
             organization_id: Organization ID.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
-              "all" for all pages.
-            direction: direction to paginate, either "next" (default) or "prev" page.
-            perPage: The number of entries per page returned. Acceptable range is 10 - 5000. Default
-              is 5000.
-            startingAfter: A token used by the server to indicate the start of the page. Often this
+            per_page: The number of entries per page returned. Acceptable range is 10 - 5000.
+              Default is 5000.
+            starting_after: A token used by the server to indicate the start of the page. Often this
               is a timestamp or an ID but it is not limited to those. This parameter
               should not be defined by client applications. The link for the first,
               last, prev, or next page in the HTTP Link header should define it.
-            endingBefore: A token used by the server to indicate the end of the page. Often this is
+            ending_before: A token used by the server to indicate the end of the page. Often this is
               a timestamp or an ID but it is not limited to those. This parameter should
               not be defined by client applications. The link for the first, last, prev,
               or next page in the HTTP Link header should define it.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["organizations", "configure", "policyObjects"],
             "operation": "get_organization_policy_objects",
@@ -5396,17 +5838,28 @@ class Organizations:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/policyObjects"
 
-        query_params = [
-            "perPage",
-            "startingAfter",
-            "endingBefore",
-        ]
-        params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
+        params = {}
+        if per_page is not None:
+            params["perPage"] = per_page
+        if starting_after is not None:
+            params["startingAfter"] = starting_after
+        if ending_before is not None:
+            params["endingBefore"] = ending_before
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def create_organization_policy_object(
-        self, organization_id: str, name: str, category: str, type: str, **kwargs: Any
+        self,
+        organization_id: str,
+        name: str,
+        category: str,
+        type_: str,
+        *,
+        cidr: str | None = None,
+        fqdn: str | None = None,
+        mask: str | None = None,
+        ip: str | None = None,
+        group_ids: list | None = None,
     ) -> dict[str, Any] | None:
         """Creates a new Policy Object.
 
@@ -5417,16 +5870,14 @@ class Organizations:
             name: Name of a policy object, unique within the organization (alphanumeric, space,
               dash, or underscore characters only).
             category: Category of a policy object (one of: adaptivePolicy, network).
-            type: Type of a policy object (one of: adaptivePolicyIpv4Cidr, cidr, fqdn, ipAndMask).
+            type_: Type of a policy object (one of: adaptivePolicyIpv4Cidr, cidr, fqdn, ipAndMask).
             cidr: CIDR Value of a policy object (e.g. 10.11.12.1/24").
             fqdn: Fully qualified domain name of policy object (e.g. "example.com").
             mask: Mask of a policy object (e.g. "255.255.0.0").
             ip: IP Address of a policy object (e.g. "1.2.3.4").
-            groupIds: The IDs of policy object groups the policy object belongs to.
+            group_ids: The IDs of policy object groups the policy object belongs to.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["organizations", "configure", "policyObjects"],
             "operation": "create_organization_policy_object",
@@ -5434,22 +5885,35 @@ class Organizations:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/policyObjects"
 
-        body_params = [
-            "name",
-            "category",
-            "type",
-            "cidr",
-            "fqdn",
-            "mask",
-            "ip",
-            "groupIds",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if name is not None:
+            payload["name"] = name
+        if category is not None:
+            payload["category"] = category
+        if type_ is not None:
+            payload["type"] = type_
+        if cidr is not None:
+            payload["cidr"] = cidr
+        if fqdn is not None:
+            payload["fqdn"] = fqdn
+        if mask is not None:
+            payload["mask"] = mask
+        if ip is not None:
+            payload["ip"] = ip
+        if group_ids is not None:
+            payload["groupIds"] = group_ids
 
         return self._session.post(metadata, resource, payload)
 
     def get_organization_policy_objects_groups(
-        self, organization_id: str, total_pages=1, direction="next", **kwargs: Any
+        self,
+        organization_id: str,
+        *,
+        per_page: int | None = None,
+        starting_after: str | None = None,
+        ending_before: str | None = None,
+        total_pages: str = 1,
+        direction: str = "next",
     ) -> Generator[Any, None, None]:
         """Lists Policy Object Groups belonging to the organization.
 
@@ -5457,23 +5921,21 @@ class Organizations:
 
         Args:
             organization_id: Organization ID.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
-              "all" for all pages.
-            direction: direction to paginate, either "next" (default) or "prev" page.
-            perPage: The number of entries per page returned. Acceptable range is 10 - 1000. Default
-              is 1000.
-            startingAfter: A token used by the server to indicate the start of the page. Often this
+            per_page: The number of entries per page returned. Acceptable range is 10 - 1000.
+              Default is 1000.
+            starting_after: A token used by the server to indicate the start of the page. Often this
               is a timestamp or an ID but it is not limited to those. This parameter
               should not be defined by client applications. The link for the first,
               last, prev, or next page in the HTTP Link header should define it.
-            endingBefore: A token used by the server to indicate the end of the page. Often this is
+            ending_before: A token used by the server to indicate the end of the page. Often this is
               a timestamp or an ID but it is not limited to those. This parameter should
               not be defined by client applications. The link for the first, last, prev,
               or next page in the HTTP Link header should define it.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["organizations", "configure", "policyObjects", "groups"],
             "operation": "get_organization_policy_objects_groups",
@@ -5481,17 +5943,23 @@ class Organizations:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/policyObjects/groups"
 
-        query_params = [
-            "perPage",
-            "startingAfter",
-            "endingBefore",
-        ]
-        params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
+        params = {}
+        if per_page is not None:
+            params["perPage"] = per_page
+        if starting_after is not None:
+            params["startingAfter"] = starting_after
+        if ending_before is not None:
+            params["endingBefore"] = ending_before
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def create_organization_policy_objects_group(
-        self, organization_id: str, name: str, **kwargs: Any
+        self,
+        organization_id: str,
+        name: str,
+        *,
+        category: str | None = None,
+        object_ids: list | None = None,
     ) -> dict[str, Any] | None:
         """Creates a new Policy Object Group.
 
@@ -5503,13 +5971,11 @@ class Organizations:
               (alphanumeric, space, dash, or underscore characters only).
             category: Category of a policy object group (one of: NetworkObjectGroup,
               GeoLocationGroup, PortObjectGroup, ApplicationGroup).
-            objectIds: A list of Policy Object ID's that this NetworkObjectGroup should be
+            object_ids: A list of Policy Object ID's that this NetworkObjectGroup should be
               associated to (note: these ID's will replace the existing associated
               Policy Objects).
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["organizations", "configure", "policyObjects", "groups"],
             "operation": "create_organization_policy_objects_group",
@@ -5517,12 +5983,13 @@ class Organizations:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/policyObjects/groups"
 
-        body_params = [
-            "name",
-            "category",
-            "objectIds",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if name is not None:
+            payload["name"] = name
+        if category is not None:
+            payload["category"] = category
+        if object_ids is not None:
+            payload["objectIds"] = object_ids
 
         return self._session.post(metadata, resource, payload)
 
@@ -5549,7 +6016,12 @@ class Organizations:
         return self._session.get(metadata, resource)
 
     def update_organization_policy_objects_group(
-        self, organization_id: str, policy_object_group_id: str, **kwargs: Any
+        self,
+        organization_id: str,
+        policy_object_group_id: str,
+        *,
+        name: str | None = None,
+        object_ids: list | None = None,
     ) -> dict[str, Any] | None:
         """Updates a Policy Object Group.
 
@@ -5560,13 +6032,11 @@ class Organizations:
             policy_object_group_id: Policy object group ID.
             name: A name for the group of network addresses, unique within the organization
               (alphanumeric, space, dash, or underscore characters only).
-            objectIds: A list of Policy Object ID's that this NetworkObjectGroup should be
+            object_ids: A list of Policy Object ID's that this NetworkObjectGroup should be
               associated to (note: these ID's will replace the existing associated
               Policy Objects).
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["organizations", "configure", "policyObjects", "groups"],
             "operation": "update_organization_policy_objects_group",
@@ -5575,11 +6045,11 @@ class Organizations:
         policy_object_group_id = urllib.parse.quote(str(policy_object_group_id), safe="")
         resource = f"/organizations/{organization_id}/policyObjects/groups/{policy_object_group_id}"
 
-        body_params = [
-            "name",
-            "objectIds",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if name is not None:
+            payload["name"] = name
+        if object_ids is not None:
+            payload["objectIds"] = object_ids
 
         return self._session.put(metadata, resource, payload)
 
@@ -5628,7 +6098,16 @@ class Organizations:
         return self._session.get(metadata, resource)
 
     def update_organization_policy_object(
-        self, organization_id: str, policy_object_id: str, **kwargs: Any
+        self,
+        organization_id: str,
+        policy_object_id: str,
+        *,
+        name: str | None = None,
+        cidr: str | None = None,
+        fqdn: str | None = None,
+        mask: str | None = None,
+        ip: str | None = None,
+        group_ids: list | None = None,
     ) -> dict[str, Any] | None:
         """Updates a Policy Object.
 
@@ -5643,11 +6122,9 @@ class Organizations:
             fqdn: Fully qualified domain name of policy object (e.g. "example.com").
             mask: Mask of a policy object (e.g. "255.255.0.0").
             ip: IP Address of a policy object (e.g. "1.2.3.4").
-            groupIds: The IDs of policy object groups the policy object belongs to.
+            group_ids: The IDs of policy object groups the policy object belongs to.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["organizations", "configure", "policyObjects"],
             "operation": "update_organization_policy_object",
@@ -5656,15 +6133,19 @@ class Organizations:
         policy_object_id = urllib.parse.quote(str(policy_object_id), safe="")
         resource = f"/organizations/{organization_id}/policyObjects/{policy_object_id}"
 
-        body_params = [
-            "name",
-            "cidr",
-            "fqdn",
-            "mask",
-            "ip",
-            "groupIds",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if name is not None:
+            payload["name"] = name
+        if cidr is not None:
+            payload["cidr"] = cidr
+        if fqdn is not None:
+            payload["fqdn"] = fqdn
+        if mask is not None:
+            payload["mask"] = mask
+        if ip is not None:
+            payload["ip"] = ip
+        if group_ids is not None:
+            payload["groupIds"] = group_ids
 
         return self._session.put(metadata, resource, payload)
 
@@ -5709,7 +6190,7 @@ class Organizations:
         return self._session.get(metadata, resource)
 
     def update_organization_saml(
-        self, organization_id: str, **kwargs: Any
+        self, organization_id: str, *, enabled: bool | None = None, sp_initiated: dict | None = None
     ) -> dict[str, Any] | None:
         """Updates the SAML SSO enabled settings for an organization.
 
@@ -5718,11 +6199,9 @@ class Organizations:
         Args:
             organization_id: Organization ID.
             enabled: Boolean for updating SAML SSO enabled settings.
-            spInitiated: SP-Initiated SSO settings.
+            sp_initiated: SP-Initiated SSO settings.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["organizations", "configure", "saml"],
             "operation": "update_organization_saml",
@@ -5730,11 +6209,11 @@ class Organizations:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/saml"
 
-        body_params = [
-            "enabled",
-            "spInitiated",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if enabled is not None:
+            payload["enabled"] = enabled
+        if sp_initiated is not None:
+            payload["spInitiated"] = sp_initiated
 
         return self._session.put(metadata, resource, payload)
 
@@ -5757,7 +6236,12 @@ class Organizations:
         return self._session.get(metadata, resource)
 
     def create_organization_saml_idp(
-        self, organization_id: str, x509certSha1Fingerprint: str, **kwargs: Any
+        self,
+        organization_id: str,
+        x509cert_sha1_fingerprint: str,
+        *,
+        sso_login_url: str | None = None,
+        slo_logout_url: str | None = None,
     ) -> dict[str, Any] | None:
         """Create a SAML IdP for your organization.
 
@@ -5765,15 +6249,13 @@ class Organizations:
 
         Args:
             organization_id: Organization ID.
-            x509certSha1Fingerprint: Fingerprint (SHA1) of the SAML certificate provided by your
+            x509cert_sha1_fingerprint: Fingerprint (SHA1) of the SAML certificate provided by your
               Identity Provider (IdP). This will be used for encryption / validation.
-            ssoLoginUrl: Dashboard will redirect users to this URL to log in again when their
+            sso_login_url: Dashboard will redirect users to this URL to log in again when their
               sessions expire.
-            sloLogoutUrl: Dashboard will redirect users to this URL when they sign out.
+            slo_logout_url: Dashboard will redirect users to this URL when they sign out.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["organizations", "configure", "saml", "idps"],
             "operation": "create_organization_saml_idp",
@@ -5781,17 +6263,24 @@ class Organizations:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/saml/idps"
 
-        body_params = [
-            "x509certSha1Fingerprint",
-            "ssoLoginUrl",
-            "sloLogoutUrl",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if x509cert_sha1_fingerprint is not None:
+            payload["x509certSha1Fingerprint"] = x509cert_sha1_fingerprint
+        if sso_login_url is not None:
+            payload["ssoLoginUrl"] = sso_login_url
+        if slo_logout_url is not None:
+            payload["sloLogoutUrl"] = slo_logout_url
 
         return self._session.post(metadata, resource, payload)
 
     def update_organization_saml_idp(
-        self, organization_id: str, idp_id: str, **kwargs: Any
+        self,
+        organization_id: str,
+        idp_id: str,
+        *,
+        x509cert_sha1_fingerprint: str | None = None,
+        sso_login_url: str | None = None,
+        slo_logout_url: str | None = None,
     ) -> dict[str, Any] | None:
         """Update a SAML IdP in your organization.
 
@@ -5800,15 +6289,13 @@ class Organizations:
         Args:
             organization_id: Organization ID.
             idp_id: Idp ID.
-            x509certSha1Fingerprint: Fingerprint (SHA1) of the SAML certificate provided by your
+            x509cert_sha1_fingerprint: Fingerprint (SHA1) of the SAML certificate provided by your
               Identity Provider (IdP). This will be used for encryption / validation.
-            ssoLoginUrl: Dashboard will redirect users to this URL to log in again when their
+            sso_login_url: Dashboard will redirect users to this URL to log in again when their
               sessions expire.
-            sloLogoutUrl: Dashboard will redirect users to this URL when they sign out.
+            slo_logout_url: Dashboard will redirect users to this URL when they sign out.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["organizations", "configure", "saml", "idps"],
             "operation": "update_organization_saml_idp",
@@ -5817,12 +6304,13 @@ class Organizations:
         idp_id = urllib.parse.quote(str(idp_id), safe="")
         resource = f"/organizations/{organization_id}/saml/idps/{idp_id}"
 
-        body_params = [
-            "x509certSha1Fingerprint",
-            "ssoLoginUrl",
-            "sloLogoutUrl",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if x509cert_sha1_fingerprint is not None:
+            payload["x509certSha1Fingerprint"] = x509cert_sha1_fingerprint
+        if sso_login_url is not None:
+            payload["ssoLoginUrl"] = sso_login_url
+        if slo_logout_url is not None:
+            payload["sloLogoutUrl"] = slo_logout_url
 
         return self._session.put(metadata, resource, payload)
 
@@ -5885,7 +6373,13 @@ class Organizations:
         return self._session.get(metadata, resource)
 
     def create_organization_saml_role(
-        self, organization_id: str, role: str, orgAccess: str, **kwargs: Any
+        self,
+        organization_id: str,
+        role: str,
+        org_access: str,
+        *,
+        tags: list | None = None,
+        networks: list | None = None,
     ) -> dict[str, Any] | None:
         """Create a SAML role.
 
@@ -5894,15 +6388,13 @@ class Organizations:
         Args:
             organization_id: Organization ID.
             role: The role of the SAML administrator.
-            orgAccess: The privilege of the SAML administrator on the organization. Can be one of
+            org_access: The privilege of the SAML administrator on the organization. Can be one of
               'none', 'read-only', 'full' or 'enterprise' or a custom role in the format
               custom-role:ID:NAME.
             tags: The list of tags that the SAML administrator has privileges on.
             networks: The list of networks that the SAML administrator has privileges on.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["organizations", "configure", "samlRoles"],
             "operation": "create_organization_saml_role",
@@ -5910,13 +6402,15 @@ class Organizations:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/samlRoles"
 
-        body_params = [
-            "role",
-            "orgAccess",
-            "tags",
-            "networks",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if role is not None:
+            payload["role"] = role
+        if org_access is not None:
+            payload["orgAccess"] = org_access
+        if tags is not None:
+            payload["tags"] = tags
+        if networks is not None:
+            payload["networks"] = networks
 
         return self._session.post(metadata, resource, payload)
 
@@ -5943,7 +6437,14 @@ class Organizations:
         return self._session.get(metadata, resource)
 
     def update_organization_saml_role(
-        self, organization_id: str, saml_role_id: str, **kwargs: Any
+        self,
+        organization_id: str,
+        saml_role_id: str,
+        *,
+        role: str | None = None,
+        org_access: str | None = None,
+        tags: list | None = None,
+        networks: list | None = None,
     ) -> dict[str, Any] | None:
         """Update a SAML role.
 
@@ -5953,15 +6454,13 @@ class Organizations:
             organization_id: Organization ID.
             saml_role_id: Saml role ID.
             role: The role of the SAML administrator.
-            orgAccess: The privilege of the SAML administrator on the organization. Can be one of
+            org_access: The privilege of the SAML administrator on the organization. Can be one of
               'none', 'read-only', 'full' or 'enterprise' or a custom role in the format
               custom-role:ID:NAME.
             tags: The list of tags that the SAML administrator has privileges on.
             networks: The list of networks that the SAML administrator has privileges on.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["organizations", "configure", "samlRoles"],
             "operation": "update_organization_saml_role",
@@ -5970,13 +6469,15 @@ class Organizations:
         saml_role_id = urllib.parse.quote(str(saml_role_id), safe="")
         resource = f"/organizations/{organization_id}/samlRoles/{saml_role_id}"
 
-        body_params = [
-            "role",
-            "orgAccess",
-            "tags",
-            "networks",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if role is not None:
+            payload["role"] = role
+        if org_access is not None:
+            payload["orgAccess"] = org_access
+        if tags is not None:
+            payload["tags"] = tags
+        if networks is not None:
+            payload["networks"] = networks
 
         return self._session.put(metadata, resource, payload)
 
@@ -6019,7 +6520,16 @@ class Organizations:
         return self._session.get(metadata, resource)
 
     def update_organization_snmp(
-        self, organization_id: str, **kwargs: Any
+        self,
+        organization_id: str,
+        *,
+        v2c_enabled: bool | None = None,
+        v3_enabled: bool | None = None,
+        v3_auth_mode: str | None = None,
+        v3_auth_pass: str | None = None,
+        v3_priv_mode: str | None = None,
+        v3_priv_pass: str | None = None,
+        peer_ips: list | None = None,
     ) -> dict[str, Any] | None:
         """Update the SNMP settings for an organization.
 
@@ -6027,28 +6537,26 @@ class Organizations:
 
         Args:
             organization_id: Organization ID.
-            v2cEnabled: Boolean indicating whether SNMP version 2c is enabled for the organization.
-            v3Enabled: Boolean indicating whether SNMP version 3 is enabled for the organization.
-            v3AuthMode: The SNMP version 3 authentication mode. Can be either 'MD5' or 'SHA'.
-            v3AuthPass: The SNMP version 3 authentication password. Must be at least 8 characters if
+            v2c_enabled: Boolean indicating whether SNMP version 2c is enabled for the organization.
+            v3_enabled: Boolean indicating whether SNMP version 3 is enabled for the organization.
+            v3_auth_mode: The SNMP version 3 authentication mode. Can be either 'MD5' or 'SHA'.
+            v3_auth_pass: The SNMP version 3 authentication password. Must be at least 8 characters
+              if specified.
+            v3_priv_mode: The SNMP version 3 privacy mode. Can be either 'DES' or 'AES128'.
+            v3_priv_pass: The SNMP version 3 privacy password. Must be at least 8 characters if
               specified.
-            v3PrivMode: The SNMP version 3 privacy mode. Can be either 'DES' or 'AES128'.
-            v3PrivPass: The SNMP version 3 privacy password. Must be at least 8 characters if
-              specified.
-            peerIps: The list of IPv4 addresses that are allowed to access the SNMP server.
+            peer_ips: The list of IPv4 addresses that are allowed to access the SNMP server.
 
         """
-        kwargs.update(locals())
-
-        if "v3AuthMode" in kwargs:
+        if v3_auth_mode is not None:
             options = ["MD5", "SHA"]
-            assert kwargs["v3AuthMode"] in options, (
-                f'''"v3AuthMode" cannot be "{kwargs["v3AuthMode"]}", & must be set to one of: {options}'''
+            assert v3_auth_mode in options, (
+                f'"v3_auth_mode" cannot be "{v3_auth_mode}", & must be set to one of: {options}'
             )
-        if "v3PrivMode" in kwargs:
+        if v3_priv_mode is not None:
             options = ["AES128", "DES"]
-            assert kwargs["v3PrivMode"] in options, (
-                f'''"v3PrivMode" cannot be "{kwargs["v3PrivMode"]}", & must be set to one of: {options}'''
+            assert v3_priv_mode in options, (
+                f'"v3_priv_mode" cannot be "{v3_priv_mode}", & must be set to one of: {options}'
             )
 
         metadata = {
@@ -6058,27 +6566,34 @@ class Organizations:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/snmp"
 
-        body_params = [
-            "v2cEnabled",
-            "v3Enabled",
-            "v3AuthMode",
-            "v3AuthPass",
-            "v3PrivMode",
-            "v3PrivPass",
-            "peerIps",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if v2c_enabled is not None:
+            payload["v2cEnabled"] = v2c_enabled
+        if v3_enabled is not None:
+            payload["v3Enabled"] = v3_enabled
+        if v3_auth_mode is not None:
+            payload["v3AuthMode"] = v3_auth_mode
+        if v3_auth_pass is not None:
+            payload["v3AuthPass"] = v3_auth_pass
+        if v3_priv_mode is not None:
+            payload["v3PrivMode"] = v3_priv_mode
+        if v3_priv_pass is not None:
+            payload["v3PrivPass"] = v3_priv_pass
+        if peer_ips is not None:
+            payload["peerIps"] = peer_ips
 
         return self._session.put(metadata, resource, payload)
 
-    def get_organization_splash_asset(self, organization_id: str, id: str) -> dict[str, Any] | None:
+    def get_organization_splash_asset(
+        self, organization_id: str, id_: str
+    ) -> dict[str, Any] | None:
         """Get a Splash Theme Asset.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-splash-asset
 
         Args:
             organization_id: Organization ID.
-            id: ID.
+            id_: ID.
 
         """
         metadata = {
@@ -6086,19 +6601,19 @@ class Organizations:
             "operation": "get_organization_splash_asset",
         }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        id = urllib.parse.quote(str(id), safe="")
-        resource = f"/organizations/{organization_id}/splash/assets/{id}"
+        id_ = urllib.parse.quote(str(id_), safe="")
+        resource = f"/organizations/{organization_id}/splash/assets/{id_}"
 
         return self._session.get(metadata, resource)
 
-    def delete_organization_splash_asset(self, organization_id: str, id: str) -> None:
+    def delete_organization_splash_asset(self, organization_id: str, id_: str) -> None:
         """Delete a Splash Theme Asset.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-splash-asset
 
         Args:
             organization_id: Organization ID.
-            id: ID.
+            id_: ID.
 
         """
         metadata = {
@@ -6106,8 +6621,8 @@ class Organizations:
             "operation": "delete_organization_splash_asset",
         }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        id = urllib.parse.quote(str(id), safe="")
-        resource = f"/organizations/{organization_id}/splash/assets/{id}"
+        id_ = urllib.parse.quote(str(id_), safe="")
+        resource = f"/organizations/{organization_id}/splash/assets/{id_}"
 
         return self._session.delete(metadata, resource)
 
@@ -6130,7 +6645,7 @@ class Organizations:
         return self._session.get(metadata, resource)
 
     def create_organization_splash_theme(
-        self, organization_id: str, **kwargs: Any
+        self, organization_id: str, *, name: str | None = None, base_theme: str | None = None
     ) -> dict[str, Any] | None:
         """Create a Splash Theme.
 
@@ -6139,11 +6654,9 @@ class Organizations:
         Args:
             organization_id: Organization ID.
             name: theme name.
-            baseTheme: base theme id .
+            base_theme: base theme id.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["organizations", "configure", "splash", "themes"],
             "operation": "create_organization_splash_theme",
@@ -6151,22 +6664,22 @@ class Organizations:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/splash/themes"
 
-        body_params = [
-            "name",
-            "baseTheme",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if name is not None:
+            payload["name"] = name
+        if base_theme is not None:
+            payload["baseTheme"] = base_theme
 
         return self._session.post(metadata, resource, payload)
 
-    def delete_organization_splash_theme(self, organization_id: str, id: str) -> None:
+    def delete_organization_splash_theme(self, organization_id: str, id_: str) -> None:
         """Delete a Splash Theme.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-splash-theme
 
         Args:
             organization_id: Organization ID.
-            id: ID.
+            id_: ID.
 
         """
         metadata = {
@@ -6174,13 +6687,18 @@ class Organizations:
             "operation": "delete_organization_splash_theme",
         }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        id = urllib.parse.quote(str(id), safe="")
-        resource = f"/organizations/{organization_id}/splash/themes/{id}"
+        id_ = urllib.parse.quote(str(id_), safe="")
+        resource = f"/organizations/{organization_id}/splash/themes/{id_}"
 
         return self._session.delete(metadata, resource)
 
     def create_organization_splash_theme_asset(
-        self, organization_id: str, theme_identifier: str, **kwargs: Any
+        self,
+        organization_id: str,
+        theme_identifier: str,
+        *,
+        name: str | None = None,
+        content: str | None = None,
     ) -> dict[str, Any] | None:
         """Create a Splash Theme Asset.
 
@@ -6193,8 +6711,6 @@ class Organizations:
             content: a file containing the asset content.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["organizations", "configure", "splash", "themes", "assets"],
             "operation": "create_organization_splash_theme_asset",
@@ -6203,16 +6719,26 @@ class Organizations:
         theme_identifier = urllib.parse.quote(str(theme_identifier), safe="")
         resource = f"/organizations/{organization_id}/splash/themes/{theme_identifier}/assets"
 
-        body_params = [
-            "name",
-            "content",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if name is not None:
+            payload["name"] = name
+        if content is not None:
+            payload["content"] = content
 
         return self._session.post(metadata, resource, payload)
 
     def get_organization_summary_top_appliances_by_utilization(
-        self, organization_id: str, **kwargs: Any
+        self,
+        organization_id: str,
+        *,
+        network_tag: str | None = None,
+        device_tag: str | None = None,
+        quantity: int | None = None,
+        ssid_name: str | None = None,
+        usage_uplink: str | None = None,
+        t0: str | None = None,
+        t1: str | None = None,
+        timespan: float | None = None,
     ) -> dict[str, Any] | None:
         """Return the top 10 appliances sorted by utilization over given time range.
 
@@ -6220,11 +6746,11 @@ class Organizations:
 
         Args:
             organization_id: Organization ID.
-            networkTag: Match result to an exact network tag.
-            deviceTag: Match result to an exact device tag.
+            network_tag: Match result to an exact network tag.
+            device_tag: Match result to an exact device tag.
             quantity: Set number of desired results to return. Default is 10. Maximum is 50.
-            ssidName: Filter results by ssid name.
-            usageUplink: Filter results by usage uplink.
+            ssid_name: Filter results by ssid name.
+            usage_uplink: Filter results by usage uplink.
             t0: The beginning of the timespan for the data.
             t1: The end of the timespan for the data. t1 can be a maximum of 186 days after t0.
             timespan: The timespan for which the information will be fetched. If specifying
@@ -6233,8 +6759,6 @@ class Organizations:
               equal to 186 days. The default is 1 day.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["organizations", "monitor", "summary", "top", "appliances", "byUtilization"],
             "operation": "get_organization_summary_top_appliances_by_utilization",
@@ -6242,22 +6766,39 @@ class Organizations:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/summary/top/appliances/byUtilization"
 
-        query_params = [
-            "networkTag",
-            "deviceTag",
-            "quantity",
-            "ssidName",
-            "usageUplink",
-            "t0",
-            "t1",
-            "timespan",
-        ]
-        params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
+        params = {}
+        if network_tag is not None:
+            params["networkTag"] = network_tag
+        if device_tag is not None:
+            params["deviceTag"] = device_tag
+        if quantity is not None:
+            params["quantity"] = quantity
+        if ssid_name is not None:
+            params["ssidName"] = ssid_name
+        if usage_uplink is not None:
+            params["usageUplink"] = usage_uplink
+        if t0 is not None:
+            params["t0"] = t0
+        if t1 is not None:
+            params["t1"] = t1
+        if timespan is not None:
+            params["timespan"] = timespan
 
         return self._session.get(metadata, resource, params)
 
     def get_organization_summary_top_applications_by_usage(
-        self, organization_id: str, **kwargs: Any
+        self,
+        organization_id: str,
+        *,
+        network_tag: str | None = None,
+        device: str | None = None,
+        network_id: str | None = None,
+        quantity: int | None = None,
+        ssid_name: str | None = None,
+        usage_uplink: str | None = None,
+        t0: str | None = None,
+        t1: str | None = None,
+        timespan: float | None = None,
     ) -> dict[str, Any] | None:
         """Return the top applications sorted by data usage over given time range.
 
@@ -6265,12 +6806,12 @@ class Organizations:
 
         Args:
             organization_id: Organization ID.
-            networkTag: Match result to an exact network tag.
+            network_tag: Match result to an exact network tag.
             device: Match result to an exact device tag.
-            networkId: Match result to an exact network id.
+            network_id: Match result to an exact network id.
             quantity: Set number of desired results to return. Default is 10. Maximum is 50.
-            ssidName: Filter results by ssid name.
-            usageUplink: Filter results by usage uplink.
+            ssid_name: Filter results by ssid name.
+            usage_uplink: Filter results by usage uplink.
             t0: The beginning of the timespan for the data.
             t1: The end of the timespan for the data. t1 can be a maximum of 186 days after t0.
             timespan: The timespan for which the information will be fetched. If specifying
@@ -6279,8 +6820,6 @@ class Organizations:
               equal to 186 days. The default is 1 day.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["organizations", "monitor", "summary", "top", "applications", "byUsage"],
             "operation": "get_organization_summary_top_applications_by_usage",
@@ -6288,23 +6827,41 @@ class Organizations:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/summary/top/applications/byUsage"
 
-        query_params = [
-            "networkTag",
-            "device",
-            "networkId",
-            "quantity",
-            "ssidName",
-            "usageUplink",
-            "t0",
-            "t1",
-            "timespan",
-        ]
-        params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
+        params = {}
+        if network_tag is not None:
+            params["networkTag"] = network_tag
+        if device is not None:
+            params["device"] = device
+        if network_id is not None:
+            params["networkId"] = network_id
+        if quantity is not None:
+            params["quantity"] = quantity
+        if ssid_name is not None:
+            params["ssidName"] = ssid_name
+        if usage_uplink is not None:
+            params["usageUplink"] = usage_uplink
+        if t0 is not None:
+            params["t0"] = t0
+        if t1 is not None:
+            params["t1"] = t1
+        if timespan is not None:
+            params["timespan"] = timespan
 
         return self._session.get(metadata, resource, params)
 
     def get_organization_summary_top_applications_categories_by_usage(
-        self, organization_id: str, **kwargs: Any
+        self,
+        organization_id: str,
+        *,
+        network_tag: str | None = None,
+        device_tag: str | None = None,
+        network_id: str | None = None,
+        quantity: int | None = None,
+        ssid_name: str | None = None,
+        usage_uplink: str | None = None,
+        t0: str | None = None,
+        t1: str | None = None,
+        timespan: float | None = None,
     ) -> dict[str, Any] | None:
         """Return the top application categories sorted by data usage over given time range.
 
@@ -6312,12 +6869,12 @@ class Organizations:
 
         Args:
             organization_id: Organization ID.
-            networkTag: Match result to an exact network tag.
-            deviceTag: Match result to an exact device tag.
-            networkId: Match result to an exact network id.
+            network_tag: Match result to an exact network tag.
+            device_tag: Match result to an exact device tag.
+            network_id: Match result to an exact network id.
             quantity: Set number of desired results to return. Default is 10. Maximum is 50.
-            ssidName: Filter results by ssid name.
-            usageUplink: Filter results by usage uplink.
+            ssid_name: Filter results by ssid name.
+            usage_uplink: Filter results by usage uplink.
             t0: The beginning of the timespan for the data.
             t1: The end of the timespan for the data. t1 can be a maximum of 186 days after t0.
             timespan: The timespan for which the information will be fetched. If specifying
@@ -6326,8 +6883,6 @@ class Organizations:
               equal to 186 days. The default is 1 day.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": [
                 "organizations",
@@ -6343,23 +6898,40 @@ class Organizations:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/summary/top/applications/categories/byUsage"
 
-        query_params = [
-            "networkTag",
-            "deviceTag",
-            "networkId",
-            "quantity",
-            "ssidName",
-            "usageUplink",
-            "t0",
-            "t1",
-            "timespan",
-        ]
-        params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
+        params = {}
+        if network_tag is not None:
+            params["networkTag"] = network_tag
+        if device_tag is not None:
+            params["deviceTag"] = device_tag
+        if network_id is not None:
+            params["networkId"] = network_id
+        if quantity is not None:
+            params["quantity"] = quantity
+        if ssid_name is not None:
+            params["ssidName"] = ssid_name
+        if usage_uplink is not None:
+            params["usageUplink"] = usage_uplink
+        if t0 is not None:
+            params["t0"] = t0
+        if t1 is not None:
+            params["t1"] = t1
+        if timespan is not None:
+            params["timespan"] = timespan
 
         return self._session.get(metadata, resource, params)
 
     def get_organization_summary_top_clients_by_usage(
-        self, organization_id: str, **kwargs: Any
+        self,
+        organization_id: str,
+        *,
+        network_tag: str | None = None,
+        device_tag: str | None = None,
+        quantity: int | None = None,
+        ssid_name: str | None = None,
+        usage_uplink: str | None = None,
+        t0: str | None = None,
+        t1: str | None = None,
+        timespan: float | None = None,
     ) -> dict[str, Any] | None:
         """Return metrics for organization's top 10 clients by data usage (in mb) over given time range.
 
@@ -6367,11 +6939,11 @@ class Organizations:
 
         Args:
             organization_id: Organization ID.
-            networkTag: Match result to an exact network tag.
-            deviceTag: Match result to an exact device tag.
+            network_tag: Match result to an exact network tag.
+            device_tag: Match result to an exact device tag.
             quantity: Set number of desired results to return. Default is 10. Maximum is 50.
-            ssidName: Filter results by ssid name.
-            usageUplink: Filter results by usage uplink.
+            ssid_name: Filter results by ssid name.
+            usage_uplink: Filter results by usage uplink.
             t0: The beginning of the timespan for the data.
             t1: The end of the timespan for the data. t1 can be a maximum of 186 days after t0.
             timespan: The timespan for which the information will be fetched. If specifying
@@ -6380,8 +6952,6 @@ class Organizations:
               to 186 days. The default is 1 day.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["organizations", "monitor", "summary", "top", "clients", "byUsage"],
             "operation": "get_organization_summary_top_clients_by_usage",
@@ -6389,22 +6959,38 @@ class Organizations:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/summary/top/clients/byUsage"
 
-        query_params = [
-            "networkTag",
-            "deviceTag",
-            "quantity",
-            "ssidName",
-            "usageUplink",
-            "t0",
-            "t1",
-            "timespan",
-        ]
-        params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
+        params = {}
+        if network_tag is not None:
+            params["networkTag"] = network_tag
+        if device_tag is not None:
+            params["deviceTag"] = device_tag
+        if quantity is not None:
+            params["quantity"] = quantity
+        if ssid_name is not None:
+            params["ssidName"] = ssid_name
+        if usage_uplink is not None:
+            params["usageUplink"] = usage_uplink
+        if t0 is not None:
+            params["t0"] = t0
+        if t1 is not None:
+            params["t1"] = t1
+        if timespan is not None:
+            params["timespan"] = timespan
 
         return self._session.get(metadata, resource, params)
 
     def get_organization_summary_top_clients_manufacturers_by_usage(
-        self, organization_id: str, **kwargs: Any
+        self,
+        organization_id: str,
+        *,
+        network_tag: str | None = None,
+        device_tag: str | None = None,
+        quantity: int | None = None,
+        ssid_name: str | None = None,
+        usage_uplink: str | None = None,
+        t0: str | None = None,
+        t1: str | None = None,
+        timespan: float | None = None,
     ) -> dict[str, Any] | None:
         """Return metrics for organization's top clients by data usage (in mb) over given time range, grouped by manufacturer.
 
@@ -6412,11 +6998,11 @@ class Organizations:
 
         Args:
             organization_id: Organization ID.
-            networkTag: Match result to an exact network tag.
-            deviceTag: Match result to an exact device tag.
+            network_tag: Match result to an exact network tag.
+            device_tag: Match result to an exact device tag.
             quantity: Set number of desired results to return. Default is 10. Maximum is 50.
-            ssidName: Filter results by ssid name.
-            usageUplink: Filter results by usage uplink.
+            ssid_name: Filter results by ssid name.
+            usage_uplink: Filter results by usage uplink.
             t0: The beginning of the timespan for the data.
             t1: The end of the timespan for the data. t1 can be a maximum of 186 days after t0.
             timespan: The timespan for which the information will be fetched. If specifying
@@ -6424,8 +7010,6 @@ class Organizations:
               seconds and be less than or equal to 186 days. The default is 1 day.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": [
                 "organizations",
@@ -6441,22 +7025,38 @@ class Organizations:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/summary/top/clients/manufacturers/byUsage"
 
-        query_params = [
-            "networkTag",
-            "deviceTag",
-            "quantity",
-            "ssidName",
-            "usageUplink",
-            "t0",
-            "t1",
-            "timespan",
-        ]
-        params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
+        params = {}
+        if network_tag is not None:
+            params["networkTag"] = network_tag
+        if device_tag is not None:
+            params["deviceTag"] = device_tag
+        if quantity is not None:
+            params["quantity"] = quantity
+        if ssid_name is not None:
+            params["ssidName"] = ssid_name
+        if usage_uplink is not None:
+            params["usageUplink"] = usage_uplink
+        if t0 is not None:
+            params["t0"] = t0
+        if t1 is not None:
+            params["t1"] = t1
+        if timespan is not None:
+            params["timespan"] = timespan
 
         return self._session.get(metadata, resource, params)
 
     def get_organization_summary_top_devices_by_usage(
-        self, organization_id: str, **kwargs: Any
+        self,
+        organization_id: str,
+        *,
+        network_tag: str | None = None,
+        device_tag: str | None = None,
+        quantity: int | None = None,
+        ssid_name: str | None = None,
+        usage_uplink: str | None = None,
+        t0: str | None = None,
+        t1: str | None = None,
+        timespan: float | None = None,
     ) -> dict[str, Any] | None:
         """Return metrics for organization's top 10 devices sorted by data usage over given time range.
 
@@ -6464,11 +7064,11 @@ class Organizations:
 
         Args:
             organization_id: Organization ID.
-            networkTag: Match result to an exact network tag.
-            deviceTag: Match result to an exact device tag.
+            network_tag: Match result to an exact network tag.
+            device_tag: Match result to an exact device tag.
             quantity: Set number of desired results to return. Default is 10. Maximum is 50.
-            ssidName: Filter results by ssid name.
-            usageUplink: Filter results by usage uplink.
+            ssid_name: Filter results by ssid name.
+            usage_uplink: Filter results by usage uplink.
             t0: The beginning of the timespan for the data.
             t1: The end of the timespan for the data. t1 can be a maximum of 186 days after t0.
             timespan: The timespan for which the information will be fetched. If specifying
@@ -6477,8 +7077,6 @@ class Organizations:
               to 186 days. The default is 1 day.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["organizations", "monitor", "summary", "top", "devices", "byUsage"],
             "operation": "get_organization_summary_top_devices_by_usage",
@@ -6486,22 +7084,38 @@ class Organizations:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/summary/top/devices/byUsage"
 
-        query_params = [
-            "networkTag",
-            "deviceTag",
-            "quantity",
-            "ssidName",
-            "usageUplink",
-            "t0",
-            "t1",
-            "timespan",
-        ]
-        params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
+        params = {}
+        if network_tag is not None:
+            params["networkTag"] = network_tag
+        if device_tag is not None:
+            params["deviceTag"] = device_tag
+        if quantity is not None:
+            params["quantity"] = quantity
+        if ssid_name is not None:
+            params["ssidName"] = ssid_name
+        if usage_uplink is not None:
+            params["usageUplink"] = usage_uplink
+        if t0 is not None:
+            params["t0"] = t0
+        if t1 is not None:
+            params["t1"] = t1
+        if timespan is not None:
+            params["timespan"] = timespan
 
         return self._session.get(metadata, resource, params)
 
     def get_organization_summary_top_devices_models_by_usage(
-        self, organization_id: str, **kwargs: Any
+        self,
+        organization_id: str,
+        *,
+        network_tag: str | None = None,
+        device_tag: str | None = None,
+        quantity: int | None = None,
+        ssid_name: str | None = None,
+        usage_uplink: str | None = None,
+        t0: str | None = None,
+        t1: str | None = None,
+        timespan: float | None = None,
     ) -> dict[str, Any] | None:
         """Return metrics for organization's top 10 device models sorted by data usage over given time range.
 
@@ -6509,11 +7123,11 @@ class Organizations:
 
         Args:
             organization_id: Organization ID.
-            networkTag: Match result to an exact network tag.
-            deviceTag: Match result to an exact device tag.
+            network_tag: Match result to an exact network tag.
+            device_tag: Match result to an exact device tag.
             quantity: Set number of desired results to return. Default is 10. Maximum is 50.
-            ssidName: Filter results by ssid name.
-            usageUplink: Filter results by usage uplink.
+            ssid_name: Filter results by ssid name.
+            usage_uplink: Filter results by usage uplink.
             t0: The beginning of the timespan for the data.
             t1: The end of the timespan for the data. t1 can be a maximum of 186 days after t0.
             timespan: The timespan for which the information will be fetched. If specifying
@@ -6522,8 +7136,6 @@ class Organizations:
               to 186 days. The default is 1 day.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["organizations", "monitor", "summary", "top", "devices", "models", "byUsage"],
             "operation": "get_organization_summary_top_devices_models_by_usage",
@@ -6531,22 +7143,40 @@ class Organizations:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/summary/top/devices/models/byUsage"
 
-        query_params = [
-            "networkTag",
-            "deviceTag",
-            "quantity",
-            "ssidName",
-            "usageUplink",
-            "t0",
-            "t1",
-            "timespan",
-        ]
-        params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
+        params = {}
+        if network_tag is not None:
+            params["networkTag"] = network_tag
+        if device_tag is not None:
+            params["deviceTag"] = device_tag
+        if quantity is not None:
+            params["quantity"] = quantity
+        if ssid_name is not None:
+            params["ssidName"] = ssid_name
+        if usage_uplink is not None:
+            params["usageUplink"] = usage_uplink
+        if t0 is not None:
+            params["t0"] = t0
+        if t1 is not None:
+            params["t1"] = t1
+        if timespan is not None:
+            params["timespan"] = timespan
 
         return self._session.get(metadata, resource, params)
 
     def get_organization_summary_top_networks_by_status(
-        self, organization_id: str, total_pages=1, direction="next", **kwargs: Any
+        self,
+        organization_id: str,
+        *,
+        network_tag: str | None = None,
+        device_tag: str | None = None,
+        quantity: int | None = None,
+        ssid_name: str | None = None,
+        usage_uplink: str | None = None,
+        per_page: int | None = None,
+        starting_after: str | None = None,
+        ending_before: str | None = None,
+        total_pages: str = 1,
+        direction: str = "next",
     ) -> Generator[Any, None, None]:
         """List the client and status overview information for the networks in an organization.
 
@@ -6554,27 +7184,25 @@ class Organizations:
 
         Args:
             organization_id: Organization ID.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
-              "all" for all pages.
-            direction: direction to paginate, either "next" (default) or "prev" page.
-            networkTag: Match result to an exact network tag.
-            deviceTag: Match result to an exact device tag.
+            network_tag: Match result to an exact network tag.
+            device_tag: Match result to an exact device tag.
             quantity: Set number of desired results to return. Default is 10. Maximum is 50.
-            ssidName: Filter results by ssid name.
-            usageUplink: Filter results by usage uplink.
-            perPage: The number of entries per page returned. Acceptable range is 3 - 5000.
-            startingAfter: A token used by the server to indicate the start of the page. Often this
+            ssid_name: Filter results by ssid name.
+            usage_uplink: Filter results by usage uplink.
+            per_page: The number of entries per page returned. Acceptable range is 3 - 5000.
+            starting_after: A token used by the server to indicate the start of the page. Often this
               is a timestamp or an ID but it is not limited to those. This parameter
               should not be defined by client applications. The link for the first,
               last, prev, or next page in the HTTP Link header should define it.
-            endingBefore: A token used by the server to indicate the end of the page. Often this is
+            ending_before: A token used by the server to indicate the end of the page. Often this is
               a timestamp or an ID but it is not limited to those. This parameter should
               not be defined by client applications. The link for the first, last, prev,
               or next page in the HTTP Link header should define it.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["organizations", "monitor", "summary", "top", "networks", "byStatus"],
             "operation": "get_organization_summary_top_networks_by_status",
@@ -6582,22 +7210,38 @@ class Organizations:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/summary/top/networks/byStatus"
 
-        query_params = [
-            "networkTag",
-            "deviceTag",
-            "quantity",
-            "ssidName",
-            "usageUplink",
-            "perPage",
-            "startingAfter",
-            "endingBefore",
-        ]
-        params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
+        params = {}
+        if network_tag is not None:
+            params["networkTag"] = network_tag
+        if device_tag is not None:
+            params["deviceTag"] = device_tag
+        if quantity is not None:
+            params["quantity"] = quantity
+        if ssid_name is not None:
+            params["ssidName"] = ssid_name
+        if usage_uplink is not None:
+            params["usageUplink"] = usage_uplink
+        if per_page is not None:
+            params["perPage"] = per_page
+        if starting_after is not None:
+            params["startingAfter"] = starting_after
+        if ending_before is not None:
+            params["endingBefore"] = ending_before
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def get_organization_summary_top_ssids_by_usage(
-        self, organization_id: str, **kwargs: Any
+        self,
+        organization_id: str,
+        *,
+        network_tag: str | None = None,
+        device_tag: str | None = None,
+        quantity: int | None = None,
+        ssid_name: str | None = None,
+        usage_uplink: str | None = None,
+        t0: str | None = None,
+        t1: str | None = None,
+        timespan: float | None = None,
     ) -> dict[str, Any] | None:
         """Return metrics for organization's top 10 ssids by data usage over given time range.
 
@@ -6605,11 +7249,11 @@ class Organizations:
 
         Args:
             organization_id: Organization ID.
-            networkTag: Match result to an exact network tag.
-            deviceTag: Match result to an exact device tag.
+            network_tag: Match result to an exact network tag.
+            device_tag: Match result to an exact device tag.
             quantity: Set number of desired results to return. Default is 10. Maximum is 50.
-            ssidName: Filter results by ssid name.
-            usageUplink: Filter results by usage uplink.
+            ssid_name: Filter results by ssid name.
+            usage_uplink: Filter results by usage uplink.
             t0: The beginning of the timespan for the data.
             t1: The end of the timespan for the data. t1 can be a maximum of 186 days after t0.
             timespan: The timespan for which the information will be fetched. If specifying
@@ -6618,8 +7262,6 @@ class Organizations:
               to 186 days. The default is 1 day.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["organizations", "monitor", "summary", "top", "ssids", "byUsage"],
             "operation": "get_organization_summary_top_ssids_by_usage",
@@ -6627,22 +7269,38 @@ class Organizations:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/summary/top/ssids/byUsage"
 
-        query_params = [
-            "networkTag",
-            "deviceTag",
-            "quantity",
-            "ssidName",
-            "usageUplink",
-            "t0",
-            "t1",
-            "timespan",
-        ]
-        params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
+        params = {}
+        if network_tag is not None:
+            params["networkTag"] = network_tag
+        if device_tag is not None:
+            params["deviceTag"] = device_tag
+        if quantity is not None:
+            params["quantity"] = quantity
+        if ssid_name is not None:
+            params["ssidName"] = ssid_name
+        if usage_uplink is not None:
+            params["usageUplink"] = usage_uplink
+        if t0 is not None:
+            params["t0"] = t0
+        if t1 is not None:
+            params["t1"] = t1
+        if timespan is not None:
+            params["timespan"] = timespan
 
         return self._session.get(metadata, resource, params)
 
     def get_organization_summary_top_switches_by_energy_usage(
-        self, organization_id: str, **kwargs: Any
+        self,
+        organization_id: str,
+        *,
+        network_tag: str | None = None,
+        device_tag: str | None = None,
+        quantity: int | None = None,
+        ssid_name: str | None = None,
+        usage_uplink: str | None = None,
+        t0: str | None = None,
+        t1: str | None = None,
+        timespan: float | None = None,
     ) -> dict[str, Any] | None:
         """Return metrics for organization's top 10 switches by energy usage over given time range.
 
@@ -6650,11 +7308,11 @@ class Organizations:
 
         Args:
             organization_id: Organization ID.
-            networkTag: Match result to an exact network tag.
-            deviceTag: Match result to an exact device tag.
+            network_tag: Match result to an exact network tag.
+            device_tag: Match result to an exact device tag.
             quantity: Set number of desired results to return. Default is 10. Maximum is 50.
-            ssidName: Filter results by ssid name.
-            usageUplink: Filter results by usage uplink.
+            ssid_name: Filter results by ssid name.
+            usage_uplink: Filter results by usage uplink.
             t0: The beginning of the timespan for the data.
             t1: The end of the timespan for the data. t1 can be a maximum of 186 days after t0.
             timespan: The timespan for which the information will be fetched. If specifying
@@ -6663,8 +7321,6 @@ class Organizations:
               equal to 186 days. The default is 1 day.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["organizations", "monitor", "summary", "top", "switches", "byEnergyUsage"],
             "operation": "get_organization_summary_top_switches_by_energy_usage",
@@ -6672,22 +7328,38 @@ class Organizations:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/summary/top/switches/byEnergyUsage"
 
-        query_params = [
-            "networkTag",
-            "deviceTag",
-            "quantity",
-            "ssidName",
-            "usageUplink",
-            "t0",
-            "t1",
-            "timespan",
-        ]
-        params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
+        params = {}
+        if network_tag is not None:
+            params["networkTag"] = network_tag
+        if device_tag is not None:
+            params["deviceTag"] = device_tag
+        if quantity is not None:
+            params["quantity"] = quantity
+        if ssid_name is not None:
+            params["ssidName"] = ssid_name
+        if usage_uplink is not None:
+            params["usageUplink"] = usage_uplink
+        if t0 is not None:
+            params["t0"] = t0
+        if t1 is not None:
+            params["t1"] = t1
+        if timespan is not None:
+            params["timespan"] = timespan
 
         return self._session.get(metadata, resource, params)
 
     def get_organization_uplinks_statuses(
-        self, organization_id: str, total_pages=1, direction="next", **kwargs: Any
+        self,
+        organization_id: str,
+        *,
+        per_page: int | None = None,
+        starting_after: str | None = None,
+        ending_before: str | None = None,
+        network_ids: list | None = None,
+        serials: list | None = None,
+        iccids: list | None = None,
+        total_pages: str = 1,
+        direction: str = "next",
     ) -> Generator[Any, None, None]:
         """List the uplink status of every Meraki MX, MG and Z series devices in the organization.
 
@@ -6695,29 +7367,27 @@ class Organizations:
 
         Args:
             organization_id: Organization ID.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
-              "all" for all pages.
-            direction: direction to paginate, either "next" (default) or "prev" page.
-            perPage: The number of entries per page returned. Acceptable range is 3 - 1000. Default
+            per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
               is 1000.
-            startingAfter: A token used by the server to indicate the start of the page. Often this
+            starting_after: A token used by the server to indicate the start of the page. Often this
               is a timestamp or an ID but it is not limited to those. This parameter
               should not be defined by client applications. The link for the first,
               last, prev, or next page in the HTTP Link header should define it.
-            endingBefore: A token used by the server to indicate the end of the page. Often this is
+            ending_before: A token used by the server to indicate the end of the page. Often this is
               a timestamp or an ID but it is not limited to those. This parameter should
               not be defined by client applications. The link for the first, last, prev,
               or next page in the HTTP Link header should define it.
-            networkIds: A list of network IDs. The returned devices will be filtered to only include
-              these networks.
+            network_ids: A list of network IDs. The returned devices will be filtered to only
+              include these networks.
             serials: A list of serial numbers. The returned devices will be filtered to only include
               these serials.
             iccids: A list of ICCIDs. The returned devices will be filtered to only include these
               ICCIDs.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["organizations", "monitor", "uplinks", "statuses"],
             "operation": "get_organization_uplinks_statuses",
@@ -6725,30 +7395,24 @@ class Organizations:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/uplinks/statuses"
 
-        query_params = [
-            "perPage",
-            "startingAfter",
-            "endingBefore",
-            "networkIds",
-            "serials",
-            "iccids",
-        ]
-        params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
-
-        array_params = [
-            "networkIds",
-            "serials",
-            "iccids",
-        ]
-        for k in kwargs:
-            if k.strip() in array_params:
-                params[f"{k.strip()}[]"] = kwargs[f"{k}"]
-                params.pop(k.strip())
+        params = {}
+        if per_page is not None:
+            params["perPage"] = per_page
+        if starting_after is not None:
+            params["startingAfter"] = starting_after
+        if ending_before is not None:
+            params["endingBefore"] = ending_before
+        if network_ids is not None:
+            params["networkIds[]"] = network_ids
+        if serials is not None:
+            params["serials[]"] = serials
+        if iccids is not None:
+            params["iccids[]"] = iccids
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def get_organization_webhooks_alert_types(
-        self, organization_id: str, **kwargs: Any
+        self, organization_id: str, *, product_type: str | None = None
     ) -> dict[str, Any] | None:
         """Return a list of alert types to be used with managing webhook alerts.
 
@@ -6756,12 +7420,10 @@ class Organizations:
 
         Args:
             organization_id: Organization ID.
-            productType: Filter sample alerts to a specific product type.
+            product_type: Filter sample alerts to a specific product type.
 
         """
-        kwargs.update(locals())
-
-        if "productType" in kwargs:
+        if product_type is not None:
             options = [
                 "appliance",
                 "camera",
@@ -6772,8 +7434,8 @@ class Organizations:
                 "switch",
                 "wireless",
             ]
-            assert kwargs["productType"] in options, (
-                f'''"productType" cannot be "{kwargs["productType"]}", & must be set to one of: {options}'''
+            assert product_type in options, (
+                f'"product_type" cannot be "{product_type}", & must be set to one of: {options}'
             )
 
         metadata = {
@@ -6783,10 +7445,9 @@ class Organizations:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/webhooks/alertTypes"
 
-        query_params = [
-            "productType",
-        ]
-        params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
+        params = {}
+        if product_type is not None:
+            params["productType"] = product_type
 
         return self._session.get(metadata, resource, params)
 
@@ -6813,7 +7474,18 @@ class Organizations:
         return self._session.get(metadata, resource)
 
     def get_organization_webhooks_logs(
-        self, organization_id: str, total_pages=1, direction="next", **kwargs: Any
+        self,
+        organization_id: str,
+        *,
+        t0: str | None = None,
+        t1: str | None = None,
+        timespan: float | None = None,
+        per_page: int | None = None,
+        starting_after: str | None = None,
+        ending_before: str | None = None,
+        url: str | None = None,
+        total_pages: str = 1,
+        direction: str = "next",
     ) -> Generator[Any, None, None]:
         """Return the log of webhook POSTs sent.
 
@@ -6821,30 +7493,28 @@ class Organizations:
 
         Args:
             organization_id: Organization ID.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
-              "all" for all pages.
-            direction: direction to paginate, either "next" (default) or "prev" page.
             t0: The beginning of the timespan for the data. The maximum lookback period is 90 days
               from today.
             t1: The end of the timespan for the data. t1 can be a maximum of 31 days after t0.
             timespan: The timespan for which the information will be fetched. If specifying
               timespan, do not specify parameters t0 and t1. The value must be in
               seconds and be less than or equal to 31 days. The default is 1 day.
-            perPage: The number of entries per page returned. Acceptable range is 3 - 1000. Default
+            per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
               is 50.
-            startingAfter: A token used by the server to indicate the start of the page. Often this
+            starting_after: A token used by the server to indicate the start of the page. Often this
               is a timestamp or an ID but it is not limited to those. This parameter
               should not be defined by client applications. The link for the first,
               last, prev, or next page in the HTTP Link header should define it.
-            endingBefore: A token used by the server to indicate the end of the page. Often this is
+            ending_before: A token used by the server to indicate the end of the page. Often this is
               a timestamp or an ID but it is not limited to those. This parameter should
               not be defined by client applications. The link for the first, last, prev,
               or next page in the HTTP Link header should define it.
             url: The URL the webhook was sent to.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["organizations", "monitor", "webhooks", "logs"],
             "operation": "get_organization_webhooks_logs",
@@ -6852,15 +7522,20 @@ class Organizations:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/webhooks/logs"
 
-        query_params = [
-            "t0",
-            "t1",
-            "timespan",
-            "perPage",
-            "startingAfter",
-            "endingBefore",
-            "url",
-        ]
-        params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
+        params = {}
+        if t0 is not None:
+            params["t0"] = t0
+        if t1 is not None:
+            params["t1"] = t1
+        if timespan is not None:
+            params["timespan"] = timespan
+        if per_page is not None:
+            params["perPage"] = per_page
+        if starting_after is not None:
+            params["startingAfter"] = starting_after
+        if ending_before is not None:
+            params["endingBefore"] = ending_before
+        if url is not None:
+            params["url"] = url
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)

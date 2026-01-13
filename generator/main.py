@@ -24,9 +24,76 @@ REVERSE_PAGINATION = ["getNetworkEvents", "getOrganizationConfigurationChanges"]
 INDENT_WIDTH = 12
 DOCSTRING_LINE_WIDTH = 100 - INDENT_WIDTH
 
+# Python keywords and builtins that cannot be used as parameter names
+RESERVED_NAMES = {
+    # Keywords
+    "False",
+    "None",
+    "True",
+    "and",
+    "as",
+    "assert",
+    "async",
+    "await",
+    "break",
+    "class",
+    "continue",
+    "def",
+    "del",
+    "elif",
+    "else",
+    "except",
+    "finally",
+    "for",
+    "from",
+    "global",
+    "if",
+    "import",
+    "in",
+    "is",
+    "lambda",
+    "nonlocal",
+    "not",
+    "or",
+    "pass",
+    "raise",
+    "return",
+    "try",
+    "while",
+    "with",
+    "yield",
+    # Commonly problematic builtins
+    "type",
+    "id",
+    "list",
+    "dict",
+    "set",
+    "str",
+    "int",
+    "float",
+    "bool",
+    "object",
+    "filter",
+    "format",
+    "hash",
+    "input",
+    "open",
+    "range",
+    "zip",
+}
+
+
+def sanitize_description(text: str) -> str:
+    """Clean up description text from OpenAPI spec."""
+    # Replace NO-BREAK SPACE (U+00A0) and other problematic whitespace with regular space
+    text = text.replace("\u00a0", " ").replace("\u2007", " ").replace("\u202f", " ")
+    # Strip leading/trailing whitespace and normalize internal whitespace
+    return " ".join(text.split())
+
 
 def format_param_description(name: str, description: str) -> str:
     """Format a parameter description for Google-style docstring with line wrapping."""
+    description = sanitize_description(description)
     if not description.endswith("."):
         description += "."
     first_line = f"{name}: {description}"
@@ -129,6 +196,39 @@ def docs_url(operation: str) -> str:
 def to_snake_case(name: str) -> str:
     """Convert camelCase or PascalCase to snake_case."""
     return re.sub(r"(?<!^)(?=[A-Z])", "_", name).lower()
+
+
+def sanitize_param_name(name: str) -> str:
+    """Append underscore to reserved Python keywords/builtins."""
+    if name in RESERVED_NAMES:
+        return f"{name}_"
+    return name
+
+
+def convert_path_params(path: str) -> str:
+    """Convert all {paramName} in path to {param_name} (snake_case, sanitized)."""
+
+    def replace_param(match: re.Match[str]) -> str:
+        param = match.group(1)
+        return f"{{{sanitize_param_name(to_snake_case(param))}}}"
+
+    return re.sub(r"\{(\w+)\}", replace_param, path)
+
+
+def get_python_type(param_info: dict[str, Any]) -> str:
+    """Get Python type for a parameter."""
+    type_str = param_info.get("type", "string")
+    if type_str == "array":
+        return "list"
+    if type_str == "number":
+        return "float"
+    if type_str == "integer":
+        return "int"
+    if type_str == "boolean":
+        return "bool"
+    if type_str == "object":
+        return "dict"
+    return "str"
 
 
 def return_params(
@@ -459,7 +559,7 @@ async def generate_library(spec: dict[str, Any], version_number: str, api_versio
                     # Get metadata
                     tags = endpoint["tags"]
                     operation = endpoint["operationId"]
-                    description = str(endpoint["summary"])
+                    description = sanitize_description(str(endpoint["summary"]))
                     if not description.endswith("."):
                         description += "."
 
@@ -467,132 +567,106 @@ async def generate_library(spec: dict[str, Any], version_number: str, api_versio
                     parameters = endpoint.get("parameters", None)
                     request_body = endpoint.get("requestBody", None)
 
-                    # Get path params once and convert to snake_case
+                    # Parse all params
+                    all_params = parse_params(operation, parameters, request_body, spec)
+
+                    # Identify path params
                     orig_path_params = parse_params(
                         operation, parameters, request_body, spec, "path"
                     )
-                    path_params = {to_snake_case(k): v for k, v in orig_path_params.items()}
-                    resource = path
-                    for orig_name in orig_path_params:
-                        resource = resource.replace(
-                            f"{{{orig_name}}}", f"{{{to_snake_case(orig_name)}}}"
-                        )
+                    path_params = {
+                        sanitize_param_name(to_snake_case(k)): v
+                        for k, v in orig_path_params.items()
+                    }
 
-                    # Function definition
-                    definition = ""
-                    parsed_params = parse_params(
-                        operation, parameters, request_body, spec, "required"
-                    )
-                    if parsed_params:
-                        for p, values in parsed_params.items():
-                            param_name = to_snake_case(p) if p in orig_path_params else p
-                            if values["type"] == "array":
-                                definition += f", {param_name}: list"
-                            elif values["type"] == "number":
-                                definition += f", {param_name}: float"
-                            elif values["type"] == "integer":
-                                definition += f", {param_name}: int"
-                            elif values["type"] == "boolean":
-                                definition += f", {param_name}: bool"
-                            elif values["type"] == "object":
-                                definition += f", {param_name}: dict"
-                            elif values["type"] == "string":
-                                definition += f", {param_name}: str"
+                    # Resource string - convert all path params to snake_case
+                    resource = convert_path_params(path)
 
-                        all_parsed_params = parse_params(operation, parameters, request_body, spec)
-                        if "perPage" in all_parsed_params:
-                            if operation in REVERSE_PAGINATION:
-                                definition += ", total_pages=1, direction='prev'"
-                            else:
-                                definition += ", total_pages=1, direction='next'"
-                            if operation == "getNetworkEvents":
-                                definition += ", event_log_end_time=None"
-
-                        optional_params = parse_params(
-                            operation, parameters, request_body, spec, ["optional"]
-                        )
-                        if optional_params:
-                            definition += ", **kwargs: Any"
-
-                    # Docstring
+                    # Function definition construction
+                    positional_args = []
+                    keyword_args = []
+                    query_params = []  # list of (snake, orig)
+                    body_params = []  # list of (snake, orig)
+                    assert_blocks = []  # list of (snake, options)
                     param_descriptions = []
-                    all_params = parse_params(
-                        operation,
-                        parameters,
-                        request_body,
-                        spec,
-                        ["required", "pagination", "optional"],
-                    )
-                    if all_params:
-                        for p, values in all_params.items():
-                            param_name = to_snake_case(p) if p in orig_path_params else p
-                            param_descriptions.append(
-                                format_param_description(param_name, values["description"])
-                            )
 
-                    # Combine keyword args with locals
-                    kwarg_line = ""
-                    optional_params = parse_params(
-                        operation, parameters, request_body, spec, ["optional"]
-                    )
-                    if optional_params:
-                        kwarg_line = "kwargs.update(locals())"
-                    else:
-                        query_body_array = parse_params(
-                            operation,
-                            parameters,
-                            request_body,
-                            spec,
-                            ["query", "array", "body"],
+                    for name, info in all_params.items():
+                        snake_name = sanitize_param_name(to_snake_case(name))
+                        py_type = get_python_type(info)
+
+                        # Add to params maps
+                        if info.get("in") == "query":
+                            key = name
+                            if info.get("type") == "array":
+                                key += "[]"
+                            query_params.append((snake_name, key))
+                        elif info.get("in") == "body":
+                            body_params.append((snake_name, name))
+
+                        # Add to assert blocks
+                        if "enum" in info:
+                            assert_blocks.append((snake_name, info["enum"]))
+
+                        # Add description
+                        param_descriptions.append(
+                            format_param_description(snake_name, info["description"])
                         )
-                        if query_body_array:
-                            kwarg_line = "kwargs = locals()"
 
-                    # Assert valid values for enum
-                    enum_params = parse_params(operation, parameters, request_body, spec, ["enum"])
-                    assert_blocks = []
-                    if enum_params:
-                        for p, values in enum_params.items():
-                            assert_blocks.append((p, values["enum"]))
+                        # Add to signature
+                        if name in orig_path_params or info.get("required"):
+                            positional_args.append(f"{snake_name}: {py_type}")
+                        else:
+                            # Optional
+                            default_val = "None"
+                            type_annot = f"{py_type} | None"
+                            # Handle pagination defaults
+                            if name == "total_pages":
+                                default_val = "1"
+                                type_annot = py_type
+                            elif name == "direction":
+                                default_val = (
+                                    "'prev'" if operation in REVERSE_PAGINATION else "'next'"
+                                )
+                                type_annot = py_type
+
+                            keyword_args.append(f"{snake_name}: {type_annot} = {default_val}")
+
+                    # Construct definition string (template expects leading ", " after self)
+                    if positional_args or keyword_args:
+                        definition = ", " + ", ".join(positional_args)
+                        if keyword_args:
+                            if positional_args:
+                                definition += ", *, "
+                            else:
+                                definition += "*, "
+                            definition += ", ".join(keyword_args)
+                    else:
+                        definition = ""
 
                     # Function body for GET endpoints
-                    query_params = array_params = body_params = {}
-                    is_paginated = False
+                    is_paginated = "total_pages" in all_params
+
                     if method == "get":
-                        query_params = parse_params(
-                            operation, parameters, request_body, spec, "query"
-                        )
-                        array_params = parse_params(
-                            operation, parameters, request_body, spec, "array"
-                        )
-                        pagination_params = parse_params(
-                            operation, parameters, request_body, spec, "pagination"
-                        )
-                        if query_params or array_params:
-                            if pagination_params:
-                                is_paginated = True
-                                if operation == "getNetworkEvents":
-                                    call_line = (
-                                        "return self._session.get_pages"
-                                        "(metadata, resource, params, "
-                                        "total_pages, direction, event_log_end_time)"
-                                    )
-                                else:
-                                    call_line = (
-                                        "return self._session.get_pages"
-                                        "(metadata, resource, params, "
-                                        "total_pages, direction)"
-                                    )
+                        if is_paginated:
+                            if operation == "getNetworkEvents":
+                                call_line = (
+                                    "return self._session.get_pages"
+                                    "(metadata, resource, params, "
+                                    "total_pages, direction, event_log_end_time)"
+                                )
                             else:
-                                call_line = "return self._session.get(metadata, resource, params)"
+                                call_line = (
+                                    "return self._session.get_pages"
+                                    "(metadata, resource, params, "
+                                    "total_pages, direction)"
+                                )
+                        elif query_params:
+                            call_line = "return self._session.get(metadata, resource, params)"
                         else:
                             call_line = "return self._session.get(metadata, resource)"
 
                     # Function body for POST/PUT endpoints
                     elif method in ["post", "put"]:
-                        body_params = parse_params(
-                            operation, parameters, request_body, spec, "body"
-                        )
                         if body_params:
                             call_line = (
                                 f"return self._session.{method}(metadata, resource, payload)"
@@ -630,13 +704,12 @@ async def generate_library(spec: dict[str, Any], version_number: str, api_versio
                                 description=description,
                                 doc_url=docs_url(operation),
                                 descriptions=param_descriptions,
-                                kwarg_line=kwarg_line,
+                                kwarg_line="",
                                 all_params=list(all_params.keys()),
                                 assert_blocks=assert_blocks,
                                 tags=tags,
                                 resource=resource,
                                 query_params=query_params,
-                                array_params=array_params,
                                 body_params=body_params,
                                 path_params=path_params,
                                 call_line=call_line,
@@ -651,13 +724,12 @@ async def generate_library(spec: dict[str, Any], version_number: str, api_versio
                                 description=description,
                                 doc_url=docs_url(operation),
                                 descriptions=param_descriptions,
-                                kwarg_line=kwarg_line,
+                                kwarg_line="",
                                 all_params=list(all_params.keys()),
                                 assert_blocks=assert_blocks,
                                 tags=tags,
                                 resource=resource,
                                 query_params=query_params,
-                                array_params=array_params,
                                 body_params=body_params,
                                 path_params=path_params,
                                 call_line=call_line,
@@ -672,7 +744,7 @@ async def generate_library(spec: dict[str, Any], version_number: str, api_versio
                         # Get metadata
                         tags = endpoint["tags"]
                         operation = endpoint["operationId"]
-                        description = str(endpoint["summary"])
+                        description = sanitize_description(str(endpoint["summary"]))
                         if not description.endswith("."):
                             description += "."
 
@@ -682,105 +754,83 @@ async def generate_library(spec: dict[str, Any], version_number: str, api_versio
                         request_body = endpoint.get("requestBody", None)
 
                         # Get path params once and convert to snake_case
+                        # Identify path params
                         orig_path_params = parse_params(
                             operation, parameters, request_body, spec, "path"
                         )
-                        path_params = {to_snake_case(k): v for k, v in orig_path_params.items()}
-                        resource = path
-                        for orig_name in orig_path_params:
-                            resource = resource.replace(
-                                f"{{{orig_name}}}", f"{{{to_snake_case(orig_name)}}}"
-                            )
+                        path_params = {
+                            sanitize_param_name(to_snake_case(k)): v
+                            for k, v in orig_path_params.items()
+                        }
 
-                        # Function definition
-                        definition = ""
-                        parsed_params = parse_params(
-                            operation, parameters, request_body, spec, "required"
-                        )
-                        if parsed_params:
-                            for p, values in parsed_params.items():
-                                param_name = to_snake_case(p) if p in orig_path_params else p
-                                if values["type"] == "array":
-                                    definition += f", {param_name}: list"
-                                elif values["type"] == "number":
-                                    definition += f", {param_name}: float"
-                                elif values["type"] == "integer":
-                                    definition += f", {param_name}: int"
-                                elif values["type"] == "boolean":
-                                    definition += f", {param_name}: bool"
-                                elif values["type"] == "object":
-                                    definition += f", {param_name}: dict"
-                                elif values["type"] == "string":
-                                    definition += f", {param_name}: str"
+                        # Resource string - convert all path params to snake_case
+                        resource = convert_path_params(path)
 
-                            all_parsed_params = parse_params(
-                                operation, parameters, request_body, spec
-                            )
-                            if "perPage" in all_parsed_params:
-                                if operation in REVERSE_PAGINATION:
-                                    definition += ", total_pages=1, direction='prev'"
-                                else:
-                                    definition += ", total_pages=1, direction='next'"
-                                if operation == "getNetworkEvents":
-                                    definition += ", event_log_end_time=None"
+                        # Parse all params
+                        all_params = parse_params(operation, parameters, request_body, spec)
 
-                            optional_params = parse_params(
-                                operation, parameters, request_body, spec, ["optional"]
-                            )
-                            if optional_params:
-                                definition += ", **kwargs: Any"
-
-                        # Docstring
+                        # Function definition construction
+                        positional_args = []
+                        keyword_args = []
+                        query_params = []  # list of (snake, orig)
+                        body_params = []  # list of (snake, orig)
+                        assert_blocks = []  # list of (snake, options)
                         param_descriptions = []
-                        all_params = parse_params(
-                            operation,
-                            parameters,
-                            request_body,
-                            spec,
-                            ["required", "pagination", "optional"],
-                        )
-                        if all_params:
-                            for p, values in all_params.items():
-                                param_name = to_snake_case(p) if p in orig_path_params else p
-                                param_descriptions.append(
-                                    format_param_description(param_name, values["description"])
-                                )
 
-                        # Combine keyword args with locals
-                        kwarg_line = ""
-                        optional_params = parse_params(
-                            operation, parameters, request_body, spec, ["optional"]
-                        )
-                        if optional_params:
-                            kwarg_line = "kwargs.update(locals())"
-                        else:
-                            query_body_array = parse_params(
-                                operation,
-                                parameters,
-                                request_body,
-                                spec,
-                                ["query", "array", "body"],
+                        for name, info in all_params.items():
+                            snake_name = sanitize_param_name(to_snake_case(name))
+                            py_type = get_python_type(info)
+
+                            # Add to params maps
+                            if info.get("in") == "query":
+                                key = name
+                                if info.get("type") == "array":
+                                    key += "[]"
+                                query_params.append((snake_name, key))
+                            elif info.get("in") == "body":
+                                body_params.append((snake_name, name))
+
+                            # Add to assert blocks
+                            if "enum" in info:
+                                assert_blocks.append((snake_name, info["enum"]))
+
+                            # Add description
+                            param_descriptions.append(
+                                format_param_description(snake_name, info["description"])
                             )
-                            if query_body_array:
-                                kwarg_line = "kwargs = locals()"
 
-                        # Assert valid values for enum
-                        enum_params = parse_params(
-                            operation, parameters, request_body, spec, ["enum"]
-                        )
-                        assert_blocks = []
-                        if enum_params:
-                            for p, values in enum_params.items():
-                                assert_blocks.append((p, values["enum"]))
+                            # Add to signature
+                            if name in orig_path_params or info.get("required"):
+                                positional_args.append(f"{snake_name}: {py_type}")
+                            else:
+                                # Optional
+                                default_val = "None"
+                                type_annot = f"{py_type} | None"
+                                if name == "total_pages":
+                                    default_val = "1"
+                                    type_annot = py_type
+                                elif name == "direction":
+                                    default_val = (
+                                        "'prev'" if operation in REVERSE_PAGINATION else "'next'"
+                                    )
+                                    type_annot = py_type
 
-                        # Function body for GET endpoints
-                        query_params = array_params = body_params = {}
+                                keyword_args.append(f"{snake_name}: {type_annot} = {default_val}")
+
+                        # Construct definition string (template expects leading ", " after self)
+                        if positional_args or keyword_args:
+                            definition = ", " + ", ".join(positional_args)
+                            if keyword_args:
+                                if positional_args:
+                                    definition += ", *, "
+                                else:
+                                    definition += "*, "
+                                definition += ", ".join(keyword_args)
+                        else:
+                            definition = ""
 
                         # Function body for POST/PUT endpoints
                         if method in {"post", "put"}:
-                            body_params = parse_params(
-                                operation, parameters, request_body, spec, "body"
-                            )
                             batch_operation = "create" if method == "post" else "update"
 
                         # Function body for DELETE endpoints
@@ -808,17 +858,17 @@ async def generate_library(spec: dict[str, Any], version_number: str, api_versio
                                     description=description,
                                     doc_url=docs_url(operation),
                                     descriptions=param_descriptions,
-                                    kwarg_line=kwarg_line,
+                                    kwarg_line="",
                                     all_params=list(all_params.keys()),
                                     assert_blocks=assert_blocks,
                                     tags=tags,
                                     resource=resource,
                                     query_params=query_params,
-                                    array_params=array_params,
                                     body_params=body_params,
                                     path_params=path_params,
                                     call_line=call_line,
                                     batch_operation=batch_operation,
+                                    return_type="dict[str, Any]",
                                 )
                             )
 

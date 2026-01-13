@@ -10,7 +10,20 @@ class ActionBatchDevices:
     def __init__(self) -> None:
         pass
 
-    def update_device(self, serial: str, **kwargs: Any) -> dict[str, Any]:
+    def update_device(
+        self,
+        serial: str,
+        *,
+        name: str | None = None,
+        tags: list | None = None,
+        lat: float | None = None,
+        lng: float | None = None,
+        address: str | None = None,
+        notes: str | None = None,
+        move_map_marker: bool | None = None,
+        switch_profile_id: str | None = None,
+        floor_plan_id: str | None = None,
+    ) -> dict[str, Any]:
         """Update the attributes of a device.
 
         https://developer.cisco.com/meraki/api-v1/#!update-device
@@ -23,40 +36,50 @@ class ActionBatchDevices:
             lng: The longitude of a device.
             address: The address of a device.
             notes: The notes for the device. String. Limited to 255 characters.
-            moveMapMarker: Whether or not to set the latitude and longitude of a device based on the
-              new address. Only applies when lat and lng are not specified.
-            switchProfileId: The ID of a switch template to bind to the device (for available switch
-              templates, see the 'Switch Templates' endpoint). Use null to unbind the
-              switch device from the current profile. For a device to be bindable to a
-              switch template, it must (1) be a switch, and (2) belong to a network that
-              is bound to a configuration template.
-            floorPlanId: The floor plan to associate to this device. null disassociates the device
+            move_map_marker: Whether or not to set the latitude and longitude of a device based on
+              the new address. Only applies when lat and lng are not specified.
+            switch_profile_id: The ID of a switch template to bind to the device (for available
+              switch templates, see the 'Switch Templates' endpoint). Use null to unbind
+              the switch device from the current profile. For a device to be bindable to
+              a switch template, it must (1) be a switch, and (2) belong to a network
+              that is bound to a configuration template.
+            floor_plan_id: The floor plan to associate to this device. null disassociates the device
               from the floorplan.
 
         """
-        kwargs.update(locals())
-
         metadata = {"tags": ["devices", "configure"], "operation": "update_device"}
-        serial = urllib.parse.quote(serial, safe="")
+        serial = urllib.parse.quote(str(serial), safe="")
         resource = f"/devices/{serial}"
 
-        body_params = [
-            "name",
-            "tags",
-            "lat",
-            "lng",
-            "address",
-            "notes",
-            "moveMapMarker",
-            "switchProfileId",
-            "floorPlanId",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
-        action = {"resource": resource, "operation": "update", "body": payload}
+        payload = {}
+        if name is not None:
+            payload["name"] = name
+        if tags is not None:
+            payload["tags"] = tags
+        if lat is not None:
+            payload["lat"] = lat
+        if lng is not None:
+            payload["lng"] = lng
+        if address is not None:
+            payload["address"] = address
+        if notes is not None:
+            payload["notes"] = notes
+        if move_map_marker is not None:
+            payload["moveMapMarker"] = move_map_marker
+        if switch_profile_id is not None:
+            payload["switchProfileId"] = switch_profile_id
+        if floor_plan_id is not None:
+            payload["floorPlanId"] = floor_plan_id
+
+        action = {
+            "resource": resource,
+            "operation": "update",
+            "body": payload,
+        }
         return action
 
     def create_device_live_tools_leds_blink(
-        self, serial: str, duration: int, **kwargs: Any
+        self, serial: str, duration: int, *, callback: dict | None = None
     ) -> dict[str, Any]:
         """Enqueue a job to blink LEDs on a device.
 
@@ -69,25 +92,28 @@ class ActionBatchDevices:
               sharedSecret.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["devices", "liveTools", "leds", "blink"],
             "operation": "create_device_live_tools_leds_blink",
         }
-        serial = urllib.parse.quote(serial, safe="")
+        serial = urllib.parse.quote(str(serial), safe="")
         resource = f"/devices/{serial}/liveTools/leds/blink"
 
-        body_params = [
-            "duration",
-            "callback",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
-        action = {"resource": resource, "operation": "create", "body": payload}
+        payload = {}
+        if duration is not None:
+            payload["duration"] = duration
+        if callback is not None:
+            payload["callback"] = callback
+
+        action = {
+            "resource": resource,
+            "operation": "create",
+            "body": payload,
+        }
         return action
 
     def create_device_live_tools_throughput_test(
-        self, serial: str, **kwargs: Any
+        self, serial: str, *, callback: dict | None = None
     ) -> dict[str, Any]:
         """Enqueue a job to test a device throughput, the test will run for 10 secs to test throughput.
 
@@ -99,23 +125,27 @@ class ActionBatchDevices:
               sharedSecret.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["devices", "liveTools", "throughputTest"],
             "operation": "create_device_live_tools_throughput_test",
         }
-        serial = urllib.parse.quote(serial, safe="")
+        serial = urllib.parse.quote(str(serial), safe="")
         resource = f"/devices/{serial}/liveTools/throughputTest"
 
-        body_params = [
-            "callback",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
-        action = {"resource": resource, "operation": "create", "body": payload}
+        payload = {}
+        if callback is not None:
+            payload["callback"] = callback
+
+        action = {
+            "resource": resource,
+            "operation": "create",
+            "body": payload,
+        }
         return action
 
-    def update_device_management_interface(self, serial: str, **kwargs: Any) -> dict[str, Any]:
+    def update_device_management_interface(
+        self, serial: str, *, wan1: dict | None = None, wan2: dict | None = None
+    ) -> dict[str, Any]:
         """Update the management interface settings for a device.
 
         https://developer.cisco.com/meraki/api-v1/#!update-device-management-interface
@@ -126,19 +156,22 @@ class ActionBatchDevices:
             wan2: WAN 2 settings (only for MX devices).
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["devices", "configure", "managementInterface"],
             "operation": "update_device_management_interface",
         }
-        serial = urllib.parse.quote(serial, safe="")
+        serial = urllib.parse.quote(str(serial), safe="")
         resource = f"/devices/{serial}/managementInterface"
 
-        body_params = [
-            "wan1",
-            "wan2",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
-        action = {"resource": resource, "operation": "update", "body": payload}
+        payload = {}
+        if wan1 is not None:
+            payload["wan1"] = wan1
+        if wan2 is not None:
+            payload["wan2"] = wan2
+
+        action = {
+            "resource": resource,
+            "operation": "update",
+            "body": payload,
+        }
         return action

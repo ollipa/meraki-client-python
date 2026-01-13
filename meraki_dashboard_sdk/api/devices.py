@@ -29,7 +29,20 @@ class Devices:
 
         return self._session.get(metadata, resource)
 
-    def update_device(self, serial: str, **kwargs: Any) -> dict[str, Any] | None:
+    def update_device(
+        self,
+        serial: str,
+        *,
+        name: str | None = None,
+        tags: list | None = None,
+        lat: float | None = None,
+        lng: float | None = None,
+        address: str | None = None,
+        notes: str | None = None,
+        move_map_marker: bool | None = None,
+        switch_profile_id: str | None = None,
+        floor_plan_id: str | None = None,
+    ) -> dict[str, Any] | None:
         """Update the attributes of a device.
 
         https://developer.cisco.com/meraki/api-v1/#!update-device
@@ -42,39 +55,51 @@ class Devices:
             lng: The longitude of a device.
             address: The address of a device.
             notes: The notes for the device. String. Limited to 255 characters.
-            moveMapMarker: Whether or not to set the latitude and longitude of a device based on the
-              new address. Only applies when lat and lng are not specified.
-            switchProfileId: The ID of a switch template to bind to the device (for available switch
-              templates, see the 'Switch Templates' endpoint). Use null to unbind the
-              switch device from the current profile. For a device to be bindable to a
-              switch template, it must (1) be a switch, and (2) belong to a network that
-              is bound to a configuration template.
-            floorPlanId: The floor plan to associate to this device. null disassociates the device
+            move_map_marker: Whether or not to set the latitude and longitude of a device based on
+              the new address. Only applies when lat and lng are not specified.
+            switch_profile_id: The ID of a switch template to bind to the device (for available
+              switch templates, see the 'Switch Templates' endpoint). Use null to unbind
+              the switch device from the current profile. For a device to be bindable to
+              a switch template, it must (1) be a switch, and (2) belong to a network
+              that is bound to a configuration template.
+            floor_plan_id: The floor plan to associate to this device. null disassociates the device
               from the floorplan.
 
         """
-        kwargs.update(locals())
-
         metadata = {"tags": ["devices", "configure"], "operation": "update_device"}
         serial = urllib.parse.quote(str(serial), safe="")
         resource = f"/devices/{serial}"
 
-        body_params = [
-            "name",
-            "tags",
-            "lat",
-            "lng",
-            "address",
-            "notes",
-            "moveMapMarker",
-            "switchProfileId",
-            "floorPlanId",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if name is not None:
+            payload["name"] = name
+        if tags is not None:
+            payload["tags"] = tags
+        if lat is not None:
+            payload["lat"] = lat
+        if lng is not None:
+            payload["lng"] = lng
+        if address is not None:
+            payload["address"] = address
+        if notes is not None:
+            payload["notes"] = notes
+        if move_map_marker is not None:
+            payload["moveMapMarker"] = move_map_marker
+        if switch_profile_id is not None:
+            payload["switchProfileId"] = switch_profile_id
+        if floor_plan_id is not None:
+            payload["floorPlanId"] = floor_plan_id
 
         return self._session.put(metadata, resource, payload)
 
-    def blink_device_leds(self, serial: str, **kwargs: Any) -> dict[str, Any] | None:
+    def blink_device_leds(
+        self,
+        serial: str,
+        *,
+        duration: int | None = None,
+        period: int | None = None,
+        duty: int | None = None,
+    ) -> dict[str, Any] | None:
         """Blink the LEDs on a device.
 
         https://developer.cisco.com/meraki/api-v1/#!blink-device-leds
@@ -87,18 +112,17 @@ class Devices:
             duty: The duty cycle as the percent active. Must be between 10 and 90. Default is 50.
 
         """
-        kwargs.update(locals())
-
         metadata = {"tags": ["devices", "liveTools"], "operation": "blink_device_leds"}
         serial = urllib.parse.quote(str(serial), safe="")
         resource = f"/devices/{serial}/blinkLeds"
 
-        body_params = [
-            "duration",
-            "period",
-            "duty",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if duration is not None:
+            payload["duration"] = duration
+        if period is not None:
+            payload["period"] = period
+        if duty is not None:
+            payload["duty"] = duty
 
         return self._session.post(metadata, resource, payload)
 
@@ -120,7 +144,14 @@ class Devices:
 
         return self._session.get(metadata, resource)
 
-    def update_device_cellular_sims(self, serial: str, **kwargs: Any) -> dict[str, Any] | None:
+    def update_device_cellular_sims(
+        self,
+        serial: str,
+        *,
+        sims: list | None = None,
+        sim_ordering: list | None = None,
+        sim_failover: dict | None = None,
+    ) -> dict[str, Any] | None:
         """Updates the SIM and APN configurations for a cellular device.
 
         https://developer.cisco.com/meraki/api-v1/#!update-device-cellular-sims
@@ -129,16 +160,14 @@ class Devices:
             serial: Serial.
             sims: List of SIMs. If a SIM was previously configured and not specified in this
               request, it will remain unchanged.
-            simOrdering: Specifies the ordering of all SIMs for an MG: primary, secondary, and not-
+            sim_ordering: Specifies the ordering of all SIMs for an MG: primary, secondary, and not-
               in-use (when applicable). It's required for devices with 3 or more SIMs
               and can be used in place of 'isPrimary' for dual-SIM devices. To indicate
               eSIM, use 'sim3'. Sim failover will occur only between primary and
               secondary sim slots.
-            simFailover: SIM Failover settings.
+            sim_failover: SIM Failover settings.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["devices", "configure", "cellular", "sims"],
             "operation": "update_device_cellular_sims",
@@ -146,16 +175,19 @@ class Devices:
         serial = urllib.parse.quote(str(serial), safe="")
         resource = f"/devices/{serial}/cellular/sims"
 
-        body_params = [
-            "sims",
-            "simOrdering",
-            "simFailover",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if sims is not None:
+            payload["sims"] = sims
+        if sim_ordering is not None:
+            payload["simOrdering"] = sim_ordering
+        if sim_failover is not None:
+            payload["simFailover"] = sim_failover
 
         return self._session.put(metadata, resource, payload)
 
-    def get_device_clients(self, serial: str, **kwargs: Any) -> dict[str, Any] | None:
+    def get_device_clients(
+        self, serial: str, *, t0: str | None = None, timespan: float | None = None
+    ) -> dict[str, Any] | None:
         """List the clients of a device, up to a maximum of a month ago.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device-clients
@@ -169,22 +201,20 @@ class Devices:
               less than or equal to 31 days. The default is 1 day.
 
         """
-        kwargs.update(locals())
-
         metadata = {"tags": ["devices", "monitor", "clients"], "operation": "get_device_clients"}
         serial = urllib.parse.quote(str(serial), safe="")
         resource = f"/devices/{serial}/clients"
 
-        query_params = [
-            "t0",
-            "timespan",
-        ]
-        params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
+        params = {}
+        if t0 is not None:
+            params["t0"] = t0
+        if timespan is not None:
+            params["timespan"] = timespan
 
         return self._session.get(metadata, resource, params)
 
     def create_device_live_tools_arp_table(
-        self, serial: str, **kwargs: Any
+        self, serial: str, *, callback: dict | None = None
     ) -> dict[str, Any] | None:
         """Enqueue a job to perform a ARP table request for the device.
 
@@ -196,8 +226,6 @@ class Devices:
               sharedSecret.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["devices", "liveTools", "arpTable"],
             "operation": "create_device_live_tools_arp_table",
@@ -205,10 +233,9 @@ class Devices:
         serial = urllib.parse.quote(str(serial), safe="")
         resource = f"/devices/{serial}/liveTools/arpTable"
 
-        body_params = [
-            "callback",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if callback is not None:
+            payload["callback"] = callback
 
         return self._session.post(metadata, resource, payload)
 
@@ -235,7 +262,7 @@ class Devices:
         return self._session.get(metadata, resource)
 
     def create_device_live_tools_cable_test(
-        self, serial: str, ports: list, **kwargs: Any
+        self, serial: str, ports: list, *, callback: dict | None = None
     ) -> dict[str, Any] | None:
         """Enqueue a job to perform a cable test for the device on the specified ports.
 
@@ -243,15 +270,13 @@ class Devices:
 
         Args:
             serial: Serial.
-            ports: A list of ports for which to perform the cable test.  For Catalyst switches, IOS
+            ports: A list of ports for which to perform the cable test. For Catalyst switches, IOS
               interface names are also supported, such as "GigabitEthernet1/0/8",
               "Gi1/0/8", or even "1/0/8".
             callback: Details for the callback. Please include either an httpServerId OR url and
               sharedSecret.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["devices", "liveTools", "cableTest"],
             "operation": "create_device_live_tools_cable_test",
@@ -259,22 +284,22 @@ class Devices:
         serial = urllib.parse.quote(str(serial), safe="")
         resource = f"/devices/{serial}/liveTools/cableTest"
 
-        body_params = [
-            "ports",
-            "callback",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if ports is not None:
+            payload["ports"] = ports
+        if callback is not None:
+            payload["callback"] = callback
 
         return self._session.post(metadata, resource, payload)
 
-    def get_device_live_tools_cable_test(self, serial: str, id: str) -> dict[str, Any] | None:
+    def get_device_live_tools_cable_test(self, serial: str, id_: str) -> dict[str, Any] | None:
         """Return a cable test live tool job.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device-live-tools-cable-test
 
         Args:
             serial: Serial.
-            id: ID.
+            id_: ID.
 
         """
         metadata = {
@@ -282,13 +307,13 @@ class Devices:
             "operation": "get_device_live_tools_cable_test",
         }
         serial = urllib.parse.quote(str(serial), safe="")
-        id = urllib.parse.quote(str(id), safe="")
-        resource = f"/devices/{serial}/liveTools/cableTest/{id}"
+        id_ = urllib.parse.quote(str(id_), safe="")
+        resource = f"/devices/{serial}/liveTools/cableTest/{id_}"
 
         return self._session.get(metadata, resource)
 
     def create_device_live_tools_leds_blink(
-        self, serial: str, duration: int, **kwargs: Any
+        self, serial: str, duration: int, *, callback: dict | None = None
     ) -> dict[str, Any] | None:
         """Enqueue a job to blink LEDs on a device.
 
@@ -301,8 +326,6 @@ class Devices:
               sharedSecret.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["devices", "liveTools", "leds", "blink"],
             "operation": "create_device_live_tools_leds_blink",
@@ -310,11 +333,11 @@ class Devices:
         serial = urllib.parse.quote(str(serial), safe="")
         resource = f"/devices/{serial}/liveTools/leds/blink"
 
-        body_params = [
-            "duration",
-            "callback",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if duration is not None:
+            payload["duration"] = duration
+        if callback is not None:
+            payload["callback"] = callback
 
         return self._session.post(metadata, resource, payload)
 
@@ -341,7 +364,7 @@ class Devices:
         return self._session.get(metadata, resource)
 
     def create_device_live_tools_mac_table(
-        self, serial: str, **kwargs: Any
+        self, serial: str, *, callback: dict | None = None
     ) -> dict[str, Any] | None:
         """Enqueue a job to request the MAC table from the device.
 
@@ -353,8 +376,6 @@ class Devices:
               sharedSecret.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["devices", "liveTools", "macTable"],
             "operation": "create_device_live_tools_mac_table",
@@ -362,10 +383,9 @@ class Devices:
         serial = urllib.parse.quote(str(serial), safe="")
         resource = f"/devices/{serial}/liveTools/macTable"
 
-        body_params = [
-            "callback",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if callback is not None:
+            payload["callback"] = callback
 
         return self._session.post(metadata, resource, payload)
 
@@ -392,7 +412,7 @@ class Devices:
         return self._session.get(metadata, resource)
 
     def create_device_live_tools_multicast_routing(
-        self, serial: str, **kwargs: Any
+        self, serial: str, *, callback: dict | None = None
     ) -> dict[str, Any] | None:
         """Enqueue a job to perform a Multicast routing request for the device.
 
@@ -404,8 +424,6 @@ class Devices:
               sharedSecret.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["devices", "liveTools", "multicastRouting"],
             "operation": "create_device_live_tools_multicast_routing",
@@ -413,10 +431,9 @@ class Devices:
         serial = urllib.parse.quote(str(serial), safe="")
         resource = f"/devices/{serial}/liveTools/multicastRouting"
 
-        body_params = [
-            "callback",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if callback is not None:
+            payload["callback"] = callback
 
         return self._session.post(metadata, resource, payload)
 
@@ -443,7 +460,7 @@ class Devices:
         return self._session.get(metadata, resource)
 
     def create_device_live_tools_ping(
-        self, serial: str, target: str, **kwargs: Any
+        self, serial: str, target: str, *, count: int | None = None, callback: dict | None = None
     ) -> dict[str, Any] | None:
         """Enqueue a job to ping a target host from the device.
 
@@ -457,8 +474,6 @@ class Devices:
               sharedSecret.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["devices", "liveTools", "ping"],
             "operation": "create_device_live_tools_ping",
@@ -466,23 +481,24 @@ class Devices:
         serial = urllib.parse.quote(str(serial), safe="")
         resource = f"/devices/{serial}/liveTools/ping"
 
-        body_params = [
-            "target",
-            "count",
-            "callback",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if target is not None:
+            payload["target"] = target
+        if count is not None:
+            payload["count"] = count
+        if callback is not None:
+            payload["callback"] = callback
 
         return self._session.post(metadata, resource, payload)
 
-    def get_device_live_tools_ping(self, serial: str, id: str) -> dict[str, Any] | None:
+    def get_device_live_tools_ping(self, serial: str, id_: str) -> dict[str, Any] | None:
         """Return a ping job.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device-live-tools-ping
 
         Args:
             serial: Serial.
-            id: ID.
+            id_: ID.
 
         """
         metadata = {
@@ -490,13 +506,13 @@ class Devices:
             "operation": "get_device_live_tools_ping",
         }
         serial = urllib.parse.quote(str(serial), safe="")
-        id = urllib.parse.quote(str(id), safe="")
-        resource = f"/devices/{serial}/liveTools/ping/{id}"
+        id_ = urllib.parse.quote(str(id_), safe="")
+        resource = f"/devices/{serial}/liveTools/ping/{id_}"
 
         return self._session.get(metadata, resource)
 
     def create_device_live_tools_ping_device(
-        self, serial: str, **kwargs: Any
+        self, serial: str, *, count: int | None = None, callback: dict | None = None
     ) -> dict[str, Any] | None:
         """Enqueue a job to check connectivity status to the device.
 
@@ -509,8 +525,6 @@ class Devices:
               sharedSecret.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["devices", "liveTools", "pingDevice"],
             "operation": "create_device_live_tools_ping_device",
@@ -518,22 +532,22 @@ class Devices:
         serial = urllib.parse.quote(str(serial), safe="")
         resource = f"/devices/{serial}/liveTools/pingDevice"
 
-        body_params = [
-            "count",
-            "callback",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if count is not None:
+            payload["count"] = count
+        if callback is not None:
+            payload["callback"] = callback
 
         return self._session.post(metadata, resource, payload)
 
-    def get_device_live_tools_ping_device(self, serial: str, id: str) -> dict[str, Any] | None:
+    def get_device_live_tools_ping_device(self, serial: str, id_: str) -> dict[str, Any] | None:
         """Return a ping device job.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device-live-tools-ping-device
 
         Args:
             serial: Serial.
-            id: ID.
+            id_: ID.
 
         """
         metadata = {
@@ -541,13 +555,13 @@ class Devices:
             "operation": "get_device_live_tools_ping_device",
         }
         serial = urllib.parse.quote(str(serial), safe="")
-        id = urllib.parse.quote(str(id), safe="")
-        resource = f"/devices/{serial}/liveTools/pingDevice/{id}"
+        id_ = urllib.parse.quote(str(id_), safe="")
+        resource = f"/devices/{serial}/liveTools/pingDevice/{id_}"
 
         return self._session.get(metadata, resource)
 
     def create_device_live_tools_throughput_test(
-        self, serial: str, **kwargs: Any
+        self, serial: str, *, callback: dict | None = None
     ) -> dict[str, Any] | None:
         """Enqueue a job to test a device throughput, the test will run for 10 secs to test throughput.
 
@@ -559,8 +573,6 @@ class Devices:
               sharedSecret.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["devices", "liveTools", "throughputTest"],
             "operation": "create_device_live_tools_throughput_test",
@@ -568,10 +580,9 @@ class Devices:
         serial = urllib.parse.quote(str(serial), safe="")
         resource = f"/devices/{serial}/liveTools/throughputTest"
 
-        body_params = [
-            "callback",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if callback is not None:
+            payload["callback"] = callback
 
         return self._session.post(metadata, resource, payload)
 
@@ -598,7 +609,7 @@ class Devices:
         return self._session.get(metadata, resource)
 
     def create_device_live_tools_wake_on_lan(
-        self, serial: str, vlanId: int, mac: str, **kwargs: Any
+        self, serial: str, vlan_id: int, mac: str, *, callback: dict | None = None
     ) -> dict[str, Any] | None:
         """Enqueue a job to send a Wake-on-LAN packet from the device.
 
@@ -606,14 +617,12 @@ class Devices:
 
         Args:
             serial: Serial.
-            vlanId: The target's VLAN (1 to 4094).
+            vlan_id: The target's VLAN (1 to 4094).
             mac: The target's MAC address.
             callback: Details for the callback. Please include either an httpServerId OR url and
               sharedSecret.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["devices", "liveTools", "wakeOnLan"],
             "operation": "create_device_live_tools_wake_on_lan",
@@ -621,12 +630,13 @@ class Devices:
         serial = urllib.parse.quote(str(serial), safe="")
         resource = f"/devices/{serial}/liveTools/wakeOnLan"
 
-        body_params = [
-            "vlanId",
-            "mac",
-            "callback",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if vlan_id is not None:
+            payload["vlanId"] = vlan_id
+        if mac is not None:
+            payload["mac"] = mac
+        if callback is not None:
+            payload["callback"] = callback
 
         return self._session.post(metadata, resource, payload)
 
@@ -668,7 +678,15 @@ class Devices:
         return self._session.get(metadata, resource)
 
     def get_device_loss_and_latency_history(
-        self, serial: str, ip: str, **kwargs: Any
+        self,
+        serial: str,
+        ip: str,
+        *,
+        t0: str | None = None,
+        t1: str | None = None,
+        timespan: float | None = None,
+        resolution: int | None = None,
+        uplink: str | None = None,
     ) -> dict[str, Any] | None:
         """Get the uplink loss percentage and latency in milliseconds, and goodput in kilobits per second for MX, MG and Z devices.
 
@@ -676,7 +694,6 @@ class Devices:
 
         Args:
             serial: Serial.
-            ip: The destination IP used to obtain the requested stats. This is required.
             t0: The beginning of the timespan for the data. The maximum lookback period is 60 days
               from today.
             t1: The end of the timespan for the data. t1 can be a maximum of 31 days after t0.
@@ -687,14 +704,13 @@ class Devices:
               60, 600, 3600, 86400. The default is 60.
             uplink: The WAN uplink used to obtain the requested stats. Valid uplinks are wan1, wan2,
               wan3, cellular. The default is wan1.
+            ip: The destination IP used to obtain the requested stats. This is required.
 
         """
-        kwargs.update(locals())
-
-        if "uplink" in kwargs:
+        if uplink is not None:
             options = ["cellular", "wan1", "wan2", "wan3"]
-            assert kwargs["uplink"] in options, (
-                f'''"uplink" cannot be "{kwargs["uplink"]}", & must be set to one of: {options}'''
+            assert uplink in options, (
+                f'"uplink" cannot be "{uplink}", & must be set to one of: {options}'
             )
 
         metadata = {
@@ -704,15 +720,19 @@ class Devices:
         serial = urllib.parse.quote(str(serial), safe="")
         resource = f"/devices/{serial}/lossAndLatencyHistory"
 
-        query_params = [
-            "t0",
-            "t1",
-            "timespan",
-            "resolution",
-            "uplink",
-            "ip",
-        ]
-        params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
+        params = {}
+        if t0 is not None:
+            params["t0"] = t0
+        if t1 is not None:
+            params["t1"] = t1
+        if timespan is not None:
+            params["timespan"] = timespan
+        if resolution is not None:
+            params["resolution"] = resolution
+        if uplink is not None:
+            params["uplink"] = uplink
+        if ip is not None:
+            params["ip"] = ip
 
         return self._session.get(metadata, resource, params)
 
@@ -735,7 +755,7 @@ class Devices:
         return self._session.get(metadata, resource)
 
     def update_device_management_interface(
-        self, serial: str, **kwargs: Any
+        self, serial: str, *, wan1: dict | None = None, wan2: dict | None = None
     ) -> dict[str, Any] | None:
         """Update the management interface settings for a device.
 
@@ -747,8 +767,6 @@ class Devices:
             wan2: WAN 2 settings (only for MX devices).
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["devices", "configure", "managementInterface"],
             "operation": "update_device_management_interface",
@@ -756,11 +774,11 @@ class Devices:
         serial = urllib.parse.quote(str(serial), safe="")
         resource = f"/devices/{serial}/managementInterface"
 
-        body_params = [
-            "wan1",
-            "wan2",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if wan1 is not None:
+            payload["wan1"] = wan1
+        if wan2 is not None:
+            payload["wan2"] = wan2
 
         return self._session.put(metadata, resource, payload)
 

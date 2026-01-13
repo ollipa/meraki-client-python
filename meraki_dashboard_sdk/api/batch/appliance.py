@@ -10,38 +10,49 @@ class ActionBatchAppliance:
     def __init__(self) -> None:
         pass
 
-    def update_device_appliance_radio_settings(self, serial: str, **kwargs: Any) -> dict[str, Any]:
+    def update_device_appliance_radio_settings(
+        self,
+        serial: str,
+        *,
+        rf_profile_id: str | None = None,
+        two_four_ghz_settings: dict | None = None,
+        five_ghz_settings: dict | None = None,
+    ) -> dict[str, Any]:
         """Update the radio settings of an appliance.
 
         https://developer.cisco.com/meraki/api-v1/#!update-device-appliance-radio-settings
 
         Args:
             serial: Serial.
-            rfProfileId: The ID of an RF profile to assign to the device. If the value of this
+            rf_profile_id: The ID of an RF profile to assign to the device. If the value of this
               parameter is null, the appropriate basic RF profile (indoor or outdoor)
               will be assigned to the device. Assigning an RF profile will clear ALL
               manually configured overrides on the device (channel width, channel,
               power).
-            twoFourGhzSettings: Manual radio settings for 2.4 GHz.
-            fiveGhzSettings: Manual radio settings for 5 GHz.
+            two_four_ghz_settings: Manual radio settings for 2.4 GHz.
+            five_ghz_settings: Manual radio settings for 5 GHz.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["appliance", "configure", "radio", "settings"],
             "operation": "update_device_appliance_radio_settings",
         }
-        serial = urllib.parse.quote(serial, safe="")
+        serial = urllib.parse.quote(str(serial), safe="")
         resource = f"/devices/{serial}/appliance/radio/settings"
 
-        body_params = [
-            "rfProfileId",
-            "twoFourGhzSettings",
-            "fiveGhzSettings",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
-        action = {"resource": resource, "operation": "update", "body": payload}
+        payload = {}
+        if rf_profile_id is not None:
+            payload["rfProfileId"] = rf_profile_id
+        if two_four_ghz_settings is not None:
+            payload["twoFourGhzSettings"] = two_four_ghz_settings
+        if five_ghz_settings is not None:
+            payload["fiveGhzSettings"] = five_ghz_settings
+
+        action = {
+            "resource": resource,
+            "operation": "update",
+            "body": payload,
+        }
         return action
 
     def update_device_appliance_uplinks_settings(
@@ -56,20 +67,22 @@ class ActionBatchAppliance:
             interfaces: Interface settings.
 
         """
-        kwargs = locals()
-
         metadata = {
             "tags": ["appliance", "configure", "uplinks", "settings"],
             "operation": "update_device_appliance_uplinks_settings",
         }
-        serial = urllib.parse.quote(serial, safe="")
+        serial = urllib.parse.quote(str(serial), safe="")
         resource = f"/devices/{serial}/appliance/uplinks/settings"
 
-        body_params = [
-            "interfaces",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
-        action = {"resource": resource, "operation": "update", "body": payload}
+        payload = {}
+        if interfaces is not None:
+            payload["interfaces"] = interfaces
+
+        action = {
+            "resource": resource,
+            "operation": "update",
+            "body": payload,
+        }
         return action
 
     def create_device_appliance_vmx_authentication_token(self, serial: str) -> dict[str, Any]:
@@ -85,7 +98,7 @@ class ActionBatchAppliance:
             "tags": ["appliance", "configure", "vmx", "authenticationToken"],
             "operation": "create_device_appliance_vmx_authentication_token",
         }
-        serial = urllib.parse.quote(serial, safe="")
+        serial = urllib.parse.quote(str(serial), safe="")
         resource = f"/devices/{serial}/appliance/vmx/authenticationToken"
 
         action = {
@@ -95,7 +108,7 @@ class ActionBatchAppliance:
         return action
 
     def update_network_appliance_connectivity_monitoring_destinations(
-        self, network_id: str, **kwargs: Any
+        self, network_id: str, *, destinations: list | None = None
     ) -> dict[str, Any]:
         """Update the connectivity testing destinations for an MX network.
 
@@ -106,24 +119,26 @@ class ActionBatchAppliance:
             destinations: The list of connectivity monitoring destinations.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["appliance", "configure", "connectivityMonitoringDestinations"],
             "operation": "update_network_appliance_connectivity_monitoring_destinations",
         }
-        network_id = urllib.parse.quote(network_id, safe="")
+        network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/appliance/connectivityMonitoringDestinations"
 
-        body_params = [
-            "destinations",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
-        action = {"resource": resource, "operation": "update", "body": payload}
+        payload = {}
+        if destinations is not None:
+            payload["destinations"] = destinations
+
+        action = {
+            "resource": resource,
+            "operation": "update",
+            "body": payload,
+        }
         return action
 
     def update_network_appliance_firewall_l7_firewall_rules(
-        self, network_id: str, **kwargs: Any
+        self, network_id: str, *, rules: list | None = None
     ) -> dict[str, Any]:
         """Update the MX L7 firewall rules for an MX network.
 
@@ -134,20 +149,22 @@ class ActionBatchAppliance:
             rules: An ordered array of the MX L7 firewall rules.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["appliance", "configure", "firewall", "l7FirewallRules"],
             "operation": "update_network_appliance_firewall_l7_firewall_rules",
         }
-        network_id = urllib.parse.quote(network_id, safe="")
+        network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/appliance/firewall/l7FirewallRules"
 
-        body_params = [
-            "rules",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
-        action = {"resource": resource, "operation": "update", "body": payload}
+        payload = {}
+        if rules is not None:
+            payload["rules"] = rules
+
+        action = {
+            "resource": resource,
+            "operation": "update",
+            "body": payload,
+        }
         return action
 
     def update_network_appliance_firewall_multicast_forwarding(
@@ -162,24 +179,35 @@ class ActionBatchAppliance:
             rules: Static multicast forwarding rules. Pass an empty array to clear all rules.
 
         """
-        kwargs = locals()
-
         metadata = {
             "tags": ["appliance", "configure", "firewall", "multicastForwarding"],
             "operation": "update_network_appliance_firewall_multicast_forwarding",
         }
-        network_id = urllib.parse.quote(network_id, safe="")
+        network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/appliance/firewall/multicastForwarding"
 
-        body_params = [
-            "rules",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
-        action = {"resource": resource, "operation": "update", "body": payload}
+        payload = {}
+        if rules is not None:
+            payload["rules"] = rules
+
+        action = {
+            "resource": resource,
+            "operation": "update",
+            "body": payload,
+        }
         return action
 
     def update_network_appliance_port(
-        self, network_id: str, port_id: str, **kwargs: Any
+        self,
+        network_id: str,
+        port_id: str,
+        *,
+        enabled: bool | None = None,
+        drop_untagged_traffic: bool | None = None,
+        type_: str | None = None,
+        vlan: int | None = None,
+        allowed_vlans: str | None = None,
+        access_policy: str | None = None,
     ) -> dict[str, Any]:
         """Update the per-port VLAN settings for a single MX port.
 
@@ -189,44 +217,51 @@ class ActionBatchAppliance:
             network_id: Network ID.
             port_id: Port ID.
             enabled: The status of the port.
-            dropUntaggedTraffic: Trunk port can Drop all Untagged traffic. When true, no VLAN is
+            drop_untagged_traffic: Trunk port can Drop all Untagged traffic. When true, no VLAN is
               required. Access ports cannot have dropUntaggedTraffic set to true.
-            type: The type of the port: 'access' or 'trunk'.
+            type_: The type of the port: 'access' or 'trunk'.
             vlan: Native VLAN when the port is in Trunk mode. Access VLAN when the port is in Access
               mode.
-            allowedVlans: Comma-delimited list of the VLAN ID's allowed on the port, or 'all' to
+            allowed_vlans: Comma-delimited list of the VLAN ID's allowed on the port, or 'all' to
               permit all VLAN's on the port.
-            accessPolicy: The name of the policy. Only applicable to Access ports. Valid values are:
-              'open', '8021x-radius', 'mac-radius', 'hybris-radius' for MX64 or Z3 or
-              any MX supporting the per port authentication feature. Otherwise, 'open'
-              is the only valid value and 'open' is the default value if the field is
-              missing.
+            access_policy: The name of the policy. Only applicable to Access ports. Valid values
+              are: 'open', '8021x-radius', 'mac-radius', 'hybris-radius' for MX64 or Z3
+              or any MX supporting the per port authentication feature. Otherwise,
+              'open' is the only valid value and 'open' is the default value if the
+              field is missing.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["appliance", "configure", "ports"],
             "operation": "update_network_appliance_port",
         }
-        network_id = urllib.parse.quote(network_id, safe="")
-        port_id = urllib.parse.quote(port_id, safe="")
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        port_id = urllib.parse.quote(str(port_id), safe="")
         resource = f"/networks/{network_id}/appliance/ports/{port_id}"
 
-        body_params = [
-            "enabled",
-            "dropUntaggedTraffic",
-            "type",
-            "vlan",
-            "allowedVlans",
-            "accessPolicy",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
-        action = {"resource": resource, "operation": "update", "body": payload}
+        payload = {}
+        if enabled is not None:
+            payload["enabled"] = enabled
+        if drop_untagged_traffic is not None:
+            payload["dropUntaggedTraffic"] = drop_untagged_traffic
+        if type_ is not None:
+            payload["type"] = type_
+        if vlan is not None:
+            payload["vlan"] = vlan
+        if allowed_vlans is not None:
+            payload["allowedVlans"] = allowed_vlans
+        if access_policy is not None:
+            payload["accessPolicy"] = access_policy
+
+        action = {
+            "resource": resource,
+            "operation": "update",
+            "body": payload,
+        }
         return action
 
     def create_network_appliance_prefixes_delegated_static(
-        self, network_id: str, prefix: str, origin: dict, **kwargs: Any
+        self, network_id: str, prefix: str, origin: dict, *, description: str | None = None
     ) -> dict[str, Any]:
         """Add a static delegated prefix from a network.
 
@@ -239,26 +274,36 @@ class ActionBatchAppliance:
             description: A name or description for the prefix.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["appliance", "configure", "prefixes", "delegated", "statics"],
             "operation": "create_network_appliance_prefixes_delegated_static",
         }
-        network_id = urllib.parse.quote(network_id, safe="")
+        network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/appliance/prefixes/delegated/statics"
 
-        body_params = [
-            "prefix",
-            "origin",
-            "description",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
-        action = {"resource": resource, "operation": "create", "body": payload}
+        payload = {}
+        if prefix is not None:
+            payload["prefix"] = prefix
+        if origin is not None:
+            payload["origin"] = origin
+        if description is not None:
+            payload["description"] = description
+
+        action = {
+            "resource": resource,
+            "operation": "create",
+            "body": payload,
+        }
         return action
 
     def update_network_appliance_prefixes_delegated_static(
-        self, network_id: str, static_delegated_prefix_id: str, **kwargs: Any
+        self,
+        network_id: str,
+        static_delegated_prefix_id: str,
+        *,
+        prefix: str | None = None,
+        origin: dict | None = None,
+        description: str | None = None,
     ) -> dict[str, Any]:
         """Update a static delegated prefix from a network.
 
@@ -272,23 +317,27 @@ class ActionBatchAppliance:
             description: A name or description for the prefix.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["appliance", "configure", "prefixes", "delegated", "statics"],
             "operation": "update_network_appliance_prefixes_delegated_static",
         }
-        network_id = urllib.parse.quote(network_id, safe="")
-        static_delegated_prefix_id = urllib.parse.quote(static_delegated_prefix_id, safe="")
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        static_delegated_prefix_id = urllib.parse.quote(str(static_delegated_prefix_id), safe="")
         resource = f"/networks/{network_id}/appliance/prefixes/delegated/statics/{static_delegated_prefix_id}"
 
-        body_params = [
-            "prefix",
-            "origin",
-            "description",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
-        action = {"resource": resource, "operation": "update", "body": payload}
+        payload = {}
+        if prefix is not None:
+            payload["prefix"] = prefix
+        if origin is not None:
+            payload["origin"] = origin
+        if description is not None:
+            payload["description"] = description
+
+        action = {
+            "resource": resource,
+            "operation": "update",
+            "body": payload,
+        }
         return action
 
     def delete_network_appliance_prefixes_delegated_static(
@@ -307,8 +356,8 @@ class ActionBatchAppliance:
             "tags": ["appliance", "configure", "prefixes", "delegated", "statics"],
             "operation": "delete_network_appliance_prefixes_delegated_static",
         }
-        network_id = urllib.parse.quote(network_id, safe="")
-        static_delegated_prefix_id = urllib.parse.quote(static_delegated_prefix_id, safe="")
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        static_delegated_prefix_id = urllib.parse.quote(str(static_delegated_prefix_id), safe="")
         resource = f"/networks/{network_id}/appliance/prefixes/delegated/statics/{static_delegated_prefix_id}"
 
         action = {
@@ -318,7 +367,13 @@ class ActionBatchAppliance:
         return action
 
     def create_network_appliance_rf_profile(
-        self, network_id: str, name: str, **kwargs: Any
+        self,
+        network_id: str,
+        name: str,
+        *,
+        two_four_ghz_settings: dict | None = None,
+        five_ghz_settings: dict | None = None,
+        per_ssid_settings: dict | None = None,
     ) -> dict[str, Any]:
         """Creates new RF profile for this network.
 
@@ -327,32 +382,44 @@ class ActionBatchAppliance:
         Args:
             network_id: Network ID.
             name: The name of the new profile. Must be unique. This param is required on creation.
-            twoFourGhzSettings: Settings related to 2.4Ghz band.
-            fiveGhzSettings: Settings related to 5Ghz band.
-            perSsidSettings: Per-SSID radio settings by number.
+            two_four_ghz_settings: Settings related to 2.4Ghz band.
+            five_ghz_settings: Settings related to 5Ghz band.
+            per_ssid_settings: Per-SSID radio settings by number.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["appliance", "configure", "rfProfiles"],
             "operation": "create_network_appliance_rf_profile",
         }
-        network_id = urllib.parse.quote(network_id, safe="")
+        network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/appliance/rfProfiles"
 
-        body_params = [
-            "name",
-            "twoFourGhzSettings",
-            "fiveGhzSettings",
-            "perSsidSettings",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
-        action = {"resource": resource, "operation": "create", "body": payload}
+        payload = {}
+        if name is not None:
+            payload["name"] = name
+        if two_four_ghz_settings is not None:
+            payload["twoFourGhzSettings"] = two_four_ghz_settings
+        if five_ghz_settings is not None:
+            payload["fiveGhzSettings"] = five_ghz_settings
+        if per_ssid_settings is not None:
+            payload["perSsidSettings"] = per_ssid_settings
+
+        action = {
+            "resource": resource,
+            "operation": "create",
+            "body": payload,
+        }
         return action
 
     def update_network_appliance_rf_profile(
-        self, network_id: str, rf_profile_id: str, **kwargs: Any
+        self,
+        network_id: str,
+        rf_profile_id: str,
+        *,
+        name: str | None = None,
+        two_four_ghz_settings: dict | None = None,
+        five_ghz_settings: dict | None = None,
+        per_ssid_settings: dict | None = None,
     ) -> dict[str, Any]:
         """Updates specified RF profile for this network.
 
@@ -362,29 +429,34 @@ class ActionBatchAppliance:
             network_id: Network ID.
             rf_profile_id: Rf profile ID.
             name: The name of the new profile. Must be unique.
-            twoFourGhzSettings: Settings related to 2.4Ghz band.
-            fiveGhzSettings: Settings related to 5Ghz band.
-            perSsidSettings: Per-SSID radio settings by number.
+            two_four_ghz_settings: Settings related to 2.4Ghz band.
+            five_ghz_settings: Settings related to 5Ghz band.
+            per_ssid_settings: Per-SSID radio settings by number.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["appliance", "configure", "rfProfiles"],
             "operation": "update_network_appliance_rf_profile",
         }
-        network_id = urllib.parse.quote(network_id, safe="")
-        rf_profile_id = urllib.parse.quote(rf_profile_id, safe="")
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        rf_profile_id = urllib.parse.quote(str(rf_profile_id), safe="")
         resource = f"/networks/{network_id}/appliance/rfProfiles/{rf_profile_id}"
 
-        body_params = [
-            "name",
-            "twoFourGhzSettings",
-            "fiveGhzSettings",
-            "perSsidSettings",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
-        action = {"resource": resource, "operation": "update", "body": payload}
+        payload = {}
+        if name is not None:
+            payload["name"] = name
+        if two_four_ghz_settings is not None:
+            payload["twoFourGhzSettings"] = two_four_ghz_settings
+        if five_ghz_settings is not None:
+            payload["fiveGhzSettings"] = five_ghz_settings
+        if per_ssid_settings is not None:
+            payload["perSsidSettings"] = per_ssid_settings
+
+        action = {
+            "resource": resource,
+            "operation": "update",
+            "body": payload,
+        }
         return action
 
     def delete_network_appliance_rf_profile(
@@ -403,8 +475,8 @@ class ActionBatchAppliance:
             "tags": ["appliance", "configure", "rfProfiles"],
             "operation": "delete_network_appliance_rf_profile",
         }
-        network_id = urllib.parse.quote(network_id, safe="")
-        rf_profile_id = urllib.parse.quote(rf_profile_id, safe="")
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        rf_profile_id = urllib.parse.quote(str(rf_profile_id), safe="")
         resource = f"/networks/{network_id}/appliance/rfProfiles/{rf_profile_id}"
 
         action = {
@@ -414,7 +486,7 @@ class ActionBatchAppliance:
         return action
 
     def update_network_appliance_sdwan_internet_policies(
-        self, network_id: str, **kwargs: Any
+        self, network_id: str, *, wan_traffic_uplink_preferences: list | None = None
     ) -> dict[str, Any]:
         """Update SDWAN internet traffic preferences for an MX network.
 
@@ -422,67 +494,89 @@ class ActionBatchAppliance:
 
         Args:
             network_id: Network ID.
-            wanTrafficUplinkPreferences: policies with respective traffic filters for an MX network.
+            wan_traffic_uplink_preferences: policies with respective traffic filters for an MX
+              network.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["appliance", "configure", "sdwan", "internetPolicies"],
             "operation": "update_network_appliance_sdwan_internet_policies",
         }
-        network_id = urllib.parse.quote(network_id, safe="")
+        network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/appliance/sdwan/internetPolicies"
 
-        body_params = [
-            "wanTrafficUplinkPreferences",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
-        action = {"resource": resource, "operation": "update", "body": payload}
+        payload = {}
+        if wan_traffic_uplink_preferences is not None:
+            payload["wanTrafficUplinkPreferences"] = wan_traffic_uplink_preferences
+
+        action = {
+            "resource": resource,
+            "operation": "update",
+            "body": payload,
+        }
         return action
 
-    def update_network_appliance_settings(self, network_id: str, **kwargs: Any) -> dict[str, Any]:
+    def update_network_appliance_settings(
+        self,
+        network_id: str,
+        *,
+        client_tracking_method: str | None = None,
+        deployment_mode: str | None = None,
+        dynamic_dns: dict | None = None,
+    ) -> dict[str, Any]:
         """Update the appliance settings for a network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-settings
 
         Args:
             network_id: Network ID.
-            clientTrackingMethod: Client tracking method of a network.
-            deploymentMode: Deployment mode of a network.
-            dynamicDns: Dynamic DNS settings for a network.
+            client_tracking_method: Client tracking method of a network.
+            deployment_mode: Deployment mode of a network.
+            dynamic_dns: Dynamic DNS settings for a network.
 
         """
-        kwargs.update(locals())
-
-        if "clientTrackingMethod" in kwargs:
+        if client_tracking_method is not None:
             options = ["IP address", "MAC address", "Unique client identifier"]
-            assert kwargs["clientTrackingMethod"] in options, (
-                f'''"clientTrackingMethod" cannot be "{kwargs["clientTrackingMethod"]}", & must be set to one of: {options}'''
+            assert client_tracking_method in options, (
+                f'"client_tracking_method" cannot be "{client_tracking_method}", & must be set to one of: {options}'
             )
-        if "deploymentMode" in kwargs:
+        if deployment_mode is not None:
             options = ["passthrough", "routed"]
-            assert kwargs["deploymentMode"] in options, (
-                f'''"deploymentMode" cannot be "{kwargs["deploymentMode"]}", & must be set to one of: {options}'''
+            assert deployment_mode in options, (
+                f'"deployment_mode" cannot be "{deployment_mode}", & must be set to one of: {options}'
             )
 
         metadata = {
             "tags": ["appliance", "configure", "settings"],
             "operation": "update_network_appliance_settings",
         }
-        network_id = urllib.parse.quote(network_id, safe="")
+        network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/appliance/settings"
 
-        body_params = [
-            "clientTrackingMethod",
-            "deploymentMode",
-            "dynamicDns",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
-        action = {"resource": resource, "operation": "update", "body": payload}
+        payload = {}
+        if client_tracking_method is not None:
+            payload["clientTrackingMethod"] = client_tracking_method
+        if deployment_mode is not None:
+            payload["deploymentMode"] = deployment_mode
+        if dynamic_dns is not None:
+            payload["dynamicDns"] = dynamic_dns
+
+        action = {
+            "resource": resource,
+            "operation": "update",
+            "body": payload,
+        }
         return action
 
-    def update_network_appliance_single_lan(self, network_id: str, **kwargs: Any) -> dict[str, Any]:
+    def update_network_appliance_single_lan(
+        self,
+        network_id: str,
+        *,
+        subnet: str | None = None,
+        appliance_ip: str | None = None,
+        ipv6: dict | None = None,
+        mandatory_dhcp: dict | None = None,
+    ) -> dict[str, Any]:
         """Update single LAN configuration.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-single-lan
@@ -490,35 +584,54 @@ class ActionBatchAppliance:
         Args:
             network_id: Network ID.
             subnet: The subnet of the single LAN configuration.
-            applianceIp: The appliance IP address of the single LAN.
+            appliance_ip: The appliance IP address of the single LAN.
             ipv6: IPv6 configuration on the VLAN.
-            mandatoryDhcp: Mandatory DHCP will enforce that clients connecting to this LAN must use
+            mandatory_dhcp: Mandatory DHCP will enforce that clients connecting to this LAN must use
               the IP address assigned by the DHCP server. Clients who use a static IP
               address won't be able to associate. Only available on firmware versions
               17.0 and above.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["appliance", "configure", "singleLan"],
             "operation": "update_network_appliance_single_lan",
         }
-        network_id = urllib.parse.quote(network_id, safe="")
+        network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/appliance/singleLan"
 
-        body_params = [
-            "subnet",
-            "applianceIp",
-            "ipv6",
-            "mandatoryDhcp",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
-        action = {"resource": resource, "operation": "update", "body": payload}
+        payload = {}
+        if subnet is not None:
+            payload["subnet"] = subnet
+        if appliance_ip is not None:
+            payload["applianceIp"] = appliance_ip
+        if ipv6 is not None:
+            payload["ipv6"] = ipv6
+        if mandatory_dhcp is not None:
+            payload["mandatoryDhcp"] = mandatory_dhcp
+
+        action = {
+            "resource": resource,
+            "operation": "update",
+            "body": payload,
+        }
         return action
 
     def update_network_appliance_ssid(
-        self, network_id: str, number: str, **kwargs: Any
+        self,
+        network_id: str,
+        number: str,
+        *,
+        name: str | None = None,
+        enabled: bool | None = None,
+        default_vlan_id: int | None = None,
+        auth_mode: str | None = None,
+        psk: str | None = None,
+        radius_servers: list | None = None,
+        encryption_mode: str | None = None,
+        wpa_encryption_mode: str | None = None,
+        visible: bool | None = None,
+        dhcp_enforced_deauthentication: dict | None = None,
+        dot11w: dict | None = None,
     ) -> dict[str, Any]:
         """Update the attributes of an MX SSID.
 
@@ -529,72 +642,90 @@ class ActionBatchAppliance:
             number: Number.
             name: The name of the SSID.
             enabled: Whether or not the SSID is enabled.
-            defaultVlanId: The VLAN ID of the VLAN associated to this SSID. This parameter is only
+            default_vlan_id: The VLAN ID of the VLAN associated to this SSID. This parameter is only
               valid if the network is in routed mode.
-            authMode: The association control method for the SSID ('open', 'psk', '8021x-meraki' or
+            auth_mode: The association control method for the SSID ('open', 'psk', '8021x-meraki' or
               '8021x-radius').
             psk: The passkey for the SSID. This param is only valid if the authMode is 'psk'.
-            radiusServers: The RADIUS 802.1x servers to be used for authentication. This param is
+            radius_servers: The RADIUS 802.1x servers to be used for authentication. This param is
               only valid if the authMode is '8021x-radius'.
-            encryptionMode: The psk encryption mode for the SSID ('wep' or 'wpa'). This param is
+            encryption_mode: The psk encryption mode for the SSID ('wep' or 'wpa'). This param is
               only valid if the authMode is 'psk'.
-            wpaEncryptionMode: The types of WPA encryption. ('WPA1 and WPA2', 'WPA2 only', 'WPA3
+            wpa_encryption_mode: The types of WPA encryption. ('WPA1 and WPA2', 'WPA2 only', 'WPA3
               Transition Mode' or 'WPA3 only'). This param is only valid if (1) the
               authMode is 'psk' & the encryptionMode is 'wpa' OR (2) the authMode is
               '8021x-meraki' OR (3) the authMode is '8021x-radius'.
             visible: Boolean indicating whether the MX should advertise or hide this SSID.
-            dhcpEnforcedDeauthentication: DHCP Enforced Deauthentication enables the disassociation
-              of wireless clients in addition to Mandatory DHCP. This param is only
-              valid on firmware versions >= MX 17.0 where the associated LAN has
-              Mandatory DHCP Enabled .
+            dhcp_enforced_deauthentication: DHCP Enforced Deauthentication enables the
+              disassociation of wireless clients in addition to Mandatory DHCP. This
+              param is only valid on firmware versions >= MX 17.0 where the associated
+              LAN has Mandatory DHCP Enabled.
             dot11w: The current setting for Protected Management Frames (802.11w).
 
         """
-        kwargs.update(locals())
-
-        if "authMode" in kwargs:
+        if auth_mode is not None:
             options = ["8021x-meraki", "8021x-radius", "open", "psk"]
-            assert kwargs["authMode"] in options, (
-                f'''"authMode" cannot be "{kwargs["authMode"]}", & must be set to one of: {options}'''
+            assert auth_mode in options, (
+                f'"auth_mode" cannot be "{auth_mode}", & must be set to one of: {options}'
             )
-        if "encryptionMode" in kwargs:
+        if encryption_mode is not None:
             options = ["wep", "wpa"]
-            assert kwargs["encryptionMode"] in options, (
-                f'''"encryptionMode" cannot be "{kwargs["encryptionMode"]}", & must be set to one of: {options}'''
+            assert encryption_mode in options, (
+                f'"encryption_mode" cannot be "{encryption_mode}", & must be set to one of: {options}'
             )
-        if "wpaEncryptionMode" in kwargs:
+        if wpa_encryption_mode is not None:
             options = ["WPA1 and WPA2", "WPA2 only", "WPA3 Transition Mode", "WPA3 only"]
-            assert kwargs["wpaEncryptionMode"] in options, (
-                f'''"wpaEncryptionMode" cannot be "{kwargs["wpaEncryptionMode"]}", & must be set to one of: {options}'''
+            assert wpa_encryption_mode in options, (
+                f'"wpa_encryption_mode" cannot be "{wpa_encryption_mode}", & must be set to one of: {options}'
             )
 
         metadata = {
             "tags": ["appliance", "configure", "ssids"],
             "operation": "update_network_appliance_ssid",
         }
-        network_id = urllib.parse.quote(network_id, safe="")
-        number = urllib.parse.quote(number, safe="")
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        number = urllib.parse.quote(str(number), safe="")
         resource = f"/networks/{network_id}/appliance/ssids/{number}"
 
-        body_params = [
-            "name",
-            "enabled",
-            "defaultVlanId",
-            "authMode",
-            "psk",
-            "radiusServers",
-            "encryptionMode",
-            "wpaEncryptionMode",
-            "visible",
-            "dhcpEnforcedDeauthentication",
-            "dot11w",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
-        action = {"resource": resource, "operation": "update", "body": payload}
+        payload = {}
+        if name is not None:
+            payload["name"] = name
+        if enabled is not None:
+            payload["enabled"] = enabled
+        if default_vlan_id is not None:
+            payload["defaultVlanId"] = default_vlan_id
+        if auth_mode is not None:
+            payload["authMode"] = auth_mode
+        if psk is not None:
+            payload["psk"] = psk
+        if radius_servers is not None:
+            payload["radiusServers"] = radius_servers
+        if encryption_mode is not None:
+            payload["encryptionMode"] = encryption_mode
+        if wpa_encryption_mode is not None:
+            payload["wpaEncryptionMode"] = wpa_encryption_mode
+        if visible is not None:
+            payload["visible"] = visible
+        if dhcp_enforced_deauthentication is not None:
+            payload["dhcpEnforcedDeauthentication"] = dhcp_enforced_deauthentication
+        if dot11w is not None:
+            payload["dot11w"] = dot11w
+
+        action = {
+            "resource": resource,
+            "operation": "update",
+            "body": payload,
+        }
         return action
 
     def create_network_appliance_traffic_shaping_custom_performance_class(
-        self, network_id: str, name: str, **kwargs: Any
+        self,
+        network_id: str,
+        name: str,
+        *,
+        max_latency: int | None = None,
+        max_jitter: int | None = None,
+        max_loss_percentage: int | None = None,
     ) -> dict[str, Any]:
         """Add a custom performance class for an MX network.
 
@@ -603,32 +734,44 @@ class ActionBatchAppliance:
         Args:
             network_id: Network ID.
             name: Name of the custom performance class.
-            maxLatency: Maximum latency in milliseconds.
-            maxJitter: Maximum jitter in milliseconds.
-            maxLossPercentage: Maximum percentage of packet loss.
+            max_latency: Maximum latency in milliseconds.
+            max_jitter: Maximum jitter in milliseconds.
+            max_loss_percentage: Maximum percentage of packet loss.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["appliance", "configure", "trafficShaping", "customPerformanceClasses"],
             "operation": "create_network_appliance_traffic_shaping_custom_performance_class",
         }
-        network_id = urllib.parse.quote(network_id, safe="")
+        network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/appliance/trafficShaping/customPerformanceClasses"
 
-        body_params = [
-            "name",
-            "maxLatency",
-            "maxJitter",
-            "maxLossPercentage",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
-        action = {"resource": resource, "operation": "create", "body": payload}
+        payload = {}
+        if name is not None:
+            payload["name"] = name
+        if max_latency is not None:
+            payload["maxLatency"] = max_latency
+        if max_jitter is not None:
+            payload["maxJitter"] = max_jitter
+        if max_loss_percentage is not None:
+            payload["maxLossPercentage"] = max_loss_percentage
+
+        action = {
+            "resource": resource,
+            "operation": "create",
+            "body": payload,
+        }
         return action
 
     def update_network_appliance_traffic_shaping_custom_performance_class(
-        self, network_id: str, custom_performance_class_id: str, **kwargs: Any
+        self,
+        network_id: str,
+        custom_performance_class_id: str,
+        *,
+        name: str | None = None,
+        max_latency: int | None = None,
+        max_jitter: int | None = None,
+        max_loss_percentage: int | None = None,
     ) -> dict[str, Any]:
         """Update a custom performance class for an MX network.
 
@@ -638,29 +781,34 @@ class ActionBatchAppliance:
             network_id: Network ID.
             custom_performance_class_id: Custom performance class ID.
             name: Name of the custom performance class.
-            maxLatency: Maximum latency in milliseconds.
-            maxJitter: Maximum jitter in milliseconds.
-            maxLossPercentage: Maximum percentage of packet loss.
+            max_latency: Maximum latency in milliseconds.
+            max_jitter: Maximum jitter in milliseconds.
+            max_loss_percentage: Maximum percentage of packet loss.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["appliance", "configure", "trafficShaping", "customPerformanceClasses"],
             "operation": "update_network_appliance_traffic_shaping_custom_performance_class",
         }
-        network_id = urllib.parse.quote(network_id, safe="")
-        custom_performance_class_id = urllib.parse.quote(custom_performance_class_id, safe="")
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        custom_performance_class_id = urllib.parse.quote(str(custom_performance_class_id), safe="")
         resource = f"/networks/{network_id}/appliance/trafficShaping/customPerformanceClasses/{custom_performance_class_id}"
 
-        body_params = [
-            "name",
-            "maxLatency",
-            "maxJitter",
-            "maxLossPercentage",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
-        action = {"resource": resource, "operation": "update", "body": payload}
+        payload = {}
+        if name is not None:
+            payload["name"] = name
+        if max_latency is not None:
+            payload["maxLatency"] = max_latency
+        if max_jitter is not None:
+            payload["maxJitter"] = max_jitter
+        if max_loss_percentage is not None:
+            payload["maxLossPercentage"] = max_loss_percentage
+
+        action = {
+            "resource": resource,
+            "operation": "update",
+            "body": payload,
+        }
         return action
 
     def delete_network_appliance_traffic_shaping_custom_performance_class(
@@ -679,8 +827,8 @@ class ActionBatchAppliance:
             "tags": ["appliance", "configure", "trafficShaping", "customPerformanceClasses"],
             "operation": "delete_network_appliance_traffic_shaping_custom_performance_class",
         }
-        network_id = urllib.parse.quote(network_id, safe="")
-        custom_performance_class_id = urllib.parse.quote(custom_performance_class_id, safe="")
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        custom_performance_class_id = urllib.parse.quote(str(custom_performance_class_id), safe="")
         resource = f"/networks/{network_id}/appliance/trafficShaping/customPerformanceClasses/{custom_performance_class_id}"
 
         action = {
@@ -690,7 +838,11 @@ class ActionBatchAppliance:
         return action
 
     def update_network_appliance_traffic_shaping_rules(
-        self, network_id: str, **kwargs: Any
+        self,
+        network_id: str,
+        *,
+        default_rules_enabled: bool | None = None,
+        rules: list | None = None,
     ) -> dict[str, Any]:
         """Update the traffic shaping settings rules for an MX network.
 
@@ -698,34 +850,37 @@ class ActionBatchAppliance:
 
         Args:
             network_id: Network ID.
-            defaultRulesEnabled: Whether default traffic shaping rules are enabled (true) or
+            default_rules_enabled: Whether default traffic shaping rules are enabled (true) or
               disabled (false). There are 4 default rules, which can be seen on your
               network's traffic shaping page. Note that default rules count against the
               rule limit of 8.
-            rules:     An array of traffic shaping rules. Rules are applied in the order that
-              they are specified in. An empty list (or null) means no rules. Note that
-              you are allowed a maximum of 8 rules. .
+            rules: An array of traffic shaping rules. Rules are applied in the order that they are
+              specified in. An empty list (or null) means no rules. Note that you are
+              allowed a maximum of 8 rules.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["appliance", "configure", "trafficShaping", "rules"],
             "operation": "update_network_appliance_traffic_shaping_rules",
         }
-        network_id = urllib.parse.quote(network_id, safe="")
+        network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/appliance/trafficShaping/rules"
 
-        body_params = [
-            "defaultRulesEnabled",
-            "rules",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
-        action = {"resource": resource, "operation": "update", "body": payload}
+        payload = {}
+        if default_rules_enabled is not None:
+            payload["defaultRulesEnabled"] = default_rules_enabled
+        if rules is not None:
+            payload["rules"] = rules
+
+        action = {
+            "resource": resource,
+            "operation": "update",
+            "body": payload,
+        }
         return action
 
     def update_network_appliance_traffic_shaping_uplink_bandwidth(
-        self, network_id: str, **kwargs: Any
+        self, network_id: str, *, bandwidth_limits: dict | None = None
     ) -> dict[str, Any]:
         """Updates the uplink bandwidth settings for your MX network.
 
@@ -733,28 +888,38 @@ class ActionBatchAppliance:
 
         Args:
             network_id: Network ID.
-            bandwidthLimits: A mapping of uplinks to their bandwidth settings (be sure to check
+            bandwidth_limits: A mapping of uplinks to their bandwidth settings (be sure to check
               which uplinks are supported for your network).
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["appliance", "configure", "trafficShaping", "uplinkBandwidth"],
             "operation": "update_network_appliance_traffic_shaping_uplink_bandwidth",
         }
-        network_id = urllib.parse.quote(network_id, safe="")
+        network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/appliance/trafficShaping/uplinkBandwidth"
 
-        body_params = [
-            "bandwidthLimits",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
-        action = {"resource": resource, "operation": "update", "body": payload}
+        payload = {}
+        if bandwidth_limits is not None:
+            payload["bandwidthLimits"] = bandwidth_limits
+
+        action = {
+            "resource": resource,
+            "operation": "update",
+            "body": payload,
+        }
         return action
 
     def update_network_appliance_traffic_shaping_uplink_selection(
-        self, network_id: str, **kwargs: Any
+        self,
+        network_id: str,
+        *,
+        active_active_auto_vpn_enabled: bool | None = None,
+        default_uplink: str | None = None,
+        load_balancing_enabled: bool | None = None,
+        failover_and_failback: dict | None = None,
+        wan_traffic_uplink_preferences: list | None = None,
+        vpn_traffic_uplink_preferences: list | None = None,
     ) -> dict[str, Any]:
         """Update uplink selection settings for an MX network.
 
@@ -762,37 +927,44 @@ class ActionBatchAppliance:
 
         Args:
             network_id: Network ID.
-            activeActiveAutoVpnEnabled: Toggle for enabling or disabling active-active AutoVPN.
-            defaultUplink: The default uplink. Must be a WAN interface 'wanX'.
-            loadBalancingEnabled: Toggle for enabling or disabling load balancing.
-            failoverAndFailback: WAN failover and failback behavior.
-            wanTrafficUplinkPreferences: Array of uplink preference rules for WAN traffic.
-            vpnTrafficUplinkPreferences: Array of uplink preference rules for VPN traffic.
+            active_active_auto_vpn_enabled: Toggle for enabling or disabling active-active AutoVPN.
+            default_uplink: The default uplink. Must be a WAN interface 'wanX'.
+            load_balancing_enabled: Toggle for enabling or disabling load balancing.
+            failover_and_failback: WAN failover and failback behavior.
+            wan_traffic_uplink_preferences: Array of uplink preference rules for WAN traffic.
+            vpn_traffic_uplink_preferences: Array of uplink preference rules for VPN traffic.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["appliance", "configure", "trafficShaping", "uplinkSelection"],
             "operation": "update_network_appliance_traffic_shaping_uplink_selection",
         }
-        network_id = urllib.parse.quote(network_id, safe="")
+        network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/appliance/trafficShaping/uplinkSelection"
 
-        body_params = [
-            "activeActiveAutoVpnEnabled",
-            "defaultUplink",
-            "loadBalancingEnabled",
-            "failoverAndFailback",
-            "wanTrafficUplinkPreferences",
-            "vpnTrafficUplinkPreferences",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
-        action = {"resource": resource, "operation": "update", "body": payload}
+        payload = {}
+        if active_active_auto_vpn_enabled is not None:
+            payload["activeActiveAutoVpnEnabled"] = active_active_auto_vpn_enabled
+        if default_uplink is not None:
+            payload["defaultUplink"] = default_uplink
+        if load_balancing_enabled is not None:
+            payload["loadBalancingEnabled"] = load_balancing_enabled
+        if failover_and_failback is not None:
+            payload["failoverAndFailback"] = failover_and_failback
+        if wan_traffic_uplink_preferences is not None:
+            payload["wanTrafficUplinkPreferences"] = wan_traffic_uplink_preferences
+        if vpn_traffic_uplink_preferences is not None:
+            payload["vpnTrafficUplinkPreferences"] = vpn_traffic_uplink_preferences
+
+        action = {
+            "resource": resource,
+            "operation": "update",
+            "body": payload,
+        }
         return action
 
     def update_network_appliance_traffic_shaping_vpn_exclusions(
-        self, network_id: str, **kwargs: Any
+        self, network_id: str, *, custom: list | None = None, major_applications: list | None = None
     ) -> dict[str, Any]:
         """Update VPN exclusion rules for an MX network.
 
@@ -801,29 +973,51 @@ class ActionBatchAppliance:
         Args:
             network_id: Network ID.
             custom: Custom VPN exclusion rules. Pass an empty array to clear existing rules.
-            majorApplications: Major Application based VPN exclusion rules. Pass an empty array to
+            major_applications: Major Application based VPN exclusion rules. Pass an empty array to
               clear existing rules.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["appliance", "configure", "trafficShaping", "vpnExclusions"],
             "operation": "update_network_appliance_traffic_shaping_vpn_exclusions",
         }
-        network_id = urllib.parse.quote(network_id, safe="")
+        network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/appliance/trafficShaping/vpnExclusions"
 
-        body_params = [
-            "custom",
-            "majorApplications",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
-        action = {"resource": resource, "operation": "update", "body": payload}
+        payload = {}
+        if custom is not None:
+            payload["custom"] = custom
+        if major_applications is not None:
+            payload["majorApplications"] = major_applications
+
+        action = {
+            "resource": resource,
+            "operation": "update",
+            "body": payload,
+        }
         return action
 
     def create_network_appliance_vlan(
-        self, network_id: str, id: str, name: str, **kwargs: Any
+        self,
+        network_id: str,
+        id_: str,
+        name: str,
+        *,
+        subnet: str | None = None,
+        appliance_ip: str | None = None,
+        group_policy_id: str | None = None,
+        template_vlan_type: str | None = None,
+        cidr: str | None = None,
+        mask: int | None = None,
+        ipv6: dict | None = None,
+        dhcp_handling: str | None = None,
+        dhcp_relay_server_ips: list | None = None,
+        dhcp_lease_time: str | None = None,
+        mandatory_dhcp: dict | None = None,
+        dhcp_boot_options_enabled: bool | None = None,
+        dhcp_boot_next_server: str | None = None,
+        dhcp_boot_filename: str | None = None,
+        dhcp_options: list | None = None,
     ) -> dict[str, Any]:
         """Add a VLAN.
 
@@ -831,92 +1025,111 @@ class ActionBatchAppliance:
 
         Args:
             network_id: Network ID.
-            id: The VLAN ID of the new VLAN (must be between 1 and 4094).
+            id_: The VLAN ID of the new VLAN (must be between 1 and 4094).
             name: The name of the new VLAN.
             subnet: The subnet of the VLAN.
-            applianceIp: The local IP of the appliance on the VLAN.
-            groupPolicyId: The id of the desired group policy to apply to the VLAN.
-            templateVlanType: Type of subnetting of the VLAN. Applicable only for template network.
+            appliance_ip: The local IP of the appliance on the VLAN.
+            group_policy_id: The id of the desired group policy to apply to the VLAN.
+            template_vlan_type: Type of subnetting of the VLAN. Applicable only for template
+              network.
             cidr: CIDR of the pool of subnets. Applicable only for template network. Each network
               bound to the template will automatically pick a subnet from this pool to
               build its own VLAN.
             mask: Mask used for the subnet of all bound to the template networks. Applicable only
               for template network.
             ipv6: IPv6 configuration on the VLAN.
-            dhcpHandling: The appliance's handling of DHCP requests on this VLAN. One of: 'Run a
+            dhcp_handling: The appliance's handling of DHCP requests on this VLAN. One of: 'Run a
               DHCP server', 'Relay DHCP to another server' or 'Do not respond to DHCP
               requests'.
-            dhcpRelayServerIps: The IPs (IPv4) of the DHCP servers that DHCP requests should be
+            dhcp_relay_server_ips: The IPs (IPv4) of the DHCP servers that DHCP requests should be
               relayed to. CIDR/subnet notation and hostnames are not supported.
-            dhcpLeaseTime: The term of DHCP leases if the appliance is running a DHCP server on this
-              VLAN. One of: '30 minutes', '1 hour', '4 hours', '12 hours', '1 day' or '1
-              week'.
-            mandatoryDhcp: Mandatory DHCP will enforce that clients connecting to this VLAN must use
-              the IP address assigned by the DHCP server. Clients who use a static IP
-              address won't be able to associate. Only available on firmware versions
+            dhcp_lease_time: The term of DHCP leases if the appliance is running a DHCP server on
+              this VLAN. One of: '30 minutes', '1 hour', '4 hours', '12 hours', '1 day'
+              or '1 week'.
+            mandatory_dhcp: Mandatory DHCP will enforce that clients connecting to this VLAN must
+              use the IP address assigned by the DHCP server. Clients who use a static
+              IP address won't be able to associate. Only available on firmware versions
               17.0 and above.
-            dhcpBootOptionsEnabled: Use DHCP boot options specified in other properties.
-            dhcpBootNextServer: DHCP boot option to direct boot clients to the server to load the
+            dhcp_boot_options_enabled: Use DHCP boot options specified in other properties.
+            dhcp_boot_next_server: DHCP boot option to direct boot clients to the server to load the
               boot file from.
-            dhcpBootFilename: DHCP boot option for boot filename.
-            dhcpOptions: The list of DHCP options that will be included in DHCP responses. Each
+            dhcp_boot_filename: DHCP boot option for boot filename.
+            dhcp_options: The list of DHCP options that will be included in DHCP responses. Each
               object in the list should have "code", "type", and "value" properties.
 
         """
-        kwargs.update(locals())
-
-        if "templateVlanType" in kwargs:
+        if template_vlan_type is not None:
             options = ["same", "unique"]
-            assert kwargs["templateVlanType"] in options, (
-                f'''"templateVlanType" cannot be "{kwargs["templateVlanType"]}", & must be set to one of: {options}'''
+            assert template_vlan_type in options, (
+                f'"template_vlan_type" cannot be "{template_vlan_type}", & must be set to one of: {options}'
             )
-        if "dhcpHandling" in kwargs:
+        if dhcp_handling is not None:
             options = [
                 "Do not respond to DHCP requests",
                 "Relay DHCP to another server",
                 "Run a DHCP server",
             ]
-            assert kwargs["dhcpHandling"] in options, (
-                f'''"dhcpHandling" cannot be "{kwargs["dhcpHandling"]}", & must be set to one of: {options}'''
+            assert dhcp_handling in options, (
+                f'"dhcp_handling" cannot be "{dhcp_handling}", & must be set to one of: {options}'
             )
-        if "dhcpLeaseTime" in kwargs:
+        if dhcp_lease_time is not None:
             options = ["1 day", "1 hour", "1 week", "12 hours", "30 minutes", "4 hours"]
-            assert kwargs["dhcpLeaseTime"] in options, (
-                f'''"dhcpLeaseTime" cannot be "{kwargs["dhcpLeaseTime"]}", & must be set to one of: {options}'''
+            assert dhcp_lease_time in options, (
+                f'"dhcp_lease_time" cannot be "{dhcp_lease_time}", & must be set to one of: {options}'
             )
 
         metadata = {
             "tags": ["appliance", "configure", "vlans"],
             "operation": "create_network_appliance_vlan",
         }
-        network_id = urllib.parse.quote(network_id, safe="")
+        network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/appliance/vlans"
 
-        body_params = [
-            "id",
-            "name",
-            "subnet",
-            "applianceIp",
-            "groupPolicyId",
-            "templateVlanType",
-            "cidr",
-            "mask",
-            "ipv6",
-            "dhcpHandling",
-            "dhcpRelayServerIps",
-            "dhcpLeaseTime",
-            "mandatoryDhcp",
-            "dhcpBootOptionsEnabled",
-            "dhcpBootNextServer",
-            "dhcpBootFilename",
-            "dhcpOptions",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
-        action = {"resource": resource, "operation": "create", "body": payload}
+        payload = {}
+        if id_ is not None:
+            payload["id"] = id_
+        if name is not None:
+            payload["name"] = name
+        if subnet is not None:
+            payload["subnet"] = subnet
+        if appliance_ip is not None:
+            payload["applianceIp"] = appliance_ip
+        if group_policy_id is not None:
+            payload["groupPolicyId"] = group_policy_id
+        if template_vlan_type is not None:
+            payload["templateVlanType"] = template_vlan_type
+        if cidr is not None:
+            payload["cidr"] = cidr
+        if mask is not None:
+            payload["mask"] = mask
+        if ipv6 is not None:
+            payload["ipv6"] = ipv6
+        if dhcp_handling is not None:
+            payload["dhcpHandling"] = dhcp_handling
+        if dhcp_relay_server_ips is not None:
+            payload["dhcpRelayServerIps"] = dhcp_relay_server_ips
+        if dhcp_lease_time is not None:
+            payload["dhcpLeaseTime"] = dhcp_lease_time
+        if mandatory_dhcp is not None:
+            payload["mandatoryDhcp"] = mandatory_dhcp
+        if dhcp_boot_options_enabled is not None:
+            payload["dhcpBootOptionsEnabled"] = dhcp_boot_options_enabled
+        if dhcp_boot_next_server is not None:
+            payload["dhcpBootNextServer"] = dhcp_boot_next_server
+        if dhcp_boot_filename is not None:
+            payload["dhcpBootFilename"] = dhcp_boot_filename
+        if dhcp_options is not None:
+            payload["dhcpOptions"] = dhcp_options
+
+        action = {
+            "resource": resource,
+            "operation": "create",
+            "body": payload,
+        }
         return action
 
     def update_network_appliance_vlans_settings(
-        self, network_id: str, **kwargs: Any
+        self, network_id: str, *, vlans_enabled: bool | None = None
     ) -> dict[str, Any]:
         """Enable/Disable VLANs for the given network.
 
@@ -924,28 +1137,53 @@ class ActionBatchAppliance:
 
         Args:
             network_id: Network ID.
-            vlansEnabled: Boolean indicating whether to enable (true) or disable (false) VLANs for
+            vlans_enabled: Boolean indicating whether to enable (true) or disable (false) VLANs for
               the network.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["appliance", "configure", "vlans", "settings"],
             "operation": "update_network_appliance_vlans_settings",
         }
-        network_id = urllib.parse.quote(network_id, safe="")
+        network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/appliance/vlans/settings"
 
-        body_params = [
-            "vlansEnabled",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
-        action = {"resource": resource, "operation": "update", "body": payload}
+        payload = {}
+        if vlans_enabled is not None:
+            payload["vlansEnabled"] = vlans_enabled
+
+        action = {
+            "resource": resource,
+            "operation": "update",
+            "body": payload,
+        }
         return action
 
     def update_network_appliance_vlan(
-        self, network_id: str, vlan_id: str, **kwargs: Any
+        self,
+        network_id: str,
+        vlan_id: str,
+        *,
+        name: str | None = None,
+        subnet: str | None = None,
+        appliance_ip: str | None = None,
+        group_policy_id: str | None = None,
+        vpn_nat_subnet: str | None = None,
+        dhcp_handling: str | None = None,
+        dhcp_relay_server_ips: list | None = None,
+        dhcp_lease_time: str | None = None,
+        dhcp_boot_options_enabled: bool | None = None,
+        dhcp_boot_next_server: str | None = None,
+        dhcp_boot_filename: str | None = None,
+        fixed_ip_assignments: dict | None = None,
+        reserved_ip_ranges: list | None = None,
+        dns_nameservers: str | None = None,
+        dhcp_options: list | None = None,
+        template_vlan_type: str | None = None,
+        cidr: str | None = None,
+        mask: int | None = None,
+        ipv6: dict | None = None,
+        mandatory_dhcp: dict | None = None,
     ) -> dict[str, Any]:
         """Update a VLAN.
 
@@ -956,99 +1194,121 @@ class ActionBatchAppliance:
             vlan_id: Vlan ID.
             name: The name of the VLAN.
             subnet: The subnet of the VLAN.
-            applianceIp: The local IP of the appliance on the VLAN.
-            groupPolicyId: The id of the desired group policy to apply to the VLAN.
-            vpnNatSubnet: The translated VPN subnet if VPN and VPN subnet translation are enabled on
-              the VLAN.
-            dhcpHandling: The appliance's handling of DHCP requests on this VLAN. One of: 'Run a
+            appliance_ip: The local IP of the appliance on the VLAN.
+            group_policy_id: The id of the desired group policy to apply to the VLAN.
+            vpn_nat_subnet: The translated VPN subnet if VPN and VPN subnet translation are enabled
+              on the VLAN.
+            dhcp_handling: The appliance's handling of DHCP requests on this VLAN. One of: 'Run a
               DHCP server', 'Relay DHCP to another server' or 'Do not respond to DHCP
               requests'.
-            dhcpRelayServerIps: The IPs (IPv4) of the DHCP servers that DHCP requests should be
+            dhcp_relay_server_ips: The IPs (IPv4) of the DHCP servers that DHCP requests should be
               relayed to. CIDR/subnet notation and hostnames are not supported.
-            dhcpLeaseTime: The term of DHCP leases if the appliance is running a DHCP server on this
-              VLAN. One of: '30 minutes', '1 hour', '4 hours', '12 hours', '1 day' or '1
-              week'.
-            dhcpBootOptionsEnabled: Use DHCP boot options specified in other properties.
-            dhcpBootNextServer: DHCP boot option to direct boot clients to the server to load the
+            dhcp_lease_time: The term of DHCP leases if the appliance is running a DHCP server on
+              this VLAN. One of: '30 minutes', '1 hour', '4 hours', '12 hours', '1 day'
+              or '1 week'.
+            dhcp_boot_options_enabled: Use DHCP boot options specified in other properties.
+            dhcp_boot_next_server: DHCP boot option to direct boot clients to the server to load the
               boot file from.
-            dhcpBootFilename: DHCP boot option for boot filename.
-            fixedIpAssignments: The DHCP fixed IP assignments on the VLAN. This should be an object
-              that contains mappings from MAC addresses to objects that themselves each
-              contain "ip" and "name" string fields. See the sample request/response for
-              more details.
-            reservedIpRanges: The DHCP reserved IP ranges on the VLAN.
-            dnsNameservers: The DNS nameservers used for DHCP responses, either "upstream_dns",
+            dhcp_boot_filename: DHCP boot option for boot filename.
+            fixed_ip_assignments: The DHCP fixed IP assignments on the VLAN. This should be an
+              object that contains mappings from MAC addresses to objects that
+              themselves each contain "ip" and "name" string fields. See the sample
+              request/response for more details.
+            reserved_ip_ranges: The DHCP reserved IP ranges on the VLAN.
+            dns_nameservers: The DNS nameservers used for DHCP responses, either "upstream_dns",
               "google_dns", "opendns", or a newline seperated string of IP addresses or
               domain names.
-            dhcpOptions: The list of DHCP options that will be included in DHCP responses. Each
+            dhcp_options: The list of DHCP options that will be included in DHCP responses. Each
               object in the list should have "code", "type", and "value" properties.
-            templateVlanType: Type of subnetting of the VLAN. Applicable only for template network.
+            template_vlan_type: Type of subnetting of the VLAN. Applicable only for template
+              network.
             cidr: CIDR of the pool of subnets. Applicable only for template network. Each network
               bound to the template will automatically pick a subnet from this pool to
               build its own VLAN.
             mask: Mask used for the subnet of all bound to the template networks. Applicable only
               for template network.
             ipv6: IPv6 configuration on the VLAN.
-            mandatoryDhcp: Mandatory DHCP will enforce that clients connecting to this VLAN must use
-              the IP address assigned by the DHCP server. Clients who use a static IP
-              address won't be able to associate. Only available on firmware versions
+            mandatory_dhcp: Mandatory DHCP will enforce that clients connecting to this VLAN must
+              use the IP address assigned by the DHCP server. Clients who use a static
+              IP address won't be able to associate. Only available on firmware versions
               17.0 and above.
 
         """
-        kwargs.update(locals())
-
-        if "dhcpHandling" in kwargs:
+        if dhcp_handling is not None:
             options = [
                 "Do not respond to DHCP requests",
                 "Relay DHCP to another server",
                 "Run a DHCP server",
             ]
-            assert kwargs["dhcpHandling"] in options, (
-                f'''"dhcpHandling" cannot be "{kwargs["dhcpHandling"]}", & must be set to one of: {options}'''
+            assert dhcp_handling in options, (
+                f'"dhcp_handling" cannot be "{dhcp_handling}", & must be set to one of: {options}'
             )
-        if "dhcpLeaseTime" in kwargs:
+        if dhcp_lease_time is not None:
             options = ["1 day", "1 hour", "1 week", "12 hours", "30 minutes", "4 hours"]
-            assert kwargs["dhcpLeaseTime"] in options, (
-                f'''"dhcpLeaseTime" cannot be "{kwargs["dhcpLeaseTime"]}", & must be set to one of: {options}'''
+            assert dhcp_lease_time in options, (
+                f'"dhcp_lease_time" cannot be "{dhcp_lease_time}", & must be set to one of: {options}'
             )
-        if "templateVlanType" in kwargs:
+        if template_vlan_type is not None:
             options = ["same", "unique"]
-            assert kwargs["templateVlanType"] in options, (
-                f'''"templateVlanType" cannot be "{kwargs["templateVlanType"]}", & must be set to one of: {options}'''
+            assert template_vlan_type in options, (
+                f'"template_vlan_type" cannot be "{template_vlan_type}", & must be set to one of: {options}'
             )
 
         metadata = {
             "tags": ["appliance", "configure", "vlans"],
             "operation": "update_network_appliance_vlan",
         }
-        network_id = urllib.parse.quote(network_id, safe="")
-        vlan_id = urllib.parse.quote(vlan_id, safe="")
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        vlan_id = urllib.parse.quote(str(vlan_id), safe="")
         resource = f"/networks/{network_id}/appliance/vlans/{vlan_id}"
 
-        body_params = [
-            "name",
-            "subnet",
-            "applianceIp",
-            "groupPolicyId",
-            "vpnNatSubnet",
-            "dhcpHandling",
-            "dhcpRelayServerIps",
-            "dhcpLeaseTime",
-            "dhcpBootOptionsEnabled",
-            "dhcpBootNextServer",
-            "dhcpBootFilename",
-            "fixedIpAssignments",
-            "reservedIpRanges",
-            "dnsNameservers",
-            "dhcpOptions",
-            "templateVlanType",
-            "cidr",
-            "mask",
-            "ipv6",
-            "mandatoryDhcp",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
-        action = {"resource": resource, "operation": "update", "body": payload}
+        payload = {}
+        if name is not None:
+            payload["name"] = name
+        if subnet is not None:
+            payload["subnet"] = subnet
+        if appliance_ip is not None:
+            payload["applianceIp"] = appliance_ip
+        if group_policy_id is not None:
+            payload["groupPolicyId"] = group_policy_id
+        if vpn_nat_subnet is not None:
+            payload["vpnNatSubnet"] = vpn_nat_subnet
+        if dhcp_handling is not None:
+            payload["dhcpHandling"] = dhcp_handling
+        if dhcp_relay_server_ips is not None:
+            payload["dhcpRelayServerIps"] = dhcp_relay_server_ips
+        if dhcp_lease_time is not None:
+            payload["dhcpLeaseTime"] = dhcp_lease_time
+        if dhcp_boot_options_enabled is not None:
+            payload["dhcpBootOptionsEnabled"] = dhcp_boot_options_enabled
+        if dhcp_boot_next_server is not None:
+            payload["dhcpBootNextServer"] = dhcp_boot_next_server
+        if dhcp_boot_filename is not None:
+            payload["dhcpBootFilename"] = dhcp_boot_filename
+        if fixed_ip_assignments is not None:
+            payload["fixedIpAssignments"] = fixed_ip_assignments
+        if reserved_ip_ranges is not None:
+            payload["reservedIpRanges"] = reserved_ip_ranges
+        if dns_nameservers is not None:
+            payload["dnsNameservers"] = dns_nameservers
+        if dhcp_options is not None:
+            payload["dhcpOptions"] = dhcp_options
+        if template_vlan_type is not None:
+            payload["templateVlanType"] = template_vlan_type
+        if cidr is not None:
+            payload["cidr"] = cidr
+        if mask is not None:
+            payload["mask"] = mask
+        if ipv6 is not None:
+            payload["ipv6"] = ipv6
+        if mandatory_dhcp is not None:
+            payload["mandatoryDhcp"] = mandatory_dhcp
+
+        action = {
+            "resource": resource,
+            "operation": "update",
+            "body": payload,
+        }
         return action
 
     def delete_network_appliance_vlan(self, network_id: str, vlan_id: str) -> dict[str, Any]:
@@ -1065,8 +1325,8 @@ class ActionBatchAppliance:
             "tags": ["appliance", "configure", "vlans"],
             "operation": "delete_network_appliance_vlan",
         }
-        network_id = urllib.parse.quote(network_id, safe="")
-        vlan_id = urllib.parse.quote(vlan_id, safe="")
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        vlan_id = urllib.parse.quote(str(vlan_id), safe="")
         resource = f"/networks/{network_id}/appliance/vlans/{vlan_id}"
 
         action = {
@@ -1076,7 +1336,13 @@ class ActionBatchAppliance:
         return action
 
     def update_network_appliance_vpn_bgp(
-        self, network_id: str, enabled: bool, **kwargs: Any
+        self,
+        network_id: str,
+        enabled: bool,
+        *,
+        as_number: int | None = None,
+        ibgp_hold_timer: int | None = None,
+        neighbors: list | None = None,
     ) -> dict[str, Any]:
         """Update a Hub BGP Configuration.
 
@@ -1087,40 +1353,51 @@ class ActionBatchAppliance:
             enabled: Boolean value to enable or disable the BGP configuration. When BGP is enabled,
               the asNumber (ASN) will be autopopulated with the preconfigured ASN at
               other Hubs or a default value if there is no ASN configured.
-            asNumber: An Autonomous System Number (ASN) is required if you are to run BGP and peer
+            as_number: An Autonomous System Number (ASN) is required if you are to run BGP and peer
               with another BGP Speaker outside of the Auto VPN domain. This ASN will be
               applied to the entire Auto VPN domain. The entire 4-byte ASN range is
               supported. So, the ASN must be an integer between 1 and 4294967295. When
               absent, this field is not updated. If no value exists then it defaults to
               64512.
-            ibgpHoldTimer: The iBGP holdtimer in seconds. The iBGP holdtimer must be an integer
+            ibgp_hold_timer: The iBGP holdtimer in seconds. The iBGP holdtimer must be an integer
               between 12 and 240. When absent, this field is not updated. If no value
               exists then it defaults to 240.
             neighbors: List of BGP neighbors. This list replaces the existing set of neighbors. When
               absent, this field is not updated.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["appliance", "configure", "vpn", "bgp"],
             "operation": "update_network_appliance_vpn_bgp",
         }
-        network_id = urllib.parse.quote(network_id, safe="")
+        network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/appliance/vpn/bgp"
 
-        body_params = [
-            "enabled",
-            "asNumber",
-            "ibgpHoldTimer",
-            "neighbors",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
-        action = {"resource": resource, "operation": "update", "body": payload}
+        payload = {}
+        if enabled is not None:
+            payload["enabled"] = enabled
+        if as_number is not None:
+            payload["asNumber"] = as_number
+        if ibgp_hold_timer is not None:
+            payload["ibgpHoldTimer"] = ibgp_hold_timer
+        if neighbors is not None:
+            payload["neighbors"] = neighbors
+
+        action = {
+            "resource": resource,
+            "operation": "update",
+            "body": payload,
+        }
         return action
 
     def update_network_appliance_vpn_site_to_site_vpn(
-        self, network_id: str, mode: str, **kwargs: Any
+        self,
+        network_id: str,
+        mode: str,
+        *,
+        hubs: list | None = None,
+        subnets: list | None = None,
+        subnet: dict | None = None,
     ) -> dict[str, Any]:
         """Update the site-to-site VPN settings of a network.
 
@@ -1135,33 +1412,43 @@ class ActionBatchAppliance:
             subnet: Configuration of subnet features.
 
         """
-        kwargs.update(locals())
-
-        if "mode" in kwargs:
+        if mode is not None:
             options = ["hub", "none", "spoke"]
-            assert kwargs["mode"] in options, (
-                f'''"mode" cannot be "{kwargs["mode"]}", & must be set to one of: {options}'''
-            )
+            assert mode in options, f'"mode" cannot be "{mode}", & must be set to one of: {options}'
 
         metadata = {
             "tags": ["appliance", "configure", "vpn", "siteToSiteVpn"],
             "operation": "update_network_appliance_vpn_site_to_site_vpn",
         }
-        network_id = urllib.parse.quote(network_id, safe="")
+        network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/appliance/vpn/siteToSiteVpn"
 
-        body_params = [
-            "mode",
-            "hubs",
-            "subnets",
-            "subnet",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
-        action = {"resource": resource, "operation": "update", "body": payload}
+        payload = {}
+        if mode is not None:
+            payload["mode"] = mode
+        if hubs is not None:
+            payload["hubs"] = hubs
+        if subnets is not None:
+            payload["subnets"] = subnets
+        if subnet is not None:
+            payload["subnet"] = subnet
+
+        action = {
+            "resource": resource,
+            "operation": "update",
+            "body": payload,
+        }
         return action
 
     def update_network_appliance_warm_spare(
-        self, network_id: str, enabled: bool, **kwargs: Any
+        self,
+        network_id: str,
+        enabled: bool,
+        *,
+        spare_serial: str | None = None,
+        uplink_mode: str | None = None,
+        virtual_ip1: str | None = None,
+        virtual_ip2: str | None = None,
     ) -> dict[str, Any]:
         """Update MX warm spare settings.
 
@@ -1170,30 +1457,36 @@ class ActionBatchAppliance:
         Args:
             network_id: Network ID.
             enabled: Enable warm spare.
-            spareSerial: Serial number of the warm spare appliance.
-            uplinkMode: Uplink mode, either virtual or public.
-            virtualIp1: The WAN 1 shared IP.
-            virtualIp2: The WAN 2 shared IP.
+            spare_serial: Serial number of the warm spare appliance.
+            uplink_mode: Uplink mode, either virtual or public.
+            virtual_ip1: The WAN 1 shared IP.
+            virtual_ip2: The WAN 2 shared IP.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["appliance", "configure", "warmSpare"],
             "operation": "update_network_appliance_warm_spare",
         }
-        network_id = urllib.parse.quote(network_id, safe="")
+        network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/appliance/warmSpare"
 
-        body_params = [
-            "enabled",
-            "spareSerial",
-            "uplinkMode",
-            "virtualIp1",
-            "virtualIp2",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
-        action = {"resource": resource, "operation": "update", "body": payload}
+        payload = {}
+        if enabled is not None:
+            payload["enabled"] = enabled
+        if spare_serial is not None:
+            payload["spareSerial"] = spare_serial
+        if uplink_mode is not None:
+            payload["uplinkMode"] = uplink_mode
+        if virtual_ip1 is not None:
+            payload["virtualIp1"] = virtual_ip1
+        if virtual_ip2 is not None:
+            payload["virtualIp2"] = virtual_ip2
+
+        action = {
+            "resource": resource,
+            "operation": "update",
+            "body": payload,
+        }
         return action
 
     def swap_network_appliance_warm_spare(self, network_id: str) -> dict[str, Any]:
@@ -1209,7 +1502,7 @@ class ActionBatchAppliance:
             "tags": ["appliance", "configure", "warmSpare"],
             "operation": "swap_network_appliance_warm_spare",
         }
-        network_id = urllib.parse.quote(network_id, safe="")
+        network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/appliance/warmSpare/swap"
 
         action = {
@@ -1230,20 +1523,22 @@ class ActionBatchAppliance:
             name: Name of profile.
 
         """
-        kwargs = locals()
-
         metadata = {
             "tags": ["appliance", "configure", "dns", "local", "profiles"],
             "operation": "create_organization_appliance_dns_local_profile",
         }
-        organization_id = urllib.parse.quote(organization_id, safe="")
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/appliance/dns/local/profiles"
 
-        body_params = [
-            "name",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
-        action = {"resource": resource, "operation": "create", "body": payload}
+        payload = {}
+        if name is not None:
+            payload["name"] = name
+
+        action = {
+            "resource": resource,
+            "operation": "create",
+            "body": payload,
+        }
         return action
 
     def bulk_organization_appliance_dns_local_profiles_assignments_create(
@@ -1258,22 +1553,24 @@ class ActionBatchAppliance:
             items: List containing the network ID and Profile ID.
 
         """
-        kwargs = locals()
-
         metadata = {
             "tags": ["appliance", "configure", "dns", "local", "profiles", "assignments"],
             "operation": "bulk_organization_appliance_dns_local_profiles_assignments_create",
         }
-        organization_id = urllib.parse.quote(organization_id, safe="")
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = (
             f"/organizations/{organization_id}/appliance/dns/local/profiles/assignments/bulkCreate"
         )
 
-        body_params = [
-            "items",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
-        action = {"resource": resource, "operation": "create", "body": payload}
+        payload = {}
+        if items is not None:
+            payload["items"] = items
+
+        action = {
+            "resource": resource,
+            "operation": "create",
+            "body": payload,
+        }
         return action
 
     def create_organization_appliance_dns_local_profiles_assignments_bulk_delete(
@@ -1288,8 +1585,6 @@ class ActionBatchAppliance:
             items: List containing the assignment ID.
 
         """
-        kwargs = locals()
-
         metadata = {
             "tags": [
                 "appliance",
@@ -1302,16 +1597,20 @@ class ActionBatchAppliance:
             ],
             "operation": "create_organization_appliance_dns_local_profiles_assignments_bulk_delete",
         }
-        organization_id = urllib.parse.quote(organization_id, safe="")
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = (
             f"/organizations/{organization_id}/appliance/dns/local/profiles/assignments/bulkDelete"
         )
 
-        body_params = [
-            "items",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
-        action = {"resource": resource, "operation": "create", "body": payload}
+        payload = {}
+        if items is not None:
+            payload["items"] = items
+
+        action = {
+            "resource": resource,
+            "operation": "create",
+            "body": payload,
+        }
         return action
 
     def update_organization_appliance_dns_local_profile(
@@ -1327,21 +1626,23 @@ class ActionBatchAppliance:
             name: Name of profile.
 
         """
-        kwargs = locals()
-
         metadata = {
             "tags": ["appliance", "configure", "dns", "local", "profiles"],
             "operation": "update_organization_appliance_dns_local_profile",
         }
-        organization_id = urllib.parse.quote(organization_id, safe="")
-        profile_id = urllib.parse.quote(profile_id, safe="")
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        profile_id = urllib.parse.quote(str(profile_id), safe="")
         resource = f"/organizations/{organization_id}/appliance/dns/local/profiles/{profile_id}"
 
-        body_params = [
-            "name",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
-        action = {"resource": resource, "operation": "update", "body": payload}
+        payload = {}
+        if name is not None:
+            payload["name"] = name
+
+        action = {
+            "resource": resource,
+            "operation": "update",
+            "body": payload,
+        }
         return action
 
     def delete_organization_appliance_dns_local_profile(
@@ -1360,8 +1661,8 @@ class ActionBatchAppliance:
             "tags": ["appliance", "configure", "dns", "local", "profiles"],
             "operation": "delete_organization_appliance_dns_local_profile",
         }
-        organization_id = urllib.parse.quote(organization_id, safe="")
-        profile_id = urllib.parse.quote(profile_id, safe="")
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        profile_id = urllib.parse.quote(str(profile_id), safe="")
         resource = f"/organizations/{organization_id}/appliance/dns/local/profiles/{profile_id}"
 
         action = {
@@ -1384,26 +1685,36 @@ class ActionBatchAppliance:
             profile: The profile the DNS record is associated with.
 
         """
-        kwargs = locals()
-
         metadata = {
             "tags": ["appliance", "configure", "dns", "local", "records"],
             "operation": "create_organization_appliance_dns_local_record",
         }
-        organization_id = urllib.parse.quote(organization_id, safe="")
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/appliance/dns/local/records"
 
-        body_params = [
-            "hostname",
-            "address",
-            "profile",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
-        action = {"resource": resource, "operation": "create", "body": payload}
+        payload = {}
+        if hostname is not None:
+            payload["hostname"] = hostname
+        if address is not None:
+            payload["address"] = address
+        if profile is not None:
+            payload["profile"] = profile
+
+        action = {
+            "resource": resource,
+            "operation": "create",
+            "body": payload,
+        }
         return action
 
     def update_organization_appliance_dns_local_record(
-        self, organization_id: str, record_id: str, **kwargs: Any
+        self,
+        organization_id: str,
+        record_id: str,
+        *,
+        hostname: str | None = None,
+        address: str | None = None,
+        profile: dict | None = None,
     ) -> dict[str, Any]:
         """Updates a local DNS record.
 
@@ -1417,23 +1728,27 @@ class ActionBatchAppliance:
             profile: The profile the DNS record is associated with.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["appliance", "configure", "dns", "local", "records"],
             "operation": "update_organization_appliance_dns_local_record",
         }
-        organization_id = urllib.parse.quote(organization_id, safe="")
-        record_id = urllib.parse.quote(record_id, safe="")
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        record_id = urllib.parse.quote(str(record_id), safe="")
         resource = f"/organizations/{organization_id}/appliance/dns/local/records/{record_id}"
 
-        body_params = [
-            "hostname",
-            "address",
-            "profile",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
-        action = {"resource": resource, "operation": "update", "body": payload}
+        payload = {}
+        if hostname is not None:
+            payload["hostname"] = hostname
+        if address is not None:
+            payload["address"] = address
+        if profile is not None:
+            payload["profile"] = profile
+
+        action = {
+            "resource": resource,
+            "operation": "update",
+            "body": payload,
+        }
         return action
 
     def delete_organization_appliance_dns_local_record(
@@ -1452,8 +1767,8 @@ class ActionBatchAppliance:
             "tags": ["appliance", "configure", "dns", "local", "records"],
             "operation": "delete_organization_appliance_dns_local_record",
         }
-        organization_id = urllib.parse.quote(organization_id, safe="")
-        record_id = urllib.parse.quote(record_id, safe="")
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        record_id = urllib.parse.quote(str(record_id), safe="")
         resource = f"/organizations/{organization_id}/appliance/dns/local/records/{record_id}"
 
         action = {
@@ -1477,22 +1792,26 @@ class ActionBatchAppliance:
             nameservers: Contains the nameserver information for redirection.
 
         """
-        kwargs = locals()
-
         metadata = {
             "tags": ["appliance", "configure", "dns", "split", "profiles"],
             "operation": "create_organization_appliance_dns_split_profile",
         }
-        organization_id = urllib.parse.quote(organization_id, safe="")
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/appliance/dns/split/profiles"
 
-        body_params = [
-            "name",
-            "hostnames",
-            "nameservers",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
-        action = {"resource": resource, "operation": "create", "body": payload}
+        payload = {}
+        if name is not None:
+            payload["name"] = name
+        if hostnames is not None:
+            payload["hostnames"] = hostnames
+        if nameservers is not None:
+            payload["nameservers"] = nameservers
+
+        action = {
+            "resource": resource,
+            "operation": "create",
+            "body": payload,
+        }
         return action
 
     def create_organization_appliance_dns_split_profiles_assignments_bulk_create(
@@ -1507,8 +1826,6 @@ class ActionBatchAppliance:
             items: List containing the network ID and Profile ID.
 
         """
-        kwargs = locals()
-
         metadata = {
             "tags": [
                 "appliance",
@@ -1521,16 +1838,20 @@ class ActionBatchAppliance:
             ],
             "operation": "create_organization_appliance_dns_split_profiles_assignments_bulk_create",
         }
-        organization_id = urllib.parse.quote(organization_id, safe="")
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = (
             f"/organizations/{organization_id}/appliance/dns/split/profiles/assignments/bulkCreate"
         )
 
-        body_params = [
-            "items",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
-        action = {"resource": resource, "operation": "create", "body": payload}
+        payload = {}
+        if items is not None:
+            payload["items"] = items
+
+        action = {
+            "resource": resource,
+            "operation": "create",
+            "body": payload,
+        }
         return action
 
     def create_organization_appliance_dns_split_profiles_assignments_bulk_delete(
@@ -1545,8 +1866,6 @@ class ActionBatchAppliance:
             items: List containing the assignment ID.
 
         """
-        kwargs = locals()
-
         metadata = {
             "tags": [
                 "appliance",
@@ -1559,20 +1878,30 @@ class ActionBatchAppliance:
             ],
             "operation": "create_organization_appliance_dns_split_profiles_assignments_bulk_delete",
         }
-        organization_id = urllib.parse.quote(organization_id, safe="")
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = (
             f"/organizations/{organization_id}/appliance/dns/split/profiles/assignments/bulkDelete"
         )
 
-        body_params = [
-            "items",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
-        action = {"resource": resource, "operation": "create", "body": payload}
+        payload = {}
+        if items is not None:
+            payload["items"] = items
+
+        action = {
+            "resource": resource,
+            "operation": "create",
+            "body": payload,
+        }
         return action
 
     def update_organization_appliance_dns_split_profile(
-        self, organization_id: str, profile_id: str, **kwargs: Any
+        self,
+        organization_id: str,
+        profile_id: str,
+        *,
+        name: str | None = None,
+        hostnames: list | None = None,
+        nameservers: dict | None = None,
     ) -> dict[str, Any]:
         """Update a split DNS profile.
 
@@ -1587,23 +1916,27 @@ class ActionBatchAppliance:
             nameservers: Contains the nameserver information for redirection.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["appliance", "configure", "dns", "split", "profiles"],
             "operation": "update_organization_appliance_dns_split_profile",
         }
-        organization_id = urllib.parse.quote(organization_id, safe="")
-        profile_id = urllib.parse.quote(profile_id, safe="")
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        profile_id = urllib.parse.quote(str(profile_id), safe="")
         resource = f"/organizations/{organization_id}/appliance/dns/split/profiles/{profile_id}"
 
-        body_params = [
-            "name",
-            "hostnames",
-            "nameservers",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
-        action = {"resource": resource, "operation": "update", "body": payload}
+        payload = {}
+        if name is not None:
+            payload["name"] = name
+        if hostnames is not None:
+            payload["hostnames"] = hostnames
+        if nameservers is not None:
+            payload["nameservers"] = nameservers
+
+        action = {
+            "resource": resource,
+            "operation": "update",
+            "body": payload,
+        }
         return action
 
     def delete_organization_appliance_dns_split_profile(
@@ -1622,8 +1955,8 @@ class ActionBatchAppliance:
             "tags": ["appliance", "configure", "dns", "split", "profiles"],
             "operation": "delete_organization_appliance_dns_split_profile",
         }
-        organization_id = urllib.parse.quote(organization_id, safe="")
-        profile_id = urllib.parse.quote(profile_id, safe="")
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        profile_id = urllib.parse.quote(str(profile_id), safe="")
         resource = f"/organizations/{organization_id}/appliance/dns/split/profiles/{profile_id}"
 
         action = {
@@ -1633,7 +1966,7 @@ class ActionBatchAppliance:
         return action
 
     def update_organization_appliance_vpn_site_to_site_ipsec_peers_slas(
-        self, organization_id: str, **kwargs: Any
+        self, organization_id: str, *, items: list | None = None
     ) -> dict[str, Any]:
         """Update the IPsec SLA policies for an organization.
 
@@ -1644,20 +1977,22 @@ class ActionBatchAppliance:
             items: List of IPsec SLA policies.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["appliance", "configure", "vpn", "siteToSite", "ipsec", "peers", "slas"],
             "operation": "update_organization_appliance_vpn_site_to_site_ipsec_peers_slas",
         }
-        organization_id = urllib.parse.quote(organization_id, safe="")
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/appliance/vpn/siteToSite/ipsec/peers/slas"
 
-        body_params = [
-            "items",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
-        action = {"resource": resource, "operation": "update", "body": payload}
+        payload = {}
+        if items is not None:
+            payload["items"] = items
+
+        action = {
+            "resource": resource,
+            "operation": "update",
+            "body": payload,
+        }
         return action
 
     def update_organization_appliance_vpn_third_party_v_p_n_peers(
@@ -1672,18 +2007,20 @@ class ActionBatchAppliance:
             peers: The list of VPN peers.
 
         """
-        kwargs = locals()
-
         metadata = {
             "tags": ["appliance", "configure", "vpn", "thirdPartyVPNPeers"],
             "operation": "update_organization_appliance_vpn_third_party_v_p_n_peers",
         }
-        organization_id = urllib.parse.quote(organization_id, safe="")
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/appliance/vpn/thirdPartyVPNPeers"
 
-        body_params = [
-            "peers",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
-        action = {"resource": resource, "operation": "update", "body": payload}
+        payload = {}
+        if peers is not None:
+            payload["peers"] = peers
+
+        action = {
+            "resource": resource,
+            "operation": "update",
+            "body": payload,
+        }
         return action

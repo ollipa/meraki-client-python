@@ -1,4 +1,4 @@
-    def {{ operation }}(self{% if function_definition|length > 0 %}{{ function_definition }}{% endif %}) -> dict[str, Any]:
+    def {{ operation }}(self{% if function_definition|length > 0 %}{{ function_definition }}{% endif %}) -> {{ return_type }}:
         """{{ description }}
 
         {{ doc_url }}
@@ -11,15 +11,11 @@
         {% endif %}
 
         """
-        {% if kwarg_line|length > 0 %}
-        {{ kwarg_line }}
-
-        {% endif %}
         {% if assert_blocks|length > 0 %}
         {% for param, values in assert_blocks %}
-        if '{{ param }}' in kwargs:
+        if {{ param }} is not None:
             options = {{ values }}
-            assert kwargs['{{ param }}'] in options, f'''"{{ param }}" cannot be "{kwargs['{{ param }}']}", & must be set to one of: {options}'''
+            assert {{ param }} in options, f'"{{ param }}" cannot be "{{ '{' + param + '}' }}", & must be set to one of: {options}'
         {% endfor %}
 
         {% endif %}
@@ -28,34 +24,31 @@
             'operation': '{{ operation }}'
         }
         {% for param in path_params %}
-        {{ param }} = urllib.parse.quote({{ param }}, safe='')
+        {{ param }} = urllib.parse.quote(str({{ param }}), safe='')
         {% endfor %}
         resource = f'{{ resource }}'
 
         {% if query_params|length > 0 %}
-        query_params = [{% for param in query_params %}'{{ param }}', {% endfor %}]
-        params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
-
-        {% endif %}
-        {% if array_params|length > 0 %}
-        array_params = [{% for param in array_params %}'{{ param }}', {% endfor %}]
-        for k, v in kwargs.items():
-            if k.strip() in array_params:
-                params[f'{k.strip()}[]'] = kwargs[f'{k}']
-                params.pop(k.strip())
+        params = {}
+        {% for snake, orig in query_params %}
+        if {{ snake }} is not None:
+            params['{{ orig }}'] = {{ snake }}
+        {% endfor %}
 
         {% endif %}
         {% if body_params|length > 0 %}
-        body_params = [{% for param in body_params %}'{{ param }}', {% endfor %}]
-        {% if batch_operation != 'destroy'%}
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
-        {% endif %}
+        payload = {}
+        {% for snake, orig in body_params %}
+        if {{ snake }} is not None:
+            payload['{{ orig }}'] = {{ snake }}
+        {% endfor %}
+
         {% endif %}
         action = {
             "resource": resource,
             "operation": "{{ batch_operation }}",
-            {% if body_params|length > 0 and batch_operation != 'destroy'%}
-            "body": payload
+            {% if body_params|length > 0 %}
+            "body": payload,
             {% endif %}
         }
         {{ call_line }}

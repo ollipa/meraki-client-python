@@ -15,7 +15,14 @@ class AsyncInsight:
         self._session = session
 
     def get_network_insight_application_health_by_time(
-        self, network_id: str, application_id: str, **kwargs: Any
+        self,
+        network_id: str,
+        application_id: str,
+        *,
+        t0: str | None = None,
+        t1: str | None = None,
+        timespan: float | None = None,
+        resolution: int | None = None,
     ) -> dict[str, Any] | None:
         """Get application health by time.
 
@@ -34,8 +41,6 @@ class AsyncInsight:
               60, 300, 3600, 86400. The default is 300.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["insight", "monitor", "applications", "healthByTime"],
             "operation": "get_network_insight_application_health_by_time",
@@ -44,13 +49,15 @@ class AsyncInsight:
         application_id = urllib.parse.quote(str(application_id), safe="")
         resource = f"/networks/{network_id}/insight/applications/{application_id}/healthByTime"
 
-        query_params = [
-            "t0",
-            "t1",
-            "timespan",
-            "resolution",
-        ]
-        params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
+        params = {}
+        if t0 is not None:
+            params["t0"] = t0
+        if t1 is not None:
+            params["t1"] = t1
+        if timespan is not None:
+            params["timespan"] = timespan
+        if resolution is not None:
+            params["resolution"] = resolution
 
         return self._session.get(metadata, resource, params)
 
@@ -93,7 +100,12 @@ class AsyncInsight:
         return self._session.get(metadata, resource)
 
     def create_organization_insight_monitored_media_server(
-        self, organization_id: str, name: str, address: str, **kwargs: Any
+        self,
+        organization_id: str,
+        name: str,
+        address: str,
+        *,
+        best_effort_monitoring_enabled: bool | None = None,
     ) -> dict[str, Any] | None:
         """Add a media server to be monitored for this organization.
 
@@ -103,12 +115,10 @@ class AsyncInsight:
             organization_id: Organization ID.
             name: The name of the VoIP provider.
             address: The IP address (IPv4 only) or hostname of the media server to monitor.
-            bestEffortMonitoringEnabled: Indicates that if the media server doesn't respond to ICMP
-              pings, the nearest hop will be used in its stead.
+            best_effort_monitoring_enabled: Indicates that if the media server doesn't respond to
+              ICMP pings, the nearest hop will be used in its stead.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["insight", "configure", "monitoredMediaServers"],
             "operation": "create_organization_insight_monitored_media_server",
@@ -116,12 +126,13 @@ class AsyncInsight:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/insight/monitoredMediaServers"
 
-        body_params = [
-            "name",
-            "address",
-            "bestEffortMonitoringEnabled",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if name is not None:
+            payload["name"] = name
+        if address is not None:
+            payload["address"] = address
+        if best_effort_monitoring_enabled is not None:
+            payload["bestEffortMonitoringEnabled"] = best_effort_monitoring_enabled
 
         return self._session.post(metadata, resource, payload)
 
@@ -148,7 +159,13 @@ class AsyncInsight:
         return self._session.get(metadata, resource)
 
     def update_organization_insight_monitored_media_server(
-        self, organization_id: str, monitored_media_server_id: str, **kwargs: Any
+        self,
+        organization_id: str,
+        monitored_media_server_id: str,
+        *,
+        name: str | None = None,
+        address: str | None = None,
+        best_effort_monitoring_enabled: bool | None = None,
     ) -> dict[str, Any] | None:
         """Update a monitored media server for this organization.
 
@@ -159,12 +176,10 @@ class AsyncInsight:
             monitored_media_server_id: Monitored media server ID.
             name: The name of the VoIP provider.
             address: The IP address (IPv4 only) or hostname of the media server to monitor.
-            bestEffortMonitoringEnabled: Indicates that if the media server doesn't respond to ICMP
-              pings, the nearest hop will be used in its stead.
+            best_effort_monitoring_enabled: Indicates that if the media server doesn't respond to
+              ICMP pings, the nearest hop will be used in its stead.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["insight", "configure", "monitoredMediaServers"],
             "operation": "update_organization_insight_monitored_media_server",
@@ -173,12 +188,13 @@ class AsyncInsight:
         monitored_media_server_id = urllib.parse.quote(str(monitored_media_server_id), safe="")
         resource = f"/organizations/{organization_id}/insight/monitoredMediaServers/{monitored_media_server_id}"
 
-        body_params = [
-            "name",
-            "address",
-            "bestEffortMonitoringEnabled",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if name is not None:
+            payload["name"] = name
+        if address is not None:
+            payload["address"] = address
+        if best_effort_monitoring_enabled is not None:
+            payload["bestEffortMonitoringEnabled"] = best_effort_monitoring_enabled
 
         return self._session.put(metadata, resource, payload)
 

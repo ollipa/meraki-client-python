@@ -24,34 +24,38 @@ class ActionBatchSensor:
               so that they are immediately available in the Dashboard API.
 
         """
-        kwargs = locals()
-
-        if "operation" in kwargs:
+        if operation is not None:
             options = [
                 "cycleDownstreamPower",
                 "disableDownstreamPower",
                 "enableDownstreamPower",
                 "refreshData",
             ]
-            assert kwargs["operation"] in options, (
-                f'''"operation" cannot be "{kwargs["operation"]}", & must be set to one of: {options}'''
+            assert operation in options, (
+                f'"operation" cannot be "{operation}", & must be set to one of: {options}'
             )
 
         metadata = {
             "tags": ["sensor", "configure", "commands"],
             "operation": "create_device_sensor_command",
         }
-        serial = urllib.parse.quote(serial, safe="")
+        serial = urllib.parse.quote(str(serial), safe="")
         resource = f"/devices/{serial}/sensor/commands"
 
-        body_params = [
-            "operation",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
-        action = {"resource": resource, "operation": "create", "body": payload}
+        payload = {}
+        if operation is not None:
+            payload["operation"] = operation
+
+        action = {
+            "resource": resource,
+            "operation": "create",
+            "body": payload,
+        }
         return action
 
-    def update_device_sensor_relationships(self, serial: str, **kwargs: Any) -> dict[str, Any]:
+    def update_device_sensor_relationships(
+        self, serial: str, *, livestream: dict | None = None
+    ) -> dict[str, Any]:
         """Assign one or more sensor roles to a given sensor or camera device.
 
         https://developer.cisco.com/meraki/api-v1/#!update-device-sensor-relationships
@@ -63,24 +67,35 @@ class ActionBatchSensor:
               also appear in alert notifications that the sensor triggers.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["sensor", "configure", "relationships"],
             "operation": "update_device_sensor_relationships",
         }
-        serial = urllib.parse.quote(serial, safe="")
+        serial = urllib.parse.quote(str(serial), safe="")
         resource = f"/devices/{serial}/sensor/relationships"
 
-        body_params = [
-            "livestream",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
-        action = {"resource": resource, "operation": "update", "body": payload}
+        payload = {}
+        if livestream is not None:
+            payload["livestream"] = livestream
+
+        action = {
+            "resource": resource,
+            "operation": "update",
+            "body": payload,
+        }
         return action
 
     def create_network_sensor_alerts_profile(
-        self, network_id: str, name: str, conditions: list, **kwargs: Any
+        self,
+        network_id: str,
+        name: str,
+        conditions: list,
+        *,
+        schedule: dict | None = None,
+        recipients: dict | None = None,
+        serials: list | None = None,
+        include_sensor_url: bool | None = None,
+        message: str | None = None,
     ) -> dict[str, Any]:
         """Creates a sensor alert profile for a network.
 
@@ -89,38 +104,56 @@ class ActionBatchSensor:
         Args:
             network_id: Network ID.
             name: Name of the sensor alert profile.
-            conditions: List of conditions that will cause the profile to send an alert.
             schedule: The sensor schedule to use with the alert profile.
+            conditions: List of conditions that will cause the profile to send an alert.
             recipients: List of recipients that will receive the alert.
             serials: List of device serials assigned to this sensor alert profile.
-            includeSensorUrl: Include dashboard link to sensor in messages (default: true).
+            include_sensor_url: Include dashboard link to sensor in messages (default: true).
             message: A custom message that will appear in email and text message alerts.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["sensor", "configure", "alerts", "profiles"],
             "operation": "create_network_sensor_alerts_profile",
         }
-        network_id = urllib.parse.quote(network_id, safe="")
+        network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/sensor/alerts/profiles"
 
-        body_params = [
-            "name",
-            "schedule",
-            "conditions",
-            "recipients",
-            "serials",
-            "includeSensorUrl",
-            "message",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
-        action = {"resource": resource, "operation": "create", "body": payload}
+        payload = {}
+        if name is not None:
+            payload["name"] = name
+        if schedule is not None:
+            payload["schedule"] = schedule
+        if conditions is not None:
+            payload["conditions"] = conditions
+        if recipients is not None:
+            payload["recipients"] = recipients
+        if serials is not None:
+            payload["serials"] = serials
+        if include_sensor_url is not None:
+            payload["includeSensorUrl"] = include_sensor_url
+        if message is not None:
+            payload["message"] = message
+
+        action = {
+            "resource": resource,
+            "operation": "create",
+            "body": payload,
+        }
         return action
 
     def update_network_sensor_alerts_profile(
-        self, network_id: str, id: str, **kwargs: Any
+        self,
+        network_id: str,
+        id_: str,
+        *,
+        name: str | None = None,
+        schedule: dict | None = None,
+        conditions: list | None = None,
+        recipients: dict | None = None,
+        serials: list | None = None,
+        include_sensor_url: bool | None = None,
+        message: str | None = None,
     ) -> dict[str, Any]:
         """Updates a sensor alert profile for a network.
 
@@ -128,56 +161,64 @@ class ActionBatchSensor:
 
         Args:
             network_id: Network ID.
-            id: ID.
+            id_: ID.
             name: Name of the sensor alert profile.
             schedule: The sensor schedule to use with the alert profile.
             conditions: List of conditions that will cause the profile to send an alert.
             recipients: List of recipients that will receive the alert.
             serials: List of device serials assigned to this sensor alert profile.
-            includeSensorUrl: Include dashboard link to sensor in messages (default: true).
+            include_sensor_url: Include dashboard link to sensor in messages (default: true).
             message: A custom message that will appear in email and text message alerts.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["sensor", "configure", "alerts", "profiles"],
             "operation": "update_network_sensor_alerts_profile",
         }
-        network_id = urllib.parse.quote(network_id, safe="")
-        id = urllib.parse.quote(id, safe="")
-        resource = f"/networks/{network_id}/sensor/alerts/profiles/{id}"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        id_ = urllib.parse.quote(str(id_), safe="")
+        resource = f"/networks/{network_id}/sensor/alerts/profiles/{id_}"
 
-        body_params = [
-            "name",
-            "schedule",
-            "conditions",
-            "recipients",
-            "serials",
-            "includeSensorUrl",
-            "message",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
-        action = {"resource": resource, "operation": "update", "body": payload}
+        payload = {}
+        if name is not None:
+            payload["name"] = name
+        if schedule is not None:
+            payload["schedule"] = schedule
+        if conditions is not None:
+            payload["conditions"] = conditions
+        if recipients is not None:
+            payload["recipients"] = recipients
+        if serials is not None:
+            payload["serials"] = serials
+        if include_sensor_url is not None:
+            payload["includeSensorUrl"] = include_sensor_url
+        if message is not None:
+            payload["message"] = message
+
+        action = {
+            "resource": resource,
+            "operation": "update",
+            "body": payload,
+        }
         return action
 
-    def delete_network_sensor_alerts_profile(self, network_id: str, id: str) -> dict[str, Any]:
+    def delete_network_sensor_alerts_profile(self, network_id: str, id_: str) -> dict[str, Any]:
         """Deletes a sensor alert profile from a network.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-network-sensor-alerts-profile
 
         Args:
             network_id: Network ID.
-            id: ID.
+            id_: ID.
 
         """
         metadata = {
             "tags": ["sensor", "configure", "alerts", "profiles"],
             "operation": "delete_network_sensor_alerts_profile",
         }
-        network_id = urllib.parse.quote(network_id, safe="")
-        id = urllib.parse.quote(id, safe="")
-        resource = f"/networks/{network_id}/sensor/alerts/profiles/{id}"
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        id_ = urllib.parse.quote(str(id_), safe="")
+        resource = f"/networks/{network_id}/sensor/alerts/profiles/{id_}"
 
         action = {
             "resource": resource,
@@ -198,19 +239,21 @@ class ActionBatchSensor:
             enabled: Set to true to enable MQTT broker for sensor network.
 
         """
-        kwargs = locals()
-
         metadata = {
             "tags": ["sensor", "configure", "mqttBrokers"],
             "operation": "update_network_sensor_mqtt_broker",
         }
-        network_id = urllib.parse.quote(network_id, safe="")
-        mqtt_broker_id = urllib.parse.quote(mqtt_broker_id, safe="")
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        mqtt_broker_id = urllib.parse.quote(str(mqtt_broker_id), safe="")
         resource = f"/networks/{network_id}/sensor/mqttBrokers/{mqtt_broker_id}"
 
-        body_params = [
-            "enabled",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
-        action = {"resource": resource, "operation": "update", "body": payload}
+        payload = {}
+        if enabled is not None:
+            payload["enabled"] = enabled
+
+        action = {
+            "resource": resource,
+            "operation": "update",
+            "body": payload,
+        }
         return action

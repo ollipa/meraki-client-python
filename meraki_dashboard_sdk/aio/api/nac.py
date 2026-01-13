@@ -15,7 +15,7 @@ class AsyncNac:
         self._session = session
 
     def create_organization_nac_certificates_authorities_crl(
-        self, organization_id: str, caId: str, content: str, isDelta: bool
+        self, organization_id: str, ca_id: str, content: str, is_delta: bool
     ) -> dict[str, Any] | None:
         """Create a new CRL (either base or delta) for an existing CA.
 
@@ -23,13 +23,11 @@ class AsyncNac:
 
         Args:
             organization_id: Organization ID.
-            caId: ID of the CRL issuer.
+            ca_id: ID of the CRL issuer.
             content: CRL content in PEM format.
-            isDelta: Whether it's a delta CRL or not.
+            is_delta: Whether it's a delta CRL or not.
 
         """
-        kwargs = locals()
-
         metadata = {
             "tags": ["nac", "configure", "certificates", "authorities", "crls"],
             "operation": "create_organization_nac_certificates_authorities_crl",
@@ -37,11 +35,12 @@ class AsyncNac:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/nac/certificates/authorities/crls"
 
-        body_params = [
-            "caId",
-            "content",
-            "isDelta",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if ca_id is not None:
+            payload["caId"] = ca_id
+        if content is not None:
+            payload["content"] = content
+        if is_delta is not None:
+            payload["isDelta"] = is_delta
 
         return self._session.post(metadata, resource, payload)

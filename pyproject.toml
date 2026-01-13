@@ -108,6 +108,16 @@ ignore = [
 [tool.ruff.lint.per-file-ignores]
 # Ignore docstring errors in tests.
 "tests/**.py" = ["D"]
+# Ignore some errors is generated code.
+"meraki_dashboard_sdk/**.py" = [
+    "PLR0912",
+    "E501",
+    "PLR0915",
+    "FBT001",
+    "F541",
+    "RUF100",
+]
+"meraki_dashboard_sdk/api/spaces.py" = ["F401"]
 
 [tool.pytest.ini_options]
 xfail_strict = true

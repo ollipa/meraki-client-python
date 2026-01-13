@@ -33,7 +33,13 @@ class Camera:
         return self._session.get(metadata, resource)
 
     def get_device_camera_analytics_overview(
-        self, serial: str, **kwargs: Any
+        self,
+        serial: str,
+        *,
+        t0: str | None = None,
+        t1: str | None = None,
+        timespan: float | None = None,
+        object_type: str | None = None,
     ) -> dict[str, Any] | None:
         """Returns an overview of aggregate analytics data for a timespan.
 
@@ -47,16 +53,14 @@ class Camera:
             timespan: The timespan for which the information will be fetched. If specifying
               timespan, do not specify parameters t0 and t1. The value must be in
               seconds and be less than or equal to 7 days. The default is 1 hour.
-            objectType: [optional] The object type for which analytics will be retrieved. The
+            object_type: [optional] The object type for which analytics will be retrieved. The
               default object type is person. The available types are [person, vehicle].
 
         """
-        kwargs.update(locals())
-
-        if "objectType" in kwargs:
+        if object_type is not None:
             options = ["person", "vehicle"]
-            assert kwargs["objectType"] in options, (
-                f'''"objectType" cannot be "{kwargs["objectType"]}", & must be set to one of: {options}'''
+            assert object_type in options, (
+                f'"object_type" cannot be "{object_type}", & must be set to one of: {options}'
             )
 
         metadata = {
@@ -66,18 +70,20 @@ class Camera:
         serial = urllib.parse.quote(str(serial), safe="")
         resource = f"/devices/{serial}/camera/analytics/overview"
 
-        query_params = [
-            "t0",
-            "t1",
-            "timespan",
-            "objectType",
-        ]
-        params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
+        params = {}
+        if t0 is not None:
+            params["t0"] = t0
+        if t1 is not None:
+            params["t1"] = t1
+        if timespan is not None:
+            params["timespan"] = timespan
+        if object_type is not None:
+            params["objectType"] = object_type
 
         return self._session.get(metadata, resource, params)
 
     def get_device_camera_analytics_recent(
-        self, serial: str, **kwargs: Any
+        self, serial: str, *, object_type: str | None = None
     ) -> dict[str, Any] | None:
         """Returns most recent record for analytics zones.
 
@@ -85,16 +91,14 @@ class Camera:
 
         Args:
             serial: Serial.
-            objectType: [optional] The object type for which analytics will be retrieved. The
+            object_type: [optional] The object type for which analytics will be retrieved. The
               default object type is person. The available types are [person, vehicle].
 
         """
-        kwargs.update(locals())
-
-        if "objectType" in kwargs:
+        if object_type is not None:
             options = ["person", "vehicle"]
-            assert kwargs["objectType"] in options, (
-                f'''"objectType" cannot be "{kwargs["objectType"]}", & must be set to one of: {options}'''
+            assert object_type in options, (
+                f'"object_type" cannot be "{object_type}", & must be set to one of: {options}'
             )
 
         metadata = {
@@ -104,10 +108,9 @@ class Camera:
         serial = urllib.parse.quote(str(serial), safe="")
         resource = f"/devices/{serial}/camera/analytics/recent"
 
-        query_params = [
-            "objectType",
-        ]
-        params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
+        params = {}
+        if object_type is not None:
+            params["objectType"] = object_type
 
         return self._session.get(metadata, resource, params)
 
@@ -130,7 +133,15 @@ class Camera:
         return self._session.get(metadata, resource)
 
     def get_device_camera_analytics_zone_history(
-        self, serial: str, zone_id: str, **kwargs: Any
+        self,
+        serial: str,
+        zone_id: str,
+        *,
+        t0: str | None = None,
+        t1: str | None = None,
+        timespan: float | None = None,
+        resolution: int | None = None,
+        object_type: str | None = None,
     ) -> dict[str, Any] | None:
         """Return historical records for analytic zones.
 
@@ -147,16 +158,14 @@ class Camera:
               seconds and be less than or equal to 14 hours. The default is 1 hour.
             resolution: The time resolution in seconds for returned data. The valid resolutions are:
               60. The default is 60.
-            objectType: [optional] The object type for which analytics will be retrieved. The
+            object_type: [optional] The object type for which analytics will be retrieved. The
               default object type is person. The available types are [person, vehicle].
 
         """
-        kwargs.update(locals())
-
-        if "objectType" in kwargs:
+        if object_type is not None:
             options = ["person", "vehicle"]
-            assert kwargs["objectType"] in options, (
-                f'''"objectType" cannot be "{kwargs["objectType"]}", & must be set to one of: {options}'''
+            assert object_type in options, (
+                f'"object_type" cannot be "{object_type}", & must be set to one of: {options}'
             )
 
         metadata = {
@@ -167,14 +176,17 @@ class Camera:
         zone_id = urllib.parse.quote(str(zone_id), safe="")
         resource = f"/devices/{serial}/camera/analytics/zones/{zone_id}/history"
 
-        query_params = [
-            "t0",
-            "t1",
-            "timespan",
-            "resolution",
-            "objectType",
-        ]
-        params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
+        params = {}
+        if t0 is not None:
+            params["t0"] = t0
+        if t1 is not None:
+            params["t1"] = t1
+        if timespan is not None:
+            params["timespan"] = timespan
+        if resolution is not None:
+            params["resolution"] = resolution
+        if object_type is not None:
+            params["objectType"] = object_type
 
         return self._session.get(metadata, resource, params)
 
@@ -197,7 +209,12 @@ class Camera:
         return self._session.get(metadata, resource)
 
     def update_device_camera_custom_analytics(
-        self, serial: str, **kwargs: Any
+        self,
+        serial: str,
+        *,
+        enabled: bool | None = None,
+        artifact_id: str | None = None,
+        parameters: list | None = None,
     ) -> dict[str, Any] | None:
         """Update custom analytics settings for a camera.
 
@@ -206,12 +223,10 @@ class Camera:
         Args:
             serial: Serial.
             enabled: Enable custom analytics.
-            artifactId: The ID of the custom analytics artifact.
+            artifact_id: The ID of the custom analytics artifact.
             parameters: Parameters for the custom analytics workload.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["camera", "configure", "customAnalytics"],
             "operation": "update_device_camera_custom_analytics",
@@ -219,16 +234,19 @@ class Camera:
         serial = urllib.parse.quote(str(serial), safe="")
         resource = f"/devices/{serial}/camera/customAnalytics"
 
-        body_params = [
-            "enabled",
-            "artifactId",
-            "parameters",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if enabled is not None:
+            payload["enabled"] = enabled
+        if artifact_id is not None:
+            payload["artifactId"] = artifact_id
+        if parameters is not None:
+            payload["parameters"] = parameters
 
         return self._session.put(metadata, resource, payload)
 
-    def generate_device_camera_snapshot(self, serial: str, **kwargs: Any) -> dict[str, Any] | None:
+    def generate_device_camera_snapshot(
+        self, serial: str, *, timestamp: str | None = None, fullframe: bool | None = None
+    ) -> dict[str, Any] | None:
         """Generate a snapshot of what the camera sees at the specified time and return a link to that image.
 
         https://developer.cisco.com/meraki/api-v1/#!generate-device-camera-snapshot
@@ -242,17 +260,15 @@ class Camera:
               resolution. This will error if used with timestamp.
 
         """
-        kwargs.update(locals())
-
         metadata = {"tags": ["camera", "monitor"], "operation": "generate_device_camera_snapshot"}
         serial = urllib.parse.quote(str(serial), safe="")
         resource = f"/devices/{serial}/camera/generateSnapshot"
 
-        body_params = [
-            "timestamp",
-            "fullframe",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if timestamp is not None:
+            payload["timestamp"] = timestamp
+        if fullframe is not None:
+            payload["fullframe"] = fullframe
 
         return self._session.post(metadata, resource, payload)
 
@@ -275,7 +291,16 @@ class Camera:
         return self._session.get(metadata, resource)
 
     def update_device_camera_quality_and_retention(
-        self, serial: str, **kwargs: Any
+        self,
+        serial: str,
+        *,
+        profile_id: str | None = None,
+        motion_based_retention_enabled: bool | None = None,
+        audio_recording_enabled: bool | None = None,
+        restricted_bandwidth_mode_enabled: bool | None = None,
+        quality: str | None = None,
+        resolution: str | None = None,
+        motion_detector_version: int | None = None,
     ) -> dict[str, Any] | None:
         """Update quality and retention settings for the given camera.
 
@@ -283,15 +308,15 @@ class Camera:
 
         Args:
             serial: Serial.
-            profileId: The ID of a quality and retention profile to assign to the camera. The
+            profile_id: The ID of a quality and retention profile to assign to the camera. The
               profile's settings will override all of the per-camera quality and
               retention settings. If the value of this parameter is null, any existing
               profile will be unassigned from the camera.
-            motionBasedRetentionEnabled: Boolean indicating if motion-based retention is
+            motion_based_retention_enabled: Boolean indicating if motion-based retention is
               enabled(true) or disabled(false) on the camera.
-            audioRecordingEnabled: Boolean indicating if audio recording is enabled(true) or
+            audio_recording_enabled: Boolean indicating if audio recording is enabled(true) or
               disabled(false) on the camera.
-            restrictedBandwidthModeEnabled: Boolean indicating if restricted bandwidth is
+            restricted_bandwidth_mode_enabled: Boolean indicating if restricted bandwidth is
               enabled(true) or disabled(false) on the camera. This setting does not
               apply to MV2 cameras.
             quality: Quality of the camera. Can be one of 'Standard', 'High', 'Enhanced' or 'Ultra'.
@@ -299,18 +324,16 @@ class Camera:
             resolution: Resolution of the camera. Can be one of '1280x720', '1920x1080',
               '1080x1080', '2112x2112', '2880x2880', '2688x1512' or '3840x2160'.Not all
               resolutions are supported by every camera model.
-            motionDetectorVersion: The version of the motion detector that will be used by the
+            motion_detector_version: The version of the motion detector that will be used by the
               camera. Only applies to Gen 2 cameras. Defaults to v2.
 
         """
-        kwargs.update(locals())
-
-        if "quality" in kwargs:
+        if quality is not None:
             options = ["Enhanced", "High", "Standard", "Ultra"]
-            assert kwargs["quality"] in options, (
-                f'''"quality" cannot be "{kwargs["quality"]}", & must be set to one of: {options}'''
+            assert quality in options, (
+                f'"quality" cannot be "{quality}", & must be set to one of: {options}'
             )
-        if "resolution" in kwargs:
+        if resolution is not None:
             options = [
                 "1080x1080",
                 "1280x720",
@@ -320,13 +343,13 @@ class Camera:
                 "2880x2880",
                 "3840x2160",
             ]
-            assert kwargs["resolution"] in options, (
-                f'''"resolution" cannot be "{kwargs["resolution"]}", & must be set to one of: {options}'''
+            assert resolution in options, (
+                f'"resolution" cannot be "{resolution}", & must be set to one of: {options}'
             )
-        if "motionDetectorVersion" in kwargs:
+        if motion_detector_version is not None:
             options = [1, 2]
-            assert kwargs["motionDetectorVersion"] in options, (
-                f'''"motionDetectorVersion" cannot be "{kwargs["motionDetectorVersion"]}", & must be set to one of: {options}'''
+            assert motion_detector_version in options, (
+                f'"motion_detector_version" cannot be "{motion_detector_version}", & must be set to one of: {options}'
             )
 
         metadata = {
@@ -336,16 +359,21 @@ class Camera:
         serial = urllib.parse.quote(str(serial), safe="")
         resource = f"/devices/{serial}/camera/qualityAndRetention"
 
-        body_params = [
-            "profileId",
-            "motionBasedRetentionEnabled",
-            "audioRecordingEnabled",
-            "restrictedBandwidthModeEnabled",
-            "quality",
-            "resolution",
-            "motionDetectorVersion",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if profile_id is not None:
+            payload["profileId"] = profile_id
+        if motion_based_retention_enabled is not None:
+            payload["motionBasedRetentionEnabled"] = motion_based_retention_enabled
+        if audio_recording_enabled is not None:
+            payload["audioRecordingEnabled"] = audio_recording_enabled
+        if restricted_bandwidth_mode_enabled is not None:
+            payload["restrictedBandwidthModeEnabled"] = restricted_bandwidth_mode_enabled
+        if quality is not None:
+            payload["quality"] = quality
+        if resolution is not None:
+            payload["resolution"] = resolution
+        if motion_detector_version is not None:
+            payload["motionDetectorVersion"] = motion_detector_version
 
         return self._session.put(metadata, resource, payload)
 
@@ -367,23 +395,29 @@ class Camera:
 
         return self._session.get(metadata, resource)
 
-    def update_device_camera_sense(self, serial: str, **kwargs: Any) -> dict[str, Any] | None:
+    def update_device_camera_sense(
+        self,
+        serial: str,
+        *,
+        sense_enabled: bool | None = None,
+        mqtt_broker_id: str | None = None,
+        audio_detection: dict | None = None,
+        detection_model_id: str | None = None,
+    ) -> dict[str, Any] | None:
         """Update sense settings for the given camera.
 
         https://developer.cisco.com/meraki/api-v1/#!update-device-camera-sense
 
         Args:
             serial: Serial.
-            senseEnabled: Boolean indicating if sense(license) is enabled(true) or disabled(false)
+            sense_enabled: Boolean indicating if sense(license) is enabled(true) or disabled(false)
               on the camera.
-            mqttBrokerId: The ID of the MQTT broker to be enabled on the camera. A value of null
+            mqtt_broker_id: The ID of the MQTT broker to be enabled on the camera. A value of null
               will disable MQTT on the camera.
-            audioDetection: The details of the audio detection config.
-            detectionModelId: The ID of the object detection model.
+            audio_detection: The details of the audio detection config.
+            detection_model_id: The ID of the object detection model.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["camera", "configure", "sense"],
             "operation": "update_device_camera_sense",
@@ -391,13 +425,15 @@ class Camera:
         serial = urllib.parse.quote(str(serial), safe="")
         resource = f"/devices/{serial}/camera/sense"
 
-        body_params = [
-            "senseEnabled",
-            "mqttBrokerId",
-            "audioDetection",
-            "detectionModelId",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if sense_enabled is not None:
+            payload["senseEnabled"] = sense_enabled
+        if mqtt_broker_id is not None:
+            payload["mqttBrokerId"] = mqtt_broker_id
+        if audio_detection is not None:
+            payload["audioDetection"] = audio_detection
+        if detection_model_id is not None:
+            payload["detectionModelId"] = detection_model_id
 
         return self._session.put(metadata, resource, payload)
 
@@ -438,7 +474,7 @@ class Camera:
         return self._session.get(metadata, resource)
 
     def update_device_camera_video_settings(
-        self, serial: str, **kwargs: Any
+        self, serial: str, *, external_rtsp_enabled: bool | None = None
     ) -> dict[str, Any] | None:
         """Update video settings for the given camera.
 
@@ -446,11 +482,9 @@ class Camera:
 
         Args:
             serial: Serial.
-            externalRtspEnabled: Boolean indicating if external rtsp stream is exposed.
+            external_rtsp_enabled: Boolean indicating if external rtsp stream is exposed.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["camera", "configure", "video", "settings"],
             "operation": "update_device_camera_video_settings",
@@ -458,14 +492,15 @@ class Camera:
         serial = urllib.parse.quote(str(serial), safe="")
         resource = f"/devices/{serial}/camera/video/settings"
 
-        body_params = [
-            "externalRtspEnabled",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if external_rtsp_enabled is not None:
+            payload["externalRtspEnabled"] = external_rtsp_enabled
 
         return self._session.put(metadata, resource, payload)
 
-    def get_device_camera_video_link(self, serial: str, **kwargs: Any) -> dict[str, Any] | None:
+    def get_device_camera_video_link(
+        self, serial: str, *, timestamp: str | None = None
+    ) -> dict[str, Any] | None:
         """Returns video link to the specified camera.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device-camera-video-link
@@ -477,8 +512,6 @@ class Camera:
               current time.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["camera", "configure", "videoLink"],
             "operation": "get_device_camera_video_link",
@@ -486,10 +519,9 @@ class Camera:
         serial = urllib.parse.quote(str(serial), safe="")
         resource = f"/devices/{serial}/camera/videoLink"
 
-        query_params = [
-            "timestamp",
-        ]
-        params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
+        params = {}
+        if timestamp is not None:
+            params["timestamp"] = timestamp
 
         return self._session.get(metadata, resource, params)
 
@@ -523,8 +555,6 @@ class Camera:
             ids: The ids of the wireless profile to assign to the given camera.
 
         """
-        kwargs = locals()
-
         metadata = {
             "tags": ["camera", "configure", "wirelessProfiles"],
             "operation": "update_device_camera_wireless_profiles",
@@ -532,10 +562,9 @@ class Camera:
         serial = urllib.parse.quote(str(serial), safe="")
         resource = f"/devices/{serial}/camera/wirelessProfiles"
 
-        body_params = [
-            "ids",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if ids is not None:
+            payload["ids"] = ids
 
         return self._session.put(metadata, resource, payload)
 
@@ -560,7 +589,19 @@ class Camera:
         return self._session.get(metadata, resource)
 
     def create_network_camera_quality_retention_profile(
-        self, network_id: str, name: str, **kwargs: Any
+        self,
+        network_id: str,
+        name: str,
+        *,
+        motion_based_retention_enabled: bool | None = None,
+        restricted_bandwidth_mode_enabled: bool | None = None,
+        audio_recording_enabled: bool | None = None,
+        cloud_archive_enabled: bool | None = None,
+        motion_detector_version: int | None = None,
+        smart_retention: dict | None = None,
+        schedule_id: str | None = None,
+        max_retention_days: int | None = None,
+        video_settings: dict | None = None,
     ) -> dict[str, Any] | None:
         """Creates new quality retention profile for this network.
 
@@ -569,30 +610,28 @@ class Camera:
         Args:
             network_id: Network ID.
             name: The name of the new profile. Must be unique. This parameter is required.
-            motionBasedRetentionEnabled: Deletes footage older than 3 days in which no motion was
+            motion_based_retention_enabled: Deletes footage older than 3 days in which no motion was
               detected. Can be either true or false. Defaults to false. This setting
               does not apply to MV2 cameras.
-            restrictedBandwidthModeEnabled: Disable features that require additional bandwidth such
-              as Motion Recap. Can be either true or false. Defaults to false. This
+            restricted_bandwidth_mode_enabled: Disable features that require additional bandwidth
+              such as Motion Recap. Can be either true or false. Defaults to false. This
               setting does not apply to MV2 cameras.
-            audioRecordingEnabled: Whether or not to record audio. Can be either true or false.
+            audio_recording_enabled: Whether or not to record audio. Can be either true or false.
               Defaults to false.
-            cloudArchiveEnabled: Create redundant video backup using Cloud Archive. Can be either
+            cloud_archive_enabled: Create redundant video backup using Cloud Archive. Can be either
               true or false. Defaults to false.
-            motionDetectorVersion: The version of the motion detector that will be used by the
+            motion_detector_version: The version of the motion detector that will be used by the
               camera. Only applies to Gen 2 cameras. Defaults to v2.
-            smartRetention: Smart Retention records footage in two qualities and intelligently
+            smart_retention: Smart Retention records footage in two qualities and intelligently
               retains higher quality when motion, people or vehicles are detected.
-            scheduleId: Schedule for which this camera will record video, or 'null' to always
+            schedule_id: Schedule for which this camera will record video, or 'null' to always
               record.
-            maxRetentionDays: The maximum number of days for which the data will be stored, or
+            max_retention_days: The maximum number of days for which the data will be stored, or
               'null' to keep data until storage space runs out. If the former, it can be
               in the range of one to ninety days.
-            videoSettings: Video quality and resolution settings for all the camera models.
+            video_settings: Video quality and resolution settings for all the camera models.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["camera", "configure", "qualityRetentionProfiles"],
             "operation": "create_network_camera_quality_retention_profile",
@@ -600,19 +639,27 @@ class Camera:
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/camera/qualityRetentionProfiles"
 
-        body_params = [
-            "name",
-            "motionBasedRetentionEnabled",
-            "restrictedBandwidthModeEnabled",
-            "audioRecordingEnabled",
-            "cloudArchiveEnabled",
-            "motionDetectorVersion",
-            "smartRetention",
-            "scheduleId",
-            "maxRetentionDays",
-            "videoSettings",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if name is not None:
+            payload["name"] = name
+        if motion_based_retention_enabled is not None:
+            payload["motionBasedRetentionEnabled"] = motion_based_retention_enabled
+        if restricted_bandwidth_mode_enabled is not None:
+            payload["restrictedBandwidthModeEnabled"] = restricted_bandwidth_mode_enabled
+        if audio_recording_enabled is not None:
+            payload["audioRecordingEnabled"] = audio_recording_enabled
+        if cloud_archive_enabled is not None:
+            payload["cloudArchiveEnabled"] = cloud_archive_enabled
+        if motion_detector_version is not None:
+            payload["motionDetectorVersion"] = motion_detector_version
+        if smart_retention is not None:
+            payload["smartRetention"] = smart_retention
+        if schedule_id is not None:
+            payload["scheduleId"] = schedule_id
+        if max_retention_days is not None:
+            payload["maxRetentionDays"] = max_retention_days
+        if video_settings is not None:
+            payload["videoSettings"] = video_settings
 
         return self._session.post(metadata, resource, payload)
 
@@ -643,7 +690,20 @@ class Camera:
         return self._session.get(metadata, resource)
 
     def update_network_camera_quality_retention_profile(
-        self, network_id: str, quality_retention_profile_id: str, **kwargs: Any
+        self,
+        network_id: str,
+        quality_retention_profile_id: str,
+        *,
+        name: str | None = None,
+        motion_based_retention_enabled: bool | None = None,
+        restricted_bandwidth_mode_enabled: bool | None = None,
+        audio_recording_enabled: bool | None = None,
+        cloud_archive_enabled: bool | None = None,
+        motion_detector_version: int | None = None,
+        smart_retention: dict | None = None,
+        schedule_id: str | None = None,
+        max_retention_days: int | None = None,
+        video_settings: dict | None = None,
     ) -> dict[str, Any] | None:
         """Update an existing quality retention profile for this network.
 
@@ -653,30 +713,28 @@ class Camera:
             network_id: Network ID.
             quality_retention_profile_id: Quality retention profile ID.
             name: The name of the new profile. Must be unique.
-            motionBasedRetentionEnabled: Deletes footage older than 3 days in which no motion was
+            motion_based_retention_enabled: Deletes footage older than 3 days in which no motion was
               detected. Can be either true or false. Defaults to false. This setting
               does not apply to MV2 cameras.
-            restrictedBandwidthModeEnabled: Disable features that require additional bandwidth such
-              as Motion Recap. Can be either true or false. Defaults to false. This
+            restricted_bandwidth_mode_enabled: Disable features that require additional bandwidth
+              such as Motion Recap. Can be either true or false. Defaults to false. This
               setting does not apply to MV2 cameras.
-            audioRecordingEnabled: Whether or not to record audio. Can be either true or false.
+            audio_recording_enabled: Whether or not to record audio. Can be either true or false.
               Defaults to false.
-            cloudArchiveEnabled: Create redundant video backup using Cloud Archive. Can be either
+            cloud_archive_enabled: Create redundant video backup using Cloud Archive. Can be either
               true or false. Defaults to false.
-            motionDetectorVersion: The version of the motion detector that will be used by the
+            motion_detector_version: The version of the motion detector that will be used by the
               camera. Only applies to Gen 2 cameras. Defaults to v2.
-            smartRetention: Smart Retention records footage in two qualities and intelligently
+            smart_retention: Smart Retention records footage in two qualities and intelligently
               retains higher quality when motion, people or vehicles are detected.
-            scheduleId: Schedule for which this camera will record video, or 'null' to always
+            schedule_id: Schedule for which this camera will record video, or 'null' to always
               record.
-            maxRetentionDays: The maximum number of days for which the data will be stored, or
+            max_retention_days: The maximum number of days for which the data will be stored, or
               'null' to keep data until storage space runs out. If the former, it can be
               in the range of one to ninety days.
-            videoSettings: Video quality and resolution settings for all the camera models.
+            video_settings: Video quality and resolution settings for all the camera models.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["camera", "configure", "qualityRetentionProfiles"],
             "operation": "update_network_camera_quality_retention_profile",
@@ -689,19 +747,27 @@ class Camera:
             f"/networks/{network_id}/camera/qualityRetentionProfiles/{quality_retention_profile_id}"
         )
 
-        body_params = [
-            "name",
-            "motionBasedRetentionEnabled",
-            "restrictedBandwidthModeEnabled",
-            "audioRecordingEnabled",
-            "cloudArchiveEnabled",
-            "motionDetectorVersion",
-            "smartRetention",
-            "scheduleId",
-            "maxRetentionDays",
-            "videoSettings",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if name is not None:
+            payload["name"] = name
+        if motion_based_retention_enabled is not None:
+            payload["motionBasedRetentionEnabled"] = motion_based_retention_enabled
+        if restricted_bandwidth_mode_enabled is not None:
+            payload["restrictedBandwidthModeEnabled"] = restricted_bandwidth_mode_enabled
+        if audio_recording_enabled is not None:
+            payload["audioRecordingEnabled"] = audio_recording_enabled
+        if cloud_archive_enabled is not None:
+            payload["cloudArchiveEnabled"] = cloud_archive_enabled
+        if motion_detector_version is not None:
+            payload["motionDetectorVersion"] = motion_detector_version
+        if smart_retention is not None:
+            payload["smartRetention"] = smart_retention
+        if schedule_id is not None:
+            payload["scheduleId"] = schedule_id
+        if max_retention_days is not None:
+            payload["maxRetentionDays"] = max_retention_days
+        if video_settings is not None:
+            payload["videoSettings"] = video_settings
 
         return self._session.put(metadata, resource, payload)
 
@@ -750,7 +816,7 @@ class Camera:
         return self._session.get(metadata, resource)
 
     def create_network_camera_wireless_profile(
-        self, network_id: str, name: str, ssid: dict, **kwargs: Any
+        self, network_id: str, name: str, ssid: dict, *, identity: dict | None = None
     ) -> dict[str, Any] | None:
         """Creates a new camera wireless profile for this network.
 
@@ -764,8 +830,6 @@ class Camera:
               in 8021x-radius auth mode.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["camera", "configure", "wirelessProfiles"],
             "operation": "create_network_camera_wireless_profile",
@@ -773,12 +837,13 @@ class Camera:
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/camera/wirelessProfiles"
 
-        body_params = [
-            "name",
-            "ssid",
-            "identity",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if name is not None:
+            payload["name"] = name
+        if ssid is not None:
+            payload["ssid"] = ssid
+        if identity is not None:
+            payload["identity"] = identity
 
         return self._session.post(metadata, resource, payload)
 
@@ -823,7 +888,13 @@ class Camera:
         return self._session.get(metadata, resource)
 
     def update_network_camera_wireless_profile(
-        self, network_id: str, wireless_profile_id: str, **kwargs: Any
+        self,
+        network_id: str,
+        wireless_profile_id: str,
+        *,
+        name: str | None = None,
+        ssid: dict | None = None,
+        identity: dict | None = None,
     ) -> dict[str, Any] | None:
         """Update an existing camera wireless profile in this network.
 
@@ -838,8 +909,6 @@ class Camera:
               in 8021x-radius auth mode.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["camera", "configure", "wirelessProfiles"],
             "operation": "update_network_camera_wireless_profile",
@@ -848,12 +917,13 @@ class Camera:
         wireless_profile_id = urllib.parse.quote(str(wireless_profile_id), safe="")
         resource = f"/networks/{network_id}/camera/wirelessProfiles/{wireless_profile_id}"
 
-        body_params = [
-            "name",
-            "ssid",
-            "identity",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if name is not None:
+            payload["name"] = name
+        if ssid is not None:
+            payload["ssid"] = ssid
+        if identity is not None:
+            payload["identity"] = identity
 
         return self._session.put(metadata, resource, payload)
 
@@ -880,7 +950,7 @@ class Camera:
         return self._session.delete(metadata, resource)
 
     def get_organization_camera_boundaries_areas_by_device(
-        self, organization_id: str, **kwargs: Any
+        self, organization_id: str, *, serials: list | None = None
     ) -> dict[str, Any] | None:
         """Returns all configured area boundaries of cameras.
 
@@ -892,8 +962,6 @@ class Camera:
               these serials.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["camera", "configure", "boundaries", "areas", "byDevice"],
             "operation": "get_organization_camera_boundaries_areas_by_device",
@@ -901,23 +969,14 @@ class Camera:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/camera/boundaries/areas/byDevice"
 
-        query_params = [
-            "serials",
-        ]
-        params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
-
-        array_params = [
-            "serials",
-        ]
-        for k in kwargs:
-            if k.strip() in array_params:
-                params[f"{k.strip()}[]"] = kwargs[f"{k}"]
-                params.pop(k.strip())
+        params = {}
+        if serials is not None:
+            params["serials[]"] = serials
 
         return self._session.get(metadata, resource, params)
 
     def get_organization_camera_boundaries_lines_by_device(
-        self, organization_id: str, **kwargs: Any
+        self, organization_id: str, *, serials: list | None = None
     ) -> dict[str, Any] | None:
         """Returns all configured crossingline boundaries of cameras.
 
@@ -929,8 +988,6 @@ class Camera:
               these serials.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["camera", "configure", "boundaries", "lines", "byDevice"],
             "operation": "get_organization_camera_boundaries_lines_by_device",
@@ -938,18 +995,9 @@ class Camera:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/camera/boundaries/lines/byDevice"
 
-        query_params = [
-            "serials",
-        ]
-        params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
-
-        array_params = [
-            "serials",
-        ]
-        for k in kwargs:
-            if k.strip() in array_params:
-                params[f"{k.strip()}[]"] = kwargs[f"{k}"]
-                params.pop(k.strip())
+        params = {}
+        if serials is not None:
+            params["serials[]"] = serials
 
         return self._session.get(metadata, resource, params)
 
@@ -974,7 +1022,7 @@ class Camera:
         return self._session.get(metadata, resource)
 
     def create_organization_camera_custom_analytics_artifact(
-        self, organization_id: str, **kwargs: Any
+        self, organization_id: str, *, name: str | None = None
     ) -> dict[str, Any] | None:
         """Create custom analytics artifact.
 
@@ -985,8 +1033,6 @@ class Camera:
             name: Unique name of the artifact.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["camera", "configure", "customAnalytics", "artifacts"],
             "operation": "create_organization_camera_custom_analytics_artifact",
@@ -994,10 +1040,9 @@ class Camera:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/camera/customAnalytics/artifacts"
 
-        body_params = [
-            "name",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if name is not None:
+            payload["name"] = name
 
         return self._session.post(metadata, resource, payload)
 
@@ -1052,11 +1097,14 @@ class Camera:
     def get_organization_camera_detections_history_by_boundary_by_interval(
         self,
         organization_id: str,
-        boundaryIds: list,
+        boundary_ids: list,
         ranges: list,
-        total_pages=1,
-        direction="next",
-        **kwargs: Any,
+        *,
+        duration: int | None = None,
+        per_page: int | None = None,
+        boundary_types: list | None = None,
+        total_pages: str = 1,
+        direction: str = "next",
     ) -> Generator[Any, None, None]:
         """Returns analytics data for timespans.
 
@@ -1064,21 +1112,19 @@ class Camera:
 
         Args:
             organization_id: Organization ID.
-            boundaryIds: A list of boundary ids. The returned cameras will be filtered to only
+            boundary_ids: A list of boundary ids. The returned cameras will be filtered to only
               include these ids.
             ranges: A list of time ranges with intervals.
+            duration: The minimum time, in seconds, that the person or car remains in the area to be
+              counted. Defaults to boundary configuration or 60.
+            per_page: The number of entries per page returned. Acceptable range is 1 - 1000.
+              Defaults to 1000.
+            boundary_types: The detection types. Defaults to 'person'.
             total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
-            duration: The minimum time, in seconds, that the person or car remains in the area to be
-              counted. Defaults to boundary configuration or 60.
-            perPage: The number of entries per page returned. Acceptable range is 1 - 1000. Defaults
-              to 1000.
-            boundaryTypes: The detection types. Defaults to 'person'.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["camera", "configure", "detections", "history", "byBoundary", "byInterval"],
             "operation": "get_organization_camera_detections_history_by_boundary_by_interval",
@@ -1088,29 +1134,22 @@ class Camera:
             f"/organizations/{organization_id}/camera/detections/history/byBoundary/byInterval"
         )
 
-        query_params = [
-            "boundaryIds",
-            "ranges",
-            "duration",
-            "perPage",
-            "boundaryTypes",
-        ]
-        params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
-
-        array_params = [
-            "boundaryIds",
-            "ranges",
-            "boundaryTypes",
-        ]
-        for k in kwargs:
-            if k.strip() in array_params:
-                params[f"{k.strip()}[]"] = kwargs[f"{k}"]
-                params.pop(k.strip())
+        params = {}
+        if boundary_ids is not None:
+            params["boundaryIds[]"] = boundary_ids
+        if ranges is not None:
+            params["ranges[]"] = ranges
+        if duration is not None:
+            params["duration"] = duration
+        if per_page is not None:
+            params["perPage"] = per_page
+        if boundary_types is not None:
+            params["boundaryTypes[]"] = boundary_types
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def get_organization_camera_onboarding_statuses(
-        self, organization_id: str, **kwargs: Any
+        self, organization_id: str, *, serials: list | None = None, network_ids: list | None = None
     ) -> dict[str, Any] | None:
         """Fetch onboarding status of cameras.
 
@@ -1120,12 +1159,10 @@ class Camera:
             organization_id: Organization ID.
             serials: A list of serial numbers. The returned cameras will be filtered to only include
               these serials.
-            networkIds: A list of network IDs. The returned cameras will be filtered to only include
-              these networks.
+            network_ids: A list of network IDs. The returned cameras will be filtered to only
+              include these networks.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["camera", "configure", "onboarding", "statuses"],
             "operation": "get_organization_camera_onboarding_statuses",
@@ -1133,25 +1170,20 @@ class Camera:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/camera/onboarding/statuses"
 
-        query_params = [
-            "serials",
-            "networkIds",
-        ]
-        params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
-
-        array_params = [
-            "serials",
-            "networkIds",
-        ]
-        for k in kwargs:
-            if k.strip() in array_params:
-                params[f"{k.strip()}[]"] = kwargs[f"{k}"]
-                params.pop(k.strip())
+        params = {}
+        if serials is not None:
+            params["serials[]"] = serials
+        if network_ids is not None:
+            params["networkIds[]"] = network_ids
 
         return self._session.get(metadata, resource, params)
 
     def update_organization_camera_onboarding_statuses(
-        self, organization_id: str, **kwargs: Any
+        self,
+        organization_id: str,
+        *,
+        serial: str | None = None,
+        wireless_credentials_sent: bool | None = None,
     ) -> dict[str, Any] | None:
         """Notify that credential handoff to camera has completed.
 
@@ -1160,11 +1192,9 @@ class Camera:
         Args:
             organization_id: Organization ID.
             serial: Serial of camera.
-            wirelessCredentialsSent: Note whether credentials were sent successfully.
+            wireless_credentials_sent: Note whether credentials were sent successfully.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["camera", "configure", "onboarding", "statuses"],
             "operation": "update_organization_camera_onboarding_statuses",
@@ -1172,11 +1202,11 @@ class Camera:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/camera/onboarding/statuses"
 
-        body_params = [
-            "serial",
-            "wirelessCredentialsSent",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if serial is not None:
+            payload["serial"] = serial
+        if wireless_credentials_sent is not None:
+            payload["wirelessCredentialsSent"] = wireless_credentials_sent
 
         return self._session.put(metadata, resource, payload)
 
@@ -1239,7 +1269,13 @@ class Camera:
         return self._session.get(metadata, resource)
 
     def create_organization_camera_role(
-        self, organization_id: str, name: str, **kwargs: Any
+        self,
+        organization_id: str,
+        name: str,
+        *,
+        applied_on_devices: list | None = None,
+        applied_on_networks: list | None = None,
+        applied_org_wide: list | None = None,
     ) -> dict[str, Any] | None:
         """Creates new role for this organization.
 
@@ -1248,13 +1284,11 @@ class Camera:
         Args:
             organization_id: Organization ID.
             name: The name of the new role. Must be unique. This parameter is required.
-            appliedOnDevices: Device tag on which this specified permission is applied.
-            appliedOnNetworks: Network tag on which this specified permission is applied.
-            appliedOrgWide: Permissions to be applied org wide.
+            applied_on_devices: Device tag on which this specified permission is applied.
+            applied_on_networks: Network tag on which this specified permission is applied.
+            applied_org_wide: Permissions to be applied org wide.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["camera", "configure", "roles"],
             "operation": "create_organization_camera_role",
@@ -1262,13 +1296,15 @@ class Camera:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/camera/roles"
 
-        body_params = [
-            "name",
-            "appliedOnDevices",
-            "appliedOnNetworks",
-            "appliedOrgWide",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if name is not None:
+            payload["name"] = name
+        if applied_on_devices is not None:
+            payload["appliedOnDevices"] = applied_on_devices
+        if applied_on_networks is not None:
+            payload["appliedOnNetworks"] = applied_on_networks
+        if applied_org_wide is not None:
+            payload["appliedOrgWide"] = applied_org_wide
 
         return self._session.post(metadata, resource, payload)
 
@@ -1315,7 +1351,14 @@ class Camera:
         return self._session.delete(metadata, resource)
 
     def update_organization_camera_role(
-        self, organization_id: str, role_id: str, **kwargs: Any
+        self,
+        organization_id: str,
+        role_id: str,
+        *,
+        name: str | None = None,
+        applied_on_devices: list | None = None,
+        applied_on_networks: list | None = None,
+        applied_org_wide: list | None = None,
     ) -> dict[str, Any] | None:
         """Update an existing role in this organization.
 
@@ -1325,13 +1368,11 @@ class Camera:
             organization_id: Organization ID.
             role_id: Role ID.
             name: The name of the new role. Must be unique.
-            appliedOnDevices: Device tag on which this specified permission is applied.
-            appliedOnNetworks: Network tag on which this specified permission is applied.
-            appliedOrgWide: Permissions to be applied org wide.
+            applied_on_devices: Device tag on which this specified permission is applied.
+            applied_on_networks: Network tag on which this specified permission is applied.
+            applied_org_wide: Permissions to be applied org wide.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["camera", "configure", "roles"],
             "operation": "update_organization_camera_role",
@@ -1340,12 +1381,14 @@ class Camera:
         role_id = urllib.parse.quote(str(role_id), safe="")
         resource = f"/organizations/{organization_id}/camera/roles/{role_id}"
 
-        body_params = [
-            "name",
-            "appliedOnDevices",
-            "appliedOnNetworks",
-            "appliedOrgWide",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if name is not None:
+            payload["name"] = name
+        if applied_on_devices is not None:
+            payload["appliedOnDevices"] = applied_on_devices
+        if applied_on_networks is not None:
+            payload["appliedOnNetworks"] = applied_on_networks
+        if applied_org_wide is not None:
+            payload["appliedOrgWide"] = applied_org_wide
 
         return self._session.put(metadata, resource, payload)

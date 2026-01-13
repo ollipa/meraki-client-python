@@ -29,7 +29,16 @@ class Networks:
 
         return self._session.get(metadata, resource)
 
-    def update_network(self, network_id: str, **kwargs: Any) -> dict[str, Any] | None:
+    def update_network(
+        self,
+        network_id: str,
+        *,
+        name: str | None = None,
+        time_zone: str | None = None,
+        tags: list | None = None,
+        enrollment_string: str | None = None,
+        notes: str | None = None,
+    ) -> dict[str, Any] | None:
         """Update a network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network
@@ -37,32 +46,33 @@ class Networks:
         Args:
             network_id: Network ID.
             name: The name of the network.
-            timeZone: The timezone of the network. For a list of allowed timezones, please see the
+            time_zone: The timezone of the network. For a list of allowed timezones, please see the
               'TZ' column in the table in <a target='_blank'
               href='https://en.wikipedia.org/wiki/List_of_tz_database_time_zones'>this
               article.</a>.
             tags: A list of tags to be applied to the network.
-            enrollmentString: A unique identifier which can be used for device enrollment or easy
+            enrollment_string: A unique identifier which can be used for device enrollment or easy
               access through the Meraki SM Registration page or the Self Service Portal.
               Please note that changing this field may cause existing bookmarks to
               break.
             notes: Add any notes or additional information about this network here.
 
         """
-        kwargs.update(locals())
-
         metadata = {"tags": ["networks", "configure"], "operation": "update_network"}
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}"
 
-        body_params = [
-            "name",
-            "timeZone",
-            "tags",
-            "enrollmentString",
-            "notes",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if name is not None:
+            payload["name"] = name
+        if time_zone is not None:
+            payload["timeZone"] = time_zone
+        if tags is not None:
+            payload["tags"] = tags
+        if enrollment_string is not None:
+            payload["enrollmentString"] = enrollment_string
+        if notes is not None:
+            payload["notes"] = notes
 
         return self._session.put(metadata, resource, payload)
 
@@ -82,7 +92,14 @@ class Networks:
         return self._session.delete(metadata, resource)
 
     def get_network_alerts_history(
-        self, network_id: str, total_pages=1, direction="next", **kwargs: Any
+        self,
+        network_id: str,
+        *,
+        per_page: int | None = None,
+        starting_after: str | None = None,
+        ending_before: str | None = None,
+        total_pages: str = 1,
+        direction: str = "next",
     ) -> Generator[Any, None, None]:
         """Return the alert history for this network.
 
@@ -90,23 +107,21 @@ class Networks:
 
         Args:
             network_id: Network ID.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
-              "all" for all pages.
-            direction: direction to paginate, either "next" (default) or "prev" page.
-            perPage: The number of entries per page returned. Acceptable range is 3 - 1000. Default
+            per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
               is 100.
-            startingAfter: A token used by the server to indicate the start of the page. Often this
+            starting_after: A token used by the server to indicate the start of the page. Often this
               is a timestamp or an ID but it is not limited to those. This parameter
               should not be defined by client applications. The link for the first,
               last, prev, or next page in the HTTP Link header should define it.
-            endingBefore: A token used by the server to indicate the end of the page. Often this is
+            ending_before: A token used by the server to indicate the end of the page. Often this is
               a timestamp or an ID but it is not limited to those. This parameter should
               not be defined by client applications. The link for the first, last, prev,
               or next page in the HTTP Link header should define it.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["networks", "monitor", "alerts", "history"],
             "operation": "get_network_alerts_history",
@@ -114,12 +129,13 @@ class Networks:
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/alerts/history"
 
-        query_params = [
-            "perPage",
-            "startingAfter",
-            "endingBefore",
-        ]
-        params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
+        params = {}
+        if per_page is not None:
+            params["perPage"] = per_page
+        if starting_after is not None:
+            params["startingAfter"] = starting_after
+        if ending_before is not None:
+            params["endingBefore"] = ending_before
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
@@ -142,7 +158,12 @@ class Networks:
         return self._session.get(metadata, resource)
 
     def update_network_alerts_settings(
-        self, network_id: str, **kwargs: Any
+        self,
+        network_id: str,
+        *,
+        default_destinations: dict | None = None,
+        alerts: list | None = None,
+        muting: dict | None = None,
     ) -> dict[str, Any] | None:
         """Update the alert configuration for this network.
 
@@ -150,14 +171,12 @@ class Networks:
 
         Args:
             network_id: Network ID.
-            defaultDestinations: The network-wide destinations for all alerts on the network.
+            default_destinations: The network-wide destinations for all alerts on the network.
             alerts: Alert-specific configuration for each type. Only alerts that pertain to the
               network can be updated.
             muting: Mute alerts under certain conditions.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["networks", "configure", "alerts", "settings"],
             "operation": "update_network_alerts_settings",
@@ -165,17 +184,18 @@ class Networks:
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/alerts/settings"
 
-        body_params = [
-            "defaultDestinations",
-            "alerts",
-            "muting",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if default_destinations is not None:
+            payload["defaultDestinations"] = default_destinations
+        if alerts is not None:
+            payload["alerts"] = alerts
+        if muting is not None:
+            payload["muting"] = muting
 
         return self._session.put(metadata, resource, payload)
 
     def bind_network(
-        self, network_id: str, configTemplateId: str, **kwargs: Any
+        self, network_id: str, config_template_id: str, *, auto_bind: bool | None = None
     ) -> dict[str, Any] | None:
         """Bind a network to a template.
 
@@ -183,30 +203,38 @@ class Networks:
 
         Args:
             network_id: Network ID.
-            configTemplateId: The ID of the template to which the network should be bound.
-            autoBind: Optional boolean indicating whether the network's switches should
+            config_template_id: The ID of the template to which the network should be bound.
+            auto_bind: Optional boolean indicating whether the network's switches should
               automatically bind to profiles of the same model. Defaults to false if
               left unspecified. This option only affects switch networks and switch
               templates. Auto-bind is not valid unless the switch template has at least
               one profile and has at most one profile per switch model.
 
         """
-        kwargs.update(locals())
-
         metadata = {"tags": ["networks", "configure"], "operation": "bind_network"}
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/bind"
 
-        body_params = [
-            "configTemplateId",
-            "autoBind",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if config_template_id is not None:
+            payload["configTemplateId"] = config_template_id
+        if auto_bind is not None:
+            payload["autoBind"] = auto_bind
 
         return self._session.post(metadata, resource, payload)
 
     def get_network_bluetooth_clients(
-        self, network_id: str, total_pages=1, direction="next", **kwargs: Any
+        self,
+        network_id: str,
+        *,
+        t0: str | None = None,
+        timespan: float | None = None,
+        per_page: int | None = None,
+        starting_after: str | None = None,
+        ending_before: str | None = None,
+        include_connectivity_history: bool | None = None,
+        total_pages: str = 1,
+        direction: str = "next",
     ) -> Generator[Any, None, None]:
         """List the Bluetooth clients seen by APs in this network.
 
@@ -214,29 +242,27 @@ class Networks:
 
         Args:
             network_id: Network ID.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
-              "all" for all pages.
-            direction: direction to paginate, either "next" (default) or "prev" page.
             t0: The beginning of the timespan for the data. The maximum lookback period is 7 days
               from today.
             timespan: The timespan for which the information will be fetched. If specifying
               timespan, do not specify parameter t0. The value must be in seconds and be
               less than or equal to 7 days. The default is 1 day.
-            perPage: The number of entries per page returned. Acceptable range is 5 - 1000. Default
+            per_page: The number of entries per page returned. Acceptable range is 5 - 1000. Default
               is 10.
-            startingAfter: A token used by the server to indicate the start of the page. Often this
+            starting_after: A token used by the server to indicate the start of the page. Often this
               is a timestamp or an ID but it is not limited to those. This parameter
               should not be defined by client applications. The link for the first,
               last, prev, or next page in the HTTP Link header should define it.
-            endingBefore: A token used by the server to indicate the end of the page. Often this is
+            ending_before: A token used by the server to indicate the end of the page. Often this is
               a timestamp or an ID but it is not limited to those. This parameter should
               not be defined by client applications. The link for the first, last, prev,
               or next page in the HTTP Link header should define it.
-            includeConnectivityHistory: Include the connectivity history for this client.
+            include_connectivity_history: Include the connectivity history for this client.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["networks", "monitor", "bluetoothClients"],
             "operation": "get_network_bluetooth_clients",
@@ -244,20 +270,29 @@ class Networks:
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/bluetoothClients"
 
-        query_params = [
-            "t0",
-            "timespan",
-            "perPage",
-            "startingAfter",
-            "endingBefore",
-            "includeConnectivityHistory",
-        ]
-        params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
+        params = {}
+        if t0 is not None:
+            params["t0"] = t0
+        if timespan is not None:
+            params["timespan"] = timespan
+        if per_page is not None:
+            params["perPage"] = per_page
+        if starting_after is not None:
+            params["startingAfter"] = starting_after
+        if ending_before is not None:
+            params["endingBefore"] = ending_before
+        if include_connectivity_history is not None:
+            params["includeConnectivityHistory"] = include_connectivity_history
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def get_network_bluetooth_client(
-        self, network_id: str, bluetooth_client_id: str, **kwargs: Any
+        self,
+        network_id: str,
+        bluetooth_client_id: str,
+        *,
+        include_connectivity_history: bool | None = None,
+        connectivity_history_timespan: int | None = None,
     ) -> dict[str, Any] | None:
         """Return a Bluetooth client.
 
@@ -266,13 +301,11 @@ class Networks:
         Args:
             network_id: Network ID.
             bluetooth_client_id: Bluetooth client ID.
-            includeConnectivityHistory: Include the connectivity history for this client.
-            connectivityHistoryTimespan: The timespan, in seconds, for the connectivityHistory data.
-              By default 1 day, 86400, will be used.
+            include_connectivity_history: Include the connectivity history for this client.
+            connectivity_history_timespan: The timespan, in seconds, for the connectivityHistory
+              data. By default 1 day, 86400, will be used.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["networks", "monitor", "bluetoothClients"],
             "operation": "get_network_bluetooth_client",
@@ -281,16 +314,36 @@ class Networks:
         bluetooth_client_id = urllib.parse.quote(str(bluetooth_client_id), safe="")
         resource = f"/networks/{network_id}/bluetoothClients/{bluetooth_client_id}"
 
-        query_params = [
-            "includeConnectivityHistory",
-            "connectivityHistoryTimespan",
-        ]
-        params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
+        params = {}
+        if include_connectivity_history is not None:
+            params["includeConnectivityHistory"] = include_connectivity_history
+        if connectivity_history_timespan is not None:
+            params["connectivityHistoryTimespan"] = connectivity_history_timespan
 
         return self._session.get(metadata, resource, params)
 
     def get_network_clients(
-        self, network_id: str, total_pages=1, direction="next", **kwargs: Any
+        self,
+        network_id: str,
+        *,
+        t0: str | None = None,
+        timespan: float | None = None,
+        per_page: int | None = None,
+        starting_after: str | None = None,
+        ending_before: str | None = None,
+        statuses: list | None = None,
+        ip: str | None = None,
+        ip6: str | None = None,
+        ip6_local: str | None = None,
+        mac: str | None = None,
+        os: str | None = None,
+        psk_group: str | None = None,
+        description: str | None = None,
+        vlan: str | None = None,
+        named_vlan: str | None = None,
+        recent_device_connections: list | None = None,
+        total_pages: str = 1,
+        direction: str = "next",
     ) -> Generator[Any, None, None]:
         """List the clients that have used this network in the timespan.
 
@@ -298,79 +351,94 @@ class Networks:
 
         Args:
             network_id: Network ID.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
-              "all" for all pages.
-            direction: direction to paginate, either "next" (default) or "prev" page.
             t0: The beginning of the timespan for the data. The maximum lookback period is 31 days
               from today.
             timespan: The timespan for which the information will be fetched. If specifying
               timespan, do not specify parameter t0. The value must be in seconds and be
               less than or equal to 31 days. The default is 1 day.
-            perPage: The number of entries per page returned. Acceptable range is 3 - 5000. Default
+            per_page: The number of entries per page returned. Acceptable range is 3 - 5000. Default
               is 10.
-            startingAfter: A token used by the server to indicate the start of the page. Often this
+            starting_after: A token used by the server to indicate the start of the page. Often this
               is a timestamp or an ID but it is not limited to those. This parameter
               should not be defined by client applications. The link for the first,
               last, prev, or next page in the HTTP Link header should define it.
-            endingBefore: A token used by the server to indicate the end of the page. Often this is
+            ending_before: A token used by the server to indicate the end of the page. Often this is
               a timestamp or an ID but it is not limited to those. This parameter should
               not be defined by client applications. The link for the first, last, prev,
               or next page in the HTTP Link header should define it.
             statuses: Filters clients based on status. Can be one of 'Online' or 'Offline'.
             ip: Filters clients based on a partial or full match for the ip address field.
             ip6: Filters clients based on a partial or full match for the ip6 address field.
-            ip6Local: Filters clients based on a partial or full match for the ip6Local address
+            ip6_local: Filters clients based on a partial or full match for the ip6Local address
               field.
             mac: Filters clients based on a partial or full match for the mac address field.
             os: Filters clients based on a partial or full match for the os (operating system)
               field.
-            pskGroup: Filters clients based on partial or full match for the iPSK name field.
+            psk_group: Filters clients based on partial or full match for the iPSK name field.
             description: Filters clients based on a partial or full match for the description field.
             vlan: Filters clients based on the full match for the VLAN field.
-            namedVlan: Filters clients based on the partial or full match for the named VLAN field.
-            recentDeviceConnections: Filters clients based on recent connection type. Can be one of
-              'Wired' or 'Wireless'.
+            named_vlan: Filters clients based on the partial or full match for the named VLAN field.
+            recent_device_connections: Filters clients based on recent connection type. Can be one
+              of 'Wired' or 'Wireless'.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        kwargs.update(locals())
-
         metadata = {"tags": ["networks", "monitor", "clients"], "operation": "get_network_clients"}
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/clients"
 
-        query_params = [
-            "t0",
-            "timespan",
-            "perPage",
-            "startingAfter",
-            "endingBefore",
-            "statuses",
-            "ip",
-            "ip6",
-            "ip6Local",
-            "mac",
-            "os",
-            "pskGroup",
-            "description",
-            "vlan",
-            "namedVlan",
-            "recentDeviceConnections",
-        ]
-        params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
-
-        array_params = [
-            "statuses",
-            "recentDeviceConnections",
-        ]
-        for k in kwargs:
-            if k.strip() in array_params:
-                params[f"{k.strip()}[]"] = kwargs[f"{k}"]
-                params.pop(k.strip())
+        params = {}
+        if t0 is not None:
+            params["t0"] = t0
+        if timespan is not None:
+            params["timespan"] = timespan
+        if per_page is not None:
+            params["perPage"] = per_page
+        if starting_after is not None:
+            params["startingAfter"] = starting_after
+        if ending_before is not None:
+            params["endingBefore"] = ending_before
+        if statuses is not None:
+            params["statuses[]"] = statuses
+        if ip is not None:
+            params["ip"] = ip
+        if ip6 is not None:
+            params["ip6"] = ip6
+        if ip6_local is not None:
+            params["ip6Local"] = ip6_local
+        if mac is not None:
+            params["mac"] = mac
+        if os is not None:
+            params["os"] = os
+        if psk_group is not None:
+            params["pskGroup"] = psk_group
+        if description is not None:
+            params["description"] = description
+        if vlan is not None:
+            params["vlan"] = vlan
+        if named_vlan is not None:
+            params["namedVlan"] = named_vlan
+        if recent_device_connections is not None:
+            params["recentDeviceConnections[]"] = recent_device_connections
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def get_network_clients_application_usage(
-        self, network_id: str, clients: str, total_pages=1, direction="next", **kwargs: Any
+        self,
+        network_id: str,
+        clients: str,
+        *,
+        ssid_number: int | None = None,
+        per_page: int | None = None,
+        starting_after: str | None = None,
+        ending_before: str | None = None,
+        t0: str | None = None,
+        t1: str | None = None,
+        timespan: float | None = None,
+        total_pages: str = 1,
+        direction: str = "next",
     ) -> Generator[Any, None, None]:
         """Return the application usage data for clients.
 
@@ -379,17 +447,14 @@ class Networks:
         Args:
             network_id: Network ID.
             clients: A list of client keys, MACs or IPs separated by comma.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
-              "all" for all pages.
-            direction: direction to paginate, either "next" (default) or "prev" page.
-            ssidNumber: An SSID number to include. If not specified, events for all SSIDs will be
+            ssid_number: An SSID number to include. If not specified, events for all SSIDs will be
               returned.
-            perPage: The number of entries per page returned. Acceptable range is 3 - 1000.
-            startingAfter: A token used by the server to indicate the start of the page. Often this
+            per_page: The number of entries per page returned. Acceptable range is 3 - 1000.
+            starting_after: A token used by the server to indicate the start of the page. Often this
               is a timestamp or an ID but it is not limited to those. This parameter
               should not be defined by client applications. The link for the first,
               last, prev, or next page in the HTTP Link header should define it.
-            endingBefore: A token used by the server to indicate the end of the page. Often this is
+            ending_before: A token used by the server to indicate the end of the page. Often this is
               a timestamp or an ID but it is not limited to those. This parameter should
               not be defined by client applications. The link for the first, last, prev,
               or next page in the HTTP Link header should define it.
@@ -399,14 +464,15 @@ class Networks:
             timespan: The timespan for which the information will be fetched. If specifying
               timespan, do not specify parameters t0 and t1. The value must be in
               seconds and be less than or equal to 31 days. The default is 1 day.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        kwargs.update(locals())
-
-        if "ssidNumber" in kwargs:
+        if ssid_number is not None:
             options = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
-            assert kwargs["ssidNumber"] in options, (
-                f'''"ssidNumber" cannot be "{kwargs["ssidNumber"]}", & must be set to one of: {options}'''
+            assert ssid_number in options, (
+                f'"ssid_number" cannot be "{ssid_number}", & must be set to one of: {options}'
             )
 
         metadata = {
@@ -416,22 +482,38 @@ class Networks:
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/clients/applicationUsage"
 
-        query_params = [
-            "clients",
-            "ssidNumber",
-            "perPage",
-            "startingAfter",
-            "endingBefore",
-            "t0",
-            "t1",
-            "timespan",
-        ]
-        params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
+        params = {}
+        if clients is not None:
+            params["clients"] = clients
+        if ssid_number is not None:
+            params["ssidNumber"] = ssid_number
+        if per_page is not None:
+            params["perPage"] = per_page
+        if starting_after is not None:
+            params["startingAfter"] = starting_after
+        if ending_before is not None:
+            params["endingBefore"] = ending_before
+        if t0 is not None:
+            params["t0"] = t0
+        if t1 is not None:
+            params["t1"] = t1
+        if timespan is not None:
+            params["timespan"] = timespan
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def get_network_clients_bandwidth_usage_history(
-        self, network_id: str, total_pages=1, direction="next", **kwargs: Any
+        self,
+        network_id: str,
+        *,
+        t0: str | None = None,
+        t1: str | None = None,
+        timespan: float | None = None,
+        per_page: int | None = None,
+        starting_after: str | None = None,
+        ending_before: str | None = None,
+        total_pages: str = 1,
+        direction: str = "next",
     ) -> Generator[Any, None, None]:
         """Returns a timeseries of total traffic consumption rates for all clients on a network within a given timespan, in megabits per second.
 
@@ -439,29 +521,27 @@ class Networks:
 
         Args:
             network_id: Network ID.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
-              "all" for all pages.
-            direction: direction to paginate, either "next" (default) or "prev" page.
             t0: The beginning of the timespan for the data. The maximum lookback period is 30 days
               from today.
             t1: The end of the timespan for the data. t1 can be a maximum of 31 days after t0.
             timespan: The timespan for which the information will be fetched. If specifying
               timespan, do not specify parameters t0 and t1. The value must be in
               seconds and be less than or equal to 31 days. The default is 1 day.
-            perPage: The number of entries per page returned. Acceptable range is 3 - 1000. Default
+            per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
               is 1000.
-            startingAfter: A token used by the server to indicate the start of the page. Often this
+            starting_after: A token used by the server to indicate the start of the page. Often this
               is a timestamp or an ID but it is not limited to those. This parameter
               should not be defined by client applications. The link for the first,
               last, prev, or next page in the HTTP Link header should define it.
-            endingBefore: A token used by the server to indicate the end of the page. Often this is
+            ending_before: A token used by the server to indicate the end of the page. Often this is
               a timestamp or an ID but it is not limited to those. This parameter should
               not be defined by client applications. The link for the first, last, prev,
               or next page in the HTTP Link header should define it.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["networks", "monitor", "clients", "bandwidthUsageHistory"],
             "operation": "get_network_clients_bandwidth_usage_history",
@@ -469,19 +549,31 @@ class Networks:
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/clients/bandwidthUsageHistory"
 
-        query_params = [
-            "t0",
-            "t1",
-            "timespan",
-            "perPage",
-            "startingAfter",
-            "endingBefore",
-        ]
-        params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
+        params = {}
+        if t0 is not None:
+            params["t0"] = t0
+        if t1 is not None:
+            params["t1"] = t1
+        if timespan is not None:
+            params["timespan"] = timespan
+        if per_page is not None:
+            params["perPage"] = per_page
+        if starting_after is not None:
+            params["startingAfter"] = starting_after
+        if ending_before is not None:
+            params["endingBefore"] = ending_before
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
-    def get_network_clients_overview(self, network_id: str, **kwargs: Any) -> dict[str, Any] | None:
+    def get_network_clients_overview(
+        self,
+        network_id: str,
+        *,
+        t0: str | None = None,
+        t1: str | None = None,
+        timespan: float | None = None,
+        resolution: int | None = None,
+    ) -> dict[str, Any] | None:
         """Return overview statistics for network clients.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-clients-overview
@@ -498,8 +590,6 @@ class Networks:
               7200, 86400, 604800, 2592000. The default is 604800.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["networks", "monitor", "clients", "overview"],
             "operation": "get_network_clients_overview",
@@ -507,18 +597,27 @@ class Networks:
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/clients/overview"
 
-        query_params = [
-            "t0",
-            "t1",
-            "timespan",
-            "resolution",
-        ]
-        params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
+        params = {}
+        if t0 is not None:
+            params["t0"] = t0
+        if t1 is not None:
+            params["t1"] = t1
+        if timespan is not None:
+            params["timespan"] = timespan
+        if resolution is not None:
+            params["resolution"] = resolution
 
         return self._session.get(metadata, resource, params)
 
     def provision_network_clients(
-        self, network_id: str, clients: list, devicePolicy: str, **kwargs: Any
+        self,
+        network_id: str,
+        clients: list,
+        device_policy: str,
+        *,
+        group_policy_id: str | None = None,
+        policies_by_security_appliance: dict | None = None,
+        policies_by_ssid: dict | None = None,
     ) -> dict[str, Any] | None:
         """Provisions a client with a name and policy.
 
@@ -527,24 +626,22 @@ class Networks:
         Args:
             network_id: Network ID.
             clients: The array of clients to provision.
-            devicePolicy: The policy to apply to the specified client. Can be 'Group policy',
+            device_policy: The policy to apply to the specified client. Can be 'Group policy',
               'Allowed', 'Blocked', 'Per connection' or 'Normal'. Required.
-            groupPolicyId: The ID of the desired group policy to apply to the client. Required if
+            group_policy_id: The ID of the desired group policy to apply to the client. Required if
               'devicePolicy' is set to "Group policy". Otherwise this is ignored.
-            policiesBySecurityAppliance: An object, describing what the policy-connection
+            policies_by_security_appliance: An object, describing what the policy-connection
               association is for the security appliance. (Only relevant if the security
               appliance is actually within the network).
-            policiesBySsid: An object, describing the policy-connection associations for each active
-              SSID within the network. Keys should be the number of enabled SSIDs,
-              mapping to an object describing the client's policy.
+            policies_by_ssid: An object, describing the policy-connection associations for each
+              active SSID within the network. Keys should be the number of enabled
+              SSIDs, mapping to an object describing the client's policy.
 
         """
-        kwargs.update(locals())
-
-        if "devicePolicy" in kwargs:
+        if device_policy is not None:
             options = ["Allowed", "Blocked", "Group policy", "Normal", "Per connection"]
-            assert kwargs["devicePolicy"] in options, (
-                f'''"devicePolicy" cannot be "{kwargs["devicePolicy"]}", & must be set to one of: {options}'''
+            assert device_policy in options, (
+                f'"device_policy" cannot be "{device_policy}", & must be set to one of: {options}'
             )
 
         metadata = {
@@ -554,19 +651,34 @@ class Networks:
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/clients/provision"
 
-        body_params = [
-            "clients",
-            "devicePolicy",
-            "groupPolicyId",
-            "policiesBySecurityAppliance",
-            "policiesBySsid",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if clients is not None:
+            payload["clients"] = clients
+        if device_policy is not None:
+            payload["devicePolicy"] = device_policy
+        if group_policy_id is not None:
+            payload["groupPolicyId"] = group_policy_id
+        if policies_by_security_appliance is not None:
+            payload["policiesBySecurityAppliance"] = policies_by_security_appliance
+        if policies_by_ssid is not None:
+            payload["policiesBySsid"] = policies_by_ssid
 
         return self._session.post(metadata, resource, payload)
 
     def get_network_clients_usage_histories(
-        self, network_id: str, clients: str, total_pages=1, direction="next", **kwargs: Any
+        self,
+        network_id: str,
+        clients: str,
+        *,
+        ssid_number: int | None = None,
+        per_page: int | None = None,
+        starting_after: str | None = None,
+        ending_before: str | None = None,
+        t0: str | None = None,
+        t1: str | None = None,
+        timespan: float | None = None,
+        total_pages: str = 1,
+        direction: str = "next",
     ) -> Generator[Any, None, None]:
         """Return the usage histories for clients.
 
@@ -575,17 +687,14 @@ class Networks:
         Args:
             network_id: Network ID.
             clients: A list of client keys, MACs or IPs separated by comma.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
-              "all" for all pages.
-            direction: direction to paginate, either "next" (default) or "prev" page.
-            ssidNumber: An SSID number to include. If not specified, events for all SSIDs will be
+            ssid_number: An SSID number to include. If not specified, events for all SSIDs will be
               returned.
-            perPage: The number of entries per page returned. Acceptable range is 3 - 1000.
-            startingAfter: A token used by the server to indicate the start of the page. Often this
+            per_page: The number of entries per page returned. Acceptable range is 3 - 1000.
+            starting_after: A token used by the server to indicate the start of the page. Often this
               is a timestamp or an ID but it is not limited to those. This parameter
               should not be defined by client applications. The link for the first,
               last, prev, or next page in the HTTP Link header should define it.
-            endingBefore: A token used by the server to indicate the end of the page. Often this is
+            ending_before: A token used by the server to indicate the end of the page. Often this is
               a timestamp or an ID but it is not limited to those. This parameter should
               not be defined by client applications. The link for the first, last, prev,
               or next page in the HTTP Link header should define it.
@@ -595,14 +704,15 @@ class Networks:
             timespan: The timespan for which the information will be fetched. If specifying
               timespan, do not specify parameters t0 and t1. The value must be in
               seconds and be less than or equal to 31 days. The default is 1 day.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        kwargs.update(locals())
-
-        if "ssidNumber" in kwargs:
+        if ssid_number is not None:
             options = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
-            assert kwargs["ssidNumber"] in options, (
-                f'''"ssidNumber" cannot be "{kwargs["ssidNumber"]}", & must be set to one of: {options}'''
+            assert ssid_number in options, (
+                f'"ssid_number" cannot be "{ssid_number}", & must be set to one of: {options}'
             )
 
         metadata = {
@@ -612,17 +722,23 @@ class Networks:
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/clients/usageHistories"
 
-        query_params = [
-            "clients",
-            "ssidNumber",
-            "perPage",
-            "startingAfter",
-            "endingBefore",
-            "t0",
-            "t1",
-            "timespan",
-        ]
-        params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
+        params = {}
+        if clients is not None:
+            params["clients"] = clients
+        if ssid_number is not None:
+            params["ssidNumber"] = ssid_number
+        if per_page is not None:
+            params["perPage"] = per_page
+        if starting_after is not None:
+            params["startingAfter"] = starting_after
+        if ending_before is not None:
+            params["endingBefore"] = ending_before
+        if t0 is not None:
+            params["t0"] = t0
+        if t1 is not None:
+            params["t1"] = t1
+        if timespan is not None:
+            params["timespan"] = timespan
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
@@ -664,7 +780,12 @@ class Networks:
         return self._session.get(metadata, resource)
 
     def update_network_client_policy(
-        self, network_id: str, client_id: str, devicePolicy: str, **kwargs: Any
+        self,
+        network_id: str,
+        client_id: str,
+        device_policy: str,
+        *,
+        group_policy_id: str | None = None,
     ) -> dict[str, Any] | None:
         """Update the policy assigned to a client on the network.
 
@@ -673,14 +794,12 @@ class Networks:
         Args:
             network_id: Network ID.
             client_id: Client ID.
-            devicePolicy: The policy to assign. Can be 'Whitelisted', 'Blocked', 'Normal' or 'Group
+            device_policy: The policy to assign. Can be 'Whitelisted', 'Blocked', 'Normal' or 'Group
               policy'. Required.
-            groupPolicyId: [Optional] If 'devicePolicy' is set to 'Group policy' this param is used
-              to specify the group policy ID.
+            group_policy_id: [Optional] If 'devicePolicy' is set to 'Group policy' this param is
+              used to specify the group policy ID.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["networks", "configure", "clients", "policy"],
             "operation": "update_network_client_policy",
@@ -689,11 +808,11 @@ class Networks:
         client_id = urllib.parse.quote(str(client_id), safe="")
         resource = f"/networks/{network_id}/clients/{client_id}/policy"
 
-        body_params = [
-            "devicePolicy",
-            "groupPolicyId",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if device_policy is not None:
+            payload["devicePolicy"] = device_policy
+        if group_policy_id is not None:
+            payload["groupPolicyId"] = group_policy_id
 
         return self._session.put(metadata, resource, payload)
 
@@ -735,8 +854,6 @@ class Networks:
               all networks support configuring all SSIDs.
 
         """
-        kwargs = locals()
-
         metadata = {
             "tags": ["networks", "configure", "clients", "splashAuthorizationStatus"],
             "operation": "update_network_client_splash_authorization_status",
@@ -745,15 +862,22 @@ class Networks:
         client_id = urllib.parse.quote(str(client_id), safe="")
         resource = f"/networks/{network_id}/clients/{client_id}/splashAuthorizationStatus"
 
-        body_params = [
-            "ssids",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if ssids is not None:
+            payload["ssids"] = ssids
 
         return self._session.put(metadata, resource, payload)
 
     def get_network_client_traffic_history(
-        self, network_id: str, client_id: str, total_pages=1, direction="next", **kwargs: Any
+        self,
+        network_id: str,
+        client_id: str,
+        *,
+        per_page: int | None = None,
+        starting_after: str | None = None,
+        ending_before: str | None = None,
+        total_pages: str = 1,
+        direction: str = "next",
     ) -> Generator[Any, None, None]:
         """Return the client's network traffic data over time.
 
@@ -762,22 +886,20 @@ class Networks:
         Args:
             network_id: Network ID.
             client_id: Client ID.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
-              "all" for all pages.
-            direction: direction to paginate, either "next" (default) or "prev" page.
-            perPage: The number of entries per page returned. Acceptable range is 3 - 1000.
-            startingAfter: A token used by the server to indicate the start of the page. Often this
+            per_page: The number of entries per page returned. Acceptable range is 3 - 1000.
+            starting_after: A token used by the server to indicate the start of the page. Often this
               is a timestamp or an ID but it is not limited to those. This parameter
               should not be defined by client applications. The link for the first,
               last, prev, or next page in the HTTP Link header should define it.
-            endingBefore: A token used by the server to indicate the end of the page. Often this is
+            ending_before: A token used by the server to indicate the end of the page. Often this is
               a timestamp or an ID but it is not limited to those. This parameter should
               not be defined by client applications. The link for the first, last, prev,
               or next page in the HTTP Link header should define it.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["networks", "monitor", "clients", "trafficHistory"],
             "operation": "get_network_client_traffic_history",
@@ -786,12 +908,13 @@ class Networks:
         client_id = urllib.parse.quote(str(client_id), safe="")
         resource = f"/networks/{network_id}/clients/{client_id}/trafficHistory"
 
-        query_params = [
-            "perPage",
-            "startingAfter",
-            "endingBefore",
-        ]
-        params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
+        params = {}
+        if per_page is not None:
+            params["perPage"] = per_page
+        if starting_after is not None:
+            params["startingAfter"] = starting_after
+        if ending_before is not None:
+            params["endingBefore"] = ending_before
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
@@ -836,7 +959,12 @@ class Networks:
         return self._session.get(metadata, resource)
 
     def claim_network_devices(
-        self, network_id: str, serials: list, **kwargs: Any
+        self,
+        network_id: str,
+        serials: list,
+        *,
+        add_atomically: bool | None = None,
+        details_by_device: list | None = None,
     ) -> dict[str, Any] | None:
         """Claim devices into a network. (Note: for recently claimed devices, it may take a few minutes for API requests against that device to succeed).
 
@@ -844,15 +972,13 @@ class Networks:
 
         Args:
             network_id: Network ID.
+            add_atomically: Whether to claim devices atomically. If true, all devices will be
+              claimed or none will be claimed. Default is true.
             serials: A list of serials of devices to claim.
-            addAtomically: Whether to claim devices atomically. If true, all devices will be claimed
-              or none will be claimed. Default is true.
-            detailsByDevice: Optional details for claimed devices (currently only used for Catalyst
-              devices).
+            details_by_device: Optional details for claimed devices (currently only used for
+              Catalyst devices).
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["networks", "configure", "devices"],
             "operation": "claim_network_devices",
@@ -860,11 +986,15 @@ class Networks:
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/devices/claim"
 
-        body_params = [
-            "serials",
-            "detailsByDevice",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        params = {}
+        if add_atomically is not None:
+            params["addAtomically"] = add_atomically
+
+        payload = {}
+        if serials is not None:
+            payload["serials"] = serials
+        if details_by_device is not None:
+            payload["detailsByDevice"] = details_by_device
 
         return self._session.post(metadata, resource, payload)
 
@@ -879,13 +1009,9 @@ class Networks:
               100.
 
         """
-        kwargs = locals()
-
-        if "size" in kwargs:
+        if size is not None:
             options = ["100", "large", "medium", "small", "xlarge"]
-            assert kwargs["size"] in options, (
-                f'''"size" cannot be "{kwargs["size"]}", & must be set to one of: {options}'''
-            )
+            assert size in options, f'"size" cannot be "{size}", & must be set to one of: {options}'
 
         metadata = {
             "tags": ["networks", "configure", "devices", "claim"],
@@ -894,10 +1020,9 @@ class Networks:
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/devices/claim/vmx"
 
-        body_params = [
-            "size",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if size is not None:
+            payload["size"] = size
 
         return self._session.post(metadata, resource, payload)
 
@@ -911,8 +1036,6 @@ class Networks:
             serial: The serial of a device.
 
         """
-        kwargs = locals()
-
         metadata = {
             "tags": ["networks", "configure", "devices"],
             "operation": "remove_network_devices",
@@ -920,20 +1043,36 @@ class Networks:
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/devices/remove"
 
-        body_params = [
-            "serial",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if serial is not None:
+            payload["serial"] = serial
 
         return self._session.post(metadata, resource, payload)
 
     def get_network_events(
         self,
         network_id: str,
-        total_pages=1,
-        direction="prev",
-        event_log_end_time=None,
-        **kwargs: Any,
+        *,
+        product_type: str | None = None,
+        included_event_types: list | None = None,
+        excluded_event_types: list | None = None,
+        device_mac: str | None = None,
+        device_serial: str | None = None,
+        device_name: str | None = None,
+        client_ip: str | None = None,
+        client_mac: str | None = None,
+        client_name: str | None = None,
+        sm_device_mac: str | None = None,
+        sm_device_name: str | None = None,
+        event_details: str | None = None,
+        event_severity: str | None = None,
+        is_catalyst: bool | None = None,
+        per_page: int | None = None,
+        starting_after: str | None = None,
+        ending_before: str | None = None,
+        total_pages: str = 1,
+        direction: str = "prev",
+        event_log_end_time: str | None = None,
     ) -> Generator[Any, None, None]:
         """List the events for the network.
 
@@ -941,56 +1080,54 @@ class Networks:
 
         Args:
             network_id: Network ID.
+            product_type: The product type to fetch events for. This parameter is required for
+              networks with multiple device types. Valid types are wireless, appliance,
+              switch, systemsManager, camera, cellularGateway, wirelessController,
+              campusGateway, and secureConnect.
+            included_event_types: A list of event types. The returned events will be filtered to
+              only include events with these types.
+            excluded_event_types: A list of event types. The returned events will be filtered to
+              exclude events with these types.
+            device_mac: The MAC address of the Meraki device which the list of events will be
+              filtered with.
+            device_serial: The serial of the Meraki device which the list of events will be filtered
+              with.
+            device_name: The name of the Meraki device which the list of events will be filtered
+              with.
+            client_ip: The IP of the client which the list of events will be filtered with. Only
+              supported for track-by-IP networks.
+            client_mac: The MAC address of the client which the list of events will be filtered
+              with. Only supported for track-by-MAC networks.
+            client_name: The name, or partial name, of the client which the list of events will be
+              filtered with.
+            sm_device_mac: The MAC address of the Systems Manager device which the list of events
+              will be filtered with.
+            sm_device_name: The name of the Systems Manager device which the list of events will be
+              filtered with.
+            event_details: The details of the event(Catalyst device only) which the list of events
+              will be filtered with.
+            event_severity: The severity of the event(Catalyst device only) which the list of events
+              will be filtered with.
+            is_catalyst: Boolean indicating that whether it is a Catalyst device. For Catalyst
+              device, eventDetails and eventSeverity can be used to filter events.
+            per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
+              is 10.
+            starting_after: A token used by the server to indicate the start of the page. Often this
+              is a timestamp or an ID but it is not limited to those. This parameter
+              should not be defined by client applications. The link for the first,
+              last, prev, or next page in the HTTP Link header should define it.
+            ending_before: A token used by the server to indicate the end of the page. Often this is
+              a timestamp or an ID but it is not limited to those. This parameter should
+              not be defined by client applications. The link for the first, last, prev,
+              or next page in the HTTP Link header should define it.
             total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" or "prev" (default) page.
             event_log_end_time: ISO8601 Zulu/UTC time, to use in conjunction with startingAfter, to
               retrieve events within a time window.
-            productType: The product type to fetch events for. This parameter is required for
-              networks with multiple device types. Valid types are wireless, appliance,
-              switch, systemsManager, camera, cellularGateway, wirelessController,
-              campusGateway, and secureConnect.
-            includedEventTypes: A list of event types. The returned events will be filtered to only
-              include events with these types.
-            excludedEventTypes: A list of event types. The returned events will be filtered to
-              exclude events with these types.
-            deviceMac: The MAC address of the Meraki device which the list of events will be
-              filtered with.
-            deviceSerial: The serial of the Meraki device which the list of events will be filtered
-              with.
-            deviceName: The name of the Meraki device which the list of events will be filtered
-              with.
-            clientIp: The IP of the client which the list of events will be filtered with. Only
-              supported for track-by-IP networks.
-            clientMac: The MAC address of the client which the list of events will be filtered with.
-              Only supported for track-by-MAC networks.
-            clientName: The name, or partial name, of the client which the list of events will be
-              filtered with.
-            smDeviceMac: The MAC address of the Systems Manager device which the list of events will
-              be filtered with.
-            smDeviceName: The name of the Systems Manager device which the list of events will be
-              filtered with.
-            eventDetails: The details of the event(Catalyst device only) which the list of events
-              will be filtered with.
-            eventSeverity: The severity of the event(Catalyst device only) which the list of events
-              will be filtered with.
-            isCatalyst: Boolean indicating that whether it is a Catalyst device. For Catalyst
-              device, eventDetails and eventSeverity can be used to filter events.
-            perPage: The number of entries per page returned. Acceptable range is 3 - 1000. Default
-              is 10.
-            startingAfter: A token used by the server to indicate the start of the page. Often this
-              is a timestamp or an ID but it is not limited to those. This parameter
-              should not be defined by client applications. The link for the first,
-              last, prev, or next page in the HTTP Link header should define it.
-            endingBefore: A token used by the server to indicate the end of the page. Often this is
-              a timestamp or an ID but it is not limited to those. This parameter should
-              not be defined by client applications. The link for the first, last, prev,
-              or next page in the HTTP Link header should define it.
 
         """
-        kwargs.update(locals())
-
-        if "productType" in kwargs:
+        if product_type is not None:
             options = [
                 "appliance",
                 "camera",
@@ -1002,43 +1139,49 @@ class Networks:
                 "wireless",
                 "wirelessController",
             ]
-            assert kwargs["productType"] in options, (
-                f'''"productType" cannot be "{kwargs["productType"]}", & must be set to one of: {options}'''
+            assert product_type in options, (
+                f'"product_type" cannot be "{product_type}", & must be set to one of: {options}'
             )
 
         metadata = {"tags": ["networks", "monitor", "events"], "operation": "get_network_events"}
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/events"
 
-        query_params = [
-            "productType",
-            "includedEventTypes",
-            "excludedEventTypes",
-            "deviceMac",
-            "deviceSerial",
-            "deviceName",
-            "clientIp",
-            "clientMac",
-            "clientName",
-            "smDeviceMac",
-            "smDeviceName",
-            "eventDetails",
-            "eventSeverity",
-            "isCatalyst",
-            "perPage",
-            "startingAfter",
-            "endingBefore",
-        ]
-        params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
-
-        array_params = [
-            "includedEventTypes",
-            "excludedEventTypes",
-        ]
-        for k in kwargs:
-            if k.strip() in array_params:
-                params[f"{k.strip()}[]"] = kwargs[f"{k}"]
-                params.pop(k.strip())
+        params = {}
+        if product_type is not None:
+            params["productType"] = product_type
+        if included_event_types is not None:
+            params["includedEventTypes[]"] = included_event_types
+        if excluded_event_types is not None:
+            params["excludedEventTypes[]"] = excluded_event_types
+        if device_mac is not None:
+            params["deviceMac"] = device_mac
+        if device_serial is not None:
+            params["deviceSerial"] = device_serial
+        if device_name is not None:
+            params["deviceName"] = device_name
+        if client_ip is not None:
+            params["clientIp"] = client_ip
+        if client_mac is not None:
+            params["clientMac"] = client_mac
+        if client_name is not None:
+            params["clientName"] = client_name
+        if sm_device_mac is not None:
+            params["smDeviceMac"] = sm_device_mac
+        if sm_device_name is not None:
+            params["smDeviceName"] = sm_device_name
+        if event_details is not None:
+            params["eventDetails"] = event_details
+        if event_severity is not None:
+            params["eventSeverity"] = event_severity
+        if is_catalyst is not None:
+            params["isCatalyst"] = is_catalyst
+        if per_page is not None:
+            params["perPage"] = per_page
+        if starting_after is not None:
+            params["startingAfter"] = starting_after
+        if ending_before is not None:
+            params["endingBefore"] = ending_before
 
         return self._session.get_pages(
             metadata, resource, params, total_pages, direction, event_log_end_time
@@ -1081,7 +1224,12 @@ class Networks:
         return self._session.get(metadata, resource)
 
     def update_network_firmware_upgrades(
-        self, network_id: str, **kwargs: Any
+        self,
+        network_id: str,
+        *,
+        upgrade_window: dict | None = None,
+        timezone: str | None = None,
+        products: dict | None = None,
     ) -> dict[str, Any] | None:
         """Update firmware upgrade information for a network.
 
@@ -1089,13 +1237,11 @@ class Networks:
 
         Args:
             network_id: Network ID.
-            upgradeWindow: Upgrade window for devices in network.
+            upgrade_window: Upgrade window for devices in network.
             timezone: The timezone for the network.
             products: Contains information about the network to update.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["networks", "configure", "firmwareUpgrades"],
             "operation": "update_network_firmware_upgrades",
@@ -1103,17 +1249,24 @@ class Networks:
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/firmwareUpgrades"
 
-        body_params = [
-            "upgradeWindow",
-            "timezone",
-            "products",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if upgrade_window is not None:
+            payload["upgradeWindow"] = upgrade_window
+        if timezone is not None:
+            payload["timezone"] = timezone
+        if products is not None:
+            payload["products"] = products
 
         return self._session.put(metadata, resource, payload)
 
     def create_network_firmware_upgrades_rollback(
-        self, network_id: str, reasons: list, **kwargs: Any
+        self,
+        network_id: str,
+        reasons: list,
+        *,
+        product: str | None = None,
+        time: str | None = None,
+        to_version: dict | None = None,
     ) -> dict[str, Any] | None:
         """Rollback a Firmware Upgrade For A Network.
 
@@ -1121,15 +1274,13 @@ class Networks:
 
         Args:
             network_id: Network ID.
-            reasons: Reasons for the rollback.
             product: Product type to rollback (if the network is a combined network).
             time: Scheduled time for the rollback.
-            toVersion: Version to downgrade to (if the network has firmware flexibility).
+            reasons: Reasons for the rollback.
+            to_version: Version to downgrade to (if the network has firmware flexibility).
 
         """
-        kwargs.update(locals())
-
-        if "product" in kwargs:
+        if product is not None:
             options = [
                 "appliance",
                 "camera",
@@ -1140,8 +1291,8 @@ class Networks:
                 "wireless",
                 "wirelessController",
             ]
-            assert kwargs["product"] in options, (
-                f'''"product" cannot be "{kwargs["product"]}", & must be set to one of: {options}'''
+            assert product in options, (
+                f'"product" cannot be "{product}", & must be set to one of: {options}'
             )
 
         metadata = {
@@ -1151,13 +1302,15 @@ class Networks:
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/firmwareUpgrades/rollbacks"
 
-        body_params = [
-            "product",
-            "time",
-            "reasons",
-            "toVersion",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if product is not None:
+            payload["product"] = product
+        if time is not None:
+            payload["time"] = time
+        if reasons is not None:
+            payload["reasons"] = reasons
+        if to_version is not None:
+            payload["toVersion"] = to_version
 
         return self._session.post(metadata, resource, payload)
 
@@ -1180,7 +1333,7 @@ class Networks:
         return self._session.get(metadata, resource)
 
     def create_network_firmware_upgrades_staged_event(
-        self, network_id: str, stages: list, **kwargs: Any
+        self, network_id: str, stages: list, *, products: dict | None = None
     ) -> dict[str, Any] | None:
         """Create a Staged Upgrade Event for a network.
 
@@ -1188,12 +1341,10 @@ class Networks:
 
         Args:
             network_id: Network ID.
-            stages: All firmware upgrade stages in the network with their start time.
             products: Contains firmware upgrade version information.
+            stages: All firmware upgrade stages in the network with their start time.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["networks", "configure", "firmwareUpgrades", "staged", "events"],
             "operation": "create_network_firmware_upgrades_staged_event",
@@ -1201,11 +1352,11 @@ class Networks:
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/firmwareUpgrades/staged/events"
 
-        body_params = [
-            "products",
-            "stages",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if products is not None:
+            payload["products"] = products
+        if stages is not None:
+            payload["stages"] = stages
 
         return self._session.post(metadata, resource, payload)
 
@@ -1221,8 +1372,6 @@ class Networks:
             stages: All firmware upgrade stages in the network with their start time.
 
         """
-        kwargs = locals()
-
         metadata = {
             "tags": ["networks", "configure", "firmwareUpgrades", "staged", "events"],
             "operation": "update_network_firmware_upgrades_staged_events",
@@ -1230,10 +1379,9 @@ class Networks:
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/firmwareUpgrades/staged/events"
 
-        body_params = [
-            "stages",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if stages is not None:
+            payload["stages"] = stages
 
         return self._session.put(metadata, resource, payload)
 
@@ -1258,7 +1406,7 @@ class Networks:
         return self._session.post(metadata, resource)
 
     def rollbacks_network_firmware_upgrades_staged_events(
-        self, network_id: str, stages: list, **kwargs: Any
+        self, network_id: str, stages: list, *, reasons: list | None = None
     ) -> dict[str, Any] | None:
         """Rollback a Staged Upgrade Event for a network.
 
@@ -1271,8 +1419,6 @@ class Networks:
             reasons: The reason for rolling back the staged upgrade.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["networks", "configure", "firmwareUpgrades", "staged", "events"],
             "operation": "rollbacks_network_firmware_upgrades_staged_events",
@@ -1280,11 +1426,11 @@ class Networks:
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/firmwareUpgrades/staged/events/rollbacks"
 
-        body_params = [
-            "stages",
-            "reasons",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if stages is not None:
+            payload["stages"] = stages
+        if reasons is not None:
+            payload["reasons"] = reasons
 
         return self._session.post(metadata, resource, payload)
 
@@ -1307,7 +1453,13 @@ class Networks:
         return self._session.get(metadata, resource)
 
     def create_network_firmware_upgrades_staged_group(
-        self, network_id: str, name: str, isDefault: bool, **kwargs: Any
+        self,
+        network_id: str,
+        name: str,
+        is_default: bool,
+        *,
+        description: str | None = None,
+        assigned_devices: dict | None = None,
     ) -> dict[str, Any] | None:
         """Create a Staged Upgrade Group for a network.
 
@@ -1316,15 +1468,13 @@ class Networks:
         Args:
             network_id: Network ID.
             name: Name of the Staged Upgrade Group. Length must be 1 to 255 characters.
-            isDefault: Boolean indicating the default Group. Any device that does not have a group
-              explicitly assigned will upgrade with this group.
             description: Description of the Staged Upgrade Group. Length must be 1 to 255
               characters.
-            assignedDevices: The devices and Switch Stacks assigned to the Group.
+            is_default: Boolean indicating the default Group. Any device that does not have a group
+              explicitly assigned will upgrade with this group.
+            assigned_devices: The devices and Switch Stacks assigned to the Group.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["networks", "configure", "firmwareUpgrades", "staged", "groups"],
             "operation": "create_network_firmware_upgrades_staged_group",
@@ -1332,13 +1482,15 @@ class Networks:
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/firmwareUpgrades/staged/groups"
 
-        body_params = [
-            "name",
-            "description",
-            "isDefault",
-            "assignedDevices",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if name is not None:
+            payload["name"] = name
+        if description is not None:
+            payload["description"] = description
+        if is_default is not None:
+            payload["isDefault"] = is_default
+        if assigned_devices is not None:
+            payload["assignedDevices"] = assigned_devices
 
         return self._session.post(metadata, resource, payload)
 
@@ -1365,7 +1517,14 @@ class Networks:
         return self._session.get(metadata, resource)
 
     def update_network_firmware_upgrades_staged_group(
-        self, network_id: str, group_id: str, name: str, isDefault: bool, **kwargs: Any
+        self,
+        network_id: str,
+        group_id: str,
+        name: str,
+        is_default: bool,
+        *,
+        description: str | None = None,
+        assigned_devices: dict | None = None,
     ) -> dict[str, Any] | None:
         """Update a Staged Upgrade Group for a network.
 
@@ -1375,15 +1534,13 @@ class Networks:
             network_id: Network ID.
             group_id: Group ID.
             name: Name of the Staged Upgrade Group. Length must be 1 to 255 characters.
-            isDefault: Boolean indicating the default Group. Any device that does not have a group
-              explicitly assigned will upgrade with this group.
             description: Description of the Staged Upgrade Group. Length must be 1 to 255
               characters.
-            assignedDevices: The devices and Switch Stacks assigned to the Group.
+            is_default: Boolean indicating the default Group. Any device that does not have a group
+              explicitly assigned will upgrade with this group.
+            assigned_devices: The devices and Switch Stacks assigned to the Group.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["networks", "configure", "firmwareUpgrades", "staged", "groups"],
             "operation": "update_network_firmware_upgrades_staged_group",
@@ -1392,13 +1549,15 @@ class Networks:
         group_id = urllib.parse.quote(str(group_id), safe="")
         resource = f"/networks/{network_id}/firmwareUpgrades/staged/groups/{group_id}"
 
-        body_params = [
-            "name",
-            "description",
-            "isDefault",
-            "assignedDevices",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if name is not None:
+            payload["name"] = name
+        if description is not None:
+            payload["description"] = description
+        if is_default is not None:
+            payload["isDefault"] = is_default
+        if assigned_devices is not None:
+            payload["assignedDevices"] = assigned_devices
 
         return self._session.put(metadata, resource, payload)
 
@@ -1441,7 +1600,7 @@ class Networks:
         return self._session.get(metadata, resource)
 
     def update_network_firmware_upgrades_staged_stages(
-        self, network_id: str, **kwargs: Any
+        self, network_id: str, *, _json: list | None = None
     ) -> dict[str, Any] | None:
         """Assign Staged Upgrade Group order in the sequence.
 
@@ -1452,8 +1611,6 @@ class Networks:
             _json: Array of Staged Upgrade Groups.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["networks", "configure", "firmwareUpgrades", "staged", "stages"],
             "operation": "update_network_firmware_upgrades_staged_stages",
@@ -1461,10 +1618,9 @@ class Networks:
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/firmwareUpgrades/staged/stages"
 
-        body_params = [
-            "_json",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if _json is not None:
+            payload["_json"] = _json
 
         return self._session.put(metadata, resource, payload)
 
@@ -1487,7 +1643,17 @@ class Networks:
         return self._session.get(metadata, resource)
 
     def create_network_floor_plan(
-        self, network_id: str, name: str, imageContents: str, **kwargs: Any
+        self,
+        network_id: str,
+        name: str,
+        image_contents: str,
+        *,
+        center: dict | None = None,
+        bottom_left_corner: dict | None = None,
+        bottom_right_corner: dict | None = None,
+        top_left_corner: dict | None = None,
+        top_right_corner: dict | None = None,
+        floor_number: float | None = None,
     ) -> dict[str, Any] | None:
         """Upload a floor plan.
 
@@ -1496,9 +1662,6 @@ class Networks:
         Args:
             network_id: Network ID.
             name: The name of your floor plan.
-            imageContents: The file contents (a base 64 encoded string) of your image. Supported
-              formats are PNG, GIF, and JPG. Note that all images are saved as PNG
-              files, regardless of the format they are uploaded in.
             center: The longitude and latitude of the center of your floor plan. The 'center' or two
               adjacent corners (e.g. 'topLeftCorner' and 'bottomLeftCorner') must be
               specified. If 'center' is specified, the floor plan is placed over that
@@ -1508,17 +1671,18 @@ class Networks:
               are specified. (This means if that more than two corners are specified,
               only two corners may be used to preserve the floor plan's aspect ratio.).
               No two points can have the same latitude, longitude pair.
-            bottomLeftCorner: The longitude and latitude of the bottom left corner of your floor
+            bottom_left_corner: The longitude and latitude of the bottom left corner of your floor
               plan.
-            bottomRightCorner: The longitude and latitude of the bottom right corner of your floor
+            bottom_right_corner: The longitude and latitude of the bottom right corner of your floor
               plan.
-            topLeftCorner: The longitude and latitude of the top left corner of your floor plan.
-            topRightCorner: The longitude and latitude of the top right corner of your floor plan.
-            floorNumber: The floor number of the floors within the building.
+            top_left_corner: The longitude and latitude of the top left corner of your floor plan.
+            top_right_corner: The longitude and latitude of the top right corner of your floor plan.
+            floor_number: The floor number of the floors within the building.
+            image_contents: The file contents (a base 64 encoded string) of your image. Supported
+              formats are PNG, GIF, and JPG. Note that all images are saved as PNG
+              files, regardless of the format they are uploaded in.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["networks", "configure", "floorPlans"],
             "operation": "create_network_floor_plan",
@@ -1526,17 +1690,23 @@ class Networks:
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/floorPlans"
 
-        body_params = [
-            "name",
-            "center",
-            "bottomLeftCorner",
-            "bottomRightCorner",
-            "topLeftCorner",
-            "topRightCorner",
-            "floorNumber",
-            "imageContents",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if name is not None:
+            payload["name"] = name
+        if center is not None:
+            payload["center"] = center
+        if bottom_left_corner is not None:
+            payload["bottomLeftCorner"] = bottom_left_corner
+        if bottom_right_corner is not None:
+            payload["bottomRightCorner"] = bottom_right_corner
+        if top_left_corner is not None:
+            payload["topLeftCorner"] = top_left_corner
+        if top_right_corner is not None:
+            payload["topRightCorner"] = top_right_corner
+        if floor_number is not None:
+            payload["floorNumber"] = floor_number
+        if image_contents is not None:
+            payload["imageContents"] = image_contents
 
         return self._session.post(metadata, resource, payload)
 
@@ -1553,8 +1723,6 @@ class Networks:
               request.
 
         """
-        kwargs = locals()
-
         metadata = {
             "tags": ["networks", "configure", "floorPlans", "autoLocate", "jobs"],
             "operation": "batch_network_floor_plans_auto_locate_jobs",
@@ -1562,10 +1730,9 @@ class Networks:
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/floorPlans/autoLocate/jobs/batch"
 
-        body_params = [
-            "jobs",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if jobs is not None:
+            payload["jobs"] = jobs
 
         return self._session.post(metadata, resource, payload)
 
@@ -1592,7 +1759,7 @@ class Networks:
         return self._session.post(metadata, resource)
 
     def publish_network_floor_plans_auto_locate_job(
-        self, network_id: str, job_id: str, **kwargs: Any
+        self, network_id: str, job_id: str, *, devices: list | None = None
     ) -> dict[str, Any] | None:
         """Update the status of a finished auto locate job to be published, and update device locations.
 
@@ -1604,8 +1771,6 @@ class Networks:
             devices: The list of devices to publish positions for.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["networks", "configure", "floorPlans", "autoLocate", "jobs"],
             "operation": "publish_network_floor_plans_auto_locate_job",
@@ -1614,15 +1779,14 @@ class Networks:
         job_id = urllib.parse.quote(str(job_id), safe="")
         resource = f"/networks/{network_id}/floorPlans/autoLocate/jobs/{job_id}/publish"
 
-        body_params = [
-            "devices",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if devices is not None:
+            payload["devices"] = devices
 
         return self._session.post(metadata, resource, payload)
 
     def recalculate_network_floor_plans_auto_locate_job(
-        self, network_id: str, job_id: str, **kwargs: Any
+        self, network_id: str, job_id: str, *, devices: list | None = None
     ) -> dict[str, Any] | None:
         """Trigger auto locate recalculation for a job, and optionally set anchors.
 
@@ -1634,8 +1798,6 @@ class Networks:
             devices: The list of devices to update anchor positions for.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["networks", "configure", "floorPlans", "autoLocate", "jobs"],
             "operation": "recalculate_network_floor_plans_auto_locate_job",
@@ -1644,10 +1806,9 @@ class Networks:
         job_id = urllib.parse.quote(str(job_id), safe="")
         resource = f"/networks/{network_id}/floorPlans/autoLocate/jobs/{job_id}/recalculate"
 
-        body_params = [
-            "devices",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if devices is not None:
+            payload["devices"] = devices
 
         return self._session.post(metadata, resource, payload)
 
@@ -1664,8 +1825,6 @@ class Networks:
               can be provided in a request.
 
         """
-        kwargs = locals()
-
         metadata = {
             "tags": ["networks", "configure", "floorPlans", "devices"],
             "operation": "batch_network_floor_plans_devices_update",
@@ -1673,10 +1832,9 @@ class Networks:
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/floorPlans/devices/batchUpdate"
 
-        body_params = [
-            "assignments",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if assignments is not None:
+            payload["assignments"] = assignments
 
         return self._session.post(metadata, resource, payload)
 
@@ -1701,7 +1859,18 @@ class Networks:
         return self._session.get(metadata, resource)
 
     def update_network_floor_plan(
-        self, network_id: str, floor_plan_id: str, **kwargs: Any
+        self,
+        network_id: str,
+        floor_plan_id: str,
+        *,
+        name: str | None = None,
+        center: dict | None = None,
+        bottom_left_corner: dict | None = None,
+        bottom_right_corner: dict | None = None,
+        top_left_corner: dict | None = None,
+        top_right_corner: dict | None = None,
+        floor_number: float | None = None,
+        image_contents: str | None = None,
     ) -> dict[str, Any] | None:
         """Update a floor plan's geolocation and other meta data.
 
@@ -1721,23 +1890,21 @@ class Networks:
               are specified. (This means if that more than two corners are specified,
               only two corners may be used to preserve the floor plan's aspect ratio.).
               No two points can have the same latitude, longitude pair.
-            bottomLeftCorner: The longitude and latitude of the bottom left corner of your floor
+            bottom_left_corner: The longitude and latitude of the bottom left corner of your floor
               plan.
-            bottomRightCorner: The longitude and latitude of the bottom right corner of your floor
+            bottom_right_corner: The longitude and latitude of the bottom right corner of your floor
               plan.
-            topLeftCorner: The longitude and latitude of the top left corner of your floor plan.
-            topRightCorner: The longitude and latitude of the top right corner of your floor plan.
-            floorNumber: The floor number of the floors within the building.
-            imageContents: The file contents (a base 64 encoded string) of your new image. Supported
-              formats are PNG, GIF, and JPG. Note that all images are saved as PNG
-              files, regardless of the format they are uploaded in. If you upload a new
-              image, and you do NOT specify any new geolocation fields ('center,
+            top_left_corner: The longitude and latitude of the top left corner of your floor plan.
+            top_right_corner: The longitude and latitude of the top right corner of your floor plan.
+            floor_number: The floor number of the floors within the building.
+            image_contents: The file contents (a base 64 encoded string) of your new image.
+              Supported formats are PNG, GIF, and JPG. Note that all images are saved as
+              PNG files, regardless of the format they are uploaded in. If you upload a
+              new image, and you do NOT specify any new geolocation fields ('center,
               'topLeftCorner', etc), the floor plan will be recentered with no rotation
               in order to maintain the aspect ratio of your new image.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["networks", "configure", "floorPlans"],
             "operation": "update_network_floor_plan",
@@ -1746,17 +1913,23 @@ class Networks:
         floor_plan_id = urllib.parse.quote(str(floor_plan_id), safe="")
         resource = f"/networks/{network_id}/floorPlans/{floor_plan_id}"
 
-        body_params = [
-            "name",
-            "center",
-            "bottomLeftCorner",
-            "bottomRightCorner",
-            "topLeftCorner",
-            "topRightCorner",
-            "floorNumber",
-            "imageContents",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if name is not None:
+            payload["name"] = name
+        if center is not None:
+            payload["center"] = center
+        if bottom_left_corner is not None:
+            payload["bottomLeftCorner"] = bottom_left_corner
+        if bottom_right_corner is not None:
+            payload["bottomRightCorner"] = bottom_right_corner
+        if top_left_corner is not None:
+            payload["topLeftCorner"] = top_left_corner
+        if top_right_corner is not None:
+            payload["topRightCorner"] = top_right_corner
+        if floor_number is not None:
+            payload["floorNumber"] = floor_number
+        if image_contents is not None:
+            payload["imageContents"] = image_contents
 
         return self._session.put(metadata, resource, payload)
 
@@ -1799,38 +1972,45 @@ class Networks:
         return self._session.get(metadata, resource)
 
     def create_network_group_policy(
-        self, network_id: str, name: str, **kwargs: Any
+        self,
+        network_id: str,
+        name: str,
+        *,
+        scheduling: dict | None = None,
+        bandwidth: dict | None = None,
+        firewall_and_traffic_shaping: dict | None = None,
+        content_filtering: dict | None = None,
+        splash_auth_settings: str | None = None,
+        vlan_tagging: dict | None = None,
+        bonjour_forwarding: dict | None = None,
     ) -> dict[str, Any] | None:
         """Create a group policy.
 
-                https://developer.cisco.com/meraki/api-v1/#!create-network-group-policy
+        https://developer.cisco.com/meraki/api-v1/#!create-network-group-policy
 
-                Args:
-                    network_id: Network ID.
-                    name: The name for your group policy. Required.
-                    scheduling:     The schedule for the group policy. Schedules are applied to days of the
-                      week. .
-                    bandwidth:     The bandwidth settings for clients bound to your group policy.
-        .
-                    firewallAndTrafficShaping:     The firewall and traffic shaping rules and settings for
-                      your policy. .
-                    contentFiltering: The content filtering settings for your group policy.
-                    splashAuthSettings: Whether clients bound to your policy will bypass splash
-                      authorization or behave according to the network's rules. Can be one of
-                      'network default' or 'bypass'. Only available if your network has a
-                      wireless configuration.
-                    vlanTagging: The VLAN tagging settings for your group policy. Only available if your
-                      network has a wireless configuration.
-                    bonjourForwarding: The Bonjour settings for your group policy. Only valid if your
-                      network has a wireless configuration.
+        Args:
+            network_id: Network ID.
+            name: The name for your group policy. Required.
+            scheduling: The schedule for the group policy. Schedules are applied to days of the
+              week.
+            bandwidth: The bandwidth settings for clients bound to your group policy.
+            firewall_and_traffic_shaping: The firewall and traffic shaping rules and settings for
+              your policy.
+            content_filtering: The content filtering settings for your group policy.
+            splash_auth_settings: Whether clients bound to your policy will bypass splash
+              authorization or behave according to the network's rules. Can be one of
+              'network default' or 'bypass'. Only available if your network has a
+              wireless configuration.
+            vlan_tagging: The VLAN tagging settings for your group policy. Only available if your
+              network has a wireless configuration.
+            bonjour_forwarding: The Bonjour settings for your group policy. Only valid if your
+              network has a wireless configuration.
 
         """
-        kwargs.update(locals())
-
-        if "splashAuthSettings" in kwargs:
+        if splash_auth_settings is not None:
             options = ["bypass", "network default"]
-            assert kwargs["splashAuthSettings"] in options, (
-                f'''"splashAuthSettings" cannot be "{kwargs["splashAuthSettings"]}", & must be set to one of: {options}'''
+            assert splash_auth_settings in options, (
+                f'"splash_auth_settings" cannot be "{splash_auth_settings}", & must be set to one of: {options}'
             )
 
         metadata = {
@@ -1840,17 +2020,23 @@ class Networks:
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/groupPolicies"
 
-        body_params = [
-            "name",
-            "scheduling",
-            "bandwidth",
-            "firewallAndTrafficShaping",
-            "contentFiltering",
-            "splashAuthSettings",
-            "vlanTagging",
-            "bonjourForwarding",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if name is not None:
+            payload["name"] = name
+        if scheduling is not None:
+            payload["scheduling"] = scheduling
+        if bandwidth is not None:
+            payload["bandwidth"] = bandwidth
+        if firewall_and_traffic_shaping is not None:
+            payload["firewallAndTrafficShaping"] = firewall_and_traffic_shaping
+        if content_filtering is not None:
+            payload["contentFiltering"] = content_filtering
+        if splash_auth_settings is not None:
+            payload["splashAuthSettings"] = splash_auth_settings
+        if vlan_tagging is not None:
+            payload["vlanTagging"] = vlan_tagging
+        if bonjour_forwarding is not None:
+            payload["bonjourForwarding"] = bonjour_forwarding
 
         return self._session.post(metadata, resource, payload)
 
@@ -1877,39 +2063,47 @@ class Networks:
         return self._session.get(metadata, resource)
 
     def update_network_group_policy(
-        self, network_id: str, group_policy_id: str, **kwargs: Any
+        self,
+        network_id: str,
+        group_policy_id: str,
+        *,
+        name: str | None = None,
+        scheduling: dict | None = None,
+        bandwidth: dict | None = None,
+        firewall_and_traffic_shaping: dict | None = None,
+        content_filtering: dict | None = None,
+        splash_auth_settings: str | None = None,
+        vlan_tagging: dict | None = None,
+        bonjour_forwarding: dict | None = None,
     ) -> dict[str, Any] | None:
         """Update a group policy.
 
-                https://developer.cisco.com/meraki/api-v1/#!update-network-group-policy
+        https://developer.cisco.com/meraki/api-v1/#!update-network-group-policy
 
-                Args:
-                    network_id: Network ID.
-                    group_policy_id: Group policy ID.
-                    name: The name for your group policy.
-                    scheduling:     The schedule for the group policy. Schedules are applied to days of the
-                      week. .
-                    bandwidth:     The bandwidth settings for clients bound to your group policy.
-        .
-                    firewallAndTrafficShaping:     The firewall and traffic shaping rules and settings for
-                      your policy. .
-                    contentFiltering: The content filtering settings for your group policy.
-                    splashAuthSettings: Whether clients bound to your policy will bypass splash
-                      authorization or behave according to the network's rules. Can be one of
-                      'network default' or 'bypass'. Only available if your network has a
-                      wireless configuration.
-                    vlanTagging: The VLAN tagging settings for your group policy. Only available if your
-                      network has a wireless configuration.
-                    bonjourForwarding: The Bonjour settings for your group policy. Only valid if your
-                      network has a wireless configuration.
+        Args:
+            network_id: Network ID.
+            group_policy_id: Group policy ID.
+            name: The name for your group policy.
+            scheduling: The schedule for the group policy. Schedules are applied to days of the
+              week.
+            bandwidth: The bandwidth settings for clients bound to your group policy.
+            firewall_and_traffic_shaping: The firewall and traffic shaping rules and settings for
+              your policy.
+            content_filtering: The content filtering settings for your group policy.
+            splash_auth_settings: Whether clients bound to your policy will bypass splash
+              authorization or behave according to the network's rules. Can be one of
+              'network default' or 'bypass'. Only available if your network has a
+              wireless configuration.
+            vlan_tagging: The VLAN tagging settings for your group policy. Only available if your
+              network has a wireless configuration.
+            bonjour_forwarding: The Bonjour settings for your group policy. Only valid if your
+              network has a wireless configuration.
 
         """
-        kwargs.update(locals())
-
-        if "splashAuthSettings" in kwargs:
+        if splash_auth_settings is not None:
             options = ["bypass", "network default"]
-            assert kwargs["splashAuthSettings"] in options, (
-                f'''"splashAuthSettings" cannot be "{kwargs["splashAuthSettings"]}", & must be set to one of: {options}'''
+            assert splash_auth_settings in options, (
+                f'"splash_auth_settings" cannot be "{splash_auth_settings}", & must be set to one of: {options}'
             )
 
         metadata = {
@@ -1920,22 +2114,28 @@ class Networks:
         group_policy_id = urllib.parse.quote(str(group_policy_id), safe="")
         resource = f"/networks/{network_id}/groupPolicies/{group_policy_id}"
 
-        body_params = [
-            "name",
-            "scheduling",
-            "bandwidth",
-            "firewallAndTrafficShaping",
-            "contentFiltering",
-            "splashAuthSettings",
-            "vlanTagging",
-            "bonjourForwarding",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if name is not None:
+            payload["name"] = name
+        if scheduling is not None:
+            payload["scheduling"] = scheduling
+        if bandwidth is not None:
+            payload["bandwidth"] = bandwidth
+        if firewall_and_traffic_shaping is not None:
+            payload["firewallAndTrafficShaping"] = firewall_and_traffic_shaping
+        if content_filtering is not None:
+            payload["contentFiltering"] = content_filtering
+        if splash_auth_settings is not None:
+            payload["splashAuthSettings"] = splash_auth_settings
+        if vlan_tagging is not None:
+            payload["vlanTagging"] = vlan_tagging
+        if bonjour_forwarding is not None:
+            payload["bonjourForwarding"] = bonjour_forwarding
 
         return self._session.put(metadata, resource, payload)
 
     def delete_network_group_policy(
-        self, network_id: str, group_policy_id: str, **kwargs: Any
+        self, network_id: str, group_policy_id: str, *, force: bool | None = None
     ) -> None:
         """Delete a group policy.
 
@@ -1949,8 +2149,6 @@ class Networks:
               will be left without any policy applied. Default is false.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["networks", "configure", "groupPolicies"],
             "operation": "delete_network_group_policy",
@@ -1958,6 +2156,10 @@ class Networks:
         network_id = urllib.parse.quote(str(network_id), safe="")
         group_policy_id = urllib.parse.quote(str(group_policy_id), safe="")
         resource = f"/networks/{network_id}/groupPolicies/{group_policy_id}"
+
+        params = {}
+        if force is not None:
+            params["force"] = force
 
         return self._session.delete(metadata, resource)
 
@@ -1998,7 +2200,16 @@ class Networks:
         return self._session.get(metadata, resource)
 
     def create_network_meraki_auth_user(
-        self, network_id: str, email: str, authorizations: list, **kwargs: Any
+        self,
+        network_id: str,
+        email: str,
+        authorizations: list,
+        *,
+        name: str | None = None,
+        password: str | None = None,
+        account_type: str | None = None,
+        email_password_to_user: bool | None = None,
+        is_admin: bool | None = None,
     ) -> dict[str, Any] | None:
         """Authorize a user configured with Meraki Authentication for a network (currently supports 802.1X, splash guest, and client VPN users, and currently, organizations have a 50,000 user cap).
 
@@ -2007,23 +2218,21 @@ class Networks:
         Args:
             network_id: Network ID.
             email: Email address of the user.
-            authorizations: Authorization zones and expiration dates for the user.
             name: Name of the user. Only required If the user is not a Dashboard administrator.
             password: The password for this user account. Only required If the user is not a
               Dashboard administrator.
-            accountType: Authorization type for user. Can be 'Guest' or '802.1X' for wireless
+            account_type: Authorization type for user. Can be 'Guest' or '802.1X' for wireless
               networks, or 'Client VPN' for MX networks. Defaults to '802.1X'.
-            emailPasswordToUser: Whether or not Meraki should email the password to user. Default is
-              false.
-            isAdmin: Whether or not the user is a Dashboard administrator.
+            email_password_to_user: Whether or not Meraki should email the password to user. Default
+              is false.
+            is_admin: Whether or not the user is a Dashboard administrator.
+            authorizations: Authorization zones and expiration dates for the user.
 
         """
-        kwargs.update(locals())
-
-        if "accountType" in kwargs:
+        if account_type is not None:
             options = ["802.1X", "Client VPN", "Guest"]
-            assert kwargs["accountType"] in options, (
-                f'''"accountType" cannot be "{kwargs["accountType"]}", & must be set to one of: {options}'''
+            assert account_type in options, (
+                f'"account_type" cannot be "{account_type}", & must be set to one of: {options}'
             )
 
         metadata = {
@@ -2033,16 +2242,21 @@ class Networks:
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/merakiAuthUsers"
 
-        body_params = [
-            "email",
-            "name",
-            "password",
-            "accountType",
-            "emailPasswordToUser",
-            "isAdmin",
-            "authorizations",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if email is not None:
+            payload["email"] = email
+        if name is not None:
+            payload["name"] = name
+        if password is not None:
+            payload["password"] = password
+        if account_type is not None:
+            payload["accountType"] = account_type
+        if email_password_to_user is not None:
+            payload["emailPasswordToUser"] = email_password_to_user
+        if is_admin is not None:
+            payload["isAdmin"] = is_admin
+        if authorizations is not None:
+            payload["authorizations"] = authorizations
 
         return self._session.post(metadata, resource, payload)
 
@@ -2069,7 +2283,7 @@ class Networks:
         return self._session.get(metadata, resource)
 
     def delete_network_meraki_auth_user(
-        self, network_id: str, meraki_auth_user_id: str, **kwargs: Any
+        self, network_id: str, meraki_auth_user_id: str, *, delete: bool | None = None
     ) -> None:
         """Delete an 802.1X RADIUS user, or deauthorize and optionally delete a splash guest or client VPN user.
 
@@ -2084,8 +2298,6 @@ class Networks:
               optional attribute.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["networks", "configure", "merakiAuthUsers"],
             "operation": "delete_network_meraki_auth_user",
@@ -2094,10 +2306,21 @@ class Networks:
         meraki_auth_user_id = urllib.parse.quote(str(meraki_auth_user_id), safe="")
         resource = f"/networks/{network_id}/merakiAuthUsers/{meraki_auth_user_id}"
 
+        params = {}
+        if delete is not None:
+            params["delete"] = delete
+
         return self._session.delete(metadata, resource)
 
     def update_network_meraki_auth_user(
-        self, network_id: str, meraki_auth_user_id: str, **kwargs: Any
+        self,
+        network_id: str,
+        meraki_auth_user_id: str,
+        *,
+        name: str | None = None,
+        password: str | None = None,
+        email_password_to_user: bool | None = None,
+        authorizations: list | None = None,
     ) -> dict[str, Any] | None:
         """Update a user configured with Meraki Authentication (currently, 802.1X RADIUS, splash guest, and client VPN users can be updated).
 
@@ -2109,13 +2332,11 @@ class Networks:
             name: Name of the user. Only allowed If the user is not Dashboard administrator.
             password: The password for this user account. Only allowed If the user is not Dashboard
               administrator.
-            emailPasswordToUser: Whether or not Meraki should email the password to user. Default is
-              false.
+            email_password_to_user: Whether or not Meraki should email the password to user. Default
+              is false.
             authorizations: Authorization zones and expiration dates for the user.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["networks", "configure", "merakiAuthUsers"],
             "operation": "update_network_meraki_auth_user",
@@ -2124,13 +2345,15 @@ class Networks:
         meraki_auth_user_id = urllib.parse.quote(str(meraki_auth_user_id), safe="")
         resource = f"/networks/{network_id}/merakiAuthUsers/{meraki_auth_user_id}"
 
-        body_params = [
-            "name",
-            "password",
-            "emailPasswordToUser",
-            "authorizations",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if name is not None:
+            payload["name"] = name
+        if password is not None:
+            payload["password"] = password
+        if email_password_to_user is not None:
+            payload["emailPasswordToUser"] = email_password_to_user
+        if authorizations is not None:
+            payload["authorizations"] = authorizations
 
         return self._session.put(metadata, resource, payload)
 
@@ -2153,7 +2376,14 @@ class Networks:
         return self._session.get(metadata, resource)
 
     def create_network_mqtt_broker(
-        self, network_id: str, name: str, host: str, port: int, **kwargs: Any
+        self,
+        network_id: str,
+        name: str,
+        host: str,
+        port: int,
+        *,
+        security: dict | None = None,
+        authentication: dict | None = None,
     ) -> dict[str, Any] | None:
         """Add an MQTT broker.
 
@@ -2168,8 +2398,6 @@ class Networks:
             authentication: Authentication settings of the MQTT broker.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["networks", "configure", "mqttBrokers"],
             "operation": "create_network_mqtt_broker",
@@ -2177,14 +2405,17 @@ class Networks:
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/mqttBrokers"
 
-        body_params = [
-            "name",
-            "host",
-            "port",
-            "security",
-            "authentication",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if name is not None:
+            payload["name"] = name
+        if host is not None:
+            payload["host"] = host
+        if port is not None:
+            payload["port"] = port
+        if security is not None:
+            payload["security"] = security
+        if authentication is not None:
+            payload["authentication"] = authentication
 
         return self._session.post(metadata, resource, payload)
 
@@ -2211,7 +2442,15 @@ class Networks:
         return self._session.get(metadata, resource)
 
     def update_network_mqtt_broker(
-        self, network_id: str, mqtt_broker_id: str, **kwargs: Any
+        self,
+        network_id: str,
+        mqtt_broker_id: str,
+        *,
+        name: str | None = None,
+        host: str | None = None,
+        port: int | None = None,
+        security: dict | None = None,
+        authentication: dict | None = None,
     ) -> dict[str, Any] | None:
         """Update an MQTT broker.
 
@@ -2227,8 +2466,6 @@ class Networks:
             authentication: Authentication settings of the MQTT broker.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["networks", "configure", "mqttBrokers"],
             "operation": "update_network_mqtt_broker",
@@ -2237,14 +2474,17 @@ class Networks:
         mqtt_broker_id = urllib.parse.quote(str(mqtt_broker_id), safe="")
         resource = f"/networks/{network_id}/mqttBrokers/{mqtt_broker_id}"
 
-        body_params = [
-            "name",
-            "host",
-            "port",
-            "security",
-            "authentication",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if name is not None:
+            payload["name"] = name
+        if host is not None:
+            payload["host"] = host
+        if port is not None:
+            payload["port"] = port
+        if security is not None:
+            payload["security"] = security
+        if authentication is not None:
+            payload["authentication"] = authentication
 
         return self._session.put(metadata, resource, payload)
 
@@ -2286,25 +2526,32 @@ class Networks:
 
         return self._session.get(metadata, resource)
 
-    def update_network_netflow(self, network_id: str, **kwargs: Any) -> dict[str, Any] | None:
+    def update_network_netflow(
+        self,
+        network_id: str,
+        *,
+        reporting_enabled: bool | None = None,
+        collector_ip: str | None = None,
+        collector_port: int | None = None,
+        eta_enabled: bool | None = None,
+        eta_dst_port: int | None = None,
+    ) -> dict[str, Any] | None:
         """Update the NetFlow traffic reporting settings for a network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-netflow
 
         Args:
             network_id: Network ID.
-            reportingEnabled: Boolean indicating whether NetFlow traffic reporting is enabled (true)
-              or disabled (false).
-            collectorIp: The IPv4 address of the NetFlow collector.
-            collectorPort: The port that the NetFlow collector will be listening on.
-            etaEnabled: Boolean indicating whether Encrypted Traffic Analytics is enabled (true) or
+            reporting_enabled: Boolean indicating whether NetFlow traffic reporting is enabled
+              (true) or disabled (false).
+            collector_ip: The IPv4 address of the NetFlow collector.
+            collector_port: The port that the NetFlow collector will be listening on.
+            eta_enabled: Boolean indicating whether Encrypted Traffic Analytics is enabled (true) or
               disabled (false).
-            etaDstPort: The port that the Encrypted Traffic Analytics collector will be listening
+            eta_dst_port: The port that the Encrypted Traffic Analytics collector will be listening
               on.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["networks", "configure", "netflow"],
             "operation": "update_network_netflow",
@@ -2312,19 +2559,33 @@ class Networks:
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/netflow"
 
-        body_params = [
-            "reportingEnabled",
-            "collectorIp",
-            "collectorPort",
-            "etaEnabled",
-            "etaDstPort",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if reporting_enabled is not None:
+            payload["reportingEnabled"] = reporting_enabled
+        if collector_ip is not None:
+            payload["collectorIp"] = collector_ip
+        if collector_port is not None:
+            payload["collectorPort"] = collector_port
+        if eta_enabled is not None:
+            payload["etaEnabled"] = eta_enabled
+        if eta_dst_port is not None:
+            payload["etaDstPort"] = eta_dst_port
 
         return self._session.put(metadata, resource, payload)
 
     def get_network_network_health_channel_utilization(
-        self, network_id: str, total_pages=1, direction="next", **kwargs: Any
+        self,
+        network_id: str,
+        *,
+        t0: str | None = None,
+        t1: str | None = None,
+        timespan: float | None = None,
+        resolution: int | None = None,
+        per_page: int | None = None,
+        starting_after: str | None = None,
+        ending_before: str | None = None,
+        total_pages: str = 1,
+        direction: str = "next",
     ) -> Generator[Any, None, None]:
         """Get the channel utilization over each radio for all APs in a network.
 
@@ -2332,9 +2593,6 @@ class Networks:
 
         Args:
             network_id: Network ID.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
-              "all" for all pages.
-            direction: direction to paginate, either "next" (default) or "prev" page.
             t0: The beginning of the timespan for the data. The maximum lookback period is 31 days
               from today.
             t1: The end of the timespan for the data. t1 can be a maximum of 31 days after t0.
@@ -2343,20 +2601,21 @@ class Networks:
               seconds and be less than or equal to 31 days. The default is 1 day.
             resolution: The time resolution in seconds for returned data. The valid resolutions are:
               600. The default is 600.
-            perPage: The number of entries per page returned. Acceptable range is 3 - 100. Default
+            per_page: The number of entries per page returned. Acceptable range is 3 - 100. Default
               is 10.
-            startingAfter: A token used by the server to indicate the start of the page. Often this
+            starting_after: A token used by the server to indicate the start of the page. Often this
               is a timestamp or an ID but it is not limited to those. This parameter
               should not be defined by client applications. The link for the first,
               last, prev, or next page in the HTTP Link header should define it.
-            endingBefore: A token used by the server to indicate the end of the page. Often this is
+            ending_before: A token used by the server to indicate the end of the page. Often this is
               a timestamp or an ID but it is not limited to those. This parameter should
               not be defined by client applications. The link for the first, last, prev,
               or next page in the HTTP Link header should define it.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["networks", "monitor", "networkHealth", "channelUtilization"],
             "operation": "get_network_network_health_channel_utilization",
@@ -2364,20 +2623,35 @@ class Networks:
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/networkHealth/channelUtilization"
 
-        query_params = [
-            "t0",
-            "t1",
-            "timespan",
-            "resolution",
-            "perPage",
-            "startingAfter",
-            "endingBefore",
-        ]
-        params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
+        params = {}
+        if t0 is not None:
+            params["t0"] = t0
+        if t1 is not None:
+            params["t1"] = t1
+        if timespan is not None:
+            params["timespan"] = timespan
+        if resolution is not None:
+            params["resolution"] = resolution
+        if per_page is not None:
+            params["perPage"] = per_page
+        if starting_after is not None:
+            params["startingAfter"] = starting_after
+        if ending_before is not None:
+            params["endingBefore"] = ending_before
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
-    def get_network_pii_pii_keys(self, network_id: str, **kwargs: Any) -> dict[str, Any] | None:
+    def get_network_pii_pii_keys(
+        self,
+        network_id: str,
+        *,
+        username: str | None = None,
+        email: str | None = None,
+        mac: str | None = None,
+        serial: str | None = None,
+        imei: str | None = None,
+        bluetooth_mac: str | None = None,
+    ) -> dict[str, Any] | None:
         """List the keys required to access Personally Identifiable Information (PII) for a given identifier.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-pii-pii-keys
@@ -2389,11 +2663,9 @@ class Networks:
             mac: The MAC of a network client device or a Systems Manager device.
             serial: The serial of a Systems Manager device.
             imei: The IMEI of a Systems Manager device.
-            bluetoothMac: The MAC of a Bluetooth client.
+            bluetooth_mac: The MAC of a Bluetooth client.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["networks", "configure", "pii", "piiKeys"],
             "operation": "get_network_pii_pii_keys",
@@ -2401,15 +2673,19 @@ class Networks:
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/pii/piiKeys"
 
-        query_params = [
-            "username",
-            "email",
-            "mac",
-            "serial",
-            "imei",
-            "bluetoothMac",
-        ]
-        params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
+        params = {}
+        if username is not None:
+            params["username"] = username
+        if email is not None:
+            params["email"] = email
+        if mac is not None:
+            params["mac"] = mac
+        if serial is not None:
+            params["serial"] = serial
+        if imei is not None:
+            params["imei"] = imei
+        if bluetooth_mac is not None:
+            params["bluetoothMac"] = bluetooth_mac
 
         return self._session.get(metadata, resource, params)
 
@@ -2431,14 +2707,25 @@ class Networks:
 
         return self._session.get(metadata, resource)
 
-    def create_network_pii_request(self, network_id: str, **kwargs: Any) -> dict[str, Any] | None:
+    def create_network_pii_request(
+        self,
+        network_id: str,
+        *,
+        type_: str | None = None,
+        datasets: list | None = None,
+        username: str | None = None,
+        email: str | None = None,
+        mac: str | None = None,
+        sm_device_id: str | None = None,
+        sm_user_id: str | None = None,
+    ) -> dict[str, Any] | None:
         """Submit a new delete or restrict processing PII request.
 
         https://developer.cisco.com/meraki/api-v1/#!create-network-pii-request
 
         Args:
             network_id: Network ID.
-            type: One of "delete" or "restrict processing".
+            type_: One of "delete" or "restrict processing".
             datasets: The datasets related to the provided key that should be deleted. Only applies
               to "delete" requests. The value "all" will be expanded to all datasets
               applicable to this type. The datasets by applicable to each type are: mac
@@ -2449,20 +2736,18 @@ class Networks:
             email: The email of a network user account. Only applies to "delete" requests.
             mac: The MAC of a network client device. Applies to both "restrict processing" and
               "delete" requests.
-            smDeviceId: The sm_device_id of a Systems Manager device. The only way to "restrict
+            sm_device_id: The sm_device_id of a Systems Manager device. The only way to "restrict
               processing" or "delete" a Systems Manager device. Must include "device" in
               the dataset for a "delete" request to destroy the device.
-            smUserId: The sm_user_id of a Systems Manager user. The only way to "restrict
+            sm_user_id: The sm_user_id of a Systems Manager user. The only way to "restrict
               processing" or "delete" a Systems Manager user. Must include "user" in the
               dataset for a "delete" request to destroy the user.
 
         """
-        kwargs.update(locals())
-
-        if "type" in kwargs:
+        if type_ is not None:
             options = ["delete", "restrict processing"]
-            assert kwargs["type"] in options, (
-                f'''"type" cannot be "{kwargs["type"]}", & must be set to one of: {options}'''
+            assert type_ in options, (
+                f'"type_" cannot be "{type_}", & must be set to one of: {options}'
             )
 
         metadata = {
@@ -2472,16 +2757,21 @@ class Networks:
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/pii/requests"
 
-        body_params = [
-            "type",
-            "datasets",
-            "username",
-            "email",
-            "mac",
-            "smDeviceId",
-            "smUserId",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if type_ is not None:
+            payload["type"] = type_
+        if datasets is not None:
+            payload["datasets"] = datasets
+        if username is not None:
+            payload["username"] = username
+        if email is not None:
+            payload["email"] = email
+        if mac is not None:
+            payload["mac"] = mac
+        if sm_device_id is not None:
+            payload["smDeviceId"] = sm_device_id
+        if sm_user_id is not None:
+            payload["smUserId"] = sm_user_id
 
         return self._session.post(metadata, resource, payload)
 
@@ -2526,7 +2816,15 @@ class Networks:
         return self._session.delete(metadata, resource)
 
     def get_network_pii_sm_devices_for_key(
-        self, network_id: str, **kwargs: Any
+        self,
+        network_id: str,
+        *,
+        username: str | None = None,
+        email: str | None = None,
+        mac: str | None = None,
+        serial: str | None = None,
+        imei: str | None = None,
+        bluetooth_mac: str | None = None,
     ) -> dict[str, Any] | None:
         """Given a piece of Personally Identifiable Information (PII), return the Systems Manager device ID(s) associated with that identifier.
 
@@ -2539,11 +2837,9 @@ class Networks:
             mac: The MAC of a network client device or a Systems Manager device.
             serial: The serial of a Systems Manager device.
             imei: The IMEI of a Systems Manager device.
-            bluetoothMac: The MAC of a Bluetooth client.
+            bluetooth_mac: The MAC of a Bluetooth client.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["networks", "configure", "pii", "smDevicesForKey"],
             "operation": "get_network_pii_sm_devices_for_key",
@@ -2551,20 +2847,32 @@ class Networks:
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/pii/smDevicesForKey"
 
-        query_params = [
-            "username",
-            "email",
-            "mac",
-            "serial",
-            "imei",
-            "bluetoothMac",
-        ]
-        params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
+        params = {}
+        if username is not None:
+            params["username"] = username
+        if email is not None:
+            params["email"] = email
+        if mac is not None:
+            params["mac"] = mac
+        if serial is not None:
+            params["serial"] = serial
+        if imei is not None:
+            params["imei"] = imei
+        if bluetooth_mac is not None:
+            params["bluetoothMac"] = bluetooth_mac
 
         return self._session.get(metadata, resource, params)
 
     def get_network_pii_sm_owners_for_key(
-        self, network_id: str, **kwargs: Any
+        self,
+        network_id: str,
+        *,
+        username: str | None = None,
+        email: str | None = None,
+        mac: str | None = None,
+        serial: str | None = None,
+        imei: str | None = None,
+        bluetooth_mac: str | None = None,
     ) -> dict[str, Any] | None:
         """Given a piece of Personally Identifiable Information (PII), return the Systems Manager owner ID(s) associated with that identifier.
 
@@ -2577,11 +2885,9 @@ class Networks:
             mac: The MAC of a network client device or a Systems Manager device.
             serial: The serial of a Systems Manager device.
             imei: The IMEI of a Systems Manager device.
-            bluetoothMac: The MAC of a Bluetooth client.
+            bluetooth_mac: The MAC of a Bluetooth client.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["networks", "configure", "pii", "smOwnersForKey"],
             "operation": "get_network_pii_sm_owners_for_key",
@@ -2589,20 +2895,33 @@ class Networks:
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/pii/smOwnersForKey"
 
-        query_params = [
-            "username",
-            "email",
-            "mac",
-            "serial",
-            "imei",
-            "bluetoothMac",
-        ]
-        params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
+        params = {}
+        if username is not None:
+            params["username"] = username
+        if email is not None:
+            params["email"] = email
+        if mac is not None:
+            params["mac"] = mac
+        if serial is not None:
+            params["serial"] = serial
+        if imei is not None:
+            params["imei"] = imei
+        if bluetooth_mac is not None:
+            params["bluetoothMac"] = bluetooth_mac
 
         return self._session.get(metadata, resource, params)
 
     def get_network_policies_by_client(
-        self, network_id: str, total_pages=1, direction="next", **kwargs: Any
+        self,
+        network_id: str,
+        *,
+        per_page: int | None = None,
+        starting_after: str | None = None,
+        ending_before: str | None = None,
+        t0: str | None = None,
+        timespan: float | None = None,
+        total_pages: str = 1,
+        direction: str = "next",
     ) -> Generator[Any, None, None]:
         """Get policies for all clients with policies.
 
@@ -2610,16 +2929,13 @@ class Networks:
 
         Args:
             network_id: Network ID.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
-              "all" for all pages.
-            direction: direction to paginate, either "next" (default) or "prev" page.
-            perPage: The number of entries per page returned. Acceptable range is 3 - 1000. Default
+            per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
               is 50.
-            startingAfter: A token used by the server to indicate the start of the page. Often this
+            starting_after: A token used by the server to indicate the start of the page. Often this
               is a timestamp or an ID but it is not limited to those. This parameter
               should not be defined by client applications. The link for the first,
               last, prev, or next page in the HTTP Link header should define it.
-            endingBefore: A token used by the server to indicate the end of the page. Often this is
+            ending_before: A token used by the server to indicate the end of the page. Often this is
               a timestamp or an ID but it is not limited to those. This parameter should
               not be defined by client applications. The link for the first, last, prev,
               or next page in the HTTP Link header should define it.
@@ -2628,10 +2944,11 @@ class Networks:
             timespan: The timespan for which the information will be fetched. If specifying
               timespan, do not specify parameter t0. The value must be in seconds and be
               less than or equal to 31 days. The default is 1 day.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["networks", "configure", "policies", "byClient"],
             "operation": "get_network_policies_by_client",
@@ -2639,14 +2956,17 @@ class Networks:
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/policies/byClient"
 
-        query_params = [
-            "perPage",
-            "startingAfter",
-            "endingBefore",
-            "t0",
-            "timespan",
-        ]
-        params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
+        params = {}
+        if per_page is not None:
+            params["perPage"] = per_page
+        if starting_after is not None:
+            params["startingAfter"] = starting_after
+        if ending_before is not None:
+            params["endingBefore"] = ending_before
+        if t0 is not None:
+            params["t0"] = t0
+        if timespan is not None:
+            params["timespan"] = timespan
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
@@ -2668,30 +2988,37 @@ class Networks:
 
         return self._session.get(metadata, resource)
 
-    def update_network_settings(self, network_id: str, **kwargs: Any) -> dict[str, Any] | None:
+    def update_network_settings(
+        self,
+        network_id: str,
+        *,
+        local_status_page_enabled: bool | None = None,
+        remote_status_page_enabled: bool | None = None,
+        local_status_page: dict | None = None,
+        secure_port: dict | None = None,
+        named_vlans: dict | None = None,
+    ) -> dict[str, Any] | None:
         """Update the settings for a network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-settings
 
         Args:
             network_id: Network ID.
-            localStatusPageEnabled: Enables / disables the local device status pages (<a
+            local_status_page_enabled: Enables / disables the local device status pages (<a
               target='_blank' href='http://my.meraki.com/'>my.meraki.com, </a><a
               target='_blank' href='http://ap.meraki.com/'>ap.meraki.com, </a><a
               target='_blank' href='http://switch.meraki.com/'>switch.meraki.com, </a><a
               target='_blank' href='http://wired.meraki.com/'>wired.meraki.com</a>).
               Optional (defaults to false).
-            remoteStatusPageEnabled: Enables / disables access to the device status page (<a
+            remote_status_page_enabled: Enables / disables access to the device status page (<a
               target='_blank'>http://[device's LAN IP])</a>. Optional. Can only be set
               if localStatusPageEnabled is set to true.
-            localStatusPage: A hash of Local Status page(s)' authentication options applied to the
+            local_status_page: A hash of Local Status page(s)' authentication options applied to the
               Network.
-            securePort: A hash of SecureConnect options applied to the Network.
-            namedVlans: A hash of Named VLANs options applied to the Network.
+            secure_port: A hash of SecureConnect options applied to the Network.
+            named_vlans: A hash of Named VLANs options applied to the Network.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["networks", "configure", "settings"],
             "operation": "update_network_settings",
@@ -2699,14 +3026,17 @@ class Networks:
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/settings"
 
-        body_params = [
-            "localStatusPageEnabled",
-            "remoteStatusPageEnabled",
-            "localStatusPage",
-            "securePort",
-            "namedVlans",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if local_status_page_enabled is not None:
+            payload["localStatusPageEnabled"] = local_status_page_enabled
+        if remote_status_page_enabled is not None:
+            payload["remoteStatusPageEnabled"] = remote_status_page_enabled
+        if local_status_page is not None:
+            payload["localStatusPage"] = local_status_page
+        if secure_port is not None:
+            payload["securePort"] = secure_port
+        if named_vlans is not None:
+            payload["namedVlans"] = named_vlans
 
         return self._session.put(metadata, resource, payload)
 
@@ -2725,7 +3055,14 @@ class Networks:
 
         return self._session.get(metadata, resource)
 
-    def update_network_snmp(self, network_id: str, **kwargs: Any) -> dict[str, Any] | None:
+    def update_network_snmp(
+        self,
+        network_id: str,
+        *,
+        access: str | None = None,
+        community_string: str | None = None,
+        users: list | None = None,
+    ) -> dict[str, Any] | None:
         """Update the SNMP settings for a network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-snmp
@@ -2734,34 +3071,38 @@ class Networks:
             network_id: Network ID.
             access: The type of SNMP access. Can be one of 'none' (disabled), 'community' (V1/V2c),
               or 'users' (V3).
-            communityString: The SNMP community string. Only relevant if 'access' is set to
+            community_string: The SNMP community string. Only relevant if 'access' is set to
               'community'.
             users: The list of SNMP users. Only relevant if 'access' is set to 'users'.
 
         """
-        kwargs.update(locals())
-
-        if "access" in kwargs:
+        if access is not None:
             options = ["community", "none", "users"]
-            assert kwargs["access"] in options, (
-                f'''"access" cannot be "{kwargs["access"]}", & must be set to one of: {options}'''
+            assert access in options, (
+                f'"access" cannot be "{access}", & must be set to one of: {options}'
             )
 
         metadata = {"tags": ["networks", "configure", "snmp"], "operation": "update_network_snmp"}
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/snmp"
 
-        body_params = [
-            "access",
-            "communityString",
-            "users",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if access is not None:
+            payload["access"] = access
+        if community_string is not None:
+            payload["communityString"] = community_string
+        if users is not None:
+            payload["users"] = users
 
         return self._session.put(metadata, resource, payload)
 
     def get_network_splash_login_attempts(
-        self, network_id: str, **kwargs: Any
+        self,
+        network_id: str,
+        *,
+        ssid_number: int | None = None,
+        login_identifier: str | None = None,
+        timespan: int | None = None,
     ) -> dict[str, Any] | None:
         """List the splash login attempts for a network.
 
@@ -2769,18 +3110,16 @@ class Networks:
 
         Args:
             network_id: Network ID.
-            ssidNumber: Only return the login attempts for the specified SSID.
-            loginIdentifier: The username, email, or phone number used during login.
+            ssid_number: Only return the login attempts for the specified SSID.
+            login_identifier: The username, email, or phone number used during login.
             timespan: The timespan, in seconds, for the login attempts. The period will be from
               [timespan] seconds ago until now. The maximum timespan is 3 months.
 
         """
-        kwargs.update(locals())
-
-        if "ssidNumber" in kwargs:
+        if ssid_number is not None:
             options = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
-            assert kwargs["ssidNumber"] in options, (
-                f'''"ssidNumber" cannot be "{kwargs["ssidNumber"]}", & must be set to one of: {options}'''
+            assert ssid_number in options, (
+                f'"ssid_number" cannot be "{ssid_number}", & must be set to one of: {options}'
             )
 
         metadata = {
@@ -2790,12 +3129,13 @@ class Networks:
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/splashLoginAttempts"
 
-        query_params = [
-            "ssidNumber",
-            "loginIdentifier",
-            "timespan",
-        ]
-        params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
+        params = {}
+        if ssid_number is not None:
+            params["ssidNumber"] = ssid_number
+        if login_identifier is not None:
+            params["loginIdentifier"] = login_identifier
+        if timespan is not None:
+            params["timespan"] = timespan
 
         return self._session.get(metadata, resource, params)
 
@@ -2844,8 +3184,6 @@ class Networks:
             servers: A list of the syslog servers for this network.
 
         """
-        kwargs = locals()
-
         metadata = {
             "tags": ["networks", "configure", "syslogServers"],
             "operation": "update_network_syslog_servers",
@@ -2853,10 +3191,9 @@ class Networks:
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/syslogServers"
 
-        body_params = [
-            "servers",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if servers is not None:
+            payload["servers"] = servers
 
         return self._session.put(metadata, resource, payload)
 
@@ -2878,7 +3215,14 @@ class Networks:
 
         return self._session.get(metadata, resource)
 
-    def get_network_traffic(self, network_id: str, **kwargs: Any) -> dict[str, Any] | None:
+    def get_network_traffic(
+        self,
+        network_id: str,
+        *,
+        t0: str | None = None,
+        timespan: float | None = None,
+        device_type: str | None = None,
+    ) -> dict[str, Any] | None:
         """Return the traffic analysis data for this network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-traffic
@@ -2890,29 +3234,28 @@ class Networks:
             timespan: The timespan for which the information will be fetched. If specifying
               timespan, do not specify parameter t0. The value must be in seconds and be
               less than or equal to 30 days.
-            deviceType: Filter the data by device type: 'combined', 'wireless', 'switch' or
+            device_type: Filter the data by device type: 'combined', 'wireless', 'switch' or
               'appliance'. Defaults to 'combined'. When using 'combined', for each rule
               the data will come from the device type with the most usage.
 
         """
-        kwargs.update(locals())
-
-        if "deviceType" in kwargs:
+        if device_type is not None:
             options = ["appliance", "combined", "switch", "wireless"]
-            assert kwargs["deviceType"] in options, (
-                f'''"deviceType" cannot be "{kwargs["deviceType"]}", & must be set to one of: {options}'''
+            assert device_type in options, (
+                f'"device_type" cannot be "{device_type}", & must be set to one of: {options}'
             )
 
         metadata = {"tags": ["networks", "monitor", "traffic"], "operation": "get_network_traffic"}
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/traffic"
 
-        query_params = [
-            "t0",
-            "timespan",
-            "deviceType",
-        ]
-        params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
+        params = {}
+        if t0 is not None:
+            params["t0"] = t0
+        if timespan is not None:
+            params["timespan"] = timespan
+        if device_type is not None:
+            params["deviceType"] = device_type
 
         return self._session.get(metadata, resource, params)
 
@@ -2935,7 +3278,11 @@ class Networks:
         return self._session.get(metadata, resource)
 
     def update_network_traffic_analysis(
-        self, network_id: str, **kwargs: Any
+        self,
+        network_id: str,
+        *,
+        mode: str | None = None,
+        custom_pie_chart_items: list | None = None,
     ) -> dict[str, Any] | None:
         """Update the traffic analysis settings for a network.
 
@@ -2943,20 +3290,16 @@ class Networks:
 
         Args:
             network_id: Network ID.
-            mode:     The traffic analysis mode for the network. Can be one of 'disabled' (do not
-              collect traffic types),     'basic' (collect generic traffic categories),
-              or 'detailed' (collect destination hostnames). .
-            customPieChartItems: The list of items that make up the custom pie chart for traffic
+            mode: The traffic analysis mode for the network. Can be one of 'disabled' (do not
+              collect traffic types), 'basic' (collect generic traffic categories), or
+              'detailed' (collect destination hostnames).
+            custom_pie_chart_items: The list of items that make up the custom pie chart for traffic
               reporting.
 
         """
-        kwargs.update(locals())
-
-        if "mode" in kwargs:
+        if mode is not None:
             options = ["basic", "detailed", "disabled"]
-            assert kwargs["mode"] in options, (
-                f'''"mode" cannot be "{kwargs["mode"]}", & must be set to one of: {options}'''
-            )
+            assert mode in options, f'"mode" cannot be "{mode}", & must be set to one of: {options}'
 
         metadata = {
             "tags": ["networks", "configure", "trafficAnalysis"],
@@ -2965,11 +3308,11 @@ class Networks:
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/trafficAnalysis"
 
-        body_params = [
-            "mode",
-            "customPieChartItems",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if mode is not None:
+            payload["mode"] = mode
+        if custom_pie_chart_items is not None:
+            payload["customPieChartItems"] = custom_pie_chart_items
 
         return self._session.put(metadata, resource, payload)
 
@@ -3013,26 +3356,26 @@ class Networks:
 
         return self._session.get(metadata, resource)
 
-    def unbind_network(self, network_id: str, **kwargs: Any) -> dict[str, Any] | None:
+    def unbind_network(
+        self, network_id: str, *, retain_configs: bool | None = None
+    ) -> dict[str, Any] | None:
         """Unbind a network from a template.
 
         https://developer.cisco.com/meraki/api-v1/#!unbind-network
 
         Args:
             network_id: Network ID.
-            retainConfigs: Optional boolean to retain all the current configs given by the template.
+            retain_configs: Optional boolean to retain all the current configs given by the
+              template.
 
         """
-        kwargs.update(locals())
-
         metadata = {"tags": ["networks", "configure"], "operation": "unbind_network"}
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/unbind"
 
-        body_params = [
-            "retainConfigs",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if retain_configs is not None:
+            payload["retainConfigs"] = retain_configs
 
         return self._session.post(metadata, resource, payload)
 
@@ -3055,7 +3398,7 @@ class Networks:
         return self._session.get(metadata, resource)
 
     def create_network_vlan_profile(
-        self, network_id: str, name: str, vlanNames: list, vlanGroups: list, iname: str
+        self, network_id: str, name: str, vlan_names: list, vlan_groups: list, iname: str
     ) -> dict[str, Any] | None:
         """Create a VLAN profile for a network.
 
@@ -3064,13 +3407,11 @@ class Networks:
         Args:
             network_id: Network ID.
             name: Name of the profile, string length must be from 1 to 255 characters.
-            vlanNames: An array of named VLANs.
-            vlanGroups: An array of VLAN groups.
+            vlan_names: An array of named VLANs.
+            vlan_groups: An array of VLAN groups.
             iname: IName of the profile.
 
         """
-        kwargs = locals()
-
         metadata = {
             "tags": ["networks", "configure", "vlanProfiles"],
             "operation": "create_network_vlan_profile",
@@ -3078,18 +3419,30 @@ class Networks:
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/vlanProfiles"
 
-        body_params = [
-            "name",
-            "vlanNames",
-            "vlanGroups",
-            "iname",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if name is not None:
+            payload["name"] = name
+        if vlan_names is not None:
+            payload["vlanNames"] = vlan_names
+        if vlan_groups is not None:
+            payload["vlanGroups"] = vlan_groups
+        if iname is not None:
+            payload["iname"] = iname
 
         return self._session.post(metadata, resource, payload)
 
     def get_network_vlan_profiles_assignments_by_device(
-        self, network_id: str, total_pages=1, direction="next", **kwargs: Any
+        self,
+        network_id: str,
+        *,
+        per_page: int | None = None,
+        starting_after: str | None = None,
+        ending_before: str | None = None,
+        serials: list | None = None,
+        product_types: list | None = None,
+        stack_ids: list | None = None,
+        total_pages: str = 1,
+        direction: str = "next",
     ) -> Generator[Any, None, None]:
         """Get the assigned VLAN Profiles for devices in a network.
 
@@ -3097,27 +3450,25 @@ class Networks:
 
         Args:
             network_id: Network ID.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
-              "all" for all pages.
-            direction: direction to paginate, either "next" (default) or "prev" page.
-            perPage: The number of entries per page returned. Acceptable range is 3 - 1000. Default
+            per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
               is 1000.
-            startingAfter: A token used by the server to indicate the start of the page. Often this
+            starting_after: A token used by the server to indicate the start of the page. Often this
               is a timestamp or an ID but it is not limited to those. This parameter
               should not be defined by client applications. The link for the first,
               last, prev, or next page in the HTTP Link header should define it.
-            endingBefore: A token used by the server to indicate the end of the page. Often this is
+            ending_before: A token used by the server to indicate the end of the page. Often this is
               a timestamp or an ID but it is not limited to those. This parameter should
               not be defined by client applications. The link for the first, last, prev,
               or next page in the HTTP Link header should define it.
             serials: Optional parameter to filter devices by serials. All devices returned belong to
               serial numbers that are an exact match.
-            productTypes: Optional parameter to filter devices by product types.
-            stackIds: Optional parameter to filter devices by Switch Stack ids.
+            product_types: Optional parameter to filter devices by product types.
+            stack_ids: Optional parameter to filter devices by Switch Stack ids.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["networks", "configure", "vlanProfiles", "assignments", "byDevice"],
             "operation": "get_network_vlan_profiles_assignments_by_device",
@@ -3125,30 +3476,24 @@ class Networks:
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/vlanProfiles/assignments/byDevice"
 
-        query_params = [
-            "perPage",
-            "startingAfter",
-            "endingBefore",
-            "serials",
-            "productTypes",
-            "stackIds",
-        ]
-        params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
-
-        array_params = [
-            "serials",
-            "productTypes",
-            "stackIds",
-        ]
-        for k in kwargs:
-            if k.strip() in array_params:
-                params[f"{k.strip()}[]"] = kwargs[f"{k}"]
-                params.pop(k.strip())
+        params = {}
+        if per_page is not None:
+            params["perPage"] = per_page
+        if starting_after is not None:
+            params["startingAfter"] = starting_after
+        if ending_before is not None:
+            params["endingBefore"] = ending_before
+        if serials is not None:
+            params["serials[]"] = serials
+        if product_types is not None:
+            params["productTypes[]"] = product_types
+        if stack_ids is not None:
+            params["stackIds[]"] = stack_ids
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def reassign_network_vlan_profiles_assignments(
-        self, network_id: str, serials: list, stackIds: list, **kwargs: Any
+        self, network_id: str, serials: list, stack_ids: list, *, vlan_profile: dict | None = None
     ) -> dict[str, Any] | None:
         """Update the assigned VLAN Profile for devices in a network.
 
@@ -3156,13 +3501,11 @@ class Networks:
 
         Args:
             network_id: Network ID.
+            vlan_profile: The VLAN Profile.
             serials: Array of Device Serials.
-            stackIds: Array of Switch Stack IDs.
-            vlanProfile: The VLAN Profile.
+            stack_ids: Array of Switch Stack IDs.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["networks", "configure", "vlanProfiles", "assignments"],
             "operation": "reassign_network_vlan_profiles_assignments",
@@ -3170,12 +3513,13 @@ class Networks:
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/vlanProfiles/assignments/reassign"
 
-        body_params = [
-            "vlanProfile",
-            "serials",
-            "stackIds",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if vlan_profile is not None:
+            payload["vlanProfile"] = vlan_profile
+        if serials is not None:
+            payload["serials"] = serials
+        if stack_ids is not None:
+            payload["stackIds"] = stack_ids
 
         return self._session.post(metadata, resource, payload)
 
@@ -3200,7 +3544,7 @@ class Networks:
         return self._session.get(metadata, resource)
 
     def update_network_vlan_profile(
-        self, network_id: str, iname: str, name: str, vlanNames: list, vlanGroups: list
+        self, network_id: str, iname: str, name: str, vlan_names: list, vlan_groups: list
     ) -> dict[str, Any] | None:
         """Update an existing VLAN profile of a network.
 
@@ -3210,12 +3554,10 @@ class Networks:
             network_id: Network ID.
             iname: Iname.
             name: Name of the profile, string length must be from 1 to 255 characters.
-            vlanNames: An array of named VLANs.
-            vlanGroups: An array of VLAN groups.
+            vlan_names: An array of named VLANs.
+            vlan_groups: An array of VLAN groups.
 
         """
-        kwargs = locals()
-
         metadata = {
             "tags": ["networks", "configure", "vlanProfiles"],
             "operation": "update_network_vlan_profile",
@@ -3224,12 +3566,13 @@ class Networks:
         iname = urllib.parse.quote(str(iname), safe="")
         resource = f"/networks/{network_id}/vlanProfiles/{iname}"
 
-        body_params = [
-            "name",
-            "vlanNames",
-            "vlanGroups",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if name is not None:
+            payload["name"] = name
+        if vlan_names is not None:
+            payload["vlanNames"] = vlan_names
+        if vlan_groups is not None:
+            payload["vlanGroups"] = vlan_groups
 
         return self._session.put(metadata, resource, payload)
 
@@ -3272,7 +3615,13 @@ class Networks:
         return self._session.get(metadata, resource)
 
     def create_network_webhooks_http_server(
-        self, network_id: str, name: str, url: str, **kwargs: Any
+        self,
+        network_id: str,
+        name: str,
+        url: str,
+        *,
+        shared_secret: str | None = None,
+        payload_template: dict | None = None,
     ) -> dict[str, Any] | None:
         """Add an HTTP server to a network.
 
@@ -3282,13 +3631,11 @@ class Networks:
             network_id: Network ID.
             name: A name for easy reference to the HTTP server.
             url: The URL of the HTTP server. Once set, cannot be updated.
-            sharedSecret: A shared secret that will be included in POSTs sent to the HTTP server.
+            shared_secret: A shared secret that will be included in POSTs sent to the HTTP server.
               This secret can be used to verify that the request was sent by Meraki.
-            payloadTemplate: The payload template to use when posting data to the HTTP server.
+            payload_template: The payload template to use when posting data to the HTTP server.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["networks", "configure", "webhooks", "httpServers"],
             "operation": "create_network_webhooks_http_server",
@@ -3296,13 +3643,15 @@ class Networks:
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/webhooks/httpServers"
 
-        body_params = [
-            "name",
-            "url",
-            "sharedSecret",
-            "payloadTemplate",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if name is not None:
+            payload["name"] = name
+        if url is not None:
+            payload["url"] = url
+        if shared_secret is not None:
+            payload["sharedSecret"] = shared_secret
+        if payload_template is not None:
+            payload["payloadTemplate"] = payload_template
 
         return self._session.post(metadata, resource, payload)
 
@@ -3329,7 +3678,13 @@ class Networks:
         return self._session.get(metadata, resource)
 
     def update_network_webhooks_http_server(
-        self, network_id: str, http_server_id: str, **kwargs: Any
+        self,
+        network_id: str,
+        http_server_id: str,
+        *,
+        name: str | None = None,
+        shared_secret: str | None = None,
+        payload_template: dict | None = None,
     ) -> dict[str, Any] | None:
         """Update an HTTP server.
 
@@ -3339,13 +3694,11 @@ class Networks:
             network_id: Network ID.
             http_server_id: Http server ID.
             name: A name for easy reference to the HTTP server.
-            sharedSecret: A shared secret that will be included in POSTs sent to the HTTP server.
+            shared_secret: A shared secret that will be included in POSTs sent to the HTTP server.
               This secret can be used to verify that the request was sent by Meraki.
-            payloadTemplate: The payload template to use when posting data to the HTTP server.
+            payload_template: The payload template to use when posting data to the HTTP server.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["networks", "configure", "webhooks", "httpServers"],
             "operation": "update_network_webhooks_http_server",
@@ -3354,12 +3707,13 @@ class Networks:
         http_server_id = urllib.parse.quote(str(http_server_id), safe="")
         resource = f"/networks/{network_id}/webhooks/httpServers/{http_server_id}"
 
-        body_params = [
-            "name",
-            "sharedSecret",
-            "payloadTemplate",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if name is not None:
+            payload["name"] = name
+        if shared_secret is not None:
+            payload["sharedSecret"] = shared_secret
+        if payload_template is not None:
+            payload["payloadTemplate"] = payload_template
 
         return self._session.put(metadata, resource, payload)
 
@@ -3402,7 +3756,14 @@ class Networks:
         return self._session.get(metadata, resource)
 
     def create_network_webhooks_payload_template(
-        self, network_id: str, name: str, **kwargs: Any
+        self,
+        network_id: str,
+        name: str,
+        *,
+        body: str | None = None,
+        headers: list | None = None,
+        body_file: str | None = None,
+        headers_file: str | None = None,
     ) -> dict[str, Any] | None:
         """Create a webhook payload template for a network.
 
@@ -3414,14 +3775,12 @@ class Networks:
             body: The liquid template used for the body of the webhook message. Either `body` or
               `bodyFile` must be specified.
             headers: The liquid template used with the webhook headers.
-            bodyFile: A Base64 encoded file containing liquid template used for the body of the
+            body_file: A Base64 encoded file containing liquid template used for the body of the
               webhook message. Either `body` or `bodyFile` must be specified.
-            headersFile: A Base64 encoded file containing the liquid template used with the webhook
+            headers_file: A Base64 encoded file containing the liquid template used with the webhook
               headers.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["networks", "configure", "webhooks", "payloadTemplates"],
             "operation": "create_network_webhooks_payload_template",
@@ -3429,14 +3788,17 @@ class Networks:
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/webhooks/payloadTemplates"
 
-        body_params = [
-            "name",
-            "body",
-            "headers",
-            "bodyFile",
-            "headersFile",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if name is not None:
+            payload["name"] = name
+        if body is not None:
+            payload["body"] = body
+        if headers is not None:
+            payload["headers"] = headers
+        if body_file is not None:
+            payload["bodyFile"] = body_file
+        if headers_file is not None:
+            payload["headersFile"] = headers_file
 
         return self._session.post(metadata, resource, payload)
 
@@ -3485,7 +3847,15 @@ class Networks:
         return self._session.delete(metadata, resource)
 
     def update_network_webhooks_payload_template(
-        self, network_id: str, payload_template_id: str, **kwargs: Any
+        self,
+        network_id: str,
+        payload_template_id: str,
+        *,
+        name: str | None = None,
+        body: str | None = None,
+        headers: list | None = None,
+        body_file: str | None = None,
+        headers_file: str | None = None,
     ) -> dict[str, Any] | None:
         """Update a webhook payload template for a network.
 
@@ -3497,12 +3867,10 @@ class Networks:
             name: The name of the template.
             body: The liquid template used for the body of the webhook message.
             headers: The liquid template used with the webhook headers.
-            bodyFile: A file containing liquid template used for the body of the webhook message.
-            headersFile: A file containing the liquid template used with the webhook headers.
+            body_file: A file containing liquid template used for the body of the webhook message.
+            headers_file: A file containing the liquid template used with the webhook headers.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["networks", "configure", "webhooks", "payloadTemplates"],
             "operation": "update_network_webhooks_payload_template",
@@ -3511,19 +3879,29 @@ class Networks:
         payload_template_id = urllib.parse.quote(str(payload_template_id), safe="")
         resource = f"/networks/{network_id}/webhooks/payloadTemplates/{payload_template_id}"
 
-        body_params = [
-            "name",
-            "body",
-            "headers",
-            "bodyFile",
-            "headersFile",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if name is not None:
+            payload["name"] = name
+        if body is not None:
+            payload["body"] = body
+        if headers is not None:
+            payload["headers"] = headers
+        if body_file is not None:
+            payload["bodyFile"] = body_file
+        if headers_file is not None:
+            payload["headersFile"] = headers_file
 
         return self._session.put(metadata, resource, payload)
 
     def create_network_webhooks_webhook_test(
-        self, network_id: str, url: str, **kwargs: Any
+        self,
+        network_id: str,
+        url: str,
+        *,
+        shared_secret: str | None = None,
+        payload_template_id: str | None = None,
+        payload_template_name: str | None = None,
+        alert_type_id: str | None = None,
     ) -> dict[str, Any] | None:
         """Send a test webhook for a network.
 
@@ -3532,18 +3910,16 @@ class Networks:
         Args:
             network_id: Network ID.
             url: The URL where the test webhook will be sent.
-            sharedSecret: The shared secret the test webhook will send. Optional. Defaults to HTTP
+            shared_secret: The shared secret the test webhook will send. Optional. Defaults to HTTP
               server's shared secret. Otherwise, defaults to an empty string.
-            payloadTemplateId: The ID of the payload template of the test webhook. Defaults to the
+            payload_template_id: The ID of the payload template of the test webhook. Defaults to the
               HTTP server's template ID if one exists for the given URL, or Generic
               template ID otherwise.
-            payloadTemplateName: The name of the payload template.
-            alertTypeId: The type of alert which the test webhook will send. Optional. Defaults to
+            payload_template_name: The name of the payload template.
+            alert_type_id: The type of alert which the test webhook will send. Optional. Defaults to
               power_supply_down.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["networks", "configure", "webhooks", "webhookTests"],
             "operation": "create_network_webhooks_webhook_test",
@@ -3551,14 +3927,17 @@ class Networks:
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/webhooks/webhookTests"
 
-        body_params = [
-            "url",
-            "sharedSecret",
-            "payloadTemplateId",
-            "payloadTemplateName",
-            "alertTypeId",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if url is not None:
+            payload["url"] = url
+        if shared_secret is not None:
+            payload["sharedSecret"] = shared_secret
+        if payload_template_id is not None:
+            payload["payloadTemplateId"] = payload_template_id
+        if payload_template_name is not None:
+            payload["payloadTemplateName"] = payload_template_name
+        if alert_type_id is not None:
+            payload["alertTypeId"] = alert_type_id
 
         return self._session.post(metadata, resource, payload)
 

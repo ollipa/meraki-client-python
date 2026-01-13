@@ -26,8 +26,6 @@ class Sm:
             ids: The ids of the devices to attempt activation lock bypass.
 
         """
-        kwargs = locals()
-
         metadata = {
             "tags": ["sm", "configure", "bypassActivationLockAttempts"],
             "operation": "create_network_sm_bypass_activation_lock_attempt",
@@ -35,10 +33,9 @@ class Sm:
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/sm/bypassActivationLockAttempts"
 
-        body_params = [
-            "ids",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if ids is not None:
+            payload["ids"] = ids
 
         return self._session.post(metadata, resource, payload)
 
@@ -65,7 +62,21 @@ class Sm:
         return self._session.get(metadata, resource)
 
     def get_network_sm_devices(
-        self, network_id: str, total_pages=1, direction="next", **kwargs: Any
+        self,
+        network_id: str,
+        *,
+        fields: list | None = None,
+        wifi_macs: list | None = None,
+        serials: list | None = None,
+        ids: list | None = None,
+        uuids: list | None = None,
+        system_types: list | None = None,
+        scope: list | None = None,
+        per_page: int | None = None,
+        starting_after: str | None = None,
+        ending_before: str | None = None,
+        total_pages: str = 1,
+        direction: str = "next",
     ) -> Generator[Any, None, None]:
         """List the devices enrolled in an SM network with various specified fields and filters.
 
@@ -73,93 +84,91 @@ class Sm:
 
         Args:
             network_id: Network ID.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
-              "all" for all pages.
-            direction: direction to paginate, either "next" (default) or "prev" page.
-            fields: Additional fields that will be displayed for each device.     The default fields
+            fields: Additional fields that will be displayed for each device. The default fields
               are: id, name, tags, ssid, wifiMac, osName, systemModel, uuid, and
-              serialNumber. The additional fields are: ip,     systemType,
+              serialNumber. The additional fields are: ip, systemType,
               availableDeviceCapacity, kioskAppName, biosVersion, lastConnected,
-              missingAppsCount, userSuppliedAddress, location, lastUser,     ownerEmail,
+              missingAppsCount, userSuppliedAddress, location, lastUser, ownerEmail,
               ownerUsername, osBuild, publicIp, phoneNumber, diskInfoJson,
               deviceCapacity, isManaged, hadMdm, isSupervised, meid, imei, iccid,
               simCarrierNetwork, cellularDataUsed, isHotspotEnabled, createdAt,
               batteryEstCharge, quarantined, avName, avRunning, asName, fwName,
               isRooted, loginRequired, screenLockEnabled, screenLockDelay,
               autoLoginDisabled, autoTags, hasMdm, hasDesktopAgent,
-              diskEncryptionEnabled,     hardwareEncryptionCaps, passCodeLock,
+              diskEncryptionEnabled, hardwareEncryptionCaps, passCodeLock,
               usesHardwareKeystore, androidSecurityPatchVersion, cellular, and url.
-            wifiMacs: Filter devices by wifi mac(s).
+            wifi_macs: Filter devices by wifi mac(s).
             serials: Filter devices by serial(s).
             ids: Filter devices by id(s).
             uuids: Filter devices by uuid(s).
-            systemTypes: Filter devices by system type(s).
+            system_types: Filter devices by system type(s).
             scope: Specify a scope (one of all, none, withAny, withAll, withoutAny, or withoutAll)
               and a set of tags.
-            perPage: The number of entries per page returned. Acceptable range is 3 - 1000. Default
+            per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
               is 1000.
-            startingAfter: A token used by the server to indicate the start of the page. Often this
+            starting_after: A token used by the server to indicate the start of the page. Often this
               is a timestamp or an ID but it is not limited to those. This parameter
               should not be defined by client applications. The link for the first,
               last, prev, or next page in the HTTP Link header should define it.
-            endingBefore: A token used by the server to indicate the end of the page. Often this is
+            ending_before: A token used by the server to indicate the end of the page. Often this is
               a timestamp or an ID but it is not limited to those. This parameter should
               not be defined by client applications. The link for the first, last, prev,
               or next page in the HTTP Link header should define it.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        kwargs.update(locals())
-
         metadata = {"tags": ["sm", "configure", "devices"], "operation": "get_network_sm_devices"}
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/sm/devices"
 
-        query_params = [
-            "fields",
-            "wifiMacs",
-            "serials",
-            "ids",
-            "uuids",
-            "systemTypes",
-            "scope",
-            "perPage",
-            "startingAfter",
-            "endingBefore",
-        ]
-        params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
-
-        array_params = [
-            "fields",
-            "wifiMacs",
-            "serials",
-            "ids",
-            "uuids",
-            "systemTypes",
-            "scope",
-        ]
-        for k in kwargs:
-            if k.strip() in array_params:
-                params[f"{k.strip()}[]"] = kwargs[f"{k}"]
-                params.pop(k.strip())
+        params = {}
+        if fields is not None:
+            params["fields[]"] = fields
+        if wifi_macs is not None:
+            params["wifiMacs[]"] = wifi_macs
+        if serials is not None:
+            params["serials[]"] = serials
+        if ids is not None:
+            params["ids[]"] = ids
+        if uuids is not None:
+            params["uuids[]"] = uuids
+        if system_types is not None:
+            params["systemTypes[]"] = system_types
+        if scope is not None:
+            params["scope[]"] = scope
+        if per_page is not None:
+            params["perPage"] = per_page
+        if starting_after is not None:
+            params["startingAfter"] = starting_after
+        if ending_before is not None:
+            params["endingBefore"] = ending_before
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
-    def checkin_network_sm_devices(self, network_id: str, **kwargs: Any) -> dict[str, Any] | None:
+    def checkin_network_sm_devices(
+        self,
+        network_id: str,
+        *,
+        wifi_macs: list | None = None,
+        ids: list | None = None,
+        serials: list | None = None,
+        scope: list | None = None,
+    ) -> dict[str, Any] | None:
         """Force check-in a set of devices.
 
         https://developer.cisco.com/meraki/api-v1/#!checkin-network-sm-devices
 
         Args:
             network_id: Network ID.
-            wifiMacs: The wifiMacs of the devices to be checked-in.
+            wifi_macs: The wifiMacs of the devices to be checked-in.
             ids: The ids of the devices to be checked-in.
             serials: The serials of the devices to be checked-in.
             scope: The scope (one of all, none, withAny, withAll, withoutAny, or withoutAll) and a
               set of tags of the devices to be checked-in.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["sm", "configure", "devices"],
             "operation": "checkin_network_sm_devices",
@@ -167,18 +176,26 @@ class Sm:
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/sm/devices/checkin"
 
-        body_params = [
-            "wifiMacs",
-            "ids",
-            "serials",
-            "scope",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if wifi_macs is not None:
+            payload["wifiMacs"] = wifi_macs
+        if ids is not None:
+            payload["ids"] = ids
+        if serials is not None:
+            payload["serials"] = serials
+        if scope is not None:
+            payload["scope"] = scope
 
         return self._session.post(metadata, resource, payload)
 
     def update_network_sm_devices_fields(
-        self, network_id: str, deviceFields: dict, **kwargs: Any
+        self,
+        network_id: str,
+        device_fields: dict,
+        *,
+        wifi_mac: str | None = None,
+        id_: str | None = None,
+        serial: str | None = None,
     ) -> dict[str, Any] | None:
         """Modify the fields of a device.
 
@@ -186,14 +203,12 @@ class Sm:
 
         Args:
             network_id: Network ID.
-            deviceFields: The new fields of the device. Each field of this object is optional.
-            wifiMac: The wifiMac of the device to be modified.
-            id: The id of the device to be modified.
+            wifi_mac: The wifiMac of the device to be modified.
+            id_: The id of the device to be modified.
             serial: The serial of the device to be modified.
+            device_fields: The new fields of the device. Each field of this object is optional.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["sm", "configure", "devices", "fields"],
             "operation": "update_network_sm_devices_fields",
@@ -201,24 +216,35 @@ class Sm:
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/sm/devices/fields"
 
-        body_params = [
-            "wifiMac",
-            "id",
-            "serial",
-            "deviceFields",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if wifi_mac is not None:
+            payload["wifiMac"] = wifi_mac
+        if id_ is not None:
+            payload["id"] = id_
+        if serial is not None:
+            payload["serial"] = serial
+        if device_fields is not None:
+            payload["deviceFields"] = device_fields
 
         return self._session.put(metadata, resource, payload)
 
-    def lock_network_sm_devices(self, network_id: str, **kwargs: Any) -> dict[str, Any] | None:
+    def lock_network_sm_devices(
+        self,
+        network_id: str,
+        *,
+        wifi_macs: list | None = None,
+        ids: list | None = None,
+        serials: list | None = None,
+        scope: list | None = None,
+        pin: int | None = None,
+    ) -> dict[str, Any] | None:
         """Lock a set of devices.
 
         https://developer.cisco.com/meraki/api-v1/#!lock-network-sm-devices
 
         Args:
             network_id: Network ID.
-            wifiMacs: The wifiMacs of the devices to be locked.
+            wifi_macs: The wifiMacs of the devices to be locked.
             ids: The ids of the devices to be locked.
             serials: The serials of the devices to be locked.
             scope: The scope (one of all, none, withAny, withAll, withoutAny, or withoutAll) and a
@@ -227,25 +253,34 @@ class Sm:
               macOS devices.
 
         """
-        kwargs.update(locals())
-
         metadata = {"tags": ["sm", "configure", "devices"], "operation": "lock_network_sm_devices"}
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/sm/devices/lock"
 
-        body_params = [
-            "wifiMacs",
-            "ids",
-            "serials",
-            "scope",
-            "pin",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if wifi_macs is not None:
+            payload["wifiMacs"] = wifi_macs
+        if ids is not None:
+            payload["ids"] = ids
+        if serials is not None:
+            payload["serials"] = serials
+        if scope is not None:
+            payload["scope"] = scope
+        if pin is not None:
+            payload["pin"] = pin
 
         return self._session.post(metadata, resource, payload)
 
     def modify_network_sm_devices_tags(
-        self, network_id: str, tags: list, updateAction: str, **kwargs: Any
+        self,
+        network_id: str,
+        tags: list,
+        update_action: str,
+        *,
+        wifi_macs: list | None = None,
+        ids: list | None = None,
+        serials: list | None = None,
+        scope: list | None = None,
     ) -> dict[str, Any] | None:
         """Add, delete, or update the tags of a set of devices.
 
@@ -253,18 +288,16 @@ class Sm:
 
         Args:
             network_id: Network ID.
-            tags: The tags to be added, deleted, or updated.
-            updateAction: One of add, delete, or update. Only devices that have been modified will
-              be returned.
-            wifiMacs: The wifiMacs of the devices to be modified.
+            wifi_macs: The wifiMacs of the devices to be modified.
             ids: The ids of the devices to be modified.
             serials: The serials of the devices to be modified.
             scope: The scope (one of all, none, withAny, withAll, withoutAny, or withoutAll) and a
               set of tags of the devices to be modified.
+            tags: The tags to be added, deleted, or updated.
+            update_action: One of add, delete, or update. Only devices that have been modified will
+              be returned.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["sm", "configure", "devices"],
             "operation": "modify_network_sm_devices_tags",
@@ -272,20 +305,31 @@ class Sm:
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/sm/devices/modifyTags"
 
-        body_params = [
-            "wifiMacs",
-            "ids",
-            "serials",
-            "scope",
-            "tags",
-            "updateAction",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if wifi_macs is not None:
+            payload["wifiMacs"] = wifi_macs
+        if ids is not None:
+            payload["ids"] = ids
+        if serials is not None:
+            payload["serials"] = serials
+        if scope is not None:
+            payload["scope"] = scope
+        if tags is not None:
+            payload["tags"] = tags
+        if update_action is not None:
+            payload["updateAction"] = update_action
 
         return self._session.post(metadata, resource, payload)
 
     def move_network_sm_devices(
-        self, network_id: str, newNetwork: str, **kwargs: Any
+        self,
+        network_id: str,
+        new_network: str,
+        *,
+        wifi_macs: list | None = None,
+        ids: list | None = None,
+        serials: list | None = None,
+        scope: list | None = None,
     ) -> dict[str, Any] | None:
         """Move a set of devices to a new network.
 
@@ -293,54 +337,65 @@ class Sm:
 
         Args:
             network_id: Network ID.
-            newNetwork: The new network to which the devices will be moved.
-            wifiMacs: The wifiMacs of the devices to be moved.
+            wifi_macs: The wifiMacs of the devices to be moved.
             ids: The ids of the devices to be moved.
             serials: The serials of the devices to be moved.
             scope: The scope (one of all, none, withAny, withAll, withoutAny, or withoutAll) and a
               set of tags of the devices to be moved.
+            new_network: The new network to which the devices will be moved.
 
         """
-        kwargs.update(locals())
-
         metadata = {"tags": ["sm", "configure", "devices"], "operation": "move_network_sm_devices"}
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/sm/devices/move"
 
-        body_params = [
-            "wifiMacs",
-            "ids",
-            "serials",
-            "scope",
-            "newNetwork",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if wifi_macs is not None:
+            payload["wifiMacs"] = wifi_macs
+        if ids is not None:
+            payload["ids"] = ids
+        if serials is not None:
+            payload["serials"] = serials
+        if scope is not None:
+            payload["scope"] = scope
+        if new_network is not None:
+            payload["newNetwork"] = new_network
 
         return self._session.post(metadata, resource, payload)
 
-    def reboot_network_sm_devices(self, network_id: str, **kwargs: Any) -> dict[str, Any] | None:
+    def reboot_network_sm_devices(
+        self,
+        network_id: str,
+        *,
+        wifi_macs: list | None = None,
+        ids: list | None = None,
+        serials: list | None = None,
+        scope: list | None = None,
+        kext_paths: list | None = None,
+        notify_user: bool | None = None,
+        rebuild_kernel_cache: bool | None = None,
+        request_requires_network_tether: bool | None = None,
+    ) -> dict[str, Any] | None:
         """Reboot a set of endpoints.
 
         https://developer.cisco.com/meraki/api-v1/#!reboot-network-sm-devices
 
         Args:
             network_id: Network ID.
-            wifiMacs: The wifiMacs of the endpoints to be rebooted.
+            wifi_macs: The wifiMacs of the endpoints to be rebooted.
             ids: The ids of the endpoints to be rebooted.
             serials: The serials of the endpoints to be rebooted.
             scope: The scope (one of all, none, withAny, withAll, withoutAny, or withoutAll) and a
               set of tags of the endpoints to be rebooted.
-            kextPaths: The KextPaths of the endpoints to be rebooted. Available for macOS 11+.
-            notifyUser: Whether or not to notify the user before rebooting the endpoint. Available
+            kext_paths: The KextPaths of the endpoints to be rebooted. Available for macOS 11+.
+            notify_user: Whether or not to notify the user before rebooting the endpoint. Available
               for macOS 11.3+.
-            rebuildKernelCache: Whether or not to rebuild the kernel cache when rebooting the
+            rebuild_kernel_cache: Whether or not to rebuild the kernel cache when rebooting the
               endpoint. Available for macOS 11+.
-            requestRequiresNetworkTether: Whether or not the request requires network tethering.
+            request_requires_network_tether: Whether or not the request requires network tethering.
               Available for macOS and supervised iOS or tvOS.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["sm", "configure", "devices"],
             "operation": "reboot_network_sm_devices",
@@ -348,36 +403,48 @@ class Sm:
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/sm/devices/reboot"
 
-        body_params = [
-            "wifiMacs",
-            "ids",
-            "serials",
-            "scope",
-            "kextPaths",
-            "notifyUser",
-            "rebuildKernelCache",
-            "requestRequiresNetworkTether",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if wifi_macs is not None:
+            payload["wifiMacs"] = wifi_macs
+        if ids is not None:
+            payload["ids"] = ids
+        if serials is not None:
+            payload["serials"] = serials
+        if scope is not None:
+            payload["scope"] = scope
+        if kext_paths is not None:
+            payload["kextPaths"] = kext_paths
+        if notify_user is not None:
+            payload["notifyUser"] = notify_user
+        if rebuild_kernel_cache is not None:
+            payload["rebuildKernelCache"] = rebuild_kernel_cache
+        if request_requires_network_tether is not None:
+            payload["requestRequiresNetworkTether"] = request_requires_network_tether
 
         return self._session.post(metadata, resource, payload)
 
-    def shutdown_network_sm_devices(self, network_id: str, **kwargs: Any) -> dict[str, Any] | None:
+    def shutdown_network_sm_devices(
+        self,
+        network_id: str,
+        *,
+        wifi_macs: list | None = None,
+        ids: list | None = None,
+        serials: list | None = None,
+        scope: list | None = None,
+    ) -> dict[str, Any] | None:
         """Shutdown a set of endpoints.
 
         https://developer.cisco.com/meraki/api-v1/#!shutdown-network-sm-devices
 
         Args:
             network_id: Network ID.
-            wifiMacs: The wifiMacs of the endpoints to be shutdown.
+            wifi_macs: The wifiMacs of the endpoints to be shutdown.
             ids: The ids of the endpoints to be shutdown.
             serials: The serials of the endpoints to be shutdown.
             scope: The scope (one of all, none, withAny, withAll, withoutAny, or withoutAll) and a
               set of tags of the endpoints to be shutdown.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["sm", "configure", "devices"],
             "operation": "shutdown_network_sm_devices",
@@ -385,43 +452,53 @@ class Sm:
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/sm/devices/shutdown"
 
-        body_params = [
-            "wifiMacs",
-            "ids",
-            "serials",
-            "scope",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if wifi_macs is not None:
+            payload["wifiMacs"] = wifi_macs
+        if ids is not None:
+            payload["ids"] = ids
+        if serials is not None:
+            payload["serials"] = serials
+        if scope is not None:
+            payload["scope"] = scope
 
         return self._session.post(metadata, resource, payload)
 
-    def wipe_network_sm_devices(self, network_id: str, **kwargs: Any) -> dict[str, Any] | None:
+    def wipe_network_sm_devices(
+        self,
+        network_id: str,
+        *,
+        wifi_mac: str | None = None,
+        id_: str | None = None,
+        serial: str | None = None,
+        pin: int | None = None,
+    ) -> dict[str, Any] | None:
         """Wipe a device.
 
         https://developer.cisco.com/meraki/api-v1/#!wipe-network-sm-devices
 
         Args:
             network_id: Network ID.
-            wifiMac: The wifiMac of the device to be wiped.
-            id: The id of the device to be wiped.
+            wifi_mac: The wifiMac of the device to be wiped.
+            id_: The id of the device to be wiped.
             serial: The serial of the device to be wiped.
             pin: The pin number (a six digit value) for wiping a macOS device. Required only for
               macOS devices.
 
         """
-        kwargs.update(locals())
-
         metadata = {"tags": ["sm", "configure", "devices"], "operation": "wipe_network_sm_devices"}
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/sm/devices/wipe"
 
-        body_params = [
-            "wifiMac",
-            "id",
-            "serial",
-            "pin",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if wifi_mac is not None:
+            payload["wifiMac"] = wifi_mac
+        if id_ is not None:
+            payload["id"] = id_
+        if serial is not None:
+            payload["serial"] = serial
+        if pin is not None:
+            payload["pin"] = pin
 
         return self._session.post(metadata, resource, payload)
 
@@ -468,7 +545,15 @@ class Sm:
         return self._session.get(metadata, resource)
 
     def get_network_sm_device_connectivity(
-        self, network_id: str, device_id: str, total_pages=1, direction="next", **kwargs: Any
+        self,
+        network_id: str,
+        device_id: str,
+        *,
+        per_page: int | None = None,
+        starting_after: str | None = None,
+        ending_before: str | None = None,
+        total_pages: str = 1,
+        direction: str = "next",
     ) -> Generator[Any, None, None]:
         """Returns historical connectivity data (whether a device is regularly checking in to Dashboard).
 
@@ -477,23 +562,21 @@ class Sm:
         Args:
             network_id: Network ID.
             device_id: Device ID.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
-              "all" for all pages.
-            direction: direction to paginate, either "next" (default) or "prev" page.
-            perPage: The number of entries per page returned. Acceptable range is 3 - 1000. Default
+            per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
               is 1000.
-            startingAfter: A token used by the server to indicate the start of the page. Often this
+            starting_after: A token used by the server to indicate the start of the page. Often this
               is a timestamp or an ID but it is not limited to those. This parameter
               should not be defined by client applications. The link for the first,
               last, prev, or next page in the HTTP Link header should define it.
-            endingBefore: A token used by the server to indicate the end of the page. Often this is
+            ending_before: A token used by the server to indicate the end of the page. Often this is
               a timestamp or an ID but it is not limited to those. This parameter should
               not be defined by client applications. The link for the first, last, prev,
               or next page in the HTTP Link header should define it.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["sm", "monitor", "devices", "connectivity"],
             "operation": "get_network_sm_device_connectivity",
@@ -502,17 +585,26 @@ class Sm:
         device_id = urllib.parse.quote(str(device_id), safe="")
         resource = f"/networks/{network_id}/sm/devices/{device_id}/connectivity"
 
-        query_params = [
-            "perPage",
-            "startingAfter",
-            "endingBefore",
-        ]
-        params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
+        params = {}
+        if per_page is not None:
+            params["perPage"] = per_page
+        if starting_after is not None:
+            params["startingAfter"] = starting_after
+        if ending_before is not None:
+            params["endingBefore"] = ending_before
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def get_network_sm_device_desktop_logs(
-        self, network_id: str, device_id: str, total_pages=1, direction="next", **kwargs: Any
+        self,
+        network_id: str,
+        device_id: str,
+        *,
+        per_page: int | None = None,
+        starting_after: str | None = None,
+        ending_before: str | None = None,
+        total_pages: str = 1,
+        direction: str = "next",
     ) -> Generator[Any, None, None]:
         """Return historical records of various Systems Manager network connection details for desktop devices.
 
@@ -521,23 +613,21 @@ class Sm:
         Args:
             network_id: Network ID.
             device_id: Device ID.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
-              "all" for all pages.
-            direction: direction to paginate, either "next" (default) or "prev" page.
-            perPage: The number of entries per page returned. Acceptable range is 3 - 1000. Default
+            per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
               is 1000.
-            startingAfter: A token used by the server to indicate the start of the page. Often this
+            starting_after: A token used by the server to indicate the start of the page. Often this
               is a timestamp or an ID but it is not limited to those. This parameter
               should not be defined by client applications. The link for the first,
               last, prev, or next page in the HTTP Link header should define it.
-            endingBefore: A token used by the server to indicate the end of the page. Often this is
+            ending_before: A token used by the server to indicate the end of the page. Often this is
               a timestamp or an ID but it is not limited to those. This parameter should
               not be defined by client applications. The link for the first, last, prev,
               or next page in the HTTP Link header should define it.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["sm", "monitor", "devices", "desktopLogs"],
             "operation": "get_network_sm_device_desktop_logs",
@@ -546,17 +636,26 @@ class Sm:
         device_id = urllib.parse.quote(str(device_id), safe="")
         resource = f"/networks/{network_id}/sm/devices/{device_id}/desktopLogs"
 
-        query_params = [
-            "perPage",
-            "startingAfter",
-            "endingBefore",
-        ]
-        params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
+        params = {}
+        if per_page is not None:
+            params["perPage"] = per_page
+        if starting_after is not None:
+            params["startingAfter"] = starting_after
+        if ending_before is not None:
+            params["endingBefore"] = ending_before
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def get_network_sm_device_device_command_logs(
-        self, network_id: str, device_id: str, total_pages=1, direction="next", **kwargs: Any
+        self,
+        network_id: str,
+        device_id: str,
+        *,
+        per_page: int | None = None,
+        starting_after: str | None = None,
+        ending_before: str | None = None,
+        total_pages: str = 1,
+        direction: str = "next",
     ) -> Generator[Any, None, None]:
         """Return historical records of commands sent to Systems Manager devices.
 
@@ -565,23 +664,21 @@ class Sm:
         Args:
             network_id: Network ID.
             device_id: Device ID.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
-              "all" for all pages.
-            direction: direction to paginate, either "next" (default) or "prev" page.
-            perPage: The number of entries per page returned. Acceptable range is 3 - 1000. Default
+            per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
               is 1000.
-            startingAfter: A token used by the server to indicate the start of the page. Often this
+            starting_after: A token used by the server to indicate the start of the page. Often this
               is a timestamp or an ID but it is not limited to those. This parameter
               should not be defined by client applications. The link for the first,
               last, prev, or next page in the HTTP Link header should define it.
-            endingBefore: A token used by the server to indicate the end of the page. Often this is
+            ending_before: A token used by the server to indicate the end of the page. Often this is
               a timestamp or an ID but it is not limited to those. This parameter should
               not be defined by client applications. The link for the first, last, prev,
               or next page in the HTTP Link header should define it.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["sm", "monitor", "devices", "deviceCommandLogs"],
             "operation": "get_network_sm_device_device_command_logs",
@@ -590,12 +687,13 @@ class Sm:
         device_id = urllib.parse.quote(str(device_id), safe="")
         resource = f"/networks/{network_id}/sm/devices/{device_id}/deviceCommandLogs"
 
-        query_params = [
-            "perPage",
-            "startingAfter",
-            "endingBefore",
-        ]
-        params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
+        params = {}
+        if per_page is not None:
+            params["perPage"] = per_page
+        if starting_after is not None:
+            params["startingAfter"] = starting_after
+        if ending_before is not None:
+            params["endingBefore"] = ending_before
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
@@ -622,7 +720,7 @@ class Sm:
         return self._session.get(metadata, resource)
 
     def install_network_sm_device_apps(
-        self, network_id: str, device_id: str, appIds: list, **kwargs: Any
+        self, network_id: str, device_id: str, app_ids: list, *, force: bool | None = None
     ) -> dict[str, Any] | None:
         """Install applications on a device.
 
@@ -631,14 +729,12 @@ class Sm:
         Args:
             network_id: Network ID.
             device_id: Device ID.
-            appIds: ids of applications to be installed.
+            app_ids: ids of applications to be installed.
             force: By default, installation of an app which is believed to already be present on the
               device will be skipped. If you'd like to force the installation of the
               app, set this parameter to true.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["sm", "configure", "devices"],
             "operation": "install_network_sm_device_apps",
@@ -647,11 +743,11 @@ class Sm:
         device_id = urllib.parse.quote(str(device_id), safe="")
         resource = f"/networks/{network_id}/sm/devices/{device_id}/installApps"
 
-        body_params = [
-            "appIds",
-            "force",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if app_ids is not None:
+            payload["appIds"] = app_ids
+        if force is not None:
+            payload["force"] = force
 
         return self._session.post(metadata, resource, payload)
 
@@ -678,7 +774,15 @@ class Sm:
         return self._session.get(metadata, resource)
 
     def get_network_sm_device_performance_history(
-        self, network_id: str, device_id: str, total_pages=1, direction="next", **kwargs: Any
+        self,
+        network_id: str,
+        device_id: str,
+        *,
+        per_page: int | None = None,
+        starting_after: str | None = None,
+        ending_before: str | None = None,
+        total_pages: str = 1,
+        direction: str = "next",
     ) -> Generator[Any, None, None]:
         """Return historical records of various Systems Manager client metrics for desktop devices.
 
@@ -687,23 +791,21 @@ class Sm:
         Args:
             network_id: Network ID.
             device_id: Device ID.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
-              "all" for all pages.
-            direction: direction to paginate, either "next" (default) or "prev" page.
-            perPage: The number of entries per page returned. Acceptable range is 3 - 1000. Default
+            per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
               is 1000.
-            startingAfter: A token used by the server to indicate the start of the page. Often this
+            starting_after: A token used by the server to indicate the start of the page. Often this
               is a timestamp or an ID but it is not limited to those. This parameter
               should not be defined by client applications. The link for the first,
               last, prev, or next page in the HTTP Link header should define it.
-            endingBefore: A token used by the server to indicate the end of the page. Often this is
+            ending_before: A token used by the server to indicate the end of the page. Often this is
               a timestamp or an ID but it is not limited to those. This parameter should
               not be defined by client applications. The link for the first, last, prev,
               or next page in the HTTP Link header should define it.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["sm", "monitor", "devices", "performanceHistory"],
             "operation": "get_network_sm_device_performance_history",
@@ -712,12 +814,13 @@ class Sm:
         device_id = urllib.parse.quote(str(device_id), safe="")
         resource = f"/networks/{network_id}/sm/devices/{device_id}/performanceHistory"
 
-        query_params = [
-            "perPage",
-            "startingAfter",
-            "endingBefore",
-        ]
-        params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
+        params = {}
+        if per_page is not None:
+            params["perPage"] = per_page
+        if starting_after is not None:
+            params["startingAfter"] = starting_after
+        if ending_before is not None:
+            params["endingBefore"] = ending_before
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
@@ -830,7 +933,7 @@ class Sm:
         return self._session.post(metadata, resource)
 
     def uninstall_network_sm_device_apps(
-        self, network_id: str, device_id: str, appIds: list
+        self, network_id: str, device_id: str, app_ids: list
     ) -> dict[str, Any] | None:
         """Uninstall applications on a device.
 
@@ -839,11 +942,9 @@ class Sm:
         Args:
             network_id: Network ID.
             device_id: Device ID.
-            appIds: ids of applications to be uninstalled.
+            app_ids: ids of applications to be uninstalled.
 
         """
-        kwargs = locals()
-
         metadata = {
             "tags": ["sm", "configure", "devices"],
             "operation": "uninstall_network_sm_device_apps",
@@ -852,10 +953,9 @@ class Sm:
         device_id = urllib.parse.quote(str(device_id), safe="")
         resource = f"/networks/{network_id}/sm/devices/{device_id}/uninstallApps"
 
-        body_params = [
-            "appIds",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if app_ids is not None:
+            payload["appIds"] = app_ids
 
         return self._session.post(metadata, resource, payload)
 
@@ -881,50 +981,41 @@ class Sm:
 
         return self._session.get(metadata, resource)
 
-    def get_network_sm_profiles(self, network_id: str, **kwargs: Any) -> dict[str, Any] | None:
+    def get_network_sm_profiles(
+        self, network_id: str, *, payload_types: list | None = None
+    ) -> dict[str, Any] | None:
         """List all profiles in a network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-sm-profiles
 
         Args:
             network_id: Network ID.
-            payloadTypes: Filter by payload types.
+            payload_types: Filter by payload types.
 
         """
-        kwargs.update(locals())
-
         metadata = {"tags": ["sm", "configure", "profiles"], "operation": "get_network_sm_profiles"}
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/sm/profiles"
 
-        query_params = [
-            "payloadTypes",
-        ]
-        params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
-
-        array_params = [
-            "payloadTypes",
-        ]
-        for k in kwargs:
-            if k.strip() in array_params:
-                params[f"{k.strip()}[]"] = kwargs[f"{k}"]
-                params.pop(k.strip())
+        params = {}
+        if payload_types is not None:
+            params["payloadTypes[]"] = payload_types
 
         return self._session.get(metadata, resource, params)
 
-    def get_network_sm_target_groups(self, network_id: str, **kwargs: Any) -> dict[str, Any] | None:
+    def get_network_sm_target_groups(
+        self, network_id: str, *, with_details: bool | None = None
+    ) -> dict[str, Any] | None:
         """List the target groups in this network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-sm-target-groups
 
         Args:
             network_id: Network ID.
-            withDetails: Boolean indicating if the the ids of the devices or users scoped by the
+            with_details: Boolean indicating if the the ids of the devices or users scoped by the
               target group should be included in the response.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["sm", "configure", "targetGroups"],
             "operation": "get_network_sm_target_groups",
@@ -932,15 +1023,14 @@ class Sm:
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/sm/targetGroups"
 
-        query_params = [
-            "withDetails",
-        ]
-        params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
+        params = {}
+        if with_details is not None:
+            params["withDetails"] = with_details
 
         return self._session.get(metadata, resource, params)
 
     def create_network_sm_target_group(
-        self, network_id: str, **kwargs: Any
+        self, network_id: str, *, name: str | None = None, scope: str | None = None
     ) -> dict[str, Any] | None:
         """Add a target group.
 
@@ -954,8 +1044,6 @@ class Sm:
               by tags. Default to none if empty.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["sm", "configure", "targetGroups"],
             "operation": "create_network_sm_target_group",
@@ -963,16 +1051,16 @@ class Sm:
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/sm/targetGroups"
 
-        body_params = [
-            "name",
-            "scope",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if name is not None:
+            payload["name"] = name
+        if scope is not None:
+            payload["scope"] = scope
 
         return self._session.post(metadata, resource, payload)
 
     def get_network_sm_target_group(
-        self, network_id: str, target_group_id: str, **kwargs: Any
+        self, network_id: str, target_group_id: str, *, with_details: bool | None = None
     ) -> dict[str, Any] | None:
         """Return a target group.
 
@@ -981,12 +1069,10 @@ class Sm:
         Args:
             network_id: Network ID.
             target_group_id: Target group ID.
-            withDetails: Boolean indicating if the the ids of the devices or users scoped by the
+            with_details: Boolean indicating if the the ids of the devices or users scoped by the
               target group should be included in the response.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["sm", "configure", "targetGroups"],
             "operation": "get_network_sm_target_group",
@@ -995,15 +1081,19 @@ class Sm:
         target_group_id = urllib.parse.quote(str(target_group_id), safe="")
         resource = f"/networks/{network_id}/sm/targetGroups/{target_group_id}"
 
-        query_params = [
-            "withDetails",
-        ]
-        params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
+        params = {}
+        if with_details is not None:
+            params["withDetails"] = with_details
 
         return self._session.get(metadata, resource, params)
 
     def update_network_sm_target_group(
-        self, network_id: str, target_group_id: str, **kwargs: Any
+        self,
+        network_id: str,
+        target_group_id: str,
+        *,
+        name: str | None = None,
+        scope: str | None = None,
     ) -> dict[str, Any] | None:
         """Update a target group.
 
@@ -1018,8 +1108,6 @@ class Sm:
               by tags. Default to none if empty.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["sm", "configure", "targetGroups"],
             "operation": "update_network_sm_target_group",
@@ -1028,11 +1116,11 @@ class Sm:
         target_group_id = urllib.parse.quote(str(target_group_id), safe="")
         resource = f"/networks/{network_id}/sm/targetGroups/{target_group_id}"
 
-        body_params = [
-            "name",
-            "scope",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if name is not None:
+            payload["name"] = name
+        if scope is not None:
+            payload["scope"] = scope
 
         return self._session.put(metadata, resource, payload)
 
@@ -1057,7 +1145,14 @@ class Sm:
         return self._session.delete(metadata, resource)
 
     def get_network_sm_trusted_access_configs(
-        self, network_id: str, total_pages=1, direction="next", **kwargs: Any
+        self,
+        network_id: str,
+        *,
+        per_page: int | None = None,
+        starting_after: str | None = None,
+        ending_before: str | None = None,
+        total_pages: str = 1,
+        direction: str = "next",
     ) -> Generator[Any, None, None]:
         """List Trusted Access Configs.
 
@@ -1065,23 +1160,21 @@ class Sm:
 
         Args:
             network_id: Network ID.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
-              "all" for all pages.
-            direction: direction to paginate, either "next" (default) or "prev" page.
-            perPage: The number of entries per page returned. Acceptable range is 3 - 1000. Default
+            per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
               is 100.
-            startingAfter: A token used by the server to indicate the start of the page. Often this
+            starting_after: A token used by the server to indicate the start of the page. Often this
               is a timestamp or an ID but it is not limited to those. This parameter
               should not be defined by client applications. The link for the first,
               last, prev, or next page in the HTTP Link header should define it.
-            endingBefore: A token used by the server to indicate the end of the page. Often this is
+            ending_before: A token used by the server to indicate the end of the page. Often this is
               a timestamp or an ID but it is not limited to those. This parameter should
               not be defined by client applications. The link for the first, last, prev,
               or next page in the HTTP Link header should define it.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["sm", "configure", "trustedAccessConfigs"],
             "operation": "get_network_sm_trusted_access_configs",
@@ -1089,17 +1182,25 @@ class Sm:
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/sm/trustedAccessConfigs"
 
-        query_params = [
-            "perPage",
-            "startingAfter",
-            "endingBefore",
-        ]
-        params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
+        params = {}
+        if per_page is not None:
+            params["perPage"] = per_page
+        if starting_after is not None:
+            params["startingAfter"] = starting_after
+        if ending_before is not None:
+            params["endingBefore"] = ending_before
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def get_network_sm_user_access_devices(
-        self, network_id: str, total_pages=1, direction="next", **kwargs: Any
+        self,
+        network_id: str,
+        *,
+        per_page: int | None = None,
+        starting_after: str | None = None,
+        ending_before: str | None = None,
+        total_pages: str = 1,
+        direction: str = "next",
     ) -> Generator[Any, None, None]:
         """List User Access Devices and its Trusted Access Connections.
 
@@ -1107,23 +1208,21 @@ class Sm:
 
         Args:
             network_id: Network ID.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
-              "all" for all pages.
-            direction: direction to paginate, either "next" (default) or "prev" page.
-            perPage: The number of entries per page returned. Acceptable range is 3 - 1000. Default
+            per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
               is 100.
-            startingAfter: A token used by the server to indicate the start of the page. Often this
+            starting_after: A token used by the server to indicate the start of the page. Often this
               is a timestamp or an ID but it is not limited to those. This parameter
               should not be defined by client applications. The link for the first,
               last, prev, or next page in the HTTP Link header should define it.
-            endingBefore: A token used by the server to indicate the end of the page. Often this is
+            ending_before: A token used by the server to indicate the end of the page. Often this is
               a timestamp or an ID but it is not limited to those. This parameter should
               not be defined by client applications. The link for the first, last, prev,
               or next page in the HTTP Link header should define it.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["sm", "configure", "userAccessDevices"],
             "operation": "get_network_sm_user_access_devices",
@@ -1131,12 +1230,13 @@ class Sm:
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/sm/userAccessDevices"
 
-        query_params = [
-            "perPage",
-            "startingAfter",
-            "endingBefore",
-        ]
-        params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
+        params = {}
+        if per_page is not None:
+            params["perPage"] = per_page
+        if starting_after is not None:
+            params["startingAfter"] = starting_after
+        if ending_before is not None:
+            params["endingBefore"] = ending_before
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
@@ -1162,7 +1262,15 @@ class Sm:
 
         return self._session.delete(metadata, resource)
 
-    def get_network_sm_users(self, network_id: str, **kwargs: Any) -> dict[str, Any] | None:
+    def get_network_sm_users(
+        self,
+        network_id: str,
+        *,
+        ids: list | None = None,
+        usernames: list | None = None,
+        emails: list | None = None,
+        scope: list | None = None,
+    ) -> dict[str, Any] | None:
         """List the owners in an SM network with various specified fields and filters.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-sm-users
@@ -1176,30 +1284,19 @@ class Sm:
               a set of tags.
 
         """
-        kwargs.update(locals())
-
         metadata = {"tags": ["sm", "configure"], "operation": "get_network_sm_users"}
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/sm/users"
 
-        query_params = [
-            "ids",
-            "usernames",
-            "emails",
-            "scope",
-        ]
-        params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
-
-        array_params = [
-            "ids",
-            "usernames",
-            "emails",
-            "scope",
-        ]
-        for k in kwargs:
-            if k.strip() in array_params:
-                params[f"{k.strip()}[]"] = kwargs[f"{k}"]
-                params.pop(k.strip())
+        params = {}
+        if ids is not None:
+            params["ids[]"] = ids
+        if usernames is not None:
+            params["usernames[]"] = usernames
+        if emails is not None:
+            params["emails[]"] = emails
+        if scope is not None:
+            params["scope[]"] = scope
 
         return self._session.get(metadata, resource, params)
 
@@ -1246,7 +1343,14 @@ class Sm:
         return self._session.get(metadata, resource)
 
     def get_organization_sm_admins_roles(
-        self, organization_id: str, total_pages=1, direction="next", **kwargs: Any
+        self,
+        organization_id: str,
+        *,
+        per_page: int | None = None,
+        starting_after: str | None = None,
+        ending_before: str | None = None,
+        total_pages: str = 1,
+        direction: str = "next",
     ) -> Generator[Any, None, None]:
         """List the Limited Access Roles for an organization.
 
@@ -1254,23 +1358,21 @@ class Sm:
 
         Args:
             organization_id: Organization ID.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
-              "all" for all pages.
-            direction: direction to paginate, either "next" (default) or "prev" page.
-            perPage: The number of entries per page returned. Acceptable range is 3 - 1000. Default
+            per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
               is 50.
-            startingAfter: A token used by the server to indicate the start of the page. Often this
+            starting_after: A token used by the server to indicate the start of the page. Often this
               is a timestamp or an ID but it is not limited to those. This parameter
               should not be defined by client applications. The link for the first,
               last, prev, or next page in the HTTP Link header should define it.
-            endingBefore: A token used by the server to indicate the end of the page. Often this is
+            ending_before: A token used by the server to indicate the end of the page. Often this is
               a timestamp or an ID but it is not limited to those. This parameter should
               not be defined by client applications. The link for the first, last, prev,
               or next page in the HTTP Link header should define it.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["sm", "configure", "admins", "roles"],
             "operation": "get_organization_sm_admins_roles",
@@ -1278,17 +1380,18 @@ class Sm:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/sm/admins/roles"
 
-        query_params = [
-            "perPage",
-            "startingAfter",
-            "endingBefore",
-        ]
-        params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
+        params = {}
+        if per_page is not None:
+            params["perPage"] = per_page
+        if starting_after is not None:
+            params["startingAfter"] = starting_after
+        if ending_before is not None:
+            params["endingBefore"] = ending_before
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def create_organization_sm_admins_role(
-        self, organization_id: str, name: str, **kwargs: Any
+        self, organization_id: str, name: str, *, scope: str | None = None, tags: list | None = None
     ) -> dict[str, Any] | None:
         """Create a Limited Access Role.
 
@@ -1301,12 +1404,10 @@ class Sm:
             tags: The tags of the Limited Access Role.
 
         """
-        kwargs.update(locals())
-
-        if "scope" in kwargs:
+        if scope is not None:
             options = ["all_tags", "some", "without_all_tags", "without_some"]
-            assert kwargs["scope"] in options, (
-                f'''"scope" cannot be "{kwargs["scope"]}", & must be set to one of: {options}'''
+            assert scope in options, (
+                f'"scope" cannot be "{scope}", & must be set to one of: {options}'
             )
 
         metadata = {
@@ -1316,12 +1417,13 @@ class Sm:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/sm/admins/roles"
 
-        body_params = [
-            "name",
-            "scope",
-            "tags",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if name is not None:
+            payload["name"] = name
+        if scope is not None:
+            payload["scope"] = scope
+        if tags is not None:
+            payload["tags"] = tags
 
         return self._session.post(metadata, resource, payload)
 
@@ -1348,7 +1450,13 @@ class Sm:
         return self._session.get(metadata, resource)
 
     def update_organization_sm_admins_role(
-        self, organization_id: str, role_id: str, **kwargs: Any
+        self,
+        organization_id: str,
+        role_id: str,
+        *,
+        name: str | None = None,
+        scope: str | None = None,
+        tags: list | None = None,
     ) -> dict[str, Any] | None:
         """Update a Limited Access Role.
 
@@ -1362,12 +1470,10 @@ class Sm:
             tags: The tags of the Limited Access Role.
 
         """
-        kwargs.update(locals())
-
-        if "scope" in kwargs:
+        if scope is not None:
             options = ["all_tags", "some", "without_all_tags", "without_some"]
-            assert kwargs["scope"] in options, (
-                f'''"scope" cannot be "{kwargs["scope"]}", & must be set to one of: {options}'''
+            assert scope in options, (
+                f'"scope" cannot be "{scope}", & must be set to one of: {options}'
             )
 
         metadata = {
@@ -1378,12 +1484,13 @@ class Sm:
         role_id = urllib.parse.quote(str(role_id), safe="")
         resource = f"/organizations/{organization_id}/sm/admins/roles/{role_id}"
 
-        body_params = [
-            "name",
-            "scope",
-            "tags",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if name is not None:
+            payload["name"] = name
+        if scope is not None:
+            payload["scope"] = scope
+        if tags is not None:
+            payload["tags"] = tags
 
         return self._session.put(metadata, resource, payload)
 
@@ -1437,8 +1544,6 @@ class Sm:
             items: Sentry Group Policies for the Organization keyed by Network Id.
 
         """
-        kwargs = locals()
-
         metadata = {
             "tags": ["sm", "configure", "sentry", "policies", "assignments"],
             "operation": "update_organization_sm_sentry_policies_assignments",
@@ -1446,15 +1551,22 @@ class Sm:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/sm/sentry/policies/assignments"
 
-        body_params = [
-            "items",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if items is not None:
+            payload["items"] = items
 
         return self._session.put(metadata, resource, payload)
 
     def get_organization_sm_sentry_policies_assignments_by_network(
-        self, organization_id: str, total_pages=1, direction="next", **kwargs: Any
+        self,
+        organization_id: str,
+        *,
+        per_page: int | None = None,
+        starting_after: str | None = None,
+        ending_before: str | None = None,
+        network_ids: list | None = None,
+        total_pages: str = 1,
+        direction: str = "next",
     ) -> Generator[Any, None, None]:
         """List the Sentry Policies for an organization ordered in ascending order of priority.
 
@@ -1462,24 +1574,22 @@ class Sm:
 
         Args:
             organization_id: Organization ID.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
-              "all" for all pages.
-            direction: direction to paginate, either "next" (default) or "prev" page.
-            perPage: The number of entries per page returned. Acceptable range is 3 - 1000. Default
+            per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
               is 50.
-            startingAfter: A token used by the server to indicate the start of the page. Often this
+            starting_after: A token used by the server to indicate the start of the page. Often this
               is a timestamp or an ID but it is not limited to those. This parameter
               should not be defined by client applications. The link for the first,
               last, prev, or next page in the HTTP Link header should define it.
-            endingBefore: A token used by the server to indicate the end of the page. Often this is
+            ending_before: A token used by the server to indicate the end of the page. Often this is
               a timestamp or an ID but it is not limited to those. This parameter should
               not be defined by client applications. The link for the first, last, prev,
               or next page in the HTTP Link header should define it.
-            networkIds: Optional parameter to filter Sentry Policies by Network Id.
+            network_ids: Optional parameter to filter Sentry Policies by Network Id.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["sm", "configure", "sentry", "policies", "assignments", "byNetwork"],
             "operation": "get_organization_sm_sentry_policies_assignments_by_network",
@@ -1487,21 +1597,15 @@ class Sm:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/sm/sentry/policies/assignments/byNetwork"
 
-        query_params = [
-            "perPage",
-            "startingAfter",
-            "endingBefore",
-            "networkIds",
-        ]
-        params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
-
-        array_params = [
-            "networkIds",
-        ]
-        for k in kwargs:
-            if k.strip() in array_params:
-                params[f"{k.strip()}[]"] = kwargs[f"{k}"]
-                params.pop(k.strip())
+        params = {}
+        if per_page is not None:
+            params["perPage"] = per_page
+        if starting_after is not None:
+            params["startingAfter"] = starting_after
+        if ending_before is not None:
+            params["endingBefore"] = ending_before
+        if network_ids is not None:
+            params["networkIds[]"] = network_ids
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 

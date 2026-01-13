@@ -11,7 +11,13 @@ class ActionBatchOrganizations:
         pass
 
     def create_organization_adaptive_policy_acl(
-        self, organization_id: str, name: str, rules: list, ipVersion: str, **kwargs: Any
+        self,
+        organization_id: str,
+        name: str,
+        rules: list,
+        ip_version: str,
+        *,
+        description: str | None = None,
     ) -> dict[str, Any]:
         """Creates new adaptive policy ACL.
 
@@ -20,38 +26,50 @@ class ActionBatchOrganizations:
         Args:
             organization_id: Organization ID.
             name: Name of the adaptive policy ACL.
-            rules: An ordered array of the adaptive policy ACL rules.
-            ipVersion: IP version of adpative policy ACL. One of: 'any', 'ipv4' or 'ipv6'.
             description: Description of the adaptive policy ACL.
+            rules: An ordered array of the adaptive policy ACL rules.
+            ip_version: IP version of adpative policy ACL. One of: 'any', 'ipv4' or 'ipv6'.
 
         """
-        kwargs.update(locals())
-
-        if "ipVersion" in kwargs:
+        if ip_version is not None:
             options = ["any", "ipv4", "ipv6"]
-            assert kwargs["ipVersion"] in options, (
-                f'''"ipVersion" cannot be "{kwargs["ipVersion"]}", & must be set to one of: {options}'''
+            assert ip_version in options, (
+                f'"ip_version" cannot be "{ip_version}", & must be set to one of: {options}'
             )
 
         metadata = {
             "tags": ["organizations", "configure", "adaptivePolicy", "acls"],
             "operation": "create_organization_adaptive_policy_acl",
         }
-        organization_id = urllib.parse.quote(organization_id, safe="")
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/adaptivePolicy/acls"
 
-        body_params = [
-            "name",
-            "description",
-            "rules",
-            "ipVersion",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
-        action = {"resource": resource, "operation": "create", "body": payload}
+        payload = {}
+        if name is not None:
+            payload["name"] = name
+        if description is not None:
+            payload["description"] = description
+        if rules is not None:
+            payload["rules"] = rules
+        if ip_version is not None:
+            payload["ipVersion"] = ip_version
+
+        action = {
+            "resource": resource,
+            "operation": "create",
+            "body": payload,
+        }
         return action
 
     def update_organization_adaptive_policy_acl(
-        self, organization_id: str, acl_id: str, **kwargs: Any
+        self,
+        organization_id: str,
+        acl_id: str,
+        *,
+        name: str | None = None,
+        description: str | None = None,
+        rules: list | None = None,
+        ip_version: str | None = None,
     ) -> dict[str, Any]:
         """Updates an adaptive policy ACL.
 
@@ -64,33 +82,38 @@ class ActionBatchOrganizations:
             description: Description of the adaptive policy ACL.
             rules: An ordered array of the adaptive policy ACL rules. An empty array will clear the
               rules.
-            ipVersion: IP version of adpative policy ACL. One of: 'any', 'ipv4' or 'ipv6'.
+            ip_version: IP version of adpative policy ACL. One of: 'any', 'ipv4' or 'ipv6'.
 
         """
-        kwargs.update(locals())
-
-        if "ipVersion" in kwargs:
+        if ip_version is not None:
             options = ["any", "ipv4", "ipv6"]
-            assert kwargs["ipVersion"] in options, (
-                f'''"ipVersion" cannot be "{kwargs["ipVersion"]}", & must be set to one of: {options}'''
+            assert ip_version in options, (
+                f'"ip_version" cannot be "{ip_version}", & must be set to one of: {options}'
             )
 
         metadata = {
             "tags": ["organizations", "configure", "adaptivePolicy", "acls"],
             "operation": "update_organization_adaptive_policy_acl",
         }
-        organization_id = urllib.parse.quote(organization_id, safe="")
-        acl_id = urllib.parse.quote(acl_id, safe="")
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        acl_id = urllib.parse.quote(str(acl_id), safe="")
         resource = f"/organizations/{organization_id}/adaptivePolicy/acls/{acl_id}"
 
-        body_params = [
-            "name",
-            "description",
-            "rules",
-            "ipVersion",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
-        action = {"resource": resource, "operation": "update", "body": payload}
+        payload = {}
+        if name is not None:
+            payload["name"] = name
+        if description is not None:
+            payload["description"] = description
+        if rules is not None:
+            payload["rules"] = rules
+        if ip_version is not None:
+            payload["ipVersion"] = ip_version
+
+        action = {
+            "resource": resource,
+            "operation": "update",
+            "body": payload,
+        }
         return action
 
     def delete_organization_adaptive_policy_acl(
@@ -109,8 +132,8 @@ class ActionBatchOrganizations:
             "tags": ["organizations", "configure", "adaptivePolicy", "acls"],
             "operation": "delete_organization_adaptive_policy_acl",
         }
-        organization_id = urllib.parse.quote(organization_id, safe="")
-        acl_id = urllib.parse.quote(acl_id, safe="")
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        acl_id = urllib.parse.quote(str(acl_id), safe="")
         resource = f"/organizations/{organization_id}/adaptivePolicy/acls/{acl_id}"
 
         action = {
@@ -120,7 +143,13 @@ class ActionBatchOrganizations:
         return action
 
     def create_organization_adaptive_policy_group(
-        self, organization_id: str, name: str, sgt: int, **kwargs: Any
+        self,
+        organization_id: str,
+        name: str,
+        sgt: int,
+        *,
+        description: str | None = None,
+        policy_objects: list | None = None,
     ) -> dict[str, Any]:
         """Creates a new adaptive policy group.
 
@@ -131,33 +160,45 @@ class ActionBatchOrganizations:
             name: Name of the group.
             sgt: SGT value of the group.
             description: Description of the group (default: "").
-            policyObjects: The policy objects that belong to this group; traffic from addresses
+            policy_objects: The policy objects that belong to this group; traffic from addresses
               specified by these policy objects will be tagged with this group's SGT
               value if no other tagging scheme is being used (each requires one unique
               attribute) (default: []).
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["organizations", "configure", "adaptivePolicy", "groups"],
             "operation": "create_organization_adaptive_policy_group",
         }
-        organization_id = urllib.parse.quote(organization_id, safe="")
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/adaptivePolicy/groups"
 
-        body_params = [
-            "name",
-            "sgt",
-            "description",
-            "policyObjects",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
-        action = {"resource": resource, "operation": "create", "body": payload}
+        payload = {}
+        if name is not None:
+            payload["name"] = name
+        if sgt is not None:
+            payload["sgt"] = sgt
+        if description is not None:
+            payload["description"] = description
+        if policy_objects is not None:
+            payload["policyObjects"] = policy_objects
+
+        action = {
+            "resource": resource,
+            "operation": "create",
+            "body": payload,
+        }
         return action
 
     def update_organization_adaptive_policy_group(
-        self, organization_id: str, id: str, **kwargs: Any
+        self,
+        organization_id: str,
+        id_: str,
+        *,
+        name: str | None = None,
+        sgt: int | None = None,
+        description: str | None = None,
+        policy_objects: list | None = None,
     ) -> dict[str, Any]:
         """Updates an adaptive policy group.
 
@@ -165,38 +206,43 @@ class ActionBatchOrganizations:
 
         Args:
             organization_id: Organization ID.
-            id: ID.
+            id_: ID.
             name: Name of the group.
             sgt: SGT value of the group.
             description: Description of the group.
-            policyObjects: The policy objects that belong to this group; traffic from addresses
+            policy_objects: The policy objects that belong to this group; traffic from addresses
               specified by these policy objects will be tagged with this group's SGT
               value if no other tagging scheme is being used (each requires one unique
               attribute).
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["organizations", "configure", "adaptivePolicy", "groups"],
             "operation": "update_organization_adaptive_policy_group",
         }
-        organization_id = urllib.parse.quote(organization_id, safe="")
-        id = urllib.parse.quote(id, safe="")
-        resource = f"/organizations/{organization_id}/adaptivePolicy/groups/{id}"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        id_ = urllib.parse.quote(str(id_), safe="")
+        resource = f"/organizations/{organization_id}/adaptivePolicy/groups/{id_}"
 
-        body_params = [
-            "name",
-            "sgt",
-            "description",
-            "policyObjects",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
-        action = {"resource": resource, "operation": "update", "body": payload}
+        payload = {}
+        if name is not None:
+            payload["name"] = name
+        if sgt is not None:
+            payload["sgt"] = sgt
+        if description is not None:
+            payload["description"] = description
+        if policy_objects is not None:
+            payload["policyObjects"] = policy_objects
+
+        action = {
+            "resource": resource,
+            "operation": "update",
+            "body": payload,
+        }
         return action
 
     def delete_organization_adaptive_policy_group(
-        self, organization_id: str, id: str
+        self, organization_id: str, id_: str
     ) -> dict[str, Any]:
         """Deletes the specified adaptive policy group and any associated policies and references.
 
@@ -204,16 +250,16 @@ class ActionBatchOrganizations:
 
         Args:
             organization_id: Organization ID.
-            id: ID.
+            id_: ID.
 
         """
         metadata = {
             "tags": ["organizations", "configure", "adaptivePolicy", "groups"],
             "operation": "delete_organization_adaptive_policy_group",
         }
-        organization_id = urllib.parse.quote(organization_id, safe="")
-        id = urllib.parse.quote(id, safe="")
-        resource = f"/organizations/{organization_id}/adaptivePolicy/groups/{id}"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        id_ = urllib.parse.quote(str(id_), safe="")
+        resource = f"/organizations/{organization_id}/adaptivePolicy/groups/{id_}"
 
         action = {
             "resource": resource,
@@ -222,7 +268,13 @@ class ActionBatchOrganizations:
         return action
 
     def create_organization_adaptive_policy_policy(
-        self, organization_id: str, sourceGroup: dict, destinationGroup: dict, **kwargs: Any
+        self,
+        organization_id: str,
+        source_group: dict,
+        destination_group: dict,
+        *,
+        acls: list | None = None,
+        last_entry_rule: str | None = None,
     ) -> dict[str, Any]:
         """Add an Adaptive Policy.
 
@@ -230,40 +282,53 @@ class ActionBatchOrganizations:
 
         Args:
             organization_id: Organization ID.
-            sourceGroup: The source adaptive policy group (requires one unique attribute).
-            destinationGroup: The destination adaptive policy group (requires one unique attribute).
+            source_group: The source adaptive policy group (requires one unique attribute).
+            destination_group: The destination adaptive policy group (requires one unique
+              attribute).
             acls: An ordered array of adaptive policy ACLs (each requires one unique attribute) that
               apply to this policy (default: []).
-            lastEntryRule: The rule to apply if there is no matching ACL (default: "default").
+            last_entry_rule: The rule to apply if there is no matching ACL (default: "default").
 
         """
-        kwargs.update(locals())
-
-        if "lastEntryRule" in kwargs:
+        if last_entry_rule is not None:
             options = ["allow", "default", "deny"]
-            assert kwargs["lastEntryRule"] in options, (
-                f'''"lastEntryRule" cannot be "{kwargs["lastEntryRule"]}", & must be set to one of: {options}'''
+            assert last_entry_rule in options, (
+                f'"last_entry_rule" cannot be "{last_entry_rule}", & must be set to one of: {options}'
             )
 
         metadata = {
             "tags": ["organizations", "configure", "adaptivePolicy", "policies"],
             "operation": "create_organization_adaptive_policy_policy",
         }
-        organization_id = urllib.parse.quote(organization_id, safe="")
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/adaptivePolicy/policies"
 
-        body_params = [
-            "sourceGroup",
-            "destinationGroup",
-            "acls",
-            "lastEntryRule",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
-        action = {"resource": resource, "operation": "create", "body": payload}
+        payload = {}
+        if source_group is not None:
+            payload["sourceGroup"] = source_group
+        if destination_group is not None:
+            payload["destinationGroup"] = destination_group
+        if acls is not None:
+            payload["acls"] = acls
+        if last_entry_rule is not None:
+            payload["lastEntryRule"] = last_entry_rule
+
+        action = {
+            "resource": resource,
+            "operation": "create",
+            "body": payload,
+        }
         return action
 
     def update_organization_adaptive_policy_policy(
-        self, organization_id: str, id: str, **kwargs: Any
+        self,
+        organization_id: str,
+        id_: str,
+        *,
+        source_group: dict | None = None,
+        destination_group: dict | None = None,
+        acls: list | None = None,
+        last_entry_rule: str | None = None,
     ) -> dict[str, Any]:
         """Update an Adaptive Policy.
 
@@ -271,42 +336,48 @@ class ActionBatchOrganizations:
 
         Args:
             organization_id: Organization ID.
-            id: ID.
-            sourceGroup: The source adaptive policy group (requires one unique attribute).
-            destinationGroup: The destination adaptive policy group (requires one unique attribute).
+            id_: ID.
+            source_group: The source adaptive policy group (requires one unique attribute).
+            destination_group: The destination adaptive policy group (requires one unique
+              attribute).
             acls: An ordered array of adaptive policy ACLs (each requires one unique attribute) that
               apply to this policy.
-            lastEntryRule: The rule to apply if there is no matching ACL.
+            last_entry_rule: The rule to apply if there is no matching ACL.
 
         """
-        kwargs.update(locals())
-
-        if "lastEntryRule" in kwargs:
+        if last_entry_rule is not None:
             options = ["allow", "default", "deny"]
-            assert kwargs["lastEntryRule"] in options, (
-                f'''"lastEntryRule" cannot be "{kwargs["lastEntryRule"]}", & must be set to one of: {options}'''
+            assert last_entry_rule in options, (
+                f'"last_entry_rule" cannot be "{last_entry_rule}", & must be set to one of: {options}'
             )
 
         metadata = {
             "tags": ["organizations", "configure", "adaptivePolicy", "policies"],
             "operation": "update_organization_adaptive_policy_policy",
         }
-        organization_id = urllib.parse.quote(organization_id, safe="")
-        id = urllib.parse.quote(id, safe="")
-        resource = f"/organizations/{organization_id}/adaptivePolicy/policies/{id}"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        id_ = urllib.parse.quote(str(id_), safe="")
+        resource = f"/organizations/{organization_id}/adaptivePolicy/policies/{id_}"
 
-        body_params = [
-            "sourceGroup",
-            "destinationGroup",
-            "acls",
-            "lastEntryRule",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
-        action = {"resource": resource, "operation": "update", "body": payload}
+        payload = {}
+        if source_group is not None:
+            payload["sourceGroup"] = source_group
+        if destination_group is not None:
+            payload["destinationGroup"] = destination_group
+        if acls is not None:
+            payload["acls"] = acls
+        if last_entry_rule is not None:
+            payload["lastEntryRule"] = last_entry_rule
+
+        action = {
+            "resource": resource,
+            "operation": "update",
+            "body": payload,
+        }
         return action
 
     def delete_organization_adaptive_policy_policy(
-        self, organization_id: str, id: str
+        self, organization_id: str, id_: str
     ) -> dict[str, Any]:
         """Delete an Adaptive Policy.
 
@@ -314,16 +385,16 @@ class ActionBatchOrganizations:
 
         Args:
             organization_id: Organization ID.
-            id: ID.
+            id_: ID.
 
         """
         metadata = {
             "tags": ["organizations", "configure", "adaptivePolicy", "policies"],
             "operation": "delete_organization_adaptive_policy_policy",
         }
-        organization_id = urllib.parse.quote(organization_id, safe="")
-        id = urllib.parse.quote(id, safe="")
-        resource = f"/organizations/{organization_id}/adaptivePolicy/policies/{id}"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        id_ = urllib.parse.quote(str(id_), safe="")
+        resource = f"/organizations/{organization_id}/adaptivePolicy/policies/{id_}"
 
         action = {
             "resource": resource,
@@ -332,7 +403,7 @@ class ActionBatchOrganizations:
         return action
 
     def update_organization_adaptive_policy_settings(
-        self, organization_id: str, **kwargs: Any
+        self, organization_id: str, *, enabled_networks: list | None = None
     ) -> dict[str, Any]:
         """Update global adaptive policy settings.
 
@@ -340,33 +411,36 @@ class ActionBatchOrganizations:
 
         Args:
             organization_id: Organization ID.
-            enabledNetworks: List of network IDs with adaptive policy enabled.
+            enabled_networks: List of network IDs with adaptive policy enabled.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["organizations", "configure", "adaptivePolicy", "settings"],
             "operation": "update_organization_adaptive_policy_settings",
         }
-        organization_id = urllib.parse.quote(organization_id, safe="")
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/adaptivePolicy/settings"
 
-        body_params = [
-            "enabledNetworks",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
-        action = {"resource": resource, "operation": "update", "body": payload}
+        payload = {}
+        if enabled_networks is not None:
+            payload["enabledNetworks"] = enabled_networks
+
+        action = {
+            "resource": resource,
+            "operation": "update",
+            "body": payload,
+        }
         return action
 
     def create_organization_alerts_profile(
         self,
         organization_id: str,
-        type: str,
-        alertCondition: dict,
+        type_: str,
+        alert_condition: dict,
         recipients: dict,
-        networkTags: list,
-        **kwargs: Any,
+        network_tags: list,
+        *,
+        description: str | None = None,
     ) -> dict[str, Any]:
         """Create an organization-wide alert configuration.
 
@@ -374,16 +448,14 @@ class ActionBatchOrganizations:
 
         Args:
             organization_id: Organization ID.
-            type: The alert type.
-            alertCondition: The conditions that determine if the alert triggers.
+            type_: The alert type.
+            alert_condition: The conditions that determine if the alert triggers.
             recipients: List of recipients that will recieve the alert.
-            networkTags: Networks with these tags will be monitored for the alert.
+            network_tags: Networks with these tags will be monitored for the alert.
             description: User supplied description of the alert.
 
         """
-        kwargs.update(locals())
-
-        if "type" in kwargs:
+        if type_ is not None:
             options = [
                 "appOutage",
                 "voipJitter",
@@ -394,30 +466,47 @@ class ActionBatchOrganizations:
                 "wanStatus",
                 "wanUtilization",
             ]
-            assert kwargs["type"] in options, (
-                f'''"type" cannot be "{kwargs["type"]}", & must be set to one of: {options}'''
+            assert type_ in options, (
+                f'"type_" cannot be "{type_}", & must be set to one of: {options}'
             )
 
         metadata = {
             "tags": ["organizations", "configure", "alerts", "profiles"],
             "operation": "create_organization_alerts_profile",
         }
-        organization_id = urllib.parse.quote(organization_id, safe="")
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/alerts/profiles"
 
-        body_params = [
-            "type",
-            "alertCondition",
-            "recipients",
-            "networkTags",
-            "description",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
-        action = {"resource": resource, "operation": "create", "body": payload}
+        payload = {}
+        if type_ is not None:
+            payload["type"] = type_
+        if alert_condition is not None:
+            payload["alertCondition"] = alert_condition
+        if recipients is not None:
+            payload["recipients"] = recipients
+        if network_tags is not None:
+            payload["networkTags"] = network_tags
+        if description is not None:
+            payload["description"] = description
+
+        action = {
+            "resource": resource,
+            "operation": "create",
+            "body": payload,
+        }
         return action
 
     def update_organization_alerts_profile(
-        self, organization_id: str, alert_config_id: str, **kwargs: Any
+        self,
+        organization_id: str,
+        alert_config_id: str,
+        *,
+        enabled: bool | None = None,
+        type_: str | None = None,
+        alert_condition: dict | None = None,
+        recipients: dict | None = None,
+        network_tags: list | None = None,
+        description: str | None = None,
     ) -> dict[str, Any]:
         """Update an organization-wide alert config.
 
@@ -427,16 +516,14 @@ class ActionBatchOrganizations:
             organization_id: Organization ID.
             alert_config_id: Alert config ID.
             enabled: Is the alert config enabled.
-            type: The alert type.
-            alertCondition: The conditions that determine if the alert triggers.
+            type_: The alert type.
+            alert_condition: The conditions that determine if the alert triggers.
             recipients: List of recipients that will recieve the alert.
-            networkTags: Networks with these tags will be monitored for the alert.
+            network_tags: Networks with these tags will be monitored for the alert.
             description: User supplied description of the alert.
 
         """
-        kwargs.update(locals())
-
-        if "type" in kwargs:
+        if type_ is not None:
             options = [
                 "appOutage",
                 "voipJitter",
@@ -447,28 +534,37 @@ class ActionBatchOrganizations:
                 "wanStatus",
                 "wanUtilization",
             ]
-            assert kwargs["type"] in options, (
-                f'''"type" cannot be "{kwargs["type"]}", & must be set to one of: {options}'''
+            assert type_ in options, (
+                f'"type_" cannot be "{type_}", & must be set to one of: {options}'
             )
 
         metadata = {
             "tags": ["organizations", "configure", "alerts", "profiles"],
             "operation": "update_organization_alerts_profile",
         }
-        organization_id = urllib.parse.quote(organization_id, safe="")
-        alert_config_id = urllib.parse.quote(alert_config_id, safe="")
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        alert_config_id = urllib.parse.quote(str(alert_config_id), safe="")
         resource = f"/organizations/{organization_id}/alerts/profiles/{alert_config_id}"
 
-        body_params = [
-            "enabled",
-            "type",
-            "alertCondition",
-            "recipients",
-            "networkTags",
-            "description",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
-        action = {"resource": resource, "operation": "update", "body": payload}
+        payload = {}
+        if enabled is not None:
+            payload["enabled"] = enabled
+        if type_ is not None:
+            payload["type"] = type_
+        if alert_condition is not None:
+            payload["alertCondition"] = alert_condition
+        if recipients is not None:
+            payload["recipients"] = recipients
+        if network_tags is not None:
+            payload["networkTags"] = network_tags
+        if description is not None:
+            payload["description"] = description
+
+        action = {
+            "resource": resource,
+            "operation": "update",
+            "body": payload,
+        }
         return action
 
     def delete_organization_alerts_profile(
@@ -487,8 +583,8 @@ class ActionBatchOrganizations:
             "tags": ["organizations", "configure", "alerts", "profiles"],
             "operation": "delete_organization_alerts_profile",
         }
-        organization_id = urllib.parse.quote(organization_id, safe="")
-        alert_config_id = urllib.parse.quote(alert_config_id, safe="")
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        alert_config_id = urllib.parse.quote(str(alert_config_id), safe="")
         resource = f"/organizations/{organization_id}/alerts/profiles/{alert_config_id}"
 
         action = {
@@ -498,7 +594,14 @@ class ActionBatchOrganizations:
         return action
 
     def create_organization_branding_policy(
-        self, organization_id: str, name: str, **kwargs: Any
+        self,
+        organization_id: str,
+        name: str,
+        *,
+        enabled: bool | None = None,
+        admin_settings: dict | None = None,
+        help_settings: dict | None = None,
+        custom_logo: dict | None = None,
     ) -> dict[str, Any]:
         """Add a new branding policy to an organization.
 
@@ -508,40 +611,45 @@ class ActionBatchOrganizations:
             organization_id: Organization ID.
             name: Name of the Dashboard branding policy.
             enabled: Boolean indicating whether this policy is enabled.
-            adminSettings: Settings for describing which kinds of admins this policy applies to.
-            helpSettings:       Settings for describing the modifications to various Help page
-              features. Each property in this object accepts one of       'default or
-              inherit' (do not modify functionality), 'hide' (remove the section from
-              Dashboard), or 'show' (always show       the section on Dashboard). Some
-              properties in this object also accept custom HTML used to replace the
-              section on       Dashboard; see the documentation for each property to see
-              the allowed values.  Each property defaults to 'default or inherit' when
-              not provided.
-            customLogo: Properties describing the custom logo attached to the branding policy.
+            admin_settings: Settings for describing which kinds of admins this policy applies to.
+            help_settings: Settings for describing the modifications to various Help page features.
+              Each property in this object accepts one of 'default or inherit' (do not
+              modify functionality), 'hide' (remove the section from Dashboard), or
+              'show' (always show the section on Dashboard). Some properties in this
+              object also accept custom HTML used to replace the section on Dashboard;
+              see the documentation for each property to see the allowed values. Each
+              property defaults to 'default or inherit' when not provided.
+            custom_logo: Properties describing the custom logo attached to the branding policy.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["organizations", "configure", "brandingPolicies"],
             "operation": "create_organization_branding_policy",
         }
-        organization_id = urllib.parse.quote(organization_id, safe="")
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/brandingPolicies"
 
-        body_params = [
-            "name",
-            "enabled",
-            "adminSettings",
-            "helpSettings",
-            "customLogo",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
-        action = {"resource": resource, "operation": "create", "body": payload}
+        payload = {}
+        if name is not None:
+            payload["name"] = name
+        if enabled is not None:
+            payload["enabled"] = enabled
+        if admin_settings is not None:
+            payload["adminSettings"] = admin_settings
+        if help_settings is not None:
+            payload["helpSettings"] = help_settings
+        if custom_logo is not None:
+            payload["customLogo"] = custom_logo
+
+        action = {
+            "resource": resource,
+            "operation": "create",
+            "body": payload,
+        }
         return action
 
     def update_organization_branding_policies_priorities(
-        self, organization_id: str, **kwargs: Any
+        self, organization_id: str, *, branding_policy_ids: list | None = None
     ) -> dict[str, Any]:
         """Update the priority ordering of an organization's branding policies.
 
@@ -549,28 +657,38 @@ class ActionBatchOrganizations:
 
         Args:
             organization_id: Organization ID.
-            brandingPolicyIds:       An ordered list of branding policy IDs that determines the
-              priority order of how to apply the policies .
+            branding_policy_ids: An ordered list of branding policy IDs that determines the priority
+              order of how to apply the policies.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["organizations", "configure", "brandingPolicies", "priorities"],
             "operation": "update_organization_branding_policies_priorities",
         }
-        organization_id = urllib.parse.quote(organization_id, safe="")
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/brandingPolicies/priorities"
 
-        body_params = [
-            "brandingPolicyIds",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
-        action = {"resource": resource, "operation": "update", "body": payload}
+        payload = {}
+        if branding_policy_ids is not None:
+            payload["brandingPolicyIds"] = branding_policy_ids
+
+        action = {
+            "resource": resource,
+            "operation": "update",
+            "body": payload,
+        }
         return action
 
     def update_organization_branding_policy(
-        self, organization_id: str, branding_policy_id: str, name: str, **kwargs: Any
+        self,
+        organization_id: str,
+        branding_policy_id: str,
+        name: str,
+        *,
+        enabled: bool | None = None,
+        admin_settings: dict | None = None,
+        help_settings: dict | None = None,
+        custom_logo: dict | None = None,
     ) -> dict[str, Any]:
         """Update a branding policy.
 
@@ -581,36 +699,41 @@ class ActionBatchOrganizations:
             branding_policy_id: Branding policy ID.
             name: Name of the Dashboard branding policy.
             enabled: Boolean indicating whether this policy is enabled.
-            adminSettings: Settings for describing which kinds of admins this policy applies to.
-            helpSettings:       Settings for describing the modifications to various Help page
-              features. Each property in this object accepts one of       'default or
-              inherit' (do not modify functionality), 'hide' (remove the section from
-              Dashboard), or 'show' (always show       the section on Dashboard). Some
-              properties in this object also accept custom HTML used to replace the
-              section on       Dashboard; see the documentation for each property to see
-              the allowed values. .
-            customLogo: Properties describing the custom logo attached to the branding policy.
+            admin_settings: Settings for describing which kinds of admins this policy applies to.
+            help_settings: Settings for describing the modifications to various Help page features.
+              Each property in this object accepts one of 'default or inherit' (do not
+              modify functionality), 'hide' (remove the section from Dashboard), or
+              'show' (always show the section on Dashboard). Some properties in this
+              object also accept custom HTML used to replace the section on Dashboard;
+              see the documentation for each property to see the allowed values.
+            custom_logo: Properties describing the custom logo attached to the branding policy.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["organizations", "configure", "brandingPolicies"],
             "operation": "update_organization_branding_policy",
         }
-        organization_id = urllib.parse.quote(organization_id, safe="")
-        branding_policy_id = urllib.parse.quote(branding_policy_id, safe="")
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        branding_policy_id = urllib.parse.quote(str(branding_policy_id), safe="")
         resource = f"/organizations/{organization_id}/brandingPolicies/{branding_policy_id}"
 
-        body_params = [
-            "name",
-            "enabled",
-            "adminSettings",
-            "helpSettings",
-            "customLogo",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
-        action = {"resource": resource, "operation": "update", "body": payload}
+        payload = {}
+        if name is not None:
+            payload["name"] = name
+        if enabled is not None:
+            payload["enabled"] = enabled
+        if admin_settings is not None:
+            payload["adminSettings"] = admin_settings
+        if help_settings is not None:
+            payload["helpSettings"] = help_settings
+        if custom_logo is not None:
+            payload["customLogo"] = custom_logo
+
+        action = {
+            "resource": resource,
+            "operation": "update",
+            "body": payload,
+        }
         return action
 
     def delete_organization_branding_policy(
@@ -629,8 +752,8 @@ class ActionBatchOrganizations:
             "tags": ["organizations", "configure", "brandingPolicies"],
             "operation": "delete_organization_branding_policy",
         }
-        organization_id = urllib.parse.quote(organization_id, safe="")
-        branding_policy_id = urllib.parse.quote(branding_policy_id, safe="")
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        branding_policy_id = urllib.parse.quote(str(branding_policy_id), safe="")
         resource = f"/organizations/{organization_id}/brandingPolicies/{branding_policy_id}"
 
         action = {
@@ -640,7 +763,12 @@ class ActionBatchOrganizations:
         return action
 
     def create_organization_config_template(
-        self, organization_id: str, name: str, **kwargs: Any
+        self,
+        organization_id: str,
+        name: str,
+        *,
+        time_zone: str | None = None,
+        copy_from_network_id: str | None = None,
     ) -> dict[str, Any]:
         """Create a new configuration template.
 
@@ -649,33 +777,43 @@ class ActionBatchOrganizations:
         Args:
             organization_id: Organization ID.
             name: The name of the configuration template.
-            timeZone: The timezone of the configuration template. For a list of allowed timezones,
+            time_zone: The timezone of the configuration template. For a list of allowed timezones,
               please see the 'TZ' column in the table in <a target='_blank'
               href='https://en.wikipedia.org/wiki/List_of_tz_database_time_zones'>this
               article</a>. Not applicable if copying from existing network or template.
-            copyFromNetworkId: The ID of the network or config template to copy configuration from.
+            copy_from_network_id: The ID of the network or config template to copy configuration
+              from.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["organizations", "configure", "configTemplates"],
             "operation": "create_organization_config_template",
         }
-        organization_id = urllib.parse.quote(organization_id, safe="")
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/configTemplates"
 
-        body_params = [
-            "name",
-            "timeZone",
-            "copyFromNetworkId",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
-        action = {"resource": resource, "operation": "create", "body": payload}
+        payload = {}
+        if name is not None:
+            payload["name"] = name
+        if time_zone is not None:
+            payload["timeZone"] = time_zone
+        if copy_from_network_id is not None:
+            payload["copyFromNetworkId"] = copy_from_network_id
+
+        action = {
+            "resource": resource,
+            "operation": "create",
+            "body": payload,
+        }
         return action
 
     def update_organization_config_template(
-        self, organization_id: str, config_template_id: str, **kwargs: Any
+        self,
+        organization_id: str,
+        config_template_id: str,
+        *,
+        name: str | None = None,
+        time_zone: str | None = None,
     ) -> dict[str, Any]:
         """Update a configuration template.
 
@@ -685,28 +823,31 @@ class ActionBatchOrganizations:
             organization_id: Organization ID.
             config_template_id: Config template ID.
             name: The name of the configuration template.
-            timeZone: The timezone of the configuration template. For a list of allowed timezones,
+            time_zone: The timezone of the configuration template. For a list of allowed timezones,
               please see the 'TZ' column in the table in <a target='_blank'
               href='https://en.wikipedia.org/wiki/List_of_tz_database_time_zones'>this
               article.</a>.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["organizations", "configure", "configTemplates"],
             "operation": "update_organization_config_template",
         }
-        organization_id = urllib.parse.quote(organization_id, safe="")
-        config_template_id = urllib.parse.quote(config_template_id, safe="")
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        config_template_id = urllib.parse.quote(str(config_template_id), safe="")
         resource = f"/organizations/{organization_id}/configTemplates/{config_template_id}"
 
-        body_params = [
-            "name",
-            "timeZone",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
-        action = {"resource": resource, "operation": "update", "body": payload}
+        payload = {}
+        if name is not None:
+            payload["name"] = name
+        if time_zone is not None:
+            payload["timeZone"] = time_zone
+
+        action = {
+            "resource": resource,
+            "operation": "update",
+            "body": payload,
+        }
         return action
 
     def create_organization_devices_controller_migration(
@@ -722,27 +863,30 @@ class ActionBatchOrganizations:
             target: The controller or management mode to which the devices will be migrated.
 
         """
-        kwargs = locals()
-
-        if "target" in kwargs:
+        if target is not None:
             options = ["wirelessController"]
-            assert kwargs["target"] in options, (
-                f'''"target" cannot be "{kwargs["target"]}", & must be set to one of: {options}'''
+            assert target in options, (
+                f'"target" cannot be "{target}", & must be set to one of: {options}'
             )
 
         metadata = {
             "tags": ["organizations", "configure", "devices", "controller", "migrations"],
             "operation": "create_organization_devices_controller_migration",
         }
-        organization_id = urllib.parse.quote(organization_id, safe="")
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/devices/controller/migrations"
 
-        body_params = [
-            "serials",
-            "target",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
-        action = {"resource": resource, "operation": "create", "body": payload}
+        payload = {}
+        if serials is not None:
+            payload["serials"] = serials
+        if target is not None:
+            payload["target"] = target
+
+        action = {
+            "resource": resource,
+            "operation": "create",
+            "body": payload,
+        }
         return action
 
     def bulk_update_organization_devices_details(
@@ -758,25 +902,28 @@ class ActionBatchOrganizations:
             details: An array of details.
 
         """
-        kwargs = locals()
-
         metadata = {
             "tags": ["organizations", "configure", "devices", "details", "bulkUpdate"],
             "operation": "bulk_update_organization_devices_details",
         }
-        organization_id = urllib.parse.quote(organization_id, safe="")
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/devices/details/bulkUpdate"
 
-        body_params = [
-            "serials",
-            "details",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
-        action = {"resource": resource, "operation": "create", "body": payload}
+        payload = {}
+        if serials is not None:
+            payload["serials"] = serials
+        if details is not None:
+            payload["details"] = details
+
+        action = {
+            "resource": resource,
+            "operation": "create",
+            "body": payload,
+        }
         return action
 
     def bulk_organization_devices_packet_capture_captures_delete(
-        self, organization_id: str, captureIds: list
+        self, organization_id: str, capture_ids: list
     ) -> dict[str, Any]:
         """BulkDelete packet captures from cloud.
 
@@ -784,23 +931,25 @@ class ActionBatchOrganizations:
 
         Args:
             organization_id: Organization ID.
-            captureIds: Delete the packet captures of the specified capture ids.
+            capture_ids: Delete the packet captures of the specified capture ids.
 
         """
-        kwargs = locals()
-
         metadata = {
             "tags": ["organizations", "configure", "devices", "packetCapture", "captures"],
             "operation": "bulk_organization_devices_packet_capture_captures_delete",
         }
-        organization_id = urllib.parse.quote(organization_id, safe="")
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/devices/packetCapture/captures/bulkDelete"
 
-        body_params = [
-            "captureIds",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
-        action = {"resource": resource, "operation": "create", "body": payload}
+        payload = {}
+        if capture_ids is not None:
+            payload["captureIds"] = capture_ids
+
+        action = {
+            "resource": resource,
+            "operation": "create",
+            "body": payload,
+        }
         return action
 
     def delete_organization_devices_packet_capture_capture(
@@ -819,8 +968,8 @@ class ActionBatchOrganizations:
             "tags": ["organizations", "configure", "devices", "packetCapture", "captures"],
             "operation": "delete_organization_devices_packet_capture_capture",
         }
-        organization_id = urllib.parse.quote(organization_id, safe="")
-        capture_id = urllib.parse.quote(capture_id, safe="")
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        capture_id = urllib.parse.quote(str(capture_id), safe="")
         resource = f"/organizations/{organization_id}/devices/packetCapture/captures/{capture_id}"
 
         action = {
@@ -830,7 +979,16 @@ class ActionBatchOrganizations:
         return action
 
     def create_organization_devices_packet_capture_schedule(
-        self, organization_id: str, devices: list, **kwargs: Any
+        self,
+        organization_id: str,
+        devices: list,
+        *,
+        name: str | None = None,
+        notes: str | None = None,
+        duration: int | None = None,
+        filter_expression: str | None = None,
+        enabled: bool | None = None,
+        schedule: dict | None = None,
     ) -> dict[str, Any]:
         """Create a schedule for packet capture.
 
@@ -842,31 +1000,39 @@ class ActionBatchOrganizations:
             name: Name of the packet capture file.
             notes: Reason for capture.
             duration: Duration of the capture in seconds.
-            filterExpression: Filter expression for the capture.
+            filter_expression: Filter expression for the capture.
             enabled: Enable or disable the schedule.
             schedule: Schedule details.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["organizations", "configure", "devices", "packetCapture", "schedules"],
             "operation": "create_organization_devices_packet_capture_schedule",
         }
-        organization_id = urllib.parse.quote(organization_id, safe="")
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/devices/packetCapture/schedules"
 
-        body_params = [
-            "devices",
-            "name",
-            "notes",
-            "duration",
-            "filterExpression",
-            "enabled",
-            "schedule",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
-        action = {"resource": resource, "operation": "create", "body": payload}
+        payload = {}
+        if devices is not None:
+            payload["devices"] = devices
+        if name is not None:
+            payload["name"] = name
+        if notes is not None:
+            payload["notes"] = notes
+        if duration is not None:
+            payload["duration"] = duration
+        if filter_expression is not None:
+            payload["filterExpression"] = filter_expression
+        if enabled is not None:
+            payload["enabled"] = enabled
+        if schedule is not None:
+            payload["schedule"] = schedule
+
+        action = {
+            "resource": resource,
+            "operation": "create",
+            "body": payload,
+        }
         return action
 
     def reorder_organization_devices_packet_capture_schedules(
@@ -881,24 +1047,36 @@ class ActionBatchOrganizations:
             order: Array of schedule IDs and their priorities to reorder.
 
         """
-        kwargs = locals()
-
         metadata = {
             "tags": ["organizations", "configure", "devices", "packetCapture", "schedules"],
             "operation": "reorder_organization_devices_packet_capture_schedules",
         }
-        organization_id = urllib.parse.quote(organization_id, safe="")
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/devices/packetCapture/schedules/reorder"
 
-        body_params = [
-            "order",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
-        action = {"resource": resource, "operation": "create", "body": payload}
+        payload = {}
+        if order is not None:
+            payload["order"] = order
+
+        action = {
+            "resource": resource,
+            "operation": "create",
+            "body": payload,
+        }
         return action
 
     def update_organization_devices_packet_capture_schedule(
-        self, organization_id: str, schedule_id: str, devices: list, **kwargs: Any
+        self,
+        organization_id: str,
+        schedule_id: str,
+        devices: list,
+        *,
+        name: str | None = None,
+        notes: str | None = None,
+        duration: int | None = None,
+        filter_expression: str | None = None,
+        enabled: bool | None = None,
+        schedule: dict | None = None,
     ) -> dict[str, Any]:
         """Update a schedule for packet capture.
 
@@ -911,36 +1089,44 @@ class ActionBatchOrganizations:
             name: Name of the packet capture file.
             notes: Reason for capture.
             duration: Duration of the capture in seconds.
-            filterExpression: Filter expression for the capture.
+            filter_expression: Filter expression for the capture.
             enabled: Enable or disable the schedule.
             schedule: Schedule details.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["organizations", "configure", "devices", "packetCapture", "schedules"],
             "operation": "update_organization_devices_packet_capture_schedule",
         }
-        organization_id = urllib.parse.quote(organization_id, safe="")
-        schedule_id = urllib.parse.quote(schedule_id, safe="")
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        schedule_id = urllib.parse.quote(str(schedule_id), safe="")
         resource = f"/organizations/{organization_id}/devices/packetCapture/schedules/{schedule_id}"
 
-        body_params = [
-            "devices",
-            "name",
-            "notes",
-            "duration",
-            "filterExpression",
-            "enabled",
-            "schedule",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
-        action = {"resource": resource, "operation": "update", "body": payload}
+        payload = {}
+        if devices is not None:
+            payload["devices"] = devices
+        if name is not None:
+            payload["name"] = name
+        if notes is not None:
+            payload["notes"] = notes
+        if duration is not None:
+            payload["duration"] = duration
+        if filter_expression is not None:
+            payload["filterExpression"] = filter_expression
+        if enabled is not None:
+            payload["enabled"] = enabled
+        if schedule is not None:
+            payload["schedule"] = schedule
+
+        action = {
+            "resource": resource,
+            "operation": "update",
+            "body": payload,
+        }
         return action
 
     def delete_organization_devices_packet_capture_schedule(
-        self, organization_id: str, scheduleId: str
+        self, organization_id: str, schedule_id: str
     ) -> dict[str, Any]:
         """Delete schedule from cloud.
 
@@ -948,26 +1134,29 @@ class ActionBatchOrganizations:
 
         Args:
             organization_id: Organization ID.
-            scheduleId: Delete the capture schedules of the specified capture schedule id.
+            schedule_id: Delete the capture schedules of the specified capture schedule id.
 
         """
-        kwargs = locals()
-
         metadata = {
             "tags": ["organizations", "configure", "devices", "packetCapture", "schedules"],
             "operation": "delete_organization_devices_packet_capture_schedule",
         }
-        organization_id = urllib.parse.quote(organization_id, safe="")
-        resource = f"/organizations/{organization_id}/devices/packetCapture/schedules/{scheduleId}"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/devices/packetCapture/schedules/{schedule_id}"
+
+        payload = {}
+        if schedule_id is not None:
+            payload["scheduleId"] = schedule_id
 
         action = {
             "resource": resource,
             "operation": "destroy",
+            "body": payload,
         }
         return action
 
     def update_organization_early_access_features_opt_in(
-        self, organization_id: str, opt_in_id: str, **kwargs: Any
+        self, organization_id: str, opt_in_id: str, *, limit_scope_to_networks: list | None = None
     ) -> dict[str, Any]:
         """Update an early access feature opt-in for an organization.
 
@@ -976,24 +1165,26 @@ class ActionBatchOrganizations:
         Args:
             organization_id: Organization ID.
             opt_in_id: Opt in ID.
-            limitScopeToNetworks: A list of network IDs to apply the opt-in to.
+            limit_scope_to_networks: A list of network IDs to apply the opt-in to.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["organizations", "configure", "earlyAccess", "features", "optIns"],
             "operation": "update_organization_early_access_features_opt_in",
         }
-        organization_id = urllib.parse.quote(organization_id, safe="")
-        opt_in_id = urllib.parse.quote(opt_in_id, safe="")
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        opt_in_id = urllib.parse.quote(str(opt_in_id), safe="")
         resource = f"/organizations/{organization_id}/earlyAccess/features/optIns/{opt_in_id}"
 
-        body_params = [
-            "limitScopeToNetworks",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
-        action = {"resource": resource, "operation": "update", "body": payload}
+        payload = {}
+        if limit_scope_to_networks is not None:
+            payload["limitScopeToNetworks"] = limit_scope_to_networks
+
+        action = {
+            "resource": resource,
+            "operation": "update",
+            "body": payload,
+        }
         return action
 
     def disable_organization_integrations_xdr_networks(
@@ -1008,20 +1199,22 @@ class ActionBatchOrganizations:
             networks: List containing the network ID and the product type to disable XDR on.
 
         """
-        kwargs = locals()
-
         metadata = {
             "tags": ["organizations", "configure", "integrations", "xdr", "networks"],
             "operation": "disable_organization_integrations_xdr_networks",
         }
-        organization_id = urllib.parse.quote(organization_id, safe="")
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/integrations/xdr/networks/disable"
 
-        body_params = [
-            "networks",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
-        action = {"resource": resource, "operation": "create", "body": payload}
+        payload = {}
+        if networks is not None:
+            payload["networks"] = networks
+
+        action = {
+            "resource": resource,
+            "operation": "create",
+            "body": payload,
+        }
         return action
 
     def enable_organization_integrations_xdr_networks(
@@ -1036,24 +1229,26 @@ class ActionBatchOrganizations:
             networks: List containing the network ID and the product type to enable XDR on.
 
         """
-        kwargs = locals()
-
         metadata = {
             "tags": ["organizations", "configure", "integrations", "xdr", "networks"],
             "operation": "enable_organization_integrations_xdr_networks",
         }
-        organization_id = urllib.parse.quote(organization_id, safe="")
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/integrations/xdr/networks/enable"
 
-        body_params = [
-            "networks",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
-        action = {"resource": resource, "operation": "create", "body": payload}
+        payload = {}
+        if networks is not None:
+            payload["networks"] = networks
+
+        action = {
+            "resource": resource,
+            "operation": "create",
+            "body": payload,
+        }
         return action
 
     def claim_organization_inventory_orders(
-        self, organization_id: str, claimId: str, **kwargs: Any
+        self, organization_id: str, claim_id: str, *, subscriptions: list | None = None
     ) -> dict[str, Any]:
         """Claim an order by the secure unique order claim number, the order claim id.
 
@@ -1061,29 +1256,32 @@ class ActionBatchOrganizations:
 
         Args:
             organization_id: Organization ID.
-            claimId: The unique order claim id.
+            claim_id: The unique order claim id.
             subscriptions: The individual subscriptions to claim.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["organizations", "configure", "inventory", "orders"],
             "operation": "claim_organization_inventory_orders",
         }
-        organization_id = urllib.parse.quote(organization_id, safe="")
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/inventory/orders/claim"
 
-        body_params = [
-            "claimId",
-            "subscriptions",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
-        action = {"resource": resource, "operation": "create", "body": payload}
+        payload = {}
+        if claim_id is not None:
+            payload["claimId"] = claim_id
+        if subscriptions is not None:
+            payload["subscriptions"] = subscriptions
+
+        action = {
+            "resource": resource,
+            "operation": "create",
+            "body": payload,
+        }
         return action
 
     def assign_organization_licenses_seats(
-        self, organization_id: str, licenseId: str, networkId: str, seatCount: int
+        self, organization_id: str, license_id: str, network_id: str, seat_count: int
     ) -> dict[str, Any]:
         """Assign SM seats to a network.
 
@@ -1091,32 +1289,36 @@ class ActionBatchOrganizations:
 
         Args:
             organization_id: Organization ID.
-            licenseId: The ID of the SM license to assign seats from.
-            networkId: The ID of the SM network to assign the seats to.
-            seatCount: The number of seats to assign to the SM network. Must be less than or equal
+            license_id: The ID of the SM license to assign seats from.
+            network_id: The ID of the SM network to assign the seats to.
+            seat_count: The number of seats to assign to the SM network. Must be less than or equal
               to the total number of seats of the license.
 
         """
-        kwargs = locals()
-
         metadata = {
             "tags": ["organizations", "configure", "licenses"],
             "operation": "assign_organization_licenses_seats",
         }
-        organization_id = urllib.parse.quote(organization_id, safe="")
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/licenses/assignSeats"
 
-        body_params = [
-            "licenseId",
-            "networkId",
-            "seatCount",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
-        action = {"resource": resource, "operation": "create", "body": payload}
+        payload = {}
+        if license_id is not None:
+            payload["licenseId"] = license_id
+        if network_id is not None:
+            payload["networkId"] = network_id
+        if seat_count is not None:
+            payload["seatCount"] = seat_count
+
+        action = {
+            "resource": resource,
+            "operation": "create",
+            "body": payload,
+        }
         return action
 
     def move_organization_licenses(
-        self, organization_id: str, destOrganizationId: str, licenseIds: list
+        self, organization_id: str, dest_organization_id: str, license_ids: list
     ) -> dict[str, Any]:
         """Move licenses to another organization.
 
@@ -1124,29 +1326,32 @@ class ActionBatchOrganizations:
 
         Args:
             organization_id: Organization ID.
-            destOrganizationId: The ID of the organization to move the licenses to.
-            licenseIds: A list of IDs of licenses to move to the new organization.
+            dest_organization_id: The ID of the organization to move the licenses to.
+            license_ids: A list of IDs of licenses to move to the new organization.
 
         """
-        kwargs = locals()
-
         metadata = {
             "tags": ["organizations", "configure", "licenses"],
             "operation": "move_organization_licenses",
         }
-        organization_id = urllib.parse.quote(organization_id, safe="")
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/licenses/move"
 
-        body_params = [
-            "destOrganizationId",
-            "licenseIds",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
-        action = {"resource": resource, "operation": "create", "body": payload}
+        payload = {}
+        if dest_organization_id is not None:
+            payload["destOrganizationId"] = dest_organization_id
+        if license_ids is not None:
+            payload["licenseIds"] = license_ids
+
+        action = {
+            "resource": resource,
+            "operation": "create",
+            "body": payload,
+        }
         return action
 
     def move_organization_licenses_seats(
-        self, organization_id: str, destOrganizationId: str, licenseId: str, seatCount: int
+        self, organization_id: str, dest_organization_id: str, license_id: str, seat_count: int
     ) -> dict[str, Any]:
         """Move SM seats to another organization.
 
@@ -1154,32 +1359,36 @@ class ActionBatchOrganizations:
 
         Args:
             organization_id: Organization ID.
-            destOrganizationId: The ID of the organization to move the SM seats to.
-            licenseId: The ID of the SM license to move the seats from.
-            seatCount: The number of seats to move to the new organization. Must be less than or
+            dest_organization_id: The ID of the organization to move the SM seats to.
+            license_id: The ID of the SM license to move the seats from.
+            seat_count: The number of seats to move to the new organization. Must be less than or
               equal to the total number of seats of the license.
 
         """
-        kwargs = locals()
-
         metadata = {
             "tags": ["organizations", "configure", "licenses"],
             "operation": "move_organization_licenses_seats",
         }
-        organization_id = urllib.parse.quote(organization_id, safe="")
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/licenses/moveSeats"
 
-        body_params = [
-            "destOrganizationId",
-            "licenseId",
-            "seatCount",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
-        action = {"resource": resource, "operation": "create", "body": payload}
+        payload = {}
+        if dest_organization_id is not None:
+            payload["destOrganizationId"] = dest_organization_id
+        if license_id is not None:
+            payload["licenseId"] = license_id
+        if seat_count is not None:
+            payload["seatCount"] = seat_count
+
+        action = {
+            "resource": resource,
+            "operation": "create",
+            "body": payload,
+        }
         return action
 
     def renew_organization_licenses_seats(
-        self, organization_id: str, licenseIdToRenew: str, unusedLicenseId: str
+        self, organization_id: str, license_id_to_renew: str, unused_license_id: str
     ) -> dict[str, Any]:
         """Renew SM seats of a license.
 
@@ -1187,32 +1396,35 @@ class ActionBatchOrganizations:
 
         Args:
             organization_id: Organization ID.
-            licenseIdToRenew: The ID of the SM license to renew. This license must already be
+            license_id_to_renew: The ID of the SM license to renew. This license must already be
               assigned to an SM network.
-            unusedLicenseId: The SM license to use to renew the seats on 'licenseIdToRenew'. This
+            unused_license_id: The SM license to use to renew the seats on 'licenseIdToRenew'. This
               license must have at least as many seats available as there are seats on
               'licenseIdToRenew'.
 
         """
-        kwargs = locals()
-
         metadata = {
             "tags": ["organizations", "configure", "licenses"],
             "operation": "renew_organization_licenses_seats",
         }
-        organization_id = urllib.parse.quote(organization_id, safe="")
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/licenses/renewSeats"
 
-        body_params = [
-            "licenseIdToRenew",
-            "unusedLicenseId",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
-        action = {"resource": resource, "operation": "create", "body": payload}
+        payload = {}
+        if license_id_to_renew is not None:
+            payload["licenseIdToRenew"] = license_id_to_renew
+        if unused_license_id is not None:
+            payload["unusedLicenseId"] = unused_license_id
+
+        action = {
+            "resource": resource,
+            "operation": "create",
+            "body": payload,
+        }
         return action
 
     def update_organization_license(
-        self, organization_id: str, license_id: str, **kwargs: Any
+        self, organization_id: str, license_id: str, *, device_serial: str | None = None
     ) -> dict[str, Any]:
         """Update a license.
 
@@ -1221,30 +1433,48 @@ class ActionBatchOrganizations:
         Args:
             organization_id: Organization ID.
             license_id: License ID.
-            deviceSerial: The serial number of the device to assign this license to. Set this to
+            device_serial: The serial number of the device to assign this license to. Set this to
               null to unassign the license. If a different license is already active on
               the device, this parameter will control queueing/dequeuing this license.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["organizations", "configure", "licenses"],
             "operation": "update_organization_license",
         }
-        organization_id = urllib.parse.quote(organization_id, safe="")
-        license_id = urllib.parse.quote(license_id, safe="")
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        license_id = urllib.parse.quote(str(license_id), safe="")
         resource = f"/organizations/{organization_id}/licenses/{license_id}"
 
-        body_params = [
-            "deviceSerial",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
-        action = {"resource": resource, "operation": "update", "body": payload}
+        payload = {}
+        if device_serial is not None:
+            payload["deviceSerial"] = device_serial
+
+        action = {
+            "resource": resource,
+            "operation": "update",
+            "body": payload,
+        }
         return action
 
     def update_organization_login_security(
-        self, organization_id: str, **kwargs: Any
+        self,
+        organization_id: str,
+        *,
+        enforce_password_expiration: bool | None = None,
+        password_expiration_days: int | None = None,
+        enforce_different_passwords: bool | None = None,
+        num_different_passwords: int | None = None,
+        enforce_strong_passwords: bool | None = None,
+        minimum_password_length: int | None = None,
+        enforce_account_lockout: bool | None = None,
+        account_lockout_attempts: int | None = None,
+        enforce_idle_timeout: bool | None = None,
+        idle_timeout_minutes: int | None = None,
+        enforce_two_factor_auth: bool | None = None,
+        enforce_login_ip_ranges: bool | None = None,
+        login_ip_ranges: list | None = None,
+        api_authentication: dict | None = None,
     ) -> dict[str, Any]:
         """Update the login security settings for an organization.
 
@@ -1252,68 +1482,91 @@ class ActionBatchOrganizations:
 
         Args:
             organization_id: Organization ID.
-            enforcePasswordExpiration: Boolean indicating whether users are forced to change their
+            enforce_password_expiration: Boolean indicating whether users are forced to change their
               password every X number of days.
-            passwordExpirationDays: Number of days after which users will be forced to change their
-              password.
-            enforceDifferentPasswords: Boolean indicating whether users, when setting a new
+            password_expiration_days: Number of days after which users will be forced to change
+              their password.
+            enforce_different_passwords: Boolean indicating whether users, when setting a new
               password, are forced to choose a new password that is different from any
               past passwords.
-            numDifferentPasswords: Number of recent passwords that new password must be distinct
+            num_different_passwords: Number of recent passwords that new password must be distinct
               from.
-            enforceStrongPasswords: Deprecated. Values of 'false' are always ignored.
-            minimumPasswordLength: Minimum number of characters required in admins' passwords.
-            enforceAccountLockout: Boolean indicating whether users' Dashboard accounts will be
+            enforce_strong_passwords: Deprecated. Values of 'false' are always ignored.
+            minimum_password_length: Minimum number of characters required in admins' passwords.
+            enforce_account_lockout: Boolean indicating whether users' Dashboard accounts will be
               locked out after a specified number of consecutive failed login attempts.
-            accountLockoutAttempts: Number of consecutive failed login attempts after which users'
+            account_lockout_attempts: Number of consecutive failed login attempts after which users'
               accounts will be locked.
-            enforceIdleTimeout: Boolean indicating whether users will be logged out after being idle
-              for the specified number of minutes.
-            idleTimeoutMinutes: Number of minutes users can remain idle before being logged out of
+            enforce_idle_timeout: Boolean indicating whether users will be logged out after being
+              idle for the specified number of minutes.
+            idle_timeout_minutes: Number of minutes users can remain idle before being logged out of
               their accounts.
-            enforceTwoFactorAuth: Boolean indicating whether users in this organization will be
+            enforce_two_factor_auth: Boolean indicating whether users in this organization will be
               required to use an extra verification code when logging in to Dashboard.
               This code will be sent to their mobile phone via SMS, or can be generated
               by the authenticator application.
-            enforceLoginIpRanges: Boolean indicating whether organization will restrict access to
+            enforce_login_ip_ranges: Boolean indicating whether organization will restrict access to
               Dashboard (including the API) from certain IP addresses.
-            loginIpRanges: List of acceptable IP ranges. Entries can be single IP addresses, IP
+            login_ip_ranges: List of acceptable IP ranges. Entries can be single IP addresses, IP
               address ranges, and CIDR subnets.
-            apiAuthentication: Details for indicating whether organization will restrict access to
+            api_authentication: Details for indicating whether organization will restrict access to
               API (but not Dashboard) to certain IP addresses.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["organizations", "configure", "loginSecurity"],
             "operation": "update_organization_login_security",
         }
-        organization_id = urllib.parse.quote(organization_id, safe="")
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/loginSecurity"
 
-        body_params = [
-            "enforcePasswordExpiration",
-            "passwordExpirationDays",
-            "enforceDifferentPasswords",
-            "numDifferentPasswords",
-            "enforceStrongPasswords",
-            "minimumPasswordLength",
-            "enforceAccountLockout",
-            "accountLockoutAttempts",
-            "enforceIdleTimeout",
-            "idleTimeoutMinutes",
-            "enforceTwoFactorAuth",
-            "enforceLoginIpRanges",
-            "loginIpRanges",
-            "apiAuthentication",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
-        action = {"resource": resource, "operation": "update", "body": payload}
+        payload = {}
+        if enforce_password_expiration is not None:
+            payload["enforcePasswordExpiration"] = enforce_password_expiration
+        if password_expiration_days is not None:
+            payload["passwordExpirationDays"] = password_expiration_days
+        if enforce_different_passwords is not None:
+            payload["enforceDifferentPasswords"] = enforce_different_passwords
+        if num_different_passwords is not None:
+            payload["numDifferentPasswords"] = num_different_passwords
+        if enforce_strong_passwords is not None:
+            payload["enforceStrongPasswords"] = enforce_strong_passwords
+        if minimum_password_length is not None:
+            payload["minimumPasswordLength"] = minimum_password_length
+        if enforce_account_lockout is not None:
+            payload["enforceAccountLockout"] = enforce_account_lockout
+        if account_lockout_attempts is not None:
+            payload["accountLockoutAttempts"] = account_lockout_attempts
+        if enforce_idle_timeout is not None:
+            payload["enforceIdleTimeout"] = enforce_idle_timeout
+        if idle_timeout_minutes is not None:
+            payload["idleTimeoutMinutes"] = idle_timeout_minutes
+        if enforce_two_factor_auth is not None:
+            payload["enforceTwoFactorAuth"] = enforce_two_factor_auth
+        if enforce_login_ip_ranges is not None:
+            payload["enforceLoginIpRanges"] = enforce_login_ip_ranges
+        if login_ip_ranges is not None:
+            payload["loginIpRanges"] = login_ip_ranges
+        if api_authentication is not None:
+            payload["apiAuthentication"] = api_authentication
+
+        action = {
+            "resource": resource,
+            "operation": "update",
+            "body": payload,
+        }
         return action
 
     def create_organization_network(
-        self, organization_id: str, name: str, productTypes: list, **kwargs: Any
+        self,
+        organization_id: str,
+        name: str,
+        product_types: list,
+        *,
+        tags: list | None = None,
+        time_zone: str | None = None,
+        copy_from_network_id: str | None = None,
+        notes: str | None = None,
     ) -> dict[str, Any]:
         """Create a network.
 
@@ -1322,42 +1575,54 @@ class ActionBatchOrganizations:
         Args:
             organization_id: Organization ID.
             name: The name of the new network.
-            productTypes: The product type(s) of the new network. If more than one type is included,
-              the network will be a combined network.
+            product_types: The product type(s) of the new network. If more than one type is
+              included, the network will be a combined network.
             tags: A list of tags to be applied to the network.
-            timeZone: The timezone of the network. For a list of allowed timezones, please see the
+            time_zone: The timezone of the network. For a list of allowed timezones, please see the
               'TZ' column in the table in <a target='_blank'
               href='https://en.wikipedia.org/wiki/List_of_tz_database_time_zones'>this
               article.</a>.
-            copyFromNetworkId: The ID of the network to copy configuration from. Other provided
+            copy_from_network_id: The ID of the network to copy configuration from. Other provided
               parameters will override the copied configuration, except type which must
               match this network's type exactly.
             notes: Add any notes or additional information about this network here.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["organizations", "configure", "networks"],
             "operation": "create_organization_network",
         }
-        organization_id = urllib.parse.quote(organization_id, safe="")
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/networks"
 
-        body_params = [
-            "name",
-            "productTypes",
-            "tags",
-            "timeZone",
-            "copyFromNetworkId",
-            "notes",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
-        action = {"resource": resource, "operation": "create", "body": payload}
+        payload = {}
+        if name is not None:
+            payload["name"] = name
+        if product_types is not None:
+            payload["productTypes"] = product_types
+        if tags is not None:
+            payload["tags"] = tags
+        if time_zone is not None:
+            payload["timeZone"] = time_zone
+        if copy_from_network_id is not None:
+            payload["copyFromNetworkId"] = copy_from_network_id
+        if notes is not None:
+            payload["notes"] = notes
+
+        action = {
+            "resource": resource,
+            "operation": "create",
+            "body": payload,
+        }
         return action
 
     def combine_organization_networks(
-        self, organization_id: str, name: str, networkIds: list, **kwargs: Any
+        self,
+        organization_id: str,
+        name: str,
+        network_ids: list,
+        *,
+        enrollment_string: str | None = None,
     ) -> dict[str, Any]:
         """Combine multiple networks into a single network.
 
@@ -1366,10 +1631,10 @@ class ActionBatchOrganizations:
         Args:
             organization_id: Organization ID.
             name: The name of the combined network.
-            networkIds: A list of the network IDs that will be combined. If an ID of a combined
+            network_ids: A list of the network IDs that will be combined. If an ID of a combined
               network is included in this list, the other networks in the list will be
               grouped into that network.
-            enrollmentString: A unique identifier which can be used for device enrollment or easy
+            enrollment_string: A unique identifier which can be used for device enrollment or easy
               access through the Meraki SM Registration page or the Self Service Portal.
               Please note that changing this field may cause existing bookmarks to
               break. All networks that are part of this combined network will have their
@@ -1377,26 +1642,40 @@ class ActionBatchOrganizations:
               enrollment strings will be deleted.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["organizations", "configure", "networks"],
             "operation": "combine_organization_networks",
         }
-        organization_id = urllib.parse.quote(organization_id, safe="")
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/networks/combine"
 
-        body_params = [
-            "name",
-            "networkIds",
-            "enrollmentString",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
-        action = {"resource": resource, "operation": "create", "body": payload}
+        payload = {}
+        if name is not None:
+            payload["name"] = name
+        if network_ids is not None:
+            payload["networkIds"] = network_ids
+        if enrollment_string is not None:
+            payload["enrollmentString"] = enrollment_string
+
+        action = {
+            "resource": resource,
+            "operation": "create",
+            "body": payload,
+        }
         return action
 
     def create_organization_policy_object(
-        self, organization_id: str, name: str, category: str, type: str, **kwargs: Any
+        self,
+        organization_id: str,
+        name: str,
+        category: str,
+        type_: str,
+        *,
+        cidr: str | None = None,
+        fqdn: str | None = None,
+        mask: str | None = None,
+        ip: str | None = None,
+        group_ids: list | None = None,
     ) -> dict[str, Any]:
         """Creates a new Policy Object.
 
@@ -1407,39 +1686,53 @@ class ActionBatchOrganizations:
             name: Name of a policy object, unique within the organization (alphanumeric, space,
               dash, or underscore characters only).
             category: Category of a policy object (one of: adaptivePolicy, network).
-            type: Type of a policy object (one of: adaptivePolicyIpv4Cidr, cidr, fqdn, ipAndMask).
+            type_: Type of a policy object (one of: adaptivePolicyIpv4Cidr, cidr, fqdn, ipAndMask).
             cidr: CIDR Value of a policy object (e.g. 10.11.12.1/24").
             fqdn: Fully qualified domain name of policy object (e.g. "example.com").
             mask: Mask of a policy object (e.g. "255.255.0.0").
             ip: IP Address of a policy object (e.g. "1.2.3.4").
-            groupIds: The IDs of policy object groups the policy object belongs to.
+            group_ids: The IDs of policy object groups the policy object belongs to.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["organizations", "configure", "policyObjects"],
             "operation": "create_organization_policy_object",
         }
-        organization_id = urllib.parse.quote(organization_id, safe="")
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/policyObjects"
 
-        body_params = [
-            "name",
-            "category",
-            "type",
-            "cidr",
-            "fqdn",
-            "mask",
-            "ip",
-            "groupIds",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
-        action = {"resource": resource, "operation": "create", "body": payload}
+        payload = {}
+        if name is not None:
+            payload["name"] = name
+        if category is not None:
+            payload["category"] = category
+        if type_ is not None:
+            payload["type"] = type_
+        if cidr is not None:
+            payload["cidr"] = cidr
+        if fqdn is not None:
+            payload["fqdn"] = fqdn
+        if mask is not None:
+            payload["mask"] = mask
+        if ip is not None:
+            payload["ip"] = ip
+        if group_ids is not None:
+            payload["groupIds"] = group_ids
+
+        action = {
+            "resource": resource,
+            "operation": "create",
+            "body": payload,
+        }
         return action
 
     def create_organization_policy_objects_group(
-        self, organization_id: str, name: str, **kwargs: Any
+        self,
+        organization_id: str,
+        name: str,
+        *,
+        category: str | None = None,
+        object_ids: list | None = None,
     ) -> dict[str, Any]:
         """Creates a new Policy Object Group.
 
@@ -1451,31 +1744,40 @@ class ActionBatchOrganizations:
               (alphanumeric, space, dash, or underscore characters only).
             category: Category of a policy object group (one of: NetworkObjectGroup,
               GeoLocationGroup, PortObjectGroup, ApplicationGroup).
-            objectIds: A list of Policy Object ID's that this NetworkObjectGroup should be
+            object_ids: A list of Policy Object ID's that this NetworkObjectGroup should be
               associated to (note: these ID's will replace the existing associated
               Policy Objects).
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["organizations", "configure", "policyObjects", "groups"],
             "operation": "create_organization_policy_objects_group",
         }
-        organization_id = urllib.parse.quote(organization_id, safe="")
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/policyObjects/groups"
 
-        body_params = [
-            "name",
-            "category",
-            "objectIds",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
-        action = {"resource": resource, "operation": "create", "body": payload}
+        payload = {}
+        if name is not None:
+            payload["name"] = name
+        if category is not None:
+            payload["category"] = category
+        if object_ids is not None:
+            payload["objectIds"] = object_ids
+
+        action = {
+            "resource": resource,
+            "operation": "create",
+            "body": payload,
+        }
         return action
 
     def update_organization_policy_objects_group(
-        self, organization_id: str, policy_object_group_id: str, **kwargs: Any
+        self,
+        organization_id: str,
+        policy_object_group_id: str,
+        *,
+        name: str | None = None,
+        object_ids: list | None = None,
     ) -> dict[str, Any]:
         """Updates a Policy Object Group.
 
@@ -1486,27 +1788,30 @@ class ActionBatchOrganizations:
             policy_object_group_id: Policy object group ID.
             name: A name for the group of network addresses, unique within the organization
               (alphanumeric, space, dash, or underscore characters only).
-            objectIds: A list of Policy Object ID's that this NetworkObjectGroup should be
+            object_ids: A list of Policy Object ID's that this NetworkObjectGroup should be
               associated to (note: these ID's will replace the existing associated
               Policy Objects).
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["organizations", "configure", "policyObjects", "groups"],
             "operation": "update_organization_policy_objects_group",
         }
-        organization_id = urllib.parse.quote(organization_id, safe="")
-        policy_object_group_id = urllib.parse.quote(policy_object_group_id, safe="")
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        policy_object_group_id = urllib.parse.quote(str(policy_object_group_id), safe="")
         resource = f"/organizations/{organization_id}/policyObjects/groups/{policy_object_group_id}"
 
-        body_params = [
-            "name",
-            "objectIds",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
-        action = {"resource": resource, "operation": "update", "body": payload}
+        payload = {}
+        if name is not None:
+            payload["name"] = name
+        if object_ids is not None:
+            payload["objectIds"] = object_ids
+
+        action = {
+            "resource": resource,
+            "operation": "update",
+            "body": payload,
+        }
         return action
 
     def delete_organization_policy_objects_group(
@@ -1525,8 +1830,8 @@ class ActionBatchOrganizations:
             "tags": ["organizations", "configure", "policyObjects", "groups"],
             "operation": "delete_organization_policy_objects_group",
         }
-        organization_id = urllib.parse.quote(organization_id, safe="")
-        policy_object_group_id = urllib.parse.quote(policy_object_group_id, safe="")
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        policy_object_group_id = urllib.parse.quote(str(policy_object_group_id), safe="")
         resource = f"/organizations/{organization_id}/policyObjects/groups/{policy_object_group_id}"
 
         action = {
@@ -1536,7 +1841,16 @@ class ActionBatchOrganizations:
         return action
 
     def update_organization_policy_object(
-        self, organization_id: str, policy_object_id: str, **kwargs: Any
+        self,
+        organization_id: str,
+        policy_object_id: str,
+        *,
+        name: str | None = None,
+        cidr: str | None = None,
+        fqdn: str | None = None,
+        mask: str | None = None,
+        ip: str | None = None,
+        group_ids: list | None = None,
     ) -> dict[str, Any]:
         """Updates a Policy Object.
 
@@ -1551,29 +1865,36 @@ class ActionBatchOrganizations:
             fqdn: Fully qualified domain name of policy object (e.g. "example.com").
             mask: Mask of a policy object (e.g. "255.255.0.0").
             ip: IP Address of a policy object (e.g. "1.2.3.4").
-            groupIds: The IDs of policy object groups the policy object belongs to.
+            group_ids: The IDs of policy object groups the policy object belongs to.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["organizations", "configure", "policyObjects"],
             "operation": "update_organization_policy_object",
         }
-        organization_id = urllib.parse.quote(organization_id, safe="")
-        policy_object_id = urllib.parse.quote(policy_object_id, safe="")
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        policy_object_id = urllib.parse.quote(str(policy_object_id), safe="")
         resource = f"/organizations/{organization_id}/policyObjects/{policy_object_id}"
 
-        body_params = [
-            "name",
-            "cidr",
-            "fqdn",
-            "mask",
-            "ip",
-            "groupIds",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
-        action = {"resource": resource, "operation": "update", "body": payload}
+        payload = {}
+        if name is not None:
+            payload["name"] = name
+        if cidr is not None:
+            payload["cidr"] = cidr
+        if fqdn is not None:
+            payload["fqdn"] = fqdn
+        if mask is not None:
+            payload["mask"] = mask
+        if ip is not None:
+            payload["ip"] = ip
+        if group_ids is not None:
+            payload["groupIds"] = group_ids
+
+        action = {
+            "resource": resource,
+            "operation": "update",
+            "body": payload,
+        }
         return action
 
     def delete_organization_policy_object(
@@ -1592,8 +1913,8 @@ class ActionBatchOrganizations:
             "tags": ["organizations", "configure", "policyObjects"],
             "operation": "delete_organization_policy_object",
         }
-        organization_id = urllib.parse.quote(organization_id, safe="")
-        policy_object_id = urllib.parse.quote(policy_object_id, safe="")
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        policy_object_id = urllib.parse.quote(str(policy_object_id), safe="")
         resource = f"/organizations/{organization_id}/policyObjects/{policy_object_id}"
 
         action = {
@@ -1603,7 +1924,12 @@ class ActionBatchOrganizations:
         return action
 
     def create_organization_saml_idp(
-        self, organization_id: str, x509certSha1Fingerprint: str, **kwargs: Any
+        self,
+        organization_id: str,
+        x509cert_sha1_fingerprint: str,
+        *,
+        sso_login_url: str | None = None,
+        slo_logout_url: str | None = None,
     ) -> dict[str, Any]:
         """Create a SAML IdP for your organization.
 
@@ -1611,33 +1937,43 @@ class ActionBatchOrganizations:
 
         Args:
             organization_id: Organization ID.
-            x509certSha1Fingerprint: Fingerprint (SHA1) of the SAML certificate provided by your
+            x509cert_sha1_fingerprint: Fingerprint (SHA1) of the SAML certificate provided by your
               Identity Provider (IdP). This will be used for encryption / validation.
-            ssoLoginUrl: Dashboard will redirect users to this URL to log in again when their
+            sso_login_url: Dashboard will redirect users to this URL to log in again when their
               sessions expire.
-            sloLogoutUrl: Dashboard will redirect users to this URL when they sign out.
+            slo_logout_url: Dashboard will redirect users to this URL when they sign out.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["organizations", "configure", "saml", "idps"],
             "operation": "create_organization_saml_idp",
         }
-        organization_id = urllib.parse.quote(organization_id, safe="")
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/saml/idps"
 
-        body_params = [
-            "x509certSha1Fingerprint",
-            "ssoLoginUrl",
-            "sloLogoutUrl",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
-        action = {"resource": resource, "operation": "create", "body": payload}
+        payload = {}
+        if x509cert_sha1_fingerprint is not None:
+            payload["x509certSha1Fingerprint"] = x509cert_sha1_fingerprint
+        if sso_login_url is not None:
+            payload["ssoLoginUrl"] = sso_login_url
+        if slo_logout_url is not None:
+            payload["sloLogoutUrl"] = slo_logout_url
+
+        action = {
+            "resource": resource,
+            "operation": "create",
+            "body": payload,
+        }
         return action
 
     def update_organization_saml_idp(
-        self, organization_id: str, idp_id: str, **kwargs: Any
+        self,
+        organization_id: str,
+        idp_id: str,
+        *,
+        x509cert_sha1_fingerprint: str | None = None,
+        sso_login_url: str | None = None,
+        slo_logout_url: str | None = None,
     ) -> dict[str, Any]:
         """Update a SAML IdP in your organization.
 
@@ -1646,30 +1982,34 @@ class ActionBatchOrganizations:
         Args:
             organization_id: Organization ID.
             idp_id: Idp ID.
-            x509certSha1Fingerprint: Fingerprint (SHA1) of the SAML certificate provided by your
+            x509cert_sha1_fingerprint: Fingerprint (SHA1) of the SAML certificate provided by your
               Identity Provider (IdP). This will be used for encryption / validation.
-            ssoLoginUrl: Dashboard will redirect users to this URL to log in again when their
+            sso_login_url: Dashboard will redirect users to this URL to log in again when their
               sessions expire.
-            sloLogoutUrl: Dashboard will redirect users to this URL when they sign out.
+            slo_logout_url: Dashboard will redirect users to this URL when they sign out.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["organizations", "configure", "saml", "idps"],
             "operation": "update_organization_saml_idp",
         }
-        organization_id = urllib.parse.quote(organization_id, safe="")
-        idp_id = urllib.parse.quote(idp_id, safe="")
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        idp_id = urllib.parse.quote(str(idp_id), safe="")
         resource = f"/organizations/{organization_id}/saml/idps/{idp_id}"
 
-        body_params = [
-            "x509certSha1Fingerprint",
-            "ssoLoginUrl",
-            "sloLogoutUrl",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
-        action = {"resource": resource, "operation": "update", "body": payload}
+        payload = {}
+        if x509cert_sha1_fingerprint is not None:
+            payload["x509certSha1Fingerprint"] = x509cert_sha1_fingerprint
+        if sso_login_url is not None:
+            payload["ssoLoginUrl"] = sso_login_url
+        if slo_logout_url is not None:
+            payload["sloLogoutUrl"] = slo_logout_url
+
+        action = {
+            "resource": resource,
+            "operation": "update",
+            "body": payload,
+        }
         return action
 
     def delete_organization_saml_idp(self, organization_id: str, idp_id: str) -> dict[str, Any]:
@@ -1686,8 +2026,8 @@ class ActionBatchOrganizations:
             "tags": ["organizations", "configure", "saml", "idps"],
             "operation": "delete_organization_saml_idp",
         }
-        organization_id = urllib.parse.quote(organization_id, safe="")
-        idp_id = urllib.parse.quote(idp_id, safe="")
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        idp_id = urllib.parse.quote(str(idp_id), safe="")
         resource = f"/organizations/{organization_id}/saml/idps/{idp_id}"
 
         action = {
@@ -1696,23 +2036,23 @@ class ActionBatchOrganizations:
         }
         return action
 
-    def delete_organization_splash_asset(self, organization_id: str, id: str) -> dict[str, Any]:
+    def delete_organization_splash_asset(self, organization_id: str, id_: str) -> dict[str, Any]:
         """Delete a Splash Theme Asset.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-splash-asset
 
         Args:
             organization_id: Organization ID.
-            id: ID.
+            id_: ID.
 
         """
         metadata = {
             "tags": ["organizations", "configure", "splash", "assets"],
             "operation": "delete_organization_splash_asset",
         }
-        organization_id = urllib.parse.quote(organization_id, safe="")
-        id = urllib.parse.quote(id, safe="")
-        resource = f"/organizations/{organization_id}/splash/assets/{id}"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        id_ = urllib.parse.quote(str(id_), safe="")
+        resource = f"/organizations/{organization_id}/splash/assets/{id_}"
 
         action = {
             "resource": resource,
@@ -1721,7 +2061,7 @@ class ActionBatchOrganizations:
         return action
 
     def create_organization_splash_theme(
-        self, organization_id: str, **kwargs: Any
+        self, organization_id: str, *, name: str | None = None, base_theme: str | None = None
     ) -> dict[str, Any]:
         """Create a Splash Theme.
 
@@ -1730,43 +2070,46 @@ class ActionBatchOrganizations:
         Args:
             organization_id: Organization ID.
             name: theme name.
-            baseTheme: base theme id .
+            base_theme: base theme id.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["organizations", "configure", "splash", "themes"],
             "operation": "create_organization_splash_theme",
         }
-        organization_id = urllib.parse.quote(organization_id, safe="")
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/splash/themes"
 
-        body_params = [
-            "name",
-            "baseTheme",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
-        action = {"resource": resource, "operation": "create", "body": payload}
+        payload = {}
+        if name is not None:
+            payload["name"] = name
+        if base_theme is not None:
+            payload["baseTheme"] = base_theme
+
+        action = {
+            "resource": resource,
+            "operation": "create",
+            "body": payload,
+        }
         return action
 
-    def delete_organization_splash_theme(self, organization_id: str, id: str) -> dict[str, Any]:
+    def delete_organization_splash_theme(self, organization_id: str, id_: str) -> dict[str, Any]:
         """Delete a Splash Theme.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-splash-theme
 
         Args:
             organization_id: Organization ID.
-            id: ID.
+            id_: ID.
 
         """
         metadata = {
             "tags": ["organizations", "configure", "splash", "themes"],
             "operation": "delete_organization_splash_theme",
         }
-        organization_id = urllib.parse.quote(organization_id, safe="")
-        id = urllib.parse.quote(id, safe="")
-        resource = f"/organizations/{organization_id}/splash/themes/{id}"
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        id_ = urllib.parse.quote(str(id_), safe="")
+        resource = f"/organizations/{organization_id}/splash/themes/{id_}"
 
         action = {
             "resource": resource,
@@ -1775,7 +2118,12 @@ class ActionBatchOrganizations:
         return action
 
     def create_organization_splash_theme_asset(
-        self, organization_id: str, theme_identifier: str, **kwargs: Any
+        self,
+        organization_id: str,
+        theme_identifier: str,
+        *,
+        name: str | None = None,
+        content: str | None = None,
     ) -> dict[str, Any]:
         """Create a Splash Theme Asset.
 
@@ -1788,20 +2136,23 @@ class ActionBatchOrganizations:
             content: a file containing the asset content.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["organizations", "configure", "splash", "themes", "assets"],
             "operation": "create_organization_splash_theme_asset",
         }
-        organization_id = urllib.parse.quote(organization_id, safe="")
-        theme_identifier = urllib.parse.quote(theme_identifier, safe="")
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        theme_identifier = urllib.parse.quote(str(theme_identifier), safe="")
         resource = f"/organizations/{organization_id}/splash/themes/{theme_identifier}/assets"
 
-        body_params = [
-            "name",
-            "content",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
-        action = {"resource": resource, "operation": "create", "body": payload}
+        payload = {}
+        if name is not None:
+            payload["name"] = name
+        if content is not None:
+            payload["content"] = content
+
+        action = {
+            "resource": resource,
+            "operation": "create",
+            "body": payload,
+        }
         return action

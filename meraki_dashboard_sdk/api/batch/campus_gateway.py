@@ -17,8 +17,10 @@ class ActionBatchCampusGateway:
         uplinks: list,
         tunnels: list,
         nameservers: dict,
-        portChannels: list,
-        **kwargs: Any,
+        port_channels: list,
+        *,
+        devices: list | None = None,
+        notes: str | None = None,
     ) -> dict[str, Any]:
         """Create a cluster and add campus gateways to it.
 
@@ -31,35 +33,53 @@ class ActionBatchCampusGateway:
             tunnels: Tunnel interface settings of the cluster: Reuse uplink or specify tunnel
               interface.
             nameservers: Nameservers of the cluster.
-            portChannels: Port channel settings of the cluster.
+            port_channels: Port channel settings of the cluster.
             devices: Devices to be added to the cluster.
             notes: Notes about cluster with max size of 511 characters allowed.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["campusGateway", "configure", "clusters"],
             "operation": "create_network_campus_gateway_cluster",
         }
-        network_id = urllib.parse.quote(network_id, safe="")
+        network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/campusGateway/clusters"
 
-        body_params = [
-            "name",
-            "uplinks",
-            "tunnels",
-            "nameservers",
-            "portChannels",
-            "devices",
-            "notes",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
-        action = {"resource": resource, "operation": "create", "body": payload}
+        payload = {}
+        if name is not None:
+            payload["name"] = name
+        if uplinks is not None:
+            payload["uplinks"] = uplinks
+        if tunnels is not None:
+            payload["tunnels"] = tunnels
+        if nameservers is not None:
+            payload["nameservers"] = nameservers
+        if port_channels is not None:
+            payload["portChannels"] = port_channels
+        if devices is not None:
+            payload["devices"] = devices
+        if notes is not None:
+            payload["notes"] = notes
+
+        action = {
+            "resource": resource,
+            "operation": "create",
+            "body": payload,
+        }
         return action
 
     def update_network_campus_gateway_cluster(
-        self, network_id: str, cluster_id: str, **kwargs: Any
+        self,
+        network_id: str,
+        cluster_id: str,
+        *,
+        name: str | None = None,
+        uplinks: list | None = None,
+        tunnels: list | None = None,
+        nameservers: dict | None = None,
+        port_channels: list | None = None,
+        devices: list | None = None,
+        notes: str | None = None,
     ) -> dict[str, Any]:
         """Update a cluster and add/remove campus gateways to/from it.
 
@@ -73,30 +93,38 @@ class ActionBatchCampusGateway:
             tunnels: Tunnel interface settings of the cluster: Reuse uplink or specify tunnel
               interface.
             nameservers: Nameservers of the cluster.
-            portChannels: Port channel settings of the cluster.
+            port_channels: Port channel settings of the cluster.
             devices: Devices in the cluster.
             notes: Notes about cluster with max size of 511 characters allowed.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["campusGateway", "configure", "clusters"],
             "operation": "update_network_campus_gateway_cluster",
         }
-        network_id = urllib.parse.quote(network_id, safe="")
-        cluster_id = urllib.parse.quote(cluster_id, safe="")
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        cluster_id = urllib.parse.quote(str(cluster_id), safe="")
         resource = f"/networks/{network_id}/campusGateway/clusters/{cluster_id}"
 
-        body_params = [
-            "name",
-            "uplinks",
-            "tunnels",
-            "nameservers",
-            "portChannels",
-            "devices",
-            "notes",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
-        action = {"resource": resource, "operation": "update", "body": payload}
+        payload = {}
+        if name is not None:
+            payload["name"] = name
+        if uplinks is not None:
+            payload["uplinks"] = uplinks
+        if tunnels is not None:
+            payload["tunnels"] = tunnels
+        if nameservers is not None:
+            payload["nameservers"] = nameservers
+        if port_channels is not None:
+            payload["portChannels"] = port_channels
+        if devices is not None:
+            payload["devices"] = devices
+        if notes is not None:
+            payload["notes"] = notes
+
+        action = {
+            "resource": resource,
+            "operation": "update",
+            "body": payload,
+        }
         return action

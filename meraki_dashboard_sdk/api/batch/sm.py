@@ -26,8 +26,8 @@ class ActionBatchSm:
             "tags": ["sm", "configure", "userAccessDevices"],
             "operation": "delete_network_sm_user_access_device",
         }
-        network_id = urllib.parse.quote(network_id, safe="")
-        user_access_device_id = urllib.parse.quote(user_access_device_id, safe="")
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        user_access_device_id = urllib.parse.quote(str(user_access_device_id), safe="")
         resource = f"/networks/{network_id}/sm/userAccessDevices/{user_access_device_id}"
 
         action = {
@@ -37,7 +37,7 @@ class ActionBatchSm:
         return action
 
     def create_organization_sm_admins_role(
-        self, organization_id: str, name: str, **kwargs: Any
+        self, organization_id: str, name: str, *, scope: str | None = None, tags: list | None = None
     ) -> dict[str, Any]:
         """Create a Limited Access Role.
 
@@ -50,32 +50,42 @@ class ActionBatchSm:
             tags: The tags of the Limited Access Role.
 
         """
-        kwargs.update(locals())
-
-        if "scope" in kwargs:
+        if scope is not None:
             options = ["all_tags", "some", "without_all_tags", "without_some"]
-            assert kwargs["scope"] in options, (
-                f'''"scope" cannot be "{kwargs["scope"]}", & must be set to one of: {options}'''
+            assert scope in options, (
+                f'"scope" cannot be "{scope}", & must be set to one of: {options}'
             )
 
         metadata = {
             "tags": ["sm", "configure", "admins", "roles"],
             "operation": "create_organization_sm_admins_role",
         }
-        organization_id = urllib.parse.quote(organization_id, safe="")
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/sm/admins/roles"
 
-        body_params = [
-            "name",
-            "scope",
-            "tags",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
-        action = {"resource": resource, "operation": "create", "body": payload}
+        payload = {}
+        if name is not None:
+            payload["name"] = name
+        if scope is not None:
+            payload["scope"] = scope
+        if tags is not None:
+            payload["tags"] = tags
+
+        action = {
+            "resource": resource,
+            "operation": "create",
+            "body": payload,
+        }
         return action
 
     def update_organization_sm_admins_role(
-        self, organization_id: str, role_id: str, **kwargs: Any
+        self,
+        organization_id: str,
+        role_id: str,
+        *,
+        name: str | None = None,
+        scope: str | None = None,
+        tags: list | None = None,
     ) -> dict[str, Any]:
         """Update a Limited Access Role.
 
@@ -89,29 +99,33 @@ class ActionBatchSm:
             tags: The tags of the Limited Access Role.
 
         """
-        kwargs.update(locals())
-
-        if "scope" in kwargs:
+        if scope is not None:
             options = ["all_tags", "some", "without_all_tags", "without_some"]
-            assert kwargs["scope"] in options, (
-                f'''"scope" cannot be "{kwargs["scope"]}", & must be set to one of: {options}'''
+            assert scope in options, (
+                f'"scope" cannot be "{scope}", & must be set to one of: {options}'
             )
 
         metadata = {
             "tags": ["sm", "configure", "admins", "roles"],
             "operation": "update_organization_sm_admins_role",
         }
-        organization_id = urllib.parse.quote(organization_id, safe="")
-        role_id = urllib.parse.quote(role_id, safe="")
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        role_id = urllib.parse.quote(str(role_id), safe="")
         resource = f"/organizations/{organization_id}/sm/admins/roles/{role_id}"
 
-        body_params = [
-            "name",
-            "scope",
-            "tags",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
-        action = {"resource": resource, "operation": "update", "body": payload}
+        payload = {}
+        if name is not None:
+            payload["name"] = name
+        if scope is not None:
+            payload["scope"] = scope
+        if tags is not None:
+            payload["tags"] = tags
+
+        action = {
+            "resource": resource,
+            "operation": "update",
+            "body": payload,
+        }
         return action
 
     def delete_organization_sm_admins_role(
@@ -130,8 +144,8 @@ class ActionBatchSm:
             "tags": ["sm", "configure", "admins", "roles"],
             "operation": "delete_organization_sm_admins_role",
         }
-        organization_id = urllib.parse.quote(organization_id, safe="")
-        role_id = urllib.parse.quote(role_id, safe="")
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        role_id = urllib.parse.quote(str(role_id), safe="")
         resource = f"/organizations/{organization_id}/sm/admins/roles/{role_id}"
 
         action = {
@@ -152,18 +166,20 @@ class ActionBatchSm:
             items: Sentry Group Policies for the Organization keyed by Network Id.
 
         """
-        kwargs = locals()
-
         metadata = {
             "tags": ["sm", "configure", "sentry", "policies", "assignments"],
             "operation": "update_organization_sm_sentry_policies_assignments",
         }
-        organization_id = urllib.parse.quote(organization_id, safe="")
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/sm/sentry/policies/assignments"
 
-        body_params = [
-            "items",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
-        action = {"resource": resource, "operation": "update", "body": payload}
+        payload = {}
+        if items is not None:
+            payload["items"] = items
+
+        action = {
+            "resource": resource,
+            "operation": "update",
+            "body": payload,
+        }
         return action

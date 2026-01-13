@@ -15,7 +15,19 @@ class Sensor:
         self._session = session
 
     def get_device_sensor_commands(
-        self, serial: str, total_pages=1, direction="next", **kwargs: Any
+        self,
+        serial: str,
+        *,
+        operations: list | None = None,
+        per_page: int | None = None,
+        starting_after: str | None = None,
+        ending_before: str | None = None,
+        sort_order: str | None = None,
+        t0: str | None = None,
+        t1: str | None = None,
+        timespan: float | None = None,
+        total_pages: str = 1,
+        direction: str = "next",
     ) -> Generator[Any, None, None]:
         """Returns a historical log of all commands.
 
@@ -23,23 +35,20 @@ class Sensor:
 
         Args:
             serial: Serial.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
-              "all" for all pages.
-            direction: direction to paginate, either "next" (default) or "prev" page.
             operations: Optional parameter to filter commands by operation. Allowed values are
               disableDownstreamPower, enableDownstreamPower, cycleDownstreamPower, and
               refreshData.
-            perPage: The number of entries per page returned. Acceptable range is 3 - 1000. Default
+            per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
               is 10.
-            startingAfter: A token used by the server to indicate the start of the page. Often this
+            starting_after: A token used by the server to indicate the start of the page. Often this
               is a timestamp or an ID but it is not limited to those. This parameter
               should not be defined by client applications. The link for the first,
               last, prev, or next page in the HTTP Link header should define it.
-            endingBefore: A token used by the server to indicate the end of the page. Often this is
+            ending_before: A token used by the server to indicate the end of the page. Often this is
               a timestamp or an ID but it is not limited to those. This parameter should
               not be defined by client applications. The link for the first, last, prev,
               or next page in the HTTP Link header should define it.
-            sortOrder: Sorted order of entries. Order options are 'ascending' and 'descending'.
+            sort_order: Sorted order of entries. Order options are 'ascending' and 'descending'.
               Default is 'descending'.
             t0: The beginning of the timespan for the data. The maximum lookback period is 30 days
               from today.
@@ -47,14 +56,15 @@ class Sensor:
             timespan: The timespan for which the information will be fetched. If specifying
               timespan, do not specify parameters t0 and t1. The value must be in
               seconds and be less than or equal to 30 days. The default is 30 days.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        kwargs.update(locals())
-
-        if "sortOrder" in kwargs:
+        if sort_order is not None:
             options = ["ascending", "descending"]
-            assert kwargs["sortOrder"] in options, (
-                f'''"sortOrder" cannot be "{kwargs["sortOrder"]}", & must be set to one of: {options}'''
+            assert sort_order in options, (
+                f'"sort_order" cannot be "{sort_order}", & must be set to one of: {options}'
             )
 
         metadata = {
@@ -64,25 +74,23 @@ class Sensor:
         serial = urllib.parse.quote(str(serial), safe="")
         resource = f"/devices/{serial}/sensor/commands"
 
-        query_params = [
-            "operations",
-            "perPage",
-            "startingAfter",
-            "endingBefore",
-            "sortOrder",
-            "t0",
-            "t1",
-            "timespan",
-        ]
-        params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
-
-        array_params = [
-            "operations",
-        ]
-        for k in kwargs:
-            if k.strip() in array_params:
-                params[f"{k.strip()}[]"] = kwargs[f"{k}"]
-                params.pop(k.strip())
+        params = {}
+        if operations is not None:
+            params["operations[]"] = operations
+        if per_page is not None:
+            params["perPage"] = per_page
+        if starting_after is not None:
+            params["startingAfter"] = starting_after
+        if ending_before is not None:
+            params["endingBefore"] = ending_before
+        if sort_order is not None:
+            params["sortOrder"] = sort_order
+        if t0 is not None:
+            params["t0"] = t0
+        if t1 is not None:
+            params["t1"] = t1
+        if timespan is not None:
+            params["timespan"] = timespan
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
@@ -100,17 +108,15 @@ class Sensor:
               so that they are immediately available in the Dashboard API.
 
         """
-        kwargs = locals()
-
-        if "operation" in kwargs:
+        if operation is not None:
             options = [
                 "cycleDownstreamPower",
                 "disableDownstreamPower",
                 "enableDownstreamPower",
                 "refreshData",
             ]
-            assert kwargs["operation"] in options, (
-                f'''"operation" cannot be "{kwargs["operation"]}", & must be set to one of: {options}'''
+            assert operation in options, (
+                f'"operation" cannot be "{operation}", & must be set to one of: {options}'
             )
 
         metadata = {
@@ -120,10 +126,9 @@ class Sensor:
         serial = urllib.parse.quote(str(serial), safe="")
         resource = f"/devices/{serial}/sensor/commands"
 
-        body_params = [
-            "operation",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if operation is not None:
+            payload["operation"] = operation
 
         return self._session.post(metadata, resource, payload)
 
@@ -166,7 +171,7 @@ class Sensor:
         return self._session.get(metadata, resource)
 
     def update_device_sensor_relationships(
-        self, serial: str, **kwargs: Any
+        self, serial: str, *, livestream: dict | None = None
     ) -> dict[str, Any] | None:
         """Assign one or more sensor roles to a given sensor or camera device.
 
@@ -179,8 +184,6 @@ class Sensor:
               also appear in alert notifications that the sensor triggers.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["sensor", "configure", "relationships"],
             "operation": "update_device_sensor_relationships",
@@ -188,10 +191,9 @@ class Sensor:
         serial = urllib.parse.quote(str(serial), safe="")
         resource = f"/devices/{serial}/sensor/relationships"
 
-        body_params = [
-            "livestream",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if livestream is not None:
+            payload["livestream"] = livestream
 
         return self._session.put(metadata, resource, payload)
 
@@ -216,7 +218,13 @@ class Sensor:
         return self._session.get(metadata, resource)
 
     def get_network_sensor_alerts_overview_by_metric(
-        self, network_id: str, **kwargs: Any
+        self,
+        network_id: str,
+        *,
+        t0: str | None = None,
+        t1: str | None = None,
+        timespan: float | None = None,
+        interval: int | None = None,
     ) -> dict[str, Any] | None:
         """Return an overview of alert occurrences over a timespan, by metric.
 
@@ -236,8 +244,6 @@ class Sensor:
               calculated if time params are provided.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["sensor", "monitor", "alerts", "overview", "byMetric"],
             "operation": "get_network_sensor_alerts_overview_by_metric",
@@ -245,13 +251,15 @@ class Sensor:
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/sensor/alerts/overview/byMetric"
 
-        query_params = [
-            "t0",
-            "t1",
-            "timespan",
-            "interval",
-        ]
-        params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
+        params = {}
+        if t0 is not None:
+            params["t0"] = t0
+        if t1 is not None:
+            params["t1"] = t1
+        if timespan is not None:
+            params["timespan"] = timespan
+        if interval is not None:
+            params["interval"] = interval
 
         return self._session.get(metadata, resource, params)
 
@@ -274,7 +282,16 @@ class Sensor:
         return self._session.get(metadata, resource)
 
     def create_network_sensor_alerts_profile(
-        self, network_id: str, name: str, conditions: list, **kwargs: Any
+        self,
+        network_id: str,
+        name: str,
+        conditions: list,
+        *,
+        schedule: dict | None = None,
+        recipients: dict | None = None,
+        serials: list | None = None,
+        include_sensor_url: bool | None = None,
+        message: str | None = None,
     ) -> dict[str, Any] | None:
         """Creates a sensor alert profile for a network.
 
@@ -283,16 +300,14 @@ class Sensor:
         Args:
             network_id: Network ID.
             name: Name of the sensor alert profile.
-            conditions: List of conditions that will cause the profile to send an alert.
             schedule: The sensor schedule to use with the alert profile.
+            conditions: List of conditions that will cause the profile to send an alert.
             recipients: List of recipients that will receive the alert.
             serials: List of device serials assigned to this sensor alert profile.
-            includeSensorUrl: Include dashboard link to sensor in messages (default: true).
+            include_sensor_url: Include dashboard link to sensor in messages (default: true).
             message: A custom message that will appear in email and text message alerts.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["sensor", "configure", "alerts", "profiles"],
             "operation": "create_network_sensor_alerts_profile",
@@ -300,27 +315,32 @@ class Sensor:
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/sensor/alerts/profiles"
 
-        body_params = [
-            "name",
-            "schedule",
-            "conditions",
-            "recipients",
-            "serials",
-            "includeSensorUrl",
-            "message",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if name is not None:
+            payload["name"] = name
+        if schedule is not None:
+            payload["schedule"] = schedule
+        if conditions is not None:
+            payload["conditions"] = conditions
+        if recipients is not None:
+            payload["recipients"] = recipients
+        if serials is not None:
+            payload["serials"] = serials
+        if include_sensor_url is not None:
+            payload["includeSensorUrl"] = include_sensor_url
+        if message is not None:
+            payload["message"] = message
 
         return self._session.post(metadata, resource, payload)
 
-    def get_network_sensor_alerts_profile(self, network_id: str, id: str) -> dict[str, Any] | None:
+    def get_network_sensor_alerts_profile(self, network_id: str, id_: str) -> dict[str, Any] | None:
         """Show details of a sensor alert profile for a network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-sensor-alerts-profile
 
         Args:
             network_id: Network ID.
-            id: ID.
+            id_: ID.
 
         """
         metadata = {
@@ -328,13 +348,23 @@ class Sensor:
             "operation": "get_network_sensor_alerts_profile",
         }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        id = urllib.parse.quote(str(id), safe="")
-        resource = f"/networks/{network_id}/sensor/alerts/profiles/{id}"
+        id_ = urllib.parse.quote(str(id_), safe="")
+        resource = f"/networks/{network_id}/sensor/alerts/profiles/{id_}"
 
         return self._session.get(metadata, resource)
 
     def update_network_sensor_alerts_profile(
-        self, network_id: str, id: str, **kwargs: Any
+        self,
+        network_id: str,
+        id_: str,
+        *,
+        name: str | None = None,
+        schedule: dict | None = None,
+        conditions: list | None = None,
+        recipients: dict | None = None,
+        serials: list | None = None,
+        include_sensor_url: bool | None = None,
+        message: str | None = None,
     ) -> dict[str, Any] | None:
         """Updates a sensor alert profile for a network.
 
@@ -342,47 +372,50 @@ class Sensor:
 
         Args:
             network_id: Network ID.
-            id: ID.
+            id_: ID.
             name: Name of the sensor alert profile.
             schedule: The sensor schedule to use with the alert profile.
             conditions: List of conditions that will cause the profile to send an alert.
             recipients: List of recipients that will receive the alert.
             serials: List of device serials assigned to this sensor alert profile.
-            includeSensorUrl: Include dashboard link to sensor in messages (default: true).
+            include_sensor_url: Include dashboard link to sensor in messages (default: true).
             message: A custom message that will appear in email and text message alerts.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["sensor", "configure", "alerts", "profiles"],
             "operation": "update_network_sensor_alerts_profile",
         }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        id = urllib.parse.quote(str(id), safe="")
-        resource = f"/networks/{network_id}/sensor/alerts/profiles/{id}"
+        id_ = urllib.parse.quote(str(id_), safe="")
+        resource = f"/networks/{network_id}/sensor/alerts/profiles/{id_}"
 
-        body_params = [
-            "name",
-            "schedule",
-            "conditions",
-            "recipients",
-            "serials",
-            "includeSensorUrl",
-            "message",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if name is not None:
+            payload["name"] = name
+        if schedule is not None:
+            payload["schedule"] = schedule
+        if conditions is not None:
+            payload["conditions"] = conditions
+        if recipients is not None:
+            payload["recipients"] = recipients
+        if serials is not None:
+            payload["serials"] = serials
+        if include_sensor_url is not None:
+            payload["includeSensorUrl"] = include_sensor_url
+        if message is not None:
+            payload["message"] = message
 
         return self._session.put(metadata, resource, payload)
 
-    def delete_network_sensor_alerts_profile(self, network_id: str, id: str) -> None:
+    def delete_network_sensor_alerts_profile(self, network_id: str, id_: str) -> None:
         """Deletes a sensor alert profile from a network.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-network-sensor-alerts-profile
 
         Args:
             network_id: Network ID.
-            id: ID.
+            id_: ID.
 
         """
         metadata = {
@@ -390,8 +423,8 @@ class Sensor:
             "operation": "delete_network_sensor_alerts_profile",
         }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        id = urllib.parse.quote(str(id), safe="")
-        resource = f"/networks/{network_id}/sensor/alerts/profiles/{id}"
+        id_ = urllib.parse.quote(str(id_), safe="")
+        resource = f"/networks/{network_id}/sensor/alerts/profiles/{id_}"
 
         return self._session.delete(metadata, resource)
 
@@ -448,8 +481,6 @@ class Sensor:
             enabled: Set to true to enable MQTT broker for sensor network.
 
         """
-        kwargs = locals()
-
         metadata = {
             "tags": ["sensor", "configure", "mqttBrokers"],
             "operation": "update_network_sensor_mqtt_broker",
@@ -458,10 +489,9 @@ class Sensor:
         mqtt_broker_id = urllib.parse.quote(str(mqtt_broker_id), safe="")
         resource = f"/networks/{network_id}/sensor/mqttBrokers/{mqtt_broker_id}"
 
-        body_params = [
-            "enabled",
-        ]
-        payload = {k.strip(): v for k, v in kwargs.items() if k.strip() in body_params}
+        payload = {}
+        if enabled is not None:
+            payload["enabled"] = enabled
 
         return self._session.put(metadata, resource, payload)
 
@@ -484,7 +514,15 @@ class Sensor:
         return self._session.get(metadata, resource)
 
     def get_organization_sensor_gateways_connections_latest(
-        self, organization_id: str, total_pages=1, direction="next", **kwargs: Any
+        self,
+        organization_id: str,
+        *,
+        sensor_serials: list | None = None,
+        per_page: int | None = None,
+        starting_after: str | None = None,
+        ending_before: str | None = None,
+        total_pages: str = 1,
+        direction: str = "next",
     ) -> Generator[Any, None, None]:
         """Returns latest sensor-gateway connectivity data.
 
@@ -492,24 +530,22 @@ class Sensor:
 
         Args:
             organization_id: Organization ID.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
-              "all" for all pages.
-            direction: direction to paginate, either "next" (default) or "prev" page.
-            sensorSerials: List of sensor serials to filter connectivity data by sensor.
-            perPage: The number of entries per page returned. Acceptable range is 3 - 1000. Default
+            sensor_serials: List of sensor serials to filter connectivity data by sensor.
+            per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
               is 1000.
-            startingAfter: A token used by the server to indicate the start of the page. Often this
+            starting_after: A token used by the server to indicate the start of the page. Often this
               is a timestamp or an ID but it is not limited to those. This parameter
               should not be defined by client applications. The link for the first,
               last, prev, or next page in the HTTP Link header should define it.
-            endingBefore: A token used by the server to indicate the end of the page. Often this is
+            ending_before: A token used by the server to indicate the end of the page. Often this is
               a timestamp or an ID but it is not limited to those. This parameter should
               not be defined by client applications. The link for the first, last, prev,
               or next page in the HTTP Link header should define it.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["sensor", "monitor", "gateways", "connections", "latest"],
             "operation": "get_organization_sensor_gateways_connections_latest",
@@ -517,26 +553,33 @@ class Sensor:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/sensor/gateways/connections/latest"
 
-        query_params = [
-            "sensorSerials",
-            "perPage",
-            "startingAfter",
-            "endingBefore",
-        ]
-        params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
-
-        array_params = [
-            "sensorSerials",
-        ]
-        for k in kwargs:
-            if k.strip() in array_params:
-                params[f"{k.strip()}[]"] = kwargs[f"{k}"]
-                params.pop(k.strip())
+        params = {}
+        if sensor_serials is not None:
+            params["sensorSerials[]"] = sensor_serials
+        if per_page is not None:
+            params["perPage"] = per_page
+        if starting_after is not None:
+            params["startingAfter"] = starting_after
+        if ending_before is not None:
+            params["endingBefore"] = ending_before
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def get_organization_sensor_readings_history(
-        self, organization_id: str, total_pages=1, direction="next", **kwargs: Any
+        self,
+        organization_id: str,
+        *,
+        per_page: int | None = None,
+        starting_after: str | None = None,
+        ending_before: str | None = None,
+        t0: str | None = None,
+        t1: str | None = None,
+        timespan: float | None = None,
+        network_ids: list | None = None,
+        serials: list | None = None,
+        metrics: list | None = None,
+        total_pages: str = 1,
+        direction: str = "next",
     ) -> Generator[Any, None, None]:
         """Return all reported readings from sensors in a given timespan, sorted by timestamp.
 
@@ -544,16 +587,13 @@ class Sensor:
 
         Args:
             organization_id: Organization ID.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
-              "all" for all pages.
-            direction: direction to paginate, either "next" (default) or "prev" page.
-            perPage: The number of entries per page returned. Acceptable range is 3 - 1000. Default
+            per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
               is 1000.
-            startingAfter: A token used by the server to indicate the start of the page. Often this
+            starting_after: A token used by the server to indicate the start of the page. Often this
               is a timestamp or an ID but it is not limited to those. This parameter
               should not be defined by client applications. The link for the first,
               last, prev, or next page in the HTTP Link header should define it.
-            endingBefore: A token used by the server to indicate the end of the page. Often this is
+            ending_before: A token used by the server to indicate the end of the page. Often this is
               a timestamp or an ID but it is not limited to those. This parameter should
               not be defined by client applications. The link for the first, last, prev,
               or next page in the HTTP Link header should define it.
@@ -563,14 +603,15 @@ class Sensor:
             timespan: The timespan for which the information will be fetched. If specifying
               timespan, do not specify parameters t0 and t1. The value must be in
               seconds and be less than or equal to 7 days. The default is 2 hours.
-            networkIds: Optional parameter to filter readings by network.
+            network_ids: Optional parameter to filter readings by network.
             serials: Optional parameter to filter readings by sensor.
             metrics: Types of sensor readings to retrieve. If no metrics are supplied, all available
               types of readings will be retrieved.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["sensor", "monitor", "readings", "history"],
             "operation": "get_organization_sensor_readings_history",
@@ -578,33 +619,40 @@ class Sensor:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/sensor/readings/history"
 
-        query_params = [
-            "perPage",
-            "startingAfter",
-            "endingBefore",
-            "t0",
-            "t1",
-            "timespan",
-            "networkIds",
-            "serials",
-            "metrics",
-        ]
-        params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
-
-        array_params = [
-            "networkIds",
-            "serials",
-            "metrics",
-        ]
-        for k in kwargs:
-            if k.strip() in array_params:
-                params[f"{k.strip()}[]"] = kwargs[f"{k}"]
-                params.pop(k.strip())
+        params = {}
+        if per_page is not None:
+            params["perPage"] = per_page
+        if starting_after is not None:
+            params["startingAfter"] = starting_after
+        if ending_before is not None:
+            params["endingBefore"] = ending_before
+        if t0 is not None:
+            params["t0"] = t0
+        if t1 is not None:
+            params["t1"] = t1
+        if timespan is not None:
+            params["timespan"] = timespan
+        if network_ids is not None:
+            params["networkIds[]"] = network_ids
+        if serials is not None:
+            params["serials[]"] = serials
+        if metrics is not None:
+            params["metrics[]"] = metrics
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def get_organization_sensor_readings_latest(
-        self, organization_id: str, total_pages=1, direction="next", **kwargs: Any
+        self,
+        organization_id: str,
+        *,
+        per_page: int | None = None,
+        starting_after: str | None = None,
+        ending_before: str | None = None,
+        network_ids: list | None = None,
+        serials: list | None = None,
+        metrics: list | None = None,
+        total_pages: str = 1,
+        direction: str = "next",
     ) -> Generator[Any, None, None]:
         """Return the latest available reading for each metric from each sensor, sorted by sensor serial.
 
@@ -612,27 +660,25 @@ class Sensor:
 
         Args:
             organization_id: Organization ID.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
-              "all" for all pages.
-            direction: direction to paginate, either "next" (default) or "prev" page.
-            perPage: The number of entries per page returned. Acceptable range is 3 - 1000. Default
+            per_page: The number of entries per page returned. Acceptable range is 3 - 1000. Default
               is 1000.
-            startingAfter: A token used by the server to indicate the start of the page. Often this
+            starting_after: A token used by the server to indicate the start of the page. Often this
               is a timestamp or an ID but it is not limited to those. This parameter
               should not be defined by client applications. The link for the first,
               last, prev, or next page in the HTTP Link header should define it.
-            endingBefore: A token used by the server to indicate the end of the page. Often this is
+            ending_before: A token used by the server to indicate the end of the page. Often this is
               a timestamp or an ID but it is not limited to those. This parameter should
               not be defined by client applications. The link for the first, last, prev,
               or next page in the HTTP Link header should define it.
-            networkIds: Optional parameter to filter readings by network.
+            network_ids: Optional parameter to filter readings by network.
             serials: Optional parameter to filter readings by sensor.
             metrics: Types of sensor readings to retrieve. If no metrics are supplied, all available
               types of readings will be retrieved.
+            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        kwargs.update(locals())
-
         metadata = {
             "tags": ["sensor", "monitor", "readings", "latest"],
             "operation": "get_organization_sensor_readings_latest",
@@ -640,24 +686,18 @@ class Sensor:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/sensor/readings/latest"
 
-        query_params = [
-            "perPage",
-            "startingAfter",
-            "endingBefore",
-            "networkIds",
-            "serials",
-            "metrics",
-        ]
-        params = {k.strip(): v for k, v in kwargs.items() if k.strip() in query_params}
-
-        array_params = [
-            "networkIds",
-            "serials",
-            "metrics",
-        ]
-        for k in kwargs:
-            if k.strip() in array_params:
-                params[f"{k.strip()}[]"] = kwargs[f"{k}"]
-                params.pop(k.strip())
+        params = {}
+        if per_page is not None:
+            params["perPage"] = per_page
+        if starting_after is not None:
+            params["startingAfter"] = starting_after
+        if ending_before is not None:
+            params["endingBefore"] = ending_before
+        if network_ids is not None:
+            params["networkIds[]"] = network_ids
+        if serials is not None:
+            params["serials[]"] = serials
+        if metrics is not None:
+            params["metrics[]"] = metrics
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
