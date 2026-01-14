@@ -49,9 +49,9 @@ from .config import (
 from .exceptions import APIKeyError
 from .rest_session import RestSession
 
-if sys.version_info < (3, 10):  # noqa: UP036
+if sys.version_info < (3, 11):  # noqa: UP036
     raise RuntimeError(
-        "Python 3.10 or higher is required. "
+        "Python 3.11 or higher is required. "
         f"You are using Python {sys.version_info.major}.{sys.version_info.minor}."
     )
 

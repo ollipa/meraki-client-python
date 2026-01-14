@@ -1,18 +1,18 @@
 """A script that generates the Meraki Python library using the public OpenAPI specification."""
 
 import argparse
-import asyncio
+import json
 import os
 import re
 import shutil
 import sys
 import textwrap
+import tomllib
 from pathlib import Path
 from typing import Any
 
 import httpx
 import jinja2
-import tomllib
 
 # Get the directory where this script is located
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -107,14 +107,6 @@ def format_param_description(name: str, description: str) -> str:
         subsequent_indent=" " * (INDENT_WIDTH + 2),
     )
     return wrapper.fill(first_line)
-
-
-def get_client_version() -> str:
-    """Read the client version from pyproject.toml."""
-    pyproject_path = PROJECT_ROOT / "pyproject.toml"
-    with pyproject_path.open("rb") as f:
-        pyproject = tomllib.load(f)
-    return pyproject["project"]["version"]
 
 
 # Helper function to resolve $ref references in OASv3
@@ -384,7 +376,7 @@ def parse_params(
     return return_params(operation, params, param_filters)
 
 
-async def generate_library(spec: dict[str, Any], version_number: str, api_version: str) -> None:  # noqa: PLR0912, PLR0915
+def generate_library(spec: dict[str, Any], version_number: str, api_version: str) -> None:  # noqa: PLR0912, PLR0915
     """Generate the Meraki Python library using the public OpenAPI specification."""
     # Supported scopes list will include organizations, networks, devices, and all product types.
     supported_scopes = [
@@ -450,7 +442,7 @@ async def generate_library(spec: dict[str, Any], version_number: str, api_versio
 
         # Update versions in __init__.py
         if file == "__init__.py":
-            with open(dst, encoding="utf-8") as f:  # noqa: ASYNC230
+            with open(dst, encoding="utf-8") as f:
                 contents = f.read()
             # Update __version__
             start = contents.find("__version__ = ")
@@ -460,7 +452,7 @@ async def generate_library(spec: dict[str, Any], version_number: str, api_versio
             start = contents.find("__api_version__ = ")
             end = contents.find("\n", start)
             contents = f"{contents[:start]}__api_version__ = '{api_version}'{contents[end:]}"
-            with open(dst, "w", encoding="utf-8") as f:  # noqa: ASYNC230
+            with open(dst, "w", encoding="utf-8") as f:
                 f.write(contents)
 
     # Organize data from OpenAPI specification
@@ -504,10 +496,10 @@ async def generate_library(spec: dict[str, Any], version_number: str, api_versio
         module_name = to_snake_case(scope)
 
         # Generate the standard module
-        with open(  # noqa: ASYNC230
+        with open(
             f"{OUTPUT_DIR}/api/{module_name}.py", "w", encoding="utf-8", newline=None
         ) as output:
-            with open(  # noqa: ASYNC230
+            with open(
                 os.path.join(TEMPLATE_DIR, "class_template.jinja2"),
                 encoding="utf-8",
                 newline=None,
@@ -521,10 +513,10 @@ async def generate_library(spec: dict[str, Any], version_number: str, api_versio
                 )
 
             # Generate Asyncio API libraries
-            async_output = open(  # noqa: ASYNC230, SIM115
+            async_output = open(  # noqa:  SIM115
                 f"{OUTPUT_DIR}/aio/api/{module_name}.py", "w", encoding="utf-8", newline=None
             )
-            with open(  # noqa: ASYNC230
+            with open(
                 os.path.join(TEMPLATE_DIR, "async_class_template.jinja2"),
                 encoding="utf-8",
                 newline=None,
@@ -538,13 +530,13 @@ async def generate_library(spec: dict[str, Any], version_number: str, api_versio
                 )
 
             # Generate Action Batch API libraries
-            batch_output = open(  # noqa: ASYNC230, SIM115
+            batch_output = open(  # noqa:  SIM115
                 f"{OUTPUT_DIR}/api/batch/{module_name}.py",
                 "w",
                 encoding="utf-8",
                 newline=None,
             )
-            with open(  # noqa: ASYNC230
+            with open(
                 os.path.join(TEMPLATE_DIR, "batch_class_template.jinja2"),
                 encoding="utf-8",
                 newline=None,
@@ -681,7 +673,7 @@ async def generate_library(spec: dict[str, Any], version_number: str, api_versio
                         return_type = "dict[str, Any] | None"
 
                     # Add function to files
-                    with open(  # noqa: ASYNC230
+                    with open(
                         os.path.join(TEMPLATE_DIR, "function_template.jinja2"),
                         encoding="utf-8",
                         newline=None,
@@ -857,7 +849,7 @@ async def generate_library(spec: dict[str, Any], version_number: str, api_versio
                             )
 
 
-async def main() -> None:
+def main() -> None:
     """Main function to parse command line arguments and generate the library."""
     parser = argparse.ArgumentParser(
         description="Generate the Meraki Python library using the public OpenAPI specification."
@@ -879,19 +871,53 @@ async def main() -> None:
     print(f"Client version: {client_version}")
     print(f"API version: {api_version}")
 
-    # Retrieve OpenAPI specification
-    async with httpx.AsyncClient() as client:
-        try:
-            response = await client.get(
-                "https://raw.githubusercontent.com/meraki/openapi"
-                f"/refs/tags/{api_version}/openapi/spec3.json"
-            )
-            response.raise_for_status()
-        except httpx.HTTPError as e:
-            sys.exit(f"Error retrieving OpenAPI specification: {e}")
+    spec = get_openapi_specification(api_version)
+    generate_library(spec, client_version, api_version)
 
-    await generate_library(response.json(), client_version, api_version)
+
+def get_client_version() -> str:
+    """Read the client version from pyproject.toml."""
+    pyproject_path = PROJECT_ROOT / "pyproject.toml"
+    with pyproject_path.open("rb") as f:
+        pyproject = tomllib.load(f)
+    return pyproject["project"]["version"]
+
+
+def get_openapi_specification(api_version: str) -> dict[str, Any]:
+    """Retrieve the OpenAPI specification from GitHub repository.
+
+    Caches the specification locally to avoid unnecessary network requests.
+
+    Args:
+        api_version: The API version to retrieve the specification for.
+
+    Returns:
+        The OpenAPI specification as a dictionary.
+
+    """
+    spec_path = PROJECT_ROOT / ".cache" / f"spec-{api_version}.json"
+    if spec_path.exists():
+        print("Using cached OpenAPI specification...")
+        with spec_path.open("r") as f:
+            return json.load(f)
+
+    spec_path.parent.mkdir(parents=True, exist_ok=True)
+
+    print("Downloading OpenAPI specification from GitHub repository...")
+    try:
+        with httpx.stream(
+            "GET",
+            f"https://raw.githubusercontent.com/meraki/openapi/refs/tags/{api_version}/openapi/spec3.json",
+        ) as response:
+            response.raise_for_status()
+            with spec_path.open("w") as f:
+                for chunk in response.iter_bytes():
+                    f.write(chunk.decode("utf-8"))
+    except httpx.HTTPError as e:
+        sys.exit(f"Error retrieving OpenAPI specification: {e}")
+
+    return json.load(spec_path.open("r"))
 
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    main()
