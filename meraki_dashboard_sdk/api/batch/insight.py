@@ -12,10 +12,10 @@ class ActionBatchInsight:
 
     def create_organization_insight_monitored_media_server(
         self,
+        *,
         organization_id: str,
         name: str,
         address: str,
-        *,
         best_effort_monitoring_enabled: bool | None = None,
     ) -> dict[str, Any]:
         """Add a media server to be monitored for this organization.
@@ -30,10 +30,6 @@ class ActionBatchInsight:
               ICMP pings, the nearest hop will be used in its stead.
 
         """
-        metadata = {
-            "tags": ["insight", "configure", "monitoredMediaServers"],
-            "operation": "create_organization_insight_monitored_media_server",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/insight/monitoredMediaServers"
 
@@ -50,13 +46,13 @@ class ActionBatchInsight:
             "operation": "create",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def update_organization_insight_monitored_media_server(
         self,
+        *,
         organization_id: str,
         monitored_media_server_id: str,
-        *,
         name: str | None = None,
         address: str | None = None,
         best_effort_monitoring_enabled: bool | None = None,
@@ -74,10 +70,6 @@ class ActionBatchInsight:
               ICMP pings, the nearest hop will be used in its stead.
 
         """
-        metadata = {
-            "tags": ["insight", "configure", "monitoredMediaServers"],
-            "operation": "update_organization_insight_monitored_media_server",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         monitored_media_server_id = urllib.parse.quote(str(monitored_media_server_id), safe="")
         resource = f"/organizations/{organization_id}/insight/monitoredMediaServers/{monitored_media_server_id}"
@@ -95,10 +87,10 @@ class ActionBatchInsight:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def delete_organization_insight_monitored_media_server(
-        self, organization_id: str, monitored_media_server_id: str
+        self, *, organization_id: str, monitored_media_server_id: str
     ) -> dict[str, Any]:
         """Delete a monitored media server from this organization.
 
@@ -109,10 +101,6 @@ class ActionBatchInsight:
             monitored_media_server_id: Monitored media server ID.
 
         """
-        metadata = {
-            "tags": ["insight", "configure", "monitoredMediaServers"],
-            "operation": "delete_organization_insight_monitored_media_server",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         monitored_media_server_id = urllib.parse.quote(str(monitored_media_server_id), safe="")
         resource = f"/organizations/{organization_id}/insight/monitoredMediaServers/{monitored_media_server_id}"
@@ -121,4 +109,4 @@ class ActionBatchInsight:
             "resource": resource,
             "operation": "destroy",
         }
-        return action
+        return action  # noqa: RET504

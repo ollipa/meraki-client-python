@@ -11,7 +11,7 @@ class ActionBatchNac:
         pass
 
     def create_organization_nac_certificates_authorities_crl(
-        self, organization_id: str, ca_id: str, content: str, is_delta: bool
+        self, *, organization_id: str, ca_id: str, content: str, is_delta: bool
     ) -> dict[str, Any]:
         """Create a new CRL (either base or delta) for an existing CA.
 
@@ -24,10 +24,6 @@ class ActionBatchNac:
             is_delta: Whether it's a delta CRL or not.
 
         """
-        metadata = {
-            "tags": ["nac", "configure", "certificates", "authorities", "crls"],
-            "operation": "create_organization_nac_certificates_authorities_crl",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/nac/certificates/authorities/crls"
 
@@ -44,4 +40,4 @@ class ActionBatchNac:
             "operation": "create",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504

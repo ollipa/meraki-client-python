@@ -12,13 +12,13 @@ class ActionBatchCampusGateway:
 
     def create_network_campus_gateway_cluster(
         self,
+        *,
         network_id: str,
         name: str,
         uplinks: list,
         tunnels: list,
         nameservers: dict,
         port_channels: list,
-        *,
         devices: list | None = None,
         notes: str | None = None,
     ) -> dict[str, Any]:
@@ -38,10 +38,6 @@ class ActionBatchCampusGateway:
             notes: Notes about cluster with max size of 511 characters allowed.
 
         """
-        metadata = {
-            "tags": ["campusGateway", "configure", "clusters"],
-            "operation": "create_network_campus_gateway_cluster",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/campusGateway/clusters"
 
@@ -66,13 +62,13 @@ class ActionBatchCampusGateway:
             "operation": "create",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def update_network_campus_gateway_cluster(
         self,
+        *,
         network_id: str,
         cluster_id: str,
-        *,
         name: str | None = None,
         uplinks: list | None = None,
         tunnels: list | None = None,
@@ -98,10 +94,6 @@ class ActionBatchCampusGateway:
             notes: Notes about cluster with max size of 511 characters allowed.
 
         """
-        metadata = {
-            "tags": ["campusGateway", "configure", "clusters"],
-            "operation": "update_network_campus_gateway_cluster",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         cluster_id = urllib.parse.quote(str(cluster_id), safe="")
         resource = f"/networks/{network_id}/campusGateway/clusters/{cluster_id}"
@@ -127,4 +119,4 @@ class ActionBatchCampusGateway:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504

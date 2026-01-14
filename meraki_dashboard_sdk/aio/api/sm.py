@@ -15,7 +15,7 @@ class AsyncSm:
         self._session = session
 
     def create_network_sm_bypass_activation_lock_attempt(
-        self, network_id: str, ids: list
+        self, *, network_id: str, ids: list
     ) -> dict[str, Any] | None:
         """Bypass activation lock attempt.
 
@@ -40,7 +40,7 @@ class AsyncSm:
         return self._session.post(metadata, resource, payload)
 
     def get_network_sm_bypass_activation_lock_attempt(
-        self, network_id: str, attempt_id: str
+        self, *, network_id: str, attempt_id: str
     ) -> dict[str, Any] | None:
         """Bypass activation lock attempt status.
 
@@ -63,8 +63,8 @@ class AsyncSm:
 
     def get_network_sm_devices(
         self,
-        network_id: str,
         *,
+        network_id: str,
         fields: list | None = None,
         wifi_macs: list | None = None,
         serials: list | None = None,
@@ -149,8 +149,8 @@ class AsyncSm:
 
     def checkin_network_sm_devices(
         self,
-        network_id: str,
         *,
+        network_id: str,
         wifi_macs: list | None = None,
         ids: list | None = None,
         serials: list | None = None,
@@ -190,9 +190,9 @@ class AsyncSm:
 
     def update_network_sm_devices_fields(
         self,
+        *,
         network_id: str,
         device_fields: dict,
-        *,
         wifi_mac: str | None = None,
         id_: str | None = None,
         serial: str | None = None,
@@ -230,8 +230,8 @@ class AsyncSm:
 
     def lock_network_sm_devices(
         self,
-        network_id: str,
         *,
+        network_id: str,
         wifi_macs: list | None = None,
         ids: list | None = None,
         serials: list | None = None,
@@ -273,10 +273,10 @@ class AsyncSm:
 
     def modify_network_sm_devices_tags(
         self,
+        *,
         network_id: str,
         tags: list,
         update_action: str,
-        *,
         wifi_macs: list | None = None,
         ids: list | None = None,
         serials: list | None = None,
@@ -323,9 +323,9 @@ class AsyncSm:
 
     def move_network_sm_devices(
         self,
+        *,
         network_id: str,
         new_network: str,
-        *,
         wifi_macs: list | None = None,
         ids: list | None = None,
         serials: list | None = None,
@@ -365,8 +365,8 @@ class AsyncSm:
 
     def reboot_network_sm_devices(
         self,
-        network_id: str,
         *,
+        network_id: str,
         wifi_macs: list | None = None,
         ids: list | None = None,
         serials: list | None = None,
@@ -425,8 +425,8 @@ class AsyncSm:
 
     def shutdown_network_sm_devices(
         self,
-        network_id: str,
         *,
+        network_id: str,
         wifi_macs: list | None = None,
         ids: list | None = None,
         serials: list | None = None,
@@ -466,8 +466,8 @@ class AsyncSm:
 
     def wipe_network_sm_devices(
         self,
-        network_id: str,
         *,
+        network_id: str,
         wifi_mac: str | None = None,
         id_: str | None = None,
         serial: str | None = None,
@@ -503,7 +503,7 @@ class AsyncSm:
         return self._session.post(metadata, resource, payload)
 
     def get_network_sm_device_cellular_usage_history(
-        self, network_id: str, device_id: str
+        self, *, network_id: str, device_id: str
     ) -> dict[str, Any] | None:
         """Return the client's daily cellular data usage history.
 
@@ -524,7 +524,9 @@ class AsyncSm:
 
         return self._session.get(metadata, resource)
 
-    def get_network_sm_device_certs(self, network_id: str, device_id: str) -> dict[str, Any] | None:
+    def get_network_sm_device_certs(
+        self, *, network_id: str, device_id: str
+    ) -> dict[str, Any] | None:
         """List the certs on a device.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-sm-device-certs
@@ -546,9 +548,9 @@ class AsyncSm:
 
     def get_network_sm_device_connectivity(
         self,
+        *,
         network_id: str,
         device_id: str,
-        *,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
@@ -597,9 +599,9 @@ class AsyncSm:
 
     def get_network_sm_device_desktop_logs(
         self,
+        *,
         network_id: str,
         device_id: str,
-        *,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
@@ -648,9 +650,9 @@ class AsyncSm:
 
     def get_network_sm_device_device_command_logs(
         self,
+        *,
         network_id: str,
         device_id: str,
-        *,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
@@ -698,7 +700,7 @@ class AsyncSm:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def get_network_sm_device_device_profiles(
-        self, network_id: str, device_id: str
+        self, *, network_id: str, device_id: str
     ) -> dict[str, Any] | None:
         """Get the installed profiles associated with a device.
 
@@ -720,7 +722,7 @@ class AsyncSm:
         return self._session.get(metadata, resource)
 
     def install_network_sm_device_apps(
-        self, network_id: str, device_id: str, app_ids: list, *, force: bool | None = None
+        self, *, network_id: str, device_id: str, app_ids: list, force: bool | None = None
     ) -> dict[str, Any] | None:
         """Install applications on a device.
 
@@ -752,7 +754,7 @@ class AsyncSm:
         return self._session.post(metadata, resource, payload)
 
     def get_network_sm_device_network_adapters(
-        self, network_id: str, device_id: str
+        self, *, network_id: str, device_id: str
     ) -> dict[str, Any] | None:
         """List the network adapters of a device.
 
@@ -775,9 +777,9 @@ class AsyncSm:
 
     def get_network_sm_device_performance_history(
         self,
+        *,
         network_id: str,
         device_id: str,
-        *,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
@@ -825,7 +827,7 @@ class AsyncSm:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def refresh_network_sm_device_details(
-        self, network_id: str, device_id: str
+        self, *, network_id: str, device_id: str
     ) -> dict[str, Any] | None:
         """Refresh the details of a device.
 
@@ -847,7 +849,7 @@ class AsyncSm:
         return self._session.post(metadata, resource)
 
     def get_network_sm_device_restrictions(
-        self, network_id: str, device_id: str
+        self, *, network_id: str, device_id: str
     ) -> dict[str, Any] | None:
         """List the restrictions on a device.
 
@@ -869,7 +871,7 @@ class AsyncSm:
         return self._session.get(metadata, resource)
 
     def get_network_sm_device_security_centers(
-        self, network_id: str, device_id: str
+        self, *, network_id: str, device_id: str
     ) -> dict[str, Any] | None:
         """List the security centers on a device.
 
@@ -891,7 +893,7 @@ class AsyncSm:
         return self._session.get(metadata, resource)
 
     def get_network_sm_device_softwares(
-        self, network_id: str, device_id: str
+        self, *, network_id: str, device_id: str
     ) -> dict[str, Any] | None:
         """Get a list of softwares associated with a device.
 
@@ -912,7 +914,9 @@ class AsyncSm:
 
         return self._session.get(metadata, resource)
 
-    def unenroll_network_sm_device(self, network_id: str, device_id: str) -> dict[str, Any] | None:
+    def unenroll_network_sm_device(
+        self, *, network_id: str, device_id: str
+    ) -> dict[str, Any] | None:
         """Unenroll a device.
 
         https://developer.cisco.com/meraki/api-v1/#!unenroll-network-sm-device
@@ -933,7 +937,7 @@ class AsyncSm:
         return self._session.post(metadata, resource)
 
     def uninstall_network_sm_device_apps(
-        self, network_id: str, device_id: str, app_ids: list
+        self, *, network_id: str, device_id: str, app_ids: list
     ) -> dict[str, Any] | None:
         """Uninstall applications on a device.
 
@@ -960,7 +964,7 @@ class AsyncSm:
         return self._session.post(metadata, resource, payload)
 
     def get_network_sm_device_wlan_lists(
-        self, network_id: str, device_id: str
+        self, *, network_id: str, device_id: str
     ) -> dict[str, Any] | None:
         """List the saved SSID names on a device.
 
@@ -982,7 +986,7 @@ class AsyncSm:
         return self._session.get(metadata, resource)
 
     def get_network_sm_profiles(
-        self, network_id: str, *, payload_types: list | None = None
+        self, *, network_id: str, payload_types: list | None = None
     ) -> dict[str, Any] | None:
         """List all profiles in a network.
 
@@ -1004,7 +1008,7 @@ class AsyncSm:
         return self._session.get(metadata, resource, params)
 
     def get_network_sm_target_groups(
-        self, network_id: str, *, with_details: bool | None = None
+        self, *, network_id: str, with_details: bool | None = None
     ) -> dict[str, Any] | None:
         """List the target groups in this network.
 
@@ -1030,7 +1034,7 @@ class AsyncSm:
         return self._session.get(metadata, resource, params)
 
     def create_network_sm_target_group(
-        self, network_id: str, *, name: str | None = None, scope: str | None = None
+        self, *, network_id: str, name: str | None = None, scope: str | None = None
     ) -> dict[str, Any] | None:
         """Add a target group.
 
@@ -1060,7 +1064,7 @@ class AsyncSm:
         return self._session.post(metadata, resource, payload)
 
     def get_network_sm_target_group(
-        self, network_id: str, target_group_id: str, *, with_details: bool | None = None
+        self, *, network_id: str, target_group_id: str, with_details: bool | None = None
     ) -> dict[str, Any] | None:
         """Return a target group.
 
@@ -1089,9 +1093,9 @@ class AsyncSm:
 
     def update_network_sm_target_group(
         self,
+        *,
         network_id: str,
         target_group_id: str,
-        *,
         name: str | None = None,
         scope: str | None = None,
     ) -> dict[str, Any] | None:
@@ -1124,7 +1128,7 @@ class AsyncSm:
 
         return self._session.put(metadata, resource, payload)
 
-    def delete_network_sm_target_group(self, network_id: str, target_group_id: str) -> None:
+    def delete_network_sm_target_group(self, *, network_id: str, target_group_id: str) -> None:
         """Delete a target group from a network.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-network-sm-target-group
@@ -1146,8 +1150,8 @@ class AsyncSm:
 
     def get_network_sm_trusted_access_configs(
         self,
-        network_id: str,
         *,
+        network_id: str,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
@@ -1194,8 +1198,8 @@ class AsyncSm:
 
     def get_network_sm_user_access_devices(
         self,
-        network_id: str,
         *,
+        network_id: str,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
@@ -1241,7 +1245,7 @@ class AsyncSm:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def delete_network_sm_user_access_device(
-        self, network_id: str, user_access_device_id: str
+        self, *, network_id: str, user_access_device_id: str
     ) -> None:
         """Delete a User Access Device.
 
@@ -1264,8 +1268,8 @@ class AsyncSm:
 
     def get_network_sm_users(
         self,
-        network_id: str,
         *,
+        network_id: str,
         ids: list | None = None,
         usernames: list | None = None,
         emails: list | None = None,
@@ -1301,7 +1305,7 @@ class AsyncSm:
         return self._session.get(metadata, resource, params)
 
     def get_network_sm_user_device_profiles(
-        self, network_id: str, user_id: str
+        self, *, network_id: str, user_id: str
     ) -> dict[str, Any] | None:
         """Get the profiles associated with a user.
 
@@ -1322,7 +1326,9 @@ class AsyncSm:
 
         return self._session.get(metadata, resource)
 
-    def get_network_sm_user_softwares(self, network_id: str, user_id: str) -> dict[str, Any] | None:
+    def get_network_sm_user_softwares(
+        self, *, network_id: str, user_id: str
+    ) -> dict[str, Any] | None:
         """Get a list of softwares associated with a user.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-sm-user-softwares
@@ -1344,8 +1350,8 @@ class AsyncSm:
 
     def get_organization_sm_admins_roles(
         self,
-        organization_id: str,
         *,
+        organization_id: str,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
@@ -1391,7 +1397,7 @@ class AsyncSm:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def create_organization_sm_admins_role(
-        self, organization_id: str, name: str, *, scope: str | None = None, tags: list | None = None
+        self, *, organization_id: str, name: str, scope: str | None = None, tags: list | None = None
     ) -> dict[str, Any] | None:
         """Create a Limited Access Role.
 
@@ -1428,7 +1434,7 @@ class AsyncSm:
         return self._session.post(metadata, resource, payload)
 
     def get_organization_sm_admins_role(
-        self, organization_id: str, role_id: str
+        self, *, organization_id: str, role_id: str
     ) -> dict[str, Any] | None:
         """Return a Limited Access Role.
 
@@ -1451,9 +1457,9 @@ class AsyncSm:
 
     def update_organization_sm_admins_role(
         self,
+        *,
         organization_id: str,
         role_id: str,
-        *,
         name: str | None = None,
         scope: str | None = None,
         tags: list | None = None,
@@ -1494,7 +1500,7 @@ class AsyncSm:
 
         return self._session.put(metadata, resource, payload)
 
-    def delete_organization_sm_admins_role(self, organization_id: str, role_id: str) -> None:
+    def delete_organization_sm_admins_role(self, *, organization_id: str, role_id: str) -> None:
         """Delete a Limited Access Role.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-sm-admins-role
@@ -1514,7 +1520,7 @@ class AsyncSm:
 
         return self._session.delete(metadata, resource)
 
-    def get_organization_sm_apns_cert(self, organization_id: str) -> dict[str, Any] | None:
+    def get_organization_sm_apns_cert(self, *, organization_id: str) -> dict[str, Any] | None:
         """Get the organization's APNS certificate.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-sm-apns-cert
@@ -1533,7 +1539,7 @@ class AsyncSm:
         return self._session.get(metadata, resource)
 
     def update_organization_sm_sentry_policies_assignments(
-        self, organization_id: str, items: list
+        self, *, organization_id: str, items: list
     ) -> dict[str, Any] | None:
         """Update an Organizations Sentry Policies using the provided list.
 
@@ -1559,8 +1565,8 @@ class AsyncSm:
 
     def get_organization_sm_sentry_policies_assignments_by_network(
         self,
-        organization_id: str,
         *,
+        organization_id: str,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
@@ -1609,7 +1615,7 @@ class AsyncSm:
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
-    def get_organization_sm_vpp_accounts(self, organization_id: str) -> dict[str, Any] | None:
+    def get_organization_sm_vpp_accounts(self, *, organization_id: str) -> dict[str, Any] | None:
         """List the VPP accounts in the organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-sm-vpp-accounts
@@ -1628,7 +1634,7 @@ class AsyncSm:
         return self._session.get(metadata, resource)
 
     def get_organization_sm_vpp_account(
-        self, organization_id: str, vpp_account_id: str
+        self, *, organization_id: str, vpp_account_id: str
     ) -> dict[str, Any] | None:
         """Get a hash containing the unparsed token of the VPP account with the given ID.
 

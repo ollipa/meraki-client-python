@@ -11,7 +11,7 @@ class ActionBatchWireless:
         pass
 
     def update_device_wireless_alternate_management_interface_ipv6(
-        self, serial: str, *, addresses: list | None = None
+        self, *, serial: str, addresses: list | None = None
     ) -> dict[str, Any]:
         """Update alternate management interface IPv6 address.
 
@@ -22,10 +22,6 @@ class ActionBatchWireless:
             addresses: configured alternate management interface addresses.
 
         """
-        metadata = {
-            "tags": ["wireless", "configure", "alternateManagementInterface", "ipv6"],
-            "operation": "update_device_wireless_alternate_management_interface_ipv6",
-        }
         serial = urllib.parse.quote(str(serial), safe="")
         resource = f"/devices/{serial}/wireless/alternateManagementInterface/ipv6"
 
@@ -38,12 +34,12 @@ class ActionBatchWireless:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def update_device_wireless_bluetooth_settings(
         self,
-        serial: str,
         *,
+        serial: str,
         uuid: str | None = None,
         major: int | None = None,
         minor: int | None = None,
@@ -62,10 +58,6 @@ class ActionBatchWireless:
               Dashboard's automatically generated value.
 
         """
-        metadata = {
-            "tags": ["wireless", "configure", "bluetooth", "settings"],
-            "operation": "update_device_wireless_bluetooth_settings",
-        }
         serial = urllib.parse.quote(str(serial), safe="")
         resource = f"/devices/{serial}/wireless/bluetooth/settings"
 
@@ -82,10 +74,10 @@ class ActionBatchWireless:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def update_device_wireless_electronic_shelf_label(
-        self, serial: str, *, channel: str | None = None, enabled: bool | None = None
+        self, *, serial: str, channel: str | None = None, enabled: bool | None = None
     ) -> dict[str, Any]:
         """Update the ESL settings of a device.
 
@@ -98,10 +90,6 @@ class ActionBatchWireless:
             enabled: Turn ESL features on and off for this device.
 
         """
-        metadata = {
-            "tags": ["wireless", "configure", "electronicShelfLabel"],
-            "operation": "update_device_wireless_electronic_shelf_label",
-        }
         serial = urllib.parse.quote(str(serial), safe="")
         resource = f"/devices/{serial}/wireless/electronicShelfLabel"
 
@@ -116,12 +104,12 @@ class ActionBatchWireless:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def update_device_wireless_radio_settings(
         self,
-        serial: str,
         *,
+        serial: str,
         rf_profile_id: str | None = None,
         two_four_ghz_settings: dict | None = None,
         five_ghz_settings: dict | None = None,
@@ -141,10 +129,6 @@ class ActionBatchWireless:
             five_ghz_settings: Manual radio settings for 5 GHz.
 
         """
-        metadata = {
-            "tags": ["wireless", "configure", "radio", "settings"],
-            "operation": "update_device_wireless_radio_settings",
-        }
         serial = urllib.parse.quote(str(serial), safe="")
         resource = f"/devices/{serial}/wireless/radio/settings"
 
@@ -161,10 +145,10 @@ class ActionBatchWireless:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def create_network_wireless_air_marshal_rule(
-        self, network_id: str, type_: str, match: dict
+        self, *, network_id: str, type_: str, match: dict
     ) -> dict[str, Any]:
         """Creates a new rule.
 
@@ -182,10 +166,6 @@ class ActionBatchWireless:
                 f'"type_" cannot be "{type_}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["wireless", "configure", "airMarshal", "rules"],
-            "operation": "create_network_wireless_air_marshal_rule",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/wireless/airMarshal/rules"
 
@@ -200,10 +180,10 @@ class ActionBatchWireless:
             "operation": "create",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def update_network_wireless_air_marshal_rule(
-        self, network_id: str, rule_id: str, *, type_: str | None = None, match: dict | None = None
+        self, *, network_id: str, rule_id: str, type_: str | None = None, match: dict | None = None
     ) -> dict[str, Any]:
         """Update a rule.
 
@@ -222,10 +202,6 @@ class ActionBatchWireless:
                 f'"type_" cannot be "{type_}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["wireless", "configure", "airMarshal", "rules"],
-            "operation": "update_network_wireless_air_marshal_rule",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         rule_id = urllib.parse.quote(str(rule_id), safe="")
         resource = f"/networks/{network_id}/wireless/airMarshal/rules/{rule_id}"
@@ -241,10 +217,10 @@ class ActionBatchWireless:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def delete_network_wireless_air_marshal_rule(
-        self, network_id: str, rule_id: str
+        self, *, network_id: str, rule_id: str
     ) -> dict[str, Any]:
         """Delete an Air Marshal rule.
 
@@ -255,10 +231,6 @@ class ActionBatchWireless:
             rule_id: Rule ID.
 
         """
-        metadata = {
-            "tags": ["wireless", "configure", "airMarshal", "rules"],
-            "operation": "delete_network_wireless_air_marshal_rule",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         rule_id = urllib.parse.quote(str(rule_id), safe="")
         resource = f"/networks/{network_id}/wireless/airMarshal/rules/{rule_id}"
@@ -267,10 +239,10 @@ class ActionBatchWireless:
             "resource": resource,
             "operation": "destroy",
         }
-        return action
+        return action  # noqa: RET504
 
     def update_network_wireless_air_marshal_settings(
-        self, network_id: str, default_policy: str
+        self, *, network_id: str, default_policy: str
     ) -> dict[str, Any]:
         """Updates Air Marshal settings.
 
@@ -287,10 +259,6 @@ class ActionBatchWireless:
                 f'"default_policy" cannot be "{default_policy}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["wireless", "configure", "airMarshal", "settings"],
-            "operation": "update_network_wireless_air_marshal_settings",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/wireless/airMarshal/settings"
 
@@ -303,12 +271,12 @@ class ActionBatchWireless:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def update_network_wireless_alternate_management_interface(
         self,
-        network_id: str,
         *,
+        network_id: str,
         enabled: bool | None = None,
         vlan_id: int | None = None,
         protocols: list | None = None,
@@ -331,10 +299,6 @@ class ActionBatchWireless:
               assignments.
 
         """
-        metadata = {
-            "tags": ["wireless", "configure", "alternateManagementInterface"],
-            "operation": "update_network_wireless_alternate_management_interface",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/wireless/alternateManagementInterface"
 
@@ -353,10 +317,10 @@ class ActionBatchWireless:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def update_network_wireless_billing(
-        self, network_id: str, *, currency: str | None = None, plans: list | None = None
+        self, *, network_id: str, currency: str | None = None, plans: list | None = None
     ) -> dict[str, Any]:
         """Update the billing settings.
 
@@ -368,10 +332,6 @@ class ActionBatchWireless:
             plans: Array of billing plans in the node group. (Can configure a maximum of 5).
 
         """
-        metadata = {
-            "tags": ["wireless", "configure", "billing"],
-            "operation": "update_network_wireless_billing",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/wireless/billing"
 
@@ -386,12 +346,12 @@ class ActionBatchWireless:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def update_network_wireless_electronic_shelf_label(
         self,
-        network_id: str,
         *,
+        network_id: str,
         hostname: str | None = None,
         enabled: bool | None = None,
         mode: str | None = None,
@@ -412,10 +372,6 @@ class ActionBatchWireless:
             options = ["Bluetooth", "high frequency"]
             assert mode in options, f'"mode" cannot be "{mode}", & must be set to one of: {options}'
 
-        metadata = {
-            "tags": ["wireless", "configure", "electronicShelfLabel"],
-            "operation": "update_network_wireless_electronic_shelf_label",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/wireless/electronicShelfLabel"
 
@@ -432,10 +388,10 @@ class ActionBatchWireless:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def create_network_wireless_ethernet_ports_profile(
-        self, network_id: str, name: str, ports: list, *, usb_ports: list | None = None
+        self, *, network_id: str, name: str, ports: list, usb_ports: list | None = None
     ) -> dict[str, Any]:
         """Create an AP port profile.
 
@@ -448,10 +404,6 @@ class ActionBatchWireless:
             usb_ports: AP usb ports configuration.
 
         """
-        metadata = {
-            "tags": ["wireless", "configure", "ethernet", "ports", "profiles"],
-            "operation": "create_network_wireless_ethernet_ports_profile",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/wireless/ethernet/ports/profiles"
 
@@ -468,10 +420,10 @@ class ActionBatchWireless:
             "operation": "create",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def assign_network_wireless_ethernet_ports_profiles(
-        self, network_id: str, serials: list, profile_id: str
+        self, *, network_id: str, serials: list, profile_id: str
     ) -> dict[str, Any]:
         """Assign AP port profile to list of APs.
 
@@ -483,10 +435,6 @@ class ActionBatchWireless:
             profile_id: AP profile ID.
 
         """
-        metadata = {
-            "tags": ["wireless", "configure", "ethernet", "ports", "profiles"],
-            "operation": "assign_network_wireless_ethernet_ports_profiles",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/wireless/ethernet/ports/profiles/assign"
 
@@ -501,10 +449,10 @@ class ActionBatchWireless:
             "operation": "create",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def set_network_wireless_ethernet_ports_profiles_default(
-        self, network_id: str, profile_id: str
+        self, *, network_id: str, profile_id: str
     ) -> dict[str, Any]:
         """Set the AP port profile to be default for this network.
 
@@ -515,10 +463,6 @@ class ActionBatchWireless:
             profile_id: AP profile ID.
 
         """
-        metadata = {
-            "tags": ["wireless", "configure", "ethernet", "ports", "profiles"],
-            "operation": "set_network_wireless_ethernet_ports_profiles_default",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/wireless/ethernet/ports/profiles/setDefault"
 
@@ -531,13 +475,13 @@ class ActionBatchWireless:
             "operation": "create",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def update_network_wireless_ethernet_ports_profile(
         self,
+        *,
         network_id: str,
         profile_id: str,
-        *,
         name: str | None = None,
         ports: list | None = None,
         usb_ports: list | None = None,
@@ -554,10 +498,6 @@ class ActionBatchWireless:
             usb_ports: AP usb ports configuration.
 
         """
-        metadata = {
-            "tags": ["wireless", "configure", "ethernet", "ports", "profiles"],
-            "operation": "update_network_wireless_ethernet_ports_profile",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         profile_id = urllib.parse.quote(str(profile_id), safe="")
         resource = f"/networks/{network_id}/wireless/ethernet/ports/profiles/{profile_id}"
@@ -575,10 +515,10 @@ class ActionBatchWireless:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def delete_network_wireless_ethernet_ports_profile(
-        self, network_id: str, profile_id: str
+        self, *, network_id: str, profile_id: str
     ) -> dict[str, Any]:
         """Delete an AP port profile.
 
@@ -589,10 +529,6 @@ class ActionBatchWireless:
             profile_id: Profile ID.
 
         """
-        metadata = {
-            "tags": ["wireless", "configure", "ethernet", "ports", "profiles"],
-            "operation": "delete_network_wireless_ethernet_ports_profile",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         profile_id = urllib.parse.quote(str(profile_id), safe="")
         resource = f"/networks/{network_id}/wireless/ethernet/ports/profiles/{profile_id}"
@@ -601,10 +537,10 @@ class ActionBatchWireless:
             "resource": resource,
             "operation": "destroy",
         }
-        return action
+        return action  # noqa: RET504
 
     def update_network_wireless_location_scanning(
-        self, network_id: str, *, enabled: bool | None = None, api: dict | None = None
+        self, *, network_id: str, enabled: bool | None = None, api: dict | None = None
     ) -> dict[str, Any]:
         """Change scanning API settings.
 
@@ -616,10 +552,6 @@ class ActionBatchWireless:
             api: Enable push API for scanning events, analytics must be enabled.
 
         """
-        metadata = {
-            "tags": ["wireless", "configure", "location", "scanning"],
-            "operation": "update_network_wireless_location_scanning",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/wireless/location/scanning"
 
@@ -634,14 +566,14 @@ class ActionBatchWireless:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def create_network_wireless_rf_profile(
         self,
+        *,
         network_id: str,
         name: str,
         band_selection_type: str,
-        *,
         client_balancing_enabled: bool | None = None,
         min_bitrate_type: str | None = None,
         ap_band_settings: dict | None = None,
@@ -686,10 +618,6 @@ class ActionBatchWireless:
                 f'"band_selection_type" cannot be "{band_selection_type}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["wireless", "configure", "rfProfiles"],
-            "operation": "create_network_wireless_rf_profile",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/wireless/rfProfiles"
 
@@ -722,13 +650,13 @@ class ActionBatchWireless:
             "operation": "create",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def update_network_wireless_rf_profile(
         self,
+        *,
         network_id: str,
         rf_profile_id: str,
-        *,
         name: str | None = None,
         is_indoor_default: bool | None = None,
         is_outdoor_default: bool | None = None,
@@ -782,10 +710,6 @@ class ActionBatchWireless:
                 f'"band_selection_type" cannot be "{band_selection_type}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["wireless", "configure", "rfProfiles"],
-            "operation": "update_network_wireless_rf_profile",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         rf_profile_id = urllib.parse.quote(str(rf_profile_id), safe="")
         resource = f"/networks/{network_id}/wireless/rfProfiles/{rf_profile_id}"
@@ -823,10 +747,10 @@ class ActionBatchWireless:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def delete_network_wireless_rf_profile(
-        self, network_id: str, rf_profile_id: str
+        self, *, network_id: str, rf_profile_id: str
     ) -> dict[str, Any]:
         """Delete a RF Profile.
 
@@ -837,10 +761,6 @@ class ActionBatchWireless:
             rf_profile_id: Rf profile ID.
 
         """
-        metadata = {
-            "tags": ["wireless", "configure", "rfProfiles"],
-            "operation": "delete_network_wireless_rf_profile",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         rf_profile_id = urllib.parse.quote(str(rf_profile_id), safe="")
         resource = f"/networks/{network_id}/wireless/rfProfiles/{rf_profile_id}"
@@ -849,12 +769,12 @@ class ActionBatchWireless:
             "resource": resource,
             "operation": "destroy",
         }
-        return action
+        return action  # noqa: RET504
 
     def update_network_wireless_settings(
         self,
-        network_id: str,
         *,
+        network_id: str,
         meshing_enabled: bool | None = None,
         ipv6_bridge_enabled: bool | None = None,
         location_analytics_enabled: bool | None = None,
@@ -886,10 +806,6 @@ class ActionBatchWireless:
                 f'"upgrade_strategy" cannot be "{upgrade_strategy}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["wireless", "configure", "settings"],
-            "operation": "update_network_wireless_settings",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/wireless/settings"
 
@@ -912,13 +828,13 @@ class ActionBatchWireless:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def update_network_wireless_ssid(
         self,
+        *,
         network_id: str,
         number: str,
-        *,
         name: str | None = None,
         enabled: bool | None = None,
         auth_mode: str | None = None,
@@ -1220,10 +1136,6 @@ class ActionBatchWireless:
                 f'"radius_attribute_for_group_policies" cannot be "{radius_attribute_for_group_policies}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["wireless", "configure", "ssids"],
-            "operation": "update_network_wireless_ssid",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         number = urllib.parse.quote(str(number), safe="")
         resource = f"/networks/{network_id}/wireless/ssids/{number}"
@@ -1361,13 +1273,13 @@ class ActionBatchWireless:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def update_network_wireless_ssid_bonjour_forwarding(
         self,
+        *,
         network_id: str,
         number: str,
-        *,
         enabled: bool | None = None,
         rules: list | None = None,
         exception: dict | None = None,
@@ -1384,10 +1296,6 @@ class ActionBatchWireless:
             exception: Bonjour forwarding exception.
 
         """
-        metadata = {
-            "tags": ["wireless", "configure", "ssids", "bonjourForwarding"],
-            "operation": "update_network_wireless_ssid_bonjour_forwarding",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         number = urllib.parse.quote(str(number), safe="")
         resource = f"/networks/{network_id}/wireless/ssids/{number}/bonjourForwarding"
@@ -1405,13 +1313,13 @@ class ActionBatchWireless:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def update_network_wireless_ssid_device_type_group_policies(
         self,
+        *,
         network_id: str,
         number: str,
-        *,
         enabled: bool | None = None,
         device_type_policies: list | None = None,
     ) -> dict[str, Any]:
@@ -1426,10 +1334,6 @@ class ActionBatchWireless:
             device_type_policies: List of device type policies.
 
         """
-        metadata = {
-            "tags": ["wireless", "configure", "ssids", "deviceTypeGroupPolicies"],
-            "operation": "update_network_wireless_ssid_device_type_group_policies",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         number = urllib.parse.quote(str(number), safe="")
         resource = f"/networks/{network_id}/wireless/ssids/{number}/deviceTypeGroupPolicies"
@@ -1445,13 +1349,13 @@ class ActionBatchWireless:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def update_network_wireless_ssid_eap_override(
         self,
+        *,
         network_id: str,
         number: str,
-        *,
         timeout: int | None = None,
         identity: dict | None = None,
         max_retries: int | None = None,
@@ -1470,10 +1374,6 @@ class ActionBatchWireless:
             eapol_key: EAPOL Key settings.
 
         """
-        metadata = {
-            "tags": ["wireless", "configure", "ssids", "eapOverride"],
-            "operation": "update_network_wireless_ssid_eap_override",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         number = urllib.parse.quote(str(number), safe="")
         resource = f"/networks/{network_id}/wireless/ssids/{number}/eapOverride"
@@ -1493,13 +1393,13 @@ class ActionBatchWireless:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def update_network_wireless_ssid_firewall_l3_firewall_rules(
         self,
+        *,
         network_id: str,
         number: str,
-        *,
         rules: list | None = None,
         allow_lan_access: bool | None = None,
     ) -> dict[str, Any]:
@@ -1515,10 +1415,6 @@ class ActionBatchWireless:
               access and false denies access) (optional).
 
         """
-        metadata = {
-            "tags": ["wireless", "configure", "ssids", "firewall", "l3FirewallRules"],
-            "operation": "update_network_wireless_ssid_firewall_l3_firewall_rules",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         number = urllib.parse.quote(str(number), safe="")
         resource = f"/networks/{network_id}/wireless/ssids/{number}/firewall/l3FirewallRules"
@@ -1534,10 +1430,10 @@ class ActionBatchWireless:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def update_network_wireless_ssid_firewall_l7_firewall_rules(
-        self, network_id: str, number: str, *, rules: list | None = None
+        self, *, network_id: str, number: str, rules: list | None = None
     ) -> dict[str, Any]:
         """Update the L7 firewall rules of an SSID on an MR network.
 
@@ -1551,10 +1447,6 @@ class ActionBatchWireless:
               firewall rule configuration.
 
         """
-        metadata = {
-            "tags": ["wireless", "configure", "ssids", "firewall", "l7FirewallRules"],
-            "operation": "update_network_wireless_ssid_firewall_l7_firewall_rules",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         number = urllib.parse.quote(str(number), safe="")
         resource = f"/networks/{network_id}/wireless/ssids/{number}/firewall/l7FirewallRules"
@@ -1568,13 +1460,13 @@ class ActionBatchWireless:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def update_network_wireless_ssid_hotspot20(
         self,
+        *,
         network_id: str,
         number: str,
-        *,
         enabled: bool | None = None,
         operator: dict | None = None,
         venue: dict | None = None,
@@ -1620,10 +1512,6 @@ class ActionBatchWireless:
                 f'"network_access_type" cannot be "{network_access_type}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["wireless", "configure", "ssids", "hotspot20"],
-            "operation": "update_network_wireless_ssid_hotspot20",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         number = urllib.parse.quote(str(number), safe="")
         resource = f"/networks/{network_id}/wireless/ssids/{number}/hotspot20"
@@ -1651,15 +1539,15 @@ class ActionBatchWireless:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def create_network_wireless_ssid_identity_psk(
         self,
+        *,
         network_id: str,
         number: str,
         name: str,
         group_policy_id: str,
-        *,
         passphrase: str | None = None,
         expires_at: str | None = None,
     ) -> dict[str, Any]:
@@ -1677,10 +1565,6 @@ class ActionBatchWireless:
             expires_at: Timestamp for when the Identity PSK expires. Will not expire if left blank.
 
         """
-        metadata = {
-            "tags": ["wireless", "configure", "ssids", "identityPsks"],
-            "operation": "create_network_wireless_ssid_identity_psk",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         number = urllib.parse.quote(str(number), safe="")
         resource = f"/networks/{network_id}/wireless/ssids/{number}/identityPsks"
@@ -1700,14 +1584,14 @@ class ActionBatchWireless:
             "operation": "create",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def update_network_wireless_ssid_identity_psk(
         self,
+        *,
         network_id: str,
         number: str,
         identity_psk_id: str,
-        *,
         name: str | None = None,
         passphrase: str | None = None,
         group_policy_id: str | None = None,
@@ -1727,10 +1611,6 @@ class ActionBatchWireless:
             expires_at: Timestamp for when the Identity PSK expires, or 'null' to never expire.
 
         """
-        metadata = {
-            "tags": ["wireless", "configure", "ssids", "identityPsks"],
-            "operation": "update_network_wireless_ssid_identity_psk",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         number = urllib.parse.quote(str(number), safe="")
         identity_psk_id = urllib.parse.quote(str(identity_psk_id), safe="")
@@ -1751,10 +1631,10 @@ class ActionBatchWireless:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def delete_network_wireless_ssid_identity_psk(
-        self, network_id: str, number: str, identity_psk_id: str
+        self, *, network_id: str, number: str, identity_psk_id: str
     ) -> dict[str, Any]:
         """Delete an Identity PSK.
 
@@ -1766,10 +1646,6 @@ class ActionBatchWireless:
             identity_psk_id: Identity psk ID.
 
         """
-        metadata = {
-            "tags": ["wireless", "configure", "ssids", "identityPsks"],
-            "operation": "delete_network_wireless_ssid_identity_psk",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         number = urllib.parse.quote(str(number), safe="")
         identity_psk_id = urllib.parse.quote(str(identity_psk_id), safe="")
@@ -1779,13 +1655,13 @@ class ActionBatchWireless:
             "resource": resource,
             "operation": "destroy",
         }
-        return action
+        return action  # noqa: RET504
 
     def update_network_wireless_ssid_open_roaming(
         self,
+        *,
         network_id: str,
         number: str,
-        *,
         enabled: bool | None = None,
         tenant_id: str | None = None,
     ) -> dict[str, Any]:
@@ -1800,10 +1676,6 @@ class ActionBatchWireless:
             tenant_id: The OpenRoaming DNA Spaces tenant ID.
 
         """
-        metadata = {
-            "tags": ["wireless", "configure", "ssids", "openRoaming"],
-            "operation": "update_network_wireless_ssid_open_roaming",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         number = urllib.parse.quote(str(number), safe="")
         resource = f"/networks/{network_id}/wireless/ssids/{number}/openRoaming"
@@ -1819,13 +1691,13 @@ class ActionBatchWireless:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def update_network_wireless_ssid_schedules(
         self,
+        *,
         network_id: str,
         number: str,
-        *,
         enabled: bool | None = None,
         ranges: list | None = None,
         ranges_in_seconds: list | None = None,
@@ -1846,10 +1718,6 @@ class ActionBatchWireless:
               parameter, ranges will take precedence.
 
         """
-        metadata = {
-            "tags": ["wireless", "configure", "ssids", "schedules"],
-            "operation": "update_network_wireless_ssid_schedules",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         number = urllib.parse.quote(str(number), safe="")
         resource = f"/networks/{network_id}/wireless/ssids/{number}/schedules"
@@ -1867,13 +1735,13 @@ class ActionBatchWireless:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def update_network_wireless_ssid_splash_settings(
         self,
+        *,
         network_id: str,
         number: str,
-        *,
         splash_url: str | None = None,
         use_splash_url: bool | None = None,
         splash_timeout: int | None = None,
@@ -1960,10 +1828,6 @@ class ActionBatchWireless:
                 f'"controller_disconnection_behavior" cannot be "{controller_disconnection_behavior}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["wireless", "configure", "ssids", "splash", "settings"],
-            "operation": "update_network_wireless_ssid_splash_settings",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         number = urllib.parse.quote(str(number), safe="")
         resource = f"/networks/{network_id}/wireless/ssids/{number}/splash/settings"
@@ -2009,13 +1873,13 @@ class ActionBatchWireless:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def update_network_wireless_ssid_traffic_shaping_rules(
         self,
+        *,
         network_id: str,
         number: str,
-        *,
         traffic_shaping_enabled: bool | None = None,
         default_rules_enabled: bool | None = None,
         rules: list | None = None,
@@ -2038,10 +1902,6 @@ class ActionBatchWireless:
               allowed a maximum of 8 rules.
 
         """
-        metadata = {
-            "tags": ["wireless", "configure", "ssids", "trafficShaping", "rules"],
-            "operation": "update_network_wireless_ssid_traffic_shaping_rules",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         number = urllib.parse.quote(str(number), safe="")
         resource = f"/networks/{network_id}/wireless/ssids/{number}/trafficShaping/rules"
@@ -2059,13 +1919,13 @@ class ActionBatchWireless:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def update_network_wireless_ssid_vpn(
         self,
+        *,
         network_id: str,
         number: str,
-        *,
         concentrator: dict | None = None,
         split_tunnel: dict | None = None,
         failover: dict | None = None,
@@ -2083,10 +1943,6 @@ class ActionBatchWireless:
               concentrators are configured on the SSID.
 
         """
-        metadata = {
-            "tags": ["wireless", "configure", "ssids", "vpn"],
-            "operation": "update_network_wireless_ssid_vpn",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         number = urllib.parse.quote(str(number), safe="")
         resource = f"/networks/{network_id}/wireless/ssids/{number}/vpn"
@@ -2104,12 +1960,12 @@ class ActionBatchWireless:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def update_network_wireless_zigbee(
         self,
-        network_id: str,
         *,
+        network_id: str,
         enabled: bool | None = None,
         iot_controller: dict | None = None,
         lock_management: dict | None = None,
@@ -2127,10 +1983,6 @@ class ActionBatchWireless:
             defaults: Default Settings for Zigbee Devices.
 
         """
-        metadata = {
-            "tags": ["wireless", "configure", "zigbee"],
-            "operation": "update_network_wireless_zigbee",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/wireless/zigbee"
 
@@ -2149,10 +2001,11 @@ class ActionBatchWireless:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def create_organization_wireless_location_scanning_receiver(
         self,
+        *,
         organization_id: str,
         network: dict,
         url: str,
@@ -2173,10 +2026,6 @@ class ActionBatchWireless:
             shared_secret: Secret Value for Receiver.
 
         """
-        metadata = {
-            "tags": ["wireless", "configure", "location", "scanning", "receivers"],
-            "operation": "create_organization_wireless_location_scanning_receiver",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/wireless/location/scanning/receivers"
 
@@ -2197,13 +2046,13 @@ class ActionBatchWireless:
             "operation": "create",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def update_organization_wireless_location_scanning_receiver(
         self,
+        *,
         organization_id: str,
         receiver_id: str,
-        *,
         url: str | None = None,
         version: str | None = None,
         radio: dict | None = None,
@@ -2220,10 +2069,6 @@ class ActionBatchWireless:
             radio: Add scanning API Radio.
 
         """
-        metadata = {
-            "tags": ["wireless", "configure", "location", "scanning", "receivers"],
-            "operation": "update_organization_wireless_location_scanning_receiver",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         receiver_id = urllib.parse.quote(str(receiver_id), safe="")
         resource = (
@@ -2243,10 +2088,10 @@ class ActionBatchWireless:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def delete_organization_wireless_location_scanning_receiver(
-        self, organization_id: str, receiver_id: str
+        self, *, organization_id: str, receiver_id: str
     ) -> dict[str, Any]:
         """Delete a scanning API receiver.
 
@@ -2257,10 +2102,6 @@ class ActionBatchWireless:
             receiver_id: Receiver ID.
 
         """
-        metadata = {
-            "tags": ["wireless", "configure", "location", "scanning", "receivers"],
-            "operation": "delete_organization_wireless_location_scanning_receiver",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         receiver_id = urllib.parse.quote(str(receiver_id), safe="")
         resource = (
@@ -2271,14 +2112,14 @@ class ActionBatchWireless:
             "resource": resource,
             "operation": "destroy",
         }
-        return action
+        return action  # noqa: RET504
 
     def update_organization_wireless_mqtt_settings(
         self,
+        *,
         organization_id: str,
         network: dict,
         mqtt: dict,
-        *,
         ble: dict | None = None,
         wifi: dict | None = None,
     ) -> dict[str, Any]:
@@ -2294,10 +2135,6 @@ class ActionBatchWireless:
             wifi: MQTT Wi-Fi Settings for network.
 
         """
-        metadata = {
-            "tags": ["wireless", "configure", "mqtt", "settings"],
-            "operation": "update_organization_wireless_mqtt_settings",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/wireless/mqtt/settings"
 
@@ -2316,10 +2153,10 @@ class ActionBatchWireless:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def recalculate_organization_wireless_radio_auto_rf_channels(
-        self, organization_id: str, network_ids: list
+        self, *, organization_id: str, network_ids: list
     ) -> dict[str, Any]:
         """Recalculates automatically assigned channels for every AP within specified the specified network(s).
 
@@ -2330,10 +2167,6 @@ class ActionBatchWireless:
             network_ids: A list of network ids (limit: 15).
 
         """
-        metadata = {
-            "tags": ["wireless", "configure", "radio", "autoRf", "channels"],
-            "operation": "recalculate_organization_wireless_radio_auto_rf_channels",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/wireless/radio/autoRf/channels/recalculate"
 
@@ -2346,15 +2179,15 @@ class ActionBatchWireless:
             "operation": "create",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def create_organization_wireless_ssids_firewall_isolation_allowlist_entry(
         self,
+        *,
         organization_id: str,
         client: dict,
         ssid: dict,
         network: dict,
-        *,
         description: str | None = None,
     ) -> dict[str, Any]:
         """Create isolation allow list MAC entry for this organization.
@@ -2369,18 +2202,6 @@ class ActionBatchWireless:
             network: The Network that allowlist belongs to.
 
         """
-        metadata = {
-            "tags": [
-                "wireless",
-                "configure",
-                "ssids",
-                "firewall",
-                "isolation",
-                "allowlist",
-                "entries",
-            ],
-            "operation": "create_organization_wireless_ssids_firewall_isolation_allowlist_entry",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = (
             f"/organizations/{organization_id}/wireless/ssids/firewall/isolation/allowlist/entries"
@@ -2401,10 +2222,10 @@ class ActionBatchWireless:
             "operation": "create",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def delete_organization_wireless_ssids_firewall_isolation_allowlist_entry(
-        self, organization_id: str, entry_id: str
+        self, *, organization_id: str, entry_id: str
     ) -> dict[str, Any]:
         """Destroy isolation allow list MAC entry for this organization.
 
@@ -2415,18 +2236,6 @@ class ActionBatchWireless:
             entry_id: Entry ID.
 
         """
-        metadata = {
-            "tags": [
-                "wireless",
-                "configure",
-                "ssids",
-                "firewall",
-                "isolation",
-                "allowlist",
-                "entries",
-            ],
-            "operation": "delete_organization_wireless_ssids_firewall_isolation_allowlist_entry",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         entry_id = urllib.parse.quote(str(entry_id), safe="")
         resource = f"/organizations/{organization_id}/wireless/ssids/firewall/isolation/allowlist/entries/{entry_id}"
@@ -2435,13 +2244,13 @@ class ActionBatchWireless:
             "resource": resource,
             "operation": "destroy",
         }
-        return action
+        return action  # noqa: RET504
 
     def update_organization_wireless_ssids_firewall_isolation_allowlist_entry(
         self,
+        *,
         organization_id: str,
         entry_id: str,
-        *,
         description: str | None = None,
         client: dict | None = None,
     ) -> dict[str, Any]:
@@ -2456,18 +2265,6 @@ class ActionBatchWireless:
             client: The client of allowlist.
 
         """
-        metadata = {
-            "tags": [
-                "wireless",
-                "configure",
-                "ssids",
-                "firewall",
-                "isolation",
-                "allowlist",
-                "entries",
-            ],
-            "operation": "update_organization_wireless_ssids_firewall_isolation_allowlist_entry",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         entry_id = urllib.parse.quote(str(entry_id), safe="")
         resource = f"/organizations/{organization_id}/wireless/ssids/firewall/isolation/allowlist/entries/{entry_id}"
@@ -2483,10 +2280,10 @@ class ActionBatchWireless:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def update_organization_wireless_zigbee_device(
-        self, organization_id: str, id_: str, enrolled: bool, *, channel: str | None = None
+        self, *, organization_id: str, id_: str, enrolled: bool, channel: str | None = None
     ) -> dict[str, Any]:
         """Endpoint to update zigbee gateways.
 
@@ -2499,10 +2296,6 @@ class ActionBatchWireless:
             channel: The new channel for the zigbee device.
 
         """
-        metadata = {
-            "tags": ["wireless", "configure", "zigbee", "devices"],
-            "operation": "update_organization_wireless_zigbee_device",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         id_ = urllib.parse.quote(str(id_), safe="")
         resource = f"/organizations/{organization_id}/wireless/zigbee/devices/{id_}"
@@ -2518,10 +2311,10 @@ class ActionBatchWireless:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def update_organization_wireless_zigbee_door_lock(
-        self, organization_id: str, door_lock_id: str, *, name: str | None = None
+        self, *, organization_id: str, door_lock_id: str, name: str | None = None
     ) -> dict[str, Any]:
         """Endpoint to batch update door locks params.
 
@@ -2533,10 +2326,6 @@ class ActionBatchWireless:
             name: Door lock name to update.
 
         """
-        metadata = {
-            "tags": ["wireless", "configure", "zigbee", "doorLocks"],
-            "operation": "update_organization_wireless_zigbee_door_lock",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         door_lock_id = urllib.parse.quote(str(door_lock_id), safe="")
         resource = f"/organizations/{organization_id}/wireless/zigbee/doorLocks/{door_lock_id}"
@@ -2550,4 +2339,4 @@ class ActionBatchWireless:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504

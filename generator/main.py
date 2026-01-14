@@ -632,16 +632,8 @@ async def generate_library(spec: dict[str, Any], version_number: str, api_versio
                             keyword_args.append(f"{snake_name}: {type_annot} = {default_val}")
 
                     # Construct definition string (template expects leading ", " after self)
-                    if positional_args or keyword_args:
-                        definition = ", " + ", ".join(positional_args)
-                        if keyword_args:
-                            if positional_args:
-                                definition += ", *, "
-                            else:
-                                definition += "*, "
-                            definition += ", ".join(keyword_args)
-                    else:
-                        definition = ""
+                    all_args = positional_args + keyword_args
+                    definition = ", *, " + ", ".join(all_args) if all_args else ""
 
                     # Function body for GET endpoints
                     is_paginated = "total_pages" in all_params
@@ -818,16 +810,8 @@ async def generate_library(spec: dict[str, Any], version_number: str, api_versio
                                 keyword_args.append(f"{snake_name}: {type_annot} = {default_val}")
 
                         # Construct definition string (template expects leading ", " after self)
-                        if positional_args or keyword_args:
-                            definition = ", " + ", ".join(positional_args)
-                            if keyword_args:
-                                if positional_args:
-                                    definition += ", *, "
-                                else:
-                                    definition += "*, "
-                                definition += ", ".join(keyword_args)
-                        else:
-                            definition = ""
+                        all_args = positional_args + keyword_args
+                        definition = ", *, " + ", ".join(all_args) if all_args else ""
 
                         # Function body for POST/PUT endpoints
                         if method in {"post", "put"}:
@@ -840,7 +824,7 @@ async def generate_library(spec: dict[str, Any], version_number: str, api_versio
                             raise ValueError(f"Unsupported method: {method}")
 
                         # Function return statement
-                        call_line = "return action"
+                        call_line = "return action  # noqa: RET504"
 
                         # Add function to files
                         with open(  # noqa: ASYNC230

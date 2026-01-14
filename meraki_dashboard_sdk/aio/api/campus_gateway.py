@@ -16,13 +16,13 @@ class AsyncCampusGateway:
 
     def create_network_campus_gateway_cluster(
         self,
+        *,
         network_id: str,
         name: str,
         uplinks: list,
         tunnels: list,
         nameservers: dict,
         port_channels: list,
-        *,
         devices: list | None = None,
         notes: str | None = None,
     ) -> dict[str, Any] | None:
@@ -69,9 +69,9 @@ class AsyncCampusGateway:
 
     def update_network_campus_gateway_cluster(
         self,
+        *,
         network_id: str,
         cluster_id: str,
-        *,
         name: str | None = None,
         uplinks: list | None = None,
         tunnels: list | None = None,
@@ -125,8 +125,8 @@ class AsyncCampusGateway:
 
     def get_organization_campus_gateway_clusters(
         self,
-        organization_id: str,
         *,
+        organization_id: str,
         network_ids: list | None = None,
         per_page: int | None = None,
         starting_after: str | None = None,
@@ -177,8 +177,8 @@ class AsyncCampusGateway:
 
     def get_organization_campus_gateway_devices_uplinks_local_overrides_by_device(
         self,
-        organization_id: str,
         *,
+        organization_id: str,
         serials: list | None = None,
         per_page: int | None = None,
         starting_after: str | None = None,

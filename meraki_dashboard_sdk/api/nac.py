@@ -15,7 +15,7 @@ class Nac:
         self._session = session
 
     def create_organization_nac_certificates_authorities_crl(
-        self, organization_id: str, ca_id: str, content: str, is_delta: bool
+        self, *, organization_id: str, ca_id: str, content: str, is_delta: bool
     ) -> dict[str, Any] | None:
         """Create a new CRL (either base or delta) for an existing CA.
 

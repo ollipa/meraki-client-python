@@ -12,8 +12,8 @@ class ActionBatchDevices:
 
     def update_device(
         self,
-        serial: str,
         *,
+        serial: str,
         name: str | None = None,
         tags: list | None = None,
         lat: float | None = None,
@@ -47,7 +47,6 @@ class ActionBatchDevices:
               from the floorplan.
 
         """
-        metadata = {"tags": ["devices", "configure"], "operation": "update_device"}
         serial = urllib.parse.quote(str(serial), safe="")
         resource = f"/devices/{serial}"
 
@@ -76,10 +75,10 @@ class ActionBatchDevices:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def create_device_live_tools_leds_blink(
-        self, serial: str, duration: int, *, callback: dict | None = None
+        self, *, serial: str, duration: int, callback: dict | None = None
     ) -> dict[str, Any]:
         """Enqueue a job to blink LEDs on a device.
 
@@ -92,10 +91,6 @@ class ActionBatchDevices:
               sharedSecret.
 
         """
-        metadata = {
-            "tags": ["devices", "liveTools", "leds", "blink"],
-            "operation": "create_device_live_tools_leds_blink",
-        }
         serial = urllib.parse.quote(str(serial), safe="")
         resource = f"/devices/{serial}/liveTools/leds/blink"
 
@@ -110,10 +105,10 @@ class ActionBatchDevices:
             "operation": "create",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def create_device_live_tools_throughput_test(
-        self, serial: str, *, callback: dict | None = None
+        self, *, serial: str, callback: dict | None = None
     ) -> dict[str, Any]:
         """Enqueue a job to test a device throughput, the test will run for 10 secs to test throughput.
 
@@ -125,10 +120,6 @@ class ActionBatchDevices:
               sharedSecret.
 
         """
-        metadata = {
-            "tags": ["devices", "liveTools", "throughputTest"],
-            "operation": "create_device_live_tools_throughput_test",
-        }
         serial = urllib.parse.quote(str(serial), safe="")
         resource = f"/devices/{serial}/liveTools/throughputTest"
 
@@ -141,10 +132,10 @@ class ActionBatchDevices:
             "operation": "create",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def update_device_management_interface(
-        self, serial: str, *, wan1: dict | None = None, wan2: dict | None = None
+        self, *, serial: str, wan1: dict | None = None, wan2: dict | None = None
     ) -> dict[str, Any]:
         """Update the management interface settings for a device.
 
@@ -156,10 +147,6 @@ class ActionBatchDevices:
             wan2: WAN 2 settings (only for MX devices).
 
         """
-        metadata = {
-            "tags": ["devices", "configure", "managementInterface"],
-            "operation": "update_device_management_interface",
-        }
         serial = urllib.parse.quote(str(serial), safe="")
         resource = f"/devices/{serial}/managementInterface"
 
@@ -174,4 +161,4 @@ class ActionBatchDevices:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504

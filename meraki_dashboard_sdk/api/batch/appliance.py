@@ -12,8 +12,8 @@ class ActionBatchAppliance:
 
     def update_device_appliance_radio_settings(
         self,
-        serial: str,
         *,
+        serial: str,
         rf_profile_id: str | None = None,
         two_four_ghz_settings: dict | None = None,
         five_ghz_settings: dict | None = None,
@@ -33,10 +33,6 @@ class ActionBatchAppliance:
             five_ghz_settings: Manual radio settings for 5 GHz.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "radio", "settings"],
-            "operation": "update_device_appliance_radio_settings",
-        }
         serial = urllib.parse.quote(str(serial), safe="")
         resource = f"/devices/{serial}/appliance/radio/settings"
 
@@ -53,10 +49,10 @@ class ActionBatchAppliance:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def update_device_appliance_uplinks_settings(
-        self, serial: str, interfaces: dict
+        self, *, serial: str, interfaces: dict
     ) -> dict[str, Any]:
         """Update the uplink settings for an MX appliance.
 
@@ -67,10 +63,6 @@ class ActionBatchAppliance:
             interfaces: Interface settings.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "uplinks", "settings"],
-            "operation": "update_device_appliance_uplinks_settings",
-        }
         serial = urllib.parse.quote(str(serial), safe="")
         resource = f"/devices/{serial}/appliance/uplinks/settings"
 
@@ -83,9 +75,9 @@ class ActionBatchAppliance:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
-    def create_device_appliance_vmx_authentication_token(self, serial: str) -> dict[str, Any]:
+    def create_device_appliance_vmx_authentication_token(self, *, serial: str) -> dict[str, Any]:
         """Generate a new vMX authentication token.
 
         https://developer.cisco.com/meraki/api-v1/#!create-device-appliance-vmx-authentication-token
@@ -94,10 +86,6 @@ class ActionBatchAppliance:
             serial: Serial.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "vmx", "authenticationToken"],
-            "operation": "create_device_appliance_vmx_authentication_token",
-        }
         serial = urllib.parse.quote(str(serial), safe="")
         resource = f"/devices/{serial}/appliance/vmx/authenticationToken"
 
@@ -105,10 +93,10 @@ class ActionBatchAppliance:
             "resource": resource,
             "operation": "create",
         }
-        return action
+        return action  # noqa: RET504
 
     def update_network_appliance_connectivity_monitoring_destinations(
-        self, network_id: str, *, destinations: list | None = None
+        self, *, network_id: str, destinations: list | None = None
     ) -> dict[str, Any]:
         """Update the connectivity testing destinations for an MX network.
 
@@ -119,10 +107,6 @@ class ActionBatchAppliance:
             destinations: The list of connectivity monitoring destinations.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "connectivityMonitoringDestinations"],
-            "operation": "update_network_appliance_connectivity_monitoring_destinations",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/appliance/connectivityMonitoringDestinations"
 
@@ -135,10 +119,10 @@ class ActionBatchAppliance:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def update_network_appliance_firewall_l7_firewall_rules(
-        self, network_id: str, *, rules: list | None = None
+        self, *, network_id: str, rules: list | None = None
     ) -> dict[str, Any]:
         """Update the MX L7 firewall rules for an MX network.
 
@@ -149,10 +133,6 @@ class ActionBatchAppliance:
             rules: An ordered array of the MX L7 firewall rules.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "firewall", "l7FirewallRules"],
-            "operation": "update_network_appliance_firewall_l7_firewall_rules",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/appliance/firewall/l7FirewallRules"
 
@@ -165,10 +145,10 @@ class ActionBatchAppliance:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def update_network_appliance_firewall_multicast_forwarding(
-        self, network_id: str, rules: list
+        self, *, network_id: str, rules: list
     ) -> dict[str, Any]:
         """Update static multicast forward rules for a network.
 
@@ -179,10 +159,6 @@ class ActionBatchAppliance:
             rules: Static multicast forwarding rules. Pass an empty array to clear all rules.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "firewall", "multicastForwarding"],
-            "operation": "update_network_appliance_firewall_multicast_forwarding",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/appliance/firewall/multicastForwarding"
 
@@ -195,13 +171,13 @@ class ActionBatchAppliance:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def update_network_appliance_port(
         self,
+        *,
         network_id: str,
         port_id: str,
-        *,
         enabled: bool | None = None,
         drop_untagged_traffic: bool | None = None,
         type_: str | None = None,
@@ -231,10 +207,6 @@ class ActionBatchAppliance:
               field is missing.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "ports"],
-            "operation": "update_network_appliance_port",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         port_id = urllib.parse.quote(str(port_id), safe="")
         resource = f"/networks/{network_id}/appliance/ports/{port_id}"
@@ -258,10 +230,10 @@ class ActionBatchAppliance:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def create_network_appliance_prefixes_delegated_static(
-        self, network_id: str, prefix: str, origin: dict, *, description: str | None = None
+        self, *, network_id: str, prefix: str, origin: dict, description: str | None = None
     ) -> dict[str, Any]:
         """Add a static delegated prefix from a network.
 
@@ -274,10 +246,6 @@ class ActionBatchAppliance:
             description: A name or description for the prefix.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "prefixes", "delegated", "statics"],
-            "operation": "create_network_appliance_prefixes_delegated_static",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/appliance/prefixes/delegated/statics"
 
@@ -294,13 +262,13 @@ class ActionBatchAppliance:
             "operation": "create",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def update_network_appliance_prefixes_delegated_static(
         self,
+        *,
         network_id: str,
         static_delegated_prefix_id: str,
-        *,
         prefix: str | None = None,
         origin: dict | None = None,
         description: str | None = None,
@@ -317,10 +285,6 @@ class ActionBatchAppliance:
             description: A name or description for the prefix.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "prefixes", "delegated", "statics"],
-            "operation": "update_network_appliance_prefixes_delegated_static",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         static_delegated_prefix_id = urllib.parse.quote(str(static_delegated_prefix_id), safe="")
         resource = f"/networks/{network_id}/appliance/prefixes/delegated/statics/{static_delegated_prefix_id}"
@@ -338,10 +302,10 @@ class ActionBatchAppliance:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def delete_network_appliance_prefixes_delegated_static(
-        self, network_id: str, static_delegated_prefix_id: str
+        self, *, network_id: str, static_delegated_prefix_id: str
     ) -> dict[str, Any]:
         """Delete a static delegated prefix from a network.
 
@@ -352,10 +316,6 @@ class ActionBatchAppliance:
             static_delegated_prefix_id: Static delegated prefix ID.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "prefixes", "delegated", "statics"],
-            "operation": "delete_network_appliance_prefixes_delegated_static",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         static_delegated_prefix_id = urllib.parse.quote(str(static_delegated_prefix_id), safe="")
         resource = f"/networks/{network_id}/appliance/prefixes/delegated/statics/{static_delegated_prefix_id}"
@@ -364,13 +324,13 @@ class ActionBatchAppliance:
             "resource": resource,
             "operation": "destroy",
         }
-        return action
+        return action  # noqa: RET504
 
     def create_network_appliance_rf_profile(
         self,
+        *,
         network_id: str,
         name: str,
-        *,
         two_four_ghz_settings: dict | None = None,
         five_ghz_settings: dict | None = None,
         per_ssid_settings: dict | None = None,
@@ -387,10 +347,6 @@ class ActionBatchAppliance:
             per_ssid_settings: Per-SSID radio settings by number.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "rfProfiles"],
-            "operation": "create_network_appliance_rf_profile",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/appliance/rfProfiles"
 
@@ -409,13 +365,13 @@ class ActionBatchAppliance:
             "operation": "create",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def update_network_appliance_rf_profile(
         self,
+        *,
         network_id: str,
         rf_profile_id: str,
-        *,
         name: str | None = None,
         two_four_ghz_settings: dict | None = None,
         five_ghz_settings: dict | None = None,
@@ -434,10 +390,6 @@ class ActionBatchAppliance:
             per_ssid_settings: Per-SSID radio settings by number.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "rfProfiles"],
-            "operation": "update_network_appliance_rf_profile",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         rf_profile_id = urllib.parse.quote(str(rf_profile_id), safe="")
         resource = f"/networks/{network_id}/appliance/rfProfiles/{rf_profile_id}"
@@ -457,10 +409,10 @@ class ActionBatchAppliance:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def delete_network_appliance_rf_profile(
-        self, network_id: str, rf_profile_id: str
+        self, *, network_id: str, rf_profile_id: str
     ) -> dict[str, Any]:
         """Delete a RF Profile.
 
@@ -471,10 +423,6 @@ class ActionBatchAppliance:
             rf_profile_id: Rf profile ID.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "rfProfiles"],
-            "operation": "delete_network_appliance_rf_profile",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         rf_profile_id = urllib.parse.quote(str(rf_profile_id), safe="")
         resource = f"/networks/{network_id}/appliance/rfProfiles/{rf_profile_id}"
@@ -483,10 +431,10 @@ class ActionBatchAppliance:
             "resource": resource,
             "operation": "destroy",
         }
-        return action
+        return action  # noqa: RET504
 
     def update_network_appliance_sdwan_internet_policies(
-        self, network_id: str, *, wan_traffic_uplink_preferences: list | None = None
+        self, *, network_id: str, wan_traffic_uplink_preferences: list | None = None
     ) -> dict[str, Any]:
         """Update SDWAN internet traffic preferences for an MX network.
 
@@ -498,10 +446,6 @@ class ActionBatchAppliance:
               network.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "sdwan", "internetPolicies"],
-            "operation": "update_network_appliance_sdwan_internet_policies",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/appliance/sdwan/internetPolicies"
 
@@ -514,12 +458,12 @@ class ActionBatchAppliance:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def update_network_appliance_settings(
         self,
-        network_id: str,
         *,
+        network_id: str,
         client_tracking_method: str | None = None,
         deployment_mode: str | None = None,
         dynamic_dns: dict | None = None,
@@ -546,10 +490,6 @@ class ActionBatchAppliance:
                 f'"deployment_mode" cannot be "{deployment_mode}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["appliance", "configure", "settings"],
-            "operation": "update_network_appliance_settings",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/appliance/settings"
 
@@ -566,12 +506,12 @@ class ActionBatchAppliance:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def update_network_appliance_single_lan(
         self,
-        network_id: str,
         *,
+        network_id: str,
         subnet: str | None = None,
         appliance_ip: str | None = None,
         ipv6: dict | None = None,
@@ -592,10 +532,6 @@ class ActionBatchAppliance:
               17.0 and above.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "singleLan"],
-            "operation": "update_network_appliance_single_lan",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/appliance/singleLan"
 
@@ -614,13 +550,13 @@ class ActionBatchAppliance:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def update_network_appliance_ssid(
         self,
+        *,
         network_id: str,
         number: str,
-        *,
         name: str | None = None,
         enabled: bool | None = None,
         default_vlan_id: int | None = None,
@@ -679,10 +615,6 @@ class ActionBatchAppliance:
                 f'"wpa_encryption_mode" cannot be "{wpa_encryption_mode}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["appliance", "configure", "ssids"],
-            "operation": "update_network_appliance_ssid",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         number = urllib.parse.quote(str(number), safe="")
         resource = f"/networks/{network_id}/appliance/ssids/{number}"
@@ -716,13 +648,13 @@ class ActionBatchAppliance:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def create_network_appliance_traffic_shaping_custom_performance_class(
         self,
+        *,
         network_id: str,
         name: str,
-        *,
         max_latency: int | None = None,
         max_jitter: int | None = None,
         max_loss_percentage: int | None = None,
@@ -739,10 +671,6 @@ class ActionBatchAppliance:
             max_loss_percentage: Maximum percentage of packet loss.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "trafficShaping", "customPerformanceClasses"],
-            "operation": "create_network_appliance_traffic_shaping_custom_performance_class",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/appliance/trafficShaping/customPerformanceClasses"
 
@@ -761,13 +689,13 @@ class ActionBatchAppliance:
             "operation": "create",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def update_network_appliance_traffic_shaping_custom_performance_class(
         self,
+        *,
         network_id: str,
         custom_performance_class_id: str,
-        *,
         name: str | None = None,
         max_latency: int | None = None,
         max_jitter: int | None = None,
@@ -786,10 +714,6 @@ class ActionBatchAppliance:
             max_loss_percentage: Maximum percentage of packet loss.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "trafficShaping", "customPerformanceClasses"],
-            "operation": "update_network_appliance_traffic_shaping_custom_performance_class",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         custom_performance_class_id = urllib.parse.quote(str(custom_performance_class_id), safe="")
         resource = f"/networks/{network_id}/appliance/trafficShaping/customPerformanceClasses/{custom_performance_class_id}"
@@ -809,10 +733,10 @@ class ActionBatchAppliance:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def delete_network_appliance_traffic_shaping_custom_performance_class(
-        self, network_id: str, custom_performance_class_id: str
+        self, *, network_id: str, custom_performance_class_id: str
     ) -> dict[str, Any]:
         """Delete a custom performance class from an MX network.
 
@@ -823,10 +747,6 @@ class ActionBatchAppliance:
             custom_performance_class_id: Custom performance class ID.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "trafficShaping", "customPerformanceClasses"],
-            "operation": "delete_network_appliance_traffic_shaping_custom_performance_class",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         custom_performance_class_id = urllib.parse.quote(str(custom_performance_class_id), safe="")
         resource = f"/networks/{network_id}/appliance/trafficShaping/customPerformanceClasses/{custom_performance_class_id}"
@@ -835,12 +755,12 @@ class ActionBatchAppliance:
             "resource": resource,
             "operation": "destroy",
         }
-        return action
+        return action  # noqa: RET504
 
     def update_network_appliance_traffic_shaping_rules(
         self,
-        network_id: str,
         *,
+        network_id: str,
         default_rules_enabled: bool | None = None,
         rules: list | None = None,
     ) -> dict[str, Any]:
@@ -859,10 +779,6 @@ class ActionBatchAppliance:
               allowed a maximum of 8 rules.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "trafficShaping", "rules"],
-            "operation": "update_network_appliance_traffic_shaping_rules",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/appliance/trafficShaping/rules"
 
@@ -877,10 +793,10 @@ class ActionBatchAppliance:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def update_network_appliance_traffic_shaping_uplink_bandwidth(
-        self, network_id: str, *, bandwidth_limits: dict | None = None
+        self, *, network_id: str, bandwidth_limits: dict | None = None
     ) -> dict[str, Any]:
         """Updates the uplink bandwidth settings for your MX network.
 
@@ -892,10 +808,6 @@ class ActionBatchAppliance:
               which uplinks are supported for your network).
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "trafficShaping", "uplinkBandwidth"],
-            "operation": "update_network_appliance_traffic_shaping_uplink_bandwidth",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/appliance/trafficShaping/uplinkBandwidth"
 
@@ -908,12 +820,12 @@ class ActionBatchAppliance:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def update_network_appliance_traffic_shaping_uplink_selection(
         self,
-        network_id: str,
         *,
+        network_id: str,
         active_active_auto_vpn_enabled: bool | None = None,
         default_uplink: str | None = None,
         load_balancing_enabled: bool | None = None,
@@ -935,10 +847,6 @@ class ActionBatchAppliance:
             vpn_traffic_uplink_preferences: Array of uplink preference rules for VPN traffic.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "trafficShaping", "uplinkSelection"],
-            "operation": "update_network_appliance_traffic_shaping_uplink_selection",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/appliance/trafficShaping/uplinkSelection"
 
@@ -961,10 +869,10 @@ class ActionBatchAppliance:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def update_network_appliance_traffic_shaping_vpn_exclusions(
-        self, network_id: str, *, custom: list | None = None, major_applications: list | None = None
+        self, *, network_id: str, custom: list | None = None, major_applications: list | None = None
     ) -> dict[str, Any]:
         """Update VPN exclusion rules for an MX network.
 
@@ -977,10 +885,6 @@ class ActionBatchAppliance:
               clear existing rules.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "trafficShaping", "vpnExclusions"],
-            "operation": "update_network_appliance_traffic_shaping_vpn_exclusions",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/appliance/trafficShaping/vpnExclusions"
 
@@ -995,14 +899,14 @@ class ActionBatchAppliance:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def create_network_appliance_vlan(
         self,
+        *,
         network_id: str,
         id_: str,
         name: str,
-        *,
         subnet: str | None = None,
         appliance_ip: str | None = None,
         group_policy_id: str | None = None,
@@ -1078,10 +982,6 @@ class ActionBatchAppliance:
                 f'"dhcp_lease_time" cannot be "{dhcp_lease_time}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["appliance", "configure", "vlans"],
-            "operation": "create_network_appliance_vlan",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/appliance/vlans"
 
@@ -1126,10 +1026,10 @@ class ActionBatchAppliance:
             "operation": "create",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def update_network_appliance_vlans_settings(
-        self, network_id: str, *, vlans_enabled: bool | None = None
+        self, *, network_id: str, vlans_enabled: bool | None = None
     ) -> dict[str, Any]:
         """Enable/Disable VLANs for the given network.
 
@@ -1141,10 +1041,6 @@ class ActionBatchAppliance:
               the network.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "vlans", "settings"],
-            "operation": "update_network_appliance_vlans_settings",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/appliance/vlans/settings"
 
@@ -1157,13 +1053,13 @@ class ActionBatchAppliance:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def update_network_appliance_vlan(
         self,
+        *,
         network_id: str,
         vlan_id: str,
-        *,
         name: str | None = None,
         subnet: str | None = None,
         appliance_ip: str | None = None,
@@ -1254,10 +1150,6 @@ class ActionBatchAppliance:
                 f'"template_vlan_type" cannot be "{template_vlan_type}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["appliance", "configure", "vlans"],
-            "operation": "update_network_appliance_vlan",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         vlan_id = urllib.parse.quote(str(vlan_id), safe="")
         resource = f"/networks/{network_id}/appliance/vlans/{vlan_id}"
@@ -1309,9 +1201,9 @@ class ActionBatchAppliance:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
-    def delete_network_appliance_vlan(self, network_id: str, vlan_id: str) -> dict[str, Any]:
+    def delete_network_appliance_vlan(self, *, network_id: str, vlan_id: str) -> dict[str, Any]:
         """Delete a VLAN from a network.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-network-appliance-vlan
@@ -1321,10 +1213,6 @@ class ActionBatchAppliance:
             vlan_id: Vlan ID.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "vlans"],
-            "operation": "delete_network_appliance_vlan",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         vlan_id = urllib.parse.quote(str(vlan_id), safe="")
         resource = f"/networks/{network_id}/appliance/vlans/{vlan_id}"
@@ -1333,13 +1221,13 @@ class ActionBatchAppliance:
             "resource": resource,
             "operation": "destroy",
         }
-        return action
+        return action  # noqa: RET504
 
     def update_network_appliance_vpn_bgp(
         self,
+        *,
         network_id: str,
         enabled: bool,
-        *,
         as_number: int | None = None,
         ibgp_hold_timer: int | None = None,
         neighbors: list | None = None,
@@ -1366,10 +1254,6 @@ class ActionBatchAppliance:
               absent, this field is not updated.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "vpn", "bgp"],
-            "operation": "update_network_appliance_vpn_bgp",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/appliance/vpn/bgp"
 
@@ -1388,13 +1272,13 @@ class ActionBatchAppliance:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def update_network_appliance_vpn_site_to_site_vpn(
         self,
+        *,
         network_id: str,
         mode: str,
-        *,
         hubs: list | None = None,
         subnets: list | None = None,
         subnet: dict | None = None,
@@ -1416,10 +1300,6 @@ class ActionBatchAppliance:
             options = ["hub", "none", "spoke"]
             assert mode in options, f'"mode" cannot be "{mode}", & must be set to one of: {options}'
 
-        metadata = {
-            "tags": ["appliance", "configure", "vpn", "siteToSiteVpn"],
-            "operation": "update_network_appliance_vpn_site_to_site_vpn",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/appliance/vpn/siteToSiteVpn"
 
@@ -1438,13 +1318,13 @@ class ActionBatchAppliance:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def update_network_appliance_warm_spare(
         self,
+        *,
         network_id: str,
         enabled: bool,
-        *,
         spare_serial: str | None = None,
         uplink_mode: str | None = None,
         virtual_ip1: str | None = None,
@@ -1463,10 +1343,6 @@ class ActionBatchAppliance:
             virtual_ip2: The WAN 2 shared IP.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "warmSpare"],
-            "operation": "update_network_appliance_warm_spare",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/appliance/warmSpare"
 
@@ -1487,9 +1363,9 @@ class ActionBatchAppliance:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
-    def swap_network_appliance_warm_spare(self, network_id: str) -> dict[str, Any]:
+    def swap_network_appliance_warm_spare(self, *, network_id: str) -> dict[str, Any]:
         """Swap MX primary and warm spare appliances.
 
         https://developer.cisco.com/meraki/api-v1/#!swap-network-appliance-warm-spare
@@ -1498,10 +1374,6 @@ class ActionBatchAppliance:
             network_id: Network ID.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "warmSpare"],
-            "operation": "swap_network_appliance_warm_spare",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/appliance/warmSpare/swap"
 
@@ -1509,10 +1381,10 @@ class ActionBatchAppliance:
             "resource": resource,
             "operation": "create",
         }
-        return action
+        return action  # noqa: RET504
 
     def create_organization_appliance_dns_local_profile(
-        self, organization_id: str, name: str
+        self, *, organization_id: str, name: str
     ) -> dict[str, Any]:
         """Create a new local DNS profile.
 
@@ -1523,10 +1395,6 @@ class ActionBatchAppliance:
             name: Name of profile.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "dns", "local", "profiles"],
-            "operation": "create_organization_appliance_dns_local_profile",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/appliance/dns/local/profiles"
 
@@ -1539,10 +1407,10 @@ class ActionBatchAppliance:
             "operation": "create",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def bulk_organization_appliance_dns_local_profiles_assignments_create(
-        self, organization_id: str, items: list
+        self, *, organization_id: str, items: list
     ) -> dict[str, Any]:
         """Assign the local DNS profile to networks in the organization.
 
@@ -1553,10 +1421,6 @@ class ActionBatchAppliance:
             items: List containing the network ID and Profile ID.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "dns", "local", "profiles", "assignments"],
-            "operation": "bulk_organization_appliance_dns_local_profiles_assignments_create",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = (
             f"/organizations/{organization_id}/appliance/dns/local/profiles/assignments/bulkCreate"
@@ -1571,10 +1435,10 @@ class ActionBatchAppliance:
             "operation": "create",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def create_organization_appliance_dns_local_profiles_assignments_bulk_delete(
-        self, organization_id: str, items: list
+        self, *, organization_id: str, items: list
     ) -> dict[str, Any]:
         """Unassign the local DNS profile to networks in the organization.
 
@@ -1585,18 +1449,6 @@ class ActionBatchAppliance:
             items: List containing the assignment ID.
 
         """
-        metadata = {
-            "tags": [
-                "appliance",
-                "configure",
-                "dns",
-                "local",
-                "profiles",
-                "assignments",
-                "bulkDelete",
-            ],
-            "operation": "create_organization_appliance_dns_local_profiles_assignments_bulk_delete",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = (
             f"/organizations/{organization_id}/appliance/dns/local/profiles/assignments/bulkDelete"
@@ -1611,10 +1463,10 @@ class ActionBatchAppliance:
             "operation": "create",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def update_organization_appliance_dns_local_profile(
-        self, organization_id: str, profile_id: str, name: str
+        self, *, organization_id: str, profile_id: str, name: str
     ) -> dict[str, Any]:
         """Update a local DNS profile.
 
@@ -1626,10 +1478,6 @@ class ActionBatchAppliance:
             name: Name of profile.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "dns", "local", "profiles"],
-            "operation": "update_organization_appliance_dns_local_profile",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         profile_id = urllib.parse.quote(str(profile_id), safe="")
         resource = f"/organizations/{organization_id}/appliance/dns/local/profiles/{profile_id}"
@@ -1643,10 +1491,10 @@ class ActionBatchAppliance:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def delete_organization_appliance_dns_local_profile(
-        self, organization_id: str, profile_id: str
+        self, *, organization_id: str, profile_id: str
     ) -> dict[str, Any]:
         """Deletes a local DNS profile.
 
@@ -1657,10 +1505,6 @@ class ActionBatchAppliance:
             profile_id: Profile ID.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "dns", "local", "profiles"],
-            "operation": "delete_organization_appliance_dns_local_profile",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         profile_id = urllib.parse.quote(str(profile_id), safe="")
         resource = f"/organizations/{organization_id}/appliance/dns/local/profiles/{profile_id}"
@@ -1669,10 +1513,10 @@ class ActionBatchAppliance:
             "resource": resource,
             "operation": "destroy",
         }
-        return action
+        return action  # noqa: RET504
 
     def create_organization_appliance_dns_local_record(
-        self, organization_id: str, hostname: str, address: str, profile: dict
+        self, *, organization_id: str, hostname: str, address: str, profile: dict
     ) -> dict[str, Any]:
         """Create a new local DNS record.
 
@@ -1685,10 +1529,6 @@ class ActionBatchAppliance:
             profile: The profile the DNS record is associated with.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "dns", "local", "records"],
-            "operation": "create_organization_appliance_dns_local_record",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/appliance/dns/local/records"
 
@@ -1705,13 +1545,13 @@ class ActionBatchAppliance:
             "operation": "create",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def update_organization_appliance_dns_local_record(
         self,
+        *,
         organization_id: str,
         record_id: str,
-        *,
         hostname: str | None = None,
         address: str | None = None,
         profile: dict | None = None,
@@ -1728,10 +1568,6 @@ class ActionBatchAppliance:
             profile: The profile the DNS record is associated with.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "dns", "local", "records"],
-            "operation": "update_organization_appliance_dns_local_record",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         record_id = urllib.parse.quote(str(record_id), safe="")
         resource = f"/organizations/{organization_id}/appliance/dns/local/records/{record_id}"
@@ -1749,10 +1585,10 @@ class ActionBatchAppliance:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def delete_organization_appliance_dns_local_record(
-        self, organization_id: str, record_id: str
+        self, *, organization_id: str, record_id: str
     ) -> dict[str, Any]:
         """Deletes a local DNS record.
 
@@ -1763,10 +1599,6 @@ class ActionBatchAppliance:
             record_id: Record ID.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "dns", "local", "records"],
-            "operation": "delete_organization_appliance_dns_local_record",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         record_id = urllib.parse.quote(str(record_id), safe="")
         resource = f"/organizations/{organization_id}/appliance/dns/local/records/{record_id}"
@@ -1775,10 +1607,10 @@ class ActionBatchAppliance:
             "resource": resource,
             "operation": "destroy",
         }
-        return action
+        return action  # noqa: RET504
 
     def create_organization_appliance_dns_split_profile(
-        self, organization_id: str, name: str, hostnames: list, nameservers: dict
+        self, *, organization_id: str, name: str, hostnames: list, nameservers: dict
     ) -> dict[str, Any]:
         """Create a new split DNS profile.
 
@@ -1792,10 +1624,6 @@ class ActionBatchAppliance:
             nameservers: Contains the nameserver information for redirection.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "dns", "split", "profiles"],
-            "operation": "create_organization_appliance_dns_split_profile",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/appliance/dns/split/profiles"
 
@@ -1812,10 +1640,10 @@ class ActionBatchAppliance:
             "operation": "create",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def create_organization_appliance_dns_split_profiles_assignments_bulk_create(
-        self, organization_id: str, items: list
+        self, *, organization_id: str, items: list
     ) -> dict[str, Any]:
         """Assign the split DNS profile to networks in the organization.
 
@@ -1826,18 +1654,6 @@ class ActionBatchAppliance:
             items: List containing the network ID and Profile ID.
 
         """
-        metadata = {
-            "tags": [
-                "appliance",
-                "configure",
-                "dns",
-                "split",
-                "profiles",
-                "assignments",
-                "bulkCreate",
-            ],
-            "operation": "create_organization_appliance_dns_split_profiles_assignments_bulk_create",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = (
             f"/organizations/{organization_id}/appliance/dns/split/profiles/assignments/bulkCreate"
@@ -1852,10 +1668,10 @@ class ActionBatchAppliance:
             "operation": "create",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def create_organization_appliance_dns_split_profiles_assignments_bulk_delete(
-        self, organization_id: str, items: list
+        self, *, organization_id: str, items: list
     ) -> dict[str, Any]:
         """Unassign the split DNS profile to networks in the organization.
 
@@ -1866,18 +1682,6 @@ class ActionBatchAppliance:
             items: List containing the assignment ID.
 
         """
-        metadata = {
-            "tags": [
-                "appliance",
-                "configure",
-                "dns",
-                "split",
-                "profiles",
-                "assignments",
-                "bulkDelete",
-            ],
-            "operation": "create_organization_appliance_dns_split_profiles_assignments_bulk_delete",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = (
             f"/organizations/{organization_id}/appliance/dns/split/profiles/assignments/bulkDelete"
@@ -1892,13 +1696,13 @@ class ActionBatchAppliance:
             "operation": "create",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def update_organization_appliance_dns_split_profile(
         self,
+        *,
         organization_id: str,
         profile_id: str,
-        *,
         name: str | None = None,
         hostnames: list | None = None,
         nameservers: dict | None = None,
@@ -1916,10 +1720,6 @@ class ActionBatchAppliance:
             nameservers: Contains the nameserver information for redirection.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "dns", "split", "profiles"],
-            "operation": "update_organization_appliance_dns_split_profile",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         profile_id = urllib.parse.quote(str(profile_id), safe="")
         resource = f"/organizations/{organization_id}/appliance/dns/split/profiles/{profile_id}"
@@ -1937,10 +1737,10 @@ class ActionBatchAppliance:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def delete_organization_appliance_dns_split_profile(
-        self, organization_id: str, profile_id: str
+        self, *, organization_id: str, profile_id: str
     ) -> dict[str, Any]:
         """Deletes a split DNS profile.
 
@@ -1951,10 +1751,6 @@ class ActionBatchAppliance:
             profile_id: Profile ID.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "dns", "split", "profiles"],
-            "operation": "delete_organization_appliance_dns_split_profile",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         profile_id = urllib.parse.quote(str(profile_id), safe="")
         resource = f"/organizations/{organization_id}/appliance/dns/split/profiles/{profile_id}"
@@ -1963,10 +1759,10 @@ class ActionBatchAppliance:
             "resource": resource,
             "operation": "destroy",
         }
-        return action
+        return action  # noqa: RET504
 
     def update_organization_appliance_vpn_site_to_site_ipsec_peers_slas(
-        self, organization_id: str, *, items: list | None = None
+        self, *, organization_id: str, items: list | None = None
     ) -> dict[str, Any]:
         """Update the IPsec SLA policies for an organization.
 
@@ -1977,10 +1773,6 @@ class ActionBatchAppliance:
             items: List of IPsec SLA policies.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "vpn", "siteToSite", "ipsec", "peers", "slas"],
-            "operation": "update_organization_appliance_vpn_site_to_site_ipsec_peers_slas",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/appliance/vpn/siteToSite/ipsec/peers/slas"
 
@@ -1993,10 +1785,10 @@ class ActionBatchAppliance:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def update_organization_appliance_vpn_third_party_v_p_n_peers(
-        self, organization_id: str, peers: list
+        self, *, organization_id: str, peers: list
     ) -> dict[str, Any]:
         """Update the third party VPN peers for an organization.
 
@@ -2007,10 +1799,6 @@ class ActionBatchAppliance:
             peers: The list of VPN peers.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "vpn", "thirdPartyVPNPeers"],
-            "operation": "update_organization_appliance_vpn_third_party_v_p_n_peers",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/appliance/vpn/thirdPartyVPNPeers"
 
@@ -2023,4 +1811,4 @@ class ActionBatchAppliance:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504

@@ -56,7 +56,7 @@ class AsyncAdministered:
 
         return self._session.post(metadata, resource)
 
-    def revoke_administered_identities_me_api_keys(self, suffix: str) -> dict[str, Any] | None:
+    def revoke_administered_identities_me_api_keys(self, *, suffix: str) -> dict[str, Any] | None:
         """Revokes an identity's API key, using the last four characters of the key.
 
         https://developer.cisco.com/meraki/api-v1/#!revoke-administered-identities-me-api-keys

@@ -14,7 +14,7 @@ class AsyncCellularGateway:
         super().__init__()
         self._session = session
 
-    def get_device_cellular_gateway_lan(self, serial: str) -> dict[str, Any] | None:
+    def get_device_cellular_gateway_lan(self, *, serial: str) -> dict[str, Any] | None:
         """Show the LAN Settings of a MG.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device-cellular-gateway-lan
@@ -34,8 +34,8 @@ class AsyncCellularGateway:
 
     def update_device_cellular_gateway_lan(
         self,
-        serial: str,
         *,
+        serial: str,
         reserved_ip_ranges: list | None = None,
         fixed_ip_assignments: list | None = None,
     ) -> dict[str, Any] | None:
@@ -65,7 +65,7 @@ class AsyncCellularGateway:
         return self._session.put(metadata, resource, payload)
 
     def get_device_cellular_gateway_port_forwarding_rules(
-        self, serial: str
+        self, *, serial: str
     ) -> dict[str, Any] | None:
         """Returns the port forwarding rules for a single MG.
 
@@ -85,7 +85,7 @@ class AsyncCellularGateway:
         return self._session.get(metadata, resource)
 
     def update_device_cellular_gateway_port_forwarding_rules(
-        self, serial: str, *, rules: list | None = None
+        self, *, serial: str, rules: list | None = None
     ) -> dict[str, Any] | None:
         """Updates the port forwarding rules for a single MG.
 
@@ -110,7 +110,7 @@ class AsyncCellularGateway:
         return self._session.put(metadata, resource, payload)
 
     def get_network_cellular_gateway_connectivity_monitoring_destinations(
-        self, network_id: str
+        self, *, network_id: str
     ) -> dict[str, Any] | None:
         """Return the connectivity testing destinations for an MG network.
 
@@ -130,7 +130,7 @@ class AsyncCellularGateway:
         return self._session.get(metadata, resource)
 
     def update_network_cellular_gateway_connectivity_monitoring_destinations(
-        self, network_id: str, *, destinations: list | None = None
+        self, *, network_id: str, destinations: list | None = None
     ) -> dict[str, Any] | None:
         """Update the connectivity testing destinations for an MG network.
 
@@ -154,7 +154,7 @@ class AsyncCellularGateway:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_network_cellular_gateway_dhcp(self, network_id: str) -> dict[str, Any] | None:
+    def get_network_cellular_gateway_dhcp(self, *, network_id: str) -> dict[str, Any] | None:
         """List common DHCP settings of MGs.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-cellular-gateway-dhcp
@@ -174,8 +174,8 @@ class AsyncCellularGateway:
 
     def update_network_cellular_gateway_dhcp(
         self,
-        network_id: str,
         *,
+        network_id: str,
         dhcp_lease_time: str | None = None,
         dns_nameservers: str | None = None,
         dns_custom_nameservers: list | None = None,
@@ -211,7 +211,7 @@ class AsyncCellularGateway:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_network_cellular_gateway_subnet_pool(self, network_id: str) -> dict[str, Any] | None:
+    def get_network_cellular_gateway_subnet_pool(self, *, network_id: str) -> dict[str, Any] | None:
         """Return the subnet pool and mask configured for MGs in the network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-cellular-gateway-subnet-pool
@@ -230,7 +230,7 @@ class AsyncCellularGateway:
         return self._session.get(metadata, resource)
 
     def update_network_cellular_gateway_subnet_pool(
-        self, network_id: str, *, mask: int | None = None, cidr: str | None = None
+        self, *, network_id: str, mask: int | None = None, cidr: str | None = None
     ) -> dict[str, Any] | None:
         """Update the subnet pool and mask configuration for MGs in the network.
 
@@ -258,7 +258,7 @@ class AsyncCellularGateway:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_network_cellular_gateway_uplink(self, network_id: str) -> dict[str, Any] | None:
+    def get_network_cellular_gateway_uplink(self, *, network_id: str) -> dict[str, Any] | None:
         """Returns the uplink settings for your MG network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-cellular-gateway-uplink
@@ -277,7 +277,7 @@ class AsyncCellularGateway:
         return self._session.get(metadata, resource)
 
     def update_network_cellular_gateway_uplink(
-        self, network_id: str, *, bandwidth_limits: dict | None = None
+        self, *, network_id: str, bandwidth_limits: dict | None = None
     ) -> dict[str, Any] | None:
         """Updates the uplink settings for your MG network.
 
@@ -302,7 +302,7 @@ class AsyncCellularGateway:
         return self._session.put(metadata, resource, payload)
 
     def get_organization_cellular_gateway_esims_inventory(
-        self, organization_id: str, *, eids: list | None = None
+        self, *, organization_id: str, eids: list | None = None
     ) -> dict[str, Any] | None:
         """The eSIM inventory of a given organization.
 
@@ -327,7 +327,7 @@ class AsyncCellularGateway:
         return self._session.get(metadata, resource, params)
 
     def update_organization_cellular_gateway_esims_inventory(
-        self, organization_id: str, id_: str, *, status: str | None = None
+        self, *, organization_id: str, id_: str, status: str | None = None
     ) -> dict[str, Any] | None:
         """Toggle the status of an eSIM.
 
@@ -354,7 +354,7 @@ class AsyncCellularGateway:
         return self._session.put(metadata, resource, payload)
 
     def get_organization_cellular_gateway_esims_service_providers(
-        self, organization_id: str
+        self, *, organization_id: str
     ) -> dict[str, Any] | None:
         """Service providers customers can add accounts for.
 
@@ -374,7 +374,7 @@ class AsyncCellularGateway:
         return self._session.get(metadata, resource)
 
     def get_organization_cellular_gateway_esims_service_providers_accounts(
-        self, organization_id: str, *, account_ids: list | None = None
+        self, *, organization_id: str, account_ids: list | None = None
     ) -> dict[str, Any] | None:
         """Inventory of service provider accounts tied to the organization.
 
@@ -402,6 +402,7 @@ class AsyncCellularGateway:
 
     def create_organization_cellular_gateway_esims_service_providers_account(
         self,
+        *,
         organization_id: str,
         account_id: str,
         api_key: str,
@@ -446,7 +447,7 @@ class AsyncCellularGateway:
         return self._session.post(metadata, resource, payload)
 
     def get_organization_cellular_gateway_esims_service_providers_accounts_communication_plans(
-        self, organization_id: str, account_ids: list
+        self, *, organization_id: str, account_ids: list
     ) -> dict[str, Any] | None:
         """The communication plans available for a given provider.
 
@@ -478,7 +479,7 @@ class AsyncCellularGateway:
         return self._session.get(metadata, resource, params)
 
     def get_organization_cellular_gateway_esims_service_providers_accounts_rate_plans(
-        self, organization_id: str, account_ids: list
+        self, *, organization_id: str, account_ids: list
     ) -> dict[str, Any] | None:
         """The rate plans available for a given provider.
 
@@ -511,9 +512,9 @@ class AsyncCellularGateway:
 
     def update_organization_cellular_gateway_esims_service_providers_account(
         self,
+        *,
         organization_id: str,
         account_id: str,
-        *,
         title: str | None = None,
         api_key: str | None = None,
     ) -> dict[str, Any] | None:
@@ -545,7 +546,7 @@ class AsyncCellularGateway:
         return self._session.put(metadata, resource, payload)
 
     def delete_organization_cellular_gateway_esims_service_providers_account(
-        self, organization_id: str, account_id: str
+        self, *, organization_id: str, account_id: str
     ) -> None:
         """Remove a service provider account's integration with the Dashboard.
 
@@ -567,7 +568,7 @@ class AsyncCellularGateway:
         return self._session.delete(metadata, resource)
 
     def create_organization_cellular_gateway_esims_swap(
-        self, organization_id: str, swaps: list
+        self, *, organization_id: str, swaps: list
     ) -> dict[str, Any] | None:
         """Swap which profile an eSIM uses.
 
@@ -592,7 +593,7 @@ class AsyncCellularGateway:
         return self._session.post(metadata, resource, payload)
 
     def update_organization_cellular_gateway_esims_swap(
-        self, id_: str, organization_id: str
+        self, *, id_: str, organization_id: str
     ) -> dict[str, Any] | None:
         """Get the status of a profile swap.
 
@@ -615,8 +616,8 @@ class AsyncCellularGateway:
 
     def get_organization_cellular_gateway_uplink_statuses(
         self,
-        organization_id: str,
         *,
+        organization_id: str,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,

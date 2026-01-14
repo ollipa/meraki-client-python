@@ -10,7 +10,7 @@ class ActionBatchSensor:
     def __init__(self) -> None:
         pass
 
-    def create_device_sensor_command(self, serial: str, operation: str) -> dict[str, Any]:
+    def create_device_sensor_command(self, *, serial: str, operation: str) -> dict[str, Any]:
         """Sends a command to a sensor.
 
         https://developer.cisco.com/meraki/api-v1/#!create-device-sensor-command
@@ -35,10 +35,6 @@ class ActionBatchSensor:
                 f'"operation" cannot be "{operation}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["sensor", "configure", "commands"],
-            "operation": "create_device_sensor_command",
-        }
         serial = urllib.parse.quote(str(serial), safe="")
         resource = f"/devices/{serial}/sensor/commands"
 
@@ -51,10 +47,10 @@ class ActionBatchSensor:
             "operation": "create",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def update_device_sensor_relationships(
-        self, serial: str, *, livestream: dict | None = None
+        self, *, serial: str, livestream: dict | None = None
     ) -> dict[str, Any]:
         """Assign one or more sensor roles to a given sensor or camera device.
 
@@ -67,10 +63,6 @@ class ActionBatchSensor:
               also appear in alert notifications that the sensor triggers.
 
         """
-        metadata = {
-            "tags": ["sensor", "configure", "relationships"],
-            "operation": "update_device_sensor_relationships",
-        }
         serial = urllib.parse.quote(str(serial), safe="")
         resource = f"/devices/{serial}/sensor/relationships"
 
@@ -83,14 +75,14 @@ class ActionBatchSensor:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def create_network_sensor_alerts_profile(
         self,
+        *,
         network_id: str,
         name: str,
         conditions: list,
-        *,
         schedule: dict | None = None,
         recipients: dict | None = None,
         serials: list | None = None,
@@ -112,10 +104,6 @@ class ActionBatchSensor:
             message: A custom message that will appear in email and text message alerts.
 
         """
-        metadata = {
-            "tags": ["sensor", "configure", "alerts", "profiles"],
-            "operation": "create_network_sensor_alerts_profile",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/sensor/alerts/profiles"
 
@@ -140,13 +128,13 @@ class ActionBatchSensor:
             "operation": "create",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def update_network_sensor_alerts_profile(
         self,
+        *,
         network_id: str,
         id_: str,
-        *,
         name: str | None = None,
         schedule: dict | None = None,
         conditions: list | None = None,
@@ -171,10 +159,6 @@ class ActionBatchSensor:
             message: A custom message that will appear in email and text message alerts.
 
         """
-        metadata = {
-            "tags": ["sensor", "configure", "alerts", "profiles"],
-            "operation": "update_network_sensor_alerts_profile",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         id_ = urllib.parse.quote(str(id_), safe="")
         resource = f"/networks/{network_id}/sensor/alerts/profiles/{id_}"
@@ -200,9 +184,9 @@ class ActionBatchSensor:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
-    def delete_network_sensor_alerts_profile(self, network_id: str, id_: str) -> dict[str, Any]:
+    def delete_network_sensor_alerts_profile(self, *, network_id: str, id_: str) -> dict[str, Any]:
         """Deletes a sensor alert profile from a network.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-network-sensor-alerts-profile
@@ -212,10 +196,6 @@ class ActionBatchSensor:
             id_: ID.
 
         """
-        metadata = {
-            "tags": ["sensor", "configure", "alerts", "profiles"],
-            "operation": "delete_network_sensor_alerts_profile",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         id_ = urllib.parse.quote(str(id_), safe="")
         resource = f"/networks/{network_id}/sensor/alerts/profiles/{id_}"
@@ -224,10 +204,10 @@ class ActionBatchSensor:
             "resource": resource,
             "operation": "destroy",
         }
-        return action
+        return action  # noqa: RET504
 
     def update_network_sensor_mqtt_broker(
-        self, network_id: str, mqtt_broker_id: str, enabled: bool
+        self, *, network_id: str, mqtt_broker_id: str, enabled: bool
     ) -> dict[str, Any]:
         """Update the sensor settings of an MQTT broker.
 
@@ -239,10 +219,6 @@ class ActionBatchSensor:
             enabled: Set to true to enable MQTT broker for sensor network.
 
         """
-        metadata = {
-            "tags": ["sensor", "configure", "mqttBrokers"],
-            "operation": "update_network_sensor_mqtt_broker",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         mqtt_broker_id = urllib.parse.quote(str(mqtt_broker_id), safe="")
         resource = f"/networks/{network_id}/sensor/mqttBrokers/{mqtt_broker_id}"
@@ -256,4 +232,4 @@ class ActionBatchSensor:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504

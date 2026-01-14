@@ -16,9 +16,9 @@ class AsyncInsight:
 
     def get_network_insight_application_health_by_time(
         self,
+        *,
         network_id: str,
         application_id: str,
-        *,
         t0: str | None = None,
         t1: str | None = None,
         timespan: float | None = None,
@@ -61,7 +61,9 @@ class AsyncInsight:
 
         return self._session.get(metadata, resource, params)
 
-    def get_organization_insight_applications(self, organization_id: str) -> dict[str, Any] | None:
+    def get_organization_insight_applications(
+        self, *, organization_id: str
+    ) -> dict[str, Any] | None:
         """List all Insight tracked applications.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-insight-applications
@@ -80,7 +82,7 @@ class AsyncInsight:
         return self._session.get(metadata, resource)
 
     def get_organization_insight_monitored_media_servers(
-        self, organization_id: str
+        self, *, organization_id: str
     ) -> dict[str, Any] | None:
         """List the monitored media servers for this organization.
 
@@ -101,10 +103,10 @@ class AsyncInsight:
 
     def create_organization_insight_monitored_media_server(
         self,
+        *,
         organization_id: str,
         name: str,
         address: str,
-        *,
         best_effort_monitoring_enabled: bool | None = None,
     ) -> dict[str, Any] | None:
         """Add a media server to be monitored for this organization.
@@ -137,7 +139,7 @@ class AsyncInsight:
         return self._session.post(metadata, resource, payload)
 
     def get_organization_insight_monitored_media_server(
-        self, organization_id: str, monitored_media_server_id: str
+        self, *, organization_id: str, monitored_media_server_id: str
     ) -> dict[str, Any] | None:
         """Return a monitored media server for this organization.
 
@@ -160,9 +162,9 @@ class AsyncInsight:
 
     def update_organization_insight_monitored_media_server(
         self,
+        *,
         organization_id: str,
         monitored_media_server_id: str,
-        *,
         name: str | None = None,
         address: str | None = None,
         best_effort_monitoring_enabled: bool | None = None,
@@ -199,7 +201,7 @@ class AsyncInsight:
         return self._session.put(metadata, resource, payload)
 
     def delete_organization_insight_monitored_media_server(
-        self, organization_id: str, monitored_media_server_id: str
+        self, *, organization_id: str, monitored_media_server_id: str
     ) -> None:
         """Delete a monitored media server from this organization.
 

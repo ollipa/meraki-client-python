@@ -14,7 +14,7 @@ class AsyncAppliance:
         super().__init__()
         self._session = session
 
-    def get_device_appliance_dhcp_subnets(self, serial: str) -> dict[str, Any] | None:
+    def get_device_appliance_dhcp_subnets(self, *, serial: str) -> dict[str, Any] | None:
         """Return the DHCP subnet information for an appliance.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device-appliance-dhcp-subnets
@@ -34,8 +34,8 @@ class AsyncAppliance:
 
     def get_device_appliance_performance(
         self,
-        serial: str,
         *,
+        serial: str,
         t0: str | None = None,
         t1: str | None = None,
         timespan: float | None = None,
@@ -72,7 +72,7 @@ class AsyncAppliance:
 
         return self._session.get(metadata, resource, params)
 
-    def get_device_appliance_prefixes_delegated(self, serial: str) -> dict[str, Any] | None:
+    def get_device_appliance_prefixes_delegated(self, *, serial: str) -> dict[str, Any] | None:
         """Return current delegated IPv6 prefixes on an appliance.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device-appliance-prefixes-delegated
@@ -91,7 +91,7 @@ class AsyncAppliance:
         return self._session.get(metadata, resource)
 
     def get_device_appliance_prefixes_delegated_vlan_assignments(
-        self, serial: str
+        self, *, serial: str
     ) -> dict[str, Any] | None:
         """Return prefixes assigned to all IPv6 enabled VLANs on an appliance.
 
@@ -110,7 +110,7 @@ class AsyncAppliance:
 
         return self._session.get(metadata, resource)
 
-    def get_device_appliance_radio_settings(self, serial: str) -> dict[str, Any] | None:
+    def get_device_appliance_radio_settings(self, *, serial: str) -> dict[str, Any] | None:
         """Return the radio settings of an appliance.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device-appliance-radio-settings
@@ -130,8 +130,8 @@ class AsyncAppliance:
 
     def update_device_appliance_radio_settings(
         self,
-        serial: str,
         *,
+        serial: str,
         rf_profile_id: str | None = None,
         two_four_ghz_settings: dict | None = None,
         five_ghz_settings: dict | None = None,
@@ -168,7 +168,7 @@ class AsyncAppliance:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_device_appliance_uplinks_settings(self, serial: str) -> dict[str, Any] | None:
+    def get_device_appliance_uplinks_settings(self, *, serial: str) -> dict[str, Any] | None:
         """Return the uplink settings for an MX appliance.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device-appliance-uplinks-settings
@@ -187,7 +187,7 @@ class AsyncAppliance:
         return self._session.get(metadata, resource)
 
     def update_device_appliance_uplinks_settings(
-        self, serial: str, interfaces: dict
+        self, *, serial: str, interfaces: dict
     ) -> dict[str, Any] | None:
         """Update the uplink settings for an MX appliance.
 
@@ -212,7 +212,7 @@ class AsyncAppliance:
         return self._session.put(metadata, resource, payload)
 
     def create_device_appliance_vmx_authentication_token(
-        self, serial: str
+        self, *, serial: str
     ) -> dict[str, Any] | None:
         """Generate a new vMX authentication token.
 
@@ -233,9 +233,9 @@ class AsyncAppliance:
 
     def get_network_appliance_client_security_events(
         self,
+        *,
         network_id: str,
         client_id: str,
-        *,
         t0: str | None = None,
         t1: str | None = None,
         timespan: float | None = None,
@@ -309,7 +309,7 @@ class AsyncAppliance:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def get_network_appliance_connectivity_monitoring_destinations(
-        self, network_id: str
+        self, *, network_id: str
     ) -> dict[str, Any] | None:
         """Return the connectivity testing destinations for an MX network.
 
@@ -329,7 +329,7 @@ class AsyncAppliance:
         return self._session.get(metadata, resource)
 
     def update_network_appliance_connectivity_monitoring_destinations(
-        self, network_id: str, *, destinations: list | None = None
+        self, *, network_id: str, destinations: list | None = None
     ) -> dict[str, Any] | None:
         """Update the connectivity testing destinations for an MX network.
 
@@ -353,7 +353,7 @@ class AsyncAppliance:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_network_appliance_content_filtering(self, network_id: str) -> dict[str, Any] | None:
+    def get_network_appliance_content_filtering(self, *, network_id: str) -> dict[str, Any] | None:
         """Return the content filtering settings for an MX network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-content-filtering
@@ -373,8 +373,8 @@ class AsyncAppliance:
 
     def update_network_appliance_content_filtering(
         self,
-        network_id: str,
         *,
+        network_id: str,
         allowed_url_patterns: list | None = None,
         blocked_url_patterns: list | None = None,
         blocked_url_categories: list | None = None,
@@ -418,7 +418,7 @@ class AsyncAppliance:
         return self._session.put(metadata, resource, payload)
 
     def get_network_appliance_content_filtering_categories(
-        self, network_id: str
+        self, *, network_id: str
     ) -> dict[str, Any] | None:
         """List all available content filtering categories for an MX network.
 
@@ -438,7 +438,7 @@ class AsyncAppliance:
         return self._session.get(metadata, resource)
 
     def get_network_appliance_firewall_cellular_firewall_rules(
-        self, network_id: str
+        self, *, network_id: str
     ) -> dict[str, Any] | None:
         """Return the cellular firewall rules for an MX network.
 
@@ -458,7 +458,7 @@ class AsyncAppliance:
         return self._session.get(metadata, resource)
 
     def update_network_appliance_firewall_cellular_firewall_rules(
-        self, network_id: str, *, rules: list | None = None
+        self, *, network_id: str, rules: list | None = None
     ) -> dict[str, Any] | None:
         """Update the cellular firewall rules of an MX network.
 
@@ -483,7 +483,7 @@ class AsyncAppliance:
         return self._session.put(metadata, resource, payload)
 
     def get_network_appliance_firewall_firewalled_services(
-        self, network_id: str
+        self, *, network_id: str
     ) -> dict[str, Any] | None:
         """List the appliance services and their accessibility rules.
 
@@ -503,7 +503,7 @@ class AsyncAppliance:
         return self._session.get(metadata, resource)
 
     def get_network_appliance_firewall_firewalled_service(
-        self, network_id: str, service: str
+        self, *, network_id: str, service: str
     ) -> dict[str, Any] | None:
         """Return the accessibility settings of the given service ('ICMP', 'web', or 'SNMP').
 
@@ -525,7 +525,7 @@ class AsyncAppliance:
         return self._session.get(metadata, resource)
 
     def update_network_appliance_firewall_firewalled_service(
-        self, network_id: str, service: str, access: str, *, allowed_ips: list | None = None
+        self, *, network_id: str, service: str, access: str, allowed_ips: list | None = None
     ) -> dict[str, Any] | None:
         """Updates the accessibility settings for the given service ('ICMP', 'web', or 'SNMP').
 
@@ -567,7 +567,7 @@ class AsyncAppliance:
         return self._session.put(metadata, resource, payload)
 
     def get_network_appliance_firewall_inbound_cellular_firewall_rules(
-        self, network_id: str
+        self, *, network_id: str
     ) -> dict[str, Any] | None:
         """Return the inbound cellular firewall rules for an MX network.
 
@@ -587,7 +587,7 @@ class AsyncAppliance:
         return self._session.get(metadata, resource)
 
     def update_network_appliance_firewall_inbound_cellular_firewall_rules(
-        self, network_id: str, *, rules: list | None = None
+        self, *, network_id: str, rules: list | None = None
     ) -> dict[str, Any] | None:
         """Update the inbound cellular firewall rules of an MX network.
 
@@ -612,7 +612,7 @@ class AsyncAppliance:
         return self._session.put(metadata, resource, payload)
 
     def get_network_appliance_firewall_inbound_firewall_rules(
-        self, network_id: str
+        self, *, network_id: str
     ) -> dict[str, Any] | None:
         """Return the inbound firewall rules for an MX network.
 
@@ -632,7 +632,7 @@ class AsyncAppliance:
         return self._session.get(metadata, resource)
 
     def update_network_appliance_firewall_inbound_firewall_rules(
-        self, network_id: str, *, rules: list | None = None, syslog_default_rule: bool | None = None
+        self, *, network_id: str, rules: list | None = None, syslog_default_rule: bool | None = None
     ) -> dict[str, Any] | None:
         """Update the inbound firewall rules of an MX network.
 
@@ -661,7 +661,7 @@ class AsyncAppliance:
         return self._session.put(metadata, resource, payload)
 
     def get_network_appliance_firewall_l3_firewall_rules(
-        self, network_id: str
+        self, *, network_id: str
     ) -> dict[str, Any] | None:
         """Return the L3 firewall rules for an MX network.
 
@@ -681,7 +681,7 @@ class AsyncAppliance:
         return self._session.get(metadata, resource)
 
     def update_network_appliance_firewall_l3_firewall_rules(
-        self, network_id: str, *, rules: list | None = None, syslog_default_rule: bool | None = None
+        self, *, network_id: str, rules: list | None = None, syslog_default_rule: bool | None = None
     ) -> dict[str, Any] | None:
         """Update the L3 firewall rules of an MX network.
 
@@ -710,7 +710,7 @@ class AsyncAppliance:
         return self._session.put(metadata, resource, payload)
 
     def get_network_appliance_firewall_l7_firewall_rules(
-        self, network_id: str
+        self, *, network_id: str
     ) -> dict[str, Any] | None:
         """List the MX L7 firewall rules for an MX network.
 
@@ -730,7 +730,7 @@ class AsyncAppliance:
         return self._session.get(metadata, resource)
 
     def update_network_appliance_firewall_l7_firewall_rules(
-        self, network_id: str, *, rules: list | None = None
+        self, *, network_id: str, rules: list | None = None
     ) -> dict[str, Any] | None:
         """Update the MX L7 firewall rules for an MX network.
 
@@ -755,7 +755,7 @@ class AsyncAppliance:
         return self._session.put(metadata, resource, payload)
 
     def get_network_appliance_firewall_l7_firewall_rules_application_categories(
-        self, network_id: str
+        self, *, network_id: str
     ) -> dict[str, Any] | None:
         """Return the L7 firewall application categories and their associated applications for an MX network.
 
@@ -783,7 +783,7 @@ class AsyncAppliance:
         return self._session.get(metadata, resource)
 
     def update_network_appliance_firewall_multicast_forwarding(
-        self, network_id: str, rules: list
+        self, *, network_id: str, rules: list
     ) -> dict[str, Any] | None:
         """Update static multicast forward rules for a network.
 
@@ -808,7 +808,7 @@ class AsyncAppliance:
         return self._session.put(metadata, resource, payload)
 
     def get_network_appliance_firewall_one_to_many_nat_rules(
-        self, network_id: str
+        self, *, network_id: str
     ) -> dict[str, Any] | None:
         """Return the 1:Many NAT mapping rules for an MX network.
 
@@ -828,7 +828,7 @@ class AsyncAppliance:
         return self._session.get(metadata, resource)
 
     def update_network_appliance_firewall_one_to_many_nat_rules(
-        self, network_id: str, rules: list
+        self, *, network_id: str, rules: list
     ) -> dict[str, Any] | None:
         """Set the 1:Many NAT mapping rules for an MX network.
 
@@ -853,7 +853,7 @@ class AsyncAppliance:
         return self._session.put(metadata, resource, payload)
 
     def get_network_appliance_firewall_one_to_one_nat_rules(
-        self, network_id: str
+        self, *, network_id: str
     ) -> dict[str, Any] | None:
         """Return the 1:1 NAT mapping rules for an MX network.
 
@@ -873,7 +873,7 @@ class AsyncAppliance:
         return self._session.get(metadata, resource)
 
     def update_network_appliance_firewall_one_to_one_nat_rules(
-        self, network_id: str, rules: list
+        self, *, network_id: str, rules: list
     ) -> dict[str, Any] | None:
         """Set the 1:1 NAT mapping rules for an MX network.
 
@@ -898,7 +898,7 @@ class AsyncAppliance:
         return self._session.put(metadata, resource, payload)
 
     def get_network_appliance_firewall_port_forwarding_rules(
-        self, network_id: str
+        self, *, network_id: str
     ) -> dict[str, Any] | None:
         """Return the port forwarding rules for an MX network.
 
@@ -918,7 +918,7 @@ class AsyncAppliance:
         return self._session.get(metadata, resource)
 
     def update_network_appliance_firewall_port_forwarding_rules(
-        self, network_id: str, rules: list
+        self, *, network_id: str, rules: list
     ) -> dict[str, Any] | None:
         """Update the port forwarding rules for an MX network.
 
@@ -942,7 +942,7 @@ class AsyncAppliance:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_network_appliance_firewall_settings(self, network_id: str) -> dict[str, Any] | None:
+    def get_network_appliance_firewall_settings(self, *, network_id: str) -> dict[str, Any] | None:
         """Return the firewall settings for this network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-firewall-settings
@@ -961,7 +961,7 @@ class AsyncAppliance:
         return self._session.get(metadata, resource)
 
     def update_network_appliance_firewall_settings(
-        self, network_id: str, *, spoofing_protection: dict | None = None
+        self, *, network_id: str, spoofing_protection: dict | None = None
     ) -> dict[str, Any] | None:
         """Update the firewall settings for this network.
 
@@ -985,7 +985,7 @@ class AsyncAppliance:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_network_appliance_ports(self, network_id: str) -> dict[str, Any] | None:
+    def get_network_appliance_ports(self, *, network_id: str) -> dict[str, Any] | None:
         """List per-port VLAN settings for all ports of a MX.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-ports
@@ -1003,7 +1003,7 @@ class AsyncAppliance:
 
         return self._session.get(metadata, resource)
 
-    def get_network_appliance_port(self, network_id: str, port_id: str) -> dict[str, Any] | None:
+    def get_network_appliance_port(self, *, network_id: str, port_id: str) -> dict[str, Any] | None:
         """Return per-port VLAN settings for a single MX port.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-port
@@ -1025,9 +1025,9 @@ class AsyncAppliance:
 
     def update_network_appliance_port(
         self,
+        *,
         network_id: str,
         port_id: str,
-        *,
         enabled: bool | None = None,
         drop_untagged_traffic: bool | None = None,
         type_: str | None = None,
@@ -1082,7 +1082,7 @@ class AsyncAppliance:
         return self._session.put(metadata, resource, payload)
 
     def get_network_appliance_prefixes_delegated_statics(
-        self, network_id: str
+        self, *, network_id: str
     ) -> dict[str, Any] | None:
         """List static delegated prefixes for a network.
 
@@ -1102,7 +1102,7 @@ class AsyncAppliance:
         return self._session.get(metadata, resource)
 
     def create_network_appliance_prefixes_delegated_static(
-        self, network_id: str, prefix: str, origin: dict, *, description: str | None = None
+        self, *, network_id: str, prefix: str, origin: dict, description: str | None = None
     ) -> dict[str, Any] | None:
         """Add a static delegated prefix from a network.
 
@@ -1133,7 +1133,7 @@ class AsyncAppliance:
         return self._session.post(metadata, resource, payload)
 
     def get_network_appliance_prefixes_delegated_static(
-        self, network_id: str, static_delegated_prefix_id: str
+        self, *, network_id: str, static_delegated_prefix_id: str
     ) -> dict[str, Any] | None:
         """Return a static delegated prefix from a network.
 
@@ -1156,9 +1156,9 @@ class AsyncAppliance:
 
     def update_network_appliance_prefixes_delegated_static(
         self,
+        *,
         network_id: str,
         static_delegated_prefix_id: str,
-        *,
         prefix: str | None = None,
         origin: dict | None = None,
         description: str | None = None,
@@ -1194,7 +1194,7 @@ class AsyncAppliance:
         return self._session.put(metadata, resource, payload)
 
     def delete_network_appliance_prefixes_delegated_static(
-        self, network_id: str, static_delegated_prefix_id: str
+        self, *, network_id: str, static_delegated_prefix_id: str
     ) -> None:
         """Delete a static delegated prefix from a network.
 
@@ -1215,7 +1215,7 @@ class AsyncAppliance:
 
         return self._session.delete(metadata, resource)
 
-    def get_network_appliance_rf_profiles(self, network_id: str) -> dict[str, Any] | None:
+    def get_network_appliance_rf_profiles(self, *, network_id: str) -> dict[str, Any] | None:
         """List the RF profiles for this network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-rf-profiles
@@ -1235,9 +1235,9 @@ class AsyncAppliance:
 
     def create_network_appliance_rf_profile(
         self,
+        *,
         network_id: str,
         name: str,
-        *,
         two_four_ghz_settings: dict | None = None,
         five_ghz_settings: dict | None = None,
         per_ssid_settings: dict | None = None,
@@ -1275,9 +1275,9 @@ class AsyncAppliance:
 
     def update_network_appliance_rf_profile(
         self,
+        *,
         network_id: str,
         rf_profile_id: str,
-        *,
         name: str | None = None,
         two_four_ghz_settings: dict | None = None,
         five_ghz_settings: dict | None = None,
@@ -1316,7 +1316,7 @@ class AsyncAppliance:
 
         return self._session.put(metadata, resource, payload)
 
-    def delete_network_appliance_rf_profile(self, network_id: str, rf_profile_id: str) -> None:
+    def delete_network_appliance_rf_profile(self, *, network_id: str, rf_profile_id: str) -> None:
         """Delete a RF Profile.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-network-appliance-rf-profile
@@ -1337,7 +1337,7 @@ class AsyncAppliance:
         return self._session.delete(metadata, resource)
 
     def get_network_appliance_rf_profile(
-        self, network_id: str, rf_profile_id: str
+        self, *, network_id: str, rf_profile_id: str
     ) -> dict[str, Any] | None:
         """Return a RF profile.
 
@@ -1359,7 +1359,7 @@ class AsyncAppliance:
         return self._session.get(metadata, resource)
 
     def update_network_appliance_sdwan_internet_policies(
-        self, network_id: str, *, wan_traffic_uplink_preferences: list | None = None
+        self, *, network_id: str, wan_traffic_uplink_preferences: list | None = None
     ) -> dict[str, Any] | None:
         """Update SDWAN internet traffic preferences for an MX network.
 
@@ -1386,8 +1386,8 @@ class AsyncAppliance:
 
     def get_network_appliance_security_events(
         self,
-        network_id: str,
         *,
+        network_id: str,
         t0: str | None = None,
         t1: str | None = None,
         timespan: float | None = None,
@@ -1458,7 +1458,7 @@ class AsyncAppliance:
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
-    def get_network_appliance_security_intrusion(self, network_id: str) -> dict[str, Any] | None:
+    def get_network_appliance_security_intrusion(self, *, network_id: str) -> dict[str, Any] | None:
         """Returns all supported intrusion settings for an MX network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-security-intrusion
@@ -1478,8 +1478,8 @@ class AsyncAppliance:
 
     def update_network_appliance_security_intrusion(
         self,
-        network_id: str,
         *,
+        network_id: str,
         mode: str | None = None,
         ids_rulesets: str | None = None,
         protected_networks: dict | None = None,
@@ -1526,7 +1526,7 @@ class AsyncAppliance:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_network_appliance_security_malware(self, network_id: str) -> dict[str, Any] | None:
+    def get_network_appliance_security_malware(self, *, network_id: str) -> dict[str, Any] | None:
         """Returns all supported malware settings for an MX network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-security-malware
@@ -1546,9 +1546,9 @@ class AsyncAppliance:
 
     def update_network_appliance_security_malware(
         self,
+        *,
         network_id: str,
         mode: str,
-        *,
         allowed_urls: list | None = None,
         allowed_files: list | None = None,
     ) -> dict[str, Any] | None:
@@ -1588,7 +1588,7 @@ class AsyncAppliance:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_network_appliance_settings(self, network_id: str) -> dict[str, Any] | None:
+    def get_network_appliance_settings(self, *, network_id: str) -> dict[str, Any] | None:
         """Return the appliance settings for a network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-settings
@@ -1608,8 +1608,8 @@ class AsyncAppliance:
 
     def update_network_appliance_settings(
         self,
-        network_id: str,
         *,
+        network_id: str,
         client_tracking_method: str | None = None,
         deployment_mode: str | None = None,
         dynamic_dns: dict | None = None,
@@ -1653,7 +1653,7 @@ class AsyncAppliance:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_network_appliance_single_lan(self, network_id: str) -> dict[str, Any] | None:
+    def get_network_appliance_single_lan(self, *, network_id: str) -> dict[str, Any] | None:
         """Return single LAN configuration.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-single-lan
@@ -1673,8 +1673,8 @@ class AsyncAppliance:
 
     def update_network_appliance_single_lan(
         self,
-        network_id: str,
         *,
+        network_id: str,
         subnet: str | None = None,
         appliance_ip: str | None = None,
         ipv6: dict | None = None,
@@ -1714,7 +1714,7 @@ class AsyncAppliance:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_network_appliance_ssids(self, network_id: str) -> dict[str, Any] | None:
+    def get_network_appliance_ssids(self, *, network_id: str) -> dict[str, Any] | None:
         """List the MX SSIDs in a network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-ssids
@@ -1732,7 +1732,7 @@ class AsyncAppliance:
 
         return self._session.get(metadata, resource)
 
-    def get_network_appliance_ssid(self, network_id: str, number: str) -> dict[str, Any] | None:
+    def get_network_appliance_ssid(self, *, network_id: str, number: str) -> dict[str, Any] | None:
         """Return a single MX SSID.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-ssid
@@ -1754,9 +1754,9 @@ class AsyncAppliance:
 
     def update_network_appliance_ssid(
         self,
+        *,
         network_id: str,
         number: str,
-        *,
         name: str | None = None,
         enabled: bool | None = None,
         default_vlan_id: int | None = None,
@@ -1849,7 +1849,7 @@ class AsyncAppliance:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_network_appliance_static_routes(self, network_id: str) -> dict[str, Any] | None:
+    def get_network_appliance_static_routes(self, *, network_id: str) -> dict[str, Any] | None:
         """List the static routes for an MX or teleworker network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-static-routes
@@ -1869,11 +1869,11 @@ class AsyncAppliance:
 
     def create_network_appliance_static_route(
         self,
+        *,
         network_id: str,
         name: str,
         subnet: str,
         gateway_ip: str,
-        *,
         gateway_vlan_id: str | None = None,
     ) -> dict[str, Any] | None:
         """Add a static route for an MX or teleworker network.
@@ -1908,7 +1908,7 @@ class AsyncAppliance:
         return self._session.post(metadata, resource, payload)
 
     def get_network_appliance_static_route(
-        self, network_id: str, static_route_id: str
+        self, *, network_id: str, static_route_id: str
     ) -> dict[str, Any] | None:
         """Return a static route for an MX or teleworker network.
 
@@ -1931,9 +1931,9 @@ class AsyncAppliance:
 
     def update_network_appliance_static_route(
         self,
+        *,
         network_id: str,
         static_route_id: str,
-        *,
         name: str | None = None,
         subnet: str | None = None,
         gateway_ip: str | None = None,
@@ -1984,7 +1984,9 @@ class AsyncAppliance:
 
         return self._session.put(metadata, resource, payload)
 
-    def delete_network_appliance_static_route(self, network_id: str, static_route_id: str) -> None:
+    def delete_network_appliance_static_route(
+        self, *, network_id: str, static_route_id: str
+    ) -> None:
         """Delete a static route from an MX or teleworker network.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-network-appliance-static-route
@@ -2004,7 +2006,7 @@ class AsyncAppliance:
 
         return self._session.delete(metadata, resource)
 
-    def get_network_appliance_traffic_shaping(self, network_id: str) -> dict[str, Any] | None:
+    def get_network_appliance_traffic_shaping(self, *, network_id: str) -> dict[str, Any] | None:
         """Display the traffic shaping settings for an MX network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-traffic-shaping
@@ -2023,7 +2025,7 @@ class AsyncAppliance:
         return self._session.get(metadata, resource)
 
     def update_network_appliance_traffic_shaping(
-        self, network_id: str, *, global_bandwidth_limits: dict | None = None
+        self, *, network_id: str, global_bandwidth_limits: dict | None = None
     ) -> dict[str, Any] | None:
         """Update the traffic shaping settings for an MX network.
 
@@ -2048,7 +2050,7 @@ class AsyncAppliance:
         return self._session.put(metadata, resource, payload)
 
     def get_network_appliance_traffic_shaping_custom_performance_classes(
-        self, network_id: str
+        self, *, network_id: str
     ) -> dict[str, Any] | None:
         """List all custom performance classes for an MX network.
 
@@ -2069,9 +2071,9 @@ class AsyncAppliance:
 
     def create_network_appliance_traffic_shaping_custom_performance_class(
         self,
+        *,
         network_id: str,
         name: str,
-        *,
         max_latency: int | None = None,
         max_jitter: int | None = None,
         max_loss_percentage: int | None = None,
@@ -2108,7 +2110,7 @@ class AsyncAppliance:
         return self._session.post(metadata, resource, payload)
 
     def get_network_appliance_traffic_shaping_custom_performance_class(
-        self, network_id: str, custom_performance_class_id: str
+        self, *, network_id: str, custom_performance_class_id: str
     ) -> dict[str, Any] | None:
         """Return a custom performance class for an MX network.
 
@@ -2131,9 +2133,9 @@ class AsyncAppliance:
 
     def update_network_appliance_traffic_shaping_custom_performance_class(
         self,
+        *,
         network_id: str,
         custom_performance_class_id: str,
-        *,
         name: str | None = None,
         max_latency: int | None = None,
         max_jitter: int | None = None,
@@ -2173,7 +2175,7 @@ class AsyncAppliance:
         return self._session.put(metadata, resource, payload)
 
     def delete_network_appliance_traffic_shaping_custom_performance_class(
-        self, network_id: str, custom_performance_class_id: str
+        self, *, network_id: str, custom_performance_class_id: str
     ) -> None:
         """Delete a custom performance class from an MX network.
 
@@ -2196,8 +2198,8 @@ class AsyncAppliance:
 
     def update_network_appliance_traffic_shaping_rules(
         self,
-        network_id: str,
         *,
+        network_id: str,
         default_rules_enabled: bool | None = None,
         rules: list | None = None,
     ) -> dict[str, Any] | None:
@@ -2231,7 +2233,9 @@ class AsyncAppliance:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_network_appliance_traffic_shaping_rules(self, network_id: str) -> dict[str, Any] | None:
+    def get_network_appliance_traffic_shaping_rules(
+        self, *, network_id: str
+    ) -> dict[str, Any] | None:
         """Display the traffic shaping settings rules for an MX network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-traffic-shaping-rules
@@ -2250,7 +2254,7 @@ class AsyncAppliance:
         return self._session.get(metadata, resource)
 
     def get_network_appliance_traffic_shaping_uplink_bandwidth(
-        self, network_id: str
+        self, *, network_id: str
     ) -> dict[str, Any] | None:
         """Returns the uplink bandwidth limits for your MX network.
 
@@ -2270,7 +2274,7 @@ class AsyncAppliance:
         return self._session.get(metadata, resource)
 
     def update_network_appliance_traffic_shaping_uplink_bandwidth(
-        self, network_id: str, *, bandwidth_limits: dict | None = None
+        self, *, network_id: str, bandwidth_limits: dict | None = None
     ) -> dict[str, Any] | None:
         """Updates the uplink bandwidth settings for your MX network.
 
@@ -2296,7 +2300,7 @@ class AsyncAppliance:
         return self._session.put(metadata, resource, payload)
 
     def get_network_appliance_traffic_shaping_uplink_selection(
-        self, network_id: str
+        self, *, network_id: str
     ) -> dict[str, Any] | None:
         """Show uplink selection settings for an MX network.
 
@@ -2317,8 +2321,8 @@ class AsyncAppliance:
 
     def update_network_appliance_traffic_shaping_uplink_selection(
         self,
-        network_id: str,
         *,
+        network_id: str,
         active_active_auto_vpn_enabled: bool | None = None,
         default_uplink: str | None = None,
         load_balancing_enabled: bool | None = None,
@@ -2364,7 +2368,7 @@ class AsyncAppliance:
         return self._session.put(metadata, resource, payload)
 
     def update_network_appliance_traffic_shaping_vpn_exclusions(
-        self, network_id: str, *, custom: list | None = None, major_applications: list | None = None
+        self, *, network_id: str, custom: list | None = None, major_applications: list | None = None
     ) -> dict[str, Any] | None:
         """Update VPN exclusion rules for an MX network.
 
@@ -2394,8 +2398,8 @@ class AsyncAppliance:
 
     def get_network_appliance_uplinks_usage_history(
         self,
-        network_id: str,
         *,
+        network_id: str,
         t0: str | None = None,
         t1: str | None = None,
         timespan: float | None = None,
@@ -2436,7 +2440,7 @@ class AsyncAppliance:
 
         return self._session.get(metadata, resource, params)
 
-    def get_network_appliance_vlans(self, network_id: str) -> dict[str, Any] | None:
+    def get_network_appliance_vlans(self, *, network_id: str) -> dict[str, Any] | None:
         """List the VLANs for a Cisco Secure Router network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-vlans
@@ -2456,10 +2460,10 @@ class AsyncAppliance:
 
     def create_network_appliance_vlan(
         self,
+        *,
         network_id: str,
         id_: str,
         name: str,
-        *,
         subnet: str | None = None,
         appliance_ip: str | None = None,
         group_policy_id: str | None = None,
@@ -2580,7 +2584,7 @@ class AsyncAppliance:
 
         return self._session.post(metadata, resource, payload)
 
-    def get_network_appliance_vlans_settings(self, network_id: str) -> dict[str, Any] | None:
+    def get_network_appliance_vlans_settings(self, *, network_id: str) -> dict[str, Any] | None:
         """Returns the enabled status of VLANs for the network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-vlans-settings
@@ -2599,7 +2603,7 @@ class AsyncAppliance:
         return self._session.get(metadata, resource)
 
     def update_network_appliance_vlans_settings(
-        self, network_id: str, *, vlans_enabled: bool | None = None
+        self, *, network_id: str, vlans_enabled: bool | None = None
     ) -> dict[str, Any] | None:
         """Enable/Disable VLANs for the given network.
 
@@ -2624,7 +2628,7 @@ class AsyncAppliance:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_network_appliance_vlan(self, network_id: str, vlan_id: str) -> dict[str, Any] | None:
+    def get_network_appliance_vlan(self, *, network_id: str, vlan_id: str) -> dict[str, Any] | None:
         """Return a VLAN.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-vlan
@@ -2646,9 +2650,9 @@ class AsyncAppliance:
 
     def update_network_appliance_vlan(
         self,
+        *,
         network_id: str,
         vlan_id: str,
-        *,
         name: str | None = None,
         subnet: str | None = None,
         appliance_ip: str | None = None,
@@ -2791,7 +2795,7 @@ class AsyncAppliance:
 
         return self._session.put(metadata, resource, payload)
 
-    def delete_network_appliance_vlan(self, network_id: str, vlan_id: str) -> None:
+    def delete_network_appliance_vlan(self, *, network_id: str, vlan_id: str) -> None:
         """Delete a VLAN from a network.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-network-appliance-vlan
@@ -2811,7 +2815,7 @@ class AsyncAppliance:
 
         return self._session.delete(metadata, resource)
 
-    def get_network_appliance_vpn_bgp(self, network_id: str) -> dict[str, Any] | None:
+    def get_network_appliance_vpn_bgp(self, *, network_id: str) -> dict[str, Any] | None:
         """Return a Hub BGP Configuration.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-vpn-bgp
@@ -2831,9 +2835,9 @@ class AsyncAppliance:
 
     def update_network_appliance_vpn_bgp(
         self,
+        *,
         network_id: str,
         enabled: bool,
-        *,
         as_number: int | None = None,
         ibgp_hold_timer: int | None = None,
         neighbors: list | None = None,
@@ -2879,7 +2883,9 @@ class AsyncAppliance:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_network_appliance_vpn_site_to_site_vpn(self, network_id: str) -> dict[str, Any] | None:
+    def get_network_appliance_vpn_site_to_site_vpn(
+        self, *, network_id: str
+    ) -> dict[str, Any] | None:
         """Return the site-to-site VPN settings of a network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-vpn-site-to-site-vpn
@@ -2899,9 +2905,9 @@ class AsyncAppliance:
 
     def update_network_appliance_vpn_site_to_site_vpn(
         self,
+        *,
         network_id: str,
         mode: str,
-        *,
         hubs: list | None = None,
         subnets: list | None = None,
         subnet: dict | None = None,
@@ -2942,7 +2948,7 @@ class AsyncAppliance:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_network_appliance_warm_spare(self, network_id: str) -> dict[str, Any] | None:
+    def get_network_appliance_warm_spare(self, *, network_id: str) -> dict[str, Any] | None:
         """Return MX warm spare settings.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-warm-spare
@@ -2962,9 +2968,9 @@ class AsyncAppliance:
 
     def update_network_appliance_warm_spare(
         self,
+        *,
         network_id: str,
         enabled: bool,
-        *,
         spare_serial: str | None = None,
         uplink_mode: str | None = None,
         virtual_ip1: str | None = None,
@@ -3004,7 +3010,7 @@ class AsyncAppliance:
 
         return self._session.put(metadata, resource, payload)
 
-    def swap_network_appliance_warm_spare(self, network_id: str) -> dict[str, Any] | None:
+    def swap_network_appliance_warm_spare(self, *, network_id: str) -> dict[str, Any] | None:
         """Swap MX primary and warm spare appliances.
 
         https://developer.cisco.com/meraki/api-v1/#!swap-network-appliance-warm-spare
@@ -3023,7 +3029,7 @@ class AsyncAppliance:
         return self._session.post(metadata, resource)
 
     def get_organization_appliance_dns_local_profiles(
-        self, organization_id: str, *, profile_ids: list | None = None
+        self, *, organization_id: str, profile_ids: list | None = None
     ) -> dict[str, Any] | None:
         """Fetch the local DNS profiles used in the organization.
 
@@ -3048,7 +3054,7 @@ class AsyncAppliance:
         return self._session.get(metadata, resource, params)
 
     def create_organization_appliance_dns_local_profile(
-        self, organization_id: str, name: str
+        self, *, organization_id: str, name: str
     ) -> dict[str, Any] | None:
         """Create a new local DNS profile.
 
@@ -3074,8 +3080,8 @@ class AsyncAppliance:
 
     def get_organization_appliance_dns_local_profiles_assignments(
         self,
-        organization_id: str,
         *,
+        organization_id: str,
         profile_ids: list | None = None,
         network_ids: list | None = None,
     ) -> dict[str, Any] | None:
@@ -3105,7 +3111,7 @@ class AsyncAppliance:
         return self._session.get(metadata, resource, params)
 
     def bulk_organization_appliance_dns_local_profiles_assignments_create(
-        self, organization_id: str, items: list
+        self, *, organization_id: str, items: list
     ) -> dict[str, Any] | None:
         """Assign the local DNS profile to networks in the organization.
 
@@ -3132,7 +3138,7 @@ class AsyncAppliance:
         return self._session.post(metadata, resource, payload)
 
     def create_organization_appliance_dns_local_profiles_assignments_bulk_delete(
-        self, organization_id: str, items: list
+        self, *, organization_id: str, items: list
     ) -> dict[str, Any] | None:
         """Unassign the local DNS profile to networks in the organization.
 
@@ -3167,7 +3173,7 @@ class AsyncAppliance:
         return self._session.post(metadata, resource, payload)
 
     def update_organization_appliance_dns_local_profile(
-        self, organization_id: str, profile_id: str, name: str
+        self, *, organization_id: str, profile_id: str, name: str
     ) -> dict[str, Any] | None:
         """Update a local DNS profile.
 
@@ -3194,7 +3200,7 @@ class AsyncAppliance:
         return self._session.put(metadata, resource, payload)
 
     def delete_organization_appliance_dns_local_profile(
-        self, organization_id: str, profile_id: str
+        self, *, organization_id: str, profile_id: str
     ) -> None:
         """Deletes a local DNS profile.
 
@@ -3216,7 +3222,7 @@ class AsyncAppliance:
         return self._session.delete(metadata, resource)
 
     def get_organization_appliance_dns_local_records(
-        self, organization_id: str, *, profile_ids: list | None = None
+        self, *, organization_id: str, profile_ids: list | None = None
     ) -> dict[str, Any] | None:
         """Fetch the DNS records used in local DNS profiles.
 
@@ -3241,7 +3247,7 @@ class AsyncAppliance:
         return self._session.get(metadata, resource, params)
 
     def create_organization_appliance_dns_local_record(
-        self, organization_id: str, hostname: str, address: str, profile: dict
+        self, *, organization_id: str, hostname: str, address: str, profile: dict
     ) -> dict[str, Any] | None:
         """Create a new local DNS record.
 
@@ -3273,9 +3279,9 @@ class AsyncAppliance:
 
     def update_organization_appliance_dns_local_record(
         self,
+        *,
         organization_id: str,
         record_id: str,
-        *,
         hostname: str | None = None,
         address: str | None = None,
         profile: dict | None = None,
@@ -3311,7 +3317,7 @@ class AsyncAppliance:
         return self._session.put(metadata, resource, payload)
 
     def delete_organization_appliance_dns_local_record(
-        self, organization_id: str, record_id: str
+        self, *, organization_id: str, record_id: str
     ) -> None:
         """Deletes a local DNS record.
 
@@ -3333,7 +3339,7 @@ class AsyncAppliance:
         return self._session.delete(metadata, resource)
 
     def get_organization_appliance_dns_split_profiles(
-        self, organization_id: str, *, profile_ids: list | None = None
+        self, *, organization_id: str, profile_ids: list | None = None
     ) -> dict[str, Any] | None:
         """Fetch the split DNS profiles used in the organization.
 
@@ -3358,7 +3364,7 @@ class AsyncAppliance:
         return self._session.get(metadata, resource, params)
 
     def create_organization_appliance_dns_split_profile(
-        self, organization_id: str, name: str, hostnames: list, nameservers: dict
+        self, *, organization_id: str, name: str, hostnames: list, nameservers: dict
     ) -> dict[str, Any] | None:
         """Create a new split DNS profile.
 
@@ -3391,8 +3397,8 @@ class AsyncAppliance:
 
     def get_organization_appliance_dns_split_profiles_assignments(
         self,
-        organization_id: str,
         *,
+        organization_id: str,
         profile_ids: list | None = None,
         network_ids: list | None = None,
     ) -> dict[str, Any] | None:
@@ -3422,7 +3428,7 @@ class AsyncAppliance:
         return self._session.get(metadata, resource, params)
 
     def create_organization_appliance_dns_split_profiles_assignments_bulk_create(
-        self, organization_id: str, items: list
+        self, *, organization_id: str, items: list
     ) -> dict[str, Any] | None:
         """Assign the split DNS profile to networks in the organization.
 
@@ -3457,7 +3463,7 @@ class AsyncAppliance:
         return self._session.post(metadata, resource, payload)
 
     def create_organization_appliance_dns_split_profiles_assignments_bulk_delete(
-        self, organization_id: str, items: list
+        self, *, organization_id: str, items: list
     ) -> dict[str, Any] | None:
         """Unassign the split DNS profile to networks in the organization.
 
@@ -3493,9 +3499,9 @@ class AsyncAppliance:
 
     def update_organization_appliance_dns_split_profile(
         self,
+        *,
         organization_id: str,
         profile_id: str,
-        *,
         name: str | None = None,
         hostnames: list | None = None,
         nameservers: dict | None = None,
@@ -3532,7 +3538,7 @@ class AsyncAppliance:
         return self._session.put(metadata, resource, payload)
 
     def delete_organization_appliance_dns_split_profile(
-        self, organization_id: str, profile_id: str
+        self, *, organization_id: str, profile_id: str
     ) -> None:
         """Deletes a split DNS profile.
 
@@ -3555,8 +3561,8 @@ class AsyncAppliance:
 
     def get_organization_appliance_firewall_multicast_forwarding_by_network(
         self,
-        organization_id: str,
         *,
+        organization_id: str,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
@@ -3609,8 +3615,8 @@ class AsyncAppliance:
 
     def get_organization_appliance_security_events(
         self,
-        organization_id: str,
         *,
+        organization_id: str,
         t0: str | None = None,
         t1: str | None = None,
         timespan: float | None = None,
@@ -3682,7 +3688,7 @@ class AsyncAppliance:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def get_organization_appliance_security_intrusion(
-        self, organization_id: str
+        self, *, organization_id: str
     ) -> dict[str, Any] | None:
         """Returns all supported intrusion settings for an organization.
 
@@ -3702,7 +3708,7 @@ class AsyncAppliance:
         return self._session.get(metadata, resource)
 
     def update_organization_appliance_security_intrusion(
-        self, organization_id: str, allowed_rules: list
+        self, *, organization_id: str, allowed_rules: list
     ) -> dict[str, Any] | None:
         """Sets supported intrusion settings for an organization.
 
@@ -3728,8 +3734,8 @@ class AsyncAppliance:
 
     def get_organization_appliance_traffic_shaping_vpn_exclusions_by_network(
         self,
-        organization_id: str,
         *,
+        organization_id: str,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
@@ -3782,8 +3788,8 @@ class AsyncAppliance:
 
     def get_organization_appliance_uplink_statuses(
         self,
-        organization_id: str,
         *,
+        organization_id: str,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
@@ -3844,7 +3850,7 @@ class AsyncAppliance:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def get_organization_appliance_uplinks_statuses_overview(
-        self, organization_id: str, *, network_ids: list | None = None
+        self, *, organization_id: str, network_ids: list | None = None
     ) -> dict[str, Any] | None:
         """Returns an overview of uplink statuses.
 
@@ -3871,8 +3877,8 @@ class AsyncAppliance:
 
     def get_organization_appliance_uplinks_usage_by_network(
         self,
-        organization_id: str,
         *,
+        organization_id: str,
         t0: str | None = None,
         t1: str | None = None,
         timespan: float | None = None,
@@ -3909,7 +3915,7 @@ class AsyncAppliance:
         return self._session.get(metadata, resource, params)
 
     def get_organization_appliance_vpn_site_to_site_ipsec_peers_slas(
-        self, organization_id: str
+        self, *, organization_id: str
     ) -> dict[str, Any] | None:
         """Get the list of available IPsec SLA policies for an organization.
 
@@ -3929,7 +3935,7 @@ class AsyncAppliance:
         return self._session.get(metadata, resource)
 
     def update_organization_appliance_vpn_site_to_site_ipsec_peers_slas(
-        self, organization_id: str, *, items: list | None = None
+        self, *, organization_id: str, items: list | None = None
     ) -> dict[str, Any] | None:
         """Update the IPsec SLA policies for an organization.
 
@@ -3955,8 +3961,8 @@ class AsyncAppliance:
 
     def get_organization_appliance_vpn_stats(
         self,
-        organization_id: str,
         *,
+        organization_id: str,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
@@ -4023,8 +4029,8 @@ class AsyncAppliance:
 
     def get_organization_appliance_vpn_statuses(
         self,
-        organization_id: str,
         *,
+        organization_id: str,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
@@ -4075,7 +4081,7 @@ class AsyncAppliance:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def get_organization_appliance_vpn_third_party_v_p_n_peers(
-        self, organization_id: str
+        self, *, organization_id: str
     ) -> dict[str, Any] | None:
         """Return the third party VPN peers for an organization.
 
@@ -4095,7 +4101,7 @@ class AsyncAppliance:
         return self._session.get(metadata, resource)
 
     def update_organization_appliance_vpn_third_party_v_p_n_peers(
-        self, organization_id: str, peers: list
+        self, *, organization_id: str, peers: list
     ) -> dict[str, Any] | None:
         """Update the third party VPN peers for an organization.
 
@@ -4120,7 +4126,7 @@ class AsyncAppliance:
         return self._session.put(metadata, resource, payload)
 
     def get_organization_appliance_vpn_vpn_firewall_rules(
-        self, organization_id: str
+        self, *, organization_id: str
     ) -> dict[str, Any] | None:
         """Return the firewall rules for an organization's site-to-site VPN.
 
@@ -4141,8 +4147,8 @@ class AsyncAppliance:
 
     def update_organization_appliance_vpn_vpn_firewall_rules(
         self,
-        organization_id: str,
         *,
+        organization_id: str,
         rules: list | None = None,
         syslog_default_rule: bool | None = None,
     ) -> dict[str, Any] | None:

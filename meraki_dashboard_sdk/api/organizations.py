@@ -57,7 +57,7 @@ class Organizations:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def create_organization(
-        self, name: str, *, management: dict | None = None
+        self, *, name: str, management: dict | None = None
     ) -> dict[str, Any] | None:
         """Create a new organization.
 
@@ -79,7 +79,7 @@ class Organizations:
 
         return self._session.post(metadata, resource, payload)
 
-    def get_organization(self, organization_id: str) -> dict[str, Any] | None:
+    def get_organization(self, *, organization_id: str) -> dict[str, Any] | None:
         """Return an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization
@@ -96,8 +96,8 @@ class Organizations:
 
     def update_organization(
         self,
-        organization_id: str,
         *,
+        organization_id: str,
         name: str | None = None,
         management: dict | None = None,
         api: dict | None = None,
@@ -127,7 +127,7 @@ class Organizations:
 
         return self._session.put(metadata, resource, payload)
 
-    def delete_organization(self, organization_id: str) -> None:
+    def delete_organization(self, *, organization_id: str) -> None:
         """Delete an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-organization
@@ -144,9 +144,9 @@ class Organizations:
 
     def create_organization_action_batch(
         self,
+        *,
         organization_id: str,
         actions: list,
-        *,
         confirmed: bool | None = None,
         synchronous: bool | None = None,
         callback: dict | None = None,
@@ -189,7 +189,7 @@ class Organizations:
         return self._session.post(metadata, resource, payload)
 
     def get_organization_action_batches(
-        self, organization_id: str, *, status: str | None = None
+        self, *, organization_id: str, status: str | None = None
     ) -> dict[str, Any] | None:
         """Return the list of action batches in the organization.
 
@@ -220,7 +220,7 @@ class Organizations:
         return self._session.get(metadata, resource, params)
 
     def get_organization_action_batch(
-        self, organization_id: str, action_batch_id: str
+        self, *, organization_id: str, action_batch_id: str
     ) -> dict[str, Any] | None:
         """Return an action batch.
 
@@ -241,7 +241,9 @@ class Organizations:
 
         return self._session.get(metadata, resource)
 
-    def delete_organization_action_batch(self, organization_id: str, action_batch_id: str) -> None:
+    def delete_organization_action_batch(
+        self, *, organization_id: str, action_batch_id: str
+    ) -> None:
         """Delete an action batch.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-action-batch
@@ -263,9 +265,9 @@ class Organizations:
 
     def update_organization_action_batch(
         self,
+        *,
         organization_id: str,
         action_batch_id: str,
-        *,
         confirmed: bool | None = None,
         synchronous: bool | None = None,
     ) -> dict[str, Any] | None:
@@ -298,7 +300,9 @@ class Organizations:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_organization_adaptive_policy_acls(self, organization_id: str) -> dict[str, Any] | None:
+    def get_organization_adaptive_policy_acls(
+        self, *, organization_id: str
+    ) -> dict[str, Any] | None:
         """List adaptive policy ACLs in a organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-adaptive-policy-acls
@@ -318,11 +322,11 @@ class Organizations:
 
     def create_organization_adaptive_policy_acl(
         self,
+        *,
         organization_id: str,
         name: str,
         rules: list,
         ip_version: str,
-        *,
         description: str | None = None,
     ) -> dict[str, Any] | None:
         """Creates new adaptive policy ACL.
@@ -363,7 +367,7 @@ class Organizations:
         return self._session.post(metadata, resource, payload)
 
     def get_organization_adaptive_policy_acl(
-        self, organization_id: str, acl_id: str
+        self, *, organization_id: str, acl_id: str
     ) -> dict[str, Any] | None:
         """Returns the adaptive policy ACL information.
 
@@ -386,9 +390,9 @@ class Organizations:
 
     def update_organization_adaptive_policy_acl(
         self,
+        *,
         organization_id: str,
         acl_id: str,
-        *,
         name: str | None = None,
         description: str | None = None,
         rules: list | None = None,
@@ -434,7 +438,7 @@ class Organizations:
 
         return self._session.put(metadata, resource, payload)
 
-    def delete_organization_adaptive_policy_acl(self, organization_id: str, acl_id: str) -> None:
+    def delete_organization_adaptive_policy_acl(self, *, organization_id: str, acl_id: str) -> None:
         """Deletes the specified adaptive policy ACL.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-adaptive-policy-acl
@@ -455,7 +459,7 @@ class Organizations:
         return self._session.delete(metadata, resource)
 
     def get_organization_adaptive_policy_groups(
-        self, organization_id: str
+        self, *, organization_id: str
     ) -> dict[str, Any] | None:
         """List adaptive policy groups in a organization.
 
@@ -476,10 +480,10 @@ class Organizations:
 
     def create_organization_adaptive_policy_group(
         self,
+        *,
         organization_id: str,
         name: str,
         sgt: int,
-        *,
         description: str | None = None,
         policy_objects: list | None = None,
     ) -> dict[str, Any] | None:
@@ -518,7 +522,7 @@ class Organizations:
         return self._session.post(metadata, resource, payload)
 
     def get_organization_adaptive_policy_group(
-        self, organization_id: str, id_: str
+        self, *, organization_id: str, id_: str
     ) -> dict[str, Any] | None:
         """Returns an adaptive policy group.
 
@@ -541,9 +545,9 @@ class Organizations:
 
     def update_organization_adaptive_policy_group(
         self,
+        *,
         organization_id: str,
         id_: str,
-        *,
         name: str | None = None,
         sgt: int | None = None,
         description: str | None = None,
@@ -585,7 +589,7 @@ class Organizations:
 
         return self._session.put(metadata, resource, payload)
 
-    def delete_organization_adaptive_policy_group(self, organization_id: str, id_: str) -> None:
+    def delete_organization_adaptive_policy_group(self, *, organization_id: str, id_: str) -> None:
         """Deletes the specified adaptive policy group and any associated policies and references.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-adaptive-policy-group
@@ -606,7 +610,7 @@ class Organizations:
         return self._session.delete(metadata, resource)
 
     def get_organization_adaptive_policy_overview(
-        self, organization_id: str
+        self, *, organization_id: str
     ) -> dict[str, Any] | None:
         """Returns adaptive policy aggregate statistics for an organization.
 
@@ -626,7 +630,7 @@ class Organizations:
         return self._session.get(metadata, resource)
 
     def get_organization_adaptive_policy_policies(
-        self, organization_id: str
+        self, *, organization_id: str
     ) -> dict[str, Any] | None:
         """List adaptive policies in an organization.
 
@@ -647,10 +651,10 @@ class Organizations:
 
     def create_organization_adaptive_policy_policy(
         self,
+        *,
         organization_id: str,
         source_group: dict,
         destination_group: dict,
-        *,
         acls: list | None = None,
         last_entry_rule: str | None = None,
     ) -> dict[str, Any] | None:
@@ -694,7 +698,7 @@ class Organizations:
         return self._session.post(metadata, resource, payload)
 
     def get_organization_adaptive_policy_policy(
-        self, organization_id: str, id_: str
+        self, *, organization_id: str, id_: str
     ) -> dict[str, Any] | None:
         """Return an adaptive policy.
 
@@ -717,9 +721,9 @@ class Organizations:
 
     def update_organization_adaptive_policy_policy(
         self,
+        *,
         organization_id: str,
         id_: str,
-        *,
         source_group: dict | None = None,
         destination_group: dict | None = None,
         acls: list | None = None,
@@ -766,7 +770,7 @@ class Organizations:
 
         return self._session.put(metadata, resource, payload)
 
-    def delete_organization_adaptive_policy_policy(self, organization_id: str, id_: str) -> None:
+    def delete_organization_adaptive_policy_policy(self, *, organization_id: str, id_: str) -> None:
         """Delete an Adaptive Policy.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-adaptive-policy-policy
@@ -787,7 +791,7 @@ class Organizations:
         return self._session.delete(metadata, resource)
 
     def get_organization_adaptive_policy_settings(
-        self, organization_id: str
+        self, *, organization_id: str
     ) -> dict[str, Any] | None:
         """Returns global adaptive policy settings in an organization.
 
@@ -807,7 +811,7 @@ class Organizations:
         return self._session.get(metadata, resource)
 
     def update_organization_adaptive_policy_settings(
-        self, organization_id: str, *, enabled_networks: list | None = None
+        self, *, organization_id: str, enabled_networks: list | None = None
     ) -> dict[str, Any] | None:
         """Update global adaptive policy settings.
 
@@ -832,7 +836,7 @@ class Organizations:
         return self._session.put(metadata, resource, payload)
 
     def get_organization_admins(
-        self, organization_id: str, *, network_ids: list | None = None
+        self, *, organization_id: str, network_ids: list | None = None
     ) -> dict[str, Any] | None:
         """List the dashboard administrators in this organization.
 
@@ -859,11 +863,11 @@ class Organizations:
 
     def create_organization_admin(
         self,
+        *,
         organization_id: str,
         email: str,
         name: str,
         org_access: str,
-        *,
         tags: list | None = None,
         networks: list | None = None,
         authentication_method: str | None = None,
@@ -920,9 +924,9 @@ class Organizations:
 
     def update_organization_admin(
         self,
+        *,
         organization_id: str,
         admin_id: str,
-        *,
         name: str | None = None,
         org_access: str | None = None,
         tags: list | None = None,
@@ -968,7 +972,7 @@ class Organizations:
 
         return self._session.put(metadata, resource, payload)
 
-    def delete_organization_admin(self, organization_id: str, admin_id: str) -> None:
+    def delete_organization_admin(self, *, organization_id: str, admin_id: str) -> None:
         """Revoke all access for a dashboard administrator within this organization.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-admin
@@ -988,7 +992,7 @@ class Organizations:
 
         return self._session.delete(metadata, resource)
 
-    def get_organization_alerts_profiles(self, organization_id: str) -> dict[str, Any] | None:
+    def get_organization_alerts_profiles(self, *, organization_id: str) -> dict[str, Any] | None:
         """List all organization-wide alert configurations.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-alerts-profiles
@@ -1008,12 +1012,12 @@ class Organizations:
 
     def create_organization_alerts_profile(
         self,
+        *,
         organization_id: str,
         type_: str,
         alert_condition: dict,
         recipients: dict,
         network_tags: list,
-        *,
         description: str | None = None,
     ) -> dict[str, Any] | None:
         """Create an organization-wide alert configuration.
@@ -1067,9 +1071,9 @@ class Organizations:
 
     def update_organization_alerts_profile(
         self,
+        *,
         organization_id: str,
         alert_config_id: str,
-        *,
         enabled: bool | None = None,
         type_: str | None = None,
         alert_condition: dict | None = None,
@@ -1132,7 +1136,7 @@ class Organizations:
         return self._session.put(metadata, resource, payload)
 
     def delete_organization_alerts_profile(
-        self, organization_id: str, alert_config_id: str
+        self, *, organization_id: str, alert_config_id: str
     ) -> None:
         """Removes an organization-wide alert config.
 
@@ -1155,8 +1159,8 @@ class Organizations:
 
     def get_organization_api_requests(
         self,
-        organization_id: str,
         *,
+        organization_id: str,
         t0: str | None = None,
         t1: str | None = None,
         timespan: float | None = None,
@@ -1262,8 +1266,8 @@ class Organizations:
 
     def get_organization_api_requests_overview(
         self,
-        organization_id: str,
         *,
+        organization_id: str,
         t0: str | None = None,
         t1: str | None = None,
         timespan: float | None = None,
@@ -1301,8 +1305,8 @@ class Organizations:
 
     def get_organization_api_requests_overview_response_codes_by_interval(
         self,
-        organization_id: str,
         *,
+        organization_id: str,
         t0: str | None = None,
         t1: str | None = None,
         timespan: float | None = None,
@@ -1381,8 +1385,8 @@ class Organizations:
 
     def get_organization_assurance_alerts(
         self,
-        organization_id: str,
         *,
+        organization_id: str,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
@@ -1509,7 +1513,7 @@ class Organizations:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def dismiss_organization_assurance_alerts(
-        self, organization_id: str, alert_ids: list
+        self, *, organization_id: str, alert_ids: list
     ) -> dict[str, Any] | None:
         """Dismiss health alerts.
 
@@ -1535,8 +1539,8 @@ class Organizations:
 
     def get_organization_assurance_alerts_overview(
         self,
-        organization_id: str,
         *,
+        organization_id: str,
         network_id: str | None = None,
         severity: str | None = None,
         types: list | None = None,
@@ -1621,8 +1625,8 @@ class Organizations:
 
     def get_organization_assurance_alerts_overview_by_network(
         self,
-        organization_id: str,
         *,
+        organization_id: str,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
@@ -1741,8 +1745,8 @@ class Organizations:
 
     def get_organization_assurance_alerts_overview_by_type(
         self,
-        organization_id: str,
         *,
+        organization_id: str,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
@@ -1870,10 +1874,10 @@ class Organizations:
 
     def get_organization_assurance_alerts_overview_historical(
         self,
+        *,
         organization_id: str,
         segment_duration: int,
         ts_start: str,
-        *,
         network_id: str | None = None,
         severity: str | None = None,
         types: list | None = None,
@@ -1935,7 +1939,7 @@ class Organizations:
         return self._session.get(metadata, resource, params)
 
     def restore_organization_assurance_alerts(
-        self, organization_id: str, alert_ids: list
+        self, *, organization_id: str, alert_ids: list
     ) -> dict[str, Any] | None:
         """Restore health alerts from dismissed.
 
@@ -1960,7 +1964,7 @@ class Organizations:
         return self._session.post(metadata, resource, payload)
 
     def get_organization_assurance_alerts_taxonomy_categories(
-        self, organization_id: str
+        self, *, organization_id: str
     ) -> dict[str, Any] | None:
         """Return a list of Category Types.
 
@@ -1980,7 +1984,7 @@ class Organizations:
         return self._session.get(metadata, resource)
 
     def get_organization_assurance_alerts_taxonomy_types(
-        self, organization_id: str
+        self, *, organization_id: str
     ) -> dict[str, Any] | None:
         """Return a list of alert types.
 
@@ -2000,7 +2004,7 @@ class Organizations:
         return self._session.get(metadata, resource)
 
     def get_organization_assurance_alert(
-        self, organization_id: str, id_: str
+        self, *, organization_id: str, id_: str
     ) -> dict[str, Any] | None:
         """Return a singular Health Alert by its id.
 
@@ -2021,7 +2025,7 @@ class Organizations:
 
         return self._session.get(metadata, resource)
 
-    def get_organization_branding_policies(self, organization_id: str) -> dict[str, Any] | None:
+    def get_organization_branding_policies(self, *, organization_id: str) -> dict[str, Any] | None:
         """List the branding policies of an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-branding-policies
@@ -2041,9 +2045,9 @@ class Organizations:
 
     def create_organization_branding_policy(
         self,
+        *,
         organization_id: str,
         name: str,
-        *,
         enabled: bool | None = None,
         admin_settings: dict | None = None,
         help_settings: dict | None = None,
@@ -2090,7 +2094,7 @@ class Organizations:
         return self._session.post(metadata, resource, payload)
 
     def get_organization_branding_policies_priorities(
-        self, organization_id: str
+        self, *, organization_id: str
     ) -> dict[str, Any] | None:
         """Return the branding policy IDs of an organization in priority order.
 
@@ -2110,7 +2114,7 @@ class Organizations:
         return self._session.get(metadata, resource)
 
     def update_organization_branding_policies_priorities(
-        self, organization_id: str, *, branding_policy_ids: list | None = None
+        self, *, organization_id: str, branding_policy_ids: list | None = None
     ) -> dict[str, Any] | None:
         """Update the priority ordering of an organization's branding policies.
 
@@ -2136,7 +2140,7 @@ class Organizations:
         return self._session.put(metadata, resource, payload)
 
     def get_organization_branding_policy(
-        self, organization_id: str, branding_policy_id: str
+        self, *, organization_id: str, branding_policy_id: str
     ) -> dict[str, Any] | None:
         """Return a branding policy.
 
@@ -2159,10 +2163,10 @@ class Organizations:
 
     def update_organization_branding_policy(
         self,
+        *,
         organization_id: str,
         branding_policy_id: str,
         name: str,
-        *,
         enabled: bool | None = None,
         admin_settings: dict | None = None,
         help_settings: dict | None = None,
@@ -2210,7 +2214,7 @@ class Organizations:
         return self._session.put(metadata, resource, payload)
 
     def delete_organization_branding_policy(
-        self, organization_id: str, branding_policy_id: str
+        self, *, organization_id: str, branding_policy_id: str
     ) -> None:
         """Delete a branding policy.
 
@@ -2233,8 +2237,8 @@ class Organizations:
 
     def claim_into_organization(
         self,
-        organization_id: str,
         *,
+        organization_id: str,
         orders: list | None = None,
         serials: list | None = None,
         licenses: list | None = None,
@@ -2266,8 +2270,8 @@ class Organizations:
 
     def get_organization_clients_bandwidth_usage_history(
         self,
-        organization_id: str,
         *,
+        organization_id: str,
         network_tag: str | None = None,
         device_tag: str | None = None,
         ssid_name: str | None = None,
@@ -2320,8 +2324,8 @@ class Organizations:
 
     def get_organization_clients_overview(
         self,
-        organization_id: str,
         *,
+        organization_id: str,
         t0: str | None = None,
         t1: str | None = None,
         timespan: float | None = None,
@@ -2358,9 +2362,9 @@ class Organizations:
 
     def get_organization_clients_search(
         self,
+        *,
         organization_id: str,
         mac: str,
-        *,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
@@ -2408,7 +2412,7 @@ class Organizations:
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
-    def clone_organization(self, organization_id: str, name: str) -> dict[str, Any] | None:
+    def clone_organization(self, *, organization_id: str, name: str) -> dict[str, Any] | None:
         """Create a new organization by cloning the addressed organization.
 
         https://developer.cisco.com/meraki/api-v1/#!clone-organization
@@ -2428,7 +2432,7 @@ class Organizations:
 
         return self._session.post(metadata, resource, payload)
 
-    def get_organization_config_templates(self, organization_id: str) -> dict[str, Any] | None:
+    def get_organization_config_templates(self, *, organization_id: str) -> dict[str, Any] | None:
         """List the configuration templates for this organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-config-templates
@@ -2448,9 +2452,9 @@ class Organizations:
 
     def create_organization_config_template(
         self,
+        *,
         organization_id: str,
         name: str,
-        *,
         time_zone: str | None = None,
         copy_from_network_id: str | None = None,
     ) -> dict[str, Any] | None:
@@ -2487,7 +2491,7 @@ class Organizations:
         return self._session.post(metadata, resource, payload)
 
     def get_organization_config_template(
-        self, organization_id: str, config_template_id: str
+        self, *, organization_id: str, config_template_id: str
     ) -> dict[str, Any] | None:
         """Return a single configuration template.
 
@@ -2510,9 +2514,9 @@ class Organizations:
 
     def update_organization_config_template(
         self,
+        *,
         organization_id: str,
         config_template_id: str,
-        *,
         name: str | None = None,
         time_zone: str | None = None,
     ) -> dict[str, Any] | None:
@@ -2547,7 +2551,7 @@ class Organizations:
         return self._session.put(metadata, resource, payload)
 
     def delete_organization_config_template(
-        self, organization_id: str, config_template_id: str
+        self, *, organization_id: str, config_template_id: str
     ) -> None:
         """Remove a configuration template.
 
@@ -2570,8 +2574,8 @@ class Organizations:
 
     def get_organization_configuration_changes(
         self,
-        organization_id: str,
         *,
+        organization_id: str,
         t0: str | None = None,
         t1: str | None = None,
         timespan: float | None = None,
@@ -2641,8 +2645,8 @@ class Organizations:
 
     def get_organization_devices(
         self,
-        organization_id: str,
         *,
+        organization_id: str,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
@@ -2765,8 +2769,8 @@ class Organizations:
 
     def get_organization_devices_availabilities(
         self,
-        organization_id: str,
         *,
+        organization_id: str,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
@@ -2853,8 +2857,8 @@ class Organizations:
 
     def get_organization_devices_availabilities_change_history(
         self,
-        organization_id: str,
         *,
+        organization_id: str,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
@@ -2933,7 +2937,7 @@ class Organizations:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def create_organization_devices_controller_migration(
-        self, organization_id: str, serials: list, target: str
+        self, *, organization_id: str, serials: list, target: str
     ) -> dict[str, Any] | None:
         """Migrate devices to another controller or management mode.
 
@@ -2968,8 +2972,8 @@ class Organizations:
 
     def get_organization_devices_controller_migrations(
         self,
-        organization_id: str,
         *,
+        organization_id: str,
         serials: list | None = None,
         network_ids: list | None = None,
         target: str | None = None,
@@ -3033,7 +3037,7 @@ class Organizations:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def bulk_update_organization_devices_details(
-        self, organization_id: str, serials: list, details: list
+        self, *, organization_id: str, serials: list, details: list
     ) -> dict[str, Any] | None:
         """Updating device details (currently only used for Catalyst devices).
 
@@ -3062,8 +3066,8 @@ class Organizations:
 
     def get_organization_devices_overview_by_model(
         self,
-        organization_id: str,
         *,
+        organization_id: str,
         models: list | None = None,
         network_ids: list | None = None,
         product_types: list | None = None,
@@ -3100,8 +3104,8 @@ class Organizations:
 
     def get_organization_devices_packet_capture_captures(
         self,
-        organization_id: str,
         *,
+        organization_id: str,
         capture_ids: list | None = None,
         network_ids: list | None = None,
         serials: list | None = None,
@@ -3214,10 +3218,10 @@ class Organizations:
 
     def create_organization_devices_packet_capture_capture(
         self,
+        *,
         organization_id: str,
         serials: list,
         name: str,
-        *,
         output_type: str | None = None,
         destination: str | None = None,
         ports: str | None = None,
@@ -3280,10 +3284,10 @@ class Organizations:
 
     def bulk_organization_devices_packet_capture_captures_create(
         self,
+        *,
         organization_id: str,
         devices: list,
         name: str,
-        *,
         notes: str | None = None,
         duration: int | None = None,
         filter_expression: str | None = None,
@@ -3327,7 +3331,7 @@ class Organizations:
         return self._session.post(metadata, resource, payload)
 
     def bulk_organization_devices_packet_capture_captures_delete(
-        self, organization_id: str, capture_ids: list
+        self, *, organization_id: str, capture_ids: list
     ) -> dict[str, Any] | None:
         """BulkDelete packet captures from cloud.
 
@@ -3352,7 +3356,7 @@ class Organizations:
         return self._session.post(metadata, resource, payload)
 
     def delete_organization_devices_packet_capture_capture(
-        self, organization_id: str, capture_id: str
+        self, *, organization_id: str, capture_id: str
     ) -> None:
         """Delete a single packet capture from cloud using captureId.
 
@@ -3374,7 +3378,7 @@ class Organizations:
         return self._session.delete(metadata, resource)
 
     def generate_organization_devices_packet_capture_capture_download_url(
-        self, organization_id: str, capture_id: str
+        self, *, organization_id: str, capture_id: str
     ) -> dict[str, Any] | None:
         """Get presigned download URL for given packet capture id.
 
@@ -3403,7 +3407,7 @@ class Organizations:
         return self._session.post(metadata, resource)
 
     def stop_organization_devices_packet_capture_capture(
-        self, organization_id: str, capture_id: str, serials: list
+        self, *, organization_id: str, capture_id: str, serials: list
     ) -> dict[str, Any] | None:
         """Stop a specific packet capture (not supported for Catalyst devices).
 
@@ -3433,8 +3437,8 @@ class Organizations:
 
     def get_organization_devices_packet_capture_schedules(
         self,
-        organization_id: str,
         *,
+        organization_id: str,
         schedule_ids: list | None = None,
         network_ids: list | None = None,
         device_ids: list | None = None,
@@ -3470,9 +3474,9 @@ class Organizations:
 
     def create_organization_devices_packet_capture_schedule(
         self,
+        *,
         organization_id: str,
         devices: list,
-        *,
         name: str | None = None,
         notes: str | None = None,
         duration: int | None = None,
@@ -3521,7 +3525,7 @@ class Organizations:
         return self._session.post(metadata, resource, payload)
 
     def reorder_organization_devices_packet_capture_schedules(
-        self, organization_id: str, order: list
+        self, *, organization_id: str, order: list
     ) -> dict[str, Any] | None:
         """Bulk update priorities of pcap schedules.
 
@@ -3547,10 +3551,10 @@ class Organizations:
 
     def update_organization_devices_packet_capture_schedule(
         self,
+        *,
         organization_id: str,
         schedule_id: str,
         devices: list,
-        *,
         name: str | None = None,
         notes: str | None = None,
         duration: int | None = None,
@@ -3601,7 +3605,7 @@ class Organizations:
         return self._session.put(metadata, resource, payload)
 
     def delete_organization_devices_packet_capture_schedule(
-        self, organization_id: str, schedule_id: str
+        self, *, organization_id: str, schedule_id: str
     ) -> None:
         """Delete schedule from cloud.
 
@@ -3627,8 +3631,8 @@ class Organizations:
 
     def get_organization_devices_power_modules_statuses_by_device(
         self,
-        organization_id: str,
         *,
+        organization_id: str,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
@@ -3708,8 +3712,8 @@ class Organizations:
 
     def get_organization_devices_provisioning_statuses(
         self,
-        organization_id: str,
         *,
+        organization_id: str,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
@@ -3799,8 +3803,8 @@ class Organizations:
 
     def get_organization_devices_statuses(
         self,
-        organization_id: str,
         *,
+        organization_id: str,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
@@ -3889,8 +3893,8 @@ class Organizations:
 
     def get_organization_devices_statuses_overview(
         self,
-        organization_id: str,
         *,
+        organization_id: str,
         product_types: list | None = None,
         network_ids: list | None = None,
     ) -> dict[str, Any] | None:
@@ -3924,8 +3928,8 @@ class Organizations:
 
     def get_organization_devices_system_memory_usage_history_by_interval(
         self,
-        organization_id: str,
         *,
+        organization_id: str,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
@@ -4021,8 +4025,8 @@ class Organizations:
 
     def get_organization_devices_uplinks_addresses_by_device(
         self,
-        organization_id: str,
         *,
+        organization_id: str,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
@@ -4102,8 +4106,8 @@ class Organizations:
 
     def get_organization_devices_uplinks_loss_and_latency(
         self,
-        organization_id: str,
         *,
+        organization_id: str,
         t0: str | None = None,
         t1: str | None = None,
         timespan: float | None = None,
@@ -4156,7 +4160,9 @@ class Organizations:
 
         return self._session.get(metadata, resource, params)
 
-    def get_organization_early_access_features(self, organization_id: str) -> dict[str, Any] | None:
+    def get_organization_early_access_features(
+        self, *, organization_id: str
+    ) -> dict[str, Any] | None:
         """List the available early access features for organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-early-access-features
@@ -4175,7 +4181,7 @@ class Organizations:
         return self._session.get(metadata, resource)
 
     def get_organization_early_access_features_opt_ins(
-        self, organization_id: str
+        self, *, organization_id: str
     ) -> dict[str, Any] | None:
         """List the early access feature opt-ins for an organization.
 
@@ -4195,7 +4201,7 @@ class Organizations:
         return self._session.get(metadata, resource)
 
     def create_organization_early_access_features_opt_in(
-        self, organization_id: str, short_name: str, *, limit_scope_to_networks: list | None = None
+        self, *, organization_id: str, short_name: str, limit_scope_to_networks: list | None = None
     ) -> dict[str, Any] | None:
         """Create a new early access feature opt-in for an organization.
 
@@ -4223,7 +4229,7 @@ class Organizations:
         return self._session.post(metadata, resource, payload)
 
     def get_organization_early_access_features_opt_in(
-        self, organization_id: str, opt_in_id: str
+        self, *, organization_id: str, opt_in_id: str
     ) -> dict[str, Any] | None:
         """Show an early access feature opt-in for an organization.
 
@@ -4245,7 +4251,7 @@ class Organizations:
         return self._session.get(metadata, resource)
 
     def update_organization_early_access_features_opt_in(
-        self, organization_id: str, opt_in_id: str, *, limit_scope_to_networks: list | None = None
+        self, *, organization_id: str, opt_in_id: str, limit_scope_to_networks: list | None = None
     ) -> dict[str, Any] | None:
         """Update an early access feature opt-in for an organization.
 
@@ -4272,7 +4278,7 @@ class Organizations:
         return self._session.put(metadata, resource, payload)
 
     def delete_organization_early_access_features_opt_in(
-        self, organization_id: str, opt_in_id: str
+        self, *, organization_id: str, opt_in_id: str
     ) -> None:
         """Delete an early access feature opt-in.
 
@@ -4295,8 +4301,8 @@ class Organizations:
 
     def get_organization_firmware_upgrades(
         self,
-        organization_id: str,
         *,
+        organization_id: str,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
@@ -4351,8 +4357,8 @@ class Organizations:
 
     def get_organization_firmware_upgrades_by_device(
         self,
-        organization_id: str,
         *,
+        organization_id: str,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
@@ -4431,8 +4437,8 @@ class Organizations:
 
     def get_organization_floor_plans_auto_locate_devices(
         self,
-        organization_id: str,
         *,
+        organization_id: str,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
@@ -4487,8 +4493,8 @@ class Organizations:
 
     def get_organization_floor_plans_auto_locate_statuses(
         self,
-        organization_id: str,
         *,
+        organization_id: str,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
@@ -4543,8 +4549,8 @@ class Organizations:
 
     def get_organization_integrations_xdr_networks(
         self,
-        organization_id: str,
         *,
+        organization_id: str,
         network_ids: list | None = None,
         per_page: int | None = None,
         starting_after: str | None = None,
@@ -4594,7 +4600,7 @@ class Organizations:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def disable_organization_integrations_xdr_networks(
-        self, organization_id: str, networks: list
+        self, *, organization_id: str, networks: list
     ) -> dict[str, Any] | None:
         """Disable XDR on networks.
 
@@ -4619,7 +4625,7 @@ class Organizations:
         return self._session.post(metadata, resource, payload)
 
     def enable_organization_integrations_xdr_networks(
-        self, organization_id: str, networks: list
+        self, *, organization_id: str, networks: list
     ) -> dict[str, Any] | None:
         """Enable XDR on networks.
 
@@ -4645,8 +4651,8 @@ class Organizations:
 
     def claim_into_organization_inventory(
         self,
-        organization_id: str,
         *,
+        organization_id: str,
         orders: list | None = None,
         serials: list | None = None,
         licenses: list | None = None,
@@ -4681,8 +4687,8 @@ class Organizations:
 
     def get_organization_inventory_devices(
         self,
-        organization_id: str,
         *,
+        organization_id: str,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
@@ -4786,7 +4792,7 @@ class Organizations:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def create_organization_inventory_devices_swaps_bulk(
-        self, organization_id: str, swaps: list
+        self, *, organization_id: str, swaps: list
     ) -> dict[str, Any] | None:
         """Swap the devices identified by devices.old with a devices.new, then perform the :afterAction on the devices.old.
 
@@ -4811,7 +4817,7 @@ class Organizations:
         return self._session.post(metadata, resource, payload)
 
     def get_organization_inventory_devices_swaps_bulk(
-        self, organization_id: str, id_: str
+        self, *, organization_id: str, id_: str
     ) -> dict[str, Any] | None:
         """List of device swaps for a given request ID ({id}).
 
@@ -4833,7 +4839,7 @@ class Organizations:
         return self._session.get(metadata, resource)
 
     def get_organization_inventory_device(
-        self, organization_id: str, serial: str
+        self, *, organization_id: str, serial: str
     ) -> dict[str, Any] | None:
         """Return a single device from the inventory of an organization.
 
@@ -4856,10 +4862,10 @@ class Organizations:
 
     def create_organization_inventory_onboarding_cloud_monitoring_export_event(
         self,
+        *,
         organization_id: str,
         log_event: str,
         timestamp: int,
-        *,
         target_o_s: str | None = None,
         request: str | None = None,
     ) -> dict[str, Any] | None:
@@ -4905,7 +4911,7 @@ class Organizations:
         return self._session.post(metadata, resource, payload)
 
     def create_organization_inventory_onboarding_cloud_monitoring_import(
-        self, organization_id: str, devices: list
+        self, *, organization_id: str, devices: list
     ) -> dict[str, Any] | None:
         """Commits the import operation to complete the onboarding of a device into Dashboard for monitoring.
 
@@ -4937,7 +4943,7 @@ class Organizations:
         return self._session.post(metadata, resource, payload)
 
     def get_organization_inventory_onboarding_cloud_monitoring_imports(
-        self, organization_id: str, import_ids: list
+        self, *, organization_id: str, import_ids: list
     ) -> dict[str, Any] | None:
         """Check the status of a committed Import operation.
 
@@ -4970,9 +4976,9 @@ class Organizations:
 
     def get_organization_inventory_onboarding_cloud_monitoring_networks(
         self,
+        *,
         organization_id: str,
         device_type: str,
-        *,
         search: str | None = None,
         per_page: int | None = None,
         starting_after: str | None = None,
@@ -5038,7 +5044,7 @@ class Organizations:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def create_organization_inventory_onboarding_cloud_monitoring_prepare(
-        self, organization_id: str, devices: list, *, options: dict | None = None
+        self, *, organization_id: str, devices: list, options: dict | None = None
     ) -> dict[str, Any] | None:
         """Initiates or updates an import session.
 
@@ -5073,7 +5079,7 @@ class Organizations:
         return self._session.post(metadata, resource, payload)
 
     def claim_organization_inventory_orders(
-        self, organization_id: str, claim_id: str, *, subscriptions: list | None = None
+        self, *, organization_id: str, claim_id: str, subscriptions: list | None = None
     ) -> dict[str, Any] | None:
         """Claim an order by the secure unique order claim number, the order claim id.
 
@@ -5101,7 +5107,7 @@ class Organizations:
         return self._session.post(metadata, resource, payload)
 
     def preview_organization_inventory_orders(
-        self, organization_id: str, claim_id: str
+        self, *, organization_id: str, claim_id: str
     ) -> dict[str, Any] | None:
         """Preview the results and status of an order claim by the secure order id.
 
@@ -5126,7 +5132,7 @@ class Organizations:
         return self._session.post(metadata, resource, payload)
 
     def release_from_organization_inventory(
-        self, organization_id: str, *, serials: list | None = None
+        self, *, organization_id: str, serials: list | None = None
     ) -> dict[str, Any] | None:
         """Release a list of claimed devices from an organization.
 
@@ -5152,8 +5158,8 @@ class Organizations:
 
     def get_organization_licenses(
         self,
-        organization_id: str,
         *,
+        organization_id: str,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
@@ -5219,7 +5225,7 @@ class Organizations:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def assign_organization_licenses_seats(
-        self, organization_id: str, license_id: str, network_id: str, seat_count: int
+        self, *, organization_id: str, license_id: str, network_id: str, seat_count: int
     ) -> dict[str, Any] | None:
         """Assign SM seats to a network.
 
@@ -5251,7 +5257,7 @@ class Organizations:
         return self._session.post(metadata, resource, payload)
 
     def move_organization_licenses(
-        self, organization_id: str, dest_organization_id: str, license_ids: list
+        self, *, organization_id: str, dest_organization_id: str, license_ids: list
     ) -> dict[str, Any] | None:
         """Move licenses to another organization.
 
@@ -5279,7 +5285,7 @@ class Organizations:
         return self._session.post(metadata, resource, payload)
 
     def move_organization_licenses_seats(
-        self, organization_id: str, dest_organization_id: str, license_id: str, seat_count: int
+        self, *, organization_id: str, dest_organization_id: str, license_id: str, seat_count: int
     ) -> dict[str, Any] | None:
         """Move SM seats to another organization.
 
@@ -5310,7 +5316,7 @@ class Organizations:
 
         return self._session.post(metadata, resource, payload)
 
-    def get_organization_licenses_overview(self, organization_id: str) -> dict[str, Any] | None:
+    def get_organization_licenses_overview(self, *, organization_id: str) -> dict[str, Any] | None:
         """Return an overview of the license state for an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-licenses-overview
@@ -5329,7 +5335,7 @@ class Organizations:
         return self._session.get(metadata, resource)
 
     def renew_organization_licenses_seats(
-        self, organization_id: str, license_id_to_renew: str, unused_license_id: str
+        self, *, organization_id: str, license_id_to_renew: str, unused_license_id: str
     ) -> dict[str, Any] | None:
         """Renew SM seats of a license.
 
@@ -5360,7 +5366,7 @@ class Organizations:
         return self._session.post(metadata, resource, payload)
 
     def get_organization_license(
-        self, organization_id: str, license_id: str
+        self, *, organization_id: str, license_id: str
     ) -> dict[str, Any] | None:
         """Display a license.
 
@@ -5382,7 +5388,7 @@ class Organizations:
         return self._session.get(metadata, resource)
 
     def update_organization_license(
-        self, organization_id: str, license_id: str, *, device_serial: str | None = None
+        self, *, organization_id: str, license_id: str, device_serial: str | None = None
     ) -> dict[str, Any] | None:
         """Update a license.
 
@@ -5410,7 +5416,7 @@ class Organizations:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_organization_login_security(self, organization_id: str) -> dict[str, Any] | None:
+    def get_organization_login_security(self, *, organization_id: str) -> dict[str, Any] | None:
         """Returns the login security settings for an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-login-security
@@ -5430,8 +5436,8 @@ class Organizations:
 
     def update_organization_login_security(
         self,
-        organization_id: str,
         *,
+        organization_id: str,
         enforce_password_expiration: bool | None = None,
         password_expiration_days: int | None = None,
         enforce_different_passwords: bool | None = None,
@@ -5525,8 +5531,8 @@ class Organizations:
 
     def get_organization_networks(
         self,
-        organization_id: str,
         *,
+        organization_id: str,
         config_template_id: str | None = None,
         is_bound_to_config_template: bool | None = None,
         tags: list | None = None,
@@ -5606,10 +5612,10 @@ class Organizations:
 
     def create_organization_network(
         self,
+        *,
         organization_id: str,
         name: str,
         product_types: list,
-        *,
         tags: list | None = None,
         time_zone: str | None = None,
         copy_from_network_id: str | None = None,
@@ -5660,10 +5666,10 @@ class Organizations:
 
     def combine_organization_networks(
         self,
+        *,
         organization_id: str,
         name: str,
         network_ids: list,
-        *,
         enrollment_string: str | None = None,
     ) -> dict[str, Any] | None:
         """Combine multiple networks into a single network.
@@ -5702,7 +5708,7 @@ class Organizations:
         return self._session.post(metadata, resource, payload)
 
     def get_organization_openapi_spec(
-        self, organization_id: str, *, version: int | None = None
+        self, *, organization_id: str, version: int | None = None
     ) -> dict[str, Any] | None:
         """Return the OpenAPI Specification of the organization's API documentation in JSON.
 
@@ -5734,9 +5740,9 @@ class Organizations:
 
     def get_organization_policies_assignments_by_client(
         self,
+        *,
         organization_id: str,
         network_ids: list,
-        *,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
@@ -5802,8 +5808,8 @@ class Organizations:
 
     def get_organization_policy_objects(
         self,
-        organization_id: str,
         *,
+        organization_id: str,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
@@ -5850,11 +5856,11 @@ class Organizations:
 
     def create_organization_policy_object(
         self,
+        *,
         organization_id: str,
         name: str,
         category: str,
         type_: str,
-        *,
         cidr: str | None = None,
         fqdn: str | None = None,
         mask: str | None = None,
@@ -5907,8 +5913,8 @@ class Organizations:
 
     def get_organization_policy_objects_groups(
         self,
-        organization_id: str,
         *,
+        organization_id: str,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
@@ -5955,9 +5961,9 @@ class Organizations:
 
     def create_organization_policy_objects_group(
         self,
+        *,
         organization_id: str,
         name: str,
-        *,
         category: str | None = None,
         object_ids: list | None = None,
     ) -> dict[str, Any] | None:
@@ -5994,7 +6000,7 @@ class Organizations:
         return self._session.post(metadata, resource, payload)
 
     def get_organization_policy_objects_group(
-        self, organization_id: str, policy_object_group_id: str
+        self, *, organization_id: str, policy_object_group_id: str
     ) -> dict[str, Any] | None:
         """Shows details of a Policy Object Group.
 
@@ -6017,9 +6023,9 @@ class Organizations:
 
     def update_organization_policy_objects_group(
         self,
+        *,
         organization_id: str,
         policy_object_group_id: str,
-        *,
         name: str | None = None,
         object_ids: list | None = None,
     ) -> dict[str, Any] | None:
@@ -6054,7 +6060,7 @@ class Organizations:
         return self._session.put(metadata, resource, payload)
 
     def delete_organization_policy_objects_group(
-        self, organization_id: str, policy_object_group_id: str
+        self, *, organization_id: str, policy_object_group_id: str
     ) -> None:
         """Deletes a Policy Object Group.
 
@@ -6076,7 +6082,7 @@ class Organizations:
         return self._session.delete(metadata, resource)
 
     def get_organization_policy_object(
-        self, organization_id: str, policy_object_id: str
+        self, *, organization_id: str, policy_object_id: str
     ) -> dict[str, Any] | None:
         """Shows details of a Policy Object.
 
@@ -6099,9 +6105,9 @@ class Organizations:
 
     def update_organization_policy_object(
         self,
+        *,
         organization_id: str,
         policy_object_id: str,
-        *,
         name: str | None = None,
         cidr: str | None = None,
         fqdn: str | None = None,
@@ -6150,7 +6156,7 @@ class Organizations:
         return self._session.put(metadata, resource, payload)
 
     def delete_organization_policy_object(
-        self, organization_id: str, policy_object_id: str
+        self, *, organization_id: str, policy_object_id: str
     ) -> None:
         """Deletes a Policy Object.
 
@@ -6171,7 +6177,7 @@ class Organizations:
 
         return self._session.delete(metadata, resource)
 
-    def get_organization_saml(self, organization_id: str) -> dict[str, Any] | None:
+    def get_organization_saml(self, *, organization_id: str) -> dict[str, Any] | None:
         """Returns the SAML SSO enabled settings for an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-saml
@@ -6190,7 +6196,7 @@ class Organizations:
         return self._session.get(metadata, resource)
 
     def update_organization_saml(
-        self, organization_id: str, *, enabled: bool | None = None, sp_initiated: dict | None = None
+        self, *, organization_id: str, enabled: bool | None = None, sp_initiated: dict | None = None
     ) -> dict[str, Any] | None:
         """Updates the SAML SSO enabled settings for an organization.
 
@@ -6217,7 +6223,7 @@ class Organizations:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_organization_saml_idps(self, organization_id: str) -> dict[str, Any] | None:
+    def get_organization_saml_idps(self, *, organization_id: str) -> dict[str, Any] | None:
         """List the SAML IdPs in your organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-saml-idps
@@ -6237,9 +6243,9 @@ class Organizations:
 
     def create_organization_saml_idp(
         self,
+        *,
         organization_id: str,
         x509cert_sha1_fingerprint: str,
-        *,
         sso_login_url: str | None = None,
         slo_logout_url: str | None = None,
     ) -> dict[str, Any] | None:
@@ -6275,9 +6281,9 @@ class Organizations:
 
     def update_organization_saml_idp(
         self,
+        *,
         organization_id: str,
         idp_id: str,
-        *,
         x509cert_sha1_fingerprint: str | None = None,
         sso_login_url: str | None = None,
         slo_logout_url: str | None = None,
@@ -6314,7 +6320,9 @@ class Organizations:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_organization_saml_idp(self, organization_id: str, idp_id: str) -> dict[str, Any] | None:
+    def get_organization_saml_idp(
+        self, *, organization_id: str, idp_id: str
+    ) -> dict[str, Any] | None:
         """Get a SAML IdP from your organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-saml-idp
@@ -6334,7 +6342,7 @@ class Organizations:
 
         return self._session.get(metadata, resource)
 
-    def delete_organization_saml_idp(self, organization_id: str, idp_id: str) -> None:
+    def delete_organization_saml_idp(self, *, organization_id: str, idp_id: str) -> None:
         """Remove a SAML IdP in your organization.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-saml-idp
@@ -6354,7 +6362,7 @@ class Organizations:
 
         return self._session.delete(metadata, resource)
 
-    def get_organization_saml_roles(self, organization_id: str) -> dict[str, Any] | None:
+    def get_organization_saml_roles(self, *, organization_id: str) -> dict[str, Any] | None:
         """List the SAML roles for this organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-saml-roles
@@ -6374,10 +6382,10 @@ class Organizations:
 
     def create_organization_saml_role(
         self,
+        *,
         organization_id: str,
         role: str,
         org_access: str,
-        *,
         tags: list | None = None,
         networks: list | None = None,
     ) -> dict[str, Any] | None:
@@ -6415,7 +6423,7 @@ class Organizations:
         return self._session.post(metadata, resource, payload)
 
     def get_organization_saml_role(
-        self, organization_id: str, saml_role_id: str
+        self, *, organization_id: str, saml_role_id: str
     ) -> dict[str, Any] | None:
         """Return a SAML role.
 
@@ -6438,9 +6446,9 @@ class Organizations:
 
     def update_organization_saml_role(
         self,
+        *,
         organization_id: str,
         saml_role_id: str,
-        *,
         role: str | None = None,
         org_access: str | None = None,
         tags: list | None = None,
@@ -6481,7 +6489,7 @@ class Organizations:
 
         return self._session.put(metadata, resource, payload)
 
-    def delete_organization_saml_role(self, organization_id: str, saml_role_id: str) -> None:
+    def delete_organization_saml_role(self, *, organization_id: str, saml_role_id: str) -> None:
         """Remove a SAML role.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-saml-role
@@ -6501,7 +6509,7 @@ class Organizations:
 
         return self._session.delete(metadata, resource)
 
-    def get_organization_snmp(self, organization_id: str) -> dict[str, Any] | None:
+    def get_organization_snmp(self, *, organization_id: str) -> dict[str, Any] | None:
         """Return the SNMP settings for an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-snmp
@@ -6521,8 +6529,8 @@ class Organizations:
 
     def update_organization_snmp(
         self,
-        organization_id: str,
         *,
+        organization_id: str,
         v2c_enabled: bool | None = None,
         v3_enabled: bool | None = None,
         v3_auth_mode: str | None = None,
@@ -6585,7 +6593,7 @@ class Organizations:
         return self._session.put(metadata, resource, payload)
 
     def get_organization_splash_asset(
-        self, organization_id: str, id_: str
+        self, *, organization_id: str, id_: str
     ) -> dict[str, Any] | None:
         """Get a Splash Theme Asset.
 
@@ -6606,7 +6614,7 @@ class Organizations:
 
         return self._session.get(metadata, resource)
 
-    def delete_organization_splash_asset(self, organization_id: str, id_: str) -> None:
+    def delete_organization_splash_asset(self, *, organization_id: str, id_: str) -> None:
         """Delete a Splash Theme Asset.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-splash-asset
@@ -6626,7 +6634,7 @@ class Organizations:
 
         return self._session.delete(metadata, resource)
 
-    def get_organization_splash_themes(self, organization_id: str) -> dict[str, Any] | None:
+    def get_organization_splash_themes(self, *, organization_id: str) -> dict[str, Any] | None:
         """List Splash Themes.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-splash-themes
@@ -6645,7 +6653,7 @@ class Organizations:
         return self._session.get(metadata, resource)
 
     def create_organization_splash_theme(
-        self, organization_id: str, *, name: str | None = None, base_theme: str | None = None
+        self, *, organization_id: str, name: str | None = None, base_theme: str | None = None
     ) -> dict[str, Any] | None:
         """Create a Splash Theme.
 
@@ -6672,7 +6680,7 @@ class Organizations:
 
         return self._session.post(metadata, resource, payload)
 
-    def delete_organization_splash_theme(self, organization_id: str, id_: str) -> None:
+    def delete_organization_splash_theme(self, *, organization_id: str, id_: str) -> None:
         """Delete a Splash Theme.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-splash-theme
@@ -6694,9 +6702,9 @@ class Organizations:
 
     def create_organization_splash_theme_asset(
         self,
+        *,
         organization_id: str,
         theme_identifier: str,
-        *,
         name: str | None = None,
         content: str | None = None,
     ) -> dict[str, Any] | None:
@@ -6729,8 +6737,8 @@ class Organizations:
 
     def get_organization_summary_top_appliances_by_utilization(
         self,
-        organization_id: str,
         *,
+        organization_id: str,
         network_tag: str | None = None,
         device_tag: str | None = None,
         quantity: int | None = None,
@@ -6788,8 +6796,8 @@ class Organizations:
 
     def get_organization_summary_top_applications_by_usage(
         self,
-        organization_id: str,
         *,
+        organization_id: str,
         network_tag: str | None = None,
         device: str | None = None,
         network_id: str | None = None,
@@ -6851,8 +6859,8 @@ class Organizations:
 
     def get_organization_summary_top_applications_categories_by_usage(
         self,
-        organization_id: str,
         *,
+        organization_id: str,
         network_tag: str | None = None,
         device_tag: str | None = None,
         network_id: str | None = None,
@@ -6922,8 +6930,8 @@ class Organizations:
 
     def get_organization_summary_top_clients_by_usage(
         self,
-        organization_id: str,
         *,
+        organization_id: str,
         network_tag: str | None = None,
         device_tag: str | None = None,
         quantity: int | None = None,
@@ -6981,8 +6989,8 @@ class Organizations:
 
     def get_organization_summary_top_clients_manufacturers_by_usage(
         self,
-        organization_id: str,
         *,
+        organization_id: str,
         network_tag: str | None = None,
         device_tag: str | None = None,
         quantity: int | None = None,
@@ -7047,8 +7055,8 @@ class Organizations:
 
     def get_organization_summary_top_devices_by_usage(
         self,
-        organization_id: str,
         *,
+        organization_id: str,
         network_tag: str | None = None,
         device_tag: str | None = None,
         quantity: int | None = None,
@@ -7106,8 +7114,8 @@ class Organizations:
 
     def get_organization_summary_top_devices_models_by_usage(
         self,
-        organization_id: str,
         *,
+        organization_id: str,
         network_tag: str | None = None,
         device_tag: str | None = None,
         quantity: int | None = None,
@@ -7165,8 +7173,8 @@ class Organizations:
 
     def get_organization_summary_top_networks_by_status(
         self,
-        organization_id: str,
         *,
+        organization_id: str,
         network_tag: str | None = None,
         device_tag: str | None = None,
         quantity: int | None = None,
@@ -7232,8 +7240,8 @@ class Organizations:
 
     def get_organization_summary_top_ssids_by_usage(
         self,
-        organization_id: str,
         *,
+        organization_id: str,
         network_tag: str | None = None,
         device_tag: str | None = None,
         quantity: int | None = None,
@@ -7291,8 +7299,8 @@ class Organizations:
 
     def get_organization_summary_top_switches_by_energy_usage(
         self,
-        organization_id: str,
         *,
+        organization_id: str,
         network_tag: str | None = None,
         device_tag: str | None = None,
         quantity: int | None = None,
@@ -7350,8 +7358,8 @@ class Organizations:
 
     def get_organization_uplinks_statuses(
         self,
-        organization_id: str,
         *,
+        organization_id: str,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
@@ -7412,7 +7420,7 @@ class Organizations:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def get_organization_webhooks_alert_types(
-        self, organization_id: str, *, product_type: str | None = None
+        self, *, organization_id: str, product_type: str | None = None
     ) -> dict[str, Any] | None:
         """Return a list of alert types to be used with managing webhook alerts.
 
@@ -7452,7 +7460,7 @@ class Organizations:
         return self._session.get(metadata, resource, params)
 
     def get_organization_webhooks_callbacks_status(
-        self, organization_id: str, callback_id: str
+        self, *, organization_id: str, callback_id: str
     ) -> dict[str, Any] | None:
         """Return the status of an API callback.
 
@@ -7475,8 +7483,8 @@ class Organizations:
 
     def get_organization_webhooks_logs(
         self,
-        organization_id: str,
         *,
+        organization_id: str,
         t0: str | None = None,
         t1: str | None = None,
         timespan: float | None = None,

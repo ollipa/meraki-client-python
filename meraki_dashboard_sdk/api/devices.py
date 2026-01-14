@@ -14,7 +14,7 @@ class Devices:
         super(self).__init__()
         self._session = session
 
-    def get_device(self, serial: str) -> dict[str, Any] | None:
+    def get_device(self, *, serial: str) -> dict[str, Any] | None:
         """Return a single device.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device
@@ -31,8 +31,8 @@ class Devices:
 
     def update_device(
         self,
-        serial: str,
         *,
+        serial: str,
         name: str | None = None,
         tags: list | None = None,
         lat: float | None = None,
@@ -94,8 +94,8 @@ class Devices:
 
     def blink_device_leds(
         self,
-        serial: str,
         *,
+        serial: str,
         duration: int | None = None,
         period: int | None = None,
         duty: int | None = None,
@@ -126,7 +126,7 @@ class Devices:
 
         return self._session.post(metadata, resource, payload)
 
-    def get_device_cellular_sims(self, serial: str) -> dict[str, Any] | None:
+    def get_device_cellular_sims(self, *, serial: str) -> dict[str, Any] | None:
         """Return the SIM and APN configurations for a cellular device.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device-cellular-sims
@@ -146,8 +146,8 @@ class Devices:
 
     def update_device_cellular_sims(
         self,
-        serial: str,
         *,
+        serial: str,
         sims: list | None = None,
         sim_ordering: list | None = None,
         sim_failover: dict | None = None,
@@ -186,7 +186,7 @@ class Devices:
         return self._session.put(metadata, resource, payload)
 
     def get_device_clients(
-        self, serial: str, *, t0: str | None = None, timespan: float | None = None
+        self, *, serial: str, t0: str | None = None, timespan: float | None = None
     ) -> dict[str, Any] | None:
         """List the clients of a device, up to a maximum of a month ago.
 
@@ -214,7 +214,7 @@ class Devices:
         return self._session.get(metadata, resource, params)
 
     def create_device_live_tools_arp_table(
-        self, serial: str, *, callback: dict | None = None
+        self, *, serial: str, callback: dict | None = None
     ) -> dict[str, Any] | None:
         """Enqueue a job to perform a ARP table request for the device.
 
@@ -240,7 +240,7 @@ class Devices:
         return self._session.post(metadata, resource, payload)
 
     def get_device_live_tools_arp_table(
-        self, serial: str, arp_table_id: str
+        self, *, serial: str, arp_table_id: str
     ) -> dict[str, Any] | None:
         """Return an ARP table live tool job.
 
@@ -262,7 +262,7 @@ class Devices:
         return self._session.get(metadata, resource)
 
     def create_device_live_tools_cable_test(
-        self, serial: str, ports: list, *, callback: dict | None = None
+        self, *, serial: str, ports: list, callback: dict | None = None
     ) -> dict[str, Any] | None:
         """Enqueue a job to perform a cable test for the device on the specified ports.
 
@@ -292,7 +292,7 @@ class Devices:
 
         return self._session.post(metadata, resource, payload)
 
-    def get_device_live_tools_cable_test(self, serial: str, id_: str) -> dict[str, Any] | None:
+    def get_device_live_tools_cable_test(self, *, serial: str, id_: str) -> dict[str, Any] | None:
         """Return a cable test live tool job.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device-live-tools-cable-test
@@ -313,7 +313,7 @@ class Devices:
         return self._session.get(metadata, resource)
 
     def create_device_live_tools_leds_blink(
-        self, serial: str, duration: int, *, callback: dict | None = None
+        self, *, serial: str, duration: int, callback: dict | None = None
     ) -> dict[str, Any] | None:
         """Enqueue a job to blink LEDs on a device.
 
@@ -342,7 +342,7 @@ class Devices:
         return self._session.post(metadata, resource, payload)
 
     def get_device_live_tools_leds_blink(
-        self, serial: str, leds_blink_id: str
+        self, *, serial: str, leds_blink_id: str
     ) -> dict[str, Any] | None:
         """Return a blink LEDs job.
 
@@ -364,7 +364,7 @@ class Devices:
         return self._session.get(metadata, resource)
 
     def create_device_live_tools_mac_table(
-        self, serial: str, *, callback: dict | None = None
+        self, *, serial: str, callback: dict | None = None
     ) -> dict[str, Any] | None:
         """Enqueue a job to request the MAC table from the device.
 
@@ -390,7 +390,7 @@ class Devices:
         return self._session.post(metadata, resource, payload)
 
     def get_device_live_tools_mac_table(
-        self, serial: str, mac_table_id: str
+        self, *, serial: str, mac_table_id: str
     ) -> dict[str, Any] | None:
         """Return a MAC table live tool job.
 
@@ -412,7 +412,7 @@ class Devices:
         return self._session.get(metadata, resource)
 
     def create_device_live_tools_multicast_routing(
-        self, serial: str, *, callback: dict | None = None
+        self, *, serial: str, callback: dict | None = None
     ) -> dict[str, Any] | None:
         """Enqueue a job to perform a Multicast routing request for the device.
 
@@ -438,7 +438,7 @@ class Devices:
         return self._session.post(metadata, resource, payload)
 
     def get_device_live_tools_multicast_routing(
-        self, serial: str, multicast_routing_id: str
+        self, *, serial: str, multicast_routing_id: str
     ) -> dict[str, Any] | None:
         """Return a Multicast routing live tool job.
 
@@ -460,7 +460,7 @@ class Devices:
         return self._session.get(metadata, resource)
 
     def create_device_live_tools_ping(
-        self, serial: str, target: str, *, count: int | None = None, callback: dict | None = None
+        self, *, serial: str, target: str, count: int | None = None, callback: dict | None = None
     ) -> dict[str, Any] | None:
         """Enqueue a job to ping a target host from the device.
 
@@ -491,7 +491,7 @@ class Devices:
 
         return self._session.post(metadata, resource, payload)
 
-    def get_device_live_tools_ping(self, serial: str, id_: str) -> dict[str, Any] | None:
+    def get_device_live_tools_ping(self, *, serial: str, id_: str) -> dict[str, Any] | None:
         """Return a ping job.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device-live-tools-ping
@@ -512,7 +512,7 @@ class Devices:
         return self._session.get(metadata, resource)
 
     def create_device_live_tools_ping_device(
-        self, serial: str, *, count: int | None = None, callback: dict | None = None
+        self, *, serial: str, count: int | None = None, callback: dict | None = None
     ) -> dict[str, Any] | None:
         """Enqueue a job to check connectivity status to the device.
 
@@ -540,7 +540,7 @@ class Devices:
 
         return self._session.post(metadata, resource, payload)
 
-    def get_device_live_tools_ping_device(self, serial: str, id_: str) -> dict[str, Any] | None:
+    def get_device_live_tools_ping_device(self, *, serial: str, id_: str) -> dict[str, Any] | None:
         """Return a ping device job.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device-live-tools-ping-device
@@ -561,7 +561,7 @@ class Devices:
         return self._session.get(metadata, resource)
 
     def create_device_live_tools_throughput_test(
-        self, serial: str, *, callback: dict | None = None
+        self, *, serial: str, callback: dict | None = None
     ) -> dict[str, Any] | None:
         """Enqueue a job to test a device throughput, the test will run for 10 secs to test throughput.
 
@@ -587,7 +587,7 @@ class Devices:
         return self._session.post(metadata, resource, payload)
 
     def get_device_live_tools_throughput_test(
-        self, serial: str, throughput_test_id: str
+        self, *, serial: str, throughput_test_id: str
     ) -> dict[str, Any] | None:
         """Return a throughput test job.
 
@@ -609,7 +609,7 @@ class Devices:
         return self._session.get(metadata, resource)
 
     def create_device_live_tools_wake_on_lan(
-        self, serial: str, vlan_id: int, mac: str, *, callback: dict | None = None
+        self, *, serial: str, vlan_id: int, mac: str, callback: dict | None = None
     ) -> dict[str, Any] | None:
         """Enqueue a job to send a Wake-on-LAN packet from the device.
 
@@ -641,7 +641,7 @@ class Devices:
         return self._session.post(metadata, resource, payload)
 
     def get_device_live_tools_wake_on_lan(
-        self, serial: str, wake_on_lan_id: str
+        self, *, serial: str, wake_on_lan_id: str
     ) -> dict[str, Any] | None:
         """Return a Wake-on-LAN job.
 
@@ -662,7 +662,7 @@ class Devices:
 
         return self._session.get(metadata, resource)
 
-    def get_device_lldp_cdp(self, serial: str) -> dict[str, Any] | None:
+    def get_device_lldp_cdp(self, *, serial: str) -> dict[str, Any] | None:
         """List LLDP and CDP information for a device.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device-lldp-cdp
@@ -679,9 +679,9 @@ class Devices:
 
     def get_device_loss_and_latency_history(
         self,
+        *,
         serial: str,
         ip: str,
-        *,
         t0: str | None = None,
         t1: str | None = None,
         timespan: float | None = None,
@@ -736,7 +736,7 @@ class Devices:
 
         return self._session.get(metadata, resource, params)
 
-    def get_device_management_interface(self, serial: str) -> dict[str, Any] | None:
+    def get_device_management_interface(self, *, serial: str) -> dict[str, Any] | None:
         """Return the management interface settings for a device.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device-management-interface
@@ -755,7 +755,7 @@ class Devices:
         return self._session.get(metadata, resource)
 
     def update_device_management_interface(
-        self, serial: str, *, wan1: dict | None = None, wan2: dict | None = None
+        self, *, serial: str, wan1: dict | None = None, wan2: dict | None = None
     ) -> dict[str, Any] | None:
         """Update the management interface settings for a device.
 
@@ -782,7 +782,7 @@ class Devices:
 
         return self._session.put(metadata, resource, payload)
 
-    def reboot_device(self, serial: str) -> dict[str, Any] | None:
+    def reboot_device(self, *, serial: str) -> dict[str, Any] | None:
         """Reboot a device.
 
         https://developer.cisco.com/meraki/api-v1/#!reboot-device

@@ -12,8 +12,8 @@ class ActionBatchCamera:
 
     def update_device_camera_custom_analytics(
         self,
-        serial: str,
         *,
+        serial: str,
         enabled: bool | None = None,
         artifact_id: str | None = None,
         parameters: list | None = None,
@@ -29,10 +29,6 @@ class ActionBatchCamera:
             parameters: Parameters for the custom analytics workload.
 
         """
-        metadata = {
-            "tags": ["camera", "configure", "customAnalytics"],
-            "operation": "update_device_camera_custom_analytics",
-        }
         serial = urllib.parse.quote(str(serial), safe="")
         resource = f"/devices/{serial}/camera/customAnalytics"
 
@@ -49,12 +45,12 @@ class ActionBatchCamera:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def update_device_camera_quality_and_retention(
         self,
-        serial: str,
         *,
+        serial: str,
         profile_id: str | None = None,
         motion_based_retention_enabled: bool | None = None,
         audio_recording_enabled: bool | None = None,
@@ -113,10 +109,6 @@ class ActionBatchCamera:
                 f'"motion_detector_version" cannot be "{motion_detector_version}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["camera", "configure", "qualityAndRetention"],
-            "operation": "update_device_camera_quality_and_retention",
-        }
         serial = urllib.parse.quote(str(serial), safe="")
         resource = f"/devices/{serial}/camera/qualityAndRetention"
 
@@ -141,12 +133,12 @@ class ActionBatchCamera:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def update_device_camera_sense(
         self,
-        serial: str,
         *,
+        serial: str,
         sense_enabled: bool | None = None,
         mqtt_broker_id: str | None = None,
         audio_detection: dict | None = None,
@@ -166,10 +158,6 @@ class ActionBatchCamera:
             detection_model_id: The ID of the object detection model.
 
         """
-        metadata = {
-            "tags": ["camera", "configure", "sense"],
-            "operation": "update_device_camera_sense",
-        }
         serial = urllib.parse.quote(str(serial), safe="")
         resource = f"/devices/{serial}/camera/sense"
 
@@ -188,10 +176,10 @@ class ActionBatchCamera:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def update_device_camera_video_settings(
-        self, serial: str, *, external_rtsp_enabled: bool | None = None
+        self, *, serial: str, external_rtsp_enabled: bool | None = None
     ) -> dict[str, Any]:
         """Update video settings for the given camera.
 
@@ -202,10 +190,6 @@ class ActionBatchCamera:
             external_rtsp_enabled: Boolean indicating if external rtsp stream is exposed.
 
         """
-        metadata = {
-            "tags": ["camera", "configure", "video", "settings"],
-            "operation": "update_device_camera_video_settings",
-        }
         serial = urllib.parse.quote(str(serial), safe="")
         resource = f"/devices/{serial}/camera/video/settings"
 
@@ -218,9 +202,9 @@ class ActionBatchCamera:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
-    def update_device_camera_wireless_profiles(self, serial: str, ids: dict) -> dict[str, Any]:
+    def update_device_camera_wireless_profiles(self, *, serial: str, ids: dict) -> dict[str, Any]:
         """Assign wireless profiles to the given camera.
 
         https://developer.cisco.com/meraki/api-v1/#!update-device-camera-wireless-profiles
@@ -230,10 +214,6 @@ class ActionBatchCamera:
             ids: The ids of the wireless profile to assign to the given camera.
 
         """
-        metadata = {
-            "tags": ["camera", "configure", "wirelessProfiles"],
-            "operation": "update_device_camera_wireless_profiles",
-        }
         serial = urllib.parse.quote(str(serial), safe="")
         resource = f"/devices/{serial}/camera/wirelessProfiles"
 
@@ -246,4 +226,4 @@ class ActionBatchCamera:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504

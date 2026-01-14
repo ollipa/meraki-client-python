@@ -12,8 +12,8 @@ class ActionBatchNetworks:
 
     def update_network(
         self,
-        network_id: str,
         *,
+        network_id: str,
         name: str | None = None,
         time_zone: str | None = None,
         tags: list | None = None,
@@ -39,7 +39,6 @@ class ActionBatchNetworks:
             notes: Add any notes or additional information about this network here.
 
         """
-        metadata = {"tags": ["networks", "configure"], "operation": "update_network"}
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}"
 
@@ -60,9 +59,9 @@ class ActionBatchNetworks:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
-    def delete_network(self, network_id: str) -> dict[str, Any]:
+    def delete_network(self, *, network_id: str) -> dict[str, Any]:
         """Delete a network.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-network
@@ -71,7 +70,6 @@ class ActionBatchNetworks:
             network_id: Network ID.
 
         """
-        metadata = {"tags": ["networks", "configure"], "operation": "delete_network"}
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}"
 
@@ -79,10 +77,10 @@ class ActionBatchNetworks:
             "resource": resource,
             "operation": "destroy",
         }
-        return action
+        return action  # noqa: RET504
 
     def bind_network(
-        self, network_id: str, config_template_id: str, *, auto_bind: bool | None = None
+        self, *, network_id: str, config_template_id: str, auto_bind: bool | None = None
     ) -> dict[str, Any]:
         """Bind a network to a template.
 
@@ -98,7 +96,6 @@ class ActionBatchNetworks:
               one profile and has at most one profile per switch model.
 
         """
-        metadata = {"tags": ["networks", "configure"], "operation": "bind_network"}
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/bind"
 
@@ -113,14 +110,14 @@ class ActionBatchNetworks:
             "operation": "create",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def provision_network_clients(
         self,
+        *,
         network_id: str,
         clients: list,
         device_policy: str,
-        *,
         group_policy_id: str | None = None,
         policies_by_security_appliance: dict | None = None,
         policies_by_ssid: dict | None = None,
@@ -150,10 +147,6 @@ class ActionBatchNetworks:
                 f'"device_policy" cannot be "{device_policy}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["networks", "configure", "clients"],
-            "operation": "provision_network_clients",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/clients/provision"
 
@@ -174,13 +167,13 @@ class ActionBatchNetworks:
             "operation": "create",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def claim_network_devices(
         self,
+        *,
         network_id: str,
         serials: list,
-        *,
         add_atomically: bool | None = None,
         details_by_device: list | None = None,
     ) -> dict[str, Any]:
@@ -197,10 +190,6 @@ class ActionBatchNetworks:
               Catalyst devices).
 
         """
-        metadata = {
-            "tags": ["networks", "configure", "devices"],
-            "operation": "claim_network_devices",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/devices/claim"
 
@@ -219,9 +208,9 @@ class ActionBatchNetworks:
             "operation": "create",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
-    def vmx_network_devices_claim(self, network_id: str, size: str) -> dict[str, Any]:
+    def vmx_network_devices_claim(self, *, network_id: str, size: str) -> dict[str, Any]:
         """Claim a vMX into a network.
 
         https://developer.cisco.com/meraki/api-v1/#!vmx-network-devices-claim
@@ -236,10 +225,6 @@ class ActionBatchNetworks:
             options = ["100", "large", "medium", "small", "xlarge"]
             assert size in options, f'"size" cannot be "{size}", & must be set to one of: {options}'
 
-        metadata = {
-            "tags": ["networks", "configure", "devices", "claim"],
-            "operation": "vmx_network_devices_claim",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/devices/claim/vmx"
 
@@ -252,9 +237,9 @@ class ActionBatchNetworks:
             "operation": "create",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
-    def remove_network_devices(self, network_id: str, serial: str) -> dict[str, Any]:
+    def remove_network_devices(self, *, network_id: str, serial: str) -> dict[str, Any]:
         """Remove a single device.
 
         https://developer.cisco.com/meraki/api-v1/#!remove-network-devices
@@ -264,10 +249,6 @@ class ActionBatchNetworks:
             serial: The serial of a device.
 
         """
-        metadata = {
-            "tags": ["networks", "configure", "devices"],
-            "operation": "remove_network_devices",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/devices/remove"
 
@@ -280,12 +261,12 @@ class ActionBatchNetworks:
             "operation": "create",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def update_network_firmware_upgrades(
         self,
-        network_id: str,
         *,
+        network_id: str,
         upgrade_window: dict | None = None,
         timezone: str | None = None,
         products: dict | None = None,
@@ -301,10 +282,6 @@ class ActionBatchNetworks:
             products: Contains information about the network to update.
 
         """
-        metadata = {
-            "tags": ["networks", "configure", "firmwareUpgrades"],
-            "operation": "update_network_firmware_upgrades",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/firmwareUpgrades"
 
@@ -321,13 +298,13 @@ class ActionBatchNetworks:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def create_network_firmware_upgrades_rollback(
         self,
+        *,
         network_id: str,
         reasons: list,
-        *,
         product: str | None = None,
         time: str | None = None,
         to_version: dict | None = None,
@@ -359,10 +336,6 @@ class ActionBatchNetworks:
                 f'"product" cannot be "{product}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["networks", "configure", "firmwareUpgrades", "rollbacks"],
-            "operation": "create_network_firmware_upgrades_rollback",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/firmwareUpgrades/rollbacks"
 
@@ -381,14 +354,14 @@ class ActionBatchNetworks:
             "operation": "create",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def create_network_firmware_upgrades_staged_group(
         self,
+        *,
         network_id: str,
         name: str,
         is_default: bool,
-        *,
         description: str | None = None,
         assigned_devices: dict | None = None,
     ) -> dict[str, Any]:
@@ -406,10 +379,6 @@ class ActionBatchNetworks:
             assigned_devices: The devices and Switch Stacks assigned to the Group.
 
         """
-        metadata = {
-            "tags": ["networks", "configure", "firmwareUpgrades", "staged", "groups"],
-            "operation": "create_network_firmware_upgrades_staged_group",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/firmwareUpgrades/staged/groups"
 
@@ -428,10 +397,10 @@ class ActionBatchNetworks:
             "operation": "create",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def delete_network_firmware_upgrades_staged_group(
-        self, network_id: str, group_id: str
+        self, *, network_id: str, group_id: str
     ) -> dict[str, Any]:
         """Delete a Staged Upgrade Group.
 
@@ -442,10 +411,6 @@ class ActionBatchNetworks:
             group_id: Group ID.
 
         """
-        metadata = {
-            "tags": ["networks", "configure", "firmwareUpgrades", "staged", "groups"],
-            "operation": "delete_network_firmware_upgrades_staged_group",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         group_id = urllib.parse.quote(str(group_id), safe="")
         resource = f"/networks/{network_id}/firmwareUpgrades/staged/groups/{group_id}"
@@ -454,10 +419,10 @@ class ActionBatchNetworks:
             "resource": resource,
             "operation": "destroy",
         }
-        return action
+        return action  # noqa: RET504
 
     def batch_network_floor_plans_auto_locate_jobs(
-        self, network_id: str, jobs: list
+        self, *, network_id: str, jobs: list
     ) -> dict[str, Any]:
         """Schedule auto locate jobs for one or more floor plans in a network.
 
@@ -469,10 +434,6 @@ class ActionBatchNetworks:
               request.
 
         """
-        metadata = {
-            "tags": ["networks", "configure", "floorPlans", "autoLocate", "jobs"],
-            "operation": "batch_network_floor_plans_auto_locate_jobs",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/floorPlans/autoLocate/jobs/batch"
 
@@ -485,10 +446,10 @@ class ActionBatchNetworks:
             "operation": "create",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def cancel_network_floor_plans_auto_locate_job(
-        self, network_id: str, job_id: str
+        self, *, network_id: str, job_id: str
     ) -> dict[str, Any]:
         """Cancel a scheduled or running auto locate job.
 
@@ -499,10 +460,6 @@ class ActionBatchNetworks:
             job_id: Job ID.
 
         """
-        metadata = {
-            "tags": ["networks", "configure", "floorPlans", "autoLocate", "jobs"],
-            "operation": "cancel_network_floor_plans_auto_locate_job",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         job_id = urllib.parse.quote(str(job_id), safe="")
         resource = f"/networks/{network_id}/floorPlans/autoLocate/jobs/{job_id}/cancel"
@@ -511,10 +468,10 @@ class ActionBatchNetworks:
             "resource": resource,
             "operation": "create",
         }
-        return action
+        return action  # noqa: RET504
 
     def publish_network_floor_plans_auto_locate_job(
-        self, network_id: str, job_id: str, *, devices: list | None = None
+        self, *, network_id: str, job_id: str, devices: list | None = None
     ) -> dict[str, Any]:
         """Update the status of a finished auto locate job to be published, and update device locations.
 
@@ -526,10 +483,6 @@ class ActionBatchNetworks:
             devices: The list of devices to publish positions for.
 
         """
-        metadata = {
-            "tags": ["networks", "configure", "floorPlans", "autoLocate", "jobs"],
-            "operation": "publish_network_floor_plans_auto_locate_job",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         job_id = urllib.parse.quote(str(job_id), safe="")
         resource = f"/networks/{network_id}/floorPlans/autoLocate/jobs/{job_id}/publish"
@@ -543,10 +496,10 @@ class ActionBatchNetworks:
             "operation": "create",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def recalculate_network_floor_plans_auto_locate_job(
-        self, network_id: str, job_id: str, *, devices: list | None = None
+        self, *, network_id: str, job_id: str, devices: list | None = None
     ) -> dict[str, Any]:
         """Trigger auto locate recalculation for a job, and optionally set anchors.
 
@@ -558,10 +511,6 @@ class ActionBatchNetworks:
             devices: The list of devices to update anchor positions for.
 
         """
-        metadata = {
-            "tags": ["networks", "configure", "floorPlans", "autoLocate", "jobs"],
-            "operation": "recalculate_network_floor_plans_auto_locate_job",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         job_id = urllib.parse.quote(str(job_id), safe="")
         resource = f"/networks/{network_id}/floorPlans/autoLocate/jobs/{job_id}/recalculate"
@@ -575,10 +524,10 @@ class ActionBatchNetworks:
             "operation": "create",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def batch_network_floor_plans_devices_update(
-        self, network_id: str, assignments: list
+        self, *, network_id: str, assignments: list
     ) -> dict[str, Any]:
         """Update floorplan assignments for a batch of devices.
 
@@ -590,10 +539,6 @@ class ActionBatchNetworks:
               can be provided in a request.
 
         """
-        metadata = {
-            "tags": ["networks", "configure", "floorPlans", "devices"],
-            "operation": "batch_network_floor_plans_devices_update",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/floorPlans/devices/batchUpdate"
 
@@ -606,13 +551,13 @@ class ActionBatchNetworks:
             "operation": "create",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def update_network_floor_plan(
         self,
+        *,
         network_id: str,
         floor_plan_id: str,
-        *,
         name: str | None = None,
         center: dict | None = None,
         bottom_left_corner: dict | None = None,
@@ -655,10 +600,6 @@ class ActionBatchNetworks:
               in order to maintain the aspect ratio of your new image.
 
         """
-        metadata = {
-            "tags": ["networks", "configure", "floorPlans"],
-            "operation": "update_network_floor_plan",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         floor_plan_id = urllib.parse.quote(str(floor_plan_id), safe="")
         resource = f"/networks/{network_id}/floorPlans/{floor_plan_id}"
@@ -686,9 +627,9 @@ class ActionBatchNetworks:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
-    def delete_network_floor_plan(self, network_id: str, floor_plan_id: str) -> dict[str, Any]:
+    def delete_network_floor_plan(self, *, network_id: str, floor_plan_id: str) -> dict[str, Any]:
         """Destroy a floor plan.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-network-floor-plan
@@ -698,10 +639,6 @@ class ActionBatchNetworks:
             floor_plan_id: Floor plan ID.
 
         """
-        metadata = {
-            "tags": ["networks", "configure", "floorPlans"],
-            "operation": "delete_network_floor_plan",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         floor_plan_id = urllib.parse.quote(str(floor_plan_id), safe="")
         resource = f"/networks/{network_id}/floorPlans/{floor_plan_id}"
@@ -710,13 +647,13 @@ class ActionBatchNetworks:
             "resource": resource,
             "operation": "destroy",
         }
-        return action
+        return action  # noqa: RET504
 
     def create_network_group_policy(
         self,
+        *,
         network_id: str,
         name: str,
-        *,
         scheduling: dict | None = None,
         bandwidth: dict | None = None,
         firewall_and_traffic_shaping: dict | None = None,
@@ -754,10 +691,6 @@ class ActionBatchNetworks:
                 f'"splash_auth_settings" cannot be "{splash_auth_settings}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["networks", "configure", "groupPolicies"],
-            "operation": "create_network_group_policy",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/groupPolicies"
 
@@ -784,13 +717,13 @@ class ActionBatchNetworks:
             "operation": "create",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def update_network_group_policy(
         self,
+        *,
         network_id: str,
         group_policy_id: str,
-        *,
         name: str | None = None,
         scheduling: dict | None = None,
         bandwidth: dict | None = None,
@@ -830,10 +763,6 @@ class ActionBatchNetworks:
                 f'"splash_auth_settings" cannot be "{splash_auth_settings}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["networks", "configure", "groupPolicies"],
-            "operation": "update_network_group_policy",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         group_policy_id = urllib.parse.quote(str(group_policy_id), safe="")
         resource = f"/networks/{network_id}/groupPolicies/{group_policy_id}"
@@ -861,10 +790,10 @@ class ActionBatchNetworks:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def delete_network_group_policy(
-        self, network_id: str, group_policy_id: str, *, force: bool | None = None
+        self, *, network_id: str, group_policy_id: str, force: bool | None = None
     ) -> dict[str, Any]:
         """Delete a group policy.
 
@@ -878,10 +807,6 @@ class ActionBatchNetworks:
               will be left without any policy applied. Default is false.
 
         """
-        metadata = {
-            "tags": ["networks", "configure", "groupPolicies"],
-            "operation": "delete_network_group_policy",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         group_policy_id = urllib.parse.quote(str(group_policy_id), safe="")
         resource = f"/networks/{network_id}/groupPolicies/{group_policy_id}"
@@ -894,14 +819,14 @@ class ActionBatchNetworks:
             "resource": resource,
             "operation": "destroy",
         }
-        return action
+        return action  # noqa: RET504
 
     def create_network_meraki_auth_user(
         self,
+        *,
         network_id: str,
         email: str,
         authorizations: list,
-        *,
         name: str | None = None,
         password: str | None = None,
         account_type: str | None = None,
@@ -932,10 +857,6 @@ class ActionBatchNetworks:
                 f'"account_type" cannot be "{account_type}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["networks", "configure", "merakiAuthUsers"],
-            "operation": "create_network_meraki_auth_user",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/merakiAuthUsers"
 
@@ -960,10 +881,10 @@ class ActionBatchNetworks:
             "operation": "create",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def delete_network_meraki_auth_user(
-        self, network_id: str, meraki_auth_user_id: str, *, delete: bool | None = None
+        self, *, network_id: str, meraki_auth_user_id: str, delete: bool | None = None
     ) -> dict[str, Any]:
         """Delete an 802.1X RADIUS user, or deauthorize and optionally delete a splash guest or client VPN user.
 
@@ -978,10 +899,6 @@ class ActionBatchNetworks:
               optional attribute.
 
         """
-        metadata = {
-            "tags": ["networks", "configure", "merakiAuthUsers"],
-            "operation": "delete_network_meraki_auth_user",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         meraki_auth_user_id = urllib.parse.quote(str(meraki_auth_user_id), safe="")
         resource = f"/networks/{network_id}/merakiAuthUsers/{meraki_auth_user_id}"
@@ -994,13 +911,13 @@ class ActionBatchNetworks:
             "resource": resource,
             "operation": "destroy",
         }
-        return action
+        return action  # noqa: RET504
 
     def update_network_meraki_auth_user(
         self,
+        *,
         network_id: str,
         meraki_auth_user_id: str,
-        *,
         name: str | None = None,
         password: str | None = None,
         email_password_to_user: bool | None = None,
@@ -1021,10 +938,6 @@ class ActionBatchNetworks:
             authorizations: Authorization zones and expiration dates for the user.
 
         """
-        metadata = {
-            "tags": ["networks", "configure", "merakiAuthUsers"],
-            "operation": "update_network_meraki_auth_user",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         meraki_auth_user_id = urllib.parse.quote(str(meraki_auth_user_id), safe="")
         resource = f"/networks/{network_id}/merakiAuthUsers/{meraki_auth_user_id}"
@@ -1044,15 +957,15 @@ class ActionBatchNetworks:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def create_network_mqtt_broker(
         self,
+        *,
         network_id: str,
         name: str,
         host: str,
         port: int,
-        *,
         security: dict | None = None,
         authentication: dict | None = None,
     ) -> dict[str, Any]:
@@ -1069,10 +982,6 @@ class ActionBatchNetworks:
             authentication: Authentication settings of the MQTT broker.
 
         """
-        metadata = {
-            "tags": ["networks", "configure", "mqttBrokers"],
-            "operation": "create_network_mqtt_broker",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/mqttBrokers"
 
@@ -1093,13 +1002,13 @@ class ActionBatchNetworks:
             "operation": "create",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def update_network_mqtt_broker(
         self,
+        *,
         network_id: str,
         mqtt_broker_id: str,
-        *,
         name: str | None = None,
         host: str | None = None,
         port: int | None = None,
@@ -1120,10 +1029,6 @@ class ActionBatchNetworks:
             authentication: Authentication settings of the MQTT broker.
 
         """
-        metadata = {
-            "tags": ["networks", "configure", "mqttBrokers"],
-            "operation": "update_network_mqtt_broker",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         mqtt_broker_id = urllib.parse.quote(str(mqtt_broker_id), safe="")
         resource = f"/networks/{network_id}/mqttBrokers/{mqtt_broker_id}"
@@ -1145,9 +1050,9 @@ class ActionBatchNetworks:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
-    def delete_network_mqtt_broker(self, network_id: str, mqtt_broker_id: str) -> dict[str, Any]:
+    def delete_network_mqtt_broker(self, *, network_id: str, mqtt_broker_id: str) -> dict[str, Any]:
         """Delete an MQTT broker.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-network-mqtt-broker
@@ -1157,10 +1062,6 @@ class ActionBatchNetworks:
             mqtt_broker_id: Mqtt broker ID.
 
         """
-        metadata = {
-            "tags": ["networks", "configure", "mqttBrokers"],
-            "operation": "delete_network_mqtt_broker",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         mqtt_broker_id = urllib.parse.quote(str(mqtt_broker_id), safe="")
         resource = f"/networks/{network_id}/mqttBrokers/{mqtt_broker_id}"
@@ -1169,12 +1070,12 @@ class ActionBatchNetworks:
             "resource": resource,
             "operation": "destroy",
         }
-        return action
+        return action  # noqa: RET504
 
     def update_network_settings(
         self,
-        network_id: str,
         *,
+        network_id: str,
         local_status_page_enabled: bool | None = None,
         remote_status_page_enabled: bool | None = None,
         local_status_page: dict | None = None,
@@ -1202,10 +1103,6 @@ class ActionBatchNetworks:
             named_vlans: A hash of Named VLANs options applied to the Network.
 
         """
-        metadata = {
-            "tags": ["networks", "configure", "settings"],
-            "operation": "update_network_settings",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/settings"
 
@@ -1226,9 +1123,9 @@ class ActionBatchNetworks:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
-    def split_network(self, network_id: str) -> dict[str, Any]:
+    def split_network(self, *, network_id: str) -> dict[str, Any]:
         """Split a combined network into individual networks for each type of device.
 
         https://developer.cisco.com/meraki/api-v1/#!split-network
@@ -1237,7 +1134,6 @@ class ActionBatchNetworks:
             network_id: Network ID.
 
         """
-        metadata = {"tags": ["networks", "configure"], "operation": "split_network"}
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/split"
 
@@ -1245,10 +1141,10 @@ class ActionBatchNetworks:
             "resource": resource,
             "operation": "create",
         }
-        return action
+        return action  # noqa: RET504
 
     def unbind_network(
-        self, network_id: str, *, retain_configs: bool | None = None
+        self, *, network_id: str, retain_configs: bool | None = None
     ) -> dict[str, Any]:
         """Unbind a network from a template.
 
@@ -1260,7 +1156,6 @@ class ActionBatchNetworks:
               template.
 
         """
-        metadata = {"tags": ["networks", "configure"], "operation": "unbind_network"}
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/unbind"
 
@@ -1273,10 +1168,10 @@ class ActionBatchNetworks:
             "operation": "create",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def create_network_vlan_profile(
-        self, network_id: str, name: str, vlan_names: list, vlan_groups: list, iname: str
+        self, *, network_id: str, name: str, vlan_names: list, vlan_groups: list, iname: str
     ) -> dict[str, Any]:
         """Create a VLAN profile for a network.
 
@@ -1290,10 +1185,6 @@ class ActionBatchNetworks:
             iname: IName of the profile.
 
         """
-        metadata = {
-            "tags": ["networks", "configure", "vlanProfiles"],
-            "operation": "create_network_vlan_profile",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/vlanProfiles"
 
@@ -1312,9 +1203,9 @@ class ActionBatchNetworks:
             "operation": "create",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
-    def delete_network_vlan_profile(self, network_id: str, iname: str) -> dict[str, Any]:
+    def delete_network_vlan_profile(self, *, network_id: str, iname: str) -> dict[str, Any]:
         """Delete a VLAN profile of a network.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-network-vlan-profile
@@ -1324,10 +1215,6 @@ class ActionBatchNetworks:
             iname: Iname.
 
         """
-        metadata = {
-            "tags": ["networks", "configure", "vlanProfiles"],
-            "operation": "delete_network_vlan_profile",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         iname = urllib.parse.quote(str(iname), safe="")
         resource = f"/networks/{network_id}/vlanProfiles/{iname}"
@@ -1336,13 +1223,13 @@ class ActionBatchNetworks:
             "resource": resource,
             "operation": "destroy",
         }
-        return action
+        return action  # noqa: RET504
 
     def create_network_webhooks_payload_template(
         self,
+        *,
         network_id: str,
         name: str,
-        *,
         body: str | None = None,
         headers: list | None = None,
         body_file: str | None = None,
@@ -1364,10 +1251,6 @@ class ActionBatchNetworks:
               headers.
 
         """
-        metadata = {
-            "tags": ["networks", "configure", "webhooks", "payloadTemplates"],
-            "operation": "create_network_webhooks_payload_template",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/webhooks/payloadTemplates"
 
@@ -1388,10 +1271,10 @@ class ActionBatchNetworks:
             "operation": "create",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def delete_network_webhooks_payload_template(
-        self, network_id: str, payload_template_id: str
+        self, *, network_id: str, payload_template_id: str
     ) -> dict[str, Any]:
         """Destroy a webhook payload template for a network.
 
@@ -1402,10 +1285,6 @@ class ActionBatchNetworks:
             payload_template_id: Payload template ID.
 
         """
-        metadata = {
-            "tags": ["networks", "configure", "webhooks", "payloadTemplates"],
-            "operation": "delete_network_webhooks_payload_template",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         payload_template_id = urllib.parse.quote(str(payload_template_id), safe="")
         resource = f"/networks/{network_id}/webhooks/payloadTemplates/{payload_template_id}"
@@ -1414,13 +1293,13 @@ class ActionBatchNetworks:
             "resource": resource,
             "operation": "destroy",
         }
-        return action
+        return action  # noqa: RET504
 
     def update_network_webhooks_payload_template(
         self,
+        *,
         network_id: str,
         payload_template_id: str,
-        *,
         name: str | None = None,
         body: str | None = None,
         headers: list | None = None,
@@ -1441,10 +1320,6 @@ class ActionBatchNetworks:
             headers_file: A file containing the liquid template used with the webhook headers.
 
         """
-        metadata = {
-            "tags": ["networks", "configure", "webhooks", "payloadTemplates"],
-            "operation": "update_network_webhooks_payload_template",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         payload_template_id = urllib.parse.quote(str(payload_template_id), safe="")
         resource = f"/networks/{network_id}/webhooks/payloadTemplates/{payload_template_id}"
@@ -1466,4 +1341,4 @@ class ActionBatchNetworks:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504

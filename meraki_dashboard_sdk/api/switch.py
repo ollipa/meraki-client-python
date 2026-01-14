@@ -14,7 +14,7 @@ class Switch:
         super(self).__init__()
         self._session = session
 
-    def get_device_switch_ports(self, serial: str) -> dict[str, Any] | None:
+    def get_device_switch_ports(self, *, serial: str) -> dict[str, Any] | None:
         """List the switch ports for a switch.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device-switch-ports
@@ -32,7 +32,7 @@ class Switch:
 
         return self._session.get(metadata, resource)
 
-    def cycle_device_switch_ports(self, serial: str, ports: list) -> dict[str, Any] | None:
+    def cycle_device_switch_ports(self, *, serial: str, ports: list) -> dict[str, Any] | None:
         """Cycle a set of switch ports.
 
         https://developer.cisco.com/meraki/api-v1/#!cycle-device-switch-ports
@@ -56,7 +56,7 @@ class Switch:
         return self._session.post(metadata, resource, payload)
 
     def get_device_switch_ports_statuses(
-        self, serial: str, *, t0: str | None = None, timespan: float | None = None
+        self, *, serial: str, t0: str | None = None, timespan: float | None = None
     ) -> dict[str, Any] | None:
         """Return the status for all the ports of a switch.
 
@@ -87,7 +87,7 @@ class Switch:
         return self._session.get(metadata, resource, params)
 
     def get_device_switch_ports_statuses_packets(
-        self, serial: str, *, t0: str | None = None, timespan: float | None = None
+        self, *, serial: str, t0: str | None = None, timespan: float | None = None
     ) -> dict[str, Any] | None:
         """Return the packet counters for all the ports of a switch.
 
@@ -119,7 +119,7 @@ class Switch:
 
         return self._session.get(metadata, resource, params)
 
-    def get_device_switch_port(self, serial: str, port_id: str) -> dict[str, Any] | None:
+    def get_device_switch_port(self, *, serial: str, port_id: str) -> dict[str, Any] | None:
         """Return a switch port.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device-switch-port
@@ -138,9 +138,9 @@ class Switch:
 
     def update_device_switch_port(
         self,
+        *,
         serial: str,
         port_id: str,
-        *,
         name: str | None = None,
         tags: list | None = None,
         enabled: bool | None = None,
@@ -320,7 +320,7 @@ class Switch:
         return self._session.put(metadata, resource, payload)
 
     def get_device_switch_routing_interfaces(
-        self, serial: str, *, mode: str | None = None, protocol: str | None = None
+        self, *, serial: str, mode: str | None = None, protocol: str | None = None
     ) -> dict[str, Any] | None:
         """List layer 3 interfaces for a switch.
 
@@ -358,9 +358,9 @@ class Switch:
 
     def create_device_switch_routing_interface(
         self,
+        *,
         serial: str,
         name: str,
-        *,
         mode: str | None = None,
         subnet: str | None = None,
         switch_port_id: str | None = None,
@@ -445,7 +445,7 @@ class Switch:
         return self._session.post(metadata, resource, payload)
 
     def get_device_switch_routing_interface(
-        self, serial: str, interface_id: str
+        self, *, serial: str, interface_id: str
     ) -> dict[str, Any] | None:
         """Return a layer 3 interface for a switch.
 
@@ -468,9 +468,9 @@ class Switch:
 
     def update_device_switch_routing_interface(
         self,
+        *,
         serial: str,
         interface_id: str,
-        *,
         name: str | None = None,
         subnet: str | None = None,
         switch_port_id: str | None = None,
@@ -549,7 +549,7 @@ class Switch:
 
         return self._session.put(metadata, resource, payload)
 
-    def delete_device_switch_routing_interface(self, serial: str, interface_id: str) -> None:
+    def delete_device_switch_routing_interface(self, *, serial: str, interface_id: str) -> None:
         """Delete a layer 3 interface from the switch.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-device-switch-routing-interface
@@ -570,7 +570,7 @@ class Switch:
         return self._session.delete(metadata, resource)
 
     def get_device_switch_routing_interface_dhcp(
-        self, serial: str, interface_id: str
+        self, *, serial: str, interface_id: str
     ) -> dict[str, Any] | None:
         """Return a layer 3 interface DHCP configuration for a switch.
 
@@ -593,9 +593,9 @@ class Switch:
 
     def update_device_switch_routing_interface_dhcp(
         self,
+        *,
         serial: str,
         interface_id: str,
-        *,
         dhcp_mode: str | None = None,
         dhcp_relay_server_ips: list | None = None,
         dhcp_lease_time: str | None = None,
@@ -690,7 +690,7 @@ class Switch:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_device_switch_routing_static_routes(self, serial: str) -> dict[str, Any] | None:
+    def get_device_switch_routing_static_routes(self, *, serial: str) -> dict[str, Any] | None:
         """List layer 3 static routes for a switch.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device-switch-routing-static-routes
@@ -710,10 +710,10 @@ class Switch:
 
     def create_device_switch_routing_static_route(
         self,
+        *,
         serial: str,
         subnet: str,
         next_hop_ip: str,
-        *,
         name: str | None = None,
         advertise_via_ospf_enabled: bool | None = None,
         prefer_over_ospf_routes_enabled: bool | None = None,
@@ -759,7 +759,7 @@ class Switch:
         return self._session.post(metadata, resource, payload)
 
     def get_device_switch_routing_static_route(
-        self, serial: str, static_route_id: str
+        self, *, serial: str, static_route_id: str
     ) -> dict[str, Any] | None:
         """Return a layer 3 static route for a switch.
 
@@ -782,9 +782,9 @@ class Switch:
 
     def update_device_switch_routing_static_route(
         self,
+        *,
         serial: str,
         static_route_id: str,
-        *,
         name: str | None = None,
         subnet: str | None = None,
         next_hop_ip: str | None = None,
@@ -837,7 +837,9 @@ class Switch:
 
         return self._session.put(metadata, resource, payload)
 
-    def delete_device_switch_routing_static_route(self, serial: str, static_route_id: str) -> None:
+    def delete_device_switch_routing_static_route(
+        self, *, serial: str, static_route_id: str
+    ) -> None:
         """Delete a layer 3 static route for a switch.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-device-switch-routing-static-route
@@ -857,7 +859,7 @@ class Switch:
 
         return self._session.delete(metadata, resource)
 
-    def get_device_switch_warm_spare(self, serial: str) -> dict[str, Any] | None:
+    def get_device_switch_warm_spare(self, *, serial: str) -> dict[str, Any] | None:
         """Return warm spare configuration for a switch.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device-switch-warm-spare
@@ -876,7 +878,7 @@ class Switch:
         return self._session.get(metadata, resource)
 
     def update_device_switch_warm_spare(
-        self, serial: str, enabled: bool, *, spare_serial: str | None = None
+        self, *, serial: str, enabled: bool, spare_serial: str | None = None
     ) -> dict[str, Any] | None:
         """Update warm spare configuration for a switch.
 
@@ -903,7 +905,7 @@ class Switch:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_network_switch_access_control_lists(self, network_id: str) -> dict[str, Any] | None:
+    def get_network_switch_access_control_lists(self, *, network_id: str) -> dict[str, Any] | None:
         """Return the access control lists for a MS network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-switch-access-control-lists
@@ -922,7 +924,7 @@ class Switch:
         return self._session.get(metadata, resource)
 
     def update_network_switch_access_control_lists(
-        self, network_id: str, rules: list
+        self, *, network_id: str, rules: list
     ) -> dict[str, Any] | None:
         """Update the access control lists for a MS network.
 
@@ -947,7 +949,7 @@ class Switch:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_network_switch_access_policies(self, network_id: str) -> dict[str, Any] | None:
+    def get_network_switch_access_policies(self, *, network_id: str) -> dict[str, Any] | None:
         """List the access policies for a switch network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-switch-access-policies
@@ -967,11 +969,11 @@ class Switch:
 
     def create_network_switch_access_policy(
         self,
+        *,
         network_id: str,
         name: str,
         radius_servers: list,
         radius_accounting_enabled: bool,
-        *,
         radius: dict | None = None,
         guest_port_bouncing: bool | None = None,
         radius_testing_enabled: bool | None = None,
@@ -1092,7 +1094,7 @@ class Switch:
         return self._session.post(metadata, resource, payload)
 
     def get_network_switch_access_policy(
-        self, network_id: str, access_policy_number: str
+        self, *, network_id: str, access_policy_number: str
     ) -> dict[str, Any] | None:
         """Return a specific access policy for a switch network.
 
@@ -1115,9 +1117,9 @@ class Switch:
 
     def update_network_switch_access_policy(
         self,
+        *,
         network_id: str,
         access_policy_number: str,
-        *,
         name: str | None = None,
         radius_servers: list | None = None,
         radius: dict | None = None,
@@ -1243,7 +1245,7 @@ class Switch:
         return self._session.put(metadata, resource, payload)
 
     def delete_network_switch_access_policy(
-        self, network_id: str, access_policy_number: str
+        self, *, network_id: str, access_policy_number: str
     ) -> None:
         """Delete an access policy for a switch network.
 
@@ -1265,7 +1267,7 @@ class Switch:
         return self._session.delete(metadata, resource)
 
     def get_network_switch_alternate_management_interface(
-        self, network_id: str
+        self, *, network_id: str
     ) -> dict[str, Any] | None:
         """Return the switch alternate management interface for the network.
 
@@ -1286,8 +1288,8 @@ class Switch:
 
     def update_network_switch_alternate_management_interface(
         self,
-        network_id: str,
         *,
+        network_id: str,
         enabled: bool | None = None,
         vlan_id: int | None = None,
         protocols: list | None = None,
@@ -1331,8 +1333,8 @@ class Switch:
 
     def get_network_switch_dhcp_v4_servers_seen(
         self,
-        network_id: str,
         *,
+        network_id: str,
         t0: str | None = None,
         timespan: float | None = None,
         per_page: int | None = None,
@@ -1388,7 +1390,7 @@ class Switch:
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
-    def get_network_switch_dhcp_server_policy(self, network_id: str) -> dict[str, Any] | None:
+    def get_network_switch_dhcp_server_policy(self, *, network_id: str) -> dict[str, Any] | None:
         """Return the DHCP server settings.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-switch-dhcp-server-policy
@@ -1408,8 +1410,8 @@ class Switch:
 
     def update_network_switch_dhcp_server_policy(
         self,
-        network_id: str,
         *,
+        network_id: str,
         alerts: dict | None = None,
         default_policy: str | None = None,
         allowed_servers: list | None = None,
@@ -1460,8 +1462,8 @@ class Switch:
 
     def get_network_switch_dhcp_server_policy_arp_inspection_trusted_servers(
         self,
-        network_id: str,
         *,
+        network_id: str,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
@@ -1507,7 +1509,7 @@ class Switch:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def create_network_switch_dhcp_server_policy_arp_inspection_trusted_server(
-        self, network_id: str, mac: str, vlan: int, ipv4: dict
+        self, *, network_id: str, mac: str, vlan: int, ipv4: dict
     ) -> dict[str, Any] | None:
         """Add a server to be trusted by Dynamic ARP Inspection on this network.
 
@@ -1539,9 +1541,9 @@ class Switch:
 
     def update_network_switch_dhcp_server_policy_arp_inspection_trusted_server(
         self,
+        *,
         network_id: str,
         trusted_server_id: str,
-        *,
         mac: str | None = None,
         vlan: int | None = None,
         ipv4: dict | None = None,
@@ -1577,7 +1579,7 @@ class Switch:
         return self._session.put(metadata, resource, payload)
 
     def delete_network_switch_dhcp_server_policy_arp_inspection_trusted_server(
-        self, network_id: str, trusted_server_id: str
+        self, *, network_id: str, trusted_server_id: str
     ) -> None:
         """Remove a server from being trusted by Dynamic ARP Inspection on this network.
 
@@ -1600,8 +1602,8 @@ class Switch:
 
     def get_network_switch_dhcp_server_policy_arp_inspection_warnings_by_device(
         self,
-        network_id: str,
         *,
+        network_id: str,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
@@ -1653,7 +1655,7 @@ class Switch:
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
-    def get_network_switch_dscp_to_cos_mappings(self, network_id: str) -> dict[str, Any] | None:
+    def get_network_switch_dscp_to_cos_mappings(self, *, network_id: str) -> dict[str, Any] | None:
         """Return the DSCP to CoS mappings.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-switch-dscp-to-cos-mappings
@@ -1672,7 +1674,7 @@ class Switch:
         return self._session.get(metadata, resource)
 
     def update_network_switch_dscp_to_cos_mappings(
-        self, network_id: str, mappings: list
+        self, *, network_id: str, mappings: list
     ) -> dict[str, Any] | None:
         """Update the DSCP to CoS mappings.
 
@@ -1697,7 +1699,7 @@ class Switch:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_network_switch_link_aggregations(self, network_id: str) -> dict[str, Any] | None:
+    def get_network_switch_link_aggregations(self, *, network_id: str) -> dict[str, Any] | None:
         """List link aggregation groups.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-switch-link-aggregations
@@ -1717,8 +1719,8 @@ class Switch:
 
     def create_network_switch_link_aggregation(
         self,
-        network_id: str,
         *,
+        network_id: str,
         switch_ports: list | None = None,
         switch_profile_ports: list | None = None,
     ) -> dict[str, Any] | None:
@@ -1751,9 +1753,9 @@ class Switch:
 
     def update_network_switch_link_aggregation(
         self,
+        *,
         network_id: str,
         link_aggregation_id: str,
-        *,
         switch_ports: list | None = None,
         switch_profile_ports: list | None = None,
     ) -> dict[str, Any] | None:
@@ -1787,7 +1789,7 @@ class Switch:
         return self._session.put(metadata, resource, payload)
 
     def delete_network_switch_link_aggregation(
-        self, network_id: str, link_aggregation_id: str
+        self, *, network_id: str, link_aggregation_id: str
     ) -> None:
         """Split a link aggregation group into separate ports.
 
@@ -1808,7 +1810,7 @@ class Switch:
 
         return self._session.delete(metadata, resource)
 
-    def get_network_switch_mtu(self, network_id: str) -> dict[str, Any] | None:
+    def get_network_switch_mtu(self, *, network_id: str) -> dict[str, Any] | None:
         """Return the MTU configuration.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-switch-mtu
@@ -1824,7 +1826,7 @@ class Switch:
         return self._session.get(metadata, resource)
 
     def update_network_switch_mtu(
-        self, network_id: str, *, default_mtu_size: int | None = None, overrides: list | None = None
+        self, *, network_id: str, default_mtu_size: int | None = None, overrides: list | None = None
     ) -> dict[str, Any] | None:
         """Update the MTU configuration.
 
@@ -1852,7 +1854,7 @@ class Switch:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_network_switch_port_schedules(self, network_id: str) -> dict[str, Any] | None:
+    def get_network_switch_port_schedules(self, *, network_id: str) -> dict[str, Any] | None:
         """List switch port schedules.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-switch-port-schedules
@@ -1871,7 +1873,7 @@ class Switch:
         return self._session.get(metadata, resource)
 
     def create_network_switch_port_schedule(
-        self, network_id: str, name: str, *, port_schedule: dict | None = None
+        self, *, network_id: str, name: str, port_schedule: dict | None = None
     ) -> dict[str, Any] | None:
         """Add a switch port schedule.
 
@@ -1901,7 +1903,9 @@ class Switch:
 
         return self._session.post(metadata, resource, payload)
 
-    def delete_network_switch_port_schedule(self, network_id: str, port_schedule_id: str) -> None:
+    def delete_network_switch_port_schedule(
+        self, *, network_id: str, port_schedule_id: str
+    ) -> None:
         """Delete a switch port schedule.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-network-switch-port-schedule
@@ -1923,9 +1927,9 @@ class Switch:
 
     def update_network_switch_port_schedule(
         self,
+        *,
         network_id: str,
         port_schedule_id: str,
-        *,
         name: str | None = None,
         port_schedule: dict | None = None,
     ) -> dict[str, Any] | None:
@@ -1959,7 +1963,7 @@ class Switch:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_network_switch_qos_rules(self, network_id: str) -> dict[str, Any] | None:
+    def get_network_switch_qos_rules(self, *, network_id: str) -> dict[str, Any] | None:
         """List quality of service rules.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-switch-qos-rules
@@ -1979,9 +1983,9 @@ class Switch:
 
     def create_network_switch_qos_rule(
         self,
+        *,
         network_id: str,
         vlan: int,
-        *,
         protocol: str | None = None,
         src_port: int | None = None,
         src_port_range: str | None = None,
@@ -2040,7 +2044,7 @@ class Switch:
 
         return self._session.post(metadata, resource, payload)
 
-    def get_network_switch_qos_rules_order(self, network_id: str) -> dict[str, Any] | None:
+    def get_network_switch_qos_rules_order(self, *, network_id: str) -> dict[str, Any] | None:
         """Return the quality of service rule IDs by order in which they will be processed by the switch.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-switch-qos-rules-order
@@ -2059,7 +2063,7 @@ class Switch:
         return self._session.get(metadata, resource)
 
     def update_network_switch_qos_rules_order(
-        self, network_id: str, rule_ids: list
+        self, *, network_id: str, rule_ids: list
     ) -> dict[str, Any] | None:
         """Update the order in which the rules should be processed by the switch.
 
@@ -2085,7 +2089,7 @@ class Switch:
         return self._session.put(metadata, resource, payload)
 
     def get_network_switch_qos_rule(
-        self, network_id: str, qos_rule_id: str
+        self, *, network_id: str, qos_rule_id: str
     ) -> dict[str, Any] | None:
         """Return a quality of service rule.
 
@@ -2106,7 +2110,7 @@ class Switch:
 
         return self._session.get(metadata, resource)
 
-    def delete_network_switch_qos_rule(self, network_id: str, qos_rule_id: str) -> None:
+    def delete_network_switch_qos_rule(self, *, network_id: str, qos_rule_id: str) -> None:
         """Delete a quality of service rule.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-network-switch-qos-rule
@@ -2128,9 +2132,9 @@ class Switch:
 
     def update_network_switch_qos_rule(
         self,
+        *,
         network_id: str,
         qos_rule_id: str,
-        *,
         vlan: int | None = None,
         protocol: str | None = None,
         src_port: int | None = None,
@@ -2192,7 +2196,7 @@ class Switch:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_network_switch_routing_multicast(self, network_id: str) -> dict[str, Any] | None:
+    def get_network_switch_routing_multicast(self, *, network_id: str) -> dict[str, Any] | None:
         """Return multicast settings for a network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-switch-routing-multicast
@@ -2212,8 +2216,8 @@ class Switch:
 
     def update_network_switch_routing_multicast(
         self,
-        network_id: str,
         *,
+        network_id: str,
         default_settings: dict | None = None,
         overrides: list | None = None,
     ) -> dict[str, Any] | None:
@@ -2245,7 +2249,7 @@ class Switch:
         return self._session.put(metadata, resource, payload)
 
     def get_network_switch_routing_multicast_rendezvous_points(
-        self, network_id: str
+        self, *, network_id: str
     ) -> dict[str, Any] | None:
         """List multicast rendezvous points.
 
@@ -2265,7 +2269,7 @@ class Switch:
         return self._session.get(metadata, resource)
 
     def create_network_switch_routing_multicast_rendezvous_point(
-        self, network_id: str, interface_ip: str, multicast_group: str, *, vrf: dict | None = None
+        self, *, network_id: str, interface_ip: str, multicast_group: str, vrf: dict | None = None
     ) -> dict[str, Any] | None:
         """Create a multicast rendezvous point.
 
@@ -2296,7 +2300,7 @@ class Switch:
         return self._session.post(metadata, resource, payload)
 
     def get_network_switch_routing_multicast_rendezvous_point(
-        self, network_id: str, rendezvous_point_id: str
+        self, *, network_id: str, rendezvous_point_id: str
     ) -> dict[str, Any] | None:
         """Return a multicast rendezvous point.
 
@@ -2318,7 +2322,7 @@ class Switch:
         return self._session.get(metadata, resource)
 
     def delete_network_switch_routing_multicast_rendezvous_point(
-        self, network_id: str, rendezvous_point_id: str
+        self, *, network_id: str, rendezvous_point_id: str
     ) -> None:
         """Delete a multicast rendezvous point.
 
@@ -2341,11 +2345,11 @@ class Switch:
 
     def update_network_switch_routing_multicast_rendezvous_point(
         self,
+        *,
         network_id: str,
         rendezvous_point_id: str,
         interface_ip: str,
         multicast_group: str,
-        *,
         vrf: dict | None = None,
     ) -> dict[str, Any] | None:
         """Update a multicast rendezvous point.
@@ -2379,7 +2383,7 @@ class Switch:
         return self._session.put(metadata, resource, payload)
 
     def get_network_switch_routing_ospf(
-        self, network_id: str, *, vrf: str | None = None
+        self, *, network_id: str, vrf: str | None = None
     ) -> dict[str, Any] | None:
         """Return layer 3 OSPF routing configuration.
 
@@ -2406,8 +2410,8 @@ class Switch:
 
     def update_network_switch_routing_ospf(
         self,
-        network_id: str,
         *,
+        network_id: str,
         vrf: str | None = None,
         enabled: bool | None = None,
         hello_timer_in_seconds: int | None = None,
@@ -2469,7 +2473,7 @@ class Switch:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_network_switch_settings(self, network_id: str) -> dict[str, Any] | None:
+    def get_network_switch_settings(self, *, network_id: str) -> dict[str, Any] | None:
         """Returns the switch network settings.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-switch-settings
@@ -2489,8 +2493,8 @@ class Switch:
 
     def update_network_switch_settings(
         self,
-        network_id: str,
         *,
+        network_id: str,
         vlan: int | None = None,
         use_combined_power: bool | None = None,
         power_exceptions: list | None = None,
@@ -2536,7 +2540,7 @@ class Switch:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_network_switch_stacks(self, network_id: str) -> dict[str, Any] | None:
+    def get_network_switch_stacks(self, *, network_id: str) -> dict[str, Any] | None:
         """List the switch stacks in a network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-switch-stacks
@@ -2555,7 +2559,7 @@ class Switch:
         return self._session.get(metadata, resource)
 
     def create_network_switch_stack(
-        self, network_id: str, name: str, serials: list
+        self, *, network_id: str, name: str, serials: list
     ) -> dict[str, Any] | None:
         """Create a switch stack.
 
@@ -2583,7 +2587,7 @@ class Switch:
         return self._session.post(metadata, resource, payload)
 
     def get_network_switch_stack(
-        self, network_id: str, switch_stack_id: str
+        self, *, network_id: str, switch_stack_id: str
     ) -> dict[str, Any] | None:
         """Show a switch stack.
 
@@ -2604,7 +2608,7 @@ class Switch:
 
         return self._session.get(metadata, resource)
 
-    def delete_network_switch_stack(self, network_id: str, switch_stack_id: str) -> None:
+    def delete_network_switch_stack(self, *, network_id: str, switch_stack_id: str) -> None:
         """Delete a stack.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-network-switch-stack
@@ -2625,7 +2629,7 @@ class Switch:
         return self._session.delete(metadata, resource)
 
     def add_network_switch_stack(
-        self, network_id: str, switch_stack_id: str, serial: str
+        self, *, network_id: str, switch_stack_id: str, serial: str
     ) -> dict[str, Any] | None:
         """Add a switch to a stack.
 
@@ -2652,7 +2656,7 @@ class Switch:
         return self._session.post(metadata, resource, payload)
 
     def remove_network_switch_stack(
-        self, network_id: str, switch_stack_id: str, serial: str
+        self, *, network_id: str, switch_stack_id: str, serial: str
     ) -> dict[str, Any] | None:
         """Remove a switch from a stack.
 
@@ -2680,9 +2684,9 @@ class Switch:
 
     def get_network_switch_stack_routing_interfaces(
         self,
+        *,
         network_id: str,
         switch_stack_id: str,
-        *,
         mode: str | None = None,
         protocol: str | None = None,
     ) -> dict[str, Any] | None:
@@ -2724,10 +2728,10 @@ class Switch:
 
     def create_network_switch_stack_routing_interface(
         self,
+        *,
         network_id: str,
         switch_stack_id: str,
         name: str,
-        *,
         mode: str | None = None,
         subnet: str | None = None,
         switch_port_id: str | None = None,
@@ -2814,7 +2818,7 @@ class Switch:
         return self._session.post(metadata, resource, payload)
 
     def get_network_switch_stack_routing_interface(
-        self, network_id: str, switch_stack_id: str, interface_id: str
+        self, *, network_id: str, switch_stack_id: str, interface_id: str
     ) -> dict[str, Any] | None:
         """Return a layer 3 interface from a switch stack.
 
@@ -2839,10 +2843,10 @@ class Switch:
 
     def update_network_switch_stack_routing_interface(
         self,
+        *,
         network_id: str,
         switch_stack_id: str,
         interface_id: str,
-        *,
         name: str | None = None,
         subnet: str | None = None,
         switch_port_id: str | None = None,
@@ -2924,7 +2928,7 @@ class Switch:
         return self._session.put(metadata, resource, payload)
 
     def delete_network_switch_stack_routing_interface(
-        self, network_id: str, switch_stack_id: str, interface_id: str
+        self, *, network_id: str, switch_stack_id: str, interface_id: str
     ) -> None:
         """Delete a layer 3 interface from a switch stack.
 
@@ -2948,7 +2952,7 @@ class Switch:
         return self._session.delete(metadata, resource)
 
     def get_network_switch_stack_routing_interface_dhcp(
-        self, network_id: str, switch_stack_id: str, interface_id: str
+        self, *, network_id: str, switch_stack_id: str, interface_id: str
     ) -> dict[str, Any] | None:
         """Return a layer 3 interface DHCP configuration for a switch stack.
 
@@ -2973,10 +2977,10 @@ class Switch:
 
     def update_network_switch_stack_routing_interface_dhcp(
         self,
+        *,
         network_id: str,
         switch_stack_id: str,
         interface_id: str,
-        *,
         dhcp_mode: str | None = None,
         dhcp_relay_server_ips: list | None = None,
         dhcp_lease_time: str | None = None,
@@ -3074,7 +3078,7 @@ class Switch:
         return self._session.put(metadata, resource, payload)
 
     def get_network_switch_stack_routing_static_routes(
-        self, network_id: str, switch_stack_id: str
+        self, *, network_id: str, switch_stack_id: str
     ) -> dict[str, Any] | None:
         """List layer 3 static routes for a switch stack.
 
@@ -3097,11 +3101,11 @@ class Switch:
 
     def create_network_switch_stack_routing_static_route(
         self,
+        *,
         network_id: str,
         switch_stack_id: str,
         subnet: str,
         next_hop_ip: str,
-        *,
         name: str | None = None,
         advertise_via_ospf_enabled: bool | None = None,
         prefer_over_ospf_routes_enabled: bool | None = None,
@@ -3149,7 +3153,7 @@ class Switch:
         return self._session.post(metadata, resource, payload)
 
     def get_network_switch_stack_routing_static_route(
-        self, network_id: str, switch_stack_id: str, static_route_id: str
+        self, *, network_id: str, switch_stack_id: str, static_route_id: str
     ) -> dict[str, Any] | None:
         """Return a layer 3 static route for a switch stack.
 
@@ -3174,10 +3178,10 @@ class Switch:
 
     def update_network_switch_stack_routing_static_route(
         self,
+        *,
         network_id: str,
         switch_stack_id: str,
         static_route_id: str,
-        *,
         name: str | None = None,
         subnet: str | None = None,
         next_hop_ip: str | None = None,
@@ -3233,7 +3237,7 @@ class Switch:
         return self._session.put(metadata, resource, payload)
 
     def delete_network_switch_stack_routing_static_route(
-        self, network_id: str, switch_stack_id: str, static_route_id: str
+        self, *, network_id: str, switch_stack_id: str, static_route_id: str
     ) -> None:
         """Delete a layer 3 static route for a switch stack.
 
@@ -3256,7 +3260,7 @@ class Switch:
 
         return self._session.delete(metadata, resource)
 
-    def get_network_switch_storm_control(self, network_id: str) -> dict[str, Any] | None:
+    def get_network_switch_storm_control(self, *, network_id: str) -> dict[str, Any] | None:
         """Return the storm control configuration for a switch network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-switch-storm-control
@@ -3276,8 +3280,8 @@ class Switch:
 
     def update_network_switch_storm_control(
         self,
-        network_id: str,
         *,
+        network_id: str,
         broadcast_threshold: int | None = None,
         multicast_threshold: int | None = None,
         unknown_unicast_threshold: int | None = None,
@@ -3322,7 +3326,7 @@ class Switch:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_network_switch_stp(self, network_id: str) -> dict[str, Any] | None:
+    def get_network_switch_stp(self, *, network_id: str) -> dict[str, Any] | None:
         """Returns STP settings.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-switch-stp
@@ -3339,8 +3343,8 @@ class Switch:
 
     def update_network_switch_stp(
         self,
-        network_id: str,
         *,
+        network_id: str,
         rstp_enabled: bool | None = None,
         stp_bridge_priority: list | None = None,
     ) -> dict[str, Any] | None:
@@ -3371,7 +3375,7 @@ class Switch:
         return self._session.put(metadata, resource, payload)
 
     def get_organization_config_template_switch_profiles(
-        self, organization_id: str, config_template_id: str
+        self, *, organization_id: str, config_template_id: str
     ) -> dict[str, Any] | None:
         """List the switch templates for your switch template configuration.
 
@@ -3395,7 +3399,7 @@ class Switch:
         return self._session.get(metadata, resource)
 
     def get_organization_config_template_switch_profile_ports(
-        self, organization_id: str, config_template_id: str, profile_id: str
+        self, *, organization_id: str, config_template_id: str, profile_id: str
     ) -> dict[str, Any] | None:
         """Return all the ports of a switch template.
 
@@ -3419,7 +3423,7 @@ class Switch:
         return self._session.get(metadata, resource)
 
     def get_organization_config_template_switch_profile_port(
-        self, organization_id: str, config_template_id: str, profile_id: str, port_id: str
+        self, *, organization_id: str, config_template_id: str, profile_id: str, port_id: str
     ) -> dict[str, Any] | None:
         """Return a switch template port.
 
@@ -3446,11 +3450,11 @@ class Switch:
 
     def update_organization_config_template_switch_profile_port(
         self,
+        *,
         organization_id: str,
         config_template_id: str,
         profile_id: str,
         port_id: str,
-        *,
         name: str | None = None,
         tags: list | None = None,
         enabled: bool | None = None,
@@ -3624,8 +3628,8 @@ class Switch:
 
     def get_organization_summary_switch_power_history(
         self,
-        organization_id: str,
         *,
+        organization_id: str,
         t0: str | None = None,
         t1: str | None = None,
         timespan: float | None = None,
@@ -3661,7 +3665,7 @@ class Switch:
         return self._session.get(metadata, resource, params)
 
     def clone_organization_switch_devices(
-        self, organization_id: str, source_serial: str, target_serials: list
+        self, *, organization_id: str, source_serial: str, target_serials: list
     ) -> dict[str, Any] | None:
         """Clone port-level and some switch-level configuration settings from a source switch to one or more target switches.
 
@@ -3692,8 +3696,8 @@ class Switch:
 
     def get_organization_switch_ports_by_switch(
         self,
-        organization_id: str,
         *,
+        organization_id: str,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
@@ -3780,8 +3784,8 @@ class Switch:
 
     def get_organization_switch_ports_clients_overview_by_device(
         self,
-        organization_id: str,
         *,
+        organization_id: str,
         t0: str | None = None,
         timespan: float | None = None,
         per_page: int | None = None,
@@ -3879,8 +3883,8 @@ class Switch:
 
     def get_organization_switch_ports_overview(
         self,
-        organization_id: str,
         *,
+        organization_id: str,
         t0: str | None = None,
         t1: str | None = None,
         timespan: float | None = None,
@@ -3918,8 +3922,8 @@ class Switch:
 
     def get_organization_switch_ports_statuses_by_switch(
         self,
-        organization_id: str,
         *,
+        organization_id: str,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
@@ -4006,8 +4010,8 @@ class Switch:
 
     def get_organization_switch_ports_topology_discovery_by_device(
         self,
-        organization_id: str,
         *,
+        organization_id: str,
         t0: str | None = None,
         timespan: float | None = None,
         per_page: int | None = None,
@@ -4105,8 +4109,8 @@ class Switch:
 
     def get_organization_switch_ports_usage_history_by_device_by_interval(
         self,
-        organization_id: str,
         *,
+        organization_id: str,
         t0: str | None = None,
         t1: str | None = None,
         timespan: float | None = None,

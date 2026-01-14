@@ -11,7 +11,7 @@ class ActionBatchSm:
         pass
 
     def delete_network_sm_user_access_device(
-        self, network_id: str, user_access_device_id: str
+        self, *, network_id: str, user_access_device_id: str
     ) -> dict[str, Any]:
         """Delete a User Access Device.
 
@@ -22,10 +22,6 @@ class ActionBatchSm:
             user_access_device_id: User access device ID.
 
         """
-        metadata = {
-            "tags": ["sm", "configure", "userAccessDevices"],
-            "operation": "delete_network_sm_user_access_device",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         user_access_device_id = urllib.parse.quote(str(user_access_device_id), safe="")
         resource = f"/networks/{network_id}/sm/userAccessDevices/{user_access_device_id}"
@@ -34,10 +30,10 @@ class ActionBatchSm:
             "resource": resource,
             "operation": "destroy",
         }
-        return action
+        return action  # noqa: RET504
 
     def create_organization_sm_admins_role(
-        self, organization_id: str, name: str, *, scope: str | None = None, tags: list | None = None
+        self, *, organization_id: str, name: str, scope: str | None = None, tags: list | None = None
     ) -> dict[str, Any]:
         """Create a Limited Access Role.
 
@@ -56,10 +52,6 @@ class ActionBatchSm:
                 f'"scope" cannot be "{scope}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["sm", "configure", "admins", "roles"],
-            "operation": "create_organization_sm_admins_role",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/sm/admins/roles"
 
@@ -76,13 +68,13 @@ class ActionBatchSm:
             "operation": "create",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def update_organization_sm_admins_role(
         self,
+        *,
         organization_id: str,
         role_id: str,
-        *,
         name: str | None = None,
         scope: str | None = None,
         tags: list | None = None,
@@ -105,10 +97,6 @@ class ActionBatchSm:
                 f'"scope" cannot be "{scope}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["sm", "configure", "admins", "roles"],
-            "operation": "update_organization_sm_admins_role",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         role_id = urllib.parse.quote(str(role_id), safe="")
         resource = f"/organizations/{organization_id}/sm/admins/roles/{role_id}"
@@ -126,10 +114,10 @@ class ActionBatchSm:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def delete_organization_sm_admins_role(
-        self, organization_id: str, role_id: str
+        self, *, organization_id: str, role_id: str
     ) -> dict[str, Any]:
         """Delete a Limited Access Role.
 
@@ -140,10 +128,6 @@ class ActionBatchSm:
             role_id: Role ID.
 
         """
-        metadata = {
-            "tags": ["sm", "configure", "admins", "roles"],
-            "operation": "delete_organization_sm_admins_role",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         role_id = urllib.parse.quote(str(role_id), safe="")
         resource = f"/organizations/{organization_id}/sm/admins/roles/{role_id}"
@@ -152,10 +136,10 @@ class ActionBatchSm:
             "resource": resource,
             "operation": "destroy",
         }
-        return action
+        return action  # noqa: RET504
 
     def update_organization_sm_sentry_policies_assignments(
-        self, organization_id: str, items: list
+        self, *, organization_id: str, items: list
     ) -> dict[str, Any]:
         """Update an Organizations Sentry Policies using the provided list.
 
@@ -166,10 +150,6 @@ class ActionBatchSm:
             items: Sentry Group Policies for the Organization keyed by Network Id.
 
         """
-        metadata = {
-            "tags": ["sm", "configure", "sentry", "policies", "assignments"],
-            "operation": "update_organization_sm_sentry_policies_assignments",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/sm/sentry/policies/assignments"
 
@@ -182,4 +162,4 @@ class ActionBatchSm:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504

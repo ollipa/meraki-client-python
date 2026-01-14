@@ -113,11 +113,10 @@ ignore = [
     "PLR0912",
     "E501",
     "PLR0915",
-    "FBT001",
     "F541",
     "RUF100",
+    "F401",
 ]
-"meraki_dashboard_sdk/api/spaces.py" = ["F401"]
 
 [tool.pytest.ini_options]
 xfail_strict = true

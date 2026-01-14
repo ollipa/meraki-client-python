@@ -10,7 +10,7 @@ class ActionBatchSwitch:
     def __init__(self) -> None:
         pass
 
-    def cycle_device_switch_ports(self, serial: str, ports: list) -> dict[str, Any]:
+    def cycle_device_switch_ports(self, *, serial: str, ports: list) -> dict[str, Any]:
         """Cycle a set of switch ports.
 
         https://developer.cisco.com/meraki/api-v1/#!cycle-device-switch-ports
@@ -20,10 +20,6 @@ class ActionBatchSwitch:
             ports: List of switch ports.
 
         """
-        metadata = {
-            "tags": ["switch", "liveTools", "ports"],
-            "operation": "cycle_device_switch_ports",
-        }
         serial = urllib.parse.quote(str(serial), safe="")
         resource = f"/devices/{serial}/switch/ports/cycle"
 
@@ -36,13 +32,13 @@ class ActionBatchSwitch:
             "operation": "create",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def update_device_switch_port(
         self,
+        *,
         serial: str,
         port_id: str,
-        *,
         name: str | None = None,
         tags: list | None = None,
         enabled: bool | None = None,
@@ -151,10 +147,6 @@ class ActionBatchSwitch:
                 f'"access_policy_type" cannot be "{access_policy_type}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["switch", "configure", "ports"],
-            "operation": "update_device_switch_port",
-        }
         serial = urllib.parse.quote(str(serial), safe="")
         port_id = urllib.parse.quote(str(port_id), safe="")
         resource = f"/devices/{serial}/switch/ports/{port_id}"
@@ -224,13 +216,13 @@ class ActionBatchSwitch:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def create_device_switch_routing_interface(
         self,
+        *,
         serial: str,
         name: str,
-        *,
         mode: str | None = None,
         subnet: str | None = None,
         switch_port_id: str | None = None,
@@ -279,10 +271,6 @@ class ActionBatchSwitch:
                 f'"multicast_routing" cannot be "{multicast_routing}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["switch", "configure", "routing", "interfaces"],
-            "operation": "create_device_switch_routing_interface",
-        }
         serial = urllib.parse.quote(str(serial), safe="")
         resource = f"/devices/{serial}/switch/routing/interfaces"
 
@@ -317,13 +305,13 @@ class ActionBatchSwitch:
             "operation": "create",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def update_device_switch_routing_interface(
         self,
+        *,
         serial: str,
         interface_id: str,
-        *,
         name: str | None = None,
         subnet: str | None = None,
         switch_port_id: str | None = None,
@@ -368,10 +356,6 @@ class ActionBatchSwitch:
                 f'"multicast_routing" cannot be "{multicast_routing}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["switch", "configure", "routing", "interfaces"],
-            "operation": "update_device_switch_routing_interface",
-        }
         serial = urllib.parse.quote(str(serial), safe="")
         interface_id = urllib.parse.quote(str(interface_id), safe="")
         resource = f"/devices/{serial}/switch/routing/interfaces/{interface_id}"
@@ -405,10 +389,10 @@ class ActionBatchSwitch:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def delete_device_switch_routing_interface(
-        self, serial: str, interface_id: str
+        self, *, serial: str, interface_id: str
     ) -> dict[str, Any]:
         """Delete a layer 3 interface from the switch.
 
@@ -419,10 +403,6 @@ class ActionBatchSwitch:
             interface_id: Interface ID.
 
         """
-        metadata = {
-            "tags": ["switch", "configure", "routing", "interfaces"],
-            "operation": "delete_device_switch_routing_interface",
-        }
         serial = urllib.parse.quote(str(serial), safe="")
         interface_id = urllib.parse.quote(str(interface_id), safe="")
         resource = f"/devices/{serial}/switch/routing/interfaces/{interface_id}"
@@ -431,13 +411,13 @@ class ActionBatchSwitch:
             "resource": resource,
             "operation": "destroy",
         }
-        return action
+        return action  # noqa: RET504
 
     def update_device_switch_routing_interface_dhcp(
         self,
+        *,
         serial: str,
         interface_id: str,
-        *,
         dhcp_mode: str | None = None,
         dhcp_relay_server_ips: list | None = None,
         dhcp_lease_time: str | None = None,
@@ -498,10 +478,6 @@ class ActionBatchSwitch:
                 f'"dns_nameservers_option" cannot be "{dns_nameservers_option}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["switch", "configure", "routing", "interfaces", "dhcp"],
-            "operation": "update_device_switch_routing_interface_dhcp",
-        }
         serial = urllib.parse.quote(str(serial), safe="")
         interface_id = urllib.parse.quote(str(interface_id), safe="")
         resource = f"/devices/{serial}/switch/routing/interfaces/{interface_id}/dhcp"
@@ -535,14 +511,14 @@ class ActionBatchSwitch:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def create_device_switch_routing_static_route(
         self,
+        *,
         serial: str,
         subnet: str,
         next_hop_ip: str,
-        *,
         name: str | None = None,
         advertise_via_ospf_enabled: bool | None = None,
         prefer_over_ospf_routes_enabled: bool | None = None,
@@ -564,10 +540,6 @@ class ActionBatchSwitch:
             vrf: The VRF settings of the interface. Requires IOS XE 17.18 or higher.
 
         """
-        metadata = {
-            "tags": ["switch", "configure", "routing", "staticRoutes"],
-            "operation": "create_device_switch_routing_static_route",
-        }
         serial = urllib.parse.quote(str(serial), safe="")
         resource = f"/devices/{serial}/switch/routing/staticRoutes"
 
@@ -590,13 +562,13 @@ class ActionBatchSwitch:
             "operation": "create",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def update_device_switch_routing_static_route(
         self,
+        *,
         serial: str,
         static_route_id: str,
-        *,
         name: str | None = None,
         subnet: str | None = None,
         next_hop_ip: str | None = None,
@@ -623,10 +595,6 @@ class ActionBatchSwitch:
             vrf: The VRF settings of the interface. Requires IOS XE 17.18 or higher.
 
         """
-        metadata = {
-            "tags": ["switch", "configure", "routing", "staticRoutes"],
-            "operation": "update_device_switch_routing_static_route",
-        }
         serial = urllib.parse.quote(str(serial), safe="")
         static_route_id = urllib.parse.quote(str(static_route_id), safe="")
         resource = f"/devices/{serial}/switch/routing/staticRoutes/{static_route_id}"
@@ -652,10 +620,10 @@ class ActionBatchSwitch:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def delete_device_switch_routing_static_route(
-        self, serial: str, static_route_id: str
+        self, *, serial: str, static_route_id: str
     ) -> dict[str, Any]:
         """Delete a layer 3 static route for a switch.
 
@@ -666,10 +634,6 @@ class ActionBatchSwitch:
             static_route_id: Static route ID.
 
         """
-        metadata = {
-            "tags": ["switch", "configure", "routing", "staticRoutes"],
-            "operation": "delete_device_switch_routing_static_route",
-        }
         serial = urllib.parse.quote(str(serial), safe="")
         static_route_id = urllib.parse.quote(str(static_route_id), safe="")
         resource = f"/devices/{serial}/switch/routing/staticRoutes/{static_route_id}"
@@ -678,10 +642,10 @@ class ActionBatchSwitch:
             "resource": resource,
             "operation": "destroy",
         }
-        return action
+        return action  # noqa: RET504
 
     def update_device_switch_warm_spare(
-        self, serial: str, enabled: bool, *, spare_serial: str | None = None
+        self, *, serial: str, enabled: bool, spare_serial: str | None = None
     ) -> dict[str, Any]:
         """Update warm spare configuration for a switch.
 
@@ -693,10 +657,6 @@ class ActionBatchSwitch:
             spare_serial: Serial number of the warm spare switch.
 
         """
-        metadata = {
-            "tags": ["switch", "configure", "warmSpare"],
-            "operation": "update_device_switch_warm_spare",
-        }
         serial = urllib.parse.quote(str(serial), safe="")
         resource = f"/devices/{serial}/switch/warmSpare"
 
@@ -711,15 +671,15 @@ class ActionBatchSwitch:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def create_network_switch_access_policy(
         self,
+        *,
         network_id: str,
         name: str,
         radius_servers: list,
         radius_accounting_enabled: bool,
-        *,
         radius: dict | None = None,
         guest_port_bouncing: bool | None = None,
         radius_testing_enabled: bool | None = None,
@@ -790,10 +750,6 @@ class ActionBatchSwitch:
                 f'"access_policy_type" cannot be "{access_policy_type}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["switch", "configure", "accessPolicies"],
-            "operation": "create_network_switch_access_policy",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/switch/accessPolicies"
 
@@ -842,13 +798,13 @@ class ActionBatchSwitch:
             "operation": "create",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def update_network_switch_access_policy(
         self,
+        *,
         network_id: str,
         access_policy_number: str,
-        *,
         name: str | None = None,
         radius_servers: list | None = None,
         radius: dict | None = None,
@@ -923,10 +879,6 @@ class ActionBatchSwitch:
                 f'"access_policy_type" cannot be "{access_policy_type}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["switch", "configure", "accessPolicies"],
-            "operation": "update_network_switch_access_policy",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         access_policy_number = urllib.parse.quote(str(access_policy_number), safe="")
         resource = f"/networks/{network_id}/switch/accessPolicies/{access_policy_number}"
@@ -976,10 +928,10 @@ class ActionBatchSwitch:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def delete_network_switch_access_policy(
-        self, network_id: str, access_policy_number: str
+        self, *, network_id: str, access_policy_number: str
     ) -> dict[str, Any]:
         """Delete an access policy for a switch network.
 
@@ -990,10 +942,6 @@ class ActionBatchSwitch:
             access_policy_number: Access policy number.
 
         """
-        metadata = {
-            "tags": ["switch", "configure", "accessPolicies"],
-            "operation": "delete_network_switch_access_policy",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         access_policy_number = urllib.parse.quote(str(access_policy_number), safe="")
         resource = f"/networks/{network_id}/switch/accessPolicies/{access_policy_number}"
@@ -1002,12 +950,12 @@ class ActionBatchSwitch:
             "resource": resource,
             "operation": "destroy",
         }
-        return action
+        return action  # noqa: RET504
 
     def update_network_switch_alternate_management_interface(
         self,
-        network_id: str,
         *,
+        network_id: str,
         enabled: bool | None = None,
         vlan_id: int | None = None,
         protocols: list | None = None,
@@ -1030,10 +978,6 @@ class ActionBatchSwitch:
               all previous assignments.
 
         """
-        metadata = {
-            "tags": ["switch", "configure", "alternateManagementInterface"],
-            "operation": "update_network_switch_alternate_management_interface",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/switch/alternateManagementInterface"
 
@@ -1052,12 +996,12 @@ class ActionBatchSwitch:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def update_network_switch_dhcp_server_policy(
         self,
-        network_id: str,
         *,
+        network_id: str,
         alerts: dict | None = None,
         default_policy: str | None = None,
         allowed_servers: list | None = None,
@@ -1085,10 +1029,6 @@ class ActionBatchSwitch:
                 f'"default_policy" cannot be "{default_policy}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["switch", "configure", "dhcpServerPolicy"],
-            "operation": "update_network_switch_dhcp_server_policy",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/switch/dhcpServerPolicy"
 
@@ -1109,10 +1049,10 @@ class ActionBatchSwitch:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def create_network_switch_dhcp_server_policy_arp_inspection_trusted_server(
-        self, network_id: str, mac: str, vlan: int, ipv4: dict
+        self, *, network_id: str, mac: str, vlan: int, ipv4: dict
     ) -> dict[str, Any]:
         """Add a server to be trusted by Dynamic ARP Inspection on this network.
 
@@ -1125,10 +1065,6 @@ class ActionBatchSwitch:
             ipv4: The IPv4 attributes of the trusted server being added.
 
         """
-        metadata = {
-            "tags": ["switch", "configure", "dhcpServerPolicy", "arpInspection", "trustedServers"],
-            "operation": "create_network_switch_dhcp_server_policy_arp_inspection_trusted_server",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/switch/dhcpServerPolicy/arpInspection/trustedServers"
 
@@ -1145,13 +1081,13 @@ class ActionBatchSwitch:
             "operation": "create",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def update_network_switch_dhcp_server_policy_arp_inspection_trusted_server(
         self,
+        *,
         network_id: str,
         trusted_server_id: str,
-        *,
         mac: str | None = None,
         vlan: int | None = None,
         ipv4: dict | None = None,
@@ -1168,10 +1104,6 @@ class ActionBatchSwitch:
             ipv4: The updated IPv4 attributes of the trusted server.
 
         """
-        metadata = {
-            "tags": ["switch", "configure", "dhcpServerPolicy", "arpInspection", "trustedServers"],
-            "operation": "update_network_switch_dhcp_server_policy_arp_inspection_trusted_server",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         trusted_server_id = urllib.parse.quote(str(trusted_server_id), safe="")
         resource = f"/networks/{network_id}/switch/dhcpServerPolicy/arpInspection/trustedServers/{trusted_server_id}"
@@ -1189,10 +1121,10 @@ class ActionBatchSwitch:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def delete_network_switch_dhcp_server_policy_arp_inspection_trusted_server(
-        self, network_id: str, trusted_server_id: str
+        self, *, network_id: str, trusted_server_id: str
     ) -> dict[str, Any]:
         """Remove a server from being trusted by Dynamic ARP Inspection on this network.
 
@@ -1203,10 +1135,6 @@ class ActionBatchSwitch:
             trusted_server_id: Trusted server ID.
 
         """
-        metadata = {
-            "tags": ["switch", "configure", "dhcpServerPolicy", "arpInspection", "trustedServers"],
-            "operation": "delete_network_switch_dhcp_server_policy_arp_inspection_trusted_server",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         trusted_server_id = urllib.parse.quote(str(trusted_server_id), safe="")
         resource = f"/networks/{network_id}/switch/dhcpServerPolicy/arpInspection/trustedServers/{trusted_server_id}"
@@ -1215,10 +1143,10 @@ class ActionBatchSwitch:
             "resource": resource,
             "operation": "destroy",
         }
-        return action
+        return action  # noqa: RET504
 
     def update_network_switch_dscp_to_cos_mappings(
-        self, network_id: str, mappings: list
+        self, *, network_id: str, mappings: list
     ) -> dict[str, Any]:
         """Update the DSCP to CoS mappings.
 
@@ -1230,10 +1158,6 @@ class ActionBatchSwitch:
               default.
 
         """
-        metadata = {
-            "tags": ["switch", "configure", "dscpToCosMappings"],
-            "operation": "update_network_switch_dscp_to_cos_mappings",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/switch/dscpToCosMappings"
 
@@ -1246,12 +1170,12 @@ class ActionBatchSwitch:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def create_network_switch_link_aggregation(
         self,
-        network_id: str,
         *,
+        network_id: str,
         switch_ports: list | None = None,
         switch_profile_ports: list | None = None,
     ) -> dict[str, Any]:
@@ -1267,10 +1191,6 @@ class ActionBatchSwitch:
               Minimum 2 and maximum 8 ports are supported.
 
         """
-        metadata = {
-            "tags": ["switch", "configure", "linkAggregations"],
-            "operation": "create_network_switch_link_aggregation",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/switch/linkAggregations"
 
@@ -1285,13 +1205,13 @@ class ActionBatchSwitch:
             "operation": "create",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def update_network_switch_link_aggregation(
         self,
+        *,
         network_id: str,
         link_aggregation_id: str,
-        *,
         switch_ports: list | None = None,
         switch_profile_ports: list | None = None,
     ) -> dict[str, Any]:
@@ -1308,10 +1228,6 @@ class ActionBatchSwitch:
               Minimum 2 and maximum 8 ports are supported.
 
         """
-        metadata = {
-            "tags": ["switch", "configure", "linkAggregations"],
-            "operation": "update_network_switch_link_aggregation",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         link_aggregation_id = urllib.parse.quote(str(link_aggregation_id), safe="")
         resource = f"/networks/{network_id}/switch/linkAggregations/{link_aggregation_id}"
@@ -1327,10 +1243,10 @@ class ActionBatchSwitch:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def delete_network_switch_link_aggregation(
-        self, network_id: str, link_aggregation_id: str
+        self, *, network_id: str, link_aggregation_id: str
     ) -> dict[str, Any]:
         """Split a link aggregation group into separate ports.
 
@@ -1341,10 +1257,6 @@ class ActionBatchSwitch:
             link_aggregation_id: Link aggregation ID.
 
         """
-        metadata = {
-            "tags": ["switch", "configure", "linkAggregations"],
-            "operation": "delete_network_switch_link_aggregation",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         link_aggregation_id = urllib.parse.quote(str(link_aggregation_id), safe="")
         resource = f"/networks/{network_id}/switch/linkAggregations/{link_aggregation_id}"
@@ -1353,10 +1265,10 @@ class ActionBatchSwitch:
             "resource": resource,
             "operation": "destroy",
         }
-        return action
+        return action  # noqa: RET504
 
     def update_network_switch_mtu(
-        self, network_id: str, *, default_mtu_size: int | None = None, overrides: list | None = None
+        self, *, network_id: str, default_mtu_size: int | None = None, overrides: list | None = None
     ) -> dict[str, Any]:
         """Update the MTU configuration.
 
@@ -1369,10 +1281,6 @@ class ActionBatchSwitch:
               will clear overrides.
 
         """
-        metadata = {
-            "tags": ["switch", "configure", "mtu"],
-            "operation": "update_network_switch_mtu",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/switch/mtu"
 
@@ -1387,13 +1295,13 @@ class ActionBatchSwitch:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def update_network_switch_port_schedule(
         self,
+        *,
         network_id: str,
         port_schedule_id: str,
-        *,
         name: str | None = None,
         port_schedule: dict | None = None,
     ) -> dict[str, Any]:
@@ -1411,10 +1319,6 @@ class ActionBatchSwitch:
               schedule configuration of the day.
 
         """
-        metadata = {
-            "tags": ["switch", "configure", "portSchedules"],
-            "operation": "update_network_switch_port_schedule",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         port_schedule_id = urllib.parse.quote(str(port_schedule_id), safe="")
         resource = f"/networks/{network_id}/switch/portSchedules/{port_schedule_id}"
@@ -1430,13 +1334,13 @@ class ActionBatchSwitch:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def create_network_switch_qos_rule(
         self,
+        *,
         network_id: str,
         vlan: int,
-        *,
         protocol: str | None = None,
         src_port: int | None = None,
         src_port_range: str | None = None,
@@ -1470,10 +1374,6 @@ class ActionBatchSwitch:
                 f'"protocol" cannot be "{protocol}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["switch", "configure", "qosRules"],
-            "operation": "create_network_switch_qos_rule",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/switch/qosRules"
 
@@ -1498,10 +1398,10 @@ class ActionBatchSwitch:
             "operation": "create",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def update_network_switch_qos_rules_order(
-        self, network_id: str, rule_ids: list
+        self, *, network_id: str, rule_ids: list
     ) -> dict[str, Any]:
         """Update the order in which the rules should be processed by the switch.
 
@@ -1513,10 +1413,6 @@ class ActionBatchSwitch:
               be processed by the switch.
 
         """
-        metadata = {
-            "tags": ["switch", "configure", "qosRules", "order"],
-            "operation": "update_network_switch_qos_rules_order",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/switch/qosRules/order"
 
@@ -1529,9 +1425,11 @@ class ActionBatchSwitch:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
-    def delete_network_switch_qos_rule(self, network_id: str, qos_rule_id: str) -> dict[str, Any]:
+    def delete_network_switch_qos_rule(
+        self, *, network_id: str, qos_rule_id: str
+    ) -> dict[str, Any]:
         """Delete a quality of service rule.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-network-switch-qos-rule
@@ -1541,10 +1439,6 @@ class ActionBatchSwitch:
             qos_rule_id: Qos rule ID.
 
         """
-        metadata = {
-            "tags": ["switch", "configure", "qosRules"],
-            "operation": "delete_network_switch_qos_rule",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         qos_rule_id = urllib.parse.quote(str(qos_rule_id), safe="")
         resource = f"/networks/{network_id}/switch/qosRules/{qos_rule_id}"
@@ -1553,13 +1447,13 @@ class ActionBatchSwitch:
             "resource": resource,
             "operation": "destroy",
         }
-        return action
+        return action  # noqa: RET504
 
     def update_network_switch_qos_rule(
         self,
+        *,
         network_id: str,
         qos_rule_id: str,
-        *,
         vlan: int | None = None,
         protocol: str | None = None,
         src_port: int | None = None,
@@ -1595,10 +1489,6 @@ class ActionBatchSwitch:
                 f'"protocol" cannot be "{protocol}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["switch", "configure", "qosRules"],
-            "operation": "update_network_switch_qos_rule",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         qos_rule_id = urllib.parse.quote(str(qos_rule_id), safe="")
         resource = f"/networks/{network_id}/switch/qosRules/{qos_rule_id}"
@@ -1624,12 +1514,12 @@ class ActionBatchSwitch:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def update_network_switch_routing_multicast(
         self,
-        network_id: str,
         *,
+        network_id: str,
         default_settings: dict | None = None,
         overrides: list | None = None,
     ) -> dict[str, Any]:
@@ -1645,10 +1535,6 @@ class ActionBatchSwitch:
               settings. An empty array will clear the multicast settings.
 
         """
-        metadata = {
-            "tags": ["switch", "configure", "routing", "multicast"],
-            "operation": "update_network_switch_routing_multicast",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/switch/routing/multicast"
 
@@ -1663,10 +1549,10 @@ class ActionBatchSwitch:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def create_network_switch_routing_multicast_rendezvous_point(
-        self, network_id: str, interface_ip: str, multicast_group: str, *, vrf: dict | None = None
+        self, *, network_id: str, interface_ip: str, multicast_group: str, vrf: dict | None = None
     ) -> dict[str, Any]:
         """Create a multicast rendezvous point.
 
@@ -1679,10 +1565,6 @@ class ActionBatchSwitch:
             vrf: The VRF with PIM enabled L3 interface.
 
         """
-        metadata = {
-            "tags": ["switch", "configure", "routing", "multicast", "rendezvousPoints"],
-            "operation": "create_network_switch_routing_multicast_rendezvous_point",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/switch/routing/multicast/rendezvousPoints"
 
@@ -1699,10 +1581,10 @@ class ActionBatchSwitch:
             "operation": "create",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def delete_network_switch_routing_multicast_rendezvous_point(
-        self, network_id: str, rendezvous_point_id: str
+        self, *, network_id: str, rendezvous_point_id: str
     ) -> dict[str, Any]:
         """Delete a multicast rendezvous point.
 
@@ -1713,10 +1595,6 @@ class ActionBatchSwitch:
             rendezvous_point_id: Rendezvous point ID.
 
         """
-        metadata = {
-            "tags": ["switch", "configure", "routing", "multicast", "rendezvousPoints"],
-            "operation": "delete_network_switch_routing_multicast_rendezvous_point",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         rendezvous_point_id = urllib.parse.quote(str(rendezvous_point_id), safe="")
         resource = f"/networks/{network_id}/switch/routing/multicast/rendezvousPoints/{rendezvous_point_id}"
@@ -1725,15 +1603,15 @@ class ActionBatchSwitch:
             "resource": resource,
             "operation": "destroy",
         }
-        return action
+        return action  # noqa: RET504
 
     def update_network_switch_routing_multicast_rendezvous_point(
         self,
+        *,
         network_id: str,
         rendezvous_point_id: str,
         interface_ip: str,
         multicast_group: str,
-        *,
         vrf: dict | None = None,
     ) -> dict[str, Any]:
         """Update a multicast rendezvous point.
@@ -1748,10 +1626,6 @@ class ActionBatchSwitch:
             vrf: The VRF with PIM enabled L3 interface.
 
         """
-        metadata = {
-            "tags": ["switch", "configure", "routing", "multicast", "rendezvousPoints"],
-            "operation": "update_network_switch_routing_multicast_rendezvous_point",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         rendezvous_point_id = urllib.parse.quote(str(rendezvous_point_id), safe="")
         resource = f"/networks/{network_id}/switch/routing/multicast/rendezvousPoints/{rendezvous_point_id}"
@@ -1769,12 +1643,12 @@ class ActionBatchSwitch:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def update_network_switch_routing_ospf(
         self,
-        network_id: str,
         *,
+        network_id: str,
         vrf: str | None = None,
         enabled: bool | None = None,
         hello_timer_in_seconds: int | None = None,
@@ -1807,10 +1681,6 @@ class ActionBatchSwitch:
               md5AuthenticationEnabled is true.
 
         """
-        metadata = {
-            "tags": ["switch", "configure", "routing", "ospf"],
-            "operation": "update_network_switch_routing_ospf",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/switch/routing/ospf"
 
@@ -1839,12 +1709,12 @@ class ActionBatchSwitch:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def update_network_switch_settings(
         self,
-        network_id: str,
         *,
+        network_id: str,
         vlan: int | None = None,
         use_combined_power: bool | None = None,
         power_exceptions: list | None = None,
@@ -1867,10 +1737,6 @@ class ActionBatchSwitch:
             uplink_selection: Settings related to uplink selection on IOS-XE switches.
 
         """
-        metadata = {
-            "tags": ["switch", "configure", "settings"],
-            "operation": "update_network_switch_settings",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/switch/settings"
 
@@ -1893,14 +1759,14 @@ class ActionBatchSwitch:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def create_network_switch_stack_routing_interface(
         self,
+        *,
         network_id: str,
         switch_stack_id: str,
         name: str,
-        *,
         mode: str | None = None,
         subnet: str | None = None,
         switch_port_id: str | None = None,
@@ -1950,10 +1816,6 @@ class ActionBatchSwitch:
                 f'"multicast_routing" cannot be "{multicast_routing}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["switch", "configure", "stacks", "routing", "interfaces"],
-            "operation": "create_network_switch_stack_routing_interface",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         switch_stack_id = urllib.parse.quote(str(switch_stack_id), safe="")
         resource = f"/networks/{network_id}/switch/stacks/{switch_stack_id}/routing/interfaces"
@@ -1989,14 +1851,14 @@ class ActionBatchSwitch:
             "operation": "create",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def update_network_switch_stack_routing_interface(
         self,
+        *,
         network_id: str,
         switch_stack_id: str,
         interface_id: str,
-        *,
         name: str | None = None,
         subnet: str | None = None,
         switch_port_id: str | None = None,
@@ -2042,10 +1904,6 @@ class ActionBatchSwitch:
                 f'"multicast_routing" cannot be "{multicast_routing}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["switch", "configure", "stacks", "routing", "interfaces"],
-            "operation": "update_network_switch_stack_routing_interface",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         switch_stack_id = urllib.parse.quote(str(switch_stack_id), safe="")
         interface_id = urllib.parse.quote(str(interface_id), safe="")
@@ -2080,10 +1938,10 @@ class ActionBatchSwitch:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def delete_network_switch_stack_routing_interface(
-        self, network_id: str, switch_stack_id: str, interface_id: str
+        self, *, network_id: str, switch_stack_id: str, interface_id: str
     ) -> dict[str, Any]:
         """Delete a layer 3 interface from a switch stack.
 
@@ -2095,10 +1953,6 @@ class ActionBatchSwitch:
             interface_id: Interface ID.
 
         """
-        metadata = {
-            "tags": ["switch", "configure", "stacks", "routing", "interfaces"],
-            "operation": "delete_network_switch_stack_routing_interface",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         switch_stack_id = urllib.parse.quote(str(switch_stack_id), safe="")
         interface_id = urllib.parse.quote(str(interface_id), safe="")
@@ -2108,14 +1962,14 @@ class ActionBatchSwitch:
             "resource": resource,
             "operation": "destroy",
         }
-        return action
+        return action  # noqa: RET504
 
     def update_network_switch_stack_routing_interface_dhcp(
         self,
+        *,
         network_id: str,
         switch_stack_id: str,
         interface_id: str,
-        *,
         dhcp_mode: str | None = None,
         dhcp_relay_server_ips: list | None = None,
         dhcp_lease_time: str | None = None,
@@ -2177,10 +2031,6 @@ class ActionBatchSwitch:
                 f'"dns_nameservers_option" cannot be "{dns_nameservers_option}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["switch", "configure", "stacks", "routing", "interfaces", "dhcp"],
-            "operation": "update_network_switch_stack_routing_interface_dhcp",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         switch_stack_id = urllib.parse.quote(str(switch_stack_id), safe="")
         interface_id = urllib.parse.quote(str(interface_id), safe="")
@@ -2215,15 +2065,15 @@ class ActionBatchSwitch:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def create_network_switch_stack_routing_static_route(
         self,
+        *,
         network_id: str,
         switch_stack_id: str,
         subnet: str,
         next_hop_ip: str,
-        *,
         name: str | None = None,
         advertise_via_ospf_enabled: bool | None = None,
         prefer_over_ospf_routes_enabled: bool | None = None,
@@ -2246,10 +2096,6 @@ class ActionBatchSwitch:
             vrf: The VRF settings of the interface. Requires IOS XE 17.18 or higher.
 
         """
-        metadata = {
-            "tags": ["switch", "configure", "stacks", "routing", "staticRoutes"],
-            "operation": "create_network_switch_stack_routing_static_route",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         switch_stack_id = urllib.parse.quote(str(switch_stack_id), safe="")
         resource = f"/networks/{network_id}/switch/stacks/{switch_stack_id}/routing/staticRoutes"
@@ -2273,14 +2119,14 @@ class ActionBatchSwitch:
             "operation": "create",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def update_network_switch_stack_routing_static_route(
         self,
+        *,
         network_id: str,
         switch_stack_id: str,
         static_route_id: str,
-        *,
         name: str | None = None,
         subnet: str | None = None,
         next_hop_ip: str | None = None,
@@ -2308,10 +2154,6 @@ class ActionBatchSwitch:
             vrf: The VRF settings of the interface. Requires IOS XE 17.18 or higher.
 
         """
-        metadata = {
-            "tags": ["switch", "configure", "stacks", "routing", "staticRoutes"],
-            "operation": "update_network_switch_stack_routing_static_route",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         switch_stack_id = urllib.parse.quote(str(switch_stack_id), safe="")
         static_route_id = urllib.parse.quote(str(static_route_id), safe="")
@@ -2338,10 +2180,10 @@ class ActionBatchSwitch:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def delete_network_switch_stack_routing_static_route(
-        self, network_id: str, switch_stack_id: str, static_route_id: str
+        self, *, network_id: str, switch_stack_id: str, static_route_id: str
     ) -> dict[str, Any]:
         """Delete a layer 3 static route for a switch stack.
 
@@ -2353,10 +2195,6 @@ class ActionBatchSwitch:
             static_route_id: Static route ID.
 
         """
-        metadata = {
-            "tags": ["switch", "configure", "stacks", "routing", "staticRoutes"],
-            "operation": "delete_network_switch_stack_routing_static_route",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         switch_stack_id = urllib.parse.quote(str(switch_stack_id), safe="")
         static_route_id = urllib.parse.quote(str(static_route_id), safe="")
@@ -2366,12 +2204,12 @@ class ActionBatchSwitch:
             "resource": resource,
             "operation": "destroy",
         }
-        return action
+        return action  # noqa: RET504
 
     def update_network_switch_storm_control(
         self,
-        network_id: str,
         *,
+        network_id: str,
         broadcast_threshold: int | None = None,
         multicast_threshold: int | None = None,
         unknown_unicast_threshold: int | None = None,
@@ -2395,10 +2233,6 @@ class ActionBatchSwitch:
             treat_these_traffic_types_as_one_threshold: Grouped traffic types.
 
         """
-        metadata = {
-            "tags": ["switch", "configure", "stormControl"],
-            "operation": "update_network_switch_storm_control",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/switch/stormControl"
 
@@ -2419,12 +2253,12 @@ class ActionBatchSwitch:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def update_network_switch_stp(
         self,
-        network_id: str,
         *,
+        network_id: str,
         rstp_enabled: bool | None = None,
         stp_bridge_priority: list | None = None,
     ) -> dict[str, Any]:
@@ -2439,10 +2273,6 @@ class ActionBatchSwitch:
               empty array will clear the STP bridge priority settings.
 
         """
-        metadata = {
-            "tags": ["switch", "configure", "stp"],
-            "operation": "update_network_switch_stp",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/switch/stp"
 
@@ -2457,15 +2287,15 @@ class ActionBatchSwitch:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def update_organization_config_template_switch_profile_port(
         self,
+        *,
         organization_id: str,
         config_template_id: str,
         profile_id: str,
         port_id: str,
-        *,
         name: str | None = None,
         tags: list | None = None,
         enabled: bool | None = None,
@@ -2569,10 +2399,6 @@ class ActionBatchSwitch:
                 f'"access_policy_type" cannot be "{access_policy_type}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["switch", "configure", "configTemplates", "profiles", "ports"],
-            "operation": "update_organization_config_template_switch_profile_port",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         config_template_id = urllib.parse.quote(str(config_template_id), safe="")
         profile_id = urllib.parse.quote(str(profile_id), safe="")
@@ -2640,10 +2466,10 @@ class ActionBatchSwitch:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def clone_organization_switch_devices(
-        self, organization_id: str, source_serial: str, target_serials: list
+        self, *, organization_id: str, source_serial: str, target_serials: list
     ) -> dict[str, Any]:
         """Clone port-level and some switch-level configuration settings from a source switch to one or more target switches.
 
@@ -2657,10 +2483,6 @@ class ActionBatchSwitch:
               network not bound to a template).
 
         """
-        metadata = {
-            "tags": ["switch", "configure", "devices"],
-            "operation": "clone_organization_switch_devices",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/switch/devices/clone"
 
@@ -2675,4 +2497,4 @@ class ActionBatchSwitch:
             "operation": "create",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504

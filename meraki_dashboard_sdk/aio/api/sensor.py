@@ -16,8 +16,8 @@ class AsyncSensor:
 
     def get_device_sensor_commands(
         self,
-        serial: str,
         *,
+        serial: str,
         operations: list | None = None,
         per_page: int | None = None,
         starting_after: str | None = None,
@@ -94,7 +94,7 @@ class AsyncSensor:
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
-    def create_device_sensor_command(self, serial: str, operation: str) -> dict[str, Any] | None:
+    def create_device_sensor_command(self, *, serial: str, operation: str) -> dict[str, Any] | None:
         """Sends a command to a sensor.
 
         https://developer.cisco.com/meraki/api-v1/#!create-device-sensor-command
@@ -132,7 +132,7 @@ class AsyncSensor:
 
         return self._session.post(metadata, resource, payload)
 
-    def get_device_sensor_command(self, serial: str, command_id: str) -> dict[str, Any] | None:
+    def get_device_sensor_command(self, *, serial: str, command_id: str) -> dict[str, Any] | None:
         """Returns information about the command's execution, including the status.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device-sensor-command
@@ -152,7 +152,7 @@ class AsyncSensor:
 
         return self._session.get(metadata, resource)
 
-    def get_device_sensor_relationships(self, serial: str) -> dict[str, Any] | None:
+    def get_device_sensor_relationships(self, *, serial: str) -> dict[str, Any] | None:
         """List the sensor roles for a given sensor or camera device.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device-sensor-relationships
@@ -171,7 +171,7 @@ class AsyncSensor:
         return self._session.get(metadata, resource)
 
     def update_device_sensor_relationships(
-        self, serial: str, *, livestream: dict | None = None
+        self, *, serial: str, livestream: dict | None = None
     ) -> dict[str, Any] | None:
         """Assign one or more sensor roles to a given sensor or camera device.
 
@@ -198,7 +198,7 @@ class AsyncSensor:
         return self._session.put(metadata, resource, payload)
 
     def get_network_sensor_alerts_current_overview_by_metric(
-        self, network_id: str
+        self, *, network_id: str
     ) -> dict[str, Any] | None:
         """Return an overview of currently alerting sensors by metric.
 
@@ -219,8 +219,8 @@ class AsyncSensor:
 
     def get_network_sensor_alerts_overview_by_metric(
         self,
-        network_id: str,
         *,
+        network_id: str,
         t0: str | None = None,
         t1: str | None = None,
         timespan: float | None = None,
@@ -263,7 +263,7 @@ class AsyncSensor:
 
         return self._session.get(metadata, resource, params)
 
-    def get_network_sensor_alerts_profiles(self, network_id: str) -> dict[str, Any] | None:
+    def get_network_sensor_alerts_profiles(self, *, network_id: str) -> dict[str, Any] | None:
         """Lists all sensor alert profiles for a network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-sensor-alerts-profiles
@@ -283,10 +283,10 @@ class AsyncSensor:
 
     def create_network_sensor_alerts_profile(
         self,
+        *,
         network_id: str,
         name: str,
         conditions: list,
-        *,
         schedule: dict | None = None,
         recipients: dict | None = None,
         serials: list | None = None,
@@ -333,7 +333,9 @@ class AsyncSensor:
 
         return self._session.post(metadata, resource, payload)
 
-    def get_network_sensor_alerts_profile(self, network_id: str, id_: str) -> dict[str, Any] | None:
+    def get_network_sensor_alerts_profile(
+        self, *, network_id: str, id_: str
+    ) -> dict[str, Any] | None:
         """Show details of a sensor alert profile for a network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-sensor-alerts-profile
@@ -355,9 +357,9 @@ class AsyncSensor:
 
     def update_network_sensor_alerts_profile(
         self,
+        *,
         network_id: str,
         id_: str,
-        *,
         name: str | None = None,
         schedule: dict | None = None,
         conditions: list | None = None,
@@ -408,7 +410,7 @@ class AsyncSensor:
 
         return self._session.put(metadata, resource, payload)
 
-    def delete_network_sensor_alerts_profile(self, network_id: str, id_: str) -> None:
+    def delete_network_sensor_alerts_profile(self, *, network_id: str, id_: str) -> None:
         """Deletes a sensor alert profile from a network.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-network-sensor-alerts-profile
@@ -428,7 +430,7 @@ class AsyncSensor:
 
         return self._session.delete(metadata, resource)
 
-    def get_network_sensor_mqtt_brokers(self, network_id: str) -> dict[str, Any] | None:
+    def get_network_sensor_mqtt_brokers(self, *, network_id: str) -> dict[str, Any] | None:
         """List the sensor settings of all MQTT brokers for this network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-sensor-mqtt-brokers
@@ -447,7 +449,7 @@ class AsyncSensor:
         return self._session.get(metadata, resource)
 
     def get_network_sensor_mqtt_broker(
-        self, network_id: str, mqtt_broker_id: str
+        self, *, network_id: str, mqtt_broker_id: str
     ) -> dict[str, Any] | None:
         """Return the sensor settings of an MQTT broker.
 
@@ -469,7 +471,7 @@ class AsyncSensor:
         return self._session.get(metadata, resource)
 
     def update_network_sensor_mqtt_broker(
-        self, network_id: str, mqtt_broker_id: str, enabled: bool
+        self, *, network_id: str, mqtt_broker_id: str, enabled: bool
     ) -> dict[str, Any] | None:
         """Update the sensor settings of an MQTT broker.
 
@@ -495,7 +497,7 @@ class AsyncSensor:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_network_sensor_relationships(self, network_id: str) -> dict[str, Any] | None:
+    def get_network_sensor_relationships(self, *, network_id: str) -> dict[str, Any] | None:
         """List the sensor roles for devices in a given network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-sensor-relationships
@@ -515,8 +517,8 @@ class AsyncSensor:
 
     def get_organization_sensor_gateways_connections_latest(
         self,
-        organization_id: str,
         *,
+        organization_id: str,
         sensor_serials: list | None = None,
         per_page: int | None = None,
         starting_after: str | None = None,
@@ -567,8 +569,8 @@ class AsyncSensor:
 
     def get_organization_sensor_readings_history(
         self,
-        organization_id: str,
         *,
+        organization_id: str,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
@@ -643,8 +645,8 @@ class AsyncSensor:
 
     def get_organization_sensor_readings_latest(
         self,
-        organization_id: str,
         *,
+        organization_id: str,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,

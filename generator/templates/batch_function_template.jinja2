@@ -19,10 +19,6 @@
         {% endfor %}
 
         {% endif %}
-        metadata = {
-            'tags': {{ tags }},
-            'operation': '{{ operation }}'
-        }
         {% for param in path_params %}
         {{ param }} = urllib.parse.quote(str({{ param }}), safe='')
         {% endfor %}

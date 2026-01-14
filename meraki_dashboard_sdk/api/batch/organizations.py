@@ -12,11 +12,11 @@ class ActionBatchOrganizations:
 
     def create_organization_adaptive_policy_acl(
         self,
+        *,
         organization_id: str,
         name: str,
         rules: list,
         ip_version: str,
-        *,
         description: str | None = None,
     ) -> dict[str, Any]:
         """Creates new adaptive policy ACL.
@@ -37,10 +37,6 @@ class ActionBatchOrganizations:
                 f'"ip_version" cannot be "{ip_version}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["organizations", "configure", "adaptivePolicy", "acls"],
-            "operation": "create_organization_adaptive_policy_acl",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/adaptivePolicy/acls"
 
@@ -59,13 +55,13 @@ class ActionBatchOrganizations:
             "operation": "create",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def update_organization_adaptive_policy_acl(
         self,
+        *,
         organization_id: str,
         acl_id: str,
-        *,
         name: str | None = None,
         description: str | None = None,
         rules: list | None = None,
@@ -91,10 +87,6 @@ class ActionBatchOrganizations:
                 f'"ip_version" cannot be "{ip_version}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["organizations", "configure", "adaptivePolicy", "acls"],
-            "operation": "update_organization_adaptive_policy_acl",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         acl_id = urllib.parse.quote(str(acl_id), safe="")
         resource = f"/organizations/{organization_id}/adaptivePolicy/acls/{acl_id}"
@@ -114,10 +106,10 @@ class ActionBatchOrganizations:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def delete_organization_adaptive_policy_acl(
-        self, organization_id: str, acl_id: str
+        self, *, organization_id: str, acl_id: str
     ) -> dict[str, Any]:
         """Deletes the specified adaptive policy ACL.
 
@@ -128,10 +120,6 @@ class ActionBatchOrganizations:
             acl_id: Acl ID.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "adaptivePolicy", "acls"],
-            "operation": "delete_organization_adaptive_policy_acl",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         acl_id = urllib.parse.quote(str(acl_id), safe="")
         resource = f"/organizations/{organization_id}/adaptivePolicy/acls/{acl_id}"
@@ -140,14 +128,14 @@ class ActionBatchOrganizations:
             "resource": resource,
             "operation": "destroy",
         }
-        return action
+        return action  # noqa: RET504
 
     def create_organization_adaptive_policy_group(
         self,
+        *,
         organization_id: str,
         name: str,
         sgt: int,
-        *,
         description: str | None = None,
         policy_objects: list | None = None,
     ) -> dict[str, Any]:
@@ -166,10 +154,6 @@ class ActionBatchOrganizations:
               attribute) (default: []).
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "adaptivePolicy", "groups"],
-            "operation": "create_organization_adaptive_policy_group",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/adaptivePolicy/groups"
 
@@ -188,13 +172,13 @@ class ActionBatchOrganizations:
             "operation": "create",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def update_organization_adaptive_policy_group(
         self,
+        *,
         organization_id: str,
         id_: str,
-        *,
         name: str | None = None,
         sgt: int | None = None,
         description: str | None = None,
@@ -216,10 +200,6 @@ class ActionBatchOrganizations:
               attribute).
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "adaptivePolicy", "groups"],
-            "operation": "update_organization_adaptive_policy_group",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         id_ = urllib.parse.quote(str(id_), safe="")
         resource = f"/organizations/{organization_id}/adaptivePolicy/groups/{id_}"
@@ -239,10 +219,10 @@ class ActionBatchOrganizations:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def delete_organization_adaptive_policy_group(
-        self, organization_id: str, id_: str
+        self, *, organization_id: str, id_: str
     ) -> dict[str, Any]:
         """Deletes the specified adaptive policy group and any associated policies and references.
 
@@ -253,10 +233,6 @@ class ActionBatchOrganizations:
             id_: ID.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "adaptivePolicy", "groups"],
-            "operation": "delete_organization_adaptive_policy_group",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         id_ = urllib.parse.quote(str(id_), safe="")
         resource = f"/organizations/{organization_id}/adaptivePolicy/groups/{id_}"
@@ -265,14 +241,14 @@ class ActionBatchOrganizations:
             "resource": resource,
             "operation": "destroy",
         }
-        return action
+        return action  # noqa: RET504
 
     def create_organization_adaptive_policy_policy(
         self,
+        *,
         organization_id: str,
         source_group: dict,
         destination_group: dict,
-        *,
         acls: list | None = None,
         last_entry_rule: str | None = None,
     ) -> dict[str, Any]:
@@ -296,10 +272,6 @@ class ActionBatchOrganizations:
                 f'"last_entry_rule" cannot be "{last_entry_rule}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["organizations", "configure", "adaptivePolicy", "policies"],
-            "operation": "create_organization_adaptive_policy_policy",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/adaptivePolicy/policies"
 
@@ -318,13 +290,13 @@ class ActionBatchOrganizations:
             "operation": "create",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def update_organization_adaptive_policy_policy(
         self,
+        *,
         organization_id: str,
         id_: str,
-        *,
         source_group: dict | None = None,
         destination_group: dict | None = None,
         acls: list | None = None,
@@ -351,10 +323,6 @@ class ActionBatchOrganizations:
                 f'"last_entry_rule" cannot be "{last_entry_rule}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["organizations", "configure", "adaptivePolicy", "policies"],
-            "operation": "update_organization_adaptive_policy_policy",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         id_ = urllib.parse.quote(str(id_), safe="")
         resource = f"/organizations/{organization_id}/adaptivePolicy/policies/{id_}"
@@ -374,10 +342,10 @@ class ActionBatchOrganizations:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def delete_organization_adaptive_policy_policy(
-        self, organization_id: str, id_: str
+        self, *, organization_id: str, id_: str
     ) -> dict[str, Any]:
         """Delete an Adaptive Policy.
 
@@ -388,10 +356,6 @@ class ActionBatchOrganizations:
             id_: ID.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "adaptivePolicy", "policies"],
-            "operation": "delete_organization_adaptive_policy_policy",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         id_ = urllib.parse.quote(str(id_), safe="")
         resource = f"/organizations/{organization_id}/adaptivePolicy/policies/{id_}"
@@ -400,10 +364,10 @@ class ActionBatchOrganizations:
             "resource": resource,
             "operation": "destroy",
         }
-        return action
+        return action  # noqa: RET504
 
     def update_organization_adaptive_policy_settings(
-        self, organization_id: str, *, enabled_networks: list | None = None
+        self, *, organization_id: str, enabled_networks: list | None = None
     ) -> dict[str, Any]:
         """Update global adaptive policy settings.
 
@@ -414,10 +378,6 @@ class ActionBatchOrganizations:
             enabled_networks: List of network IDs with adaptive policy enabled.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "adaptivePolicy", "settings"],
-            "operation": "update_organization_adaptive_policy_settings",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/adaptivePolicy/settings"
 
@@ -430,16 +390,16 @@ class ActionBatchOrganizations:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def create_organization_alerts_profile(
         self,
+        *,
         organization_id: str,
         type_: str,
         alert_condition: dict,
         recipients: dict,
         network_tags: list,
-        *,
         description: str | None = None,
     ) -> dict[str, Any]:
         """Create an organization-wide alert configuration.
@@ -470,10 +430,6 @@ class ActionBatchOrganizations:
                 f'"type_" cannot be "{type_}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["organizations", "configure", "alerts", "profiles"],
-            "operation": "create_organization_alerts_profile",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/alerts/profiles"
 
@@ -494,13 +450,13 @@ class ActionBatchOrganizations:
             "operation": "create",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def update_organization_alerts_profile(
         self,
+        *,
         organization_id: str,
         alert_config_id: str,
-        *,
         enabled: bool | None = None,
         type_: str | None = None,
         alert_condition: dict | None = None,
@@ -538,10 +494,6 @@ class ActionBatchOrganizations:
                 f'"type_" cannot be "{type_}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["organizations", "configure", "alerts", "profiles"],
-            "operation": "update_organization_alerts_profile",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         alert_config_id = urllib.parse.quote(str(alert_config_id), safe="")
         resource = f"/organizations/{organization_id}/alerts/profiles/{alert_config_id}"
@@ -565,10 +517,10 @@ class ActionBatchOrganizations:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def delete_organization_alerts_profile(
-        self, organization_id: str, alert_config_id: str
+        self, *, organization_id: str, alert_config_id: str
     ) -> dict[str, Any]:
         """Removes an organization-wide alert config.
 
@@ -579,10 +531,6 @@ class ActionBatchOrganizations:
             alert_config_id: Alert config ID.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "alerts", "profiles"],
-            "operation": "delete_organization_alerts_profile",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         alert_config_id = urllib.parse.quote(str(alert_config_id), safe="")
         resource = f"/organizations/{organization_id}/alerts/profiles/{alert_config_id}"
@@ -591,13 +539,13 @@ class ActionBatchOrganizations:
             "resource": resource,
             "operation": "destroy",
         }
-        return action
+        return action  # noqa: RET504
 
     def create_organization_branding_policy(
         self,
+        *,
         organization_id: str,
         name: str,
-        *,
         enabled: bool | None = None,
         admin_settings: dict | None = None,
         help_settings: dict | None = None,
@@ -622,10 +570,6 @@ class ActionBatchOrganizations:
             custom_logo: Properties describing the custom logo attached to the branding policy.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "brandingPolicies"],
-            "operation": "create_organization_branding_policy",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/brandingPolicies"
 
@@ -646,10 +590,10 @@ class ActionBatchOrganizations:
             "operation": "create",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def update_organization_branding_policies_priorities(
-        self, organization_id: str, *, branding_policy_ids: list | None = None
+        self, *, organization_id: str, branding_policy_ids: list | None = None
     ) -> dict[str, Any]:
         """Update the priority ordering of an organization's branding policies.
 
@@ -661,10 +605,6 @@ class ActionBatchOrganizations:
               order of how to apply the policies.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "brandingPolicies", "priorities"],
-            "operation": "update_organization_branding_policies_priorities",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/brandingPolicies/priorities"
 
@@ -677,14 +617,14 @@ class ActionBatchOrganizations:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def update_organization_branding_policy(
         self,
+        *,
         organization_id: str,
         branding_policy_id: str,
         name: str,
-        *,
         enabled: bool | None = None,
         admin_settings: dict | None = None,
         help_settings: dict | None = None,
@@ -709,10 +649,6 @@ class ActionBatchOrganizations:
             custom_logo: Properties describing the custom logo attached to the branding policy.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "brandingPolicies"],
-            "operation": "update_organization_branding_policy",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         branding_policy_id = urllib.parse.quote(str(branding_policy_id), safe="")
         resource = f"/organizations/{organization_id}/brandingPolicies/{branding_policy_id}"
@@ -734,10 +670,10 @@ class ActionBatchOrganizations:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def delete_organization_branding_policy(
-        self, organization_id: str, branding_policy_id: str
+        self, *, organization_id: str, branding_policy_id: str
     ) -> dict[str, Any]:
         """Delete a branding policy.
 
@@ -748,10 +684,6 @@ class ActionBatchOrganizations:
             branding_policy_id: Branding policy ID.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "brandingPolicies"],
-            "operation": "delete_organization_branding_policy",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         branding_policy_id = urllib.parse.quote(str(branding_policy_id), safe="")
         resource = f"/organizations/{organization_id}/brandingPolicies/{branding_policy_id}"
@@ -760,13 +692,13 @@ class ActionBatchOrganizations:
             "resource": resource,
             "operation": "destroy",
         }
-        return action
+        return action  # noqa: RET504
 
     def create_organization_config_template(
         self,
+        *,
         organization_id: str,
         name: str,
-        *,
         time_zone: str | None = None,
         copy_from_network_id: str | None = None,
     ) -> dict[str, Any]:
@@ -785,10 +717,6 @@ class ActionBatchOrganizations:
               from.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "configTemplates"],
-            "operation": "create_organization_config_template",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/configTemplates"
 
@@ -805,13 +733,13 @@ class ActionBatchOrganizations:
             "operation": "create",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def update_organization_config_template(
         self,
+        *,
         organization_id: str,
         config_template_id: str,
-        *,
         name: str | None = None,
         time_zone: str | None = None,
     ) -> dict[str, Any]:
@@ -829,10 +757,6 @@ class ActionBatchOrganizations:
               article.</a>.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "configTemplates"],
-            "operation": "update_organization_config_template",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         config_template_id = urllib.parse.quote(str(config_template_id), safe="")
         resource = f"/organizations/{organization_id}/configTemplates/{config_template_id}"
@@ -848,10 +772,10 @@ class ActionBatchOrganizations:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def create_organization_devices_controller_migration(
-        self, organization_id: str, serials: list, target: str
+        self, *, organization_id: str, serials: list, target: str
     ) -> dict[str, Any]:
         """Migrate devices to another controller or management mode.
 
@@ -869,10 +793,6 @@ class ActionBatchOrganizations:
                 f'"target" cannot be "{target}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["organizations", "configure", "devices", "controller", "migrations"],
-            "operation": "create_organization_devices_controller_migration",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/devices/controller/migrations"
 
@@ -887,10 +807,10 @@ class ActionBatchOrganizations:
             "operation": "create",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def bulk_update_organization_devices_details(
-        self, organization_id: str, serials: list, details: list
+        self, *, organization_id: str, serials: list, details: list
     ) -> dict[str, Any]:
         """Updating device details (currently only used for Catalyst devices).
 
@@ -902,10 +822,6 @@ class ActionBatchOrganizations:
             details: An array of details.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "devices", "details", "bulkUpdate"],
-            "operation": "bulk_update_organization_devices_details",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/devices/details/bulkUpdate"
 
@@ -920,10 +836,10 @@ class ActionBatchOrganizations:
             "operation": "create",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def bulk_organization_devices_packet_capture_captures_delete(
-        self, organization_id: str, capture_ids: list
+        self, *, organization_id: str, capture_ids: list
     ) -> dict[str, Any]:
         """BulkDelete packet captures from cloud.
 
@@ -934,10 +850,6 @@ class ActionBatchOrganizations:
             capture_ids: Delete the packet captures of the specified capture ids.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "devices", "packetCapture", "captures"],
-            "operation": "bulk_organization_devices_packet_capture_captures_delete",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/devices/packetCapture/captures/bulkDelete"
 
@@ -950,10 +862,10 @@ class ActionBatchOrganizations:
             "operation": "create",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def delete_organization_devices_packet_capture_capture(
-        self, organization_id: str, capture_id: str
+        self, *, organization_id: str, capture_id: str
     ) -> dict[str, Any]:
         """Delete a single packet capture from cloud using captureId.
 
@@ -964,10 +876,6 @@ class ActionBatchOrganizations:
             capture_id: Capture ID.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "devices", "packetCapture", "captures"],
-            "operation": "delete_organization_devices_packet_capture_capture",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         capture_id = urllib.parse.quote(str(capture_id), safe="")
         resource = f"/organizations/{organization_id}/devices/packetCapture/captures/{capture_id}"
@@ -976,13 +884,13 @@ class ActionBatchOrganizations:
             "resource": resource,
             "operation": "destroy",
         }
-        return action
+        return action  # noqa: RET504
 
     def create_organization_devices_packet_capture_schedule(
         self,
+        *,
         organization_id: str,
         devices: list,
-        *,
         name: str | None = None,
         notes: str | None = None,
         duration: int | None = None,
@@ -1005,10 +913,6 @@ class ActionBatchOrganizations:
             schedule: Schedule details.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "devices", "packetCapture", "schedules"],
-            "operation": "create_organization_devices_packet_capture_schedule",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/devices/packetCapture/schedules"
 
@@ -1033,10 +937,10 @@ class ActionBatchOrganizations:
             "operation": "create",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def reorder_organization_devices_packet_capture_schedules(
-        self, organization_id: str, order: list
+        self, *, organization_id: str, order: list
     ) -> dict[str, Any]:
         """Bulk update priorities of pcap schedules.
 
@@ -1047,10 +951,6 @@ class ActionBatchOrganizations:
             order: Array of schedule IDs and their priorities to reorder.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "devices", "packetCapture", "schedules"],
-            "operation": "reorder_organization_devices_packet_capture_schedules",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/devices/packetCapture/schedules/reorder"
 
@@ -1063,14 +963,14 @@ class ActionBatchOrganizations:
             "operation": "create",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def update_organization_devices_packet_capture_schedule(
         self,
+        *,
         organization_id: str,
         schedule_id: str,
         devices: list,
-        *,
         name: str | None = None,
         notes: str | None = None,
         duration: int | None = None,
@@ -1094,10 +994,6 @@ class ActionBatchOrganizations:
             schedule: Schedule details.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "devices", "packetCapture", "schedules"],
-            "operation": "update_organization_devices_packet_capture_schedule",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         schedule_id = urllib.parse.quote(str(schedule_id), safe="")
         resource = f"/organizations/{organization_id}/devices/packetCapture/schedules/{schedule_id}"
@@ -1123,10 +1019,10 @@ class ActionBatchOrganizations:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def delete_organization_devices_packet_capture_schedule(
-        self, organization_id: str, schedule_id: str
+        self, *, organization_id: str, schedule_id: str
     ) -> dict[str, Any]:
         """Delete schedule from cloud.
 
@@ -1137,10 +1033,6 @@ class ActionBatchOrganizations:
             schedule_id: Delete the capture schedules of the specified capture schedule id.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "devices", "packetCapture", "schedules"],
-            "operation": "delete_organization_devices_packet_capture_schedule",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/devices/packetCapture/schedules/{schedule_id}"
 
@@ -1153,10 +1045,10 @@ class ActionBatchOrganizations:
             "operation": "destroy",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def update_organization_early_access_features_opt_in(
-        self, organization_id: str, opt_in_id: str, *, limit_scope_to_networks: list | None = None
+        self, *, organization_id: str, opt_in_id: str, limit_scope_to_networks: list | None = None
     ) -> dict[str, Any]:
         """Update an early access feature opt-in for an organization.
 
@@ -1168,10 +1060,6 @@ class ActionBatchOrganizations:
             limit_scope_to_networks: A list of network IDs to apply the opt-in to.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "earlyAccess", "features", "optIns"],
-            "operation": "update_organization_early_access_features_opt_in",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         opt_in_id = urllib.parse.quote(str(opt_in_id), safe="")
         resource = f"/organizations/{organization_id}/earlyAccess/features/optIns/{opt_in_id}"
@@ -1185,10 +1073,10 @@ class ActionBatchOrganizations:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def disable_organization_integrations_xdr_networks(
-        self, organization_id: str, networks: list
+        self, *, organization_id: str, networks: list
     ) -> dict[str, Any]:
         """Disable XDR on networks.
 
@@ -1199,10 +1087,6 @@ class ActionBatchOrganizations:
             networks: List containing the network ID and the product type to disable XDR on.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "integrations", "xdr", "networks"],
-            "operation": "disable_organization_integrations_xdr_networks",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/integrations/xdr/networks/disable"
 
@@ -1215,10 +1099,10 @@ class ActionBatchOrganizations:
             "operation": "create",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def enable_organization_integrations_xdr_networks(
-        self, organization_id: str, networks: list
+        self, *, organization_id: str, networks: list
     ) -> dict[str, Any]:
         """Enable XDR on networks.
 
@@ -1229,10 +1113,6 @@ class ActionBatchOrganizations:
             networks: List containing the network ID and the product type to enable XDR on.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "integrations", "xdr", "networks"],
-            "operation": "enable_organization_integrations_xdr_networks",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/integrations/xdr/networks/enable"
 
@@ -1245,10 +1125,10 @@ class ActionBatchOrganizations:
             "operation": "create",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def claim_organization_inventory_orders(
-        self, organization_id: str, claim_id: str, *, subscriptions: list | None = None
+        self, *, organization_id: str, claim_id: str, subscriptions: list | None = None
     ) -> dict[str, Any]:
         """Claim an order by the secure unique order claim number, the order claim id.
 
@@ -1260,10 +1140,6 @@ class ActionBatchOrganizations:
             subscriptions: The individual subscriptions to claim.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "inventory", "orders"],
-            "operation": "claim_organization_inventory_orders",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/inventory/orders/claim"
 
@@ -1278,10 +1154,10 @@ class ActionBatchOrganizations:
             "operation": "create",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def assign_organization_licenses_seats(
-        self, organization_id: str, license_id: str, network_id: str, seat_count: int
+        self, *, organization_id: str, license_id: str, network_id: str, seat_count: int
     ) -> dict[str, Any]:
         """Assign SM seats to a network.
 
@@ -1295,10 +1171,6 @@ class ActionBatchOrganizations:
               to the total number of seats of the license.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "licenses"],
-            "operation": "assign_organization_licenses_seats",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/licenses/assignSeats"
 
@@ -1315,10 +1187,10 @@ class ActionBatchOrganizations:
             "operation": "create",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def move_organization_licenses(
-        self, organization_id: str, dest_organization_id: str, license_ids: list
+        self, *, organization_id: str, dest_organization_id: str, license_ids: list
     ) -> dict[str, Any]:
         """Move licenses to another organization.
 
@@ -1330,10 +1202,6 @@ class ActionBatchOrganizations:
             license_ids: A list of IDs of licenses to move to the new organization.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "licenses"],
-            "operation": "move_organization_licenses",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/licenses/move"
 
@@ -1348,10 +1216,10 @@ class ActionBatchOrganizations:
             "operation": "create",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def move_organization_licenses_seats(
-        self, organization_id: str, dest_organization_id: str, license_id: str, seat_count: int
+        self, *, organization_id: str, dest_organization_id: str, license_id: str, seat_count: int
     ) -> dict[str, Any]:
         """Move SM seats to another organization.
 
@@ -1365,10 +1233,6 @@ class ActionBatchOrganizations:
               equal to the total number of seats of the license.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "licenses"],
-            "operation": "move_organization_licenses_seats",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/licenses/moveSeats"
 
@@ -1385,10 +1249,10 @@ class ActionBatchOrganizations:
             "operation": "create",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def renew_organization_licenses_seats(
-        self, organization_id: str, license_id_to_renew: str, unused_license_id: str
+        self, *, organization_id: str, license_id_to_renew: str, unused_license_id: str
     ) -> dict[str, Any]:
         """Renew SM seats of a license.
 
@@ -1403,10 +1267,6 @@ class ActionBatchOrganizations:
               'licenseIdToRenew'.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "licenses"],
-            "operation": "renew_organization_licenses_seats",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/licenses/renewSeats"
 
@@ -1421,10 +1281,10 @@ class ActionBatchOrganizations:
             "operation": "create",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def update_organization_license(
-        self, organization_id: str, license_id: str, *, device_serial: str | None = None
+        self, *, organization_id: str, license_id: str, device_serial: str | None = None
     ) -> dict[str, Any]:
         """Update a license.
 
@@ -1438,10 +1298,6 @@ class ActionBatchOrganizations:
               the device, this parameter will control queueing/dequeuing this license.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "licenses"],
-            "operation": "update_organization_license",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         license_id = urllib.parse.quote(str(license_id), safe="")
         resource = f"/organizations/{organization_id}/licenses/{license_id}"
@@ -1455,12 +1311,12 @@ class ActionBatchOrganizations:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def update_organization_login_security(
         self,
-        organization_id: str,
         *,
+        organization_id: str,
         enforce_password_expiration: bool | None = None,
         password_expiration_days: int | None = None,
         enforce_different_passwords: bool | None = None,
@@ -1513,10 +1369,6 @@ class ActionBatchOrganizations:
               API (but not Dashboard) to certain IP addresses.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "loginSecurity"],
-            "operation": "update_organization_login_security",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/loginSecurity"
 
@@ -1555,14 +1407,14 @@ class ActionBatchOrganizations:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def create_organization_network(
         self,
+        *,
         organization_id: str,
         name: str,
         product_types: list,
-        *,
         tags: list | None = None,
         time_zone: str | None = None,
         copy_from_network_id: str | None = None,
@@ -1588,10 +1440,6 @@ class ActionBatchOrganizations:
             notes: Add any notes or additional information about this network here.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "networks"],
-            "operation": "create_organization_network",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/networks"
 
@@ -1614,14 +1462,14 @@ class ActionBatchOrganizations:
             "operation": "create",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def combine_organization_networks(
         self,
+        *,
         organization_id: str,
         name: str,
         network_ids: list,
-        *,
         enrollment_string: str | None = None,
     ) -> dict[str, Any]:
         """Combine multiple networks into a single network.
@@ -1642,10 +1490,6 @@ class ActionBatchOrganizations:
               enrollment strings will be deleted.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "networks"],
-            "operation": "combine_organization_networks",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/networks/combine"
 
@@ -1662,15 +1506,15 @@ class ActionBatchOrganizations:
             "operation": "create",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def create_organization_policy_object(
         self,
+        *,
         organization_id: str,
         name: str,
         category: str,
         type_: str,
-        *,
         cidr: str | None = None,
         fqdn: str | None = None,
         mask: str | None = None,
@@ -1694,10 +1538,6 @@ class ActionBatchOrganizations:
             group_ids: The IDs of policy object groups the policy object belongs to.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "policyObjects"],
-            "operation": "create_organization_policy_object",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/policyObjects"
 
@@ -1724,13 +1564,13 @@ class ActionBatchOrganizations:
             "operation": "create",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def create_organization_policy_objects_group(
         self,
+        *,
         organization_id: str,
         name: str,
-        *,
         category: str | None = None,
         object_ids: list | None = None,
     ) -> dict[str, Any]:
@@ -1749,10 +1589,6 @@ class ActionBatchOrganizations:
               Policy Objects).
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "policyObjects", "groups"],
-            "operation": "create_organization_policy_objects_group",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/policyObjects/groups"
 
@@ -1769,13 +1605,13 @@ class ActionBatchOrganizations:
             "operation": "create",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def update_organization_policy_objects_group(
         self,
+        *,
         organization_id: str,
         policy_object_group_id: str,
-        *,
         name: str | None = None,
         object_ids: list | None = None,
     ) -> dict[str, Any]:
@@ -1793,10 +1629,6 @@ class ActionBatchOrganizations:
               Policy Objects).
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "policyObjects", "groups"],
-            "operation": "update_organization_policy_objects_group",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         policy_object_group_id = urllib.parse.quote(str(policy_object_group_id), safe="")
         resource = f"/organizations/{organization_id}/policyObjects/groups/{policy_object_group_id}"
@@ -1812,10 +1644,10 @@ class ActionBatchOrganizations:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def delete_organization_policy_objects_group(
-        self, organization_id: str, policy_object_group_id: str
+        self, *, organization_id: str, policy_object_group_id: str
     ) -> dict[str, Any]:
         """Deletes a Policy Object Group.
 
@@ -1826,10 +1658,6 @@ class ActionBatchOrganizations:
             policy_object_group_id: Policy object group ID.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "policyObjects", "groups"],
-            "operation": "delete_organization_policy_objects_group",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         policy_object_group_id = urllib.parse.quote(str(policy_object_group_id), safe="")
         resource = f"/organizations/{organization_id}/policyObjects/groups/{policy_object_group_id}"
@@ -1838,13 +1666,13 @@ class ActionBatchOrganizations:
             "resource": resource,
             "operation": "destroy",
         }
-        return action
+        return action  # noqa: RET504
 
     def update_organization_policy_object(
         self,
+        *,
         organization_id: str,
         policy_object_id: str,
-        *,
         name: str | None = None,
         cidr: str | None = None,
         fqdn: str | None = None,
@@ -1868,10 +1696,6 @@ class ActionBatchOrganizations:
             group_ids: The IDs of policy object groups the policy object belongs to.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "policyObjects"],
-            "operation": "update_organization_policy_object",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         policy_object_id = urllib.parse.quote(str(policy_object_id), safe="")
         resource = f"/organizations/{organization_id}/policyObjects/{policy_object_id}"
@@ -1895,10 +1719,10 @@ class ActionBatchOrganizations:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def delete_organization_policy_object(
-        self, organization_id: str, policy_object_id: str
+        self, *, organization_id: str, policy_object_id: str
     ) -> dict[str, Any]:
         """Deletes a Policy Object.
 
@@ -1909,10 +1733,6 @@ class ActionBatchOrganizations:
             policy_object_id: Policy object ID.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "policyObjects"],
-            "operation": "delete_organization_policy_object",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         policy_object_id = urllib.parse.quote(str(policy_object_id), safe="")
         resource = f"/organizations/{organization_id}/policyObjects/{policy_object_id}"
@@ -1921,13 +1741,13 @@ class ActionBatchOrganizations:
             "resource": resource,
             "operation": "destroy",
         }
-        return action
+        return action  # noqa: RET504
 
     def create_organization_saml_idp(
         self,
+        *,
         organization_id: str,
         x509cert_sha1_fingerprint: str,
-        *,
         sso_login_url: str | None = None,
         slo_logout_url: str | None = None,
     ) -> dict[str, Any]:
@@ -1944,10 +1764,6 @@ class ActionBatchOrganizations:
             slo_logout_url: Dashboard will redirect users to this URL when they sign out.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "saml", "idps"],
-            "operation": "create_organization_saml_idp",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/saml/idps"
 
@@ -1964,13 +1780,13 @@ class ActionBatchOrganizations:
             "operation": "create",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def update_organization_saml_idp(
         self,
+        *,
         organization_id: str,
         idp_id: str,
-        *,
         x509cert_sha1_fingerprint: str | None = None,
         sso_login_url: str | None = None,
         slo_logout_url: str | None = None,
@@ -1989,10 +1805,6 @@ class ActionBatchOrganizations:
             slo_logout_url: Dashboard will redirect users to this URL when they sign out.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "saml", "idps"],
-            "operation": "update_organization_saml_idp",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         idp_id = urllib.parse.quote(str(idp_id), safe="")
         resource = f"/organizations/{organization_id}/saml/idps/{idp_id}"
@@ -2010,9 +1822,9 @@ class ActionBatchOrganizations:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
-    def delete_organization_saml_idp(self, organization_id: str, idp_id: str) -> dict[str, Any]:
+    def delete_organization_saml_idp(self, *, organization_id: str, idp_id: str) -> dict[str, Any]:
         """Remove a SAML IdP in your organization.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-saml-idp
@@ -2022,10 +1834,6 @@ class ActionBatchOrganizations:
             idp_id: Idp ID.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "saml", "idps"],
-            "operation": "delete_organization_saml_idp",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         idp_id = urllib.parse.quote(str(idp_id), safe="")
         resource = f"/organizations/{organization_id}/saml/idps/{idp_id}"
@@ -2034,9 +1842,9 @@ class ActionBatchOrganizations:
             "resource": resource,
             "operation": "destroy",
         }
-        return action
+        return action  # noqa: RET504
 
-    def delete_organization_splash_asset(self, organization_id: str, id_: str) -> dict[str, Any]:
+    def delete_organization_splash_asset(self, *, organization_id: str, id_: str) -> dict[str, Any]:
         """Delete a Splash Theme Asset.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-splash-asset
@@ -2046,10 +1854,6 @@ class ActionBatchOrganizations:
             id_: ID.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "splash", "assets"],
-            "operation": "delete_organization_splash_asset",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         id_ = urllib.parse.quote(str(id_), safe="")
         resource = f"/organizations/{organization_id}/splash/assets/{id_}"
@@ -2058,10 +1862,10 @@ class ActionBatchOrganizations:
             "resource": resource,
             "operation": "destroy",
         }
-        return action
+        return action  # noqa: RET504
 
     def create_organization_splash_theme(
-        self, organization_id: str, *, name: str | None = None, base_theme: str | None = None
+        self, *, organization_id: str, name: str | None = None, base_theme: str | None = None
     ) -> dict[str, Any]:
         """Create a Splash Theme.
 
@@ -2073,10 +1877,6 @@ class ActionBatchOrganizations:
             base_theme: base theme id.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "splash", "themes"],
-            "operation": "create_organization_splash_theme",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/splash/themes"
 
@@ -2091,9 +1891,9 @@ class ActionBatchOrganizations:
             "operation": "create",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
-    def delete_organization_splash_theme(self, organization_id: str, id_: str) -> dict[str, Any]:
+    def delete_organization_splash_theme(self, *, organization_id: str, id_: str) -> dict[str, Any]:
         """Delete a Splash Theme.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-splash-theme
@@ -2103,10 +1903,6 @@ class ActionBatchOrganizations:
             id_: ID.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "splash", "themes"],
-            "operation": "delete_organization_splash_theme",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         id_ = urllib.parse.quote(str(id_), safe="")
         resource = f"/organizations/{organization_id}/splash/themes/{id_}"
@@ -2115,13 +1911,13 @@ class ActionBatchOrganizations:
             "resource": resource,
             "operation": "destroy",
         }
-        return action
+        return action  # noqa: RET504
 
     def create_organization_splash_theme_asset(
         self,
+        *,
         organization_id: str,
         theme_identifier: str,
-        *,
         name: str | None = None,
         content: str | None = None,
     ) -> dict[str, Any]:
@@ -2136,10 +1932,6 @@ class ActionBatchOrganizations:
             content: a file containing the asset content.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "splash", "themes", "assets"],
-            "operation": "create_organization_splash_theme_asset",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         theme_identifier = urllib.parse.quote(str(theme_identifier), safe="")
         resource = f"/organizations/{organization_id}/splash/themes/{theme_identifier}/assets"
@@ -2155,4 +1947,4 @@ class ActionBatchOrganizations:
             "operation": "create",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504

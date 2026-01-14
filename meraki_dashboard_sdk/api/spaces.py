@@ -15,7 +15,7 @@ class Spaces:
         self._session = session
 
     def get_organization_spaces_integrate_status(
-        self, organization_id: str
+        self, *, organization_id: str
     ) -> dict[str, Any] | None:
         """Get the status of the Spaces integration in Meraki.
 
@@ -34,7 +34,9 @@ class Spaces:
 
         return self._session.get(metadata, resource)
 
-    def remove_organization_spaces_integration(self, organization_id: str) -> dict[str, Any] | None:
+    def remove_organization_spaces_integration(
+        self, *, organization_id: str
+    ) -> dict[str, Any] | None:
         """Remove the Spaces integration from Meraki.
 
         https://developer.cisco.com/meraki/api-v1/#!remove-organization-spaces-integration

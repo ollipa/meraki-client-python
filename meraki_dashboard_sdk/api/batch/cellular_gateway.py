@@ -12,8 +12,8 @@ class ActionBatchCellularGateway:
 
     def update_device_cellular_gateway_lan(
         self,
-        serial: str,
         *,
+        serial: str,
         reserved_ip_ranges: list | None = None,
         fixed_ip_assignments: list | None = None,
     ) -> dict[str, Any]:
@@ -27,10 +27,6 @@ class ActionBatchCellularGateway:
             fixed_ip_assignments: list of all fixed IP assignments for a single MG.
 
         """
-        metadata = {
-            "tags": ["cellularGateway", "configure", "lan"],
-            "operation": "update_device_cellular_gateway_lan",
-        }
         serial = urllib.parse.quote(str(serial), safe="")
         resource = f"/devices/{serial}/cellularGateway/lan"
 
@@ -45,10 +41,10 @@ class ActionBatchCellularGateway:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def update_device_cellular_gateway_port_forwarding_rules(
-        self, serial: str, *, rules: list | None = None
+        self, *, serial: str, rules: list | None = None
     ) -> dict[str, Any]:
         """Updates the port forwarding rules for a single MG.
 
@@ -59,10 +55,6 @@ class ActionBatchCellularGateway:
             rules: An array of port forwarding params.
 
         """
-        metadata = {
-            "tags": ["cellularGateway", "configure", "portForwardingRules"],
-            "operation": "update_device_cellular_gateway_port_forwarding_rules",
-        }
         serial = urllib.parse.quote(str(serial), safe="")
         resource = f"/devices/{serial}/cellularGateway/portForwardingRules"
 
@@ -75,10 +67,10 @@ class ActionBatchCellularGateway:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def update_network_cellular_gateway_connectivity_monitoring_destinations(
-        self, network_id: str, *, destinations: list | None = None
+        self, *, network_id: str, destinations: list | None = None
     ) -> dict[str, Any]:
         """Update the connectivity testing destinations for an MG network.
 
@@ -89,10 +81,6 @@ class ActionBatchCellularGateway:
             destinations: The list of connectivity monitoring destinations.
 
         """
-        metadata = {
-            "tags": ["cellularGateway", "configure", "connectivityMonitoringDestinations"],
-            "operation": "update_network_cellular_gateway_connectivity_monitoring_destinations",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/cellularGateway/connectivityMonitoringDestinations"
 
@@ -105,12 +93,12 @@ class ActionBatchCellularGateway:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def update_network_cellular_gateway_dhcp(
         self,
-        network_id: str,
         *,
+        network_id: str,
         dhcp_lease_time: str | None = None,
         dns_nameservers: str | None = None,
         dns_custom_nameservers: list | None = None,
@@ -129,10 +117,6 @@ class ActionBatchCellularGateway:
               mode is 'custom'.
 
         """
-        metadata = {
-            "tags": ["cellularGateway", "configure", "dhcp"],
-            "operation": "update_network_cellular_gateway_dhcp",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/cellularGateway/dhcp"
 
@@ -149,10 +133,10 @@ class ActionBatchCellularGateway:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def update_network_cellular_gateway_subnet_pool(
-        self, network_id: str, *, mask: int | None = None, cidr: str | None = None
+        self, *, network_id: str, mask: int | None = None, cidr: str | None = None
     ) -> dict[str, Any]:
         """Update the subnet pool and mask configuration for MGs in the network.
 
@@ -165,10 +149,6 @@ class ActionBatchCellularGateway:
               subnet from this pool.
 
         """
-        metadata = {
-            "tags": ["cellularGateway", "configure", "subnetPool"],
-            "operation": "update_network_cellular_gateway_subnet_pool",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/cellularGateway/subnetPool"
 
@@ -183,10 +163,10 @@ class ActionBatchCellularGateway:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def update_network_cellular_gateway_uplink(
-        self, network_id: str, *, bandwidth_limits: dict | None = None
+        self, *, network_id: str, bandwidth_limits: dict | None = None
     ) -> dict[str, Any]:
         """Updates the uplink settings for your MG network.
 
@@ -197,10 +177,6 @@ class ActionBatchCellularGateway:
             bandwidth_limits: The bandwidth settings for the 'cellular' uplink.
 
         """
-        metadata = {
-            "tags": ["cellularGateway", "configure", "uplink"],
-            "operation": "update_network_cellular_gateway_uplink",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         resource = f"/networks/{network_id}/cellularGateway/uplink"
 
@@ -213,10 +189,10 @@ class ActionBatchCellularGateway:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def update_organization_cellular_gateway_esims_inventory(
-        self, organization_id: str, id_: str, *, status: str | None = None
+        self, *, organization_id: str, id_: str, status: str | None = None
     ) -> dict[str, Any]:
         """Toggle the status of an eSIM.
 
@@ -228,10 +204,6 @@ class ActionBatchCellularGateway:
             status: Status the eSIM will be updated to.
 
         """
-        metadata = {
-            "tags": ["cellularGateway", "configure", "esims", "inventory"],
-            "operation": "update_organization_cellular_gateway_esims_inventory",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         id_ = urllib.parse.quote(str(id_), safe="")
         resource = f"/organizations/{organization_id}/cellularGateway/esims/inventory/{id_}"
@@ -245,10 +217,11 @@ class ActionBatchCellularGateway:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def create_organization_cellular_gateway_esims_service_providers_account(
         self,
+        *,
         organization_id: str,
         account_id: str,
         api_key: str,
@@ -269,10 +242,6 @@ class ActionBatchCellularGateway:
             username: Service provider account username.
 
         """
-        metadata = {
-            "tags": ["cellularGateway", "configure", "esims", "serviceProviders", "accounts"],
-            "operation": "create_organization_cellular_gateway_esims_service_providers_account",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = (
             f"/organizations/{organization_id}/cellularGateway/esims/serviceProviders/accounts"
@@ -295,13 +264,13 @@ class ActionBatchCellularGateway:
             "operation": "create",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def update_organization_cellular_gateway_esims_service_providers_account(
         self,
+        *,
         organization_id: str,
         account_id: str,
-        *,
         title: str | None = None,
         api_key: str | None = None,
     ) -> dict[str, Any]:
@@ -316,10 +285,6 @@ class ActionBatchCellularGateway:
             api_key: Service provider account API key.
 
         """
-        metadata = {
-            "tags": ["cellularGateway", "configure", "esims", "serviceProviders", "accounts"],
-            "operation": "update_organization_cellular_gateway_esims_service_providers_account",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         account_id = urllib.parse.quote(str(account_id), safe="")
         resource = f"/organizations/{organization_id}/cellularGateway/esims/serviceProviders/accounts/{account_id}"
@@ -335,10 +300,10 @@ class ActionBatchCellularGateway:
             "operation": "update",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def delete_organization_cellular_gateway_esims_service_providers_account(
-        self, organization_id: str, account_id: str
+        self, *, organization_id: str, account_id: str
     ) -> dict[str, Any]:
         """Remove a service provider account's integration with the Dashboard.
 
@@ -349,10 +314,6 @@ class ActionBatchCellularGateway:
             account_id: Account ID.
 
         """
-        metadata = {
-            "tags": ["cellularGateway", "configure", "esims", "serviceProviders", "accounts"],
-            "operation": "delete_organization_cellular_gateway_esims_service_providers_account",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         account_id = urllib.parse.quote(str(account_id), safe="")
         resource = f"/organizations/{organization_id}/cellularGateway/esims/serviceProviders/accounts/{account_id}"
@@ -361,10 +322,10 @@ class ActionBatchCellularGateway:
             "resource": resource,
             "operation": "destroy",
         }
-        return action
+        return action  # noqa: RET504
 
     def create_organization_cellular_gateway_esims_swap(
-        self, organization_id: str, swaps: list
+        self, *, organization_id: str, swaps: list
     ) -> dict[str, Any]:
         """Swap which profile an eSIM uses.
 
@@ -375,10 +336,6 @@ class ActionBatchCellularGateway:
             swaps: Each object represents a swap for one eSIM.
 
         """
-        metadata = {
-            "tags": ["cellularGateway", "configure", "esims", "swap"],
-            "operation": "create_organization_cellular_gateway_esims_swap",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/cellularGateway/esims/swap"
 
@@ -391,10 +348,10 @@ class ActionBatchCellularGateway:
             "operation": "create",
             "body": payload,
         }
-        return action
+        return action  # noqa: RET504
 
     def update_organization_cellular_gateway_esims_swap(
-        self, id_: str, organization_id: str
+        self, *, id_: str, organization_id: str
     ) -> dict[str, Any]:
         """Get the status of a profile swap.
 
@@ -405,10 +362,6 @@ class ActionBatchCellularGateway:
             organization_id: Organization ID.
 
         """
-        metadata = {
-            "tags": ["cellularGateway", "configure", "esims", "swap"],
-            "operation": "update_organization_cellular_gateway_esims_swap",
-        }
         id_ = urllib.parse.quote(str(id_), safe="")
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         resource = f"/organizations/{organization_id}/cellularGateway/esims/swap/{id_}"
@@ -417,4 +370,4 @@ class ActionBatchCellularGateway:
             "resource": resource,
             "operation": "update",
         }
-        return action
+        return action  # noqa: RET504

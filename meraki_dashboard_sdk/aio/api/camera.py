@@ -14,7 +14,7 @@ class AsyncCamera:
         super().__init__()
         self._session = session
 
-    def get_device_camera_analytics_live(self, serial: str) -> dict[str, Any] | None:
+    def get_device_camera_analytics_live(self, *, serial: str) -> dict[str, Any] | None:
         """Returns live state from camera analytics zones.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device-camera-analytics-live
@@ -34,8 +34,8 @@ class AsyncCamera:
 
     def get_device_camera_analytics_overview(
         self,
-        serial: str,
         *,
+        serial: str,
         t0: str | None = None,
         t1: str | None = None,
         timespan: float | None = None,
@@ -83,7 +83,7 @@ class AsyncCamera:
         return self._session.get(metadata, resource, params)
 
     def get_device_camera_analytics_recent(
-        self, serial: str, *, object_type: str | None = None
+        self, *, serial: str, object_type: str | None = None
     ) -> dict[str, Any] | None:
         """Returns most recent record for analytics zones.
 
@@ -114,7 +114,7 @@ class AsyncCamera:
 
         return self._session.get(metadata, resource, params)
 
-    def get_device_camera_analytics_zones(self, serial: str) -> dict[str, Any] | None:
+    def get_device_camera_analytics_zones(self, *, serial: str) -> dict[str, Any] | None:
         """Returns all configured analytic zones for this camera.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device-camera-analytics-zones
@@ -134,9 +134,9 @@ class AsyncCamera:
 
     def get_device_camera_analytics_zone_history(
         self,
+        *,
         serial: str,
         zone_id: str,
-        *,
         t0: str | None = None,
         t1: str | None = None,
         timespan: float | None = None,
@@ -190,7 +190,7 @@ class AsyncCamera:
 
         return self._session.get(metadata, resource, params)
 
-    def get_device_camera_custom_analytics(self, serial: str) -> dict[str, Any] | None:
+    def get_device_camera_custom_analytics(self, *, serial: str) -> dict[str, Any] | None:
         """Return custom analytics settings for a camera.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device-camera-custom-analytics
@@ -210,8 +210,8 @@ class AsyncCamera:
 
     def update_device_camera_custom_analytics(
         self,
-        serial: str,
         *,
+        serial: str,
         enabled: bool | None = None,
         artifact_id: str | None = None,
         parameters: list | None = None,
@@ -245,7 +245,7 @@ class AsyncCamera:
         return self._session.put(metadata, resource, payload)
 
     def generate_device_camera_snapshot(
-        self, serial: str, *, timestamp: str | None = None, fullframe: bool | None = None
+        self, *, serial: str, timestamp: str | None = None, fullframe: bool | None = None
     ) -> dict[str, Any] | None:
         """Generate a snapshot of what the camera sees at the specified time and return a link to that image.
 
@@ -272,7 +272,7 @@ class AsyncCamera:
 
         return self._session.post(metadata, resource, payload)
 
-    def get_device_camera_quality_and_retention(self, serial: str) -> dict[str, Any] | None:
+    def get_device_camera_quality_and_retention(self, *, serial: str) -> dict[str, Any] | None:
         """Returns quality and retention settings for the given camera.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device-camera-quality-and-retention
@@ -292,8 +292,8 @@ class AsyncCamera:
 
     def update_device_camera_quality_and_retention(
         self,
-        serial: str,
         *,
+        serial: str,
         profile_id: str | None = None,
         motion_based_retention_enabled: bool | None = None,
         audio_recording_enabled: bool | None = None,
@@ -377,7 +377,7 @@ class AsyncCamera:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_device_camera_sense(self, serial: str) -> dict[str, Any] | None:
+    def get_device_camera_sense(self, *, serial: str) -> dict[str, Any] | None:
         """Returns sense settings for a given camera.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device-camera-sense
@@ -397,8 +397,8 @@ class AsyncCamera:
 
     def update_device_camera_sense(
         self,
-        serial: str,
         *,
+        serial: str,
         sense_enabled: bool | None = None,
         mqtt_broker_id: str | None = None,
         audio_detection: dict | None = None,
@@ -437,7 +437,9 @@ class AsyncCamera:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_device_camera_sense_object_detection_models(self, serial: str) -> dict[str, Any] | None:
+    def get_device_camera_sense_object_detection_models(
+        self, *, serial: str
+    ) -> dict[str, Any] | None:
         """Returns the MV Sense object detection model list for the given camera.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device-camera-sense-object-detection-models
@@ -455,7 +457,7 @@ class AsyncCamera:
 
         return self._session.get(metadata, resource)
 
-    def get_device_camera_video_settings(self, serial: str) -> dict[str, Any] | None:
+    def get_device_camera_video_settings(self, *, serial: str) -> dict[str, Any] | None:
         """Returns video settings for the given camera.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device-camera-video-settings
@@ -474,7 +476,7 @@ class AsyncCamera:
         return self._session.get(metadata, resource)
 
     def update_device_camera_video_settings(
-        self, serial: str, *, external_rtsp_enabled: bool | None = None
+        self, *, serial: str, external_rtsp_enabled: bool | None = None
     ) -> dict[str, Any] | None:
         """Update video settings for the given camera.
 
@@ -499,7 +501,7 @@ class AsyncCamera:
         return self._session.put(metadata, resource, payload)
 
     def get_device_camera_video_link(
-        self, serial: str, *, timestamp: str | None = None
+        self, *, serial: str, timestamp: str | None = None
     ) -> dict[str, Any] | None:
         """Returns video link to the specified camera.
 
@@ -525,7 +527,7 @@ class AsyncCamera:
 
         return self._session.get(metadata, resource, params)
 
-    def get_device_camera_wireless_profiles(self, serial: str) -> dict[str, Any] | None:
+    def get_device_camera_wireless_profiles(self, *, serial: str) -> dict[str, Any] | None:
         """Returns wireless profile assigned to the given camera.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device-camera-wireless-profiles
@@ -544,7 +546,7 @@ class AsyncCamera:
         return self._session.get(metadata, resource)
 
     def update_device_camera_wireless_profiles(
-        self, serial: str, ids: dict
+        self, *, serial: str, ids: dict
     ) -> dict[str, Any] | None:
         """Assign wireless profiles to the given camera.
 
@@ -569,7 +571,7 @@ class AsyncCamera:
         return self._session.put(metadata, resource, payload)
 
     def get_network_camera_quality_retention_profiles(
-        self, network_id: str
+        self, *, network_id: str
     ) -> dict[str, Any] | None:
         """List the quality retention profiles for this network.
 
@@ -590,9 +592,9 @@ class AsyncCamera:
 
     def create_network_camera_quality_retention_profile(
         self,
+        *,
         network_id: str,
         name: str,
-        *,
         motion_based_retention_enabled: bool | None = None,
         restricted_bandwidth_mode_enabled: bool | None = None,
         audio_recording_enabled: bool | None = None,
@@ -664,7 +666,7 @@ class AsyncCamera:
         return self._session.post(metadata, resource, payload)
 
     def get_network_camera_quality_retention_profile(
-        self, network_id: str, quality_retention_profile_id: str
+        self, *, network_id: str, quality_retention_profile_id: str
     ) -> dict[str, Any] | None:
         """Retrieve a single quality retention profile.
 
@@ -691,9 +693,9 @@ class AsyncCamera:
 
     def update_network_camera_quality_retention_profile(
         self,
+        *,
         network_id: str,
         quality_retention_profile_id: str,
-        *,
         name: str | None = None,
         motion_based_retention_enabled: bool | None = None,
         restricted_bandwidth_mode_enabled: bool | None = None,
@@ -772,7 +774,7 @@ class AsyncCamera:
         return self._session.put(metadata, resource, payload)
 
     def delete_network_camera_quality_retention_profile(
-        self, network_id: str, quality_retention_profile_id: str
+        self, *, network_id: str, quality_retention_profile_id: str
     ) -> None:
         """Delete an existing quality retention profile for this network.
 
@@ -797,7 +799,7 @@ class AsyncCamera:
 
         return self._session.delete(metadata, resource)
 
-    def get_network_camera_schedules(self, network_id: str) -> dict[str, Any] | None:
+    def get_network_camera_schedules(self, *, network_id: str) -> dict[str, Any] | None:
         """Returns a list of all camera recording schedules.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-camera-schedules
@@ -816,7 +818,7 @@ class AsyncCamera:
         return self._session.get(metadata, resource)
 
     def create_network_camera_wireless_profile(
-        self, network_id: str, name: str, ssid: dict, *, identity: dict | None = None
+        self, *, network_id: str, name: str, ssid: dict, identity: dict | None = None
     ) -> dict[str, Any] | None:
         """Creates a new camera wireless profile for this network.
 
@@ -847,7 +849,7 @@ class AsyncCamera:
 
         return self._session.post(metadata, resource, payload)
 
-    def get_network_camera_wireless_profiles(self, network_id: str) -> dict[str, Any] | None:
+    def get_network_camera_wireless_profiles(self, *, network_id: str) -> dict[str, Any] | None:
         """List the camera wireless profiles for this network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-camera-wireless-profiles
@@ -866,7 +868,7 @@ class AsyncCamera:
         return self._session.get(metadata, resource)
 
     def get_network_camera_wireless_profile(
-        self, network_id: str, wireless_profile_id: str
+        self, *, network_id: str, wireless_profile_id: str
     ) -> dict[str, Any] | None:
         """Retrieve a single camera wireless profile.
 
@@ -889,9 +891,9 @@ class AsyncCamera:
 
     def update_network_camera_wireless_profile(
         self,
+        *,
         network_id: str,
         wireless_profile_id: str,
-        *,
         name: str | None = None,
         ssid: dict | None = None,
         identity: dict | None = None,
@@ -928,7 +930,7 @@ class AsyncCamera:
         return self._session.put(metadata, resource, payload)
 
     def delete_network_camera_wireless_profile(
-        self, network_id: str, wireless_profile_id: str
+        self, *, network_id: str, wireless_profile_id: str
     ) -> None:
         """Delete an existing camera wireless profile for this network.
 
@@ -950,7 +952,7 @@ class AsyncCamera:
         return self._session.delete(metadata, resource)
 
     def get_organization_camera_boundaries_areas_by_device(
-        self, organization_id: str, *, serials: list | None = None
+        self, *, organization_id: str, serials: list | None = None
     ) -> dict[str, Any] | None:
         """Returns all configured area boundaries of cameras.
 
@@ -976,7 +978,7 @@ class AsyncCamera:
         return self._session.get(metadata, resource, params)
 
     def get_organization_camera_boundaries_lines_by_device(
-        self, organization_id: str, *, serials: list | None = None
+        self, *, organization_id: str, serials: list | None = None
     ) -> dict[str, Any] | None:
         """Returns all configured crossingline boundaries of cameras.
 
@@ -1002,7 +1004,7 @@ class AsyncCamera:
         return self._session.get(metadata, resource, params)
 
     def get_organization_camera_custom_analytics_artifacts(
-        self, organization_id: str
+        self, *, organization_id: str
     ) -> dict[str, Any] | None:
         """List Custom Analytics Artifacts.
 
@@ -1022,7 +1024,7 @@ class AsyncCamera:
         return self._session.get(metadata, resource)
 
     def create_organization_camera_custom_analytics_artifact(
-        self, organization_id: str, *, name: str | None = None
+        self, *, organization_id: str, name: str | None = None
     ) -> dict[str, Any] | None:
         """Create custom analytics artifact.
 
@@ -1047,7 +1049,7 @@ class AsyncCamera:
         return self._session.post(metadata, resource, payload)
 
     def get_organization_camera_custom_analytics_artifact(
-        self, organization_id: str, artifact_id: str
+        self, *, organization_id: str, artifact_id: str
     ) -> dict[str, Any] | None:
         """Get Custom Analytics Artifact.
 
@@ -1071,7 +1073,7 @@ class AsyncCamera:
         return self._session.get(metadata, resource)
 
     def delete_organization_camera_custom_analytics_artifact(
-        self, organization_id: str, artifact_id: str
+        self, *, organization_id: str, artifact_id: str
     ) -> None:
         """Delete Custom Analytics Artifact.
 
@@ -1096,10 +1098,10 @@ class AsyncCamera:
 
     def get_organization_camera_detections_history_by_boundary_by_interval(
         self,
+        *,
         organization_id: str,
         boundary_ids: list,
         ranges: list,
-        *,
         duration: int | None = None,
         per_page: int | None = None,
         boundary_types: list | None = None,
@@ -1149,7 +1151,7 @@ class AsyncCamera:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def get_organization_camera_onboarding_statuses(
-        self, organization_id: str, *, serials: list | None = None, network_ids: list | None = None
+        self, *, organization_id: str, serials: list | None = None, network_ids: list | None = None
     ) -> dict[str, Any] | None:
         """Fetch onboarding status of cameras.
 
@@ -1180,8 +1182,8 @@ class AsyncCamera:
 
     def update_organization_camera_onboarding_statuses(
         self,
-        organization_id: str,
         *,
+        organization_id: str,
         serial: str | None = None,
         wireless_credentials_sent: bool | None = None,
     ) -> dict[str, Any] | None:
@@ -1210,7 +1212,7 @@ class AsyncCamera:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_organization_camera_permissions(self, organization_id: str) -> dict[str, Any] | None:
+    def get_organization_camera_permissions(self, *, organization_id: str) -> dict[str, Any] | None:
         """List the permissions scopes for this organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-camera-permissions
@@ -1229,7 +1231,7 @@ class AsyncCamera:
         return self._session.get(metadata, resource)
 
     def get_organization_camera_permission(
-        self, organization_id: str, permission_scope_id: str
+        self, *, organization_id: str, permission_scope_id: str
     ) -> dict[str, Any] | None:
         """Retrieve a single permission scope.
 
@@ -1250,7 +1252,7 @@ class AsyncCamera:
 
         return self._session.get(metadata, resource)
 
-    def get_organization_camera_roles(self, organization_id: str) -> dict[str, Any] | None:
+    def get_organization_camera_roles(self, *, organization_id: str) -> dict[str, Any] | None:
         """List all the roles in this organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-camera-roles
@@ -1270,9 +1272,9 @@ class AsyncCamera:
 
     def create_organization_camera_role(
         self,
+        *,
         organization_id: str,
         name: str,
-        *,
         applied_on_devices: list | None = None,
         applied_on_networks: list | None = None,
         applied_org_wide: list | None = None,
@@ -1309,7 +1311,7 @@ class AsyncCamera:
         return self._session.post(metadata, resource, payload)
 
     def get_organization_camera_role(
-        self, organization_id: str, role_id: str
+        self, *, organization_id: str, role_id: str
     ) -> dict[str, Any] | None:
         """Retrieve a single role.
 
@@ -1330,7 +1332,7 @@ class AsyncCamera:
 
         return self._session.get(metadata, resource)
 
-    def delete_organization_camera_role(self, organization_id: str, role_id: str) -> None:
+    def delete_organization_camera_role(self, *, organization_id: str, role_id: str) -> None:
         """Delete an existing role for this organization.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-camera-role
@@ -1352,9 +1354,9 @@ class AsyncCamera:
 
     def update_organization_camera_role(
         self,
+        *,
         organization_id: str,
         role_id: str,
-        *,
         name: str | None = None,
         applied_on_devices: list | None = None,
         applied_on_networks: list | None = None,

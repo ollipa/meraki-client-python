@@ -14,7 +14,7 @@ class AsyncNetworks:
         super().__init__()
         self._session = session
 
-    def get_network(self, network_id: str) -> dict[str, Any] | None:
+    def get_network(self, *, network_id: str) -> dict[str, Any] | None:
         """Return a network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network
@@ -31,8 +31,8 @@ class AsyncNetworks:
 
     def update_network(
         self,
-        network_id: str,
         *,
+        network_id: str,
         name: str | None = None,
         time_zone: str | None = None,
         tags: list | None = None,
@@ -76,7 +76,7 @@ class AsyncNetworks:
 
         return self._session.put(metadata, resource, payload)
 
-    def delete_network(self, network_id: str) -> None:
+    def delete_network(self, *, network_id: str) -> None:
         """Delete a network.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-network
@@ -93,8 +93,8 @@ class AsyncNetworks:
 
     def get_network_alerts_history(
         self,
-        network_id: str,
         *,
+        network_id: str,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
@@ -139,7 +139,7 @@ class AsyncNetworks:
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
-    def get_network_alerts_settings(self, network_id: str) -> dict[str, Any] | None:
+    def get_network_alerts_settings(self, *, network_id: str) -> dict[str, Any] | None:
         """Return the alert configuration for this network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-alerts-settings
@@ -159,8 +159,8 @@ class AsyncNetworks:
 
     def update_network_alerts_settings(
         self,
-        network_id: str,
         *,
+        network_id: str,
         default_destinations: dict | None = None,
         alerts: list | None = None,
         muting: dict | None = None,
@@ -195,7 +195,7 @@ class AsyncNetworks:
         return self._session.put(metadata, resource, payload)
 
     def bind_network(
-        self, network_id: str, config_template_id: str, *, auto_bind: bool | None = None
+        self, *, network_id: str, config_template_id: str, auto_bind: bool | None = None
     ) -> dict[str, Any] | None:
         """Bind a network to a template.
 
@@ -225,8 +225,8 @@ class AsyncNetworks:
 
     def get_network_bluetooth_clients(
         self,
-        network_id: str,
         *,
+        network_id: str,
         t0: str | None = None,
         timespan: float | None = None,
         per_page: int | None = None,
@@ -288,9 +288,9 @@ class AsyncNetworks:
 
     def get_network_bluetooth_client(
         self,
+        *,
         network_id: str,
         bluetooth_client_id: str,
-        *,
         include_connectivity_history: bool | None = None,
         connectivity_history_timespan: int | None = None,
     ) -> dict[str, Any] | None:
@@ -324,8 +324,8 @@ class AsyncNetworks:
 
     def get_network_clients(
         self,
-        network_id: str,
         *,
+        network_id: str,
         t0: str | None = None,
         timespan: float | None = None,
         per_page: int | None = None,
@@ -427,9 +427,9 @@ class AsyncNetworks:
 
     def get_network_clients_application_usage(
         self,
+        *,
         network_id: str,
         clients: str,
-        *,
         ssid_number: int | None = None,
         per_page: int | None = None,
         starting_after: str | None = None,
@@ -504,8 +504,8 @@ class AsyncNetworks:
 
     def get_network_clients_bandwidth_usage_history(
         self,
-        network_id: str,
         *,
+        network_id: str,
         t0: str | None = None,
         t1: str | None = None,
         timespan: float | None = None,
@@ -567,8 +567,8 @@ class AsyncNetworks:
 
     def get_network_clients_overview(
         self,
-        network_id: str,
         *,
+        network_id: str,
         t0: str | None = None,
         t1: str | None = None,
         timespan: float | None = None,
@@ -611,10 +611,10 @@ class AsyncNetworks:
 
     def provision_network_clients(
         self,
+        *,
         network_id: str,
         clients: list,
         device_policy: str,
-        *,
         group_policy_id: str | None = None,
         policies_by_security_appliance: dict | None = None,
         policies_by_ssid: dict | None = None,
@@ -667,9 +667,9 @@ class AsyncNetworks:
 
     def get_network_clients_usage_histories(
         self,
+        *,
         network_id: str,
         clients: str,
-        *,
         ssid_number: int | None = None,
         per_page: int | None = None,
         starting_after: str | None = None,
@@ -742,7 +742,7 @@ class AsyncNetworks:
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
-    def get_network_client(self, network_id: str, client_id: str) -> dict[str, Any] | None:
+    def get_network_client(self, *, network_id: str, client_id: str) -> dict[str, Any] | None:
         """Return the client associated with the given identifier.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-client
@@ -759,7 +759,9 @@ class AsyncNetworks:
 
         return self._session.get(metadata, resource)
 
-    def get_network_client_policy(self, network_id: str, client_id: str) -> dict[str, Any] | None:
+    def get_network_client_policy(
+        self, *, network_id: str, client_id: str
+    ) -> dict[str, Any] | None:
         """Return the policy assigned to a client on the network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-client-policy
@@ -781,10 +783,10 @@ class AsyncNetworks:
 
     def update_network_client_policy(
         self,
+        *,
         network_id: str,
         client_id: str,
         device_policy: str,
-        *,
         group_policy_id: str | None = None,
     ) -> dict[str, Any] | None:
         """Update the policy assigned to a client on the network.
@@ -817,7 +819,7 @@ class AsyncNetworks:
         return self._session.put(metadata, resource, payload)
 
     def get_network_client_splash_authorization_status(
-        self, network_id: str, client_id: str
+        self, *, network_id: str, client_id: str
     ) -> dict[str, Any] | None:
         """Return the splash authorization for a client, for each SSID they've associated with through splash.
 
@@ -839,7 +841,7 @@ class AsyncNetworks:
         return self._session.get(metadata, resource)
 
     def update_network_client_splash_authorization_status(
-        self, network_id: str, client_id: str, ssids: dict
+        self, *, network_id: str, client_id: str, ssids: dict
     ) -> dict[str, Any] | None:
         """Update a client's splash authorization.
 
@@ -870,9 +872,9 @@ class AsyncNetworks:
 
     def get_network_client_traffic_history(
         self,
+        *,
         network_id: str,
         client_id: str,
-        *,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
@@ -919,7 +921,7 @@ class AsyncNetworks:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def get_network_client_usage_history(
-        self, network_id: str, client_id: str
+        self, *, network_id: str, client_id: str
     ) -> dict[str, Any] | None:
         """Return the client's daily usage history.
 
@@ -940,7 +942,7 @@ class AsyncNetworks:
 
         return self._session.get(metadata, resource)
 
-    def get_network_devices(self, network_id: str) -> dict[str, Any] | None:
+    def get_network_devices(self, *, network_id: str) -> dict[str, Any] | None:
         """List the devices in a network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-devices
@@ -960,9 +962,9 @@ class AsyncNetworks:
 
     def claim_network_devices(
         self,
+        *,
         network_id: str,
         serials: list,
-        *,
         add_atomically: bool | None = None,
         details_by_device: list | None = None,
     ) -> dict[str, Any] | None:
@@ -998,7 +1000,7 @@ class AsyncNetworks:
 
         return self._session.post(metadata, resource, payload)
 
-    def vmx_network_devices_claim(self, network_id: str, size: str) -> dict[str, Any] | None:
+    def vmx_network_devices_claim(self, *, network_id: str, size: str) -> dict[str, Any] | None:
         """Claim a vMX into a network.
 
         https://developer.cisco.com/meraki/api-v1/#!vmx-network-devices-claim
@@ -1026,7 +1028,7 @@ class AsyncNetworks:
 
         return self._session.post(metadata, resource, payload)
 
-    def remove_network_devices(self, network_id: str, serial: str) -> dict[str, Any] | None:
+    def remove_network_devices(self, *, network_id: str, serial: str) -> dict[str, Any] | None:
         """Remove a single device.
 
         https://developer.cisco.com/meraki/api-v1/#!remove-network-devices
@@ -1051,8 +1053,8 @@ class AsyncNetworks:
 
     def get_network_events(
         self,
-        network_id: str,
         *,
+        network_id: str,
         product_type: str | None = None,
         included_event_types: list | None = None,
         excluded_event_types: list | None = None,
@@ -1187,7 +1189,7 @@ class AsyncNetworks:
             metadata, resource, params, total_pages, direction, event_log_end_time
         )
 
-    def get_network_events_event_types(self, network_id: str) -> dict[str, Any] | None:
+    def get_network_events_event_types(self, *, network_id: str) -> dict[str, Any] | None:
         """List the event type to human-readable description.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-events-event-types
@@ -1205,7 +1207,7 @@ class AsyncNetworks:
 
         return self._session.get(metadata, resource)
 
-    def get_network_firmware_upgrades(self, network_id: str) -> dict[str, Any] | None:
+    def get_network_firmware_upgrades(self, *, network_id: str) -> dict[str, Any] | None:
         """Get firmware upgrade information for a network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-firmware-upgrades
@@ -1225,8 +1227,8 @@ class AsyncNetworks:
 
     def update_network_firmware_upgrades(
         self,
-        network_id: str,
         *,
+        network_id: str,
         upgrade_window: dict | None = None,
         timezone: str | None = None,
         products: dict | None = None,
@@ -1261,9 +1263,9 @@ class AsyncNetworks:
 
     def create_network_firmware_upgrades_rollback(
         self,
+        *,
         network_id: str,
         reasons: list,
-        *,
         product: str | None = None,
         time: str | None = None,
         to_version: dict | None = None,
@@ -1314,7 +1316,9 @@ class AsyncNetworks:
 
         return self._session.post(metadata, resource, payload)
 
-    def get_network_firmware_upgrades_staged_events(self, network_id: str) -> dict[str, Any] | None:
+    def get_network_firmware_upgrades_staged_events(
+        self, *, network_id: str
+    ) -> dict[str, Any] | None:
         """Get the Staged Upgrade Event from a network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-firmware-upgrades-staged-events
@@ -1333,7 +1337,7 @@ class AsyncNetworks:
         return self._session.get(metadata, resource)
 
     def create_network_firmware_upgrades_staged_event(
-        self, network_id: str, stages: list, *, products: dict | None = None
+        self, *, network_id: str, stages: list, products: dict | None = None
     ) -> dict[str, Any] | None:
         """Create a Staged Upgrade Event for a network.
 
@@ -1361,7 +1365,7 @@ class AsyncNetworks:
         return self._session.post(metadata, resource, payload)
 
     def update_network_firmware_upgrades_staged_events(
-        self, network_id: str, stages: list
+        self, *, network_id: str, stages: list
     ) -> dict[str, Any] | None:
         """Update the Staged Upgrade Event for a network.
 
@@ -1386,7 +1390,7 @@ class AsyncNetworks:
         return self._session.put(metadata, resource, payload)
 
     def defer_network_firmware_upgrades_staged_events(
-        self, network_id: str
+        self, *, network_id: str
     ) -> dict[str, Any] | None:
         """Postpone by 1 week all pending staged upgrade stages for a network.
 
@@ -1406,7 +1410,7 @@ class AsyncNetworks:
         return self._session.post(metadata, resource)
 
     def rollbacks_network_firmware_upgrades_staged_events(
-        self, network_id: str, stages: list, *, reasons: list | None = None
+        self, *, network_id: str, stages: list, reasons: list | None = None
     ) -> dict[str, Any] | None:
         """Rollback a Staged Upgrade Event for a network.
 
@@ -1434,7 +1438,9 @@ class AsyncNetworks:
 
         return self._session.post(metadata, resource, payload)
 
-    def get_network_firmware_upgrades_staged_groups(self, network_id: str) -> dict[str, Any] | None:
+    def get_network_firmware_upgrades_staged_groups(
+        self, *, network_id: str
+    ) -> dict[str, Any] | None:
         """List of Staged Upgrade Groups in a network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-firmware-upgrades-staged-groups
@@ -1454,10 +1460,10 @@ class AsyncNetworks:
 
     def create_network_firmware_upgrades_staged_group(
         self,
+        *,
         network_id: str,
         name: str,
         is_default: bool,
-        *,
         description: str | None = None,
         assigned_devices: dict | None = None,
     ) -> dict[str, Any] | None:
@@ -1495,7 +1501,7 @@ class AsyncNetworks:
         return self._session.post(metadata, resource, payload)
 
     def get_network_firmware_upgrades_staged_group(
-        self, network_id: str, group_id: str
+        self, *, network_id: str, group_id: str
     ) -> dict[str, Any] | None:
         """Get a Staged Upgrade Group from a network.
 
@@ -1518,11 +1524,11 @@ class AsyncNetworks:
 
     def update_network_firmware_upgrades_staged_group(
         self,
+        *,
         network_id: str,
         group_id: str,
         name: str,
         is_default: bool,
-        *,
         description: str | None = None,
         assigned_devices: dict | None = None,
     ) -> dict[str, Any] | None:
@@ -1561,7 +1567,9 @@ class AsyncNetworks:
 
         return self._session.put(metadata, resource, payload)
 
-    def delete_network_firmware_upgrades_staged_group(self, network_id: str, group_id: str) -> None:
+    def delete_network_firmware_upgrades_staged_group(
+        self, *, network_id: str, group_id: str
+    ) -> None:
         """Delete a Staged Upgrade Group.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-network-firmware-upgrades-staged-group
@@ -1581,7 +1589,9 @@ class AsyncNetworks:
 
         return self._session.delete(metadata, resource)
 
-    def get_network_firmware_upgrades_staged_stages(self, network_id: str) -> dict[str, Any] | None:
+    def get_network_firmware_upgrades_staged_stages(
+        self, *, network_id: str
+    ) -> dict[str, Any] | None:
         """Order of Staged Upgrade Groups in a network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-firmware-upgrades-staged-stages
@@ -1600,7 +1610,7 @@ class AsyncNetworks:
         return self._session.get(metadata, resource)
 
     def update_network_firmware_upgrades_staged_stages(
-        self, network_id: str, *, _json: list | None = None
+        self, *, network_id: str, _json: list | None = None
     ) -> dict[str, Any] | None:
         """Assign Staged Upgrade Group order in the sequence.
 
@@ -1624,7 +1634,7 @@ class AsyncNetworks:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_network_floor_plans(self, network_id: str) -> dict[str, Any] | None:
+    def get_network_floor_plans(self, *, network_id: str) -> dict[str, Any] | None:
         """List the floor plans that belong to your network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-floor-plans
@@ -1644,10 +1654,10 @@ class AsyncNetworks:
 
     def create_network_floor_plan(
         self,
+        *,
         network_id: str,
         name: str,
         image_contents: str,
-        *,
         center: dict | None = None,
         bottom_left_corner: dict | None = None,
         bottom_right_corner: dict | None = None,
@@ -1711,7 +1721,7 @@ class AsyncNetworks:
         return self._session.post(metadata, resource, payload)
 
     def batch_network_floor_plans_auto_locate_jobs(
-        self, network_id: str, jobs: list
+        self, *, network_id: str, jobs: list
     ) -> dict[str, Any] | None:
         """Schedule auto locate jobs for one or more floor plans in a network.
 
@@ -1737,7 +1747,7 @@ class AsyncNetworks:
         return self._session.post(metadata, resource, payload)
 
     def cancel_network_floor_plans_auto_locate_job(
-        self, network_id: str, job_id: str
+        self, *, network_id: str, job_id: str
     ) -> dict[str, Any] | None:
         """Cancel a scheduled or running auto locate job.
 
@@ -1759,7 +1769,7 @@ class AsyncNetworks:
         return self._session.post(metadata, resource)
 
     def publish_network_floor_plans_auto_locate_job(
-        self, network_id: str, job_id: str, *, devices: list | None = None
+        self, *, network_id: str, job_id: str, devices: list | None = None
     ) -> dict[str, Any] | None:
         """Update the status of a finished auto locate job to be published, and update device locations.
 
@@ -1786,7 +1796,7 @@ class AsyncNetworks:
         return self._session.post(metadata, resource, payload)
 
     def recalculate_network_floor_plans_auto_locate_job(
-        self, network_id: str, job_id: str, *, devices: list | None = None
+        self, *, network_id: str, job_id: str, devices: list | None = None
     ) -> dict[str, Any] | None:
         """Trigger auto locate recalculation for a job, and optionally set anchors.
 
@@ -1813,7 +1823,7 @@ class AsyncNetworks:
         return self._session.post(metadata, resource, payload)
 
     def batch_network_floor_plans_devices_update(
-        self, network_id: str, assignments: list
+        self, *, network_id: str, assignments: list
     ) -> dict[str, Any] | None:
         """Update floorplan assignments for a batch of devices.
 
@@ -1838,7 +1848,9 @@ class AsyncNetworks:
 
         return self._session.post(metadata, resource, payload)
 
-    def get_network_floor_plan(self, network_id: str, floor_plan_id: str) -> dict[str, Any] | None:
+    def get_network_floor_plan(
+        self, *, network_id: str, floor_plan_id: str
+    ) -> dict[str, Any] | None:
         """Find a floor plan by ID.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-floor-plan
@@ -1860,9 +1872,9 @@ class AsyncNetworks:
 
     def update_network_floor_plan(
         self,
+        *,
         network_id: str,
         floor_plan_id: str,
-        *,
         name: str | None = None,
         center: dict | None = None,
         bottom_left_corner: dict | None = None,
@@ -1933,7 +1945,7 @@ class AsyncNetworks:
 
         return self._session.put(metadata, resource, payload)
 
-    def delete_network_floor_plan(self, network_id: str, floor_plan_id: str) -> None:
+    def delete_network_floor_plan(self, *, network_id: str, floor_plan_id: str) -> None:
         """Destroy a floor plan.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-network-floor-plan
@@ -1953,7 +1965,7 @@ class AsyncNetworks:
 
         return self._session.delete(metadata, resource)
 
-    def get_network_group_policies(self, network_id: str) -> dict[str, Any] | None:
+    def get_network_group_policies(self, *, network_id: str) -> dict[str, Any] | None:
         """List the group policies in a network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-group-policies
@@ -1973,9 +1985,9 @@ class AsyncNetworks:
 
     def create_network_group_policy(
         self,
+        *,
         network_id: str,
         name: str,
-        *,
         scheduling: dict | None = None,
         bandwidth: dict | None = None,
         firewall_and_traffic_shaping: dict | None = None,
@@ -2041,7 +2053,7 @@ class AsyncNetworks:
         return self._session.post(metadata, resource, payload)
 
     def get_network_group_policy(
-        self, network_id: str, group_policy_id: str
+        self, *, network_id: str, group_policy_id: str
     ) -> dict[str, Any] | None:
         """Display a group policy.
 
@@ -2064,9 +2076,9 @@ class AsyncNetworks:
 
     def update_network_group_policy(
         self,
+        *,
         network_id: str,
         group_policy_id: str,
-        *,
         name: str | None = None,
         scheduling: dict | None = None,
         bandwidth: dict | None = None,
@@ -2135,7 +2147,7 @@ class AsyncNetworks:
         return self._session.put(metadata, resource, payload)
 
     def delete_network_group_policy(
-        self, network_id: str, group_policy_id: str, *, force: bool | None = None
+        self, *, network_id: str, group_policy_id: str, force: bool | None = None
     ) -> None:
         """Delete a group policy.
 
@@ -2163,7 +2175,7 @@ class AsyncNetworks:
 
         return self._session.delete(metadata, resource)
 
-    def get_network_health_alerts(self, network_id: str) -> dict[str, Any] | None:
+    def get_network_health_alerts(self, *, network_id: str) -> dict[str, Any] | None:
         """Return all global alerts on this network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-health-alerts
@@ -2181,7 +2193,7 @@ class AsyncNetworks:
 
         return self._session.get(metadata, resource)
 
-    def get_network_meraki_auth_users(self, network_id: str) -> dict[str, Any] | None:
+    def get_network_meraki_auth_users(self, *, network_id: str) -> dict[str, Any] | None:
         """List the authorized users configured under Meraki Authentication for a network (splash guest or RADIUS users for a wireless network, or client VPN users for a MX network).
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-meraki-auth-users
@@ -2201,10 +2213,10 @@ class AsyncNetworks:
 
     def create_network_meraki_auth_user(
         self,
+        *,
         network_id: str,
         email: str,
         authorizations: list,
-        *,
         name: str | None = None,
         password: str | None = None,
         account_type: str | None = None,
@@ -2261,7 +2273,7 @@ class AsyncNetworks:
         return self._session.post(metadata, resource, payload)
 
     def get_network_meraki_auth_user(
-        self, network_id: str, meraki_auth_user_id: str
+        self, *, network_id: str, meraki_auth_user_id: str
     ) -> dict[str, Any] | None:
         """Return the Meraki Auth splash guest, RADIUS, or client VPN user.
 
@@ -2283,7 +2295,7 @@ class AsyncNetworks:
         return self._session.get(metadata, resource)
 
     def delete_network_meraki_auth_user(
-        self, network_id: str, meraki_auth_user_id: str, *, delete: bool | None = None
+        self, *, network_id: str, meraki_auth_user_id: str, delete: bool | None = None
     ) -> None:
         """Delete an 802.1X RADIUS user, or deauthorize and optionally delete a splash guest or client VPN user.
 
@@ -2314,9 +2326,9 @@ class AsyncNetworks:
 
     def update_network_meraki_auth_user(
         self,
+        *,
         network_id: str,
         meraki_auth_user_id: str,
-        *,
         name: str | None = None,
         password: str | None = None,
         email_password_to_user: bool | None = None,
@@ -2357,7 +2369,7 @@ class AsyncNetworks:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_network_mqtt_brokers(self, network_id: str) -> dict[str, Any] | None:
+    def get_network_mqtt_brokers(self, *, network_id: str) -> dict[str, Any] | None:
         """List the MQTT brokers for this network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-mqtt-brokers
@@ -2377,11 +2389,11 @@ class AsyncNetworks:
 
     def create_network_mqtt_broker(
         self,
+        *,
         network_id: str,
         name: str,
         host: str,
         port: int,
-        *,
         security: dict | None = None,
         authentication: dict | None = None,
     ) -> dict[str, Any] | None:
@@ -2420,7 +2432,7 @@ class AsyncNetworks:
         return self._session.post(metadata, resource, payload)
 
     def get_network_mqtt_broker(
-        self, network_id: str, mqtt_broker_id: str
+        self, *, network_id: str, mqtt_broker_id: str
     ) -> dict[str, Any] | None:
         """Return an MQTT broker.
 
@@ -2443,9 +2455,9 @@ class AsyncNetworks:
 
     def update_network_mqtt_broker(
         self,
+        *,
         network_id: str,
         mqtt_broker_id: str,
-        *,
         name: str | None = None,
         host: str | None = None,
         port: int | None = None,
@@ -2488,7 +2500,7 @@ class AsyncNetworks:
 
         return self._session.put(metadata, resource, payload)
 
-    def delete_network_mqtt_broker(self, network_id: str, mqtt_broker_id: str) -> None:
+    def delete_network_mqtt_broker(self, *, network_id: str, mqtt_broker_id: str) -> None:
         """Delete an MQTT broker.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-network-mqtt-broker
@@ -2508,7 +2520,7 @@ class AsyncNetworks:
 
         return self._session.delete(metadata, resource)
 
-    def get_network_netflow(self, network_id: str) -> dict[str, Any] | None:
+    def get_network_netflow(self, *, network_id: str) -> dict[str, Any] | None:
         """Return the NetFlow traffic reporting settings for a network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-netflow
@@ -2528,8 +2540,8 @@ class AsyncNetworks:
 
     def update_network_netflow(
         self,
-        network_id: str,
         *,
+        network_id: str,
         reporting_enabled: bool | None = None,
         collector_ip: str | None = None,
         collector_port: int | None = None,
@@ -2575,8 +2587,8 @@ class AsyncNetworks:
 
     def get_network_network_health_channel_utilization(
         self,
-        network_id: str,
         *,
+        network_id: str,
         t0: str | None = None,
         t1: str | None = None,
         timespan: float | None = None,
@@ -2643,8 +2655,8 @@ class AsyncNetworks:
 
     def get_network_pii_pii_keys(
         self,
-        network_id: str,
         *,
+        network_id: str,
         username: str | None = None,
         email: str | None = None,
         mac: str | None = None,
@@ -2689,7 +2701,7 @@ class AsyncNetworks:
 
         return self._session.get(metadata, resource, params)
 
-    def get_network_pii_requests(self, network_id: str) -> dict[str, Any] | None:
+    def get_network_pii_requests(self, *, network_id: str) -> dict[str, Any] | None:
         """List the PII requests for this network or organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-pii-requests
@@ -2709,8 +2721,8 @@ class AsyncNetworks:
 
     def create_network_pii_request(
         self,
-        network_id: str,
         *,
+        network_id: str,
         type_: str | None = None,
         datasets: list | None = None,
         username: str | None = None,
@@ -2775,7 +2787,7 @@ class AsyncNetworks:
 
         return self._session.post(metadata, resource, payload)
 
-    def get_network_pii_request(self, network_id: str, request_id: str) -> dict[str, Any] | None:
+    def get_network_pii_request(self, *, network_id: str, request_id: str) -> dict[str, Any] | None:
         """Return a PII request.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-pii-request
@@ -2795,7 +2807,7 @@ class AsyncNetworks:
 
         return self._session.get(metadata, resource)
 
-    def delete_network_pii_request(self, network_id: str, request_id: str) -> None:
+    def delete_network_pii_request(self, *, network_id: str, request_id: str) -> None:
         """Delete a restrict processing PII request.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-network-pii-request
@@ -2817,8 +2829,8 @@ class AsyncNetworks:
 
     def get_network_pii_sm_devices_for_key(
         self,
-        network_id: str,
         *,
+        network_id: str,
         username: str | None = None,
         email: str | None = None,
         mac: str | None = None,
@@ -2865,8 +2877,8 @@ class AsyncNetworks:
 
     def get_network_pii_sm_owners_for_key(
         self,
-        network_id: str,
         *,
+        network_id: str,
         username: str | None = None,
         email: str | None = None,
         mac: str | None = None,
@@ -2913,8 +2925,8 @@ class AsyncNetworks:
 
     def get_network_policies_by_client(
         self,
-        network_id: str,
         *,
+        network_id: str,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
@@ -2970,7 +2982,7 @@ class AsyncNetworks:
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
-    def get_network_settings(self, network_id: str) -> dict[str, Any] | None:
+    def get_network_settings(self, *, network_id: str) -> dict[str, Any] | None:
         """Return the settings for a network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-settings
@@ -2990,8 +3002,8 @@ class AsyncNetworks:
 
     def update_network_settings(
         self,
-        network_id: str,
         *,
+        network_id: str,
         local_status_page_enabled: bool | None = None,
         remote_status_page_enabled: bool | None = None,
         local_status_page: dict | None = None,
@@ -3040,7 +3052,7 @@ class AsyncNetworks:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_network_snmp(self, network_id: str) -> dict[str, Any] | None:
+    def get_network_snmp(self, *, network_id: str) -> dict[str, Any] | None:
         """Return the SNMP settings for a network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-snmp
@@ -3057,8 +3069,8 @@ class AsyncNetworks:
 
     def update_network_snmp(
         self,
-        network_id: str,
         *,
+        network_id: str,
         access: str | None = None,
         community_string: str | None = None,
         users: list | None = None,
@@ -3098,8 +3110,8 @@ class AsyncNetworks:
 
     def get_network_splash_login_attempts(
         self,
-        network_id: str,
         *,
+        network_id: str,
         ssid_number: int | None = None,
         login_identifier: str | None = None,
         timespan: int | None = None,
@@ -3139,7 +3151,7 @@ class AsyncNetworks:
 
         return self._session.get(metadata, resource, params)
 
-    def split_network(self, network_id: str) -> dict[str, Any] | None:
+    def split_network(self, *, network_id: str) -> dict[str, Any] | None:
         """Split a combined network into individual networks for each type of device.
 
         https://developer.cisco.com/meraki/api-v1/#!split-network
@@ -3154,7 +3166,7 @@ class AsyncNetworks:
 
         return self._session.post(metadata, resource)
 
-    def get_network_syslog_servers(self, network_id: str) -> dict[str, Any] | None:
+    def get_network_syslog_servers(self, *, network_id: str) -> dict[str, Any] | None:
         """List the syslog servers for a network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-syslog-servers
@@ -3173,7 +3185,7 @@ class AsyncNetworks:
         return self._session.get(metadata, resource)
 
     def update_network_syslog_servers(
-        self, network_id: str, servers: list
+        self, *, network_id: str, servers: list
     ) -> dict[str, Any] | None:
         """Update the syslog servers for a network.
 
@@ -3197,7 +3209,7 @@ class AsyncNetworks:
 
         return self._session.put(metadata, resource, payload)
 
-    def get_network_topology_link_layer(self, network_id: str) -> dict[str, Any] | None:
+    def get_network_topology_link_layer(self, *, network_id: str) -> dict[str, Any] | None:
         """List the LLDP and CDP information for all discovered devices and connections in a network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-topology-link-layer
@@ -3217,8 +3229,8 @@ class AsyncNetworks:
 
     def get_network_traffic(
         self,
-        network_id: str,
         *,
+        network_id: str,
         t0: str | None = None,
         timespan: float | None = None,
         device_type: str | None = None,
@@ -3259,7 +3271,7 @@ class AsyncNetworks:
 
         return self._session.get(metadata, resource, params)
 
-    def get_network_traffic_analysis(self, network_id: str) -> dict[str, Any] | None:
+    def get_network_traffic_analysis(self, *, network_id: str) -> dict[str, Any] | None:
         """Return the traffic analysis settings for a network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-traffic-analysis
@@ -3279,8 +3291,8 @@ class AsyncNetworks:
 
     def update_network_traffic_analysis(
         self,
-        network_id: str,
         *,
+        network_id: str,
         mode: str | None = None,
         custom_pie_chart_items: list | None = None,
     ) -> dict[str, Any] | None:
@@ -3317,7 +3329,7 @@ class AsyncNetworks:
         return self._session.put(metadata, resource, payload)
 
     def get_network_traffic_shaping_application_categories(
-        self, network_id: str
+        self, *, network_id: str
     ) -> dict[str, Any] | None:
         """Returns the application categories for traffic shaping rules.
 
@@ -3337,7 +3349,7 @@ class AsyncNetworks:
         return self._session.get(metadata, resource)
 
     def get_network_traffic_shaping_dscp_tagging_options(
-        self, network_id: str
+        self, *, network_id: str
     ) -> dict[str, Any] | None:
         """Returns the available DSCP tagging options for your traffic shaping rules.
 
@@ -3357,7 +3369,7 @@ class AsyncNetworks:
         return self._session.get(metadata, resource)
 
     def unbind_network(
-        self, network_id: str, *, retain_configs: bool | None = None
+        self, *, network_id: str, retain_configs: bool | None = None
     ) -> dict[str, Any] | None:
         """Unbind a network from a template.
 
@@ -3379,7 +3391,7 @@ class AsyncNetworks:
 
         return self._session.post(metadata, resource, payload)
 
-    def get_network_vlan_profiles(self, network_id: str) -> dict[str, Any] | None:
+    def get_network_vlan_profiles(self, *, network_id: str) -> dict[str, Any] | None:
         """List VLAN profiles for a network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-vlan-profiles
@@ -3398,7 +3410,7 @@ class AsyncNetworks:
         return self._session.get(metadata, resource)
 
     def create_network_vlan_profile(
-        self, network_id: str, name: str, vlan_names: list, vlan_groups: list, iname: str
+        self, *, network_id: str, name: str, vlan_names: list, vlan_groups: list, iname: str
     ) -> dict[str, Any] | None:
         """Create a VLAN profile for a network.
 
@@ -3433,8 +3445,8 @@ class AsyncNetworks:
 
     def get_network_vlan_profiles_assignments_by_device(
         self,
-        network_id: str,
         *,
+        network_id: str,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
@@ -3493,7 +3505,7 @@ class AsyncNetworks:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def reassign_network_vlan_profiles_assignments(
-        self, network_id: str, serials: list, stack_ids: list, *, vlan_profile: dict | None = None
+        self, *, network_id: str, serials: list, stack_ids: list, vlan_profile: dict | None = None
     ) -> dict[str, Any] | None:
         """Update the assigned VLAN Profile for devices in a network.
 
@@ -3523,7 +3535,7 @@ class AsyncNetworks:
 
         return self._session.post(metadata, resource, payload)
 
-    def get_network_vlan_profile(self, network_id: str, iname: str) -> dict[str, Any] | None:
+    def get_network_vlan_profile(self, *, network_id: str, iname: str) -> dict[str, Any] | None:
         """Get an existing VLAN profile of a network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-vlan-profile
@@ -3544,7 +3556,7 @@ class AsyncNetworks:
         return self._session.get(metadata, resource)
 
     def update_network_vlan_profile(
-        self, network_id: str, iname: str, name: str, vlan_names: list, vlan_groups: list
+        self, *, network_id: str, iname: str, name: str, vlan_names: list, vlan_groups: list
     ) -> dict[str, Any] | None:
         """Update an existing VLAN profile of a network.
 
@@ -3576,7 +3588,7 @@ class AsyncNetworks:
 
         return self._session.put(metadata, resource, payload)
 
-    def delete_network_vlan_profile(self, network_id: str, iname: str) -> None:
+    def delete_network_vlan_profile(self, *, network_id: str, iname: str) -> None:
         """Delete a VLAN profile of a network.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-network-vlan-profile
@@ -3596,7 +3608,7 @@ class AsyncNetworks:
 
         return self._session.delete(metadata, resource)
 
-    def get_network_webhooks_http_servers(self, network_id: str) -> dict[str, Any] | None:
+    def get_network_webhooks_http_servers(self, *, network_id: str) -> dict[str, Any] | None:
         """List the HTTP servers for a network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-webhooks-http-servers
@@ -3616,10 +3628,10 @@ class AsyncNetworks:
 
     def create_network_webhooks_http_server(
         self,
+        *,
         network_id: str,
         name: str,
         url: str,
-        *,
         shared_secret: str | None = None,
         payload_template: dict | None = None,
     ) -> dict[str, Any] | None:
@@ -3656,7 +3668,7 @@ class AsyncNetworks:
         return self._session.post(metadata, resource, payload)
 
     def get_network_webhooks_http_server(
-        self, network_id: str, http_server_id: str
+        self, *, network_id: str, http_server_id: str
     ) -> dict[str, Any] | None:
         """Return an HTTP server for a network.
 
@@ -3679,9 +3691,9 @@ class AsyncNetworks:
 
     def update_network_webhooks_http_server(
         self,
+        *,
         network_id: str,
         http_server_id: str,
-        *,
         name: str | None = None,
         shared_secret: str | None = None,
         payload_template: dict | None = None,
@@ -3717,7 +3729,7 @@ class AsyncNetworks:
 
         return self._session.put(metadata, resource, payload)
 
-    def delete_network_webhooks_http_server(self, network_id: str, http_server_id: str) -> None:
+    def delete_network_webhooks_http_server(self, *, network_id: str, http_server_id: str) -> None:
         """Delete an HTTP server from a network.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-network-webhooks-http-server
@@ -3737,7 +3749,7 @@ class AsyncNetworks:
 
         return self._session.delete(metadata, resource)
 
-    def get_network_webhooks_payload_templates(self, network_id: str) -> dict[str, Any] | None:
+    def get_network_webhooks_payload_templates(self, *, network_id: str) -> dict[str, Any] | None:
         """List the webhook payload templates for a network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-webhooks-payload-templates
@@ -3757,9 +3769,9 @@ class AsyncNetworks:
 
     def create_network_webhooks_payload_template(
         self,
+        *,
         network_id: str,
         name: str,
-        *,
         body: str | None = None,
         headers: list | None = None,
         body_file: str | None = None,
@@ -3803,7 +3815,7 @@ class AsyncNetworks:
         return self._session.post(metadata, resource, payload)
 
     def get_network_webhooks_payload_template(
-        self, network_id: str, payload_template_id: str
+        self, *, network_id: str, payload_template_id: str
     ) -> dict[str, Any] | None:
         """Get the webhook payload template for a network.
 
@@ -3825,7 +3837,7 @@ class AsyncNetworks:
         return self._session.get(metadata, resource)
 
     def delete_network_webhooks_payload_template(
-        self, network_id: str, payload_template_id: str
+        self, *, network_id: str, payload_template_id: str
     ) -> None:
         """Destroy a webhook payload template for a network.
 
@@ -3848,9 +3860,9 @@ class AsyncNetworks:
 
     def update_network_webhooks_payload_template(
         self,
+        *,
         network_id: str,
         payload_template_id: str,
-        *,
         name: str | None = None,
         body: str | None = None,
         headers: list | None = None,
@@ -3895,9 +3907,9 @@ class AsyncNetworks:
 
     def create_network_webhooks_webhook_test(
         self,
+        *,
         network_id: str,
         url: str,
-        *,
         shared_secret: str | None = None,
         payload_template_id: str | None = None,
         payload_template_name: str | None = None,
@@ -3942,7 +3954,7 @@ class AsyncNetworks:
         return self._session.post(metadata, resource, payload)
 
     def get_network_webhooks_webhook_test(
-        self, network_id: str, webhook_test_id: str
+        self, *, network_id: str, webhook_test_id: str
     ) -> dict[str, Any] | None:
         """Return the status of a webhook test for a network.
 

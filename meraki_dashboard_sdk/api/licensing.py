@@ -39,8 +39,8 @@ class Licensing:
 
     def get_administered_licensing_subscription_subscriptions(
         self,
-        organization_ids: list,
         *,
+        organization_ids: list,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
@@ -121,9 +121,9 @@ class Licensing:
 
     def claim_administered_licensing_subscription_subscriptions(
         self,
+        *,
         claim_key: str,
         organization_id: str,
-        *,
         validate: bool | None = None,
         name: str | None = None,
         description: str | None = None,
@@ -164,7 +164,7 @@ class Licensing:
         return self._session.post(metadata, resource, payload)
 
     def validate_administered_licensing_subscription_subscriptions_claim_key(
-        self, claim_key: str
+        self, *, claim_key: str
     ) -> dict[str, Any] | None:
         """Find a subscription by claim key.
 
@@ -187,7 +187,7 @@ class Licensing:
         return self._session.post(metadata, resource, payload)
 
     def get_administered_licensing_subscription_subscriptions_compliance_statuses(
-        self, organization_ids: list, *, subscription_ids: list | None = None
+        self, *, organization_ids: list, subscription_ids: list | None = None
     ) -> dict[str, Any] | None:
         """Get compliance status for requested subscriptions.
 
@@ -220,7 +220,7 @@ class Licensing:
         return self._session.get(metadata, resource, params)
 
     def bind_administered_licensing_subscription_subscription(
-        self, subscription_id: str, *, validate: bool | None = None, network_ids: list | None = None
+        self, *, subscription_id: str, validate: bool | None = None, network_ids: list | None = None
     ) -> dict[str, Any] | None:
         """Bind networks to a subscription.
 
@@ -252,8 +252,8 @@ class Licensing:
 
     def get_organization_licensing_coterm_licenses(
         self,
-        organization_id: str,
         *,
+        organization_id: str,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
@@ -307,7 +307,7 @@ class Licensing:
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
     def move_organization_licensing_coterm_licenses(
-        self, organization_id: str, destination: dict, licenses: list
+        self, *, organization_id: str, destination: dict, licenses: list
     ) -> dict[str, Any] | None:
         """Moves a license to a different organization (coterm only).
 
