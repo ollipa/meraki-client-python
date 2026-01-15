@@ -1903,28 +1903,6 @@ class Switch:
 
         return self._session.post(metadata, resource, payload)
 
-    def delete_network_switch_port_schedule(
-        self, *, network_id: str, port_schedule_id: str
-    ) -> None:
-        """Delete a switch port schedule.
-
-        https://developer.cisco.com/meraki/api-v1/#!delete-network-switch-port-schedule
-
-        Args:
-            network_id: Network ID.
-            port_schedule_id: Port schedule ID.
-
-        """
-        metadata = {
-            "tags": ["switch", "configure", "portSchedules"],
-            "operation": "delete_network_switch_port_schedule",
-        }
-        network_id = urllib.parse.quote(str(network_id), safe="")
-        port_schedule_id = urllib.parse.quote(str(port_schedule_id), safe="")
-        resource = f"/networks/{network_id}/switch/portSchedules/{port_schedule_id}"
-
-        return self._session.delete(metadata, resource)
-
     def update_network_switch_port_schedule(
         self,
         *,
@@ -1962,6 +1940,28 @@ class Switch:
             payload["portSchedule"] = port_schedule
 
         return self._session.put(metadata, resource, payload)
+
+    def delete_network_switch_port_schedule(
+        self, *, network_id: str, port_schedule_id: str
+    ) -> None:
+        """Delete a switch port schedule.
+
+        https://developer.cisco.com/meraki/api-v1/#!delete-network-switch-port-schedule
+
+        Args:
+            network_id: Network ID.
+            port_schedule_id: Port schedule ID.
+
+        """
+        metadata = {
+            "tags": ["switch", "configure", "portSchedules"],
+            "operation": "delete_network_switch_port_schedule",
+        }
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        port_schedule_id = urllib.parse.quote(str(port_schedule_id), safe="")
+        resource = f"/networks/{network_id}/switch/portSchedules/{port_schedule_id}"
+
+        return self._session.delete(metadata, resource)
 
     def get_network_switch_qos_rules(self, *, network_id: str) -> dict[str, Any] | None:
         """List quality of service rules.
@@ -2110,26 +2110,6 @@ class Switch:
 
         return self._session.get(metadata, resource)
 
-    def delete_network_switch_qos_rule(self, *, network_id: str, qos_rule_id: str) -> None:
-        """Delete a quality of service rule.
-
-        https://developer.cisco.com/meraki/api-v1/#!delete-network-switch-qos-rule
-
-        Args:
-            network_id: Network ID.
-            qos_rule_id: Qos rule ID.
-
-        """
-        metadata = {
-            "tags": ["switch", "configure", "qosRules"],
-            "operation": "delete_network_switch_qos_rule",
-        }
-        network_id = urllib.parse.quote(str(network_id), safe="")
-        qos_rule_id = urllib.parse.quote(str(qos_rule_id), safe="")
-        resource = f"/networks/{network_id}/switch/qosRules/{qos_rule_id}"
-
-        return self._session.delete(metadata, resource)
-
     def update_network_switch_qos_rule(
         self,
         *,
@@ -2195,6 +2175,26 @@ class Switch:
             payload["dscp"] = dscp
 
         return self._session.put(metadata, resource, payload)
+
+    def delete_network_switch_qos_rule(self, *, network_id: str, qos_rule_id: str) -> None:
+        """Delete a quality of service rule.
+
+        https://developer.cisco.com/meraki/api-v1/#!delete-network-switch-qos-rule
+
+        Args:
+            network_id: Network ID.
+            qos_rule_id: Qos rule ID.
+
+        """
+        metadata = {
+            "tags": ["switch", "configure", "qosRules"],
+            "operation": "delete_network_switch_qos_rule",
+        }
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        qos_rule_id = urllib.parse.quote(str(qos_rule_id), safe="")
+        resource = f"/networks/{network_id}/switch/qosRules/{qos_rule_id}"
+
+        return self._session.delete(metadata, resource)
 
     def get_network_switch_routing_multicast(self, *, network_id: str) -> dict[str, Any] | None:
         """Return multicast settings for a network.
@@ -2321,28 +2321,6 @@ class Switch:
 
         return self._session.get(metadata, resource)
 
-    def delete_network_switch_routing_multicast_rendezvous_point(
-        self, *, network_id: str, rendezvous_point_id: str
-    ) -> None:
-        """Delete a multicast rendezvous point.
-
-        https://developer.cisco.com/meraki/api-v1/#!delete-network-switch-routing-multicast-rendezvous-point
-
-        Args:
-            network_id: Network ID.
-            rendezvous_point_id: Rendezvous point ID.
-
-        """
-        metadata = {
-            "tags": ["switch", "configure", "routing", "multicast", "rendezvousPoints"],
-            "operation": "delete_network_switch_routing_multicast_rendezvous_point",
-        }
-        network_id = urllib.parse.quote(str(network_id), safe="")
-        rendezvous_point_id = urllib.parse.quote(str(rendezvous_point_id), safe="")
-        resource = f"/networks/{network_id}/switch/routing/multicast/rendezvousPoints/{rendezvous_point_id}"
-
-        return self._session.delete(metadata, resource)
-
     def update_network_switch_routing_multicast_rendezvous_point(
         self,
         *,
@@ -2381,6 +2359,28 @@ class Switch:
             payload["vrf"] = vrf
 
         return self._session.put(metadata, resource, payload)
+
+    def delete_network_switch_routing_multicast_rendezvous_point(
+        self, *, network_id: str, rendezvous_point_id: str
+    ) -> None:
+        """Delete a multicast rendezvous point.
+
+        https://developer.cisco.com/meraki/api-v1/#!delete-network-switch-routing-multicast-rendezvous-point
+
+        Args:
+            network_id: Network ID.
+            rendezvous_point_id: Rendezvous point ID.
+
+        """
+        metadata = {
+            "tags": ["switch", "configure", "routing", "multicast", "rendezvousPoints"],
+            "operation": "delete_network_switch_routing_multicast_rendezvous_point",
+        }
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        rendezvous_point_id = urllib.parse.quote(str(rendezvous_point_id), safe="")
+        resource = f"/networks/{network_id}/switch/routing/multicast/rendezvousPoints/{rendezvous_point_id}"
+
+        return self._session.delete(metadata, resource)
 
     def get_network_switch_routing_ospf(
         self, *, network_id: str, vrf: str | None = None

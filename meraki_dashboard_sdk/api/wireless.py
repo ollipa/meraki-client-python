@@ -2195,6 +2195,28 @@ class Wireless:
 
         return self._session.post(metadata, resource, payload)
 
+    def get_network_wireless_rf_profile(
+        self, *, network_id: str, rf_profile_id: str
+    ) -> dict[str, Any] | None:
+        """Return a RF profile.
+
+        https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-rf-profile
+
+        Args:
+            network_id: Network ID.
+            rf_profile_id: Rf profile ID.
+
+        """
+        metadata = {
+            "tags": ["wireless", "configure", "rfProfiles"],
+            "operation": "get_network_wireless_rf_profile",
+        }
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        rf_profile_id = urllib.parse.quote(str(rf_profile_id), safe="")
+        resource = f"/networks/{network_id}/wireless/rfProfiles/{rf_profile_id}"
+
+        return self._session.get(metadata, resource)
+
     def update_network_wireless_rf_profile(
         self,
         *,
@@ -2310,28 +2332,6 @@ class Wireless:
         resource = f"/networks/{network_id}/wireless/rfProfiles/{rf_profile_id}"
 
         return self._session.delete(metadata, resource)
-
-    def get_network_wireless_rf_profile(
-        self, *, network_id: str, rf_profile_id: str
-    ) -> dict[str, Any] | None:
-        """Return a RF profile.
-
-        https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-rf-profile
-
-        Args:
-            network_id: Network ID.
-            rf_profile_id: Rf profile ID.
-
-        """
-        metadata = {
-            "tags": ["wireless", "configure", "rfProfiles"],
-            "operation": "get_network_wireless_rf_profile",
-        }
-        network_id = urllib.parse.quote(str(network_id), safe="")
-        rf_profile_id = urllib.parse.quote(str(rf_profile_id), safe="")
-        resource = f"/networks/{network_id}/wireless/rfProfiles/{rf_profile_id}"
-
-        return self._session.get(metadata, resource)
 
     def get_network_wireless_settings(self, *, network_id: str) -> dict[str, Any] | None:
         """Return the wireless settings for a network.
@@ -3777,6 +3777,28 @@ class Wireless:
 
         return self._session.put(metadata, resource, payload)
 
+    def get_network_wireless_ssid_traffic_shaping_rules(
+        self, *, network_id: str, number: str
+    ) -> dict[str, Any] | None:
+        """Display the traffic shaping settings for a SSID on an MR network.
+
+        https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-ssid-traffic-shaping-rules
+
+        Args:
+            network_id: Network ID.
+            number: Number.
+
+        """
+        metadata = {
+            "tags": ["wireless", "configure", "ssids", "trafficShaping", "rules"],
+            "operation": "get_network_wireless_ssid_traffic_shaping_rules",
+        }
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        number = urllib.parse.quote(str(number), safe="")
+        resource = f"/networks/{network_id}/wireless/ssids/{number}/trafficShaping/rules"
+
+        return self._session.get(metadata, resource)
+
     def update_network_wireless_ssid_traffic_shaping_rules(
         self,
         *,
@@ -3821,28 +3843,6 @@ class Wireless:
             payload["rules"] = rules
 
         return self._session.put(metadata, resource, payload)
-
-    def get_network_wireless_ssid_traffic_shaping_rules(
-        self, *, network_id: str, number: str
-    ) -> dict[str, Any] | None:
-        """Display the traffic shaping settings for a SSID on an MR network.
-
-        https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-ssid-traffic-shaping-rules
-
-        Args:
-            network_id: Network ID.
-            number: Number.
-
-        """
-        metadata = {
-            "tags": ["wireless", "configure", "ssids", "trafficShaping", "rules"],
-            "operation": "get_network_wireless_ssid_traffic_shaping_rules",
-        }
-        network_id = urllib.parse.quote(str(network_id), safe="")
-        number = urllib.parse.quote(str(number), safe="")
-        resource = f"/networks/{network_id}/wireless/ssids/{number}/trafficShaping/rules"
-
-        return self._session.get(metadata, resource)
 
     def get_network_wireless_ssid_vpn(
         self, *, network_id: str, number: str
@@ -5706,36 +5706,6 @@ class Wireless:
 
         return self._session.post(metadata, resource, payload)
 
-    def delete_organization_wireless_ssids_firewall_isolation_allowlist_entry(
-        self, *, organization_id: str, entry_id: str
-    ) -> None:
-        """Destroy isolation allow list MAC entry for this organization.
-
-        https://developer.cisco.com/meraki/api-v1/#!delete-organization-wireless-ssids-firewall-isolation-allowlist-entry
-
-        Args:
-            organization_id: Organization ID.
-            entry_id: Entry ID.
-
-        """
-        metadata = {
-            "tags": [
-                "wireless",
-                "configure",
-                "ssids",
-                "firewall",
-                "isolation",
-                "allowlist",
-                "entries",
-            ],
-            "operation": "delete_organization_wireless_ssids_firewall_isolation_allowlist_entry",
-        }
-        organization_id = urllib.parse.quote(str(organization_id), safe="")
-        entry_id = urllib.parse.quote(str(entry_id), safe="")
-        resource = f"/organizations/{organization_id}/wireless/ssids/firewall/isolation/allowlist/entries/{entry_id}"
-
-        return self._session.delete(metadata, resource)
-
     def update_organization_wireless_ssids_firewall_isolation_allowlist_entry(
         self,
         *,
@@ -5778,6 +5748,36 @@ class Wireless:
             payload["client"] = client
 
         return self._session.put(metadata, resource, payload)
+
+    def delete_organization_wireless_ssids_firewall_isolation_allowlist_entry(
+        self, *, organization_id: str, entry_id: str
+    ) -> None:
+        """Destroy isolation allow list MAC entry for this organization.
+
+        https://developer.cisco.com/meraki/api-v1/#!delete-organization-wireless-ssids-firewall-isolation-allowlist-entry
+
+        Args:
+            organization_id: Organization ID.
+            entry_id: Entry ID.
+
+        """
+        metadata = {
+            "tags": [
+                "wireless",
+                "configure",
+                "ssids",
+                "firewall",
+                "isolation",
+                "allowlist",
+                "entries",
+            ],
+            "operation": "delete_organization_wireless_ssids_firewall_isolation_allowlist_entry",
+        }
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        entry_id = urllib.parse.quote(str(entry_id), safe="")
+        resource = f"/organizations/{organization_id}/wireless/ssids/firewall/isolation/allowlist/entries/{entry_id}"
+
+        return self._session.delete(metadata, resource)
 
     def get_organization_wireless_ssids_open_roaming_by_network(
         self,

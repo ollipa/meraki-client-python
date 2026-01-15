@@ -9,10 +9,23 @@ import sys
 import textwrap
 import tomllib
 from pathlib import Path
-from typing import Any
+from typing import Any, TypeVar
+from urllib.parse import unquote
 
 import httpx
 import jinja2
+from openapi_pydantic.v3.v3_0 import (
+    DataType,
+    OpenAPI,
+    Operation,
+    Parameter,
+    Reference,
+    RequestBody,
+    Schema,
+)
+from pydantic import BaseModel
+
+from generator.schemas import BatchableAction
 
 # Get the directory where this script is located
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -88,7 +101,11 @@ def sanitize_description(text: str) -> str:
     # Replace NO-BREAK SPACE (U+00A0) and other problematic whitespace with regular space
     text = text.replace("\u00a0", " ").replace("\u2007", " ").replace("\u202f", " ")
     # Strip leading/trailing whitespace and normalize internal whitespace
-    return " ".join(text.split())
+    text = " ".join(text.split())
+    # Add a period if it doesn't end with one
+    if not text.endswith("."):
+        text += "."
+    return text
 
 
 def format_param_description(name: str, description: str) -> str:
@@ -109,43 +126,78 @@ def format_param_description(name: str, description: str) -> str:
     return wrapper.fill(first_line)
 
 
-# Helper function to resolve $ref references in OASv3
-def resolve_ref(spec: dict[str, Any], ref: str) -> dict[str, Any] | None:
+_T = TypeVar("_T")
+
+
+def resolve_ref(
+    spec: OpenAPI,
+    ref: Reference,
+    expected_type: type[_T],
+    _seen: set[str] | None = None,
+) -> _T | None:
     """Resolve a $ref reference in OASv3 spec.
 
-    Example: #/components/schemas/Network -> spec['components']['schemas']['Network']
+    Example: #/components/schemas/Network -> spec.components.schemas['Network']
+
+    Args:
+        spec: The OpenAPI specification object.
+        ref: The Reference object to resolve.
+        expected_type: The expected type of the resolved object.
+        _seen: Internal set to track resolved refs and avoid infinite recursion.
+
+    Returns:
+        The resolved object if it matches expected_type, None otherwise.
+
     """
-    if not ref.startswith("#/"):
+    ref_str = ref.ref
+    if not ref_str.startswith("#/"):
+        # Ignore external refs
         return None
 
-    parts = ref[2:].split("/")  # Remove '#/' and split
-    result = spec
+    # Track seen refs to avoid infinite recursion
+    if _seen is None:
+        _seen = set()
+    if ref_str in _seen:
+        return None
+    _seen = _seen | {ref_str}
+
+    # Decode and split path
+    parts = [unquote(p) for p in ref_str[2:].split("/")]
+
+    result: Any = spec
     for part in parts:
-        if isinstance(result, dict) and part in result:
-            result = result[part]
+        if isinstance(result, dict):
+            if part in result:
+                result = result[part]
+            else:
+                return None
+        elif isinstance(result, BaseModel):
+            # Try attribute access first
+            if hasattr(result, part):
+                result = getattr(result, part)
+            else:
+                # Check if any field has this as an alias
+                found = False
+                for field_name, field_info in type(result).model_fields.items():
+                    if field_info.alias == part:
+                        result = getattr(result, field_name)
+                        found = True
+                        break
+                if not found:
+                    return None
         else:
             return None
-    return result
 
+    # Recursively resolve if result is also a Reference
+    if isinstance(result, Reference):
+        return resolve_ref(spec, result, expected_type, _seen)
 
-# Helper function to get schema from OASv3 parameter or requestBody
-def get_schema_from_item(item: dict[str, Any], spec: dict[str, Any]) -> dict[str, Any] | None:
-    """Extract schema from an OASv3 parameter or requestBody content item.
-
-    Handles both inline schemas and $ref references.
-    """
-    if "schema" in item:
-        schema = item["schema"]
-        # If it's a $ref, resolve it
-        if "$ref" in schema:
-            resolved = resolve_ref(spec, schema["$ref"])
-            if resolved:
-                return resolved
-        return schema
+    if isinstance(result, expected_type):
+        return result
     return None
 
 
-def generate_pagination_parameters(operation: str) -> dict[str, dict[str, str]]:
+def generate_pagination_parameters(operation_id: str) -> dict[str, dict[str, str]]:
     """Helper function to return pagination parameters depending on endpoint."""
     ret = {
         "total_pages": {
@@ -159,12 +211,12 @@ def generate_pagination_parameters(operation: str) -> dict[str, dict[str, str]]:
             "type": "string",
             "description": (
                 'direction to paginate, either "next" or "prev" (default) page'
-                if operation in REVERSE_PAGINATION
+                if operation_id in REVERSE_PAGINATION
                 else 'direction to paginate, either "next" (default) or "prev" page'
             ),
         },
     }
-    if operation == "getNetworkEvents":
+    if operation_id == "getNetworkEvents":
         ret["event_log_end_time"] = {
             "type": "string",
             "description": "ISO8601 Zulu/UTC time, to use in conjunction with startingAfter, "
@@ -224,7 +276,7 @@ def get_python_type(param_info: dict[str, Any]) -> str:
 
 
 def return_params(
-    operation: str, params: dict[str, Any], param_filters: list[str]
+    operation_id: str, params: dict[str, Any], param_filters: list[str]
 ) -> dict[str, Any]:
     """Helper function to return the right params; used in parse_params."""
     # Return parameters based on matching input filters
@@ -234,7 +286,7 @@ def return_params(
     if "required" in param_filters:
         ret.update({k: v for k, v in params.items() if v.get("required")})
     if "pagination" in param_filters:
-        ret.update(generate_pagination_parameters(operation) if "perPage" in params else {})
+        ret.update(generate_pagination_parameters(operation_id) if "perPage" in params else {})
     if "optional" in param_filters:
         ret.update({k: v for k, v in params.items() if "required" in v and not v["required"]})
     if "path" in param_filters:
@@ -250,7 +302,7 @@ def return_params(
     return ret
 
 
-def parse_request_body(request_body: dict[str, Any], spec: dict[str, Any]) -> dict[str, Any]:
+def parse_request_body(request_body: RequestBody, spec: OpenAPI) -> dict[str, Any]:
     """Parse requestBody from OASv3 specification.
 
     In OASv3, requestBody has a 'content' object with media types (e.g., 'application/json').
@@ -261,122 +313,211 @@ def parse_request_body(request_body: dict[str, Any], spec: dict[str, Any]) -> di
     params = {}
 
     # OASv3 requestBody has a 'content' object
-    if "content" in request_body:
+    if request_body.content:
         # Usually we want application/json
-        content = request_body["content"]
-        json_content = content.get("application/json", {})
+        content = request_body.content
+        json_content = content.get("application/json")
 
         if json_content:
-            schema = get_schema_from_item(json_content, spec)
-            if schema and "properties" in schema:
+            schema = json_content.media_type_schema
+            if isinstance(schema, Reference):
+                schema = resolve_ref(spec, schema, Schema)
+            if schema and schema.properties:
                 # Get required fields from schema
-                required_fields = schema.get("required", [])
+                required_fields = schema.required or []
 
                 # Parse each property
-                for prop_name, prop_schema in schema["properties"].items():
+                for prop_name, prop_schema in schema.properties.items():
                     # Resolve $ref if present
-                    if "$ref" in prop_schema:
-                        resolved = resolve_ref(spec, prop_schema["$ref"])
-                        if resolved:
-                            prop_schema = resolved  # noqa: PLW2901
+                    if isinstance(prop_schema, Reference):
+                        prop_schema = resolve_ref(spec, prop_schema, Schema)  # noqa: PLW2901
+                    if not prop_schema:
+                        raise ValueError(f"Failed to resolve property schema: {prop_schema}")
 
                     params[prop_name] = {
                         "required": prop_name in required_fields,
                         "in": "body",
-                        "type": prop_schema.get("type", "object"),
-                        "description": prop_schema.get("description", ""),
+                        "type": prop_schema.type.value
+                        if prop_schema.type
+                        else DataType.OBJECT.value,
+                        "description": prop_schema.description or "",
                     }
 
                     # Handle enum
-                    if "enum" in prop_schema:
-                        params[prop_name]["enum"] = prop_schema["enum"]
+                    if prop_schema.enum:
+                        params[prop_name]["enum"] = prop_schema.enum
 
                     # Handle array type
-                    if prop_schema.get("type") == "array":
-                        params[prop_name]["type"] = "array"
-                        if "items" in prop_schema:
-                            items = prop_schema["items"]
-                            if "$ref" in items:
-                                resolved = resolve_ref(spec, items["$ref"])
-                                if resolved:
-                                    params[prop_name]["items"] = resolved
+                    if prop_schema.type == DataType.ARRAY:
+                        params[prop_name]["type"] = DataType.ARRAY.value
+                        if prop_schema.items:
+                            items = prop_schema.items
+                            if isinstance(items, Reference):
+                                items = resolve_ref(spec, items, Schema)
+                                if items:
+                                    params[prop_name]["items"] = items
 
     return params
 
 
 def parse_params(
-    operation: str,
-    parameters: list[dict[str, Any]],
-    request_body: dict[str, Any],
-    spec: dict[str, Any],
+    *,
+    operation_id: str,
+    parameters: list[Parameter | Reference],
+    request_body: RequestBody | Reference | None,
+    spec: OpenAPI,
     param_filters: list[str] | None = None,
 ) -> dict[str, Any]:
     """Parse parameters from OASv3 specification.
 
     In OASv3, body parameters are in requestBody, not in parameters with in='body'.
     """
-    if param_filters is None:
-        param_filters = []
+    param_filters = param_filters or []
 
     # Create dict with information on endpoint's parameters
-    params = {}
+    params: dict[str, dict[str, Any]] = {}
 
     # Parse path and query parameters (these are still in 'parameters')
     if parameters:
-        for p in parameters:
-            name = p["name"]
-            param_in = p.get("in", "query")  # 'path', 'query', 'header', 'cookie'
+        for param in parameters:
+            if isinstance(param, Reference):
+                param = resolve_ref(spec, param, Parameter)  # noqa: PLW2901
+                if not param:
+                    continue
+            name = param.name
+            param_in = param.param_in
 
-            # Get schema (OASv3 uses 'schema' directly, not nested in 'schema.properties')
-            schema = get_schema_from_item(p, spec)
+            schema = param.param_schema
+            if isinstance(schema, Reference):
+                schema = resolve_ref(spec, schema, Schema)
 
             if schema:
                 # OASv3: schema is directly on the parameter, not nested
-                param_type = schema.get("type", "string")
+                param_type = schema.type or DataType.STRING
 
                 params[name] = {
-                    "required": p.get("required", False),
+                    "required": param.required,
                     "in": param_in,
                     "type": param_type,
-                    "description": schema.get("description", p.get("description", "")),
+                    "description": schema.description or param.description,
                 }
 
                 # Handle enum
-                if "enum" in schema:
-                    params[name]["enum"] = schema["enum"]
+                if schema.enum:
+                    params[name]["enum"] = schema.enum
 
                 # Handle array type
-                if param_type == "array" and "items" in schema:
-                    items = schema["items"]
-                    if "$ref" in items:
-                        resolved = resolve_ref(spec, items["$ref"])
-                        if resolved:
-                            params[name]["items"] = resolved
+                if (
+                    param_type == DataType.ARRAY
+                    and schema.items
+                    and isinstance(schema.items, Reference)
+                ):
+                    resolved = resolve_ref(spec, schema.items, Schema)
+                    if resolved:
+                        params[name]["items"] = resolved
             else:
                 # Fallback: use parameter directly if no schema
+                # TODO: Check if this path is ever taken
                 params[name] = {
-                    "required": p.get("required", False),
+                    "required": param.required,
                     "in": param_in,
-                    "type": p.get("type", "string"),
-                    "description": p.get("description", ""),
+                    "type": "string",
+                    "description": param.description,
                 }
-                if "enum" in p:
-                    params[name]["enum"] = p["enum"]
 
     # Parse requestBody (OASv3 specific)
     if request_body:
+        if isinstance(request_body, Reference):
+            request_body = resolve_ref(spec, request_body, RequestBody)
+            if not request_body:
+                raise ValueError(f"Failed to resolve request body reference: {request_body}")
         body_params = parse_request_body(request_body, spec)
         params.update(body_params)
 
     # Add custom library parameters to handle pagination
     if "perPage" in params:
-        params.update(generate_pagination_parameters(operation))
+        params.update(generate_pagination_parameters(operation_id))
 
     # Return parameters based on matching input filters
-    return return_params(operation, params, param_filters)
+    return return_params(operation_id, params, param_filters)
 
 
-def generate_library(spec: dict[str, Any], version_number: str, api_version: str) -> None:  # noqa: PLR0912, PLR0915
+def main() -> None:
+    """Main function to parse command line arguments and generate the library."""
+    parser = argparse.ArgumentParser(
+        description="Generate the Meraki Python library using the public OpenAPI specification."
+    )
+    parser.add_argument(
+        "-v",
+        "--version",
+        dest="api_version",
+        required=True,
+        help="API version tag to use (e.g., v1.66.0)",
+    )
+    args = parser.parse_args()
+
+    api_version = str(args.api_version)
+    if not api_version.startswith("v"):
+        api_version = f"v{api_version}"
+
+    client_version = get_client_version()
+    print(f"Client version: {client_version}")
+    print(f"API version: {api_version}")
+
+    spec = get_openapi_specification(api_version)
+    batchable_actions = [
+        BatchableAction.model_validate(action) for action in spec["x-batchable-actions"]
+    ]
+    generate_library(OpenAPI.model_validate(spec), batchable_actions, client_version, api_version)
+
+
+def get_client_version() -> str:
+    """Read the client version from pyproject.toml."""
+    pyproject_path = PROJECT_ROOT / "pyproject.toml"
+    with pyproject_path.open("rb") as f:
+        pyproject = tomllib.load(f)
+    return pyproject["project"]["version"]
+
+
+def get_openapi_specification(api_version: str) -> dict[str, Any]:
+    """Retrieve the OpenAPI specification from GitHub repository.
+
+    Caches the specification locally to avoid unnecessary network requests.
+
+    Args:
+        api_version: The API version to retrieve the specification for.
+
+    Returns:
+        The OpenAPI specification as a dictionary.
+
+    """
+    spec_path = PROJECT_ROOT / ".cache" / f"spec-{api_version}.json"
+    if spec_path.exists():
+        print("Using cached OpenAPI specification...")
+        with spec_path.open("r") as f:
+            return json.load(f)
+
+    spec_path.parent.mkdir(parents=True, exist_ok=True)
+
+    print("Downloading OpenAPI specification from GitHub repository...")
+    try:
+        with httpx.stream(
+            "GET",
+            f"https://raw.githubusercontent.com/meraki/openapi/refs/tags/{api_version}/openapi/spec3.json",
+        ) as response:
+            response.raise_for_status()
+            with spec_path.open("w") as f:
+                for chunk in response.iter_bytes():
+                    f.write(chunk.decode("utf-8"))
+    except httpx.HTTPError as e:
+        sys.exit(f"Error retrieving OpenAPI specification: {e}")
+
+    return json.load(spec_path.open("r"))
+
+
+def generate_library(  # noqa: PLR0915
+    spec: OpenAPI, batchable_actions: list[BatchableAction], version_number: str, api_version: str
+) -> None:
     """Generate the Meraki Python library using the public OpenAPI specification."""
     # Supported scopes list will include organizations, networks, devices, and all product types.
     supported_scopes = [
@@ -399,95 +540,69 @@ def generate_library(spec: dict[str, Any], version_number: str, api_version: str
         "spaces",
         "wirelessController",
     ]
-    tags = spec["tags"]
-    paths = spec["paths"]
+    tags = spec.tags or []
+    paths = spec.paths
     # Scopes used when generating the library will depend on the provided version of the API spec.
-    scopes = {tag["name"]: {} for tag in tags if tag["name"] in supported_scopes}
+    scopes: dict[str, dict[str, dict[str, Operation]]] = {
+        tag.name: {} for tag in tags if tag.name in supported_scopes
+    }
+    batchable_action_summaries = [action.summary for action in batchable_actions]
 
-    batchable_action_summaries = [action["summary"] for action in spec["x-batchable-actions"]]
-
-    # Delete output directory and recreate it
-    if os.path.exists(OUTPUT_DIR):
-        shutil.rmtree(OUTPUT_DIR)
-
-    subdirs = [
-        OUTPUT_DIR,
-        f"{OUTPUT_DIR}/api",
-        f"{OUTPUT_DIR}/api/batch",
-        f"{OUTPUT_DIR}/aio",
-        f"{OUTPUT_DIR}/aio/api",
-    ]
-    for directory in subdirs:
-        os.makedirs(directory, exist_ok=True)
-
-    # Copy static files from generator/static/
-    static_dir = os.path.join(SCRIPT_DIR, "static")
-    non_generated = [
-        "__init__.py",
-        "config.py",
-        "exceptions.py",
-        "common.py",
-        "response_handler.py",
-        "rest_session.py",
-        "api/__init__.py",
-        "aio/__init__.py",
-        "aio/rest_session.py",
-        "aio/api/__init__.py",
-        "api/batch/__init__.py",
-    ]
-    for file in non_generated:
-        src = os.path.join(static_dir, file)
-        dst = os.path.join(OUTPUT_DIR, file)
-        shutil.copy2(src, dst)
-
-        # Update versions in __init__.py
-        if file == "__init__.py":
-            with open(dst, encoding="utf-8") as f:
-                contents = f.read()
-            # Update __version__
-            start = contents.find("__version__ = ")
-            end = contents.find("\n", start)
-            contents = f"{contents[:start]}__version__ = '{version_number}'{contents[end:]}"
-            # Update __api_version__
-            start = contents.find("__api_version__ = ")
-            end = contents.find("\n", start)
-            contents = f"{contents[:start]}__api_version__ = '{api_version}'{contents[end:]}"
-            with open(dst, "w", encoding="utf-8") as f:
-                f.write(contents)
+    recreate_output_directory()
+    copy_static_files(version_number, api_version)
 
     # Organize data from OpenAPI specification
-    operations = []  # list of operation IDs
-    for path, methods in paths.items():
-        # method is the HTTP action, e.g. get, put, etc.
-        for method in methods:
-            # endpoint is the method for that specific path
-            endpoint = methods[method]
+    # TODO: Check why the scope stuff is needed and remove duplicate code
+    operations = []
+    for path, path_item in paths.items():
+        if operation := path_item.get:
+            operations.append(operation.operationId)
+            # The first tag is the scope
+            scope = operation.tags[0] if operation.tags else None
+            if scope:
+                if path not in scopes[scope]:
+                    scopes[scope][path] = {"get": operation}
+                else:
+                    scopes[scope][path]["get"] = operation
+        if operation := path_item.put:
+            operations.append(operation.operationId)
+            scope = operation.tags[0] if operation.tags else None
+            if scope:
+                if path not in scopes[scope]:
+                    scopes[scope][path] = {"put": operation}
+                else:
+                    scopes[scope][path]["put"] = operation
+        if operation := path_item.post:
+            operations.append(operation.operationId)
+            scope = operation.tags[0] if operation.tags else None
+            if scope:
+                if path not in scopes[scope]:
+                    scopes[scope][path] = {"post": operation}
+                else:
+                    scopes[scope][path]["post"] = operation
+        if operation := path_item.delete:
+            operations.append(operation.operationId)
+            scope = operation.tags[0] if operation.tags else None
+            if scope:
+                if path not in scopes[scope]:
+                    scopes[scope][path] = {"delete": operation}
+                else:
+                    scopes[scope][path]["delete"] = operation
+        if operation := path_item.patch:
+            operations.append(operation.operationId)
+            scope = operation.tags[0] if operation.tags else None
+            if scope:
+                if path not in scopes[scope]:
+                    scopes[scope][path] = {"patch": operation}
+                else:
+                    scopes[scope][path]["patch"] = operation
+        if path_item.options or path_item.head or path_item.trace:
+            raise ValueError(
+                f"Unsupported method: {path_item.options} {path_item.head} {path_item.trace}"
+            )
 
-            # the endpoint has tags
-            tags = endpoint["tags"]
-
-            # the endpoint has an operationId
-            operation = endpoint["operationId"]
-
-            # add the operation ID to the list
-            operations.append(operation)
-
-            # the endpoint has a scope defined by the first tag
-            scope = tags[0]
-
-            # Needs documentation
-            if path not in scopes[scope]:
-                scopes[scope][path] = {method: endpoint}
-            # Needs documentation
-            else:
-                scopes[scope][path][method] = endpoint
-
-    # Inform the user of the number of operations found
     print(f"Total of {len(operations)} endpoints found from OpenAPI spec...")
 
-    # Generate API libraries
-    # We will use newline=None to ensure that line breaks are handled correctly,
-    # especially when generating on Windows and using git autocrlf true
     jinja_env = jinja2.Environment(trim_blocks=True, lstrip_blocks=True, keep_trailing_newline=True)  # noqa: S701
 
     # Iterate through the scopes creating standard, asyncio and batch modules for each
@@ -508,7 +623,7 @@ def generate_library(spec: dict[str, Any], version_number: str, api_version: str
                 template = jinja_env.from_string(class_template)
                 output.write(
                     template.render(
-                        class_name=scope[0].upper() + scope[1:],
+                        class_name=scope[:1].upper() + scope[1:],
                     )
                 )
 
@@ -525,7 +640,7 @@ def generate_library(spec: dict[str, Any], version_number: str, api_version: str
                 template = jinja_env.from_string(class_template)
                 async_output.write(
                     template.render(
-                        class_name=scope[0].upper() + scope[1:],
+                        class_name=scope[:1].upper() + scope[1:],
                     )
                 )
 
@@ -543,28 +658,37 @@ def generate_library(spec: dict[str, Any], version_number: str, api_version: str
             ) as fp:
                 class_template = fp.read()
                 template = jinja_env.from_string(class_template)
-                batch_output.write(template.render(class_name=scope[0].upper() + scope[1:]))
+                batch_output.write(template.render(class_name=scope[:1].upper() + scope[1:]))
 
             # Generate API & Asyncio API functions
             for path, methods in section.items():
                 for method, endpoint in methods.items():
                     # Get metadata
-                    tags = endpoint["tags"]
-                    operation = endpoint["operationId"]
-                    description = sanitize_description(str(endpoint["summary"]))
-                    if not description.endswith("."):
-                        description += "."
+                    tags = endpoint.tags or []
+                    operation_id = endpoint.operationId
+                    if not operation_id:
+                        raise ValueError(f"Operation ID is missing for path: {path}")
+                    description = sanitize_description(str(endpoint.summary))
 
                     # OASv3: parameters are for path/query/header/cookie, requestBody is separate
-                    parameters = endpoint.get("parameters", None)
-                    request_body = endpoint.get("requestBody", None)
+                    parameters = endpoint.parameters or []
+                    request_body = endpoint.requestBody
 
                     # Parse all params
-                    all_params = parse_params(operation, parameters, request_body, spec)
+                    all_params = parse_params(
+                        operation_id=operation_id,
+                        parameters=parameters,
+                        request_body=request_body,
+                        spec=spec,
+                    )
 
                     # Identify path params
                     orig_path_params = parse_params(
-                        operation, parameters, request_body, spec, "path"
+                        operation_id=operation_id,
+                        parameters=parameters,
+                        request_body=request_body,
+                        spec=spec,
+                        param_filters=["path"],
                     )
                     path_params = {
                         sanitize_param_name(to_snake_case(k)): v
@@ -617,7 +741,7 @@ def generate_library(spec: dict[str, Any], version_number: str, api_version: str
                                 type_annot = py_type
                             elif name == "direction":
                                 default_val = (
-                                    "'prev'" if operation in REVERSE_PAGINATION else "'next'"
+                                    "'prev'" if operation_id in REVERSE_PAGINATION else "'next'"
                                 )
                                 type_annot = py_type
 
@@ -632,7 +756,7 @@ def generate_library(spec: dict[str, Any], version_number: str, api_version: str
 
                     if method == "get":
                         if is_paginated:
-                            if operation == "getNetworkEvents":
+                            if operation_id == "getNetworkEvents":
                                 call_line = (
                                     "return self._session.get_pages"
                                     "(metadata, resource, params, "
@@ -683,10 +807,10 @@ def generate_library(spec: dict[str, Any], version_number: str, api_version: str
                         output.write(
                             "\n\n"
                             + template.render(
-                                operation=to_snake_case(operation),
+                                operation=to_snake_case(operation_id),
                                 function_definition=definition,
                                 description=description,
-                                doc_url=docs_url(operation),
+                                doc_url=docs_url(operation_id),
                                 descriptions=param_descriptions,
                                 kwarg_line="",
                                 all_params=list(all_params.keys()),
@@ -703,10 +827,10 @@ def generate_library(spec: dict[str, Any], version_number: str, api_version: str
                         async_output.write(
                             "\n\n"
                             + template.render(
-                                operation=to_snake_case(operation),
+                                operation=to_snake_case(operation_id),
                                 function_definition=definition,
                                 description=description,
-                                doc_url=docs_url(operation),
+                                doc_url=docs_url(operation_id),
                                 descriptions=param_descriptions,
                                 kwarg_line="",
                                 all_params=list(all_params.keys()),
@@ -724,23 +848,29 @@ def generate_library(spec: dict[str, Any], version_number: str, api_version: str
             # Generate API action batch functions
             for path, methods in section.items():
                 for method, endpoint in methods.items():
-                    if endpoint["description"] in batchable_action_summaries:
+                    if endpoint.description in batchable_action_summaries:
                         # Get metadata
-                        tags = endpoint["tags"]
-                        operation = endpoint["operationId"]
-                        description = sanitize_description(str(endpoint["summary"]))
+                        tags = endpoint.tags
+                        operation_id = endpoint.operationId
+                        if not operation_id:
+                            raise ValueError(f"Operation ID is missing for path: {path}")
+                        description = sanitize_description(str(endpoint.summary))
                         if not description.endswith("."):
                             description += "."
 
                         # OASv3: parameters are for path/query/header/cookie
                         # and requestBody is separate
-                        parameters = endpoint.get("parameters", None)
-                        request_body = endpoint.get("requestBody", None)
+                        parameters = endpoint.parameters or []
+                        request_body = endpoint.requestBody
 
                         # Get path params once and convert to snake_case
                         # Identify path params
                         orig_path_params = parse_params(
-                            operation, parameters, request_body, spec, "path"
+                            operation_id=operation_id,
+                            parameters=parameters,
+                            request_body=request_body,
+                            spec=spec,
+                            param_filters=["path"],
                         )
                         path_params = {
                             sanitize_param_name(to_snake_case(k)): v
@@ -751,7 +881,12 @@ def generate_library(spec: dict[str, Any], version_number: str, api_version: str
                         resource = convert_path_params(path)
 
                         # Parse all params
-                        all_params = parse_params(operation, parameters, request_body, spec)
+                        all_params = parse_params(
+                            operation_id=operation_id,
+                            parameters=parameters,
+                            request_body=request_body,
+                            spec=spec,
+                        )
 
                         # Function definition construction
                         positional_args = []
@@ -819,7 +954,7 @@ def generate_library(spec: dict[str, Any], version_number: str, api_version: str
                         call_line = "return action  # noqa: RET504"
 
                         # Add function to files
-                        with open(  # noqa: ASYNC230
+                        with open(
                             os.path.join(TEMPLATE_DIR, "batch_function_template.jinja2"),
                             encoding="utf-8",
                             newline=None,
@@ -829,10 +964,10 @@ def generate_library(spec: dict[str, Any], version_number: str, api_version: str
                             batch_output.write(
                                 "\n\n"
                                 + template.render(
-                                    operation=to_snake_case(operation),
+                                    operation=to_snake_case(operation_id),
                                     function_definition=definition,
                                     description=description,
-                                    doc_url=docs_url(operation),
+                                    doc_url=docs_url(operation_id),
                                     descriptions=param_descriptions,
                                     kwarg_line="",
                                     all_params=list(all_params.keys()),
@@ -849,74 +984,58 @@ def generate_library(spec: dict[str, Any], version_number: str, api_version: str
                             )
 
 
-def main() -> None:
-    """Main function to parse command line arguments and generate the library."""
-    parser = argparse.ArgumentParser(
-        description="Generate the Meraki Python library using the public OpenAPI specification."
-    )
-    parser.add_argument(
-        "-v",
-        "--version",
-        dest="api_version",
-        required=True,
-        help="API version tag to use (e.g., v1.66.0)",
-    )
-    args = parser.parse_args()
+def recreate_output_directory() -> None:
+    """Recreate the output directory."""
+    # Delete output directory and recreate it
+    if os.path.exists(OUTPUT_DIR):
+        shutil.rmtree(OUTPUT_DIR)
 
-    api_version = str(args.api_version)
-    if not api_version.startswith("v"):
-        api_version = f"v{api_version}"
-
-    client_version = get_client_version()
-    print(f"Client version: {client_version}")
-    print(f"API version: {api_version}")
-
-    spec = get_openapi_specification(api_version)
-    generate_library(spec, client_version, api_version)
+    subdirs = [
+        OUTPUT_DIR,
+        f"{OUTPUT_DIR}/api",
+        f"{OUTPUT_DIR}/api/batch",
+        f"{OUTPUT_DIR}/aio",
+        f"{OUTPUT_DIR}/aio/api",
+    ]
+    for directory in subdirs:
+        os.makedirs(directory, exist_ok=True)
 
 
-def get_client_version() -> str:
-    """Read the client version from pyproject.toml."""
-    pyproject_path = PROJECT_ROOT / "pyproject.toml"
-    with pyproject_path.open("rb") as f:
-        pyproject = tomllib.load(f)
-    return pyproject["project"]["version"]
+def copy_static_files(version_number: str, api_version: str) -> None:
+    """Copy static files from generator/static/ to the output directory."""
+    static_dir = os.path.join(SCRIPT_DIR, "static")
+    static_files = [
+        "__init__.py",
+        "config.py",
+        "exceptions.py",
+        "common.py",
+        "response_handler.py",
+        "rest_session.py",
+        "api/__init__.py",
+        "aio/__init__.py",
+        "aio/rest_session.py",
+        "aio/api/__init__.py",
+        "api/batch/__init__.py",
+    ]
+    for file in static_files:
+        src = os.path.join(static_dir, file)
+        dst = os.path.join(OUTPUT_DIR, file)
+        shutil.copy2(src, dst)
 
-
-def get_openapi_specification(api_version: str) -> dict[str, Any]:
-    """Retrieve the OpenAPI specification from GitHub repository.
-
-    Caches the specification locally to avoid unnecessary network requests.
-
-    Args:
-        api_version: The API version to retrieve the specification for.
-
-    Returns:
-        The OpenAPI specification as a dictionary.
-
-    """
-    spec_path = PROJECT_ROOT / ".cache" / f"spec-{api_version}.json"
-    if spec_path.exists():
-        print("Using cached OpenAPI specification...")
-        with spec_path.open("r") as f:
-            return json.load(f)
-
-    spec_path.parent.mkdir(parents=True, exist_ok=True)
-
-    print("Downloading OpenAPI specification from GitHub repository...")
-    try:
-        with httpx.stream(
-            "GET",
-            f"https://raw.githubusercontent.com/meraki/openapi/refs/tags/{api_version}/openapi/spec3.json",
-        ) as response:
-            response.raise_for_status()
-            with spec_path.open("w") as f:
-                for chunk in response.iter_bytes():
-                    f.write(chunk.decode("utf-8"))
-    except httpx.HTTPError as e:
-        sys.exit(f"Error retrieving OpenAPI specification: {e}")
-
-    return json.load(spec_path.open("r"))
+        # Update versions in __init__.py
+        if file == "__init__.py":
+            with open(dst, encoding="utf-8") as f:
+                contents = f.read()
+            # Update __version__
+            start = contents.find("__version__ = ")
+            end = contents.find("\n", start)
+            contents = f"{contents[:start]}__version__ = '{version_number}'{contents[end:]}"
+            # Update __api_version__
+            start = contents.find("__api_version__ = ")
+            end = contents.find("\n", start)
+            contents = f"{contents[:start]}__api_version__ = '{api_version}'{contents[end:]}"
+            with open(dst, "w", encoding="utf-8") as f:
+                f.write(contents)
 
 
 if __name__ == "__main__":

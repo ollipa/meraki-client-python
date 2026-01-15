@@ -2224,28 +2224,6 @@ class ActionBatchWireless:
         }
         return action  # noqa: RET504
 
-    def delete_organization_wireless_ssids_firewall_isolation_allowlist_entry(
-        self, *, organization_id: str, entry_id: str
-    ) -> dict[str, Any]:
-        """Destroy isolation allow list MAC entry for this organization.
-
-        https://developer.cisco.com/meraki/api-v1/#!delete-organization-wireless-ssids-firewall-isolation-allowlist-entry
-
-        Args:
-            organization_id: Organization ID.
-            entry_id: Entry ID.
-
-        """
-        organization_id = urllib.parse.quote(str(organization_id), safe="")
-        entry_id = urllib.parse.quote(str(entry_id), safe="")
-        resource = f"/organizations/{organization_id}/wireless/ssids/firewall/isolation/allowlist/entries/{entry_id}"
-
-        action = {
-            "resource": resource,
-            "operation": "destroy",
-        }
-        return action  # noqa: RET504
-
     def update_organization_wireless_ssids_firewall_isolation_allowlist_entry(
         self,
         *,
@@ -2279,6 +2257,28 @@ class ActionBatchWireless:
             "resource": resource,
             "operation": "update",
             "body": payload,
+        }
+        return action  # noqa: RET504
+
+    def delete_organization_wireless_ssids_firewall_isolation_allowlist_entry(
+        self, *, organization_id: str, entry_id: str
+    ) -> dict[str, Any]:
+        """Destroy isolation allow list MAC entry for this organization.
+
+        https://developer.cisco.com/meraki/api-v1/#!delete-organization-wireless-ssids-firewall-isolation-allowlist-entry
+
+        Args:
+            organization_id: Organization ID.
+            entry_id: Entry ID.
+
+        """
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        entry_id = urllib.parse.quote(str(entry_id), safe="")
+        resource = f"/organizations/{organization_id}/wireless/ssids/firewall/isolation/allowlist/entries/{entry_id}"
+
+        action = {
+            "resource": resource,
+            "operation": "destroy",
         }
         return action  # noqa: RET504
 

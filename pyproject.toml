@@ -25,7 +25,14 @@ dependencies = [
 ]
 
 [dependency-groups]
-dev = ["jinja2>=3.1.6", "pytest>=9.0.2", "ruff>=0.14.11", "ty>=0.0.11"]
+dev = [
+    "ipython>=9.9.0",
+    "jinja2>=3.1.6",
+    "openapi-pydantic>=0.5.1",
+    "pytest>=9.0.2",
+    "ruff>=0.14.11",
+    "ty>=0.0.11",
+]
 
 [project.urls]
 homepage = "https://github.com/ollipa/meraki-dashboard-sdk"
@@ -102,6 +109,8 @@ ignore = [
     "TRY003",  # raise-vanilla-args
     "TRY004",  # type-check-without-type-error
     "G004",    # logging-fstring-interpolation
+    "PLR0911", # too-many-return-statements
+    "PLR0912", # too-many-branches
 ]
 
 [tool.ruff.lint.per-file-ignores]

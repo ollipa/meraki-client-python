@@ -1273,6 +1273,28 @@ class AsyncAppliance:
 
         return self._session.post(metadata, resource, payload)
 
+    def get_network_appliance_rf_profile(
+        self, *, network_id: str, rf_profile_id: str
+    ) -> dict[str, Any] | None:
+        """Return a RF profile.
+
+        https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-rf-profile
+
+        Args:
+            network_id: Network ID.
+            rf_profile_id: Rf profile ID.
+
+        """
+        metadata = {
+            "tags": ["appliance", "configure", "rfProfiles"],
+            "operation": "get_network_appliance_rf_profile",
+        }
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        rf_profile_id = urllib.parse.quote(str(rf_profile_id), safe="")
+        resource = f"/networks/{network_id}/appliance/rfProfiles/{rf_profile_id}"
+
+        return self._session.get(metadata, resource)
+
     def update_network_appliance_rf_profile(
         self,
         *,
@@ -1335,28 +1357,6 @@ class AsyncAppliance:
         resource = f"/networks/{network_id}/appliance/rfProfiles/{rf_profile_id}"
 
         return self._session.delete(metadata, resource)
-
-    def get_network_appliance_rf_profile(
-        self, *, network_id: str, rf_profile_id: str
-    ) -> dict[str, Any] | None:
-        """Return a RF profile.
-
-        https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-rf-profile
-
-        Args:
-            network_id: Network ID.
-            rf_profile_id: Rf profile ID.
-
-        """
-        metadata = {
-            "tags": ["appliance", "configure", "rfProfiles"],
-            "operation": "get_network_appliance_rf_profile",
-        }
-        network_id = urllib.parse.quote(str(network_id), safe="")
-        rf_profile_id = urllib.parse.quote(str(rf_profile_id), safe="")
-        resource = f"/networks/{network_id}/appliance/rfProfiles/{rf_profile_id}"
-
-        return self._session.get(metadata, resource)
 
     def update_network_appliance_sdwan_internet_policies(
         self, *, network_id: str, wan_traffic_uplink_preferences: list | None = None
@@ -2196,6 +2196,26 @@ class AsyncAppliance:
 
         return self._session.delete(metadata, resource)
 
+    def get_network_appliance_traffic_shaping_rules(
+        self, *, network_id: str
+    ) -> dict[str, Any] | None:
+        """Display the traffic shaping settings rules for an MX network.
+
+        https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-traffic-shaping-rules
+
+        Args:
+            network_id: Network ID.
+
+        """
+        metadata = {
+            "tags": ["appliance", "configure", "trafficShaping", "rules"],
+            "operation": "get_network_appliance_traffic_shaping_rules",
+        }
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        resource = f"/networks/{network_id}/appliance/trafficShaping/rules"
+
+        return self._session.get(metadata, resource)
+
     def update_network_appliance_traffic_shaping_rules(
         self,
         *,
@@ -2232,26 +2252,6 @@ class AsyncAppliance:
             payload["rules"] = rules
 
         return self._session.put(metadata, resource, payload)
-
-    def get_network_appliance_traffic_shaping_rules(
-        self, *, network_id: str
-    ) -> dict[str, Any] | None:
-        """Display the traffic shaping settings rules for an MX network.
-
-        https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-traffic-shaping-rules
-
-        Args:
-            network_id: Network ID.
-
-        """
-        metadata = {
-            "tags": ["appliance", "configure", "trafficShaping", "rules"],
-            "operation": "get_network_appliance_traffic_shaping_rules",
-        }
-        network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/appliance/trafficShaping/rules"
-
-        return self._session.get(metadata, resource)
 
     def get_network_appliance_traffic_shaping_uplink_bandwidth(
         self, *, network_id: str

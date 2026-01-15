@@ -1427,28 +1427,6 @@ class ActionBatchSwitch:
         }
         return action  # noqa: RET504
 
-    def delete_network_switch_qos_rule(
-        self, *, network_id: str, qos_rule_id: str
-    ) -> dict[str, Any]:
-        """Delete a quality of service rule.
-
-        https://developer.cisco.com/meraki/api-v1/#!delete-network-switch-qos-rule
-
-        Args:
-            network_id: Network ID.
-            qos_rule_id: Qos rule ID.
-
-        """
-        network_id = urllib.parse.quote(str(network_id), safe="")
-        qos_rule_id = urllib.parse.quote(str(qos_rule_id), safe="")
-        resource = f"/networks/{network_id}/switch/qosRules/{qos_rule_id}"
-
-        action = {
-            "resource": resource,
-            "operation": "destroy",
-        }
-        return action  # noqa: RET504
-
     def update_network_switch_qos_rule(
         self,
         *,
@@ -1513,6 +1491,28 @@ class ActionBatchSwitch:
             "resource": resource,
             "operation": "update",
             "body": payload,
+        }
+        return action  # noqa: RET504
+
+    def delete_network_switch_qos_rule(
+        self, *, network_id: str, qos_rule_id: str
+    ) -> dict[str, Any]:
+        """Delete a quality of service rule.
+
+        https://developer.cisco.com/meraki/api-v1/#!delete-network-switch-qos-rule
+
+        Args:
+            network_id: Network ID.
+            qos_rule_id: Qos rule ID.
+
+        """
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        qos_rule_id = urllib.parse.quote(str(qos_rule_id), safe="")
+        resource = f"/networks/{network_id}/switch/qosRules/{qos_rule_id}"
+
+        action = {
+            "resource": resource,
+            "operation": "destroy",
         }
         return action  # noqa: RET504
 
@@ -1583,28 +1583,6 @@ class ActionBatchSwitch:
         }
         return action  # noqa: RET504
 
-    def delete_network_switch_routing_multicast_rendezvous_point(
-        self, *, network_id: str, rendezvous_point_id: str
-    ) -> dict[str, Any]:
-        """Delete a multicast rendezvous point.
-
-        https://developer.cisco.com/meraki/api-v1/#!delete-network-switch-routing-multicast-rendezvous-point
-
-        Args:
-            network_id: Network ID.
-            rendezvous_point_id: Rendezvous point ID.
-
-        """
-        network_id = urllib.parse.quote(str(network_id), safe="")
-        rendezvous_point_id = urllib.parse.quote(str(rendezvous_point_id), safe="")
-        resource = f"/networks/{network_id}/switch/routing/multicast/rendezvousPoints/{rendezvous_point_id}"
-
-        action = {
-            "resource": resource,
-            "operation": "destroy",
-        }
-        return action  # noqa: RET504
-
     def update_network_switch_routing_multicast_rendezvous_point(
         self,
         *,
@@ -1642,6 +1620,28 @@ class ActionBatchSwitch:
             "resource": resource,
             "operation": "update",
             "body": payload,
+        }
+        return action  # noqa: RET504
+
+    def delete_network_switch_routing_multicast_rendezvous_point(
+        self, *, network_id: str, rendezvous_point_id: str
+    ) -> dict[str, Any]:
+        """Delete a multicast rendezvous point.
+
+        https://developer.cisco.com/meraki/api-v1/#!delete-network-switch-routing-multicast-rendezvous-point
+
+        Args:
+            network_id: Network ID.
+            rendezvous_point_id: Rendezvous point ID.
+
+        """
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        rendezvous_point_id = urllib.parse.quote(str(rendezvous_point_id), safe="")
+        resource = f"/networks/{network_id}/switch/routing/multicast/rendezvousPoints/{rendezvous_point_id}"
+
+        action = {
+            "resource": resource,
+            "operation": "destroy",
         }
         return action  # noqa: RET504
 

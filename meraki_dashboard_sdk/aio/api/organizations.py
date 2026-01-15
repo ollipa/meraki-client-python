@@ -142,6 +142,37 @@ class AsyncOrganizations:
 
         return self._session.delete(metadata, resource)
 
+    def get_organization_action_batches(
+        self, *, organization_id: str, status: str | None = None
+    ) -> dict[str, Any] | None:
+        """Return the list of action batches in the organization.
+
+        https://developer.cisco.com/meraki/api-v1/#!get-organization-action-batches
+
+        Args:
+            organization_id: Organization ID.
+            status: Filter batches by status. Valid types are pending, completed, and failed.
+
+        """
+        if status is not None:
+            options = ["completed", "failed", "pending"]
+            assert status in options, (
+                f'"status" cannot be "{status}", & must be set to one of: {options}'
+            )
+
+        metadata = {
+            "tags": ["organizations", "configure", "actionBatches"],
+            "operation": "get_organization_action_batches",
+        }
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/actionBatches"
+
+        params = {}
+        if status is not None:
+            params["status"] = status
+
+        return self._session.get(metadata, resource, params)
+
     def create_organization_action_batch(
         self,
         *,
@@ -188,37 +219,6 @@ class AsyncOrganizations:
 
         return self._session.post(metadata, resource, payload)
 
-    def get_organization_action_batches(
-        self, *, organization_id: str, status: str | None = None
-    ) -> dict[str, Any] | None:
-        """Return the list of action batches in the organization.
-
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-action-batches
-
-        Args:
-            organization_id: Organization ID.
-            status: Filter batches by status. Valid types are pending, completed, and failed.
-
-        """
-        if status is not None:
-            options = ["completed", "failed", "pending"]
-            assert status in options, (
-                f'"status" cannot be "{status}", & must be set to one of: {options}'
-            )
-
-        metadata = {
-            "tags": ["organizations", "configure", "actionBatches"],
-            "operation": "get_organization_action_batches",
-        }
-        organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/actionBatches"
-
-        params = {}
-        if status is not None:
-            params["status"] = status
-
-        return self._session.get(metadata, resource, params)
-
     def get_organization_action_batch(
         self, *, organization_id: str, action_batch_id: str
     ) -> dict[str, Any] | None:
@@ -240,28 +240,6 @@ class AsyncOrganizations:
         resource = f"/organizations/{organization_id}/actionBatches/{action_batch_id}"
 
         return self._session.get(metadata, resource)
-
-    def delete_organization_action_batch(
-        self, *, organization_id: str, action_batch_id: str
-    ) -> None:
-        """Delete an action batch.
-
-        https://developer.cisco.com/meraki/api-v1/#!delete-organization-action-batch
-
-        Args:
-            organization_id: Organization ID.
-            action_batch_id: Action batch ID.
-
-        """
-        metadata = {
-            "tags": ["organizations", "configure", "actionBatches"],
-            "operation": "delete_organization_action_batch",
-        }
-        organization_id = urllib.parse.quote(str(organization_id), safe="")
-        action_batch_id = urllib.parse.quote(str(action_batch_id), safe="")
-        resource = f"/organizations/{organization_id}/actionBatches/{action_batch_id}"
-
-        return self._session.delete(metadata, resource)
 
     def update_organization_action_batch(
         self,
@@ -299,6 +277,28 @@ class AsyncOrganizations:
             payload["synchronous"] = synchronous
 
         return self._session.put(metadata, resource, payload)
+
+    def delete_organization_action_batch(
+        self, *, organization_id: str, action_batch_id: str
+    ) -> None:
+        """Delete an action batch.
+
+        https://developer.cisco.com/meraki/api-v1/#!delete-organization-action-batch
+
+        Args:
+            organization_id: Organization ID.
+            action_batch_id: Action batch ID.
+
+        """
+        metadata = {
+            "tags": ["organizations", "configure", "actionBatches"],
+            "operation": "delete_organization_action_batch",
+        }
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        action_batch_id = urllib.parse.quote(str(action_batch_id), safe="")
+        resource = f"/organizations/{organization_id}/actionBatches/{action_batch_id}"
+
+        return self._session.delete(metadata, resource)
 
     def get_organization_adaptive_policy_acls(
         self, *, organization_id: str
@@ -2936,40 +2936,6 @@ class AsyncOrganizations:
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
 
-    def create_organization_devices_controller_migration(
-        self, *, organization_id: str, serials: list, target: str
-    ) -> dict[str, Any] | None:
-        """Migrate devices to another controller or management mode.
-
-        https://developer.cisco.com/meraki/api-v1/#!create-organization-devices-controller-migration
-
-        Args:
-            organization_id: Organization ID.
-            serials: A list of Meraki Serials to migrate.
-            target: The controller or management mode to which the devices will be migrated.
-
-        """
-        if target is not None:
-            options = ["wirelessController"]
-            assert target in options, (
-                f'"target" cannot be "{target}", & must be set to one of: {options}'
-            )
-
-        metadata = {
-            "tags": ["organizations", "configure", "devices", "controller", "migrations"],
-            "operation": "create_organization_devices_controller_migration",
-        }
-        organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/devices/controller/migrations"
-
-        payload = {}
-        if serials is not None:
-            payload["serials"] = serials
-        if target is not None:
-            payload["target"] = target
-
-        return self._session.post(metadata, resource, payload)
-
     def get_organization_devices_controller_migrations(
         self,
         *,
@@ -3035,6 +3001,40 @@ class AsyncOrganizations:
             params["endingBefore"] = ending_before
 
         return self._session.get_pages(metadata, resource, params, total_pages, direction)
+
+    def create_organization_devices_controller_migration(
+        self, *, organization_id: str, serials: list, target: str
+    ) -> dict[str, Any] | None:
+        """Migrate devices to another controller or management mode.
+
+        https://developer.cisco.com/meraki/api-v1/#!create-organization-devices-controller-migration
+
+        Args:
+            organization_id: Organization ID.
+            serials: A list of Meraki Serials to migrate.
+            target: The controller or management mode to which the devices will be migrated.
+
+        """
+        if target is not None:
+            options = ["wirelessController"]
+            assert target in options, (
+                f'"target" cannot be "{target}", & must be set to one of: {options}'
+            )
+
+        metadata = {
+            "tags": ["organizations", "configure", "devices", "controller", "migrations"],
+            "operation": "create_organization_devices_controller_migration",
+        }
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/devices/controller/migrations"
+
+        payload = {}
+        if serials is not None:
+            payload["serials"] = serials
+        if target is not None:
+            payload["target"] = target
+
+        return self._session.post(metadata, resource, payload)
 
     def bulk_update_organization_devices_details(
         self, *, organization_id: str, serials: list, details: list
@@ -4910,38 +4910,6 @@ class AsyncOrganizations:
 
         return self._session.post(metadata, resource, payload)
 
-    def create_organization_inventory_onboarding_cloud_monitoring_import(
-        self, *, organization_id: str, devices: list
-    ) -> dict[str, Any] | None:
-        """Commits the import operation to complete the onboarding of a device into Dashboard for monitoring.
-
-        https://developer.cisco.com/meraki/api-v1/#!create-organization-inventory-onboarding-cloud-monitoring-import
-
-        Args:
-            organization_id: Organization ID.
-            devices: A set of device imports to commit.
-
-        """
-        metadata = {
-            "tags": [
-                "organizations",
-                "configure",
-                "inventory",
-                "onboarding",
-                "cloudMonitoring",
-                "imports",
-            ],
-            "operation": "create_organization_inventory_onboarding_cloud_monitoring_import",
-        }
-        organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/inventory/onboarding/cloudMonitoring/imports"
-
-        payload = {}
-        if devices is not None:
-            payload["devices"] = devices
-
-        return self._session.post(metadata, resource, payload)
-
     def get_organization_inventory_onboarding_cloud_monitoring_imports(
         self, *, organization_id: str, import_ids: list
     ) -> dict[str, Any] | None:
@@ -4973,6 +4941,38 @@ class AsyncOrganizations:
             params["importIds[]"] = import_ids
 
         return self._session.get(metadata, resource, params)
+
+    def create_organization_inventory_onboarding_cloud_monitoring_import(
+        self, *, organization_id: str, devices: list
+    ) -> dict[str, Any] | None:
+        """Commits the import operation to complete the onboarding of a device into Dashboard for monitoring.
+
+        https://developer.cisco.com/meraki/api-v1/#!create-organization-inventory-onboarding-cloud-monitoring-import
+
+        Args:
+            organization_id: Organization ID.
+            devices: A set of device imports to commit.
+
+        """
+        metadata = {
+            "tags": [
+                "organizations",
+                "configure",
+                "inventory",
+                "onboarding",
+                "cloudMonitoring",
+                "imports",
+            ],
+            "operation": "create_organization_inventory_onboarding_cloud_monitoring_import",
+        }
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        resource = f"/organizations/{organization_id}/inventory/onboarding/cloudMonitoring/imports"
+
+        payload = {}
+        if devices is not None:
+            payload["devices"] = devices
+
+        return self._session.post(metadata, resource, payload)
 
     def get_organization_inventory_onboarding_cloud_monitoring_networks(
         self,
@@ -6279,6 +6279,28 @@ class AsyncOrganizations:
 
         return self._session.post(metadata, resource, payload)
 
+    def get_organization_saml_idp(
+        self, *, organization_id: str, idp_id: str
+    ) -> dict[str, Any] | None:
+        """Get a SAML IdP from your organization.
+
+        https://developer.cisco.com/meraki/api-v1/#!get-organization-saml-idp
+
+        Args:
+            organization_id: Organization ID.
+            idp_id: Idp ID.
+
+        """
+        metadata = {
+            "tags": ["organizations", "configure", "saml", "idps"],
+            "operation": "get_organization_saml_idp",
+        }
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        idp_id = urllib.parse.quote(str(idp_id), safe="")
+        resource = f"/organizations/{organization_id}/saml/idps/{idp_id}"
+
+        return self._session.get(metadata, resource)
+
     def update_organization_saml_idp(
         self,
         *,
@@ -6319,28 +6341,6 @@ class AsyncOrganizations:
             payload["sloLogoutUrl"] = slo_logout_url
 
         return self._session.put(metadata, resource, payload)
-
-    def get_organization_saml_idp(
-        self, *, organization_id: str, idp_id: str
-    ) -> dict[str, Any] | None:
-        """Get a SAML IdP from your organization.
-
-        https://developer.cisco.com/meraki/api-v1/#!get-organization-saml-idp
-
-        Args:
-            organization_id: Organization ID.
-            idp_id: Idp ID.
-
-        """
-        metadata = {
-            "tags": ["organizations", "configure", "saml", "idps"],
-            "operation": "get_organization_saml_idp",
-        }
-        organization_id = urllib.parse.quote(str(organization_id), safe="")
-        idp_id = urllib.parse.quote(str(idp_id), safe="")
-        resource = f"/organizations/{organization_id}/saml/idps/{idp_id}"
-
-        return self._session.get(metadata, resource)
 
     def delete_organization_saml_idp(self, *, organization_id: str, idp_id: str) -> None:
         """Remove a SAML IdP in your organization.

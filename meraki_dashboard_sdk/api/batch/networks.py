@@ -883,36 +883,6 @@ class ActionBatchNetworks:
         }
         return action  # noqa: RET504
 
-    def delete_network_meraki_auth_user(
-        self, *, network_id: str, meraki_auth_user_id: str, delete: bool | None = None
-    ) -> dict[str, Any]:
-        """Delete an 802.1X RADIUS user, or deauthorize and optionally delete a splash guest or client VPN user.
-
-        https://developer.cisco.com/meraki/api-v1/#!delete-network-meraki-auth-user
-
-        Args:
-            network_id: Network ID.
-            meraki_auth_user_id: Meraki auth user ID.
-            delete: If the ID supplied is for a splash guest or client VPN user, and that user is
-              not authorized for any other networks in the organization, then also
-              delete the user. 802.1X RADIUS users are always deleted regardless of this
-              optional attribute.
-
-        """
-        network_id = urllib.parse.quote(str(network_id), safe="")
-        meraki_auth_user_id = urllib.parse.quote(str(meraki_auth_user_id), safe="")
-        resource = f"/networks/{network_id}/merakiAuthUsers/{meraki_auth_user_id}"
-
-        params = {}
-        if delete is not None:
-            params["delete"] = delete
-
-        action = {
-            "resource": resource,
-            "operation": "destroy",
-        }
-        return action  # noqa: RET504
-
     def update_network_meraki_auth_user(
         self,
         *,
@@ -956,6 +926,36 @@ class ActionBatchNetworks:
             "resource": resource,
             "operation": "update",
             "body": payload,
+        }
+        return action  # noqa: RET504
+
+    def delete_network_meraki_auth_user(
+        self, *, network_id: str, meraki_auth_user_id: str, delete: bool | None = None
+    ) -> dict[str, Any]:
+        """Delete an 802.1X RADIUS user, or deauthorize and optionally delete a splash guest or client VPN user.
+
+        https://developer.cisco.com/meraki/api-v1/#!delete-network-meraki-auth-user
+
+        Args:
+            network_id: Network ID.
+            meraki_auth_user_id: Meraki auth user ID.
+            delete: If the ID supplied is for a splash guest or client VPN user, and that user is
+              not authorized for any other networks in the organization, then also
+              delete the user. 802.1X RADIUS users are always deleted regardless of this
+              optional attribute.
+
+        """
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        meraki_auth_user_id = urllib.parse.quote(str(meraki_auth_user_id), safe="")
+        resource = f"/networks/{network_id}/merakiAuthUsers/{meraki_auth_user_id}"
+
+        params = {}
+        if delete is not None:
+            params["delete"] = delete
+
+        action = {
+            "resource": resource,
+            "operation": "destroy",
         }
         return action  # noqa: RET504
 
@@ -1273,28 +1273,6 @@ class ActionBatchNetworks:
         }
         return action  # noqa: RET504
 
-    def delete_network_webhooks_payload_template(
-        self, *, network_id: str, payload_template_id: str
-    ) -> dict[str, Any]:
-        """Destroy a webhook payload template for a network.
-
-        https://developer.cisco.com/meraki/api-v1/#!delete-network-webhooks-payload-template
-
-        Args:
-            network_id: Network ID.
-            payload_template_id: Payload template ID.
-
-        """
-        network_id = urllib.parse.quote(str(network_id), safe="")
-        payload_template_id = urllib.parse.quote(str(payload_template_id), safe="")
-        resource = f"/networks/{network_id}/webhooks/payloadTemplates/{payload_template_id}"
-
-        action = {
-            "resource": resource,
-            "operation": "destroy",
-        }
-        return action  # noqa: RET504
-
     def update_network_webhooks_payload_template(
         self,
         *,
@@ -1340,5 +1318,27 @@ class ActionBatchNetworks:
             "resource": resource,
             "operation": "update",
             "body": payload,
+        }
+        return action  # noqa: RET504
+
+    def delete_network_webhooks_payload_template(
+        self, *, network_id: str, payload_template_id: str
+    ) -> dict[str, Any]:
+        """Destroy a webhook payload template for a network.
+
+        https://developer.cisco.com/meraki/api-v1/#!delete-network-webhooks-payload-template
+
+        Args:
+            network_id: Network ID.
+            payload_template_id: Payload template ID.
+
+        """
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        payload_template_id = urllib.parse.quote(str(payload_template_id), safe="")
+        resource = f"/networks/{network_id}/webhooks/payloadTemplates/{payload_template_id}"
+
+        action = {
+            "resource": resource,
+            "operation": "destroy",
         }
         return action  # noqa: RET504

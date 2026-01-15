@@ -817,6 +817,24 @@ class AsyncCamera:
 
         return self._session.get(metadata, resource)
 
+    def get_network_camera_wireless_profiles(self, *, network_id: str) -> dict[str, Any] | None:
+        """List the camera wireless profiles for this network.
+
+        https://developer.cisco.com/meraki/api-v1/#!get-network-camera-wireless-profiles
+
+        Args:
+            network_id: Network ID.
+
+        """
+        metadata = {
+            "tags": ["camera", "configure", "wirelessProfiles"],
+            "operation": "get_network_camera_wireless_profiles",
+        }
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        resource = f"/networks/{network_id}/camera/wirelessProfiles"
+
+        return self._session.get(metadata, resource)
+
     def create_network_camera_wireless_profile(
         self, *, network_id: str, name: str, ssid: dict, identity: dict | None = None
     ) -> dict[str, Any] | None:
@@ -848,24 +866,6 @@ class AsyncCamera:
             payload["identity"] = identity
 
         return self._session.post(metadata, resource, payload)
-
-    def get_network_camera_wireless_profiles(self, *, network_id: str) -> dict[str, Any] | None:
-        """List the camera wireless profiles for this network.
-
-        https://developer.cisco.com/meraki/api-v1/#!get-network-camera-wireless-profiles
-
-        Args:
-            network_id: Network ID.
-
-        """
-        metadata = {
-            "tags": ["camera", "configure", "wirelessProfiles"],
-            "operation": "get_network_camera_wireless_profiles",
-        }
-        network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/camera/wirelessProfiles"
-
-        return self._session.get(metadata, resource)
 
     def get_network_camera_wireless_profile(
         self, *, network_id: str, wireless_profile_id: str
@@ -1332,26 +1332,6 @@ class AsyncCamera:
 
         return self._session.get(metadata, resource)
 
-    def delete_organization_camera_role(self, *, organization_id: str, role_id: str) -> None:
-        """Delete an existing role for this organization.
-
-        https://developer.cisco.com/meraki/api-v1/#!delete-organization-camera-role
-
-        Args:
-            organization_id: Organization ID.
-            role_id: Role ID.
-
-        """
-        metadata = {
-            "tags": ["camera", "configure", "roles"],
-            "operation": "delete_organization_camera_role",
-        }
-        organization_id = urllib.parse.quote(str(organization_id), safe="")
-        role_id = urllib.parse.quote(str(role_id), safe="")
-        resource = f"/organizations/{organization_id}/camera/roles/{role_id}"
-
-        return self._session.delete(metadata, resource)
-
     def update_organization_camera_role(
         self,
         *,
@@ -1394,3 +1374,23 @@ class AsyncCamera:
             payload["appliedOrgWide"] = applied_org_wide
 
         return self._session.put(metadata, resource, payload)
+
+    def delete_organization_camera_role(self, *, organization_id: str, role_id: str) -> None:
+        """Delete an existing role for this organization.
+
+        https://developer.cisco.com/meraki/api-v1/#!delete-organization-camera-role
+
+        Args:
+            organization_id: Organization ID.
+            role_id: Role ID.
+
+        """
+        metadata = {
+            "tags": ["camera", "configure", "roles"],
+            "operation": "delete_organization_camera_role",
+        }
+        organization_id = urllib.parse.quote(str(organization_id), safe="")
+        role_id = urllib.parse.quote(str(role_id), safe="")
+        resource = f"/organizations/{organization_id}/camera/roles/{role_id}"
+
+        return self._session.delete(metadata, resource)

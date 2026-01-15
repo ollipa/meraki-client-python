@@ -1336,6 +1336,31 @@ class Networks:
 
         return self._session.get(metadata, resource)
 
+    def update_network_firmware_upgrades_staged_events(
+        self, *, network_id: str, stages: list
+    ) -> dict[str, Any] | None:
+        """Update the Staged Upgrade Event for a network.
+
+        https://developer.cisco.com/meraki/api-v1/#!update-network-firmware-upgrades-staged-events
+
+        Args:
+            network_id: Network ID.
+            stages: All firmware upgrade stages in the network with their start time.
+
+        """
+        metadata = {
+            "tags": ["networks", "configure", "firmwareUpgrades", "staged", "events"],
+            "operation": "update_network_firmware_upgrades_staged_events",
+        }
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        resource = f"/networks/{network_id}/firmwareUpgrades/staged/events"
+
+        payload = {}
+        if stages is not None:
+            payload["stages"] = stages
+
+        return self._session.put(metadata, resource, payload)
+
     def create_network_firmware_upgrades_staged_event(
         self, *, network_id: str, stages: list, products: dict | None = None
     ) -> dict[str, Any] | None:
@@ -1363,31 +1388,6 @@ class Networks:
             payload["stages"] = stages
 
         return self._session.post(metadata, resource, payload)
-
-    def update_network_firmware_upgrades_staged_events(
-        self, *, network_id: str, stages: list
-    ) -> dict[str, Any] | None:
-        """Update the Staged Upgrade Event for a network.
-
-        https://developer.cisco.com/meraki/api-v1/#!update-network-firmware-upgrades-staged-events
-
-        Args:
-            network_id: Network ID.
-            stages: All firmware upgrade stages in the network with their start time.
-
-        """
-        metadata = {
-            "tags": ["networks", "configure", "firmwareUpgrades", "staged", "events"],
-            "operation": "update_network_firmware_upgrades_staged_events",
-        }
-        network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/firmwareUpgrades/staged/events"
-
-        payload = {}
-        if stages is not None:
-            payload["stages"] = stages
-
-        return self._session.put(metadata, resource, payload)
 
     def defer_network_firmware_upgrades_staged_events(
         self, *, network_id: str
@@ -2294,36 +2294,6 @@ class Networks:
 
         return self._session.get(metadata, resource)
 
-    def delete_network_meraki_auth_user(
-        self, *, network_id: str, meraki_auth_user_id: str, delete: bool | None = None
-    ) -> None:
-        """Delete an 802.1X RADIUS user, or deauthorize and optionally delete a splash guest or client VPN user.
-
-        https://developer.cisco.com/meraki/api-v1/#!delete-network-meraki-auth-user
-
-        Args:
-            network_id: Network ID.
-            meraki_auth_user_id: Meraki auth user ID.
-            delete: If the ID supplied is for a splash guest or client VPN user, and that user is
-              not authorized for any other networks in the organization, then also
-              delete the user. 802.1X RADIUS users are always deleted regardless of this
-              optional attribute.
-
-        """
-        metadata = {
-            "tags": ["networks", "configure", "merakiAuthUsers"],
-            "operation": "delete_network_meraki_auth_user",
-        }
-        network_id = urllib.parse.quote(str(network_id), safe="")
-        meraki_auth_user_id = urllib.parse.quote(str(meraki_auth_user_id), safe="")
-        resource = f"/networks/{network_id}/merakiAuthUsers/{meraki_auth_user_id}"
-
-        params = {}
-        if delete is not None:
-            params["delete"] = delete
-
-        return self._session.delete(metadata, resource)
-
     def update_network_meraki_auth_user(
         self,
         *,
@@ -2368,6 +2338,36 @@ class Networks:
             payload["authorizations"] = authorizations
 
         return self._session.put(metadata, resource, payload)
+
+    def delete_network_meraki_auth_user(
+        self, *, network_id: str, meraki_auth_user_id: str, delete: bool | None = None
+    ) -> None:
+        """Delete an 802.1X RADIUS user, or deauthorize and optionally delete a splash guest or client VPN user.
+
+        https://developer.cisco.com/meraki/api-v1/#!delete-network-meraki-auth-user
+
+        Args:
+            network_id: Network ID.
+            meraki_auth_user_id: Meraki auth user ID.
+            delete: If the ID supplied is for a splash guest or client VPN user, and that user is
+              not authorized for any other networks in the organization, then also
+              delete the user. 802.1X RADIUS users are always deleted regardless of this
+              optional attribute.
+
+        """
+        metadata = {
+            "tags": ["networks", "configure", "merakiAuthUsers"],
+            "operation": "delete_network_meraki_auth_user",
+        }
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        meraki_auth_user_id = urllib.parse.quote(str(meraki_auth_user_id), safe="")
+        resource = f"/networks/{network_id}/merakiAuthUsers/{meraki_auth_user_id}"
+
+        params = {}
+        if delete is not None:
+            params["delete"] = delete
+
+        return self._session.delete(metadata, resource)
 
     def get_network_mqtt_brokers(self, *, network_id: str) -> dict[str, Any] | None:
         """List the MQTT brokers for this network.
@@ -3836,28 +3836,6 @@ class Networks:
 
         return self._session.get(metadata, resource)
 
-    def delete_network_webhooks_payload_template(
-        self, *, network_id: str, payload_template_id: str
-    ) -> None:
-        """Destroy a webhook payload template for a network.
-
-        https://developer.cisco.com/meraki/api-v1/#!delete-network-webhooks-payload-template
-
-        Args:
-            network_id: Network ID.
-            payload_template_id: Payload template ID.
-
-        """
-        metadata = {
-            "tags": ["networks", "configure", "webhooks", "payloadTemplates"],
-            "operation": "delete_network_webhooks_payload_template",
-        }
-        network_id = urllib.parse.quote(str(network_id), safe="")
-        payload_template_id = urllib.parse.quote(str(payload_template_id), safe="")
-        resource = f"/networks/{network_id}/webhooks/payloadTemplates/{payload_template_id}"
-
-        return self._session.delete(metadata, resource)
-
     def update_network_webhooks_payload_template(
         self,
         *,
@@ -3904,6 +3882,28 @@ class Networks:
             payload["headersFile"] = headers_file
 
         return self._session.put(metadata, resource, payload)
+
+    def delete_network_webhooks_payload_template(
+        self, *, network_id: str, payload_template_id: str
+    ) -> None:
+        """Destroy a webhook payload template for a network.
+
+        https://developer.cisco.com/meraki/api-v1/#!delete-network-webhooks-payload-template
+
+        Args:
+            network_id: Network ID.
+            payload_template_id: Payload template ID.
+
+        """
+        metadata = {
+            "tags": ["networks", "configure", "webhooks", "payloadTemplates"],
+            "operation": "delete_network_webhooks_payload_template",
+        }
+        network_id = urllib.parse.quote(str(network_id), safe="")
+        payload_template_id = urllib.parse.quote(str(payload_template_id), safe="")
+        resource = f"/networks/{network_id}/webhooks/payloadTemplates/{payload_template_id}"
+
+        return self._session.delete(metadata, resource)
 
     def create_network_webhooks_webhook_test(
         self,
