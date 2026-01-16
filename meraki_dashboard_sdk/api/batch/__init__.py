@@ -2,7 +2,7 @@
 
 from meraki_dashboard_sdk.api.batch.appliance import ActionBatchAppliance
 from meraki_dashboard_sdk.api.batch.camera import ActionBatchCamera
-from meraki_dashboard_sdk.api.batch.cellularGateway import ActionBatchCellularGateway
+from meraki_dashboard_sdk.api.batch.cellular_gateway import ActionBatchCellularGateway
 from meraki_dashboard_sdk.api.batch.devices import ActionBatchDevices
 from meraki_dashboard_sdk.api.batch.insight import ActionBatchInsight
 from meraki_dashboard_sdk.api.batch.networks import ActionBatchNetworks
