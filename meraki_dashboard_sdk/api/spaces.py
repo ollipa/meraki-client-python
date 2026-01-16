@@ -1,17 +1,19 @@
 """Spaces API endpoints."""
 
+from __future__ import annotations
+
 import urllib
 from collections.abc import Generator
-from typing import Any
+from typing import Any, Literal, TYPE_CHECKING
 
-from meraki_dashboard_sdk.rest_session import RestSession
+if TYPE_CHECKING:
+    from meraki_dashboard_sdk.rest_session import RestSession
 
 
 class Spaces:
     """Spaces class."""
 
     def __init__(self, session: RestSession) -> None:
-        super(self).__init__()
         self._session = session
 
     def get_organization_spaces_integrate_status(
@@ -25,14 +27,12 @@ class Spaces:
             organization_id: Organization ID.
 
         """
-        metadata = {
-            "tags": ["spaces", "configure", "integrate", "status"],
-            "operation": "get_organization_spaces_integrate_status",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/spaces/integrate/status"
+        path = f"/organizations/{organization_id}/spaces/integrate/status"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="spaces", operation_id="getOrganizationSpacesIntegrateStatus", path=path
+        )
 
     def remove_organization_spaces_integration(
         self, *, organization_id: str
@@ -45,11 +45,9 @@ class Spaces:
             organization_id: Organization ID.
 
         """
-        metadata = {
-            "tags": ["spaces", "configure", "integration"],
-            "operation": "remove_organization_spaces_integration",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/spaces/integration/remove"
+        path = f"/organizations/{organization_id}/spaces/integration/remove"
 
-        return self._session.post(metadata, resource)
+        return self._session.post(
+            scope="spaces", operation_id="removeOrganizationSpacesIntegration", path=path
+        )

@@ -1,17 +1,19 @@
 """Wireless API endpoints."""
 
+from __future__ import annotations
+
 import urllib
 from collections.abc import Generator
-from typing import Any
+from typing import Any, Literal, TYPE_CHECKING
 
-from meraki_dashboard_sdk.rest_session import RestSession
+if TYPE_CHECKING:
+    from meraki_dashboard_sdk.rest_session import RestSession
 
 
 class Wireless:
     """Wireless class."""
 
     def __init__(self, session: RestSession) -> None:
-        super(self).__init__()
         self._session = session
 
     def update_device_wireless_alternate_management_interface_ipv6(
@@ -26,18 +28,16 @@ class Wireless:
             addresses: configured alternate management interface addresses.
 
         """
-        metadata = {
-            "tags": ["wireless", "configure", "alternateManagementInterface", "ipv6"],
-            "operation": "update_device_wireless_alternate_management_interface_ipv6",
-        }
         serial = urllib.parse.quote(str(serial), safe="")
-        resource = f"/devices/{serial}/wireless/alternateManagementInterface/ipv6"
+        path = f"/devices/{serial}/wireless/alternateManagementInterface/ipv6"
 
         payload = {}
         if addresses is not None:
             payload["addresses"] = addresses
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="wireless", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_device_wireless_bluetooth_settings(self, *, serial: str) -> dict[str, Any] | None:
         """Return the bluetooth settings for a wireless device.
@@ -48,14 +48,12 @@ class Wireless:
             serial: Serial.
 
         """
-        metadata = {
-            "tags": ["wireless", "configure", "bluetooth", "settings"],
-            "operation": "get_device_wireless_bluetooth_settings",
-        }
         serial = urllib.parse.quote(str(serial), safe="")
-        resource = f"/devices/{serial}/wireless/bluetooth/settings"
+        path = f"/devices/{serial}/wireless/bluetooth/settings"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="wireless", operation_id="getDeviceWirelessBluetoothSettings", path=path
+        )
 
     def update_device_wireless_bluetooth_settings(
         self,
@@ -79,12 +77,8 @@ class Wireless:
               Dashboard's automatically generated value.
 
         """
-        metadata = {
-            "tags": ["wireless", "configure", "bluetooth", "settings"],
-            "operation": "update_device_wireless_bluetooth_settings",
-        }
         serial = urllib.parse.quote(str(serial), safe="")
-        resource = f"/devices/{serial}/wireless/bluetooth/settings"
+        path = f"/devices/{serial}/wireless/bluetooth/settings"
 
         payload = {}
         if uuid is not None:
@@ -94,7 +88,9 @@ class Wireless:
         if minor is not None:
             payload["minor"] = minor
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="wireless", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_device_wireless_connection_stats(
         self,
@@ -129,12 +125,8 @@ class Wireless:
             options = ["2.4", "5", "6"]
             assert band in options, f'"band" cannot be "{band}", & must be set to one of: {options}'
 
-        metadata = {
-            "tags": ["wireless", "monitor", "connectionStats"],
-            "operation": "get_device_wireless_connection_stats",
-        }
         serial = urllib.parse.quote(str(serial), safe="")
-        resource = f"/devices/{serial}/wireless/connectionStats"
+        path = f"/devices/{serial}/wireless/connectionStats"
 
         params = {}
         if t0 is not None:
@@ -150,7 +142,9 @@ class Wireless:
         if ap_tag is not None:
             params["apTag"] = ap_tag
 
-        return self._session.get(metadata, resource, params)
+        return self._session.get(
+            scope="wireless", operation_id="{operation_id}", path=path, params=params
+        )
 
     def get_device_wireless_electronic_shelf_label(self, *, serial: str) -> dict[str, Any] | None:
         """Return the ESL settings of a device.
@@ -161,14 +155,12 @@ class Wireless:
             serial: Serial.
 
         """
-        metadata = {
-            "tags": ["wireless", "configure", "electronicShelfLabel"],
-            "operation": "get_device_wireless_electronic_shelf_label",
-        }
         serial = urllib.parse.quote(str(serial), safe="")
-        resource = f"/devices/{serial}/wireless/electronicShelfLabel"
+        path = f"/devices/{serial}/wireless/electronicShelfLabel"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="wireless", operation_id="getDeviceWirelessElectronicShelfLabel", path=path
+        )
 
     def update_device_wireless_electronic_shelf_label(
         self, *, serial: str, channel: str | None = None, enabled: bool | None = None
@@ -184,12 +176,8 @@ class Wireless:
             enabled: Turn ESL features on and off for this device.
 
         """
-        metadata = {
-            "tags": ["wireless", "configure", "electronicShelfLabel"],
-            "operation": "update_device_wireless_electronic_shelf_label",
-        }
         serial = urllib.parse.quote(str(serial), safe="")
-        resource = f"/devices/{serial}/wireless/electronicShelfLabel"
+        path = f"/devices/{serial}/wireless/electronicShelfLabel"
 
         payload = {}
         if channel is not None:
@@ -197,7 +185,9 @@ class Wireless:
         if enabled is not None:
             payload["enabled"] = enabled
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="wireless", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_device_wireless_latency_stats(
         self,
@@ -238,12 +228,8 @@ class Wireless:
             options = ["2.4", "5", "6"]
             assert band in options, f'"band" cannot be "{band}", & must be set to one of: {options}'
 
-        metadata = {
-            "tags": ["wireless", "monitor", "latencyStats"],
-            "operation": "get_device_wireless_latency_stats",
-        }
         serial = urllib.parse.quote(str(serial), safe="")
-        resource = f"/devices/{serial}/wireless/latencyStats"
+        path = f"/devices/{serial}/wireless/latencyStats"
 
         params = {}
         if t0 is not None:
@@ -263,7 +249,9 @@ class Wireless:
         if fields is not None:
             params["fields"] = fields
 
-        return self._session.get(metadata, resource, params)
+        return self._session.get(
+            scope="wireless", operation_id="{operation_id}", path=path, params=params
+        )
 
     def get_device_wireless_radio_settings(self, *, serial: str) -> dict[str, Any] | None:
         """Return the manually configured radio settings overrides of a device, which take precedence over RF profiles.
@@ -274,14 +262,12 @@ class Wireless:
             serial: Serial.
 
         """
-        metadata = {
-            "tags": ["wireless", "configure", "radio", "settings"],
-            "operation": "get_device_wireless_radio_settings",
-        }
         serial = urllib.parse.quote(str(serial), safe="")
-        resource = f"/devices/{serial}/wireless/radio/settings"
+        path = f"/devices/{serial}/wireless/radio/settings"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="wireless", operation_id="getDeviceWirelessRadioSettings", path=path
+        )
 
     def update_device_wireless_radio_settings(
         self,
@@ -306,12 +292,8 @@ class Wireless:
             five_ghz_settings: Manual radio settings for 5 GHz.
 
         """
-        metadata = {
-            "tags": ["wireless", "configure", "radio", "settings"],
-            "operation": "update_device_wireless_radio_settings",
-        }
         serial = urllib.parse.quote(str(serial), safe="")
-        resource = f"/devices/{serial}/wireless/radio/settings"
+        path = f"/devices/{serial}/wireless/radio/settings"
 
         payload = {}
         if rf_profile_id is not None:
@@ -321,7 +303,9 @@ class Wireless:
         if five_ghz_settings is not None:
             payload["fiveGhzSettings"] = five_ghz_settings
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="wireless", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_device_wireless_status(self, *, serial: str) -> dict[str, Any] | None:
         """Return the SSID statuses of an access point.
@@ -332,14 +316,12 @@ class Wireless:
             serial: Serial.
 
         """
-        metadata = {
-            "tags": ["wireless", "monitor", "status"],
-            "operation": "get_device_wireless_status",
-        }
         serial = urllib.parse.quote(str(serial), safe="")
-        resource = f"/devices/{serial}/wireless/status"
+        path = f"/devices/{serial}/wireless/status"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="wireless", operation_id="getDeviceWirelessStatus", path=path
+        )
 
     def create_device_wireless_zigbee_enrollment(self, *, serial: str) -> dict[str, Any] | None:
         """Enqueue a job to start enrolling door locks on zigbee configured wireless devices.
@@ -350,14 +332,12 @@ class Wireless:
             serial: Serial.
 
         """
-        metadata = {
-            "tags": ["wireless", "configure", "zigbee", "enrollments"],
-            "operation": "create_device_wireless_zigbee_enrollment",
-        }
         serial = urllib.parse.quote(str(serial), safe="")
-        resource = f"/devices/{serial}/wireless/zigbee/enrollments"
+        path = f"/devices/{serial}/wireless/zigbee/enrollments"
 
-        return self._session.post(metadata, resource)
+        return self._session.post(
+            scope="wireless", operation_id="createDeviceWirelessZigbeeEnrollment", path=path
+        )
 
     def get_device_wireless_zigbee_enrollment(
         self, *, serial: str, enrollment_id: str
@@ -371,15 +351,13 @@ class Wireless:
             enrollment_id: Enrollment ID.
 
         """
-        metadata = {
-            "tags": ["wireless", "configure", "zigbee", "enrollments"],
-            "operation": "get_device_wireless_zigbee_enrollment",
-        }
         serial = urllib.parse.quote(str(serial), safe="")
         enrollment_id = urllib.parse.quote(str(enrollment_id), safe="")
-        resource = f"/devices/{serial}/wireless/zigbee/enrollments/{enrollment_id}"
+        path = f"/devices/{serial}/wireless/zigbee/enrollments/{enrollment_id}"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="wireless", operation_id="getDeviceWirelessZigbeeEnrollment", path=path
+        )
 
     def get_network_wireless_air_marshal(
         self, *, network_id: str, t0: str | None = None, timespan: float | None = None
@@ -397,12 +375,8 @@ class Wireless:
               less than or equal to 31 days. The default is 7 days.
 
         """
-        metadata = {
-            "tags": ["wireless", "monitor", "airMarshal"],
-            "operation": "get_network_wireless_air_marshal",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/wireless/airMarshal"
+        path = f"/networks/{network_id}/wireless/airMarshal"
 
         params = {}
         if t0 is not None:
@@ -410,7 +384,9 @@ class Wireless:
         if timespan is not None:
             params["timespan"] = timespan
 
-        return self._session.get(metadata, resource, params)
+        return self._session.get(
+            scope="wireless", operation_id="{operation_id}", path=path, params=params
+        )
 
     def create_network_wireless_air_marshal_rule(
         self, *, network_id: str, type_: str, match: dict
@@ -431,12 +407,8 @@ class Wireless:
                 f'"type_" cannot be "{type_}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["wireless", "configure", "airMarshal", "rules"],
-            "operation": "create_network_wireless_air_marshal_rule",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/wireless/airMarshal/rules"
+        path = f"/networks/{network_id}/wireless/airMarshal/rules"
 
         payload = {}
         if type_ is not None:
@@ -444,7 +416,9 @@ class Wireless:
         if match is not None:
             payload["match"] = match
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="wireless", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def update_network_wireless_air_marshal_rule(
         self, *, network_id: str, rule_id: str, type_: str | None = None, match: dict | None = None
@@ -466,13 +440,9 @@ class Wireless:
                 f'"type_" cannot be "{type_}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["wireless", "configure", "airMarshal", "rules"],
-            "operation": "update_network_wireless_air_marshal_rule",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         rule_id = urllib.parse.quote(str(rule_id), safe="")
-        resource = f"/networks/{network_id}/wireless/airMarshal/rules/{rule_id}"
+        path = f"/networks/{network_id}/wireless/airMarshal/rules/{rule_id}"
 
         payload = {}
         if type_ is not None:
@@ -480,7 +450,9 @@ class Wireless:
         if match is not None:
             payload["match"] = match
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="wireless", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def delete_network_wireless_air_marshal_rule(self, *, network_id: str, rule_id: str) -> None:
         """Delete an Air Marshal rule.
@@ -492,15 +464,13 @@ class Wireless:
             rule_id: Rule ID.
 
         """
-        metadata = {
-            "tags": ["wireless", "configure", "airMarshal", "rules"],
-            "operation": "delete_network_wireless_air_marshal_rule",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         rule_id = urllib.parse.quote(str(rule_id), safe="")
-        resource = f"/networks/{network_id}/wireless/airMarshal/rules/{rule_id}"
+        path = f"/networks/{network_id}/wireless/airMarshal/rules/{rule_id}"
 
-        return self._session.delete(metadata, resource)
+        return self._session.delete(
+            scope="wireless", operation_id="deleteNetworkWirelessAirMarshalRule", path=path
+        )
 
     def update_network_wireless_air_marshal_settings(
         self, *, network_id: str, default_policy: str
@@ -520,18 +490,16 @@ class Wireless:
                 f'"default_policy" cannot be "{default_policy}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["wireless", "configure", "airMarshal", "settings"],
-            "operation": "update_network_wireless_air_marshal_settings",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/wireless/airMarshal/settings"
+        path = f"/networks/{network_id}/wireless/airMarshal/settings"
 
         payload = {}
         if default_policy is not None:
             payload["defaultPolicy"] = default_policy
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="wireless", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_network_wireless_alternate_management_interface(
         self, *, network_id: str
@@ -544,14 +512,14 @@ class Wireless:
             network_id: Network ID.
 
         """
-        metadata = {
-            "tags": ["wireless", "configure", "alternateManagementInterface"],
-            "operation": "get_network_wireless_alternate_management_interface",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/wireless/alternateManagementInterface"
+        path = f"/networks/{network_id}/wireless/alternateManagementInterface"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="wireless",
+            operation_id="getNetworkWirelessAlternateManagementInterface",
+            path=path,
+        )
 
     def update_network_wireless_alternate_management_interface(
         self,
@@ -579,12 +547,8 @@ class Wireless:
               assignments.
 
         """
-        metadata = {
-            "tags": ["wireless", "configure", "alternateManagementInterface"],
-            "operation": "update_network_wireless_alternate_management_interface",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/wireless/alternateManagementInterface"
+        path = f"/networks/{network_id}/wireless/alternateManagementInterface"
 
         payload = {}
         if enabled is not None:
@@ -596,7 +560,9 @@ class Wireless:
         if access_points is not None:
             payload["accessPoints"] = access_points
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="wireless", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_network_wireless_billing(self, *, network_id: str) -> dict[str, Any] | None:
         """Return the billing settings of this network.
@@ -607,14 +573,12 @@ class Wireless:
             network_id: Network ID.
 
         """
-        metadata = {
-            "tags": ["wireless", "configure", "billing"],
-            "operation": "get_network_wireless_billing",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/wireless/billing"
+        path = f"/networks/{network_id}/wireless/billing"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="wireless", operation_id="getNetworkWirelessBilling", path=path
+        )
 
     def update_network_wireless_billing(
         self, *, network_id: str, currency: str | None = None, plans: list | None = None
@@ -629,12 +593,8 @@ class Wireless:
             plans: Array of billing plans in the node group. (Can configure a maximum of 5).
 
         """
-        metadata = {
-            "tags": ["wireless", "configure", "billing"],
-            "operation": "update_network_wireless_billing",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/wireless/billing"
+        path = f"/networks/{network_id}/wireless/billing"
 
         payload = {}
         if currency is not None:
@@ -642,7 +602,9 @@ class Wireless:
         if plans is not None:
             payload["plans"] = plans
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="wireless", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_network_wireless_bluetooth_settings(self, *, network_id: str) -> dict[str, Any] | None:
         """Return the Bluetooth settings for a network. <a href="https://documentation.meraki.com/MR/Bluetooth/Bluetooth_Low_Energy_(BLE)">Bluetooth settings</a> must be enabled on the network.
@@ -653,14 +615,12 @@ class Wireless:
             network_id: Network ID.
 
         """
-        metadata = {
-            "tags": ["wireless", "configure", "bluetooth", "settings"],
-            "operation": "get_network_wireless_bluetooth_settings",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/wireless/bluetooth/settings"
+        path = f"/networks/{network_id}/wireless/bluetooth/settings"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="wireless", operation_id="getNetworkWirelessBluetoothSettings", path=path
+        )
 
     def update_network_wireless_bluetooth_settings(
         self,
@@ -696,12 +656,8 @@ class Wireless:
                 f'"major_minor_assignment_mode" cannot be "{major_minor_assignment_mode}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["wireless", "configure", "bluetooth", "settings"],
-            "operation": "update_network_wireless_bluetooth_settings",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/wireless/bluetooth/settings"
+        path = f"/networks/{network_id}/wireless/bluetooth/settings"
 
         payload = {}
         if scanning_enabled is not None:
@@ -717,7 +673,9 @@ class Wireless:
         if minor is not None:
             payload["minor"] = minor
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="wireless", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_network_wireless_channel_utilization_history(
         self,
@@ -765,12 +723,8 @@ class Wireless:
             options = ["2.4", "5", "6"]
             assert band in options, f'"band" cannot be "{band}", & must be set to one of: {options}'
 
-        metadata = {
-            "tags": ["wireless", "monitor", "channelUtilizationHistory"],
-            "operation": "get_network_wireless_channel_utilization_history",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/wireless/channelUtilizationHistory"
+        path = f"/networks/{network_id}/wireless/channelUtilizationHistory"
 
         params = {}
         if t0 is not None:
@@ -792,7 +746,9 @@ class Wireless:
         if band is not None:
             params["band"] = band
 
-        return self._session.get(metadata, resource, params)
+        return self._session.get(
+            scope="wireless", operation_id="{operation_id}", path=path, params=params
+        )
 
     def get_network_wireless_client_count_history(
         self,
@@ -838,12 +794,8 @@ class Wireless:
             options = ["2.4", "5", "6"]
             assert band in options, f'"band" cannot be "{band}", & must be set to one of: {options}'
 
-        metadata = {
-            "tags": ["wireless", "monitor", "clientCountHistory"],
-            "operation": "get_network_wireless_client_count_history",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/wireless/clientCountHistory"
+        path = f"/networks/{network_id}/wireless/clientCountHistory"
 
         params = {}
         if t0 is not None:
@@ -867,7 +819,9 @@ class Wireless:
         if ssid is not None:
             params["ssid"] = ssid
 
-        return self._session.get(metadata, resource, params)
+        return self._session.get(
+            scope="wireless", operation_id="{operation_id}", path=path, params=params
+        )
 
     def get_network_wireless_clients_connection_stats(
         self,
@@ -902,12 +856,8 @@ class Wireless:
             options = ["2.4", "5", "6"]
             assert band in options, f'"band" cannot be "{band}", & must be set to one of: {options}'
 
-        metadata = {
-            "tags": ["wireless", "monitor", "clients", "connectionStats"],
-            "operation": "get_network_wireless_clients_connection_stats",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/wireless/clients/connectionStats"
+        path = f"/networks/{network_id}/wireless/clients/connectionStats"
 
         params = {}
         if t0 is not None:
@@ -923,7 +873,9 @@ class Wireless:
         if ap_tag is not None:
             params["apTag"] = ap_tag
 
-        return self._session.get(metadata, resource, params)
+        return self._session.get(
+            scope="wireless", operation_id="{operation_id}", path=path, params=params
+        )
 
     def get_network_wireless_clients_latency_stats(
         self,
@@ -964,12 +916,8 @@ class Wireless:
             options = ["2.4", "5", "6"]
             assert band in options, f'"band" cannot be "{band}", & must be set to one of: {options}'
 
-        metadata = {
-            "tags": ["wireless", "monitor", "clients", "latencyStats"],
-            "operation": "get_network_wireless_clients_latency_stats",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/wireless/clients/latencyStats"
+        path = f"/networks/{network_id}/wireless/clients/latencyStats"
 
         params = {}
         if t0 is not None:
@@ -989,7 +937,9 @@ class Wireless:
         if fields is not None:
             params["fields"] = fields
 
-        return self._session.get(metadata, resource, params)
+        return self._session.get(
+            scope="wireless", operation_id="{operation_id}", path=path, params=params
+        )
 
     def get_network_wireless_client_connection_stats(
         self,
@@ -1026,13 +976,9 @@ class Wireless:
             options = ["2.4", "5", "6"]
             assert band in options, f'"band" cannot be "{band}", & must be set to one of: {options}'
 
-        metadata = {
-            "tags": ["wireless", "monitor", "clients", "connectionStats"],
-            "operation": "get_network_wireless_client_connection_stats",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         client_id = urllib.parse.quote(str(client_id), safe="")
-        resource = f"/networks/{network_id}/wireless/clients/{client_id}/connectionStats"
+        path = f"/networks/{network_id}/wireless/clients/{client_id}/connectionStats"
 
         params = {}
         if t0 is not None:
@@ -1048,7 +994,9 @@ class Wireless:
         if ap_tag is not None:
             params["apTag"] = ap_tag
 
-        return self._session.get(metadata, resource, params)
+        return self._session.get(
+            scope="wireless", operation_id="{operation_id}", path=path, params=params
+        )
 
     def get_network_wireless_client_connectivity_events(
         self,
@@ -1123,13 +1071,9 @@ class Wireless:
                 f'"ssid_number" cannot be "{ssid_number}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["wireless", "monitor", "clients", "connectivityEvents"],
-            "operation": "get_network_wireless_client_connectivity_events",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         client_id = urllib.parse.quote(str(client_id), safe="")
-        resource = f"/networks/{network_id}/wireless/clients/{client_id}/connectivityEvents"
+        path = f"/networks/{network_id}/wireless/clients/{client_id}/connectivityEvents"
 
         params = {}
         if per_page is not None:
@@ -1157,7 +1101,14 @@ class Wireless:
         if device_serial is not None:
             params["deviceSerial"] = device_serial
 
-        return self._session.get_pages(metadata, resource, params, total_pages, direction)
+        return self._session.get_pages(
+            scope="wireless",
+            operation_id="{operation_id}",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+        )
 
     def get_network_wireless_client_latency_history(
         self,
@@ -1186,13 +1137,9 @@ class Wireless:
               86400. The default is 86400.
 
         """
-        metadata = {
-            "tags": ["wireless", "monitor", "clients", "latencyHistory"],
-            "operation": "get_network_wireless_client_latency_history",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         client_id = urllib.parse.quote(str(client_id), safe="")
-        resource = f"/networks/{network_id}/wireless/clients/{client_id}/latencyHistory"
+        path = f"/networks/{network_id}/wireless/clients/{client_id}/latencyHistory"
 
         params = {}
         if t0 is not None:
@@ -1204,7 +1151,9 @@ class Wireless:
         if resolution is not None:
             params["resolution"] = resolution
 
-        return self._session.get(metadata, resource, params)
+        return self._session.get(
+            scope="wireless", operation_id="{operation_id}", path=path, params=params
+        )
 
     def get_network_wireless_client_latency_stats(
         self,
@@ -1247,13 +1196,9 @@ class Wireless:
             options = ["2.4", "5", "6"]
             assert band in options, f'"band" cannot be "{band}", & must be set to one of: {options}'
 
-        metadata = {
-            "tags": ["wireless", "monitor", "clients", "latencyStats"],
-            "operation": "get_network_wireless_client_latency_stats",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         client_id = urllib.parse.quote(str(client_id), safe="")
-        resource = f"/networks/{network_id}/wireless/clients/{client_id}/latencyStats"
+        path = f"/networks/{network_id}/wireless/clients/{client_id}/latencyStats"
 
         params = {}
         if t0 is not None:
@@ -1273,7 +1218,9 @@ class Wireless:
         if fields is not None:
             params["fields"] = fields
 
-        return self._session.get(metadata, resource, params)
+        return self._session.get(
+            scope="wireless", operation_id="{operation_id}", path=path, params=params
+        )
 
     def get_network_wireless_connection_stats(
         self,
@@ -1308,12 +1255,8 @@ class Wireless:
             options = ["2.4", "5", "6"]
             assert band in options, f'"band" cannot be "{band}", & must be set to one of: {options}'
 
-        metadata = {
-            "tags": ["wireless", "monitor", "connectionStats"],
-            "operation": "get_network_wireless_connection_stats",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/wireless/connectionStats"
+        path = f"/networks/{network_id}/wireless/connectionStats"
 
         params = {}
         if t0 is not None:
@@ -1329,7 +1272,9 @@ class Wireless:
         if ap_tag is not None:
             params["apTag"] = ap_tag
 
-        return self._session.get(metadata, resource, params)
+        return self._session.get(
+            scope="wireless", operation_id="{operation_id}", path=path, params=params
+        )
 
     def get_network_wireless_data_rate_history(
         self,
@@ -1374,12 +1319,8 @@ class Wireless:
             options = ["2.4", "5", "6"]
             assert band in options, f'"band" cannot be "{band}", & must be set to one of: {options}'
 
-        metadata = {
-            "tags": ["wireless", "monitor", "dataRateHistory"],
-            "operation": "get_network_wireless_data_rate_history",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/wireless/dataRateHistory"
+        path = f"/networks/{network_id}/wireless/dataRateHistory"
 
         params = {}
         if t0 is not None:
@@ -1403,7 +1344,9 @@ class Wireless:
         if ssid is not None:
             params["ssid"] = ssid
 
-        return self._session.get(metadata, resource, params)
+        return self._session.get(
+            scope="wireless", operation_id="{operation_id}", path=path, params=params
+        )
 
     def get_network_wireless_devices_connection_stats(
         self,
@@ -1438,12 +1381,8 @@ class Wireless:
             options = ["2.4", "5", "6"]
             assert band in options, f'"band" cannot be "{band}", & must be set to one of: {options}'
 
-        metadata = {
-            "tags": ["wireless", "monitor", "devices", "connectionStats"],
-            "operation": "get_network_wireless_devices_connection_stats",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/wireless/devices/connectionStats"
+        path = f"/networks/{network_id}/wireless/devices/connectionStats"
 
         params = {}
         if t0 is not None:
@@ -1459,7 +1398,9 @@ class Wireless:
         if ap_tag is not None:
             params["apTag"] = ap_tag
 
-        return self._session.get(metadata, resource, params)
+        return self._session.get(
+            scope="wireless", operation_id="{operation_id}", path=path, params=params
+        )
 
     def get_network_wireless_devices_latency_stats(
         self,
@@ -1500,12 +1441,8 @@ class Wireless:
             options = ["2.4", "5", "6"]
             assert band in options, f'"band" cannot be "{band}", & must be set to one of: {options}'
 
-        metadata = {
-            "tags": ["wireless", "monitor", "devices", "latencyStats"],
-            "operation": "get_network_wireless_devices_latency_stats",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/wireless/devices/latencyStats"
+        path = f"/networks/{network_id}/wireless/devices/latencyStats"
 
         params = {}
         if t0 is not None:
@@ -1525,7 +1462,9 @@ class Wireless:
         if fields is not None:
             params["fields"] = fields
 
-        return self._session.get(metadata, resource, params)
+        return self._session.get(
+            scope="wireless", operation_id="{operation_id}", path=path, params=params
+        )
 
     def get_network_wireless_electronic_shelf_label(
         self, *, network_id: str
@@ -1538,14 +1477,12 @@ class Wireless:
             network_id: Network ID.
 
         """
-        metadata = {
-            "tags": ["wireless", "configure", "electronicShelfLabel"],
-            "operation": "get_network_wireless_electronic_shelf_label",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/wireless/electronicShelfLabel"
+        path = f"/networks/{network_id}/wireless/electronicShelfLabel"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="wireless", operation_id="getNetworkWirelessElectronicShelfLabel", path=path
+        )
 
     def update_network_wireless_electronic_shelf_label(
         self,
@@ -1571,12 +1508,8 @@ class Wireless:
             options = ["Bluetooth", "high frequency"]
             assert mode in options, f'"mode" cannot be "{mode}", & must be set to one of: {options}'
 
-        metadata = {
-            "tags": ["wireless", "configure", "electronicShelfLabel"],
-            "operation": "update_network_wireless_electronic_shelf_label",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/wireless/electronicShelfLabel"
+        path = f"/networks/{network_id}/wireless/electronicShelfLabel"
 
         payload = {}
         if hostname is not None:
@@ -1586,7 +1519,9 @@ class Wireless:
         if mode is not None:
             payload["mode"] = mode
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="wireless", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_network_wireless_electronic_shelf_label_configured_devices(
         self, *, network_id: str
@@ -1599,14 +1534,14 @@ class Wireless:
             network_id: Network ID.
 
         """
-        metadata = {
-            "tags": ["wireless", "configure", "electronicShelfLabel", "configuredDevices"],
-            "operation": "get_network_wireless_electronic_shelf_label_configured_devices",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/wireless/electronicShelfLabel/configuredDevices"
+        path = f"/networks/{network_id}/wireless/electronicShelfLabel/configuredDevices"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="wireless",
+            operation_id="getNetworkWirelessElectronicShelfLabelConfiguredDevices",
+            path=path,
+        )
 
     def get_network_wireless_ethernet_ports_profiles(
         self, *, network_id: str
@@ -1619,14 +1554,12 @@ class Wireless:
             network_id: Network ID.
 
         """
-        metadata = {
-            "tags": ["wireless", "configure", "ethernet", "ports", "profiles"],
-            "operation": "get_network_wireless_ethernet_ports_profiles",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/wireless/ethernet/ports/profiles"
+        path = f"/networks/{network_id}/wireless/ethernet/ports/profiles"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="wireless", operation_id="getNetworkWirelessEthernetPortsProfiles", path=path
+        )
 
     def create_network_wireless_ethernet_ports_profile(
         self, *, network_id: str, name: str, ports: list, usb_ports: list | None = None
@@ -1642,12 +1575,8 @@ class Wireless:
             usb_ports: AP usb ports configuration.
 
         """
-        metadata = {
-            "tags": ["wireless", "configure", "ethernet", "ports", "profiles"],
-            "operation": "create_network_wireless_ethernet_ports_profile",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/wireless/ethernet/ports/profiles"
+        path = f"/networks/{network_id}/wireless/ethernet/ports/profiles"
 
         payload = {}
         if name is not None:
@@ -1657,7 +1586,9 @@ class Wireless:
         if usb_ports is not None:
             payload["usbPorts"] = usb_ports
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="wireless", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def assign_network_wireless_ethernet_ports_profiles(
         self, *, network_id: str, serials: list, profile_id: str
@@ -1672,12 +1603,8 @@ class Wireless:
             profile_id: AP profile ID.
 
         """
-        metadata = {
-            "tags": ["wireless", "configure", "ethernet", "ports", "profiles"],
-            "operation": "assign_network_wireless_ethernet_ports_profiles",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/wireless/ethernet/ports/profiles/assign"
+        path = f"/networks/{network_id}/wireless/ethernet/ports/profiles/assign"
 
         payload = {}
         if serials is not None:
@@ -1685,7 +1612,9 @@ class Wireless:
         if profile_id is not None:
             payload["profileId"] = profile_id
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="wireless", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def set_network_wireless_ethernet_ports_profiles_default(
         self, *, network_id: str, profile_id: str
@@ -1699,18 +1628,16 @@ class Wireless:
             profile_id: AP profile ID.
 
         """
-        metadata = {
-            "tags": ["wireless", "configure", "ethernet", "ports", "profiles"],
-            "operation": "set_network_wireless_ethernet_ports_profiles_default",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/wireless/ethernet/ports/profiles/setDefault"
+        path = f"/networks/{network_id}/wireless/ethernet/ports/profiles/setDefault"
 
         payload = {}
         if profile_id is not None:
             payload["profileId"] = profile_id
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="wireless", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_network_wireless_ethernet_ports_profile(
         self, *, network_id: str, profile_id: str
@@ -1724,15 +1651,13 @@ class Wireless:
             profile_id: Profile ID.
 
         """
-        metadata = {
-            "tags": ["wireless", "configure", "ethernet", "ports", "profiles"],
-            "operation": "get_network_wireless_ethernet_ports_profile",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         profile_id = urllib.parse.quote(str(profile_id), safe="")
-        resource = f"/networks/{network_id}/wireless/ethernet/ports/profiles/{profile_id}"
+        path = f"/networks/{network_id}/wireless/ethernet/ports/profiles/{profile_id}"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="wireless", operation_id="getNetworkWirelessEthernetPortsProfile", path=path
+        )
 
     def update_network_wireless_ethernet_ports_profile(
         self,
@@ -1755,13 +1680,9 @@ class Wireless:
             usb_ports: AP usb ports configuration.
 
         """
-        metadata = {
-            "tags": ["wireless", "configure", "ethernet", "ports", "profiles"],
-            "operation": "update_network_wireless_ethernet_ports_profile",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         profile_id = urllib.parse.quote(str(profile_id), safe="")
-        resource = f"/networks/{network_id}/wireless/ethernet/ports/profiles/{profile_id}"
+        path = f"/networks/{network_id}/wireless/ethernet/ports/profiles/{profile_id}"
 
         payload = {}
         if name is not None:
@@ -1771,7 +1692,9 @@ class Wireless:
         if usb_ports is not None:
             payload["usbPorts"] = usb_ports
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="wireless", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def delete_network_wireless_ethernet_ports_profile(
         self, *, network_id: str, profile_id: str
@@ -1785,15 +1708,13 @@ class Wireless:
             profile_id: Profile ID.
 
         """
-        metadata = {
-            "tags": ["wireless", "configure", "ethernet", "ports", "profiles"],
-            "operation": "delete_network_wireless_ethernet_ports_profile",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         profile_id = urllib.parse.quote(str(profile_id), safe="")
-        resource = f"/networks/{network_id}/wireless/ethernet/ports/profiles/{profile_id}"
+        path = f"/networks/{network_id}/wireless/ethernet/ports/profiles/{profile_id}"
 
-        return self._session.delete(metadata, resource)
+        return self._session.delete(
+            scope="wireless", operation_id="deleteNetworkWirelessEthernetPortsProfile", path=path
+        )
 
     def get_network_wireless_failed_connections(
         self,
@@ -1832,12 +1753,8 @@ class Wireless:
             options = ["2.4", "5", "6"]
             assert band in options, f'"band" cannot be "{band}", & must be set to one of: {options}'
 
-        metadata = {
-            "tags": ["wireless", "monitor", "failedConnections"],
-            "operation": "get_network_wireless_failed_connections",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/wireless/failedConnections"
+        path = f"/networks/{network_id}/wireless/failedConnections"
 
         params = {}
         if t0 is not None:
@@ -1857,7 +1774,9 @@ class Wireless:
         if client_id is not None:
             params["clientId"] = client_id
 
-        return self._session.get(metadata, resource, params)
+        return self._session.get(
+            scope="wireless", operation_id="{operation_id}", path=path, params=params
+        )
 
     def get_network_wireless_latency_history(
         self,
@@ -1909,12 +1828,8 @@ class Wireless:
                 f'"access_category" cannot be "{access_category}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["wireless", "monitor", "latencyHistory"],
-            "operation": "get_network_wireless_latency_history",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/wireless/latencyHistory"
+        path = f"/networks/{network_id}/wireless/latencyHistory"
 
         params = {}
         if t0 is not None:
@@ -1940,7 +1855,9 @@ class Wireless:
         if access_category is not None:
             params["accessCategory"] = access_category
 
-        return self._session.get(metadata, resource, params)
+        return self._session.get(
+            scope="wireless", operation_id="{operation_id}", path=path, params=params
+        )
 
     def get_network_wireless_latency_stats(
         self,
@@ -1981,12 +1898,8 @@ class Wireless:
             options = ["2.4", "5", "6"]
             assert band in options, f'"band" cannot be "{band}", & must be set to one of: {options}'
 
-        metadata = {
-            "tags": ["wireless", "monitor", "latencyStats"],
-            "operation": "get_network_wireless_latency_stats",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/wireless/latencyStats"
+        path = f"/networks/{network_id}/wireless/latencyStats"
 
         params = {}
         if t0 is not None:
@@ -2006,7 +1919,9 @@ class Wireless:
         if fields is not None:
             params["fields"] = fields
 
-        return self._session.get(metadata, resource, params)
+        return self._session.get(
+            scope="wireless", operation_id="{operation_id}", path=path, params=params
+        )
 
     def update_network_wireless_location_scanning(
         self, *, network_id: str, enabled: bool | None = None, api: dict | None = None
@@ -2021,12 +1936,8 @@ class Wireless:
             api: Enable push API for scanning events, analytics must be enabled.
 
         """
-        metadata = {
-            "tags": ["wireless", "configure", "location", "scanning"],
-            "operation": "update_network_wireless_location_scanning",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/wireless/location/scanning"
+        path = f"/networks/{network_id}/wireless/location/scanning"
 
         payload = {}
         if enabled is not None:
@@ -2034,7 +1945,9 @@ class Wireless:
         if api is not None:
             payload["api"] = api
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="wireless", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_network_wireless_mesh_statuses(
         self,
@@ -2067,12 +1980,8 @@ class Wireless:
             direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        metadata = {
-            "tags": ["wireless", "monitor", "meshStatuses"],
-            "operation": "get_network_wireless_mesh_statuses",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/wireless/meshStatuses"
+        path = f"/networks/{network_id}/wireless/meshStatuses"
 
         params = {}
         if per_page is not None:
@@ -2082,7 +1991,14 @@ class Wireless:
         if ending_before is not None:
             params["endingBefore"] = ending_before
 
-        return self._session.get_pages(metadata, resource, params, total_pages, direction)
+        return self._session.get_pages(
+            scope="wireless",
+            operation_id="{operation_id}",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+        )
 
     def get_network_wireless_rf_profiles(
         self, *, network_id: str, include_template_profiles: bool | None = None
@@ -2099,18 +2015,16 @@ class Wireless:
               defined on the bound network. Defaults to false.
 
         """
-        metadata = {
-            "tags": ["wireless", "configure", "rfProfiles"],
-            "operation": "get_network_wireless_rf_profiles",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/wireless/rfProfiles"
+        path = f"/networks/{network_id}/wireless/rfProfiles"
 
         params = {}
         if include_template_profiles is not None:
             params["includeTemplateProfiles"] = include_template_profiles
 
-        return self._session.get(metadata, resource, params)
+        return self._session.get(
+            scope="wireless", operation_id="{operation_id}", path=path, params=params
+        )
 
     def create_network_wireless_rf_profile(
         self,
@@ -2162,12 +2076,8 @@ class Wireless:
                 f'"band_selection_type" cannot be "{band_selection_type}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["wireless", "configure", "rfProfiles"],
-            "operation": "create_network_wireless_rf_profile",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/wireless/rfProfiles"
+        path = f"/networks/{network_id}/wireless/rfProfiles"
 
         payload = {}
         if name is not None:
@@ -2193,7 +2103,9 @@ class Wireless:
         if flex_radios is not None:
             payload["flexRadios"] = flex_radios
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="wireless", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_network_wireless_rf_profile(
         self, *, network_id: str, rf_profile_id: str
@@ -2207,15 +2119,13 @@ class Wireless:
             rf_profile_id: Rf profile ID.
 
         """
-        metadata = {
-            "tags": ["wireless", "configure", "rfProfiles"],
-            "operation": "get_network_wireless_rf_profile",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         rf_profile_id = urllib.parse.quote(str(rf_profile_id), safe="")
-        resource = f"/networks/{network_id}/wireless/rfProfiles/{rf_profile_id}"
+        path = f"/networks/{network_id}/wireless/rfProfiles/{rf_profile_id}"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="wireless", operation_id="getNetworkWirelessRfProfile", path=path
+        )
 
     def update_network_wireless_rf_profile(
         self,
@@ -2275,13 +2185,9 @@ class Wireless:
                 f'"band_selection_type" cannot be "{band_selection_type}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["wireless", "configure", "rfProfiles"],
-            "operation": "update_network_wireless_rf_profile",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         rf_profile_id = urllib.parse.quote(str(rf_profile_id), safe="")
-        resource = f"/networks/{network_id}/wireless/rfProfiles/{rf_profile_id}"
+        path = f"/networks/{network_id}/wireless/rfProfiles/{rf_profile_id}"
 
         payload = {}
         if name is not None:
@@ -2311,7 +2217,9 @@ class Wireless:
         if flex_radios is not None:
             payload["flexRadios"] = flex_radios
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="wireless", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def delete_network_wireless_rf_profile(self, *, network_id: str, rf_profile_id: str) -> None:
         """Delete a RF Profile.
@@ -2323,15 +2231,13 @@ class Wireless:
             rf_profile_id: Rf profile ID.
 
         """
-        metadata = {
-            "tags": ["wireless", "configure", "rfProfiles"],
-            "operation": "delete_network_wireless_rf_profile",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         rf_profile_id = urllib.parse.quote(str(rf_profile_id), safe="")
-        resource = f"/networks/{network_id}/wireless/rfProfiles/{rf_profile_id}"
+        path = f"/networks/{network_id}/wireless/rfProfiles/{rf_profile_id}"
 
-        return self._session.delete(metadata, resource)
+        return self._session.delete(
+            scope="wireless", operation_id="deleteNetworkWirelessRfProfile", path=path
+        )
 
     def get_network_wireless_settings(self, *, network_id: str) -> dict[str, Any] | None:
         """Return the wireless settings for a network.
@@ -2342,14 +2248,12 @@ class Wireless:
             network_id: Network ID.
 
         """
-        metadata = {
-            "tags": ["wireless", "configure", "settings"],
-            "operation": "get_network_wireless_settings",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/wireless/settings"
+        path = f"/networks/{network_id}/wireless/settings"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="wireless", operation_id="getNetworkWirelessSettings", path=path
+        )
 
     def update_network_wireless_settings(
         self,
@@ -2386,12 +2290,8 @@ class Wireless:
                 f'"upgrade_strategy" cannot be "{upgrade_strategy}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["wireless", "configure", "settings"],
-            "operation": "update_network_wireless_settings",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/wireless/settings"
+        path = f"/networks/{network_id}/wireless/settings"
 
         payload = {}
         if meshing_enabled is not None:
@@ -2407,7 +2307,9 @@ class Wireless:
         if named_vlans is not None:
             payload["namedVlans"] = named_vlans
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="wireless", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_network_wireless_signal_quality_history(
         self,
@@ -2453,12 +2355,8 @@ class Wireless:
             options = ["2.4", "5", "6"]
             assert band in options, f'"band" cannot be "{band}", & must be set to one of: {options}'
 
-        metadata = {
-            "tags": ["wireless", "monitor", "signalQualityHistory"],
-            "operation": "get_network_wireless_signal_quality_history",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/wireless/signalQualityHistory"
+        path = f"/networks/{network_id}/wireless/signalQualityHistory"
 
         params = {}
         if t0 is not None:
@@ -2482,7 +2380,9 @@ class Wireless:
         if ssid is not None:
             params["ssid"] = ssid
 
-        return self._session.get(metadata, resource, params)
+        return self._session.get(
+            scope="wireless", operation_id="{operation_id}", path=path, params=params
+        )
 
     def get_network_wireless_ssids(self, *, network_id: str) -> dict[str, Any] | None:
         """List the MR SSIDs in a network.
@@ -2493,14 +2393,12 @@ class Wireless:
             network_id: Network ID.
 
         """
-        metadata = {
-            "tags": ["wireless", "configure", "ssids"],
-            "operation": "get_network_wireless_ssids",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/wireless/ssids"
+        path = f"/networks/{network_id}/wireless/ssids"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="wireless", operation_id="getNetworkWirelessSsids", path=path
+        )
 
     def get_network_wireless_ssid(self, *, network_id: str, number: str) -> dict[str, Any] | None:
         """Return a single MR SSID.
@@ -2512,15 +2410,11 @@ class Wireless:
             number: Number.
 
         """
-        metadata = {
-            "tags": ["wireless", "configure", "ssids"],
-            "operation": "get_network_wireless_ssid",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         number = urllib.parse.quote(str(number), safe="")
-        resource = f"/networks/{network_id}/wireless/ssids/{number}"
+        path = f"/networks/{network_id}/wireless/ssids/{number}"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(scope="wireless", operation_id="getNetworkWirelessSsid", path=path)
 
     def update_network_wireless_ssid(
         self,
@@ -2828,13 +2722,9 @@ class Wireless:
                 f'"radius_attribute_for_group_policies" cannot be "{radius_attribute_for_group_policies}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["wireless", "configure", "ssids"],
-            "operation": "update_network_wireless_ssid",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         number = urllib.parse.quote(str(number), safe="")
-        resource = f"/networks/{network_id}/wireless/ssids/{number}"
+        path = f"/networks/{network_id}/wireless/ssids/{number}"
 
         payload = {}
         if name is not None:
@@ -2964,7 +2854,9 @@ class Wireless:
         if radius_accounting_start_delay is not None:
             payload["radiusAccountingStartDelay"] = radius_accounting_start_delay
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="wireless", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_network_wireless_ssid_bonjour_forwarding(
         self, *, network_id: str, number: str
@@ -2978,15 +2870,13 @@ class Wireless:
             number: Number.
 
         """
-        metadata = {
-            "tags": ["wireless", "configure", "ssids", "bonjourForwarding"],
-            "operation": "get_network_wireless_ssid_bonjour_forwarding",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         number = urllib.parse.quote(str(number), safe="")
-        resource = f"/networks/{network_id}/wireless/ssids/{number}/bonjourForwarding"
+        path = f"/networks/{network_id}/wireless/ssids/{number}/bonjourForwarding"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="wireless", operation_id="getNetworkWirelessSsidBonjourForwarding", path=path
+        )
 
     def update_network_wireless_ssid_bonjour_forwarding(
         self,
@@ -3009,13 +2899,9 @@ class Wireless:
             exception: Bonjour forwarding exception.
 
         """
-        metadata = {
-            "tags": ["wireless", "configure", "ssids", "bonjourForwarding"],
-            "operation": "update_network_wireless_ssid_bonjour_forwarding",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         number = urllib.parse.quote(str(number), safe="")
-        resource = f"/networks/{network_id}/wireless/ssids/{number}/bonjourForwarding"
+        path = f"/networks/{network_id}/wireless/ssids/{number}/bonjourForwarding"
 
         payload = {}
         if enabled is not None:
@@ -3025,7 +2911,9 @@ class Wireless:
         if exception is not None:
             payload["exception"] = exception
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="wireless", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_network_wireless_ssid_device_type_group_policies(
         self, *, network_id: str, number: str
@@ -3039,15 +2927,15 @@ class Wireless:
             number: Number.
 
         """
-        metadata = {
-            "tags": ["wireless", "configure", "ssids", "deviceTypeGroupPolicies"],
-            "operation": "get_network_wireless_ssid_device_type_group_policies",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         number = urllib.parse.quote(str(number), safe="")
-        resource = f"/networks/{network_id}/wireless/ssids/{number}/deviceTypeGroupPolicies"
+        path = f"/networks/{network_id}/wireless/ssids/{number}/deviceTypeGroupPolicies"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="wireless",
+            operation_id="getNetworkWirelessSsidDeviceTypeGroupPolicies",
+            path=path,
+        )
 
     def update_network_wireless_ssid_device_type_group_policies(
         self,
@@ -3068,13 +2956,9 @@ class Wireless:
             device_type_policies: List of device type policies.
 
         """
-        metadata = {
-            "tags": ["wireless", "configure", "ssids", "deviceTypeGroupPolicies"],
-            "operation": "update_network_wireless_ssid_device_type_group_policies",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         number = urllib.parse.quote(str(number), safe="")
-        resource = f"/networks/{network_id}/wireless/ssids/{number}/deviceTypeGroupPolicies"
+        path = f"/networks/{network_id}/wireless/ssids/{number}/deviceTypeGroupPolicies"
 
         payload = {}
         if enabled is not None:
@@ -3082,7 +2966,9 @@ class Wireless:
         if device_type_policies is not None:
             payload["deviceTypePolicies"] = device_type_policies
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="wireless", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_network_wireless_ssid_eap_override(
         self, *, network_id: str, number: str
@@ -3096,15 +2982,13 @@ class Wireless:
             number: Number.
 
         """
-        metadata = {
-            "tags": ["wireless", "configure", "ssids", "eapOverride"],
-            "operation": "get_network_wireless_ssid_eap_override",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         number = urllib.parse.quote(str(number), safe="")
-        resource = f"/networks/{network_id}/wireless/ssids/{number}/eapOverride"
+        path = f"/networks/{network_id}/wireless/ssids/{number}/eapOverride"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="wireless", operation_id="getNetworkWirelessSsidEapOverride", path=path
+        )
 
     def update_network_wireless_ssid_eap_override(
         self,
@@ -3129,13 +3013,9 @@ class Wireless:
             eapol_key: EAPOL Key settings.
 
         """
-        metadata = {
-            "tags": ["wireless", "configure", "ssids", "eapOverride"],
-            "operation": "update_network_wireless_ssid_eap_override",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         number = urllib.parse.quote(str(number), safe="")
-        resource = f"/networks/{network_id}/wireless/ssids/{number}/eapOverride"
+        path = f"/networks/{network_id}/wireless/ssids/{number}/eapOverride"
 
         payload = {}
         if timeout is not None:
@@ -3147,7 +3027,9 @@ class Wireless:
         if eapol_key is not None:
             payload["eapolKey"] = eapol_key
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="wireless", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_network_wireless_ssid_firewall_l3_firewall_rules(
         self, *, network_id: str, number: str
@@ -3161,15 +3043,15 @@ class Wireless:
             number: Number.
 
         """
-        metadata = {
-            "tags": ["wireless", "configure", "ssids", "firewall", "l3FirewallRules"],
-            "operation": "get_network_wireless_ssid_firewall_l3_firewall_rules",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         number = urllib.parse.quote(str(number), safe="")
-        resource = f"/networks/{network_id}/wireless/ssids/{number}/firewall/l3FirewallRules"
+        path = f"/networks/{network_id}/wireless/ssids/{number}/firewall/l3FirewallRules"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="wireless",
+            operation_id="getNetworkWirelessSsidFirewallL3FirewallRules",
+            path=path,
+        )
 
     def update_network_wireless_ssid_firewall_l3_firewall_rules(
         self,
@@ -3191,13 +3073,9 @@ class Wireless:
               access and false denies access) (optional).
 
         """
-        metadata = {
-            "tags": ["wireless", "configure", "ssids", "firewall", "l3FirewallRules"],
-            "operation": "update_network_wireless_ssid_firewall_l3_firewall_rules",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         number = urllib.parse.quote(str(number), safe="")
-        resource = f"/networks/{network_id}/wireless/ssids/{number}/firewall/l3FirewallRules"
+        path = f"/networks/{network_id}/wireless/ssids/{number}/firewall/l3FirewallRules"
 
         payload = {}
         if rules is not None:
@@ -3205,7 +3083,9 @@ class Wireless:
         if allow_lan_access is not None:
             payload["allowLanAccess"] = allow_lan_access
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="wireless", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_network_wireless_ssid_firewall_l7_firewall_rules(
         self, *, network_id: str, number: str
@@ -3219,15 +3099,15 @@ class Wireless:
             number: Number.
 
         """
-        metadata = {
-            "tags": ["wireless", "configure", "ssids", "firewall", "l7FirewallRules"],
-            "operation": "get_network_wireless_ssid_firewall_l7_firewall_rules",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         number = urllib.parse.quote(str(number), safe="")
-        resource = f"/networks/{network_id}/wireless/ssids/{number}/firewall/l7FirewallRules"
+        path = f"/networks/{network_id}/wireless/ssids/{number}/firewall/l7FirewallRules"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="wireless",
+            operation_id="getNetworkWirelessSsidFirewallL7FirewallRules",
+            path=path,
+        )
 
     def update_network_wireless_ssid_firewall_l7_firewall_rules(
         self, *, network_id: str, number: str, rules: list | None = None
@@ -3244,19 +3124,17 @@ class Wireless:
               firewall rule configuration.
 
         """
-        metadata = {
-            "tags": ["wireless", "configure", "ssids", "firewall", "l7FirewallRules"],
-            "operation": "update_network_wireless_ssid_firewall_l7_firewall_rules",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         number = urllib.parse.quote(str(number), safe="")
-        resource = f"/networks/{network_id}/wireless/ssids/{number}/firewall/l7FirewallRules"
+        path = f"/networks/{network_id}/wireless/ssids/{number}/firewall/l7FirewallRules"
 
         payload = {}
         if rules is not None:
             payload["rules"] = rules
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="wireless", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_network_wireless_ssid_hotspot20(
         self, *, network_id: str, number: str
@@ -3270,15 +3148,13 @@ class Wireless:
             number: Number.
 
         """
-        metadata = {
-            "tags": ["wireless", "configure", "ssids", "hotspot20"],
-            "operation": "get_network_wireless_ssid_hotspot20",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         number = urllib.parse.quote(str(number), safe="")
-        resource = f"/networks/{network_id}/wireless/ssids/{number}/hotspot20"
+        path = f"/networks/{network_id}/wireless/ssids/{number}/hotspot20"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="wireless", operation_id="getNetworkWirelessSsidHotspot20", path=path
+        )
 
     def update_network_wireless_ssid_hotspot20(
         self,
@@ -3330,13 +3206,9 @@ class Wireless:
                 f'"network_access_type" cannot be "{network_access_type}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["wireless", "configure", "ssids", "hotspot20"],
-            "operation": "update_network_wireless_ssid_hotspot20",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         number = urllib.parse.quote(str(number), safe="")
-        resource = f"/networks/{network_id}/wireless/ssids/{number}/hotspot20"
+        path = f"/networks/{network_id}/wireless/ssids/{number}/hotspot20"
 
         payload = {}
         if enabled is not None:
@@ -3356,7 +3228,9 @@ class Wireless:
         if nai_realms is not None:
             payload["naiRealms"] = nai_realms
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="wireless", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_network_wireless_ssid_identity_psks(
         self, *, network_id: str, number: str
@@ -3370,15 +3244,13 @@ class Wireless:
             number: Number.
 
         """
-        metadata = {
-            "tags": ["wireless", "configure", "ssids", "identityPsks"],
-            "operation": "get_network_wireless_ssid_identity_psks",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         number = urllib.parse.quote(str(number), safe="")
-        resource = f"/networks/{network_id}/wireless/ssids/{number}/identityPsks"
+        path = f"/networks/{network_id}/wireless/ssids/{number}/identityPsks"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="wireless", operation_id="getNetworkWirelessSsidIdentityPsks", path=path
+        )
 
     def create_network_wireless_ssid_identity_psk(
         self,
@@ -3404,13 +3276,9 @@ class Wireless:
             expires_at: Timestamp for when the Identity PSK expires. Will not expire if left blank.
 
         """
-        metadata = {
-            "tags": ["wireless", "configure", "ssids", "identityPsks"],
-            "operation": "create_network_wireless_ssid_identity_psk",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         number = urllib.parse.quote(str(number), safe="")
-        resource = f"/networks/{network_id}/wireless/ssids/{number}/identityPsks"
+        path = f"/networks/{network_id}/wireless/ssids/{number}/identityPsks"
 
         payload = {}
         if name is not None:
@@ -3422,7 +3290,9 @@ class Wireless:
         if expires_at is not None:
             payload["expiresAt"] = expires_at
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="wireless", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_network_wireless_ssid_identity_psk(
         self, *, network_id: str, number: str, identity_psk_id: str
@@ -3437,16 +3307,14 @@ class Wireless:
             identity_psk_id: Identity psk ID.
 
         """
-        metadata = {
-            "tags": ["wireless", "configure", "ssids", "identityPsks"],
-            "operation": "get_network_wireless_ssid_identity_psk",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         number = urllib.parse.quote(str(number), safe="")
         identity_psk_id = urllib.parse.quote(str(identity_psk_id), safe="")
-        resource = f"/networks/{network_id}/wireless/ssids/{number}/identityPsks/{identity_psk_id}"
+        path = f"/networks/{network_id}/wireless/ssids/{number}/identityPsks/{identity_psk_id}"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="wireless", operation_id="getNetworkWirelessSsidIdentityPsk", path=path
+        )
 
     def update_network_wireless_ssid_identity_psk(
         self,
@@ -3473,14 +3341,10 @@ class Wireless:
             expires_at: Timestamp for when the Identity PSK expires, or 'null' to never expire.
 
         """
-        metadata = {
-            "tags": ["wireless", "configure", "ssids", "identityPsks"],
-            "operation": "update_network_wireless_ssid_identity_psk",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         number = urllib.parse.quote(str(number), safe="")
         identity_psk_id = urllib.parse.quote(str(identity_psk_id), safe="")
-        resource = f"/networks/{network_id}/wireless/ssids/{number}/identityPsks/{identity_psk_id}"
+        path = f"/networks/{network_id}/wireless/ssids/{number}/identityPsks/{identity_psk_id}"
 
         payload = {}
         if name is not None:
@@ -3492,7 +3356,9 @@ class Wireless:
         if expires_at is not None:
             payload["expiresAt"] = expires_at
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="wireless", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def delete_network_wireless_ssid_identity_psk(
         self, *, network_id: str, number: str, identity_psk_id: str
@@ -3507,16 +3373,14 @@ class Wireless:
             identity_psk_id: Identity psk ID.
 
         """
-        metadata = {
-            "tags": ["wireless", "configure", "ssids", "identityPsks"],
-            "operation": "delete_network_wireless_ssid_identity_psk",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         number = urllib.parse.quote(str(number), safe="")
         identity_psk_id = urllib.parse.quote(str(identity_psk_id), safe="")
-        resource = f"/networks/{network_id}/wireless/ssids/{number}/identityPsks/{identity_psk_id}"
+        path = f"/networks/{network_id}/wireless/ssids/{number}/identityPsks/{identity_psk_id}"
 
-        return self._session.delete(metadata, resource)
+        return self._session.delete(
+            scope="wireless", operation_id="deleteNetworkWirelessSsidIdentityPsk", path=path
+        )
 
     def update_network_wireless_ssid_open_roaming(
         self,
@@ -3537,13 +3401,9 @@ class Wireless:
             tenant_id: The OpenRoaming DNA Spaces tenant ID.
 
         """
-        metadata = {
-            "tags": ["wireless", "configure", "ssids", "openRoaming"],
-            "operation": "update_network_wireless_ssid_open_roaming",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         number = urllib.parse.quote(str(number), safe="")
-        resource = f"/networks/{network_id}/wireless/ssids/{number}/openRoaming"
+        path = f"/networks/{network_id}/wireless/ssids/{number}/openRoaming"
 
         payload = {}
         if enabled is not None:
@@ -3551,7 +3411,9 @@ class Wireless:
         if tenant_id is not None:
             payload["tenantId"] = tenant_id
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="wireless", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_network_wireless_ssid_schedules(
         self, *, network_id: str, number: str
@@ -3565,15 +3427,13 @@ class Wireless:
             number: Number.
 
         """
-        metadata = {
-            "tags": ["wireless", "configure", "ssids", "schedules"],
-            "operation": "get_network_wireless_ssid_schedules",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         number = urllib.parse.quote(str(number), safe="")
-        resource = f"/networks/{network_id}/wireless/ssids/{number}/schedules"
+        path = f"/networks/{network_id}/wireless/ssids/{number}/schedules"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="wireless", operation_id="getNetworkWirelessSsidSchedules", path=path
+        )
 
     def update_network_wireless_ssid_schedules(
         self,
@@ -3600,13 +3460,9 @@ class Wireless:
               parameter, ranges will take precedence.
 
         """
-        metadata = {
-            "tags": ["wireless", "configure", "ssids", "schedules"],
-            "operation": "update_network_wireless_ssid_schedules",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         number = urllib.parse.quote(str(number), safe="")
-        resource = f"/networks/{network_id}/wireless/ssids/{number}/schedules"
+        path = f"/networks/{network_id}/wireless/ssids/{number}/schedules"
 
         payload = {}
         if enabled is not None:
@@ -3616,7 +3472,9 @@ class Wireless:
         if ranges_in_seconds is not None:
             payload["rangesInSeconds"] = ranges_in_seconds
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="wireless", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_network_wireless_ssid_splash_settings(
         self, *, network_id: str, number: str
@@ -3630,15 +3488,13 @@ class Wireless:
             number: Number.
 
         """
-        metadata = {
-            "tags": ["wireless", "configure", "ssids", "splash", "settings"],
-            "operation": "get_network_wireless_ssid_splash_settings",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         number = urllib.parse.quote(str(number), safe="")
-        resource = f"/networks/{network_id}/wireless/ssids/{number}/splash/settings"
+        path = f"/networks/{network_id}/wireless/ssids/{number}/splash/settings"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="wireless", operation_id="getNetworkWirelessSsidSplashSettings", path=path
+        )
 
     def update_network_wireless_ssid_splash_settings(
         self,
@@ -3731,13 +3587,9 @@ class Wireless:
                 f'"controller_disconnection_behavior" cannot be "{controller_disconnection_behavior}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["wireless", "configure", "ssids", "splash", "settings"],
-            "operation": "update_network_wireless_ssid_splash_settings",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         number = urllib.parse.quote(str(number), safe="")
-        resource = f"/networks/{network_id}/wireless/ssids/{number}/splash/settings"
+        path = f"/networks/{network_id}/wireless/ssids/{number}/splash/settings"
 
         payload = {}
         if splash_url is not None:
@@ -3775,7 +3627,9 @@ class Wireless:
         if self_registration is not None:
             payload["selfRegistration"] = self_registration
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="wireless", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_network_wireless_ssid_traffic_shaping_rules(
         self, *, network_id: str, number: str
@@ -3789,15 +3643,13 @@ class Wireless:
             number: Number.
 
         """
-        metadata = {
-            "tags": ["wireless", "configure", "ssids", "trafficShaping", "rules"],
-            "operation": "get_network_wireless_ssid_traffic_shaping_rules",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         number = urllib.parse.quote(str(number), safe="")
-        resource = f"/networks/{network_id}/wireless/ssids/{number}/trafficShaping/rules"
+        path = f"/networks/{network_id}/wireless/ssids/{number}/trafficShaping/rules"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="wireless", operation_id="getNetworkWirelessSsidTrafficShapingRules", path=path
+        )
 
     def update_network_wireless_ssid_traffic_shaping_rules(
         self,
@@ -3826,13 +3678,9 @@ class Wireless:
               allowed a maximum of 8 rules.
 
         """
-        metadata = {
-            "tags": ["wireless", "configure", "ssids", "trafficShaping", "rules"],
-            "operation": "update_network_wireless_ssid_traffic_shaping_rules",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         number = urllib.parse.quote(str(number), safe="")
-        resource = f"/networks/{network_id}/wireless/ssids/{number}/trafficShaping/rules"
+        path = f"/networks/{network_id}/wireless/ssids/{number}/trafficShaping/rules"
 
         payload = {}
         if traffic_shaping_enabled is not None:
@@ -3842,7 +3690,9 @@ class Wireless:
         if rules is not None:
             payload["rules"] = rules
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="wireless", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_network_wireless_ssid_vpn(
         self, *, network_id: str, number: str
@@ -3856,15 +3706,13 @@ class Wireless:
             number: Number.
 
         """
-        metadata = {
-            "tags": ["wireless", "configure", "ssids", "vpn"],
-            "operation": "get_network_wireless_ssid_vpn",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         number = urllib.parse.quote(str(number), safe="")
-        resource = f"/networks/{network_id}/wireless/ssids/{number}/vpn"
+        path = f"/networks/{network_id}/wireless/ssids/{number}/vpn"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="wireless", operation_id="getNetworkWirelessSsidVpn", path=path
+        )
 
     def update_network_wireless_ssid_vpn(
         self,
@@ -3888,13 +3736,9 @@ class Wireless:
               concentrators are configured on the SSID.
 
         """
-        metadata = {
-            "tags": ["wireless", "configure", "ssids", "vpn"],
-            "operation": "update_network_wireless_ssid_vpn",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         number = urllib.parse.quote(str(number), safe="")
-        resource = f"/networks/{network_id}/wireless/ssids/{number}/vpn"
+        path = f"/networks/{network_id}/wireless/ssids/{number}/vpn"
 
         payload = {}
         if concentrator is not None:
@@ -3904,7 +3748,9 @@ class Wireless:
         if failover is not None:
             payload["failover"] = failover
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="wireless", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_network_wireless_usage_history(
         self,
@@ -3951,12 +3797,8 @@ class Wireless:
             options = ["2.4", "5", "6"]
             assert band in options, f'"band" cannot be "{band}", & must be set to one of: {options}'
 
-        metadata = {
-            "tags": ["wireless", "monitor", "usageHistory"],
-            "operation": "get_network_wireless_usage_history",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/wireless/usageHistory"
+        path = f"/networks/{network_id}/wireless/usageHistory"
 
         params = {}
         if t0 is not None:
@@ -3980,7 +3822,9 @@ class Wireless:
         if ssid is not None:
             params["ssid"] = ssid
 
-        return self._session.get(metadata, resource, params)
+        return self._session.get(
+            scope="wireless", operation_id="{operation_id}", path=path, params=params
+        )
 
     def update_network_wireless_zigbee(
         self,
@@ -4003,12 +3847,8 @@ class Wireless:
             defaults: Default Settings for Zigbee Devices.
 
         """
-        metadata = {
-            "tags": ["wireless", "configure", "zigbee"],
-            "operation": "update_network_wireless_zigbee",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/wireless/zigbee"
+        path = f"/networks/{network_id}/wireless/zigbee"
 
         payload = {}
         if enabled is not None:
@@ -4020,7 +3860,9 @@ class Wireless:
         if defaults is not None:
             payload["defaults"] = defaults
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="wireless", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_organization_wireless_air_marshal_rules(
         self,
@@ -4055,12 +3897,8 @@ class Wireless:
             direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        metadata = {
-            "tags": ["wireless", "configure", "airMarshal", "rules"],
-            "operation": "get_organization_wireless_air_marshal_rules",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/wireless/airMarshal/rules"
+        path = f"/organizations/{organization_id}/wireless/airMarshal/rules"
 
         params = {}
         if network_ids is not None:
@@ -4072,7 +3910,14 @@ class Wireless:
         if ending_before is not None:
             params["endingBefore"] = ending_before
 
-        return self._session.get_pages(metadata, resource, params, total_pages, direction)
+        return self._session.get_pages(
+            scope="wireless",
+            operation_id="{operation_id}",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+        )
 
     def get_organization_wireless_air_marshal_settings_by_network(
         self,
@@ -4107,12 +3952,8 @@ class Wireless:
             direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        metadata = {
-            "tags": ["wireless", "configure", "airMarshal", "settings", "byNetwork"],
-            "operation": "get_organization_wireless_air_marshal_settings_by_network",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/wireless/airMarshal/settings/byNetwork"
+        path = f"/organizations/{organization_id}/wireless/airMarshal/settings/byNetwork"
 
         params = {}
         if network_ids is not None:
@@ -4124,7 +3965,14 @@ class Wireless:
         if ending_before is not None:
             params["endingBefore"] = ending_before
 
-        return self._session.get_pages(metadata, resource, params, total_pages, direction)
+        return self._session.get_pages(
+            scope="wireless",
+            operation_id="{operation_id}",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+        )
 
     def get_organization_wireless_clients_overview_by_device(
         self,
@@ -4166,12 +4014,8 @@ class Wireless:
             direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        metadata = {
-            "tags": ["wireless", "monitor", "clients", "overview", "byDevice"],
-            "operation": "get_organization_wireless_clients_overview_by_device",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/wireless/clients/overview/byDevice"
+        path = f"/organizations/{organization_id}/wireless/clients/overview/byDevice"
 
         params = {}
         if network_ids is not None:
@@ -4187,7 +4031,14 @@ class Wireless:
         if ending_before is not None:
             params["endingBefore"] = ending_before
 
-        return self._session.get_pages(metadata, resource, params, total_pages, direction)
+        return self._session.get_pages(
+            scope="wireless",
+            operation_id="{operation_id}",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+        )
 
     def get_organization_wireless_devices_channel_utilization_by_device(
         self,
@@ -4236,12 +4087,8 @@ class Wireless:
             direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        metadata = {
-            "tags": ["wireless", "monitor", "devices", "channelUtilization", "byDevice"],
-            "operation": "get_organization_wireless_devices_channel_utilization_by_device",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/wireless/devices/channelUtilization/byDevice"
+        path = f"/organizations/{organization_id}/wireless/devices/channelUtilization/byDevice"
 
         params = {}
         if network_ids is not None:
@@ -4263,7 +4110,14 @@ class Wireless:
         if interval is not None:
             params["interval"] = interval
 
-        return self._session.get_pages(metadata, resource, params, total_pages, direction)
+        return self._session.get_pages(
+            scope="wireless",
+            operation_id="{operation_id}",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+        )
 
     def get_organization_wireless_devices_channel_utilization_by_network(
         self,
@@ -4312,12 +4166,8 @@ class Wireless:
             direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        metadata = {
-            "tags": ["wireless", "monitor", "devices", "channelUtilization", "byNetwork"],
-            "operation": "get_organization_wireless_devices_channel_utilization_by_network",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/wireless/devices/channelUtilization/byNetwork"
+        path = f"/organizations/{organization_id}/wireless/devices/channelUtilization/byNetwork"
 
         params = {}
         if network_ids is not None:
@@ -4339,7 +4189,14 @@ class Wireless:
         if interval is not None:
             params["interval"] = interval
 
-        return self._session.get_pages(metadata, resource, params, total_pages, direction)
+        return self._session.get_pages(
+            scope="wireless",
+            operation_id="{operation_id}",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+        )
 
     def get_organization_wireless_devices_channel_utilization_history_by_device_by_interval(
         self,
@@ -4388,20 +4245,8 @@ class Wireless:
             direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        metadata = {
-            "tags": [
-                "wireless",
-                "monitor",
-                "devices",
-                "channelUtilization",
-                "history",
-                "byDevice",
-                "byInterval",
-            ],
-            "operation": "get_organization_wireless_devices_channel_utilization_history_by_device_by_interval",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/wireless/devices/channelUtilization/history/byDevice/byInterval"
+        path = f"/organizations/{organization_id}/wireless/devices/channelUtilization/history/byDevice/byInterval"
 
         params = {}
         if network_ids is not None:
@@ -4423,7 +4268,14 @@ class Wireless:
         if interval is not None:
             params["interval"] = interval
 
-        return self._session.get_pages(metadata, resource, params, total_pages, direction)
+        return self._session.get_pages(
+            scope="wireless",
+            operation_id="{operation_id}",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+        )
 
     def get_organization_wireless_devices_channel_utilization_history_by_network_by_interval(
         self,
@@ -4472,20 +4324,8 @@ class Wireless:
             direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        metadata = {
-            "tags": [
-                "wireless",
-                "monitor",
-                "devices",
-                "channelUtilization",
-                "history",
-                "byNetwork",
-                "byInterval",
-            ],
-            "operation": "get_organization_wireless_devices_channel_utilization_history_by_network_by_interval",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/wireless/devices/channelUtilization/history/byNetwork/byInterval"
+        path = f"/organizations/{organization_id}/wireless/devices/channelUtilization/history/byNetwork/byInterval"
 
         params = {}
         if network_ids is not None:
@@ -4507,7 +4347,14 @@ class Wireless:
         if interval is not None:
             params["interval"] = interval
 
-        return self._session.get_pages(metadata, resource, params, total_pages, direction)
+        return self._session.get_pages(
+            scope="wireless",
+            operation_id="{operation_id}",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+        )
 
     def get_organization_wireless_devices_ethernet_statuses(
         self,
@@ -4543,12 +4390,8 @@ class Wireless:
             direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        metadata = {
-            "tags": ["wireless", "monitor", "devices", "ethernet", "statuses"],
-            "operation": "get_organization_wireless_devices_ethernet_statuses",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/wireless/devices/ethernet/statuses"
+        path = f"/organizations/{organization_id}/wireless/devices/ethernet/statuses"
 
         params = {}
         if per_page is not None:
@@ -4560,7 +4403,14 @@ class Wireless:
         if network_ids is not None:
             params["networkIds[]"] = network_ids
 
-        return self._session.get_pages(metadata, resource, params, total_pages, direction)
+        return self._session.get_pages(
+            scope="wireless",
+            operation_id="{operation_id}",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+        )
 
     def get_organization_wireless_devices_packet_loss_by_client(
         self,
@@ -4611,12 +4461,8 @@ class Wireless:
             direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        metadata = {
-            "tags": ["wireless", "monitor", "devices", "packetLoss", "byClient"],
-            "operation": "get_organization_wireless_devices_packet_loss_by_client",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/wireless/devices/packetLoss/byClient"
+        path = f"/organizations/{organization_id}/wireless/devices/packetLoss/byClient"
 
         params = {}
         if network_ids is not None:
@@ -4640,7 +4486,14 @@ class Wireless:
         if timespan is not None:
             params["timespan"] = timespan
 
-        return self._session.get_pages(metadata, resource, params, total_pages, direction)
+        return self._session.get_pages(
+            scope="wireless",
+            operation_id="{operation_id}",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+        )
 
     def get_organization_wireless_devices_packet_loss_by_device(
         self,
@@ -4691,12 +4544,8 @@ class Wireless:
             direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        metadata = {
-            "tags": ["wireless", "monitor", "devices", "packetLoss", "byDevice"],
-            "operation": "get_organization_wireless_devices_packet_loss_by_device",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/wireless/devices/packetLoss/byDevice"
+        path = f"/organizations/{organization_id}/wireless/devices/packetLoss/byDevice"
 
         params = {}
         if network_ids is not None:
@@ -4720,7 +4569,14 @@ class Wireless:
         if timespan is not None:
             params["timespan"] = timespan
 
-        return self._session.get_pages(metadata, resource, params, total_pages, direction)
+        return self._session.get_pages(
+            scope="wireless",
+            operation_id="{operation_id}",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+        )
 
     def get_organization_wireless_devices_packet_loss_by_network(
         self,
@@ -4771,12 +4627,8 @@ class Wireless:
             direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        metadata = {
-            "tags": ["wireless", "monitor", "devices", "packetLoss", "byNetwork"],
-            "operation": "get_organization_wireless_devices_packet_loss_by_network",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/wireless/devices/packetLoss/byNetwork"
+        path = f"/organizations/{organization_id}/wireless/devices/packetLoss/byNetwork"
 
         params = {}
         if network_ids is not None:
@@ -4800,7 +4652,14 @@ class Wireless:
         if timespan is not None:
             params["timespan"] = timespan
 
-        return self._session.get_pages(metadata, resource, params, total_pages, direction)
+        return self._session.get_pages(
+            scope="wireless",
+            operation_id="{operation_id}",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+        )
 
     def get_organization_wireless_devices_power_mode_history(
         self,
@@ -4848,12 +4707,8 @@ class Wireless:
             direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        metadata = {
-            "tags": ["wireless", "monitor", "devices", "power", "mode", "history"],
-            "operation": "get_organization_wireless_devices_power_mode_history",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/wireless/devices/power/mode/history"
+        path = f"/organizations/{organization_id}/wireless/devices/power/mode/history"
 
         params = {}
         if t0 is not None:
@@ -4873,7 +4728,14 @@ class Wireless:
         if serials is not None:
             params["serials[]"] = serials
 
-        return self._session.get_pages(metadata, resource, params, total_pages, direction)
+        return self._session.get_pages(
+            scope="wireless",
+            operation_id="{operation_id}",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+        )
 
     def get_organization_wireless_devices_radsec_certificates_authorities(
         self, *, organization_id: str, certificate_authority_ids: list | None = None
@@ -4888,20 +4750,16 @@ class Wireless:
               returned CAs will have an ID that is an exact match.
 
         """
-        metadata = {
-            "tags": ["wireless", "configure", "devices", "radsec", "certificates", "authorities"],
-            "operation": "get_organization_wireless_devices_radsec_certificates_authorities",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = (
-            f"/organizations/{organization_id}/wireless/devices/radsec/certificates/authorities"
-        )
+        path = f"/organizations/{organization_id}/wireless/devices/radsec/certificates/authorities"
 
         params = {}
         if certificate_authority_ids is not None:
             params["certificateAuthorityIds[]"] = certificate_authority_ids
 
-        return self._session.get(metadata, resource, params)
+        return self._session.get(
+            scope="wireless", operation_id="{operation_id}", path=path, params=params
+        )
 
     def update_organization_wireless_devices_radsec_certificates_authorities(
         self,
@@ -4921,14 +4779,8 @@ class Wireless:
             certificate_authority_id: The ID of the Certificate Authority to update.
 
         """
-        metadata = {
-            "tags": ["wireless", "configure", "devices", "radsec", "certificates", "authorities"],
-            "operation": "update_organization_wireless_devices_radsec_certificates_authorities",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = (
-            f"/organizations/{organization_id}/wireless/devices/radsec/certificates/authorities"
-        )
+        path = f"/organizations/{organization_id}/wireless/devices/radsec/certificates/authorities"
 
         payload = {}
         if status is not None:
@@ -4936,7 +4788,9 @@ class Wireless:
         if certificate_authority_id is not None:
             payload["certificateAuthorityId"] = certificate_authority_id
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="wireless", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def create_organization_wireless_devices_radsec_certificates_authority(
         self, *, organization_id: str
@@ -4949,16 +4803,14 @@ class Wireless:
             organization_id: Organization ID.
 
         """
-        metadata = {
-            "tags": ["wireless", "configure", "devices", "radsec", "certificates", "authorities"],
-            "operation": "create_organization_wireless_devices_radsec_certificates_authority",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = (
-            f"/organizations/{organization_id}/wireless/devices/radsec/certificates/authorities"
-        )
+        path = f"/organizations/{organization_id}/wireless/devices/radsec/certificates/authorities"
 
-        return self._session.post(metadata, resource)
+        return self._session.post(
+            scope="wireless",
+            operation_id="createOrganizationWirelessDevicesRadsecCertificatesAuthority",
+            path=path,
+        )
 
     def get_organization_wireless_devices_radsec_certificates_authorities_crls(
         self, *, organization_id: str, certificate_authority_ids: list | None = None
@@ -4973,26 +4825,16 @@ class Wireless:
               returned CAs will have an ID that is an exact match.
 
         """
-        metadata = {
-            "tags": [
-                "wireless",
-                "configure",
-                "devices",
-                "radsec",
-                "certificates",
-                "authorities",
-                "crls",
-            ],
-            "operation": "get_organization_wireless_devices_radsec_certificates_authorities_crls",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/wireless/devices/radsec/certificates/authorities/crls"
+        path = f"/organizations/{organization_id}/wireless/devices/radsec/certificates/authorities/crls"
 
         params = {}
         if certificate_authority_ids is not None:
             params["certificateAuthorityIds[]"] = certificate_authority_ids
 
-        return self._session.get(metadata, resource, params)
+        return self._session.get(
+            scope="wireless", operation_id="{operation_id}", path=path, params=params
+        )
 
     def get_organization_wireless_devices_radsec_certificates_authorities_crls_deltas(
         self, *, organization_id: str, certificate_authority_ids: list | None = None
@@ -5007,27 +4849,16 @@ class Wireless:
               CAs will have an ID that is an exact match.
 
         """
-        metadata = {
-            "tags": [
-                "wireless",
-                "configure",
-                "devices",
-                "radsec",
-                "certificates",
-                "authorities",
-                "crls",
-                "deltas",
-            ],
-            "operation": "get_organization_wireless_devices_radsec_certificates_authorities_crls_deltas",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/wireless/devices/radsec/certificates/authorities/crls/deltas"
+        path = f"/organizations/{organization_id}/wireless/devices/radsec/certificates/authorities/crls/deltas"
 
         params = {}
         if certificate_authority_ids is not None:
             params["certificateAuthorityIds[]"] = certificate_authority_ids
 
-        return self._session.get(metadata, resource, params)
+        return self._session.get(
+            scope="wireless", operation_id="{operation_id}", path=path, params=params
+        )
 
     def get_organization_wireless_devices_system_cpu_load_history(
         self,
@@ -5075,12 +4906,8 @@ class Wireless:
             direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        metadata = {
-            "tags": ["wireless", "monitor", "devices", "system", "cpu", "load", "history"],
-            "operation": "get_organization_wireless_devices_system_cpu_load_history",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/wireless/devices/system/cpu/load/history"
+        path = f"/organizations/{organization_id}/wireless/devices/system/cpu/load/history"
 
         params = {}
         if t0 is not None:
@@ -5100,7 +4927,14 @@ class Wireless:
         if serials is not None:
             params["serials[]"] = serials
 
-        return self._session.get_pages(metadata, resource, params, total_pages, direction)
+        return self._session.get_pages(
+            scope="wireless",
+            operation_id="{operation_id}",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+        )
 
     def get_organization_wireless_devices_wireless_controllers_by_device(
         self,
@@ -5142,12 +4976,8 @@ class Wireless:
             direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        metadata = {
-            "tags": ["wireless", "monitor", "devices", "wirelessControllers", "byDevice"],
-            "operation": "get_organization_wireless_devices_wireless_controllers_by_device",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/wireless/devices/wirelessControllers/byDevice"
+        path = f"/organizations/{organization_id}/wireless/devices/wirelessControllers/byDevice"
 
         params = {}
         if network_ids is not None:
@@ -5163,7 +4993,14 @@ class Wireless:
         if ending_before is not None:
             params["endingBefore"] = ending_before
 
-        return self._session.get_pages(metadata, resource, params, total_pages, direction)
+        return self._session.get_pages(
+            scope="wireless",
+            operation_id="{operation_id}",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+        )
 
     def get_organization_wireless_location_scanning_by_network(
         self,
@@ -5198,12 +5035,8 @@ class Wireless:
             direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        metadata = {
-            "tags": ["wireless", "configure", "location", "scanning", "byNetwork"],
-            "operation": "get_organization_wireless_location_scanning_by_network",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/wireless/location/scanning/byNetwork"
+        path = f"/organizations/{organization_id}/wireless/location/scanning/byNetwork"
 
         params = {}
         if per_page is not None:
@@ -5215,7 +5048,14 @@ class Wireless:
         if network_ids is not None:
             params["networkIds[]"] = network_ids
 
-        return self._session.get_pages(metadata, resource, params, total_pages, direction)
+        return self._session.get_pages(
+            scope="wireless",
+            operation_id="{operation_id}",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+        )
 
     def get_organization_wireless_location_scanning_receivers(
         self,
@@ -5250,12 +5090,8 @@ class Wireless:
             direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        metadata = {
-            "tags": ["wireless", "configure", "location", "scanning", "receivers"],
-            "operation": "get_organization_wireless_location_scanning_receivers",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/wireless/location/scanning/receivers"
+        path = f"/organizations/{organization_id}/wireless/location/scanning/receivers"
 
         params = {}
         if per_page is not None:
@@ -5267,7 +5103,14 @@ class Wireless:
         if network_ids is not None:
             params["networkIds[]"] = network_ids
 
-        return self._session.get_pages(metadata, resource, params, total_pages, direction)
+        return self._session.get_pages(
+            scope="wireless",
+            operation_id="{operation_id}",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+        )
 
     def create_organization_wireless_location_scanning_receiver(
         self,
@@ -5292,12 +5135,8 @@ class Wireless:
             shared_secret: Secret Value for Receiver.
 
         """
-        metadata = {
-            "tags": ["wireless", "configure", "location", "scanning", "receivers"],
-            "operation": "create_organization_wireless_location_scanning_receiver",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/wireless/location/scanning/receivers"
+        path = f"/organizations/{organization_id}/wireless/location/scanning/receivers"
 
         payload = {}
         if network is not None:
@@ -5311,7 +5150,9 @@ class Wireless:
         if shared_secret is not None:
             payload["sharedSecret"] = shared_secret
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="wireless", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def update_organization_wireless_location_scanning_receiver(
         self,
@@ -5334,13 +5175,9 @@ class Wireless:
             radio: Add scanning API Radio.
 
         """
-        metadata = {
-            "tags": ["wireless", "configure", "location", "scanning", "receivers"],
-            "operation": "update_organization_wireless_location_scanning_receiver",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         receiver_id = urllib.parse.quote(str(receiver_id), safe="")
-        resource = (
+        path = (
             f"/organizations/{organization_id}/wireless/location/scanning/receivers/{receiver_id}"
         )
 
@@ -5352,7 +5189,9 @@ class Wireless:
         if radio is not None:
             payload["radio"] = radio
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="wireless", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def delete_organization_wireless_location_scanning_receiver(
         self, *, organization_id: str, receiver_id: str
@@ -5366,17 +5205,17 @@ class Wireless:
             receiver_id: Receiver ID.
 
         """
-        metadata = {
-            "tags": ["wireless", "configure", "location", "scanning", "receivers"],
-            "operation": "delete_organization_wireless_location_scanning_receiver",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         receiver_id = urllib.parse.quote(str(receiver_id), safe="")
-        resource = (
+        path = (
             f"/organizations/{organization_id}/wireless/location/scanning/receivers/{receiver_id}"
         )
 
-        return self._session.delete(metadata, resource)
+        return self._session.delete(
+            scope="wireless",
+            operation_id="deleteOrganizationWirelessLocationScanningReceiver",
+            path=path,
+        )
 
     def get_organization_wireless_mqtt_settings(
         self,
@@ -5411,12 +5250,8 @@ class Wireless:
             direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        metadata = {
-            "tags": ["wireless", "configure", "mqtt", "settings"],
-            "operation": "get_organization_wireless_mqtt_settings",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/wireless/mqtt/settings"
+        path = f"/organizations/{organization_id}/wireless/mqtt/settings"
 
         params = {}
         if per_page is not None:
@@ -5428,7 +5263,14 @@ class Wireless:
         if network_ids is not None:
             params["networkIds[]"] = network_ids
 
-        return self._session.get_pages(metadata, resource, params, total_pages, direction)
+        return self._session.get_pages(
+            scope="wireless",
+            operation_id="{operation_id}",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+        )
 
     def update_organization_wireless_mqtt_settings(
         self,
@@ -5451,12 +5293,8 @@ class Wireless:
             wifi: MQTT Wi-Fi Settings for network.
 
         """
-        metadata = {
-            "tags": ["wireless", "configure", "mqtt", "settings"],
-            "operation": "update_organization_wireless_mqtt_settings",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/wireless/mqtt/settings"
+        path = f"/organizations/{organization_id}/wireless/mqtt/settings"
 
         payload = {}
         if network is not None:
@@ -5468,7 +5306,9 @@ class Wireless:
         if wifi is not None:
             payload["wifi"] = wifi
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="wireless", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def recalculate_organization_wireless_radio_auto_rf_channels(
         self, *, organization_id: str, network_ids: list
@@ -5482,18 +5322,16 @@ class Wireless:
             network_ids: A list of network ids (limit: 15).
 
         """
-        metadata = {
-            "tags": ["wireless", "configure", "radio", "autoRf", "channels"],
-            "operation": "recalculate_organization_wireless_radio_auto_rf_channels",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/wireless/radio/autoRf/channels/recalculate"
+        path = f"/organizations/{organization_id}/wireless/radio/autoRf/channels/recalculate"
 
         payload = {}
         if network_ids is not None:
             payload["networkIds"] = network_ids
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="wireless", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_organization_wireless_rf_profiles_assignments_by_device(
         self,
@@ -5555,12 +5393,8 @@ class Wireless:
             direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        metadata = {
-            "tags": ["wireless", "configure", "rfProfiles", "assignments", "byDevice"],
-            "operation": "get_organization_wireless_rf_profiles_assignments_by_device",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/wireless/rfProfiles/assignments/byDevice"
+        path = f"/organizations/{organization_id}/wireless/rfProfiles/assignments/byDevice"
 
         params = {}
         if per_page is not None:
@@ -5588,7 +5422,14 @@ class Wireless:
         if models is not None:
             params["models[]"] = models
 
-        return self._session.get_pages(metadata, resource, params, total_pages, direction)
+        return self._session.get_pages(
+            scope="wireless",
+            operation_id="{operation_id}",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+        )
 
     def get_organization_wireless_ssids_firewall_isolation_allowlist_entries(
         self,
@@ -5625,20 +5466,8 @@ class Wireless:
             direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        metadata = {
-            "tags": [
-                "wireless",
-                "configure",
-                "ssids",
-                "firewall",
-                "isolation",
-                "allowlist",
-                "entries",
-            ],
-            "operation": "get_organization_wireless_ssids_firewall_isolation_allowlist_entries",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = (
+        path = (
             f"/organizations/{organization_id}/wireless/ssids/firewall/isolation/allowlist/entries"
         )
 
@@ -5654,7 +5483,14 @@ class Wireless:
         if ssids is not None:
             params["ssids[]"] = ssids
 
-        return self._session.get_pages(metadata, resource, params, total_pages, direction)
+        return self._session.get_pages(
+            scope="wireless",
+            operation_id="{operation_id}",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+        )
 
     def create_organization_wireless_ssids_firewall_isolation_allowlist_entry(
         self,
@@ -5677,20 +5513,8 @@ class Wireless:
             network: The Network that allowlist belongs to.
 
         """
-        metadata = {
-            "tags": [
-                "wireless",
-                "configure",
-                "ssids",
-                "firewall",
-                "isolation",
-                "allowlist",
-                "entries",
-            ],
-            "operation": "create_organization_wireless_ssids_firewall_isolation_allowlist_entry",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = (
+        path = (
             f"/organizations/{organization_id}/wireless/ssids/firewall/isolation/allowlist/entries"
         )
 
@@ -5704,7 +5528,9 @@ class Wireless:
         if network is not None:
             payload["network"] = network
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="wireless", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def update_organization_wireless_ssids_firewall_isolation_allowlist_entry(
         self,
@@ -5725,21 +5551,9 @@ class Wireless:
             client: The client of allowlist.
 
         """
-        metadata = {
-            "tags": [
-                "wireless",
-                "configure",
-                "ssids",
-                "firewall",
-                "isolation",
-                "allowlist",
-                "entries",
-            ],
-            "operation": "update_organization_wireless_ssids_firewall_isolation_allowlist_entry",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         entry_id = urllib.parse.quote(str(entry_id), safe="")
-        resource = f"/organizations/{organization_id}/wireless/ssids/firewall/isolation/allowlist/entries/{entry_id}"
+        path = f"/organizations/{organization_id}/wireless/ssids/firewall/isolation/allowlist/entries/{entry_id}"
 
         payload = {}
         if description is not None:
@@ -5747,7 +5561,9 @@ class Wireless:
         if client is not None:
             payload["client"] = client
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="wireless", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def delete_organization_wireless_ssids_firewall_isolation_allowlist_entry(
         self, *, organization_id: str, entry_id: str
@@ -5761,23 +5577,15 @@ class Wireless:
             entry_id: Entry ID.
 
         """
-        metadata = {
-            "tags": [
-                "wireless",
-                "configure",
-                "ssids",
-                "firewall",
-                "isolation",
-                "allowlist",
-                "entries",
-            ],
-            "operation": "delete_organization_wireless_ssids_firewall_isolation_allowlist_entry",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         entry_id = urllib.parse.quote(str(entry_id), safe="")
-        resource = f"/organizations/{organization_id}/wireless/ssids/firewall/isolation/allowlist/entries/{entry_id}"
+        path = f"/organizations/{organization_id}/wireless/ssids/firewall/isolation/allowlist/entries/{entry_id}"
 
-        return self._session.delete(metadata, resource)
+        return self._session.delete(
+            scope="wireless",
+            operation_id="deleteOrganizationWirelessSsidsFirewallIsolationAllowlistEntry",
+            path=path,
+        )
 
     def get_organization_wireless_ssids_open_roaming_by_network(
         self,
@@ -5815,12 +5623,8 @@ class Wireless:
             direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        metadata = {
-            "tags": ["wireless", "configure", "ssids", "openRoaming", "byNetwork"],
-            "operation": "get_organization_wireless_ssids_open_roaming_by_network",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/wireless/ssids/openRoaming/byNetwork"
+        path = f"/organizations/{organization_id}/wireless/ssids/openRoaming/byNetwork"
 
         params = {}
         if per_page is not None:
@@ -5834,7 +5638,14 @@ class Wireless:
         if include_disabled_ssids is not None:
             params["includeDisabledSsids"] = include_disabled_ssids
 
-        return self._session.get_pages(metadata, resource, params, total_pages, direction)
+        return self._session.get_pages(
+            scope="wireless",
+            operation_id="{operation_id}",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+        )
 
     def get_organization_wireless_ssids_statuses_by_device(
         self,
@@ -5879,12 +5690,8 @@ class Wireless:
             direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        metadata = {
-            "tags": ["wireless", "monitor", "ssids", "statuses", "byDevice"],
-            "operation": "get_organization_wireless_ssids_statuses_by_device",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/wireless/ssids/statuses/byDevice"
+        path = f"/organizations/{organization_id}/wireless/ssids/statuses/byDevice"
 
         params = {}
         if network_ids is not None:
@@ -5902,7 +5709,14 @@ class Wireless:
         if ending_before is not None:
             params["endingBefore"] = ending_before
 
-        return self._session.get_pages(metadata, resource, params, total_pages, direction)
+        return self._session.get_pages(
+            scope="wireless",
+            operation_id="{operation_id}",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+        )
 
     def get_organization_wireless_zigbee_by_network(
         self,
@@ -5937,12 +5751,8 @@ class Wireless:
             direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        metadata = {
-            "tags": ["wireless", "configure", "zigbee", "byNetwork"],
-            "operation": "get_organization_wireless_zigbee_by_network",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/wireless/zigbee/byNetwork"
+        path = f"/organizations/{organization_id}/wireless/zigbee/byNetwork"
 
         params = {}
         if per_page is not None:
@@ -5954,7 +5764,14 @@ class Wireless:
         if network_ids is not None:
             params["networkIds[]"] = network_ids
 
-        return self._session.get_pages(metadata, resource, params, total_pages, direction)
+        return self._session.get_pages(
+            scope="wireless",
+            operation_id="{operation_id}",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+        )
 
     def get_organization_wireless_zigbee_devices(
         self,
@@ -5994,12 +5811,8 @@ class Wireless:
             direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        metadata = {
-            "tags": ["wireless", "configure", "zigbee", "devices"],
-            "operation": "get_organization_wireless_zigbee_devices",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/wireless/zigbee/devices"
+        path = f"/organizations/{organization_id}/wireless/zigbee/devices"
 
         params = {}
         if per_page is not None:
@@ -6015,7 +5828,14 @@ class Wireless:
         if search is not None:
             params["search"] = search
 
-        return self._session.get_pages(metadata, resource, params, total_pages, direction)
+        return self._session.get_pages(
+            scope="wireless",
+            operation_id="{operation_id}",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+        )
 
     def update_organization_wireless_zigbee_device(
         self, *, organization_id: str, id_: str, enrolled: bool, channel: str | None = None
@@ -6031,13 +5851,9 @@ class Wireless:
             channel: The new channel for the zigbee device.
 
         """
-        metadata = {
-            "tags": ["wireless", "configure", "zigbee", "devices"],
-            "operation": "update_organization_wireless_zigbee_device",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         id_ = urllib.parse.quote(str(id_), safe="")
-        resource = f"/organizations/{organization_id}/wireless/zigbee/devices/{id_}"
+        path = f"/organizations/{organization_id}/wireless/zigbee/devices/{id_}"
 
         payload = {}
         if enrolled is not None:
@@ -6045,7 +5861,9 @@ class Wireless:
         if channel is not None:
             payload["channel"] = channel
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="wireless", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def create_organization_wireless_zigbee_disenrollment(
         self, *, organization_id: str, door_lock_ids: list | None = None
@@ -6059,18 +5877,16 @@ class Wireless:
             door_lock_ids: A list of Meraki door lock ids to disenroll from the device.
 
         """
-        metadata = {
-            "tags": ["wireless", "configure", "zigbee", "disenrollments"],
-            "operation": "create_organization_wireless_zigbee_disenrollment",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/wireless/zigbee/disenrollments"
+        path = f"/organizations/{organization_id}/wireless/zigbee/disenrollments"
 
         payload = {}
         if door_lock_ids is not None:
             payload["doorLockIds"] = door_lock_ids
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="wireless", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_organization_wireless_zigbee_disenrollment(
         self, *, organization_id: str, disenrollment_id: str
@@ -6084,17 +5900,13 @@ class Wireless:
             disenrollment_id: Disenrollment ID.
 
         """
-        metadata = {
-            "tags": ["wireless", "configure", "zigbee", "disenrollments"],
-            "operation": "get_organization_wireless_zigbee_disenrollment",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         disenrollment_id = urllib.parse.quote(str(disenrollment_id), safe="")
-        resource = (
-            f"/organizations/{organization_id}/wireless/zigbee/disenrollments/{disenrollment_id}"
-        )
+        path = f"/organizations/{organization_id}/wireless/zigbee/disenrollments/{disenrollment_id}"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="wireless", operation_id="getOrganizationWirelessZigbeeDisenrollment", path=path
+        )
 
     def get_organization_wireless_zigbee_door_locks(
         self,
@@ -6131,12 +5943,8 @@ class Wireless:
             direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        metadata = {
-            "tags": ["wireless", "configure", "zigbee", "doorLocks"],
-            "operation": "get_organization_wireless_zigbee_door_locks",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/wireless/zigbee/doorLocks"
+        path = f"/organizations/{organization_id}/wireless/zigbee/doorLocks"
 
         params = {}
         if network_ids is not None:
@@ -6150,7 +5958,14 @@ class Wireless:
         if ending_before is not None:
             params["endingBefore"] = ending_before
 
-        return self._session.get_pages(metadata, resource, params, total_pages, direction)
+        return self._session.get_pages(
+            scope="wireless",
+            operation_id="{operation_id}",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+        )
 
     def update_organization_wireless_zigbee_door_lock(
         self, *, organization_id: str, door_lock_id: str, name: str | None = None
@@ -6165,16 +5980,14 @@ class Wireless:
             name: Door lock name to update.
 
         """
-        metadata = {
-            "tags": ["wireless", "configure", "zigbee", "doorLocks"],
-            "operation": "update_organization_wireless_zigbee_door_lock",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         door_lock_id = urllib.parse.quote(str(door_lock_id), safe="")
-        resource = f"/organizations/{organization_id}/wireless/zigbee/doorLocks/{door_lock_id}"
+        path = f"/organizations/{organization_id}/wireless/zigbee/doorLocks/{door_lock_id}"
 
         payload = {}
         if name is not None:
             payload["name"] = name
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="wireless", operation_id="{operation_id}", path=path, json=payload
+        )

@@ -1,7 +1,7 @@
 """ActionBatchCamera API endpoints."""
 
 import urllib
-from typing import Any
+from typing import Any, Literal
 
 
 class ActionBatchCamera:
@@ -30,7 +30,7 @@ class ActionBatchCamera:
 
         """
         serial = urllib.parse.quote(str(serial), safe="")
-        resource = f"/devices/{serial}/camera/customAnalytics"
+        path = f"/devices/{serial}/camera/customAnalytics"
 
         payload = {}
         if enabled is not None:
@@ -41,7 +41,7 @@ class ActionBatchCamera:
             payload["parameters"] = parameters
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -110,7 +110,7 @@ class ActionBatchCamera:
             )
 
         serial = urllib.parse.quote(str(serial), safe="")
-        resource = f"/devices/{serial}/camera/qualityAndRetention"
+        path = f"/devices/{serial}/camera/qualityAndRetention"
 
         payload = {}
         if profile_id is not None:
@@ -129,7 +129,7 @@ class ActionBatchCamera:
             payload["motionDetectorVersion"] = motion_detector_version
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -159,7 +159,7 @@ class ActionBatchCamera:
 
         """
         serial = urllib.parse.quote(str(serial), safe="")
-        resource = f"/devices/{serial}/camera/sense"
+        path = f"/devices/{serial}/camera/sense"
 
         payload = {}
         if sense_enabled is not None:
@@ -172,7 +172,7 @@ class ActionBatchCamera:
             payload["detectionModelId"] = detection_model_id
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -191,14 +191,14 @@ class ActionBatchCamera:
 
         """
         serial = urllib.parse.quote(str(serial), safe="")
-        resource = f"/devices/{serial}/camera/video/settings"
+        path = f"/devices/{serial}/camera/video/settings"
 
         payload = {}
         if external_rtsp_enabled is not None:
             payload["externalRtspEnabled"] = external_rtsp_enabled
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -215,14 +215,14 @@ class ActionBatchCamera:
 
         """
         serial = urllib.parse.quote(str(serial), safe="")
-        resource = f"/devices/{serial}/camera/wirelessProfiles"
+        path = f"/devices/{serial}/camera/wirelessProfiles"
 
         payload = {}
         if ids is not None:
             payload["ids"] = ids
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }

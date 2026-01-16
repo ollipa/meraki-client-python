@@ -1,7 +1,7 @@
 """ActionBatchOrganizations API endpoints."""
 
 import urllib
-from typing import Any
+from typing import Any, Literal
 
 
 class ActionBatchOrganizations:
@@ -38,7 +38,7 @@ class ActionBatchOrganizations:
             )
 
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/adaptivePolicy/acls"
+        path = f"/organizations/{organization_id}/adaptivePolicy/acls"
 
         payload = {}
         if name is not None:
@@ -51,7 +51,7 @@ class ActionBatchOrganizations:
             payload["ipVersion"] = ip_version
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "create",
             "body": payload,
         }
@@ -89,7 +89,7 @@ class ActionBatchOrganizations:
 
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         acl_id = urllib.parse.quote(str(acl_id), safe="")
-        resource = f"/organizations/{organization_id}/adaptivePolicy/acls/{acl_id}"
+        path = f"/organizations/{organization_id}/adaptivePolicy/acls/{acl_id}"
 
         payload = {}
         if name is not None:
@@ -102,7 +102,7 @@ class ActionBatchOrganizations:
             payload["ipVersion"] = ip_version
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -122,10 +122,10 @@ class ActionBatchOrganizations:
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         acl_id = urllib.parse.quote(str(acl_id), safe="")
-        resource = f"/organizations/{organization_id}/adaptivePolicy/acls/{acl_id}"
+        path = f"/organizations/{organization_id}/adaptivePolicy/acls/{acl_id}"
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "destroy",
         }
         return action  # noqa: RET504
@@ -155,7 +155,7 @@ class ActionBatchOrganizations:
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/adaptivePolicy/groups"
+        path = f"/organizations/{organization_id}/adaptivePolicy/groups"
 
         payload = {}
         if name is not None:
@@ -168,7 +168,7 @@ class ActionBatchOrganizations:
             payload["policyObjects"] = policy_objects
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "create",
             "body": payload,
         }
@@ -202,7 +202,7 @@ class ActionBatchOrganizations:
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         id_ = urllib.parse.quote(str(id_), safe="")
-        resource = f"/organizations/{organization_id}/adaptivePolicy/groups/{id_}"
+        path = f"/organizations/{organization_id}/adaptivePolicy/groups/{id_}"
 
         payload = {}
         if name is not None:
@@ -215,7 +215,7 @@ class ActionBatchOrganizations:
             payload["policyObjects"] = policy_objects
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -235,10 +235,10 @@ class ActionBatchOrganizations:
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         id_ = urllib.parse.quote(str(id_), safe="")
-        resource = f"/organizations/{organization_id}/adaptivePolicy/groups/{id_}"
+        path = f"/organizations/{organization_id}/adaptivePolicy/groups/{id_}"
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "destroy",
         }
         return action  # noqa: RET504
@@ -273,7 +273,7 @@ class ActionBatchOrganizations:
             )
 
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/adaptivePolicy/policies"
+        path = f"/organizations/{organization_id}/adaptivePolicy/policies"
 
         payload = {}
         if source_group is not None:
@@ -286,7 +286,7 @@ class ActionBatchOrganizations:
             payload["lastEntryRule"] = last_entry_rule
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "create",
             "body": payload,
         }
@@ -325,7 +325,7 @@ class ActionBatchOrganizations:
 
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         id_ = urllib.parse.quote(str(id_), safe="")
-        resource = f"/organizations/{organization_id}/adaptivePolicy/policies/{id_}"
+        path = f"/organizations/{organization_id}/adaptivePolicy/policies/{id_}"
 
         payload = {}
         if source_group is not None:
@@ -338,7 +338,7 @@ class ActionBatchOrganizations:
             payload["lastEntryRule"] = last_entry_rule
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -358,10 +358,10 @@ class ActionBatchOrganizations:
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         id_ = urllib.parse.quote(str(id_), safe="")
-        resource = f"/organizations/{organization_id}/adaptivePolicy/policies/{id_}"
+        path = f"/organizations/{organization_id}/adaptivePolicy/policies/{id_}"
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "destroy",
         }
         return action  # noqa: RET504
@@ -379,14 +379,14 @@ class ActionBatchOrganizations:
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/adaptivePolicy/settings"
+        path = f"/organizations/{organization_id}/adaptivePolicy/settings"
 
         payload = {}
         if enabled_networks is not None:
             payload["enabledNetworks"] = enabled_networks
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -431,7 +431,7 @@ class ActionBatchOrganizations:
             )
 
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/alerts/profiles"
+        path = f"/organizations/{organization_id}/alerts/profiles"
 
         payload = {}
         if type_ is not None:
@@ -446,7 +446,7 @@ class ActionBatchOrganizations:
             payload["description"] = description
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "create",
             "body": payload,
         }
@@ -496,7 +496,7 @@ class ActionBatchOrganizations:
 
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         alert_config_id = urllib.parse.quote(str(alert_config_id), safe="")
-        resource = f"/organizations/{organization_id}/alerts/profiles/{alert_config_id}"
+        path = f"/organizations/{organization_id}/alerts/profiles/{alert_config_id}"
 
         payload = {}
         if enabled is not None:
@@ -513,7 +513,7 @@ class ActionBatchOrganizations:
             payload["description"] = description
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -533,10 +533,10 @@ class ActionBatchOrganizations:
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         alert_config_id = urllib.parse.quote(str(alert_config_id), safe="")
-        resource = f"/organizations/{organization_id}/alerts/profiles/{alert_config_id}"
+        path = f"/organizations/{organization_id}/alerts/profiles/{alert_config_id}"
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "destroy",
         }
         return action  # noqa: RET504
@@ -571,7 +571,7 @@ class ActionBatchOrganizations:
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/brandingPolicies"
+        path = f"/organizations/{organization_id}/brandingPolicies"
 
         payload = {}
         if name is not None:
@@ -586,7 +586,7 @@ class ActionBatchOrganizations:
             payload["customLogo"] = custom_logo
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "create",
             "body": payload,
         }
@@ -606,14 +606,14 @@ class ActionBatchOrganizations:
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/brandingPolicies/priorities"
+        path = f"/organizations/{organization_id}/brandingPolicies/priorities"
 
         payload = {}
         if branding_policy_ids is not None:
             payload["brandingPolicyIds"] = branding_policy_ids
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -651,7 +651,7 @@ class ActionBatchOrganizations:
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         branding_policy_id = urllib.parse.quote(str(branding_policy_id), safe="")
-        resource = f"/organizations/{organization_id}/brandingPolicies/{branding_policy_id}"
+        path = f"/organizations/{organization_id}/brandingPolicies/{branding_policy_id}"
 
         payload = {}
         if name is not None:
@@ -666,7 +666,7 @@ class ActionBatchOrganizations:
             payload["customLogo"] = custom_logo
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -686,10 +686,10 @@ class ActionBatchOrganizations:
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         branding_policy_id = urllib.parse.quote(str(branding_policy_id), safe="")
-        resource = f"/organizations/{organization_id}/brandingPolicies/{branding_policy_id}"
+        path = f"/organizations/{organization_id}/brandingPolicies/{branding_policy_id}"
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "destroy",
         }
         return action  # noqa: RET504
@@ -718,7 +718,7 @@ class ActionBatchOrganizations:
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/configTemplates"
+        path = f"/organizations/{organization_id}/configTemplates"
 
         payload = {}
         if name is not None:
@@ -729,7 +729,7 @@ class ActionBatchOrganizations:
             payload["copyFromNetworkId"] = copy_from_network_id
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "create",
             "body": payload,
         }
@@ -759,7 +759,7 @@ class ActionBatchOrganizations:
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         config_template_id = urllib.parse.quote(str(config_template_id), safe="")
-        resource = f"/organizations/{organization_id}/configTemplates/{config_template_id}"
+        path = f"/organizations/{organization_id}/configTemplates/{config_template_id}"
 
         payload = {}
         if name is not None:
@@ -768,7 +768,7 @@ class ActionBatchOrganizations:
             payload["timeZone"] = time_zone
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -794,7 +794,7 @@ class ActionBatchOrganizations:
             )
 
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/devices/controller/migrations"
+        path = f"/organizations/{organization_id}/devices/controller/migrations"
 
         payload = {}
         if serials is not None:
@@ -803,7 +803,7 @@ class ActionBatchOrganizations:
             payload["target"] = target
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "create",
             "body": payload,
         }
@@ -823,7 +823,7 @@ class ActionBatchOrganizations:
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/devices/details/bulkUpdate"
+        path = f"/organizations/{organization_id}/devices/details/bulkUpdate"
 
         payload = {}
         if serials is not None:
@@ -832,7 +832,7 @@ class ActionBatchOrganizations:
             payload["details"] = details
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "create",
             "body": payload,
         }
@@ -851,14 +851,14 @@ class ActionBatchOrganizations:
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/devices/packetCapture/captures/bulkDelete"
+        path = f"/organizations/{organization_id}/devices/packetCapture/captures/bulkDelete"
 
         payload = {}
         if capture_ids is not None:
             payload["captureIds"] = capture_ids
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "create",
             "body": payload,
         }
@@ -878,10 +878,10 @@ class ActionBatchOrganizations:
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         capture_id = urllib.parse.quote(str(capture_id), safe="")
-        resource = f"/organizations/{organization_id}/devices/packetCapture/captures/{capture_id}"
+        path = f"/organizations/{organization_id}/devices/packetCapture/captures/{capture_id}"
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "destroy",
         }
         return action  # noqa: RET504
@@ -914,7 +914,7 @@ class ActionBatchOrganizations:
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/devices/packetCapture/schedules"
+        path = f"/organizations/{organization_id}/devices/packetCapture/schedules"
 
         payload = {}
         if devices is not None:
@@ -933,7 +933,7 @@ class ActionBatchOrganizations:
             payload["schedule"] = schedule
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "create",
             "body": payload,
         }
@@ -952,14 +952,14 @@ class ActionBatchOrganizations:
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/devices/packetCapture/schedules/reorder"
+        path = f"/organizations/{organization_id}/devices/packetCapture/schedules/reorder"
 
         payload = {}
         if order is not None:
             payload["order"] = order
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "create",
             "body": payload,
         }
@@ -996,7 +996,7 @@ class ActionBatchOrganizations:
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         schedule_id = urllib.parse.quote(str(schedule_id), safe="")
-        resource = f"/organizations/{organization_id}/devices/packetCapture/schedules/{schedule_id}"
+        path = f"/organizations/{organization_id}/devices/packetCapture/schedules/{schedule_id}"
 
         payload = {}
         if devices is not None:
@@ -1015,7 +1015,7 @@ class ActionBatchOrganizations:
             payload["schedule"] = schedule
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -1035,14 +1035,14 @@ class ActionBatchOrganizations:
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         schedule_id = urllib.parse.quote(str(schedule_id), safe="")
-        resource = f"/organizations/{organization_id}/devices/packetCapture/schedules/{schedule_id}"
+        path = f"/organizations/{organization_id}/devices/packetCapture/schedules/{schedule_id}"
 
         payload = {}
         if schedule_id is not None:
             payload["scheduleId"] = schedule_id
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "destroy",
             "body": payload,
         }
@@ -1063,14 +1063,14 @@ class ActionBatchOrganizations:
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         opt_in_id = urllib.parse.quote(str(opt_in_id), safe="")
-        resource = f"/organizations/{organization_id}/earlyAccess/features/optIns/{opt_in_id}"
+        path = f"/organizations/{organization_id}/earlyAccess/features/optIns/{opt_in_id}"
 
         payload = {}
         if limit_scope_to_networks is not None:
             payload["limitScopeToNetworks"] = limit_scope_to_networks
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -1089,14 +1089,14 @@ class ActionBatchOrganizations:
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/integrations/xdr/networks/disable"
+        path = f"/organizations/{organization_id}/integrations/xdr/networks/disable"
 
         payload = {}
         if networks is not None:
             payload["networks"] = networks
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "create",
             "body": payload,
         }
@@ -1115,14 +1115,14 @@ class ActionBatchOrganizations:
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/integrations/xdr/networks/enable"
+        path = f"/organizations/{organization_id}/integrations/xdr/networks/enable"
 
         payload = {}
         if networks is not None:
             payload["networks"] = networks
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "create",
             "body": payload,
         }
@@ -1142,7 +1142,7 @@ class ActionBatchOrganizations:
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/inventory/orders/claim"
+        path = f"/organizations/{organization_id}/inventory/orders/claim"
 
         payload = {}
         if claim_id is not None:
@@ -1151,7 +1151,7 @@ class ActionBatchOrganizations:
             payload["subscriptions"] = subscriptions
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "create",
             "body": payload,
         }
@@ -1173,7 +1173,7 @@ class ActionBatchOrganizations:
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/licenses/assignSeats"
+        path = f"/organizations/{organization_id}/licenses/assignSeats"
 
         payload = {}
         if license_id is not None:
@@ -1184,7 +1184,7 @@ class ActionBatchOrganizations:
             payload["seatCount"] = seat_count
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "create",
             "body": payload,
         }
@@ -1204,7 +1204,7 @@ class ActionBatchOrganizations:
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/licenses/move"
+        path = f"/organizations/{organization_id}/licenses/move"
 
         payload = {}
         if dest_organization_id is not None:
@@ -1213,7 +1213,7 @@ class ActionBatchOrganizations:
             payload["licenseIds"] = license_ids
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "create",
             "body": payload,
         }
@@ -1235,7 +1235,7 @@ class ActionBatchOrganizations:
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/licenses/moveSeats"
+        path = f"/organizations/{organization_id}/licenses/moveSeats"
 
         payload = {}
         if dest_organization_id is not None:
@@ -1246,7 +1246,7 @@ class ActionBatchOrganizations:
             payload["seatCount"] = seat_count
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "create",
             "body": payload,
         }
@@ -1269,7 +1269,7 @@ class ActionBatchOrganizations:
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/licenses/renewSeats"
+        path = f"/organizations/{organization_id}/licenses/renewSeats"
 
         payload = {}
         if license_id_to_renew is not None:
@@ -1278,7 +1278,7 @@ class ActionBatchOrganizations:
             payload["unusedLicenseId"] = unused_license_id
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "create",
             "body": payload,
         }
@@ -1301,14 +1301,14 @@ class ActionBatchOrganizations:
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         license_id = urllib.parse.quote(str(license_id), safe="")
-        resource = f"/organizations/{organization_id}/licenses/{license_id}"
+        path = f"/organizations/{organization_id}/licenses/{license_id}"
 
         payload = {}
         if device_serial is not None:
             payload["deviceSerial"] = device_serial
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -1371,7 +1371,7 @@ class ActionBatchOrganizations:
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/loginSecurity"
+        path = f"/organizations/{organization_id}/loginSecurity"
 
         payload = {}
         if enforce_password_expiration is not None:
@@ -1404,7 +1404,7 @@ class ActionBatchOrganizations:
             payload["apiAuthentication"] = api_authentication
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -1442,7 +1442,7 @@ class ActionBatchOrganizations:
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/networks"
+        path = f"/organizations/{organization_id}/networks"
 
         payload = {}
         if name is not None:
@@ -1459,7 +1459,7 @@ class ActionBatchOrganizations:
             payload["notes"] = notes
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "create",
             "body": payload,
         }
@@ -1492,7 +1492,7 @@ class ActionBatchOrganizations:
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/networks/combine"
+        path = f"/organizations/{organization_id}/networks/combine"
 
         payload = {}
         if name is not None:
@@ -1503,7 +1503,7 @@ class ActionBatchOrganizations:
             payload["enrollmentString"] = enrollment_string
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "create",
             "body": payload,
         }
@@ -1540,7 +1540,7 @@ class ActionBatchOrganizations:
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/policyObjects"
+        path = f"/organizations/{organization_id}/policyObjects"
 
         payload = {}
         if name is not None:
@@ -1561,7 +1561,7 @@ class ActionBatchOrganizations:
             payload["groupIds"] = group_ids
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "create",
             "body": payload,
         }
@@ -1591,7 +1591,7 @@ class ActionBatchOrganizations:
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/policyObjects/groups"
+        path = f"/organizations/{organization_id}/policyObjects/groups"
 
         payload = {}
         if name is not None:
@@ -1602,7 +1602,7 @@ class ActionBatchOrganizations:
             payload["objectIds"] = object_ids
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "create",
             "body": payload,
         }
@@ -1632,7 +1632,7 @@ class ActionBatchOrganizations:
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         policy_object_group_id = urllib.parse.quote(str(policy_object_group_id), safe="")
-        resource = f"/organizations/{organization_id}/policyObjects/groups/{policy_object_group_id}"
+        path = f"/organizations/{organization_id}/policyObjects/groups/{policy_object_group_id}"
 
         payload = {}
         if name is not None:
@@ -1641,7 +1641,7 @@ class ActionBatchOrganizations:
             payload["objectIds"] = object_ids
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -1661,10 +1661,10 @@ class ActionBatchOrganizations:
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         policy_object_group_id = urllib.parse.quote(str(policy_object_group_id), safe="")
-        resource = f"/organizations/{organization_id}/policyObjects/groups/{policy_object_group_id}"
+        path = f"/organizations/{organization_id}/policyObjects/groups/{policy_object_group_id}"
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "destroy",
         }
         return action  # noqa: RET504
@@ -1699,7 +1699,7 @@ class ActionBatchOrganizations:
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         policy_object_id = urllib.parse.quote(str(policy_object_id), safe="")
-        resource = f"/organizations/{organization_id}/policyObjects/{policy_object_id}"
+        path = f"/organizations/{organization_id}/policyObjects/{policy_object_id}"
 
         payload = {}
         if name is not None:
@@ -1716,7 +1716,7 @@ class ActionBatchOrganizations:
             payload["groupIds"] = group_ids
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -1736,10 +1736,10 @@ class ActionBatchOrganizations:
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         policy_object_id = urllib.parse.quote(str(policy_object_id), safe="")
-        resource = f"/organizations/{organization_id}/policyObjects/{policy_object_id}"
+        path = f"/organizations/{organization_id}/policyObjects/{policy_object_id}"
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "destroy",
         }
         return action  # noqa: RET504
@@ -1766,7 +1766,7 @@ class ActionBatchOrganizations:
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/saml/idps"
+        path = f"/organizations/{organization_id}/saml/idps"
 
         payload = {}
         if x509cert_sha1_fingerprint is not None:
@@ -1777,7 +1777,7 @@ class ActionBatchOrganizations:
             payload["sloLogoutUrl"] = slo_logout_url
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "create",
             "body": payload,
         }
@@ -1808,7 +1808,7 @@ class ActionBatchOrganizations:
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         idp_id = urllib.parse.quote(str(idp_id), safe="")
-        resource = f"/organizations/{organization_id}/saml/idps/{idp_id}"
+        path = f"/organizations/{organization_id}/saml/idps/{idp_id}"
 
         payload = {}
         if x509cert_sha1_fingerprint is not None:
@@ -1819,7 +1819,7 @@ class ActionBatchOrganizations:
             payload["sloLogoutUrl"] = slo_logout_url
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -1837,10 +1837,10 @@ class ActionBatchOrganizations:
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         idp_id = urllib.parse.quote(str(idp_id), safe="")
-        resource = f"/organizations/{organization_id}/saml/idps/{idp_id}"
+        path = f"/organizations/{organization_id}/saml/idps/{idp_id}"
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "destroy",
         }
         return action  # noqa: RET504
@@ -1857,10 +1857,10 @@ class ActionBatchOrganizations:
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         id_ = urllib.parse.quote(str(id_), safe="")
-        resource = f"/organizations/{organization_id}/splash/assets/{id_}"
+        path = f"/organizations/{organization_id}/splash/assets/{id_}"
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "destroy",
         }
         return action  # noqa: RET504
@@ -1879,7 +1879,7 @@ class ActionBatchOrganizations:
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/splash/themes"
+        path = f"/organizations/{organization_id}/splash/themes"
 
         payload = {}
         if name is not None:
@@ -1888,7 +1888,7 @@ class ActionBatchOrganizations:
             payload["baseTheme"] = base_theme
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "create",
             "body": payload,
         }
@@ -1906,10 +1906,10 @@ class ActionBatchOrganizations:
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         id_ = urllib.parse.quote(str(id_), safe="")
-        resource = f"/organizations/{organization_id}/splash/themes/{id_}"
+        path = f"/organizations/{organization_id}/splash/themes/{id_}"
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "destroy",
         }
         return action  # noqa: RET504
@@ -1935,7 +1935,7 @@ class ActionBatchOrganizations:
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         theme_identifier = urllib.parse.quote(str(theme_identifier), safe="")
-        resource = f"/organizations/{organization_id}/splash/themes/{theme_identifier}/assets"
+        path = f"/organizations/{organization_id}/splash/themes/{theme_identifier}/assets"
 
         payload = {}
         if name is not None:
@@ -1944,7 +1944,7 @@ class ActionBatchOrganizations:
             payload["content"] = content
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "create",
             "body": payload,
         }

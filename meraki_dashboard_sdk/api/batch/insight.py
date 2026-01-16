@@ -1,7 +1,7 @@
 """ActionBatchInsight API endpoints."""
 
 import urllib
-from typing import Any
+from typing import Any, Literal
 
 
 class ActionBatchInsight:
@@ -31,7 +31,7 @@ class ActionBatchInsight:
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/insight/monitoredMediaServers"
+        path = f"/organizations/{organization_id}/insight/monitoredMediaServers"
 
         payload = {}
         if name is not None:
@@ -42,7 +42,7 @@ class ActionBatchInsight:
             payload["bestEffortMonitoringEnabled"] = best_effort_monitoring_enabled
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "create",
             "body": payload,
         }
@@ -72,7 +72,7 @@ class ActionBatchInsight:
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         monitored_media_server_id = urllib.parse.quote(str(monitored_media_server_id), safe="")
-        resource = f"/organizations/{organization_id}/insight/monitoredMediaServers/{monitored_media_server_id}"
+        path = f"/organizations/{organization_id}/insight/monitoredMediaServers/{monitored_media_server_id}"
 
         payload = {}
         if name is not None:
@@ -83,7 +83,7 @@ class ActionBatchInsight:
             payload["bestEffortMonitoringEnabled"] = best_effort_monitoring_enabled
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -103,10 +103,10 @@ class ActionBatchInsight:
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         monitored_media_server_id = urllib.parse.quote(str(monitored_media_server_id), safe="")
-        resource = f"/organizations/{organization_id}/insight/monitoredMediaServers/{monitored_media_server_id}"
+        path = f"/organizations/{organization_id}/insight/monitoredMediaServers/{monitored_media_server_id}"
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "destroy",
         }
         return action  # noqa: RET504

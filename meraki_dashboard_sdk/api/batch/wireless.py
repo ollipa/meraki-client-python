@@ -1,7 +1,7 @@
 """ActionBatchWireless API endpoints."""
 
 import urllib
-from typing import Any
+from typing import Any, Literal
 
 
 class ActionBatchWireless:
@@ -23,14 +23,14 @@ class ActionBatchWireless:
 
         """
         serial = urllib.parse.quote(str(serial), safe="")
-        resource = f"/devices/{serial}/wireless/alternateManagementInterface/ipv6"
+        path = f"/devices/{serial}/wireless/alternateManagementInterface/ipv6"
 
         payload = {}
         if addresses is not None:
             payload["addresses"] = addresses
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -59,7 +59,7 @@ class ActionBatchWireless:
 
         """
         serial = urllib.parse.quote(str(serial), safe="")
-        resource = f"/devices/{serial}/wireless/bluetooth/settings"
+        path = f"/devices/{serial}/wireless/bluetooth/settings"
 
         payload = {}
         if uuid is not None:
@@ -70,7 +70,7 @@ class ActionBatchWireless:
             payload["minor"] = minor
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -91,7 +91,7 @@ class ActionBatchWireless:
 
         """
         serial = urllib.parse.quote(str(serial), safe="")
-        resource = f"/devices/{serial}/wireless/electronicShelfLabel"
+        path = f"/devices/{serial}/wireless/electronicShelfLabel"
 
         payload = {}
         if channel is not None:
@@ -100,7 +100,7 @@ class ActionBatchWireless:
             payload["enabled"] = enabled
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -130,7 +130,7 @@ class ActionBatchWireless:
 
         """
         serial = urllib.parse.quote(str(serial), safe="")
-        resource = f"/devices/{serial}/wireless/radio/settings"
+        path = f"/devices/{serial}/wireless/radio/settings"
 
         payload = {}
         if rf_profile_id is not None:
@@ -141,7 +141,7 @@ class ActionBatchWireless:
             payload["fiveGhzSettings"] = five_ghz_settings
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -167,7 +167,7 @@ class ActionBatchWireless:
             )
 
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/wireless/airMarshal/rules"
+        path = f"/networks/{network_id}/wireless/airMarshal/rules"
 
         payload = {}
         if type_ is not None:
@@ -176,7 +176,7 @@ class ActionBatchWireless:
             payload["match"] = match
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "create",
             "body": payload,
         }
@@ -204,7 +204,7 @@ class ActionBatchWireless:
 
         network_id = urllib.parse.quote(str(network_id), safe="")
         rule_id = urllib.parse.quote(str(rule_id), safe="")
-        resource = f"/networks/{network_id}/wireless/airMarshal/rules/{rule_id}"
+        path = f"/networks/{network_id}/wireless/airMarshal/rules/{rule_id}"
 
         payload = {}
         if type_ is not None:
@@ -213,7 +213,7 @@ class ActionBatchWireless:
             payload["match"] = match
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -233,10 +233,10 @@ class ActionBatchWireless:
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
         rule_id = urllib.parse.quote(str(rule_id), safe="")
-        resource = f"/networks/{network_id}/wireless/airMarshal/rules/{rule_id}"
+        path = f"/networks/{network_id}/wireless/airMarshal/rules/{rule_id}"
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "destroy",
         }
         return action  # noqa: RET504
@@ -260,14 +260,14 @@ class ActionBatchWireless:
             )
 
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/wireless/airMarshal/settings"
+        path = f"/networks/{network_id}/wireless/airMarshal/settings"
 
         payload = {}
         if default_policy is not None:
             payload["defaultPolicy"] = default_policy
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -300,7 +300,7 @@ class ActionBatchWireless:
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/wireless/alternateManagementInterface"
+        path = f"/networks/{network_id}/wireless/alternateManagementInterface"
 
         payload = {}
         if enabled is not None:
@@ -313,7 +313,7 @@ class ActionBatchWireless:
             payload["accessPoints"] = access_points
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -333,7 +333,7 @@ class ActionBatchWireless:
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/wireless/billing"
+        path = f"/networks/{network_id}/wireless/billing"
 
         payload = {}
         if currency is not None:
@@ -342,7 +342,7 @@ class ActionBatchWireless:
             payload["plans"] = plans
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -373,7 +373,7 @@ class ActionBatchWireless:
             assert mode in options, f'"mode" cannot be "{mode}", & must be set to one of: {options}'
 
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/wireless/electronicShelfLabel"
+        path = f"/networks/{network_id}/wireless/electronicShelfLabel"
 
         payload = {}
         if hostname is not None:
@@ -384,7 +384,7 @@ class ActionBatchWireless:
             payload["mode"] = mode
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -405,7 +405,7 @@ class ActionBatchWireless:
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/wireless/ethernet/ports/profiles"
+        path = f"/networks/{network_id}/wireless/ethernet/ports/profiles"
 
         payload = {}
         if name is not None:
@@ -416,7 +416,7 @@ class ActionBatchWireless:
             payload["usbPorts"] = usb_ports
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "create",
             "body": payload,
         }
@@ -436,7 +436,7 @@ class ActionBatchWireless:
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/wireless/ethernet/ports/profiles/assign"
+        path = f"/networks/{network_id}/wireless/ethernet/ports/profiles/assign"
 
         payload = {}
         if serials is not None:
@@ -445,7 +445,7 @@ class ActionBatchWireless:
             payload["profileId"] = profile_id
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "create",
             "body": payload,
         }
@@ -464,14 +464,14 @@ class ActionBatchWireless:
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/wireless/ethernet/ports/profiles/setDefault"
+        path = f"/networks/{network_id}/wireless/ethernet/ports/profiles/setDefault"
 
         payload = {}
         if profile_id is not None:
             payload["profileId"] = profile_id
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "create",
             "body": payload,
         }
@@ -500,7 +500,7 @@ class ActionBatchWireless:
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
         profile_id = urllib.parse.quote(str(profile_id), safe="")
-        resource = f"/networks/{network_id}/wireless/ethernet/ports/profiles/{profile_id}"
+        path = f"/networks/{network_id}/wireless/ethernet/ports/profiles/{profile_id}"
 
         payload = {}
         if name is not None:
@@ -511,7 +511,7 @@ class ActionBatchWireless:
             payload["usbPorts"] = usb_ports
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -531,10 +531,10 @@ class ActionBatchWireless:
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
         profile_id = urllib.parse.quote(str(profile_id), safe="")
-        resource = f"/networks/{network_id}/wireless/ethernet/ports/profiles/{profile_id}"
+        path = f"/networks/{network_id}/wireless/ethernet/ports/profiles/{profile_id}"
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "destroy",
         }
         return action  # noqa: RET504
@@ -553,7 +553,7 @@ class ActionBatchWireless:
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/wireless/location/scanning"
+        path = f"/networks/{network_id}/wireless/location/scanning"
 
         payload = {}
         if enabled is not None:
@@ -562,7 +562,7 @@ class ActionBatchWireless:
             payload["api"] = api
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -619,7 +619,7 @@ class ActionBatchWireless:
             )
 
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/wireless/rfProfiles"
+        path = f"/networks/{network_id}/wireless/rfProfiles"
 
         payload = {}
         if name is not None:
@@ -646,7 +646,7 @@ class ActionBatchWireless:
             payload["flexRadios"] = flex_radios
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "create",
             "body": payload,
         }
@@ -712,7 +712,7 @@ class ActionBatchWireless:
 
         network_id = urllib.parse.quote(str(network_id), safe="")
         rf_profile_id = urllib.parse.quote(str(rf_profile_id), safe="")
-        resource = f"/networks/{network_id}/wireless/rfProfiles/{rf_profile_id}"
+        path = f"/networks/{network_id}/wireless/rfProfiles/{rf_profile_id}"
 
         payload = {}
         if name is not None:
@@ -743,7 +743,7 @@ class ActionBatchWireless:
             payload["flexRadios"] = flex_radios
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -763,10 +763,10 @@ class ActionBatchWireless:
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
         rf_profile_id = urllib.parse.quote(str(rf_profile_id), safe="")
-        resource = f"/networks/{network_id}/wireless/rfProfiles/{rf_profile_id}"
+        path = f"/networks/{network_id}/wireless/rfProfiles/{rf_profile_id}"
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "destroy",
         }
         return action  # noqa: RET504
@@ -807,7 +807,7 @@ class ActionBatchWireless:
             )
 
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/wireless/settings"
+        path = f"/networks/{network_id}/wireless/settings"
 
         payload = {}
         if meshing_enabled is not None:
@@ -824,7 +824,7 @@ class ActionBatchWireless:
             payload["namedVlans"] = named_vlans
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -1138,7 +1138,7 @@ class ActionBatchWireless:
 
         network_id = urllib.parse.quote(str(network_id), safe="")
         number = urllib.parse.quote(str(number), safe="")
-        resource = f"/networks/{network_id}/wireless/ssids/{number}"
+        path = f"/networks/{network_id}/wireless/ssids/{number}"
 
         payload = {}
         if name is not None:
@@ -1269,7 +1269,7 @@ class ActionBatchWireless:
             payload["radiusAccountingStartDelay"] = radius_accounting_start_delay
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -1298,7 +1298,7 @@ class ActionBatchWireless:
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
         number = urllib.parse.quote(str(number), safe="")
-        resource = f"/networks/{network_id}/wireless/ssids/{number}/bonjourForwarding"
+        path = f"/networks/{network_id}/wireless/ssids/{number}/bonjourForwarding"
 
         payload = {}
         if enabled is not None:
@@ -1309,7 +1309,7 @@ class ActionBatchWireless:
             payload["exception"] = exception
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -1336,7 +1336,7 @@ class ActionBatchWireless:
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
         number = urllib.parse.quote(str(number), safe="")
-        resource = f"/networks/{network_id}/wireless/ssids/{number}/deviceTypeGroupPolicies"
+        path = f"/networks/{network_id}/wireless/ssids/{number}/deviceTypeGroupPolicies"
 
         payload = {}
         if enabled is not None:
@@ -1345,7 +1345,7 @@ class ActionBatchWireless:
             payload["deviceTypePolicies"] = device_type_policies
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -1376,7 +1376,7 @@ class ActionBatchWireless:
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
         number = urllib.parse.quote(str(number), safe="")
-        resource = f"/networks/{network_id}/wireless/ssids/{number}/eapOverride"
+        path = f"/networks/{network_id}/wireless/ssids/{number}/eapOverride"
 
         payload = {}
         if timeout is not None:
@@ -1389,7 +1389,7 @@ class ActionBatchWireless:
             payload["eapolKey"] = eapol_key
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -1417,7 +1417,7 @@ class ActionBatchWireless:
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
         number = urllib.parse.quote(str(number), safe="")
-        resource = f"/networks/{network_id}/wireless/ssids/{number}/firewall/l3FirewallRules"
+        path = f"/networks/{network_id}/wireless/ssids/{number}/firewall/l3FirewallRules"
 
         payload = {}
         if rules is not None:
@@ -1426,7 +1426,7 @@ class ActionBatchWireless:
             payload["allowLanAccess"] = allow_lan_access
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -1449,14 +1449,14 @@ class ActionBatchWireless:
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
         number = urllib.parse.quote(str(number), safe="")
-        resource = f"/networks/{network_id}/wireless/ssids/{number}/firewall/l7FirewallRules"
+        path = f"/networks/{network_id}/wireless/ssids/{number}/firewall/l7FirewallRules"
 
         payload = {}
         if rules is not None:
             payload["rules"] = rules
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -1514,7 +1514,7 @@ class ActionBatchWireless:
 
         network_id = urllib.parse.quote(str(network_id), safe="")
         number = urllib.parse.quote(str(number), safe="")
-        resource = f"/networks/{network_id}/wireless/ssids/{number}/hotspot20"
+        path = f"/networks/{network_id}/wireless/ssids/{number}/hotspot20"
 
         payload = {}
         if enabled is not None:
@@ -1535,7 +1535,7 @@ class ActionBatchWireless:
             payload["naiRealms"] = nai_realms
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -1567,7 +1567,7 @@ class ActionBatchWireless:
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
         number = urllib.parse.quote(str(number), safe="")
-        resource = f"/networks/{network_id}/wireless/ssids/{number}/identityPsks"
+        path = f"/networks/{network_id}/wireless/ssids/{number}/identityPsks"
 
         payload = {}
         if name is not None:
@@ -1580,7 +1580,7 @@ class ActionBatchWireless:
             payload["expiresAt"] = expires_at
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "create",
             "body": payload,
         }
@@ -1614,7 +1614,7 @@ class ActionBatchWireless:
         network_id = urllib.parse.quote(str(network_id), safe="")
         number = urllib.parse.quote(str(number), safe="")
         identity_psk_id = urllib.parse.quote(str(identity_psk_id), safe="")
-        resource = f"/networks/{network_id}/wireless/ssids/{number}/identityPsks/{identity_psk_id}"
+        path = f"/networks/{network_id}/wireless/ssids/{number}/identityPsks/{identity_psk_id}"
 
         payload = {}
         if name is not None:
@@ -1627,7 +1627,7 @@ class ActionBatchWireless:
             payload["expiresAt"] = expires_at
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -1649,10 +1649,10 @@ class ActionBatchWireless:
         network_id = urllib.parse.quote(str(network_id), safe="")
         number = urllib.parse.quote(str(number), safe="")
         identity_psk_id = urllib.parse.quote(str(identity_psk_id), safe="")
-        resource = f"/networks/{network_id}/wireless/ssids/{number}/identityPsks/{identity_psk_id}"
+        path = f"/networks/{network_id}/wireless/ssids/{number}/identityPsks/{identity_psk_id}"
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "destroy",
         }
         return action  # noqa: RET504
@@ -1678,7 +1678,7 @@ class ActionBatchWireless:
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
         number = urllib.parse.quote(str(number), safe="")
-        resource = f"/networks/{network_id}/wireless/ssids/{number}/openRoaming"
+        path = f"/networks/{network_id}/wireless/ssids/{number}/openRoaming"
 
         payload = {}
         if enabled is not None:
@@ -1687,7 +1687,7 @@ class ActionBatchWireless:
             payload["tenantId"] = tenant_id
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -1720,7 +1720,7 @@ class ActionBatchWireless:
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
         number = urllib.parse.quote(str(number), safe="")
-        resource = f"/networks/{network_id}/wireless/ssids/{number}/schedules"
+        path = f"/networks/{network_id}/wireless/ssids/{number}/schedules"
 
         payload = {}
         if enabled is not None:
@@ -1731,7 +1731,7 @@ class ActionBatchWireless:
             payload["rangesInSeconds"] = ranges_in_seconds
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -1830,7 +1830,7 @@ class ActionBatchWireless:
 
         network_id = urllib.parse.quote(str(network_id), safe="")
         number = urllib.parse.quote(str(number), safe="")
-        resource = f"/networks/{network_id}/wireless/ssids/{number}/splash/settings"
+        path = f"/networks/{network_id}/wireless/ssids/{number}/splash/settings"
 
         payload = {}
         if splash_url is not None:
@@ -1869,7 +1869,7 @@ class ActionBatchWireless:
             payload["selfRegistration"] = self_registration
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -1904,7 +1904,7 @@ class ActionBatchWireless:
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
         number = urllib.parse.quote(str(number), safe="")
-        resource = f"/networks/{network_id}/wireless/ssids/{number}/trafficShaping/rules"
+        path = f"/networks/{network_id}/wireless/ssids/{number}/trafficShaping/rules"
 
         payload = {}
         if traffic_shaping_enabled is not None:
@@ -1915,7 +1915,7 @@ class ActionBatchWireless:
             payload["rules"] = rules
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -1945,7 +1945,7 @@ class ActionBatchWireless:
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
         number = urllib.parse.quote(str(number), safe="")
-        resource = f"/networks/{network_id}/wireless/ssids/{number}/vpn"
+        path = f"/networks/{network_id}/wireless/ssids/{number}/vpn"
 
         payload = {}
         if concentrator is not None:
@@ -1956,7 +1956,7 @@ class ActionBatchWireless:
             payload["failover"] = failover
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -1984,7 +1984,7 @@ class ActionBatchWireless:
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/wireless/zigbee"
+        path = f"/networks/{network_id}/wireless/zigbee"
 
         payload = {}
         if enabled is not None:
@@ -1997,7 +1997,7 @@ class ActionBatchWireless:
             payload["defaults"] = defaults
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -2027,7 +2027,7 @@ class ActionBatchWireless:
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/wireless/location/scanning/receivers"
+        path = f"/organizations/{organization_id}/wireless/location/scanning/receivers"
 
         payload = {}
         if network is not None:
@@ -2042,7 +2042,7 @@ class ActionBatchWireless:
             payload["sharedSecret"] = shared_secret
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "create",
             "body": payload,
         }
@@ -2071,7 +2071,7 @@ class ActionBatchWireless:
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         receiver_id = urllib.parse.quote(str(receiver_id), safe="")
-        resource = (
+        path = (
             f"/organizations/{organization_id}/wireless/location/scanning/receivers/{receiver_id}"
         )
 
@@ -2084,7 +2084,7 @@ class ActionBatchWireless:
             payload["radio"] = radio
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -2104,12 +2104,12 @@ class ActionBatchWireless:
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         receiver_id = urllib.parse.quote(str(receiver_id), safe="")
-        resource = (
+        path = (
             f"/organizations/{organization_id}/wireless/location/scanning/receivers/{receiver_id}"
         )
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "destroy",
         }
         return action  # noqa: RET504
@@ -2136,7 +2136,7 @@ class ActionBatchWireless:
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/wireless/mqtt/settings"
+        path = f"/organizations/{organization_id}/wireless/mqtt/settings"
 
         payload = {}
         if network is not None:
@@ -2149,7 +2149,7 @@ class ActionBatchWireless:
             payload["wifi"] = wifi
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -2168,14 +2168,14 @@ class ActionBatchWireless:
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/wireless/radio/autoRf/channels/recalculate"
+        path = f"/organizations/{organization_id}/wireless/radio/autoRf/channels/recalculate"
 
         payload = {}
         if network_ids is not None:
             payload["networkIds"] = network_ids
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "create",
             "body": payload,
         }
@@ -2203,7 +2203,7 @@ class ActionBatchWireless:
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = (
+        path = (
             f"/organizations/{organization_id}/wireless/ssids/firewall/isolation/allowlist/entries"
         )
 
@@ -2218,7 +2218,7 @@ class ActionBatchWireless:
             payload["network"] = network
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "create",
             "body": payload,
         }
@@ -2245,7 +2245,7 @@ class ActionBatchWireless:
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         entry_id = urllib.parse.quote(str(entry_id), safe="")
-        resource = f"/organizations/{organization_id}/wireless/ssids/firewall/isolation/allowlist/entries/{entry_id}"
+        path = f"/organizations/{organization_id}/wireless/ssids/firewall/isolation/allowlist/entries/{entry_id}"
 
         payload = {}
         if description is not None:
@@ -2254,7 +2254,7 @@ class ActionBatchWireless:
             payload["client"] = client
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -2274,10 +2274,10 @@ class ActionBatchWireless:
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         entry_id = urllib.parse.quote(str(entry_id), safe="")
-        resource = f"/organizations/{organization_id}/wireless/ssids/firewall/isolation/allowlist/entries/{entry_id}"
+        path = f"/organizations/{organization_id}/wireless/ssids/firewall/isolation/allowlist/entries/{entry_id}"
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "destroy",
         }
         return action  # noqa: RET504
@@ -2298,7 +2298,7 @@ class ActionBatchWireless:
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         id_ = urllib.parse.quote(str(id_), safe="")
-        resource = f"/organizations/{organization_id}/wireless/zigbee/devices/{id_}"
+        path = f"/organizations/{organization_id}/wireless/zigbee/devices/{id_}"
 
         payload = {}
         if enrolled is not None:
@@ -2307,7 +2307,7 @@ class ActionBatchWireless:
             payload["channel"] = channel
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -2328,14 +2328,14 @@ class ActionBatchWireless:
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         door_lock_id = urllib.parse.quote(str(door_lock_id), safe="")
-        resource = f"/organizations/{organization_id}/wireless/zigbee/doorLocks/{door_lock_id}"
+        path = f"/organizations/{organization_id}/wireless/zigbee/doorLocks/{door_lock_id}"
 
         payload = {}
         if name is not None:
             payload["name"] = name
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }

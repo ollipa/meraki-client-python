@@ -1,17 +1,19 @@
 """Licensing API endpoints."""
 
+from __future__ import annotations
+
 import urllib
 from collections.abc import Generator
-from typing import Any
+from typing import Any, Literal, TYPE_CHECKING
 
-from meraki_dashboard_sdk.rest_session import RestSession
+if TYPE_CHECKING:
+    from meraki_dashboard_sdk.rest_session import RestSession
 
 
 class Licensing:
     """Licensing class."""
 
     def __init__(self, session: RestSession) -> None:
-        super(self).__init__()
         self._session = session
 
     def get_administered_licensing_subscription_entitlements(
@@ -25,17 +27,15 @@ class Licensing:
             skus: Filter to entitlements with the specified SKUs.
 
         """
-        metadata = {
-            "tags": ["licensing", "configure", "subscription", "entitlements"],
-            "operation": "get_administered_licensing_subscription_entitlements",
-        }
-        resource = f"/administered/licensing/subscription/entitlements"
+        path = f"/administered/licensing/subscription/entitlements"
 
         params = {}
         if skus is not None:
             params["skus[]"] = skus
 
-        return self._session.get(metadata, resource, params)
+        return self._session.get(
+            scope="licensing", operation_id="{operation_id}", path=path, params=params
+        )
 
     def get_administered_licensing_subscription_subscriptions(
         self,
@@ -87,11 +87,7 @@ class Licensing:
             direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        metadata = {
-            "tags": ["licensing", "configure", "subscription", "subscriptions"],
-            "operation": "get_administered_licensing_subscription_subscriptions",
-        }
-        resource = f"/administered/licensing/subscription/subscriptions"
+        path = f"/administered/licensing/subscription/subscriptions"
 
         params = {}
         if per_page is not None:
@@ -117,7 +113,14 @@ class Licensing:
         if end_date is not None:
             params["endDate"] = end_date
 
-        return self._session.get_pages(metadata, resource, params, total_pages, direction)
+        return self._session.get_pages(
+            scope="licensing",
+            operation_id="{operation_id}",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+        )
 
     def claim_administered_licensing_subscription_subscriptions(
         self,
@@ -141,11 +144,7 @@ class Licensing:
             description: Extra details or notes about the subscription.
 
         """
-        metadata = {
-            "tags": ["licensing", "configure", "subscription", "subscriptions"],
-            "operation": "claim_administered_licensing_subscription_subscriptions",
-        }
-        resource = f"/administered/licensing/subscription/subscriptions/claim"
+        path = f"/administered/licensing/subscription/subscriptions/claim"
 
         params = {}
         if validate is not None:
@@ -161,7 +160,9 @@ class Licensing:
         if description is not None:
             payload["description"] = description
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="licensing", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def validate_administered_licensing_subscription_subscriptions_claim_key(
         self, *, claim_key: str
@@ -174,17 +175,15 @@ class Licensing:
             claim_key: The subscription's claim key.
 
         """
-        metadata = {
-            "tags": ["licensing", "configure", "subscription", "subscriptions", "claimKey"],
-            "operation": "validate_administered_licensing_subscription_subscriptions_claim_key",
-        }
-        resource = f"/administered/licensing/subscription/subscriptions/claimKey/validate"
+        path = f"/administered/licensing/subscription/subscriptions/claimKey/validate"
 
         payload = {}
         if claim_key is not None:
             payload["claimKey"] = claim_key
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="licensing", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_administered_licensing_subscription_subscriptions_compliance_statuses(
         self, *, organization_ids: list, subscription_ids: list | None = None
@@ -198,18 +197,7 @@ class Licensing:
             subscription_ids: Subscription ids.
 
         """
-        metadata = {
-            "tags": [
-                "licensing",
-                "configure",
-                "subscription",
-                "subscriptions",
-                "compliance",
-                "statuses",
-            ],
-            "operation": "get_administered_licensing_subscription_subscriptions_compliance_statuses",
-        }
-        resource = f"/administered/licensing/subscription/subscriptions/compliance/statuses"
+        path = f"/administered/licensing/subscription/subscriptions/compliance/statuses"
 
         params = {}
         if organization_ids is not None:
@@ -217,7 +205,9 @@ class Licensing:
         if subscription_ids is not None:
             params["subscriptionIds[]"] = subscription_ids
 
-        return self._session.get(metadata, resource, params)
+        return self._session.get(
+            scope="licensing", operation_id="{operation_id}", path=path, params=params
+        )
 
     def bind_administered_licensing_subscription_subscription(
         self, *, subscription_id: str, validate: bool | None = None, network_ids: list | None = None
@@ -233,12 +223,8 @@ class Licensing:
             network_ids: List of network ids to bind to the subscription.
 
         """
-        metadata = {
-            "tags": ["licensing", "configure", "subscription", "subscriptions"],
-            "operation": "bind_administered_licensing_subscription_subscription",
-        }
         subscription_id = urllib.parse.quote(str(subscription_id), safe="")
-        resource = f"/administered/licensing/subscription/subscriptions/{subscription_id}/bind"
+        path = f"/administered/licensing/subscription/subscriptions/{subscription_id}/bind"
 
         params = {}
         if validate is not None:
@@ -248,7 +234,9 @@ class Licensing:
         if network_ids is not None:
             payload["networkIds"] = network_ids
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="licensing", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_organization_licensing_coterm_licenses(
         self,
@@ -285,12 +273,8 @@ class Licensing:
             direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        metadata = {
-            "tags": ["licensing", "configure", "coterm", "licenses"],
-            "operation": "get_organization_licensing_coterm_licenses",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/licensing/coterm/licenses"
+        path = f"/organizations/{organization_id}/licensing/coterm/licenses"
 
         params = {}
         if per_page is not None:
@@ -304,7 +288,14 @@ class Licensing:
         if expired is not None:
             params["expired"] = expired
 
-        return self._session.get_pages(metadata, resource, params, total_pages, direction)
+        return self._session.get_pages(
+            scope="licensing",
+            operation_id="{operation_id}",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+        )
 
     def move_organization_licensing_coterm_licenses(
         self, *, organization_id: str, destination: dict, licenses: list
@@ -319,12 +310,8 @@ class Licensing:
             licenses: The list of licenses to move.
 
         """
-        metadata = {
-            "tags": ["licensing", "configure", "coterm", "licenses"],
-            "operation": "move_organization_licensing_coterm_licenses",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/licensing/coterm/licenses/move"
+        path = f"/organizations/{organization_id}/licensing/coterm/licenses/move"
 
         payload = {}
         if destination is not None:
@@ -332,4 +319,6 @@ class Licensing:
         if licenses is not None:
             payload["licenses"] = licenses
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="licensing", operation_id="{operation_id}", path=path, json=payload
+        )

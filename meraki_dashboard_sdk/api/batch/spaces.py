@@ -1,7 +1,7 @@
 """ActionBatchSpaces API endpoints."""
 
 import urllib
-from typing import Any
+from typing import Any, Literal
 
 
 class ActionBatchSpaces:
@@ -20,10 +20,10 @@ class ActionBatchSpaces:
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/spaces/integration/remove"
+        path = f"/organizations/{organization_id}/spaces/integration/remove"
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "create",
         }
         return action  # noqa: RET504

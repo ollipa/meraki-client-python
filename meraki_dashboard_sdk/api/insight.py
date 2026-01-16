@@ -1,17 +1,19 @@
 """Insight API endpoints."""
 
+from __future__ import annotations
+
 import urllib
 from collections.abc import Generator
-from typing import Any
+from typing import Any, Literal, TYPE_CHECKING
 
-from meraki_dashboard_sdk.rest_session import RestSession
+if TYPE_CHECKING:
+    from meraki_dashboard_sdk.rest_session import RestSession
 
 
 class Insight:
     """Insight class."""
 
     def __init__(self, session: RestSession) -> None:
-        super(self).__init__()
         self._session = session
 
     def get_network_insight_application_health_by_time(
@@ -41,13 +43,9 @@ class Insight:
               60, 300, 3600, 86400. The default is 300.
 
         """
-        metadata = {
-            "tags": ["insight", "monitor", "applications", "healthByTime"],
-            "operation": "get_network_insight_application_health_by_time",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         application_id = urllib.parse.quote(str(application_id), safe="")
-        resource = f"/networks/{network_id}/insight/applications/{application_id}/healthByTime"
+        path = f"/networks/{network_id}/insight/applications/{application_id}/healthByTime"
 
         params = {}
         if t0 is not None:
@@ -59,7 +57,9 @@ class Insight:
         if resolution is not None:
             params["resolution"] = resolution
 
-        return self._session.get(metadata, resource, params)
+        return self._session.get(
+            scope="insight", operation_id="{operation_id}", path=path, params=params
+        )
 
     def get_organization_insight_applications(
         self, *, organization_id: str
@@ -72,14 +72,12 @@ class Insight:
             organization_id: Organization ID.
 
         """
-        metadata = {
-            "tags": ["insight", "configure", "applications"],
-            "operation": "get_organization_insight_applications",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/insight/applications"
+        path = f"/organizations/{organization_id}/insight/applications"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="insight", operation_id="getOrganizationInsightApplications", path=path
+        )
 
     def get_organization_insight_monitored_media_servers(
         self, *, organization_id: str
@@ -92,14 +90,12 @@ class Insight:
             organization_id: Organization ID.
 
         """
-        metadata = {
-            "tags": ["insight", "configure", "monitoredMediaServers"],
-            "operation": "get_organization_insight_monitored_media_servers",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/insight/monitoredMediaServers"
+        path = f"/organizations/{organization_id}/insight/monitoredMediaServers"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="insight", operation_id="getOrganizationInsightMonitoredMediaServers", path=path
+        )
 
     def create_organization_insight_monitored_media_server(
         self,
@@ -121,12 +117,8 @@ class Insight:
               ICMP pings, the nearest hop will be used in its stead.
 
         """
-        metadata = {
-            "tags": ["insight", "configure", "monitoredMediaServers"],
-            "operation": "create_organization_insight_monitored_media_server",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/insight/monitoredMediaServers"
+        path = f"/organizations/{organization_id}/insight/monitoredMediaServers"
 
         payload = {}
         if name is not None:
@@ -136,7 +128,9 @@ class Insight:
         if best_effort_monitoring_enabled is not None:
             payload["bestEffortMonitoringEnabled"] = best_effort_monitoring_enabled
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="insight", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_organization_insight_monitored_media_server(
         self, *, organization_id: str, monitored_media_server_id: str
@@ -150,15 +144,13 @@ class Insight:
             monitored_media_server_id: Monitored media server ID.
 
         """
-        metadata = {
-            "tags": ["insight", "configure", "monitoredMediaServers"],
-            "operation": "get_organization_insight_monitored_media_server",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         monitored_media_server_id = urllib.parse.quote(str(monitored_media_server_id), safe="")
-        resource = f"/organizations/{organization_id}/insight/monitoredMediaServers/{monitored_media_server_id}"
+        path = f"/organizations/{organization_id}/insight/monitoredMediaServers/{monitored_media_server_id}"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="insight", operation_id="getOrganizationInsightMonitoredMediaServer", path=path
+        )
 
     def update_organization_insight_monitored_media_server(
         self,
@@ -182,13 +174,9 @@ class Insight:
               ICMP pings, the nearest hop will be used in its stead.
 
         """
-        metadata = {
-            "tags": ["insight", "configure", "monitoredMediaServers"],
-            "operation": "update_organization_insight_monitored_media_server",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         monitored_media_server_id = urllib.parse.quote(str(monitored_media_server_id), safe="")
-        resource = f"/organizations/{organization_id}/insight/monitoredMediaServers/{monitored_media_server_id}"
+        path = f"/organizations/{organization_id}/insight/monitoredMediaServers/{monitored_media_server_id}"
 
         payload = {}
         if name is not None:
@@ -198,7 +186,9 @@ class Insight:
         if best_effort_monitoring_enabled is not None:
             payload["bestEffortMonitoringEnabled"] = best_effort_monitoring_enabled
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="insight", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def delete_organization_insight_monitored_media_server(
         self, *, organization_id: str, monitored_media_server_id: str
@@ -212,12 +202,10 @@ class Insight:
             monitored_media_server_id: Monitored media server ID.
 
         """
-        metadata = {
-            "tags": ["insight", "configure", "monitoredMediaServers"],
-            "operation": "delete_organization_insight_monitored_media_server",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         monitored_media_server_id = urllib.parse.quote(str(monitored_media_server_id), safe="")
-        resource = f"/organizations/{organization_id}/insight/monitoredMediaServers/{monitored_media_server_id}"
+        path = f"/organizations/{organization_id}/insight/monitoredMediaServers/{monitored_media_server_id}"
 
-        return self._session.delete(metadata, resource)
+        return self._session.delete(
+            scope="insight", operation_id="deleteOrganizationInsightMonitoredMediaServer", path=path
+        )

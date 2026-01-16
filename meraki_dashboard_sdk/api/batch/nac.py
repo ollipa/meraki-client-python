@@ -1,7 +1,7 @@
 """ActionBatchNac API endpoints."""
 
 import urllib
-from typing import Any
+from typing import Any, Literal
 
 
 class ActionBatchNac:
@@ -25,7 +25,7 @@ class ActionBatchNac:
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/nac/certificates/authorities/crls"
+        path = f"/organizations/{organization_id}/nac/certificates/authorities/crls"
 
         payload = {}
         if ca_id is not None:
@@ -36,7 +36,7 @@ class ActionBatchNac:
             payload["isDelta"] = is_delta
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "create",
             "body": payload,
         }

@@ -1,17 +1,19 @@
 """WirelessController API endpoints."""
 
+from __future__ import annotations
+
 import urllib
 from collections.abc import Generator
-from typing import Any
+from typing import Any, Literal, TYPE_CHECKING
 
-from meraki_dashboard_sdk.aio.rest_session import AsyncRestSession
+if TYPE_CHECKING:
+    from meraki_dashboard_sdk.aio.rest_session import AsyncRestSession
 
 
 class AsyncWirelessController:
     """WirelessController class."""
 
     def __init__(self, session: AsyncRestSession) -> None:
-        super().__init__()
         self._session = session
 
     def get_organization_wireless_controller_availabilities_change_history(
@@ -57,14 +59,8 @@ class AsyncWirelessController:
             direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        metadata = {
-            "tags": ["wirelessController", "monitor", "availabilities", "changeHistory"],
-            "operation": "get_organization_wireless_controller_availabilities_change_history",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = (
-            f"/organizations/{organization_id}/wirelessController/availabilities/changeHistory"
-        )
+        path = f"/organizations/{organization_id}/wirelessController/availabilities/changeHistory"
 
         params = {}
         if serials is not None:
@@ -82,7 +78,14 @@ class AsyncWirelessController:
         if ending_before is not None:
             params["endingBefore"] = ending_before
 
-        return self._session.get_pages(metadata, resource, params, total_pages, direction)
+        return self._session.get_pages(
+            scope="wirelessController",
+            operation_id="{operation_id}",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+        )
 
     def get_organization_wireless_controller_clients_overview_history_by_device_by_interval(
         self,
@@ -133,20 +136,8 @@ class AsyncWirelessController:
             direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        metadata = {
-            "tags": [
-                "wirelessController",
-                "monitor",
-                "clients",
-                "overview",
-                "history",
-                "byDevice",
-                "byInterval",
-            ],
-            "operation": "get_organization_wireless_controller_clients_overview_history_by_device_by_interval",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/wirelessController/clients/overview/history/byDevice/byInterval"
+        path = f"/organizations/{organization_id}/wirelessController/clients/overview/history/byDevice/byInterval"
 
         params = {}
         if network_ids is not None:
@@ -168,7 +159,14 @@ class AsyncWirelessController:
         if resolution is not None:
             params["resolution"] = resolution
 
-        return self._session.get_pages(metadata, resource, params, total_pages, direction)
+        return self._session.get_pages(
+            scope="wirelessController",
+            operation_id="{operation_id}",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+        )
 
     def get_organization_wireless_controller_connections(
         self,
@@ -207,12 +205,8 @@ class AsyncWirelessController:
             direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        metadata = {
-            "tags": ["wirelessController", "monitor", "connections"],
-            "operation": "get_organization_wireless_controller_connections",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/wirelessController/connections"
+        path = f"/organizations/{organization_id}/wirelessController/connections"
 
         params = {}
         if network_ids is not None:
@@ -226,7 +220,14 @@ class AsyncWirelessController:
         if ending_before is not None:
             params["endingBefore"] = ending_before
 
-        return self._session.get_pages(metadata, resource, params, total_pages, direction)
+        return self._session.get_pages(
+            scope="wirelessController",
+            operation_id="{operation_id}",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+        )
 
     def get_organization_wireless_controller_devices_interfaces_l2_by_device(
         self,
@@ -271,14 +272,8 @@ class AsyncWirelessController:
             direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        metadata = {
-            "tags": ["wirelessController", "monitor", "devices", "interfaces", "l2", "byDevice"],
-            "operation": "get_organization_wireless_controller_devices_interfaces_l2_by_device",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = (
-            f"/organizations/{organization_id}/wirelessController/devices/interfaces/l2/byDevice"
-        )
+        path = f"/organizations/{organization_id}/wirelessController/devices/interfaces/l2/byDevice"
 
         params = {}
         if serials is not None:
@@ -296,7 +291,14 @@ class AsyncWirelessController:
         if ending_before is not None:
             params["endingBefore"] = ending_before
 
-        return self._session.get_pages(metadata, resource, params, total_pages, direction)
+        return self._session.get_pages(
+            scope="wirelessController",
+            operation_id="{operation_id}",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+        )
 
     def get_organization_wireless_controller_devices_interfaces_l2_statuses_change_history_by_device(
         self,
@@ -345,21 +347,8 @@ class AsyncWirelessController:
             direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        metadata = {
-            "tags": [
-                "wirelessController",
-                "monitor",
-                "devices",
-                "interfaces",
-                "l2",
-                "statuses",
-                "changeHistory",
-                "byDevice",
-            ],
-            "operation": "get_organization_wireless_controller_devices_interfaces_l2_statuses_change_history_by_device",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/wirelessController/devices/interfaces/l2/statuses/changeHistory/byDevice"
+        path = f"/organizations/{organization_id}/wirelessController/devices/interfaces/l2/statuses/changeHistory/byDevice"
 
         params = {}
         if serials is not None:
@@ -379,7 +368,14 @@ class AsyncWirelessController:
         if ending_before is not None:
             params["endingBefore"] = ending_before
 
-        return self._session.get_pages(metadata, resource, params, total_pages, direction)
+        return self._session.get_pages(
+            scope="wirelessController",
+            operation_id="{operation_id}",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+        )
 
     def get_organization_wireless_controller_devices_interfaces_l2_usage_history_by_interval(
         self,
@@ -424,21 +420,8 @@ class AsyncWirelessController:
             direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        metadata = {
-            "tags": [
-                "wirelessController",
-                "monitor",
-                "devices",
-                "interfaces",
-                "l2",
-                "usage",
-                "history",
-                "byInterval",
-            ],
-            "operation": "get_organization_wireless_controller_devices_interfaces_l2_usage_history_by_interval",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/wirelessController/devices/interfaces/l2/usage/history/byInterval"
+        path = f"/organizations/{organization_id}/wirelessController/devices/interfaces/l2/usage/history/byInterval"
 
         params = {}
         if serials is not None:
@@ -456,7 +439,14 @@ class AsyncWirelessController:
         if ending_before is not None:
             params["endingBefore"] = ending_before
 
-        return self._session.get_pages(metadata, resource, params, total_pages, direction)
+        return self._session.get_pages(
+            scope="wirelessController",
+            operation_id="{operation_id}",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+        )
 
     def get_organization_wireless_controller_devices_interfaces_l3_by_device(
         self,
@@ -501,14 +491,8 @@ class AsyncWirelessController:
             direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        metadata = {
-            "tags": ["wirelessController", "monitor", "devices", "interfaces", "l3", "byDevice"],
-            "operation": "get_organization_wireless_controller_devices_interfaces_l3_by_device",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = (
-            f"/organizations/{organization_id}/wirelessController/devices/interfaces/l3/byDevice"
-        )
+        path = f"/organizations/{organization_id}/wirelessController/devices/interfaces/l3/byDevice"
 
         params = {}
         if serials is not None:
@@ -526,7 +510,14 @@ class AsyncWirelessController:
         if ending_before is not None:
             params["endingBefore"] = ending_before
 
-        return self._session.get_pages(metadata, resource, params, total_pages, direction)
+        return self._session.get_pages(
+            scope="wirelessController",
+            operation_id="{operation_id}",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+        )
 
     def get_organization_wireless_controller_devices_interfaces_l3_statuses_change_history_by_device(
         self,
@@ -575,21 +566,8 @@ class AsyncWirelessController:
             direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        metadata = {
-            "tags": [
-                "wirelessController",
-                "monitor",
-                "devices",
-                "interfaces",
-                "l3",
-                "statuses",
-                "changeHistory",
-                "byDevice",
-            ],
-            "operation": "get_organization_wireless_controller_devices_interfaces_l3_statuses_change_history_by_device",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/wirelessController/devices/interfaces/l3/statuses/changeHistory/byDevice"
+        path = f"/organizations/{organization_id}/wirelessController/devices/interfaces/l3/statuses/changeHistory/byDevice"
 
         params = {}
         if serials is not None:
@@ -609,7 +587,14 @@ class AsyncWirelessController:
         if ending_before is not None:
             params["endingBefore"] = ending_before
 
-        return self._session.get_pages(metadata, resource, params, total_pages, direction)
+        return self._session.get_pages(
+            scope="wirelessController",
+            operation_id="{operation_id}",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+        )
 
     def get_organization_wireless_controller_devices_interfaces_l3_usage_history_by_interval(
         self,
@@ -654,21 +639,8 @@ class AsyncWirelessController:
             direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        metadata = {
-            "tags": [
-                "wirelessController",
-                "monitor",
-                "devices",
-                "interfaces",
-                "l3",
-                "usage",
-                "history",
-                "byInterval",
-            ],
-            "operation": "get_organization_wireless_controller_devices_interfaces_l3_usage_history_by_interval",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/wirelessController/devices/interfaces/l3/usage/history/byInterval"
+        path = f"/organizations/{organization_id}/wirelessController/devices/interfaces/l3/usage/history/byInterval"
 
         params = {}
         if serials is not None:
@@ -686,7 +658,14 @@ class AsyncWirelessController:
         if ending_before is not None:
             params["endingBefore"] = ending_before
 
-        return self._session.get_pages(metadata, resource, params, total_pages, direction)
+        return self._session.get_pages(
+            scope="wirelessController",
+            operation_id="{operation_id}",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+        )
 
     def get_organization_wireless_controller_devices_interfaces_packets_overview_by_device(
         self,
@@ -734,20 +713,8 @@ class AsyncWirelessController:
             direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        metadata = {
-            "tags": [
-                "wirelessController",
-                "monitor",
-                "devices",
-                "interfaces",
-                "packets",
-                "overview",
-                "byDevice",
-            ],
-            "operation": "get_organization_wireless_controller_devices_interfaces_packets_overview_by_device",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/wirelessController/devices/interfaces/packets/overview/byDevice"
+        path = f"/organizations/{organization_id}/wirelessController/devices/interfaces/packets/overview/byDevice"
 
         params = {}
         if serials is not None:
@@ -767,7 +734,14 @@ class AsyncWirelessController:
         if ending_before is not None:
             params["endingBefore"] = ending_before
 
-        return self._session.get_pages(metadata, resource, params, total_pages, direction)
+        return self._session.get_pages(
+            scope="wirelessController",
+            operation_id="{operation_id}",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+        )
 
     def get_organization_wireless_controller_devices_interfaces_usage_history_by_interval(
         self,
@@ -815,20 +789,8 @@ class AsyncWirelessController:
             direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        metadata = {
-            "tags": [
-                "wirelessController",
-                "monitor",
-                "devices",
-                "interfaces",
-                "usage",
-                "history",
-                "byInterval",
-            ],
-            "operation": "get_organization_wireless_controller_devices_interfaces_usage_history_by_interval",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/wirelessController/devices/interfaces/usage/history/byInterval"
+        path = f"/organizations/{organization_id}/wirelessController/devices/interfaces/usage/history/byInterval"
 
         params = {}
         if serials is not None:
@@ -848,7 +810,14 @@ class AsyncWirelessController:
         if ending_before is not None:
             params["endingBefore"] = ending_before
 
-        return self._session.get_pages(metadata, resource, params, total_pages, direction)
+        return self._session.get_pages(
+            scope="wirelessController",
+            operation_id="{operation_id}",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+        )
 
     def get_organization_wireless_controller_devices_redundancy_failover_history(
         self,
@@ -893,19 +862,8 @@ class AsyncWirelessController:
             direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        metadata = {
-            "tags": [
-                "wirelessController",
-                "monitor",
-                "devices",
-                "redundancy",
-                "failover",
-                "history",
-            ],
-            "operation": "get_organization_wireless_controller_devices_redundancy_failover_history",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/wirelessController/devices/redundancy/failover/history"
+        path = f"/organizations/{organization_id}/wirelessController/devices/redundancy/failover/history"
 
         params = {}
         if serials is not None:
@@ -923,7 +881,14 @@ class AsyncWirelessController:
         if ending_before is not None:
             params["endingBefore"] = ending_before
 
-        return self._session.get_pages(metadata, resource, params, total_pages, direction)
+        return self._session.get_pages(
+            scope="wirelessController",
+            operation_id="{operation_id}",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+        )
 
     def get_organization_wireless_controller_devices_redundancy_statuses(
         self,
@@ -959,14 +924,8 @@ class AsyncWirelessController:
             direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        metadata = {
-            "tags": ["wirelessController", "monitor", "devices", "redundancy", "statuses"],
-            "operation": "get_organization_wireless_controller_devices_redundancy_statuses",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = (
-            f"/organizations/{organization_id}/wirelessController/devices/redundancy/statuses"
-        )
+        path = f"/organizations/{organization_id}/wirelessController/devices/redundancy/statuses"
 
         params = {}
         if serials is not None:
@@ -978,7 +937,14 @@ class AsyncWirelessController:
         if ending_before is not None:
             params["endingBefore"] = ending_before
 
-        return self._session.get_pages(metadata, resource, params, total_pages, direction)
+        return self._session.get_pages(
+            scope="wirelessController",
+            operation_id="{operation_id}",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+        )
 
     def get_organization_wireless_controller_devices_system_utilization_history_by_interval(
         self,
@@ -1023,20 +989,8 @@ class AsyncWirelessController:
             direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        metadata = {
-            "tags": [
-                "wirelessController",
-                "monitor",
-                "devices",
-                "system",
-                "utilization",
-                "history",
-                "byInterval",
-            ],
-            "operation": "get_organization_wireless_controller_devices_system_utilization_history_by_interval",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/wirelessController/devices/system/utilization/history/byInterval"
+        path = f"/organizations/{organization_id}/wirelessController/devices/system/utilization/history/byInterval"
 
         params = {}
         if serials is not None:
@@ -1054,7 +1008,14 @@ class AsyncWirelessController:
         if ending_before is not None:
             params["endingBefore"] = ending_before
 
-        return self._session.get_pages(metadata, resource, params, total_pages, direction)
+        return self._session.get_pages(
+            scope="wirelessController",
+            operation_id="{operation_id}",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+        )
 
     def get_organization_wireless_controller_overview_by_device(
         self,
@@ -1093,12 +1054,8 @@ class AsyncWirelessController:
             direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        metadata = {
-            "tags": ["wirelessController", "monitor", "overview", "byDevice"],
-            "operation": "get_organization_wireless_controller_overview_by_device",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/wirelessController/overview/byDevice"
+        path = f"/organizations/{organization_id}/wirelessController/overview/byDevice"
 
         params = {}
         if network_ids is not None:
@@ -1112,4 +1069,11 @@ class AsyncWirelessController:
         if ending_before is not None:
             params["endingBefore"] = ending_before
 
-        return self._session.get_pages(metadata, resource, params, total_pages, direction)
+        return self._session.get_pages(
+            scope="wirelessController",
+            operation_id="{operation_id}",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+        )

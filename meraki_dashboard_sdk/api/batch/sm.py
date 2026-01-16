@@ -1,7 +1,7 @@
 """ActionBatchSm API endpoints."""
 
 import urllib
-from typing import Any
+from typing import Any, Literal
 
 
 class ActionBatchSm:
@@ -24,10 +24,10 @@ class ActionBatchSm:
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
         user_access_device_id = urllib.parse.quote(str(user_access_device_id), safe="")
-        resource = f"/networks/{network_id}/sm/userAccessDevices/{user_access_device_id}"
+        path = f"/networks/{network_id}/sm/userAccessDevices/{user_access_device_id}"
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "destroy",
         }
         return action  # noqa: RET504
@@ -53,7 +53,7 @@ class ActionBatchSm:
             )
 
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/sm/admins/roles"
+        path = f"/organizations/{organization_id}/sm/admins/roles"
 
         payload = {}
         if name is not None:
@@ -64,7 +64,7 @@ class ActionBatchSm:
             payload["tags"] = tags
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "create",
             "body": payload,
         }
@@ -99,7 +99,7 @@ class ActionBatchSm:
 
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         role_id = urllib.parse.quote(str(role_id), safe="")
-        resource = f"/organizations/{organization_id}/sm/admins/roles/{role_id}"
+        path = f"/organizations/{organization_id}/sm/admins/roles/{role_id}"
 
         payload = {}
         if name is not None:
@@ -110,7 +110,7 @@ class ActionBatchSm:
             payload["tags"] = tags
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -130,10 +130,10 @@ class ActionBatchSm:
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         role_id = urllib.parse.quote(str(role_id), safe="")
-        resource = f"/organizations/{organization_id}/sm/admins/roles/{role_id}"
+        path = f"/organizations/{organization_id}/sm/admins/roles/{role_id}"
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "destroy",
         }
         return action  # noqa: RET504
@@ -151,14 +151,14 @@ class ActionBatchSm:
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/sm/sentry/policies/assignments"
+        path = f"/organizations/{organization_id}/sm/sentry/policies/assignments"
 
         payload = {}
         if items is not None:
             payload["items"] = items
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }

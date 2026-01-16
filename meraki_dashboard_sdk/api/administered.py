@@ -1,17 +1,19 @@
 """Administered API endpoints."""
 
+from __future__ import annotations
+
 import urllib
 from collections.abc import Generator
-from typing import Any
+from typing import Any, Literal, TYPE_CHECKING
 
-from meraki_dashboard_sdk.rest_session import RestSession
+if TYPE_CHECKING:
+    from meraki_dashboard_sdk.rest_session import RestSession
 
 
 class Administered:
     """Administered class."""
 
     def __init__(self, session: RestSession) -> None:
-        super(self).__init__()
         self._session = session
 
     def get_administered_identities_me(self) -> dict[str, Any] | None:
@@ -20,13 +22,11 @@ class Administered:
         https://developer.cisco.com/meraki/api-v1/#!get-administered-identities-me
 
         """
-        metadata = {
-            "tags": ["administered", "monitor", "identities", "me"],
-            "operation": "get_administered_identities_me",
-        }
-        resource = f"/administered/identities/me"
+        path = f"/administered/identities/me"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="administered", operation_id="getAdministeredIdentitiesMe", path=path
+        )
 
     def get_administered_identities_me_api_keys(self) -> dict[str, Any] | None:
         """List the non-sensitive metadata associated with the API keys that belong to the user.
@@ -34,13 +34,11 @@ class Administered:
         https://developer.cisco.com/meraki/api-v1/#!get-administered-identities-me-api-keys
 
         """
-        metadata = {
-            "tags": ["administered", "configure", "identities", "me", "api", "keys"],
-            "operation": "get_administered_identities_me_api_keys",
-        }
-        resource = f"/administered/identities/me/api/keys"
+        path = f"/administered/identities/me/api/keys"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="administered", operation_id="getAdministeredIdentitiesMeApiKeys", path=path
+        )
 
     def generate_administered_identities_me_api_keys(self) -> dict[str, Any] | None:
         """Generates an API key for an identity.
@@ -48,13 +46,11 @@ class Administered:
         https://developer.cisco.com/meraki/api-v1/#!generate-administered-identities-me-api-keys
 
         """
-        metadata = {
-            "tags": ["administered", "configure", "identities", "me", "api", "keys"],
-            "operation": "generate_administered_identities_me_api_keys",
-        }
-        resource = f"/administered/identities/me/api/keys/generate"
+        path = f"/administered/identities/me/api/keys/generate"
 
-        return self._session.post(metadata, resource)
+        return self._session.post(
+            scope="administered", operation_id="generateAdministeredIdentitiesMeApiKeys", path=path
+        )
 
     def revoke_administered_identities_me_api_keys(self, *, suffix: str) -> dict[str, Any] | None:
         """Revokes an identity's API key, using the last four characters of the key.
@@ -65,11 +61,9 @@ class Administered:
             suffix: Suffix.
 
         """
-        metadata = {
-            "tags": ["administered", "configure", "identities", "me", "api", "keys"],
-            "operation": "revoke_administered_identities_me_api_keys",
-        }
         suffix = urllib.parse.quote(str(suffix), safe="")
-        resource = f"/administered/identities/me/api/keys/{suffix}/revoke"
+        path = f"/administered/identities/me/api/keys/{suffix}/revoke"
 
-        return self._session.post(metadata, resource)
+        return self._session.post(
+            scope="administered", operation_id="revokeAdministeredIdentitiesMeApiKeys", path=path
+        )

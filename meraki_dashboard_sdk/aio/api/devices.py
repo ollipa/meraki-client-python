@@ -1,17 +1,19 @@
 """Devices API endpoints."""
 
+from __future__ import annotations
+
 import urllib
 from collections.abc import Generator
-from typing import Any
+from typing import Any, Literal, TYPE_CHECKING
 
-from meraki_dashboard_sdk.aio.rest_session import AsyncRestSession
+if TYPE_CHECKING:
+    from meraki_dashboard_sdk.aio.rest_session import AsyncRestSession
 
 
 class AsyncDevices:
     """Devices class."""
 
     def __init__(self, session: AsyncRestSession) -> None:
-        super().__init__()
         self._session = session
 
     def get_device(self, *, serial: str) -> dict[str, Any] | None:
@@ -23,11 +25,10 @@ class AsyncDevices:
             serial: Serial.
 
         """
-        metadata = {"tags": ["devices", "configure"], "operation": "get_device"}
         serial = urllib.parse.quote(str(serial), safe="")
-        resource = f"/devices/{serial}"
+        path = f"/devices/{serial}"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(scope="devices", operation_id="getDevice", path=path)
 
     def update_device(
         self,
@@ -66,9 +67,8 @@ class AsyncDevices:
               from the floorplan.
 
         """
-        metadata = {"tags": ["devices", "configure"], "operation": "update_device"}
         serial = urllib.parse.quote(str(serial), safe="")
-        resource = f"/devices/{serial}"
+        path = f"/devices/{serial}"
 
         payload = {}
         if name is not None:
@@ -90,7 +90,9 @@ class AsyncDevices:
         if floor_plan_id is not None:
             payload["floorPlanId"] = floor_plan_id
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="devices", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def blink_device_leds(
         self,
@@ -112,9 +114,8 @@ class AsyncDevices:
             duty: The duty cycle as the percent active. Must be between 10 and 90. Default is 50.
 
         """
-        metadata = {"tags": ["devices", "liveTools"], "operation": "blink_device_leds"}
         serial = urllib.parse.quote(str(serial), safe="")
-        resource = f"/devices/{serial}/blinkLeds"
+        path = f"/devices/{serial}/blinkLeds"
 
         payload = {}
         if duration is not None:
@@ -124,7 +125,9 @@ class AsyncDevices:
         if duty is not None:
             payload["duty"] = duty
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="devices", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_device_cellular_sims(self, *, serial: str) -> dict[str, Any] | None:
         """Return the SIM and APN configurations for a cellular device.
@@ -135,14 +138,10 @@ class AsyncDevices:
             serial: Serial.
 
         """
-        metadata = {
-            "tags": ["devices", "configure", "cellular", "sims"],
-            "operation": "get_device_cellular_sims",
-        }
         serial = urllib.parse.quote(str(serial), safe="")
-        resource = f"/devices/{serial}/cellular/sims"
+        path = f"/devices/{serial}/cellular/sims"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(scope="devices", operation_id="getDeviceCellularSims", path=path)
 
     def update_device_cellular_sims(
         self,
@@ -168,12 +167,8 @@ class AsyncDevices:
             sim_failover: SIM Failover settings.
 
         """
-        metadata = {
-            "tags": ["devices", "configure", "cellular", "sims"],
-            "operation": "update_device_cellular_sims",
-        }
         serial = urllib.parse.quote(str(serial), safe="")
-        resource = f"/devices/{serial}/cellular/sims"
+        path = f"/devices/{serial}/cellular/sims"
 
         payload = {}
         if sims is not None:
@@ -183,7 +178,9 @@ class AsyncDevices:
         if sim_failover is not None:
             payload["simFailover"] = sim_failover
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="devices", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_device_clients(
         self, *, serial: str, t0: str | None = None, timespan: float | None = None
@@ -201,9 +198,8 @@ class AsyncDevices:
               less than or equal to 31 days. The default is 1 day.
 
         """
-        metadata = {"tags": ["devices", "monitor", "clients"], "operation": "get_device_clients"}
         serial = urllib.parse.quote(str(serial), safe="")
-        resource = f"/devices/{serial}/clients"
+        path = f"/devices/{serial}/clients"
 
         params = {}
         if t0 is not None:
@@ -211,7 +207,9 @@ class AsyncDevices:
         if timespan is not None:
             params["timespan"] = timespan
 
-        return self._session.get(metadata, resource, params)
+        return self._session.get(
+            scope="devices", operation_id="{operation_id}", path=path, params=params
+        )
 
     def create_device_live_tools_arp_table(
         self, *, serial: str, callback: dict | None = None
@@ -226,18 +224,16 @@ class AsyncDevices:
               sharedSecret.
 
         """
-        metadata = {
-            "tags": ["devices", "liveTools", "arpTable"],
-            "operation": "create_device_live_tools_arp_table",
-        }
         serial = urllib.parse.quote(str(serial), safe="")
-        resource = f"/devices/{serial}/liveTools/arpTable"
+        path = f"/devices/{serial}/liveTools/arpTable"
 
         payload = {}
         if callback is not None:
             payload["callback"] = callback
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="devices", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_device_live_tools_arp_table(
         self, *, serial: str, arp_table_id: str
@@ -251,15 +247,13 @@ class AsyncDevices:
             arp_table_id: Arp table ID.
 
         """
-        metadata = {
-            "tags": ["devices", "liveTools", "arpTable"],
-            "operation": "get_device_live_tools_arp_table",
-        }
         serial = urllib.parse.quote(str(serial), safe="")
         arp_table_id = urllib.parse.quote(str(arp_table_id), safe="")
-        resource = f"/devices/{serial}/liveTools/arpTable/{arp_table_id}"
+        path = f"/devices/{serial}/liveTools/arpTable/{arp_table_id}"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="devices", operation_id="getDeviceLiveToolsArpTable", path=path
+        )
 
     def create_device_live_tools_cable_test(
         self, *, serial: str, ports: list, callback: dict | None = None
@@ -277,12 +271,8 @@ class AsyncDevices:
               sharedSecret.
 
         """
-        metadata = {
-            "tags": ["devices", "liveTools", "cableTest"],
-            "operation": "create_device_live_tools_cable_test",
-        }
         serial = urllib.parse.quote(str(serial), safe="")
-        resource = f"/devices/{serial}/liveTools/cableTest"
+        path = f"/devices/{serial}/liveTools/cableTest"
 
         payload = {}
         if ports is not None:
@@ -290,7 +280,9 @@ class AsyncDevices:
         if callback is not None:
             payload["callback"] = callback
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="devices", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_device_live_tools_cable_test(self, *, serial: str, id_: str) -> dict[str, Any] | None:
         """Return a cable test live tool job.
@@ -302,15 +294,13 @@ class AsyncDevices:
             id_: ID.
 
         """
-        metadata = {
-            "tags": ["devices", "liveTools", "cableTest"],
-            "operation": "get_device_live_tools_cable_test",
-        }
         serial = urllib.parse.quote(str(serial), safe="")
         id_ = urllib.parse.quote(str(id_), safe="")
-        resource = f"/devices/{serial}/liveTools/cableTest/{id_}"
+        path = f"/devices/{serial}/liveTools/cableTest/{id_}"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="devices", operation_id="getDeviceLiveToolsCableTest", path=path
+        )
 
     def create_device_live_tools_leds_blink(
         self, *, serial: str, duration: int, callback: dict | None = None
@@ -326,12 +316,8 @@ class AsyncDevices:
               sharedSecret.
 
         """
-        metadata = {
-            "tags": ["devices", "liveTools", "leds", "blink"],
-            "operation": "create_device_live_tools_leds_blink",
-        }
         serial = urllib.parse.quote(str(serial), safe="")
-        resource = f"/devices/{serial}/liveTools/leds/blink"
+        path = f"/devices/{serial}/liveTools/leds/blink"
 
         payload = {}
         if duration is not None:
@@ -339,7 +325,9 @@ class AsyncDevices:
         if callback is not None:
             payload["callback"] = callback
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="devices", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_device_live_tools_leds_blink(
         self, *, serial: str, leds_blink_id: str
@@ -353,15 +341,13 @@ class AsyncDevices:
             leds_blink_id: Leds blink ID.
 
         """
-        metadata = {
-            "tags": ["devices", "liveTools", "leds", "blink"],
-            "operation": "get_device_live_tools_leds_blink",
-        }
         serial = urllib.parse.quote(str(serial), safe="")
         leds_blink_id = urllib.parse.quote(str(leds_blink_id), safe="")
-        resource = f"/devices/{serial}/liveTools/leds/blink/{leds_blink_id}"
+        path = f"/devices/{serial}/liveTools/leds/blink/{leds_blink_id}"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="devices", operation_id="getDeviceLiveToolsLedsBlink", path=path
+        )
 
     def create_device_live_tools_mac_table(
         self, *, serial: str, callback: dict | None = None
@@ -376,18 +362,16 @@ class AsyncDevices:
               sharedSecret.
 
         """
-        metadata = {
-            "tags": ["devices", "liveTools", "macTable"],
-            "operation": "create_device_live_tools_mac_table",
-        }
         serial = urllib.parse.quote(str(serial), safe="")
-        resource = f"/devices/{serial}/liveTools/macTable"
+        path = f"/devices/{serial}/liveTools/macTable"
 
         payload = {}
         if callback is not None:
             payload["callback"] = callback
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="devices", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_device_live_tools_mac_table(
         self, *, serial: str, mac_table_id: str
@@ -401,15 +385,13 @@ class AsyncDevices:
             mac_table_id: Mac table ID.
 
         """
-        metadata = {
-            "tags": ["devices", "liveTools", "macTable"],
-            "operation": "get_device_live_tools_mac_table",
-        }
         serial = urllib.parse.quote(str(serial), safe="")
         mac_table_id = urllib.parse.quote(str(mac_table_id), safe="")
-        resource = f"/devices/{serial}/liveTools/macTable/{mac_table_id}"
+        path = f"/devices/{serial}/liveTools/macTable/{mac_table_id}"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="devices", operation_id="getDeviceLiveToolsMacTable", path=path
+        )
 
     def create_device_live_tools_multicast_routing(
         self, *, serial: str, callback: dict | None = None
@@ -424,18 +406,16 @@ class AsyncDevices:
               sharedSecret.
 
         """
-        metadata = {
-            "tags": ["devices", "liveTools", "multicastRouting"],
-            "operation": "create_device_live_tools_multicast_routing",
-        }
         serial = urllib.parse.quote(str(serial), safe="")
-        resource = f"/devices/{serial}/liveTools/multicastRouting"
+        path = f"/devices/{serial}/liveTools/multicastRouting"
 
         payload = {}
         if callback is not None:
             payload["callback"] = callback
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="devices", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_device_live_tools_multicast_routing(
         self, *, serial: str, multicast_routing_id: str
@@ -449,15 +429,13 @@ class AsyncDevices:
             multicast_routing_id: Multicast routing ID.
 
         """
-        metadata = {
-            "tags": ["devices", "liveTools", "multicastRouting"],
-            "operation": "get_device_live_tools_multicast_routing",
-        }
         serial = urllib.parse.quote(str(serial), safe="")
         multicast_routing_id = urllib.parse.quote(str(multicast_routing_id), safe="")
-        resource = f"/devices/{serial}/liveTools/multicastRouting/{multicast_routing_id}"
+        path = f"/devices/{serial}/liveTools/multicastRouting/{multicast_routing_id}"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="devices", operation_id="getDeviceLiveToolsMulticastRouting", path=path
+        )
 
     def create_device_live_tools_ping(
         self, *, serial: str, target: str, count: int | None = None, callback: dict | None = None
@@ -474,12 +452,8 @@ class AsyncDevices:
               sharedSecret.
 
         """
-        metadata = {
-            "tags": ["devices", "liveTools", "ping"],
-            "operation": "create_device_live_tools_ping",
-        }
         serial = urllib.parse.quote(str(serial), safe="")
-        resource = f"/devices/{serial}/liveTools/ping"
+        path = f"/devices/{serial}/liveTools/ping"
 
         payload = {}
         if target is not None:
@@ -489,7 +463,9 @@ class AsyncDevices:
         if callback is not None:
             payload["callback"] = callback
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="devices", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_device_live_tools_ping(self, *, serial: str, id_: str) -> dict[str, Any] | None:
         """Return a ping job.
@@ -501,15 +477,11 @@ class AsyncDevices:
             id_: ID.
 
         """
-        metadata = {
-            "tags": ["devices", "liveTools", "ping"],
-            "operation": "get_device_live_tools_ping",
-        }
         serial = urllib.parse.quote(str(serial), safe="")
         id_ = urllib.parse.quote(str(id_), safe="")
-        resource = f"/devices/{serial}/liveTools/ping/{id_}"
+        path = f"/devices/{serial}/liveTools/ping/{id_}"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(scope="devices", operation_id="getDeviceLiveToolsPing", path=path)
 
     def create_device_live_tools_ping_device(
         self, *, serial: str, count: int | None = None, callback: dict | None = None
@@ -525,12 +497,8 @@ class AsyncDevices:
               sharedSecret.
 
         """
-        metadata = {
-            "tags": ["devices", "liveTools", "pingDevice"],
-            "operation": "create_device_live_tools_ping_device",
-        }
         serial = urllib.parse.quote(str(serial), safe="")
-        resource = f"/devices/{serial}/liveTools/pingDevice"
+        path = f"/devices/{serial}/liveTools/pingDevice"
 
         payload = {}
         if count is not None:
@@ -538,7 +506,9 @@ class AsyncDevices:
         if callback is not None:
             payload["callback"] = callback
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="devices", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_device_live_tools_ping_device(self, *, serial: str, id_: str) -> dict[str, Any] | None:
         """Return a ping device job.
@@ -550,15 +520,13 @@ class AsyncDevices:
             id_: ID.
 
         """
-        metadata = {
-            "tags": ["devices", "liveTools", "pingDevice"],
-            "operation": "get_device_live_tools_ping_device",
-        }
         serial = urllib.parse.quote(str(serial), safe="")
         id_ = urllib.parse.quote(str(id_), safe="")
-        resource = f"/devices/{serial}/liveTools/pingDevice/{id_}"
+        path = f"/devices/{serial}/liveTools/pingDevice/{id_}"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="devices", operation_id="getDeviceLiveToolsPingDevice", path=path
+        )
 
     def create_device_live_tools_throughput_test(
         self, *, serial: str, callback: dict | None = None
@@ -573,18 +541,16 @@ class AsyncDevices:
               sharedSecret.
 
         """
-        metadata = {
-            "tags": ["devices", "liveTools", "throughputTest"],
-            "operation": "create_device_live_tools_throughput_test",
-        }
         serial = urllib.parse.quote(str(serial), safe="")
-        resource = f"/devices/{serial}/liveTools/throughputTest"
+        path = f"/devices/{serial}/liveTools/throughputTest"
 
         payload = {}
         if callback is not None:
             payload["callback"] = callback
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="devices", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_device_live_tools_throughput_test(
         self, *, serial: str, throughput_test_id: str
@@ -598,15 +564,13 @@ class AsyncDevices:
             throughput_test_id: Throughput test ID.
 
         """
-        metadata = {
-            "tags": ["devices", "liveTools", "throughputTest"],
-            "operation": "get_device_live_tools_throughput_test",
-        }
         serial = urllib.parse.quote(str(serial), safe="")
         throughput_test_id = urllib.parse.quote(str(throughput_test_id), safe="")
-        resource = f"/devices/{serial}/liveTools/throughputTest/{throughput_test_id}"
+        path = f"/devices/{serial}/liveTools/throughputTest/{throughput_test_id}"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="devices", operation_id="getDeviceLiveToolsThroughputTest", path=path
+        )
 
     def create_device_live_tools_wake_on_lan(
         self, *, serial: str, vlan_id: int, mac: str, callback: dict | None = None
@@ -623,12 +587,8 @@ class AsyncDevices:
               sharedSecret.
 
         """
-        metadata = {
-            "tags": ["devices", "liveTools", "wakeOnLan"],
-            "operation": "create_device_live_tools_wake_on_lan",
-        }
         serial = urllib.parse.quote(str(serial), safe="")
-        resource = f"/devices/{serial}/liveTools/wakeOnLan"
+        path = f"/devices/{serial}/liveTools/wakeOnLan"
 
         payload = {}
         if vlan_id is not None:
@@ -638,7 +598,9 @@ class AsyncDevices:
         if callback is not None:
             payload["callback"] = callback
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="devices", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_device_live_tools_wake_on_lan(
         self, *, serial: str, wake_on_lan_id: str
@@ -652,15 +614,13 @@ class AsyncDevices:
             wake_on_lan_id: Wake on lan ID.
 
         """
-        metadata = {
-            "tags": ["devices", "liveTools", "wakeOnLan"],
-            "operation": "get_device_live_tools_wake_on_lan",
-        }
         serial = urllib.parse.quote(str(serial), safe="")
         wake_on_lan_id = urllib.parse.quote(str(wake_on_lan_id), safe="")
-        resource = f"/devices/{serial}/liveTools/wakeOnLan/{wake_on_lan_id}"
+        path = f"/devices/{serial}/liveTools/wakeOnLan/{wake_on_lan_id}"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="devices", operation_id="getDeviceLiveToolsWakeOnLan", path=path
+        )
 
     def get_device_lldp_cdp(self, *, serial: str) -> dict[str, Any] | None:
         """List LLDP and CDP information for a device.
@@ -671,11 +631,10 @@ class AsyncDevices:
             serial: Serial.
 
         """
-        metadata = {"tags": ["devices", "monitor", "lldpCdp"], "operation": "get_device_lldp_cdp"}
         serial = urllib.parse.quote(str(serial), safe="")
-        resource = f"/devices/{serial}/lldpCdp"
+        path = f"/devices/{serial}/lldpCdp"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(scope="devices", operation_id="getDeviceLldpCdp", path=path)
 
     def get_device_loss_and_latency_history(
         self,
@@ -713,12 +672,8 @@ class AsyncDevices:
                 f'"uplink" cannot be "{uplink}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["devices", "monitor", "uplinks", "lossAndLatencyHistory"],
-            "operation": "get_device_loss_and_latency_history",
-        }
         serial = urllib.parse.quote(str(serial), safe="")
-        resource = f"/devices/{serial}/lossAndLatencyHistory"
+        path = f"/devices/{serial}/lossAndLatencyHistory"
 
         params = {}
         if t0 is not None:
@@ -734,7 +689,9 @@ class AsyncDevices:
         if ip is not None:
             params["ip"] = ip
 
-        return self._session.get(metadata, resource, params)
+        return self._session.get(
+            scope="devices", operation_id="{operation_id}", path=path, params=params
+        )
 
     def get_device_management_interface(self, *, serial: str) -> dict[str, Any] | None:
         """Return the management interface settings for a device.
@@ -745,14 +702,12 @@ class AsyncDevices:
             serial: Serial.
 
         """
-        metadata = {
-            "tags": ["devices", "configure", "managementInterface"],
-            "operation": "get_device_management_interface",
-        }
         serial = urllib.parse.quote(str(serial), safe="")
-        resource = f"/devices/{serial}/managementInterface"
+        path = f"/devices/{serial}/managementInterface"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="devices", operation_id="getDeviceManagementInterface", path=path
+        )
 
     def update_device_management_interface(
         self, *, serial: str, wan1: dict | None = None, wan2: dict | None = None
@@ -767,12 +722,8 @@ class AsyncDevices:
             wan2: WAN 2 settings (only for MX devices).
 
         """
-        metadata = {
-            "tags": ["devices", "configure", "managementInterface"],
-            "operation": "update_device_management_interface",
-        }
         serial = urllib.parse.quote(str(serial), safe="")
-        resource = f"/devices/{serial}/managementInterface"
+        path = f"/devices/{serial}/managementInterface"
 
         payload = {}
         if wan1 is not None:
@@ -780,7 +731,9 @@ class AsyncDevices:
         if wan2 is not None:
             payload["wan2"] = wan2
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="devices", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def reboot_device(self, *, serial: str) -> dict[str, Any] | None:
         """Reboot a device.
@@ -791,8 +744,7 @@ class AsyncDevices:
             serial: Serial.
 
         """
-        metadata = {"tags": ["devices", "liveTools"], "operation": "reboot_device"}
         serial = urllib.parse.quote(str(serial), safe="")
-        resource = f"/devices/{serial}/reboot"
+        path = f"/devices/{serial}/reboot"
 
-        return self._session.post(metadata, resource)
+        return self._session.post(scope="devices", operation_id="rebootDevice", path=path)

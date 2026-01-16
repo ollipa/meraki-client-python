@@ -22,7 +22,7 @@
         {% for param in path_params %}
         {{ param }} = urllib.parse.quote(str({{ param }}), safe='')
         {% endfor %}
-        resource = f'{{ resource }}'
+        path = f'{{ resource }}'
 
         {% if query_params|length > 0 %}
         params = {}
@@ -41,7 +41,7 @@
 
         {% endif %}
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "{{ batch_operation }}",
             {% if body_params|length > 0 %}
             "body": payload,

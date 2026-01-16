@@ -1,7 +1,7 @@
 """ActionBatchDevices API endpoints."""
 
 import urllib
-from typing import Any
+from typing import Any, Literal
 
 
 class ActionBatchDevices:
@@ -48,7 +48,7 @@ class ActionBatchDevices:
 
         """
         serial = urllib.parse.quote(str(serial), safe="")
-        resource = f"/devices/{serial}"
+        path = f"/devices/{serial}"
 
         payload = {}
         if name is not None:
@@ -71,7 +71,7 @@ class ActionBatchDevices:
             payload["floorPlanId"] = floor_plan_id
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -92,7 +92,7 @@ class ActionBatchDevices:
 
         """
         serial = urllib.parse.quote(str(serial), safe="")
-        resource = f"/devices/{serial}/liveTools/leds/blink"
+        path = f"/devices/{serial}/liveTools/leds/blink"
 
         payload = {}
         if duration is not None:
@@ -101,7 +101,7 @@ class ActionBatchDevices:
             payload["callback"] = callback
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "create",
             "body": payload,
         }
@@ -121,14 +121,14 @@ class ActionBatchDevices:
 
         """
         serial = urllib.parse.quote(str(serial), safe="")
-        resource = f"/devices/{serial}/liveTools/throughputTest"
+        path = f"/devices/{serial}/liveTools/throughputTest"
 
         payload = {}
         if callback is not None:
             payload["callback"] = callback
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "create",
             "body": payload,
         }
@@ -148,7 +148,7 @@ class ActionBatchDevices:
 
         """
         serial = urllib.parse.quote(str(serial), safe="")
-        resource = f"/devices/{serial}/managementInterface"
+        path = f"/devices/{serial}/managementInterface"
 
         payload = {}
         if wan1 is not None:
@@ -157,7 +157,7 @@ class ActionBatchDevices:
             payload["wan2"] = wan2
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }

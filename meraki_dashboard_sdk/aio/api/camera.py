@@ -1,17 +1,19 @@
 """Camera API endpoints."""
 
+from __future__ import annotations
+
 import urllib
 from collections.abc import Generator
-from typing import Any
+from typing import Any, Literal, TYPE_CHECKING
 
-from meraki_dashboard_sdk.aio.rest_session import AsyncRestSession
+if TYPE_CHECKING:
+    from meraki_dashboard_sdk.aio.rest_session import AsyncRestSession
 
 
 class AsyncCamera:
     """Camera class."""
 
     def __init__(self, session: AsyncRestSession) -> None:
-        super().__init__()
         self._session = session
 
     def get_device_camera_analytics_live(self, *, serial: str) -> dict[str, Any] | None:
@@ -23,14 +25,12 @@ class AsyncCamera:
             serial: Serial.
 
         """
-        metadata = {
-            "tags": ["camera", "monitor", "analytics", "live"],
-            "operation": "get_device_camera_analytics_live",
-        }
         serial = urllib.parse.quote(str(serial), safe="")
-        resource = f"/devices/{serial}/camera/analytics/live"
+        path = f"/devices/{serial}/camera/analytics/live"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="camera", operation_id="getDeviceCameraAnalyticsLive", path=path
+        )
 
     def get_device_camera_analytics_overview(
         self,
@@ -63,12 +63,8 @@ class AsyncCamera:
                 f'"object_type" cannot be "{object_type}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["camera", "monitor", "analytics", "overview"],
-            "operation": "get_device_camera_analytics_overview",
-        }
         serial = urllib.parse.quote(str(serial), safe="")
-        resource = f"/devices/{serial}/camera/analytics/overview"
+        path = f"/devices/{serial}/camera/analytics/overview"
 
         params = {}
         if t0 is not None:
@@ -80,7 +76,9 @@ class AsyncCamera:
         if object_type is not None:
             params["objectType"] = object_type
 
-        return self._session.get(metadata, resource, params)
+        return self._session.get(
+            scope="camera", operation_id="{operation_id}", path=path, params=params
+        )
 
     def get_device_camera_analytics_recent(
         self, *, serial: str, object_type: str | None = None
@@ -101,18 +99,16 @@ class AsyncCamera:
                 f'"object_type" cannot be "{object_type}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["camera", "monitor", "analytics", "recent"],
-            "operation": "get_device_camera_analytics_recent",
-        }
         serial = urllib.parse.quote(str(serial), safe="")
-        resource = f"/devices/{serial}/camera/analytics/recent"
+        path = f"/devices/{serial}/camera/analytics/recent"
 
         params = {}
         if object_type is not None:
             params["objectType"] = object_type
 
-        return self._session.get(metadata, resource, params)
+        return self._session.get(
+            scope="camera", operation_id="{operation_id}", path=path, params=params
+        )
 
     def get_device_camera_analytics_zones(self, *, serial: str) -> dict[str, Any] | None:
         """Returns all configured analytic zones for this camera.
@@ -123,14 +119,12 @@ class AsyncCamera:
             serial: Serial.
 
         """
-        metadata = {
-            "tags": ["camera", "monitor", "analytics", "zones"],
-            "operation": "get_device_camera_analytics_zones",
-        }
         serial = urllib.parse.quote(str(serial), safe="")
-        resource = f"/devices/{serial}/camera/analytics/zones"
+        path = f"/devices/{serial}/camera/analytics/zones"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="camera", operation_id="getDeviceCameraAnalyticsZones", path=path
+        )
 
     def get_device_camera_analytics_zone_history(
         self,
@@ -168,13 +162,9 @@ class AsyncCamera:
                 f'"object_type" cannot be "{object_type}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["camera", "monitor", "analytics", "zones", "history"],
-            "operation": "get_device_camera_analytics_zone_history",
-        }
         serial = urllib.parse.quote(str(serial), safe="")
         zone_id = urllib.parse.quote(str(zone_id), safe="")
-        resource = f"/devices/{serial}/camera/analytics/zones/{zone_id}/history"
+        path = f"/devices/{serial}/camera/analytics/zones/{zone_id}/history"
 
         params = {}
         if t0 is not None:
@@ -188,7 +178,9 @@ class AsyncCamera:
         if object_type is not None:
             params["objectType"] = object_type
 
-        return self._session.get(metadata, resource, params)
+        return self._session.get(
+            scope="camera", operation_id="{operation_id}", path=path, params=params
+        )
 
     def get_device_camera_custom_analytics(self, *, serial: str) -> dict[str, Any] | None:
         """Return custom analytics settings for a camera.
@@ -199,14 +191,12 @@ class AsyncCamera:
             serial: Serial.
 
         """
-        metadata = {
-            "tags": ["camera", "configure", "customAnalytics"],
-            "operation": "get_device_camera_custom_analytics",
-        }
         serial = urllib.parse.quote(str(serial), safe="")
-        resource = f"/devices/{serial}/camera/customAnalytics"
+        path = f"/devices/{serial}/camera/customAnalytics"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="camera", operation_id="getDeviceCameraCustomAnalytics", path=path
+        )
 
     def update_device_camera_custom_analytics(
         self,
@@ -227,12 +217,8 @@ class AsyncCamera:
             parameters: Parameters for the custom analytics workload.
 
         """
-        metadata = {
-            "tags": ["camera", "configure", "customAnalytics"],
-            "operation": "update_device_camera_custom_analytics",
-        }
         serial = urllib.parse.quote(str(serial), safe="")
-        resource = f"/devices/{serial}/camera/customAnalytics"
+        path = f"/devices/{serial}/camera/customAnalytics"
 
         payload = {}
         if enabled is not None:
@@ -242,7 +228,9 @@ class AsyncCamera:
         if parameters is not None:
             payload["parameters"] = parameters
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="camera", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def generate_device_camera_snapshot(
         self, *, serial: str, timestamp: str | None = None, fullframe: bool | None = None
@@ -260,9 +248,8 @@ class AsyncCamera:
               resolution. This will error if used with timestamp.
 
         """
-        metadata = {"tags": ["camera", "monitor"], "operation": "generate_device_camera_snapshot"}
         serial = urllib.parse.quote(str(serial), safe="")
-        resource = f"/devices/{serial}/camera/generateSnapshot"
+        path = f"/devices/{serial}/camera/generateSnapshot"
 
         payload = {}
         if timestamp is not None:
@@ -270,7 +257,9 @@ class AsyncCamera:
         if fullframe is not None:
             payload["fullframe"] = fullframe
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="camera", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_device_camera_quality_and_retention(self, *, serial: str) -> dict[str, Any] | None:
         """Returns quality and retention settings for the given camera.
@@ -281,14 +270,12 @@ class AsyncCamera:
             serial: Serial.
 
         """
-        metadata = {
-            "tags": ["camera", "configure", "qualityAndRetention"],
-            "operation": "get_device_camera_quality_and_retention",
-        }
         serial = urllib.parse.quote(str(serial), safe="")
-        resource = f"/devices/{serial}/camera/qualityAndRetention"
+        path = f"/devices/{serial}/camera/qualityAndRetention"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="camera", operation_id="getDeviceCameraQualityAndRetention", path=path
+        )
 
     def update_device_camera_quality_and_retention(
         self,
@@ -352,12 +339,8 @@ class AsyncCamera:
                 f'"motion_detector_version" cannot be "{motion_detector_version}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["camera", "configure", "qualityAndRetention"],
-            "operation": "update_device_camera_quality_and_retention",
-        }
         serial = urllib.parse.quote(str(serial), safe="")
-        resource = f"/devices/{serial}/camera/qualityAndRetention"
+        path = f"/devices/{serial}/camera/qualityAndRetention"
 
         payload = {}
         if profile_id is not None:
@@ -375,7 +358,9 @@ class AsyncCamera:
         if motion_detector_version is not None:
             payload["motionDetectorVersion"] = motion_detector_version
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="camera", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_device_camera_sense(self, *, serial: str) -> dict[str, Any] | None:
         """Returns sense settings for a given camera.
@@ -386,14 +371,10 @@ class AsyncCamera:
             serial: Serial.
 
         """
-        metadata = {
-            "tags": ["camera", "configure", "sense"],
-            "operation": "get_device_camera_sense",
-        }
         serial = urllib.parse.quote(str(serial), safe="")
-        resource = f"/devices/{serial}/camera/sense"
+        path = f"/devices/{serial}/camera/sense"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(scope="camera", operation_id="getDeviceCameraSense", path=path)
 
     def update_device_camera_sense(
         self,
@@ -418,12 +399,8 @@ class AsyncCamera:
             detection_model_id: The ID of the object detection model.
 
         """
-        metadata = {
-            "tags": ["camera", "configure", "sense"],
-            "operation": "update_device_camera_sense",
-        }
         serial = urllib.parse.quote(str(serial), safe="")
-        resource = f"/devices/{serial}/camera/sense"
+        path = f"/devices/{serial}/camera/sense"
 
         payload = {}
         if sense_enabled is not None:
@@ -435,7 +412,9 @@ class AsyncCamera:
         if detection_model_id is not None:
             payload["detectionModelId"] = detection_model_id
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="camera", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_device_camera_sense_object_detection_models(
         self, *, serial: str
@@ -448,14 +427,12 @@ class AsyncCamera:
             serial: Serial.
 
         """
-        metadata = {
-            "tags": ["camera", "configure", "sense", "objectDetectionModels"],
-            "operation": "get_device_camera_sense_object_detection_models",
-        }
         serial = urllib.parse.quote(str(serial), safe="")
-        resource = f"/devices/{serial}/camera/sense/objectDetectionModels"
+        path = f"/devices/{serial}/camera/sense/objectDetectionModels"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="camera", operation_id="getDeviceCameraSenseObjectDetectionModels", path=path
+        )
 
     def get_device_camera_video_settings(self, *, serial: str) -> dict[str, Any] | None:
         """Returns video settings for the given camera.
@@ -466,14 +443,12 @@ class AsyncCamera:
             serial: Serial.
 
         """
-        metadata = {
-            "tags": ["camera", "configure", "video", "settings"],
-            "operation": "get_device_camera_video_settings",
-        }
         serial = urllib.parse.quote(str(serial), safe="")
-        resource = f"/devices/{serial}/camera/video/settings"
+        path = f"/devices/{serial}/camera/video/settings"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="camera", operation_id="getDeviceCameraVideoSettings", path=path
+        )
 
     def update_device_camera_video_settings(
         self, *, serial: str, external_rtsp_enabled: bool | None = None
@@ -487,18 +462,16 @@ class AsyncCamera:
             external_rtsp_enabled: Boolean indicating if external rtsp stream is exposed.
 
         """
-        metadata = {
-            "tags": ["camera", "configure", "video", "settings"],
-            "operation": "update_device_camera_video_settings",
-        }
         serial = urllib.parse.quote(str(serial), safe="")
-        resource = f"/devices/{serial}/camera/video/settings"
+        path = f"/devices/{serial}/camera/video/settings"
 
         payload = {}
         if external_rtsp_enabled is not None:
             payload["externalRtspEnabled"] = external_rtsp_enabled
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="camera", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_device_camera_video_link(
         self, *, serial: str, timestamp: str | None = None
@@ -514,18 +487,16 @@ class AsyncCamera:
               current time.
 
         """
-        metadata = {
-            "tags": ["camera", "configure", "videoLink"],
-            "operation": "get_device_camera_video_link",
-        }
         serial = urllib.parse.quote(str(serial), safe="")
-        resource = f"/devices/{serial}/camera/videoLink"
+        path = f"/devices/{serial}/camera/videoLink"
 
         params = {}
         if timestamp is not None:
             params["timestamp"] = timestamp
 
-        return self._session.get(metadata, resource, params)
+        return self._session.get(
+            scope="camera", operation_id="{operation_id}", path=path, params=params
+        )
 
     def get_device_camera_wireless_profiles(self, *, serial: str) -> dict[str, Any] | None:
         """Returns wireless profile assigned to the given camera.
@@ -536,14 +507,12 @@ class AsyncCamera:
             serial: Serial.
 
         """
-        metadata = {
-            "tags": ["camera", "configure", "wirelessProfiles"],
-            "operation": "get_device_camera_wireless_profiles",
-        }
         serial = urllib.parse.quote(str(serial), safe="")
-        resource = f"/devices/{serial}/camera/wirelessProfiles"
+        path = f"/devices/{serial}/camera/wirelessProfiles"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="camera", operation_id="getDeviceCameraWirelessProfiles", path=path
+        )
 
     def update_device_camera_wireless_profiles(
         self, *, serial: str, ids: dict
@@ -557,18 +526,16 @@ class AsyncCamera:
             ids: The ids of the wireless profile to assign to the given camera.
 
         """
-        metadata = {
-            "tags": ["camera", "configure", "wirelessProfiles"],
-            "operation": "update_device_camera_wireless_profiles",
-        }
         serial = urllib.parse.quote(str(serial), safe="")
-        resource = f"/devices/{serial}/camera/wirelessProfiles"
+        path = f"/devices/{serial}/camera/wirelessProfiles"
 
         payload = {}
         if ids is not None:
             payload["ids"] = ids
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="camera", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_network_camera_quality_retention_profiles(
         self, *, network_id: str
@@ -581,14 +548,12 @@ class AsyncCamera:
             network_id: Network ID.
 
         """
-        metadata = {
-            "tags": ["camera", "configure", "qualityRetentionProfiles"],
-            "operation": "get_network_camera_quality_retention_profiles",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/camera/qualityRetentionProfiles"
+        path = f"/networks/{network_id}/camera/qualityRetentionProfiles"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="camera", operation_id="getNetworkCameraQualityRetentionProfiles", path=path
+        )
 
     def create_network_camera_quality_retention_profile(
         self,
@@ -634,12 +599,8 @@ class AsyncCamera:
             video_settings: Video quality and resolution settings for all the camera models.
 
         """
-        metadata = {
-            "tags": ["camera", "configure", "qualityRetentionProfiles"],
-            "operation": "create_network_camera_quality_retention_profile",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/camera/qualityRetentionProfiles"
+        path = f"/networks/{network_id}/camera/qualityRetentionProfiles"
 
         payload = {}
         if name is not None:
@@ -663,7 +624,9 @@ class AsyncCamera:
         if video_settings is not None:
             payload["videoSettings"] = video_settings
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="camera", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_network_camera_quality_retention_profile(
         self, *, network_id: str, quality_retention_profile_id: str
@@ -677,19 +640,17 @@ class AsyncCamera:
             quality_retention_profile_id: Quality retention profile ID.
 
         """
-        metadata = {
-            "tags": ["camera", "configure", "qualityRetentionProfiles"],
-            "operation": "get_network_camera_quality_retention_profile",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         quality_retention_profile_id = urllib.parse.quote(
             str(quality_retention_profile_id), safe=""
         )
-        resource = (
+        path = (
             f"/networks/{network_id}/camera/qualityRetentionProfiles/{quality_retention_profile_id}"
         )
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="camera", operation_id="getNetworkCameraQualityRetentionProfile", path=path
+        )
 
     def update_network_camera_quality_retention_profile(
         self,
@@ -737,15 +698,11 @@ class AsyncCamera:
             video_settings: Video quality and resolution settings for all the camera models.
 
         """
-        metadata = {
-            "tags": ["camera", "configure", "qualityRetentionProfiles"],
-            "operation": "update_network_camera_quality_retention_profile",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         quality_retention_profile_id = urllib.parse.quote(
             str(quality_retention_profile_id), safe=""
         )
-        resource = (
+        path = (
             f"/networks/{network_id}/camera/qualityRetentionProfiles/{quality_retention_profile_id}"
         )
 
@@ -771,7 +728,9 @@ class AsyncCamera:
         if video_settings is not None:
             payload["videoSettings"] = video_settings
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="camera", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def delete_network_camera_quality_retention_profile(
         self, *, network_id: str, quality_retention_profile_id: str
@@ -785,19 +744,17 @@ class AsyncCamera:
             quality_retention_profile_id: Quality retention profile ID.
 
         """
-        metadata = {
-            "tags": ["camera", "configure", "qualityRetentionProfiles"],
-            "operation": "delete_network_camera_quality_retention_profile",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         quality_retention_profile_id = urllib.parse.quote(
             str(quality_retention_profile_id), safe=""
         )
-        resource = (
+        path = (
             f"/networks/{network_id}/camera/qualityRetentionProfiles/{quality_retention_profile_id}"
         )
 
-        return self._session.delete(metadata, resource)
+        return self._session.delete(
+            scope="camera", operation_id="deleteNetworkCameraQualityRetentionProfile", path=path
+        )
 
     def get_network_camera_schedules(self, *, network_id: str) -> dict[str, Any] | None:
         """Returns a list of all camera recording schedules.
@@ -808,14 +765,12 @@ class AsyncCamera:
             network_id: Network ID.
 
         """
-        metadata = {
-            "tags": ["camera", "configure", "schedules"],
-            "operation": "get_network_camera_schedules",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/camera/schedules"
+        path = f"/networks/{network_id}/camera/schedules"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="camera", operation_id="getNetworkCameraSchedules", path=path
+        )
 
     def get_network_camera_wireless_profiles(self, *, network_id: str) -> dict[str, Any] | None:
         """List the camera wireless profiles for this network.
@@ -826,14 +781,12 @@ class AsyncCamera:
             network_id: Network ID.
 
         """
-        metadata = {
-            "tags": ["camera", "configure", "wirelessProfiles"],
-            "operation": "get_network_camera_wireless_profiles",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/camera/wirelessProfiles"
+        path = f"/networks/{network_id}/camera/wirelessProfiles"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="camera", operation_id="getNetworkCameraWirelessProfiles", path=path
+        )
 
     def create_network_camera_wireless_profile(
         self, *, network_id: str, name: str, ssid: dict, identity: dict | None = None
@@ -850,12 +803,8 @@ class AsyncCamera:
               in 8021x-radius auth mode.
 
         """
-        metadata = {
-            "tags": ["camera", "configure", "wirelessProfiles"],
-            "operation": "create_network_camera_wireless_profile",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/camera/wirelessProfiles"
+        path = f"/networks/{network_id}/camera/wirelessProfiles"
 
         payload = {}
         if name is not None:
@@ -865,7 +814,9 @@ class AsyncCamera:
         if identity is not None:
             payload["identity"] = identity
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="camera", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_network_camera_wireless_profile(
         self, *, network_id: str, wireless_profile_id: str
@@ -879,15 +830,13 @@ class AsyncCamera:
             wireless_profile_id: Wireless profile ID.
 
         """
-        metadata = {
-            "tags": ["camera", "configure", "wirelessProfiles"],
-            "operation": "get_network_camera_wireless_profile",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         wireless_profile_id = urllib.parse.quote(str(wireless_profile_id), safe="")
-        resource = f"/networks/{network_id}/camera/wirelessProfiles/{wireless_profile_id}"
+        path = f"/networks/{network_id}/camera/wirelessProfiles/{wireless_profile_id}"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="camera", operation_id="getNetworkCameraWirelessProfile", path=path
+        )
 
     def update_network_camera_wireless_profile(
         self,
@@ -911,13 +860,9 @@ class AsyncCamera:
               in 8021x-radius auth mode.
 
         """
-        metadata = {
-            "tags": ["camera", "configure", "wirelessProfiles"],
-            "operation": "update_network_camera_wireless_profile",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         wireless_profile_id = urllib.parse.quote(str(wireless_profile_id), safe="")
-        resource = f"/networks/{network_id}/camera/wirelessProfiles/{wireless_profile_id}"
+        path = f"/networks/{network_id}/camera/wirelessProfiles/{wireless_profile_id}"
 
         payload = {}
         if name is not None:
@@ -927,7 +872,9 @@ class AsyncCamera:
         if identity is not None:
             payload["identity"] = identity
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="camera", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def delete_network_camera_wireless_profile(
         self, *, network_id: str, wireless_profile_id: str
@@ -941,15 +888,13 @@ class AsyncCamera:
             wireless_profile_id: Wireless profile ID.
 
         """
-        metadata = {
-            "tags": ["camera", "configure", "wirelessProfiles"],
-            "operation": "delete_network_camera_wireless_profile",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         wireless_profile_id = urllib.parse.quote(str(wireless_profile_id), safe="")
-        resource = f"/networks/{network_id}/camera/wirelessProfiles/{wireless_profile_id}"
+        path = f"/networks/{network_id}/camera/wirelessProfiles/{wireless_profile_id}"
 
-        return self._session.delete(metadata, resource)
+        return self._session.delete(
+            scope="camera", operation_id="deleteNetworkCameraWirelessProfile", path=path
+        )
 
     def get_organization_camera_boundaries_areas_by_device(
         self, *, organization_id: str, serials: list | None = None
@@ -964,18 +909,16 @@ class AsyncCamera:
               these serials.
 
         """
-        metadata = {
-            "tags": ["camera", "configure", "boundaries", "areas", "byDevice"],
-            "operation": "get_organization_camera_boundaries_areas_by_device",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/camera/boundaries/areas/byDevice"
+        path = f"/organizations/{organization_id}/camera/boundaries/areas/byDevice"
 
         params = {}
         if serials is not None:
             params["serials[]"] = serials
 
-        return self._session.get(metadata, resource, params)
+        return self._session.get(
+            scope="camera", operation_id="{operation_id}", path=path, params=params
+        )
 
     def get_organization_camera_boundaries_lines_by_device(
         self, *, organization_id: str, serials: list | None = None
@@ -990,18 +933,16 @@ class AsyncCamera:
               these serials.
 
         """
-        metadata = {
-            "tags": ["camera", "configure", "boundaries", "lines", "byDevice"],
-            "operation": "get_organization_camera_boundaries_lines_by_device",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/camera/boundaries/lines/byDevice"
+        path = f"/organizations/{organization_id}/camera/boundaries/lines/byDevice"
 
         params = {}
         if serials is not None:
             params["serials[]"] = serials
 
-        return self._session.get(metadata, resource, params)
+        return self._session.get(
+            scope="camera", operation_id="{operation_id}", path=path, params=params
+        )
 
     def get_organization_camera_custom_analytics_artifacts(
         self, *, organization_id: str
@@ -1014,14 +955,12 @@ class AsyncCamera:
             organization_id: Organization ID.
 
         """
-        metadata = {
-            "tags": ["camera", "configure", "customAnalytics", "artifacts"],
-            "operation": "get_organization_camera_custom_analytics_artifacts",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/camera/customAnalytics/artifacts"
+        path = f"/organizations/{organization_id}/camera/customAnalytics/artifacts"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="camera", operation_id="getOrganizationCameraCustomAnalyticsArtifacts", path=path
+        )
 
     def create_organization_camera_custom_analytics_artifact(
         self, *, organization_id: str, name: str | None = None
@@ -1035,18 +974,16 @@ class AsyncCamera:
             name: Unique name of the artifact.
 
         """
-        metadata = {
-            "tags": ["camera", "configure", "customAnalytics", "artifacts"],
-            "operation": "create_organization_camera_custom_analytics_artifact",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/camera/customAnalytics/artifacts"
+        path = f"/organizations/{organization_id}/camera/customAnalytics/artifacts"
 
         payload = {}
         if name is not None:
             payload["name"] = name
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="camera", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_organization_camera_custom_analytics_artifact(
         self, *, organization_id: str, artifact_id: str
@@ -1060,17 +997,13 @@ class AsyncCamera:
             artifact_id: Artifact ID.
 
         """
-        metadata = {
-            "tags": ["camera", "configure", "customAnalytics", "artifacts"],
-            "operation": "get_organization_camera_custom_analytics_artifact",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         artifact_id = urllib.parse.quote(str(artifact_id), safe="")
-        resource = (
-            f"/organizations/{organization_id}/camera/customAnalytics/artifacts/{artifact_id}"
-        )
+        path = f"/organizations/{organization_id}/camera/customAnalytics/artifacts/{artifact_id}"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="camera", operation_id="getOrganizationCameraCustomAnalyticsArtifact", path=path
+        )
 
     def delete_organization_camera_custom_analytics_artifact(
         self, *, organization_id: str, artifact_id: str
@@ -1084,17 +1017,15 @@ class AsyncCamera:
             artifact_id: Artifact ID.
 
         """
-        metadata = {
-            "tags": ["camera", "configure", "customAnalytics", "artifacts"],
-            "operation": "delete_organization_camera_custom_analytics_artifact",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         artifact_id = urllib.parse.quote(str(artifact_id), safe="")
-        resource = (
-            f"/organizations/{organization_id}/camera/customAnalytics/artifacts/{artifact_id}"
-        )
+        path = f"/organizations/{organization_id}/camera/customAnalytics/artifacts/{artifact_id}"
 
-        return self._session.delete(metadata, resource)
+        return self._session.delete(
+            scope="camera",
+            operation_id="deleteOrganizationCameraCustomAnalyticsArtifact",
+            path=path,
+        )
 
     def get_organization_camera_detections_history_by_boundary_by_interval(
         self,
@@ -1127,14 +1058,8 @@ class AsyncCamera:
             direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        metadata = {
-            "tags": ["camera", "configure", "detections", "history", "byBoundary", "byInterval"],
-            "operation": "get_organization_camera_detections_history_by_boundary_by_interval",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = (
-            f"/organizations/{organization_id}/camera/detections/history/byBoundary/byInterval"
-        )
+        path = f"/organizations/{organization_id}/camera/detections/history/byBoundary/byInterval"
 
         params = {}
         if boundary_ids is not None:
@@ -1148,7 +1073,14 @@ class AsyncCamera:
         if boundary_types is not None:
             params["boundaryTypes[]"] = boundary_types
 
-        return self._session.get_pages(metadata, resource, params, total_pages, direction)
+        return self._session.get_pages(
+            scope="camera",
+            operation_id="{operation_id}",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+        )
 
     def get_organization_camera_onboarding_statuses(
         self, *, organization_id: str, serials: list | None = None, network_ids: list | None = None
@@ -1165,12 +1097,8 @@ class AsyncCamera:
               include these networks.
 
         """
-        metadata = {
-            "tags": ["camera", "configure", "onboarding", "statuses"],
-            "operation": "get_organization_camera_onboarding_statuses",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/camera/onboarding/statuses"
+        path = f"/organizations/{organization_id}/camera/onboarding/statuses"
 
         params = {}
         if serials is not None:
@@ -1178,7 +1106,9 @@ class AsyncCamera:
         if network_ids is not None:
             params["networkIds[]"] = network_ids
 
-        return self._session.get(metadata, resource, params)
+        return self._session.get(
+            scope="camera", operation_id="{operation_id}", path=path, params=params
+        )
 
     def update_organization_camera_onboarding_statuses(
         self,
@@ -1197,12 +1127,8 @@ class AsyncCamera:
             wireless_credentials_sent: Note whether credentials were sent successfully.
 
         """
-        metadata = {
-            "tags": ["camera", "configure", "onboarding", "statuses"],
-            "operation": "update_organization_camera_onboarding_statuses",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/camera/onboarding/statuses"
+        path = f"/organizations/{organization_id}/camera/onboarding/statuses"
 
         payload = {}
         if serial is not None:
@@ -1210,7 +1136,9 @@ class AsyncCamera:
         if wireless_credentials_sent is not None:
             payload["wirelessCredentialsSent"] = wireless_credentials_sent
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="camera", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_organization_camera_permissions(self, *, organization_id: str) -> dict[str, Any] | None:
         """List the permissions scopes for this organization.
@@ -1221,14 +1149,12 @@ class AsyncCamera:
             organization_id: Organization ID.
 
         """
-        metadata = {
-            "tags": ["camera", "configure", "permissions"],
-            "operation": "get_organization_camera_permissions",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/camera/permissions"
+        path = f"/organizations/{organization_id}/camera/permissions"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="camera", operation_id="getOrganizationCameraPermissions", path=path
+        )
 
     def get_organization_camera_permission(
         self, *, organization_id: str, permission_scope_id: str
@@ -1242,15 +1168,13 @@ class AsyncCamera:
             permission_scope_id: Permission scope ID.
 
         """
-        metadata = {
-            "tags": ["camera", "configure", "permissions"],
-            "operation": "get_organization_camera_permission",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         permission_scope_id = urllib.parse.quote(str(permission_scope_id), safe="")
-        resource = f"/organizations/{organization_id}/camera/permissions/{permission_scope_id}"
+        path = f"/organizations/{organization_id}/camera/permissions/{permission_scope_id}"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="camera", operation_id="getOrganizationCameraPermission", path=path
+        )
 
     def get_organization_camera_roles(self, *, organization_id: str) -> dict[str, Any] | None:
         """List all the roles in this organization.
@@ -1261,14 +1185,12 @@ class AsyncCamera:
             organization_id: Organization ID.
 
         """
-        metadata = {
-            "tags": ["camera", "configure", "roles"],
-            "operation": "get_organization_camera_roles",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/camera/roles"
+        path = f"/organizations/{organization_id}/camera/roles"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="camera", operation_id="getOrganizationCameraRoles", path=path
+        )
 
     def create_organization_camera_role(
         self,
@@ -1291,12 +1213,8 @@ class AsyncCamera:
             applied_org_wide: Permissions to be applied org wide.
 
         """
-        metadata = {
-            "tags": ["camera", "configure", "roles"],
-            "operation": "create_organization_camera_role",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/camera/roles"
+        path = f"/organizations/{organization_id}/camera/roles"
 
         payload = {}
         if name is not None:
@@ -1308,7 +1226,9 @@ class AsyncCamera:
         if applied_org_wide is not None:
             payload["appliedOrgWide"] = applied_org_wide
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="camera", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_organization_camera_role(
         self, *, organization_id: str, role_id: str
@@ -1322,15 +1242,13 @@ class AsyncCamera:
             role_id: Role ID.
 
         """
-        metadata = {
-            "tags": ["camera", "configure", "roles"],
-            "operation": "get_organization_camera_role",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         role_id = urllib.parse.quote(str(role_id), safe="")
-        resource = f"/organizations/{organization_id}/camera/roles/{role_id}"
+        path = f"/organizations/{organization_id}/camera/roles/{role_id}"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="camera", operation_id="getOrganizationCameraRole", path=path
+        )
 
     def update_organization_camera_role(
         self,
@@ -1355,13 +1273,9 @@ class AsyncCamera:
             applied_org_wide: Permissions to be applied org wide.
 
         """
-        metadata = {
-            "tags": ["camera", "configure", "roles"],
-            "operation": "update_organization_camera_role",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         role_id = urllib.parse.quote(str(role_id), safe="")
-        resource = f"/organizations/{organization_id}/camera/roles/{role_id}"
+        path = f"/organizations/{organization_id}/camera/roles/{role_id}"
 
         payload = {}
         if name is not None:
@@ -1373,7 +1287,9 @@ class AsyncCamera:
         if applied_org_wide is not None:
             payload["appliedOrgWide"] = applied_org_wide
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="camera", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def delete_organization_camera_role(self, *, organization_id: str, role_id: str) -> None:
         """Delete an existing role for this organization.
@@ -1385,12 +1301,10 @@ class AsyncCamera:
             role_id: Role ID.
 
         """
-        metadata = {
-            "tags": ["camera", "configure", "roles"],
-            "operation": "delete_organization_camera_role",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         role_id = urllib.parse.quote(str(role_id), safe="")
-        resource = f"/organizations/{organization_id}/camera/roles/{role_id}"
+        path = f"/organizations/{organization_id}/camera/roles/{role_id}"
 
-        return self._session.delete(metadata, resource)
+        return self._session.delete(
+            scope="camera", operation_id="deleteOrganizationCameraRole", path=path
+        )

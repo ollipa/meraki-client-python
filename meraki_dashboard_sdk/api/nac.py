@@ -1,17 +1,19 @@
 """Nac API endpoints."""
 
+from __future__ import annotations
+
 import urllib
 from collections.abc import Generator
-from typing import Any
+from typing import Any, Literal, TYPE_CHECKING
 
-from meraki_dashboard_sdk.rest_session import RestSession
+if TYPE_CHECKING:
+    from meraki_dashboard_sdk.rest_session import RestSession
 
 
 class Nac:
     """Nac class."""
 
     def __init__(self, session: RestSession) -> None:
-        super(self).__init__()
         self._session = session
 
     def create_organization_nac_certificates_authorities_crl(
@@ -28,12 +30,8 @@ class Nac:
             is_delta: Whether it's a delta CRL or not.
 
         """
-        metadata = {
-            "tags": ["nac", "configure", "certificates", "authorities", "crls"],
-            "operation": "create_organization_nac_certificates_authorities_crl",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/nac/certificates/authorities/crls"
+        path = f"/organizations/{organization_id}/nac/certificates/authorities/crls"
 
         payload = {}
         if ca_id is not None:
@@ -43,4 +41,6 @@ class Nac:
         if is_delta is not None:
             payload["isDelta"] = is_delta
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="nac", operation_id="{operation_id}", path=path, json=payload
+        )

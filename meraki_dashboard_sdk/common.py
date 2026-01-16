@@ -4,10 +4,10 @@ import re
 import sys
 import urllib.parse
 
-from .exceptions import SessionInputError
+import requests
 
 
-def validate_user_agent(be_geo_id: str, caller: str) -> str:
+def validate_user_agent(be_geo_id: str | None = None, caller: str | None = None) -> str:
     """Generate extended portion of the User Agent.
 
     Validate that it follows the expected format
@@ -58,17 +58,7 @@ def iterator_for_get_pages_bool(self):  # noqa: ANN001, ANN201
     return self._use_iterator_for_get_pages
 
 
-def use_iterator_for_get_pages_setter(self, value):  # noqa: ANN001, ANN201
-    """Set the value of the use_iterator_for_get_pages attribute."""
-    if value:
-        self.get_pages = self._get_pages_iterator
-    else:
-        self.get_pages = self._get_pages_legacy
-
-    self._use_iterator_for_get_pages = value
-
-
-def validate_base_url(base_url: str, url: str) -> str:
+def validate_base_url(base_url: str, path: str) -> str:
     """Validate base URL by checking if it is in the allowed domains."""
     allowed_domains = [
         "meraki.com",
@@ -77,5 +67,30 @@ def validate_base_url(base_url: str, url: str) -> str:
         "meraki.in",
         "gov-meraki.com",
     ]
-    parsed_url = urllib.parse.urlparse(url)
-    return url if any(domain in parsed_url.netloc for domain in allowed_domains) else base_url + url
+    parsed_path = urllib.parse.urlparse(path)
+    return (
+        path if any(domain in parsed_path.netloc for domain in allowed_domains) else base_url + path
+    )
+
+
+def handle_3xx(base_url: str, response: requests.Response) -> tuple[str, str]:
+    """Handle 3xx redirects.
+
+    Args:
+        base_url: The base URL to use for the request.
+        response: The response from the request.
+
+    Returns:
+        A tuple containing the absolute URL and the new base URL.
+
+    Raises:
+        ValueError: If the redirect URL doesn't match expected Meraki API patterns.
+
+    """
+    abs_url = response.headers["Location"]
+    for substring in ("meraki.com/api/v", "meraki.cn/api/v"):
+        idx = abs_url.find(substring)
+        if idx != -1:
+            base_url = abs_url[: idx + len(substring) + 1]
+            return abs_url, base_url
+    raise ValueError(f"Unexpected redirect URL format: {abs_url}")

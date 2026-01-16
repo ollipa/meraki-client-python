@@ -1,7 +1,7 @@
 """ActionBatchCampusGateway API endpoints."""
 
 import urllib
-from typing import Any
+from typing import Any, Literal
 
 
 class ActionBatchCampusGateway:
@@ -39,7 +39,7 @@ class ActionBatchCampusGateway:
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/campusGateway/clusters"
+        path = f"/networks/{network_id}/campusGateway/clusters"
 
         payload = {}
         if name is not None:
@@ -58,7 +58,7 @@ class ActionBatchCampusGateway:
             payload["notes"] = notes
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "create",
             "body": payload,
         }
@@ -96,7 +96,7 @@ class ActionBatchCampusGateway:
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
         cluster_id = urllib.parse.quote(str(cluster_id), safe="")
-        resource = f"/networks/{network_id}/campusGateway/clusters/{cluster_id}"
+        path = f"/networks/{network_id}/campusGateway/clusters/{cluster_id}"
 
         payload = {}
         if name is not None:
@@ -115,7 +115,7 @@ class ActionBatchCampusGateway:
             payload["notes"] = notes
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }

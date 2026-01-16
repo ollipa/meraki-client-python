@@ -1,7 +1,7 @@
 """ActionBatchAppliance API endpoints."""
 
 import urllib
-from typing import Any
+from typing import Any, Literal
 
 
 class ActionBatchAppliance:
@@ -34,7 +34,7 @@ class ActionBatchAppliance:
 
         """
         serial = urllib.parse.quote(str(serial), safe="")
-        resource = f"/devices/{serial}/appliance/radio/settings"
+        path = f"/devices/{serial}/appliance/radio/settings"
 
         payload = {}
         if rf_profile_id is not None:
@@ -45,7 +45,7 @@ class ActionBatchAppliance:
             payload["fiveGhzSettings"] = five_ghz_settings
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -64,14 +64,14 @@ class ActionBatchAppliance:
 
         """
         serial = urllib.parse.quote(str(serial), safe="")
-        resource = f"/devices/{serial}/appliance/uplinks/settings"
+        path = f"/devices/{serial}/appliance/uplinks/settings"
 
         payload = {}
         if interfaces is not None:
             payload["interfaces"] = interfaces
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -87,10 +87,10 @@ class ActionBatchAppliance:
 
         """
         serial = urllib.parse.quote(str(serial), safe="")
-        resource = f"/devices/{serial}/appliance/vmx/authenticationToken"
+        path = f"/devices/{serial}/appliance/vmx/authenticationToken"
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "create",
         }
         return action  # noqa: RET504
@@ -108,14 +108,14 @@ class ActionBatchAppliance:
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/appliance/connectivityMonitoringDestinations"
+        path = f"/networks/{network_id}/appliance/connectivityMonitoringDestinations"
 
         payload = {}
         if destinations is not None:
             payload["destinations"] = destinations
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -134,14 +134,14 @@ class ActionBatchAppliance:
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/appliance/firewall/l7FirewallRules"
+        path = f"/networks/{network_id}/appliance/firewall/l7FirewallRules"
 
         payload = {}
         if rules is not None:
             payload["rules"] = rules
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -160,14 +160,14 @@ class ActionBatchAppliance:
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/appliance/firewall/multicastForwarding"
+        path = f"/networks/{network_id}/appliance/firewall/multicastForwarding"
 
         payload = {}
         if rules is not None:
             payload["rules"] = rules
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -209,7 +209,7 @@ class ActionBatchAppliance:
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
         port_id = urllib.parse.quote(str(port_id), safe="")
-        resource = f"/networks/{network_id}/appliance/ports/{port_id}"
+        path = f"/networks/{network_id}/appliance/ports/{port_id}"
 
         payload = {}
         if enabled is not None:
@@ -226,7 +226,7 @@ class ActionBatchAppliance:
             payload["accessPolicy"] = access_policy
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -247,7 +247,7 @@ class ActionBatchAppliance:
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/appliance/prefixes/delegated/statics"
+        path = f"/networks/{network_id}/appliance/prefixes/delegated/statics"
 
         payload = {}
         if prefix is not None:
@@ -258,7 +258,7 @@ class ActionBatchAppliance:
             payload["description"] = description
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "create",
             "body": payload,
         }
@@ -287,7 +287,7 @@ class ActionBatchAppliance:
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
         static_delegated_prefix_id = urllib.parse.quote(str(static_delegated_prefix_id), safe="")
-        resource = f"/networks/{network_id}/appliance/prefixes/delegated/statics/{static_delegated_prefix_id}"
+        path = f"/networks/{network_id}/appliance/prefixes/delegated/statics/{static_delegated_prefix_id}"
 
         payload = {}
         if prefix is not None:
@@ -298,7 +298,7 @@ class ActionBatchAppliance:
             payload["description"] = description
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -318,10 +318,10 @@ class ActionBatchAppliance:
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
         static_delegated_prefix_id = urllib.parse.quote(str(static_delegated_prefix_id), safe="")
-        resource = f"/networks/{network_id}/appliance/prefixes/delegated/statics/{static_delegated_prefix_id}"
+        path = f"/networks/{network_id}/appliance/prefixes/delegated/statics/{static_delegated_prefix_id}"
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "destroy",
         }
         return action  # noqa: RET504
@@ -348,7 +348,7 @@ class ActionBatchAppliance:
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/appliance/rfProfiles"
+        path = f"/networks/{network_id}/appliance/rfProfiles"
 
         payload = {}
         if name is not None:
@@ -361,7 +361,7 @@ class ActionBatchAppliance:
             payload["perSsidSettings"] = per_ssid_settings
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "create",
             "body": payload,
         }
@@ -392,7 +392,7 @@ class ActionBatchAppliance:
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
         rf_profile_id = urllib.parse.quote(str(rf_profile_id), safe="")
-        resource = f"/networks/{network_id}/appliance/rfProfiles/{rf_profile_id}"
+        path = f"/networks/{network_id}/appliance/rfProfiles/{rf_profile_id}"
 
         payload = {}
         if name is not None:
@@ -405,7 +405,7 @@ class ActionBatchAppliance:
             payload["perSsidSettings"] = per_ssid_settings
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -425,10 +425,10 @@ class ActionBatchAppliance:
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
         rf_profile_id = urllib.parse.quote(str(rf_profile_id), safe="")
-        resource = f"/networks/{network_id}/appliance/rfProfiles/{rf_profile_id}"
+        path = f"/networks/{network_id}/appliance/rfProfiles/{rf_profile_id}"
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "destroy",
         }
         return action  # noqa: RET504
@@ -447,14 +447,14 @@ class ActionBatchAppliance:
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/appliance/sdwan/internetPolicies"
+        path = f"/networks/{network_id}/appliance/sdwan/internetPolicies"
 
         payload = {}
         if wan_traffic_uplink_preferences is not None:
             payload["wanTrafficUplinkPreferences"] = wan_traffic_uplink_preferences
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -491,7 +491,7 @@ class ActionBatchAppliance:
             )
 
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/appliance/settings"
+        path = f"/networks/{network_id}/appliance/settings"
 
         payload = {}
         if client_tracking_method is not None:
@@ -502,7 +502,7 @@ class ActionBatchAppliance:
             payload["dynamicDns"] = dynamic_dns
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -533,7 +533,7 @@ class ActionBatchAppliance:
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/appliance/singleLan"
+        path = f"/networks/{network_id}/appliance/singleLan"
 
         payload = {}
         if subnet is not None:
@@ -546,7 +546,7 @@ class ActionBatchAppliance:
             payload["mandatoryDhcp"] = mandatory_dhcp
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -617,7 +617,7 @@ class ActionBatchAppliance:
 
         network_id = urllib.parse.quote(str(network_id), safe="")
         number = urllib.parse.quote(str(number), safe="")
-        resource = f"/networks/{network_id}/appliance/ssids/{number}"
+        path = f"/networks/{network_id}/appliance/ssids/{number}"
 
         payload = {}
         if name is not None:
@@ -644,7 +644,7 @@ class ActionBatchAppliance:
             payload["dot11w"] = dot11w
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -672,7 +672,7 @@ class ActionBatchAppliance:
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/appliance/trafficShaping/customPerformanceClasses"
+        path = f"/networks/{network_id}/appliance/trafficShaping/customPerformanceClasses"
 
         payload = {}
         if name is not None:
@@ -685,7 +685,7 @@ class ActionBatchAppliance:
             payload["maxLossPercentage"] = max_loss_percentage
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "create",
             "body": payload,
         }
@@ -716,7 +716,7 @@ class ActionBatchAppliance:
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
         custom_performance_class_id = urllib.parse.quote(str(custom_performance_class_id), safe="")
-        resource = f"/networks/{network_id}/appliance/trafficShaping/customPerformanceClasses/{custom_performance_class_id}"
+        path = f"/networks/{network_id}/appliance/trafficShaping/customPerformanceClasses/{custom_performance_class_id}"
 
         payload = {}
         if name is not None:
@@ -729,7 +729,7 @@ class ActionBatchAppliance:
             payload["maxLossPercentage"] = max_loss_percentage
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -749,10 +749,10 @@ class ActionBatchAppliance:
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
         custom_performance_class_id = urllib.parse.quote(str(custom_performance_class_id), safe="")
-        resource = f"/networks/{network_id}/appliance/trafficShaping/customPerformanceClasses/{custom_performance_class_id}"
+        path = f"/networks/{network_id}/appliance/trafficShaping/customPerformanceClasses/{custom_performance_class_id}"
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "destroy",
         }
         return action  # noqa: RET504
@@ -780,7 +780,7 @@ class ActionBatchAppliance:
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/appliance/trafficShaping/rules"
+        path = f"/networks/{network_id}/appliance/trafficShaping/rules"
 
         payload = {}
         if default_rules_enabled is not None:
@@ -789,7 +789,7 @@ class ActionBatchAppliance:
             payload["rules"] = rules
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -809,14 +809,14 @@ class ActionBatchAppliance:
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/appliance/trafficShaping/uplinkBandwidth"
+        path = f"/networks/{network_id}/appliance/trafficShaping/uplinkBandwidth"
 
         payload = {}
         if bandwidth_limits is not None:
             payload["bandwidthLimits"] = bandwidth_limits
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -848,7 +848,7 @@ class ActionBatchAppliance:
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/appliance/trafficShaping/uplinkSelection"
+        path = f"/networks/{network_id}/appliance/trafficShaping/uplinkSelection"
 
         payload = {}
         if active_active_auto_vpn_enabled is not None:
@@ -865,7 +865,7 @@ class ActionBatchAppliance:
             payload["vpnTrafficUplinkPreferences"] = vpn_traffic_uplink_preferences
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -886,7 +886,7 @@ class ActionBatchAppliance:
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/appliance/trafficShaping/vpnExclusions"
+        path = f"/networks/{network_id}/appliance/trafficShaping/vpnExclusions"
 
         payload = {}
         if custom is not None:
@@ -895,7 +895,7 @@ class ActionBatchAppliance:
             payload["majorApplications"] = major_applications
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -983,7 +983,7 @@ class ActionBatchAppliance:
             )
 
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/appliance/vlans"
+        path = f"/networks/{network_id}/appliance/vlans"
 
         payload = {}
         if id_ is not None:
@@ -1022,7 +1022,7 @@ class ActionBatchAppliance:
             payload["dhcpOptions"] = dhcp_options
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "create",
             "body": payload,
         }
@@ -1042,14 +1042,14 @@ class ActionBatchAppliance:
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/appliance/vlans/settings"
+        path = f"/networks/{network_id}/appliance/vlans/settings"
 
         payload = {}
         if vlans_enabled is not None:
             payload["vlansEnabled"] = vlans_enabled
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -1152,7 +1152,7 @@ class ActionBatchAppliance:
 
         network_id = urllib.parse.quote(str(network_id), safe="")
         vlan_id = urllib.parse.quote(str(vlan_id), safe="")
-        resource = f"/networks/{network_id}/appliance/vlans/{vlan_id}"
+        path = f"/networks/{network_id}/appliance/vlans/{vlan_id}"
 
         payload = {}
         if name is not None:
@@ -1197,7 +1197,7 @@ class ActionBatchAppliance:
             payload["mandatoryDhcp"] = mandatory_dhcp
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -1215,10 +1215,10 @@ class ActionBatchAppliance:
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
         vlan_id = urllib.parse.quote(str(vlan_id), safe="")
-        resource = f"/networks/{network_id}/appliance/vlans/{vlan_id}"
+        path = f"/networks/{network_id}/appliance/vlans/{vlan_id}"
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "destroy",
         }
         return action  # noqa: RET504
@@ -1255,7 +1255,7 @@ class ActionBatchAppliance:
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/appliance/vpn/bgp"
+        path = f"/networks/{network_id}/appliance/vpn/bgp"
 
         payload = {}
         if enabled is not None:
@@ -1268,7 +1268,7 @@ class ActionBatchAppliance:
             payload["neighbors"] = neighbors
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -1301,7 +1301,7 @@ class ActionBatchAppliance:
             assert mode in options, f'"mode" cannot be "{mode}", & must be set to one of: {options}'
 
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/appliance/vpn/siteToSiteVpn"
+        path = f"/networks/{network_id}/appliance/vpn/siteToSiteVpn"
 
         payload = {}
         if mode is not None:
@@ -1314,7 +1314,7 @@ class ActionBatchAppliance:
             payload["subnet"] = subnet
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -1344,7 +1344,7 @@ class ActionBatchAppliance:
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/appliance/warmSpare"
+        path = f"/networks/{network_id}/appliance/warmSpare"
 
         payload = {}
         if enabled is not None:
@@ -1359,7 +1359,7 @@ class ActionBatchAppliance:
             payload["virtualIp2"] = virtual_ip2
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -1375,10 +1375,10 @@ class ActionBatchAppliance:
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/appliance/warmSpare/swap"
+        path = f"/networks/{network_id}/appliance/warmSpare/swap"
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "create",
         }
         return action  # noqa: RET504
@@ -1396,14 +1396,14 @@ class ActionBatchAppliance:
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/appliance/dns/local/profiles"
+        path = f"/organizations/{organization_id}/appliance/dns/local/profiles"
 
         payload = {}
         if name is not None:
             payload["name"] = name
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "create",
             "body": payload,
         }
@@ -1422,7 +1422,7 @@ class ActionBatchAppliance:
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = (
+        path = (
             f"/organizations/{organization_id}/appliance/dns/local/profiles/assignments/bulkCreate"
         )
 
@@ -1431,7 +1431,7 @@ class ActionBatchAppliance:
             payload["items"] = items
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "create",
             "body": payload,
         }
@@ -1450,7 +1450,7 @@ class ActionBatchAppliance:
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = (
+        path = (
             f"/organizations/{organization_id}/appliance/dns/local/profiles/assignments/bulkDelete"
         )
 
@@ -1459,7 +1459,7 @@ class ActionBatchAppliance:
             payload["items"] = items
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "create",
             "body": payload,
         }
@@ -1480,14 +1480,14 @@ class ActionBatchAppliance:
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         profile_id = urllib.parse.quote(str(profile_id), safe="")
-        resource = f"/organizations/{organization_id}/appliance/dns/local/profiles/{profile_id}"
+        path = f"/organizations/{organization_id}/appliance/dns/local/profiles/{profile_id}"
 
         payload = {}
         if name is not None:
             payload["name"] = name
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -1507,10 +1507,10 @@ class ActionBatchAppliance:
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         profile_id = urllib.parse.quote(str(profile_id), safe="")
-        resource = f"/organizations/{organization_id}/appliance/dns/local/profiles/{profile_id}"
+        path = f"/organizations/{organization_id}/appliance/dns/local/profiles/{profile_id}"
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "destroy",
         }
         return action  # noqa: RET504
@@ -1530,7 +1530,7 @@ class ActionBatchAppliance:
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/appliance/dns/local/records"
+        path = f"/organizations/{organization_id}/appliance/dns/local/records"
 
         payload = {}
         if hostname is not None:
@@ -1541,7 +1541,7 @@ class ActionBatchAppliance:
             payload["profile"] = profile
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "create",
             "body": payload,
         }
@@ -1570,7 +1570,7 @@ class ActionBatchAppliance:
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         record_id = urllib.parse.quote(str(record_id), safe="")
-        resource = f"/organizations/{organization_id}/appliance/dns/local/records/{record_id}"
+        path = f"/organizations/{organization_id}/appliance/dns/local/records/{record_id}"
 
         payload = {}
         if hostname is not None:
@@ -1581,7 +1581,7 @@ class ActionBatchAppliance:
             payload["profile"] = profile
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -1601,10 +1601,10 @@ class ActionBatchAppliance:
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         record_id = urllib.parse.quote(str(record_id), safe="")
-        resource = f"/organizations/{organization_id}/appliance/dns/local/records/{record_id}"
+        path = f"/organizations/{organization_id}/appliance/dns/local/records/{record_id}"
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "destroy",
         }
         return action  # noqa: RET504
@@ -1625,7 +1625,7 @@ class ActionBatchAppliance:
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/appliance/dns/split/profiles"
+        path = f"/organizations/{organization_id}/appliance/dns/split/profiles"
 
         payload = {}
         if name is not None:
@@ -1636,7 +1636,7 @@ class ActionBatchAppliance:
             payload["nameservers"] = nameservers
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "create",
             "body": payload,
         }
@@ -1655,7 +1655,7 @@ class ActionBatchAppliance:
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = (
+        path = (
             f"/organizations/{organization_id}/appliance/dns/split/profiles/assignments/bulkCreate"
         )
 
@@ -1664,7 +1664,7 @@ class ActionBatchAppliance:
             payload["items"] = items
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "create",
             "body": payload,
         }
@@ -1683,7 +1683,7 @@ class ActionBatchAppliance:
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = (
+        path = (
             f"/organizations/{organization_id}/appliance/dns/split/profiles/assignments/bulkDelete"
         )
 
@@ -1692,7 +1692,7 @@ class ActionBatchAppliance:
             payload["items"] = items
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "create",
             "body": payload,
         }
@@ -1722,7 +1722,7 @@ class ActionBatchAppliance:
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         profile_id = urllib.parse.quote(str(profile_id), safe="")
-        resource = f"/organizations/{organization_id}/appliance/dns/split/profiles/{profile_id}"
+        path = f"/organizations/{organization_id}/appliance/dns/split/profiles/{profile_id}"
 
         payload = {}
         if name is not None:
@@ -1733,7 +1733,7 @@ class ActionBatchAppliance:
             payload["nameservers"] = nameservers
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -1753,10 +1753,10 @@ class ActionBatchAppliance:
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         profile_id = urllib.parse.quote(str(profile_id), safe="")
-        resource = f"/organizations/{organization_id}/appliance/dns/split/profiles/{profile_id}"
+        path = f"/organizations/{organization_id}/appliance/dns/split/profiles/{profile_id}"
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "destroy",
         }
         return action  # noqa: RET504
@@ -1774,14 +1774,14 @@ class ActionBatchAppliance:
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/appliance/vpn/siteToSite/ipsec/peers/slas"
+        path = f"/organizations/{organization_id}/appliance/vpn/siteToSite/ipsec/peers/slas"
 
         payload = {}
         if items is not None:
             payload["items"] = items
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -1800,14 +1800,14 @@ class ActionBatchAppliance:
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/appliance/vpn/thirdPartyVPNPeers"
+        path = f"/organizations/{organization_id}/appliance/vpn/thirdPartyVPNPeers"
 
         payload = {}
         if peers is not None:
             payload["peers"] = peers
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }

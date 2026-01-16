@@ -1,17 +1,19 @@
 """Sm API endpoints."""
 
+from __future__ import annotations
+
 import urllib
 from collections.abc import Generator
-from typing import Any
+from typing import Any, Literal, TYPE_CHECKING
 
-from meraki_dashboard_sdk.rest_session import RestSession
+if TYPE_CHECKING:
+    from meraki_dashboard_sdk.rest_session import RestSession
 
 
 class Sm:
     """Sm class."""
 
     def __init__(self, session: RestSession) -> None:
-        super(self).__init__()
         self._session = session
 
     def create_network_sm_bypass_activation_lock_attempt(
@@ -26,18 +28,16 @@ class Sm:
             ids: The ids of the devices to attempt activation lock bypass.
 
         """
-        metadata = {
-            "tags": ["sm", "configure", "bypassActivationLockAttempts"],
-            "operation": "create_network_sm_bypass_activation_lock_attempt",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/sm/bypassActivationLockAttempts"
+        path = f"/networks/{network_id}/sm/bypassActivationLockAttempts"
 
         payload = {}
         if ids is not None:
             payload["ids"] = ids
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="sm", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_network_sm_bypass_activation_lock_attempt(
         self, *, network_id: str, attempt_id: str
@@ -51,15 +51,13 @@ class Sm:
             attempt_id: Attempt ID.
 
         """
-        metadata = {
-            "tags": ["sm", "configure", "bypassActivationLockAttempts"],
-            "operation": "get_network_sm_bypass_activation_lock_attempt",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         attempt_id = urllib.parse.quote(str(attempt_id), safe="")
-        resource = f"/networks/{network_id}/sm/bypassActivationLockAttempts/{attempt_id}"
+        path = f"/networks/{network_id}/sm/bypassActivationLockAttempts/{attempt_id}"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="sm", operation_id="getNetworkSmBypassActivationLockAttempt", path=path
+        )
 
     def get_network_sm_devices(
         self,
@@ -119,9 +117,8 @@ class Sm:
             direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        metadata = {"tags": ["sm", "configure", "devices"], "operation": "get_network_sm_devices"}
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/sm/devices"
+        path = f"/networks/{network_id}/sm/devices"
 
         params = {}
         if fields is not None:
@@ -145,7 +142,14 @@ class Sm:
         if ending_before is not None:
             params["endingBefore"] = ending_before
 
-        return self._session.get_pages(metadata, resource, params, total_pages, direction)
+        return self._session.get_pages(
+            scope="sm",
+            operation_id="{operation_id}",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+        )
 
     def checkin_network_sm_devices(
         self,
@@ -169,12 +173,8 @@ class Sm:
               set of tags of the devices to be checked-in.
 
         """
-        metadata = {
-            "tags": ["sm", "configure", "devices"],
-            "operation": "checkin_network_sm_devices",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/sm/devices/checkin"
+        path = f"/networks/{network_id}/sm/devices/checkin"
 
         payload = {}
         if wifi_macs is not None:
@@ -186,7 +186,9 @@ class Sm:
         if scope is not None:
             payload["scope"] = scope
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="sm", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def update_network_sm_devices_fields(
         self,
@@ -209,12 +211,8 @@ class Sm:
             device_fields: The new fields of the device. Each field of this object is optional.
 
         """
-        metadata = {
-            "tags": ["sm", "configure", "devices", "fields"],
-            "operation": "update_network_sm_devices_fields",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/sm/devices/fields"
+        path = f"/networks/{network_id}/sm/devices/fields"
 
         payload = {}
         if wifi_mac is not None:
@@ -226,7 +224,7 @@ class Sm:
         if device_fields is not None:
             payload["deviceFields"] = device_fields
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(scope="sm", operation_id="{operation_id}", path=path, json=payload)
 
     def lock_network_sm_devices(
         self,
@@ -253,9 +251,8 @@ class Sm:
               macOS devices.
 
         """
-        metadata = {"tags": ["sm", "configure", "devices"], "operation": "lock_network_sm_devices"}
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/sm/devices/lock"
+        path = f"/networks/{network_id}/sm/devices/lock"
 
         payload = {}
         if wifi_macs is not None:
@@ -269,7 +266,9 @@ class Sm:
         if pin is not None:
             payload["pin"] = pin
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="sm", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def modify_network_sm_devices_tags(
         self,
@@ -298,12 +297,8 @@ class Sm:
               be returned.
 
         """
-        metadata = {
-            "tags": ["sm", "configure", "devices"],
-            "operation": "modify_network_sm_devices_tags",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/sm/devices/modifyTags"
+        path = f"/networks/{network_id}/sm/devices/modifyTags"
 
         payload = {}
         if wifi_macs is not None:
@@ -319,7 +314,9 @@ class Sm:
         if update_action is not None:
             payload["updateAction"] = update_action
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="sm", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def move_network_sm_devices(
         self,
@@ -345,9 +342,8 @@ class Sm:
             new_network: The new network to which the devices will be moved.
 
         """
-        metadata = {"tags": ["sm", "configure", "devices"], "operation": "move_network_sm_devices"}
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/sm/devices/move"
+        path = f"/networks/{network_id}/sm/devices/move"
 
         payload = {}
         if wifi_macs is not None:
@@ -361,7 +357,9 @@ class Sm:
         if new_network is not None:
             payload["newNetwork"] = new_network
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="sm", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def reboot_network_sm_devices(
         self,
@@ -396,12 +394,8 @@ class Sm:
               Available for macOS and supervised iOS or tvOS.
 
         """
-        metadata = {
-            "tags": ["sm", "configure", "devices"],
-            "operation": "reboot_network_sm_devices",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/sm/devices/reboot"
+        path = f"/networks/{network_id}/sm/devices/reboot"
 
         payload = {}
         if wifi_macs is not None:
@@ -421,7 +415,9 @@ class Sm:
         if request_requires_network_tether is not None:
             payload["requestRequiresNetworkTether"] = request_requires_network_tether
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="sm", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def shutdown_network_sm_devices(
         self,
@@ -445,12 +441,8 @@ class Sm:
               set of tags of the endpoints to be shutdown.
 
         """
-        metadata = {
-            "tags": ["sm", "configure", "devices"],
-            "operation": "shutdown_network_sm_devices",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/sm/devices/shutdown"
+        path = f"/networks/{network_id}/sm/devices/shutdown"
 
         payload = {}
         if wifi_macs is not None:
@@ -462,7 +454,9 @@ class Sm:
         if scope is not None:
             payload["scope"] = scope
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="sm", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def wipe_network_sm_devices(
         self,
@@ -486,9 +480,8 @@ class Sm:
               macOS devices.
 
         """
-        metadata = {"tags": ["sm", "configure", "devices"], "operation": "wipe_network_sm_devices"}
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/sm/devices/wipe"
+        path = f"/networks/{network_id}/sm/devices/wipe"
 
         payload = {}
         if wifi_mac is not None:
@@ -500,7 +493,9 @@ class Sm:
         if pin is not None:
             payload["pin"] = pin
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="sm", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_network_sm_device_cellular_usage_history(
         self, *, network_id: str, device_id: str
@@ -514,15 +509,13 @@ class Sm:
             device_id: Device ID.
 
         """
-        metadata = {
-            "tags": ["sm", "monitor", "devices", "cellularUsageHistory"],
-            "operation": "get_network_sm_device_cellular_usage_history",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         device_id = urllib.parse.quote(str(device_id), safe="")
-        resource = f"/networks/{network_id}/sm/devices/{device_id}/cellularUsageHistory"
+        path = f"/networks/{network_id}/sm/devices/{device_id}/cellularUsageHistory"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="sm", operation_id="getNetworkSmDeviceCellularUsageHistory", path=path
+        )
 
     def get_network_sm_device_certs(
         self, *, network_id: str, device_id: str
@@ -536,15 +529,11 @@ class Sm:
             device_id: Device ID.
 
         """
-        metadata = {
-            "tags": ["sm", "configure", "devices", "certs"],
-            "operation": "get_network_sm_device_certs",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         device_id = urllib.parse.quote(str(device_id), safe="")
-        resource = f"/networks/{network_id}/sm/devices/{device_id}/certs"
+        path = f"/networks/{network_id}/sm/devices/{device_id}/certs"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(scope="sm", operation_id="getNetworkSmDeviceCerts", path=path)
 
     def get_network_sm_device_connectivity(
         self,
@@ -579,13 +568,9 @@ class Sm:
             direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        metadata = {
-            "tags": ["sm", "monitor", "devices", "connectivity"],
-            "operation": "get_network_sm_device_connectivity",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         device_id = urllib.parse.quote(str(device_id), safe="")
-        resource = f"/networks/{network_id}/sm/devices/{device_id}/connectivity"
+        path = f"/networks/{network_id}/sm/devices/{device_id}/connectivity"
 
         params = {}
         if per_page is not None:
@@ -595,7 +580,14 @@ class Sm:
         if ending_before is not None:
             params["endingBefore"] = ending_before
 
-        return self._session.get_pages(metadata, resource, params, total_pages, direction)
+        return self._session.get_pages(
+            scope="sm",
+            operation_id="{operation_id}",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+        )
 
     def get_network_sm_device_desktop_logs(
         self,
@@ -630,13 +622,9 @@ class Sm:
             direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        metadata = {
-            "tags": ["sm", "monitor", "devices", "desktopLogs"],
-            "operation": "get_network_sm_device_desktop_logs",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         device_id = urllib.parse.quote(str(device_id), safe="")
-        resource = f"/networks/{network_id}/sm/devices/{device_id}/desktopLogs"
+        path = f"/networks/{network_id}/sm/devices/{device_id}/desktopLogs"
 
         params = {}
         if per_page is not None:
@@ -646,7 +634,14 @@ class Sm:
         if ending_before is not None:
             params["endingBefore"] = ending_before
 
-        return self._session.get_pages(metadata, resource, params, total_pages, direction)
+        return self._session.get_pages(
+            scope="sm",
+            operation_id="{operation_id}",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+        )
 
     def get_network_sm_device_device_command_logs(
         self,
@@ -681,13 +676,9 @@ class Sm:
             direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        metadata = {
-            "tags": ["sm", "monitor", "devices", "deviceCommandLogs"],
-            "operation": "get_network_sm_device_device_command_logs",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         device_id = urllib.parse.quote(str(device_id), safe="")
-        resource = f"/networks/{network_id}/sm/devices/{device_id}/deviceCommandLogs"
+        path = f"/networks/{network_id}/sm/devices/{device_id}/deviceCommandLogs"
 
         params = {}
         if per_page is not None:
@@ -697,7 +688,14 @@ class Sm:
         if ending_before is not None:
             params["endingBefore"] = ending_before
 
-        return self._session.get_pages(metadata, resource, params, total_pages, direction)
+        return self._session.get_pages(
+            scope="sm",
+            operation_id="{operation_id}",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+        )
 
     def get_network_sm_device_device_profiles(
         self, *, network_id: str, device_id: str
@@ -711,15 +709,13 @@ class Sm:
             device_id: Device ID.
 
         """
-        metadata = {
-            "tags": ["sm", "configure", "devices", "deviceProfiles"],
-            "operation": "get_network_sm_device_device_profiles",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         device_id = urllib.parse.quote(str(device_id), safe="")
-        resource = f"/networks/{network_id}/sm/devices/{device_id}/deviceProfiles"
+        path = f"/networks/{network_id}/sm/devices/{device_id}/deviceProfiles"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="sm", operation_id="getNetworkSmDeviceDeviceProfiles", path=path
+        )
 
     def install_network_sm_device_apps(
         self, *, network_id: str, device_id: str, app_ids: list, force: bool | None = None
@@ -737,13 +733,9 @@ class Sm:
               app, set this parameter to true.
 
         """
-        metadata = {
-            "tags": ["sm", "configure", "devices"],
-            "operation": "install_network_sm_device_apps",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         device_id = urllib.parse.quote(str(device_id), safe="")
-        resource = f"/networks/{network_id}/sm/devices/{device_id}/installApps"
+        path = f"/networks/{network_id}/sm/devices/{device_id}/installApps"
 
         payload = {}
         if app_ids is not None:
@@ -751,7 +743,9 @@ class Sm:
         if force is not None:
             payload["force"] = force
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="sm", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_network_sm_device_network_adapters(
         self, *, network_id: str, device_id: str
@@ -765,15 +759,13 @@ class Sm:
             device_id: Device ID.
 
         """
-        metadata = {
-            "tags": ["sm", "configure", "devices", "networkAdapters"],
-            "operation": "get_network_sm_device_network_adapters",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         device_id = urllib.parse.quote(str(device_id), safe="")
-        resource = f"/networks/{network_id}/sm/devices/{device_id}/networkAdapters"
+        path = f"/networks/{network_id}/sm/devices/{device_id}/networkAdapters"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="sm", operation_id="getNetworkSmDeviceNetworkAdapters", path=path
+        )
 
     def get_network_sm_device_performance_history(
         self,
@@ -808,13 +800,9 @@ class Sm:
             direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        metadata = {
-            "tags": ["sm", "monitor", "devices", "performanceHistory"],
-            "operation": "get_network_sm_device_performance_history",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         device_id = urllib.parse.quote(str(device_id), safe="")
-        resource = f"/networks/{network_id}/sm/devices/{device_id}/performanceHistory"
+        path = f"/networks/{network_id}/sm/devices/{device_id}/performanceHistory"
 
         params = {}
         if per_page is not None:
@@ -824,7 +812,14 @@ class Sm:
         if ending_before is not None:
             params["endingBefore"] = ending_before
 
-        return self._session.get_pages(metadata, resource, params, total_pages, direction)
+        return self._session.get_pages(
+            scope="sm",
+            operation_id="{operation_id}",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+        )
 
     def refresh_network_sm_device_details(
         self, *, network_id: str, device_id: str
@@ -838,15 +833,13 @@ class Sm:
             device_id: Device ID.
 
         """
-        metadata = {
-            "tags": ["sm", "configure", "devices"],
-            "operation": "refresh_network_sm_device_details",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         device_id = urllib.parse.quote(str(device_id), safe="")
-        resource = f"/networks/{network_id}/sm/devices/{device_id}/refreshDetails"
+        path = f"/networks/{network_id}/sm/devices/{device_id}/refreshDetails"
 
-        return self._session.post(metadata, resource)
+        return self._session.post(
+            scope="sm", operation_id="refreshNetworkSmDeviceDetails", path=path
+        )
 
     def get_network_sm_device_restrictions(
         self, *, network_id: str, device_id: str
@@ -860,15 +853,13 @@ class Sm:
             device_id: Device ID.
 
         """
-        metadata = {
-            "tags": ["sm", "configure", "devices", "restrictions"],
-            "operation": "get_network_sm_device_restrictions",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         device_id = urllib.parse.quote(str(device_id), safe="")
-        resource = f"/networks/{network_id}/sm/devices/{device_id}/restrictions"
+        path = f"/networks/{network_id}/sm/devices/{device_id}/restrictions"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="sm", operation_id="getNetworkSmDeviceRestrictions", path=path
+        )
 
     def get_network_sm_device_security_centers(
         self, *, network_id: str, device_id: str
@@ -882,15 +873,13 @@ class Sm:
             device_id: Device ID.
 
         """
-        metadata = {
-            "tags": ["sm", "configure", "devices", "securityCenters"],
-            "operation": "get_network_sm_device_security_centers",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         device_id = urllib.parse.quote(str(device_id), safe="")
-        resource = f"/networks/{network_id}/sm/devices/{device_id}/securityCenters"
+        path = f"/networks/{network_id}/sm/devices/{device_id}/securityCenters"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="sm", operation_id="getNetworkSmDeviceSecurityCenters", path=path
+        )
 
     def get_network_sm_device_softwares(
         self, *, network_id: str, device_id: str
@@ -904,15 +893,11 @@ class Sm:
             device_id: Device ID.
 
         """
-        metadata = {
-            "tags": ["sm", "configure", "devices", "softwares"],
-            "operation": "get_network_sm_device_softwares",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         device_id = urllib.parse.quote(str(device_id), safe="")
-        resource = f"/networks/{network_id}/sm/devices/{device_id}/softwares"
+        path = f"/networks/{network_id}/sm/devices/{device_id}/softwares"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(scope="sm", operation_id="getNetworkSmDeviceSoftwares", path=path)
 
     def unenroll_network_sm_device(
         self, *, network_id: str, device_id: str
@@ -926,15 +911,11 @@ class Sm:
             device_id: Device ID.
 
         """
-        metadata = {
-            "tags": ["sm", "configure", "devices"],
-            "operation": "unenroll_network_sm_device",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         device_id = urllib.parse.quote(str(device_id), safe="")
-        resource = f"/networks/{network_id}/sm/devices/{device_id}/unenroll"
+        path = f"/networks/{network_id}/sm/devices/{device_id}/unenroll"
 
-        return self._session.post(metadata, resource)
+        return self._session.post(scope="sm", operation_id="unenrollNetworkSmDevice", path=path)
 
     def uninstall_network_sm_device_apps(
         self, *, network_id: str, device_id: str, app_ids: list
@@ -949,19 +930,17 @@ class Sm:
             app_ids: ids of applications to be uninstalled.
 
         """
-        metadata = {
-            "tags": ["sm", "configure", "devices"],
-            "operation": "uninstall_network_sm_device_apps",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         device_id = urllib.parse.quote(str(device_id), safe="")
-        resource = f"/networks/{network_id}/sm/devices/{device_id}/uninstallApps"
+        path = f"/networks/{network_id}/sm/devices/{device_id}/uninstallApps"
 
         payload = {}
         if app_ids is not None:
             payload["appIds"] = app_ids
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="sm", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_network_sm_device_wlan_lists(
         self, *, network_id: str, device_id: str
@@ -975,15 +954,11 @@ class Sm:
             device_id: Device ID.
 
         """
-        metadata = {
-            "tags": ["sm", "configure", "devices", "wlanLists"],
-            "operation": "get_network_sm_device_wlan_lists",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         device_id = urllib.parse.quote(str(device_id), safe="")
-        resource = f"/networks/{network_id}/sm/devices/{device_id}/wlanLists"
+        path = f"/networks/{network_id}/sm/devices/{device_id}/wlanLists"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(scope="sm", operation_id="getNetworkSmDeviceWlanLists", path=path)
 
     def get_network_sm_profiles(
         self, *, network_id: str, payload_types: list | None = None
@@ -997,15 +972,16 @@ class Sm:
             payload_types: Filter by payload types.
 
         """
-        metadata = {"tags": ["sm", "configure", "profiles"], "operation": "get_network_sm_profiles"}
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/sm/profiles"
+        path = f"/networks/{network_id}/sm/profiles"
 
         params = {}
         if payload_types is not None:
             params["payloadTypes[]"] = payload_types
 
-        return self._session.get(metadata, resource, params)
+        return self._session.get(
+            scope="sm", operation_id="{operation_id}", path=path, params=params
+        )
 
     def get_network_sm_target_groups(
         self, *, network_id: str, with_details: bool | None = None
@@ -1020,18 +996,16 @@ class Sm:
               target group should be included in the response.
 
         """
-        metadata = {
-            "tags": ["sm", "configure", "targetGroups"],
-            "operation": "get_network_sm_target_groups",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/sm/targetGroups"
+        path = f"/networks/{network_id}/sm/targetGroups"
 
         params = {}
         if with_details is not None:
             params["withDetails"] = with_details
 
-        return self._session.get(metadata, resource, params)
+        return self._session.get(
+            scope="sm", operation_id="{operation_id}", path=path, params=params
+        )
 
     def create_network_sm_target_group(
         self, *, network_id: str, name: str | None = None, scope: str | None = None
@@ -1048,12 +1022,8 @@ class Sm:
               by tags. Default to none if empty.
 
         """
-        metadata = {
-            "tags": ["sm", "configure", "targetGroups"],
-            "operation": "create_network_sm_target_group",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/sm/targetGroups"
+        path = f"/networks/{network_id}/sm/targetGroups"
 
         payload = {}
         if name is not None:
@@ -1061,7 +1031,9 @@ class Sm:
         if scope is not None:
             payload["scope"] = scope
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="sm", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_network_sm_target_group(
         self, *, network_id: str, target_group_id: str, with_details: bool | None = None
@@ -1077,19 +1049,17 @@ class Sm:
               target group should be included in the response.
 
         """
-        metadata = {
-            "tags": ["sm", "configure", "targetGroups"],
-            "operation": "get_network_sm_target_group",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         target_group_id = urllib.parse.quote(str(target_group_id), safe="")
-        resource = f"/networks/{network_id}/sm/targetGroups/{target_group_id}"
+        path = f"/networks/{network_id}/sm/targetGroups/{target_group_id}"
 
         params = {}
         if with_details is not None:
             params["withDetails"] = with_details
 
-        return self._session.get(metadata, resource, params)
+        return self._session.get(
+            scope="sm", operation_id="{operation_id}", path=path, params=params
+        )
 
     def update_network_sm_target_group(
         self,
@@ -1112,13 +1082,9 @@ class Sm:
               by tags. Default to none if empty.
 
         """
-        metadata = {
-            "tags": ["sm", "configure", "targetGroups"],
-            "operation": "update_network_sm_target_group",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         target_group_id = urllib.parse.quote(str(target_group_id), safe="")
-        resource = f"/networks/{network_id}/sm/targetGroups/{target_group_id}"
+        path = f"/networks/{network_id}/sm/targetGroups/{target_group_id}"
 
         payload = {}
         if name is not None:
@@ -1126,7 +1092,7 @@ class Sm:
         if scope is not None:
             payload["scope"] = scope
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(scope="sm", operation_id="{operation_id}", path=path, json=payload)
 
     def delete_network_sm_target_group(self, *, network_id: str, target_group_id: str) -> None:
         """Delete a target group from a network.
@@ -1138,15 +1104,13 @@ class Sm:
             target_group_id: Target group ID.
 
         """
-        metadata = {
-            "tags": ["sm", "configure", "targetGroups"],
-            "operation": "delete_network_sm_target_group",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         target_group_id = urllib.parse.quote(str(target_group_id), safe="")
-        resource = f"/networks/{network_id}/sm/targetGroups/{target_group_id}"
+        path = f"/networks/{network_id}/sm/targetGroups/{target_group_id}"
 
-        return self._session.delete(metadata, resource)
+        return self._session.delete(
+            scope="sm", operation_id="deleteNetworkSmTargetGroup", path=path
+        )
 
     def get_network_sm_trusted_access_configs(
         self,
@@ -1179,12 +1143,8 @@ class Sm:
             direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        metadata = {
-            "tags": ["sm", "configure", "trustedAccessConfigs"],
-            "operation": "get_network_sm_trusted_access_configs",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/sm/trustedAccessConfigs"
+        path = f"/networks/{network_id}/sm/trustedAccessConfigs"
 
         params = {}
         if per_page is not None:
@@ -1194,7 +1154,14 @@ class Sm:
         if ending_before is not None:
             params["endingBefore"] = ending_before
 
-        return self._session.get_pages(metadata, resource, params, total_pages, direction)
+        return self._session.get_pages(
+            scope="sm",
+            operation_id="{operation_id}",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+        )
 
     def get_network_sm_user_access_devices(
         self,
@@ -1227,12 +1194,8 @@ class Sm:
             direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        metadata = {
-            "tags": ["sm", "configure", "userAccessDevices"],
-            "operation": "get_network_sm_user_access_devices",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/sm/userAccessDevices"
+        path = f"/networks/{network_id}/sm/userAccessDevices"
 
         params = {}
         if per_page is not None:
@@ -1242,7 +1205,14 @@ class Sm:
         if ending_before is not None:
             params["endingBefore"] = ending_before
 
-        return self._session.get_pages(metadata, resource, params, total_pages, direction)
+        return self._session.get_pages(
+            scope="sm",
+            operation_id="{operation_id}",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+        )
 
     def delete_network_sm_user_access_device(
         self, *, network_id: str, user_access_device_id: str
@@ -1256,15 +1226,13 @@ class Sm:
             user_access_device_id: User access device ID.
 
         """
-        metadata = {
-            "tags": ["sm", "configure", "userAccessDevices"],
-            "operation": "delete_network_sm_user_access_device",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         user_access_device_id = urllib.parse.quote(str(user_access_device_id), safe="")
-        resource = f"/networks/{network_id}/sm/userAccessDevices/{user_access_device_id}"
+        path = f"/networks/{network_id}/sm/userAccessDevices/{user_access_device_id}"
 
-        return self._session.delete(metadata, resource)
+        return self._session.delete(
+            scope="sm", operation_id="deleteNetworkSmUserAccessDevice", path=path
+        )
 
     def get_network_sm_users(
         self,
@@ -1288,9 +1256,8 @@ class Sm:
               a set of tags.
 
         """
-        metadata = {"tags": ["sm", "configure"], "operation": "get_network_sm_users"}
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/sm/users"
+        path = f"/networks/{network_id}/sm/users"
 
         params = {}
         if ids is not None:
@@ -1302,7 +1269,9 @@ class Sm:
         if scope is not None:
             params["scope[]"] = scope
 
-        return self._session.get(metadata, resource, params)
+        return self._session.get(
+            scope="sm", operation_id="{operation_id}", path=path, params=params
+        )
 
     def get_network_sm_user_device_profiles(
         self, *, network_id: str, user_id: str
@@ -1316,15 +1285,13 @@ class Sm:
             user_id: User ID.
 
         """
-        metadata = {
-            "tags": ["sm", "configure", "deviceProfiles"],
-            "operation": "get_network_sm_user_device_profiles",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         user_id = urllib.parse.quote(str(user_id), safe="")
-        resource = f"/networks/{network_id}/sm/users/{user_id}/deviceProfiles"
+        path = f"/networks/{network_id}/sm/users/{user_id}/deviceProfiles"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="sm", operation_id="getNetworkSmUserDeviceProfiles", path=path
+        )
 
     def get_network_sm_user_softwares(
         self, *, network_id: str, user_id: str
@@ -1338,15 +1305,11 @@ class Sm:
             user_id: User ID.
 
         """
-        metadata = {
-            "tags": ["sm", "configure", "softwares"],
-            "operation": "get_network_sm_user_softwares",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         user_id = urllib.parse.quote(str(user_id), safe="")
-        resource = f"/networks/{network_id}/sm/users/{user_id}/softwares"
+        path = f"/networks/{network_id}/sm/users/{user_id}/softwares"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(scope="sm", operation_id="getNetworkSmUserSoftwares", path=path)
 
     def get_organization_sm_admins_roles(
         self,
@@ -1379,12 +1342,8 @@ class Sm:
             direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        metadata = {
-            "tags": ["sm", "configure", "admins", "roles"],
-            "operation": "get_organization_sm_admins_roles",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/sm/admins/roles"
+        path = f"/organizations/{organization_id}/sm/admins/roles"
 
         params = {}
         if per_page is not None:
@@ -1394,7 +1353,14 @@ class Sm:
         if ending_before is not None:
             params["endingBefore"] = ending_before
 
-        return self._session.get_pages(metadata, resource, params, total_pages, direction)
+        return self._session.get_pages(
+            scope="sm",
+            operation_id="{operation_id}",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+        )
 
     def create_organization_sm_admins_role(
         self, *, organization_id: str, name: str, scope: str | None = None, tags: list | None = None
@@ -1416,12 +1382,8 @@ class Sm:
                 f'"scope" cannot be "{scope}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["sm", "configure", "admins", "roles"],
-            "operation": "create_organization_sm_admins_role",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/sm/admins/roles"
+        path = f"/organizations/{organization_id}/sm/admins/roles"
 
         payload = {}
         if name is not None:
@@ -1431,7 +1393,9 @@ class Sm:
         if tags is not None:
             payload["tags"] = tags
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="sm", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_organization_sm_admins_role(
         self, *, organization_id: str, role_id: str
@@ -1445,15 +1409,11 @@ class Sm:
             role_id: Role ID.
 
         """
-        metadata = {
-            "tags": ["sm", "configure", "admins", "roles"],
-            "operation": "get_organization_sm_admins_role",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         role_id = urllib.parse.quote(str(role_id), safe="")
-        resource = f"/organizations/{organization_id}/sm/admins/roles/{role_id}"
+        path = f"/organizations/{organization_id}/sm/admins/roles/{role_id}"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(scope="sm", operation_id="getOrganizationSmAdminsRole", path=path)
 
     def update_organization_sm_admins_role(
         self,
@@ -1482,13 +1442,9 @@ class Sm:
                 f'"scope" cannot be "{scope}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["sm", "configure", "admins", "roles"],
-            "operation": "update_organization_sm_admins_role",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         role_id = urllib.parse.quote(str(role_id), safe="")
-        resource = f"/organizations/{organization_id}/sm/admins/roles/{role_id}"
+        path = f"/organizations/{organization_id}/sm/admins/roles/{role_id}"
 
         payload = {}
         if name is not None:
@@ -1498,7 +1454,7 @@ class Sm:
         if tags is not None:
             payload["tags"] = tags
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(scope="sm", operation_id="{operation_id}", path=path, json=payload)
 
     def delete_organization_sm_admins_role(self, *, organization_id: str, role_id: str) -> None:
         """Delete a Limited Access Role.
@@ -1510,15 +1466,13 @@ class Sm:
             role_id: Role ID.
 
         """
-        metadata = {
-            "tags": ["sm", "configure", "admins", "roles"],
-            "operation": "delete_organization_sm_admins_role",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         role_id = urllib.parse.quote(str(role_id), safe="")
-        resource = f"/organizations/{organization_id}/sm/admins/roles/{role_id}"
+        path = f"/organizations/{organization_id}/sm/admins/roles/{role_id}"
 
-        return self._session.delete(metadata, resource)
+        return self._session.delete(
+            scope="sm", operation_id="deleteOrganizationSmAdminsRole", path=path
+        )
 
     def get_organization_sm_apns_cert(self, *, organization_id: str) -> dict[str, Any] | None:
         """Get the organization's APNS certificate.
@@ -1529,14 +1483,10 @@ class Sm:
             organization_id: Organization ID.
 
         """
-        metadata = {
-            "tags": ["sm", "configure", "apnsCert"],
-            "operation": "get_organization_sm_apns_cert",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/sm/apnsCert"
+        path = f"/organizations/{organization_id}/sm/apnsCert"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(scope="sm", operation_id="getOrganizationSmApnsCert", path=path)
 
     def update_organization_sm_sentry_policies_assignments(
         self, *, organization_id: str, items: list
@@ -1550,18 +1500,14 @@ class Sm:
             items: Sentry Group Policies for the Organization keyed by Network Id.
 
         """
-        metadata = {
-            "tags": ["sm", "configure", "sentry", "policies", "assignments"],
-            "operation": "update_organization_sm_sentry_policies_assignments",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/sm/sentry/policies/assignments"
+        path = f"/organizations/{organization_id}/sm/sentry/policies/assignments"
 
         payload = {}
         if items is not None:
             payload["items"] = items
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(scope="sm", operation_id="{operation_id}", path=path, json=payload)
 
     def get_organization_sm_sentry_policies_assignments_by_network(
         self,
@@ -1596,12 +1542,8 @@ class Sm:
             direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        metadata = {
-            "tags": ["sm", "configure", "sentry", "policies", "assignments", "byNetwork"],
-            "operation": "get_organization_sm_sentry_policies_assignments_by_network",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/sm/sentry/policies/assignments/byNetwork"
+        path = f"/organizations/{organization_id}/sm/sentry/policies/assignments/byNetwork"
 
         params = {}
         if per_page is not None:
@@ -1613,7 +1555,14 @@ class Sm:
         if network_ids is not None:
             params["networkIds[]"] = network_ids
 
-        return self._session.get_pages(metadata, resource, params, total_pages, direction)
+        return self._session.get_pages(
+            scope="sm",
+            operation_id="{operation_id}",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+        )
 
     def get_organization_sm_vpp_accounts(self, *, organization_id: str) -> dict[str, Any] | None:
         """List the VPP accounts in the organization.
@@ -1624,14 +1573,10 @@ class Sm:
             organization_id: Organization ID.
 
         """
-        metadata = {
-            "tags": ["sm", "configure", "vppAccounts"],
-            "operation": "get_organization_sm_vpp_accounts",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/sm/vppAccounts"
+        path = f"/organizations/{organization_id}/sm/vppAccounts"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(scope="sm", operation_id="getOrganizationSmVppAccounts", path=path)
 
     def get_organization_sm_vpp_account(
         self, *, organization_id: str, vpp_account_id: str
@@ -1645,12 +1590,8 @@ class Sm:
             vpp_account_id: Vpp account ID.
 
         """
-        metadata = {
-            "tags": ["sm", "configure", "vppAccounts"],
-            "operation": "get_organization_sm_vpp_account",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         vpp_account_id = urllib.parse.quote(str(vpp_account_id), safe="")
-        resource = f"/organizations/{organization_id}/sm/vppAccounts/{vpp_account_id}"
+        path = f"/organizations/{organization_id}/sm/vppAccounts/{vpp_account_id}"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(scope="sm", operation_id="getOrganizationSmVppAccount", path=path)

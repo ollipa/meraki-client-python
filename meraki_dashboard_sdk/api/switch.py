@@ -1,17 +1,19 @@
 """Switch API endpoints."""
 
+from __future__ import annotations
+
 import urllib
 from collections.abc import Generator
-from typing import Any
+from typing import Any, Literal, TYPE_CHECKING
 
-from meraki_dashboard_sdk.rest_session import RestSession
+if TYPE_CHECKING:
+    from meraki_dashboard_sdk.rest_session import RestSession
 
 
 class Switch:
     """Switch class."""
 
     def __init__(self, session: RestSession) -> None:
-        super(self).__init__()
         self._session = session
 
     def get_device_switch_ports(self, *, serial: str) -> dict[str, Any] | None:
@@ -23,14 +25,10 @@ class Switch:
             serial: Serial.
 
         """
-        metadata = {
-            "tags": ["switch", "configure", "ports"],
-            "operation": "get_device_switch_ports",
-        }
         serial = urllib.parse.quote(str(serial), safe="")
-        resource = f"/devices/{serial}/switch/ports"
+        path = f"/devices/{serial}/switch/ports"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(scope="switch", operation_id="getDeviceSwitchPorts", path=path)
 
     def cycle_device_switch_ports(self, *, serial: str, ports: list) -> dict[str, Any] | None:
         """Cycle a set of switch ports.
@@ -42,18 +40,16 @@ class Switch:
             ports: List of switch ports.
 
         """
-        metadata = {
-            "tags": ["switch", "liveTools", "ports"],
-            "operation": "cycle_device_switch_ports",
-        }
         serial = urllib.parse.quote(str(serial), safe="")
-        resource = f"/devices/{serial}/switch/ports/cycle"
+        path = f"/devices/{serial}/switch/ports/cycle"
 
         payload = {}
         if ports is not None:
             payload["ports"] = ports
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="switch", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_device_switch_ports_statuses(
         self, *, serial: str, t0: str | None = None, timespan: float | None = None
@@ -71,12 +67,8 @@ class Switch:
               less than or equal to 31 days. The default is 1 day.
 
         """
-        metadata = {
-            "tags": ["switch", "monitor", "ports", "statuses"],
-            "operation": "get_device_switch_ports_statuses",
-        }
         serial = urllib.parse.quote(str(serial), safe="")
-        resource = f"/devices/{serial}/switch/ports/statuses"
+        path = f"/devices/{serial}/switch/ports/statuses"
 
         params = {}
         if t0 is not None:
@@ -84,7 +76,9 @@ class Switch:
         if timespan is not None:
             params["timespan"] = timespan
 
-        return self._session.get(metadata, resource, params)
+        return self._session.get(
+            scope="switch", operation_id="{operation_id}", path=path, params=params
+        )
 
     def get_device_switch_ports_statuses_packets(
         self, *, serial: str, t0: str | None = None, timespan: float | None = None
@@ -104,12 +98,8 @@ class Switch:
               or equal to 86400 seconds (1 day). The default is 1 day.
 
         """
-        metadata = {
-            "tags": ["switch", "monitor", "ports", "statuses", "packets"],
-            "operation": "get_device_switch_ports_statuses_packets",
-        }
         serial = urllib.parse.quote(str(serial), safe="")
-        resource = f"/devices/{serial}/switch/ports/statuses/packets"
+        path = f"/devices/{serial}/switch/ports/statuses/packets"
 
         params = {}
         if t0 is not None:
@@ -117,7 +107,9 @@ class Switch:
         if timespan is not None:
             params["timespan"] = timespan
 
-        return self._session.get(metadata, resource, params)
+        return self._session.get(
+            scope="switch", operation_id="{operation_id}", path=path, params=params
+        )
 
     def get_device_switch_port(self, *, serial: str, port_id: str) -> dict[str, Any] | None:
         """Return a switch port.
@@ -129,12 +121,11 @@ class Switch:
             port_id: Port ID.
 
         """
-        metadata = {"tags": ["switch", "configure", "ports"], "operation": "get_device_switch_port"}
         serial = urllib.parse.quote(str(serial), safe="")
         port_id = urllib.parse.quote(str(port_id), safe="")
-        resource = f"/devices/{serial}/switch/ports/{port_id}"
+        path = f"/devices/{serial}/switch/ports/{port_id}"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(scope="switch", operation_id="getDeviceSwitchPort", path=path)
 
     def update_device_switch_port(
         self,
@@ -249,13 +240,9 @@ class Switch:
                 f'"access_policy_type" cannot be "{access_policy_type}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["switch", "configure", "ports"],
-            "operation": "update_device_switch_port",
-        }
         serial = urllib.parse.quote(str(serial), safe="")
         port_id = urllib.parse.quote(str(port_id), safe="")
-        resource = f"/devices/{serial}/switch/ports/{port_id}"
+        path = f"/devices/{serial}/switch/ports/{port_id}"
 
         payload = {}
         if name is not None:
@@ -317,7 +304,9 @@ class Switch:
         if high_speed is not None:
             payload["highSpeed"] = high_speed
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="switch", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_device_switch_routing_interfaces(
         self, *, serial: str, mode: str | None = None, protocol: str | None = None
@@ -341,12 +330,8 @@ class Switch:
                 f'"protocol" cannot be "{protocol}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["switch", "configure", "routing", "interfaces"],
-            "operation": "get_device_switch_routing_interfaces",
-        }
         serial = urllib.parse.quote(str(serial), safe="")
-        resource = f"/devices/{serial}/switch/routing/interfaces"
+        path = f"/devices/{serial}/switch/routing/interfaces"
 
         params = {}
         if mode is not None:
@@ -354,7 +339,9 @@ class Switch:
         if protocol is not None:
             params["protocol"] = protocol
 
-        return self._session.get(metadata, resource, params)
+        return self._session.get(
+            scope="switch", operation_id="{operation_id}", path=path, params=params
+        )
 
     def create_device_switch_routing_interface(
         self,
@@ -409,12 +396,8 @@ class Switch:
                 f'"multicast_routing" cannot be "{multicast_routing}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["switch", "configure", "routing", "interfaces"],
-            "operation": "create_device_switch_routing_interface",
-        }
         serial = urllib.parse.quote(str(serial), safe="")
-        resource = f"/devices/{serial}/switch/routing/interfaces"
+        path = f"/devices/{serial}/switch/routing/interfaces"
 
         payload = {}
         if name is not None:
@@ -442,7 +425,9 @@ class Switch:
         if loopback is not None:
             payload["loopback"] = loopback
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="switch", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_device_switch_routing_interface(
         self, *, serial: str, interface_id: str
@@ -456,15 +441,13 @@ class Switch:
             interface_id: Interface ID.
 
         """
-        metadata = {
-            "tags": ["switch", "configure", "routing", "interfaces"],
-            "operation": "get_device_switch_routing_interface",
-        }
         serial = urllib.parse.quote(str(serial), safe="")
         interface_id = urllib.parse.quote(str(interface_id), safe="")
-        resource = f"/devices/{serial}/switch/routing/interfaces/{interface_id}"
+        path = f"/devices/{serial}/switch/routing/interfaces/{interface_id}"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="switch", operation_id="getDeviceSwitchRoutingInterface", path=path
+        )
 
     def update_device_switch_routing_interface(
         self,
@@ -515,13 +498,9 @@ class Switch:
                 f'"multicast_routing" cannot be "{multicast_routing}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["switch", "configure", "routing", "interfaces"],
-            "operation": "update_device_switch_routing_interface",
-        }
         serial = urllib.parse.quote(str(serial), safe="")
         interface_id = urllib.parse.quote(str(interface_id), safe="")
-        resource = f"/devices/{serial}/switch/routing/interfaces/{interface_id}"
+        path = f"/devices/{serial}/switch/routing/interfaces/{interface_id}"
 
         payload = {}
         if name is not None:
@@ -547,7 +526,9 @@ class Switch:
         if loopback is not None:
             payload["loopback"] = loopback
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="switch", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def delete_device_switch_routing_interface(self, *, serial: str, interface_id: str) -> None:
         """Delete a layer 3 interface from the switch.
@@ -559,15 +540,13 @@ class Switch:
             interface_id: Interface ID.
 
         """
-        metadata = {
-            "tags": ["switch", "configure", "routing", "interfaces"],
-            "operation": "delete_device_switch_routing_interface",
-        }
         serial = urllib.parse.quote(str(serial), safe="")
         interface_id = urllib.parse.quote(str(interface_id), safe="")
-        resource = f"/devices/{serial}/switch/routing/interfaces/{interface_id}"
+        path = f"/devices/{serial}/switch/routing/interfaces/{interface_id}"
 
-        return self._session.delete(metadata, resource)
+        return self._session.delete(
+            scope="switch", operation_id="deleteDeviceSwitchRoutingInterface", path=path
+        )
 
     def get_device_switch_routing_interface_dhcp(
         self, *, serial: str, interface_id: str
@@ -581,15 +560,13 @@ class Switch:
             interface_id: Interface ID.
 
         """
-        metadata = {
-            "tags": ["switch", "configure", "routing", "interfaces", "dhcp"],
-            "operation": "get_device_switch_routing_interface_dhcp",
-        }
         serial = urllib.parse.quote(str(serial), safe="")
         interface_id = urllib.parse.quote(str(interface_id), safe="")
-        resource = f"/devices/{serial}/switch/routing/interfaces/{interface_id}/dhcp"
+        path = f"/devices/{serial}/switch/routing/interfaces/{interface_id}/dhcp"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="switch", operation_id="getDeviceSwitchRoutingInterfaceDhcp", path=path
+        )
 
     def update_device_switch_routing_interface_dhcp(
         self,
@@ -656,13 +633,9 @@ class Switch:
                 f'"dns_nameservers_option" cannot be "{dns_nameservers_option}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["switch", "configure", "routing", "interfaces", "dhcp"],
-            "operation": "update_device_switch_routing_interface_dhcp",
-        }
         serial = urllib.parse.quote(str(serial), safe="")
         interface_id = urllib.parse.quote(str(interface_id), safe="")
-        resource = f"/devices/{serial}/switch/routing/interfaces/{interface_id}/dhcp"
+        path = f"/devices/{serial}/switch/routing/interfaces/{interface_id}/dhcp"
 
         payload = {}
         if dhcp_mode is not None:
@@ -688,7 +661,9 @@ class Switch:
         if fixed_ip_assignments is not None:
             payload["fixedIpAssignments"] = fixed_ip_assignments
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="switch", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_device_switch_routing_static_routes(self, *, serial: str) -> dict[str, Any] | None:
         """List layer 3 static routes for a switch.
@@ -699,14 +674,12 @@ class Switch:
             serial: Serial.
 
         """
-        metadata = {
-            "tags": ["switch", "configure", "routing", "staticRoutes"],
-            "operation": "get_device_switch_routing_static_routes",
-        }
         serial = urllib.parse.quote(str(serial), safe="")
-        resource = f"/devices/{serial}/switch/routing/staticRoutes"
+        path = f"/devices/{serial}/switch/routing/staticRoutes"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="switch", operation_id="getDeviceSwitchRoutingStaticRoutes", path=path
+        )
 
     def create_device_switch_routing_static_route(
         self,
@@ -735,12 +708,8 @@ class Switch:
             vrf: The VRF settings of the interface. Requires IOS XE 17.18 or higher.
 
         """
-        metadata = {
-            "tags": ["switch", "configure", "routing", "staticRoutes"],
-            "operation": "create_device_switch_routing_static_route",
-        }
         serial = urllib.parse.quote(str(serial), safe="")
-        resource = f"/devices/{serial}/switch/routing/staticRoutes"
+        path = f"/devices/{serial}/switch/routing/staticRoutes"
 
         payload = {}
         if name is not None:
@@ -756,7 +725,9 @@ class Switch:
         if vrf is not None:
             payload["vrf"] = vrf
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="switch", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_device_switch_routing_static_route(
         self, *, serial: str, static_route_id: str
@@ -770,15 +741,13 @@ class Switch:
             static_route_id: Static route ID.
 
         """
-        metadata = {
-            "tags": ["switch", "configure", "routing", "staticRoutes"],
-            "operation": "get_device_switch_routing_static_route",
-        }
         serial = urllib.parse.quote(str(serial), safe="")
         static_route_id = urllib.parse.quote(str(static_route_id), safe="")
-        resource = f"/devices/{serial}/switch/routing/staticRoutes/{static_route_id}"
+        path = f"/devices/{serial}/switch/routing/staticRoutes/{static_route_id}"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="switch", operation_id="getDeviceSwitchRoutingStaticRoute", path=path
+        )
 
     def update_device_switch_routing_static_route(
         self,
@@ -811,13 +780,9 @@ class Switch:
             vrf: The VRF settings of the interface. Requires IOS XE 17.18 or higher.
 
         """
-        metadata = {
-            "tags": ["switch", "configure", "routing", "staticRoutes"],
-            "operation": "update_device_switch_routing_static_route",
-        }
         serial = urllib.parse.quote(str(serial), safe="")
         static_route_id = urllib.parse.quote(str(static_route_id), safe="")
-        resource = f"/devices/{serial}/switch/routing/staticRoutes/{static_route_id}"
+        path = f"/devices/{serial}/switch/routing/staticRoutes/{static_route_id}"
 
         payload = {}
         if name is not None:
@@ -835,7 +800,9 @@ class Switch:
         if vrf is not None:
             payload["vrf"] = vrf
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="switch", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def delete_device_switch_routing_static_route(
         self, *, serial: str, static_route_id: str
@@ -849,15 +816,13 @@ class Switch:
             static_route_id: Static route ID.
 
         """
-        metadata = {
-            "tags": ["switch", "configure", "routing", "staticRoutes"],
-            "operation": "delete_device_switch_routing_static_route",
-        }
         serial = urllib.parse.quote(str(serial), safe="")
         static_route_id = urllib.parse.quote(str(static_route_id), safe="")
-        resource = f"/devices/{serial}/switch/routing/staticRoutes/{static_route_id}"
+        path = f"/devices/{serial}/switch/routing/staticRoutes/{static_route_id}"
 
-        return self._session.delete(metadata, resource)
+        return self._session.delete(
+            scope="switch", operation_id="deleteDeviceSwitchRoutingStaticRoute", path=path
+        )
 
     def get_device_switch_warm_spare(self, *, serial: str) -> dict[str, Any] | None:
         """Return warm spare configuration for a switch.
@@ -868,14 +833,10 @@ class Switch:
             serial: Serial.
 
         """
-        metadata = {
-            "tags": ["switch", "configure", "warmSpare"],
-            "operation": "get_device_switch_warm_spare",
-        }
         serial = urllib.parse.quote(str(serial), safe="")
-        resource = f"/devices/{serial}/switch/warmSpare"
+        path = f"/devices/{serial}/switch/warmSpare"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(scope="switch", operation_id="getDeviceSwitchWarmSpare", path=path)
 
     def update_device_switch_warm_spare(
         self, *, serial: str, enabled: bool, spare_serial: str | None = None
@@ -890,12 +851,8 @@ class Switch:
             spare_serial: Serial number of the warm spare switch.
 
         """
-        metadata = {
-            "tags": ["switch", "configure", "warmSpare"],
-            "operation": "update_device_switch_warm_spare",
-        }
         serial = urllib.parse.quote(str(serial), safe="")
-        resource = f"/devices/{serial}/switch/warmSpare"
+        path = f"/devices/{serial}/switch/warmSpare"
 
         payload = {}
         if enabled is not None:
@@ -903,7 +860,9 @@ class Switch:
         if spare_serial is not None:
             payload["spareSerial"] = spare_serial
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="switch", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_network_switch_access_control_lists(self, *, network_id: str) -> dict[str, Any] | None:
         """Return the access control lists for a MS network.
@@ -914,14 +873,12 @@ class Switch:
             network_id: Network ID.
 
         """
-        metadata = {
-            "tags": ["switch", "configure", "accessControlLists"],
-            "operation": "get_network_switch_access_control_lists",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/switch/accessControlLists"
+        path = f"/networks/{network_id}/switch/accessControlLists"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="switch", operation_id="getNetworkSwitchAccessControlLists", path=path
+        )
 
     def update_network_switch_access_control_lists(
         self, *, network_id: str, rules: list
@@ -936,18 +893,16 @@ class Switch:
               rule). An empty array will clear the rules.
 
         """
-        metadata = {
-            "tags": ["switch", "configure", "accessControlLists"],
-            "operation": "update_network_switch_access_control_lists",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/switch/accessControlLists"
+        path = f"/networks/{network_id}/switch/accessControlLists"
 
         payload = {}
         if rules is not None:
             payload["rules"] = rules
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="switch", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_network_switch_access_policies(self, *, network_id: str) -> dict[str, Any] | None:
         """List the access policies for a switch network.
@@ -958,14 +913,12 @@ class Switch:
             network_id: Network ID.
 
         """
-        metadata = {
-            "tags": ["switch", "configure", "accessPolicies"],
-            "operation": "get_network_switch_access_policies",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/switch/accessPolicies"
+        path = f"/networks/{network_id}/switch/accessPolicies"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="switch", operation_id="getNetworkSwitchAccessPolicies", path=path
+        )
 
     def create_network_switch_access_policy(
         self,
@@ -1044,12 +997,8 @@ class Switch:
                 f'"access_policy_type" cannot be "{access_policy_type}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["switch", "configure", "accessPolicies"],
-            "operation": "create_network_switch_access_policy",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/switch/accessPolicies"
+        path = f"/networks/{network_id}/switch/accessPolicies"
 
         payload = {}
         if name is not None:
@@ -1091,7 +1040,9 @@ class Switch:
         if guest_sgt_id is not None:
             payload["guestSgtId"] = guest_sgt_id
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="switch", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_network_switch_access_policy(
         self, *, network_id: str, access_policy_number: str
@@ -1105,15 +1056,13 @@ class Switch:
             access_policy_number: Access policy number.
 
         """
-        metadata = {
-            "tags": ["switch", "configure", "accessPolicies"],
-            "operation": "get_network_switch_access_policy",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         access_policy_number = urllib.parse.quote(str(access_policy_number), safe="")
-        resource = f"/networks/{network_id}/switch/accessPolicies/{access_policy_number}"
+        path = f"/networks/{network_id}/switch/accessPolicies/{access_policy_number}"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="switch", operation_id="getNetworkSwitchAccessPolicy", path=path
+        )
 
     def update_network_switch_access_policy(
         self,
@@ -1194,13 +1143,9 @@ class Switch:
                 f'"access_policy_type" cannot be "{access_policy_type}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["switch", "configure", "accessPolicies"],
-            "operation": "update_network_switch_access_policy",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         access_policy_number = urllib.parse.quote(str(access_policy_number), safe="")
-        resource = f"/networks/{network_id}/switch/accessPolicies/{access_policy_number}"
+        path = f"/networks/{network_id}/switch/accessPolicies/{access_policy_number}"
 
         payload = {}
         if name is not None:
@@ -1242,7 +1187,9 @@ class Switch:
         if guest_sgt_id is not None:
             payload["guestSgtId"] = guest_sgt_id
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="switch", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def delete_network_switch_access_policy(
         self, *, network_id: str, access_policy_number: str
@@ -1256,15 +1203,13 @@ class Switch:
             access_policy_number: Access policy number.
 
         """
-        metadata = {
-            "tags": ["switch", "configure", "accessPolicies"],
-            "operation": "delete_network_switch_access_policy",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         access_policy_number = urllib.parse.quote(str(access_policy_number), safe="")
-        resource = f"/networks/{network_id}/switch/accessPolicies/{access_policy_number}"
+        path = f"/networks/{network_id}/switch/accessPolicies/{access_policy_number}"
 
-        return self._session.delete(metadata, resource)
+        return self._session.delete(
+            scope="switch", operation_id="deleteNetworkSwitchAccessPolicy", path=path
+        )
 
     def get_network_switch_alternate_management_interface(
         self, *, network_id: str
@@ -1277,14 +1222,12 @@ class Switch:
             network_id: Network ID.
 
         """
-        metadata = {
-            "tags": ["switch", "configure", "alternateManagementInterface"],
-            "operation": "get_network_switch_alternate_management_interface",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/switch/alternateManagementInterface"
+        path = f"/networks/{network_id}/switch/alternateManagementInterface"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="switch", operation_id="getNetworkSwitchAlternateManagementInterface", path=path
+        )
 
     def update_network_switch_alternate_management_interface(
         self,
@@ -1312,12 +1255,8 @@ class Switch:
               all previous assignments.
 
         """
-        metadata = {
-            "tags": ["switch", "configure", "alternateManagementInterface"],
-            "operation": "update_network_switch_alternate_management_interface",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/switch/alternateManagementInterface"
+        path = f"/networks/{network_id}/switch/alternateManagementInterface"
 
         payload = {}
         if enabled is not None:
@@ -1329,7 +1268,9 @@ class Switch:
         if switches is not None:
             payload["switches"] = switches
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="switch", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_network_switch_dhcp_v4_servers_seen(
         self,
@@ -1369,12 +1310,8 @@ class Switch:
             direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        metadata = {
-            "tags": ["switch", "configure", "dhcp", "v4", "servers", "seen"],
-            "operation": "get_network_switch_dhcp_v4_servers_seen",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/switch/dhcp/v4/servers/seen"
+        path = f"/networks/{network_id}/switch/dhcp/v4/servers/seen"
 
         params = {}
         if t0 is not None:
@@ -1388,7 +1325,14 @@ class Switch:
         if ending_before is not None:
             params["endingBefore"] = ending_before
 
-        return self._session.get_pages(metadata, resource, params, total_pages, direction)
+        return self._session.get_pages(
+            scope="switch",
+            operation_id="{operation_id}",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+        )
 
     def get_network_switch_dhcp_server_policy(self, *, network_id: str) -> dict[str, Any] | None:
         """Return the DHCP server settings.
@@ -1399,14 +1343,12 @@ class Switch:
             network_id: Network ID.
 
         """
-        metadata = {
-            "tags": ["switch", "configure", "dhcpServerPolicy"],
-            "operation": "get_network_switch_dhcp_server_policy",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/switch/dhcpServerPolicy"
+        path = f"/networks/{network_id}/switch/dhcpServerPolicy"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="switch", operation_id="getNetworkSwitchDhcpServerPolicy", path=path
+        )
 
     def update_network_switch_dhcp_server_policy(
         self,
@@ -1439,12 +1381,8 @@ class Switch:
                 f'"default_policy" cannot be "{default_policy}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["switch", "configure", "dhcpServerPolicy"],
-            "operation": "update_network_switch_dhcp_server_policy",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/switch/dhcpServerPolicy"
+        path = f"/networks/{network_id}/switch/dhcpServerPolicy"
 
         payload = {}
         if alerts is not None:
@@ -1458,7 +1396,9 @@ class Switch:
         if arp_inspection is not None:
             payload["arpInspection"] = arp_inspection
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="switch", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_network_switch_dhcp_server_policy_arp_inspection_trusted_servers(
         self,
@@ -1491,12 +1431,8 @@ class Switch:
             direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        metadata = {
-            "tags": ["switch", "configure", "dhcpServerPolicy", "arpInspection", "trustedServers"],
-            "operation": "get_network_switch_dhcp_server_policy_arp_inspection_trusted_servers",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/switch/dhcpServerPolicy/arpInspection/trustedServers"
+        path = f"/networks/{network_id}/switch/dhcpServerPolicy/arpInspection/trustedServers"
 
         params = {}
         if per_page is not None:
@@ -1506,7 +1442,14 @@ class Switch:
         if ending_before is not None:
             params["endingBefore"] = ending_before
 
-        return self._session.get_pages(metadata, resource, params, total_pages, direction)
+        return self._session.get_pages(
+            scope="switch",
+            operation_id="{operation_id}",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+        )
 
     def create_network_switch_dhcp_server_policy_arp_inspection_trusted_server(
         self, *, network_id: str, mac: str, vlan: int, ipv4: dict
@@ -1522,12 +1465,8 @@ class Switch:
             ipv4: The IPv4 attributes of the trusted server being added.
 
         """
-        metadata = {
-            "tags": ["switch", "configure", "dhcpServerPolicy", "arpInspection", "trustedServers"],
-            "operation": "create_network_switch_dhcp_server_policy_arp_inspection_trusted_server",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/switch/dhcpServerPolicy/arpInspection/trustedServers"
+        path = f"/networks/{network_id}/switch/dhcpServerPolicy/arpInspection/trustedServers"
 
         payload = {}
         if mac is not None:
@@ -1537,7 +1476,9 @@ class Switch:
         if ipv4 is not None:
             payload["ipv4"] = ipv4
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="switch", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def update_network_switch_dhcp_server_policy_arp_inspection_trusted_server(
         self,
@@ -1560,13 +1501,9 @@ class Switch:
             ipv4: The updated IPv4 attributes of the trusted server.
 
         """
-        metadata = {
-            "tags": ["switch", "configure", "dhcpServerPolicy", "arpInspection", "trustedServers"],
-            "operation": "update_network_switch_dhcp_server_policy_arp_inspection_trusted_server",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         trusted_server_id = urllib.parse.quote(str(trusted_server_id), safe="")
-        resource = f"/networks/{network_id}/switch/dhcpServerPolicy/arpInspection/trustedServers/{trusted_server_id}"
+        path = f"/networks/{network_id}/switch/dhcpServerPolicy/arpInspection/trustedServers/{trusted_server_id}"
 
         payload = {}
         if mac is not None:
@@ -1576,7 +1513,9 @@ class Switch:
         if ipv4 is not None:
             payload["ipv4"] = ipv4
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="switch", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def delete_network_switch_dhcp_server_policy_arp_inspection_trusted_server(
         self, *, network_id: str, trusted_server_id: str
@@ -1590,15 +1529,15 @@ class Switch:
             trusted_server_id: Trusted server ID.
 
         """
-        metadata = {
-            "tags": ["switch", "configure", "dhcpServerPolicy", "arpInspection", "trustedServers"],
-            "operation": "delete_network_switch_dhcp_server_policy_arp_inspection_trusted_server",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         trusted_server_id = urllib.parse.quote(str(trusted_server_id), safe="")
-        resource = f"/networks/{network_id}/switch/dhcpServerPolicy/arpInspection/trustedServers/{trusted_server_id}"
+        path = f"/networks/{network_id}/switch/dhcpServerPolicy/arpInspection/trustedServers/{trusted_server_id}"
 
-        return self._session.delete(metadata, resource)
+        return self._session.delete(
+            scope="switch",
+            operation_id="deleteNetworkSwitchDhcpServerPolicyArpInspectionTrustedServer",
+            path=path,
+        )
 
     def get_network_switch_dhcp_server_policy_arp_inspection_warnings_by_device(
         self,
@@ -1631,19 +1570,8 @@ class Switch:
             direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        metadata = {
-            "tags": [
-                "switch",
-                "configure",
-                "dhcpServerPolicy",
-                "arpInspection",
-                "warnings",
-                "byDevice",
-            ],
-            "operation": "get_network_switch_dhcp_server_policy_arp_inspection_warnings_by_device",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/switch/dhcpServerPolicy/arpInspection/warnings/byDevice"
+        path = f"/networks/{network_id}/switch/dhcpServerPolicy/arpInspection/warnings/byDevice"
 
         params = {}
         if per_page is not None:
@@ -1653,7 +1581,14 @@ class Switch:
         if ending_before is not None:
             params["endingBefore"] = ending_before
 
-        return self._session.get_pages(metadata, resource, params, total_pages, direction)
+        return self._session.get_pages(
+            scope="switch",
+            operation_id="{operation_id}",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+        )
 
     def get_network_switch_dscp_to_cos_mappings(self, *, network_id: str) -> dict[str, Any] | None:
         """Return the DSCP to CoS mappings.
@@ -1664,14 +1599,12 @@ class Switch:
             network_id: Network ID.
 
         """
-        metadata = {
-            "tags": ["switch", "configure", "dscpToCosMappings"],
-            "operation": "get_network_switch_dscp_to_cos_mappings",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/switch/dscpToCosMappings"
+        path = f"/networks/{network_id}/switch/dscpToCosMappings"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="switch", operation_id="getNetworkSwitchDscpToCosMappings", path=path
+        )
 
     def update_network_switch_dscp_to_cos_mappings(
         self, *, network_id: str, mappings: list
@@ -1686,18 +1619,16 @@ class Switch:
               default.
 
         """
-        metadata = {
-            "tags": ["switch", "configure", "dscpToCosMappings"],
-            "operation": "update_network_switch_dscp_to_cos_mappings",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/switch/dscpToCosMappings"
+        path = f"/networks/{network_id}/switch/dscpToCosMappings"
 
         payload = {}
         if mappings is not None:
             payload["mappings"] = mappings
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="switch", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_network_switch_link_aggregations(self, *, network_id: str) -> dict[str, Any] | None:
         """List link aggregation groups.
@@ -1708,14 +1639,12 @@ class Switch:
             network_id: Network ID.
 
         """
-        metadata = {
-            "tags": ["switch", "configure", "linkAggregations"],
-            "operation": "get_network_switch_link_aggregations",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/switch/linkAggregations"
+        path = f"/networks/{network_id}/switch/linkAggregations"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="switch", operation_id="getNetworkSwitchLinkAggregations", path=path
+        )
 
     def create_network_switch_link_aggregation(
         self,
@@ -1736,12 +1665,8 @@ class Switch:
               Minimum 2 and maximum 8 ports are supported.
 
         """
-        metadata = {
-            "tags": ["switch", "configure", "linkAggregations"],
-            "operation": "create_network_switch_link_aggregation",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/switch/linkAggregations"
+        path = f"/networks/{network_id}/switch/linkAggregations"
 
         payload = {}
         if switch_ports is not None:
@@ -1749,7 +1674,9 @@ class Switch:
         if switch_profile_ports is not None:
             payload["switchProfilePorts"] = switch_profile_ports
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="switch", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def update_network_switch_link_aggregation(
         self,
@@ -1772,13 +1699,9 @@ class Switch:
               Minimum 2 and maximum 8 ports are supported.
 
         """
-        metadata = {
-            "tags": ["switch", "configure", "linkAggregations"],
-            "operation": "update_network_switch_link_aggregation",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         link_aggregation_id = urllib.parse.quote(str(link_aggregation_id), safe="")
-        resource = f"/networks/{network_id}/switch/linkAggregations/{link_aggregation_id}"
+        path = f"/networks/{network_id}/switch/linkAggregations/{link_aggregation_id}"
 
         payload = {}
         if switch_ports is not None:
@@ -1786,7 +1709,9 @@ class Switch:
         if switch_profile_ports is not None:
             payload["switchProfilePorts"] = switch_profile_ports
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="switch", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def delete_network_switch_link_aggregation(
         self, *, network_id: str, link_aggregation_id: str
@@ -1800,15 +1725,13 @@ class Switch:
             link_aggregation_id: Link aggregation ID.
 
         """
-        metadata = {
-            "tags": ["switch", "configure", "linkAggregations"],
-            "operation": "delete_network_switch_link_aggregation",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         link_aggregation_id = urllib.parse.quote(str(link_aggregation_id), safe="")
-        resource = f"/networks/{network_id}/switch/linkAggregations/{link_aggregation_id}"
+        path = f"/networks/{network_id}/switch/linkAggregations/{link_aggregation_id}"
 
-        return self._session.delete(metadata, resource)
+        return self._session.delete(
+            scope="switch", operation_id="deleteNetworkSwitchLinkAggregation", path=path
+        )
 
     def get_network_switch_mtu(self, *, network_id: str) -> dict[str, Any] | None:
         """Return the MTU configuration.
@@ -1819,11 +1742,10 @@ class Switch:
             network_id: Network ID.
 
         """
-        metadata = {"tags": ["switch", "configure", "mtu"], "operation": "get_network_switch_mtu"}
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/switch/mtu"
+        path = f"/networks/{network_id}/switch/mtu"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(scope="switch", operation_id="getNetworkSwitchMtu", path=path)
 
     def update_network_switch_mtu(
         self, *, network_id: str, default_mtu_size: int | None = None, overrides: list | None = None
@@ -1839,12 +1761,8 @@ class Switch:
               will clear overrides.
 
         """
-        metadata = {
-            "tags": ["switch", "configure", "mtu"],
-            "operation": "update_network_switch_mtu",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/switch/mtu"
+        path = f"/networks/{network_id}/switch/mtu"
 
         payload = {}
         if default_mtu_size is not None:
@@ -1852,7 +1770,9 @@ class Switch:
         if overrides is not None:
             payload["overrides"] = overrides
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="switch", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_network_switch_port_schedules(self, *, network_id: str) -> dict[str, Any] | None:
         """List switch port schedules.
@@ -1863,14 +1783,12 @@ class Switch:
             network_id: Network ID.
 
         """
-        metadata = {
-            "tags": ["switch", "configure", "portSchedules"],
-            "operation": "get_network_switch_port_schedules",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/switch/portSchedules"
+        path = f"/networks/{network_id}/switch/portSchedules"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="switch", operation_id="getNetworkSwitchPortSchedules", path=path
+        )
 
     def create_network_switch_port_schedule(
         self, *, network_id: str, name: str, port_schedule: dict | None = None
@@ -1888,12 +1806,8 @@ class Switch:
               schedule configuration of the day.
 
         """
-        metadata = {
-            "tags": ["switch", "configure", "portSchedules"],
-            "operation": "create_network_switch_port_schedule",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/switch/portSchedules"
+        path = f"/networks/{network_id}/switch/portSchedules"
 
         payload = {}
         if name is not None:
@@ -1901,7 +1815,9 @@ class Switch:
         if port_schedule is not None:
             payload["portSchedule"] = port_schedule
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="switch", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def update_network_switch_port_schedule(
         self,
@@ -1925,13 +1841,9 @@ class Switch:
               schedule configuration of the day.
 
         """
-        metadata = {
-            "tags": ["switch", "configure", "portSchedules"],
-            "operation": "update_network_switch_port_schedule",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         port_schedule_id = urllib.parse.quote(str(port_schedule_id), safe="")
-        resource = f"/networks/{network_id}/switch/portSchedules/{port_schedule_id}"
+        path = f"/networks/{network_id}/switch/portSchedules/{port_schedule_id}"
 
         payload = {}
         if name is not None:
@@ -1939,7 +1851,9 @@ class Switch:
         if port_schedule is not None:
             payload["portSchedule"] = port_schedule
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="switch", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def delete_network_switch_port_schedule(
         self, *, network_id: str, port_schedule_id: str
@@ -1953,15 +1867,13 @@ class Switch:
             port_schedule_id: Port schedule ID.
 
         """
-        metadata = {
-            "tags": ["switch", "configure", "portSchedules"],
-            "operation": "delete_network_switch_port_schedule",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         port_schedule_id = urllib.parse.quote(str(port_schedule_id), safe="")
-        resource = f"/networks/{network_id}/switch/portSchedules/{port_schedule_id}"
+        path = f"/networks/{network_id}/switch/portSchedules/{port_schedule_id}"
 
-        return self._session.delete(metadata, resource)
+        return self._session.delete(
+            scope="switch", operation_id="deleteNetworkSwitchPortSchedule", path=path
+        )
 
     def get_network_switch_qos_rules(self, *, network_id: str) -> dict[str, Any] | None:
         """List quality of service rules.
@@ -1972,14 +1884,10 @@ class Switch:
             network_id: Network ID.
 
         """
-        metadata = {
-            "tags": ["switch", "configure", "qosRules"],
-            "operation": "get_network_switch_qos_rules",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/switch/qosRules"
+        path = f"/networks/{network_id}/switch/qosRules"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(scope="switch", operation_id="getNetworkSwitchQosRules", path=path)
 
     def create_network_switch_qos_rule(
         self,
@@ -2019,12 +1927,8 @@ class Switch:
                 f'"protocol" cannot be "{protocol}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["switch", "configure", "qosRules"],
-            "operation": "create_network_switch_qos_rule",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/switch/qosRules"
+        path = f"/networks/{network_id}/switch/qosRules"
 
         payload = {}
         if vlan is not None:
@@ -2042,7 +1946,9 @@ class Switch:
         if dscp is not None:
             payload["dscp"] = dscp
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="switch", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_network_switch_qos_rules_order(self, *, network_id: str) -> dict[str, Any] | None:
         """Return the quality of service rule IDs by order in which they will be processed by the switch.
@@ -2053,14 +1959,12 @@ class Switch:
             network_id: Network ID.
 
         """
-        metadata = {
-            "tags": ["switch", "configure", "qosRules", "order"],
-            "operation": "get_network_switch_qos_rules_order",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/switch/qosRules/order"
+        path = f"/networks/{network_id}/switch/qosRules/order"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="switch", operation_id="getNetworkSwitchQosRulesOrder", path=path
+        )
 
     def update_network_switch_qos_rules_order(
         self, *, network_id: str, rule_ids: list
@@ -2075,18 +1979,16 @@ class Switch:
               be processed by the switch.
 
         """
-        metadata = {
-            "tags": ["switch", "configure", "qosRules", "order"],
-            "operation": "update_network_switch_qos_rules_order",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/switch/qosRules/order"
+        path = f"/networks/{network_id}/switch/qosRules/order"
 
         payload = {}
         if rule_ids is not None:
             payload["ruleIds"] = rule_ids
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="switch", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_network_switch_qos_rule(
         self, *, network_id: str, qos_rule_id: str
@@ -2100,15 +2002,11 @@ class Switch:
             qos_rule_id: Qos rule ID.
 
         """
-        metadata = {
-            "tags": ["switch", "configure", "qosRules"],
-            "operation": "get_network_switch_qos_rule",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         qos_rule_id = urllib.parse.quote(str(qos_rule_id), safe="")
-        resource = f"/networks/{network_id}/switch/qosRules/{qos_rule_id}"
+        path = f"/networks/{network_id}/switch/qosRules/{qos_rule_id}"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(scope="switch", operation_id="getNetworkSwitchQosRule", path=path)
 
     def update_network_switch_qos_rule(
         self,
@@ -2150,13 +2048,9 @@ class Switch:
                 f'"protocol" cannot be "{protocol}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["switch", "configure", "qosRules"],
-            "operation": "update_network_switch_qos_rule",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         qos_rule_id = urllib.parse.quote(str(qos_rule_id), safe="")
-        resource = f"/networks/{network_id}/switch/qosRules/{qos_rule_id}"
+        path = f"/networks/{network_id}/switch/qosRules/{qos_rule_id}"
 
         payload = {}
         if vlan is not None:
@@ -2174,7 +2068,9 @@ class Switch:
         if dscp is not None:
             payload["dscp"] = dscp
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="switch", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def delete_network_switch_qos_rule(self, *, network_id: str, qos_rule_id: str) -> None:
         """Delete a quality of service rule.
@@ -2186,15 +2082,13 @@ class Switch:
             qos_rule_id: Qos rule ID.
 
         """
-        metadata = {
-            "tags": ["switch", "configure", "qosRules"],
-            "operation": "delete_network_switch_qos_rule",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         qos_rule_id = urllib.parse.quote(str(qos_rule_id), safe="")
-        resource = f"/networks/{network_id}/switch/qosRules/{qos_rule_id}"
+        path = f"/networks/{network_id}/switch/qosRules/{qos_rule_id}"
 
-        return self._session.delete(metadata, resource)
+        return self._session.delete(
+            scope="switch", operation_id="deleteNetworkSwitchQosRule", path=path
+        )
 
     def get_network_switch_routing_multicast(self, *, network_id: str) -> dict[str, Any] | None:
         """Return multicast settings for a network.
@@ -2205,14 +2099,12 @@ class Switch:
             network_id: Network ID.
 
         """
-        metadata = {
-            "tags": ["switch", "configure", "routing", "multicast"],
-            "operation": "get_network_switch_routing_multicast",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/switch/routing/multicast"
+        path = f"/networks/{network_id}/switch/routing/multicast"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="switch", operation_id="getNetworkSwitchRoutingMulticast", path=path
+        )
 
     def update_network_switch_routing_multicast(
         self,
@@ -2233,12 +2125,8 @@ class Switch:
               settings. An empty array will clear the multicast settings.
 
         """
-        metadata = {
-            "tags": ["switch", "configure", "routing", "multicast"],
-            "operation": "update_network_switch_routing_multicast",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/switch/routing/multicast"
+        path = f"/networks/{network_id}/switch/routing/multicast"
 
         payload = {}
         if default_settings is not None:
@@ -2246,7 +2134,9 @@ class Switch:
         if overrides is not None:
             payload["overrides"] = overrides
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="switch", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_network_switch_routing_multicast_rendezvous_points(
         self, *, network_id: str
@@ -2259,14 +2149,14 @@ class Switch:
             network_id: Network ID.
 
         """
-        metadata = {
-            "tags": ["switch", "configure", "routing", "multicast", "rendezvousPoints"],
-            "operation": "get_network_switch_routing_multicast_rendezvous_points",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/switch/routing/multicast/rendezvousPoints"
+        path = f"/networks/{network_id}/switch/routing/multicast/rendezvousPoints"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="switch",
+            operation_id="getNetworkSwitchRoutingMulticastRendezvousPoints",
+            path=path,
+        )
 
     def create_network_switch_routing_multicast_rendezvous_point(
         self, *, network_id: str, interface_ip: str, multicast_group: str, vrf: dict | None = None
@@ -2282,12 +2172,8 @@ class Switch:
             vrf: The VRF with PIM enabled L3 interface.
 
         """
-        metadata = {
-            "tags": ["switch", "configure", "routing", "multicast", "rendezvousPoints"],
-            "operation": "create_network_switch_routing_multicast_rendezvous_point",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/switch/routing/multicast/rendezvousPoints"
+        path = f"/networks/{network_id}/switch/routing/multicast/rendezvousPoints"
 
         payload = {}
         if interface_ip is not None:
@@ -2297,7 +2183,9 @@ class Switch:
         if vrf is not None:
             payload["vrf"] = vrf
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="switch", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_network_switch_routing_multicast_rendezvous_point(
         self, *, network_id: str, rendezvous_point_id: str
@@ -2311,15 +2199,15 @@ class Switch:
             rendezvous_point_id: Rendezvous point ID.
 
         """
-        metadata = {
-            "tags": ["switch", "configure", "routing", "multicast", "rendezvousPoints"],
-            "operation": "get_network_switch_routing_multicast_rendezvous_point",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         rendezvous_point_id = urllib.parse.quote(str(rendezvous_point_id), safe="")
-        resource = f"/networks/{network_id}/switch/routing/multicast/rendezvousPoints/{rendezvous_point_id}"
+        path = f"/networks/{network_id}/switch/routing/multicast/rendezvousPoints/{rendezvous_point_id}"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="switch",
+            operation_id="getNetworkSwitchRoutingMulticastRendezvousPoint",
+            path=path,
+        )
 
     def update_network_switch_routing_multicast_rendezvous_point(
         self,
@@ -2342,13 +2230,9 @@ class Switch:
             vrf: The VRF with PIM enabled L3 interface.
 
         """
-        metadata = {
-            "tags": ["switch", "configure", "routing", "multicast", "rendezvousPoints"],
-            "operation": "update_network_switch_routing_multicast_rendezvous_point",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         rendezvous_point_id = urllib.parse.quote(str(rendezvous_point_id), safe="")
-        resource = f"/networks/{network_id}/switch/routing/multicast/rendezvousPoints/{rendezvous_point_id}"
+        path = f"/networks/{network_id}/switch/routing/multicast/rendezvousPoints/{rendezvous_point_id}"
 
         payload = {}
         if interface_ip is not None:
@@ -2358,7 +2242,9 @@ class Switch:
         if vrf is not None:
             payload["vrf"] = vrf
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="switch", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def delete_network_switch_routing_multicast_rendezvous_point(
         self, *, network_id: str, rendezvous_point_id: str
@@ -2372,15 +2258,15 @@ class Switch:
             rendezvous_point_id: Rendezvous point ID.
 
         """
-        metadata = {
-            "tags": ["switch", "configure", "routing", "multicast", "rendezvousPoints"],
-            "operation": "delete_network_switch_routing_multicast_rendezvous_point",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         rendezvous_point_id = urllib.parse.quote(str(rendezvous_point_id), safe="")
-        resource = f"/networks/{network_id}/switch/routing/multicast/rendezvousPoints/{rendezvous_point_id}"
+        path = f"/networks/{network_id}/switch/routing/multicast/rendezvousPoints/{rendezvous_point_id}"
 
-        return self._session.delete(metadata, resource)
+        return self._session.delete(
+            scope="switch",
+            operation_id="deleteNetworkSwitchRoutingMulticastRendezvousPoint",
+            path=path,
+        )
 
     def get_network_switch_routing_ospf(
         self, *, network_id: str, vrf: str | None = None
@@ -2395,18 +2281,16 @@ class Switch:
               default VRF is used. Included on networks with IOS XE 17.18 or higher.
 
         """
-        metadata = {
-            "tags": ["switch", "configure", "routing", "ospf"],
-            "operation": "get_network_switch_routing_ospf",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/switch/routing/ospf"
+        path = f"/networks/{network_id}/switch/routing/ospf"
 
         params = {}
         if vrf is not None:
             params["vrf"] = vrf
 
-        return self._session.get(metadata, resource, params)
+        return self._session.get(
+            scope="switch", operation_id="{operation_id}", path=path, params=params
+        )
 
     def update_network_switch_routing_ospf(
         self,
@@ -2444,12 +2328,8 @@ class Switch:
               md5AuthenticationEnabled is true.
 
         """
-        metadata = {
-            "tags": ["switch", "configure", "routing", "ospf"],
-            "operation": "update_network_switch_routing_ospf",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/switch/routing/ospf"
+        path = f"/networks/{network_id}/switch/routing/ospf"
 
         params = {}
         if vrf is not None:
@@ -2471,7 +2351,9 @@ class Switch:
         if md5_authentication_key is not None:
             payload["md5AuthenticationKey"] = md5_authentication_key
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="switch", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_network_switch_settings(self, *, network_id: str) -> dict[str, Any] | None:
         """Returns the switch network settings.
@@ -2482,14 +2364,10 @@ class Switch:
             network_id: Network ID.
 
         """
-        metadata = {
-            "tags": ["switch", "configure", "settings"],
-            "operation": "get_network_switch_settings",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/switch/settings"
+        path = f"/networks/{network_id}/switch/settings"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(scope="switch", operation_id="getNetworkSwitchSettings", path=path)
 
     def update_network_switch_settings(
         self,
@@ -2517,12 +2395,8 @@ class Switch:
             uplink_selection: Settings related to uplink selection on IOS-XE switches.
 
         """
-        metadata = {
-            "tags": ["switch", "configure", "settings"],
-            "operation": "update_network_switch_settings",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/switch/settings"
+        path = f"/networks/{network_id}/switch/settings"
 
         payload = {}
         if vlan is not None:
@@ -2538,7 +2412,9 @@ class Switch:
         if uplink_selection is not None:
             payload["uplinkSelection"] = uplink_selection
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="switch", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_network_switch_stacks(self, *, network_id: str) -> dict[str, Any] | None:
         """List the switch stacks in a network.
@@ -2549,14 +2425,10 @@ class Switch:
             network_id: Network ID.
 
         """
-        metadata = {
-            "tags": ["switch", "configure", "stacks"],
-            "operation": "get_network_switch_stacks",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/switch/stacks"
+        path = f"/networks/{network_id}/switch/stacks"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(scope="switch", operation_id="getNetworkSwitchStacks", path=path)
 
     def create_network_switch_stack(
         self, *, network_id: str, name: str, serials: list
@@ -2571,12 +2443,8 @@ class Switch:
             serials: An array of switch serials to be added into the new stack.
 
         """
-        metadata = {
-            "tags": ["switch", "configure", "stacks"],
-            "operation": "create_network_switch_stack",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/switch/stacks"
+        path = f"/networks/{network_id}/switch/stacks"
 
         payload = {}
         if name is not None:
@@ -2584,7 +2452,9 @@ class Switch:
         if serials is not None:
             payload["serials"] = serials
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="switch", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_network_switch_stack(
         self, *, network_id: str, switch_stack_id: str
@@ -2598,15 +2468,11 @@ class Switch:
             switch_stack_id: Switch stack ID.
 
         """
-        metadata = {
-            "tags": ["switch", "configure", "stacks"],
-            "operation": "get_network_switch_stack",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         switch_stack_id = urllib.parse.quote(str(switch_stack_id), safe="")
-        resource = f"/networks/{network_id}/switch/stacks/{switch_stack_id}"
+        path = f"/networks/{network_id}/switch/stacks/{switch_stack_id}"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(scope="switch", operation_id="getNetworkSwitchStack", path=path)
 
     def delete_network_switch_stack(self, *, network_id: str, switch_stack_id: str) -> None:
         """Delete a stack.
@@ -2618,15 +2484,13 @@ class Switch:
             switch_stack_id: Switch stack ID.
 
         """
-        metadata = {
-            "tags": ["switch", "configure", "stacks"],
-            "operation": "delete_network_switch_stack",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         switch_stack_id = urllib.parse.quote(str(switch_stack_id), safe="")
-        resource = f"/networks/{network_id}/switch/stacks/{switch_stack_id}"
+        path = f"/networks/{network_id}/switch/stacks/{switch_stack_id}"
 
-        return self._session.delete(metadata, resource)
+        return self._session.delete(
+            scope="switch", operation_id="deleteNetworkSwitchStack", path=path
+        )
 
     def add_network_switch_stack(
         self, *, network_id: str, switch_stack_id: str, serial: str
@@ -2641,19 +2505,17 @@ class Switch:
             serial: The serial of the switch to be added.
 
         """
-        metadata = {
-            "tags": ["switch", "configure", "stacks"],
-            "operation": "add_network_switch_stack",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         switch_stack_id = urllib.parse.quote(str(switch_stack_id), safe="")
-        resource = f"/networks/{network_id}/switch/stacks/{switch_stack_id}/add"
+        path = f"/networks/{network_id}/switch/stacks/{switch_stack_id}/add"
 
         payload = {}
         if serial is not None:
             payload["serial"] = serial
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="switch", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def remove_network_switch_stack(
         self, *, network_id: str, switch_stack_id: str, serial: str
@@ -2668,19 +2530,17 @@ class Switch:
             serial: The serial of the switch to be removed.
 
         """
-        metadata = {
-            "tags": ["switch", "configure", "stacks"],
-            "operation": "remove_network_switch_stack",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         switch_stack_id = urllib.parse.quote(str(switch_stack_id), safe="")
-        resource = f"/networks/{network_id}/switch/stacks/{switch_stack_id}/remove"
+        path = f"/networks/{network_id}/switch/stacks/{switch_stack_id}/remove"
 
         payload = {}
         if serial is not None:
             payload["serial"] = serial
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="switch", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_network_switch_stack_routing_interfaces(
         self,
@@ -2710,13 +2570,9 @@ class Switch:
                 f'"protocol" cannot be "{protocol}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["switch", "configure", "stacks", "routing", "interfaces"],
-            "operation": "get_network_switch_stack_routing_interfaces",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         switch_stack_id = urllib.parse.quote(str(switch_stack_id), safe="")
-        resource = f"/networks/{network_id}/switch/stacks/{switch_stack_id}/routing/interfaces"
+        path = f"/networks/{network_id}/switch/stacks/{switch_stack_id}/routing/interfaces"
 
         params = {}
         if mode is not None:
@@ -2724,7 +2580,9 @@ class Switch:
         if protocol is not None:
             params["protocol"] = protocol
 
-        return self._session.get(metadata, resource, params)
+        return self._session.get(
+            scope="switch", operation_id="{operation_id}", path=path, params=params
+        )
 
     def create_network_switch_stack_routing_interface(
         self,
@@ -2781,13 +2639,9 @@ class Switch:
                 f'"multicast_routing" cannot be "{multicast_routing}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["switch", "configure", "stacks", "routing", "interfaces"],
-            "operation": "create_network_switch_stack_routing_interface",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         switch_stack_id = urllib.parse.quote(str(switch_stack_id), safe="")
-        resource = f"/networks/{network_id}/switch/stacks/{switch_stack_id}/routing/interfaces"
+        path = f"/networks/{network_id}/switch/stacks/{switch_stack_id}/routing/interfaces"
 
         payload = {}
         if name is not None:
@@ -2815,7 +2669,9 @@ class Switch:
         if loopback is not None:
             payload["loopback"] = loopback
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="switch", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_network_switch_stack_routing_interface(
         self, *, network_id: str, switch_stack_id: str, interface_id: str
@@ -2830,16 +2686,14 @@ class Switch:
             interface_id: Interface ID.
 
         """
-        metadata = {
-            "tags": ["switch", "configure", "stacks", "routing", "interfaces"],
-            "operation": "get_network_switch_stack_routing_interface",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         switch_stack_id = urllib.parse.quote(str(switch_stack_id), safe="")
         interface_id = urllib.parse.quote(str(interface_id), safe="")
-        resource = f"/networks/{network_id}/switch/stacks/{switch_stack_id}/routing/interfaces/{interface_id}"
+        path = f"/networks/{network_id}/switch/stacks/{switch_stack_id}/routing/interfaces/{interface_id}"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="switch", operation_id="getNetworkSwitchStackRoutingInterface", path=path
+        )
 
     def update_network_switch_stack_routing_interface(
         self,
@@ -2892,14 +2746,10 @@ class Switch:
                 f'"multicast_routing" cannot be "{multicast_routing}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["switch", "configure", "stacks", "routing", "interfaces"],
-            "operation": "update_network_switch_stack_routing_interface",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         switch_stack_id = urllib.parse.quote(str(switch_stack_id), safe="")
         interface_id = urllib.parse.quote(str(interface_id), safe="")
-        resource = f"/networks/{network_id}/switch/stacks/{switch_stack_id}/routing/interfaces/{interface_id}"
+        path = f"/networks/{network_id}/switch/stacks/{switch_stack_id}/routing/interfaces/{interface_id}"
 
         payload = {}
         if name is not None:
@@ -2925,7 +2775,9 @@ class Switch:
         if loopback is not None:
             payload["loopback"] = loopback
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="switch", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def delete_network_switch_stack_routing_interface(
         self, *, network_id: str, switch_stack_id: str, interface_id: str
@@ -2940,16 +2792,14 @@ class Switch:
             interface_id: Interface ID.
 
         """
-        metadata = {
-            "tags": ["switch", "configure", "stacks", "routing", "interfaces"],
-            "operation": "delete_network_switch_stack_routing_interface",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         switch_stack_id = urllib.parse.quote(str(switch_stack_id), safe="")
         interface_id = urllib.parse.quote(str(interface_id), safe="")
-        resource = f"/networks/{network_id}/switch/stacks/{switch_stack_id}/routing/interfaces/{interface_id}"
+        path = f"/networks/{network_id}/switch/stacks/{switch_stack_id}/routing/interfaces/{interface_id}"
 
-        return self._session.delete(metadata, resource)
+        return self._session.delete(
+            scope="switch", operation_id="deleteNetworkSwitchStackRoutingInterface", path=path
+        )
 
     def get_network_switch_stack_routing_interface_dhcp(
         self, *, network_id: str, switch_stack_id: str, interface_id: str
@@ -2964,16 +2814,14 @@ class Switch:
             interface_id: Interface ID.
 
         """
-        metadata = {
-            "tags": ["switch", "configure", "stacks", "routing", "interfaces", "dhcp"],
-            "operation": "get_network_switch_stack_routing_interface_dhcp",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         switch_stack_id = urllib.parse.quote(str(switch_stack_id), safe="")
         interface_id = urllib.parse.quote(str(interface_id), safe="")
-        resource = f"/networks/{network_id}/switch/stacks/{switch_stack_id}/routing/interfaces/{interface_id}/dhcp"
+        path = f"/networks/{network_id}/switch/stacks/{switch_stack_id}/routing/interfaces/{interface_id}/dhcp"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="switch", operation_id="getNetworkSwitchStackRoutingInterfaceDhcp", path=path
+        )
 
     def update_network_switch_stack_routing_interface_dhcp(
         self,
@@ -3042,14 +2890,10 @@ class Switch:
                 f'"dns_nameservers_option" cannot be "{dns_nameservers_option}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["switch", "configure", "stacks", "routing", "interfaces", "dhcp"],
-            "operation": "update_network_switch_stack_routing_interface_dhcp",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         switch_stack_id = urllib.parse.quote(str(switch_stack_id), safe="")
         interface_id = urllib.parse.quote(str(interface_id), safe="")
-        resource = f"/networks/{network_id}/switch/stacks/{switch_stack_id}/routing/interfaces/{interface_id}/dhcp"
+        path = f"/networks/{network_id}/switch/stacks/{switch_stack_id}/routing/interfaces/{interface_id}/dhcp"
 
         payload = {}
         if dhcp_mode is not None:
@@ -3075,7 +2919,9 @@ class Switch:
         if fixed_ip_assignments is not None:
             payload["fixedIpAssignments"] = fixed_ip_assignments
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="switch", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_network_switch_stack_routing_static_routes(
         self, *, network_id: str, switch_stack_id: str
@@ -3089,15 +2935,13 @@ class Switch:
             switch_stack_id: Switch stack ID.
 
         """
-        metadata = {
-            "tags": ["switch", "configure", "stacks", "routing", "staticRoutes"],
-            "operation": "get_network_switch_stack_routing_static_routes",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         switch_stack_id = urllib.parse.quote(str(switch_stack_id), safe="")
-        resource = f"/networks/{network_id}/switch/stacks/{switch_stack_id}/routing/staticRoutes"
+        path = f"/networks/{network_id}/switch/stacks/{switch_stack_id}/routing/staticRoutes"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="switch", operation_id="getNetworkSwitchStackRoutingStaticRoutes", path=path
+        )
 
     def create_network_switch_stack_routing_static_route(
         self,
@@ -3128,13 +2972,9 @@ class Switch:
             vrf: The VRF settings of the interface. Requires IOS XE 17.18 or higher.
 
         """
-        metadata = {
-            "tags": ["switch", "configure", "stacks", "routing", "staticRoutes"],
-            "operation": "create_network_switch_stack_routing_static_route",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         switch_stack_id = urllib.parse.quote(str(switch_stack_id), safe="")
-        resource = f"/networks/{network_id}/switch/stacks/{switch_stack_id}/routing/staticRoutes"
+        path = f"/networks/{network_id}/switch/stacks/{switch_stack_id}/routing/staticRoutes"
 
         payload = {}
         if name is not None:
@@ -3150,7 +2990,9 @@ class Switch:
         if vrf is not None:
             payload["vrf"] = vrf
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="switch", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_network_switch_stack_routing_static_route(
         self, *, network_id: str, switch_stack_id: str, static_route_id: str
@@ -3165,16 +3007,14 @@ class Switch:
             static_route_id: Static route ID.
 
         """
-        metadata = {
-            "tags": ["switch", "configure", "stacks", "routing", "staticRoutes"],
-            "operation": "get_network_switch_stack_routing_static_route",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         switch_stack_id = urllib.parse.quote(str(switch_stack_id), safe="")
         static_route_id = urllib.parse.quote(str(static_route_id), safe="")
-        resource = f"/networks/{network_id}/switch/stacks/{switch_stack_id}/routing/staticRoutes/{static_route_id}"
+        path = f"/networks/{network_id}/switch/stacks/{switch_stack_id}/routing/staticRoutes/{static_route_id}"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="switch", operation_id="getNetworkSwitchStackRoutingStaticRoute", path=path
+        )
 
     def update_network_switch_stack_routing_static_route(
         self,
@@ -3209,14 +3049,10 @@ class Switch:
             vrf: The VRF settings of the interface. Requires IOS XE 17.18 or higher.
 
         """
-        metadata = {
-            "tags": ["switch", "configure", "stacks", "routing", "staticRoutes"],
-            "operation": "update_network_switch_stack_routing_static_route",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         switch_stack_id = urllib.parse.quote(str(switch_stack_id), safe="")
         static_route_id = urllib.parse.quote(str(static_route_id), safe="")
-        resource = f"/networks/{network_id}/switch/stacks/{switch_stack_id}/routing/staticRoutes/{static_route_id}"
+        path = f"/networks/{network_id}/switch/stacks/{switch_stack_id}/routing/staticRoutes/{static_route_id}"
 
         payload = {}
         if name is not None:
@@ -3234,7 +3070,9 @@ class Switch:
         if vrf is not None:
             payload["vrf"] = vrf
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="switch", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def delete_network_switch_stack_routing_static_route(
         self, *, network_id: str, switch_stack_id: str, static_route_id: str
@@ -3249,16 +3087,14 @@ class Switch:
             static_route_id: Static route ID.
 
         """
-        metadata = {
-            "tags": ["switch", "configure", "stacks", "routing", "staticRoutes"],
-            "operation": "delete_network_switch_stack_routing_static_route",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         switch_stack_id = urllib.parse.quote(str(switch_stack_id), safe="")
         static_route_id = urllib.parse.quote(str(static_route_id), safe="")
-        resource = f"/networks/{network_id}/switch/stacks/{switch_stack_id}/routing/staticRoutes/{static_route_id}"
+        path = f"/networks/{network_id}/switch/stacks/{switch_stack_id}/routing/staticRoutes/{static_route_id}"
 
-        return self._session.delete(metadata, resource)
+        return self._session.delete(
+            scope="switch", operation_id="deleteNetworkSwitchStackRoutingStaticRoute", path=path
+        )
 
     def get_network_switch_storm_control(self, *, network_id: str) -> dict[str, Any] | None:
         """Return the storm control configuration for a switch network.
@@ -3269,14 +3105,12 @@ class Switch:
             network_id: Network ID.
 
         """
-        metadata = {
-            "tags": ["switch", "configure", "stormControl"],
-            "operation": "get_network_switch_storm_control",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/switch/stormControl"
+        path = f"/networks/{network_id}/switch/stormControl"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="switch", operation_id="getNetworkSwitchStormControl", path=path
+        )
 
     def update_network_switch_storm_control(
         self,
@@ -3305,12 +3139,8 @@ class Switch:
             treat_these_traffic_types_as_one_threshold: Grouped traffic types.
 
         """
-        metadata = {
-            "tags": ["switch", "configure", "stormControl"],
-            "operation": "update_network_switch_storm_control",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/switch/stormControl"
+        path = f"/networks/{network_id}/switch/stormControl"
 
         payload = {}
         if broadcast_threshold is not None:
@@ -3324,7 +3154,9 @@ class Switch:
                 treat_these_traffic_types_as_one_threshold
             )
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="switch", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_network_switch_stp(self, *, network_id: str) -> dict[str, Any] | None:
         """Returns STP settings.
@@ -3335,11 +3167,10 @@ class Switch:
             network_id: Network ID.
 
         """
-        metadata = {"tags": ["switch", "configure", "stp"], "operation": "get_network_switch_stp"}
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/switch/stp"
+        path = f"/networks/{network_id}/switch/stp"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(scope="switch", operation_id="getNetworkSwitchStp", path=path)
 
     def update_network_switch_stp(
         self,
@@ -3359,12 +3190,8 @@ class Switch:
               empty array will clear the STP bridge priority settings.
 
         """
-        metadata = {
-            "tags": ["switch", "configure", "stp"],
-            "operation": "update_network_switch_stp",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/switch/stp"
+        path = f"/networks/{network_id}/switch/stp"
 
         payload = {}
         if rstp_enabled is not None:
@@ -3372,7 +3199,9 @@ class Switch:
         if stp_bridge_priority is not None:
             payload["stpBridgePriority"] = stp_bridge_priority
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="switch", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_organization_config_template_switch_profiles(
         self, *, organization_id: str, config_template_id: str
@@ -3386,17 +3215,15 @@ class Switch:
             config_template_id: Config template ID.
 
         """
-        metadata = {
-            "tags": ["switch", "configure", "configTemplates", "profiles"],
-            "operation": "get_organization_config_template_switch_profiles",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         config_template_id = urllib.parse.quote(str(config_template_id), safe="")
-        resource = (
+        path = (
             f"/organizations/{organization_id}/configTemplates/{config_template_id}/switch/profiles"
         )
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="switch", operation_id="getOrganizationConfigTemplateSwitchProfiles", path=path
+        )
 
     def get_organization_config_template_switch_profile_ports(
         self, *, organization_id: str, config_template_id: str, profile_id: str
@@ -3411,16 +3238,16 @@ class Switch:
             profile_id: Profile ID.
 
         """
-        metadata = {
-            "tags": ["switch", "configure", "configTemplates", "profiles", "ports"],
-            "operation": "get_organization_config_template_switch_profile_ports",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         config_template_id = urllib.parse.quote(str(config_template_id), safe="")
         profile_id = urllib.parse.quote(str(profile_id), safe="")
-        resource = f"/organizations/{organization_id}/configTemplates/{config_template_id}/switch/profiles/{profile_id}/ports"
+        path = f"/organizations/{organization_id}/configTemplates/{config_template_id}/switch/profiles/{profile_id}/ports"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="switch",
+            operation_id="getOrganizationConfigTemplateSwitchProfilePorts",
+            path=path,
+        )
 
     def get_organization_config_template_switch_profile_port(
         self, *, organization_id: str, config_template_id: str, profile_id: str, port_id: str
@@ -3436,17 +3263,15 @@ class Switch:
             port_id: Port ID.
 
         """
-        metadata = {
-            "tags": ["switch", "configure", "configTemplates", "profiles", "ports"],
-            "operation": "get_organization_config_template_switch_profile_port",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         config_template_id = urllib.parse.quote(str(config_template_id), safe="")
         profile_id = urllib.parse.quote(str(profile_id), safe="")
         port_id = urllib.parse.quote(str(port_id), safe="")
-        resource = f"/organizations/{organization_id}/configTemplates/{config_template_id}/switch/profiles/{profile_id}/ports/{port_id}"
+        path = f"/organizations/{organization_id}/configTemplates/{config_template_id}/switch/profiles/{profile_id}/ports/{port_id}"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="switch", operation_id="getOrganizationConfigTemplateSwitchProfilePort", path=path
+        )
 
     def update_organization_config_template_switch_profile_port(
         self,
@@ -3558,15 +3383,11 @@ class Switch:
                 f'"access_policy_type" cannot be "{access_policy_type}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["switch", "configure", "configTemplates", "profiles", "ports"],
-            "operation": "update_organization_config_template_switch_profile_port",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         config_template_id = urllib.parse.quote(str(config_template_id), safe="")
         profile_id = urllib.parse.quote(str(profile_id), safe="")
         port_id = urllib.parse.quote(str(port_id), safe="")
-        resource = f"/organizations/{organization_id}/configTemplates/{config_template_id}/switch/profiles/{profile_id}/ports/{port_id}"
+        path = f"/organizations/{organization_id}/configTemplates/{config_template_id}/switch/profiles/{profile_id}/ports/{port_id}"
 
         payload = {}
         if name is not None:
@@ -3624,7 +3445,9 @@ class Switch:
         if high_speed is not None:
             payload["highSpeed"] = high_speed
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="switch", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_organization_summary_switch_power_history(
         self,
@@ -3647,12 +3470,8 @@ class Switch:
               seconds and be less than or equal to 186 days. The default is 1 day.
 
         """
-        metadata = {
-            "tags": ["switch", "monitor", "summary", "power", "history"],
-            "operation": "get_organization_summary_switch_power_history",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/summary/switch/power/history"
+        path = f"/organizations/{organization_id}/summary/switch/power/history"
 
         params = {}
         if t0 is not None:
@@ -3662,7 +3481,9 @@ class Switch:
         if timespan is not None:
             params["timespan"] = timespan
 
-        return self._session.get(metadata, resource, params)
+        return self._session.get(
+            scope="switch", operation_id="{operation_id}", path=path, params=params
+        )
 
     def clone_organization_switch_devices(
         self, *, organization_id: str, source_serial: str, target_serials: list
@@ -3679,12 +3500,8 @@ class Switch:
               network not bound to a template).
 
         """
-        metadata = {
-            "tags": ["switch", "configure", "devices"],
-            "operation": "clone_organization_switch_devices",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/switch/devices/clone"
+        path = f"/organizations/{organization_id}/switch/devices/clone"
 
         payload = {}
         if source_serial is not None:
@@ -3692,7 +3509,9 @@ class Switch:
         if target_serials is not None:
             payload["targetSerials"] = target_serials
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="switch", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_organization_switch_ports_by_switch(
         self,
@@ -3749,12 +3568,8 @@ class Switch:
             direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        metadata = {
-            "tags": ["switch", "configure", "ports", "bySwitch"],
-            "operation": "get_organization_switch_ports_by_switch",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/switch/ports/bySwitch"
+        path = f"/organizations/{organization_id}/switch/ports/bySwitch"
 
         params = {}
         if per_page is not None:
@@ -3780,7 +3595,14 @@ class Switch:
         if serials is not None:
             params["serials[]"] = serials
 
-        return self._session.get_pages(metadata, resource, params, total_pages, direction)
+        return self._session.get_pages(
+            scope="switch",
+            operation_id="{operation_id}",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+        )
 
     def get_organization_switch_ports_clients_overview_by_device(
         self,
@@ -3844,12 +3666,8 @@ class Switch:
             direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        metadata = {
-            "tags": ["switch", "monitor", "ports", "clients", "overview", "byDevice"],
-            "operation": "get_organization_switch_ports_clients_overview_by_device",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/switch/ports/clients/overview/byDevice"
+        path = f"/organizations/{organization_id}/switch/ports/clients/overview/byDevice"
 
         params = {}
         if t0 is not None:
@@ -3879,7 +3697,14 @@ class Switch:
         if serials is not None:
             params["serials[]"] = serials
 
-        return self._session.get_pages(metadata, resource, params, total_pages, direction)
+        return self._session.get_pages(
+            scope="switch",
+            operation_id="{operation_id}",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+        )
 
     def get_organization_switch_ports_overview(
         self,
@@ -3903,12 +3728,8 @@ class Switch:
               to 186 days. The default is 1 day.
 
         """
-        metadata = {
-            "tags": ["switch", "monitor", "ports", "overview"],
-            "operation": "get_organization_switch_ports_overview",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/switch/ports/overview"
+        path = f"/organizations/{organization_id}/switch/ports/overview"
 
         params = {}
         if t0 is not None:
@@ -3918,7 +3739,9 @@ class Switch:
         if timespan is not None:
             params["timespan"] = timespan
 
-        return self._session.get(metadata, resource, params)
+        return self._session.get(
+            scope="switch", operation_id="{operation_id}", path=path, params=params
+        )
 
     def get_organization_switch_ports_statuses_by_switch(
         self,
@@ -3975,12 +3798,8 @@ class Switch:
             direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        metadata = {
-            "tags": ["switch", "monitor", "ports", "statuses", "bySwitch"],
-            "operation": "get_organization_switch_ports_statuses_by_switch",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/switch/ports/statuses/bySwitch"
+        path = f"/organizations/{organization_id}/switch/ports/statuses/bySwitch"
 
         params = {}
         if per_page is not None:
@@ -4006,7 +3825,14 @@ class Switch:
         if serials is not None:
             params["serials[]"] = serials
 
-        return self._session.get_pages(metadata, resource, params, total_pages, direction)
+        return self._session.get_pages(
+            scope="switch",
+            operation_id="{operation_id}",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+        )
 
     def get_organization_switch_ports_topology_discovery_by_device(
         self,
@@ -4070,12 +3896,8 @@ class Switch:
             direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        metadata = {
-            "tags": ["switch", "monitor", "ports", "topology", "discovery", "byDevice"],
-            "operation": "get_organization_switch_ports_topology_discovery_by_device",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/switch/ports/topology/discovery/byDevice"
+        path = f"/organizations/{organization_id}/switch/ports/topology/discovery/byDevice"
 
         params = {}
         if t0 is not None:
@@ -4105,7 +3927,14 @@ class Switch:
         if serials is not None:
             params["serials[]"] = serials
 
-        return self._session.get_pages(metadata, resource, params, total_pages, direction)
+        return self._session.get_pages(
+            scope="switch",
+            operation_id="{operation_id}",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+        )
 
     def get_organization_switch_ports_usage_history_by_device_by_interval(
         self,
@@ -4176,14 +4005,8 @@ class Switch:
             direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        metadata = {
-            "tags": ["switch", "monitor", "ports", "usage", "history", "byDevice", "byInterval"],
-            "operation": "get_organization_switch_ports_usage_history_by_device_by_interval",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = (
-            f"/organizations/{organization_id}/switch/ports/usage/history/byDevice/byInterval"
-        )
+        path = f"/organizations/{organization_id}/switch/ports/usage/history/byDevice/byInterval"
 
         params = {}
         if t0 is not None:
@@ -4217,4 +4040,11 @@ class Switch:
         if serials is not None:
             params["serials[]"] = serials
 
-        return self._session.get_pages(metadata, resource, params, total_pages, direction)
+        return self._session.get_pages(
+            scope="switch",
+            operation_id="{operation_id}",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+        )

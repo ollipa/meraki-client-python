@@ -1,17 +1,19 @@
 """Organizations API endpoints."""
 
+from __future__ import annotations
+
 import urllib
 from collections.abc import Generator
-from typing import Any
+from typing import Any, Literal, TYPE_CHECKING
 
-from meraki_dashboard_sdk.rest_session import RestSession
+if TYPE_CHECKING:
+    from meraki_dashboard_sdk.rest_session import RestSession
 
 
 class Organizations:
     """Organizations class."""
 
     def __init__(self, session: RestSession) -> None:
-        super(self).__init__()
         self._session = session
 
     def get_organizations(
@@ -43,8 +45,7 @@ class Organizations:
             direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        metadata = {"tags": ["organizations", "configure"], "operation": "get_organizations"}
-        resource = f"/organizations"
+        path = f"/organizations"
 
         params = {}
         if per_page is not None:
@@ -54,7 +55,14 @@ class Organizations:
         if ending_before is not None:
             params["endingBefore"] = ending_before
 
-        return self._session.get_pages(metadata, resource, params, total_pages, direction)
+        return self._session.get_pages(
+            scope="organizations",
+            operation_id="{operation_id}",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+        )
 
     def create_organization(
         self, *, name: str, management: dict | None = None
@@ -68,8 +76,7 @@ class Organizations:
             management: Information about the organization's management system.
 
         """
-        metadata = {"tags": ["organizations", "configure"], "operation": "create_organization"}
-        resource = f"/organizations"
+        path = f"/organizations"
 
         payload = {}
         if name is not None:
@@ -77,7 +84,9 @@ class Organizations:
         if management is not None:
             payload["management"] = management
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_organization(self, *, organization_id: str) -> dict[str, Any] | None:
         """Return an organization.
@@ -88,11 +97,10 @@ class Organizations:
             organization_id: Organization ID.
 
         """
-        metadata = {"tags": ["organizations", "configure"], "operation": "get_organization"}
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}"
+        path = f"/organizations/{organization_id}"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(scope="organizations", operation_id="getOrganization", path=path)
 
     def update_organization(
         self,
@@ -113,9 +121,8 @@ class Organizations:
             api: API-specific settings.
 
         """
-        metadata = {"tags": ["organizations", "configure"], "operation": "update_organization"}
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}"
+        path = f"/organizations/{organization_id}"
 
         payload = {}
         if name is not None:
@@ -125,7 +132,9 @@ class Organizations:
         if api is not None:
             payload["api"] = api
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def delete_organization(self, *, organization_id: str) -> None:
         """Delete an organization.
@@ -136,11 +145,12 @@ class Organizations:
             organization_id: Organization ID.
 
         """
-        metadata = {"tags": ["organizations", "configure"], "operation": "delete_organization"}
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}"
+        path = f"/organizations/{organization_id}"
 
-        return self._session.delete(metadata, resource)
+        return self._session.delete(
+            scope="organizations", operation_id="deleteOrganization", path=path
+        )
 
     def get_organization_action_batches(
         self, *, organization_id: str, status: str | None = None
@@ -160,18 +170,16 @@ class Organizations:
                 f'"status" cannot be "{status}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["organizations", "configure", "actionBatches"],
-            "operation": "get_organization_action_batches",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/actionBatches"
+        path = f"/organizations/{organization_id}/actionBatches"
 
         params = {}
         if status is not None:
             params["status"] = status
 
-        return self._session.get(metadata, resource, params)
+        return self._session.get(
+            scope="organizations", operation_id="{operation_id}", path=path, params=params
+        )
 
     def create_organization_action_batch(
         self,
@@ -200,12 +208,8 @@ class Organizations:
               sharedSecret.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "actionBatches"],
-            "operation": "create_organization_action_batch",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/actionBatches"
+        path = f"/organizations/{organization_id}/actionBatches"
 
         payload = {}
         if confirmed is not None:
@@ -217,7 +221,9 @@ class Organizations:
         if callback is not None:
             payload["callback"] = callback
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_organization_action_batch(
         self, *, organization_id: str, action_batch_id: str
@@ -231,15 +237,13 @@ class Organizations:
             action_batch_id: Action batch ID.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "actionBatches"],
-            "operation": "get_organization_action_batch",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         action_batch_id = urllib.parse.quote(str(action_batch_id), safe="")
-        resource = f"/organizations/{organization_id}/actionBatches/{action_batch_id}"
+        path = f"/organizations/{organization_id}/actionBatches/{action_batch_id}"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="organizations", operation_id="getOrganizationActionBatch", path=path
+        )
 
     def update_organization_action_batch(
         self,
@@ -262,13 +266,9 @@ class Organizations:
               actions in synchronous batch.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "actionBatches"],
-            "operation": "update_organization_action_batch",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         action_batch_id = urllib.parse.quote(str(action_batch_id), safe="")
-        resource = f"/organizations/{organization_id}/actionBatches/{action_batch_id}"
+        path = f"/organizations/{organization_id}/actionBatches/{action_batch_id}"
 
         payload = {}
         if confirmed is not None:
@@ -276,7 +276,9 @@ class Organizations:
         if synchronous is not None:
             payload["synchronous"] = synchronous
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def delete_organization_action_batch(
         self, *, organization_id: str, action_batch_id: str
@@ -290,15 +292,13 @@ class Organizations:
             action_batch_id: Action batch ID.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "actionBatches"],
-            "operation": "delete_organization_action_batch",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         action_batch_id = urllib.parse.quote(str(action_batch_id), safe="")
-        resource = f"/organizations/{organization_id}/actionBatches/{action_batch_id}"
+        path = f"/organizations/{organization_id}/actionBatches/{action_batch_id}"
 
-        return self._session.delete(metadata, resource)
+        return self._session.delete(
+            scope="organizations", operation_id="deleteOrganizationActionBatch", path=path
+        )
 
     def get_organization_adaptive_policy_acls(
         self, *, organization_id: str
@@ -311,14 +311,12 @@ class Organizations:
             organization_id: Organization ID.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "adaptivePolicy", "acls"],
-            "operation": "get_organization_adaptive_policy_acls",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/adaptivePolicy/acls"
+        path = f"/organizations/{organization_id}/adaptivePolicy/acls"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="organizations", operation_id="getOrganizationAdaptivePolicyAcls", path=path
+        )
 
     def create_organization_adaptive_policy_acl(
         self,
@@ -347,12 +345,8 @@ class Organizations:
                 f'"ip_version" cannot be "{ip_version}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["organizations", "configure", "adaptivePolicy", "acls"],
-            "operation": "create_organization_adaptive_policy_acl",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/adaptivePolicy/acls"
+        path = f"/organizations/{organization_id}/adaptivePolicy/acls"
 
         payload = {}
         if name is not None:
@@ -364,7 +358,9 @@ class Organizations:
         if ip_version is not None:
             payload["ipVersion"] = ip_version
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_organization_adaptive_policy_acl(
         self, *, organization_id: str, acl_id: str
@@ -378,15 +374,13 @@ class Organizations:
             acl_id: Acl ID.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "adaptivePolicy", "acls"],
-            "operation": "get_organization_adaptive_policy_acl",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         acl_id = urllib.parse.quote(str(acl_id), safe="")
-        resource = f"/organizations/{organization_id}/adaptivePolicy/acls/{acl_id}"
+        path = f"/organizations/{organization_id}/adaptivePolicy/acls/{acl_id}"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="organizations", operation_id="getOrganizationAdaptivePolicyAcl", path=path
+        )
 
     def update_organization_adaptive_policy_acl(
         self,
@@ -418,13 +412,9 @@ class Organizations:
                 f'"ip_version" cannot be "{ip_version}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["organizations", "configure", "adaptivePolicy", "acls"],
-            "operation": "update_organization_adaptive_policy_acl",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         acl_id = urllib.parse.quote(str(acl_id), safe="")
-        resource = f"/organizations/{organization_id}/adaptivePolicy/acls/{acl_id}"
+        path = f"/organizations/{organization_id}/adaptivePolicy/acls/{acl_id}"
 
         payload = {}
         if name is not None:
@@ -436,7 +426,9 @@ class Organizations:
         if ip_version is not None:
             payload["ipVersion"] = ip_version
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def delete_organization_adaptive_policy_acl(self, *, organization_id: str, acl_id: str) -> None:
         """Deletes the specified adaptive policy ACL.
@@ -448,15 +440,13 @@ class Organizations:
             acl_id: Acl ID.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "adaptivePolicy", "acls"],
-            "operation": "delete_organization_adaptive_policy_acl",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         acl_id = urllib.parse.quote(str(acl_id), safe="")
-        resource = f"/organizations/{organization_id}/adaptivePolicy/acls/{acl_id}"
+        path = f"/organizations/{organization_id}/adaptivePolicy/acls/{acl_id}"
 
-        return self._session.delete(metadata, resource)
+        return self._session.delete(
+            scope="organizations", operation_id="deleteOrganizationAdaptivePolicyAcl", path=path
+        )
 
     def get_organization_adaptive_policy_groups(
         self, *, organization_id: str
@@ -469,14 +459,12 @@ class Organizations:
             organization_id: Organization ID.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "adaptivePolicy", "groups"],
-            "operation": "get_organization_adaptive_policy_groups",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/adaptivePolicy/groups"
+        path = f"/organizations/{organization_id}/adaptivePolicy/groups"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="organizations", operation_id="getOrganizationAdaptivePolicyGroups", path=path
+        )
 
     def create_organization_adaptive_policy_group(
         self,
@@ -502,12 +490,8 @@ class Organizations:
               attribute) (default: []).
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "adaptivePolicy", "groups"],
-            "operation": "create_organization_adaptive_policy_group",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/adaptivePolicy/groups"
+        path = f"/organizations/{organization_id}/adaptivePolicy/groups"
 
         payload = {}
         if name is not None:
@@ -519,7 +503,9 @@ class Organizations:
         if policy_objects is not None:
             payload["policyObjects"] = policy_objects
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_organization_adaptive_policy_group(
         self, *, organization_id: str, id_: str
@@ -533,15 +519,13 @@ class Organizations:
             id_: ID.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "adaptivePolicy", "groups"],
-            "operation": "get_organization_adaptive_policy_group",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         id_ = urllib.parse.quote(str(id_), safe="")
-        resource = f"/organizations/{organization_id}/adaptivePolicy/groups/{id_}"
+        path = f"/organizations/{organization_id}/adaptivePolicy/groups/{id_}"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="organizations", operation_id="getOrganizationAdaptivePolicyGroup", path=path
+        )
 
     def update_organization_adaptive_policy_group(
         self,
@@ -569,13 +553,9 @@ class Organizations:
               attribute).
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "adaptivePolicy", "groups"],
-            "operation": "update_organization_adaptive_policy_group",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         id_ = urllib.parse.quote(str(id_), safe="")
-        resource = f"/organizations/{organization_id}/adaptivePolicy/groups/{id_}"
+        path = f"/organizations/{organization_id}/adaptivePolicy/groups/{id_}"
 
         payload = {}
         if name is not None:
@@ -587,7 +567,9 @@ class Organizations:
         if policy_objects is not None:
             payload["policyObjects"] = policy_objects
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def delete_organization_adaptive_policy_group(self, *, organization_id: str, id_: str) -> None:
         """Deletes the specified adaptive policy group and any associated policies and references.
@@ -599,15 +581,13 @@ class Organizations:
             id_: ID.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "adaptivePolicy", "groups"],
-            "operation": "delete_organization_adaptive_policy_group",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         id_ = urllib.parse.quote(str(id_), safe="")
-        resource = f"/organizations/{organization_id}/adaptivePolicy/groups/{id_}"
+        path = f"/organizations/{organization_id}/adaptivePolicy/groups/{id_}"
 
-        return self._session.delete(metadata, resource)
+        return self._session.delete(
+            scope="organizations", operation_id="deleteOrganizationAdaptivePolicyGroup", path=path
+        )
 
     def get_organization_adaptive_policy_overview(
         self, *, organization_id: str
@@ -620,14 +600,12 @@ class Organizations:
             organization_id: Organization ID.
 
         """
-        metadata = {
-            "tags": ["organizations", "monitor", "adaptivePolicy", "overview"],
-            "operation": "get_organization_adaptive_policy_overview",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/adaptivePolicy/overview"
+        path = f"/organizations/{organization_id}/adaptivePolicy/overview"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="organizations", operation_id="getOrganizationAdaptivePolicyOverview", path=path
+        )
 
     def get_organization_adaptive_policy_policies(
         self, *, organization_id: str
@@ -640,14 +618,12 @@ class Organizations:
             organization_id: Organization ID.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "adaptivePolicy", "policies"],
-            "operation": "get_organization_adaptive_policy_policies",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/adaptivePolicy/policies"
+        path = f"/organizations/{organization_id}/adaptivePolicy/policies"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="organizations", operation_id="getOrganizationAdaptivePolicyPolicies", path=path
+        )
 
     def create_organization_adaptive_policy_policy(
         self,
@@ -678,12 +654,8 @@ class Organizations:
                 f'"last_entry_rule" cannot be "{last_entry_rule}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["organizations", "configure", "adaptivePolicy", "policies"],
-            "operation": "create_organization_adaptive_policy_policy",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/adaptivePolicy/policies"
+        path = f"/organizations/{organization_id}/adaptivePolicy/policies"
 
         payload = {}
         if source_group is not None:
@@ -695,7 +667,9 @@ class Organizations:
         if last_entry_rule is not None:
             payload["lastEntryRule"] = last_entry_rule
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_organization_adaptive_policy_policy(
         self, *, organization_id: str, id_: str
@@ -709,15 +683,13 @@ class Organizations:
             id_: ID.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "adaptivePolicy", "policies"],
-            "operation": "get_organization_adaptive_policy_policy",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         id_ = urllib.parse.quote(str(id_), safe="")
-        resource = f"/organizations/{organization_id}/adaptivePolicy/policies/{id_}"
+        path = f"/organizations/{organization_id}/adaptivePolicy/policies/{id_}"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="organizations", operation_id="getOrganizationAdaptivePolicyPolicy", path=path
+        )
 
     def update_organization_adaptive_policy_policy(
         self,
@@ -750,13 +722,9 @@ class Organizations:
                 f'"last_entry_rule" cannot be "{last_entry_rule}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["organizations", "configure", "adaptivePolicy", "policies"],
-            "operation": "update_organization_adaptive_policy_policy",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         id_ = urllib.parse.quote(str(id_), safe="")
-        resource = f"/organizations/{organization_id}/adaptivePolicy/policies/{id_}"
+        path = f"/organizations/{organization_id}/adaptivePolicy/policies/{id_}"
 
         payload = {}
         if source_group is not None:
@@ -768,7 +736,9 @@ class Organizations:
         if last_entry_rule is not None:
             payload["lastEntryRule"] = last_entry_rule
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def delete_organization_adaptive_policy_policy(self, *, organization_id: str, id_: str) -> None:
         """Delete an Adaptive Policy.
@@ -780,15 +750,13 @@ class Organizations:
             id_: ID.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "adaptivePolicy", "policies"],
-            "operation": "delete_organization_adaptive_policy_policy",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         id_ = urllib.parse.quote(str(id_), safe="")
-        resource = f"/organizations/{organization_id}/adaptivePolicy/policies/{id_}"
+        path = f"/organizations/{organization_id}/adaptivePolicy/policies/{id_}"
 
-        return self._session.delete(metadata, resource)
+        return self._session.delete(
+            scope="organizations", operation_id="deleteOrganizationAdaptivePolicyPolicy", path=path
+        )
 
     def get_organization_adaptive_policy_settings(
         self, *, organization_id: str
@@ -801,14 +769,12 @@ class Organizations:
             organization_id: Organization ID.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "adaptivePolicy", "settings"],
-            "operation": "get_organization_adaptive_policy_settings",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/adaptivePolicy/settings"
+        path = f"/organizations/{organization_id}/adaptivePolicy/settings"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="organizations", operation_id="getOrganizationAdaptivePolicySettings", path=path
+        )
 
     def update_organization_adaptive_policy_settings(
         self, *, organization_id: str, enabled_networks: list | None = None
@@ -822,18 +788,16 @@ class Organizations:
             enabled_networks: List of network IDs with adaptive policy enabled.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "adaptivePolicy", "settings"],
-            "operation": "update_organization_adaptive_policy_settings",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/adaptivePolicy/settings"
+        path = f"/organizations/{organization_id}/adaptivePolicy/settings"
 
         payload = {}
         if enabled_networks is not None:
             payload["enabledNetworks"] = enabled_networks
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_organization_admins(
         self, *, organization_id: str, network_ids: list | None = None
@@ -848,18 +812,16 @@ class Organizations:
               IDs.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "admins"],
-            "operation": "get_organization_admins",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/admins"
+        path = f"/organizations/{organization_id}/admins"
 
         params = {}
         if network_ids is not None:
             params["networkIds[]"] = network_ids
 
-        return self._session.get(metadata, resource, params)
+        return self._session.get(
+            scope="organizations", operation_id="{operation_id}", path=path, params=params
+        )
 
     def create_organization_admin(
         self,
@@ -899,12 +861,8 @@ class Organizations:
                 f'"authentication_method" cannot be "{authentication_method}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["organizations", "configure", "admins"],
-            "operation": "create_organization_admin",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/admins"
+        path = f"/organizations/{organization_id}/admins"
 
         payload = {}
         if email is not None:
@@ -920,7 +878,9 @@ class Organizations:
         if authentication_method is not None:
             payload["authenticationMethod"] = authentication_method
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def update_organization_admin(
         self,
@@ -952,13 +912,9 @@ class Organizations:
                 f'"org_access" cannot be "{org_access}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["organizations", "configure", "admins"],
-            "operation": "update_organization_admin",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         admin_id = urllib.parse.quote(str(admin_id), safe="")
-        resource = f"/organizations/{organization_id}/admins/{admin_id}"
+        path = f"/organizations/{organization_id}/admins/{admin_id}"
 
         payload = {}
         if name is not None:
@@ -970,7 +926,9 @@ class Organizations:
         if networks is not None:
             payload["networks"] = networks
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def delete_organization_admin(self, *, organization_id: str, admin_id: str) -> None:
         """Revoke all access for a dashboard administrator within this organization.
@@ -982,15 +940,13 @@ class Organizations:
             admin_id: Admin ID.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "admins"],
-            "operation": "delete_organization_admin",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         admin_id = urllib.parse.quote(str(admin_id), safe="")
-        resource = f"/organizations/{organization_id}/admins/{admin_id}"
+        path = f"/organizations/{organization_id}/admins/{admin_id}"
 
-        return self._session.delete(metadata, resource)
+        return self._session.delete(
+            scope="organizations", operation_id="deleteOrganizationAdmin", path=path
+        )
 
     def get_organization_alerts_profiles(self, *, organization_id: str) -> dict[str, Any] | None:
         """List all organization-wide alert configurations.
@@ -1001,14 +957,12 @@ class Organizations:
             organization_id: Organization ID.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "alerts", "profiles"],
-            "operation": "get_organization_alerts_profiles",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/alerts/profiles"
+        path = f"/organizations/{organization_id}/alerts/profiles"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="organizations", operation_id="getOrganizationAlertsProfiles", path=path
+        )
 
     def create_organization_alerts_profile(
         self,
@@ -1048,12 +1002,8 @@ class Organizations:
                 f'"type_" cannot be "{type_}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["organizations", "configure", "alerts", "profiles"],
-            "operation": "create_organization_alerts_profile",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/alerts/profiles"
+        path = f"/organizations/{organization_id}/alerts/profiles"
 
         payload = {}
         if type_ is not None:
@@ -1067,7 +1017,9 @@ class Organizations:
         if description is not None:
             payload["description"] = description
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def update_organization_alerts_profile(
         self,
@@ -1111,13 +1063,9 @@ class Organizations:
                 f'"type_" cannot be "{type_}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["organizations", "configure", "alerts", "profiles"],
-            "operation": "update_organization_alerts_profile",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         alert_config_id = urllib.parse.quote(str(alert_config_id), safe="")
-        resource = f"/organizations/{organization_id}/alerts/profiles/{alert_config_id}"
+        path = f"/organizations/{organization_id}/alerts/profiles/{alert_config_id}"
 
         payload = {}
         if enabled is not None:
@@ -1133,7 +1081,9 @@ class Organizations:
         if description is not None:
             payload["description"] = description
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def delete_organization_alerts_profile(
         self, *, organization_id: str, alert_config_id: str
@@ -1147,15 +1097,13 @@ class Organizations:
             alert_config_id: Alert config ID.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "alerts", "profiles"],
-            "operation": "delete_organization_alerts_profile",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         alert_config_id = urllib.parse.quote(str(alert_config_id), safe="")
-        resource = f"/organizations/{organization_id}/alerts/profiles/{alert_config_id}"
+        path = f"/organizations/{organization_id}/alerts/profiles/{alert_config_id}"
 
-        return self._session.delete(metadata, resource)
+        return self._session.delete(
+            scope="organizations", operation_id="deleteOrganizationAlertsProfile", path=path
+        )
 
     def get_organization_api_requests(
         self,
@@ -1225,12 +1173,8 @@ class Organizations:
                 f'"version" cannot be "{version}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["organizations", "monitor", "apiRequests"],
-            "operation": "get_organization_api_requests",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/apiRequests"
+        path = f"/organizations/{organization_id}/apiRequests"
 
         params = {}
         if t0 is not None:
@@ -1262,7 +1206,14 @@ class Organizations:
         if operation_ids is not None:
             params["operationIds[]"] = operation_ids
 
-        return self._session.get_pages(metadata, resource, params, total_pages, direction)
+        return self._session.get_pages(
+            scope="organizations",
+            operation_id="{operation_id}",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+        )
 
     def get_organization_api_requests_overview(
         self,
@@ -1286,12 +1237,8 @@ class Organizations:
               seconds and be less than or equal to 31 days. The default is 31 days.
 
         """
-        metadata = {
-            "tags": ["organizations", "monitor", "apiRequests", "overview"],
-            "operation": "get_organization_api_requests_overview",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/apiRequests/overview"
+        path = f"/organizations/{organization_id}/apiRequests/overview"
 
         params = {}
         if t0 is not None:
@@ -1301,7 +1248,9 @@ class Organizations:
         if timespan is not None:
             params["timespan"] = timespan
 
-        return self._session.get(metadata, resource, params)
+        return self._session.get(
+            scope="organizations", operation_id="{operation_id}", path=path, params=params
+        )
 
     def get_organization_api_requests_overview_response_codes_by_interval(
         self,
@@ -1347,19 +1296,8 @@ class Organizations:
                 f'"version" cannot be "{version}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": [
-                "organizations",
-                "monitor",
-                "apiRequests",
-                "overview",
-                "responseCodes",
-                "byInterval",
-            ],
-            "operation": "get_organization_api_requests_overview_response_codes_by_interval",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/apiRequests/overview/responseCodes/byInterval"
+        path = f"/organizations/{organization_id}/apiRequests/overview/responseCodes/byInterval"
 
         params = {}
         if t0 is not None:
@@ -1381,7 +1319,9 @@ class Organizations:
         if user_agent is not None:
             params["userAgent"] = user_agent
 
-        return self._session.get(metadata, resource, params)
+        return self._session.get(
+            scope="organizations", operation_id="{operation_id}", path=path, params=params
+        )
 
     def get_organization_assurance_alerts(
         self,
@@ -1465,12 +1405,8 @@ class Organizations:
                 f'"sort_by" cannot be "{sort_by}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["organizations", "monitor", "alerts"],
-            "operation": "get_organization_assurance_alerts",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/assurance/alerts"
+        path = f"/organizations/{organization_id}/assurance/alerts"
 
         params = {}
         if per_page is not None:
@@ -1510,7 +1446,14 @@ class Organizations:
         if suppress_alerts_for_offline_nodes is not None:
             params["suppressAlertsForOfflineNodes"] = suppress_alerts_for_offline_nodes
 
-        return self._session.get_pages(metadata, resource, params, total_pages, direction)
+        return self._session.get_pages(
+            scope="organizations",
+            operation_id="{operation_id}",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+        )
 
     def dismiss_organization_assurance_alerts(
         self, *, organization_id: str, alert_ids: list
@@ -1524,18 +1467,16 @@ class Organizations:
             alert_ids: Array of alert IDs to dismiss.
 
         """
-        metadata = {
-            "tags": ["organizations", "monitor", "alerts"],
-            "operation": "dismiss_organization_assurance_alerts",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/assurance/alerts/dismiss"
+        path = f"/organizations/{organization_id}/assurance/alerts/dismiss"
 
         payload = {}
         if alert_ids is not None:
             payload["alertIds"] = alert_ids
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_organization_assurance_alerts_overview(
         self,
@@ -1586,12 +1527,8 @@ class Organizations:
                 f'"category" cannot be "{category}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["organizations", "monitor", "alerts", "overview"],
-            "operation": "get_organization_assurance_alerts_overview",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/assurance/alerts/overview"
+        path = f"/organizations/{organization_id}/assurance/alerts/overview"
 
         params = {}
         if network_id is not None:
@@ -1621,7 +1558,9 @@ class Organizations:
         if suppress_alerts_for_offline_nodes is not None:
             params["suppressAlertsForOfflineNodes"] = suppress_alerts_for_offline_nodes
 
-        return self._session.get(metadata, resource, params)
+        return self._session.get(
+            scope="organizations", operation_id="{operation_id}", path=path, params=params
+        )
 
     def get_organization_assurance_alerts_overview_by_network(
         self,
@@ -1698,12 +1637,8 @@ class Organizations:
                 f'"category" cannot be "{category}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["organizations", "monitor", "alerts", "overview", "byNetwork"],
-            "operation": "get_organization_assurance_alerts_overview_by_network",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/assurance/alerts/overview/byNetwork"
+        path = f"/organizations/{organization_id}/assurance/alerts/overview/byNetwork"
 
         params = {}
         if per_page is not None:
@@ -1741,7 +1676,14 @@ class Organizations:
         if suppress_alerts_for_offline_nodes is not None:
             params["suppressAlertsForOfflineNodes"] = suppress_alerts_for_offline_nodes
 
-        return self._session.get_pages(metadata, resource, params, total_pages, direction)
+        return self._session.get_pages(
+            scope="organizations",
+            operation_id="{operation_id}",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+        )
 
     def get_organization_assurance_alerts_overview_by_type(
         self,
@@ -1825,12 +1767,8 @@ class Organizations:
                 f'"sort_by" cannot be "{sort_by}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["organizations", "monitor", "alerts", "overview", "byType"],
-            "operation": "get_organization_assurance_alerts_overview_by_type",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/assurance/alerts/overview/byType"
+        path = f"/organizations/{organization_id}/assurance/alerts/overview/byType"
 
         params = {}
         if per_page is not None:
@@ -1870,7 +1808,14 @@ class Organizations:
         if suppress_alerts_for_offline_nodes is not None:
             params["suppressAlertsForOfflineNodes"] = suppress_alerts_for_offline_nodes
 
-        return self._session.get_pages(metadata, resource, params, total_pages, direction)
+        return self._session.get_pages(
+            scope="organizations",
+            operation_id="{operation_id}",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+        )
 
     def get_organization_assurance_alerts_overview_historical(
         self,
@@ -1909,12 +1854,8 @@ class Organizations:
                 f'"category" cannot be "{category}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["organizations", "monitor", "alerts", "overview", "historical"],
-            "operation": "get_organization_assurance_alerts_overview_historical",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/assurance/alerts/overview/historical"
+        path = f"/organizations/{organization_id}/assurance/alerts/overview/historical"
 
         params = {}
         if segment_duration is not None:
@@ -1936,7 +1877,9 @@ class Organizations:
         if device_types is not None:
             params["deviceTypes[]"] = device_types
 
-        return self._session.get(metadata, resource, params)
+        return self._session.get(
+            scope="organizations", operation_id="{operation_id}", path=path, params=params
+        )
 
     def restore_organization_assurance_alerts(
         self, *, organization_id: str, alert_ids: list
@@ -1950,18 +1893,16 @@ class Organizations:
             alert_ids: Array of alert IDs to restore.
 
         """
-        metadata = {
-            "tags": ["organizations", "monitor", "alerts"],
-            "operation": "restore_organization_assurance_alerts",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/assurance/alerts/restore"
+        path = f"/organizations/{organization_id}/assurance/alerts/restore"
 
         payload = {}
         if alert_ids is not None:
             payload["alertIds"] = alert_ids
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_organization_assurance_alerts_taxonomy_categories(
         self, *, organization_id: str
@@ -1974,14 +1915,14 @@ class Organizations:
             organization_id: Organization ID.
 
         """
-        metadata = {
-            "tags": ["organizations", "monitor", "alerts", "taxonomy", "categories"],
-            "operation": "get_organization_assurance_alerts_taxonomy_categories",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/assurance/alerts/taxonomy/categories"
+        path = f"/organizations/{organization_id}/assurance/alerts/taxonomy/categories"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="organizations",
+            operation_id="getOrganizationAssuranceAlertsTaxonomyCategories",
+            path=path,
+        )
 
     def get_organization_assurance_alerts_taxonomy_types(
         self, *, organization_id: str
@@ -1994,14 +1935,14 @@ class Organizations:
             organization_id: Organization ID.
 
         """
-        metadata = {
-            "tags": ["organizations", "monitor", "alerts", "taxonomy", "types"],
-            "operation": "get_organization_assurance_alerts_taxonomy_types",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/assurance/alerts/taxonomy/types"
+        path = f"/organizations/{organization_id}/assurance/alerts/taxonomy/types"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="organizations",
+            operation_id="getOrganizationAssuranceAlertsTaxonomyTypes",
+            path=path,
+        )
 
     def get_organization_assurance_alert(
         self, *, organization_id: str, id_: str
@@ -2015,15 +1956,13 @@ class Organizations:
             id_: ID.
 
         """
-        metadata = {
-            "tags": ["organizations", "monitor", "alerts"],
-            "operation": "get_organization_assurance_alert",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         id_ = urllib.parse.quote(str(id_), safe="")
-        resource = f"/organizations/{organization_id}/assurance/alerts/{id_}"
+        path = f"/organizations/{organization_id}/assurance/alerts/{id_}"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="organizations", operation_id="getOrganizationAssuranceAlert", path=path
+        )
 
     def get_organization_branding_policies(self, *, organization_id: str) -> dict[str, Any] | None:
         """List the branding policies of an organization.
@@ -2034,14 +1973,12 @@ class Organizations:
             organization_id: Organization ID.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "brandingPolicies"],
-            "operation": "get_organization_branding_policies",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/brandingPolicies"
+        path = f"/organizations/{organization_id}/brandingPolicies"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="organizations", operation_id="getOrganizationBrandingPolicies", path=path
+        )
 
     def create_organization_branding_policy(
         self,
@@ -2072,12 +2009,8 @@ class Organizations:
             custom_logo: Properties describing the custom logo attached to the branding policy.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "brandingPolicies"],
-            "operation": "create_organization_branding_policy",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/brandingPolicies"
+        path = f"/organizations/{organization_id}/brandingPolicies"
 
         payload = {}
         if name is not None:
@@ -2091,7 +2024,9 @@ class Organizations:
         if custom_logo is not None:
             payload["customLogo"] = custom_logo
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_organization_branding_policies_priorities(
         self, *, organization_id: str
@@ -2104,14 +2039,14 @@ class Organizations:
             organization_id: Organization ID.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "brandingPolicies", "priorities"],
-            "operation": "get_organization_branding_policies_priorities",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/brandingPolicies/priorities"
+        path = f"/organizations/{organization_id}/brandingPolicies/priorities"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="organizations",
+            operation_id="getOrganizationBrandingPoliciesPriorities",
+            path=path,
+        )
 
     def update_organization_branding_policies_priorities(
         self, *, organization_id: str, branding_policy_ids: list | None = None
@@ -2126,18 +2061,16 @@ class Organizations:
               order of how to apply the policies.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "brandingPolicies", "priorities"],
-            "operation": "update_organization_branding_policies_priorities",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/brandingPolicies/priorities"
+        path = f"/organizations/{organization_id}/brandingPolicies/priorities"
 
         payload = {}
         if branding_policy_ids is not None:
             payload["brandingPolicyIds"] = branding_policy_ids
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_organization_branding_policy(
         self, *, organization_id: str, branding_policy_id: str
@@ -2151,15 +2084,13 @@ class Organizations:
             branding_policy_id: Branding policy ID.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "brandingPolicies"],
-            "operation": "get_organization_branding_policy",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         branding_policy_id = urllib.parse.quote(str(branding_policy_id), safe="")
-        resource = f"/organizations/{organization_id}/brandingPolicies/{branding_policy_id}"
+        path = f"/organizations/{organization_id}/brandingPolicies/{branding_policy_id}"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="organizations", operation_id="getOrganizationBrandingPolicy", path=path
+        )
 
     def update_organization_branding_policy(
         self,
@@ -2191,13 +2122,9 @@ class Organizations:
             custom_logo: Properties describing the custom logo attached to the branding policy.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "brandingPolicies"],
-            "operation": "update_organization_branding_policy",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         branding_policy_id = urllib.parse.quote(str(branding_policy_id), safe="")
-        resource = f"/organizations/{organization_id}/brandingPolicies/{branding_policy_id}"
+        path = f"/organizations/{organization_id}/brandingPolicies/{branding_policy_id}"
 
         payload = {}
         if name is not None:
@@ -2211,7 +2138,9 @@ class Organizations:
         if custom_logo is not None:
             payload["customLogo"] = custom_logo
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def delete_organization_branding_policy(
         self, *, organization_id: str, branding_policy_id: str
@@ -2225,15 +2154,13 @@ class Organizations:
             branding_policy_id: Branding policy ID.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "brandingPolicies"],
-            "operation": "delete_organization_branding_policy",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         branding_policy_id = urllib.parse.quote(str(branding_policy_id), safe="")
-        resource = f"/organizations/{organization_id}/brandingPolicies/{branding_policy_id}"
+        path = f"/organizations/{organization_id}/brandingPolicies/{branding_policy_id}"
 
-        return self._session.delete(metadata, resource)
+        return self._session.delete(
+            scope="organizations", operation_id="deleteOrganizationBrandingPolicy", path=path
+        )
 
     def claim_into_organization(
         self,
@@ -2254,9 +2181,8 @@ class Organizations:
             licenses: The licenses that should be claimed.
 
         """
-        metadata = {"tags": ["organizations", "configure"], "operation": "claim_into_organization"}
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/claim"
+        path = f"/organizations/{organization_id}/claim"
 
         payload = {}
         if orders is not None:
@@ -2266,7 +2192,9 @@ class Organizations:
         if licenses is not None:
             payload["licenses"] = licenses
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_organization_clients_bandwidth_usage_history(
         self,
@@ -2297,12 +2225,8 @@ class Organizations:
               seconds and be less than or equal to 186 days. The default is 1 day.
 
         """
-        metadata = {
-            "tags": ["organizations", "monitor", "clients", "bandwidthUsageHistory"],
-            "operation": "get_organization_clients_bandwidth_usage_history",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/clients/bandwidthUsageHistory"
+        path = f"/organizations/{organization_id}/clients/bandwidthUsageHistory"
 
         params = {}
         if network_tag is not None:
@@ -2320,7 +2244,9 @@ class Organizations:
         if timespan is not None:
             params["timespan"] = timespan
 
-        return self._session.get(metadata, resource, params)
+        return self._session.get(
+            scope="organizations", operation_id="{operation_id}", path=path, params=params
+        )
 
     def get_organization_clients_overview(
         self,
@@ -2343,12 +2269,8 @@ class Organizations:
               seconds and be less than or equal to 31 days. The default is 1 day.
 
         """
-        metadata = {
-            "tags": ["organizations", "monitor", "clients", "overview"],
-            "operation": "get_organization_clients_overview",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/clients/overview"
+        path = f"/organizations/{organization_id}/clients/overview"
 
         params = {}
         if t0 is not None:
@@ -2358,7 +2280,9 @@ class Organizations:
         if timespan is not None:
             params["timespan"] = timespan
 
-        return self._session.get(metadata, resource, params)
+        return self._session.get(
+            scope="organizations", operation_id="{operation_id}", path=path, params=params
+        )
 
     def get_organization_clients_search(
         self,
@@ -2393,12 +2317,8 @@ class Organizations:
             direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "clients", "search"],
-            "operation": "get_organization_clients_search",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/clients/search"
+        path = f"/organizations/{organization_id}/clients/search"
 
         params = {}
         if per_page is not None:
@@ -2410,7 +2330,14 @@ class Organizations:
         if mac is not None:
             params["mac"] = mac
 
-        return self._session.get_pages(metadata, resource, params, total_pages, direction)
+        return self._session.get_pages(
+            scope="organizations",
+            operation_id="{operation_id}",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+        )
 
     def clone_organization(self, *, organization_id: str, name: str) -> dict[str, Any] | None:
         """Create a new organization by cloning the addressed organization.
@@ -2422,15 +2349,16 @@ class Organizations:
             name: The name of the new organization.
 
         """
-        metadata = {"tags": ["organizations", "configure"], "operation": "clone_organization"}
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/clone"
+        path = f"/organizations/{organization_id}/clone"
 
         payload = {}
         if name is not None:
             payload["name"] = name
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_organization_config_templates(self, *, organization_id: str) -> dict[str, Any] | None:
         """List the configuration templates for this organization.
@@ -2441,14 +2369,12 @@ class Organizations:
             organization_id: Organization ID.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "configTemplates"],
-            "operation": "get_organization_config_templates",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/configTemplates"
+        path = f"/organizations/{organization_id}/configTemplates"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="organizations", operation_id="getOrganizationConfigTemplates", path=path
+        )
 
     def create_organization_config_template(
         self,
@@ -2473,12 +2399,8 @@ class Organizations:
               from.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "configTemplates"],
-            "operation": "create_organization_config_template",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/configTemplates"
+        path = f"/organizations/{organization_id}/configTemplates"
 
         payload = {}
         if name is not None:
@@ -2488,7 +2410,9 @@ class Organizations:
         if copy_from_network_id is not None:
             payload["copyFromNetworkId"] = copy_from_network_id
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_organization_config_template(
         self, *, organization_id: str, config_template_id: str
@@ -2502,15 +2426,13 @@ class Organizations:
             config_template_id: Config template ID.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "configTemplates"],
-            "operation": "get_organization_config_template",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         config_template_id = urllib.parse.quote(str(config_template_id), safe="")
-        resource = f"/organizations/{organization_id}/configTemplates/{config_template_id}"
+        path = f"/organizations/{organization_id}/configTemplates/{config_template_id}"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="organizations", operation_id="getOrganizationConfigTemplate", path=path
+        )
 
     def update_organization_config_template(
         self,
@@ -2534,13 +2456,9 @@ class Organizations:
               article.</a>.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "configTemplates"],
-            "operation": "update_organization_config_template",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         config_template_id = urllib.parse.quote(str(config_template_id), safe="")
-        resource = f"/organizations/{organization_id}/configTemplates/{config_template_id}"
+        path = f"/organizations/{organization_id}/configTemplates/{config_template_id}"
 
         payload = {}
         if name is not None:
@@ -2548,7 +2466,9 @@ class Organizations:
         if time_zone is not None:
             payload["timeZone"] = time_zone
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def delete_organization_config_template(
         self, *, organization_id: str, config_template_id: str
@@ -2562,15 +2482,13 @@ class Organizations:
             config_template_id: Config template ID.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "configTemplates"],
-            "operation": "delete_organization_config_template",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         config_template_id = urllib.parse.quote(str(config_template_id), safe="")
-        resource = f"/organizations/{organization_id}/configTemplates/{config_template_id}"
+        path = f"/organizations/{organization_id}/configTemplates/{config_template_id}"
 
-        return self._session.delete(metadata, resource)
+        return self._session.delete(
+            scope="organizations", operation_id="deleteOrganizationConfigTemplate", path=path
+        )
 
     def get_organization_configuration_changes(
         self,
@@ -2616,12 +2534,8 @@ class Organizations:
             direction: direction to paginate, either "next" or "prev" (default) page.
 
         """
-        metadata = {
-            "tags": ["organizations", "monitor", "configurationChanges"],
-            "operation": "get_organization_configuration_changes",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/configurationChanges"
+        path = f"/organizations/{organization_id}/configurationChanges"
 
         params = {}
         if t0 is not None:
@@ -2641,7 +2555,14 @@ class Organizations:
         if admin_id is not None:
             params["adminId"] = admin_id
 
-        return self._session.get_pages(metadata, resource, params, total_pages, direction)
+        return self._session.get_pages(
+            scope="organizations",
+            operation_id="{operation_id}",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+        )
 
     def get_organization_devices(
         self,
@@ -2722,12 +2643,8 @@ class Organizations:
                 f'"tags_filter_type" cannot be "{tags_filter_type}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["organizations", "configure", "devices"],
-            "operation": "get_organization_devices",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/devices"
+        path = f"/organizations/{organization_id}/devices"
 
         params = {}
         if per_page is not None:
@@ -2765,7 +2682,14 @@ class Organizations:
         if models is not None:
             params["models[]"] = models
 
-        return self._session.get_pages(metadata, resource, params, total_pages, direction)
+        return self._session.get_pages(
+            scope="organizations",
+            operation_id="{operation_id}",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+        )
 
     def get_organization_devices_availabilities(
         self,
@@ -2826,12 +2750,8 @@ class Organizations:
                 f'"tags_filter_type" cannot be "{tags_filter_type}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["organizations", "monitor", "devices", "availabilities"],
-            "operation": "get_organization_devices_availabilities",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/devices/availabilities"
+        path = f"/organizations/{organization_id}/devices/availabilities"
 
         params = {}
         if per_page is not None:
@@ -2853,7 +2773,14 @@ class Organizations:
         if statuses is not None:
             params["statuses[]"] = statuses
 
-        return self._session.get_pages(metadata, resource, params, total_pages, direction)
+        return self._session.get_pages(
+            scope="organizations",
+            operation_id="{operation_id}",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+        )
 
     def get_organization_devices_availabilities_change_history(
         self,
@@ -2905,12 +2832,8 @@ class Organizations:
             direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        metadata = {
-            "tags": ["organizations", "monitor", "devices", "availabilities", "changeHistory"],
-            "operation": "get_organization_devices_availabilities_change_history",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/devices/availabilities/changeHistory"
+        path = f"/organizations/{organization_id}/devices/availabilities/changeHistory"
 
         params = {}
         if per_page is not None:
@@ -2934,7 +2857,14 @@ class Organizations:
         if statuses is not None:
             params["statuses[]"] = statuses
 
-        return self._session.get_pages(metadata, resource, params, total_pages, direction)
+        return self._session.get_pages(
+            scope="organizations",
+            operation_id="{operation_id}",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+        )
 
     def get_organization_devices_controller_migrations(
         self,
@@ -2979,12 +2909,8 @@ class Organizations:
                 f'"target" cannot be "{target}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["organizations", "configure", "devices", "controller", "migrations"],
-            "operation": "get_organization_devices_controller_migrations",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/devices/controller/migrations"
+        path = f"/organizations/{organization_id}/devices/controller/migrations"
 
         params = {}
         if serials is not None:
@@ -3000,7 +2926,14 @@ class Organizations:
         if ending_before is not None:
             params["endingBefore"] = ending_before
 
-        return self._session.get_pages(metadata, resource, params, total_pages, direction)
+        return self._session.get_pages(
+            scope="organizations",
+            operation_id="{operation_id}",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+        )
 
     def create_organization_devices_controller_migration(
         self, *, organization_id: str, serials: list, target: str
@@ -3021,12 +2954,8 @@ class Organizations:
                 f'"target" cannot be "{target}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["organizations", "configure", "devices", "controller", "migrations"],
-            "operation": "create_organization_devices_controller_migration",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/devices/controller/migrations"
+        path = f"/organizations/{organization_id}/devices/controller/migrations"
 
         payload = {}
         if serials is not None:
@@ -3034,7 +2963,9 @@ class Organizations:
         if target is not None:
             payload["target"] = target
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def bulk_update_organization_devices_details(
         self, *, organization_id: str, serials: list, details: list
@@ -3049,12 +2980,8 @@ class Organizations:
             details: An array of details.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "devices", "details", "bulkUpdate"],
-            "operation": "bulk_update_organization_devices_details",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/devices/details/bulkUpdate"
+        path = f"/organizations/{organization_id}/devices/details/bulkUpdate"
 
         payload = {}
         if serials is not None:
@@ -3062,7 +2989,9 @@ class Organizations:
         if details is not None:
             payload["details"] = details
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_organization_devices_overview_by_model(
         self,
@@ -3085,12 +3014,8 @@ class Organizations:
               uses multiple exact matches.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "devices", "overview", "byModel"],
-            "operation": "get_organization_devices_overview_by_model",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/devices/overview/byModel"
+        path = f"/organizations/{organization_id}/devices/overview/byModel"
 
         params = {}
         if models is not None:
@@ -3100,7 +3025,9 @@ class Organizations:
         if product_types is not None:
             params["productTypes[]"] = product_types
 
-        return self._session.get(metadata, resource, params)
+        return self._session.get(
+            scope="organizations", operation_id="{operation_id}", path=path, params=params
+        )
 
     def get_organization_devices_packet_capture_captures(
         self,
@@ -3171,12 +3098,8 @@ class Organizations:
                 f'"sort_order" cannot be "{sort_order}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["organizations", "configure", "devices", "packetCapture", "captures"],
-            "operation": "get_organization_devices_packet_capture_captures",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/devices/packetCapture/captures"
+        path = f"/organizations/{organization_id}/devices/packetCapture/captures"
 
         params = {}
         if capture_ids is not None:
@@ -3214,7 +3137,14 @@ class Organizations:
         if sort_order is not None:
             params["sortOrder"] = sort_order
 
-        return self._session.get_pages(metadata, resource, params, total_pages, direction)
+        return self._session.get_pages(
+            scope="organizations",
+            operation_id="{operation_id}",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+        )
 
     def create_organization_devices_packet_capture_capture(
         self,
@@ -3251,12 +3181,8 @@ class Organizations:
               only).
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "devices", "packetCapture", "captures"],
-            "operation": "create_organization_devices_packet_capture_capture",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/devices/packetCapture/captures"
+        path = f"/organizations/{organization_id}/devices/packetCapture/captures"
 
         payload = {}
         if serials is not None:
@@ -3280,7 +3206,9 @@ class Organizations:
         if advanced is not None:
             payload["advanced"] = advanced
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def bulk_organization_devices_packet_capture_captures_create(
         self,
@@ -3307,12 +3235,8 @@ class Organizations:
             advanced: Advanced capture options (optional).
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "devices", "packetCapture", "captures"],
-            "operation": "bulk_organization_devices_packet_capture_captures_create",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/devices/packetCapture/captures/bulkCreate"
+        path = f"/organizations/{organization_id}/devices/packetCapture/captures/bulkCreate"
 
         payload = {}
         if devices is not None:
@@ -3328,7 +3252,9 @@ class Organizations:
         if advanced is not None:
             payload["advanced"] = advanced
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def bulk_organization_devices_packet_capture_captures_delete(
         self, *, organization_id: str, capture_ids: list
@@ -3342,18 +3268,16 @@ class Organizations:
             capture_ids: Delete the packet captures of the specified capture ids.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "devices", "packetCapture", "captures"],
-            "operation": "bulk_organization_devices_packet_capture_captures_delete",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/devices/packetCapture/captures/bulkDelete"
+        path = f"/organizations/{organization_id}/devices/packetCapture/captures/bulkDelete"
 
         payload = {}
         if capture_ids is not None:
             payload["captureIds"] = capture_ids
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def delete_organization_devices_packet_capture_capture(
         self, *, organization_id: str, capture_id: str
@@ -3367,15 +3291,15 @@ class Organizations:
             capture_id: Capture ID.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "devices", "packetCapture", "captures"],
-            "operation": "delete_organization_devices_packet_capture_capture",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         capture_id = urllib.parse.quote(str(capture_id), safe="")
-        resource = f"/organizations/{organization_id}/devices/packetCapture/captures/{capture_id}"
+        path = f"/organizations/{organization_id}/devices/packetCapture/captures/{capture_id}"
 
-        return self._session.delete(metadata, resource)
+        return self._session.delete(
+            scope="organizations",
+            operation_id="deleteOrganizationDevicesPacketCaptureCapture",
+            path=path,
+        )
 
     def generate_organization_devices_packet_capture_capture_download_url(
         self, *, organization_id: str, capture_id: str
@@ -3389,22 +3313,15 @@ class Organizations:
             capture_id: Capture ID.
 
         """
-        metadata = {
-            "tags": [
-                "organizations",
-                "configure",
-                "devices",
-                "packetCapture",
-                "captures",
-                "downloadUrl",
-            ],
-            "operation": "generate_organization_devices_packet_capture_capture_download_url",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         capture_id = urllib.parse.quote(str(capture_id), safe="")
-        resource = f"/organizations/{organization_id}/devices/packetCapture/captures/{capture_id}/downloadUrl/generate"
+        path = f"/organizations/{organization_id}/devices/packetCapture/captures/{capture_id}/downloadUrl/generate"
 
-        return self._session.post(metadata, resource)
+        return self._session.post(
+            scope="organizations",
+            operation_id="generateOrganizationDevicesPacketCaptureCaptureDownloadUrl",
+            path=path,
+        )
 
     def stop_organization_devices_packet_capture_capture(
         self, *, organization_id: str, capture_id: str, serials: list
@@ -3419,21 +3336,17 @@ class Organizations:
             serials: The serial(s) of the device(s) to stop the capture on.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "devices", "packetCapture", "captures"],
-            "operation": "stop_organization_devices_packet_capture_capture",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         capture_id = urllib.parse.quote(str(capture_id), safe="")
-        resource = (
-            f"/organizations/{organization_id}/devices/packetCapture/captures/{capture_id}/stop"
-        )
+        path = f"/organizations/{organization_id}/devices/packetCapture/captures/{capture_id}/stop"
 
         payload = {}
         if serials is not None:
             payload["serials"] = serials
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_organization_devices_packet_capture_schedules(
         self,
@@ -3455,12 +3368,8 @@ class Organizations:
             device_ids: Return the scheduled packet captures of the specified device(s).
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "devices", "packetCapture", "schedules"],
-            "operation": "get_organization_devices_packet_capture_schedules",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/devices/packetCapture/schedules"
+        path = f"/organizations/{organization_id}/devices/packetCapture/schedules"
 
         params = {}
         if schedule_ids is not None:
@@ -3470,7 +3379,9 @@ class Organizations:
         if device_ids is not None:
             params["deviceIds[]"] = device_ids
 
-        return self._session.get(metadata, resource, params)
+        return self._session.get(
+            scope="organizations", operation_id="{operation_id}", path=path, params=params
+        )
 
     def create_organization_devices_packet_capture_schedule(
         self,
@@ -3499,12 +3410,8 @@ class Organizations:
             schedule: Schedule details.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "devices", "packetCapture", "schedules"],
-            "operation": "create_organization_devices_packet_capture_schedule",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/devices/packetCapture/schedules"
+        path = f"/organizations/{organization_id}/devices/packetCapture/schedules"
 
         payload = {}
         if devices is not None:
@@ -3522,7 +3429,9 @@ class Organizations:
         if schedule is not None:
             payload["schedule"] = schedule
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def reorder_organization_devices_packet_capture_schedules(
         self, *, organization_id: str, order: list
@@ -3536,18 +3445,16 @@ class Organizations:
             order: Array of schedule IDs and their priorities to reorder.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "devices", "packetCapture", "schedules"],
-            "operation": "reorder_organization_devices_packet_capture_schedules",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/devices/packetCapture/schedules/reorder"
+        path = f"/organizations/{organization_id}/devices/packetCapture/schedules/reorder"
 
         payload = {}
         if order is not None:
             payload["order"] = order
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def update_organization_devices_packet_capture_schedule(
         self,
@@ -3578,13 +3485,9 @@ class Organizations:
             schedule: Schedule details.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "devices", "packetCapture", "schedules"],
-            "operation": "update_organization_devices_packet_capture_schedule",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         schedule_id = urllib.parse.quote(str(schedule_id), safe="")
-        resource = f"/organizations/{organization_id}/devices/packetCapture/schedules/{schedule_id}"
+        path = f"/organizations/{organization_id}/devices/packetCapture/schedules/{schedule_id}"
 
         payload = {}
         if devices is not None:
@@ -3602,7 +3505,9 @@ class Organizations:
         if schedule is not None:
             payload["schedule"] = schedule
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def delete_organization_devices_packet_capture_schedule(
         self, *, organization_id: str, schedule_id: str
@@ -3616,19 +3521,19 @@ class Organizations:
             schedule_id: Schedule ID.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "devices", "packetCapture", "schedules"],
-            "operation": "delete_organization_devices_packet_capture_schedule",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         schedule_id = urllib.parse.quote(str(schedule_id), safe="")
-        resource = f"/organizations/{organization_id}/devices/packetCapture/schedules/{schedule_id}"
+        path = f"/organizations/{organization_id}/devices/packetCapture/schedules/{schedule_id}"
 
         payload = {}
         if schedule_id is not None:
             payload["scheduleId"] = schedule_id
 
-        return self._session.delete(metadata, resource)
+        return self._session.delete(
+            scope="organizations",
+            operation_id="deleteOrganizationDevicesPacketCaptureSchedule",
+            path=path,
+        )
 
     def get_organization_devices_power_modules_statuses_by_device(
         self,
@@ -3684,12 +3589,8 @@ class Organizations:
                 f'"tags_filter_type" cannot be "{tags_filter_type}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["organizations", "monitor", "devices", "powerModules", "statuses", "byDevice"],
-            "operation": "get_organization_devices_power_modules_statuses_by_device",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/devices/powerModules/statuses/byDevice"
+        path = f"/organizations/{organization_id}/devices/powerModules/statuses/byDevice"
 
         params = {}
         if per_page is not None:
@@ -3709,7 +3610,14 @@ class Organizations:
         if tags_filter_type is not None:
             params["tagsFilterType"] = tags_filter_type
 
-        return self._session.get_pages(metadata, resource, params, total_pages, direction)
+        return self._session.get_pages(
+            scope="organizations",
+            operation_id="{operation_id}",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+        )
 
     def get_organization_devices_provisioning_statuses(
         self,
@@ -3773,12 +3681,8 @@ class Organizations:
                 f'"tags_filter_type" cannot be "{tags_filter_type}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["organizations", "monitor", "devices", "provisioning", "statuses"],
-            "operation": "get_organization_devices_provisioning_statuses",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/devices/provisioning/statuses"
+        path = f"/organizations/{organization_id}/devices/provisioning/statuses"
 
         params = {}
         if per_page is not None:
@@ -3800,7 +3704,14 @@ class Organizations:
         if tags_filter_type is not None:
             params["tagsFilterType"] = tags_filter_type
 
-        return self._session.get_pages(metadata, resource, params, total_pages, direction)
+        return self._session.get_pages(
+            scope="organizations",
+            operation_id="{operation_id}",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+        )
 
     def get_organization_devices_statuses(
         self,
@@ -3861,12 +3772,8 @@ class Organizations:
                 f'"tags_filter_type" cannot be "{tags_filter_type}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["organizations", "monitor", "devices", "statuses"],
-            "operation": "get_organization_devices_statuses",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/devices/statuses"
+        path = f"/organizations/{organization_id}/devices/statuses"
 
         params = {}
         if per_page is not None:
@@ -3890,7 +3797,14 @@ class Organizations:
         if tags_filter_type is not None:
             params["tagsFilterType"] = tags_filter_type
 
-        return self._session.get_pages(metadata, resource, params, total_pages, direction)
+        return self._session.get_pages(
+            scope="organizations",
+            operation_id="{operation_id}",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+        )
 
     def get_organization_devices_statuses_overview(
         self,
@@ -3912,12 +3826,8 @@ class Organizations:
             network_ids: An optional parameter to filter device statuses by network.
 
         """
-        metadata = {
-            "tags": ["organizations", "monitor", "devices", "statuses", "overview"],
-            "operation": "get_organization_devices_statuses_overview",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/devices/statuses/overview"
+        path = f"/organizations/{organization_id}/devices/statuses/overview"
 
         params = {}
         if product_types is not None:
@@ -3925,7 +3835,9 @@ class Organizations:
         if network_ids is not None:
             params["networkIds[]"] = network_ids
 
-        return self._session.get(metadata, resource, params)
+        return self._session.get(
+            scope="organizations", operation_id="{operation_id}", path=path, params=params
+        )
 
     def get_organization_devices_system_memory_usage_history_by_interval(
         self,
@@ -3982,23 +3894,8 @@ class Organizations:
             direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        metadata = {
-            "tags": [
-                "organizations",
-                "monitor",
-                "devices",
-                "system",
-                "memory",
-                "usage",
-                "history",
-                "byInterval",
-            ],
-            "operation": "get_organization_devices_system_memory_usage_history_by_interval",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = (
-            f"/organizations/{organization_id}/devices/system/memory/usage/history/byInterval"
-        )
+        path = f"/organizations/{organization_id}/devices/system/memory/usage/history/byInterval"
 
         params = {}
         if per_page is not None:
@@ -4022,7 +3919,14 @@ class Organizations:
         if product_types is not None:
             params["productTypes[]"] = product_types
 
-        return self._session.get_pages(metadata, resource, params, total_pages, direction)
+        return self._session.get_pages(
+            scope="organizations",
+            operation_id="{operation_id}",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+        )
 
     def get_organization_devices_uplinks_addresses_by_device(
         self,
@@ -4078,12 +3982,8 @@ class Organizations:
                 f'"tags_filter_type" cannot be "{tags_filter_type}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["organizations", "monitor", "devices", "uplinks", "addresses", "byDevice"],
-            "operation": "get_organization_devices_uplinks_addresses_by_device",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/devices/uplinks/addresses/byDevice"
+        path = f"/organizations/{organization_id}/devices/uplinks/addresses/byDevice"
 
         params = {}
         if per_page is not None:
@@ -4103,7 +4003,14 @@ class Organizations:
         if tags_filter_type is not None:
             params["tagsFilterType"] = tags_filter_type
 
-        return self._session.get_pages(metadata, resource, params, total_pages, direction)
+        return self._session.get_pages(
+            scope="organizations",
+            operation_id="{operation_id}",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+        )
 
     def get_organization_devices_uplinks_loss_and_latency(
         self,
@@ -4140,12 +4047,8 @@ class Organizations:
                 f'"uplink" cannot be "{uplink}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["organizations", "monitor", "devices", "uplinks", "uplinksLossAndLatency"],
-            "operation": "get_organization_devices_uplinks_loss_and_latency",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/devices/uplinksLossAndLatency"
+        path = f"/organizations/{organization_id}/devices/uplinksLossAndLatency"
 
         params = {}
         if t0 is not None:
@@ -4159,7 +4062,9 @@ class Organizations:
         if ip is not None:
             params["ip"] = ip
 
-        return self._session.get(metadata, resource, params)
+        return self._session.get(
+            scope="organizations", operation_id="{operation_id}", path=path, params=params
+        )
 
     def get_organization_early_access_features(
         self, *, organization_id: str
@@ -4172,14 +4077,12 @@ class Organizations:
             organization_id: Organization ID.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "earlyAccess", "features"],
-            "operation": "get_organization_early_access_features",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/earlyAccess/features"
+        path = f"/organizations/{organization_id}/earlyAccess/features"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="organizations", operation_id="getOrganizationEarlyAccessFeatures", path=path
+        )
 
     def get_organization_early_access_features_opt_ins(
         self, *, organization_id: str
@@ -4192,14 +4095,14 @@ class Organizations:
             organization_id: Organization ID.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "earlyAccess", "features", "optIns"],
-            "operation": "get_organization_early_access_features_opt_ins",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/earlyAccess/features/optIns"
+        path = f"/organizations/{organization_id}/earlyAccess/features/optIns"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="organizations",
+            operation_id="getOrganizationEarlyAccessFeaturesOptIns",
+            path=path,
+        )
 
     def create_organization_early_access_features_opt_in(
         self, *, organization_id: str, short_name: str, limit_scope_to_networks: list | None = None
@@ -4214,12 +4117,8 @@ class Organizations:
             limit_scope_to_networks: A list of network IDs to apply the opt-in to.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "earlyAccess", "features", "optIns"],
-            "operation": "create_organization_early_access_features_opt_in",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/earlyAccess/features/optIns"
+        path = f"/organizations/{organization_id}/earlyAccess/features/optIns"
 
         payload = {}
         if short_name is not None:
@@ -4227,7 +4126,9 @@ class Organizations:
         if limit_scope_to_networks is not None:
             payload["limitScopeToNetworks"] = limit_scope_to_networks
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_organization_early_access_features_opt_in(
         self, *, organization_id: str, opt_in_id: str
@@ -4241,15 +4142,13 @@ class Organizations:
             opt_in_id: Opt in ID.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "earlyAccess", "features", "optIns"],
-            "operation": "get_organization_early_access_features_opt_in",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         opt_in_id = urllib.parse.quote(str(opt_in_id), safe="")
-        resource = f"/organizations/{organization_id}/earlyAccess/features/optIns/{opt_in_id}"
+        path = f"/organizations/{organization_id}/earlyAccess/features/optIns/{opt_in_id}"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="organizations", operation_id="getOrganizationEarlyAccessFeaturesOptIn", path=path
+        )
 
     def update_organization_early_access_features_opt_in(
         self, *, organization_id: str, opt_in_id: str, limit_scope_to_networks: list | None = None
@@ -4264,19 +4163,17 @@ class Organizations:
             limit_scope_to_networks: A list of network IDs to apply the opt-in to.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "earlyAccess", "features", "optIns"],
-            "operation": "update_organization_early_access_features_opt_in",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         opt_in_id = urllib.parse.quote(str(opt_in_id), safe="")
-        resource = f"/organizations/{organization_id}/earlyAccess/features/optIns/{opt_in_id}"
+        path = f"/organizations/{organization_id}/earlyAccess/features/optIns/{opt_in_id}"
 
         payload = {}
         if limit_scope_to_networks is not None:
             payload["limitScopeToNetworks"] = limit_scope_to_networks
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def delete_organization_early_access_features_opt_in(
         self, *, organization_id: str, opt_in_id: str
@@ -4290,15 +4187,15 @@ class Organizations:
             opt_in_id: Opt in ID.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "earlyAccess", "features", "optIns"],
-            "operation": "delete_organization_early_access_features_opt_in",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         opt_in_id = urllib.parse.quote(str(opt_in_id), safe="")
-        resource = f"/organizations/{organization_id}/earlyAccess/features/optIns/{opt_in_id}"
+        path = f"/organizations/{organization_id}/earlyAccess/features/optIns/{opt_in_id}"
 
-        return self._session.delete(metadata, resource)
+        return self._session.delete(
+            scope="organizations",
+            operation_id="deleteOrganizationEarlyAccessFeaturesOptIn",
+            path=path,
+        )
 
     def get_organization_firmware_upgrades(
         self,
@@ -4335,12 +4232,8 @@ class Organizations:
             direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "firmware", "upgrades"],
-            "operation": "get_organization_firmware_upgrades",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/firmware/upgrades"
+        path = f"/organizations/{organization_id}/firmware/upgrades"
 
         params = {}
         if per_page is not None:
@@ -4354,7 +4247,14 @@ class Organizations:
         if product_types is not None:
             params["productTypes[]"] = product_types
 
-        return self._session.get_pages(metadata, resource, params, total_pages, direction)
+        return self._session.get_pages(
+            scope="organizations",
+            operation_id="{operation_id}",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+        )
 
     def get_organization_firmware_upgrades_by_device(
         self,
@@ -4405,12 +4305,8 @@ class Organizations:
             direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "firmware", "upgrades", "byDevice"],
-            "operation": "get_organization_firmware_upgrades_by_device",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/firmware/upgrades/byDevice"
+        path = f"/organizations/{organization_id}/firmware/upgrades/byDevice"
 
         params = {}
         if per_page is not None:
@@ -4434,7 +4330,14 @@ class Organizations:
         if limit_per_device is not None:
             params["limitPerDevice"] = limit_per_device
 
-        return self._session.get_pages(metadata, resource, params, total_pages, direction)
+        return self._session.get_pages(
+            scope="organizations",
+            operation_id="{operation_id}",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+        )
 
     def get_organization_floor_plans_auto_locate_devices(
         self,
@@ -4471,12 +4374,8 @@ class Organizations:
             direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "floorPlans", "autoLocate", "devices"],
-            "operation": "get_organization_floor_plans_auto_locate_devices",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/floorPlans/autoLocate/devices"
+        path = f"/organizations/{organization_id}/floorPlans/autoLocate/devices"
 
         params = {}
         if per_page is not None:
@@ -4490,7 +4389,14 @@ class Organizations:
         if floor_plan_ids is not None:
             params["floorPlanIds[]"] = floor_plan_ids
 
-        return self._session.get_pages(metadata, resource, params, total_pages, direction)
+        return self._session.get_pages(
+            scope="organizations",
+            operation_id="{operation_id}",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+        )
 
     def get_organization_floor_plans_auto_locate_statuses(
         self,
@@ -4527,12 +4433,8 @@ class Organizations:
             direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "floorPlans", "autoLocate", "statuses"],
-            "operation": "get_organization_floor_plans_auto_locate_statuses",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/floorPlans/autoLocate/statuses"
+        path = f"/organizations/{organization_id}/floorPlans/autoLocate/statuses"
 
         params = {}
         if per_page is not None:
@@ -4546,7 +4448,14 @@ class Organizations:
         if floor_plan_ids is not None:
             params["floorPlanIds[]"] = floor_plan_ids
 
-        return self._session.get_pages(metadata, resource, params, total_pages, direction)
+        return self._session.get_pages(
+            scope="organizations",
+            operation_id="{operation_id}",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+        )
 
     def get_organization_integrations_xdr_networks(
         self,
@@ -4581,12 +4490,8 @@ class Organizations:
             direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "integrations", "xdr", "networks"],
-            "operation": "get_organization_integrations_xdr_networks",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/integrations/xdr/networks"
+        path = f"/organizations/{organization_id}/integrations/xdr/networks"
 
         params = {}
         if network_ids is not None:
@@ -4598,7 +4503,14 @@ class Organizations:
         if ending_before is not None:
             params["endingBefore"] = ending_before
 
-        return self._session.get_pages(metadata, resource, params, total_pages, direction)
+        return self._session.get_pages(
+            scope="organizations",
+            operation_id="{operation_id}",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+        )
 
     def disable_organization_integrations_xdr_networks(
         self, *, organization_id: str, networks: list
@@ -4612,18 +4524,16 @@ class Organizations:
             networks: List containing the network ID and the product type to disable XDR on.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "integrations", "xdr", "networks"],
-            "operation": "disable_organization_integrations_xdr_networks",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/integrations/xdr/networks/disable"
+        path = f"/organizations/{organization_id}/integrations/xdr/networks/disable"
 
         payload = {}
         if networks is not None:
             payload["networks"] = networks
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def enable_organization_integrations_xdr_networks(
         self, *, organization_id: str, networks: list
@@ -4637,18 +4547,16 @@ class Organizations:
             networks: List containing the network ID and the product type to enable XDR on.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "integrations", "xdr", "networks"],
-            "operation": "enable_organization_integrations_xdr_networks",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/integrations/xdr/networks/enable"
+        path = f"/organizations/{organization_id}/integrations/xdr/networks/enable"
 
         payload = {}
         if networks is not None:
             payload["networks"] = networks
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def claim_into_organization_inventory(
         self,
@@ -4669,12 +4577,8 @@ class Organizations:
             licenses: The licenses that should be claimed.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "inventory"],
-            "operation": "claim_into_organization_inventory",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/inventory/claim"
+        path = f"/organizations/{organization_id}/inventory/claim"
 
         payload = {}
         if orders is not None:
@@ -4684,7 +4588,9 @@ class Organizations:
         if licenses is not None:
             payload["licenses"] = licenses
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_organization_inventory_devices(
         self,
@@ -4755,12 +4661,8 @@ class Organizations:
                 f'"tags_filter_type" cannot be "{tags_filter_type}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["organizations", "configure", "inventory", "devices"],
-            "operation": "get_organization_inventory_devices",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/inventory/devices"
+        path = f"/organizations/{organization_id}/inventory/devices"
 
         params = {}
         if per_page is not None:
@@ -4790,7 +4692,14 @@ class Organizations:
         if product_types is not None:
             params["productTypes[]"] = product_types
 
-        return self._session.get_pages(metadata, resource, params, total_pages, direction)
+        return self._session.get_pages(
+            scope="organizations",
+            operation_id="{operation_id}",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+        )
 
     def create_organization_inventory_devices_swaps_bulk(
         self, *, organization_id: str, swaps: list
@@ -4804,18 +4713,16 @@ class Organizations:
             swaps: List of replacments to perform.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "inventory", "devices", "swaps", "bulk"],
-            "operation": "create_organization_inventory_devices_swaps_bulk",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/inventory/devices/swaps/bulk"
+        path = f"/organizations/{organization_id}/inventory/devices/swaps/bulk"
 
         payload = {}
         if swaps is not None:
             payload["swaps"] = swaps
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_organization_inventory_devices_swaps_bulk(
         self, *, organization_id: str, id_: str
@@ -4829,15 +4736,15 @@ class Organizations:
             id_: ID.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "inventory", "devices", "swaps", "bulk"],
-            "operation": "get_organization_inventory_devices_swaps_bulk",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         id_ = urllib.parse.quote(str(id_), safe="")
-        resource = f"/organizations/{organization_id}/inventory/devices/swaps/bulk/{id_}"
+        path = f"/organizations/{organization_id}/inventory/devices/swaps/bulk/{id_}"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="organizations",
+            operation_id="getOrganizationInventoryDevicesSwapsBulk",
+            path=path,
+        )
 
     def get_organization_inventory_device(
         self, *, organization_id: str, serial: str
@@ -4851,15 +4758,13 @@ class Organizations:
             serial: Serial.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "inventory", "devices"],
-            "operation": "get_organization_inventory_device",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         serial = urllib.parse.quote(str(serial), safe="")
-        resource = f"/organizations/{organization_id}/inventory/devices/{serial}"
+        path = f"/organizations/{organization_id}/inventory/devices/{serial}"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="organizations", operation_id="getOrganizationInventoryDevice", path=path
+        )
 
     def create_organization_inventory_onboarding_cloud_monitoring_export_event(
         self,
@@ -4883,21 +4788,8 @@ class Organizations:
               if an info banner is being used.
 
         """
-        metadata = {
-            "tags": [
-                "organizations",
-                "configure",
-                "inventory",
-                "onboarding",
-                "cloudMonitoring",
-                "exportEvents",
-            ],
-            "operation": "create_organization_inventory_onboarding_cloud_monitoring_export_event",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = (
-            f"/organizations/{organization_id}/inventory/onboarding/cloudMonitoring/exportEvents"
-        )
+        path = f"/organizations/{organization_id}/inventory/onboarding/cloudMonitoring/exportEvents"
 
         payload = {}
         if log_event is not None:
@@ -4909,7 +4801,9 @@ class Organizations:
         if request is not None:
             payload["request"] = request
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_organization_inventory_onboarding_cloud_monitoring_imports(
         self, *, organization_id: str, import_ids: list
@@ -4923,25 +4817,16 @@ class Organizations:
             import_ids: import ids from an imports.
 
         """
-        metadata = {
-            "tags": [
-                "organizations",
-                "configure",
-                "inventory",
-                "onboarding",
-                "cloudMonitoring",
-                "imports",
-            ],
-            "operation": "get_organization_inventory_onboarding_cloud_monitoring_imports",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/inventory/onboarding/cloudMonitoring/imports"
+        path = f"/organizations/{organization_id}/inventory/onboarding/cloudMonitoring/imports"
 
         params = {}
         if import_ids is not None:
             params["importIds[]"] = import_ids
 
-        return self._session.get(metadata, resource, params)
+        return self._session.get(
+            scope="organizations", operation_id="{operation_id}", path=path, params=params
+        )
 
     def create_organization_inventory_onboarding_cloud_monitoring_import(
         self, *, organization_id: str, devices: list
@@ -4955,25 +4840,16 @@ class Organizations:
             devices: A set of device imports to commit.
 
         """
-        metadata = {
-            "tags": [
-                "organizations",
-                "configure",
-                "inventory",
-                "onboarding",
-                "cloudMonitoring",
-                "imports",
-            ],
-            "operation": "create_organization_inventory_onboarding_cloud_monitoring_import",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/inventory/onboarding/cloudMonitoring/imports"
+        path = f"/organizations/{organization_id}/inventory/onboarding/cloudMonitoring/imports"
 
         payload = {}
         if devices is not None:
             payload["devices"] = devices
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_organization_inventory_onboarding_cloud_monitoring_networks(
         self,
@@ -5016,19 +4892,8 @@ class Organizations:
                 f'"device_type" cannot be "{device_type}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": [
-                "organizations",
-                "configure",
-                "inventory",
-                "onboarding",
-                "cloudMonitoring",
-                "networks",
-            ],
-            "operation": "get_organization_inventory_onboarding_cloud_monitoring_networks",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/inventory/onboarding/cloudMonitoring/networks"
+        path = f"/organizations/{organization_id}/inventory/onboarding/cloudMonitoring/networks"
 
         params = {}
         if device_type is not None:
@@ -5042,7 +4907,14 @@ class Organizations:
         if ending_before is not None:
             params["endingBefore"] = ending_before
 
-        return self._session.get_pages(metadata, resource, params, total_pages, direction)
+        return self._session.get_pages(
+            scope="organizations",
+            operation_id="{operation_id}",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+        )
 
     def create_organization_inventory_onboarding_cloud_monitoring_prepare(
         self, *, organization_id: str, devices: list, options: dict | None = None
@@ -5057,19 +4929,8 @@ class Organizations:
             options: Additional options for the import.
 
         """
-        metadata = {
-            "tags": [
-                "organizations",
-                "configure",
-                "inventory",
-                "onboarding",
-                "cloudMonitoring",
-                "prepare",
-            ],
-            "operation": "create_organization_inventory_onboarding_cloud_monitoring_prepare",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/inventory/onboarding/cloudMonitoring/prepare"
+        path = f"/organizations/{organization_id}/inventory/onboarding/cloudMonitoring/prepare"
 
         payload = {}
         if devices is not None:
@@ -5077,7 +4938,9 @@ class Organizations:
         if options is not None:
             payload["options"] = options
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def claim_organization_inventory_orders(
         self, *, organization_id: str, claim_id: str, subscriptions: list | None = None
@@ -5092,12 +4955,8 @@ class Organizations:
             subscriptions: The individual subscriptions to claim.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "inventory", "orders"],
-            "operation": "claim_organization_inventory_orders",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/inventory/orders/claim"
+        path = f"/organizations/{organization_id}/inventory/orders/claim"
 
         payload = {}
         if claim_id is not None:
@@ -5105,7 +4964,9 @@ class Organizations:
         if subscriptions is not None:
             payload["subscriptions"] = subscriptions
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def preview_organization_inventory_orders(
         self, *, organization_id: str, claim_id: str
@@ -5119,18 +4980,16 @@ class Organizations:
             claim_id: The unique order claim id.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "inventory", "orders"],
-            "operation": "preview_organization_inventory_orders",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/inventory/orders/preview"
+        path = f"/organizations/{organization_id}/inventory/orders/preview"
 
         payload = {}
         if claim_id is not None:
             payload["claimId"] = claim_id
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def release_from_organization_inventory(
         self, *, organization_id: str, serials: list | None = None
@@ -5144,18 +5003,16 @@ class Organizations:
             serials: Serials of the devices that should be released.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "inventory"],
-            "operation": "release_from_organization_inventory",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/inventory/release"
+        path = f"/organizations/{organization_id}/inventory/release"
 
         payload = {}
         if serials is not None:
             payload["serials"] = serials
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_organization_licenses(
         self,
@@ -5202,12 +5059,8 @@ class Organizations:
                 f'"state" cannot be "{state}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["organizations", "configure", "licenses"],
-            "operation": "get_organization_licenses",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/licenses"
+        path = f"/organizations/{organization_id}/licenses"
 
         params = {}
         if per_page is not None:
@@ -5223,7 +5076,14 @@ class Organizations:
         if state is not None:
             params["state"] = state
 
-        return self._session.get_pages(metadata, resource, params, total_pages, direction)
+        return self._session.get_pages(
+            scope="organizations",
+            operation_id="{operation_id}",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+        )
 
     def assign_organization_licenses_seats(
         self, *, organization_id: str, license_id: str, network_id: str, seat_count: int
@@ -5240,12 +5100,8 @@ class Organizations:
               to the total number of seats of the license.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "licenses"],
-            "operation": "assign_organization_licenses_seats",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/licenses/assignSeats"
+        path = f"/organizations/{organization_id}/licenses/assignSeats"
 
         payload = {}
         if license_id is not None:
@@ -5255,7 +5111,9 @@ class Organizations:
         if seat_count is not None:
             payload["seatCount"] = seat_count
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def move_organization_licenses(
         self, *, organization_id: str, dest_organization_id: str, license_ids: list
@@ -5270,12 +5128,8 @@ class Organizations:
             license_ids: A list of IDs of licenses to move to the new organization.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "licenses"],
-            "operation": "move_organization_licenses",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/licenses/move"
+        path = f"/organizations/{organization_id}/licenses/move"
 
         payload = {}
         if dest_organization_id is not None:
@@ -5283,7 +5137,9 @@ class Organizations:
         if license_ids is not None:
             payload["licenseIds"] = license_ids
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def move_organization_licenses_seats(
         self, *, organization_id: str, dest_organization_id: str, license_id: str, seat_count: int
@@ -5300,12 +5156,8 @@ class Organizations:
               equal to the total number of seats of the license.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "licenses"],
-            "operation": "move_organization_licenses_seats",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/licenses/moveSeats"
+        path = f"/organizations/{organization_id}/licenses/moveSeats"
 
         payload = {}
         if dest_organization_id is not None:
@@ -5315,7 +5167,9 @@ class Organizations:
         if seat_count is not None:
             payload["seatCount"] = seat_count
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_organization_licenses_overview(self, *, organization_id: str) -> dict[str, Any] | None:
         """Return an overview of the license state for an organization.
@@ -5326,14 +5180,12 @@ class Organizations:
             organization_id: Organization ID.
 
         """
-        metadata = {
-            "tags": ["organizations", "monitor", "licenses", "overview"],
-            "operation": "get_organization_licenses_overview",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/licenses/overview"
+        path = f"/organizations/{organization_id}/licenses/overview"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="organizations", operation_id="getOrganizationLicensesOverview", path=path
+        )
 
     def renew_organization_licenses_seats(
         self, *, organization_id: str, license_id_to_renew: str, unused_license_id: str
@@ -5351,12 +5203,8 @@ class Organizations:
               'licenseIdToRenew'.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "licenses"],
-            "operation": "renew_organization_licenses_seats",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/licenses/renewSeats"
+        path = f"/organizations/{organization_id}/licenses/renewSeats"
 
         payload = {}
         if license_id_to_renew is not None:
@@ -5364,7 +5212,9 @@ class Organizations:
         if unused_license_id is not None:
             payload["unusedLicenseId"] = unused_license_id
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_organization_license(
         self, *, organization_id: str, license_id: str
@@ -5378,15 +5228,13 @@ class Organizations:
             license_id: License ID.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "licenses"],
-            "operation": "get_organization_license",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         license_id = urllib.parse.quote(str(license_id), safe="")
-        resource = f"/organizations/{organization_id}/licenses/{license_id}"
+        path = f"/organizations/{organization_id}/licenses/{license_id}"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="organizations", operation_id="getOrganizationLicense", path=path
+        )
 
     def update_organization_license(
         self, *, organization_id: str, license_id: str, device_serial: str | None = None
@@ -5403,19 +5251,17 @@ class Organizations:
               the device, this parameter will control queueing/dequeuing this license.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "licenses"],
-            "operation": "update_organization_license",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         license_id = urllib.parse.quote(str(license_id), safe="")
-        resource = f"/organizations/{organization_id}/licenses/{license_id}"
+        path = f"/organizations/{organization_id}/licenses/{license_id}"
 
         payload = {}
         if device_serial is not None:
             payload["deviceSerial"] = device_serial
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_organization_login_security(self, *, organization_id: str) -> dict[str, Any] | None:
         """Returns the login security settings for an organization.
@@ -5426,14 +5272,12 @@ class Organizations:
             organization_id: Organization ID.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "loginSecurity"],
-            "operation": "get_organization_login_security",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/loginSecurity"
+        path = f"/organizations/{organization_id}/loginSecurity"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="organizations", operation_id="getOrganizationLoginSecurity", path=path
+        )
 
     def update_organization_login_security(
         self,
@@ -5491,12 +5335,8 @@ class Organizations:
               API (but not Dashboard) to certain IP addresses.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "loginSecurity"],
-            "operation": "update_organization_login_security",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/loginSecurity"
+        path = f"/organizations/{organization_id}/loginSecurity"
 
         payload = {}
         if enforce_password_expiration is not None:
@@ -5528,7 +5368,9 @@ class Organizations:
         if api_authentication is not None:
             payload["apiAuthentication"] = api_authentication
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_organization_networks(
         self,
@@ -5584,12 +5426,8 @@ class Organizations:
                 f'"tags_filter_type" cannot be "{tags_filter_type}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["organizations", "configure", "networks"],
-            "operation": "get_organization_networks",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/networks"
+        path = f"/organizations/{organization_id}/networks"
 
         params = {}
         if config_template_id is not None:
@@ -5609,7 +5447,14 @@ class Organizations:
         if ending_before is not None:
             params["endingBefore"] = ending_before
 
-        return self._session.get_pages(metadata, resource, params, total_pages, direction)
+        return self._session.get_pages(
+            scope="organizations",
+            operation_id="{operation_id}",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+        )
 
     def create_organization_network(
         self,
@@ -5642,12 +5487,8 @@ class Organizations:
             notes: Add any notes or additional information about this network here.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "networks"],
-            "operation": "create_organization_network",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/networks"
+        path = f"/organizations/{organization_id}/networks"
 
         payload = {}
         if name is not None:
@@ -5663,7 +5504,9 @@ class Organizations:
         if notes is not None:
             payload["notes"] = notes
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def combine_organization_networks(
         self,
@@ -5691,12 +5534,8 @@ class Organizations:
               enrollment strings will be deleted.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "networks"],
-            "operation": "combine_organization_networks",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/networks/combine"
+        path = f"/organizations/{organization_id}/networks/combine"
 
         payload = {}
         if name is not None:
@@ -5706,7 +5545,9 @@ class Organizations:
         if enrollment_string is not None:
             payload["enrollmentString"] = enrollment_string
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_organization_openapi_spec(
         self, *, organization_id: str, version: int | None = None
@@ -5726,18 +5567,16 @@ class Organizations:
                 f'"version" cannot be "{version}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["organizations", "monitor", "openapiSpec"],
-            "operation": "get_organization_openapi_spec",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/openapiSpec"
+        path = f"/organizations/{organization_id}/openapiSpec"
 
         params = {}
         if version is not None:
             params["version"] = version
 
-        return self._session.get(metadata, resource, params)
+        return self._session.get(
+            scope="organizations", operation_id="{operation_id}", path=path, params=params
+        )
 
     def get_organization_policies_assignments_by_client(
         self,
@@ -5782,12 +5621,8 @@ class Organizations:
             direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "policies", "assignments", "byClient"],
-            "operation": "get_organization_policies_assignments_by_client",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/policies/assignments/byClient"
+        path = f"/organizations/{organization_id}/policies/assignments/byClient"
 
         params = {}
         if per_page is not None:
@@ -5805,7 +5640,14 @@ class Organizations:
         if network_ids is not None:
             params["networkIds[]"] = network_ids
 
-        return self._session.get_pages(metadata, resource, params, total_pages, direction)
+        return self._session.get_pages(
+            scope="organizations",
+            operation_id="{operation_id}",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+        )
 
     def get_organization_policy_objects(
         self,
@@ -5838,12 +5680,8 @@ class Organizations:
             direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "policyObjects"],
-            "operation": "get_organization_policy_objects",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/policyObjects"
+        path = f"/organizations/{organization_id}/policyObjects"
 
         params = {}
         if per_page is not None:
@@ -5853,7 +5691,14 @@ class Organizations:
         if ending_before is not None:
             params["endingBefore"] = ending_before
 
-        return self._session.get_pages(metadata, resource, params, total_pages, direction)
+        return self._session.get_pages(
+            scope="organizations",
+            operation_id="{operation_id}",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+        )
 
     def create_organization_policy_object(
         self,
@@ -5885,12 +5730,8 @@ class Organizations:
             group_ids: The IDs of policy object groups the policy object belongs to.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "policyObjects"],
-            "operation": "create_organization_policy_object",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/policyObjects"
+        path = f"/organizations/{organization_id}/policyObjects"
 
         payload = {}
         if name is not None:
@@ -5910,7 +5751,9 @@ class Organizations:
         if group_ids is not None:
             payload["groupIds"] = group_ids
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_organization_policy_objects_groups(
         self,
@@ -5943,12 +5786,8 @@ class Organizations:
             direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "policyObjects", "groups"],
-            "operation": "get_organization_policy_objects_groups",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/policyObjects/groups"
+        path = f"/organizations/{organization_id}/policyObjects/groups"
 
         params = {}
         if per_page is not None:
@@ -5958,7 +5797,14 @@ class Organizations:
         if ending_before is not None:
             params["endingBefore"] = ending_before
 
-        return self._session.get_pages(metadata, resource, params, total_pages, direction)
+        return self._session.get_pages(
+            scope="organizations",
+            operation_id="{operation_id}",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+        )
 
     def create_organization_policy_objects_group(
         self,
@@ -5983,12 +5829,8 @@ class Organizations:
               Policy Objects).
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "policyObjects", "groups"],
-            "operation": "create_organization_policy_objects_group",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/policyObjects/groups"
+        path = f"/organizations/{organization_id}/policyObjects/groups"
 
         payload = {}
         if name is not None:
@@ -5998,7 +5840,9 @@ class Organizations:
         if object_ids is not None:
             payload["objectIds"] = object_ids
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_organization_policy_objects_group(
         self, *, organization_id: str, policy_object_group_id: str
@@ -6012,15 +5856,13 @@ class Organizations:
             policy_object_group_id: Policy object group ID.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "policyObjects", "groups"],
-            "operation": "get_organization_policy_objects_group",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         policy_object_group_id = urllib.parse.quote(str(policy_object_group_id), safe="")
-        resource = f"/organizations/{organization_id}/policyObjects/groups/{policy_object_group_id}"
+        path = f"/organizations/{organization_id}/policyObjects/groups/{policy_object_group_id}"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="organizations", operation_id="getOrganizationPolicyObjectsGroup", path=path
+        )
 
     def update_organization_policy_objects_group(
         self,
@@ -6044,13 +5886,9 @@ class Organizations:
               Policy Objects).
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "policyObjects", "groups"],
-            "operation": "update_organization_policy_objects_group",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         policy_object_group_id = urllib.parse.quote(str(policy_object_group_id), safe="")
-        resource = f"/organizations/{organization_id}/policyObjects/groups/{policy_object_group_id}"
+        path = f"/organizations/{organization_id}/policyObjects/groups/{policy_object_group_id}"
 
         payload = {}
         if name is not None:
@@ -6058,7 +5896,9 @@ class Organizations:
         if object_ids is not None:
             payload["objectIds"] = object_ids
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def delete_organization_policy_objects_group(
         self, *, organization_id: str, policy_object_group_id: str
@@ -6072,15 +5912,13 @@ class Organizations:
             policy_object_group_id: Policy object group ID.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "policyObjects", "groups"],
-            "operation": "delete_organization_policy_objects_group",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         policy_object_group_id = urllib.parse.quote(str(policy_object_group_id), safe="")
-        resource = f"/organizations/{organization_id}/policyObjects/groups/{policy_object_group_id}"
+        path = f"/organizations/{organization_id}/policyObjects/groups/{policy_object_group_id}"
 
-        return self._session.delete(metadata, resource)
+        return self._session.delete(
+            scope="organizations", operation_id="deleteOrganizationPolicyObjectsGroup", path=path
+        )
 
     def get_organization_policy_object(
         self, *, organization_id: str, policy_object_id: str
@@ -6094,15 +5932,13 @@ class Organizations:
             policy_object_id: Policy object ID.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "policyObjects"],
-            "operation": "get_organization_policy_object",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         policy_object_id = urllib.parse.quote(str(policy_object_id), safe="")
-        resource = f"/organizations/{organization_id}/policyObjects/{policy_object_id}"
+        path = f"/organizations/{organization_id}/policyObjects/{policy_object_id}"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="organizations", operation_id="getOrganizationPolicyObject", path=path
+        )
 
     def update_organization_policy_object(
         self,
@@ -6132,13 +5968,9 @@ class Organizations:
             group_ids: The IDs of policy object groups the policy object belongs to.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "policyObjects"],
-            "operation": "update_organization_policy_object",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         policy_object_id = urllib.parse.quote(str(policy_object_id), safe="")
-        resource = f"/organizations/{organization_id}/policyObjects/{policy_object_id}"
+        path = f"/organizations/{organization_id}/policyObjects/{policy_object_id}"
 
         payload = {}
         if name is not None:
@@ -6154,7 +5986,9 @@ class Organizations:
         if group_ids is not None:
             payload["groupIds"] = group_ids
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def delete_organization_policy_object(
         self, *, organization_id: str, policy_object_id: str
@@ -6168,15 +6002,13 @@ class Organizations:
             policy_object_id: Policy object ID.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "policyObjects"],
-            "operation": "delete_organization_policy_object",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         policy_object_id = urllib.parse.quote(str(policy_object_id), safe="")
-        resource = f"/organizations/{organization_id}/policyObjects/{policy_object_id}"
+        path = f"/organizations/{organization_id}/policyObjects/{policy_object_id}"
 
-        return self._session.delete(metadata, resource)
+        return self._session.delete(
+            scope="organizations", operation_id="deleteOrganizationPolicyObject", path=path
+        )
 
     def get_organization_saml(self, *, organization_id: str) -> dict[str, Any] | None:
         """Returns the SAML SSO enabled settings for an organization.
@@ -6187,14 +6019,12 @@ class Organizations:
             organization_id: Organization ID.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "saml"],
-            "operation": "get_organization_saml",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/saml"
+        path = f"/organizations/{organization_id}/saml"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="organizations", operation_id="getOrganizationSaml", path=path
+        )
 
     def update_organization_saml(
         self, *, organization_id: str, enabled: bool | None = None, sp_initiated: dict | None = None
@@ -6209,12 +6039,8 @@ class Organizations:
             sp_initiated: SP-Initiated SSO settings.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "saml"],
-            "operation": "update_organization_saml",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/saml"
+        path = f"/organizations/{organization_id}/saml"
 
         payload = {}
         if enabled is not None:
@@ -6222,7 +6048,9 @@ class Organizations:
         if sp_initiated is not None:
             payload["spInitiated"] = sp_initiated
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_organization_saml_idps(self, *, organization_id: str) -> dict[str, Any] | None:
         """List the SAML IdPs in your organization.
@@ -6233,14 +6061,12 @@ class Organizations:
             organization_id: Organization ID.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "saml", "idps"],
-            "operation": "get_organization_saml_idps",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/saml/idps"
+        path = f"/organizations/{organization_id}/saml/idps"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="organizations", operation_id="getOrganizationSamlIdps", path=path
+        )
 
     def create_organization_saml_idp(
         self,
@@ -6263,12 +6089,8 @@ class Organizations:
             slo_logout_url: Dashboard will redirect users to this URL when they sign out.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "saml", "idps"],
-            "operation": "create_organization_saml_idp",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/saml/idps"
+        path = f"/organizations/{organization_id}/saml/idps"
 
         payload = {}
         if x509cert_sha1_fingerprint is not None:
@@ -6278,7 +6100,9 @@ class Organizations:
         if slo_logout_url is not None:
             payload["sloLogoutUrl"] = slo_logout_url
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_organization_saml_idp(
         self, *, organization_id: str, idp_id: str
@@ -6292,15 +6116,13 @@ class Organizations:
             idp_id: Idp ID.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "saml", "idps"],
-            "operation": "get_organization_saml_idp",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         idp_id = urllib.parse.quote(str(idp_id), safe="")
-        resource = f"/organizations/{organization_id}/saml/idps/{idp_id}"
+        path = f"/organizations/{organization_id}/saml/idps/{idp_id}"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="organizations", operation_id="getOrganizationSamlIdp", path=path
+        )
 
     def update_organization_saml_idp(
         self,
@@ -6325,13 +6147,9 @@ class Organizations:
             slo_logout_url: Dashboard will redirect users to this URL when they sign out.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "saml", "idps"],
-            "operation": "update_organization_saml_idp",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         idp_id = urllib.parse.quote(str(idp_id), safe="")
-        resource = f"/organizations/{organization_id}/saml/idps/{idp_id}"
+        path = f"/organizations/{organization_id}/saml/idps/{idp_id}"
 
         payload = {}
         if x509cert_sha1_fingerprint is not None:
@@ -6341,7 +6159,9 @@ class Organizations:
         if slo_logout_url is not None:
             payload["sloLogoutUrl"] = slo_logout_url
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def delete_organization_saml_idp(self, *, organization_id: str, idp_id: str) -> None:
         """Remove a SAML IdP in your organization.
@@ -6353,15 +6173,13 @@ class Organizations:
             idp_id: Idp ID.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "saml", "idps"],
-            "operation": "delete_organization_saml_idp",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         idp_id = urllib.parse.quote(str(idp_id), safe="")
-        resource = f"/organizations/{organization_id}/saml/idps/{idp_id}"
+        path = f"/organizations/{organization_id}/saml/idps/{idp_id}"
 
-        return self._session.delete(metadata, resource)
+        return self._session.delete(
+            scope="organizations", operation_id="deleteOrganizationSamlIdp", path=path
+        )
 
     def get_organization_saml_roles(self, *, organization_id: str) -> dict[str, Any] | None:
         """List the SAML roles for this organization.
@@ -6372,14 +6190,12 @@ class Organizations:
             organization_id: Organization ID.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "samlRoles"],
-            "operation": "get_organization_saml_roles",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/samlRoles"
+        path = f"/organizations/{organization_id}/samlRoles"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="organizations", operation_id="getOrganizationSamlRoles", path=path
+        )
 
     def create_organization_saml_role(
         self,
@@ -6404,12 +6220,8 @@ class Organizations:
             networks: The list of networks that the SAML administrator has privileges on.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "samlRoles"],
-            "operation": "create_organization_saml_role",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/samlRoles"
+        path = f"/organizations/{organization_id}/samlRoles"
 
         payload = {}
         if role is not None:
@@ -6421,7 +6233,9 @@ class Organizations:
         if networks is not None:
             payload["networks"] = networks
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_organization_saml_role(
         self, *, organization_id: str, saml_role_id: str
@@ -6435,15 +6249,13 @@ class Organizations:
             saml_role_id: Saml role ID.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "samlRoles"],
-            "operation": "get_organization_saml_role",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         saml_role_id = urllib.parse.quote(str(saml_role_id), safe="")
-        resource = f"/organizations/{organization_id}/samlRoles/{saml_role_id}"
+        path = f"/organizations/{organization_id}/samlRoles/{saml_role_id}"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="organizations", operation_id="getOrganizationSamlRole", path=path
+        )
 
     def update_organization_saml_role(
         self,
@@ -6470,13 +6282,9 @@ class Organizations:
             networks: The list of networks that the SAML administrator has privileges on.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "samlRoles"],
-            "operation": "update_organization_saml_role",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         saml_role_id = urllib.parse.quote(str(saml_role_id), safe="")
-        resource = f"/organizations/{organization_id}/samlRoles/{saml_role_id}"
+        path = f"/organizations/{organization_id}/samlRoles/{saml_role_id}"
 
         payload = {}
         if role is not None:
@@ -6488,7 +6296,9 @@ class Organizations:
         if networks is not None:
             payload["networks"] = networks
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def delete_organization_saml_role(self, *, organization_id: str, saml_role_id: str) -> None:
         """Remove a SAML role.
@@ -6500,15 +6310,13 @@ class Organizations:
             saml_role_id: Saml role ID.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "samlRoles"],
-            "operation": "delete_organization_saml_role",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         saml_role_id = urllib.parse.quote(str(saml_role_id), safe="")
-        resource = f"/organizations/{organization_id}/samlRoles/{saml_role_id}"
+        path = f"/organizations/{organization_id}/samlRoles/{saml_role_id}"
 
-        return self._session.delete(metadata, resource)
+        return self._session.delete(
+            scope="organizations", operation_id="deleteOrganizationSamlRole", path=path
+        )
 
     def get_organization_snmp(self, *, organization_id: str) -> dict[str, Any] | None:
         """Return the SNMP settings for an organization.
@@ -6519,14 +6327,12 @@ class Organizations:
             organization_id: Organization ID.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "snmp"],
-            "operation": "get_organization_snmp",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/snmp"
+        path = f"/organizations/{organization_id}/snmp"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="organizations", operation_id="getOrganizationSnmp", path=path
+        )
 
     def update_organization_snmp(
         self,
@@ -6568,12 +6374,8 @@ class Organizations:
                 f'"v3_priv_mode" cannot be "{v3_priv_mode}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["organizations", "configure", "snmp"],
-            "operation": "update_organization_snmp",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/snmp"
+        path = f"/organizations/{organization_id}/snmp"
 
         payload = {}
         if v2c_enabled is not None:
@@ -6591,7 +6393,9 @@ class Organizations:
         if peer_ips is not None:
             payload["peerIps"] = peer_ips
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_organization_splash_asset(
         self, *, organization_id: str, id_: str
@@ -6605,15 +6409,13 @@ class Organizations:
             id_: ID.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "splash", "assets"],
-            "operation": "get_organization_splash_asset",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         id_ = urllib.parse.quote(str(id_), safe="")
-        resource = f"/organizations/{organization_id}/splash/assets/{id_}"
+        path = f"/organizations/{organization_id}/splash/assets/{id_}"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="organizations", operation_id="getOrganizationSplashAsset", path=path
+        )
 
     def delete_organization_splash_asset(self, *, organization_id: str, id_: str) -> None:
         """Delete a Splash Theme Asset.
@@ -6625,15 +6427,13 @@ class Organizations:
             id_: ID.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "splash", "assets"],
-            "operation": "delete_organization_splash_asset",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         id_ = urllib.parse.quote(str(id_), safe="")
-        resource = f"/organizations/{organization_id}/splash/assets/{id_}"
+        path = f"/organizations/{organization_id}/splash/assets/{id_}"
 
-        return self._session.delete(metadata, resource)
+        return self._session.delete(
+            scope="organizations", operation_id="deleteOrganizationSplashAsset", path=path
+        )
 
     def get_organization_splash_themes(self, *, organization_id: str) -> dict[str, Any] | None:
         """List Splash Themes.
@@ -6644,14 +6444,12 @@ class Organizations:
             organization_id: Organization ID.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "splash", "themes"],
-            "operation": "get_organization_splash_themes",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/splash/themes"
+        path = f"/organizations/{organization_id}/splash/themes"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="organizations", operation_id="getOrganizationSplashThemes", path=path
+        )
 
     def create_organization_splash_theme(
         self, *, organization_id: str, name: str | None = None, base_theme: str | None = None
@@ -6666,12 +6464,8 @@ class Organizations:
             base_theme: base theme id.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "splash", "themes"],
-            "operation": "create_organization_splash_theme",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/splash/themes"
+        path = f"/organizations/{organization_id}/splash/themes"
 
         payload = {}
         if name is not None:
@@ -6679,7 +6473,9 @@ class Organizations:
         if base_theme is not None:
             payload["baseTheme"] = base_theme
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def delete_organization_splash_theme(self, *, organization_id: str, id_: str) -> None:
         """Delete a Splash Theme.
@@ -6691,15 +6487,13 @@ class Organizations:
             id_: ID.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "splash", "themes"],
-            "operation": "delete_organization_splash_theme",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         id_ = urllib.parse.quote(str(id_), safe="")
-        resource = f"/organizations/{organization_id}/splash/themes/{id_}"
+        path = f"/organizations/{organization_id}/splash/themes/{id_}"
 
-        return self._session.delete(metadata, resource)
+        return self._session.delete(
+            scope="organizations", operation_id="deleteOrganizationSplashTheme", path=path
+        )
 
     def create_organization_splash_theme_asset(
         self,
@@ -6720,13 +6514,9 @@ class Organizations:
             content: a file containing the asset content.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "splash", "themes", "assets"],
-            "operation": "create_organization_splash_theme_asset",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         theme_identifier = urllib.parse.quote(str(theme_identifier), safe="")
-        resource = f"/organizations/{organization_id}/splash/themes/{theme_identifier}/assets"
+        path = f"/organizations/{organization_id}/splash/themes/{theme_identifier}/assets"
 
         payload = {}
         if name is not None:
@@ -6734,7 +6524,9 @@ class Organizations:
         if content is not None:
             payload["content"] = content
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_organization_summary_top_appliances_by_utilization(
         self,
@@ -6768,12 +6560,8 @@ class Organizations:
               equal to 186 days. The default is 1 day.
 
         """
-        metadata = {
-            "tags": ["organizations", "monitor", "summary", "top", "appliances", "byUtilization"],
-            "operation": "get_organization_summary_top_appliances_by_utilization",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/summary/top/appliances/byUtilization"
+        path = f"/organizations/{organization_id}/summary/top/appliances/byUtilization"
 
         params = {}
         if network_tag is not None:
@@ -6793,7 +6581,9 @@ class Organizations:
         if timespan is not None:
             params["timespan"] = timespan
 
-        return self._session.get(metadata, resource, params)
+        return self._session.get(
+            scope="organizations", operation_id="{operation_id}", path=path, params=params
+        )
 
     def get_organization_summary_top_applications_by_usage(
         self,
@@ -6829,12 +6619,8 @@ class Organizations:
               equal to 186 days. The default is 1 day.
 
         """
-        metadata = {
-            "tags": ["organizations", "monitor", "summary", "top", "applications", "byUsage"],
-            "operation": "get_organization_summary_top_applications_by_usage",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/summary/top/applications/byUsage"
+        path = f"/organizations/{organization_id}/summary/top/applications/byUsage"
 
         params = {}
         if network_tag is not None:
@@ -6856,7 +6642,9 @@ class Organizations:
         if timespan is not None:
             params["timespan"] = timespan
 
-        return self._session.get(metadata, resource, params)
+        return self._session.get(
+            scope="organizations", operation_id="{operation_id}", path=path, params=params
+        )
 
     def get_organization_summary_top_applications_categories_by_usage(
         self,
@@ -6892,20 +6680,8 @@ class Organizations:
               equal to 186 days. The default is 1 day.
 
         """
-        metadata = {
-            "tags": [
-                "organizations",
-                "monitor",
-                "summary",
-                "top",
-                "applications",
-                "categories",
-                "byUsage",
-            ],
-            "operation": "get_organization_summary_top_applications_categories_by_usage",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/summary/top/applications/categories/byUsage"
+        path = f"/organizations/{organization_id}/summary/top/applications/categories/byUsage"
 
         params = {}
         if network_tag is not None:
@@ -6927,7 +6703,9 @@ class Organizations:
         if timespan is not None:
             params["timespan"] = timespan
 
-        return self._session.get(metadata, resource, params)
+        return self._session.get(
+            scope="organizations", operation_id="{operation_id}", path=path, params=params
+        )
 
     def get_organization_summary_top_clients_by_usage(
         self,
@@ -6961,12 +6739,8 @@ class Organizations:
               to 186 days. The default is 1 day.
 
         """
-        metadata = {
-            "tags": ["organizations", "monitor", "summary", "top", "clients", "byUsage"],
-            "operation": "get_organization_summary_top_clients_by_usage",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/summary/top/clients/byUsage"
+        path = f"/organizations/{organization_id}/summary/top/clients/byUsage"
 
         params = {}
         if network_tag is not None:
@@ -6986,7 +6760,9 @@ class Organizations:
         if timespan is not None:
             params["timespan"] = timespan
 
-        return self._session.get(metadata, resource, params)
+        return self._session.get(
+            scope="organizations", operation_id="{operation_id}", path=path, params=params
+        )
 
     def get_organization_summary_top_clients_manufacturers_by_usage(
         self,
@@ -7019,20 +6795,8 @@ class Organizations:
               seconds and be less than or equal to 186 days. The default is 1 day.
 
         """
-        metadata = {
-            "tags": [
-                "organizations",
-                "monitor",
-                "summary",
-                "top",
-                "clients",
-                "manufacturers",
-                "byUsage",
-            ],
-            "operation": "get_organization_summary_top_clients_manufacturers_by_usage",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/summary/top/clients/manufacturers/byUsage"
+        path = f"/organizations/{organization_id}/summary/top/clients/manufacturers/byUsage"
 
         params = {}
         if network_tag is not None:
@@ -7052,7 +6816,9 @@ class Organizations:
         if timespan is not None:
             params["timespan"] = timespan
 
-        return self._session.get(metadata, resource, params)
+        return self._session.get(
+            scope="organizations", operation_id="{operation_id}", path=path, params=params
+        )
 
     def get_organization_summary_top_devices_by_usage(
         self,
@@ -7086,12 +6852,8 @@ class Organizations:
               to 186 days. The default is 1 day.
 
         """
-        metadata = {
-            "tags": ["organizations", "monitor", "summary", "top", "devices", "byUsage"],
-            "operation": "get_organization_summary_top_devices_by_usage",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/summary/top/devices/byUsage"
+        path = f"/organizations/{organization_id}/summary/top/devices/byUsage"
 
         params = {}
         if network_tag is not None:
@@ -7111,7 +6873,9 @@ class Organizations:
         if timespan is not None:
             params["timespan"] = timespan
 
-        return self._session.get(metadata, resource, params)
+        return self._session.get(
+            scope="organizations", operation_id="{operation_id}", path=path, params=params
+        )
 
     def get_organization_summary_top_devices_models_by_usage(
         self,
@@ -7145,12 +6909,8 @@ class Organizations:
               to 186 days. The default is 1 day.
 
         """
-        metadata = {
-            "tags": ["organizations", "monitor", "summary", "top", "devices", "models", "byUsage"],
-            "operation": "get_organization_summary_top_devices_models_by_usage",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/summary/top/devices/models/byUsage"
+        path = f"/organizations/{organization_id}/summary/top/devices/models/byUsage"
 
         params = {}
         if network_tag is not None:
@@ -7170,7 +6930,9 @@ class Organizations:
         if timespan is not None:
             params["timespan"] = timespan
 
-        return self._session.get(metadata, resource, params)
+        return self._session.get(
+            scope="organizations", operation_id="{operation_id}", path=path, params=params
+        )
 
     def get_organization_summary_top_networks_by_status(
         self,
@@ -7212,12 +6974,8 @@ class Organizations:
             direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        metadata = {
-            "tags": ["organizations", "monitor", "summary", "top", "networks", "byStatus"],
-            "operation": "get_organization_summary_top_networks_by_status",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/summary/top/networks/byStatus"
+        path = f"/organizations/{organization_id}/summary/top/networks/byStatus"
 
         params = {}
         if network_tag is not None:
@@ -7237,7 +6995,14 @@ class Organizations:
         if ending_before is not None:
             params["endingBefore"] = ending_before
 
-        return self._session.get_pages(metadata, resource, params, total_pages, direction)
+        return self._session.get_pages(
+            scope="organizations",
+            operation_id="{operation_id}",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+        )
 
     def get_organization_summary_top_ssids_by_usage(
         self,
@@ -7271,12 +7036,8 @@ class Organizations:
               to 186 days. The default is 1 day.
 
         """
-        metadata = {
-            "tags": ["organizations", "monitor", "summary", "top", "ssids", "byUsage"],
-            "operation": "get_organization_summary_top_ssids_by_usage",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/summary/top/ssids/byUsage"
+        path = f"/organizations/{organization_id}/summary/top/ssids/byUsage"
 
         params = {}
         if network_tag is not None:
@@ -7296,7 +7057,9 @@ class Organizations:
         if timespan is not None:
             params["timespan"] = timespan
 
-        return self._session.get(metadata, resource, params)
+        return self._session.get(
+            scope="organizations", operation_id="{operation_id}", path=path, params=params
+        )
 
     def get_organization_summary_top_switches_by_energy_usage(
         self,
@@ -7330,12 +7093,8 @@ class Organizations:
               equal to 186 days. The default is 1 day.
 
         """
-        metadata = {
-            "tags": ["organizations", "monitor", "summary", "top", "switches", "byEnergyUsage"],
-            "operation": "get_organization_summary_top_switches_by_energy_usage",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/summary/top/switches/byEnergyUsage"
+        path = f"/organizations/{organization_id}/summary/top/switches/byEnergyUsage"
 
         params = {}
         if network_tag is not None:
@@ -7355,7 +7114,9 @@ class Organizations:
         if timespan is not None:
             params["timespan"] = timespan
 
-        return self._session.get(metadata, resource, params)
+        return self._session.get(
+            scope="organizations", operation_id="{operation_id}", path=path, params=params
+        )
 
     def get_organization_uplinks_statuses(
         self,
@@ -7397,12 +7158,8 @@ class Organizations:
             direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        metadata = {
-            "tags": ["organizations", "monitor", "uplinks", "statuses"],
-            "operation": "get_organization_uplinks_statuses",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/uplinks/statuses"
+        path = f"/organizations/{organization_id}/uplinks/statuses"
 
         params = {}
         if per_page is not None:
@@ -7418,7 +7175,14 @@ class Organizations:
         if iccids is not None:
             params["iccids[]"] = iccids
 
-        return self._session.get_pages(metadata, resource, params, total_pages, direction)
+        return self._session.get_pages(
+            scope="organizations",
+            operation_id="{operation_id}",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+        )
 
     def get_organization_webhooks_alert_types(
         self, *, organization_id: str, product_type: str | None = None
@@ -7447,18 +7211,16 @@ class Organizations:
                 f'"product_type" cannot be "{product_type}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["organizations", "monitor", "webhooks", "alertTypes"],
-            "operation": "get_organization_webhooks_alert_types",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/webhooks/alertTypes"
+        path = f"/organizations/{organization_id}/webhooks/alertTypes"
 
         params = {}
         if product_type is not None:
             params["productType"] = product_type
 
-        return self._session.get(metadata, resource, params)
+        return self._session.get(
+            scope="organizations", operation_id="{operation_id}", path=path, params=params
+        )
 
     def get_organization_webhooks_callbacks_status(
         self, *, organization_id: str, callback_id: str
@@ -7472,15 +7234,13 @@ class Organizations:
             callback_id: Callback ID.
 
         """
-        metadata = {
-            "tags": ["organizations", "configure", "webhooks", "callbacks", "statuses"],
-            "operation": "get_organization_webhooks_callbacks_status",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         callback_id = urllib.parse.quote(str(callback_id), safe="")
-        resource = f"/organizations/{organization_id}/webhooks/callbacks/statuses/{callback_id}"
+        path = f"/organizations/{organization_id}/webhooks/callbacks/statuses/{callback_id}"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="organizations", operation_id="getOrganizationWebhooksCallbacksStatus", path=path
+        )
 
     def get_organization_webhooks_logs(
         self,
@@ -7524,12 +7284,8 @@ class Organizations:
             direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        metadata = {
-            "tags": ["organizations", "monitor", "webhooks", "logs"],
-            "operation": "get_organization_webhooks_logs",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/webhooks/logs"
+        path = f"/organizations/{organization_id}/webhooks/logs"
 
         params = {}
         if t0 is not None:
@@ -7547,4 +7303,11 @@ class Organizations:
         if url is not None:
             params["url"] = url
 
-        return self._session.get_pages(metadata, resource, params, total_pages, direction)
+        return self._session.get_pages(
+            scope="organizations",
+            operation_id="{operation_id}",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+        )

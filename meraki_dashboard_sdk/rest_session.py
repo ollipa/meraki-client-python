@@ -1,46 +1,27 @@
-"""REST session for the SDK."""
+"""Session for the SDK."""
 
 import io
-import json
 import logging
 import random
 import time
 import urllib.parse
 from collections.abc import Generator
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from typing import Any, Literal
 
 import requests
 from requests.compat import basestring, urlencode
 from requests.utils import to_key_val_list
 
-from .__init__ import __version__
 from .common import (
-    iterator_for_get_pages_bool,
+    handle_3xx,
     sanitize_base_url,
-    use_iterator_for_get_pages_setter,
     validate_base_url,
     validate_user_agent,
 )
-from .config import (
-    ACTION_BATCH_RETRY_WAIT_TIME,
-    BE_GEO_ID,
-    CERTIFICATE_PATH,
-    DEFAULT_BASE_URL,
-    MAXIMUM_RETRIES,
-    MERAKI_PYTHON_SDK_CALLER,
-    NETWORK_DELETE_RETRY_WAIT_TIME,
-    NGINX_429_RETRY_WAIT_TIME,
-    REQUESTS_PROXY,
-    RETRY_4XX_ERROR,
-    RETRY_4XX_ERROR_WAIT_TIME,
-    SIMULATE_API_CALLS,
-    SINGLE_REQUEST_TIMEOUT,
-    USE_ITERATOR_FOR_GET_PAGES,
-    WAIT_ON_RATE_LIMIT,
-)
-from .exceptions import APIError, APIResponseError, SessionInputError
-from .response_handler import handle_3xx
+from .exceptions import MerakiConnectionError, MerakiHTTPError, raise_http_error
+
+log = logging.getLogger(__name__)
 
 
 def encode_params(_, data: dict | list | str | bytes | io.BytesIO) -> str:  # noqa: ANN001
@@ -130,45 +111,31 @@ class RestSession:
     def __init__(
         self,
         *,
-        logger: logging.Logger,
         api_key: str,
-        base_url: str = DEFAULT_BASE_URL,
-        single_request_timeout: int = SINGLE_REQUEST_TIMEOUT,
-        certificate_path: str = CERTIFICATE_PATH,
-        requests_proxy: str = REQUESTS_PROXY,
-        wait_on_rate_limit: bool = WAIT_ON_RATE_LIMIT,
-        nginx_429_retry_wait_time: int = NGINX_429_RETRY_WAIT_TIME,
-        action_batch_retry_wait_time: int = ACTION_BATCH_RETRY_WAIT_TIME,
-        network_delete_retry_wait_time: int = NETWORK_DELETE_RETRY_WAIT_TIME,
-        retry_4xx_error: bool = RETRY_4XX_ERROR,
-        retry_4xx_error_wait_time: int = RETRY_4XX_ERROR_WAIT_TIME,
-        maximum_retries: int = MAXIMUM_RETRIES,
-        simulate: bool = SIMULATE_API_CALLS,
-        be_geo_id: str = BE_GEO_ID,
-        caller: str = MERAKI_PYTHON_SDK_CALLER,
-        use_iterator_for_get_pages: bool = USE_ITERATOR_FOR_GET_PAGES,
+        base_url: str,
+        single_request_timeout: int,
+        certificate_path: str,
+        requests_proxy: str,
+        wait_on_rate_limit: bool,
+        maximum_retries: int,
+        be_geo_id: str | None,
+        caller: str | None,
+        version: str,
     ) -> None:
         # Initialize attributes and properties
-        self._version = __version__
+        self._version = version
         self._api_key = str(api_key)
         self._base_url = str(base_url)
         self._single_request_timeout = single_request_timeout
         self._certificate_path = certificate_path
         self._requests_proxy = requests_proxy
         self._wait_on_rate_limit = wait_on_rate_limit
-        self._nginx_429_retry_wait_time = nginx_429_retry_wait_time
-        self._action_batch_retry_wait_time = action_batch_retry_wait_time
-        self._network_delete_retry_wait_time = network_delete_retry_wait_time
-        self._retry_4xx_error = retry_4xx_error
-        self._retry_4xx_error_wait_time = retry_4xx_error_wait_time
         self._maximum_retries = maximum_retries
-        self._simulate = simulate
         self._be_geo_id = be_geo_id
         self._caller = caller
-        self.use_iterator_for_get_pages = use_iterator_for_get_pages
 
         # Initialize a new `requests` session
-        self._req_session = requests.session()
+        self._req_session: requests.Session = requests.session()
         self._req_session.encoding = "utf-8"
 
         # Check base URL
@@ -182,238 +149,94 @@ class RestSession:
             + validate_user_agent(self._be_geo_id, self._caller),
         }
 
-        # Log API calls
-        self._logger = logger
-        self._parameters = {"version": self._version}
-        self._parameters.update(locals())
-        self._parameters.pop("self")
-        self._parameters.pop("logger")
-        self._parameters.pop("__class__")
-        self._parameters["api_key"] = "*" * 36 + self._api_key[-4:]
-        if self._logger:
-            self._logger.info(
-                f"Meraki dashboard API session initialized with these parameters: {self._parameters}"
-            )
-
-    @property
-    def use_iterator_for_get_pages(self):  # noqa: ANN201
-        """Get the use_iterator_for_get_pages property."""
-        return iterator_for_get_pages_bool(self)
-
-    @use_iterator_for_get_pages.setter
-    def use_iterator_for_get_pages(self, value):  # noqa: ANN001, ANN202
-        use_iterator_for_get_pages_setter(self, value)
-
-    def request(  # noqa: PLR0912, PLR0915
-        self, metadata: dict[str, str], method: str, url: str, **kwargs: dict[str, Any]
-    ) -> requests.Response | None:
+    def _request(  # noqa: PLR0912, PLR0915
+        self,
+        *,
+        operation: str,
+        method: str,
+        path: str,
+        params: dict[str, Any] | None = None,
+        json: dict[str, Any] | None = None,
+        current_page: int | None = None,
+    ) -> requests.Response:
         """Make an HTTP request to the API endpoint."""
-        # Metadata on endpoint
-        tag = metadata["tags"][0]
-        operation = metadata["operation"]
-
-        # Update request kwargs with session defaults
-        self.prepare_request(kwargs)
-
         # Ensure proper base URL
-        abs_url = validate_base_url(self._base_url, url)
+        abs_url = validate_base_url(self._base_url, path)
 
         # Set the maximum number of retries
         retries = self._maximum_retries
+        redirects = 0
 
-        # Option to simulate non-safe API calls without actually sending them
-        if self._logger:
-            self._logger.debug(metadata)
-        if self._simulate and method != "GET":
-            if self._logger:
-                self._logger.info(f"{tag}, {operation} - SIMULATED")
-            return None
-        response = None
-        while retries > 0:
-            # Make the HTTP request to the API endpoint
+        response: requests.Response
+        while retries >= 0:
+            if current_page is not None:
+                log.debug(f"{operation} - {method} {abs_url} (page={current_page})")
+            else:
+                log.debug(f"{operation} - {method} {abs_url}")
             try:
-                if response:
-                    response.close()
-                if self._logger:
-                    self._logger.info(f"{method} {abs_url}")
                 response = self._req_session.request(
-                    method, abs_url, allow_redirects=False, **kwargs
+                    method, abs_url, allow_redirects=False, params=params, json=json
                 )
-                reason = response.reason if response.reason else ""
-                status = response.status_code
             except requests.exceptions.RequestException as e:
-                if self._logger:
-                    self._logger.warning(f"{tag}, {operation} - {e}, retrying in 1 second")
-                time.sleep(1)
-                retries -= 1
                 if retries == 0:
-                    if e.response and e.response.status_code:
-                        raise APIError(
-                            metadata,
-                            APIResponseError(e.__class__.__name__, e.response.status_code, str(e)),
-                        ) from e
-                    raise APIError(
-                        metadata,
-                        APIResponseError(e.__class__.__name__, 503, str(e)),
-                    ) from e
+                    raise MerakiConnectionError(cause=e) from e
+                retries -= 1
+                log.warning(f"{operation} - {e}, retrying in 1 second")
+                time.sleep(1)
                 continue
 
-            match status:
-                # Handle 3xx redirects automatically
-                case status if 300 <= status < 400:
-                    abs_url, base_url = handle_3xx(self._base_url, response)
-                    self._base_url = base_url
-                # Handle 2xx success
-                case status if 200 <= status < 300:
-                    if "page" in metadata:
-                        counter = metadata["page"]
-                        if self._logger:
-                            self._logger.info(
-                                f"{tag}, {operation}; page {counter} - {status} {reason}"
-                            )
-                    elif self._logger:
-                        self._logger.info(f"{tag}, {operation} - {status} {reason}")
-                    # For non-empty response to GET, ensure valid JSON
-                    try:
-                        if method == "GET" and response.content.strip():
-                            response.json()
-                    except json.decoder.JSONDecodeError as e:
-                        if self._logger:
-                            self._logger.warning(f"{tag}, {operation} - {e}, retrying in 1 second")
-                        time.sleep(1)
-                        retries -= 1
-                        if retries == 0:
-                            raise APIError(metadata, response) from e
-                        continue
-                    else:
-                        return response
-                # Handle rate limiting
-                case 429:
-                    # Retry if 429 retries are enabled and there are retries left
-                    if self._wait_on_rate_limit and retries > 0:
-                        if "Retry-After" in response.headers:
-                            wait = int(response.headers["Retry-After"])
-                        else:
-                            wait = random.randint(1, self._nginx_429_retry_wait_time)
-                        if self._logger:
-                            self._logger.warning(
-                                f"{tag}, {operation} - {status} {reason}, retrying in {wait} seconds"
-                            )
-                        time.sleep(wait)
-                        retries -= 1
-                        if retries == 0:
-                            raise APIError(metadata, response)
-                    # We're either out of retries or the client told us not to retry
-                    else:
-                        raise APIError(metadata, response)
-                # Handle 5xx errors
-                case status if status >= 500:
-                    if self._logger:
-                        self._logger.warning(
-                            f"{tag}, {operation} - {status} {reason}, retrying in 1 second"
-                        )
-                    time.sleep(1)
-                    retries -= 1
-                    if retries == 0:
-                        raise APIError(metadata, response)
-                # Handle other 4xx errors
-                case status if status != 429 and 400 <= status < 500:
-                    retries = self.handle_4xx_errors(
-                        metadata, operation, reason, response, retries, status, tag
+            reason = response.reason or "ERROR"
+            status = response.status_code
+
+            # Handle 3xx redirects automatically
+            if 300 <= status < 400:
+                if redirects >= 3:
+                    raise MerakiHTTPError(
+                        f"Maximum number of redirects reached: {redirects}",
+                        cause=response,
+                        response=response,
                     )
+                abs_url, base_url = handle_3xx(self._base_url, response)
+                self._base_url = base_url
+                redirects += 1
+                continue
 
-        return response
+            # Handle 2xx success
+            if 200 <= status < 300:
+                return response
 
-    def prepare_request(self, kwargs: dict[str, Any]) -> None:
-        """Prepare the request."""
-        if self._certificate_path:
-            kwargs.setdefault("verify", self._certificate_path)
-        if self._requests_proxy:
-            kwargs.setdefault("proxies", {"https": self._requests_proxy})
-        kwargs.setdefault("timeout", self._single_request_timeout)
-
-    def handle_4xx_errors(  # noqa: PLR0912
-        self,
-        metadata: dict[str, str],
-        operation: str,
-        reason: str,
-        response: requests.Response,
-        retries: int,
-        status: int,
-        tag: str,
-    ) -> int:
-        """Handle 4xx errors."""
-        try:
-            message = response.json()
-            message_is_dict = True
-        except ValueError:
-            message = response.content[:100]
-            message_is_dict = False
-
-        # Check specifically for concurrency errors
-        network_delete_concurrency_error_text = "concurrent"
-        action_batch_concurrency_error_text = "executing batches"
-
-        # First, we check for network deletion concurrency errors
-        if operation == "deleteNetwork" and response.status_code == 400:
-            # message['errors'][0] is the first error, and it contains helpful text
-            # here we use it to confirm that the 400 error is related to concurrent requests
-            if network_delete_concurrency_error_text in message["errors"][0]:
-                wait = random.randint(30, self._network_delete_retry_wait_time)
-                if self._logger:
-                    self._logger.warning(
-                        f"{tag}, {operation} - {status} {reason}, retrying in {wait} seconds"
-                    )
+            # Handle rate limiting
+            if status == 429 and self._wait_on_rate_limit and retries > 0:
+                wait = int(response.headers.get("Retry-After", random.randint(2, 5)))
+                log.warning(f"{operation} - {status} {reason}, retrying in {wait} seconds")
                 time.sleep(wait)
                 retries -= 1
+            else:
+                raise raise_http_error(response)
+
+            # Handle 4xx errors
+            if 400 <= status < 500:
+                raise raise_http_error(response)
+
+            # Handle 5xx errors
+            if status >= 500:
                 if retries == 0:
-                    raise APIError(metadata, response)
-
-        # Next, we check for action batch concurrency errors
-        # message['errors'][0] is the first error, and it contains helpful text
-        # here we use it to confirm that the 400 error is related to concurrent requests
-        elif (
-            message_is_dict
-            and "errors" in message
-            and action_batch_concurrency_error_text in message["errors"][0]
-        ):
-            wait = self._action_batch_retry_wait_time
-            if self._logger:
-                self._logger.warning(
-                    f"{tag}, {operation} - {status} {reason}, retrying in {wait} seconds"
-                )
-            time.sleep(wait)
-            retries -= 1
-            if retries == 0:
-                raise APIError(metadata, response)
-
-        # Then we check if the user asked to retry other 4xx errors, based on their session config
-        elif self._retry_4xx_error:
-            wait = random.randint(1, self._retry_4xx_error_wait_time)
-            if self._logger:
-                self._logger.warning(
-                    f"{tag}, {operation} - {status} {reason}, retrying in {wait} seconds"
-                )
-            time.sleep(wait)
-            retries -= 1
-            if retries == 0:
-                raise APIError(metadata, response)
-
-        # All other client-side errors will raise an error
-        else:
-            if self._logger:
-                self._logger.error(f"{tag}, {operation} - {status} {reason}, {message}")
-            raise APIError(metadata, response)
-        return retries
+                    raise raise_http_error(response)
+                retries -= 1
+                log.warning(f"{operation} - {status} {reason}, retrying in 1 second")
+                time.sleep(1)
+                continue
+        raise RuntimeError(
+            f"Maximum number of retries reached: {retries}. This should never happen."
+        )
 
     def get(
-        self, metadata: dict[str, str], url: str, params: dict[str, Any] | None = None
+        self, *, scope: str, operation_id: str, path: str, params: dict[str, Any] | None = None
     ) -> dict[str, Any] | None:
         """Make a GET request to the API endpoint."""
-        metadata["method"] = "GET"
-        metadata["url"] = url
-        metadata["params"] = params
-        response = self.request(metadata, "GET", url, params=params)
+        response = self._request(
+            operation=f"{scope}.{operation_id}", method="GET", path=path, params=params
+        )
         ret = None
         if response:
             if response.content.strip():
@@ -423,41 +246,32 @@ class RestSession:
 
     def get_pages(
         self,
-        metadata: dict[str, str],
-        url: str,
-        params: dict[str, Any] | None = None,
-        total_pages: int = -1,
-        direction: str = "next",
-        event_log_end_time: str | None = None,
-    ) -> Generator[Any, None, None]:
-        """Make a GET request to the API endpoint with pagination."""
-
-    def _get_pages_iterator(  # noqa: PLR0912
-        self,
-        metadata: dict[str, str],
-        url: str,
+        *,
+        scope: str,
+        operation_id: str,
+        path: str,
         params: dict[str, Any] | None = None,
         total_pages: int | Literal["all"] = -1,
         direction: str = "next",
         event_log_end_time: str | None = None,
     ) -> Generator[Any, None, None]:
-        """Get pages using the iterator."""
+        """Make a GET request to the API endpoint with pagination."""
         if isinstance(total_pages, str) and total_pages.lower() == "all":
             total_pages = -1
         elif isinstance(total_pages, str) and total_pages.isnumeric():
             total_pages = int(total_pages)
-        elif not isinstance(total_pages, int):
-            raise SessionInputError(
-                "total_pages",
-                total_pages,
-                "total_pages must be either an"
-                " integer or 'all' as a string (remember to add the"
-                " quotation marks).",
-                None,
+        elif isinstance(total_pages, int):
+            pass
+        else:
+            raise ValueError(
+                f"total_pages must be either an integer or 'all' as a string. Got {total_pages}",
             )
-        metadata["page"] = 1
+        current_page = 1
+        operation = f"{scope}.{operation_id}"
 
-        response = self.request(metadata, "GET", url, params=params)
+        response = self._request(
+            operation=operation, method="GET", path=path, params=params, current_page=current_page
+        )
 
         # Get additional pages if more than one requested
         while total_pages != 0:
@@ -467,22 +281,22 @@ class RestSession:
             # GET the subsequent page
             if direction == "next" and "next" in links:
                 # Prevent getNetworkEvents from infinite loop as time goes forward
-                if metadata["operation"] == "getNetworkEvents":
+                if operation_id == "getNetworkEvents":
                     starting_after = urllib.parse.unquote(
                         str(links["next"]["url"]).split("startingAfter=")[1]
                     )
-                    delta = datetime.now(timezone.utc) - datetime.fromisoformat(starting_after)
+                    delta = datetime.now(tz=UTC) - datetime.fromisoformat(starting_after)
                     # Break out of loop if startingAfter returned from next link is within 5 minutes of current time
                     if delta.total_seconds() < 300 or (
                         event_log_end_time and starting_after > event_log_end_time
                     ):
                         break
 
-                metadata["page"] += 1
+                current_page += 1
                 nextlink = links["next"]["url"]
             elif direction == "prev" and "prev" in links:
                 # Prevent getNetworkEvents from infinite loop as time goes backward (to epoch 0)
-                if metadata["operation"] == "getNetworkEvents":
+                if operation_id == "getNetworkEvents":
                     ending_before = urllib.parse.unquote(
                         str(links["prev"]["url"]).split("endingBefore=")[1]
                     )
@@ -490,7 +304,7 @@ class RestSession:
                     if ending_before < "2014-01-01":
                         break
 
-                metadata["page"] += 1
+                current_page += 1
                 nextlink = links["prev"]["url"]
             else:
                 break
@@ -512,122 +326,17 @@ class RestSession:
             total_pages = total_pages - 1
 
             if total_pages != 0:
-                response = self.request(metadata, "GET", nextlink)
-
-    def _get_pages_legacy(  # noqa: PLR0912, PLR0915
-        self,
-        metadata: dict[str, str],
-        url: str,
-        params: dict[str, Any] | None = None,
-        total_pages: int | Literal["all"] = -1,
-        direction: str = "next",
-        event_log_end_time: str | None = None,
-    ) -> dict[str, Any] | None:
-        """Get pages using the legacy method."""
-        if isinstance(total_pages, str) and total_pages.lower() == "all":
-            total_pages = -1
-        elif isinstance(total_pages, str) and total_pages.isnumeric():
-            total_pages = int(total_pages)
-        elif not isinstance(total_pages, int):
-            raise SessionInputError(
-                "total_pages",
-                total_pages,
-                "total_pages must be either an"
-                " integer or 'all' as a string (remember to add the"
-                " quotation marks).",
-                None,
-            )
-
-        metadata["page"] = 1
-
-        response = self.request(metadata, "GET", url, params=params)
-
-        # Handle GETs that produce 204 No Content responses, e.g. getOrganizationClientSearch
-        results = None if response.status_code == 204 else response.json()
-
-        # For event log endpoint when using 'next' direction, so results/events are sorted chronologically
-        if (
-            isinstance(results, dict)
-            and metadata["operation"] == "getNetworkEvents"
-            and direction == "next"
-        ):
-            results["events"] = results["events"][::-1]
-
-        # Get additional pages if more than one requested
-        while total_pages != 1:
-            links = response.links
-            response.close()
-            response = None
-
-            # GET the subsequent page
-            if direction == "next" and "next" in links:
-                # Prevent getNetworkEvents from infinite loop as time goes forward
-                if metadata["operation"] == "getNetworkEvents":
-                    starting_after = urllib.parse.unquote(
-                        links["next"]["url"].split("startingAfter=")[1]
-                    )
-                    delta = datetime.now(timezone.utc) - datetime.fromisoformat(starting_after)
-                    # Break out of loop if startingAfter returned from next link is within 5 minutes of current time
-                    if delta.total_seconds() < 300 or (
-                        event_log_end_time and starting_after > event_log_end_time
-                    ):
-                        break
-
-                metadata["page"] += 1
-                response = self.request(metadata, "GET", links["next"]["url"])
-            elif direction == "prev" and "prev" in links:
-                # Prevent getNetworkEvents from infinite loop as time goes backward (to epoch 0)
-                if metadata["operation"] == "getNetworkEvents":
-                    ending_before = urllib.parse.unquote(
-                        links["prev"]["url"].split("endingBefore=")[1]
-                    )
-                    # Break out of loop if endingBefore returned from prev link is before 2014
-                    if ending_before < "2014-01-01":
-                        break
-
-                metadata["page"] += 1
-                response = self.request(metadata, "GET", links["prev"]["url"])
-            else:
-                break
-
-            # Append that page's results, depending on the endpoint
-            if isinstance(results, list):
-                results.extend(response.json())
-            elif isinstance(results, dict) and "items" in results:
-                results["items"].extend(response.json()["items"])
-                if "meta" in results:
-                    results["meta"]["counts"]["items"]["remaining"] = response.json()["meta"][
-                        "counts"
-                    ]["items"]["remaining"]
-            # For event log endpoint
-            elif isinstance(results, dict):
-                try:
-                    start = response.json()["pageStartAt"]
-                except KeyError:
-                    print(response.headers)
-                end = response.json()["pageEndAt"]
-                events = response.json()["events"]
-                if direction == "next":
-                    events = events[::-1]
-                results["pageStartAt"] = min(results["pageStartAt"], start)
-                results["pageEndAt"] = max(results["pageEndAt"], end)
-                results["events"].extend(events)
-
-            total_pages -= 1
-
-        if response:
-            response.close()
-
-        return results
+                response = self._request(
+                    operation=operation, method="GET", path=nextlink, current_page=current_page
+                )
 
     def post(
-        self, metadata: dict[str, str], url: str, json: dict[str, Any] | None = None
+        self, *, scope: str, operation_id: str, path: str, json: dict[str, Any] | None = None
     ) -> dict[str, Any] | None:
         """Make a POST request to the API endpoint."""
-        metadata["method"] = "POST"
-        metadata["url"] = url
-        metadata["json"] = json
-        response = self.request(metadata, "POST", url, json=json)
+        response = self._request(
+            operation=f"{scope}.{operation_id}", method="POST", path=path, json=json
+        )
         ret = None
         if response:
             if response.content.strip():
@@ -636,13 +345,12 @@ class RestSession:
         return ret
 
     def put(
-        self, metadata: dict[str, str], url: str, json: dict[str, Any] | None = None
+        self, *, scope: str, operation_id: str, path: str, json: dict[str, Any] | None = None
     ) -> dict[str, Any] | None:
         """Make a PUT request to the API endpoint."""
-        metadata["method"] = "PUT"
-        metadata["url"] = url
-        metadata["json"] = json
-        response = self.request(metadata, "PUT", url, json=json)
+        response = self._request(
+            operation=f"{scope}.{operation_id}", method="PUT", path=path, json=json
+        )
         ret = None
         if response:
             if response.content.strip():
@@ -651,12 +359,11 @@ class RestSession:
         return ret
 
     def delete(
-        self, metadata: dict[str, str], url: str, json: dict[str, Any] | None = None
+        self, *, scope: str, operation_id: str, path: str, json: dict[str, Any] | None = None
     ) -> None:
         """Make a DELETE request to the API endpoint."""
-        metadata["method"] = "DELETE"
-        metadata["url"] = url
-        metadata["json"] = json
-        response = self.request(metadata, "DELETE", url, json=json)
+        response = self._request(
+            operation=f"{scope}.{operation_id}", method="DELETE", path=path, json=json
+        )
         if response:
             response.close()

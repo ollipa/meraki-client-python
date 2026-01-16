@@ -1,7 +1,7 @@
 """ActionBatchCellularGateway API endpoints."""
 
 import urllib
-from typing import Any
+from typing import Any, Literal
 
 
 class ActionBatchCellularGateway:
@@ -28,7 +28,7 @@ class ActionBatchCellularGateway:
 
         """
         serial = urllib.parse.quote(str(serial), safe="")
-        resource = f"/devices/{serial}/cellularGateway/lan"
+        path = f"/devices/{serial}/cellularGateway/lan"
 
         payload = {}
         if reserved_ip_ranges is not None:
@@ -37,7 +37,7 @@ class ActionBatchCellularGateway:
             payload["fixedIpAssignments"] = fixed_ip_assignments
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -56,14 +56,14 @@ class ActionBatchCellularGateway:
 
         """
         serial = urllib.parse.quote(str(serial), safe="")
-        resource = f"/devices/{serial}/cellularGateway/portForwardingRules"
+        path = f"/devices/{serial}/cellularGateway/portForwardingRules"
 
         payload = {}
         if rules is not None:
             payload["rules"] = rules
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -82,14 +82,14 @@ class ActionBatchCellularGateway:
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/cellularGateway/connectivityMonitoringDestinations"
+        path = f"/networks/{network_id}/cellularGateway/connectivityMonitoringDestinations"
 
         payload = {}
         if destinations is not None:
             payload["destinations"] = destinations
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -118,7 +118,7 @@ class ActionBatchCellularGateway:
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/cellularGateway/dhcp"
+        path = f"/networks/{network_id}/cellularGateway/dhcp"
 
         payload = {}
         if dhcp_lease_time is not None:
@@ -129,7 +129,7 @@ class ActionBatchCellularGateway:
             payload["dnsCustomNameservers"] = dns_custom_nameservers
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -150,7 +150,7 @@ class ActionBatchCellularGateway:
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/cellularGateway/subnetPool"
+        path = f"/networks/{network_id}/cellularGateway/subnetPool"
 
         payload = {}
         if mask is not None:
@@ -159,7 +159,7 @@ class ActionBatchCellularGateway:
             payload["cidr"] = cidr
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -178,14 +178,14 @@ class ActionBatchCellularGateway:
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/cellularGateway/uplink"
+        path = f"/networks/{network_id}/cellularGateway/uplink"
 
         payload = {}
         if bandwidth_limits is not None:
             payload["bandwidthLimits"] = bandwidth_limits
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -206,14 +206,14 @@ class ActionBatchCellularGateway:
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         id_ = urllib.parse.quote(str(id_), safe="")
-        resource = f"/organizations/{organization_id}/cellularGateway/esims/inventory/{id_}"
+        path = f"/organizations/{organization_id}/cellularGateway/esims/inventory/{id_}"
 
         payload = {}
         if status is not None:
             payload["status"] = status
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -243,9 +243,7 @@ class ActionBatchCellularGateway:
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = (
-            f"/organizations/{organization_id}/cellularGateway/esims/serviceProviders/accounts"
-        )
+        path = f"/organizations/{organization_id}/cellularGateway/esims/serviceProviders/accounts"
 
         payload = {}
         if account_id is not None:
@@ -260,7 +258,7 @@ class ActionBatchCellularGateway:
             payload["username"] = username
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "create",
             "body": payload,
         }
@@ -287,7 +285,7 @@ class ActionBatchCellularGateway:
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         account_id = urllib.parse.quote(str(account_id), safe="")
-        resource = f"/organizations/{organization_id}/cellularGateway/esims/serviceProviders/accounts/{account_id}"
+        path = f"/organizations/{organization_id}/cellularGateway/esims/serviceProviders/accounts/{account_id}"
 
         payload = {}
         if title is not None:
@@ -296,7 +294,7 @@ class ActionBatchCellularGateway:
             payload["apiKey"] = api_key
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -316,10 +314,10 @@ class ActionBatchCellularGateway:
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         account_id = urllib.parse.quote(str(account_id), safe="")
-        resource = f"/organizations/{organization_id}/cellularGateway/esims/serviceProviders/accounts/{account_id}"
+        path = f"/organizations/{organization_id}/cellularGateway/esims/serviceProviders/accounts/{account_id}"
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "destroy",
         }
         return action  # noqa: RET504
@@ -337,14 +335,14 @@ class ActionBatchCellularGateway:
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/cellularGateway/esims/swap"
+        path = f"/organizations/{organization_id}/cellularGateway/esims/swap"
 
         payload = {}
         if swaps is not None:
             payload["swaps"] = swaps
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "create",
             "body": payload,
         }
@@ -364,10 +362,10 @@ class ActionBatchCellularGateway:
         """
         id_ = urllib.parse.quote(str(id_), safe="")
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/cellularGateway/esims/swap/{id_}"
+        path = f"/organizations/{organization_id}/cellularGateway/esims/swap/{id_}"
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
         }
         return action  # noqa: RET504

@@ -1,17 +1,19 @@
 """Sensor API endpoints."""
 
+from __future__ import annotations
+
 import urllib
 from collections.abc import Generator
-from typing import Any
+from typing import Any, Literal, TYPE_CHECKING
 
-from meraki_dashboard_sdk.rest_session import RestSession
+if TYPE_CHECKING:
+    from meraki_dashboard_sdk.rest_session import RestSession
 
 
 class Sensor:
     """Sensor class."""
 
     def __init__(self, session: RestSession) -> None:
-        super(self).__init__()
         self._session = session
 
     def get_device_sensor_commands(
@@ -67,12 +69,8 @@ class Sensor:
                 f'"sort_order" cannot be "{sort_order}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["sensor", "configure", "commands"],
-            "operation": "get_device_sensor_commands",
-        }
         serial = urllib.parse.quote(str(serial), safe="")
-        resource = f"/devices/{serial}/sensor/commands"
+        path = f"/devices/{serial}/sensor/commands"
 
         params = {}
         if operations is not None:
@@ -92,7 +90,14 @@ class Sensor:
         if timespan is not None:
             params["timespan"] = timespan
 
-        return self._session.get_pages(metadata, resource, params, total_pages, direction)
+        return self._session.get_pages(
+            scope="sensor",
+            operation_id="{operation_id}",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+        )
 
     def create_device_sensor_command(self, *, serial: str, operation: str) -> dict[str, Any] | None:
         """Sends a command to a sensor.
@@ -119,18 +124,16 @@ class Sensor:
                 f'"operation" cannot be "{operation}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["sensor", "configure", "commands"],
-            "operation": "create_device_sensor_command",
-        }
         serial = urllib.parse.quote(str(serial), safe="")
-        resource = f"/devices/{serial}/sensor/commands"
+        path = f"/devices/{serial}/sensor/commands"
 
         payload = {}
         if operation is not None:
             payload["operation"] = operation
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="sensor", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_device_sensor_command(self, *, serial: str, command_id: str) -> dict[str, Any] | None:
         """Returns information about the command's execution, including the status.
@@ -142,15 +145,11 @@ class Sensor:
             command_id: Command ID.
 
         """
-        metadata = {
-            "tags": ["sensor", "configure", "commands"],
-            "operation": "get_device_sensor_command",
-        }
         serial = urllib.parse.quote(str(serial), safe="")
         command_id = urllib.parse.quote(str(command_id), safe="")
-        resource = f"/devices/{serial}/sensor/commands/{command_id}"
+        path = f"/devices/{serial}/sensor/commands/{command_id}"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(scope="sensor", operation_id="getDeviceSensorCommand", path=path)
 
     def get_device_sensor_relationships(self, *, serial: str) -> dict[str, Any] | None:
         """List the sensor roles for a given sensor or camera device.
@@ -161,14 +160,12 @@ class Sensor:
             serial: Serial.
 
         """
-        metadata = {
-            "tags": ["sensor", "configure", "relationships"],
-            "operation": "get_device_sensor_relationships",
-        }
         serial = urllib.parse.quote(str(serial), safe="")
-        resource = f"/devices/{serial}/sensor/relationships"
+        path = f"/devices/{serial}/sensor/relationships"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="sensor", operation_id="getDeviceSensorRelationships", path=path
+        )
 
     def update_device_sensor_relationships(
         self, *, serial: str, livestream: dict | None = None
@@ -184,18 +181,16 @@ class Sensor:
               also appear in alert notifications that the sensor triggers.
 
         """
-        metadata = {
-            "tags": ["sensor", "configure", "relationships"],
-            "operation": "update_device_sensor_relationships",
-        }
         serial = urllib.parse.quote(str(serial), safe="")
-        resource = f"/devices/{serial}/sensor/relationships"
+        path = f"/devices/{serial}/sensor/relationships"
 
         payload = {}
         if livestream is not None:
             payload["livestream"] = livestream
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="sensor", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_network_sensor_alerts_current_overview_by_metric(
         self, *, network_id: str
@@ -208,14 +203,12 @@ class Sensor:
             network_id: Network ID.
 
         """
-        metadata = {
-            "tags": ["sensor", "monitor", "alerts", "current", "overview", "byMetric"],
-            "operation": "get_network_sensor_alerts_current_overview_by_metric",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/sensor/alerts/current/overview/byMetric"
+        path = f"/networks/{network_id}/sensor/alerts/current/overview/byMetric"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="sensor", operation_id="getNetworkSensorAlertsCurrentOverviewByMetric", path=path
+        )
 
     def get_network_sensor_alerts_overview_by_metric(
         self,
@@ -244,12 +237,8 @@ class Sensor:
               calculated if time params are provided.
 
         """
-        metadata = {
-            "tags": ["sensor", "monitor", "alerts", "overview", "byMetric"],
-            "operation": "get_network_sensor_alerts_overview_by_metric",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/sensor/alerts/overview/byMetric"
+        path = f"/networks/{network_id}/sensor/alerts/overview/byMetric"
 
         params = {}
         if t0 is not None:
@@ -261,7 +250,9 @@ class Sensor:
         if interval is not None:
             params["interval"] = interval
 
-        return self._session.get(metadata, resource, params)
+        return self._session.get(
+            scope="sensor", operation_id="{operation_id}", path=path, params=params
+        )
 
     def get_network_sensor_alerts_profiles(self, *, network_id: str) -> dict[str, Any] | None:
         """Lists all sensor alert profiles for a network.
@@ -272,14 +263,12 @@ class Sensor:
             network_id: Network ID.
 
         """
-        metadata = {
-            "tags": ["sensor", "configure", "alerts", "profiles"],
-            "operation": "get_network_sensor_alerts_profiles",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/sensor/alerts/profiles"
+        path = f"/networks/{network_id}/sensor/alerts/profiles"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="sensor", operation_id="getNetworkSensorAlertsProfiles", path=path
+        )
 
     def create_network_sensor_alerts_profile(
         self,
@@ -308,12 +297,8 @@ class Sensor:
             message: A custom message that will appear in email and text message alerts.
 
         """
-        metadata = {
-            "tags": ["sensor", "configure", "alerts", "profiles"],
-            "operation": "create_network_sensor_alerts_profile",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/sensor/alerts/profiles"
+        path = f"/networks/{network_id}/sensor/alerts/profiles"
 
         payload = {}
         if name is not None:
@@ -331,7 +316,9 @@ class Sensor:
         if message is not None:
             payload["message"] = message
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="sensor", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_network_sensor_alerts_profile(
         self, *, network_id: str, id_: str
@@ -345,15 +332,13 @@ class Sensor:
             id_: ID.
 
         """
-        metadata = {
-            "tags": ["sensor", "configure", "alerts", "profiles"],
-            "operation": "get_network_sensor_alerts_profile",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         id_ = urllib.parse.quote(str(id_), safe="")
-        resource = f"/networks/{network_id}/sensor/alerts/profiles/{id_}"
+        path = f"/networks/{network_id}/sensor/alerts/profiles/{id_}"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="sensor", operation_id="getNetworkSensorAlertsProfile", path=path
+        )
 
     def update_network_sensor_alerts_profile(
         self,
@@ -384,13 +369,9 @@ class Sensor:
             message: A custom message that will appear in email and text message alerts.
 
         """
-        metadata = {
-            "tags": ["sensor", "configure", "alerts", "profiles"],
-            "operation": "update_network_sensor_alerts_profile",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         id_ = urllib.parse.quote(str(id_), safe="")
-        resource = f"/networks/{network_id}/sensor/alerts/profiles/{id_}"
+        path = f"/networks/{network_id}/sensor/alerts/profiles/{id_}"
 
         payload = {}
         if name is not None:
@@ -408,7 +389,9 @@ class Sensor:
         if message is not None:
             payload["message"] = message
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="sensor", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def delete_network_sensor_alerts_profile(self, *, network_id: str, id_: str) -> None:
         """Deletes a sensor alert profile from a network.
@@ -420,15 +403,13 @@ class Sensor:
             id_: ID.
 
         """
-        metadata = {
-            "tags": ["sensor", "configure", "alerts", "profiles"],
-            "operation": "delete_network_sensor_alerts_profile",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         id_ = urllib.parse.quote(str(id_), safe="")
-        resource = f"/networks/{network_id}/sensor/alerts/profiles/{id_}"
+        path = f"/networks/{network_id}/sensor/alerts/profiles/{id_}"
 
-        return self._session.delete(metadata, resource)
+        return self._session.delete(
+            scope="sensor", operation_id="deleteNetworkSensorAlertsProfile", path=path
+        )
 
     def get_network_sensor_mqtt_brokers(self, *, network_id: str) -> dict[str, Any] | None:
         """List the sensor settings of all MQTT brokers for this network.
@@ -439,14 +420,12 @@ class Sensor:
             network_id: Network ID.
 
         """
-        metadata = {
-            "tags": ["sensor", "configure", "mqttBrokers"],
-            "operation": "get_network_sensor_mqtt_brokers",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/sensor/mqttBrokers"
+        path = f"/networks/{network_id}/sensor/mqttBrokers"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="sensor", operation_id="getNetworkSensorMqttBrokers", path=path
+        )
 
     def get_network_sensor_mqtt_broker(
         self, *, network_id: str, mqtt_broker_id: str
@@ -460,15 +439,13 @@ class Sensor:
             mqtt_broker_id: Mqtt broker ID.
 
         """
-        metadata = {
-            "tags": ["sensor", "configure", "mqttBrokers"],
-            "operation": "get_network_sensor_mqtt_broker",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         mqtt_broker_id = urllib.parse.quote(str(mqtt_broker_id), safe="")
-        resource = f"/networks/{network_id}/sensor/mqttBrokers/{mqtt_broker_id}"
+        path = f"/networks/{network_id}/sensor/mqttBrokers/{mqtt_broker_id}"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="sensor", operation_id="getNetworkSensorMqttBroker", path=path
+        )
 
     def update_network_sensor_mqtt_broker(
         self, *, network_id: str, mqtt_broker_id: str, enabled: bool
@@ -483,19 +460,17 @@ class Sensor:
             enabled: Set to true to enable MQTT broker for sensor network.
 
         """
-        metadata = {
-            "tags": ["sensor", "configure", "mqttBrokers"],
-            "operation": "update_network_sensor_mqtt_broker",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         mqtt_broker_id = urllib.parse.quote(str(mqtt_broker_id), safe="")
-        resource = f"/networks/{network_id}/sensor/mqttBrokers/{mqtt_broker_id}"
+        path = f"/networks/{network_id}/sensor/mqttBrokers/{mqtt_broker_id}"
 
         payload = {}
         if enabled is not None:
             payload["enabled"] = enabled
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="sensor", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_network_sensor_relationships(self, *, network_id: str) -> dict[str, Any] | None:
         """List the sensor roles for devices in a given network.
@@ -506,14 +481,12 @@ class Sensor:
             network_id: Network ID.
 
         """
-        metadata = {
-            "tags": ["sensor", "configure", "relationships"],
-            "operation": "get_network_sensor_relationships",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/sensor/relationships"
+        path = f"/networks/{network_id}/sensor/relationships"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="sensor", operation_id="getNetworkSensorRelationships", path=path
+        )
 
     def get_organization_sensor_gateways_connections_latest(
         self,
@@ -548,12 +521,8 @@ class Sensor:
             direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        metadata = {
-            "tags": ["sensor", "monitor", "gateways", "connections", "latest"],
-            "operation": "get_organization_sensor_gateways_connections_latest",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/sensor/gateways/connections/latest"
+        path = f"/organizations/{organization_id}/sensor/gateways/connections/latest"
 
         params = {}
         if sensor_serials is not None:
@@ -565,7 +534,14 @@ class Sensor:
         if ending_before is not None:
             params["endingBefore"] = ending_before
 
-        return self._session.get_pages(metadata, resource, params, total_pages, direction)
+        return self._session.get_pages(
+            scope="sensor",
+            operation_id="{operation_id}",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+        )
 
     def get_organization_sensor_readings_history(
         self,
@@ -614,12 +590,8 @@ class Sensor:
             direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        metadata = {
-            "tags": ["sensor", "monitor", "readings", "history"],
-            "operation": "get_organization_sensor_readings_history",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/sensor/readings/history"
+        path = f"/organizations/{organization_id}/sensor/readings/history"
 
         params = {}
         if per_page is not None:
@@ -641,7 +613,14 @@ class Sensor:
         if metrics is not None:
             params["metrics[]"] = metrics
 
-        return self._session.get_pages(metadata, resource, params, total_pages, direction)
+        return self._session.get_pages(
+            scope="sensor",
+            operation_id="{operation_id}",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+        )
 
     def get_organization_sensor_readings_latest(
         self,
@@ -681,12 +660,8 @@ class Sensor:
             direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        metadata = {
-            "tags": ["sensor", "monitor", "readings", "latest"],
-            "operation": "get_organization_sensor_readings_latest",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/sensor/readings/latest"
+        path = f"/organizations/{organization_id}/sensor/readings/latest"
 
         params = {}
         if per_page is not None:
@@ -702,4 +677,11 @@ class Sensor:
         if metrics is not None:
             params["metrics[]"] = metrics
 
-        return self._session.get_pages(metadata, resource, params, total_pages, direction)
+        return self._session.get_pages(
+            scope="sensor",
+            operation_id="{operation_id}",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+        )

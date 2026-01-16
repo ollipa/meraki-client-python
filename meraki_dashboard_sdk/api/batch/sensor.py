@@ -1,7 +1,7 @@
 """ActionBatchSensor API endpoints."""
 
 import urllib
-from typing import Any
+from typing import Any, Literal
 
 
 class ActionBatchSensor:
@@ -36,14 +36,14 @@ class ActionBatchSensor:
             )
 
         serial = urllib.parse.quote(str(serial), safe="")
-        resource = f"/devices/{serial}/sensor/commands"
+        path = f"/devices/{serial}/sensor/commands"
 
         payload = {}
         if operation is not None:
             payload["operation"] = operation
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "create",
             "body": payload,
         }
@@ -64,14 +64,14 @@ class ActionBatchSensor:
 
         """
         serial = urllib.parse.quote(str(serial), safe="")
-        resource = f"/devices/{serial}/sensor/relationships"
+        path = f"/devices/{serial}/sensor/relationships"
 
         payload = {}
         if livestream is not None:
             payload["livestream"] = livestream
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -105,7 +105,7 @@ class ActionBatchSensor:
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/sensor/alerts/profiles"
+        path = f"/networks/{network_id}/sensor/alerts/profiles"
 
         payload = {}
         if name is not None:
@@ -124,7 +124,7 @@ class ActionBatchSensor:
             payload["message"] = message
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "create",
             "body": payload,
         }
@@ -161,7 +161,7 @@ class ActionBatchSensor:
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
         id_ = urllib.parse.quote(str(id_), safe="")
-        resource = f"/networks/{network_id}/sensor/alerts/profiles/{id_}"
+        path = f"/networks/{network_id}/sensor/alerts/profiles/{id_}"
 
         payload = {}
         if name is not None:
@@ -180,7 +180,7 @@ class ActionBatchSensor:
             payload["message"] = message
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -198,10 +198,10 @@ class ActionBatchSensor:
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
         id_ = urllib.parse.quote(str(id_), safe="")
-        resource = f"/networks/{network_id}/sensor/alerts/profiles/{id_}"
+        path = f"/networks/{network_id}/sensor/alerts/profiles/{id_}"
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "destroy",
         }
         return action  # noqa: RET504
@@ -221,14 +221,14 @@ class ActionBatchSensor:
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
         mqtt_broker_id = urllib.parse.quote(str(mqtt_broker_id), safe="")
-        resource = f"/networks/{network_id}/sensor/mqttBrokers/{mqtt_broker_id}"
+        path = f"/networks/{network_id}/sensor/mqttBrokers/{mqtt_broker_id}"
 
         payload = {}
         if enabled is not None:
             payload["enabled"] = enabled
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }

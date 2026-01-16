@@ -1,17 +1,19 @@
 """CellularGateway API endpoints."""
 
+from __future__ import annotations
+
 import urllib
 from collections.abc import Generator
-from typing import Any
+from typing import Any, Literal, TYPE_CHECKING
 
-from meraki_dashboard_sdk.aio.rest_session import AsyncRestSession
+if TYPE_CHECKING:
+    from meraki_dashboard_sdk.aio.rest_session import AsyncRestSession
 
 
 class AsyncCellularGateway:
     """CellularGateway class."""
 
     def __init__(self, session: AsyncRestSession) -> None:
-        super().__init__()
         self._session = session
 
     def get_device_cellular_gateway_lan(self, *, serial: str) -> dict[str, Any] | None:
@@ -23,14 +25,12 @@ class AsyncCellularGateway:
             serial: Serial.
 
         """
-        metadata = {
-            "tags": ["cellularGateway", "configure", "lan"],
-            "operation": "get_device_cellular_gateway_lan",
-        }
         serial = urllib.parse.quote(str(serial), safe="")
-        resource = f"/devices/{serial}/cellularGateway/lan"
+        path = f"/devices/{serial}/cellularGateway/lan"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="cellularGateway", operation_id="getDeviceCellularGatewayLan", path=path
+        )
 
     def update_device_cellular_gateway_lan(
         self,
@@ -49,12 +49,8 @@ class AsyncCellularGateway:
             fixed_ip_assignments: list of all fixed IP assignments for a single MG.
 
         """
-        metadata = {
-            "tags": ["cellularGateway", "configure", "lan"],
-            "operation": "update_device_cellular_gateway_lan",
-        }
         serial = urllib.parse.quote(str(serial), safe="")
-        resource = f"/devices/{serial}/cellularGateway/lan"
+        path = f"/devices/{serial}/cellularGateway/lan"
 
         payload = {}
         if reserved_ip_ranges is not None:
@@ -62,7 +58,9 @@ class AsyncCellularGateway:
         if fixed_ip_assignments is not None:
             payload["fixedIpAssignments"] = fixed_ip_assignments
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="cellularGateway", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_device_cellular_gateway_port_forwarding_rules(
         self, *, serial: str
@@ -75,14 +73,14 @@ class AsyncCellularGateway:
             serial: Serial.
 
         """
-        metadata = {
-            "tags": ["cellularGateway", "configure", "portForwardingRules"],
-            "operation": "get_device_cellular_gateway_port_forwarding_rules",
-        }
         serial = urllib.parse.quote(str(serial), safe="")
-        resource = f"/devices/{serial}/cellularGateway/portForwardingRules"
+        path = f"/devices/{serial}/cellularGateway/portForwardingRules"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="cellularGateway",
+            operation_id="getDeviceCellularGatewayPortForwardingRules",
+            path=path,
+        )
 
     def update_device_cellular_gateway_port_forwarding_rules(
         self, *, serial: str, rules: list | None = None
@@ -96,18 +94,16 @@ class AsyncCellularGateway:
             rules: An array of port forwarding params.
 
         """
-        metadata = {
-            "tags": ["cellularGateway", "configure", "portForwardingRules"],
-            "operation": "update_device_cellular_gateway_port_forwarding_rules",
-        }
         serial = urllib.parse.quote(str(serial), safe="")
-        resource = f"/devices/{serial}/cellularGateway/portForwardingRules"
+        path = f"/devices/{serial}/cellularGateway/portForwardingRules"
 
         payload = {}
         if rules is not None:
             payload["rules"] = rules
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="cellularGateway", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_network_cellular_gateway_connectivity_monitoring_destinations(
         self, *, network_id: str
@@ -120,14 +116,14 @@ class AsyncCellularGateway:
             network_id: Network ID.
 
         """
-        metadata = {
-            "tags": ["cellularGateway", "configure", "connectivityMonitoringDestinations"],
-            "operation": "get_network_cellular_gateway_connectivity_monitoring_destinations",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/cellularGateway/connectivityMonitoringDestinations"
+        path = f"/networks/{network_id}/cellularGateway/connectivityMonitoringDestinations"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="cellularGateway",
+            operation_id="getNetworkCellularGatewayConnectivityMonitoringDestinations",
+            path=path,
+        )
 
     def update_network_cellular_gateway_connectivity_monitoring_destinations(
         self, *, network_id: str, destinations: list | None = None
@@ -141,18 +137,16 @@ class AsyncCellularGateway:
             destinations: The list of connectivity monitoring destinations.
 
         """
-        metadata = {
-            "tags": ["cellularGateway", "configure", "connectivityMonitoringDestinations"],
-            "operation": "update_network_cellular_gateway_connectivity_monitoring_destinations",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/cellularGateway/connectivityMonitoringDestinations"
+        path = f"/networks/{network_id}/cellularGateway/connectivityMonitoringDestinations"
 
         payload = {}
         if destinations is not None:
             payload["destinations"] = destinations
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="cellularGateway", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_network_cellular_gateway_dhcp(self, *, network_id: str) -> dict[str, Any] | None:
         """List common DHCP settings of MGs.
@@ -163,14 +157,12 @@ class AsyncCellularGateway:
             network_id: Network ID.
 
         """
-        metadata = {
-            "tags": ["cellularGateway", "configure", "dhcp"],
-            "operation": "get_network_cellular_gateway_dhcp",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/cellularGateway/dhcp"
+        path = f"/networks/{network_id}/cellularGateway/dhcp"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="cellularGateway", operation_id="getNetworkCellularGatewayDhcp", path=path
+        )
 
     def update_network_cellular_gateway_dhcp(
         self,
@@ -194,12 +186,8 @@ class AsyncCellularGateway:
               mode is 'custom'.
 
         """
-        metadata = {
-            "tags": ["cellularGateway", "configure", "dhcp"],
-            "operation": "update_network_cellular_gateway_dhcp",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/cellularGateway/dhcp"
+        path = f"/networks/{network_id}/cellularGateway/dhcp"
 
         payload = {}
         if dhcp_lease_time is not None:
@@ -209,7 +197,9 @@ class AsyncCellularGateway:
         if dns_custom_nameservers is not None:
             payload["dnsCustomNameservers"] = dns_custom_nameservers
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="cellularGateway", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_network_cellular_gateway_subnet_pool(self, *, network_id: str) -> dict[str, Any] | None:
         """Return the subnet pool and mask configured for MGs in the network.
@@ -220,14 +210,12 @@ class AsyncCellularGateway:
             network_id: Network ID.
 
         """
-        metadata = {
-            "tags": ["cellularGateway", "configure", "subnetPool"],
-            "operation": "get_network_cellular_gateway_subnet_pool",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/cellularGateway/subnetPool"
+        path = f"/networks/{network_id}/cellularGateway/subnetPool"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="cellularGateway", operation_id="getNetworkCellularGatewaySubnetPool", path=path
+        )
 
     def update_network_cellular_gateway_subnet_pool(
         self, *, network_id: str, mask: int | None = None, cidr: str | None = None
@@ -243,12 +231,8 @@ class AsyncCellularGateway:
               subnet from this pool.
 
         """
-        metadata = {
-            "tags": ["cellularGateway", "configure", "subnetPool"],
-            "operation": "update_network_cellular_gateway_subnet_pool",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/cellularGateway/subnetPool"
+        path = f"/networks/{network_id}/cellularGateway/subnetPool"
 
         payload = {}
         if mask is not None:
@@ -256,7 +240,9 @@ class AsyncCellularGateway:
         if cidr is not None:
             payload["cidr"] = cidr
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="cellularGateway", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_network_cellular_gateway_uplink(self, *, network_id: str) -> dict[str, Any] | None:
         """Returns the uplink settings for your MG network.
@@ -267,14 +253,12 @@ class AsyncCellularGateway:
             network_id: Network ID.
 
         """
-        metadata = {
-            "tags": ["cellularGateway", "configure", "uplink"],
-            "operation": "get_network_cellular_gateway_uplink",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/cellularGateway/uplink"
+        path = f"/networks/{network_id}/cellularGateway/uplink"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="cellularGateway", operation_id="getNetworkCellularGatewayUplink", path=path
+        )
 
     def update_network_cellular_gateway_uplink(
         self, *, network_id: str, bandwidth_limits: dict | None = None
@@ -288,18 +272,16 @@ class AsyncCellularGateway:
             bandwidth_limits: The bandwidth settings for the 'cellular' uplink.
 
         """
-        metadata = {
-            "tags": ["cellularGateway", "configure", "uplink"],
-            "operation": "update_network_cellular_gateway_uplink",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/cellularGateway/uplink"
+        path = f"/networks/{network_id}/cellularGateway/uplink"
 
         payload = {}
         if bandwidth_limits is not None:
             payload["bandwidthLimits"] = bandwidth_limits
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="cellularGateway", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_organization_cellular_gateway_esims_inventory(
         self, *, organization_id: str, eids: list | None = None
@@ -313,18 +295,16 @@ class AsyncCellularGateway:
             eids: Optional parameter to filter the results by EID.
 
         """
-        metadata = {
-            "tags": ["cellularGateway", "configure", "esims", "inventory"],
-            "operation": "get_organization_cellular_gateway_esims_inventory",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/cellularGateway/esims/inventory"
+        path = f"/organizations/{organization_id}/cellularGateway/esims/inventory"
 
         params = {}
         if eids is not None:
             params["eids[]"] = eids
 
-        return self._session.get(metadata, resource, params)
+        return self._session.get(
+            scope="cellularGateway", operation_id="{operation_id}", path=path, params=params
+        )
 
     def update_organization_cellular_gateway_esims_inventory(
         self, *, organization_id: str, id_: str, status: str | None = None
@@ -339,19 +319,17 @@ class AsyncCellularGateway:
             status: Status the eSIM will be updated to.
 
         """
-        metadata = {
-            "tags": ["cellularGateway", "configure", "esims", "inventory"],
-            "operation": "update_organization_cellular_gateway_esims_inventory",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         id_ = urllib.parse.quote(str(id_), safe="")
-        resource = f"/organizations/{organization_id}/cellularGateway/esims/inventory/{id_}"
+        path = f"/organizations/{organization_id}/cellularGateway/esims/inventory/{id_}"
 
         payload = {}
         if status is not None:
             payload["status"] = status
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="cellularGateway", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_organization_cellular_gateway_esims_service_providers(
         self, *, organization_id: str
@@ -364,14 +342,14 @@ class AsyncCellularGateway:
             organization_id: Organization ID.
 
         """
-        metadata = {
-            "tags": ["cellularGateway", "configure", "esims", "serviceProviders"],
-            "operation": "get_organization_cellular_gateway_esims_service_providers",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/cellularGateway/esims/serviceProviders"
+        path = f"/organizations/{organization_id}/cellularGateway/esims/serviceProviders"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="cellularGateway",
+            operation_id="getOrganizationCellularGatewayEsimsServiceProviders",
+            path=path,
+        )
 
     def get_organization_cellular_gateway_esims_service_providers_accounts(
         self, *, organization_id: str, account_ids: list | None = None
@@ -385,20 +363,16 @@ class AsyncCellularGateway:
             account_ids: Optional parameter to filter the results by service provider account IDs.
 
         """
-        metadata = {
-            "tags": ["cellularGateway", "configure", "esims", "serviceProviders", "accounts"],
-            "operation": "get_organization_cellular_gateway_esims_service_providers_accounts",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = (
-            f"/organizations/{organization_id}/cellularGateway/esims/serviceProviders/accounts"
-        )
+        path = f"/organizations/{organization_id}/cellularGateway/esims/serviceProviders/accounts"
 
         params = {}
         if account_ids is not None:
             params["accountIds[]"] = account_ids
 
-        return self._session.get(metadata, resource, params)
+        return self._session.get(
+            scope="cellularGateway", operation_id="{operation_id}", path=path, params=params
+        )
 
     def create_organization_cellular_gateway_esims_service_providers_account(
         self,
@@ -423,14 +397,8 @@ class AsyncCellularGateway:
             username: Service provider account username.
 
         """
-        metadata = {
-            "tags": ["cellularGateway", "configure", "esims", "serviceProviders", "accounts"],
-            "operation": "create_organization_cellular_gateway_esims_service_providers_account",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = (
-            f"/organizations/{organization_id}/cellularGateway/esims/serviceProviders/accounts"
-        )
+        path = f"/organizations/{organization_id}/cellularGateway/esims/serviceProviders/accounts"
 
         payload = {}
         if account_id is not None:
@@ -444,7 +412,9 @@ class AsyncCellularGateway:
         if username is not None:
             payload["username"] = username
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="cellularGateway", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_organization_cellular_gateway_esims_service_providers_accounts_communication_plans(
         self, *, organization_id: str, account_ids: list
@@ -458,25 +428,16 @@ class AsyncCellularGateway:
             account_ids: Account IDs that communication plans will be fetched for.
 
         """
-        metadata = {
-            "tags": [
-                "cellularGateway",
-                "configure",
-                "esims",
-                "serviceProviders",
-                "accounts",
-                "communicationPlans",
-            ],
-            "operation": "get_organization_cellular_gateway_esims_service_providers_accounts_communication_plans",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/cellularGateway/esims/serviceProviders/accounts/communicationPlans"
+        path = f"/organizations/{organization_id}/cellularGateway/esims/serviceProviders/accounts/communicationPlans"
 
         params = {}
         if account_ids is not None:
             params["accountIds[]"] = account_ids
 
-        return self._session.get(metadata, resource, params)
+        return self._session.get(
+            scope="cellularGateway", operation_id="{operation_id}", path=path, params=params
+        )
 
     def get_organization_cellular_gateway_esims_service_providers_accounts_rate_plans(
         self, *, organization_id: str, account_ids: list
@@ -490,25 +451,16 @@ class AsyncCellularGateway:
             account_ids: Account IDs that rate plans will be fetched for.
 
         """
-        metadata = {
-            "tags": [
-                "cellularGateway",
-                "configure",
-                "esims",
-                "serviceProviders",
-                "accounts",
-                "ratePlans",
-            ],
-            "operation": "get_organization_cellular_gateway_esims_service_providers_accounts_rate_plans",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/cellularGateway/esims/serviceProviders/accounts/ratePlans"
+        path = f"/organizations/{organization_id}/cellularGateway/esims/serviceProviders/accounts/ratePlans"
 
         params = {}
         if account_ids is not None:
             params["accountIds[]"] = account_ids
 
-        return self._session.get(metadata, resource, params)
+        return self._session.get(
+            scope="cellularGateway", operation_id="{operation_id}", path=path, params=params
+        )
 
     def update_organization_cellular_gateway_esims_service_providers_account(
         self,
@@ -529,13 +481,9 @@ class AsyncCellularGateway:
             api_key: Service provider account API key.
 
         """
-        metadata = {
-            "tags": ["cellularGateway", "configure", "esims", "serviceProviders", "accounts"],
-            "operation": "update_organization_cellular_gateway_esims_service_providers_account",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         account_id = urllib.parse.quote(str(account_id), safe="")
-        resource = f"/organizations/{organization_id}/cellularGateway/esims/serviceProviders/accounts/{account_id}"
+        path = f"/organizations/{organization_id}/cellularGateway/esims/serviceProviders/accounts/{account_id}"
 
         payload = {}
         if title is not None:
@@ -543,7 +491,9 @@ class AsyncCellularGateway:
         if api_key is not None:
             payload["apiKey"] = api_key
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="cellularGateway", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def delete_organization_cellular_gateway_esims_service_providers_account(
         self, *, organization_id: str, account_id: str
@@ -557,15 +507,15 @@ class AsyncCellularGateway:
             account_id: Account ID.
 
         """
-        metadata = {
-            "tags": ["cellularGateway", "configure", "esims", "serviceProviders", "accounts"],
-            "operation": "delete_organization_cellular_gateway_esims_service_providers_account",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         account_id = urllib.parse.quote(str(account_id), safe="")
-        resource = f"/organizations/{organization_id}/cellularGateway/esims/serviceProviders/accounts/{account_id}"
+        path = f"/organizations/{organization_id}/cellularGateway/esims/serviceProviders/accounts/{account_id}"
 
-        return self._session.delete(metadata, resource)
+        return self._session.delete(
+            scope="cellularGateway",
+            operation_id="deleteOrganizationCellularGatewayEsimsServiceProvidersAccount",
+            path=path,
+        )
 
     def create_organization_cellular_gateway_esims_swap(
         self, *, organization_id: str, swaps: list
@@ -579,18 +529,16 @@ class AsyncCellularGateway:
             swaps: Each object represents a swap for one eSIM.
 
         """
-        metadata = {
-            "tags": ["cellularGateway", "configure", "esims", "swap"],
-            "operation": "create_organization_cellular_gateway_esims_swap",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/cellularGateway/esims/swap"
+        path = f"/organizations/{organization_id}/cellularGateway/esims/swap"
 
         payload = {}
         if swaps is not None:
             payload["swaps"] = swaps
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="cellularGateway", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def update_organization_cellular_gateway_esims_swap(
         self, *, id_: str, organization_id: str
@@ -604,15 +552,15 @@ class AsyncCellularGateway:
             organization_id: Organization ID.
 
         """
-        metadata = {
-            "tags": ["cellularGateway", "configure", "esims", "swap"],
-            "operation": "update_organization_cellular_gateway_esims_swap",
-        }
         id_ = urllib.parse.quote(str(id_), safe="")
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/cellularGateway/esims/swap/{id_}"
+        path = f"/organizations/{organization_id}/cellularGateway/esims/swap/{id_}"
 
-        return self._session.put(metadata, resource)
+        return self._session.put(
+            scope="cellularGateway",
+            operation_id="updateOrganizationCellularGatewayEsimsSwap",
+            path=path,
+        )
 
     def get_organization_cellular_gateway_uplink_statuses(
         self,
@@ -654,12 +602,8 @@ class AsyncCellularGateway:
             direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        metadata = {
-            "tags": ["cellularGateway", "monitor", "uplink", "statuses"],
-            "operation": "get_organization_cellular_gateway_uplink_statuses",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/cellularGateway/uplink/statuses"
+        path = f"/organizations/{organization_id}/cellularGateway/uplink/statuses"
 
         params = {}
         if per_page is not None:
@@ -675,4 +619,11 @@ class AsyncCellularGateway:
         if iccids is not None:
             params["iccids[]"] = iccids
 
-        return self._session.get_pages(metadata, resource, params, total_pages, direction)
+        return self._session.get_pages(
+            scope="cellularGateway",
+            operation_id="{operation_id}",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+        )

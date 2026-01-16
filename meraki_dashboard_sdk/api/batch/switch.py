@@ -1,7 +1,7 @@
 """ActionBatchSwitch API endpoints."""
 
 import urllib
-from typing import Any
+from typing import Any, Literal
 
 
 class ActionBatchSwitch:
@@ -21,14 +21,14 @@ class ActionBatchSwitch:
 
         """
         serial = urllib.parse.quote(str(serial), safe="")
-        resource = f"/devices/{serial}/switch/ports/cycle"
+        path = f"/devices/{serial}/switch/ports/cycle"
 
         payload = {}
         if ports is not None:
             payload["ports"] = ports
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "create",
             "body": payload,
         }
@@ -149,7 +149,7 @@ class ActionBatchSwitch:
 
         serial = urllib.parse.quote(str(serial), safe="")
         port_id = urllib.parse.quote(str(port_id), safe="")
-        resource = f"/devices/{serial}/switch/ports/{port_id}"
+        path = f"/devices/{serial}/switch/ports/{port_id}"
 
         payload = {}
         if name is not None:
@@ -212,7 +212,7 @@ class ActionBatchSwitch:
             payload["highSpeed"] = high_speed
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -272,7 +272,7 @@ class ActionBatchSwitch:
             )
 
         serial = urllib.parse.quote(str(serial), safe="")
-        resource = f"/devices/{serial}/switch/routing/interfaces"
+        path = f"/devices/{serial}/switch/routing/interfaces"
 
         payload = {}
         if name is not None:
@@ -301,7 +301,7 @@ class ActionBatchSwitch:
             payload["loopback"] = loopback
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "create",
             "body": payload,
         }
@@ -358,7 +358,7 @@ class ActionBatchSwitch:
 
         serial = urllib.parse.quote(str(serial), safe="")
         interface_id = urllib.parse.quote(str(interface_id), safe="")
-        resource = f"/devices/{serial}/switch/routing/interfaces/{interface_id}"
+        path = f"/devices/{serial}/switch/routing/interfaces/{interface_id}"
 
         payload = {}
         if name is not None:
@@ -385,7 +385,7 @@ class ActionBatchSwitch:
             payload["loopback"] = loopback
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -405,10 +405,10 @@ class ActionBatchSwitch:
         """
         serial = urllib.parse.quote(str(serial), safe="")
         interface_id = urllib.parse.quote(str(interface_id), safe="")
-        resource = f"/devices/{serial}/switch/routing/interfaces/{interface_id}"
+        path = f"/devices/{serial}/switch/routing/interfaces/{interface_id}"
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "destroy",
         }
         return action  # noqa: RET504
@@ -480,7 +480,7 @@ class ActionBatchSwitch:
 
         serial = urllib.parse.quote(str(serial), safe="")
         interface_id = urllib.parse.quote(str(interface_id), safe="")
-        resource = f"/devices/{serial}/switch/routing/interfaces/{interface_id}/dhcp"
+        path = f"/devices/{serial}/switch/routing/interfaces/{interface_id}/dhcp"
 
         payload = {}
         if dhcp_mode is not None:
@@ -507,7 +507,7 @@ class ActionBatchSwitch:
             payload["fixedIpAssignments"] = fixed_ip_assignments
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -541,7 +541,7 @@ class ActionBatchSwitch:
 
         """
         serial = urllib.parse.quote(str(serial), safe="")
-        resource = f"/devices/{serial}/switch/routing/staticRoutes"
+        path = f"/devices/{serial}/switch/routing/staticRoutes"
 
         payload = {}
         if name is not None:
@@ -558,7 +558,7 @@ class ActionBatchSwitch:
             payload["vrf"] = vrf
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "create",
             "body": payload,
         }
@@ -597,7 +597,7 @@ class ActionBatchSwitch:
         """
         serial = urllib.parse.quote(str(serial), safe="")
         static_route_id = urllib.parse.quote(str(static_route_id), safe="")
-        resource = f"/devices/{serial}/switch/routing/staticRoutes/{static_route_id}"
+        path = f"/devices/{serial}/switch/routing/staticRoutes/{static_route_id}"
 
         payload = {}
         if name is not None:
@@ -616,7 +616,7 @@ class ActionBatchSwitch:
             payload["vrf"] = vrf
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -636,10 +636,10 @@ class ActionBatchSwitch:
         """
         serial = urllib.parse.quote(str(serial), safe="")
         static_route_id = urllib.parse.quote(str(static_route_id), safe="")
-        resource = f"/devices/{serial}/switch/routing/staticRoutes/{static_route_id}"
+        path = f"/devices/{serial}/switch/routing/staticRoutes/{static_route_id}"
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "destroy",
         }
         return action  # noqa: RET504
@@ -658,7 +658,7 @@ class ActionBatchSwitch:
 
         """
         serial = urllib.parse.quote(str(serial), safe="")
-        resource = f"/devices/{serial}/switch/warmSpare"
+        path = f"/devices/{serial}/switch/warmSpare"
 
         payload = {}
         if enabled is not None:
@@ -667,7 +667,7 @@ class ActionBatchSwitch:
             payload["spareSerial"] = spare_serial
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -751,7 +751,7 @@ class ActionBatchSwitch:
             )
 
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/switch/accessPolicies"
+        path = f"/networks/{network_id}/switch/accessPolicies"
 
         payload = {}
         if name is not None:
@@ -794,7 +794,7 @@ class ActionBatchSwitch:
             payload["guestSgtId"] = guest_sgt_id
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "create",
             "body": payload,
         }
@@ -881,7 +881,7 @@ class ActionBatchSwitch:
 
         network_id = urllib.parse.quote(str(network_id), safe="")
         access_policy_number = urllib.parse.quote(str(access_policy_number), safe="")
-        resource = f"/networks/{network_id}/switch/accessPolicies/{access_policy_number}"
+        path = f"/networks/{network_id}/switch/accessPolicies/{access_policy_number}"
 
         payload = {}
         if name is not None:
@@ -924,7 +924,7 @@ class ActionBatchSwitch:
             payload["guestSgtId"] = guest_sgt_id
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -944,10 +944,10 @@ class ActionBatchSwitch:
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
         access_policy_number = urllib.parse.quote(str(access_policy_number), safe="")
-        resource = f"/networks/{network_id}/switch/accessPolicies/{access_policy_number}"
+        path = f"/networks/{network_id}/switch/accessPolicies/{access_policy_number}"
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "destroy",
         }
         return action  # noqa: RET504
@@ -979,7 +979,7 @@ class ActionBatchSwitch:
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/switch/alternateManagementInterface"
+        path = f"/networks/{network_id}/switch/alternateManagementInterface"
 
         payload = {}
         if enabled is not None:
@@ -992,7 +992,7 @@ class ActionBatchSwitch:
             payload["switches"] = switches
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -1030,7 +1030,7 @@ class ActionBatchSwitch:
             )
 
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/switch/dhcpServerPolicy"
+        path = f"/networks/{network_id}/switch/dhcpServerPolicy"
 
         payload = {}
         if alerts is not None:
@@ -1045,7 +1045,7 @@ class ActionBatchSwitch:
             payload["arpInspection"] = arp_inspection
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -1066,7 +1066,7 @@ class ActionBatchSwitch:
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/switch/dhcpServerPolicy/arpInspection/trustedServers"
+        path = f"/networks/{network_id}/switch/dhcpServerPolicy/arpInspection/trustedServers"
 
         payload = {}
         if mac is not None:
@@ -1077,7 +1077,7 @@ class ActionBatchSwitch:
             payload["ipv4"] = ipv4
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "create",
             "body": payload,
         }
@@ -1106,7 +1106,7 @@ class ActionBatchSwitch:
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
         trusted_server_id = urllib.parse.quote(str(trusted_server_id), safe="")
-        resource = f"/networks/{network_id}/switch/dhcpServerPolicy/arpInspection/trustedServers/{trusted_server_id}"
+        path = f"/networks/{network_id}/switch/dhcpServerPolicy/arpInspection/trustedServers/{trusted_server_id}"
 
         payload = {}
         if mac is not None:
@@ -1117,7 +1117,7 @@ class ActionBatchSwitch:
             payload["ipv4"] = ipv4
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -1137,10 +1137,10 @@ class ActionBatchSwitch:
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
         trusted_server_id = urllib.parse.quote(str(trusted_server_id), safe="")
-        resource = f"/networks/{network_id}/switch/dhcpServerPolicy/arpInspection/trustedServers/{trusted_server_id}"
+        path = f"/networks/{network_id}/switch/dhcpServerPolicy/arpInspection/trustedServers/{trusted_server_id}"
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "destroy",
         }
         return action  # noqa: RET504
@@ -1159,14 +1159,14 @@ class ActionBatchSwitch:
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/switch/dscpToCosMappings"
+        path = f"/networks/{network_id}/switch/dscpToCosMappings"
 
         payload = {}
         if mappings is not None:
             payload["mappings"] = mappings
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -1192,7 +1192,7 @@ class ActionBatchSwitch:
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/switch/linkAggregations"
+        path = f"/networks/{network_id}/switch/linkAggregations"
 
         payload = {}
         if switch_ports is not None:
@@ -1201,7 +1201,7 @@ class ActionBatchSwitch:
             payload["switchProfilePorts"] = switch_profile_ports
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "create",
             "body": payload,
         }
@@ -1230,7 +1230,7 @@ class ActionBatchSwitch:
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
         link_aggregation_id = urllib.parse.quote(str(link_aggregation_id), safe="")
-        resource = f"/networks/{network_id}/switch/linkAggregations/{link_aggregation_id}"
+        path = f"/networks/{network_id}/switch/linkAggregations/{link_aggregation_id}"
 
         payload = {}
         if switch_ports is not None:
@@ -1239,7 +1239,7 @@ class ActionBatchSwitch:
             payload["switchProfilePorts"] = switch_profile_ports
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -1259,10 +1259,10 @@ class ActionBatchSwitch:
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
         link_aggregation_id = urllib.parse.quote(str(link_aggregation_id), safe="")
-        resource = f"/networks/{network_id}/switch/linkAggregations/{link_aggregation_id}"
+        path = f"/networks/{network_id}/switch/linkAggregations/{link_aggregation_id}"
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "destroy",
         }
         return action  # noqa: RET504
@@ -1282,7 +1282,7 @@ class ActionBatchSwitch:
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/switch/mtu"
+        path = f"/networks/{network_id}/switch/mtu"
 
         payload = {}
         if default_mtu_size is not None:
@@ -1291,7 +1291,7 @@ class ActionBatchSwitch:
             payload["overrides"] = overrides
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -1321,7 +1321,7 @@ class ActionBatchSwitch:
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
         port_schedule_id = urllib.parse.quote(str(port_schedule_id), safe="")
-        resource = f"/networks/{network_id}/switch/portSchedules/{port_schedule_id}"
+        path = f"/networks/{network_id}/switch/portSchedules/{port_schedule_id}"
 
         payload = {}
         if name is not None:
@@ -1330,7 +1330,7 @@ class ActionBatchSwitch:
             payload["portSchedule"] = port_schedule
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -1375,7 +1375,7 @@ class ActionBatchSwitch:
             )
 
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/switch/qosRules"
+        path = f"/networks/{network_id}/switch/qosRules"
 
         payload = {}
         if vlan is not None:
@@ -1394,7 +1394,7 @@ class ActionBatchSwitch:
             payload["dscp"] = dscp
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "create",
             "body": payload,
         }
@@ -1414,14 +1414,14 @@ class ActionBatchSwitch:
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/switch/qosRules/order"
+        path = f"/networks/{network_id}/switch/qosRules/order"
 
         payload = {}
         if rule_ids is not None:
             payload["ruleIds"] = rule_ids
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -1469,7 +1469,7 @@ class ActionBatchSwitch:
 
         network_id = urllib.parse.quote(str(network_id), safe="")
         qos_rule_id = urllib.parse.quote(str(qos_rule_id), safe="")
-        resource = f"/networks/{network_id}/switch/qosRules/{qos_rule_id}"
+        path = f"/networks/{network_id}/switch/qosRules/{qos_rule_id}"
 
         payload = {}
         if vlan is not None:
@@ -1488,7 +1488,7 @@ class ActionBatchSwitch:
             payload["dscp"] = dscp
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -1508,10 +1508,10 @@ class ActionBatchSwitch:
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
         qos_rule_id = urllib.parse.quote(str(qos_rule_id), safe="")
-        resource = f"/networks/{network_id}/switch/qosRules/{qos_rule_id}"
+        path = f"/networks/{network_id}/switch/qosRules/{qos_rule_id}"
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "destroy",
         }
         return action  # noqa: RET504
@@ -1536,7 +1536,7 @@ class ActionBatchSwitch:
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/switch/routing/multicast"
+        path = f"/networks/{network_id}/switch/routing/multicast"
 
         payload = {}
         if default_settings is not None:
@@ -1545,7 +1545,7 @@ class ActionBatchSwitch:
             payload["overrides"] = overrides
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -1566,7 +1566,7 @@ class ActionBatchSwitch:
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/switch/routing/multicast/rendezvousPoints"
+        path = f"/networks/{network_id}/switch/routing/multicast/rendezvousPoints"
 
         payload = {}
         if interface_ip is not None:
@@ -1577,7 +1577,7 @@ class ActionBatchSwitch:
             payload["vrf"] = vrf
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "create",
             "body": payload,
         }
@@ -1606,7 +1606,7 @@ class ActionBatchSwitch:
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
         rendezvous_point_id = urllib.parse.quote(str(rendezvous_point_id), safe="")
-        resource = f"/networks/{network_id}/switch/routing/multicast/rendezvousPoints/{rendezvous_point_id}"
+        path = f"/networks/{network_id}/switch/routing/multicast/rendezvousPoints/{rendezvous_point_id}"
 
         payload = {}
         if interface_ip is not None:
@@ -1617,7 +1617,7 @@ class ActionBatchSwitch:
             payload["vrf"] = vrf
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -1637,10 +1637,10 @@ class ActionBatchSwitch:
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
         rendezvous_point_id = urllib.parse.quote(str(rendezvous_point_id), safe="")
-        resource = f"/networks/{network_id}/switch/routing/multicast/rendezvousPoints/{rendezvous_point_id}"
+        path = f"/networks/{network_id}/switch/routing/multicast/rendezvousPoints/{rendezvous_point_id}"
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "destroy",
         }
         return action  # noqa: RET504
@@ -1682,7 +1682,7 @@ class ActionBatchSwitch:
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/switch/routing/ospf"
+        path = f"/networks/{network_id}/switch/routing/ospf"
 
         params = {}
         if vrf is not None:
@@ -1705,7 +1705,7 @@ class ActionBatchSwitch:
             payload["md5AuthenticationKey"] = md5_authentication_key
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -1738,7 +1738,7 @@ class ActionBatchSwitch:
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/switch/settings"
+        path = f"/networks/{network_id}/switch/settings"
 
         payload = {}
         if vlan is not None:
@@ -1755,7 +1755,7 @@ class ActionBatchSwitch:
             payload["uplinkSelection"] = uplink_selection
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -1818,7 +1818,7 @@ class ActionBatchSwitch:
 
         network_id = urllib.parse.quote(str(network_id), safe="")
         switch_stack_id = urllib.parse.quote(str(switch_stack_id), safe="")
-        resource = f"/networks/{network_id}/switch/stacks/{switch_stack_id}/routing/interfaces"
+        path = f"/networks/{network_id}/switch/stacks/{switch_stack_id}/routing/interfaces"
 
         payload = {}
         if name is not None:
@@ -1847,7 +1847,7 @@ class ActionBatchSwitch:
             payload["loopback"] = loopback
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "create",
             "body": payload,
         }
@@ -1907,7 +1907,7 @@ class ActionBatchSwitch:
         network_id = urllib.parse.quote(str(network_id), safe="")
         switch_stack_id = urllib.parse.quote(str(switch_stack_id), safe="")
         interface_id = urllib.parse.quote(str(interface_id), safe="")
-        resource = f"/networks/{network_id}/switch/stacks/{switch_stack_id}/routing/interfaces/{interface_id}"
+        path = f"/networks/{network_id}/switch/stacks/{switch_stack_id}/routing/interfaces/{interface_id}"
 
         payload = {}
         if name is not None:
@@ -1934,7 +1934,7 @@ class ActionBatchSwitch:
             payload["loopback"] = loopback
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -1956,10 +1956,10 @@ class ActionBatchSwitch:
         network_id = urllib.parse.quote(str(network_id), safe="")
         switch_stack_id = urllib.parse.quote(str(switch_stack_id), safe="")
         interface_id = urllib.parse.quote(str(interface_id), safe="")
-        resource = f"/networks/{network_id}/switch/stacks/{switch_stack_id}/routing/interfaces/{interface_id}"
+        path = f"/networks/{network_id}/switch/stacks/{switch_stack_id}/routing/interfaces/{interface_id}"
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "destroy",
         }
         return action  # noqa: RET504
@@ -2034,7 +2034,7 @@ class ActionBatchSwitch:
         network_id = urllib.parse.quote(str(network_id), safe="")
         switch_stack_id = urllib.parse.quote(str(switch_stack_id), safe="")
         interface_id = urllib.parse.quote(str(interface_id), safe="")
-        resource = f"/networks/{network_id}/switch/stacks/{switch_stack_id}/routing/interfaces/{interface_id}/dhcp"
+        path = f"/networks/{network_id}/switch/stacks/{switch_stack_id}/routing/interfaces/{interface_id}/dhcp"
 
         payload = {}
         if dhcp_mode is not None:
@@ -2061,7 +2061,7 @@ class ActionBatchSwitch:
             payload["fixedIpAssignments"] = fixed_ip_assignments
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -2098,7 +2098,7 @@ class ActionBatchSwitch:
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
         switch_stack_id = urllib.parse.quote(str(switch_stack_id), safe="")
-        resource = f"/networks/{network_id}/switch/stacks/{switch_stack_id}/routing/staticRoutes"
+        path = f"/networks/{network_id}/switch/stacks/{switch_stack_id}/routing/staticRoutes"
 
         payload = {}
         if name is not None:
@@ -2115,7 +2115,7 @@ class ActionBatchSwitch:
             payload["vrf"] = vrf
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "create",
             "body": payload,
         }
@@ -2157,7 +2157,7 @@ class ActionBatchSwitch:
         network_id = urllib.parse.quote(str(network_id), safe="")
         switch_stack_id = urllib.parse.quote(str(switch_stack_id), safe="")
         static_route_id = urllib.parse.quote(str(static_route_id), safe="")
-        resource = f"/networks/{network_id}/switch/stacks/{switch_stack_id}/routing/staticRoutes/{static_route_id}"
+        path = f"/networks/{network_id}/switch/stacks/{switch_stack_id}/routing/staticRoutes/{static_route_id}"
 
         payload = {}
         if name is not None:
@@ -2176,7 +2176,7 @@ class ActionBatchSwitch:
             payload["vrf"] = vrf
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -2198,10 +2198,10 @@ class ActionBatchSwitch:
         network_id = urllib.parse.quote(str(network_id), safe="")
         switch_stack_id = urllib.parse.quote(str(switch_stack_id), safe="")
         static_route_id = urllib.parse.quote(str(static_route_id), safe="")
-        resource = f"/networks/{network_id}/switch/stacks/{switch_stack_id}/routing/staticRoutes/{static_route_id}"
+        path = f"/networks/{network_id}/switch/stacks/{switch_stack_id}/routing/staticRoutes/{static_route_id}"
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "destroy",
         }
         return action  # noqa: RET504
@@ -2234,7 +2234,7 @@ class ActionBatchSwitch:
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/switch/stormControl"
+        path = f"/networks/{network_id}/switch/stormControl"
 
         payload = {}
         if broadcast_threshold is not None:
@@ -2249,7 +2249,7 @@ class ActionBatchSwitch:
             )
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -2274,7 +2274,7 @@ class ActionBatchSwitch:
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/switch/stp"
+        path = f"/networks/{network_id}/switch/stp"
 
         payload = {}
         if rstp_enabled is not None:
@@ -2283,7 +2283,7 @@ class ActionBatchSwitch:
             payload["stpBridgePriority"] = stp_bridge_priority
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -2403,7 +2403,7 @@ class ActionBatchSwitch:
         config_template_id = urllib.parse.quote(str(config_template_id), safe="")
         profile_id = urllib.parse.quote(str(profile_id), safe="")
         port_id = urllib.parse.quote(str(port_id), safe="")
-        resource = f"/organizations/{organization_id}/configTemplates/{config_template_id}/switch/profiles/{profile_id}/ports/{port_id}"
+        path = f"/organizations/{organization_id}/configTemplates/{config_template_id}/switch/profiles/{profile_id}/ports/{port_id}"
 
         payload = {}
         if name is not None:
@@ -2462,7 +2462,7 @@ class ActionBatchSwitch:
             payload["highSpeed"] = high_speed
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -2484,7 +2484,7 @@ class ActionBatchSwitch:
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/switch/devices/clone"
+        path = f"/organizations/{organization_id}/switch/devices/clone"
 
         payload = {}
         if source_serial is not None:
@@ -2493,7 +2493,7 @@ class ActionBatchSwitch:
             payload["targetSerials"] = target_serials
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "create",
             "body": payload,
         }

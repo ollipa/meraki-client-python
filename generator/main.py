@@ -306,7 +306,6 @@ def generate_module(
     # Generate API & Asyncio API functions
     for path, methods in paths.items():
         for method, endpoint in methods.items():
-            tags = endpoint.tags or []
             operation_id = endpoint.operationId
             if not operation_id:
                 log.warning(f"Operation ID is missing for path: {path}")
@@ -325,6 +324,7 @@ def generate_module(
                 collect_pagination_params(operation_id, function_definition)
             call_line = get_call_line(
                 method=method,
+                scope=scope,
                 operation_id=operation_id,
                 is_paginated=is_paginated,
                 has_query_params=bool(function_definition.query_params),
@@ -344,7 +344,6 @@ def generate_module(
                     doc_url=docs_url(operation_id),
                     descriptions=function_definition.param_descriptions,
                     assert_blocks=function_definition.assert_blocks,
-                    tags=tags,
                     resource=resource_path,
                     query_params=function_definition.query_params,
                     body_params=function_definition.body_params,
@@ -361,7 +360,6 @@ def generate_module(
                     doc_url=docs_url(operation_id),
                     descriptions=function_definition.param_descriptions,
                     assert_blocks=function_definition.assert_blocks,
-                    tags=tags,
                     resource=resource_path,
                     query_params=function_definition.query_params,
                     body_params=function_definition.body_params,
@@ -393,7 +391,6 @@ def generate_module(
                         doc_url=docs_url(operation_id),
                         descriptions=function_definition.param_descriptions,
                         assert_blocks=function_definition.assert_blocks,
-                        tags=tags,
                         resource=resource_path,
                         query_params=function_definition.query_params,
                         body_params=function_definition.body_params,
@@ -430,7 +427,6 @@ def copy_static_files(version_number: str, api_version: str) -> None:
         "config.py",
         "exceptions.py",
         "common.py",
-        "response_handler.py",
         "rest_session.py",
         "api/__init__.py",
         "aio/__init__.py",
@@ -655,6 +651,7 @@ def collect_pagination_params(operation_id: str, function_definition: FunctionDe
 def get_call_line(
     *,
     method: Literal["get", "put", "post", "delete"],
+    scope: str,
     operation_id: str,
     has_query_params: bool,
     is_paginated: bool,
@@ -666,24 +663,37 @@ def get_call_line(
             if operation_id == "getNetworkEvents":
                 return (
                     "return self._session.get_pages"
-                    "(metadata, resource, params, "
-                    "total_pages, direction, event_log_end_time)"
+                    "(scope=scope, operation_id=operation_id, path=path, params=params, "
+                    "total_pages=total_pages, direction=direction, event_log_end_time=event_log_end_time)"
                 )
             if is_paginated:
-                return "return self._session.get_pages(metadata, resource, params, total_pages, direction)"
+                return (
+                    f'return self._session.get_pages(scope="{scope}", '
+                    'operation_id="{operation_id}", path=path, params=params, '
+                    "total_pages=total_pages, direction=direction)"
+                )
             if has_query_params:
-                return "return self._session.get(metadata, resource, params)"
-            return "return self._session.get(metadata, resource)"
+                return (
+                    f'return self._session.get(scope="{scope}", '
+                    'operation_id="{operation_id}", path=path, params=params)'
+                )
+            return f'return self._session.get(scope="{scope}", operation_id="{operation_id}", path=path)'
         case "post":
             if has_body_params:
-                return "return self._session.post(metadata, resource, payload)"
-            return "return self._session.post(metadata, resource)"
+                return (
+                    f'return self._session.post(scope="{scope}", '
+                    'operation_id="{operation_id}", path=path, json=payload)'
+                )
+            return f'return self._session.post(scope="{scope}", operation_id="{operation_id}", path=path)'
         case "put":
             if has_body_params:
-                return "return self._session.put(metadata, resource, payload)"
-            return "return self._session.put(metadata, resource)"
+                return (
+                    f'return self._session.put(scope="{scope}", '
+                    'operation_id="{operation_id}", path=path, json=payload)'
+                )
+            return f'return self._session.put(scope="{scope}", operation_id="{operation_id}", path=path)'
         case "delete":
-            return "return self._session.delete(metadata, resource)"
+            return f'return self._session.delete(scope="{scope}", operation_id="{operation_id}", path=path)'
         case _:
             assert_never(method)
 

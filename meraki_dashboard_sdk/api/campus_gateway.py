@@ -1,17 +1,19 @@
 """CampusGateway API endpoints."""
 
+from __future__ import annotations
+
 import urllib
 from collections.abc import Generator
-from typing import Any
+from typing import Any, Literal, TYPE_CHECKING
 
-from meraki_dashboard_sdk.rest_session import RestSession
+if TYPE_CHECKING:
+    from meraki_dashboard_sdk.rest_session import RestSession
 
 
 class CampusGateway:
     """CampusGateway class."""
 
     def __init__(self, session: RestSession) -> None:
-        super(self).__init__()
         self._session = session
 
     def create_network_campus_gateway_cluster(
@@ -42,12 +44,8 @@ class CampusGateway:
             notes: Notes about cluster with max size of 511 characters allowed.
 
         """
-        metadata = {
-            "tags": ["campusGateway", "configure", "clusters"],
-            "operation": "create_network_campus_gateway_cluster",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/campusGateway/clusters"
+        path = f"/networks/{network_id}/campusGateway/clusters"
 
         payload = {}
         if name is not None:
@@ -65,7 +63,9 @@ class CampusGateway:
         if notes is not None:
             payload["notes"] = notes
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="campusGateway", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def update_network_campus_gateway_cluster(
         self,
@@ -97,13 +97,9 @@ class CampusGateway:
             notes: Notes about cluster with max size of 511 characters allowed.
 
         """
-        metadata = {
-            "tags": ["campusGateway", "configure", "clusters"],
-            "operation": "update_network_campus_gateway_cluster",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         cluster_id = urllib.parse.quote(str(cluster_id), safe="")
-        resource = f"/networks/{network_id}/campusGateway/clusters/{cluster_id}"
+        path = f"/networks/{network_id}/campusGateway/clusters/{cluster_id}"
 
         payload = {}
         if name is not None:
@@ -121,7 +117,9 @@ class CampusGateway:
         if notes is not None:
             payload["notes"] = notes
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="campusGateway", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_organization_campus_gateway_clusters(
         self,
@@ -156,12 +154,8 @@ class CampusGateway:
             direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        metadata = {
-            "tags": ["campusGateway", "configure", "clusters"],
-            "operation": "get_organization_campus_gateway_clusters",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/campusGateway/clusters"
+        path = f"/organizations/{organization_id}/campusGateway/clusters"
 
         params = {}
         if network_ids is not None:
@@ -173,7 +167,14 @@ class CampusGateway:
         if ending_before is not None:
             params["endingBefore"] = ending_before
 
-        return self._session.get_pages(metadata, resource, params, total_pages, direction)
+        return self._session.get_pages(
+            scope="campusGateway",
+            operation_id="{operation_id}",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+        )
 
     def get_organization_campus_gateway_devices_uplinks_local_overrides_by_device(
         self,
@@ -209,19 +210,8 @@ class CampusGateway:
             direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        metadata = {
-            "tags": [
-                "campusGateway",
-                "configure",
-                "devices",
-                "uplinks",
-                "localOverrides",
-                "byDevice",
-            ],
-            "operation": "get_organization_campus_gateway_devices_uplinks_local_overrides_by_device",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/campusGateway/devices/uplinks/localOverrides/byDevice"
+        path = f"/organizations/{organization_id}/campusGateway/devices/uplinks/localOverrides/byDevice"
 
         params = {}
         if serials is not None:
@@ -233,4 +223,11 @@ class CampusGateway:
         if ending_before is not None:
             params["endingBefore"] = ending_before
 
-        return self._session.get_pages(metadata, resource, params, total_pages, direction)
+        return self._session.get_pages(
+            scope="campusGateway",
+            operation_id="{operation_id}",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+        )

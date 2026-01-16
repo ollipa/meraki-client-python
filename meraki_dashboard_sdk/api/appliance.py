@@ -1,17 +1,19 @@
 """Appliance API endpoints."""
 
+from __future__ import annotations
+
 import urllib
 from collections.abc import Generator
-from typing import Any
+from typing import Any, Literal, TYPE_CHECKING
 
-from meraki_dashboard_sdk.rest_session import RestSession
+if TYPE_CHECKING:
+    from meraki_dashboard_sdk.rest_session import RestSession
 
 
 class Appliance:
     """Appliance class."""
 
     def __init__(self, session: RestSession) -> None:
-        super(self).__init__()
         self._session = session
 
     def get_device_appliance_dhcp_subnets(self, *, serial: str) -> dict[str, Any] | None:
@@ -23,14 +25,12 @@ class Appliance:
             serial: Serial.
 
         """
-        metadata = {
-            "tags": ["appliance", "monitor", "dhcp", "subnets"],
-            "operation": "get_device_appliance_dhcp_subnets",
-        }
         serial = urllib.parse.quote(str(serial), safe="")
-        resource = f"/devices/{serial}/appliance/dhcp/subnets"
+        path = f"/devices/{serial}/appliance/dhcp/subnets"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="appliance", operation_id="getDeviceApplianceDhcpSubnets", path=path
+        )
 
     def get_device_appliance_performance(
         self,
@@ -55,12 +55,8 @@ class Appliance:
               equal to 14 days. The default is 30 minutes.
 
         """
-        metadata = {
-            "tags": ["appliance", "monitor", "performance"],
-            "operation": "get_device_appliance_performance",
-        }
         serial = urllib.parse.quote(str(serial), safe="")
-        resource = f"/devices/{serial}/appliance/performance"
+        path = f"/devices/{serial}/appliance/performance"
 
         params = {}
         if t0 is not None:
@@ -70,7 +66,9 @@ class Appliance:
         if timespan is not None:
             params["timespan"] = timespan
 
-        return self._session.get(metadata, resource, params)
+        return self._session.get(
+            scope="appliance", operation_id="{operation_id}", path=path, params=params
+        )
 
     def get_device_appliance_prefixes_delegated(self, *, serial: str) -> dict[str, Any] | None:
         """Return current delegated IPv6 prefixes on an appliance.
@@ -81,14 +79,12 @@ class Appliance:
             serial: Serial.
 
         """
-        metadata = {
-            "tags": ["appliance", "monitor", "prefixes", "delegated"],
-            "operation": "get_device_appliance_prefixes_delegated",
-        }
         serial = urllib.parse.quote(str(serial), safe="")
-        resource = f"/devices/{serial}/appliance/prefixes/delegated"
+        path = f"/devices/{serial}/appliance/prefixes/delegated"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="appliance", operation_id="getDeviceAppliancePrefixesDelegated", path=path
+        )
 
     def get_device_appliance_prefixes_delegated_vlan_assignments(
         self, *, serial: str
@@ -101,14 +97,14 @@ class Appliance:
             serial: Serial.
 
         """
-        metadata = {
-            "tags": ["appliance", "monitor", "prefixes", "delegated", "vlanAssignments"],
-            "operation": "get_device_appliance_prefixes_delegated_vlan_assignments",
-        }
         serial = urllib.parse.quote(str(serial), safe="")
-        resource = f"/devices/{serial}/appliance/prefixes/delegated/vlanAssignments"
+        path = f"/devices/{serial}/appliance/prefixes/delegated/vlanAssignments"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="appliance",
+            operation_id="getDeviceAppliancePrefixesDelegatedVlanAssignments",
+            path=path,
+        )
 
     def get_device_appliance_radio_settings(self, *, serial: str) -> dict[str, Any] | None:
         """Return the radio settings of an appliance.
@@ -119,14 +115,12 @@ class Appliance:
             serial: Serial.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "radio", "settings"],
-            "operation": "get_device_appliance_radio_settings",
-        }
         serial = urllib.parse.quote(str(serial), safe="")
-        resource = f"/devices/{serial}/appliance/radio/settings"
+        path = f"/devices/{serial}/appliance/radio/settings"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="appliance", operation_id="getDeviceApplianceRadioSettings", path=path
+        )
 
     def update_device_appliance_radio_settings(
         self,
@@ -151,12 +145,8 @@ class Appliance:
             five_ghz_settings: Manual radio settings for 5 GHz.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "radio", "settings"],
-            "operation": "update_device_appliance_radio_settings",
-        }
         serial = urllib.parse.quote(str(serial), safe="")
-        resource = f"/devices/{serial}/appliance/radio/settings"
+        path = f"/devices/{serial}/appliance/radio/settings"
 
         payload = {}
         if rf_profile_id is not None:
@@ -166,7 +156,9 @@ class Appliance:
         if five_ghz_settings is not None:
             payload["fiveGhzSettings"] = five_ghz_settings
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_device_appliance_uplinks_settings(self, *, serial: str) -> dict[str, Any] | None:
         """Return the uplink settings for an MX appliance.
@@ -177,14 +169,12 @@ class Appliance:
             serial: Serial.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "uplinks", "settings"],
-            "operation": "get_device_appliance_uplinks_settings",
-        }
         serial = urllib.parse.quote(str(serial), safe="")
-        resource = f"/devices/{serial}/appliance/uplinks/settings"
+        path = f"/devices/{serial}/appliance/uplinks/settings"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="appliance", operation_id="getDeviceApplianceUplinksSettings", path=path
+        )
 
     def update_device_appliance_uplinks_settings(
         self, *, serial: str, interfaces: dict
@@ -198,18 +188,16 @@ class Appliance:
             interfaces: Interface settings.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "uplinks", "settings"],
-            "operation": "update_device_appliance_uplinks_settings",
-        }
         serial = urllib.parse.quote(str(serial), safe="")
-        resource = f"/devices/{serial}/appliance/uplinks/settings"
+        path = f"/devices/{serial}/appliance/uplinks/settings"
 
         payload = {}
         if interfaces is not None:
             payload["interfaces"] = interfaces
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def create_device_appliance_vmx_authentication_token(
         self, *, serial: str
@@ -222,14 +210,12 @@ class Appliance:
             serial: Serial.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "vmx", "authenticationToken"],
-            "operation": "create_device_appliance_vmx_authentication_token",
-        }
         serial = urllib.parse.quote(str(serial), safe="")
-        resource = f"/devices/{serial}/appliance/vmx/authenticationToken"
+        path = f"/devices/{serial}/appliance/vmx/authenticationToken"
 
-        return self._session.post(metadata, resource)
+        return self._session.post(
+            scope="appliance", operation_id="createDeviceApplianceVmxAuthenticationToken", path=path
+        )
 
     def get_network_appliance_client_security_events(
         self,
@@ -282,13 +268,9 @@ class Appliance:
                 f'"sort_order" cannot be "{sort_order}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["appliance", "monitor", "clients", "security", "events"],
-            "operation": "get_network_appliance_client_security_events",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         client_id = urllib.parse.quote(str(client_id), safe="")
-        resource = f"/networks/{network_id}/appliance/clients/{client_id}/security/events"
+        path = f"/networks/{network_id}/appliance/clients/{client_id}/security/events"
 
         params = {}
         if t0 is not None:
@@ -306,7 +288,14 @@ class Appliance:
         if sort_order is not None:
             params["sortOrder"] = sort_order
 
-        return self._session.get_pages(metadata, resource, params, total_pages, direction)
+        return self._session.get_pages(
+            scope="appliance",
+            operation_id="{operation_id}",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+        )
 
     def get_network_appliance_connectivity_monitoring_destinations(
         self, *, network_id: str
@@ -319,14 +308,14 @@ class Appliance:
             network_id: Network ID.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "connectivityMonitoringDestinations"],
-            "operation": "get_network_appliance_connectivity_monitoring_destinations",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/appliance/connectivityMonitoringDestinations"
+        path = f"/networks/{network_id}/appliance/connectivityMonitoringDestinations"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="appliance",
+            operation_id="getNetworkApplianceConnectivityMonitoringDestinations",
+            path=path,
+        )
 
     def update_network_appliance_connectivity_monitoring_destinations(
         self, *, network_id: str, destinations: list | None = None
@@ -340,18 +329,16 @@ class Appliance:
             destinations: The list of connectivity monitoring destinations.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "connectivityMonitoringDestinations"],
-            "operation": "update_network_appliance_connectivity_monitoring_destinations",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/appliance/connectivityMonitoringDestinations"
+        path = f"/networks/{network_id}/appliance/connectivityMonitoringDestinations"
 
         payload = {}
         if destinations is not None:
             payload["destinations"] = destinations
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_network_appliance_content_filtering(self, *, network_id: str) -> dict[str, Any] | None:
         """Return the content filtering settings for an MX network.
@@ -362,14 +349,12 @@ class Appliance:
             network_id: Network ID.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "contentFiltering"],
-            "operation": "get_network_appliance_content_filtering",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/appliance/contentFiltering"
+        path = f"/networks/{network_id}/appliance/contentFiltering"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="appliance", operation_id="getNetworkApplianceContentFiltering", path=path
+        )
 
     def update_network_appliance_content_filtering(
         self,
@@ -398,12 +383,8 @@ class Appliance:
                 f'"url_category_list_size" cannot be "{url_category_list_size}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["appliance", "configure", "contentFiltering"],
-            "operation": "update_network_appliance_content_filtering",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/appliance/contentFiltering"
+        path = f"/networks/{network_id}/appliance/contentFiltering"
 
         payload = {}
         if allowed_url_patterns is not None:
@@ -415,7 +396,9 @@ class Appliance:
         if url_category_list_size is not None:
             payload["urlCategoryListSize"] = url_category_list_size
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_network_appliance_content_filtering_categories(
         self, *, network_id: str
@@ -428,14 +411,14 @@ class Appliance:
             network_id: Network ID.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "contentFiltering", "categories"],
-            "operation": "get_network_appliance_content_filtering_categories",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/appliance/contentFiltering/categories"
+        path = f"/networks/{network_id}/appliance/contentFiltering/categories"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="appliance",
+            operation_id="getNetworkApplianceContentFilteringCategories",
+            path=path,
+        )
 
     def get_network_appliance_firewall_cellular_firewall_rules(
         self, *, network_id: str
@@ -448,14 +431,14 @@ class Appliance:
             network_id: Network ID.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "firewall", "cellularFirewallRules"],
-            "operation": "get_network_appliance_firewall_cellular_firewall_rules",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/appliance/firewall/cellularFirewallRules"
+        path = f"/networks/{network_id}/appliance/firewall/cellularFirewallRules"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="appliance",
+            operation_id="getNetworkApplianceFirewallCellularFirewallRules",
+            path=path,
+        )
 
     def update_network_appliance_firewall_cellular_firewall_rules(
         self, *, network_id: str, rules: list | None = None
@@ -469,18 +452,16 @@ class Appliance:
             rules: An ordered array of the firewall rules (not including the default rule).
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "firewall", "cellularFirewallRules"],
-            "operation": "update_network_appliance_firewall_cellular_firewall_rules",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/appliance/firewall/cellularFirewallRules"
+        path = f"/networks/{network_id}/appliance/firewall/cellularFirewallRules"
 
         payload = {}
         if rules is not None:
             payload["rules"] = rules
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_network_appliance_firewall_firewalled_services(
         self, *, network_id: str
@@ -493,14 +474,14 @@ class Appliance:
             network_id: Network ID.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "firewall", "firewalledServices"],
-            "operation": "get_network_appliance_firewall_firewalled_services",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/appliance/firewall/firewalledServices"
+        path = f"/networks/{network_id}/appliance/firewall/firewalledServices"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="appliance",
+            operation_id="getNetworkApplianceFirewallFirewalledServices",
+            path=path,
+        )
 
     def get_network_appliance_firewall_firewalled_service(
         self, *, network_id: str, service: str
@@ -514,15 +495,15 @@ class Appliance:
             service: Service.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "firewall", "firewalledServices"],
-            "operation": "get_network_appliance_firewall_firewalled_service",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         service = urllib.parse.quote(str(service), safe="")
-        resource = f"/networks/{network_id}/appliance/firewall/firewalledServices/{service}"
+        path = f"/networks/{network_id}/appliance/firewall/firewalledServices/{service}"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="appliance",
+            operation_id="getNetworkApplianceFirewallFirewalledService",
+            path=path,
+        )
 
     def update_network_appliance_firewall_firewalled_service(
         self, *, network_id: str, service: str, access: str, allowed_ips: list | None = None
@@ -550,13 +531,9 @@ class Appliance:
                 f'"access" cannot be "{access}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["appliance", "configure", "firewall", "firewalledServices"],
-            "operation": "update_network_appliance_firewall_firewalled_service",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         service = urllib.parse.quote(str(service), safe="")
-        resource = f"/networks/{network_id}/appliance/firewall/firewalledServices/{service}"
+        path = f"/networks/{network_id}/appliance/firewall/firewalledServices/{service}"
 
         payload = {}
         if access is not None:
@@ -564,7 +541,9 @@ class Appliance:
         if allowed_ips is not None:
             payload["allowedIps"] = allowed_ips
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_network_appliance_firewall_inbound_cellular_firewall_rules(
         self, *, network_id: str
@@ -577,14 +556,14 @@ class Appliance:
             network_id: Network ID.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "firewall", "inboundCellularFirewallRules"],
-            "operation": "get_network_appliance_firewall_inbound_cellular_firewall_rules",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/appliance/firewall/inboundCellularFirewallRules"
+        path = f"/networks/{network_id}/appliance/firewall/inboundCellularFirewallRules"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="appliance",
+            operation_id="getNetworkApplianceFirewallInboundCellularFirewallRules",
+            path=path,
+        )
 
     def update_network_appliance_firewall_inbound_cellular_firewall_rules(
         self, *, network_id: str, rules: list | None = None
@@ -598,18 +577,16 @@ class Appliance:
             rules: An ordered array of the firewall rules (not including the default rule).
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "firewall", "inboundCellularFirewallRules"],
-            "operation": "update_network_appliance_firewall_inbound_cellular_firewall_rules",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/appliance/firewall/inboundCellularFirewallRules"
+        path = f"/networks/{network_id}/appliance/firewall/inboundCellularFirewallRules"
 
         payload = {}
         if rules is not None:
             payload["rules"] = rules
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_network_appliance_firewall_inbound_firewall_rules(
         self, *, network_id: str
@@ -622,14 +599,14 @@ class Appliance:
             network_id: Network ID.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "firewall", "inboundFirewallRules"],
-            "operation": "get_network_appliance_firewall_inbound_firewall_rules",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/appliance/firewall/inboundFirewallRules"
+        path = f"/networks/{network_id}/appliance/firewall/inboundFirewallRules"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="appliance",
+            operation_id="getNetworkApplianceFirewallInboundFirewallRules",
+            path=path,
+        )
 
     def update_network_appliance_firewall_inbound_firewall_rules(
         self, *, network_id: str, rules: list | None = None, syslog_default_rule: bool | None = None
@@ -645,12 +622,8 @@ class Appliance:
               configured a syslog server) (optional).
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "firewall", "inboundFirewallRules"],
-            "operation": "update_network_appliance_firewall_inbound_firewall_rules",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/appliance/firewall/inboundFirewallRules"
+        path = f"/networks/{network_id}/appliance/firewall/inboundFirewallRules"
 
         payload = {}
         if rules is not None:
@@ -658,7 +631,9 @@ class Appliance:
         if syslog_default_rule is not None:
             payload["syslogDefaultRule"] = syslog_default_rule
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_network_appliance_firewall_l3_firewall_rules(
         self, *, network_id: str
@@ -671,14 +646,12 @@ class Appliance:
             network_id: Network ID.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "firewall", "l3FirewallRules"],
-            "operation": "get_network_appliance_firewall_l3_firewall_rules",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/appliance/firewall/l3FirewallRules"
+        path = f"/networks/{network_id}/appliance/firewall/l3FirewallRules"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="appliance", operation_id="getNetworkApplianceFirewallL3FirewallRules", path=path
+        )
 
     def update_network_appliance_firewall_l3_firewall_rules(
         self, *, network_id: str, rules: list | None = None, syslog_default_rule: bool | None = None
@@ -694,12 +667,8 @@ class Appliance:
               configured a syslog server) (optional).
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "firewall", "l3FirewallRules"],
-            "operation": "update_network_appliance_firewall_l3_firewall_rules",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/appliance/firewall/l3FirewallRules"
+        path = f"/networks/{network_id}/appliance/firewall/l3FirewallRules"
 
         payload = {}
         if rules is not None:
@@ -707,7 +676,9 @@ class Appliance:
         if syslog_default_rule is not None:
             payload["syslogDefaultRule"] = syslog_default_rule
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_network_appliance_firewall_l7_firewall_rules(
         self, *, network_id: str
@@ -720,14 +691,12 @@ class Appliance:
             network_id: Network ID.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "firewall", "l7FirewallRules"],
-            "operation": "get_network_appliance_firewall_l7_firewall_rules",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/appliance/firewall/l7FirewallRules"
+        path = f"/networks/{network_id}/appliance/firewall/l7FirewallRules"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="appliance", operation_id="getNetworkApplianceFirewallL7FirewallRules", path=path
+        )
 
     def update_network_appliance_firewall_l7_firewall_rules(
         self, *, network_id: str, rules: list | None = None
@@ -741,18 +710,16 @@ class Appliance:
             rules: An ordered array of the MX L7 firewall rules.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "firewall", "l7FirewallRules"],
-            "operation": "update_network_appliance_firewall_l7_firewall_rules",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/appliance/firewall/l7FirewallRules"
+        path = f"/networks/{network_id}/appliance/firewall/l7FirewallRules"
 
         payload = {}
         if rules is not None:
             payload["rules"] = rules
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_network_appliance_firewall_l7_firewall_rules_application_categories(
         self, *, network_id: str
@@ -765,22 +732,14 @@ class Appliance:
             network_id: Network ID.
 
         """
-        metadata = {
-            "tags": [
-                "appliance",
-                "configure",
-                "firewall",
-                "l7FirewallRules",
-                "applicationCategories",
-            ],
-            "operation": "get_network_appliance_firewall_l7_firewall_rules_application_categories",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = (
-            f"/networks/{network_id}/appliance/firewall/l7FirewallRules/applicationCategories"
-        )
+        path = f"/networks/{network_id}/appliance/firewall/l7FirewallRules/applicationCategories"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="appliance",
+            operation_id="getNetworkApplianceFirewallL7FirewallRulesApplicationCategories",
+            path=path,
+        )
 
     def update_network_appliance_firewall_multicast_forwarding(
         self, *, network_id: str, rules: list
@@ -794,18 +753,16 @@ class Appliance:
             rules: Static multicast forwarding rules. Pass an empty array to clear all rules.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "firewall", "multicastForwarding"],
-            "operation": "update_network_appliance_firewall_multicast_forwarding",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/appliance/firewall/multicastForwarding"
+        path = f"/networks/{network_id}/appliance/firewall/multicastForwarding"
 
         payload = {}
         if rules is not None:
             payload["rules"] = rules
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_network_appliance_firewall_one_to_many_nat_rules(
         self, *, network_id: str
@@ -818,14 +775,14 @@ class Appliance:
             network_id: Network ID.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "firewall", "oneToManyNatRules"],
-            "operation": "get_network_appliance_firewall_one_to_many_nat_rules",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/appliance/firewall/oneToManyNatRules"
+        path = f"/networks/{network_id}/appliance/firewall/oneToManyNatRules"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="appliance",
+            operation_id="getNetworkApplianceFirewallOneToManyNatRules",
+            path=path,
+        )
 
     def update_network_appliance_firewall_one_to_many_nat_rules(
         self, *, network_id: str, rules: list
@@ -839,18 +796,16 @@ class Appliance:
             rules: An array of 1:Many nat rules.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "firewall", "oneToManyNatRules"],
-            "operation": "update_network_appliance_firewall_one_to_many_nat_rules",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/appliance/firewall/oneToManyNatRules"
+        path = f"/networks/{network_id}/appliance/firewall/oneToManyNatRules"
 
         payload = {}
         if rules is not None:
             payload["rules"] = rules
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_network_appliance_firewall_one_to_one_nat_rules(
         self, *, network_id: str
@@ -863,14 +818,12 @@ class Appliance:
             network_id: Network ID.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "firewall", "oneToOneNatRules"],
-            "operation": "get_network_appliance_firewall_one_to_one_nat_rules",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/appliance/firewall/oneToOneNatRules"
+        path = f"/networks/{network_id}/appliance/firewall/oneToOneNatRules"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="appliance", operation_id="getNetworkApplianceFirewallOneToOneNatRules", path=path
+        )
 
     def update_network_appliance_firewall_one_to_one_nat_rules(
         self, *, network_id: str, rules: list
@@ -884,18 +837,16 @@ class Appliance:
             rules: An array of 1:1 nat rules.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "firewall", "oneToOneNatRules"],
-            "operation": "update_network_appliance_firewall_one_to_one_nat_rules",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/appliance/firewall/oneToOneNatRules"
+        path = f"/networks/{network_id}/appliance/firewall/oneToOneNatRules"
 
         payload = {}
         if rules is not None:
             payload["rules"] = rules
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_network_appliance_firewall_port_forwarding_rules(
         self, *, network_id: str
@@ -908,14 +859,14 @@ class Appliance:
             network_id: Network ID.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "firewall", "portForwardingRules"],
-            "operation": "get_network_appliance_firewall_port_forwarding_rules",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/appliance/firewall/portForwardingRules"
+        path = f"/networks/{network_id}/appliance/firewall/portForwardingRules"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="appliance",
+            operation_id="getNetworkApplianceFirewallPortForwardingRules",
+            path=path,
+        )
 
     def update_network_appliance_firewall_port_forwarding_rules(
         self, *, network_id: str, rules: list
@@ -929,18 +880,16 @@ class Appliance:
             rules: An array of port forwarding params.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "firewall", "portForwardingRules"],
-            "operation": "update_network_appliance_firewall_port_forwarding_rules",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/appliance/firewall/portForwardingRules"
+        path = f"/networks/{network_id}/appliance/firewall/portForwardingRules"
 
         payload = {}
         if rules is not None:
             payload["rules"] = rules
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_network_appliance_firewall_settings(self, *, network_id: str) -> dict[str, Any] | None:
         """Return the firewall settings for this network.
@@ -951,14 +900,12 @@ class Appliance:
             network_id: Network ID.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "firewall", "settings"],
-            "operation": "get_network_appliance_firewall_settings",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/appliance/firewall/settings"
+        path = f"/networks/{network_id}/appliance/firewall/settings"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="appliance", operation_id="getNetworkApplianceFirewallSettings", path=path
+        )
 
     def update_network_appliance_firewall_settings(
         self, *, network_id: str, spoofing_protection: dict | None = None
@@ -972,18 +919,16 @@ class Appliance:
             spoofing_protection: Spoofing protection settings.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "firewall", "settings"],
-            "operation": "update_network_appliance_firewall_settings",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/appliance/firewall/settings"
+        path = f"/networks/{network_id}/appliance/firewall/settings"
 
         payload = {}
         if spoofing_protection is not None:
             payload["spoofingProtection"] = spoofing_protection
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_network_appliance_ports(self, *, network_id: str) -> dict[str, Any] | None:
         """List per-port VLAN settings for all ports of a MX.
@@ -994,14 +939,12 @@ class Appliance:
             network_id: Network ID.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "ports"],
-            "operation": "get_network_appliance_ports",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/appliance/ports"
+        path = f"/networks/{network_id}/appliance/ports"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="appliance", operation_id="getNetworkAppliancePorts", path=path
+        )
 
     def get_network_appliance_port(self, *, network_id: str, port_id: str) -> dict[str, Any] | None:
         """Return per-port VLAN settings for a single MX port.
@@ -1013,15 +956,13 @@ class Appliance:
             port_id: Port ID.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "ports"],
-            "operation": "get_network_appliance_port",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         port_id = urllib.parse.quote(str(port_id), safe="")
-        resource = f"/networks/{network_id}/appliance/ports/{port_id}"
+        path = f"/networks/{network_id}/appliance/ports/{port_id}"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="appliance", operation_id="getNetworkAppliancePort", path=path
+        )
 
     def update_network_appliance_port(
         self,
@@ -1057,13 +998,9 @@ class Appliance:
               field is missing.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "ports"],
-            "operation": "update_network_appliance_port",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         port_id = urllib.parse.quote(str(port_id), safe="")
-        resource = f"/networks/{network_id}/appliance/ports/{port_id}"
+        path = f"/networks/{network_id}/appliance/ports/{port_id}"
 
         payload = {}
         if enabled is not None:
@@ -1079,7 +1016,9 @@ class Appliance:
         if access_policy is not None:
             payload["accessPolicy"] = access_policy
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_network_appliance_prefixes_delegated_statics(
         self, *, network_id: str
@@ -1092,14 +1031,12 @@ class Appliance:
             network_id: Network ID.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "prefixes", "delegated", "statics"],
-            "operation": "get_network_appliance_prefixes_delegated_statics",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/appliance/prefixes/delegated/statics"
+        path = f"/networks/{network_id}/appliance/prefixes/delegated/statics"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="appliance", operation_id="getNetworkAppliancePrefixesDelegatedStatics", path=path
+        )
 
     def create_network_appliance_prefixes_delegated_static(
         self, *, network_id: str, prefix: str, origin: dict, description: str | None = None
@@ -1115,12 +1052,8 @@ class Appliance:
             description: A name or description for the prefix.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "prefixes", "delegated", "statics"],
-            "operation": "create_network_appliance_prefixes_delegated_static",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/appliance/prefixes/delegated/statics"
+        path = f"/networks/{network_id}/appliance/prefixes/delegated/statics"
 
         payload = {}
         if prefix is not None:
@@ -1130,7 +1063,9 @@ class Appliance:
         if description is not None:
             payload["description"] = description
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_network_appliance_prefixes_delegated_static(
         self, *, network_id: str, static_delegated_prefix_id: str
@@ -1144,15 +1079,13 @@ class Appliance:
             static_delegated_prefix_id: Static delegated prefix ID.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "prefixes", "delegated", "statics"],
-            "operation": "get_network_appliance_prefixes_delegated_static",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         static_delegated_prefix_id = urllib.parse.quote(str(static_delegated_prefix_id), safe="")
-        resource = f"/networks/{network_id}/appliance/prefixes/delegated/statics/{static_delegated_prefix_id}"
+        path = f"/networks/{network_id}/appliance/prefixes/delegated/statics/{static_delegated_prefix_id}"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="appliance", operation_id="getNetworkAppliancePrefixesDelegatedStatic", path=path
+        )
 
     def update_network_appliance_prefixes_delegated_static(
         self,
@@ -1175,13 +1108,9 @@ class Appliance:
             description: A name or description for the prefix.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "prefixes", "delegated", "statics"],
-            "operation": "update_network_appliance_prefixes_delegated_static",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         static_delegated_prefix_id = urllib.parse.quote(str(static_delegated_prefix_id), safe="")
-        resource = f"/networks/{network_id}/appliance/prefixes/delegated/statics/{static_delegated_prefix_id}"
+        path = f"/networks/{network_id}/appliance/prefixes/delegated/statics/{static_delegated_prefix_id}"
 
         payload = {}
         if prefix is not None:
@@ -1191,7 +1120,9 @@ class Appliance:
         if description is not None:
             payload["description"] = description
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def delete_network_appliance_prefixes_delegated_static(
         self, *, network_id: str, static_delegated_prefix_id: str
@@ -1205,15 +1136,15 @@ class Appliance:
             static_delegated_prefix_id: Static delegated prefix ID.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "prefixes", "delegated", "statics"],
-            "operation": "delete_network_appliance_prefixes_delegated_static",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         static_delegated_prefix_id = urllib.parse.quote(str(static_delegated_prefix_id), safe="")
-        resource = f"/networks/{network_id}/appliance/prefixes/delegated/statics/{static_delegated_prefix_id}"
+        path = f"/networks/{network_id}/appliance/prefixes/delegated/statics/{static_delegated_prefix_id}"
 
-        return self._session.delete(metadata, resource)
+        return self._session.delete(
+            scope="appliance",
+            operation_id="deleteNetworkAppliancePrefixesDelegatedStatic",
+            path=path,
+        )
 
     def get_network_appliance_rf_profiles(self, *, network_id: str) -> dict[str, Any] | None:
         """List the RF profiles for this network.
@@ -1224,14 +1155,12 @@ class Appliance:
             network_id: Network ID.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "rfProfiles"],
-            "operation": "get_network_appliance_rf_profiles",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/appliance/rfProfiles"
+        path = f"/networks/{network_id}/appliance/rfProfiles"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="appliance", operation_id="getNetworkApplianceRfProfiles", path=path
+        )
 
     def create_network_appliance_rf_profile(
         self,
@@ -1254,12 +1183,8 @@ class Appliance:
             per_ssid_settings: Per-SSID radio settings by number.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "rfProfiles"],
-            "operation": "create_network_appliance_rf_profile",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/appliance/rfProfiles"
+        path = f"/networks/{network_id}/appliance/rfProfiles"
 
         payload = {}
         if name is not None:
@@ -1271,7 +1196,9 @@ class Appliance:
         if per_ssid_settings is not None:
             payload["perSsidSettings"] = per_ssid_settings
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_network_appliance_rf_profile(
         self, *, network_id: str, rf_profile_id: str
@@ -1285,15 +1212,13 @@ class Appliance:
             rf_profile_id: Rf profile ID.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "rfProfiles"],
-            "operation": "get_network_appliance_rf_profile",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         rf_profile_id = urllib.parse.quote(str(rf_profile_id), safe="")
-        resource = f"/networks/{network_id}/appliance/rfProfiles/{rf_profile_id}"
+        path = f"/networks/{network_id}/appliance/rfProfiles/{rf_profile_id}"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="appliance", operation_id="getNetworkApplianceRfProfile", path=path
+        )
 
     def update_network_appliance_rf_profile(
         self,
@@ -1318,13 +1243,9 @@ class Appliance:
             per_ssid_settings: Per-SSID radio settings by number.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "rfProfiles"],
-            "operation": "update_network_appliance_rf_profile",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         rf_profile_id = urllib.parse.quote(str(rf_profile_id), safe="")
-        resource = f"/networks/{network_id}/appliance/rfProfiles/{rf_profile_id}"
+        path = f"/networks/{network_id}/appliance/rfProfiles/{rf_profile_id}"
 
         payload = {}
         if name is not None:
@@ -1336,7 +1257,9 @@ class Appliance:
         if per_ssid_settings is not None:
             payload["perSsidSettings"] = per_ssid_settings
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def delete_network_appliance_rf_profile(self, *, network_id: str, rf_profile_id: str) -> None:
         """Delete a RF Profile.
@@ -1348,15 +1271,13 @@ class Appliance:
             rf_profile_id: Rf profile ID.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "rfProfiles"],
-            "operation": "delete_network_appliance_rf_profile",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         rf_profile_id = urllib.parse.quote(str(rf_profile_id), safe="")
-        resource = f"/networks/{network_id}/appliance/rfProfiles/{rf_profile_id}"
+        path = f"/networks/{network_id}/appliance/rfProfiles/{rf_profile_id}"
 
-        return self._session.delete(metadata, resource)
+        return self._session.delete(
+            scope="appliance", operation_id="deleteNetworkApplianceRfProfile", path=path
+        )
 
     def update_network_appliance_sdwan_internet_policies(
         self, *, network_id: str, wan_traffic_uplink_preferences: list | None = None
@@ -1371,18 +1292,16 @@ class Appliance:
               network.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "sdwan", "internetPolicies"],
-            "operation": "update_network_appliance_sdwan_internet_policies",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/appliance/sdwan/internetPolicies"
+        path = f"/networks/{network_id}/appliance/sdwan/internetPolicies"
 
         payload = {}
         if wan_traffic_uplink_preferences is not None:
             payload["wanTrafficUplinkPreferences"] = wan_traffic_uplink_preferences
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_network_appliance_security_events(
         self,
@@ -1433,12 +1352,8 @@ class Appliance:
                 f'"sort_order" cannot be "{sort_order}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["appliance", "monitor", "security", "events"],
-            "operation": "get_network_appliance_security_events",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/appliance/security/events"
+        path = f"/networks/{network_id}/appliance/security/events"
 
         params = {}
         if t0 is not None:
@@ -1456,7 +1371,14 @@ class Appliance:
         if sort_order is not None:
             params["sortOrder"] = sort_order
 
-        return self._session.get_pages(metadata, resource, params, total_pages, direction)
+        return self._session.get_pages(
+            scope="appliance",
+            operation_id="{operation_id}",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+        )
 
     def get_network_appliance_security_intrusion(self, *, network_id: str) -> dict[str, Any] | None:
         """Returns all supported intrusion settings for an MX network.
@@ -1467,14 +1389,12 @@ class Appliance:
             network_id: Network ID.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "security", "intrusion"],
-            "operation": "get_network_appliance_security_intrusion",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/appliance/security/intrusion"
+        path = f"/networks/{network_id}/appliance/security/intrusion"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="appliance", operation_id="getNetworkApplianceSecurityIntrusion", path=path
+        )
 
     def update_network_appliance_security_intrusion(
         self,
@@ -1509,12 +1429,8 @@ class Appliance:
                 f'"ids_rulesets" cannot be "{ids_rulesets}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["appliance", "configure", "security", "intrusion"],
-            "operation": "update_network_appliance_security_intrusion",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/appliance/security/intrusion"
+        path = f"/networks/{network_id}/appliance/security/intrusion"
 
         payload = {}
         if mode is not None:
@@ -1524,7 +1440,9 @@ class Appliance:
         if protected_networks is not None:
             payload["protectedNetworks"] = protected_networks
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_network_appliance_security_malware(self, *, network_id: str) -> dict[str, Any] | None:
         """Returns all supported malware settings for an MX network.
@@ -1535,14 +1453,12 @@ class Appliance:
             network_id: Network ID.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "security", "malware"],
-            "operation": "get_network_appliance_security_malware",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/appliance/security/malware"
+        path = f"/networks/{network_id}/appliance/security/malware"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="appliance", operation_id="getNetworkApplianceSecurityMalware", path=path
+        )
 
     def update_network_appliance_security_malware(
         self,
@@ -1571,12 +1487,8 @@ class Appliance:
             options = ["disabled", "enabled"]
             assert mode in options, f'"mode" cannot be "{mode}", & must be set to one of: {options}'
 
-        metadata = {
-            "tags": ["appliance", "configure", "security", "malware"],
-            "operation": "update_network_appliance_security_malware",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/appliance/security/malware"
+        path = f"/networks/{network_id}/appliance/security/malware"
 
         payload = {}
         if mode is not None:
@@ -1586,7 +1498,9 @@ class Appliance:
         if allowed_files is not None:
             payload["allowedFiles"] = allowed_files
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_network_appliance_settings(self, *, network_id: str) -> dict[str, Any] | None:
         """Return the appliance settings for a network.
@@ -1597,14 +1511,12 @@ class Appliance:
             network_id: Network ID.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "settings"],
-            "operation": "get_network_appliance_settings",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/appliance/settings"
+        path = f"/networks/{network_id}/appliance/settings"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="appliance", operation_id="getNetworkApplianceSettings", path=path
+        )
 
     def update_network_appliance_settings(
         self,
@@ -1636,12 +1548,8 @@ class Appliance:
                 f'"deployment_mode" cannot be "{deployment_mode}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["appliance", "configure", "settings"],
-            "operation": "update_network_appliance_settings",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/appliance/settings"
+        path = f"/networks/{network_id}/appliance/settings"
 
         payload = {}
         if client_tracking_method is not None:
@@ -1651,7 +1559,9 @@ class Appliance:
         if dynamic_dns is not None:
             payload["dynamicDns"] = dynamic_dns
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_network_appliance_single_lan(self, *, network_id: str) -> dict[str, Any] | None:
         """Return single LAN configuration.
@@ -1662,14 +1572,12 @@ class Appliance:
             network_id: Network ID.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "singleLan"],
-            "operation": "get_network_appliance_single_lan",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/appliance/singleLan"
+        path = f"/networks/{network_id}/appliance/singleLan"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="appliance", operation_id="getNetworkApplianceSingleLan", path=path
+        )
 
     def update_network_appliance_single_lan(
         self,
@@ -1695,12 +1603,8 @@ class Appliance:
               17.0 and above.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "singleLan"],
-            "operation": "update_network_appliance_single_lan",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/appliance/singleLan"
+        path = f"/networks/{network_id}/appliance/singleLan"
 
         payload = {}
         if subnet is not None:
@@ -1712,7 +1616,9 @@ class Appliance:
         if mandatory_dhcp is not None:
             payload["mandatoryDhcp"] = mandatory_dhcp
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_network_appliance_ssids(self, *, network_id: str) -> dict[str, Any] | None:
         """List the MX SSIDs in a network.
@@ -1723,14 +1629,12 @@ class Appliance:
             network_id: Network ID.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "ssids"],
-            "operation": "get_network_appliance_ssids",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/appliance/ssids"
+        path = f"/networks/{network_id}/appliance/ssids"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="appliance", operation_id="getNetworkApplianceSsids", path=path
+        )
 
     def get_network_appliance_ssid(self, *, network_id: str, number: str) -> dict[str, Any] | None:
         """Return a single MX SSID.
@@ -1742,15 +1646,13 @@ class Appliance:
             number: Number.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "ssids"],
-            "operation": "get_network_appliance_ssid",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         number = urllib.parse.quote(str(number), safe="")
-        resource = f"/networks/{network_id}/appliance/ssids/{number}"
+        path = f"/networks/{network_id}/appliance/ssids/{number}"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="appliance", operation_id="getNetworkApplianceSsid", path=path
+        )
 
     def update_network_appliance_ssid(
         self,
@@ -1815,13 +1717,9 @@ class Appliance:
                 f'"wpa_encryption_mode" cannot be "{wpa_encryption_mode}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["appliance", "configure", "ssids"],
-            "operation": "update_network_appliance_ssid",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         number = urllib.parse.quote(str(number), safe="")
-        resource = f"/networks/{network_id}/appliance/ssids/{number}"
+        path = f"/networks/{network_id}/appliance/ssids/{number}"
 
         payload = {}
         if name is not None:
@@ -1847,7 +1745,9 @@ class Appliance:
         if dot11w is not None:
             payload["dot11w"] = dot11w
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_network_appliance_static_routes(self, *, network_id: str) -> dict[str, Any] | None:
         """List the static routes for an MX or teleworker network.
@@ -1858,14 +1758,12 @@ class Appliance:
             network_id: Network ID.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "staticRoutes"],
-            "operation": "get_network_appliance_static_routes",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/appliance/staticRoutes"
+        path = f"/networks/{network_id}/appliance/staticRoutes"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="appliance", operation_id="getNetworkApplianceStaticRoutes", path=path
+        )
 
     def create_network_appliance_static_route(
         self,
@@ -1888,12 +1786,8 @@ class Appliance:
             gateway_vlan_id: Gateway VLAN ID.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "staticRoutes"],
-            "operation": "create_network_appliance_static_route",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/appliance/staticRoutes"
+        path = f"/networks/{network_id}/appliance/staticRoutes"
 
         payload = {}
         if name is not None:
@@ -1905,7 +1799,9 @@ class Appliance:
         if gateway_vlan_id is not None:
             payload["gatewayVlanId"] = gateway_vlan_id
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_network_appliance_static_route(
         self, *, network_id: str, static_route_id: str
@@ -1919,15 +1815,13 @@ class Appliance:
             static_route_id: Static route ID.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "staticRoutes"],
-            "operation": "get_network_appliance_static_route",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         static_route_id = urllib.parse.quote(str(static_route_id), safe="")
-        resource = f"/networks/{network_id}/appliance/staticRoutes/{static_route_id}"
+        path = f"/networks/{network_id}/appliance/staticRoutes/{static_route_id}"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="appliance", operation_id="getNetworkApplianceStaticRoute", path=path
+        )
 
     def update_network_appliance_static_route(
         self,
@@ -1958,13 +1852,9 @@ class Appliance:
             reserved_ip_ranges: DHCP reserved IP ranges.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "staticRoutes"],
-            "operation": "update_network_appliance_static_route",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         static_route_id = urllib.parse.quote(str(static_route_id), safe="")
-        resource = f"/networks/{network_id}/appliance/staticRoutes/{static_route_id}"
+        path = f"/networks/{network_id}/appliance/staticRoutes/{static_route_id}"
 
         payload = {}
         if name is not None:
@@ -1982,7 +1872,9 @@ class Appliance:
         if reserved_ip_ranges is not None:
             payload["reservedIpRanges"] = reserved_ip_ranges
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def delete_network_appliance_static_route(
         self, *, network_id: str, static_route_id: str
@@ -1996,15 +1888,13 @@ class Appliance:
             static_route_id: Static route ID.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "staticRoutes"],
-            "operation": "delete_network_appliance_static_route",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         static_route_id = urllib.parse.quote(str(static_route_id), safe="")
-        resource = f"/networks/{network_id}/appliance/staticRoutes/{static_route_id}"
+        path = f"/networks/{network_id}/appliance/staticRoutes/{static_route_id}"
 
-        return self._session.delete(metadata, resource)
+        return self._session.delete(
+            scope="appliance", operation_id="deleteNetworkApplianceStaticRoute", path=path
+        )
 
     def get_network_appliance_traffic_shaping(self, *, network_id: str) -> dict[str, Any] | None:
         """Display the traffic shaping settings for an MX network.
@@ -2015,14 +1905,12 @@ class Appliance:
             network_id: Network ID.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "trafficShaping"],
-            "operation": "get_network_appliance_traffic_shaping",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/appliance/trafficShaping"
+        path = f"/networks/{network_id}/appliance/trafficShaping"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="appliance", operation_id="getNetworkApplianceTrafficShaping", path=path
+        )
 
     def update_network_appliance_traffic_shaping(
         self, *, network_id: str, global_bandwidth_limits: dict | None = None
@@ -2036,18 +1924,16 @@ class Appliance:
             global_bandwidth_limits: Global per-client bandwidth limit.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "trafficShaping"],
-            "operation": "update_network_appliance_traffic_shaping",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/appliance/trafficShaping"
+        path = f"/networks/{network_id}/appliance/trafficShaping"
 
         payload = {}
         if global_bandwidth_limits is not None:
             payload["globalBandwidthLimits"] = global_bandwidth_limits
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_network_appliance_traffic_shaping_custom_performance_classes(
         self, *, network_id: str
@@ -2060,14 +1946,14 @@ class Appliance:
             network_id: Network ID.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "trafficShaping", "customPerformanceClasses"],
-            "operation": "get_network_appliance_traffic_shaping_custom_performance_classes",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/appliance/trafficShaping/customPerformanceClasses"
+        path = f"/networks/{network_id}/appliance/trafficShaping/customPerformanceClasses"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="appliance",
+            operation_id="getNetworkApplianceTrafficShapingCustomPerformanceClasses",
+            path=path,
+        )
 
     def create_network_appliance_traffic_shaping_custom_performance_class(
         self,
@@ -2090,12 +1976,8 @@ class Appliance:
             max_loss_percentage: Maximum percentage of packet loss.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "trafficShaping", "customPerformanceClasses"],
-            "operation": "create_network_appliance_traffic_shaping_custom_performance_class",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/appliance/trafficShaping/customPerformanceClasses"
+        path = f"/networks/{network_id}/appliance/trafficShaping/customPerformanceClasses"
 
         payload = {}
         if name is not None:
@@ -2107,7 +1989,9 @@ class Appliance:
         if max_loss_percentage is not None:
             payload["maxLossPercentage"] = max_loss_percentage
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_network_appliance_traffic_shaping_custom_performance_class(
         self, *, network_id: str, custom_performance_class_id: str
@@ -2121,15 +2005,15 @@ class Appliance:
             custom_performance_class_id: Custom performance class ID.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "trafficShaping", "customPerformanceClasses"],
-            "operation": "get_network_appliance_traffic_shaping_custom_performance_class",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         custom_performance_class_id = urllib.parse.quote(str(custom_performance_class_id), safe="")
-        resource = f"/networks/{network_id}/appliance/trafficShaping/customPerformanceClasses/{custom_performance_class_id}"
+        path = f"/networks/{network_id}/appliance/trafficShaping/customPerformanceClasses/{custom_performance_class_id}"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="appliance",
+            operation_id="getNetworkApplianceTrafficShapingCustomPerformanceClass",
+            path=path,
+        )
 
     def update_network_appliance_traffic_shaping_custom_performance_class(
         self,
@@ -2154,13 +2038,9 @@ class Appliance:
             max_loss_percentage: Maximum percentage of packet loss.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "trafficShaping", "customPerformanceClasses"],
-            "operation": "update_network_appliance_traffic_shaping_custom_performance_class",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         custom_performance_class_id = urllib.parse.quote(str(custom_performance_class_id), safe="")
-        resource = f"/networks/{network_id}/appliance/trafficShaping/customPerformanceClasses/{custom_performance_class_id}"
+        path = f"/networks/{network_id}/appliance/trafficShaping/customPerformanceClasses/{custom_performance_class_id}"
 
         payload = {}
         if name is not None:
@@ -2172,7 +2052,9 @@ class Appliance:
         if max_loss_percentage is not None:
             payload["maxLossPercentage"] = max_loss_percentage
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def delete_network_appliance_traffic_shaping_custom_performance_class(
         self, *, network_id: str, custom_performance_class_id: str
@@ -2186,15 +2068,15 @@ class Appliance:
             custom_performance_class_id: Custom performance class ID.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "trafficShaping", "customPerformanceClasses"],
-            "operation": "delete_network_appliance_traffic_shaping_custom_performance_class",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         custom_performance_class_id = urllib.parse.quote(str(custom_performance_class_id), safe="")
-        resource = f"/networks/{network_id}/appliance/trafficShaping/customPerformanceClasses/{custom_performance_class_id}"
+        path = f"/networks/{network_id}/appliance/trafficShaping/customPerformanceClasses/{custom_performance_class_id}"
 
-        return self._session.delete(metadata, resource)
+        return self._session.delete(
+            scope="appliance",
+            operation_id="deleteNetworkApplianceTrafficShapingCustomPerformanceClass",
+            path=path,
+        )
 
     def get_network_appliance_traffic_shaping_rules(
         self, *, network_id: str
@@ -2207,14 +2089,12 @@ class Appliance:
             network_id: Network ID.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "trafficShaping", "rules"],
-            "operation": "get_network_appliance_traffic_shaping_rules",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/appliance/trafficShaping/rules"
+        path = f"/networks/{network_id}/appliance/trafficShaping/rules"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="appliance", operation_id="getNetworkApplianceTrafficShapingRules", path=path
+        )
 
     def update_network_appliance_traffic_shaping_rules(
         self,
@@ -2238,12 +2118,8 @@ class Appliance:
               allowed a maximum of 8 rules.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "trafficShaping", "rules"],
-            "operation": "update_network_appliance_traffic_shaping_rules",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/appliance/trafficShaping/rules"
+        path = f"/networks/{network_id}/appliance/trafficShaping/rules"
 
         payload = {}
         if default_rules_enabled is not None:
@@ -2251,7 +2127,9 @@ class Appliance:
         if rules is not None:
             payload["rules"] = rules
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_network_appliance_traffic_shaping_uplink_bandwidth(
         self, *, network_id: str
@@ -2264,14 +2142,14 @@ class Appliance:
             network_id: Network ID.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "trafficShaping", "uplinkBandwidth"],
-            "operation": "get_network_appliance_traffic_shaping_uplink_bandwidth",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/appliance/trafficShaping/uplinkBandwidth"
+        path = f"/networks/{network_id}/appliance/trafficShaping/uplinkBandwidth"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="appliance",
+            operation_id="getNetworkApplianceTrafficShapingUplinkBandwidth",
+            path=path,
+        )
 
     def update_network_appliance_traffic_shaping_uplink_bandwidth(
         self, *, network_id: str, bandwidth_limits: dict | None = None
@@ -2286,18 +2164,16 @@ class Appliance:
               which uplinks are supported for your network).
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "trafficShaping", "uplinkBandwidth"],
-            "operation": "update_network_appliance_traffic_shaping_uplink_bandwidth",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/appliance/trafficShaping/uplinkBandwidth"
+        path = f"/networks/{network_id}/appliance/trafficShaping/uplinkBandwidth"
 
         payload = {}
         if bandwidth_limits is not None:
             payload["bandwidthLimits"] = bandwidth_limits
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_network_appliance_traffic_shaping_uplink_selection(
         self, *, network_id: str
@@ -2310,14 +2186,14 @@ class Appliance:
             network_id: Network ID.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "trafficShaping", "uplinkSelection"],
-            "operation": "get_network_appliance_traffic_shaping_uplink_selection",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/appliance/trafficShaping/uplinkSelection"
+        path = f"/networks/{network_id}/appliance/trafficShaping/uplinkSelection"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="appliance",
+            operation_id="getNetworkApplianceTrafficShapingUplinkSelection",
+            path=path,
+        )
 
     def update_network_appliance_traffic_shaping_uplink_selection(
         self,
@@ -2344,12 +2220,8 @@ class Appliance:
             vpn_traffic_uplink_preferences: Array of uplink preference rules for VPN traffic.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "trafficShaping", "uplinkSelection"],
-            "operation": "update_network_appliance_traffic_shaping_uplink_selection",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/appliance/trafficShaping/uplinkSelection"
+        path = f"/networks/{network_id}/appliance/trafficShaping/uplinkSelection"
 
         payload = {}
         if active_active_auto_vpn_enabled is not None:
@@ -2365,7 +2237,9 @@ class Appliance:
         if vpn_traffic_uplink_preferences is not None:
             payload["vpnTrafficUplinkPreferences"] = vpn_traffic_uplink_preferences
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def update_network_appliance_traffic_shaping_vpn_exclusions(
         self, *, network_id: str, custom: list | None = None, major_applications: list | None = None
@@ -2381,12 +2255,8 @@ class Appliance:
               clear existing rules.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "trafficShaping", "vpnExclusions"],
-            "operation": "update_network_appliance_traffic_shaping_vpn_exclusions",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/appliance/trafficShaping/vpnExclusions"
+        path = f"/networks/{network_id}/appliance/trafficShaping/vpnExclusions"
 
         payload = {}
         if custom is not None:
@@ -2394,7 +2264,9 @@ class Appliance:
         if major_applications is not None:
             payload["majorApplications"] = major_applications
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_network_appliance_uplinks_usage_history(
         self,
@@ -2421,12 +2293,8 @@ class Appliance:
               60, 300, 600, 1800, 3600, 86400. The default is 60.
 
         """
-        metadata = {
-            "tags": ["appliance", "monitor", "uplinks", "usageHistory"],
-            "operation": "get_network_appliance_uplinks_usage_history",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/appliance/uplinks/usageHistory"
+        path = f"/networks/{network_id}/appliance/uplinks/usageHistory"
 
         params = {}
         if t0 is not None:
@@ -2438,7 +2306,9 @@ class Appliance:
         if resolution is not None:
             params["resolution"] = resolution
 
-        return self._session.get(metadata, resource, params)
+        return self._session.get(
+            scope="appliance", operation_id="{operation_id}", path=path, params=params
+        )
 
     def get_network_appliance_vlans(self, *, network_id: str) -> dict[str, Any] | None:
         """List the VLANs for a Cisco Secure Router network.
@@ -2449,14 +2319,12 @@ class Appliance:
             network_id: Network ID.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "vlans"],
-            "operation": "get_network_appliance_vlans",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/appliance/vlans"
+        path = f"/networks/{network_id}/appliance/vlans"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="appliance", operation_id="getNetworkApplianceVlans", path=path
+        )
 
     def create_network_appliance_vlan(
         self,
@@ -2539,12 +2407,8 @@ class Appliance:
                 f'"dhcp_lease_time" cannot be "{dhcp_lease_time}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["appliance", "configure", "vlans"],
-            "operation": "create_network_appliance_vlan",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/appliance/vlans"
+        path = f"/networks/{network_id}/appliance/vlans"
 
         payload = {}
         if id_ is not None:
@@ -2582,7 +2446,9 @@ class Appliance:
         if dhcp_options is not None:
             payload["dhcpOptions"] = dhcp_options
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_network_appliance_vlans_settings(self, *, network_id: str) -> dict[str, Any] | None:
         """Returns the enabled status of VLANs for the network.
@@ -2593,14 +2459,12 @@ class Appliance:
             network_id: Network ID.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "vlans", "settings"],
-            "operation": "get_network_appliance_vlans_settings",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/appliance/vlans/settings"
+        path = f"/networks/{network_id}/appliance/vlans/settings"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="appliance", operation_id="getNetworkApplianceVlansSettings", path=path
+        )
 
     def update_network_appliance_vlans_settings(
         self, *, network_id: str, vlans_enabled: bool | None = None
@@ -2615,18 +2479,16 @@ class Appliance:
               the network.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "vlans", "settings"],
-            "operation": "update_network_appliance_vlans_settings",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/appliance/vlans/settings"
+        path = f"/networks/{network_id}/appliance/vlans/settings"
 
         payload = {}
         if vlans_enabled is not None:
             payload["vlansEnabled"] = vlans_enabled
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_network_appliance_vlan(self, *, network_id: str, vlan_id: str) -> dict[str, Any] | None:
         """Return a VLAN.
@@ -2638,15 +2500,13 @@ class Appliance:
             vlan_id: Vlan ID.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "vlans"],
-            "operation": "get_network_appliance_vlan",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         vlan_id = urllib.parse.quote(str(vlan_id), safe="")
-        resource = f"/networks/{network_id}/appliance/vlans/{vlan_id}"
+        path = f"/networks/{network_id}/appliance/vlans/{vlan_id}"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="appliance", operation_id="getNetworkApplianceVlan", path=path
+        )
 
     def update_network_appliance_vlan(
         self,
@@ -2743,13 +2603,9 @@ class Appliance:
                 f'"template_vlan_type" cannot be "{template_vlan_type}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["appliance", "configure", "vlans"],
-            "operation": "update_network_appliance_vlan",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         vlan_id = urllib.parse.quote(str(vlan_id), safe="")
-        resource = f"/networks/{network_id}/appliance/vlans/{vlan_id}"
+        path = f"/networks/{network_id}/appliance/vlans/{vlan_id}"
 
         payload = {}
         if name is not None:
@@ -2793,7 +2649,9 @@ class Appliance:
         if mandatory_dhcp is not None:
             payload["mandatoryDhcp"] = mandatory_dhcp
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def delete_network_appliance_vlan(self, *, network_id: str, vlan_id: str) -> None:
         """Delete a VLAN from a network.
@@ -2805,15 +2663,13 @@ class Appliance:
             vlan_id: Vlan ID.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "vlans"],
-            "operation": "delete_network_appliance_vlan",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         vlan_id = urllib.parse.quote(str(vlan_id), safe="")
-        resource = f"/networks/{network_id}/appliance/vlans/{vlan_id}"
+        path = f"/networks/{network_id}/appliance/vlans/{vlan_id}"
 
-        return self._session.delete(metadata, resource)
+        return self._session.delete(
+            scope="appliance", operation_id="deleteNetworkApplianceVlan", path=path
+        )
 
     def get_network_appliance_vpn_bgp(self, *, network_id: str) -> dict[str, Any] | None:
         """Return a Hub BGP Configuration.
@@ -2824,14 +2680,12 @@ class Appliance:
             network_id: Network ID.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "vpn", "bgp"],
-            "operation": "get_network_appliance_vpn_bgp",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/appliance/vpn/bgp"
+        path = f"/networks/{network_id}/appliance/vpn/bgp"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="appliance", operation_id="getNetworkApplianceVpnBgp", path=path
+        )
 
     def update_network_appliance_vpn_bgp(
         self,
@@ -2864,12 +2718,8 @@ class Appliance:
               absent, this field is not updated.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "vpn", "bgp"],
-            "operation": "update_network_appliance_vpn_bgp",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/appliance/vpn/bgp"
+        path = f"/networks/{network_id}/appliance/vpn/bgp"
 
         payload = {}
         if enabled is not None:
@@ -2881,7 +2731,9 @@ class Appliance:
         if neighbors is not None:
             payload["neighbors"] = neighbors
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_network_appliance_vpn_site_to_site_vpn(
         self, *, network_id: str
@@ -2894,14 +2746,12 @@ class Appliance:
             network_id: Network ID.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "vpn", "siteToSiteVpn"],
-            "operation": "get_network_appliance_vpn_site_to_site_vpn",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/appliance/vpn/siteToSiteVpn"
+        path = f"/networks/{network_id}/appliance/vpn/siteToSiteVpn"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="appliance", operation_id="getNetworkApplianceVpnSiteToSiteVpn", path=path
+        )
 
     def update_network_appliance_vpn_site_to_site_vpn(
         self,
@@ -2929,12 +2779,8 @@ class Appliance:
             options = ["hub", "none", "spoke"]
             assert mode in options, f'"mode" cannot be "{mode}", & must be set to one of: {options}'
 
-        metadata = {
-            "tags": ["appliance", "configure", "vpn", "siteToSiteVpn"],
-            "operation": "update_network_appliance_vpn_site_to_site_vpn",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/appliance/vpn/siteToSiteVpn"
+        path = f"/networks/{network_id}/appliance/vpn/siteToSiteVpn"
 
         payload = {}
         if mode is not None:
@@ -2946,7 +2792,9 @@ class Appliance:
         if subnet is not None:
             payload["subnet"] = subnet
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_network_appliance_warm_spare(self, *, network_id: str) -> dict[str, Any] | None:
         """Return MX warm spare settings.
@@ -2957,14 +2805,12 @@ class Appliance:
             network_id: Network ID.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "warmSpare"],
-            "operation": "get_network_appliance_warm_spare",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/appliance/warmSpare"
+        path = f"/networks/{network_id}/appliance/warmSpare"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="appliance", operation_id="getNetworkApplianceWarmSpare", path=path
+        )
 
     def update_network_appliance_warm_spare(
         self,
@@ -2989,12 +2835,8 @@ class Appliance:
             virtual_ip2: The WAN 2 shared IP.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "warmSpare"],
-            "operation": "update_network_appliance_warm_spare",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/appliance/warmSpare"
+        path = f"/networks/{network_id}/appliance/warmSpare"
 
         payload = {}
         if enabled is not None:
@@ -3008,7 +2850,9 @@ class Appliance:
         if virtual_ip2 is not None:
             payload["virtualIp2"] = virtual_ip2
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def swap_network_appliance_warm_spare(self, *, network_id: str) -> dict[str, Any] | None:
         """Swap MX primary and warm spare appliances.
@@ -3019,14 +2863,12 @@ class Appliance:
             network_id: Network ID.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "warmSpare"],
-            "operation": "swap_network_appliance_warm_spare",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/appliance/warmSpare/swap"
+        path = f"/networks/{network_id}/appliance/warmSpare/swap"
 
-        return self._session.post(metadata, resource)
+        return self._session.post(
+            scope="appliance", operation_id="swapNetworkApplianceWarmSpare", path=path
+        )
 
     def get_organization_appliance_dns_local_profiles(
         self, *, organization_id: str, profile_ids: list | None = None
@@ -3040,18 +2882,16 @@ class Appliance:
             profile_ids: Optional parameter to filter the results by profile IDs.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "dns", "local", "profiles"],
-            "operation": "get_organization_appliance_dns_local_profiles",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/appliance/dns/local/profiles"
+        path = f"/organizations/{organization_id}/appliance/dns/local/profiles"
 
         params = {}
         if profile_ids is not None:
             params["profileIds[]"] = profile_ids
 
-        return self._session.get(metadata, resource, params)
+        return self._session.get(
+            scope="appliance", operation_id="{operation_id}", path=path, params=params
+        )
 
     def create_organization_appliance_dns_local_profile(
         self, *, organization_id: str, name: str
@@ -3065,18 +2905,16 @@ class Appliance:
             name: Name of profile.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "dns", "local", "profiles"],
-            "operation": "create_organization_appliance_dns_local_profile",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/appliance/dns/local/profiles"
+        path = f"/organizations/{organization_id}/appliance/dns/local/profiles"
 
         payload = {}
         if name is not None:
             payload["name"] = name
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_organization_appliance_dns_local_profiles_assignments(
         self,
@@ -3095,12 +2933,8 @@ class Appliance:
             network_ids: Optional parameter to filter the results by network IDs.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "dns", "local", "profiles", "assignments"],
-            "operation": "get_organization_appliance_dns_local_profiles_assignments",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/appliance/dns/local/profiles/assignments"
+        path = f"/organizations/{organization_id}/appliance/dns/local/profiles/assignments"
 
         params = {}
         if profile_ids is not None:
@@ -3108,7 +2942,9 @@ class Appliance:
         if network_ids is not None:
             params["networkIds[]"] = network_ids
 
-        return self._session.get(metadata, resource, params)
+        return self._session.get(
+            scope="appliance", operation_id="{operation_id}", path=path, params=params
+        )
 
     def bulk_organization_appliance_dns_local_profiles_assignments_create(
         self, *, organization_id: str, items: list
@@ -3122,12 +2958,8 @@ class Appliance:
             items: List containing the network ID and Profile ID.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "dns", "local", "profiles", "assignments"],
-            "operation": "bulk_organization_appliance_dns_local_profiles_assignments_create",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = (
+        path = (
             f"/organizations/{organization_id}/appliance/dns/local/profiles/assignments/bulkCreate"
         )
 
@@ -3135,7 +2967,9 @@ class Appliance:
         if items is not None:
             payload["items"] = items
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def create_organization_appliance_dns_local_profiles_assignments_bulk_delete(
         self, *, organization_id: str, items: list
@@ -3149,20 +2983,8 @@ class Appliance:
             items: List containing the assignment ID.
 
         """
-        metadata = {
-            "tags": [
-                "appliance",
-                "configure",
-                "dns",
-                "local",
-                "profiles",
-                "assignments",
-                "bulkDelete",
-            ],
-            "operation": "create_organization_appliance_dns_local_profiles_assignments_bulk_delete",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = (
+        path = (
             f"/organizations/{organization_id}/appliance/dns/local/profiles/assignments/bulkDelete"
         )
 
@@ -3170,7 +2992,9 @@ class Appliance:
         if items is not None:
             payload["items"] = items
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def update_organization_appliance_dns_local_profile(
         self, *, organization_id: str, profile_id: str, name: str
@@ -3185,19 +3009,17 @@ class Appliance:
             name: Name of profile.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "dns", "local", "profiles"],
-            "operation": "update_organization_appliance_dns_local_profile",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         profile_id = urllib.parse.quote(str(profile_id), safe="")
-        resource = f"/organizations/{organization_id}/appliance/dns/local/profiles/{profile_id}"
+        path = f"/organizations/{organization_id}/appliance/dns/local/profiles/{profile_id}"
 
         payload = {}
         if name is not None:
             payload["name"] = name
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def delete_organization_appliance_dns_local_profile(
         self, *, organization_id: str, profile_id: str
@@ -3211,15 +3033,13 @@ class Appliance:
             profile_id: Profile ID.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "dns", "local", "profiles"],
-            "operation": "delete_organization_appliance_dns_local_profile",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         profile_id = urllib.parse.quote(str(profile_id), safe="")
-        resource = f"/organizations/{organization_id}/appliance/dns/local/profiles/{profile_id}"
+        path = f"/organizations/{organization_id}/appliance/dns/local/profiles/{profile_id}"
 
-        return self._session.delete(metadata, resource)
+        return self._session.delete(
+            scope="appliance", operation_id="deleteOrganizationApplianceDnsLocalProfile", path=path
+        )
 
     def get_organization_appliance_dns_local_records(
         self, *, organization_id: str, profile_ids: list | None = None
@@ -3233,18 +3053,16 @@ class Appliance:
             profile_ids: Optional parameter to filter the results by profile IDs.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "dns", "local", "records"],
-            "operation": "get_organization_appliance_dns_local_records",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/appliance/dns/local/records"
+        path = f"/organizations/{organization_id}/appliance/dns/local/records"
 
         params = {}
         if profile_ids is not None:
             params["profileIds[]"] = profile_ids
 
-        return self._session.get(metadata, resource, params)
+        return self._session.get(
+            scope="appliance", operation_id="{operation_id}", path=path, params=params
+        )
 
     def create_organization_appliance_dns_local_record(
         self, *, organization_id: str, hostname: str, address: str, profile: dict
@@ -3260,12 +3078,8 @@ class Appliance:
             profile: The profile the DNS record is associated with.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "dns", "local", "records"],
-            "operation": "create_organization_appliance_dns_local_record",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/appliance/dns/local/records"
+        path = f"/organizations/{organization_id}/appliance/dns/local/records"
 
         payload = {}
         if hostname is not None:
@@ -3275,7 +3089,9 @@ class Appliance:
         if profile is not None:
             payload["profile"] = profile
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def update_organization_appliance_dns_local_record(
         self,
@@ -3298,13 +3114,9 @@ class Appliance:
             profile: The profile the DNS record is associated with.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "dns", "local", "records"],
-            "operation": "update_organization_appliance_dns_local_record",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         record_id = urllib.parse.quote(str(record_id), safe="")
-        resource = f"/organizations/{organization_id}/appliance/dns/local/records/{record_id}"
+        path = f"/organizations/{organization_id}/appliance/dns/local/records/{record_id}"
 
         payload = {}
         if hostname is not None:
@@ -3314,7 +3126,9 @@ class Appliance:
         if profile is not None:
             payload["profile"] = profile
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def delete_organization_appliance_dns_local_record(
         self, *, organization_id: str, record_id: str
@@ -3328,15 +3142,13 @@ class Appliance:
             record_id: Record ID.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "dns", "local", "records"],
-            "operation": "delete_organization_appliance_dns_local_record",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         record_id = urllib.parse.quote(str(record_id), safe="")
-        resource = f"/organizations/{organization_id}/appliance/dns/local/records/{record_id}"
+        path = f"/organizations/{organization_id}/appliance/dns/local/records/{record_id}"
 
-        return self._session.delete(metadata, resource)
+        return self._session.delete(
+            scope="appliance", operation_id="deleteOrganizationApplianceDnsLocalRecord", path=path
+        )
 
     def get_organization_appliance_dns_split_profiles(
         self, *, organization_id: str, profile_ids: list | None = None
@@ -3350,18 +3162,16 @@ class Appliance:
             profile_ids: Optional parameter to filter the results by profile IDs.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "dns", "split", "profiles"],
-            "operation": "get_organization_appliance_dns_split_profiles",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/appliance/dns/split/profiles"
+        path = f"/organizations/{organization_id}/appliance/dns/split/profiles"
 
         params = {}
         if profile_ids is not None:
             params["profileIds[]"] = profile_ids
 
-        return self._session.get(metadata, resource, params)
+        return self._session.get(
+            scope="appliance", operation_id="{operation_id}", path=path, params=params
+        )
 
     def create_organization_appliance_dns_split_profile(
         self, *, organization_id: str, name: str, hostnames: list, nameservers: dict
@@ -3378,12 +3188,8 @@ class Appliance:
             nameservers: Contains the nameserver information for redirection.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "dns", "split", "profiles"],
-            "operation": "create_organization_appliance_dns_split_profile",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/appliance/dns/split/profiles"
+        path = f"/organizations/{organization_id}/appliance/dns/split/profiles"
 
         payload = {}
         if name is not None:
@@ -3393,7 +3199,9 @@ class Appliance:
         if nameservers is not None:
             payload["nameservers"] = nameservers
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_organization_appliance_dns_split_profiles_assignments(
         self,
@@ -3412,12 +3220,8 @@ class Appliance:
             network_ids: Optional parameter to filter the results by network IDs.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "dns", "split", "profiles", "assignments"],
-            "operation": "get_organization_appliance_dns_split_profiles_assignments",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/appliance/dns/split/profiles/assignments"
+        path = f"/organizations/{organization_id}/appliance/dns/split/profiles/assignments"
 
         params = {}
         if profile_ids is not None:
@@ -3425,7 +3229,9 @@ class Appliance:
         if network_ids is not None:
             params["networkIds[]"] = network_ids
 
-        return self._session.get(metadata, resource, params)
+        return self._session.get(
+            scope="appliance", operation_id="{operation_id}", path=path, params=params
+        )
 
     def create_organization_appliance_dns_split_profiles_assignments_bulk_create(
         self, *, organization_id: str, items: list
@@ -3439,20 +3245,8 @@ class Appliance:
             items: List containing the network ID and Profile ID.
 
         """
-        metadata = {
-            "tags": [
-                "appliance",
-                "configure",
-                "dns",
-                "split",
-                "profiles",
-                "assignments",
-                "bulkCreate",
-            ],
-            "operation": "create_organization_appliance_dns_split_profiles_assignments_bulk_create",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = (
+        path = (
             f"/organizations/{organization_id}/appliance/dns/split/profiles/assignments/bulkCreate"
         )
 
@@ -3460,7 +3254,9 @@ class Appliance:
         if items is not None:
             payload["items"] = items
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def create_organization_appliance_dns_split_profiles_assignments_bulk_delete(
         self, *, organization_id: str, items: list
@@ -3474,20 +3270,8 @@ class Appliance:
             items: List containing the assignment ID.
 
         """
-        metadata = {
-            "tags": [
-                "appliance",
-                "configure",
-                "dns",
-                "split",
-                "profiles",
-                "assignments",
-                "bulkDelete",
-            ],
-            "operation": "create_organization_appliance_dns_split_profiles_assignments_bulk_delete",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = (
+        path = (
             f"/organizations/{organization_id}/appliance/dns/split/profiles/assignments/bulkDelete"
         )
 
@@ -3495,7 +3279,9 @@ class Appliance:
         if items is not None:
             payload["items"] = items
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def update_organization_appliance_dns_split_profile(
         self,
@@ -3519,13 +3305,9 @@ class Appliance:
             nameservers: Contains the nameserver information for redirection.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "dns", "split", "profiles"],
-            "operation": "update_organization_appliance_dns_split_profile",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         profile_id = urllib.parse.quote(str(profile_id), safe="")
-        resource = f"/organizations/{organization_id}/appliance/dns/split/profiles/{profile_id}"
+        path = f"/organizations/{organization_id}/appliance/dns/split/profiles/{profile_id}"
 
         payload = {}
         if name is not None:
@@ -3535,7 +3317,9 @@ class Appliance:
         if nameservers is not None:
             payload["nameservers"] = nameservers
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def delete_organization_appliance_dns_split_profile(
         self, *, organization_id: str, profile_id: str
@@ -3549,15 +3333,13 @@ class Appliance:
             profile_id: Profile ID.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "dns", "split", "profiles"],
-            "operation": "delete_organization_appliance_dns_split_profile",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         profile_id = urllib.parse.quote(str(profile_id), safe="")
-        resource = f"/organizations/{organization_id}/appliance/dns/split/profiles/{profile_id}"
+        path = f"/organizations/{organization_id}/appliance/dns/split/profiles/{profile_id}"
 
-        return self._session.delete(metadata, resource)
+        return self._session.delete(
+            scope="appliance", operation_id="deleteOrganizationApplianceDnsSplitProfile", path=path
+        )
 
     def get_organization_appliance_firewall_multicast_forwarding_by_network(
         self,
@@ -3592,14 +3374,8 @@ class Appliance:
             direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "firewall", "multicastForwarding", "byNetwork"],
-            "operation": "get_organization_appliance_firewall_multicast_forwarding_by_network",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = (
-            f"/organizations/{organization_id}/appliance/firewall/multicastForwarding/byNetwork"
-        )
+        path = f"/organizations/{organization_id}/appliance/firewall/multicastForwarding/byNetwork"
 
         params = {}
         if per_page is not None:
@@ -3611,7 +3387,14 @@ class Appliance:
         if network_ids is not None:
             params["networkIds[]"] = network_ids
 
-        return self._session.get_pages(metadata, resource, params, total_pages, direction)
+        return self._session.get_pages(
+            scope="appliance",
+            operation_id="{operation_id}",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+        )
 
     def get_organization_appliance_security_events(
         self,
@@ -3662,12 +3445,8 @@ class Appliance:
                 f'"sort_order" cannot be "{sort_order}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["appliance", "monitor", "security", "events"],
-            "operation": "get_organization_appliance_security_events",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/appliance/security/events"
+        path = f"/organizations/{organization_id}/appliance/security/events"
 
         params = {}
         if t0 is not None:
@@ -3685,7 +3464,14 @@ class Appliance:
         if sort_order is not None:
             params["sortOrder"] = sort_order
 
-        return self._session.get_pages(metadata, resource, params, total_pages, direction)
+        return self._session.get_pages(
+            scope="appliance",
+            operation_id="{operation_id}",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+        )
 
     def get_organization_appliance_security_intrusion(
         self, *, organization_id: str
@@ -3698,14 +3484,12 @@ class Appliance:
             organization_id: Organization ID.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "security", "intrusion"],
-            "operation": "get_organization_appliance_security_intrusion",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/appliance/security/intrusion"
+        path = f"/organizations/{organization_id}/appliance/security/intrusion"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="appliance", operation_id="getOrganizationApplianceSecurityIntrusion", path=path
+        )
 
     def update_organization_appliance_security_intrusion(
         self, *, organization_id: str, allowed_rules: list
@@ -3719,18 +3503,16 @@ class Appliance:
             allowed_rules: Sets a list of specific SNORT signatures to allow.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "security", "intrusion"],
-            "operation": "update_organization_appliance_security_intrusion",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/appliance/security/intrusion"
+        path = f"/organizations/{organization_id}/appliance/security/intrusion"
 
         payload = {}
         if allowed_rules is not None:
             payload["allowedRules"] = allowed_rules
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_organization_appliance_traffic_shaping_vpn_exclusions_by_network(
         self,
@@ -3765,14 +3547,8 @@ class Appliance:
             direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "trafficShaping", "vpnExclusions", "byNetwork"],
-            "operation": "get_organization_appliance_traffic_shaping_vpn_exclusions_by_network",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = (
-            f"/organizations/{organization_id}/appliance/trafficShaping/vpnExclusions/byNetwork"
-        )
+        path = f"/organizations/{organization_id}/appliance/trafficShaping/vpnExclusions/byNetwork"
 
         params = {}
         if per_page is not None:
@@ -3784,7 +3560,14 @@ class Appliance:
         if network_ids is not None:
             params["networkIds[]"] = network_ids
 
-        return self._session.get_pages(metadata, resource, params, total_pages, direction)
+        return self._session.get_pages(
+            scope="appliance",
+            operation_id="{operation_id}",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+        )
 
     def get_organization_appliance_uplink_statuses(
         self,
@@ -3826,12 +3609,8 @@ class Appliance:
             direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        metadata = {
-            "tags": ["appliance", "monitor", "uplinks", "statuses"],
-            "operation": "get_organization_appliance_uplink_statuses",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/appliance/uplink/statuses"
+        path = f"/organizations/{organization_id}/appliance/uplink/statuses"
 
         params = {}
         if per_page is not None:
@@ -3847,7 +3626,14 @@ class Appliance:
         if iccids is not None:
             params["iccids[]"] = iccids
 
-        return self._session.get_pages(metadata, resource, params, total_pages, direction)
+        return self._session.get_pages(
+            scope="appliance",
+            operation_id="{operation_id}",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+        )
 
     def get_organization_appliance_uplinks_statuses_overview(
         self, *, organization_id: str, network_ids: list | None = None
@@ -3862,18 +3648,16 @@ class Appliance:
               include these networks.
 
         """
-        metadata = {
-            "tags": ["appliance", "monitor", "uplinks", "statuses", "overview"],
-            "operation": "get_organization_appliance_uplinks_statuses_overview",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/appliance/uplinks/statuses/overview"
+        path = f"/organizations/{organization_id}/appliance/uplinks/statuses/overview"
 
         params = {}
         if network_ids is not None:
             params["networkIds[]"] = network_ids
 
-        return self._session.get(metadata, resource, params)
+        return self._session.get(
+            scope="appliance", operation_id="{operation_id}", path=path, params=params
+        )
 
     def get_organization_appliance_uplinks_usage_by_network(
         self,
@@ -3897,12 +3681,8 @@ class Appliance:
               seconds and be less than or equal to 14 days. The default is 1 day.
 
         """
-        metadata = {
-            "tags": ["appliance", "monitor", "uplinks", "usage", "byNetwork"],
-            "operation": "get_organization_appliance_uplinks_usage_by_network",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/appliance/uplinks/usage/byNetwork"
+        path = f"/organizations/{organization_id}/appliance/uplinks/usage/byNetwork"
 
         params = {}
         if t0 is not None:
@@ -3912,7 +3692,9 @@ class Appliance:
         if timespan is not None:
             params["timespan"] = timespan
 
-        return self._session.get(metadata, resource, params)
+        return self._session.get(
+            scope="appliance", operation_id="{operation_id}", path=path, params=params
+        )
 
     def get_organization_appliance_vpn_site_to_site_ipsec_peers_slas(
         self, *, organization_id: str
@@ -3925,14 +3707,14 @@ class Appliance:
             organization_id: Organization ID.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "vpn", "siteToSite", "ipsec", "peers", "slas"],
-            "operation": "get_organization_appliance_vpn_site_to_site_ipsec_peers_slas",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/appliance/vpn/siteToSite/ipsec/peers/slas"
+        path = f"/organizations/{organization_id}/appliance/vpn/siteToSite/ipsec/peers/slas"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="appliance",
+            operation_id="getOrganizationApplianceVpnSiteToSiteIpsecPeersSlas",
+            path=path,
+        )
 
     def update_organization_appliance_vpn_site_to_site_ipsec_peers_slas(
         self, *, organization_id: str, items: list | None = None
@@ -3946,18 +3728,16 @@ class Appliance:
             items: List of IPsec SLA policies.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "vpn", "siteToSite", "ipsec", "peers", "slas"],
-            "operation": "update_organization_appliance_vpn_site_to_site_ipsec_peers_slas",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/appliance/vpn/siteToSite/ipsec/peers/slas"
+        path = f"/organizations/{organization_id}/appliance/vpn/siteToSite/ipsec/peers/slas"
 
         payload = {}
         if items is not None:
             payload["items"] = items
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_organization_appliance_vpn_stats(
         self,
@@ -4002,12 +3782,8 @@ class Appliance:
             direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        metadata = {
-            "tags": ["appliance", "monitor", "vpn", "stats"],
-            "operation": "get_organization_appliance_vpn_stats",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/appliance/vpn/stats"
+        path = f"/organizations/{organization_id}/appliance/vpn/stats"
 
         params = {}
         if per_page is not None:
@@ -4025,7 +3801,14 @@ class Appliance:
         if timespan is not None:
             params["timespan"] = timespan
 
-        return self._session.get_pages(metadata, resource, params, total_pages, direction)
+        return self._session.get_pages(
+            scope="appliance",
+            operation_id="{operation_id}",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+        )
 
     def get_organization_appliance_vpn_statuses(
         self,
@@ -4061,12 +3844,8 @@ class Appliance:
             direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        metadata = {
-            "tags": ["appliance", "monitor", "vpn", "statuses"],
-            "operation": "get_organization_appliance_vpn_statuses",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/appliance/vpn/statuses"
+        path = f"/organizations/{organization_id}/appliance/vpn/statuses"
 
         params = {}
         if per_page is not None:
@@ -4078,7 +3857,14 @@ class Appliance:
         if network_ids is not None:
             params["networkIds[]"] = network_ids
 
-        return self._session.get_pages(metadata, resource, params, total_pages, direction)
+        return self._session.get_pages(
+            scope="appliance",
+            operation_id="{operation_id}",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+        )
 
     def get_organization_appliance_vpn_third_party_v_p_n_peers(
         self, *, organization_id: str
@@ -4091,14 +3877,14 @@ class Appliance:
             organization_id: Organization ID.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "vpn", "thirdPartyVPNPeers"],
-            "operation": "get_organization_appliance_vpn_third_party_v_p_n_peers",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/appliance/vpn/thirdPartyVPNPeers"
+        path = f"/organizations/{organization_id}/appliance/vpn/thirdPartyVPNPeers"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="appliance",
+            operation_id="getOrganizationApplianceVpnThirdPartyVPNPeers",
+            path=path,
+        )
 
     def update_organization_appliance_vpn_third_party_v_p_n_peers(
         self, *, organization_id: str, peers: list
@@ -4112,18 +3898,16 @@ class Appliance:
             peers: The list of VPN peers.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "vpn", "thirdPartyVPNPeers"],
-            "operation": "update_organization_appliance_vpn_third_party_v_p_n_peers",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/appliance/vpn/thirdPartyVPNPeers"
+        path = f"/organizations/{organization_id}/appliance/vpn/thirdPartyVPNPeers"
 
         payload = {}
         if peers is not None:
             payload["peers"] = peers
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_organization_appliance_vpn_vpn_firewall_rules(
         self, *, organization_id: str
@@ -4136,14 +3920,12 @@ class Appliance:
             organization_id: Organization ID.
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "vpn", "vpnFirewallRules"],
-            "operation": "get_organization_appliance_vpn_vpn_firewall_rules",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/appliance/vpn/vpnFirewallRules"
+        path = f"/organizations/{organization_id}/appliance/vpn/vpnFirewallRules"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="appliance", operation_id="getOrganizationApplianceVpnVpnFirewallRules", path=path
+        )
 
     def update_organization_appliance_vpn_vpn_firewall_rules(
         self,
@@ -4163,12 +3945,8 @@ class Appliance:
               configured a syslog server) (optional).
 
         """
-        metadata = {
-            "tags": ["appliance", "configure", "vpn", "vpnFirewallRules"],
-            "operation": "update_organization_appliance_vpn_vpn_firewall_rules",
-        }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        resource = f"/organizations/{organization_id}/appliance/vpn/vpnFirewallRules"
+        path = f"/organizations/{organization_id}/appliance/vpn/vpnFirewallRules"
 
         payload = {}
         if rules is not None:
@@ -4176,4 +3954,6 @@ class Appliance:
         if syslog_default_rule is not None:
             payload["syslogDefaultRule"] = syslog_default_rule
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+        )

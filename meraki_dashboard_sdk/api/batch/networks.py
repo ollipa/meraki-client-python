@@ -1,7 +1,7 @@
 """ActionBatchNetworks API endpoints."""
 
 import urllib
-from typing import Any
+from typing import Any, Literal
 
 
 class ActionBatchNetworks:
@@ -40,7 +40,7 @@ class ActionBatchNetworks:
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}"
+        path = f"/networks/{network_id}"
 
         payload = {}
         if name is not None:
@@ -55,7 +55,7 @@ class ActionBatchNetworks:
             payload["notes"] = notes
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -71,10 +71,10 @@ class ActionBatchNetworks:
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}"
+        path = f"/networks/{network_id}"
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "destroy",
         }
         return action  # noqa: RET504
@@ -97,7 +97,7 @@ class ActionBatchNetworks:
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/bind"
+        path = f"/networks/{network_id}/bind"
 
         payload = {}
         if config_template_id is not None:
@@ -106,7 +106,7 @@ class ActionBatchNetworks:
             payload["autoBind"] = auto_bind
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "create",
             "body": payload,
         }
@@ -148,7 +148,7 @@ class ActionBatchNetworks:
             )
 
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/clients/provision"
+        path = f"/networks/{network_id}/clients/provision"
 
         payload = {}
         if clients is not None:
@@ -163,7 +163,7 @@ class ActionBatchNetworks:
             payload["policiesBySsid"] = policies_by_ssid
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "create",
             "body": payload,
         }
@@ -191,7 +191,7 @@ class ActionBatchNetworks:
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/devices/claim"
+        path = f"/networks/{network_id}/devices/claim"
 
         params = {}
         if add_atomically is not None:
@@ -204,7 +204,7 @@ class ActionBatchNetworks:
             payload["detailsByDevice"] = details_by_device
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "create",
             "body": payload,
         }
@@ -226,14 +226,14 @@ class ActionBatchNetworks:
             assert size in options, f'"size" cannot be "{size}", & must be set to one of: {options}'
 
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/devices/claim/vmx"
+        path = f"/networks/{network_id}/devices/claim/vmx"
 
         payload = {}
         if size is not None:
             payload["size"] = size
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "create",
             "body": payload,
         }
@@ -250,14 +250,14 @@ class ActionBatchNetworks:
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/devices/remove"
+        path = f"/networks/{network_id}/devices/remove"
 
         payload = {}
         if serial is not None:
             payload["serial"] = serial
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "create",
             "body": payload,
         }
@@ -283,7 +283,7 @@ class ActionBatchNetworks:
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/firmwareUpgrades"
+        path = f"/networks/{network_id}/firmwareUpgrades"
 
         payload = {}
         if upgrade_window is not None:
@@ -294,7 +294,7 @@ class ActionBatchNetworks:
             payload["products"] = products
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -337,7 +337,7 @@ class ActionBatchNetworks:
             )
 
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/firmwareUpgrades/rollbacks"
+        path = f"/networks/{network_id}/firmwareUpgrades/rollbacks"
 
         payload = {}
         if product is not None:
@@ -350,7 +350,7 @@ class ActionBatchNetworks:
             payload["toVersion"] = to_version
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "create",
             "body": payload,
         }
@@ -380,7 +380,7 @@ class ActionBatchNetworks:
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/firmwareUpgrades/staged/groups"
+        path = f"/networks/{network_id}/firmwareUpgrades/staged/groups"
 
         payload = {}
         if name is not None:
@@ -393,7 +393,7 @@ class ActionBatchNetworks:
             payload["assignedDevices"] = assigned_devices
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "create",
             "body": payload,
         }
@@ -413,10 +413,10 @@ class ActionBatchNetworks:
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
         group_id = urllib.parse.quote(str(group_id), safe="")
-        resource = f"/networks/{network_id}/firmwareUpgrades/staged/groups/{group_id}"
+        path = f"/networks/{network_id}/firmwareUpgrades/staged/groups/{group_id}"
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "destroy",
         }
         return action  # noqa: RET504
@@ -435,14 +435,14 @@ class ActionBatchNetworks:
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/floorPlans/autoLocate/jobs/batch"
+        path = f"/networks/{network_id}/floorPlans/autoLocate/jobs/batch"
 
         payload = {}
         if jobs is not None:
             payload["jobs"] = jobs
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "create",
             "body": payload,
         }
@@ -462,10 +462,10 @@ class ActionBatchNetworks:
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
         job_id = urllib.parse.quote(str(job_id), safe="")
-        resource = f"/networks/{network_id}/floorPlans/autoLocate/jobs/{job_id}/cancel"
+        path = f"/networks/{network_id}/floorPlans/autoLocate/jobs/{job_id}/cancel"
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "create",
         }
         return action  # noqa: RET504
@@ -485,14 +485,14 @@ class ActionBatchNetworks:
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
         job_id = urllib.parse.quote(str(job_id), safe="")
-        resource = f"/networks/{network_id}/floorPlans/autoLocate/jobs/{job_id}/publish"
+        path = f"/networks/{network_id}/floorPlans/autoLocate/jobs/{job_id}/publish"
 
         payload = {}
         if devices is not None:
             payload["devices"] = devices
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "create",
             "body": payload,
         }
@@ -513,14 +513,14 @@ class ActionBatchNetworks:
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
         job_id = urllib.parse.quote(str(job_id), safe="")
-        resource = f"/networks/{network_id}/floorPlans/autoLocate/jobs/{job_id}/recalculate"
+        path = f"/networks/{network_id}/floorPlans/autoLocate/jobs/{job_id}/recalculate"
 
         payload = {}
         if devices is not None:
             payload["devices"] = devices
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "create",
             "body": payload,
         }
@@ -540,14 +540,14 @@ class ActionBatchNetworks:
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/floorPlans/devices/batchUpdate"
+        path = f"/networks/{network_id}/floorPlans/devices/batchUpdate"
 
         payload = {}
         if assignments is not None:
             payload["assignments"] = assignments
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "create",
             "body": payload,
         }
@@ -602,7 +602,7 @@ class ActionBatchNetworks:
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
         floor_plan_id = urllib.parse.quote(str(floor_plan_id), safe="")
-        resource = f"/networks/{network_id}/floorPlans/{floor_plan_id}"
+        path = f"/networks/{network_id}/floorPlans/{floor_plan_id}"
 
         payload = {}
         if name is not None:
@@ -623,7 +623,7 @@ class ActionBatchNetworks:
             payload["imageContents"] = image_contents
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -641,10 +641,10 @@ class ActionBatchNetworks:
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
         floor_plan_id = urllib.parse.quote(str(floor_plan_id), safe="")
-        resource = f"/networks/{network_id}/floorPlans/{floor_plan_id}"
+        path = f"/networks/{network_id}/floorPlans/{floor_plan_id}"
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "destroy",
         }
         return action  # noqa: RET504
@@ -692,7 +692,7 @@ class ActionBatchNetworks:
             )
 
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/groupPolicies"
+        path = f"/networks/{network_id}/groupPolicies"
 
         payload = {}
         if name is not None:
@@ -713,7 +713,7 @@ class ActionBatchNetworks:
             payload["bonjourForwarding"] = bonjour_forwarding
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "create",
             "body": payload,
         }
@@ -765,7 +765,7 @@ class ActionBatchNetworks:
 
         network_id = urllib.parse.quote(str(network_id), safe="")
         group_policy_id = urllib.parse.quote(str(group_policy_id), safe="")
-        resource = f"/networks/{network_id}/groupPolicies/{group_policy_id}"
+        path = f"/networks/{network_id}/groupPolicies/{group_policy_id}"
 
         payload = {}
         if name is not None:
@@ -786,7 +786,7 @@ class ActionBatchNetworks:
             payload["bonjourForwarding"] = bonjour_forwarding
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -809,14 +809,14 @@ class ActionBatchNetworks:
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
         group_policy_id = urllib.parse.quote(str(group_policy_id), safe="")
-        resource = f"/networks/{network_id}/groupPolicies/{group_policy_id}"
+        path = f"/networks/{network_id}/groupPolicies/{group_policy_id}"
 
         params = {}
         if force is not None:
             params["force"] = force
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "destroy",
         }
         return action  # noqa: RET504
@@ -858,7 +858,7 @@ class ActionBatchNetworks:
             )
 
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/merakiAuthUsers"
+        path = f"/networks/{network_id}/merakiAuthUsers"
 
         payload = {}
         if email is not None:
@@ -877,7 +877,7 @@ class ActionBatchNetworks:
             payload["authorizations"] = authorizations
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "create",
             "body": payload,
         }
@@ -910,7 +910,7 @@ class ActionBatchNetworks:
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
         meraki_auth_user_id = urllib.parse.quote(str(meraki_auth_user_id), safe="")
-        resource = f"/networks/{network_id}/merakiAuthUsers/{meraki_auth_user_id}"
+        path = f"/networks/{network_id}/merakiAuthUsers/{meraki_auth_user_id}"
 
         payload = {}
         if name is not None:
@@ -923,7 +923,7 @@ class ActionBatchNetworks:
             payload["authorizations"] = authorizations
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -947,14 +947,14 @@ class ActionBatchNetworks:
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
         meraki_auth_user_id = urllib.parse.quote(str(meraki_auth_user_id), safe="")
-        resource = f"/networks/{network_id}/merakiAuthUsers/{meraki_auth_user_id}"
+        path = f"/networks/{network_id}/merakiAuthUsers/{meraki_auth_user_id}"
 
         params = {}
         if delete is not None:
             params["delete"] = delete
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "destroy",
         }
         return action  # noqa: RET504
@@ -983,7 +983,7 @@ class ActionBatchNetworks:
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/mqttBrokers"
+        path = f"/networks/{network_id}/mqttBrokers"
 
         payload = {}
         if name is not None:
@@ -998,7 +998,7 @@ class ActionBatchNetworks:
             payload["authentication"] = authentication
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "create",
             "body": payload,
         }
@@ -1031,7 +1031,7 @@ class ActionBatchNetworks:
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
         mqtt_broker_id = urllib.parse.quote(str(mqtt_broker_id), safe="")
-        resource = f"/networks/{network_id}/mqttBrokers/{mqtt_broker_id}"
+        path = f"/networks/{network_id}/mqttBrokers/{mqtt_broker_id}"
 
         payload = {}
         if name is not None:
@@ -1046,7 +1046,7 @@ class ActionBatchNetworks:
             payload["authentication"] = authentication
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -1064,10 +1064,10 @@ class ActionBatchNetworks:
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
         mqtt_broker_id = urllib.parse.quote(str(mqtt_broker_id), safe="")
-        resource = f"/networks/{network_id}/mqttBrokers/{mqtt_broker_id}"
+        path = f"/networks/{network_id}/mqttBrokers/{mqtt_broker_id}"
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "destroy",
         }
         return action  # noqa: RET504
@@ -1104,7 +1104,7 @@ class ActionBatchNetworks:
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/settings"
+        path = f"/networks/{network_id}/settings"
 
         payload = {}
         if local_status_page_enabled is not None:
@@ -1119,7 +1119,7 @@ class ActionBatchNetworks:
             payload["namedVlans"] = named_vlans
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -1135,10 +1135,10 @@ class ActionBatchNetworks:
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/split"
+        path = f"/networks/{network_id}/split"
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "create",
         }
         return action  # noqa: RET504
@@ -1157,14 +1157,14 @@ class ActionBatchNetworks:
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/unbind"
+        path = f"/networks/{network_id}/unbind"
 
         payload = {}
         if retain_configs is not None:
             payload["retainConfigs"] = retain_configs
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "create",
             "body": payload,
         }
@@ -1186,7 +1186,7 @@ class ActionBatchNetworks:
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/vlanProfiles"
+        path = f"/networks/{network_id}/vlanProfiles"
 
         payload = {}
         if name is not None:
@@ -1199,7 +1199,7 @@ class ActionBatchNetworks:
             payload["iname"] = iname
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "create",
             "body": payload,
         }
@@ -1217,10 +1217,10 @@ class ActionBatchNetworks:
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
         iname = urllib.parse.quote(str(iname), safe="")
-        resource = f"/networks/{network_id}/vlanProfiles/{iname}"
+        path = f"/networks/{network_id}/vlanProfiles/{iname}"
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "destroy",
         }
         return action  # noqa: RET504
@@ -1252,7 +1252,7 @@ class ActionBatchNetworks:
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/webhooks/payloadTemplates"
+        path = f"/networks/{network_id}/webhooks/payloadTemplates"
 
         payload = {}
         if name is not None:
@@ -1267,7 +1267,7 @@ class ActionBatchNetworks:
             payload["headersFile"] = headers_file
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "create",
             "body": payload,
         }
@@ -1300,7 +1300,7 @@ class ActionBatchNetworks:
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
         payload_template_id = urllib.parse.quote(str(payload_template_id), safe="")
-        resource = f"/networks/{network_id}/webhooks/payloadTemplates/{payload_template_id}"
+        path = f"/networks/{network_id}/webhooks/payloadTemplates/{payload_template_id}"
 
         payload = {}
         if name is not None:
@@ -1315,7 +1315,7 @@ class ActionBatchNetworks:
             payload["headersFile"] = headers_file
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "update",
             "body": payload,
         }
@@ -1335,10 +1335,10 @@ class ActionBatchNetworks:
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
         payload_template_id = urllib.parse.quote(str(payload_template_id), safe="")
-        resource = f"/networks/{network_id}/webhooks/payloadTemplates/{payload_template_id}"
+        path = f"/networks/{network_id}/webhooks/payloadTemplates/{payload_template_id}"
 
         action = {
-            "resource": resource,
+            "path": path,
             "operation": "destroy",
         }
         return action  # noqa: RET504

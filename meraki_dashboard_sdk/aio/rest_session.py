@@ -41,7 +41,6 @@ class AsyncRestSession:
     def __init__(
         self,
         *,
-        logger: logging.Logger,
         api_key: str,
         base_url: str = DEFAULT_BASE_URL,
         single_request_timeout: int = SINGLE_REQUEST_TIMEOUT,
@@ -55,8 +54,8 @@ class AsyncRestSession:
         retry_4xx_error_wait_time: int = RETRY_4XX_ERROR_WAIT_TIME,
         maximum_retries: int = MAXIMUM_RETRIES,
         simulate: bool = SIMULATE_API_CALLS,
-        be_geo_id: str = BE_GEO_ID,
-        caller: str = MERAKI_PYTHON_SDK_CALLER,
+        be_geo_id: str | None = BE_GEO_ID,
+        caller: str | None = MERAKI_PYTHON_SDK_CALLER,
         use_iterator_for_get_pages: bool = USE_ITERATOR_FOR_GET_PAGES,
         maximum_concurrent_requests: int = AIO_MAXIMUM_CONCURRENT_REQUESTS,
     ) -> None:

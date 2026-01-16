@@ -1,17 +1,19 @@
 """Networks API endpoints."""
 
+from __future__ import annotations
+
 import urllib
 from collections.abc import Generator
-from typing import Any
+from typing import Any, Literal, TYPE_CHECKING
 
-from meraki_dashboard_sdk.rest_session import RestSession
+if TYPE_CHECKING:
+    from meraki_dashboard_sdk.rest_session import RestSession
 
 
 class Networks:
     """Networks class."""
 
     def __init__(self, session: RestSession) -> None:
-        super(self).__init__()
         self._session = session
 
     def get_network(self, *, network_id: str) -> dict[str, Any] | None:
@@ -23,11 +25,10 @@ class Networks:
             network_id: Network ID.
 
         """
-        metadata = {"tags": ["networks", "configure"], "operation": "get_network"}
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}"
+        path = f"/networks/{network_id}"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(scope="networks", operation_id="getNetwork", path=path)
 
     def update_network(
         self,
@@ -58,9 +59,8 @@ class Networks:
             notes: Add any notes or additional information about this network here.
 
         """
-        metadata = {"tags": ["networks", "configure"], "operation": "update_network"}
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}"
+        path = f"/networks/{network_id}"
 
         payload = {}
         if name is not None:
@@ -74,7 +74,9 @@ class Networks:
         if notes is not None:
             payload["notes"] = notes
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="networks", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def delete_network(self, *, network_id: str) -> None:
         """Delete a network.
@@ -85,11 +87,10 @@ class Networks:
             network_id: Network ID.
 
         """
-        metadata = {"tags": ["networks", "configure"], "operation": "delete_network"}
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}"
+        path = f"/networks/{network_id}"
 
-        return self._session.delete(metadata, resource)
+        return self._session.delete(scope="networks", operation_id="deleteNetwork", path=path)
 
     def get_network_alerts_history(
         self,
@@ -122,12 +123,8 @@ class Networks:
             direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        metadata = {
-            "tags": ["networks", "monitor", "alerts", "history"],
-            "operation": "get_network_alerts_history",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/alerts/history"
+        path = f"/networks/{network_id}/alerts/history"
 
         params = {}
         if per_page is not None:
@@ -137,7 +134,14 @@ class Networks:
         if ending_before is not None:
             params["endingBefore"] = ending_before
 
-        return self._session.get_pages(metadata, resource, params, total_pages, direction)
+        return self._session.get_pages(
+            scope="networks",
+            operation_id="{operation_id}",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+        )
 
     def get_network_alerts_settings(self, *, network_id: str) -> dict[str, Any] | None:
         """Return the alert configuration for this network.
@@ -148,14 +152,12 @@ class Networks:
             network_id: Network ID.
 
         """
-        metadata = {
-            "tags": ["networks", "configure", "alerts", "settings"],
-            "operation": "get_network_alerts_settings",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/alerts/settings"
+        path = f"/networks/{network_id}/alerts/settings"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="networks", operation_id="getNetworkAlertsSettings", path=path
+        )
 
     def update_network_alerts_settings(
         self,
@@ -177,12 +179,8 @@ class Networks:
             muting: Mute alerts under certain conditions.
 
         """
-        metadata = {
-            "tags": ["networks", "configure", "alerts", "settings"],
-            "operation": "update_network_alerts_settings",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/alerts/settings"
+        path = f"/networks/{network_id}/alerts/settings"
 
         payload = {}
         if default_destinations is not None:
@@ -192,7 +190,9 @@ class Networks:
         if muting is not None:
             payload["muting"] = muting
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="networks", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def bind_network(
         self, *, network_id: str, config_template_id: str, auto_bind: bool | None = None
@@ -211,9 +211,8 @@ class Networks:
               one profile and has at most one profile per switch model.
 
         """
-        metadata = {"tags": ["networks", "configure"], "operation": "bind_network"}
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/bind"
+        path = f"/networks/{network_id}/bind"
 
         payload = {}
         if config_template_id is not None:
@@ -221,7 +220,9 @@ class Networks:
         if auto_bind is not None:
             payload["autoBind"] = auto_bind
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="networks", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_network_bluetooth_clients(
         self,
@@ -263,12 +264,8 @@ class Networks:
             direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        metadata = {
-            "tags": ["networks", "monitor", "bluetoothClients"],
-            "operation": "get_network_bluetooth_clients",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/bluetoothClients"
+        path = f"/networks/{network_id}/bluetoothClients"
 
         params = {}
         if t0 is not None:
@@ -284,7 +281,14 @@ class Networks:
         if include_connectivity_history is not None:
             params["includeConnectivityHistory"] = include_connectivity_history
 
-        return self._session.get_pages(metadata, resource, params, total_pages, direction)
+        return self._session.get_pages(
+            scope="networks",
+            operation_id="{operation_id}",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+        )
 
     def get_network_bluetooth_client(
         self,
@@ -306,13 +310,9 @@ class Networks:
               data. By default 1 day, 86400, will be used.
 
         """
-        metadata = {
-            "tags": ["networks", "monitor", "bluetoothClients"],
-            "operation": "get_network_bluetooth_client",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         bluetooth_client_id = urllib.parse.quote(str(bluetooth_client_id), safe="")
-        resource = f"/networks/{network_id}/bluetoothClients/{bluetooth_client_id}"
+        path = f"/networks/{network_id}/bluetoothClients/{bluetooth_client_id}"
 
         params = {}
         if include_connectivity_history is not None:
@@ -320,7 +320,9 @@ class Networks:
         if connectivity_history_timespan is not None:
             params["connectivityHistoryTimespan"] = connectivity_history_timespan
 
-        return self._session.get(metadata, resource, params)
+        return self._session.get(
+            scope="networks", operation_id="{operation_id}", path=path, params=params
+        )
 
     def get_network_clients(
         self,
@@ -385,9 +387,8 @@ class Networks:
             direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        metadata = {"tags": ["networks", "monitor", "clients"], "operation": "get_network_clients"}
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/clients"
+        path = f"/networks/{network_id}/clients"
 
         params = {}
         if t0 is not None:
@@ -423,7 +424,14 @@ class Networks:
         if recent_device_connections is not None:
             params["recentDeviceConnections[]"] = recent_device_connections
 
-        return self._session.get_pages(metadata, resource, params, total_pages, direction)
+        return self._session.get_pages(
+            scope="networks",
+            operation_id="{operation_id}",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+        )
 
     def get_network_clients_application_usage(
         self,
@@ -475,12 +483,8 @@ class Networks:
                 f'"ssid_number" cannot be "{ssid_number}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["networks", "monitor", "clients", "applicationUsage"],
-            "operation": "get_network_clients_application_usage",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/clients/applicationUsage"
+        path = f"/networks/{network_id}/clients/applicationUsage"
 
         params = {}
         if clients is not None:
@@ -500,7 +504,14 @@ class Networks:
         if timespan is not None:
             params["timespan"] = timespan
 
-        return self._session.get_pages(metadata, resource, params, total_pages, direction)
+        return self._session.get_pages(
+            scope="networks",
+            operation_id="{operation_id}",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+        )
 
     def get_network_clients_bandwidth_usage_history(
         self,
@@ -542,12 +553,8 @@ class Networks:
             direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        metadata = {
-            "tags": ["networks", "monitor", "clients", "bandwidthUsageHistory"],
-            "operation": "get_network_clients_bandwidth_usage_history",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/clients/bandwidthUsageHistory"
+        path = f"/networks/{network_id}/clients/bandwidthUsageHistory"
 
         params = {}
         if t0 is not None:
@@ -563,7 +570,14 @@ class Networks:
         if ending_before is not None:
             params["endingBefore"] = ending_before
 
-        return self._session.get_pages(metadata, resource, params, total_pages, direction)
+        return self._session.get_pages(
+            scope="networks",
+            operation_id="{operation_id}",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+        )
 
     def get_network_clients_overview(
         self,
@@ -590,12 +604,8 @@ class Networks:
               7200, 86400, 604800, 2592000. The default is 604800.
 
         """
-        metadata = {
-            "tags": ["networks", "monitor", "clients", "overview"],
-            "operation": "get_network_clients_overview",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/clients/overview"
+        path = f"/networks/{network_id}/clients/overview"
 
         params = {}
         if t0 is not None:
@@ -607,7 +617,9 @@ class Networks:
         if resolution is not None:
             params["resolution"] = resolution
 
-        return self._session.get(metadata, resource, params)
+        return self._session.get(
+            scope="networks", operation_id="{operation_id}", path=path, params=params
+        )
 
     def provision_network_clients(
         self,
@@ -644,12 +656,8 @@ class Networks:
                 f'"device_policy" cannot be "{device_policy}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["networks", "configure", "clients"],
-            "operation": "provision_network_clients",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/clients/provision"
+        path = f"/networks/{network_id}/clients/provision"
 
         payload = {}
         if clients is not None:
@@ -663,7 +671,9 @@ class Networks:
         if policies_by_ssid is not None:
             payload["policiesBySsid"] = policies_by_ssid
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="networks", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_network_clients_usage_histories(
         self,
@@ -715,12 +725,8 @@ class Networks:
                 f'"ssid_number" cannot be "{ssid_number}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["networks", "monitor", "clients", "usageHistories"],
-            "operation": "get_network_clients_usage_histories",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/clients/usageHistories"
+        path = f"/networks/{network_id}/clients/usageHistories"
 
         params = {}
         if clients is not None:
@@ -740,7 +746,14 @@ class Networks:
         if timespan is not None:
             params["timespan"] = timespan
 
-        return self._session.get_pages(metadata, resource, params, total_pages, direction)
+        return self._session.get_pages(
+            scope="networks",
+            operation_id="{operation_id}",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+        )
 
     def get_network_client(self, *, network_id: str, client_id: str) -> dict[str, Any] | None:
         """Return the client associated with the given identifier.
@@ -752,12 +765,11 @@ class Networks:
             client_id: Client ID.
 
         """
-        metadata = {"tags": ["networks", "monitor", "clients"], "operation": "get_network_client"}
         network_id = urllib.parse.quote(str(network_id), safe="")
         client_id = urllib.parse.quote(str(client_id), safe="")
-        resource = f"/networks/{network_id}/clients/{client_id}"
+        path = f"/networks/{network_id}/clients/{client_id}"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(scope="networks", operation_id="getNetworkClient", path=path)
 
     def get_network_client_policy(
         self, *, network_id: str, client_id: str
@@ -771,15 +783,11 @@ class Networks:
             client_id: Client ID.
 
         """
-        metadata = {
-            "tags": ["networks", "configure", "clients", "policy"],
-            "operation": "get_network_client_policy",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         client_id = urllib.parse.quote(str(client_id), safe="")
-        resource = f"/networks/{network_id}/clients/{client_id}/policy"
+        path = f"/networks/{network_id}/clients/{client_id}/policy"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(scope="networks", operation_id="getNetworkClientPolicy", path=path)
 
     def update_network_client_policy(
         self,
@@ -802,13 +810,9 @@ class Networks:
               used to specify the group policy ID.
 
         """
-        metadata = {
-            "tags": ["networks", "configure", "clients", "policy"],
-            "operation": "update_network_client_policy",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         client_id = urllib.parse.quote(str(client_id), safe="")
-        resource = f"/networks/{network_id}/clients/{client_id}/policy"
+        path = f"/networks/{network_id}/clients/{client_id}/policy"
 
         payload = {}
         if device_policy is not None:
@@ -816,7 +820,9 @@ class Networks:
         if group_policy_id is not None:
             payload["groupPolicyId"] = group_policy_id
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="networks", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_network_client_splash_authorization_status(
         self, *, network_id: str, client_id: str
@@ -830,15 +836,13 @@ class Networks:
             client_id: Client ID.
 
         """
-        metadata = {
-            "tags": ["networks", "configure", "clients", "splashAuthorizationStatus"],
-            "operation": "get_network_client_splash_authorization_status",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         client_id = urllib.parse.quote(str(client_id), safe="")
-        resource = f"/networks/{network_id}/clients/{client_id}/splashAuthorizationStatus"
+        path = f"/networks/{network_id}/clients/{client_id}/splashAuthorizationStatus"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="networks", operation_id="getNetworkClientSplashAuthorizationStatus", path=path
+        )
 
     def update_network_client_splash_authorization_status(
         self, *, network_id: str, client_id: str, ssids: dict
@@ -856,19 +860,17 @@ class Networks:
               all networks support configuring all SSIDs.
 
         """
-        metadata = {
-            "tags": ["networks", "configure", "clients", "splashAuthorizationStatus"],
-            "operation": "update_network_client_splash_authorization_status",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         client_id = urllib.parse.quote(str(client_id), safe="")
-        resource = f"/networks/{network_id}/clients/{client_id}/splashAuthorizationStatus"
+        path = f"/networks/{network_id}/clients/{client_id}/splashAuthorizationStatus"
 
         payload = {}
         if ssids is not None:
             payload["ssids"] = ssids
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="networks", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_network_client_traffic_history(
         self,
@@ -902,13 +904,9 @@ class Networks:
             direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        metadata = {
-            "tags": ["networks", "monitor", "clients", "trafficHistory"],
-            "operation": "get_network_client_traffic_history",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         client_id = urllib.parse.quote(str(client_id), safe="")
-        resource = f"/networks/{network_id}/clients/{client_id}/trafficHistory"
+        path = f"/networks/{network_id}/clients/{client_id}/trafficHistory"
 
         params = {}
         if per_page is not None:
@@ -918,7 +916,14 @@ class Networks:
         if ending_before is not None:
             params["endingBefore"] = ending_before
 
-        return self._session.get_pages(metadata, resource, params, total_pages, direction)
+        return self._session.get_pages(
+            scope="networks",
+            operation_id="{operation_id}",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+        )
 
     def get_network_client_usage_history(
         self, *, network_id: str, client_id: str
@@ -932,15 +937,13 @@ class Networks:
             client_id: Client ID.
 
         """
-        metadata = {
-            "tags": ["networks", "monitor", "clients", "usageHistory"],
-            "operation": "get_network_client_usage_history",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         client_id = urllib.parse.quote(str(client_id), safe="")
-        resource = f"/networks/{network_id}/clients/{client_id}/usageHistory"
+        path = f"/networks/{network_id}/clients/{client_id}/usageHistory"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="networks", operation_id="getNetworkClientUsageHistory", path=path
+        )
 
     def get_network_devices(self, *, network_id: str) -> dict[str, Any] | None:
         """List the devices in a network.
@@ -951,14 +954,10 @@ class Networks:
             network_id: Network ID.
 
         """
-        metadata = {
-            "tags": ["networks", "configure", "devices"],
-            "operation": "get_network_devices",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/devices"
+        path = f"/networks/{network_id}/devices"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(scope="networks", operation_id="getNetworkDevices", path=path)
 
     def claim_network_devices(
         self,
@@ -981,12 +980,8 @@ class Networks:
               Catalyst devices).
 
         """
-        metadata = {
-            "tags": ["networks", "configure", "devices"],
-            "operation": "claim_network_devices",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/devices/claim"
+        path = f"/networks/{network_id}/devices/claim"
 
         params = {}
         if add_atomically is not None:
@@ -998,7 +993,9 @@ class Networks:
         if details_by_device is not None:
             payload["detailsByDevice"] = details_by_device
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="networks", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def vmx_network_devices_claim(self, *, network_id: str, size: str) -> dict[str, Any] | None:
         """Claim a vMX into a network.
@@ -1015,18 +1012,16 @@ class Networks:
             options = ["100", "large", "medium", "small", "xlarge"]
             assert size in options, f'"size" cannot be "{size}", & must be set to one of: {options}'
 
-        metadata = {
-            "tags": ["networks", "configure", "devices", "claim"],
-            "operation": "vmx_network_devices_claim",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/devices/claim/vmx"
+        path = f"/networks/{network_id}/devices/claim/vmx"
 
         payload = {}
         if size is not None:
             payload["size"] = size
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="networks", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def remove_network_devices(self, *, network_id: str, serial: str) -> dict[str, Any] | None:
         """Remove a single device.
@@ -1038,18 +1033,16 @@ class Networks:
             serial: The serial of a device.
 
         """
-        metadata = {
-            "tags": ["networks", "configure", "devices"],
-            "operation": "remove_network_devices",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/devices/remove"
+        path = f"/networks/{network_id}/devices/remove"
 
         payload = {}
         if serial is not None:
             payload["serial"] = serial
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="networks", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_network_events(
         self,
@@ -1145,9 +1138,8 @@ class Networks:
                 f'"product_type" cannot be "{product_type}", & must be set to one of: {options}'
             )
 
-        metadata = {"tags": ["networks", "monitor", "events"], "operation": "get_network_events"}
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/events"
+        path = f"/networks/{network_id}/events"
 
         params = {}
         if product_type is not None:
@@ -1186,7 +1178,13 @@ class Networks:
             params["endingBefore"] = ending_before
 
         return self._session.get_pages(
-            metadata, resource, params, total_pages, direction, event_log_end_time
+            scope=scope,
+            operation_id=operation_id,
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+            event_log_end_time=event_log_end_time,
         )
 
     def get_network_events_event_types(self, *, network_id: str) -> dict[str, Any] | None:
@@ -1198,14 +1196,12 @@ class Networks:
             network_id: Network ID.
 
         """
-        metadata = {
-            "tags": ["networks", "monitor", "events", "eventTypes"],
-            "operation": "get_network_events_event_types",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/events/eventTypes"
+        path = f"/networks/{network_id}/events/eventTypes"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="networks", operation_id="getNetworkEventsEventTypes", path=path
+        )
 
     def get_network_firmware_upgrades(self, *, network_id: str) -> dict[str, Any] | None:
         """Get firmware upgrade information for a network.
@@ -1216,14 +1212,12 @@ class Networks:
             network_id: Network ID.
 
         """
-        metadata = {
-            "tags": ["networks", "configure", "firmwareUpgrades"],
-            "operation": "get_network_firmware_upgrades",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/firmwareUpgrades"
+        path = f"/networks/{network_id}/firmwareUpgrades"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="networks", operation_id="getNetworkFirmwareUpgrades", path=path
+        )
 
     def update_network_firmware_upgrades(
         self,
@@ -1244,12 +1238,8 @@ class Networks:
             products: Contains information about the network to update.
 
         """
-        metadata = {
-            "tags": ["networks", "configure", "firmwareUpgrades"],
-            "operation": "update_network_firmware_upgrades",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/firmwareUpgrades"
+        path = f"/networks/{network_id}/firmwareUpgrades"
 
         payload = {}
         if upgrade_window is not None:
@@ -1259,7 +1249,9 @@ class Networks:
         if products is not None:
             payload["products"] = products
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="networks", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def create_network_firmware_upgrades_rollback(
         self,
@@ -1297,12 +1289,8 @@ class Networks:
                 f'"product" cannot be "{product}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["networks", "configure", "firmwareUpgrades", "rollbacks"],
-            "operation": "create_network_firmware_upgrades_rollback",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/firmwareUpgrades/rollbacks"
+        path = f"/networks/{network_id}/firmwareUpgrades/rollbacks"
 
         payload = {}
         if product is not None:
@@ -1314,7 +1302,9 @@ class Networks:
         if to_version is not None:
             payload["toVersion"] = to_version
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="networks", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_network_firmware_upgrades_staged_events(
         self, *, network_id: str
@@ -1327,14 +1317,12 @@ class Networks:
             network_id: Network ID.
 
         """
-        metadata = {
-            "tags": ["networks", "configure", "firmwareUpgrades", "staged", "events"],
-            "operation": "get_network_firmware_upgrades_staged_events",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/firmwareUpgrades/staged/events"
+        path = f"/networks/{network_id}/firmwareUpgrades/staged/events"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="networks", operation_id="getNetworkFirmwareUpgradesStagedEvents", path=path
+        )
 
     def update_network_firmware_upgrades_staged_events(
         self, *, network_id: str, stages: list
@@ -1348,18 +1336,16 @@ class Networks:
             stages: All firmware upgrade stages in the network with their start time.
 
         """
-        metadata = {
-            "tags": ["networks", "configure", "firmwareUpgrades", "staged", "events"],
-            "operation": "update_network_firmware_upgrades_staged_events",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/firmwareUpgrades/staged/events"
+        path = f"/networks/{network_id}/firmwareUpgrades/staged/events"
 
         payload = {}
         if stages is not None:
             payload["stages"] = stages
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="networks", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def create_network_firmware_upgrades_staged_event(
         self, *, network_id: str, stages: list, products: dict | None = None
@@ -1374,12 +1360,8 @@ class Networks:
             stages: All firmware upgrade stages in the network with their start time.
 
         """
-        metadata = {
-            "tags": ["networks", "configure", "firmwareUpgrades", "staged", "events"],
-            "operation": "create_network_firmware_upgrades_staged_event",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/firmwareUpgrades/staged/events"
+        path = f"/networks/{network_id}/firmwareUpgrades/staged/events"
 
         payload = {}
         if products is not None:
@@ -1387,7 +1369,9 @@ class Networks:
         if stages is not None:
             payload["stages"] = stages
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="networks", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def defer_network_firmware_upgrades_staged_events(
         self, *, network_id: str
@@ -1400,14 +1384,12 @@ class Networks:
             network_id: Network ID.
 
         """
-        metadata = {
-            "tags": ["networks", "configure", "firmwareUpgrades", "staged", "events"],
-            "operation": "defer_network_firmware_upgrades_staged_events",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/firmwareUpgrades/staged/events/defer"
+        path = f"/networks/{network_id}/firmwareUpgrades/staged/events/defer"
 
-        return self._session.post(metadata, resource)
+        return self._session.post(
+            scope="networks", operation_id="deferNetworkFirmwareUpgradesStagedEvents", path=path
+        )
 
     def rollbacks_network_firmware_upgrades_staged_events(
         self, *, network_id: str, stages: list, reasons: list | None = None
@@ -1423,12 +1405,8 @@ class Networks:
             reasons: The reason for rolling back the staged upgrade.
 
         """
-        metadata = {
-            "tags": ["networks", "configure", "firmwareUpgrades", "staged", "events"],
-            "operation": "rollbacks_network_firmware_upgrades_staged_events",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/firmwareUpgrades/staged/events/rollbacks"
+        path = f"/networks/{network_id}/firmwareUpgrades/staged/events/rollbacks"
 
         payload = {}
         if stages is not None:
@@ -1436,7 +1414,9 @@ class Networks:
         if reasons is not None:
             payload["reasons"] = reasons
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="networks", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_network_firmware_upgrades_staged_groups(
         self, *, network_id: str
@@ -1449,14 +1429,12 @@ class Networks:
             network_id: Network ID.
 
         """
-        metadata = {
-            "tags": ["networks", "configure", "firmwareUpgrades", "staged", "groups"],
-            "operation": "get_network_firmware_upgrades_staged_groups",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/firmwareUpgrades/staged/groups"
+        path = f"/networks/{network_id}/firmwareUpgrades/staged/groups"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="networks", operation_id="getNetworkFirmwareUpgradesStagedGroups", path=path
+        )
 
     def create_network_firmware_upgrades_staged_group(
         self,
@@ -1481,12 +1459,8 @@ class Networks:
             assigned_devices: The devices and Switch Stacks assigned to the Group.
 
         """
-        metadata = {
-            "tags": ["networks", "configure", "firmwareUpgrades", "staged", "groups"],
-            "operation": "create_network_firmware_upgrades_staged_group",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/firmwareUpgrades/staged/groups"
+        path = f"/networks/{network_id}/firmwareUpgrades/staged/groups"
 
         payload = {}
         if name is not None:
@@ -1498,7 +1472,9 @@ class Networks:
         if assigned_devices is not None:
             payload["assignedDevices"] = assigned_devices
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="networks", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_network_firmware_upgrades_staged_group(
         self, *, network_id: str, group_id: str
@@ -1512,15 +1488,13 @@ class Networks:
             group_id: Group ID.
 
         """
-        metadata = {
-            "tags": ["networks", "configure", "firmwareUpgrades", "staged", "groups"],
-            "operation": "get_network_firmware_upgrades_staged_group",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         group_id = urllib.parse.quote(str(group_id), safe="")
-        resource = f"/networks/{network_id}/firmwareUpgrades/staged/groups/{group_id}"
+        path = f"/networks/{network_id}/firmwareUpgrades/staged/groups/{group_id}"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="networks", operation_id="getNetworkFirmwareUpgradesStagedGroup", path=path
+        )
 
     def update_network_firmware_upgrades_staged_group(
         self,
@@ -1547,13 +1521,9 @@ class Networks:
             assigned_devices: The devices and Switch Stacks assigned to the Group.
 
         """
-        metadata = {
-            "tags": ["networks", "configure", "firmwareUpgrades", "staged", "groups"],
-            "operation": "update_network_firmware_upgrades_staged_group",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         group_id = urllib.parse.quote(str(group_id), safe="")
-        resource = f"/networks/{network_id}/firmwareUpgrades/staged/groups/{group_id}"
+        path = f"/networks/{network_id}/firmwareUpgrades/staged/groups/{group_id}"
 
         payload = {}
         if name is not None:
@@ -1565,7 +1535,9 @@ class Networks:
         if assigned_devices is not None:
             payload["assignedDevices"] = assigned_devices
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="networks", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def delete_network_firmware_upgrades_staged_group(
         self, *, network_id: str, group_id: str
@@ -1579,15 +1551,13 @@ class Networks:
             group_id: Group ID.
 
         """
-        metadata = {
-            "tags": ["networks", "configure", "firmwareUpgrades", "staged", "groups"],
-            "operation": "delete_network_firmware_upgrades_staged_group",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         group_id = urllib.parse.quote(str(group_id), safe="")
-        resource = f"/networks/{network_id}/firmwareUpgrades/staged/groups/{group_id}"
+        path = f"/networks/{network_id}/firmwareUpgrades/staged/groups/{group_id}"
 
-        return self._session.delete(metadata, resource)
+        return self._session.delete(
+            scope="networks", operation_id="deleteNetworkFirmwareUpgradesStagedGroup", path=path
+        )
 
     def get_network_firmware_upgrades_staged_stages(
         self, *, network_id: str
@@ -1600,14 +1570,12 @@ class Networks:
             network_id: Network ID.
 
         """
-        metadata = {
-            "tags": ["networks", "configure", "firmwareUpgrades", "staged", "stages"],
-            "operation": "get_network_firmware_upgrades_staged_stages",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/firmwareUpgrades/staged/stages"
+        path = f"/networks/{network_id}/firmwareUpgrades/staged/stages"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="networks", operation_id="getNetworkFirmwareUpgradesStagedStages", path=path
+        )
 
     def update_network_firmware_upgrades_staged_stages(
         self, *, network_id: str, _json: list | None = None
@@ -1621,18 +1589,16 @@ class Networks:
             _json: Array of Staged Upgrade Groups.
 
         """
-        metadata = {
-            "tags": ["networks", "configure", "firmwareUpgrades", "staged", "stages"],
-            "operation": "update_network_firmware_upgrades_staged_stages",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/firmwareUpgrades/staged/stages"
+        path = f"/networks/{network_id}/firmwareUpgrades/staged/stages"
 
         payload = {}
         if _json is not None:
             payload["_json"] = _json
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="networks", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_network_floor_plans(self, *, network_id: str) -> dict[str, Any] | None:
         """List the floor plans that belong to your network.
@@ -1643,14 +1609,10 @@ class Networks:
             network_id: Network ID.
 
         """
-        metadata = {
-            "tags": ["networks", "configure", "floorPlans"],
-            "operation": "get_network_floor_plans",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/floorPlans"
+        path = f"/networks/{network_id}/floorPlans"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(scope="networks", operation_id="getNetworkFloorPlans", path=path)
 
     def create_network_floor_plan(
         self,
@@ -1693,12 +1655,8 @@ class Networks:
               files, regardless of the format they are uploaded in.
 
         """
-        metadata = {
-            "tags": ["networks", "configure", "floorPlans"],
-            "operation": "create_network_floor_plan",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/floorPlans"
+        path = f"/networks/{network_id}/floorPlans"
 
         payload = {}
         if name is not None:
@@ -1718,7 +1676,9 @@ class Networks:
         if image_contents is not None:
             payload["imageContents"] = image_contents
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="networks", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def batch_network_floor_plans_auto_locate_jobs(
         self, *, network_id: str, jobs: list
@@ -1733,18 +1693,16 @@ class Networks:
               request.
 
         """
-        metadata = {
-            "tags": ["networks", "configure", "floorPlans", "autoLocate", "jobs"],
-            "operation": "batch_network_floor_plans_auto_locate_jobs",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/floorPlans/autoLocate/jobs/batch"
+        path = f"/networks/{network_id}/floorPlans/autoLocate/jobs/batch"
 
         payload = {}
         if jobs is not None:
             payload["jobs"] = jobs
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="networks", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def cancel_network_floor_plans_auto_locate_job(
         self, *, network_id: str, job_id: str
@@ -1758,15 +1716,13 @@ class Networks:
             job_id: Job ID.
 
         """
-        metadata = {
-            "tags": ["networks", "configure", "floorPlans", "autoLocate", "jobs"],
-            "operation": "cancel_network_floor_plans_auto_locate_job",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         job_id = urllib.parse.quote(str(job_id), safe="")
-        resource = f"/networks/{network_id}/floorPlans/autoLocate/jobs/{job_id}/cancel"
+        path = f"/networks/{network_id}/floorPlans/autoLocate/jobs/{job_id}/cancel"
 
-        return self._session.post(metadata, resource)
+        return self._session.post(
+            scope="networks", operation_id="cancelNetworkFloorPlansAutoLocateJob", path=path
+        )
 
     def publish_network_floor_plans_auto_locate_job(
         self, *, network_id: str, job_id: str, devices: list | None = None
@@ -1781,19 +1737,17 @@ class Networks:
             devices: The list of devices to publish positions for.
 
         """
-        metadata = {
-            "tags": ["networks", "configure", "floorPlans", "autoLocate", "jobs"],
-            "operation": "publish_network_floor_plans_auto_locate_job",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         job_id = urllib.parse.quote(str(job_id), safe="")
-        resource = f"/networks/{network_id}/floorPlans/autoLocate/jobs/{job_id}/publish"
+        path = f"/networks/{network_id}/floorPlans/autoLocate/jobs/{job_id}/publish"
 
         payload = {}
         if devices is not None:
             payload["devices"] = devices
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="networks", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def recalculate_network_floor_plans_auto_locate_job(
         self, *, network_id: str, job_id: str, devices: list | None = None
@@ -1808,19 +1762,17 @@ class Networks:
             devices: The list of devices to update anchor positions for.
 
         """
-        metadata = {
-            "tags": ["networks", "configure", "floorPlans", "autoLocate", "jobs"],
-            "operation": "recalculate_network_floor_plans_auto_locate_job",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         job_id = urllib.parse.quote(str(job_id), safe="")
-        resource = f"/networks/{network_id}/floorPlans/autoLocate/jobs/{job_id}/recalculate"
+        path = f"/networks/{network_id}/floorPlans/autoLocate/jobs/{job_id}/recalculate"
 
         payload = {}
         if devices is not None:
             payload["devices"] = devices
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="networks", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def batch_network_floor_plans_devices_update(
         self, *, network_id: str, assignments: list
@@ -1835,18 +1787,16 @@ class Networks:
               can be provided in a request.
 
         """
-        metadata = {
-            "tags": ["networks", "configure", "floorPlans", "devices"],
-            "operation": "batch_network_floor_plans_devices_update",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/floorPlans/devices/batchUpdate"
+        path = f"/networks/{network_id}/floorPlans/devices/batchUpdate"
 
         payload = {}
         if assignments is not None:
             payload["assignments"] = assignments
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="networks", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_network_floor_plan(
         self, *, network_id: str, floor_plan_id: str
@@ -1860,15 +1810,11 @@ class Networks:
             floor_plan_id: Floor plan ID.
 
         """
-        metadata = {
-            "tags": ["networks", "configure", "floorPlans"],
-            "operation": "get_network_floor_plan",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         floor_plan_id = urllib.parse.quote(str(floor_plan_id), safe="")
-        resource = f"/networks/{network_id}/floorPlans/{floor_plan_id}"
+        path = f"/networks/{network_id}/floorPlans/{floor_plan_id}"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(scope="networks", operation_id="getNetworkFloorPlan", path=path)
 
     def update_network_floor_plan(
         self,
@@ -1917,13 +1863,9 @@ class Networks:
               in order to maintain the aspect ratio of your new image.
 
         """
-        metadata = {
-            "tags": ["networks", "configure", "floorPlans"],
-            "operation": "update_network_floor_plan",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         floor_plan_id = urllib.parse.quote(str(floor_plan_id), safe="")
-        resource = f"/networks/{network_id}/floorPlans/{floor_plan_id}"
+        path = f"/networks/{network_id}/floorPlans/{floor_plan_id}"
 
         payload = {}
         if name is not None:
@@ -1943,7 +1885,9 @@ class Networks:
         if image_contents is not None:
             payload["imageContents"] = image_contents
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="networks", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def delete_network_floor_plan(self, *, network_id: str, floor_plan_id: str) -> None:
         """Destroy a floor plan.
@@ -1955,15 +1899,13 @@ class Networks:
             floor_plan_id: Floor plan ID.
 
         """
-        metadata = {
-            "tags": ["networks", "configure", "floorPlans"],
-            "operation": "delete_network_floor_plan",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         floor_plan_id = urllib.parse.quote(str(floor_plan_id), safe="")
-        resource = f"/networks/{network_id}/floorPlans/{floor_plan_id}"
+        path = f"/networks/{network_id}/floorPlans/{floor_plan_id}"
 
-        return self._session.delete(metadata, resource)
+        return self._session.delete(
+            scope="networks", operation_id="deleteNetworkFloorPlan", path=path
+        )
 
     def get_network_group_policies(self, *, network_id: str) -> dict[str, Any] | None:
         """List the group policies in a network.
@@ -1974,14 +1916,12 @@ class Networks:
             network_id: Network ID.
 
         """
-        metadata = {
-            "tags": ["networks", "configure", "groupPolicies"],
-            "operation": "get_network_group_policies",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/groupPolicies"
+        path = f"/networks/{network_id}/groupPolicies"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="networks", operation_id="getNetworkGroupPolicies", path=path
+        )
 
     def create_network_group_policy(
         self,
@@ -2025,12 +1965,8 @@ class Networks:
                 f'"splash_auth_settings" cannot be "{splash_auth_settings}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["networks", "configure", "groupPolicies"],
-            "operation": "create_network_group_policy",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/groupPolicies"
+        path = f"/networks/{network_id}/groupPolicies"
 
         payload = {}
         if name is not None:
@@ -2050,7 +1986,9 @@ class Networks:
         if bonjour_forwarding is not None:
             payload["bonjourForwarding"] = bonjour_forwarding
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="networks", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_network_group_policy(
         self, *, network_id: str, group_policy_id: str
@@ -2064,15 +2002,11 @@ class Networks:
             group_policy_id: Group policy ID.
 
         """
-        metadata = {
-            "tags": ["networks", "configure", "groupPolicies"],
-            "operation": "get_network_group_policy",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         group_policy_id = urllib.parse.quote(str(group_policy_id), safe="")
-        resource = f"/networks/{network_id}/groupPolicies/{group_policy_id}"
+        path = f"/networks/{network_id}/groupPolicies/{group_policy_id}"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(scope="networks", operation_id="getNetworkGroupPolicy", path=path)
 
     def update_network_group_policy(
         self,
@@ -2118,13 +2052,9 @@ class Networks:
                 f'"splash_auth_settings" cannot be "{splash_auth_settings}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["networks", "configure", "groupPolicies"],
-            "operation": "update_network_group_policy",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         group_policy_id = urllib.parse.quote(str(group_policy_id), safe="")
-        resource = f"/networks/{network_id}/groupPolicies/{group_policy_id}"
+        path = f"/networks/{network_id}/groupPolicies/{group_policy_id}"
 
         payload = {}
         if name is not None:
@@ -2144,7 +2074,9 @@ class Networks:
         if bonjour_forwarding is not None:
             payload["bonjourForwarding"] = bonjour_forwarding
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="networks", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def delete_network_group_policy(
         self, *, network_id: str, group_policy_id: str, force: bool | None = None
@@ -2161,19 +2093,17 @@ class Networks:
               will be left without any policy applied. Default is false.
 
         """
-        metadata = {
-            "tags": ["networks", "configure", "groupPolicies"],
-            "operation": "delete_network_group_policy",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         group_policy_id = urllib.parse.quote(str(group_policy_id), safe="")
-        resource = f"/networks/{network_id}/groupPolicies/{group_policy_id}"
+        path = f"/networks/{network_id}/groupPolicies/{group_policy_id}"
 
         params = {}
         if force is not None:
             params["force"] = force
 
-        return self._session.delete(metadata, resource)
+        return self._session.delete(
+            scope="networks", operation_id="deleteNetworkGroupPolicy", path=path
+        )
 
     def get_network_health_alerts(self, *, network_id: str) -> dict[str, Any] | None:
         """Return all global alerts on this network.
@@ -2184,14 +2114,10 @@ class Networks:
             network_id: Network ID.
 
         """
-        metadata = {
-            "tags": ["networks", "configure", "health", "alerts"],
-            "operation": "get_network_health_alerts",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/health/alerts"
+        path = f"/networks/{network_id}/health/alerts"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(scope="networks", operation_id="getNetworkHealthAlerts", path=path)
 
     def get_network_meraki_auth_users(self, *, network_id: str) -> dict[str, Any] | None:
         """List the authorized users configured under Meraki Authentication for a network (splash guest or RADIUS users for a wireless network, or client VPN users for a MX network).
@@ -2202,14 +2128,12 @@ class Networks:
             network_id: Network ID.
 
         """
-        metadata = {
-            "tags": ["networks", "configure", "merakiAuthUsers"],
-            "operation": "get_network_meraki_auth_users",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/merakiAuthUsers"
+        path = f"/networks/{network_id}/merakiAuthUsers"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="networks", operation_id="getNetworkMerakiAuthUsers", path=path
+        )
 
     def create_network_meraki_auth_user(
         self,
@@ -2247,12 +2171,8 @@ class Networks:
                 f'"account_type" cannot be "{account_type}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["networks", "configure", "merakiAuthUsers"],
-            "operation": "create_network_meraki_auth_user",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/merakiAuthUsers"
+        path = f"/networks/{network_id}/merakiAuthUsers"
 
         payload = {}
         if email is not None:
@@ -2270,7 +2190,9 @@ class Networks:
         if authorizations is not None:
             payload["authorizations"] = authorizations
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="networks", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_network_meraki_auth_user(
         self, *, network_id: str, meraki_auth_user_id: str
@@ -2284,15 +2206,13 @@ class Networks:
             meraki_auth_user_id: Meraki auth user ID.
 
         """
-        metadata = {
-            "tags": ["networks", "configure", "merakiAuthUsers"],
-            "operation": "get_network_meraki_auth_user",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         meraki_auth_user_id = urllib.parse.quote(str(meraki_auth_user_id), safe="")
-        resource = f"/networks/{network_id}/merakiAuthUsers/{meraki_auth_user_id}"
+        path = f"/networks/{network_id}/merakiAuthUsers/{meraki_auth_user_id}"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="networks", operation_id="getNetworkMerakiAuthUser", path=path
+        )
 
     def update_network_meraki_auth_user(
         self,
@@ -2319,13 +2239,9 @@ class Networks:
             authorizations: Authorization zones and expiration dates for the user.
 
         """
-        metadata = {
-            "tags": ["networks", "configure", "merakiAuthUsers"],
-            "operation": "update_network_meraki_auth_user",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         meraki_auth_user_id = urllib.parse.quote(str(meraki_auth_user_id), safe="")
-        resource = f"/networks/{network_id}/merakiAuthUsers/{meraki_auth_user_id}"
+        path = f"/networks/{network_id}/merakiAuthUsers/{meraki_auth_user_id}"
 
         payload = {}
         if name is not None:
@@ -2337,7 +2253,9 @@ class Networks:
         if authorizations is not None:
             payload["authorizations"] = authorizations
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="networks", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def delete_network_meraki_auth_user(
         self, *, network_id: str, meraki_auth_user_id: str, delete: bool | None = None
@@ -2355,19 +2273,17 @@ class Networks:
               optional attribute.
 
         """
-        metadata = {
-            "tags": ["networks", "configure", "merakiAuthUsers"],
-            "operation": "delete_network_meraki_auth_user",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         meraki_auth_user_id = urllib.parse.quote(str(meraki_auth_user_id), safe="")
-        resource = f"/networks/{network_id}/merakiAuthUsers/{meraki_auth_user_id}"
+        path = f"/networks/{network_id}/merakiAuthUsers/{meraki_auth_user_id}"
 
         params = {}
         if delete is not None:
             params["delete"] = delete
 
-        return self._session.delete(metadata, resource)
+        return self._session.delete(
+            scope="networks", operation_id="deleteNetworkMerakiAuthUser", path=path
+        )
 
     def get_network_mqtt_brokers(self, *, network_id: str) -> dict[str, Any] | None:
         """List the MQTT brokers for this network.
@@ -2378,14 +2294,10 @@ class Networks:
             network_id: Network ID.
 
         """
-        metadata = {
-            "tags": ["networks", "configure", "mqttBrokers"],
-            "operation": "get_network_mqtt_brokers",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/mqttBrokers"
+        path = f"/networks/{network_id}/mqttBrokers"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(scope="networks", operation_id="getNetworkMqttBrokers", path=path)
 
     def create_network_mqtt_broker(
         self,
@@ -2410,12 +2322,8 @@ class Networks:
             authentication: Authentication settings of the MQTT broker.
 
         """
-        metadata = {
-            "tags": ["networks", "configure", "mqttBrokers"],
-            "operation": "create_network_mqtt_broker",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/mqttBrokers"
+        path = f"/networks/{network_id}/mqttBrokers"
 
         payload = {}
         if name is not None:
@@ -2429,7 +2337,9 @@ class Networks:
         if authentication is not None:
             payload["authentication"] = authentication
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="networks", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_network_mqtt_broker(
         self, *, network_id: str, mqtt_broker_id: str
@@ -2443,15 +2353,11 @@ class Networks:
             mqtt_broker_id: Mqtt broker ID.
 
         """
-        metadata = {
-            "tags": ["networks", "configure", "mqttBrokers"],
-            "operation": "get_network_mqtt_broker",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         mqtt_broker_id = urllib.parse.quote(str(mqtt_broker_id), safe="")
-        resource = f"/networks/{network_id}/mqttBrokers/{mqtt_broker_id}"
+        path = f"/networks/{network_id}/mqttBrokers/{mqtt_broker_id}"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(scope="networks", operation_id="getNetworkMqttBroker", path=path)
 
     def update_network_mqtt_broker(
         self,
@@ -2478,13 +2384,9 @@ class Networks:
             authentication: Authentication settings of the MQTT broker.
 
         """
-        metadata = {
-            "tags": ["networks", "configure", "mqttBrokers"],
-            "operation": "update_network_mqtt_broker",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         mqtt_broker_id = urllib.parse.quote(str(mqtt_broker_id), safe="")
-        resource = f"/networks/{network_id}/mqttBrokers/{mqtt_broker_id}"
+        path = f"/networks/{network_id}/mqttBrokers/{mqtt_broker_id}"
 
         payload = {}
         if name is not None:
@@ -2498,7 +2400,9 @@ class Networks:
         if authentication is not None:
             payload["authentication"] = authentication
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="networks", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def delete_network_mqtt_broker(self, *, network_id: str, mqtt_broker_id: str) -> None:
         """Delete an MQTT broker.
@@ -2510,15 +2414,13 @@ class Networks:
             mqtt_broker_id: Mqtt broker ID.
 
         """
-        metadata = {
-            "tags": ["networks", "configure", "mqttBrokers"],
-            "operation": "delete_network_mqtt_broker",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         mqtt_broker_id = urllib.parse.quote(str(mqtt_broker_id), safe="")
-        resource = f"/networks/{network_id}/mqttBrokers/{mqtt_broker_id}"
+        path = f"/networks/{network_id}/mqttBrokers/{mqtt_broker_id}"
 
-        return self._session.delete(metadata, resource)
+        return self._session.delete(
+            scope="networks", operation_id="deleteNetworkMqttBroker", path=path
+        )
 
     def get_network_netflow(self, *, network_id: str) -> dict[str, Any] | None:
         """Return the NetFlow traffic reporting settings for a network.
@@ -2529,14 +2431,10 @@ class Networks:
             network_id: Network ID.
 
         """
-        metadata = {
-            "tags": ["networks", "configure", "netflow"],
-            "operation": "get_network_netflow",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/netflow"
+        path = f"/networks/{network_id}/netflow"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(scope="networks", operation_id="getNetworkNetflow", path=path)
 
     def update_network_netflow(
         self,
@@ -2564,12 +2462,8 @@ class Networks:
               on.
 
         """
-        metadata = {
-            "tags": ["networks", "configure", "netflow"],
-            "operation": "update_network_netflow",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/netflow"
+        path = f"/networks/{network_id}/netflow"
 
         payload = {}
         if reporting_enabled is not None:
@@ -2583,7 +2477,9 @@ class Networks:
         if eta_dst_port is not None:
             payload["etaDstPort"] = eta_dst_port
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="networks", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_network_network_health_channel_utilization(
         self,
@@ -2628,12 +2524,8 @@ class Networks:
             direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        metadata = {
-            "tags": ["networks", "monitor", "networkHealth", "channelUtilization"],
-            "operation": "get_network_network_health_channel_utilization",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/networkHealth/channelUtilization"
+        path = f"/networks/{network_id}/networkHealth/channelUtilization"
 
         params = {}
         if t0 is not None:
@@ -2651,7 +2543,14 @@ class Networks:
         if ending_before is not None:
             params["endingBefore"] = ending_before
 
-        return self._session.get_pages(metadata, resource, params, total_pages, direction)
+        return self._session.get_pages(
+            scope="networks",
+            operation_id="{operation_id}",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+        )
 
     def get_network_pii_pii_keys(
         self,
@@ -2678,12 +2577,8 @@ class Networks:
             bluetooth_mac: The MAC of a Bluetooth client.
 
         """
-        metadata = {
-            "tags": ["networks", "configure", "pii", "piiKeys"],
-            "operation": "get_network_pii_pii_keys",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/pii/piiKeys"
+        path = f"/networks/{network_id}/pii/piiKeys"
 
         params = {}
         if username is not None:
@@ -2699,7 +2594,9 @@ class Networks:
         if bluetooth_mac is not None:
             params["bluetoothMac"] = bluetooth_mac
 
-        return self._session.get(metadata, resource, params)
+        return self._session.get(
+            scope="networks", operation_id="{operation_id}", path=path, params=params
+        )
 
     def get_network_pii_requests(self, *, network_id: str) -> dict[str, Any] | None:
         """List the PII requests for this network or organization.
@@ -2710,14 +2607,10 @@ class Networks:
             network_id: Network ID.
 
         """
-        metadata = {
-            "tags": ["networks", "configure", "pii", "requests"],
-            "operation": "get_network_pii_requests",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/pii/requests"
+        path = f"/networks/{network_id}/pii/requests"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(scope="networks", operation_id="getNetworkPiiRequests", path=path)
 
     def create_network_pii_request(
         self,
@@ -2762,12 +2655,8 @@ class Networks:
                 f'"type_" cannot be "{type_}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["networks", "configure", "pii", "requests"],
-            "operation": "create_network_pii_request",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/pii/requests"
+        path = f"/networks/{network_id}/pii/requests"
 
         payload = {}
         if type_ is not None:
@@ -2785,7 +2674,9 @@ class Networks:
         if sm_user_id is not None:
             payload["smUserId"] = sm_user_id
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="networks", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_network_pii_request(self, *, network_id: str, request_id: str) -> dict[str, Any] | None:
         """Return a PII request.
@@ -2797,15 +2688,11 @@ class Networks:
             request_id: Request ID.
 
         """
-        metadata = {
-            "tags": ["networks", "configure", "pii", "requests"],
-            "operation": "get_network_pii_request",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         request_id = urllib.parse.quote(str(request_id), safe="")
-        resource = f"/networks/{network_id}/pii/requests/{request_id}"
+        path = f"/networks/{network_id}/pii/requests/{request_id}"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(scope="networks", operation_id="getNetworkPiiRequest", path=path)
 
     def delete_network_pii_request(self, *, network_id: str, request_id: str) -> None:
         """Delete a restrict processing PII request.
@@ -2817,15 +2704,13 @@ class Networks:
             request_id: Request ID.
 
         """
-        metadata = {
-            "tags": ["networks", "configure", "pii", "requests"],
-            "operation": "delete_network_pii_request",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         request_id = urllib.parse.quote(str(request_id), safe="")
-        resource = f"/networks/{network_id}/pii/requests/{request_id}"
+        path = f"/networks/{network_id}/pii/requests/{request_id}"
 
-        return self._session.delete(metadata, resource)
+        return self._session.delete(
+            scope="networks", operation_id="deleteNetworkPiiRequest", path=path
+        )
 
     def get_network_pii_sm_devices_for_key(
         self,
@@ -2852,12 +2737,8 @@ class Networks:
             bluetooth_mac: The MAC of a Bluetooth client.
 
         """
-        metadata = {
-            "tags": ["networks", "configure", "pii", "smDevicesForKey"],
-            "operation": "get_network_pii_sm_devices_for_key",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/pii/smDevicesForKey"
+        path = f"/networks/{network_id}/pii/smDevicesForKey"
 
         params = {}
         if username is not None:
@@ -2873,7 +2754,9 @@ class Networks:
         if bluetooth_mac is not None:
             params["bluetoothMac"] = bluetooth_mac
 
-        return self._session.get(metadata, resource, params)
+        return self._session.get(
+            scope="networks", operation_id="{operation_id}", path=path, params=params
+        )
 
     def get_network_pii_sm_owners_for_key(
         self,
@@ -2900,12 +2783,8 @@ class Networks:
             bluetooth_mac: The MAC of a Bluetooth client.
 
         """
-        metadata = {
-            "tags": ["networks", "configure", "pii", "smOwnersForKey"],
-            "operation": "get_network_pii_sm_owners_for_key",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/pii/smOwnersForKey"
+        path = f"/networks/{network_id}/pii/smOwnersForKey"
 
         params = {}
         if username is not None:
@@ -2921,7 +2800,9 @@ class Networks:
         if bluetooth_mac is not None:
             params["bluetoothMac"] = bluetooth_mac
 
-        return self._session.get(metadata, resource, params)
+        return self._session.get(
+            scope="networks", operation_id="{operation_id}", path=path, params=params
+        )
 
     def get_network_policies_by_client(
         self,
@@ -2961,12 +2842,8 @@ class Networks:
             direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        metadata = {
-            "tags": ["networks", "configure", "policies", "byClient"],
-            "operation": "get_network_policies_by_client",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/policies/byClient"
+        path = f"/networks/{network_id}/policies/byClient"
 
         params = {}
         if per_page is not None:
@@ -2980,7 +2857,14 @@ class Networks:
         if timespan is not None:
             params["timespan"] = timespan
 
-        return self._session.get_pages(metadata, resource, params, total_pages, direction)
+        return self._session.get_pages(
+            scope="networks",
+            operation_id="{operation_id}",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+        )
 
     def get_network_settings(self, *, network_id: str) -> dict[str, Any] | None:
         """Return the settings for a network.
@@ -2991,14 +2875,10 @@ class Networks:
             network_id: Network ID.
 
         """
-        metadata = {
-            "tags": ["networks", "configure", "settings"],
-            "operation": "get_network_settings",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/settings"
+        path = f"/networks/{network_id}/settings"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(scope="networks", operation_id="getNetworkSettings", path=path)
 
     def update_network_settings(
         self,
@@ -3031,12 +2911,8 @@ class Networks:
             named_vlans: A hash of Named VLANs options applied to the Network.
 
         """
-        metadata = {
-            "tags": ["networks", "configure", "settings"],
-            "operation": "update_network_settings",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/settings"
+        path = f"/networks/{network_id}/settings"
 
         payload = {}
         if local_status_page_enabled is not None:
@@ -3050,7 +2926,9 @@ class Networks:
         if named_vlans is not None:
             payload["namedVlans"] = named_vlans
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="networks", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_network_snmp(self, *, network_id: str) -> dict[str, Any] | None:
         """Return the SNMP settings for a network.
@@ -3061,11 +2939,10 @@ class Networks:
             network_id: Network ID.
 
         """
-        metadata = {"tags": ["networks", "configure", "snmp"], "operation": "get_network_snmp"}
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/snmp"
+        path = f"/networks/{network_id}/snmp"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(scope="networks", operation_id="getNetworkSnmp", path=path)
 
     def update_network_snmp(
         self,
@@ -3094,9 +2971,8 @@ class Networks:
                 f'"access" cannot be "{access}", & must be set to one of: {options}'
             )
 
-        metadata = {"tags": ["networks", "configure", "snmp"], "operation": "update_network_snmp"}
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/snmp"
+        path = f"/networks/{network_id}/snmp"
 
         payload = {}
         if access is not None:
@@ -3106,7 +2982,9 @@ class Networks:
         if users is not None:
             payload["users"] = users
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="networks", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_network_splash_login_attempts(
         self,
@@ -3134,12 +3012,8 @@ class Networks:
                 f'"ssid_number" cannot be "{ssid_number}", & must be set to one of: {options}'
             )
 
-        metadata = {
-            "tags": ["networks", "monitor", "splashLoginAttempts"],
-            "operation": "get_network_splash_login_attempts",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/splashLoginAttempts"
+        path = f"/networks/{network_id}/splashLoginAttempts"
 
         params = {}
         if ssid_number is not None:
@@ -3149,7 +3023,9 @@ class Networks:
         if timespan is not None:
             params["timespan"] = timespan
 
-        return self._session.get(metadata, resource, params)
+        return self._session.get(
+            scope="networks", operation_id="{operation_id}", path=path, params=params
+        )
 
     def split_network(self, *, network_id: str) -> dict[str, Any] | None:
         """Split a combined network into individual networks for each type of device.
@@ -3160,11 +3036,10 @@ class Networks:
             network_id: Network ID.
 
         """
-        metadata = {"tags": ["networks", "configure"], "operation": "split_network"}
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/split"
+        path = f"/networks/{network_id}/split"
 
-        return self._session.post(metadata, resource)
+        return self._session.post(scope="networks", operation_id="splitNetwork", path=path)
 
     def get_network_syslog_servers(self, *, network_id: str) -> dict[str, Any] | None:
         """List the syslog servers for a network.
@@ -3175,14 +3050,12 @@ class Networks:
             network_id: Network ID.
 
         """
-        metadata = {
-            "tags": ["networks", "configure", "syslogServers"],
-            "operation": "get_network_syslog_servers",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/syslogServers"
+        path = f"/networks/{network_id}/syslogServers"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="networks", operation_id="getNetworkSyslogServers", path=path
+        )
 
     def update_network_syslog_servers(
         self, *, network_id: str, servers: list
@@ -3196,18 +3069,16 @@ class Networks:
             servers: A list of the syslog servers for this network.
 
         """
-        metadata = {
-            "tags": ["networks", "configure", "syslogServers"],
-            "operation": "update_network_syslog_servers",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/syslogServers"
+        path = f"/networks/{network_id}/syslogServers"
 
         payload = {}
         if servers is not None:
             payload["servers"] = servers
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="networks", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_network_topology_link_layer(self, *, network_id: str) -> dict[str, Any] | None:
         """List the LLDP and CDP information for all discovered devices and connections in a network.
@@ -3218,14 +3089,12 @@ class Networks:
             network_id: Network ID.
 
         """
-        metadata = {
-            "tags": ["networks", "monitor", "topology", "linkLayer"],
-            "operation": "get_network_topology_link_layer",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/topology/linkLayer"
+        path = f"/networks/{network_id}/topology/linkLayer"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="networks", operation_id="getNetworkTopologyLinkLayer", path=path
+        )
 
     def get_network_traffic(
         self,
@@ -3257,9 +3126,8 @@ class Networks:
                 f'"device_type" cannot be "{device_type}", & must be set to one of: {options}'
             )
 
-        metadata = {"tags": ["networks", "monitor", "traffic"], "operation": "get_network_traffic"}
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/traffic"
+        path = f"/networks/{network_id}/traffic"
 
         params = {}
         if t0 is not None:
@@ -3269,7 +3137,9 @@ class Networks:
         if device_type is not None:
             params["deviceType"] = device_type
 
-        return self._session.get(metadata, resource, params)
+        return self._session.get(
+            scope="networks", operation_id="{operation_id}", path=path, params=params
+        )
 
     def get_network_traffic_analysis(self, *, network_id: str) -> dict[str, Any] | None:
         """Return the traffic analysis settings for a network.
@@ -3280,14 +3150,12 @@ class Networks:
             network_id: Network ID.
 
         """
-        metadata = {
-            "tags": ["networks", "configure", "trafficAnalysis"],
-            "operation": "get_network_traffic_analysis",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/trafficAnalysis"
+        path = f"/networks/{network_id}/trafficAnalysis"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="networks", operation_id="getNetworkTrafficAnalysis", path=path
+        )
 
     def update_network_traffic_analysis(
         self,
@@ -3313,12 +3181,8 @@ class Networks:
             options = ["basic", "detailed", "disabled"]
             assert mode in options, f'"mode" cannot be "{mode}", & must be set to one of: {options}'
 
-        metadata = {
-            "tags": ["networks", "configure", "trafficAnalysis"],
-            "operation": "update_network_traffic_analysis",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/trafficAnalysis"
+        path = f"/networks/{network_id}/trafficAnalysis"
 
         payload = {}
         if mode is not None:
@@ -3326,7 +3190,9 @@ class Networks:
         if custom_pie_chart_items is not None:
             payload["customPieChartItems"] = custom_pie_chart_items
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="networks", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_network_traffic_shaping_application_categories(
         self, *, network_id: str
@@ -3339,14 +3205,14 @@ class Networks:
             network_id: Network ID.
 
         """
-        metadata = {
-            "tags": ["networks", "configure", "trafficShaping", "applicationCategories"],
-            "operation": "get_network_traffic_shaping_application_categories",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/trafficShaping/applicationCategories"
+        path = f"/networks/{network_id}/trafficShaping/applicationCategories"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="networks",
+            operation_id="getNetworkTrafficShapingApplicationCategories",
+            path=path,
+        )
 
     def get_network_traffic_shaping_dscp_tagging_options(
         self, *, network_id: str
@@ -3359,14 +3225,12 @@ class Networks:
             network_id: Network ID.
 
         """
-        metadata = {
-            "tags": ["networks", "configure", "trafficShaping", "dscpTaggingOptions"],
-            "operation": "get_network_traffic_shaping_dscp_tagging_options",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/trafficShaping/dscpTaggingOptions"
+        path = f"/networks/{network_id}/trafficShaping/dscpTaggingOptions"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="networks", operation_id="getNetworkTrafficShapingDscpTaggingOptions", path=path
+        )
 
     def unbind_network(
         self, *, network_id: str, retain_configs: bool | None = None
@@ -3381,15 +3245,16 @@ class Networks:
               template.
 
         """
-        metadata = {"tags": ["networks", "configure"], "operation": "unbind_network"}
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/unbind"
+        path = f"/networks/{network_id}/unbind"
 
         payload = {}
         if retain_configs is not None:
             payload["retainConfigs"] = retain_configs
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="networks", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_network_vlan_profiles(self, *, network_id: str) -> dict[str, Any] | None:
         """List VLAN profiles for a network.
@@ -3400,14 +3265,10 @@ class Networks:
             network_id: Network ID.
 
         """
-        metadata = {
-            "tags": ["networks", "configure", "vlanProfiles"],
-            "operation": "get_network_vlan_profiles",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/vlanProfiles"
+        path = f"/networks/{network_id}/vlanProfiles"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(scope="networks", operation_id="getNetworkVlanProfiles", path=path)
 
     def create_network_vlan_profile(
         self, *, network_id: str, name: str, vlan_names: list, vlan_groups: list, iname: str
@@ -3424,12 +3285,8 @@ class Networks:
             iname: IName of the profile.
 
         """
-        metadata = {
-            "tags": ["networks", "configure", "vlanProfiles"],
-            "operation": "create_network_vlan_profile",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/vlanProfiles"
+        path = f"/networks/{network_id}/vlanProfiles"
 
         payload = {}
         if name is not None:
@@ -3441,7 +3298,9 @@ class Networks:
         if iname is not None:
             payload["iname"] = iname
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="networks", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_network_vlan_profiles_assignments_by_device(
         self,
@@ -3481,12 +3340,8 @@ class Networks:
             direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
-        metadata = {
-            "tags": ["networks", "configure", "vlanProfiles", "assignments", "byDevice"],
-            "operation": "get_network_vlan_profiles_assignments_by_device",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/vlanProfiles/assignments/byDevice"
+        path = f"/networks/{network_id}/vlanProfiles/assignments/byDevice"
 
         params = {}
         if per_page is not None:
@@ -3502,7 +3357,14 @@ class Networks:
         if stack_ids is not None:
             params["stackIds[]"] = stack_ids
 
-        return self._session.get_pages(metadata, resource, params, total_pages, direction)
+        return self._session.get_pages(
+            scope="networks",
+            operation_id="{operation_id}",
+            path=path,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+        )
 
     def reassign_network_vlan_profiles_assignments(
         self, *, network_id: str, serials: list, stack_ids: list, vlan_profile: dict | None = None
@@ -3518,12 +3380,8 @@ class Networks:
             stack_ids: Array of Switch Stack IDs.
 
         """
-        metadata = {
-            "tags": ["networks", "configure", "vlanProfiles", "assignments"],
-            "operation": "reassign_network_vlan_profiles_assignments",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/vlanProfiles/assignments/reassign"
+        path = f"/networks/{network_id}/vlanProfiles/assignments/reassign"
 
         payload = {}
         if vlan_profile is not None:
@@ -3533,7 +3391,9 @@ class Networks:
         if stack_ids is not None:
             payload["stackIds"] = stack_ids
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="networks", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_network_vlan_profile(self, *, network_id: str, iname: str) -> dict[str, Any] | None:
         """Get an existing VLAN profile of a network.
@@ -3545,15 +3405,11 @@ class Networks:
             iname: Iname.
 
         """
-        metadata = {
-            "tags": ["networks", "configure", "vlanProfiles"],
-            "operation": "get_network_vlan_profile",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         iname = urllib.parse.quote(str(iname), safe="")
-        resource = f"/networks/{network_id}/vlanProfiles/{iname}"
+        path = f"/networks/{network_id}/vlanProfiles/{iname}"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(scope="networks", operation_id="getNetworkVlanProfile", path=path)
 
     def update_network_vlan_profile(
         self, *, network_id: str, iname: str, name: str, vlan_names: list, vlan_groups: list
@@ -3570,13 +3426,9 @@ class Networks:
             vlan_groups: An array of VLAN groups.
 
         """
-        metadata = {
-            "tags": ["networks", "configure", "vlanProfiles"],
-            "operation": "update_network_vlan_profile",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         iname = urllib.parse.quote(str(iname), safe="")
-        resource = f"/networks/{network_id}/vlanProfiles/{iname}"
+        path = f"/networks/{network_id}/vlanProfiles/{iname}"
 
         payload = {}
         if name is not None:
@@ -3586,7 +3438,9 @@ class Networks:
         if vlan_groups is not None:
             payload["vlanGroups"] = vlan_groups
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="networks", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def delete_network_vlan_profile(self, *, network_id: str, iname: str) -> None:
         """Delete a VLAN profile of a network.
@@ -3598,15 +3452,13 @@ class Networks:
             iname: Iname.
 
         """
-        metadata = {
-            "tags": ["networks", "configure", "vlanProfiles"],
-            "operation": "delete_network_vlan_profile",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         iname = urllib.parse.quote(str(iname), safe="")
-        resource = f"/networks/{network_id}/vlanProfiles/{iname}"
+        path = f"/networks/{network_id}/vlanProfiles/{iname}"
 
-        return self._session.delete(metadata, resource)
+        return self._session.delete(
+            scope="networks", operation_id="deleteNetworkVlanProfile", path=path
+        )
 
     def get_network_webhooks_http_servers(self, *, network_id: str) -> dict[str, Any] | None:
         """List the HTTP servers for a network.
@@ -3617,14 +3469,12 @@ class Networks:
             network_id: Network ID.
 
         """
-        metadata = {
-            "tags": ["networks", "configure", "webhooks", "httpServers"],
-            "operation": "get_network_webhooks_http_servers",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/webhooks/httpServers"
+        path = f"/networks/{network_id}/webhooks/httpServers"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="networks", operation_id="getNetworkWebhooksHttpServers", path=path
+        )
 
     def create_network_webhooks_http_server(
         self,
@@ -3648,12 +3498,8 @@ class Networks:
             payload_template: The payload template to use when posting data to the HTTP server.
 
         """
-        metadata = {
-            "tags": ["networks", "configure", "webhooks", "httpServers"],
-            "operation": "create_network_webhooks_http_server",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/webhooks/httpServers"
+        path = f"/networks/{network_id}/webhooks/httpServers"
 
         payload = {}
         if name is not None:
@@ -3665,7 +3511,9 @@ class Networks:
         if payload_template is not None:
             payload["payloadTemplate"] = payload_template
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="networks", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_network_webhooks_http_server(
         self, *, network_id: str, http_server_id: str
@@ -3679,15 +3527,13 @@ class Networks:
             http_server_id: Http server ID.
 
         """
-        metadata = {
-            "tags": ["networks", "configure", "webhooks", "httpServers"],
-            "operation": "get_network_webhooks_http_server",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         http_server_id = urllib.parse.quote(str(http_server_id), safe="")
-        resource = f"/networks/{network_id}/webhooks/httpServers/{http_server_id}"
+        path = f"/networks/{network_id}/webhooks/httpServers/{http_server_id}"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="networks", operation_id="getNetworkWebhooksHttpServer", path=path
+        )
 
     def update_network_webhooks_http_server(
         self,
@@ -3711,13 +3557,9 @@ class Networks:
             payload_template: The payload template to use when posting data to the HTTP server.
 
         """
-        metadata = {
-            "tags": ["networks", "configure", "webhooks", "httpServers"],
-            "operation": "update_network_webhooks_http_server",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         http_server_id = urllib.parse.quote(str(http_server_id), safe="")
-        resource = f"/networks/{network_id}/webhooks/httpServers/{http_server_id}"
+        path = f"/networks/{network_id}/webhooks/httpServers/{http_server_id}"
 
         payload = {}
         if name is not None:
@@ -3727,7 +3569,9 @@ class Networks:
         if payload_template is not None:
             payload["payloadTemplate"] = payload_template
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="networks", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def delete_network_webhooks_http_server(self, *, network_id: str, http_server_id: str) -> None:
         """Delete an HTTP server from a network.
@@ -3739,15 +3583,13 @@ class Networks:
             http_server_id: Http server ID.
 
         """
-        metadata = {
-            "tags": ["networks", "configure", "webhooks", "httpServers"],
-            "operation": "delete_network_webhooks_http_server",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         http_server_id = urllib.parse.quote(str(http_server_id), safe="")
-        resource = f"/networks/{network_id}/webhooks/httpServers/{http_server_id}"
+        path = f"/networks/{network_id}/webhooks/httpServers/{http_server_id}"
 
-        return self._session.delete(metadata, resource)
+        return self._session.delete(
+            scope="networks", operation_id="deleteNetworkWebhooksHttpServer", path=path
+        )
 
     def get_network_webhooks_payload_templates(self, *, network_id: str) -> dict[str, Any] | None:
         """List the webhook payload templates for a network.
@@ -3758,14 +3600,12 @@ class Networks:
             network_id: Network ID.
 
         """
-        metadata = {
-            "tags": ["networks", "configure", "webhooks", "payloadTemplates"],
-            "operation": "get_network_webhooks_payload_templates",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/webhooks/payloadTemplates"
+        path = f"/networks/{network_id}/webhooks/payloadTemplates"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="networks", operation_id="getNetworkWebhooksPayloadTemplates", path=path
+        )
 
     def create_network_webhooks_payload_template(
         self,
@@ -3793,12 +3633,8 @@ class Networks:
               headers.
 
         """
-        metadata = {
-            "tags": ["networks", "configure", "webhooks", "payloadTemplates"],
-            "operation": "create_network_webhooks_payload_template",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/webhooks/payloadTemplates"
+        path = f"/networks/{network_id}/webhooks/payloadTemplates"
 
         payload = {}
         if name is not None:
@@ -3812,7 +3648,9 @@ class Networks:
         if headers_file is not None:
             payload["headersFile"] = headers_file
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="networks", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_network_webhooks_payload_template(
         self, *, network_id: str, payload_template_id: str
@@ -3826,15 +3664,13 @@ class Networks:
             payload_template_id: Payload template ID.
 
         """
-        metadata = {
-            "tags": ["networks", "configure", "webhooks", "payloadTemplates"],
-            "operation": "get_network_webhooks_payload_template",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         payload_template_id = urllib.parse.quote(str(payload_template_id), safe="")
-        resource = f"/networks/{network_id}/webhooks/payloadTemplates/{payload_template_id}"
+        path = f"/networks/{network_id}/webhooks/payloadTemplates/{payload_template_id}"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="networks", operation_id="getNetworkWebhooksPayloadTemplate", path=path
+        )
 
     def update_network_webhooks_payload_template(
         self,
@@ -3861,13 +3697,9 @@ class Networks:
             headers_file: A file containing the liquid template used with the webhook headers.
 
         """
-        metadata = {
-            "tags": ["networks", "configure", "webhooks", "payloadTemplates"],
-            "operation": "update_network_webhooks_payload_template",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         payload_template_id = urllib.parse.quote(str(payload_template_id), safe="")
-        resource = f"/networks/{network_id}/webhooks/payloadTemplates/{payload_template_id}"
+        path = f"/networks/{network_id}/webhooks/payloadTemplates/{payload_template_id}"
 
         payload = {}
         if name is not None:
@@ -3881,7 +3713,9 @@ class Networks:
         if headers_file is not None:
             payload["headersFile"] = headers_file
 
-        return self._session.put(metadata, resource, payload)
+        return self._session.put(
+            scope="networks", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def delete_network_webhooks_payload_template(
         self, *, network_id: str, payload_template_id: str
@@ -3895,15 +3729,13 @@ class Networks:
             payload_template_id: Payload template ID.
 
         """
-        metadata = {
-            "tags": ["networks", "configure", "webhooks", "payloadTemplates"],
-            "operation": "delete_network_webhooks_payload_template",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         payload_template_id = urllib.parse.quote(str(payload_template_id), safe="")
-        resource = f"/networks/{network_id}/webhooks/payloadTemplates/{payload_template_id}"
+        path = f"/networks/{network_id}/webhooks/payloadTemplates/{payload_template_id}"
 
-        return self._session.delete(metadata, resource)
+        return self._session.delete(
+            scope="networks", operation_id="deleteNetworkWebhooksPayloadTemplate", path=path
+        )
 
     def create_network_webhooks_webhook_test(
         self,
@@ -3932,12 +3764,8 @@ class Networks:
               power_supply_down.
 
         """
-        metadata = {
-            "tags": ["networks", "configure", "webhooks", "webhookTests"],
-            "operation": "create_network_webhooks_webhook_test",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
-        resource = f"/networks/{network_id}/webhooks/webhookTests"
+        path = f"/networks/{network_id}/webhooks/webhookTests"
 
         payload = {}
         if url is not None:
@@ -3951,7 +3779,9 @@ class Networks:
         if alert_type_id is not None:
             payload["alertTypeId"] = alert_type_id
 
-        return self._session.post(metadata, resource, payload)
+        return self._session.post(
+            scope="networks", operation_id="{operation_id}", path=path, json=payload
+        )
 
     def get_network_webhooks_webhook_test(
         self, *, network_id: str, webhook_test_id: str
@@ -3965,12 +3795,10 @@ class Networks:
             webhook_test_id: Webhook test ID.
 
         """
-        metadata = {
-            "tags": ["networks", "configure", "webhooks", "webhookTests"],
-            "operation": "get_network_webhooks_webhook_test",
-        }
         network_id = urllib.parse.quote(str(network_id), safe="")
         webhook_test_id = urllib.parse.quote(str(webhook_test_id), safe="")
-        resource = f"/networks/{network_id}/webhooks/webhookTests/{webhook_test_id}"
+        path = f"/networks/{network_id}/webhooks/webhookTests/{webhook_test_id}"
 
-        return self._session.get(metadata, resource)
+        return self._session.get(
+            scope="networks", operation_id="getNetworkWebhooksWebhookTest", path=path
+        )
