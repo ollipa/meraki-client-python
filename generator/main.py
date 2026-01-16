@@ -29,9 +29,10 @@ from openapi_pydantic.v3.v3_0 import (
 )
 from pydantic import BaseModel
 
+from generator.log_config import setup_logging
 from generator.schemas import BatchableAction
 
-logging.basicConfig(level=logging.DEBUG)
+setup_logging()
 log = logging.getLogger("codegen")
 
 # Get the directory where this script is located
