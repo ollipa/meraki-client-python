@@ -9,6 +9,7 @@ import shutil
 import sys
 import textwrap
 import tomllib
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Literal, TextIO, TypeAlias, TypeVar, assert_never
@@ -250,20 +251,14 @@ def generate_library(
     )
 
     templates = init_templates()
-    # Iterate through the scopes creating standard, asyncio and batch modules for each
-    for scope, paths in scopes.items():
-        log.info(f"Generating {scope}")
+
+    def generate_scope(scope: str, paths: PathsType) -> None:
+        """Generate a single scope's modules."""
         module_name = to_snake_case(scope)
         with (
-            open(
-                f"{OUTPUT_DIR}/api/{module_name}.py", "w", encoding="utf-8", newline=None
-            ) as output,
-            open(
-                f"{OUTPUT_DIR}/aio/api/{module_name}.py", "w", encoding="utf-8", newline=None
-            ) as async_output,
-            open(
-                f"{OUTPUT_DIR}/api/batch/{module_name}.py", "w", encoding="utf-8", newline=None
-            ) as batch_output,
+            open(f"{OUTPUT_DIR}/api/{module_name}.py", "w") as output,
+            open(f"{OUTPUT_DIR}/aio/api/{module_name}.py", "w") as async_output,
+            open(f"{OUTPUT_DIR}/api/batch/{module_name}.py", "w") as batch_output,
         ):
             generate_module(
                 scope=scope,
@@ -275,6 +270,19 @@ def generate_library(
                 batch_output=batch_output,
                 templates=templates,
             )
+
+    with ThreadPoolExecutor() as executor:
+        futures = {
+            executor.submit(generate_scope, scope, paths): scope for scope, paths in scopes.items()
+        }
+        for future in as_completed(futures):
+            scope = futures[future]
+            try:
+                future.result()
+            except Exception:
+                log.exception(f"Failed to generate {scope}")
+                raise
+            log.info(f"Generated {scope}")
 
 
 def generate_module(
