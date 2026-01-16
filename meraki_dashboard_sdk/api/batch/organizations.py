@@ -1030,10 +1030,11 @@ class ActionBatchOrganizations:
 
         Args:
             organization_id: Organization ID.
-            schedule_id: Delete the capture schedules of the specified capture schedule id.
+            schedule_id: Schedule ID.
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
+        schedule_id = urllib.parse.quote(str(schedule_id), safe="")
         resource = f"/organizations/{organization_id}/devices/packetCapture/schedules/{schedule_id}"
 
         payload = {}

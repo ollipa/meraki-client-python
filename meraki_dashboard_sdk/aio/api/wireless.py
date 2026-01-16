@@ -1067,8 +1067,8 @@ class AsyncWireless:
         ssid_number: int | None = None,
         included_severities: list | None = None,
         device_serial: str | None = None,
-        total_pages: str = 1,
-        direction: str = "next",
+        total_pages: int | Literal["all"] = 1,
+        direction: Literal["prev" | "next"] = "next",
     ) -> Generator[Any, None, None]:
         """List the wireless connectivity events for a client within a network in the timespan.
 
@@ -1104,7 +1104,7 @@ class AsyncWireless:
               severities will be returned. Valid severities are 'good', 'info', 'warn'
               and/or 'bad'.
             device_serial: Filter results by an AP's serial number.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
 
@@ -2043,8 +2043,8 @@ class AsyncWireless:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        total_pages: str = 1,
-        direction: str = "next",
+        total_pages: int | Literal["all"] = 1,
+        direction: Literal["prev" | "next"] = "next",
     ) -> Generator[Any, None, None]:
         """List wireless mesh statuses for repeaters.
 
@@ -2062,7 +2062,7 @@ class AsyncWireless:
               a timestamp or an ID but it is not limited to those. This parameter should
               not be defined by client applications. The link for the first, last, prev,
               or next page in the HTTP Link header should define it.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
 
@@ -4030,8 +4030,8 @@ class AsyncWireless:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        total_pages: str = 1,
-        direction: str = "next",
+        total_pages: int | Literal["all"] = 1,
+        direction: Literal["prev" | "next"] = "next",
     ) -> Generator[Any, None, None]:
         """Returns the current Air Marshal rules for this organization.
 
@@ -4050,7 +4050,7 @@ class AsyncWireless:
               a timestamp or an ID but it is not limited to those. This parameter should
               not be defined by client applications. The link for the first, last, prev,
               or next page in the HTTP Link header should define it.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
 
@@ -4082,8 +4082,8 @@ class AsyncWireless:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        total_pages: str = 1,
-        direction: str = "next",
+        total_pages: int | Literal["all"] = 1,
+        direction: Literal["prev" | "next"] = "next",
     ) -> Generator[Any, None, None]:
         """Returns the current Air Marshal settings for this network.
 
@@ -4102,7 +4102,7 @@ class AsyncWireless:
               a timestamp or an ID but it is not limited to those. This parameter should
               not be defined by client applications. The link for the first, last, prev,
               or next page in the HTTP Link header should define it.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
 
@@ -4136,8 +4136,8 @@ class AsyncWireless:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        total_pages: str = 1,
-        direction: str = "next",
+        total_pages: int | Literal["all"] = 1,
+        direction: Literal["prev" | "next"] = "next",
     ) -> Generator[Any, None, None]:
         """List access point client count at the moment in an organization.
 
@@ -4161,7 +4161,7 @@ class AsyncWireless:
               a timestamp or an ID but it is not limited to those. This parameter should
               not be defined by client applications. The link for the first, last, prev,
               or next page in the HTTP Link header should define it.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
 
@@ -4202,8 +4202,8 @@ class AsyncWireless:
         t1: str | None = None,
         timespan: float | None = None,
         interval: int | None = None,
-        total_pages: str = 1,
-        direction: str = "next",
+        total_pages: int | Literal["all"] = 1,
+        direction: Literal["prev" | "next"] = "next",
     ) -> Generator[Any, None, None]:
         """Get average channel utilization for all bands in a network, split by AP.
 
@@ -4231,7 +4231,7 @@ class AsyncWireless:
               seconds and be less than or equal to 90 days. The default is 7 days.
             interval: The time interval in seconds for returned data. The valid intervals are: 300,
               600, 3600, 7200, 14400, 21600. The default is 3600.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
 
@@ -4278,8 +4278,8 @@ class AsyncWireless:
         t1: str | None = None,
         timespan: float | None = None,
         interval: int | None = None,
-        total_pages: str = 1,
-        direction: str = "next",
+        total_pages: int | Literal["all"] = 1,
+        direction: Literal["prev" | "next"] = "next",
     ) -> Generator[Any, None, None]:
         """Get average channel utilization across all bands for all networks in the organization.
 
@@ -4307,7 +4307,7 @@ class AsyncWireless:
               seconds and be less than or equal to 90 days. The default is 7 days.
             interval: The time interval in seconds for returned data. The valid intervals are: 300,
               600, 3600, 7200, 14400, 21600. The default is 3600.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
 
@@ -4354,8 +4354,8 @@ class AsyncWireless:
         t1: str | None = None,
         timespan: float | None = None,
         interval: int | None = None,
-        total_pages: str = 1,
-        direction: str = "next",
+        total_pages: int | Literal["all"] = 1,
+        direction: Literal["prev" | "next"] = "next",
     ) -> Generator[Any, None, None]:
         """Get a time-series of average channel utilization for all bands, segmented by device.
 
@@ -4383,7 +4383,7 @@ class AsyncWireless:
               seconds and be less than or equal to 31 days. The default is 7 days.
             interval: The time interval in seconds for returned data. The valid intervals are: 300,
               600, 3600, 7200, 14400, 21600. The default is 3600.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
 
@@ -4438,8 +4438,8 @@ class AsyncWireless:
         t1: str | None = None,
         timespan: float | None = None,
         interval: int | None = None,
-        total_pages: str = 1,
-        direction: str = "next",
+        total_pages: int | Literal["all"] = 1,
+        direction: Literal["prev" | "next"] = "next",
     ) -> Generator[Any, None, None]:
         """Get a time-series of average channel utilization for all bands.
 
@@ -4467,7 +4467,7 @@ class AsyncWireless:
               seconds and be less than or equal to 31 days. The default is 7 days.
             interval: The time interval in seconds for returned data. The valid intervals are: 300,
               600, 3600, 7200, 14400, 21600. The default is 3600.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
 
@@ -4517,8 +4517,8 @@ class AsyncWireless:
         starting_after: str | None = None,
         ending_before: str | None = None,
         network_ids: list | None = None,
-        total_pages: str = 1,
-        direction: str = "next",
+        total_pages: int | Literal["all"] = 1,
+        direction: Literal["prev" | "next"] = "next",
     ) -> Generator[Any, None, None]:
         """List the most recent Ethernet link speed, duplex, aggregation and power mode and status information for wireless devices.
 
@@ -4538,7 +4538,7 @@ class AsyncWireless:
               or next page in the HTTP Link header should define it.
             network_ids: A list of Meraki network IDs to filter results to contain only specified
               networks. E.g.: networkIds[]=N_12345678&networkIds[]=L_3456.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
 
@@ -4576,8 +4576,8 @@ class AsyncWireless:
         t0: str | None = None,
         t1: str | None = None,
         timespan: float | None = None,
-        total_pages: str = 1,
-        direction: str = "next",
+        total_pages: int | Literal["all"] = 1,
+        direction: Literal["prev" | "next"] = "next",
     ) -> Generator[Any, None, None]:
         """Get average packet loss for the given timespan for all clients in the organization.
 
@@ -4606,7 +4606,7 @@ class AsyncWireless:
               timespan, do not specify parameters t0 and t1. The value must be in
               seconds and be greater than or equal to 5 minutes and be less than or
               equal to 90 days. The default is 7 days.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
 
@@ -4656,8 +4656,8 @@ class AsyncWireless:
         t0: str | None = None,
         t1: str | None = None,
         timespan: float | None = None,
-        total_pages: str = 1,
-        direction: str = "next",
+        total_pages: int | Literal["all"] = 1,
+        direction: Literal["prev" | "next"] = "next",
     ) -> Generator[Any, None, None]:
         """Get average packet loss for the given timespan for all devices in the organization.
 
@@ -4686,7 +4686,7 @@ class AsyncWireless:
               timespan, do not specify parameters t0 and t1. The value must be in
               seconds and be greater than or equal to 5 minutes and be less than or
               equal to 90 days. The default is 7 days.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
 
@@ -4736,8 +4736,8 @@ class AsyncWireless:
         t0: str | None = None,
         t1: str | None = None,
         timespan: float | None = None,
-        total_pages: str = 1,
-        direction: str = "next",
+        total_pages: int | Literal["all"] = 1,
+        direction: Literal["prev" | "next"] = "next",
     ) -> Generator[Any, None, None]:
         """Get average packet loss for the given timespan for all networks in the organization.
 
@@ -4766,7 +4766,7 @@ class AsyncWireless:
               timespan, do not specify parameters t0 and t1. The value must be in
               seconds and be greater than or equal to 5 minutes and be less than or
               equal to 90 days. The default is 7 days.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
 
@@ -4814,8 +4814,8 @@ class AsyncWireless:
         ending_before: str | None = None,
         network_ids: list | None = None,
         serials: list | None = None,
-        total_pages: str = 1,
-        direction: str = "next",
+        total_pages: int | Literal["all"] = 1,
+        direction: Literal["prev" | "next"] = "next",
     ) -> Generator[Any, None, None]:
         """Return a record of power mode changes for wireless devices in the organization.
 
@@ -4843,7 +4843,7 @@ class AsyncWireless:
               IDs.
             serials: Optional parameter to filter device availabilities history by device serial
               numbers.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
 
@@ -5041,8 +5041,8 @@ class AsyncWireless:
         ending_before: str | None = None,
         network_ids: list | None = None,
         serials: list | None = None,
-        total_pages: str = 1,
-        direction: str = "next",
+        total_pages: int | Literal["all"] = 1,
+        direction: Literal["prev" | "next"] = "next",
     ) -> Generator[Any, None, None]:
         """Return the CPU Load history for a list of wireless devices in the organization.
 
@@ -5070,7 +5070,7 @@ class AsyncWireless:
               IDs.
             serials: Optional parameter to filter device availabilities history by device serial
               numbers.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
 
@@ -5112,8 +5112,8 @@ class AsyncWireless:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        total_pages: str = 1,
-        direction: str = "next",
+        total_pages: int | Literal["all"] = 1,
+        direction: Literal["prev" | "next"] = "next",
     ) -> Generator[Any, None, None]:
         """List of Catalyst access points information.
 
@@ -5137,7 +5137,7 @@ class AsyncWireless:
               a timestamp or an ID but it is not limited to those. This parameter should
               not be defined by client applications. The link for the first, last, prev,
               or next page in the HTTP Link header should define it.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
 
@@ -5173,8 +5173,8 @@ class AsyncWireless:
         starting_after: str | None = None,
         ending_before: str | None = None,
         network_ids: list | None = None,
-        total_pages: str = 1,
-        direction: str = "next",
+        total_pages: int | Literal["all"] = 1,
+        direction: Literal["prev" | "next"] = "next",
     ) -> Generator[Any, None, None]:
         """Return scanning API settings.
 
@@ -5193,7 +5193,7 @@ class AsyncWireless:
               not be defined by client applications. The link for the first, last, prev,
               or next page in the HTTP Link header should define it.
             network_ids: Optional parameter to filter scanning settings by network ID.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
 
@@ -5225,8 +5225,8 @@ class AsyncWireless:
         starting_after: str | None = None,
         ending_before: str | None = None,
         network_ids: list | None = None,
-        total_pages: str = 1,
-        direction: str = "next",
+        total_pages: int | Literal["all"] = 1,
+        direction: Literal["prev" | "next"] = "next",
     ) -> Generator[Any, None, None]:
         """Return scanning API receivers.
 
@@ -5245,7 +5245,7 @@ class AsyncWireless:
               not be defined by client applications. The link for the first, last, prev,
               or next page in the HTTP Link header should define it.
             network_ids: Optional parameter to filter scanning API receivers by network ID.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
 
@@ -5386,8 +5386,8 @@ class AsyncWireless:
         starting_after: str | None = None,
         ending_before: str | None = None,
         network_ids: list | None = None,
-        total_pages: str = 1,
-        direction: str = "next",
+        total_pages: int | Literal["all"] = 1,
+        direction: Literal["prev" | "next"] = "next",
     ) -> Generator[Any, None, None]:
         """Return MQTT Settings for networks.
 
@@ -5406,7 +5406,7 @@ class AsyncWireless:
               not be defined by client applications. The link for the first, last, prev,
               or next page in the HTTP Link header should define it.
             network_ids: Optional parameter to filter mqtt settings by network ID.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
 
@@ -5511,8 +5511,8 @@ class AsyncWireless:
         macs: list | None = None,
         serials: list | None = None,
         models: list | None = None,
-        total_pages: str = 1,
-        direction: str = "next",
+        total_pages: int | Literal["all"] = 1,
+        direction: Literal["prev" | "next"] = "next",
     ) -> Generator[Any, None, None]:
         """List the RF profiles of an organization by device.
 
@@ -5550,7 +5550,7 @@ class AsyncWireless:
               All returned devices will have a serial number that is an exact match.
             models: Optional parameter to filter RF profiles by one or more device models. All
               returned devices will have a model that is an exact match.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
 
@@ -5599,8 +5599,8 @@ class AsyncWireless:
         ending_before: str | None = None,
         network_ids: list | None = None,
         ssids: list | None = None,
-        total_pages: str = 1,
-        direction: str = "next",
+        total_pages: int | Literal["all"] = 1,
+        direction: Literal["prev" | "next"] = "next",
     ) -> Generator[Any, None, None]:
         """List the L2 isolation allow list MAC entry in an organization.
 
@@ -5620,7 +5620,7 @@ class AsyncWireless:
               or next page in the HTTP Link header should define it.
             network_ids: networkIds array to filter out results.
             ssids: ssids number array to filter out results.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
 
@@ -5788,8 +5788,8 @@ class AsyncWireless:
         ending_before: str | None = None,
         network_ids: list | None = None,
         include_disabled_ssids: bool | None = None,
-        total_pages: str = 1,
-        direction: str = "next",
+        total_pages: int | Literal["all"] = 1,
+        direction: Literal["prev" | "next"] = "next",
     ) -> Generator[Any, None, None]:
         """Returns an array of objects, each containing SSID OpenRoaming configs for the corresponding network.
 
@@ -5810,7 +5810,7 @@ class AsyncWireless:
             network_ids: Optional parameter to filter OpenRoaming configuration by Network Id.
             include_disabled_ssids: Optional parameter to include OpenRoaming configuration for
               disabled ssids.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
 
@@ -5847,8 +5847,8 @@ class AsyncWireless:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        total_pages: str = 1,
-        direction: str = "next",
+        total_pages: int | Literal["all"] = 1,
+        direction: Literal["prev" | "next"] = "next",
     ) -> Generator[Any, None, None]:
         """List status information of all BSSIDs in your organization.
 
@@ -5874,7 +5874,7 @@ class AsyncWireless:
               a timestamp or an ID but it is not limited to those. This parameter should
               not be defined by client applications. The link for the first, last, prev,
               or next page in the HTTP Link header should define it.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
 
@@ -5912,8 +5912,8 @@ class AsyncWireless:
         starting_after: str | None = None,
         ending_before: str | None = None,
         network_ids: list | None = None,
-        total_pages: str = 1,
-        direction: str = "next",
+        total_pages: int | Literal["all"] = 1,
+        direction: Literal["prev" | "next"] = "next",
     ) -> Generator[Any, None, None]:
         """Return list of Zigbee configs.
 
@@ -5932,7 +5932,7 @@ class AsyncWireless:
               not be defined by client applications. The link for the first, last, prev,
               or next page in the HTTP Link header should define it.
             network_ids: Filter by specified Network IDs.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
 
@@ -5966,8 +5966,8 @@ class AsyncWireless:
         network_ids: list | None = None,
         is_enrolled: bool | None = None,
         search: str | None = None,
-        total_pages: str = 1,
-        direction: str = "next",
+        total_pages: int | Literal["all"] = 1,
+        direction: Literal["prev" | "next"] = "next",
     ) -> Generator[Any, None, None]:
         """List the Zigbee wireless devices for an organization or the supplied network(s).
 
@@ -5989,7 +5989,7 @@ class AsyncWireless:
               networkIds[]=N_12345678&networkIds[]=N_3456.
             is_enrolled: Filter devices based on if they are enrolled or not.
             search: Filter devices by their name, tag or serial.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
 
@@ -6105,8 +6105,8 @@ class AsyncWireless:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        total_pages: str = 1,
-        direction: str = "next",
+        total_pages: int | Literal["all"] = 1,
+        direction: Literal["prev" | "next"] = "next",
     ) -> Generator[Any, None, None]:
         """Return the list of door locks for a network.
 
@@ -6126,7 +6126,7 @@ class AsyncWireless:
               a timestamp or an ID but it is not limited to those. This parameter should
               not be defined by client applications. The link for the first, last, prev,
               or next page in the HTTP Link header should define it.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
 

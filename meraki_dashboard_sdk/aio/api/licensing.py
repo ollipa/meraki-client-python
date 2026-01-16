@@ -51,8 +51,8 @@ class AsyncLicensing:
         name: str | None = None,
         start_date: str | None = None,
         end_date: str | None = None,
-        total_pages: str = 1,
-        direction: str = "next",
+        total_pages: int | Literal["all"] = 1,
+        direction: Literal["prev" | "next"] = "next",
     ) -> Generator[Any, None, None]:
         """List available subscriptions.
 
@@ -82,7 +82,7 @@ class AsyncLicensing:
             end_date: Filter subscriptions by end date, ISO 8601 format. To filter with a range of
               dates, use 'endDate[<option>]=?' in the request. Accepted options include
               lt, gt, lte, gte.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
 
@@ -259,8 +259,8 @@ class AsyncLicensing:
         ending_before: str | None = None,
         invalidated: bool | None = None,
         expired: bool | None = None,
-        total_pages: str = 1,
-        direction: str = "next",
+        total_pages: int | Literal["all"] = 1,
+        direction: Literal["prev" | "next"] = "next",
     ) -> Generator[Any, None, None]:
         """List the licenses in a coterm organization.
 
@@ -280,7 +280,7 @@ class AsyncLicensing:
               or next page in the HTTP Link header should define it.
             invalidated: Filter for licenses that are invalidated.
             expired: Filter for licenses that are expired.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
 

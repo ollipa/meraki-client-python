@@ -98,8 +98,8 @@ class AsyncNetworks:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        total_pages: str = 1,
-        direction: str = "next",
+        total_pages: int | Literal["all"] = 1,
+        direction: Literal["prev" | "next"] = "next",
     ) -> Generator[Any, None, None]:
         """Return the alert history for this network.
 
@@ -117,7 +117,7 @@ class AsyncNetworks:
               a timestamp or an ID but it is not limited to those. This parameter should
               not be defined by client applications. The link for the first, last, prev,
               or next page in the HTTP Link header should define it.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
 
@@ -233,8 +233,8 @@ class AsyncNetworks:
         starting_after: str | None = None,
         ending_before: str | None = None,
         include_connectivity_history: bool | None = None,
-        total_pages: str = 1,
-        direction: str = "next",
+        total_pages: int | Literal["all"] = 1,
+        direction: Literal["prev" | "next"] = "next",
     ) -> Generator[Any, None, None]:
         """List the Bluetooth clients seen by APs in this network.
 
@@ -258,7 +258,7 @@ class AsyncNetworks:
               not be defined by client applications. The link for the first, last, prev,
               or next page in the HTTP Link header should define it.
             include_connectivity_history: Include the connectivity history for this client.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
 
@@ -342,8 +342,8 @@ class AsyncNetworks:
         vlan: str | None = None,
         named_vlan: str | None = None,
         recent_device_connections: list | None = None,
-        total_pages: str = 1,
-        direction: str = "next",
+        total_pages: int | Literal["all"] = 1,
+        direction: Literal["prev" | "next"] = "next",
     ) -> Generator[Any, None, None]:
         """List the clients that have used this network in the timespan.
 
@@ -380,7 +380,7 @@ class AsyncNetworks:
             named_vlan: Filters clients based on the partial or full match for the named VLAN field.
             recent_device_connections: Filters clients based on recent connection type. Can be one
               of 'Wired' or 'Wireless'.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
 
@@ -437,8 +437,8 @@ class AsyncNetworks:
         t0: str | None = None,
         t1: str | None = None,
         timespan: float | None = None,
-        total_pages: str = 1,
-        direction: str = "next",
+        total_pages: int | Literal["all"] = 1,
+        direction: Literal["prev" | "next"] = "next",
     ) -> Generator[Any, None, None]:
         """Return the application usage data for clients.
 
@@ -464,7 +464,7 @@ class AsyncNetworks:
             timespan: The timespan for which the information will be fetched. If specifying
               timespan, do not specify parameters t0 and t1. The value must be in
               seconds and be less than or equal to 31 days. The default is 1 day.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
 
@@ -512,8 +512,8 @@ class AsyncNetworks:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        total_pages: str = 1,
-        direction: str = "next",
+        total_pages: int | Literal["all"] = 1,
+        direction: Literal["prev" | "next"] = "next",
     ) -> Generator[Any, None, None]:
         """Returns a timeseries of total traffic consumption rates for all clients on a network within a given timespan, in megabits per second.
 
@@ -537,7 +537,7 @@ class AsyncNetworks:
               a timestamp or an ID but it is not limited to those. This parameter should
               not be defined by client applications. The link for the first, last, prev,
               or next page in the HTTP Link header should define it.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
 
@@ -677,8 +677,8 @@ class AsyncNetworks:
         t0: str | None = None,
         t1: str | None = None,
         timespan: float | None = None,
-        total_pages: str = 1,
-        direction: str = "next",
+        total_pages: int | Literal["all"] = 1,
+        direction: Literal["prev" | "next"] = "next",
     ) -> Generator[Any, None, None]:
         """Return the usage histories for clients.
 
@@ -704,7 +704,7 @@ class AsyncNetworks:
             timespan: The timespan for which the information will be fetched. If specifying
               timespan, do not specify parameters t0 and t1. The value must be in
               seconds and be less than or equal to 31 days. The default is 1 day.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
 
@@ -878,8 +878,8 @@ class AsyncNetworks:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        total_pages: str = 1,
-        direction: str = "next",
+        total_pages: int | Literal["all"] = 1,
+        direction: Literal["prev" | "next"] = "next",
     ) -> Generator[Any, None, None]:
         """Return the client's network traffic data over time.
 
@@ -897,7 +897,7 @@ class AsyncNetworks:
               a timestamp or an ID but it is not limited to those. This parameter should
               not be defined by client applications. The link for the first, last, prev,
               or next page in the HTTP Link header should define it.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
 
@@ -1072,8 +1072,8 @@ class AsyncNetworks:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        total_pages: str = 1,
-        direction: str = "prev",
+        total_pages: int | Literal["all"] = 1,
+        direction: Literal["prev" | "next"] = "prev",
         event_log_end_time: str | None = None,
     ) -> Generator[Any, None, None]:
         """List the events for the network.
@@ -1122,10 +1122,10 @@ class AsyncNetworks:
               a timestamp or an ID but it is not limited to those. This parameter should
               not be defined by client applications. The link for the first, last, prev,
               or next page in the HTTP Link header should define it.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" or "prev" (default) page.
-            event_log_end_time: ISO8601 Zulu/UTC time, to use in conjunction with startingAfter, to
+            event_log_end_time: ISO8601 Zulu/UTC time, to use in conjunction with starting_after, to
               retrieve events within a time window.
 
         """
@@ -2596,8 +2596,8 @@ class AsyncNetworks:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        total_pages: str = 1,
-        direction: str = "next",
+        total_pages: int | Literal["all"] = 1,
+        direction: Literal["prev" | "next"] = "next",
     ) -> Generator[Any, None, None]:
         """Get the channel utilization over each radio for all APs in a network.
 
@@ -2623,7 +2623,7 @@ class AsyncNetworks:
               a timestamp or an ID but it is not limited to those. This parameter should
               not be defined by client applications. The link for the first, last, prev,
               or next page in the HTTP Link header should define it.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
 
@@ -2932,8 +2932,8 @@ class AsyncNetworks:
         ending_before: str | None = None,
         t0: str | None = None,
         timespan: float | None = None,
-        total_pages: str = 1,
-        direction: str = "next",
+        total_pages: int | Literal["all"] = 1,
+        direction: Literal["prev" | "next"] = "next",
     ) -> Generator[Any, None, None]:
         """Get policies for all clients with policies.
 
@@ -2956,7 +2956,7 @@ class AsyncNetworks:
             timespan: The timespan for which the information will be fetched. If specifying
               timespan, do not specify parameter t0. The value must be in seconds and be
               less than or equal to 31 days. The default is 1 day.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
 
@@ -3453,8 +3453,8 @@ class AsyncNetworks:
         serials: list | None = None,
         product_types: list | None = None,
         stack_ids: list | None = None,
-        total_pages: str = 1,
-        direction: str = "next",
+        total_pages: int | Literal["all"] = 1,
+        direction: Literal["prev" | "next"] = "next",
     ) -> Generator[Any, None, None]:
         """Get the assigned VLAN Profiles for devices in a network.
 
@@ -3476,7 +3476,7 @@ class AsyncNetworks:
               serial numbers that are an exact match.
             product_types: Optional parameter to filter devices by product types.
             stack_ids: Optional parameter to filter devices by Switch Stack ids.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
 

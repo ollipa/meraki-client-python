@@ -20,8 +20,8 @@ class Organizations:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        total_pages: str = 1,
-        direction: str = "next",
+        total_pages: int | Literal["all"] = 1,
+        direction: Literal["prev" | "next"] = "next",
     ) -> Generator[Any, None, None]:
         """List the organizations that the user has privileges on.
 
@@ -38,7 +38,7 @@ class Organizations:
               a timestamp or an ID but it is not limited to those. This parameter should
               not be defined by client applications. The link for the first, last, prev,
               or next page in the HTTP Link header should define it.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
 
@@ -1175,8 +1175,8 @@ class Organizations:
         user_agent: str | None = None,
         version: int | None = None,
         operation_ids: list | None = None,
-        total_pages: str = 1,
-        direction: str = "next",
+        total_pages: int | Literal["all"] = 1,
+        direction: Literal["prev" | "next"] = "next",
     ) -> Generator[Any, None, None]:
         """List the API requests made by an organization.
 
@@ -1209,7 +1209,7 @@ class Organizations:
             user_agent: Filter the results by the user agent string of the API request.
             version: Filter the results by the API version of the API request.
             operation_ids: Filter the results by one or more operation IDs for the API request.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
 
@@ -1405,8 +1405,8 @@ class Organizations:
         dismissed: bool | None = None,
         resolved: bool | None = None,
         suppress_alerts_for_offline_nodes: bool | None = None,
-        total_pages: str = 1,
-        direction: str = "next",
+        total_pages: int | Literal["all"] = 1,
+        direction: Literal["prev" | "next"] = "next",
     ) -> Generator[Any, None, None]:
         """Return all health alerts for an organization.
 
@@ -1444,7 +1444,7 @@ class Organizations:
               state. This only applies to devices. This is ignored when resolved is
               true. Example: If a Switch has a VLan Mismatch and is Unreachable. only
               the Unreachable alert will be returned. Defaults to false.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
 
@@ -1644,8 +1644,8 @@ class Organizations:
         dismissed: bool | None = None,
         resolved: bool | None = None,
         suppress_alerts_for_offline_nodes: bool | None = None,
-        total_pages: str = 1,
-        direction: str = "next",
+        total_pages: int | Literal["all"] = 1,
+        direction: Literal["prev" | "next"] = "next",
     ) -> Generator[Any, None, None]:
         """Return a Summary of Alerts grouped by network and severity.
 
@@ -1682,7 +1682,7 @@ class Organizations:
               state. This only applies to devices. This is ignored when resolved is
               true. Example: If a Switch has a VLan Mismatch and is Unreachable. only
               the Unreachable alert will be returned. Defaults to false.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
 
@@ -1765,8 +1765,8 @@ class Organizations:
         dismissed: bool | None = None,
         resolved: bool | None = None,
         suppress_alerts_for_offline_nodes: bool | None = None,
-        total_pages: str = 1,
-        direction: str = "next",
+        total_pages: int | Literal["all"] = 1,
+        direction: Literal["prev" | "next"] = "next",
     ) -> Generator[Any, None, None]:
         """Return a Summary of Alerts grouped by type and severity.
 
@@ -1804,7 +1804,7 @@ class Organizations:
               state. This only applies to devices. This is ignored when resolved is
               true. Example: If a Switch has a VLan Mismatch and is Unreachable. only
               the Unreachable alert will be returned. Defaults to false.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
 
@@ -2368,8 +2368,8 @@ class Organizations:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        total_pages: str = 1,
-        direction: str = "next",
+        total_pages: int | Literal["all"] = 1,
+        direction: Literal["prev" | "next"] = "next",
     ) -> Generator[Any, None, None]:
         """Return the client details in an organization.
 
@@ -2388,7 +2388,7 @@ class Organizations:
               not be defined by client applications. The link for the first, last, prev,
               or next page in the HTTP Link header should define it.
             mac: The MAC address of the client. Required.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
 
@@ -2584,8 +2584,8 @@ class Organizations:
         ending_before: str | None = None,
         network_id: str | None = None,
         admin_id: str | None = None,
-        total_pages: str = 1,
-        direction: str = "prev",
+        total_pages: int | Literal["all"] = 1,
+        direction: Literal["prev" | "next"] = "prev",
     ) -> Generator[Any, None, None]:
         """View the Change Log for your organization.
 
@@ -2611,7 +2611,7 @@ class Organizations:
               or next page in the HTTP Link header should define it.
             network_id: Filters on the given network.
             admin_id: Filters on the given Admin.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" or "prev" (default) page.
 
@@ -2664,8 +2664,8 @@ class Organizations:
         sensor_metrics: list | None = None,
         sensor_alert_profile_ids: list | None = None,
         models: list | None = None,
-        total_pages: str = 1,
-        direction: str = "next",
+        total_pages: int | Literal["all"] = 1,
+        direction: Literal["prev" | "next"] = "next",
     ) -> Generator[Any, None, None]:
         """List the devices in an organization that have been assigned to a network.
 
@@ -2711,7 +2711,7 @@ class Organizations:
               that are bound to them. Only applies to sensor devices.
             models: Optional parameter to filter devices by one or more models. All returned devices
               will have a model that is an exact match.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
 
@@ -2780,8 +2780,8 @@ class Organizations:
         tags: list | None = None,
         tags_filter_type: str | None = None,
         statuses: list | None = None,
-        total_pages: str = 1,
-        direction: str = "next",
+        total_pages: int | Literal["all"] = 1,
+        direction: Literal["prev" | "next"] = "next",
     ) -> Generator[Any, None, None]:
         """List the availability information for devices in an organization.
 
@@ -2815,7 +2815,7 @@ class Organizations:
               included tags. If no type is included, 'withAnyTags' will be selected.
             statuses: Optional parameter to filter device availabilities by device status. This
               filter uses multiple exact matches.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
 
@@ -2869,8 +2869,8 @@ class Organizations:
         product_types: list | None = None,
         network_ids: list | None = None,
         statuses: list | None = None,
-        total_pages: str = 1,
-        direction: str = "next",
+        total_pages: int | Literal["all"] = 1,
+        direction: Literal["prev" | "next"] = "next",
     ) -> Generator[Any, None, None]:
         """List the availability history information for devices in an organization.
 
@@ -2900,7 +2900,7 @@ class Organizations:
               product types.
             network_ids: Optional parameter to filter device availabilities history by network IDs.
             statuses: Optional parameter to filter device availabilities history by device statuses.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
 
@@ -2946,8 +2946,8 @@ class Organizations:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        total_pages: str = 1,
-        direction: str = "next",
+        total_pages: int | Literal["all"] = 1,
+        direction: Literal["prev" | "next"] = "next",
     ) -> Generator[Any, None, None]:
         """Retrieve device migration statuses in an organization.
 
@@ -2968,7 +2968,7 @@ class Organizations:
               a timestamp or an ID but it is not limited to those. This parameter should
               not be defined by client applications. The link for the first, last, prev,
               or next page in the HTTP Link header should define it.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
 
@@ -3123,8 +3123,8 @@ class Organizations:
         starting_after: str | None = None,
         ending_before: str | None = None,
         sort_order: str | None = None,
-        total_pages: str = 1,
-        direction: str = "next",
+        total_pages: int | Literal["all"] = 1,
+        direction: Literal["prev" | "next"] = "next",
     ) -> Generator[Any, None, None]:
         """List Packet Captures.
 
@@ -3160,7 +3160,7 @@ class Organizations:
               or next page in the HTTP Link header should define it.
             sort_order: Sorted order of entries. Order options are 'ascending' and 'descending'.
               Default is 'descending'.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
 
@@ -3613,7 +3613,7 @@ class Organizations:
 
         Args:
             organization_id: Organization ID.
-            schedule_id: Delete the capture schedules of the specified capture schedule id.
+            schedule_id: Schedule ID.
 
         """
         metadata = {
@@ -3621,6 +3621,7 @@ class Organizations:
             "operation": "delete_organization_devices_packet_capture_schedule",
         }
         organization_id = urllib.parse.quote(str(organization_id), safe="")
+        schedule_id = urllib.parse.quote(str(schedule_id), safe="")
         resource = f"/organizations/{organization_id}/devices/packetCapture/schedules/{schedule_id}"
 
         payload = {}
@@ -3641,8 +3642,8 @@ class Organizations:
         serials: list | None = None,
         tags: list | None = None,
         tags_filter_type: str | None = None,
-        total_pages: str = 1,
-        direction: str = "next",
+        total_pages: int | Literal["all"] = 1,
+        direction: Literal["prev" | "next"] = "next",
     ) -> Generator[Any, None, None]:
         """List the most recent status information for power modules in rackmount MX and MS devices that support them.
 
@@ -3672,7 +3673,7 @@ class Organizations:
             tags_filter_type: An optional parameter of value 'withAnyTags' or 'withAllTags' to
               indicate whether to return devices which contain ANY or ALL of the
               included tags. If no type is included, 'withAnyTags' will be selected.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
 
@@ -3723,8 +3724,8 @@ class Organizations:
         status: str | None = None,
         tags: list | None = None,
         tags_filter_type: str | None = None,
-        total_pages: str = 1,
-        direction: str = "next",
+        total_pages: int | Literal["all"] = 1,
+        direction: Literal["prev" | "next"] = "next",
     ) -> Generator[Any, None, None]:
         """List the provisioning statuses information for devices in an organization.
 
@@ -3756,7 +3757,7 @@ class Organizations:
             tags_filter_type: An optional parameter of value 'withAnyTags' or 'withAllTags' to
               indicate whether to return devices which contain ANY or ALL of the
               included tags. If no type is included, 'withAnyTags' will be selected.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
 
@@ -3815,8 +3816,8 @@ class Organizations:
         models: list | None = None,
         tags: list | None = None,
         tags_filter_type: str | None = None,
-        total_pages: str = 1,
-        direction: str = "next",
+        total_pages: int | Literal["all"] = 1,
+        direction: Literal["prev" | "next"] = "next",
     ) -> Generator[Any, None, None]:
         """List the status of every Meraki device in the organization.
 
@@ -3849,7 +3850,7 @@ class Organizations:
             tags_filter_type: An optional parameter of value 'withAnyTags' or 'withAllTags' to
               indicate whether to return devices which contain ANY or ALL of the
               included tags. If no type is included, 'withAnyTags' will be selected.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
 
@@ -3940,8 +3941,8 @@ class Organizations:
         network_ids: list | None = None,
         serials: list | None = None,
         product_types: list | None = None,
-        total_pages: str = 1,
-        direction: str = "next",
+        total_pages: int | Literal["all"] = 1,
+        direction: Literal["prev" | "next"] = "next",
     ) -> Generator[Any, None, None]:
         """Return the memory utilization history in kB for devices in the organization.
 
@@ -3976,7 +3977,7 @@ class Organizations:
             product_types: Optional parameter to filter device statuses by product type. Valid types
               are wireless, appliance, switch, systemsManager, camera, cellularGateway,
               sensor, wirelessController, campusGateway, and secureConnect.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
 
@@ -4035,8 +4036,8 @@ class Organizations:
         serials: list | None = None,
         tags: list | None = None,
         tags_filter_type: str | None = None,
-        total_pages: str = 1,
-        direction: str = "next",
+        total_pages: int | Literal["all"] = 1,
+        direction: Literal["prev" | "next"] = "next",
     ) -> Generator[Any, None, None]:
         """List the current uplink addresses for devices in an organization.
 
@@ -4066,7 +4067,7 @@ class Organizations:
             tags_filter_type: An optional parameter of value 'withAnyTags' or 'withAllTags' to
               indicate whether to return devices which contain ANY or ALL of the
               included tags. If no type is included, 'withAnyTags' will be selected.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
 
@@ -4308,8 +4309,8 @@ class Organizations:
         ending_before: str | None = None,
         status: list | None = None,
         product_types: list | None = None,
-        total_pages: str = 1,
-        direction: str = "next",
+        total_pages: int | Literal["all"] = 1,
+        direction: Literal["prev" | "next"] = "next",
     ) -> Generator[Any, None, None]:
         """Get firmware upgrade information for an organization.
 
@@ -4329,7 +4330,7 @@ class Organizations:
               or next page in the HTTP Link header should define it.
             status: Optional parameter to filter the upgrade by status.
             product_types: Optional parameter to filter the upgrade by product type.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
 
@@ -4369,8 +4370,8 @@ class Organizations:
         upgrade_statuses: list | None = None,
         current_upgrades_only: bool | None = None,
         limit_per_device: int | None = None,
-        total_pages: str = 1,
-        direction: str = "next",
+        total_pages: int | Literal["all"] = 1,
+        direction: Literal["prev" | "next"] = "next",
     ) -> Generator[Any, None, None]:
         """Get firmware upgrade status for the filtered devices.
 
@@ -4399,7 +4400,7 @@ class Organizations:
               statuses.
             limit_per_device: Optional parameter to limit the number of upgrade statuses returned
               per device. If omitted, a value of 5 is used.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
 
@@ -4444,8 +4445,8 @@ class Organizations:
         ending_before: str | None = None,
         network_ids: list | None = None,
         floor_plan_ids: list | None = None,
-        total_pages: str = 1,
-        direction: str = "next",
+        total_pages: int | Literal["all"] = 1,
+        direction: Literal["prev" | "next"] = "next",
     ) -> Generator[Any, None, None]:
         """List auto locate details for each device in your organization.
 
@@ -4465,7 +4466,7 @@ class Organizations:
               or next page in the HTTP Link header should define it.
             network_ids: Optional parameter to filter devices by one or more network IDs.
             floor_plan_ids: Optional parameter to filter devices by one or more floorplan IDs.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
 
@@ -4500,8 +4501,8 @@ class Organizations:
         ending_before: str | None = None,
         network_ids: list | None = None,
         floor_plan_ids: list | None = None,
-        total_pages: str = 1,
-        direction: str = "next",
+        total_pages: int | Literal["all"] = 1,
+        direction: Literal["prev" | "next"] = "next",
     ) -> Generator[Any, None, None]:
         """List the status of auto locate for each floorplan in your organization.
 
@@ -4521,7 +4522,7 @@ class Organizations:
               or next page in the HTTP Link header should define it.
             network_ids: Optional parameter to filter floorplans by one or more network IDs.
             floor_plan_ids: Optional parameter to filter floorplans by one or more floorplan IDs.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
 
@@ -4555,8 +4556,8 @@ class Organizations:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        total_pages: str = 1,
-        direction: str = "next",
+        total_pages: int | Literal["all"] = 1,
+        direction: Literal["prev" | "next"] = "next",
     ) -> Generator[Any, None, None]:
         """Returns the networks in the organization that have XDR enabled.
 
@@ -4575,7 +4576,7 @@ class Organizations:
               a timestamp or an ID but it is not limited to those. This parameter should
               not be defined by client applications. The link for the first, last, prev,
               or next page in the HTTP Link header should define it.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
 
@@ -4702,8 +4703,8 @@ class Organizations:
         tags: list | None = None,
         tags_filter_type: str | None = None,
         product_types: list | None = None,
-        total_pages: str = 1,
-        direction: str = "next",
+        total_pages: int | Literal["all"] = 1,
+        direction: Literal["prev" | "next"] = "next",
     ) -> Generator[Any, None, None]:
         """Return the device inventory for an organization.
 
@@ -4738,7 +4739,7 @@ class Organizations:
             product_types: Filter devices by product type. Accepted values are appliance, camera,
               campusGateway, cellularGateway, secureConnect, sensor, switch,
               systemsManager, wireless, and wirelessController.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
 
@@ -4983,8 +4984,8 @@ class Organizations:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        total_pages: str = 1,
-        direction: str = "next",
+        total_pages: int | Literal["all"] = 1,
+        direction: Literal["prev" | "next"] = "next",
     ) -> Generator[Any, None, None]:
         """Returns list of networks eligible for adding cloud monitored device.
 
@@ -5004,7 +5005,7 @@ class Organizations:
               a timestamp or an ID but it is not limited to those. This parameter should
               not be defined by client applications. The link for the first, last, prev,
               or next page in the HTTP Link header should define it.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
 
@@ -5166,8 +5167,8 @@ class Organizations:
         device_serial: str | None = None,
         network_id: str | None = None,
         state: str | None = None,
-        total_pages: str = 1,
-        direction: str = "next",
+        total_pages: int | Literal["all"] = 1,
+        direction: Literal["prev" | "next"] = "next",
     ) -> Generator[Any, None, None]:
         """List the licenses for an organization.
 
@@ -5190,7 +5191,7 @@ class Organizations:
             network_id: Filter the licenses to those assigned in a particular network.
             state: Filter the licenses to those in a particular state. Can be one of 'active',
               'expired', 'expiring', 'recentlyQueued', 'unused' or 'unusedActive'.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
 
@@ -5541,8 +5542,8 @@ class Organizations:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        total_pages: str = 1,
-        direction: str = "next",
+        total_pages: int | Literal["all"] = 1,
+        direction: Literal["prev" | "next"] = "next",
     ) -> Generator[Any, None, None]:
         """List the networks that the user has privileges on in an organization.
 
@@ -5572,7 +5573,7 @@ class Organizations:
               a timestamp or an ID but it is not limited to those. This parameter should
               not be defined by client applications. The link for the first, last, prev,
               or next page in the HTTP Link header should define it.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
 
@@ -5749,8 +5750,8 @@ class Organizations:
         t0: str | None = None,
         timespan: float | None = None,
         include_undetected_clients: bool | None = None,
-        total_pages: str = 1,
-        direction: str = "next",
+        total_pages: int | Literal["all"] = 1,
+        direction: Literal["prev" | "next"] = "next",
     ) -> Generator[Any, None, None]:
         """Get policies for all clients with policies.
 
@@ -5776,7 +5777,7 @@ class Organizations:
             include_undetected_clients: Include provisioned clients that have not associated to the
               network. Default: false.
             network_ids: Network Ids (minimum: 1, maximum: 30).
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
 
@@ -5813,8 +5814,8 @@ class Organizations:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        total_pages: str = 1,
-        direction: str = "next",
+        total_pages: int | Literal["all"] = 1,
+        direction: Literal["prev" | "next"] = "next",
     ) -> Generator[Any, None, None]:
         """Lists Policy Objects belonging to the organization.
 
@@ -5832,7 +5833,7 @@ class Organizations:
               a timestamp or an ID but it is not limited to those. This parameter should
               not be defined by client applications. The link for the first, last, prev,
               or next page in the HTTP Link header should define it.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
 
@@ -5918,8 +5919,8 @@ class Organizations:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        total_pages: str = 1,
-        direction: str = "next",
+        total_pages: int | Literal["all"] = 1,
+        direction: Literal["prev" | "next"] = "next",
     ) -> Generator[Any, None, None]:
         """Lists Policy Object Groups belonging to the organization.
 
@@ -5937,7 +5938,7 @@ class Organizations:
               a timestamp or an ID but it is not limited to those. This parameter should
               not be defined by client applications. The link for the first, last, prev,
               or next page in the HTTP Link header should define it.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
 
@@ -7183,8 +7184,8 @@ class Organizations:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        total_pages: str = 1,
-        direction: str = "next",
+        total_pages: int | Literal["all"] = 1,
+        direction: Literal["prev" | "next"] = "next",
     ) -> Generator[Any, None, None]:
         """List the client and status overview information for the networks in an organization.
 
@@ -7206,7 +7207,7 @@ class Organizations:
               a timestamp or an ID but it is not limited to those. This parameter should
               not be defined by client applications. The link for the first, last, prev,
               or next page in the HTTP Link header should define it.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
 
@@ -7366,8 +7367,8 @@ class Organizations:
         network_ids: list | None = None,
         serials: list | None = None,
         iccids: list | None = None,
-        total_pages: str = 1,
-        direction: str = "next",
+        total_pages: int | Literal["all"] = 1,
+        direction: Literal["prev" | "next"] = "next",
     ) -> Generator[Any, None, None]:
         """List the uplink status of every Meraki MX, MG and Z series devices in the organization.
 
@@ -7391,7 +7392,7 @@ class Organizations:
               these serials.
             iccids: A list of ICCIDs. The returned devices will be filtered to only include these
               ICCIDs.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
 
@@ -7492,8 +7493,8 @@ class Organizations:
         starting_after: str | None = None,
         ending_before: str | None = None,
         url: str | None = None,
-        total_pages: str = 1,
-        direction: str = "next",
+        total_pages: int | Literal["all"] = 1,
+        direction: Literal["prev" | "next"] = "next",
     ) -> Generator[Any, None, None]:
         """Return the log of webhook POSTs sent.
 
@@ -7518,7 +7519,7 @@ class Organizations:
               not be defined by client applications. The link for the first, last, prev,
               or next page in the HTTP Link header should define it.
             url: The URL the webhook was sent to.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
 

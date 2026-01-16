@@ -243,8 +243,8 @@ class AsyncAppliance:
         starting_after: str | None = None,
         ending_before: str | None = None,
         sort_order: str | None = None,
-        total_pages: str = 1,
-        direction: str = "next",
+        total_pages: int | Literal["all"] = 1,
+        direction: Literal["prev" | "next"] = "next",
     ) -> Generator[Any, None, None]:
         """List the security events for a client.
 
@@ -271,7 +271,7 @@ class AsyncAppliance:
               or next page in the HTTP Link header should define it.
             sort_order: Sorted order of security events based on event detection time. Order options
               are 'ascending' or 'descending'. Default is ascending order.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
 
@@ -1395,8 +1395,8 @@ class AsyncAppliance:
         starting_after: str | None = None,
         ending_before: str | None = None,
         sort_order: str | None = None,
-        total_pages: str = 1,
-        direction: str = "next",
+        total_pages: int | Literal["all"] = 1,
+        direction: Literal["prev" | "next"] = "next",
     ) -> Generator[Any, None, None]:
         """List the security events for a network.
 
@@ -1422,7 +1422,7 @@ class AsyncAppliance:
               or next page in the HTTP Link header should define it.
             sort_order: Sorted order of security events based on event detection time. Order options
               are 'ascending' or 'descending'. Default is ascending order.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
 
@@ -3567,8 +3567,8 @@ class AsyncAppliance:
         starting_after: str | None = None,
         ending_before: str | None = None,
         network_ids: list | None = None,
-        total_pages: str = 1,
-        direction: str = "next",
+        total_pages: int | Literal["all"] = 1,
+        direction: Literal["prev" | "next"] = "next",
     ) -> Generator[Any, None, None]:
         """List Static Multicasting forwarding settings for MX networks.
 
@@ -3587,7 +3587,7 @@ class AsyncAppliance:
               not be defined by client applications. The link for the first, last, prev,
               or next page in the HTTP Link header should define it.
             network_ids: Optional parameter to filter the results by network IDs.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
 
@@ -3624,8 +3624,8 @@ class AsyncAppliance:
         starting_after: str | None = None,
         ending_before: str | None = None,
         sort_order: str | None = None,
-        total_pages: str = 1,
-        direction: str = "next",
+        total_pages: int | Literal["all"] = 1,
+        direction: Literal["prev" | "next"] = "next",
     ) -> Generator[Any, None, None]:
         """List the security events for an organization.
 
@@ -3651,7 +3651,7 @@ class AsyncAppliance:
               or next page in the HTTP Link header should define it.
             sort_order: Sorted order of security events based on event detection time. Order options
               are 'ascending' or 'descending'. Default is ascending order.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
 
@@ -3740,8 +3740,8 @@ class AsyncAppliance:
         starting_after: str | None = None,
         ending_before: str | None = None,
         network_ids: list | None = None,
-        total_pages: str = 1,
-        direction: str = "next",
+        total_pages: int | Literal["all"] = 1,
+        direction: Literal["prev" | "next"] = "next",
     ) -> Generator[Any, None, None]:
         """Display VPN exclusion rules for MX networks.
 
@@ -3760,7 +3760,7 @@ class AsyncAppliance:
               not be defined by client applications. The link for the first, last, prev,
               or next page in the HTTP Link header should define it.
             network_ids: Optional parameter to filter the results by network IDs.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
 
@@ -3796,8 +3796,8 @@ class AsyncAppliance:
         network_ids: list | None = None,
         serials: list | None = None,
         iccids: list | None = None,
-        total_pages: str = 1,
-        direction: str = "next",
+        total_pages: int | Literal["all"] = 1,
+        direction: Literal["prev" | "next"] = "next",
     ) -> Generator[Any, None, None]:
         """List the uplink status of every Meraki MX and Z series appliances in the organization.
 
@@ -3821,7 +3821,7 @@ class AsyncAppliance:
               these serials.
             iccids: A list of ICCIDs. The returned devices will be filtered to only include these
               ICCIDs.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
 
@@ -3970,8 +3970,8 @@ class AsyncAppliance:
         t0: str | None = None,
         t1: str | None = None,
         timespan: float | None = None,
-        total_pages: str = 1,
-        direction: str = "next",
+        total_pages: int | Literal["all"] = 1,
+        direction: Literal["prev" | "next"] = "next",
     ) -> Generator[Any, None, None]:
         """Show VPN history stat for networks in an organization.
 
@@ -3997,7 +3997,7 @@ class AsyncAppliance:
             timespan: The timespan for which the information will be fetched. If specifying
               timespan, do not specify parameters t0 and t1. The value must be in
               seconds and be less than or equal to 31 days. The default is 1 day.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
 
@@ -4035,8 +4035,8 @@ class AsyncAppliance:
         starting_after: str | None = None,
         ending_before: str | None = None,
         network_ids: list | None = None,
-        total_pages: str = 1,
-        direction: str = "next",
+        total_pages: int | Literal["all"] = 1,
+        direction: Literal["prev" | "next"] = "next",
     ) -> Generator[Any, None, None]:
         """Show VPN status for networks in an organization.
 
@@ -4056,7 +4056,7 @@ class AsyncAppliance:
               or next page in the HTTP Link header should define it.
             network_ids: A list of Meraki network IDs to filter results to contain only specified
               networks. E.g.: networkIds[]=N_12345678&networkIds[]=L_3456.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
 

@@ -624,8 +624,8 @@ class AsyncCellularGateway:
         network_ids: list | None = None,
         serials: list | None = None,
         iccids: list | None = None,
-        total_pages: str = 1,
-        direction: str = "next",
+        total_pages: int | Literal["all"] = 1,
+        direction: Literal["prev" | "next"] = "next",
     ) -> Generator[Any, None, None]:
         """List the uplink status of every Meraki MG cellular gateway in the organization.
 
@@ -649,7 +649,7 @@ class AsyncCellularGateway:
               these serials.
             iccids: A list of ICCIDs. The returned devices will be filtered to only include these
               ICCIDs.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
 

@@ -1340,8 +1340,8 @@ class Switch:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        total_pages: str = 1,
-        direction: str = "next",
+        total_pages: int | Literal["all"] = 1,
+        direction: Literal["prev" | "next"] = "next",
     ) -> Generator[Any, None, None]:
         """Return the network's DHCPv4 servers seen within the selected timeframe (default 1 day).
 
@@ -1364,7 +1364,7 @@ class Switch:
               a timestamp or an ID but it is not limited to those. This parameter should
               not be defined by client applications. The link for the first, last, prev,
               or next page in the HTTP Link header should define it.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
 
@@ -1467,8 +1467,8 @@ class Switch:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        total_pages: str = 1,
-        direction: str = "next",
+        total_pages: int | Literal["all"] = 1,
+        direction: Literal["prev" | "next"] = "next",
     ) -> Generator[Any, None, None]:
         """Return the list of servers trusted by Dynamic ARP Inspection on this network.
 
@@ -1486,7 +1486,7 @@ class Switch:
               a timestamp or an ID but it is not limited to those. This parameter should
               not be defined by client applications. The link for the first, last, prev,
               or next page in the HTTP Link header should define it.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
 
@@ -1607,8 +1607,8 @@ class Switch:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        total_pages: str = 1,
-        direction: str = "next",
+        total_pages: int | Literal["all"] = 1,
+        direction: Literal["prev" | "next"] = "next",
     ) -> Generator[Any, None, None]:
         """Return the devices that have a Dynamic ARP Inspection warning and their warnings.
 
@@ -1626,7 +1626,7 @@ class Switch:
               a timestamp or an ID but it is not limited to those. This parameter should
               not be defined by client applications. The link for the first, last, prev,
               or next page in the HTTP Link header should define it.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
 
@@ -3709,8 +3709,8 @@ class Switch:
         port_profile_ids: list | None = None,
         serial: str | None = None,
         serials: list | None = None,
-        total_pages: str = 1,
-        direction: str = "next",
+        total_pages: int | Literal["all"] = 1,
+        direction: Literal["prev" | "next"] = "next",
     ) -> Generator[Any, None, None]:
         """List the switchports in an organization by switch.
 
@@ -3744,7 +3744,7 @@ class Switch:
               the search term or are an exact match.
             serials: Optional parameter to filter items to switches that have one of the provided
               serials.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
 
@@ -3799,8 +3799,8 @@ class Switch:
         port_profile_ids: list | None = None,
         serial: str | None = None,
         serials: list | None = None,
-        total_pages: str = 1,
-        direction: str = "next",
+        total_pages: int | Literal["all"] = 1,
+        direction: Literal["prev" | "next"] = "next",
     ) -> Generator[Any, None, None]:
         """List the number of clients for all switchports with at least one online client in an organization.
 
@@ -3839,7 +3839,7 @@ class Switch:
               the search term or are an exact match.
             serials: Optional parameter to filter items to switches that have one of the provided
               serials.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
 
@@ -3935,8 +3935,8 @@ class Switch:
         port_profile_ids: list | None = None,
         serial: str | None = None,
         serials: list | None = None,
-        total_pages: str = 1,
-        direction: str = "next",
+        total_pages: int | Literal["all"] = 1,
+        direction: Literal["prev" | "next"] = "next",
     ) -> Generator[Any, None, None]:
         """List the switchports in an organization.
 
@@ -3970,7 +3970,7 @@ class Switch:
               the search term or are an exact match.
             serials: Optional parameter to filter items to switches that have one of the provided
               serials.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
 
@@ -4025,8 +4025,8 @@ class Switch:
         port_profile_ids: list | None = None,
         serial: str | None = None,
         serials: list | None = None,
-        total_pages: str = 1,
-        direction: str = "next",
+        total_pages: int | Literal["all"] = 1,
+        direction: Literal["prev" | "next"] = "next",
     ) -> Generator[Any, None, None]:
         """List most recently seen LLDP/CDP discovery and topology information per switch port in an organization.
 
@@ -4065,7 +4065,7 @@ class Switch:
               the search term or are an exact match.
             serials: Optional parameter to filter items to switches that have one of the provided
               serials.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
 
@@ -4126,8 +4126,8 @@ class Switch:
         port_profile_ids: list | None = None,
         serial: str | None = None,
         serials: list | None = None,
-        total_pages: str = 1,
-        direction: str = "next",
+        total_pages: int | Literal["all"] = 1,
+        direction: Literal["prev" | "next"] = "next",
     ) -> Generator[Any, None, None]:
         """List the historical usage and traffic data of switchports in an organization.
 
@@ -4171,7 +4171,7 @@ class Switch:
               the search term or are an exact match.
             serials: Optional parameter to filter items to switches that have one of the provided
               serials.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
 

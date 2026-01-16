@@ -25,8 +25,8 @@ class AsyncWirelessController:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        total_pages: str = 1,
-        direction: str = "next",
+        total_pages: int | Literal["all"] = 1,
+        direction: Literal["prev" | "next"] = "next",
     ) -> Generator[Any, None, None]:
         """List connectivity data of wireless LAN controllers in an organization.
 
@@ -52,7 +52,7 @@ class AsyncWirelessController:
               a timestamp or an ID but it is not limited to those. This parameter should
               not be defined by client applications. The link for the first, last, prev,
               or next page in the HTTP Link header should define it.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
 
@@ -97,8 +97,8 @@ class AsyncWirelessController:
         starting_after: str | None = None,
         ending_before: str | None = None,
         resolution: int | None = None,
-        total_pages: str = 1,
-        direction: str = "next",
+        total_pages: int | Literal["all"] = 1,
+        direction: Literal["prev" | "next"] = "next",
     ) -> Generator[Any, None, None]:
         """List wireless client counts of wireless LAN controllers over time in an organization.
 
@@ -128,7 +128,7 @@ class AsyncWirelessController:
               or next page in the HTTP Link header should define it.
             resolution: The time resolution in seconds for returned data. The valid resolutions are:
               300, 600, 1200, 3600, 14400, 86400. The default is 86400.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
 
@@ -179,8 +179,8 @@ class AsyncWirelessController:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        total_pages: str = 1,
-        direction: str = "next",
+        total_pages: int | Literal["all"] = 1,
+        direction: Literal["prev" | "next"] = "next",
     ) -> Generator[Any, None, None]:
         """List all access points associated with wireless LAN controllers in an organization.
 
@@ -202,7 +202,7 @@ class AsyncWirelessController:
               a timestamp or an ID but it is not limited to those. This parameter should
               not be defined by client applications. The link for the first, last, prev,
               or next page in the HTTP Link header should define it.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
 
@@ -239,8 +239,8 @@ class AsyncWirelessController:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        total_pages: str = 1,
-        direction: str = "next",
+        total_pages: int | Literal["all"] = 1,
+        direction: Literal["prev" | "next"] = "next",
     ) -> Generator[Any, None, None]:
         """List wireless LAN controller layer 2 interfaces in an organization.
 
@@ -266,7 +266,7 @@ class AsyncWirelessController:
               a timestamp or an ID but it is not limited to those. This parameter should
               not be defined by client applications. The link for the first, last, prev,
               or next page in the HTTP Link header should define it.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
 
@@ -310,8 +310,8 @@ class AsyncWirelessController:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        total_pages: str = 1,
-        direction: str = "next",
+        total_pages: int | Literal["all"] = 1,
+        direction: Literal["prev" | "next"] = "next",
     ) -> Generator[Any, None, None]:
         """List wireless LAN controller layer 2 interfaces history status in an organization.
 
@@ -340,7 +340,7 @@ class AsyncWirelessController:
               a timestamp or an ID but it is not limited to those. This parameter should
               not be defined by client applications. The link for the first, last, prev,
               or next page in the HTTP Link header should define it.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
 
@@ -392,8 +392,8 @@ class AsyncWirelessController:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        total_pages: str = 1,
-        direction: str = "next",
+        total_pages: int | Literal["all"] = 1,
+        direction: Literal["prev" | "next"] = "next",
     ) -> Generator[Any, None, None]:
         """List wireless LAN controller layer 2 interfaces history usage in an organization.
 
@@ -419,7 +419,7 @@ class AsyncWirelessController:
               a timestamp or an ID but it is not limited to those. This parameter should
               not be defined by client applications. The link for the first, last, prev,
               or next page in the HTTP Link header should define it.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
 
@@ -469,8 +469,8 @@ class AsyncWirelessController:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        total_pages: str = 1,
-        direction: str = "next",
+        total_pages: int | Literal["all"] = 1,
+        direction: Literal["prev" | "next"] = "next",
     ) -> Generator[Any, None, None]:
         """List wireless LAN controller layer 3 interfaces in an organization.
 
@@ -496,7 +496,7 @@ class AsyncWirelessController:
               a timestamp or an ID but it is not limited to those. This parameter should
               not be defined by client applications. The link for the first, last, prev,
               or next page in the HTTP Link header should define it.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
 
@@ -540,8 +540,8 @@ class AsyncWirelessController:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        total_pages: str = 1,
-        direction: str = "next",
+        total_pages: int | Literal["all"] = 1,
+        direction: Literal["prev" | "next"] = "next",
     ) -> Generator[Any, None, None]:
         """List wireless LAN controller layer 3 interfaces history status in an organization.
 
@@ -570,7 +570,7 @@ class AsyncWirelessController:
               a timestamp or an ID but it is not limited to those. This parameter should
               not be defined by client applications. The link for the first, last, prev,
               or next page in the HTTP Link header should define it.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
 
@@ -622,8 +622,8 @@ class AsyncWirelessController:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        total_pages: str = 1,
-        direction: str = "next",
+        total_pages: int | Literal["all"] = 1,
+        direction: Literal["prev" | "next"] = "next",
     ) -> Generator[Any, None, None]:
         """List wireless LAN controller layer 3 interfaces history usage in an organization.
 
@@ -649,7 +649,7 @@ class AsyncWirelessController:
               a timestamp or an ID but it is not limited to those. This parameter should
               not be defined by client applications. The link for the first, last, prev,
               or next page in the HTTP Link header should define it.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
 
@@ -700,8 +700,8 @@ class AsyncWirelessController:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        total_pages: str = 1,
-        direction: str = "next",
+        total_pages: int | Literal["all"] = 1,
+        direction: Literal["prev" | "next"] = "next",
     ) -> Generator[Any, None, None]:
         """Retrieve the packet counters for the interfaces of a Wireless LAN controller.
 
@@ -729,7 +729,7 @@ class AsyncWirelessController:
               a timestamp or an ID but it is not limited to those. This parameter should
               not be defined by client applications. The link for the first, last, prev,
               or next page in the HTTP Link header should define it.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
 
@@ -781,8 +781,8 @@ class AsyncWirelessController:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        total_pages: str = 1,
-        direction: str = "next",
+        total_pages: int | Literal["all"] = 1,
+        direction: Literal["prev" | "next"] = "next",
     ) -> Generator[Any, None, None]:
         """Retrieve the traffic for the interfaces of a Wireless LAN controller.
 
@@ -810,7 +810,7 @@ class AsyncWirelessController:
               a timestamp or an ID but it is not limited to those. This parameter should
               not be defined by client applications. The link for the first, last, prev,
               or next page in the HTTP Link header should define it.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
 
@@ -861,8 +861,8 @@ class AsyncWirelessController:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        total_pages: str = 1,
-        direction: str = "next",
+        total_pages: int | Literal["all"] = 1,
+        direction: Literal["prev" | "next"] = "next",
     ) -> Generator[Any, None, None]:
         """List the failover events of wireless LAN controllers in an organization.
 
@@ -888,7 +888,7 @@ class AsyncWirelessController:
               a timestamp or an ID but it is not limited to those. This parameter should
               not be defined by client applications. The link for the first, last, prev,
               or next page in the HTTP Link header should define it.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
 
@@ -933,8 +933,8 @@ class AsyncWirelessController:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        total_pages: str = 1,
-        direction: str = "next",
+        total_pages: int | Literal["all"] = 1,
+        direction: Literal["prev" | "next"] = "next",
     ) -> Generator[Any, None, None]:
         """List redundancy details of wireless LAN controllers in an organization.
 
@@ -954,7 +954,7 @@ class AsyncWirelessController:
               a timestamp or an ID but it is not limited to those. This parameter should
               not be defined by client applications. The link for the first, last, prev,
               or next page in the HTTP Link header should define it.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
 
@@ -991,8 +991,8 @@ class AsyncWirelessController:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        total_pages: str = 1,
-        direction: str = "next",
+        total_pages: int | Literal["all"] = 1,
+        direction: Literal["prev" | "next"] = "next",
     ) -> Generator[Any, None, None]:
         """List cpu utilization data of wireless LAN controllers in an organization.
 
@@ -1018,7 +1018,7 @@ class AsyncWirelessController:
               a timestamp or an ID but it is not limited to those. This parameter should
               not be defined by client applications. The link for the first, last, prev,
               or next page in the HTTP Link header should define it.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
 
@@ -1065,8 +1065,8 @@ class AsyncWirelessController:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        total_pages: str = 1,
-        direction: str = "next",
+        total_pages: int | Literal["all"] = 1,
+        direction: Literal["prev" | "next"] = "next",
     ) -> Generator[Any, None, None]:
         """List the overview information of wireless LAN controllers in an organization and it is updated every minute.
 
@@ -1088,7 +1088,7 @@ class AsyncWirelessController:
               a timestamp or an ID but it is not limited to those. This parameter should
               not be defined by client applications. The link for the first, last, prev,
               or next page in the HTTP Link header should define it.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
 

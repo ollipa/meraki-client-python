@@ -26,8 +26,8 @@ class Sensor:
         t0: str | None = None,
         t1: str | None = None,
         timespan: float | None = None,
-        total_pages: str = 1,
-        direction: str = "next",
+        total_pages: int | Literal["all"] = 1,
+        direction: Literal["prev" | "next"] = "next",
     ) -> Generator[Any, None, None]:
         """Returns a historical log of all commands.
 
@@ -56,7 +56,7 @@ class Sensor:
             timespan: The timespan for which the information will be fetched. If specifying
               timespan, do not specify parameters t0 and t1. The value must be in
               seconds and be less than or equal to 30 days. The default is 30 days.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
 
@@ -523,8 +523,8 @@ class Sensor:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        total_pages: str = 1,
-        direction: str = "next",
+        total_pages: int | Literal["all"] = 1,
+        direction: Literal["prev" | "next"] = "next",
     ) -> Generator[Any, None, None]:
         """Returns latest sensor-gateway connectivity data.
 
@@ -543,7 +543,7 @@ class Sensor:
               a timestamp or an ID but it is not limited to those. This parameter should
               not be defined by client applications. The link for the first, last, prev,
               or next page in the HTTP Link header should define it.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
 
@@ -580,8 +580,8 @@ class Sensor:
         network_ids: list | None = None,
         serials: list | None = None,
         metrics: list | None = None,
-        total_pages: str = 1,
-        direction: str = "next",
+        total_pages: int | Literal["all"] = 1,
+        direction: Literal["prev" | "next"] = "next",
     ) -> Generator[Any, None, None]:
         """Return all reported readings from sensors in a given timespan, sorted by timestamp.
 
@@ -609,7 +609,7 @@ class Sensor:
             serials: Optional parameter to filter readings by sensor.
             metrics: Types of sensor readings to retrieve. If no metrics are supplied, all available
               types of readings will be retrieved.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
 
@@ -653,8 +653,8 @@ class Sensor:
         network_ids: list | None = None,
         serials: list | None = None,
         metrics: list | None = None,
-        total_pages: str = 1,
-        direction: str = "next",
+        total_pages: int | Literal["all"] = 1,
+        direction: Literal["prev" | "next"] = "next",
     ) -> Generator[Any, None, None]:
         """Return the latest available reading for each metric from each sensor, sorted by sensor serial.
 
@@ -676,7 +676,7 @@ class Sensor:
             serials: Optional parameter to filter readings by sensor.
             metrics: Types of sensor readings to retrieve. If no metrics are supplied, all available
               types of readings will be retrieved.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
 

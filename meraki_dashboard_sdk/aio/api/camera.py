@@ -1105,8 +1105,8 @@ class AsyncCamera:
         duration: int | None = None,
         per_page: int | None = None,
         boundary_types: list | None = None,
-        total_pages: str = 1,
-        direction: str = "next",
+        total_pages: int | Literal["all"] = 1,
+        direction: Literal["prev" | "next"] = "next",
     ) -> Generator[Any, None, None]:
         """Returns analytics data for timespans.
 
@@ -1122,7 +1122,7 @@ class AsyncCamera:
             per_page: The number of entries per page returned. Acceptable range is 1 - 1000.
               Defaults to 1000.
             boundary_types: The detection types. Defaults to 'person'.
-            total_pages: use with perPage to get total results up to total_pages*perPage; -1 or
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
               "all" for all pages.
             direction: direction to paginate, either "next" (default) or "prev" page.
 
