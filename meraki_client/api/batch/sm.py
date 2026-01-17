@@ -26,11 +26,10 @@ class ActionBatchSm:
         user_access_device_id = urllib.parse.quote(str(user_access_device_id), safe="")
         path = f"/networks/{network_id}/sm/userAccessDevices/{user_access_device_id}"
 
-        action = {
+        return {
             "path": path,
             "operation": "destroy",
         }
-        return action  # noqa: RET504
 
     def create_organization_sm_admins_role(
         self, *, organization_id: str, name: str, scope: str | None = None, tags: list | None = None
@@ -63,12 +62,11 @@ class ActionBatchSm:
         if tags is not None:
             payload["tags"] = tags
 
-        action = {
+        return {
             "path": path,
             "operation": "create",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def update_organization_sm_admins_role(
         self,
@@ -109,12 +107,11 @@ class ActionBatchSm:
         if tags is not None:
             payload["tags"] = tags
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def delete_organization_sm_admins_role(
         self, *, organization_id: str, role_id: str
@@ -132,11 +129,10 @@ class ActionBatchSm:
         role_id = urllib.parse.quote(str(role_id), safe="")
         path = f"/organizations/{organization_id}/sm/admins/roles/{role_id}"
 
-        action = {
+        return {
             "path": path,
             "operation": "destroy",
         }
-        return action  # noqa: RET504
 
     def update_organization_sm_sentry_policies_assignments(
         self, *, organization_id: str, items: list
@@ -157,9 +153,8 @@ class ActionBatchSm:
         if items is not None:
             payload["items"] = items
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504

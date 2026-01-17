@@ -40,12 +40,11 @@ class ActionBatchCamera:
         if parameters is not None:
             payload["parameters"] = parameters
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def update_device_camera_quality_and_retention(
         self,
@@ -128,12 +127,11 @@ class ActionBatchCamera:
         if motion_detector_version is not None:
             payload["motionDetectorVersion"] = motion_detector_version
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def update_device_camera_sense(
         self,
@@ -171,12 +169,11 @@ class ActionBatchCamera:
         if detection_model_id is not None:
             payload["detectionModelId"] = detection_model_id
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def update_device_camera_video_settings(
         self, *, serial: str, external_rtsp_enabled: bool | None = None
@@ -197,12 +194,11 @@ class ActionBatchCamera:
         if external_rtsp_enabled is not None:
             payload["externalRtspEnabled"] = external_rtsp_enabled
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def update_device_camera_wireless_profiles(self, *, serial: str, ids: dict) -> dict[str, Any]:
         """Assign wireless profiles to the given camera.
@@ -221,9 +217,8 @@ class ActionBatchCamera:
         if ids is not None:
             payload["ids"] = ids
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504

@@ -1,3 +1,4 @@
+{% set await_ = "await " if is_async and not is_paginated else "" %}
     {{ "async " if is_async and not is_paginated else "" }}def {{ operation }}(self{% if function_definition|length > 0 %}{{ function_definition }}{% endif %}) -> {{ return_type }}:
         """{{ description }}
 
@@ -40,4 +41,26 @@
         {% endfor %}
 
         {% endif %}
-        {{ call_line }}
+        {% if method == "get" %}
+            {% if is_paginated %}
+        return self._session.get_pages(scope="{{ scope }}", operation_id="{{ operation_id }}", path=path, params=params, total_pages=total_pages, direction=direction{% if operation_id == "getNetworkEvents" %}, event_log_end_time=event_log_end_time{% endif %})
+            {% elif query_params|length > 0 %}
+        return {{ await_ }}self._session.get(scope="{{ scope }}", operation_id="{{ operation_id }}", path=path, params=params)
+            {% else %}
+        return {{ await_ }}self._session.get(scope="{{ scope }}", operation_id="{{ operation_id }}", path=path)
+            {% endif %}
+        {% elif method == "post" %}
+            {% if body_params|length > 0 %}
+        return {{ await_ }}self._session.post(scope="{{ scope }}", operation_id="{{ operation_id }}", path=path, json=payload)
+            {% else %}
+        return {{ await_ }}self._session.post(scope="{{ scope }}", operation_id="{{ operation_id }}", path=path)
+            {% endif %}
+        {% elif method == "put" %}
+            {% if body_params|length > 0 %}
+        return {{ await_ }}self._session.put(scope="{{ scope }}", operation_id="{{ operation_id }}", path=path, json=payload)
+            {% else %}
+        return {{ await_ }}self._session.put(scope="{{ scope }}", operation_id="{{ operation_id }}", path=path)
+            {% endif %}
+        {% elif method == "delete" %}
+        return {{ await_ }}self._session.delete(scope="{{ scope }}", operation_id="{{ operation_id }}", path=path)
+        {% endif %}

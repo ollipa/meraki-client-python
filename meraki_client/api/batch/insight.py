@@ -41,12 +41,11 @@ class ActionBatchInsight:
         if best_effort_monitoring_enabled is not None:
             payload["bestEffortMonitoringEnabled"] = best_effort_monitoring_enabled
 
-        action = {
+        return {
             "path": path,
             "operation": "create",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def update_organization_insight_monitored_media_server(
         self,
@@ -82,12 +81,11 @@ class ActionBatchInsight:
         if best_effort_monitoring_enabled is not None:
             payload["bestEffortMonitoringEnabled"] = best_effort_monitoring_enabled
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def delete_organization_insight_monitored_media_server(
         self, *, organization_id: str, monitored_media_server_id: str
@@ -105,8 +103,7 @@ class ActionBatchInsight:
         monitored_media_server_id = urllib.parse.quote(str(monitored_media_server_id), safe="")
         path = f"/organizations/{organization_id}/insight/monitoredMediaServers/{monitored_media_server_id}"
 
-        action = {
+        return {
             "path": path,
             "operation": "destroy",
         }
-        return action  # noqa: RET504

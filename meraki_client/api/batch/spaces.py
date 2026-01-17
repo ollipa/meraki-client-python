@@ -22,8 +22,7 @@ class ActionBatchSpaces:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         path = f"/organizations/{organization_id}/spaces/integration/remove"
 
-        action = {
+        return {
             "path": path,
             "operation": "create",
         }
-        return action  # noqa: RET504

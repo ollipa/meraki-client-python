@@ -27,12 +27,11 @@ class ActionBatchSwitch:
         if ports is not None:
             payload["ports"] = ports
 
-        action = {
+        return {
             "path": path,
             "operation": "create",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def update_device_switch_port(
         self,
@@ -211,12 +210,11 @@ class ActionBatchSwitch:
         if high_speed is not None:
             payload["highSpeed"] = high_speed
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def create_device_switch_routing_interface(
         self,
@@ -300,12 +298,11 @@ class ActionBatchSwitch:
         if loopback is not None:
             payload["loopback"] = loopback
 
-        action = {
+        return {
             "path": path,
             "operation": "create",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def update_device_switch_routing_interface(
         self,
@@ -384,12 +381,11 @@ class ActionBatchSwitch:
         if loopback is not None:
             payload["loopback"] = loopback
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def delete_device_switch_routing_interface(
         self, *, serial: str, interface_id: str
@@ -407,11 +403,10 @@ class ActionBatchSwitch:
         interface_id = urllib.parse.quote(str(interface_id), safe="")
         path = f"/devices/{serial}/switch/routing/interfaces/{interface_id}"
 
-        action = {
+        return {
             "path": path,
             "operation": "destroy",
         }
-        return action  # noqa: RET504
 
     def update_device_switch_routing_interface_dhcp(
         self,
@@ -506,12 +501,11 @@ class ActionBatchSwitch:
         if fixed_ip_assignments is not None:
             payload["fixedIpAssignments"] = fixed_ip_assignments
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def create_device_switch_routing_static_route(
         self,
@@ -557,12 +551,11 @@ class ActionBatchSwitch:
         if vrf is not None:
             payload["vrf"] = vrf
 
-        action = {
+        return {
             "path": path,
             "operation": "create",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def update_device_switch_routing_static_route(
         self,
@@ -615,12 +608,11 @@ class ActionBatchSwitch:
         if vrf is not None:
             payload["vrf"] = vrf
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def delete_device_switch_routing_static_route(
         self, *, serial: str, static_route_id: str
@@ -638,11 +630,10 @@ class ActionBatchSwitch:
         static_route_id = urllib.parse.quote(str(static_route_id), safe="")
         path = f"/devices/{serial}/switch/routing/staticRoutes/{static_route_id}"
 
-        action = {
+        return {
             "path": path,
             "operation": "destroy",
         }
-        return action  # noqa: RET504
 
     def update_device_switch_warm_spare(
         self, *, serial: str, enabled: bool, spare_serial: str | None = None
@@ -666,12 +657,11 @@ class ActionBatchSwitch:
         if spare_serial is not None:
             payload["spareSerial"] = spare_serial
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def create_network_switch_access_policy(
         self,
@@ -793,12 +783,11 @@ class ActionBatchSwitch:
         if guest_sgt_id is not None:
             payload["guestSgtId"] = guest_sgt_id
 
-        action = {
+        return {
             "path": path,
             "operation": "create",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def update_network_switch_access_policy(
         self,
@@ -923,12 +912,11 @@ class ActionBatchSwitch:
         if guest_sgt_id is not None:
             payload["guestSgtId"] = guest_sgt_id
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def delete_network_switch_access_policy(
         self, *, network_id: str, access_policy_number: str
@@ -946,11 +934,10 @@ class ActionBatchSwitch:
         access_policy_number = urllib.parse.quote(str(access_policy_number), safe="")
         path = f"/networks/{network_id}/switch/accessPolicies/{access_policy_number}"
 
-        action = {
+        return {
             "path": path,
             "operation": "destroy",
         }
-        return action  # noqa: RET504
 
     def update_network_switch_alternate_management_interface(
         self,
@@ -991,12 +978,11 @@ class ActionBatchSwitch:
         if switches is not None:
             payload["switches"] = switches
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def update_network_switch_dhcp_server_policy(
         self,
@@ -1044,12 +1030,11 @@ class ActionBatchSwitch:
         if arp_inspection is not None:
             payload["arpInspection"] = arp_inspection
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def create_network_switch_dhcp_server_policy_arp_inspection_trusted_server(
         self, *, network_id: str, mac: str, vlan: int, ipv4: dict
@@ -1076,12 +1061,11 @@ class ActionBatchSwitch:
         if ipv4 is not None:
             payload["ipv4"] = ipv4
 
-        action = {
+        return {
             "path": path,
             "operation": "create",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def update_network_switch_dhcp_server_policy_arp_inspection_trusted_server(
         self,
@@ -1116,12 +1100,11 @@ class ActionBatchSwitch:
         if ipv4 is not None:
             payload["ipv4"] = ipv4
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def delete_network_switch_dhcp_server_policy_arp_inspection_trusted_server(
         self, *, network_id: str, trusted_server_id: str
@@ -1139,11 +1122,10 @@ class ActionBatchSwitch:
         trusted_server_id = urllib.parse.quote(str(trusted_server_id), safe="")
         path = f"/networks/{network_id}/switch/dhcpServerPolicy/arpInspection/trustedServers/{trusted_server_id}"
 
-        action = {
+        return {
             "path": path,
             "operation": "destroy",
         }
-        return action  # noqa: RET504
 
     def update_network_switch_dscp_to_cos_mappings(
         self, *, network_id: str, mappings: list
@@ -1165,12 +1147,11 @@ class ActionBatchSwitch:
         if mappings is not None:
             payload["mappings"] = mappings
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def create_network_switch_link_aggregation(
         self,
@@ -1200,12 +1181,11 @@ class ActionBatchSwitch:
         if switch_profile_ports is not None:
             payload["switchProfilePorts"] = switch_profile_ports
 
-        action = {
+        return {
             "path": path,
             "operation": "create",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def update_network_switch_link_aggregation(
         self,
@@ -1238,12 +1218,11 @@ class ActionBatchSwitch:
         if switch_profile_ports is not None:
             payload["switchProfilePorts"] = switch_profile_ports
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def delete_network_switch_link_aggregation(
         self, *, network_id: str, link_aggregation_id: str
@@ -1261,11 +1240,10 @@ class ActionBatchSwitch:
         link_aggregation_id = urllib.parse.quote(str(link_aggregation_id), safe="")
         path = f"/networks/{network_id}/switch/linkAggregations/{link_aggregation_id}"
 
-        action = {
+        return {
             "path": path,
             "operation": "destroy",
         }
-        return action  # noqa: RET504
 
     def update_network_switch_mtu(
         self, *, network_id: str, default_mtu_size: int | None = None, overrides: list | None = None
@@ -1290,12 +1268,11 @@ class ActionBatchSwitch:
         if overrides is not None:
             payload["overrides"] = overrides
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def update_network_switch_port_schedule(
         self,
@@ -1329,12 +1306,11 @@ class ActionBatchSwitch:
         if port_schedule is not None:
             payload["portSchedule"] = port_schedule
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def create_network_switch_qos_rule(
         self,
@@ -1393,12 +1369,11 @@ class ActionBatchSwitch:
         if dscp is not None:
             payload["dscp"] = dscp
 
-        action = {
+        return {
             "path": path,
             "operation": "create",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def update_network_switch_qos_rules_order(
         self, *, network_id: str, rule_ids: list
@@ -1420,12 +1395,11 @@ class ActionBatchSwitch:
         if rule_ids is not None:
             payload["ruleIds"] = rule_ids
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def update_network_switch_qos_rule(
         self,
@@ -1487,12 +1461,11 @@ class ActionBatchSwitch:
         if dscp is not None:
             payload["dscp"] = dscp
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def delete_network_switch_qos_rule(
         self, *, network_id: str, qos_rule_id: str
@@ -1510,11 +1483,10 @@ class ActionBatchSwitch:
         qos_rule_id = urllib.parse.quote(str(qos_rule_id), safe="")
         path = f"/networks/{network_id}/switch/qosRules/{qos_rule_id}"
 
-        action = {
+        return {
             "path": path,
             "operation": "destroy",
         }
-        return action  # noqa: RET504
 
     def update_network_switch_routing_multicast(
         self,
@@ -1544,12 +1516,11 @@ class ActionBatchSwitch:
         if overrides is not None:
             payload["overrides"] = overrides
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def create_network_switch_routing_multicast_rendezvous_point(
         self, *, network_id: str, interface_ip: str, multicast_group: str, vrf: dict | None = None
@@ -1576,12 +1547,11 @@ class ActionBatchSwitch:
         if vrf is not None:
             payload["vrf"] = vrf
 
-        action = {
+        return {
             "path": path,
             "operation": "create",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def update_network_switch_routing_multicast_rendezvous_point(
         self,
@@ -1616,12 +1586,11 @@ class ActionBatchSwitch:
         if vrf is not None:
             payload["vrf"] = vrf
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def delete_network_switch_routing_multicast_rendezvous_point(
         self, *, network_id: str, rendezvous_point_id: str
@@ -1639,11 +1608,10 @@ class ActionBatchSwitch:
         rendezvous_point_id = urllib.parse.quote(str(rendezvous_point_id), safe="")
         path = f"/networks/{network_id}/switch/routing/multicast/rendezvousPoints/{rendezvous_point_id}"
 
-        action = {
+        return {
             "path": path,
             "operation": "destroy",
         }
-        return action  # noqa: RET504
 
     def update_network_switch_routing_ospf(
         self,
@@ -1704,12 +1672,11 @@ class ActionBatchSwitch:
         if md5_authentication_key is not None:
             payload["md5AuthenticationKey"] = md5_authentication_key
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def update_network_switch_settings(
         self,
@@ -1754,12 +1721,11 @@ class ActionBatchSwitch:
         if uplink_selection is not None:
             payload["uplinkSelection"] = uplink_selection
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def create_network_switch_stack_routing_interface(
         self,
@@ -1846,12 +1812,11 @@ class ActionBatchSwitch:
         if loopback is not None:
             payload["loopback"] = loopback
 
-        action = {
+        return {
             "path": path,
             "operation": "create",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def update_network_switch_stack_routing_interface(
         self,
@@ -1933,12 +1898,11 @@ class ActionBatchSwitch:
         if loopback is not None:
             payload["loopback"] = loopback
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def delete_network_switch_stack_routing_interface(
         self, *, network_id: str, switch_stack_id: str, interface_id: str
@@ -1958,11 +1922,10 @@ class ActionBatchSwitch:
         interface_id = urllib.parse.quote(str(interface_id), safe="")
         path = f"/networks/{network_id}/switch/stacks/{switch_stack_id}/routing/interfaces/{interface_id}"
 
-        action = {
+        return {
             "path": path,
             "operation": "destroy",
         }
-        return action  # noqa: RET504
 
     def update_network_switch_stack_routing_interface_dhcp(
         self,
@@ -2060,12 +2023,11 @@ class ActionBatchSwitch:
         if fixed_ip_assignments is not None:
             payload["fixedIpAssignments"] = fixed_ip_assignments
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def create_network_switch_stack_routing_static_route(
         self,
@@ -2114,12 +2076,11 @@ class ActionBatchSwitch:
         if vrf is not None:
             payload["vrf"] = vrf
 
-        action = {
+        return {
             "path": path,
             "operation": "create",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def update_network_switch_stack_routing_static_route(
         self,
@@ -2175,12 +2136,11 @@ class ActionBatchSwitch:
         if vrf is not None:
             payload["vrf"] = vrf
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def delete_network_switch_stack_routing_static_route(
         self, *, network_id: str, switch_stack_id: str, static_route_id: str
@@ -2200,11 +2160,10 @@ class ActionBatchSwitch:
         static_route_id = urllib.parse.quote(str(static_route_id), safe="")
         path = f"/networks/{network_id}/switch/stacks/{switch_stack_id}/routing/staticRoutes/{static_route_id}"
 
-        action = {
+        return {
             "path": path,
             "operation": "destroy",
         }
-        return action  # noqa: RET504
 
     def update_network_switch_storm_control(
         self,
@@ -2248,12 +2207,11 @@ class ActionBatchSwitch:
                 treat_these_traffic_types_as_one_threshold
             )
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def update_network_switch_stp(
         self,
@@ -2282,12 +2240,11 @@ class ActionBatchSwitch:
         if stp_bridge_priority is not None:
             payload["stpBridgePriority"] = stp_bridge_priority
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def update_organization_config_template_switch_profile_port(
         self,
@@ -2461,12 +2418,11 @@ class ActionBatchSwitch:
         if high_speed is not None:
             payload["highSpeed"] = high_speed
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def clone_organization_switch_devices(
         self, *, organization_id: str, source_serial: str, target_serials: list
@@ -2492,9 +2448,8 @@ class ActionBatchSwitch:
         if target_serials is not None:
             payload["targetSerials"] = target_serials
 
-        action = {
+        return {
             "path": path,
             "operation": "create",
             "body": payload,
         }
-        return action  # noqa: RET504

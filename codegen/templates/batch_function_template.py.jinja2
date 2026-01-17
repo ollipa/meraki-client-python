@@ -1,4 +1,4 @@
-    def {{ operation }}(self{% if function_definition|length > 0 %}{{ function_definition }}{% endif %}) -> {{ return_type }}:
+    def {{ operation }}(self{% if function_definition|length > 0 %}{{ function_definition }}{% endif %}) -> dict[str, Any]:
         """{{ description }}
 
         {{ doc_url }}
@@ -40,11 +40,10 @@
         {% endfor %}
 
         {% endif %}
-        action = {
+        return {
             "path": path,
             "operation": "{{ batch_operation }}",
             {% if body_params|length > 0 %}
             "body": payload,
             {% endif %}
         }
-        {{ call_line }}

@@ -417,15 +417,9 @@ def generate_module(
             output.write(
                 templates.function_template.render(
                     **common_params,
-                    call_line=get_call_line(
-                        method=method,
-                        scope=scope,
-                        operation_id=operation_id,
-                        is_paginated=is_paginated,
-                        has_query_params=bool(function_definition.query_params),
-                        has_body_params=bool(function_definition.body_params),
-                        is_async=False,
-                    ),
+                    method=method,
+                    scope=scope,
+                    operation_id=operation_id,
                     return_type=get_return_type(
                         method=method, is_paginated=is_paginated, is_async=False
                     ),
@@ -436,15 +430,9 @@ def generate_module(
             async_output.write(
                 templates.function_template.render(
                     **common_params,
-                    call_line=get_call_line(
-                        method=method,
-                        scope=scope,
-                        operation_id=operation_id,
-                        is_paginated=is_paginated,
-                        has_query_params=bool(function_definition.query_params),
-                        has_body_params=bool(function_definition.body_params),
-                        is_async=True,
-                    ),
+                    method=method,
+                    scope=scope,
+                    operation_id=operation_id,
                     return_type=get_return_type(
                         method=method, is_paginated=is_paginated, is_async=True
                     ),
@@ -476,9 +464,7 @@ def generate_module(
                         query_params=function_definition.query_params,
                         body_params=function_definition.body_params,
                         path_params=function_definition.path_params,
-                        call_line="return action  # noqa: RET504",
                         batch_operation=batch_operation,
-                        return_type="dict[str, Any]",
                     )
                 )
 
@@ -707,58 +693,6 @@ def collect_pagination_params(operation_id: str, function_definition: FunctionDe
                 "to retrieve events within a time window",
             )
         )
-
-
-def get_call_line(
-    *,
-    method: Literal["get", "put", "post", "delete"],
-    scope: str,
-    operation_id: str,
-    has_query_params: bool,
-    is_paginated: bool,
-    has_body_params: bool,
-    is_async: bool,
-) -> str:
-    """Get the call line for a function."""
-    await_ = "await " if is_async and not is_paginated else ""
-    match method:
-        case "get":
-            if operation_id == "getNetworkEvents":
-                return (
-                    "return self._session.get_pages"
-                    f'(scope="{scope}", operation_id="{operation_id}", path=path, params=params, '
-                    "total_pages=total_pages, direction=direction, event_log_end_time=event_log_end_time)"
-                )
-            if is_paginated:
-                return (
-                    f'return self._session.get_pages(scope="{scope}", '
-                    f'operation_id="{operation_id}", path=path, params=params, '
-                    "total_pages=total_pages, direction=direction)"
-                )
-            if has_query_params:
-                return (
-                    f'return {await_}self._session.get(scope="{scope}", '
-                    f'operation_id="{operation_id}", path=path, params=params)'
-                )
-            return f'return {await_}self._session.get(scope="{scope}", operation_id="{operation_id}", path=path)'
-        case "post":
-            if has_body_params:
-                return (
-                    f'return {await_}self._session.post(scope="{scope}", '
-                    f'operation_id="{operation_id}", path=path, json=payload)'
-                )
-            return f'return {await_}self._session.post(scope="{scope}", operation_id="{operation_id}", path=path)'
-        case "put":
-            if has_body_params:
-                return (
-                    f'return {await_}self._session.put(scope="{scope}", '
-                    f'operation_id="{operation_id}", path=path, json=payload)'
-                )
-            return f'return {await_}self._session.put(scope="{scope}", operation_id="{operation_id}", path=path)'
-        case "delete":
-            return f'return {await_}self._session.delete(scope="{scope}", operation_id="{operation_id}", path=path)'
-        case _:
-            assert_never(method)
 
 
 def get_return_type(

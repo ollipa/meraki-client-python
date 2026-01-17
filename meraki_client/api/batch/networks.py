@@ -54,12 +54,11 @@ class ActionBatchNetworks:
         if notes is not None:
             payload["notes"] = notes
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def delete_network(self, *, network_id: str) -> dict[str, Any]:
         """Delete a network.
@@ -73,11 +72,10 @@ class ActionBatchNetworks:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}"
 
-        action = {
+        return {
             "path": path,
             "operation": "destroy",
         }
-        return action  # noqa: RET504
 
     def bind_network(
         self, *, network_id: str, config_template_id: str, auto_bind: bool | None = None
@@ -105,12 +103,11 @@ class ActionBatchNetworks:
         if auto_bind is not None:
             payload["autoBind"] = auto_bind
 
-        action = {
+        return {
             "path": path,
             "operation": "create",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def provision_network_clients(
         self,
@@ -162,12 +159,11 @@ class ActionBatchNetworks:
         if policies_by_ssid is not None:
             payload["policiesBySsid"] = policies_by_ssid
 
-        action = {
+        return {
             "path": path,
             "operation": "create",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def claim_network_devices(
         self,
@@ -203,12 +199,11 @@ class ActionBatchNetworks:
         if details_by_device is not None:
             payload["detailsByDevice"] = details_by_device
 
-        action = {
+        return {
             "path": path,
             "operation": "create",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def vmx_network_devices_claim(self, *, network_id: str, size: str) -> dict[str, Any]:
         """Claim a vMX into a network.
@@ -232,12 +227,11 @@ class ActionBatchNetworks:
         if size is not None:
             payload["size"] = size
 
-        action = {
+        return {
             "path": path,
             "operation": "create",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def remove_network_devices(self, *, network_id: str, serial: str) -> dict[str, Any]:
         """Remove a single device.
@@ -256,12 +250,11 @@ class ActionBatchNetworks:
         if serial is not None:
             payload["serial"] = serial
 
-        action = {
+        return {
             "path": path,
             "operation": "create",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def update_network_firmware_upgrades(
         self,
@@ -293,12 +286,11 @@ class ActionBatchNetworks:
         if products is not None:
             payload["products"] = products
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def create_network_firmware_upgrades_rollback(
         self,
@@ -349,12 +341,11 @@ class ActionBatchNetworks:
         if to_version is not None:
             payload["toVersion"] = to_version
 
-        action = {
+        return {
             "path": path,
             "operation": "create",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def create_network_firmware_upgrades_staged_group(
         self,
@@ -392,12 +383,11 @@ class ActionBatchNetworks:
         if assigned_devices is not None:
             payload["assignedDevices"] = assigned_devices
 
-        action = {
+        return {
             "path": path,
             "operation": "create",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def delete_network_firmware_upgrades_staged_group(
         self, *, network_id: str, group_id: str
@@ -415,11 +405,10 @@ class ActionBatchNetworks:
         group_id = urllib.parse.quote(str(group_id), safe="")
         path = f"/networks/{network_id}/firmwareUpgrades/staged/groups/{group_id}"
 
-        action = {
+        return {
             "path": path,
             "operation": "destroy",
         }
-        return action  # noqa: RET504
 
     def batch_network_floor_plans_auto_locate_jobs(
         self, *, network_id: str, jobs: list
@@ -441,12 +430,11 @@ class ActionBatchNetworks:
         if jobs is not None:
             payload["jobs"] = jobs
 
-        action = {
+        return {
             "path": path,
             "operation": "create",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def cancel_network_floor_plans_auto_locate_job(
         self, *, network_id: str, job_id: str
@@ -464,11 +452,10 @@ class ActionBatchNetworks:
         job_id = urllib.parse.quote(str(job_id), safe="")
         path = f"/networks/{network_id}/floorPlans/autoLocate/jobs/{job_id}/cancel"
 
-        action = {
+        return {
             "path": path,
             "operation": "create",
         }
-        return action  # noqa: RET504
 
     def publish_network_floor_plans_auto_locate_job(
         self, *, network_id: str, job_id: str, devices: list | None = None
@@ -491,12 +478,11 @@ class ActionBatchNetworks:
         if devices is not None:
             payload["devices"] = devices
 
-        action = {
+        return {
             "path": path,
             "operation": "create",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def recalculate_network_floor_plans_auto_locate_job(
         self, *, network_id: str, job_id: str, devices: list | None = None
@@ -519,12 +505,11 @@ class ActionBatchNetworks:
         if devices is not None:
             payload["devices"] = devices
 
-        action = {
+        return {
             "path": path,
             "operation": "create",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def batch_network_floor_plans_devices_update(
         self, *, network_id: str, assignments: list
@@ -546,12 +531,11 @@ class ActionBatchNetworks:
         if assignments is not None:
             payload["assignments"] = assignments
 
-        action = {
+        return {
             "path": path,
             "operation": "create",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def update_network_floor_plan(
         self,
@@ -622,12 +606,11 @@ class ActionBatchNetworks:
         if image_contents is not None:
             payload["imageContents"] = image_contents
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def delete_network_floor_plan(self, *, network_id: str, floor_plan_id: str) -> dict[str, Any]:
         """Destroy a floor plan.
@@ -643,11 +626,10 @@ class ActionBatchNetworks:
         floor_plan_id = urllib.parse.quote(str(floor_plan_id), safe="")
         path = f"/networks/{network_id}/floorPlans/{floor_plan_id}"
 
-        action = {
+        return {
             "path": path,
             "operation": "destroy",
         }
-        return action  # noqa: RET504
 
     def create_network_group_policy(
         self,
@@ -712,12 +694,11 @@ class ActionBatchNetworks:
         if bonjour_forwarding is not None:
             payload["bonjourForwarding"] = bonjour_forwarding
 
-        action = {
+        return {
             "path": path,
             "operation": "create",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def update_network_group_policy(
         self,
@@ -785,12 +766,11 @@ class ActionBatchNetworks:
         if bonjour_forwarding is not None:
             payload["bonjourForwarding"] = bonjour_forwarding
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def delete_network_group_policy(
         self, *, network_id: str, group_policy_id: str, force: bool | None = None
@@ -815,11 +795,10 @@ class ActionBatchNetworks:
         if force is not None:
             params["force"] = force
 
-        action = {
+        return {
             "path": path,
             "operation": "destroy",
         }
-        return action  # noqa: RET504
 
     def create_network_meraki_auth_user(
         self,
@@ -876,12 +855,11 @@ class ActionBatchNetworks:
         if authorizations is not None:
             payload["authorizations"] = authorizations
 
-        action = {
+        return {
             "path": path,
             "operation": "create",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def update_network_meraki_auth_user(
         self,
@@ -922,12 +900,11 @@ class ActionBatchNetworks:
         if authorizations is not None:
             payload["authorizations"] = authorizations
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def delete_network_meraki_auth_user(
         self, *, network_id: str, meraki_auth_user_id: str, delete: bool | None = None
@@ -953,11 +930,10 @@ class ActionBatchNetworks:
         if delete is not None:
             params["delete"] = delete
 
-        action = {
+        return {
             "path": path,
             "operation": "destroy",
         }
-        return action  # noqa: RET504
 
     def create_network_mqtt_broker(
         self,
@@ -997,12 +973,11 @@ class ActionBatchNetworks:
         if authentication is not None:
             payload["authentication"] = authentication
 
-        action = {
+        return {
             "path": path,
             "operation": "create",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def update_network_mqtt_broker(
         self,
@@ -1045,12 +1020,11 @@ class ActionBatchNetworks:
         if authentication is not None:
             payload["authentication"] = authentication
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def delete_network_mqtt_broker(self, *, network_id: str, mqtt_broker_id: str) -> dict[str, Any]:
         """Delete an MQTT broker.
@@ -1066,11 +1040,10 @@ class ActionBatchNetworks:
         mqtt_broker_id = urllib.parse.quote(str(mqtt_broker_id), safe="")
         path = f"/networks/{network_id}/mqttBrokers/{mqtt_broker_id}"
 
-        action = {
+        return {
             "path": path,
             "operation": "destroy",
         }
-        return action  # noqa: RET504
 
     def update_network_settings(
         self,
@@ -1118,12 +1091,11 @@ class ActionBatchNetworks:
         if named_vlans is not None:
             payload["namedVlans"] = named_vlans
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def split_network(self, *, network_id: str) -> dict[str, Any]:
         """Split a combined network into individual networks for each type of device.
@@ -1137,11 +1109,10 @@ class ActionBatchNetworks:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/split"
 
-        action = {
+        return {
             "path": path,
             "operation": "create",
         }
-        return action  # noqa: RET504
 
     def unbind_network(
         self, *, network_id: str, retain_configs: bool | None = None
@@ -1163,12 +1134,11 @@ class ActionBatchNetworks:
         if retain_configs is not None:
             payload["retainConfigs"] = retain_configs
 
-        action = {
+        return {
             "path": path,
             "operation": "create",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def create_network_vlan_profile(
         self, *, network_id: str, name: str, vlan_names: list, vlan_groups: list, iname: str
@@ -1198,12 +1168,11 @@ class ActionBatchNetworks:
         if iname is not None:
             payload["iname"] = iname
 
-        action = {
+        return {
             "path": path,
             "operation": "create",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def delete_network_vlan_profile(self, *, network_id: str, iname: str) -> dict[str, Any]:
         """Delete a VLAN profile of a network.
@@ -1219,11 +1188,10 @@ class ActionBatchNetworks:
         iname = urllib.parse.quote(str(iname), safe="")
         path = f"/networks/{network_id}/vlanProfiles/{iname}"
 
-        action = {
+        return {
             "path": path,
             "operation": "destroy",
         }
-        return action  # noqa: RET504
 
     def create_network_webhooks_payload_template(
         self,
@@ -1266,12 +1234,11 @@ class ActionBatchNetworks:
         if headers_file is not None:
             payload["headersFile"] = headers_file
 
-        action = {
+        return {
             "path": path,
             "operation": "create",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def update_network_webhooks_payload_template(
         self,
@@ -1314,12 +1281,11 @@ class ActionBatchNetworks:
         if headers_file is not None:
             payload["headersFile"] = headers_file
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def delete_network_webhooks_payload_template(
         self, *, network_id: str, payload_template_id: str
@@ -1337,8 +1303,7 @@ class ActionBatchNetworks:
         payload_template_id = urllib.parse.quote(str(payload_template_id), safe="")
         path = f"/networks/{network_id}/webhooks/payloadTemplates/{payload_template_id}"
 
-        action = {
+        return {
             "path": path,
             "operation": "destroy",
         }
-        return action  # noqa: RET504

@@ -35,9 +35,8 @@ class ActionBatchNac:
         if is_delta is not None:
             payload["isDelta"] = is_delta
 
-        action = {
+        return {
             "path": path,
             "operation": "create",
             "body": payload,
         }
-        return action  # noqa: RET504

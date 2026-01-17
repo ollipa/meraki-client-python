@@ -36,12 +36,11 @@ class ActionBatchCellularGateway:
         if fixed_ip_assignments is not None:
             payload["fixedIpAssignments"] = fixed_ip_assignments
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def update_device_cellular_gateway_port_forwarding_rules(
         self, *, serial: str, rules: list | None = None
@@ -62,12 +61,11 @@ class ActionBatchCellularGateway:
         if rules is not None:
             payload["rules"] = rules
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def update_network_cellular_gateway_connectivity_monitoring_destinations(
         self, *, network_id: str, destinations: list | None = None
@@ -88,12 +86,11 @@ class ActionBatchCellularGateway:
         if destinations is not None:
             payload["destinations"] = destinations
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def update_network_cellular_gateway_dhcp(
         self,
@@ -128,12 +125,11 @@ class ActionBatchCellularGateway:
         if dns_custom_nameservers is not None:
             payload["dnsCustomNameservers"] = dns_custom_nameservers
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def update_network_cellular_gateway_subnet_pool(
         self, *, network_id: str, mask: int | None = None, cidr: str | None = None
@@ -158,12 +154,11 @@ class ActionBatchCellularGateway:
         if cidr is not None:
             payload["cidr"] = cidr
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def update_network_cellular_gateway_uplink(
         self, *, network_id: str, bandwidth_limits: dict | None = None
@@ -184,12 +179,11 @@ class ActionBatchCellularGateway:
         if bandwidth_limits is not None:
             payload["bandwidthLimits"] = bandwidth_limits
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def update_organization_cellular_gateway_esims_inventory(
         self, *, organization_id: str, id_: str, status: str | None = None
@@ -212,12 +206,11 @@ class ActionBatchCellularGateway:
         if status is not None:
             payload["status"] = status
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def create_organization_cellular_gateway_esims_service_providers_account(
         self,
@@ -257,12 +250,11 @@ class ActionBatchCellularGateway:
         if username is not None:
             payload["username"] = username
 
-        action = {
+        return {
             "path": path,
             "operation": "create",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def update_organization_cellular_gateway_esims_service_providers_account(
         self,
@@ -293,12 +285,11 @@ class ActionBatchCellularGateway:
         if api_key is not None:
             payload["apiKey"] = api_key
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def delete_organization_cellular_gateway_esims_service_providers_account(
         self, *, organization_id: str, account_id: str
@@ -316,11 +307,10 @@ class ActionBatchCellularGateway:
         account_id = urllib.parse.quote(str(account_id), safe="")
         path = f"/organizations/{organization_id}/cellularGateway/esims/serviceProviders/accounts/{account_id}"
 
-        action = {
+        return {
             "path": path,
             "operation": "destroy",
         }
-        return action  # noqa: RET504
 
     def create_organization_cellular_gateway_esims_swap(
         self, *, organization_id: str, swaps: list
@@ -341,12 +331,11 @@ class ActionBatchCellularGateway:
         if swaps is not None:
             payload["swaps"] = swaps
 
-        action = {
+        return {
             "path": path,
             "operation": "create",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def update_organization_cellular_gateway_esims_swap(
         self, *, id_: str, organization_id: str
@@ -364,8 +353,7 @@ class ActionBatchCellularGateway:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         path = f"/organizations/{organization_id}/cellularGateway/esims/swap/{id_}"
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
         }
-        return action  # noqa: RET504

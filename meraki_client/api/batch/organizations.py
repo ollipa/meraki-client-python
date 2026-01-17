@@ -50,12 +50,11 @@ class ActionBatchOrganizations:
         if ip_version is not None:
             payload["ipVersion"] = ip_version
 
-        action = {
+        return {
             "path": path,
             "operation": "create",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def update_organization_adaptive_policy_acl(
         self,
@@ -101,12 +100,11 @@ class ActionBatchOrganizations:
         if ip_version is not None:
             payload["ipVersion"] = ip_version
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def delete_organization_adaptive_policy_acl(
         self, *, organization_id: str, acl_id: str
@@ -124,11 +122,10 @@ class ActionBatchOrganizations:
         acl_id = urllib.parse.quote(str(acl_id), safe="")
         path = f"/organizations/{organization_id}/adaptivePolicy/acls/{acl_id}"
 
-        action = {
+        return {
             "path": path,
             "operation": "destroy",
         }
-        return action  # noqa: RET504
 
     def create_organization_adaptive_policy_group(
         self,
@@ -167,12 +164,11 @@ class ActionBatchOrganizations:
         if policy_objects is not None:
             payload["policyObjects"] = policy_objects
 
-        action = {
+        return {
             "path": path,
             "operation": "create",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def update_organization_adaptive_policy_group(
         self,
@@ -214,12 +210,11 @@ class ActionBatchOrganizations:
         if policy_objects is not None:
             payload["policyObjects"] = policy_objects
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def delete_organization_adaptive_policy_group(
         self, *, organization_id: str, id_: str
@@ -237,11 +232,10 @@ class ActionBatchOrganizations:
         id_ = urllib.parse.quote(str(id_), safe="")
         path = f"/organizations/{organization_id}/adaptivePolicy/groups/{id_}"
 
-        action = {
+        return {
             "path": path,
             "operation": "destroy",
         }
-        return action  # noqa: RET504
 
     def create_organization_adaptive_policy_policy(
         self,
@@ -285,12 +279,11 @@ class ActionBatchOrganizations:
         if last_entry_rule is not None:
             payload["lastEntryRule"] = last_entry_rule
 
-        action = {
+        return {
             "path": path,
             "operation": "create",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def update_organization_adaptive_policy_policy(
         self,
@@ -337,12 +330,11 @@ class ActionBatchOrganizations:
         if last_entry_rule is not None:
             payload["lastEntryRule"] = last_entry_rule
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def delete_organization_adaptive_policy_policy(
         self, *, organization_id: str, id_: str
@@ -360,11 +352,10 @@ class ActionBatchOrganizations:
         id_ = urllib.parse.quote(str(id_), safe="")
         path = f"/organizations/{organization_id}/adaptivePolicy/policies/{id_}"
 
-        action = {
+        return {
             "path": path,
             "operation": "destroy",
         }
-        return action  # noqa: RET504
 
     def update_organization_adaptive_policy_settings(
         self, *, organization_id: str, enabled_networks: list | None = None
@@ -385,12 +376,11 @@ class ActionBatchOrganizations:
         if enabled_networks is not None:
             payload["enabledNetworks"] = enabled_networks
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def create_organization_alerts_profile(
         self,
@@ -445,12 +435,11 @@ class ActionBatchOrganizations:
         if description is not None:
             payload["description"] = description
 
-        action = {
+        return {
             "path": path,
             "operation": "create",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def update_organization_alerts_profile(
         self,
@@ -512,12 +501,11 @@ class ActionBatchOrganizations:
         if description is not None:
             payload["description"] = description
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def delete_organization_alerts_profile(
         self, *, organization_id: str, alert_config_id: str
@@ -535,11 +523,10 @@ class ActionBatchOrganizations:
         alert_config_id = urllib.parse.quote(str(alert_config_id), safe="")
         path = f"/organizations/{organization_id}/alerts/profiles/{alert_config_id}"
 
-        action = {
+        return {
             "path": path,
             "operation": "destroy",
         }
-        return action  # noqa: RET504
 
     def create_organization_branding_policy(
         self,
@@ -585,12 +572,11 @@ class ActionBatchOrganizations:
         if custom_logo is not None:
             payload["customLogo"] = custom_logo
 
-        action = {
+        return {
             "path": path,
             "operation": "create",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def update_organization_branding_policies_priorities(
         self, *, organization_id: str, branding_policy_ids: list | None = None
@@ -612,12 +598,11 @@ class ActionBatchOrganizations:
         if branding_policy_ids is not None:
             payload["brandingPolicyIds"] = branding_policy_ids
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def update_organization_branding_policy(
         self,
@@ -665,12 +650,11 @@ class ActionBatchOrganizations:
         if custom_logo is not None:
             payload["customLogo"] = custom_logo
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def delete_organization_branding_policy(
         self, *, organization_id: str, branding_policy_id: str
@@ -688,11 +672,10 @@ class ActionBatchOrganizations:
         branding_policy_id = urllib.parse.quote(str(branding_policy_id), safe="")
         path = f"/organizations/{organization_id}/brandingPolicies/{branding_policy_id}"
 
-        action = {
+        return {
             "path": path,
             "operation": "destroy",
         }
-        return action  # noqa: RET504
 
     def create_organization_config_template(
         self,
@@ -728,12 +711,11 @@ class ActionBatchOrganizations:
         if copy_from_network_id is not None:
             payload["copyFromNetworkId"] = copy_from_network_id
 
-        action = {
+        return {
             "path": path,
             "operation": "create",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def update_organization_config_template(
         self,
@@ -767,12 +749,11 @@ class ActionBatchOrganizations:
         if time_zone is not None:
             payload["timeZone"] = time_zone
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def create_organization_devices_controller_migration(
         self, *, organization_id: str, serials: list, target: str
@@ -802,12 +783,11 @@ class ActionBatchOrganizations:
         if target is not None:
             payload["target"] = target
 
-        action = {
+        return {
             "path": path,
             "operation": "create",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def bulk_update_organization_devices_details(
         self, *, organization_id: str, serials: list, details: list
@@ -831,12 +811,11 @@ class ActionBatchOrganizations:
         if details is not None:
             payload["details"] = details
 
-        action = {
+        return {
             "path": path,
             "operation": "create",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def bulk_organization_devices_packet_capture_captures_delete(
         self, *, organization_id: str, capture_ids: list
@@ -857,12 +836,11 @@ class ActionBatchOrganizations:
         if capture_ids is not None:
             payload["captureIds"] = capture_ids
 
-        action = {
+        return {
             "path": path,
             "operation": "create",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def delete_organization_devices_packet_capture_capture(
         self, *, organization_id: str, capture_id: str
@@ -880,11 +858,10 @@ class ActionBatchOrganizations:
         capture_id = urllib.parse.quote(str(capture_id), safe="")
         path = f"/organizations/{organization_id}/devices/packetCapture/captures/{capture_id}"
 
-        action = {
+        return {
             "path": path,
             "operation": "destroy",
         }
-        return action  # noqa: RET504
 
     def create_organization_devices_packet_capture_schedule(
         self,
@@ -932,12 +909,11 @@ class ActionBatchOrganizations:
         if schedule is not None:
             payload["schedule"] = schedule
 
-        action = {
+        return {
             "path": path,
             "operation": "create",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def reorder_organization_devices_packet_capture_schedules(
         self, *, organization_id: str, order: list
@@ -958,12 +934,11 @@ class ActionBatchOrganizations:
         if order is not None:
             payload["order"] = order
 
-        action = {
+        return {
             "path": path,
             "operation": "create",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def update_organization_devices_packet_capture_schedule(
         self,
@@ -1014,12 +989,11 @@ class ActionBatchOrganizations:
         if schedule is not None:
             payload["schedule"] = schedule
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def delete_organization_devices_packet_capture_schedule(
         self, *, organization_id: str, schedule_id: str
@@ -1041,12 +1015,11 @@ class ActionBatchOrganizations:
         if schedule_id is not None:
             payload["scheduleId"] = schedule_id
 
-        action = {
+        return {
             "path": path,
             "operation": "destroy",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def update_organization_early_access_features_opt_in(
         self, *, organization_id: str, opt_in_id: str, limit_scope_to_networks: list | None = None
@@ -1069,12 +1042,11 @@ class ActionBatchOrganizations:
         if limit_scope_to_networks is not None:
             payload["limitScopeToNetworks"] = limit_scope_to_networks
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def disable_organization_integrations_xdr_networks(
         self, *, organization_id: str, networks: list
@@ -1095,12 +1067,11 @@ class ActionBatchOrganizations:
         if networks is not None:
             payload["networks"] = networks
 
-        action = {
+        return {
             "path": path,
             "operation": "create",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def enable_organization_integrations_xdr_networks(
         self, *, organization_id: str, networks: list
@@ -1121,12 +1092,11 @@ class ActionBatchOrganizations:
         if networks is not None:
             payload["networks"] = networks
 
-        action = {
+        return {
             "path": path,
             "operation": "create",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def claim_organization_inventory_orders(
         self, *, organization_id: str, claim_id: str, subscriptions: list | None = None
@@ -1150,12 +1120,11 @@ class ActionBatchOrganizations:
         if subscriptions is not None:
             payload["subscriptions"] = subscriptions
 
-        action = {
+        return {
             "path": path,
             "operation": "create",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def assign_organization_licenses_seats(
         self, *, organization_id: str, license_id: str, network_id: str, seat_count: int
@@ -1183,12 +1152,11 @@ class ActionBatchOrganizations:
         if seat_count is not None:
             payload["seatCount"] = seat_count
 
-        action = {
+        return {
             "path": path,
             "operation": "create",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def move_organization_licenses(
         self, *, organization_id: str, dest_organization_id: str, license_ids: list
@@ -1212,12 +1180,11 @@ class ActionBatchOrganizations:
         if license_ids is not None:
             payload["licenseIds"] = license_ids
 
-        action = {
+        return {
             "path": path,
             "operation": "create",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def move_organization_licenses_seats(
         self, *, organization_id: str, dest_organization_id: str, license_id: str, seat_count: int
@@ -1245,12 +1212,11 @@ class ActionBatchOrganizations:
         if seat_count is not None:
             payload["seatCount"] = seat_count
 
-        action = {
+        return {
             "path": path,
             "operation": "create",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def renew_organization_licenses_seats(
         self, *, organization_id: str, license_id_to_renew: str, unused_license_id: str
@@ -1277,12 +1243,11 @@ class ActionBatchOrganizations:
         if unused_license_id is not None:
             payload["unusedLicenseId"] = unused_license_id
 
-        action = {
+        return {
             "path": path,
             "operation": "create",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def update_organization_license(
         self, *, organization_id: str, license_id: str, device_serial: str | None = None
@@ -1307,12 +1272,11 @@ class ActionBatchOrganizations:
         if device_serial is not None:
             payload["deviceSerial"] = device_serial
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def update_organization_login_security(
         self,
@@ -1403,12 +1367,11 @@ class ActionBatchOrganizations:
         if api_authentication is not None:
             payload["apiAuthentication"] = api_authentication
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def create_organization_network(
         self,
@@ -1458,12 +1421,11 @@ class ActionBatchOrganizations:
         if notes is not None:
             payload["notes"] = notes
 
-        action = {
+        return {
             "path": path,
             "operation": "create",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def combine_organization_networks(
         self,
@@ -1502,12 +1464,11 @@ class ActionBatchOrganizations:
         if enrollment_string is not None:
             payload["enrollmentString"] = enrollment_string
 
-        action = {
+        return {
             "path": path,
             "operation": "create",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def create_organization_policy_object(
         self,
@@ -1560,12 +1521,11 @@ class ActionBatchOrganizations:
         if group_ids is not None:
             payload["groupIds"] = group_ids
 
-        action = {
+        return {
             "path": path,
             "operation": "create",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def create_organization_policy_objects_group(
         self,
@@ -1601,12 +1561,11 @@ class ActionBatchOrganizations:
         if object_ids is not None:
             payload["objectIds"] = object_ids
 
-        action = {
+        return {
             "path": path,
             "operation": "create",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def update_organization_policy_objects_group(
         self,
@@ -1640,12 +1599,11 @@ class ActionBatchOrganizations:
         if object_ids is not None:
             payload["objectIds"] = object_ids
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def delete_organization_policy_objects_group(
         self, *, organization_id: str, policy_object_group_id: str
@@ -1663,11 +1621,10 @@ class ActionBatchOrganizations:
         policy_object_group_id = urllib.parse.quote(str(policy_object_group_id), safe="")
         path = f"/organizations/{organization_id}/policyObjects/groups/{policy_object_group_id}"
 
-        action = {
+        return {
             "path": path,
             "operation": "destroy",
         }
-        return action  # noqa: RET504
 
     def update_organization_policy_object(
         self,
@@ -1715,12 +1672,11 @@ class ActionBatchOrganizations:
         if group_ids is not None:
             payload["groupIds"] = group_ids
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def delete_organization_policy_object(
         self, *, organization_id: str, policy_object_id: str
@@ -1738,11 +1694,10 @@ class ActionBatchOrganizations:
         policy_object_id = urllib.parse.quote(str(policy_object_id), safe="")
         path = f"/organizations/{organization_id}/policyObjects/{policy_object_id}"
 
-        action = {
+        return {
             "path": path,
             "operation": "destroy",
         }
-        return action  # noqa: RET504
 
     def create_organization_saml_idp(
         self,
@@ -1776,12 +1731,11 @@ class ActionBatchOrganizations:
         if slo_logout_url is not None:
             payload["sloLogoutUrl"] = slo_logout_url
 
-        action = {
+        return {
             "path": path,
             "operation": "create",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def update_organization_saml_idp(
         self,
@@ -1818,12 +1772,11 @@ class ActionBatchOrganizations:
         if slo_logout_url is not None:
             payload["sloLogoutUrl"] = slo_logout_url
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def delete_organization_saml_idp(self, *, organization_id: str, idp_id: str) -> dict[str, Any]:
         """Remove a SAML IdP in your organization.
@@ -1839,11 +1792,10 @@ class ActionBatchOrganizations:
         idp_id = urllib.parse.quote(str(idp_id), safe="")
         path = f"/organizations/{organization_id}/saml/idps/{idp_id}"
 
-        action = {
+        return {
             "path": path,
             "operation": "destroy",
         }
-        return action  # noqa: RET504
 
     def delete_organization_splash_asset(self, *, organization_id: str, id_: str) -> dict[str, Any]:
         """Delete a Splash Theme Asset.
@@ -1859,11 +1811,10 @@ class ActionBatchOrganizations:
         id_ = urllib.parse.quote(str(id_), safe="")
         path = f"/organizations/{organization_id}/splash/assets/{id_}"
 
-        action = {
+        return {
             "path": path,
             "operation": "destroy",
         }
-        return action  # noqa: RET504
 
     def create_organization_splash_theme(
         self, *, organization_id: str, name: str | None = None, base_theme: str | None = None
@@ -1887,12 +1838,11 @@ class ActionBatchOrganizations:
         if base_theme is not None:
             payload["baseTheme"] = base_theme
 
-        action = {
+        return {
             "path": path,
             "operation": "create",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def delete_organization_splash_theme(self, *, organization_id: str, id_: str) -> dict[str, Any]:
         """Delete a Splash Theme.
@@ -1908,11 +1858,10 @@ class ActionBatchOrganizations:
         id_ = urllib.parse.quote(str(id_), safe="")
         path = f"/organizations/{organization_id}/splash/themes/{id_}"
 
-        action = {
+        return {
             "path": path,
             "operation": "destroy",
         }
-        return action  # noqa: RET504
 
     def create_organization_splash_theme_asset(
         self,
@@ -1943,9 +1892,8 @@ class ActionBatchOrganizations:
         if content is not None:
             payload["content"] = content
 
-        action = {
+        return {
             "path": path,
             "operation": "create",
             "body": payload,
         }
-        return action  # noqa: RET504

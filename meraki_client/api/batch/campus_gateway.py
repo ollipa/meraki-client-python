@@ -57,12 +57,11 @@ class ActionBatchCampusGateway:
         if notes is not None:
             payload["notes"] = notes
 
-        action = {
+        return {
             "path": path,
             "operation": "create",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def update_network_campus_gateway_cluster(
         self,
@@ -114,9 +113,8 @@ class ActionBatchCampusGateway:
         if notes is not None:
             payload["notes"] = notes
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504

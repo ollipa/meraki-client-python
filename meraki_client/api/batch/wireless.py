@@ -29,12 +29,11 @@ class ActionBatchWireless:
         if addresses is not None:
             payload["addresses"] = addresses
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def update_device_wireless_bluetooth_settings(
         self,
@@ -69,12 +68,11 @@ class ActionBatchWireless:
         if minor is not None:
             payload["minor"] = minor
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def update_device_wireless_electronic_shelf_label(
         self, *, serial: str, channel: str | None = None, enabled: bool | None = None
@@ -99,12 +97,11 @@ class ActionBatchWireless:
         if enabled is not None:
             payload["enabled"] = enabled
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def update_device_wireless_radio_settings(
         self,
@@ -140,12 +137,11 @@ class ActionBatchWireless:
         if five_ghz_settings is not None:
             payload["fiveGhzSettings"] = five_ghz_settings
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def create_network_wireless_air_marshal_rule(
         self, *, network_id: str, type_: str, match: dict
@@ -175,12 +171,11 @@ class ActionBatchWireless:
         if match is not None:
             payload["match"] = match
 
-        action = {
+        return {
             "path": path,
             "operation": "create",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def update_network_wireless_air_marshal_rule(
         self, *, network_id: str, rule_id: str, type_: str | None = None, match: dict | None = None
@@ -212,12 +207,11 @@ class ActionBatchWireless:
         if match is not None:
             payload["match"] = match
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def delete_network_wireless_air_marshal_rule(
         self, *, network_id: str, rule_id: str
@@ -235,11 +229,10 @@ class ActionBatchWireless:
         rule_id = urllib.parse.quote(str(rule_id), safe="")
         path = f"/networks/{network_id}/wireless/airMarshal/rules/{rule_id}"
 
-        action = {
+        return {
             "path": path,
             "operation": "destroy",
         }
-        return action  # noqa: RET504
 
     def update_network_wireless_air_marshal_settings(
         self, *, network_id: str, default_policy: str
@@ -266,12 +259,11 @@ class ActionBatchWireless:
         if default_policy is not None:
             payload["defaultPolicy"] = default_policy
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def update_network_wireless_alternate_management_interface(
         self,
@@ -312,12 +304,11 @@ class ActionBatchWireless:
         if access_points is not None:
             payload["accessPoints"] = access_points
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def update_network_wireless_billing(
         self, *, network_id: str, currency: str | None = None, plans: list | None = None
@@ -341,12 +332,11 @@ class ActionBatchWireless:
         if plans is not None:
             payload["plans"] = plans
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def update_network_wireless_electronic_shelf_label(
         self,
@@ -383,12 +373,11 @@ class ActionBatchWireless:
         if mode is not None:
             payload["mode"] = mode
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def create_network_wireless_ethernet_ports_profile(
         self, *, network_id: str, name: str, ports: list, usb_ports: list | None = None
@@ -415,12 +404,11 @@ class ActionBatchWireless:
         if usb_ports is not None:
             payload["usbPorts"] = usb_ports
 
-        action = {
+        return {
             "path": path,
             "operation": "create",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def assign_network_wireless_ethernet_ports_profiles(
         self, *, network_id: str, serials: list, profile_id: str
@@ -444,12 +432,11 @@ class ActionBatchWireless:
         if profile_id is not None:
             payload["profileId"] = profile_id
 
-        action = {
+        return {
             "path": path,
             "operation": "create",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def set_network_wireless_ethernet_ports_profiles_default(
         self, *, network_id: str, profile_id: str
@@ -470,12 +457,11 @@ class ActionBatchWireless:
         if profile_id is not None:
             payload["profileId"] = profile_id
 
-        action = {
+        return {
             "path": path,
             "operation": "create",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def update_network_wireless_ethernet_ports_profile(
         self,
@@ -510,12 +496,11 @@ class ActionBatchWireless:
         if usb_ports is not None:
             payload["usbPorts"] = usb_ports
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def delete_network_wireless_ethernet_ports_profile(
         self, *, network_id: str, profile_id: str
@@ -533,11 +518,10 @@ class ActionBatchWireless:
         profile_id = urllib.parse.quote(str(profile_id), safe="")
         path = f"/networks/{network_id}/wireless/ethernet/ports/profiles/{profile_id}"
 
-        action = {
+        return {
             "path": path,
             "operation": "destroy",
         }
-        return action  # noqa: RET504
 
     def update_network_wireless_location_scanning(
         self, *, network_id: str, enabled: bool | None = None, api: dict | None = None
@@ -561,12 +545,11 @@ class ActionBatchWireless:
         if api is not None:
             payload["api"] = api
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def create_network_wireless_rf_profile(
         self,
@@ -645,12 +628,11 @@ class ActionBatchWireless:
         if flex_radios is not None:
             payload["flexRadios"] = flex_radios
 
-        action = {
+        return {
             "path": path,
             "operation": "create",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def update_network_wireless_rf_profile(
         self,
@@ -742,12 +724,11 @@ class ActionBatchWireless:
         if flex_radios is not None:
             payload["flexRadios"] = flex_radios
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def delete_network_wireless_rf_profile(
         self, *, network_id: str, rf_profile_id: str
@@ -765,11 +746,10 @@ class ActionBatchWireless:
         rf_profile_id = urllib.parse.quote(str(rf_profile_id), safe="")
         path = f"/networks/{network_id}/wireless/rfProfiles/{rf_profile_id}"
 
-        action = {
+        return {
             "path": path,
             "operation": "destroy",
         }
-        return action  # noqa: RET504
 
     def update_network_wireless_settings(
         self,
@@ -823,12 +803,11 @@ class ActionBatchWireless:
         if named_vlans is not None:
             payload["namedVlans"] = named_vlans
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def update_network_wireless_ssid(
         self,
@@ -1268,12 +1247,11 @@ class ActionBatchWireless:
         if radius_accounting_start_delay is not None:
             payload["radiusAccountingStartDelay"] = radius_accounting_start_delay
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def update_network_wireless_ssid_bonjour_forwarding(
         self,
@@ -1308,12 +1286,11 @@ class ActionBatchWireless:
         if exception is not None:
             payload["exception"] = exception
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def update_network_wireless_ssid_device_type_group_policies(
         self,
@@ -1344,12 +1321,11 @@ class ActionBatchWireless:
         if device_type_policies is not None:
             payload["deviceTypePolicies"] = device_type_policies
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def update_network_wireless_ssid_eap_override(
         self,
@@ -1388,12 +1364,11 @@ class ActionBatchWireless:
         if eapol_key is not None:
             payload["eapolKey"] = eapol_key
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def update_network_wireless_ssid_firewall_l3_firewall_rules(
         self,
@@ -1425,12 +1400,11 @@ class ActionBatchWireless:
         if allow_lan_access is not None:
             payload["allowLanAccess"] = allow_lan_access
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def update_network_wireless_ssid_firewall_l7_firewall_rules(
         self, *, network_id: str, number: str, rules: list | None = None
@@ -1455,12 +1429,11 @@ class ActionBatchWireless:
         if rules is not None:
             payload["rules"] = rules
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def update_network_wireless_ssid_hotspot20(
         self,
@@ -1534,12 +1507,11 @@ class ActionBatchWireless:
         if nai_realms is not None:
             payload["naiRealms"] = nai_realms
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def create_network_wireless_ssid_identity_psk(
         self,
@@ -1579,12 +1551,11 @@ class ActionBatchWireless:
         if expires_at is not None:
             payload["expiresAt"] = expires_at
 
-        action = {
+        return {
             "path": path,
             "operation": "create",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def update_network_wireless_ssid_identity_psk(
         self,
@@ -1626,12 +1597,11 @@ class ActionBatchWireless:
         if expires_at is not None:
             payload["expiresAt"] = expires_at
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def delete_network_wireless_ssid_identity_psk(
         self, *, network_id: str, number: str, identity_psk_id: str
@@ -1651,11 +1621,10 @@ class ActionBatchWireless:
         identity_psk_id = urllib.parse.quote(str(identity_psk_id), safe="")
         path = f"/networks/{network_id}/wireless/ssids/{number}/identityPsks/{identity_psk_id}"
 
-        action = {
+        return {
             "path": path,
             "operation": "destroy",
         }
-        return action  # noqa: RET504
 
     def update_network_wireless_ssid_open_roaming(
         self,
@@ -1686,12 +1655,11 @@ class ActionBatchWireless:
         if tenant_id is not None:
             payload["tenantId"] = tenant_id
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def update_network_wireless_ssid_schedules(
         self,
@@ -1730,12 +1698,11 @@ class ActionBatchWireless:
         if ranges_in_seconds is not None:
             payload["rangesInSeconds"] = ranges_in_seconds
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def update_network_wireless_ssid_splash_settings(
         self,
@@ -1868,12 +1835,11 @@ class ActionBatchWireless:
         if self_registration is not None:
             payload["selfRegistration"] = self_registration
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def update_network_wireless_ssid_traffic_shaping_rules(
         self,
@@ -1914,12 +1880,11 @@ class ActionBatchWireless:
         if rules is not None:
             payload["rules"] = rules
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def update_network_wireless_ssid_vpn(
         self,
@@ -1955,12 +1920,11 @@ class ActionBatchWireless:
         if failover is not None:
             payload["failover"] = failover
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def update_network_wireless_zigbee(
         self,
@@ -1996,12 +1960,11 @@ class ActionBatchWireless:
         if defaults is not None:
             payload["defaults"] = defaults
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def create_organization_wireless_location_scanning_receiver(
         self,
@@ -2041,12 +2004,11 @@ class ActionBatchWireless:
         if shared_secret is not None:
             payload["sharedSecret"] = shared_secret
 
-        action = {
+        return {
             "path": path,
             "operation": "create",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def update_organization_wireless_location_scanning_receiver(
         self,
@@ -2083,12 +2045,11 @@ class ActionBatchWireless:
         if radio is not None:
             payload["radio"] = radio
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def delete_organization_wireless_location_scanning_receiver(
         self, *, organization_id: str, receiver_id: str
@@ -2108,11 +2069,10 @@ class ActionBatchWireless:
             f"/organizations/{organization_id}/wireless/location/scanning/receivers/{receiver_id}"
         )
 
-        action = {
+        return {
             "path": path,
             "operation": "destroy",
         }
-        return action  # noqa: RET504
 
     def update_organization_wireless_mqtt_settings(
         self,
@@ -2148,12 +2108,11 @@ class ActionBatchWireless:
         if wifi is not None:
             payload["wifi"] = wifi
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def recalculate_organization_wireless_radio_auto_rf_channels(
         self, *, organization_id: str, network_ids: list
@@ -2174,12 +2133,11 @@ class ActionBatchWireless:
         if network_ids is not None:
             payload["networkIds"] = network_ids
 
-        action = {
+        return {
             "path": path,
             "operation": "create",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def create_organization_wireless_ssids_firewall_isolation_allowlist_entry(
         self,
@@ -2217,12 +2175,11 @@ class ActionBatchWireless:
         if network is not None:
             payload["network"] = network
 
-        action = {
+        return {
             "path": path,
             "operation": "create",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def update_organization_wireless_ssids_firewall_isolation_allowlist_entry(
         self,
@@ -2253,12 +2210,11 @@ class ActionBatchWireless:
         if client is not None:
             payload["client"] = client
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def delete_organization_wireless_ssids_firewall_isolation_allowlist_entry(
         self, *, organization_id: str, entry_id: str
@@ -2276,11 +2232,10 @@ class ActionBatchWireless:
         entry_id = urllib.parse.quote(str(entry_id), safe="")
         path = f"/organizations/{organization_id}/wireless/ssids/firewall/isolation/allowlist/entries/{entry_id}"
 
-        action = {
+        return {
             "path": path,
             "operation": "destroy",
         }
-        return action  # noqa: RET504
 
     def update_organization_wireless_zigbee_device(
         self, *, organization_id: str, id_: str, enrolled: bool, channel: str | None = None
@@ -2306,12 +2261,11 @@ class ActionBatchWireless:
         if channel is not None:
             payload["channel"] = channel
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def update_organization_wireless_zigbee_door_lock(
         self, *, organization_id: str, door_lock_id: str, name: str | None = None
@@ -2334,9 +2288,8 @@ class ActionBatchWireless:
         if name is not None:
             payload["name"] = name
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504

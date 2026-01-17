@@ -42,12 +42,11 @@ class ActionBatchSensor:
         if operation is not None:
             payload["operation"] = operation
 
-        action = {
+        return {
             "path": path,
             "operation": "create",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def update_device_sensor_relationships(
         self, *, serial: str, livestream: dict | None = None
@@ -70,12 +69,11 @@ class ActionBatchSensor:
         if livestream is not None:
             payload["livestream"] = livestream
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def create_network_sensor_alerts_profile(
         self,
@@ -123,12 +121,11 @@ class ActionBatchSensor:
         if message is not None:
             payload["message"] = message
 
-        action = {
+        return {
             "path": path,
             "operation": "create",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def update_network_sensor_alerts_profile(
         self,
@@ -179,12 +176,11 @@ class ActionBatchSensor:
         if message is not None:
             payload["message"] = message
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def delete_network_sensor_alerts_profile(self, *, network_id: str, id_: str) -> dict[str, Any]:
         """Deletes a sensor alert profile from a network.
@@ -200,11 +196,10 @@ class ActionBatchSensor:
         id_ = urllib.parse.quote(str(id_), safe="")
         path = f"/networks/{network_id}/sensor/alerts/profiles/{id_}"
 
-        action = {
+        return {
             "path": path,
             "operation": "destroy",
         }
-        return action  # noqa: RET504
 
     def update_network_sensor_mqtt_broker(
         self, *, network_id: str, mqtt_broker_id: str, enabled: bool
@@ -227,9 +222,8 @@ class ActionBatchSensor:
         if enabled is not None:
             payload["enabled"] = enabled
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504

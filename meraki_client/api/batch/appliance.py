@@ -44,12 +44,11 @@ class ActionBatchAppliance:
         if five_ghz_settings is not None:
             payload["fiveGhzSettings"] = five_ghz_settings
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def update_device_appliance_uplinks_settings(
         self, *, serial: str, interfaces: dict
@@ -70,12 +69,11 @@ class ActionBatchAppliance:
         if interfaces is not None:
             payload["interfaces"] = interfaces
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def create_device_appliance_vmx_authentication_token(self, *, serial: str) -> dict[str, Any]:
         """Generate a new vMX authentication token.
@@ -89,11 +87,10 @@ class ActionBatchAppliance:
         serial = urllib.parse.quote(str(serial), safe="")
         path = f"/devices/{serial}/appliance/vmx/authenticationToken"
 
-        action = {
+        return {
             "path": path,
             "operation": "create",
         }
-        return action  # noqa: RET504
 
     def update_network_appliance_connectivity_monitoring_destinations(
         self, *, network_id: str, destinations: list | None = None
@@ -114,12 +111,11 @@ class ActionBatchAppliance:
         if destinations is not None:
             payload["destinations"] = destinations
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def update_network_appliance_firewall_l7_firewall_rules(
         self, *, network_id: str, rules: list | None = None
@@ -140,12 +136,11 @@ class ActionBatchAppliance:
         if rules is not None:
             payload["rules"] = rules
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def update_network_appliance_firewall_multicast_forwarding(
         self, *, network_id: str, rules: list
@@ -166,12 +161,11 @@ class ActionBatchAppliance:
         if rules is not None:
             payload["rules"] = rules
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def update_network_appliance_port(
         self,
@@ -225,12 +219,11 @@ class ActionBatchAppliance:
         if access_policy is not None:
             payload["accessPolicy"] = access_policy
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def create_network_appliance_prefixes_delegated_static(
         self, *, network_id: str, prefix: str, origin: dict, description: str | None = None
@@ -257,12 +250,11 @@ class ActionBatchAppliance:
         if description is not None:
             payload["description"] = description
 
-        action = {
+        return {
             "path": path,
             "operation": "create",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def update_network_appliance_prefixes_delegated_static(
         self,
@@ -297,12 +289,11 @@ class ActionBatchAppliance:
         if description is not None:
             payload["description"] = description
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def delete_network_appliance_prefixes_delegated_static(
         self, *, network_id: str, static_delegated_prefix_id: str
@@ -320,11 +311,10 @@ class ActionBatchAppliance:
         static_delegated_prefix_id = urllib.parse.quote(str(static_delegated_prefix_id), safe="")
         path = f"/networks/{network_id}/appliance/prefixes/delegated/statics/{static_delegated_prefix_id}"
 
-        action = {
+        return {
             "path": path,
             "operation": "destroy",
         }
-        return action  # noqa: RET504
 
     def create_network_appliance_rf_profile(
         self,
@@ -360,12 +350,11 @@ class ActionBatchAppliance:
         if per_ssid_settings is not None:
             payload["perSsidSettings"] = per_ssid_settings
 
-        action = {
+        return {
             "path": path,
             "operation": "create",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def update_network_appliance_rf_profile(
         self,
@@ -404,12 +393,11 @@ class ActionBatchAppliance:
         if per_ssid_settings is not None:
             payload["perSsidSettings"] = per_ssid_settings
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def delete_network_appliance_rf_profile(
         self, *, network_id: str, rf_profile_id: str
@@ -427,11 +415,10 @@ class ActionBatchAppliance:
         rf_profile_id = urllib.parse.quote(str(rf_profile_id), safe="")
         path = f"/networks/{network_id}/appliance/rfProfiles/{rf_profile_id}"
 
-        action = {
+        return {
             "path": path,
             "operation": "destroy",
         }
-        return action  # noqa: RET504
 
     def update_network_appliance_sdwan_internet_policies(
         self, *, network_id: str, wan_traffic_uplink_preferences: list | None = None
@@ -453,12 +440,11 @@ class ActionBatchAppliance:
         if wan_traffic_uplink_preferences is not None:
             payload["wanTrafficUplinkPreferences"] = wan_traffic_uplink_preferences
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def update_network_appliance_settings(
         self,
@@ -501,12 +487,11 @@ class ActionBatchAppliance:
         if dynamic_dns is not None:
             payload["dynamicDns"] = dynamic_dns
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def update_network_appliance_single_lan(
         self,
@@ -545,12 +530,11 @@ class ActionBatchAppliance:
         if mandatory_dhcp is not None:
             payload["mandatoryDhcp"] = mandatory_dhcp
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def update_network_appliance_ssid(
         self,
@@ -643,12 +627,11 @@ class ActionBatchAppliance:
         if dot11w is not None:
             payload["dot11w"] = dot11w
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def create_network_appliance_traffic_shaping_custom_performance_class(
         self,
@@ -684,12 +667,11 @@ class ActionBatchAppliance:
         if max_loss_percentage is not None:
             payload["maxLossPercentage"] = max_loss_percentage
 
-        action = {
+        return {
             "path": path,
             "operation": "create",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def update_network_appliance_traffic_shaping_custom_performance_class(
         self,
@@ -728,12 +710,11 @@ class ActionBatchAppliance:
         if max_loss_percentage is not None:
             payload["maxLossPercentage"] = max_loss_percentage
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def delete_network_appliance_traffic_shaping_custom_performance_class(
         self, *, network_id: str, custom_performance_class_id: str
@@ -751,11 +732,10 @@ class ActionBatchAppliance:
         custom_performance_class_id = urllib.parse.quote(str(custom_performance_class_id), safe="")
         path = f"/networks/{network_id}/appliance/trafficShaping/customPerformanceClasses/{custom_performance_class_id}"
 
-        action = {
+        return {
             "path": path,
             "operation": "destroy",
         }
-        return action  # noqa: RET504
 
     def update_network_appliance_traffic_shaping_rules(
         self,
@@ -788,12 +768,11 @@ class ActionBatchAppliance:
         if rules is not None:
             payload["rules"] = rules
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def update_network_appliance_traffic_shaping_uplink_bandwidth(
         self, *, network_id: str, bandwidth_limits: dict | None = None
@@ -815,12 +794,11 @@ class ActionBatchAppliance:
         if bandwidth_limits is not None:
             payload["bandwidthLimits"] = bandwidth_limits
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def update_network_appliance_traffic_shaping_uplink_selection(
         self,
@@ -864,12 +842,11 @@ class ActionBatchAppliance:
         if vpn_traffic_uplink_preferences is not None:
             payload["vpnTrafficUplinkPreferences"] = vpn_traffic_uplink_preferences
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def update_network_appliance_traffic_shaping_vpn_exclusions(
         self, *, network_id: str, custom: list | None = None, major_applications: list | None = None
@@ -894,12 +871,11 @@ class ActionBatchAppliance:
         if major_applications is not None:
             payload["majorApplications"] = major_applications
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def create_network_appliance_vlan(
         self,
@@ -1021,12 +997,11 @@ class ActionBatchAppliance:
         if dhcp_options is not None:
             payload["dhcpOptions"] = dhcp_options
 
-        action = {
+        return {
             "path": path,
             "operation": "create",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def update_network_appliance_vlans_settings(
         self, *, network_id: str, vlans_enabled: bool | None = None
@@ -1048,12 +1023,11 @@ class ActionBatchAppliance:
         if vlans_enabled is not None:
             payload["vlansEnabled"] = vlans_enabled
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def update_network_appliance_vlan(
         self,
@@ -1196,12 +1170,11 @@ class ActionBatchAppliance:
         if mandatory_dhcp is not None:
             payload["mandatoryDhcp"] = mandatory_dhcp
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def delete_network_appliance_vlan(self, *, network_id: str, vlan_id: str) -> dict[str, Any]:
         """Delete a VLAN from a network.
@@ -1217,11 +1190,10 @@ class ActionBatchAppliance:
         vlan_id = urllib.parse.quote(str(vlan_id), safe="")
         path = f"/networks/{network_id}/appliance/vlans/{vlan_id}"
 
-        action = {
+        return {
             "path": path,
             "operation": "destroy",
         }
-        return action  # noqa: RET504
 
     def update_network_appliance_vpn_bgp(
         self,
@@ -1267,12 +1239,11 @@ class ActionBatchAppliance:
         if neighbors is not None:
             payload["neighbors"] = neighbors
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def update_network_appliance_vpn_site_to_site_vpn(
         self,
@@ -1313,12 +1284,11 @@ class ActionBatchAppliance:
         if subnet is not None:
             payload["subnet"] = subnet
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def update_network_appliance_warm_spare(
         self,
@@ -1358,12 +1328,11 @@ class ActionBatchAppliance:
         if virtual_ip2 is not None:
             payload["virtualIp2"] = virtual_ip2
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def swap_network_appliance_warm_spare(self, *, network_id: str) -> dict[str, Any]:
         """Swap MX primary and warm spare appliances.
@@ -1377,11 +1346,10 @@ class ActionBatchAppliance:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/appliance/warmSpare/swap"
 
-        action = {
+        return {
             "path": path,
             "operation": "create",
         }
-        return action  # noqa: RET504
 
     def create_organization_appliance_dns_local_profile(
         self, *, organization_id: str, name: str
@@ -1402,12 +1370,11 @@ class ActionBatchAppliance:
         if name is not None:
             payload["name"] = name
 
-        action = {
+        return {
             "path": path,
             "operation": "create",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def bulk_organization_appliance_dns_local_profiles_assignments_create(
         self, *, organization_id: str, items: list
@@ -1430,12 +1397,11 @@ class ActionBatchAppliance:
         if items is not None:
             payload["items"] = items
 
-        action = {
+        return {
             "path": path,
             "operation": "create",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def create_organization_appliance_dns_local_profiles_assignments_bulk_delete(
         self, *, organization_id: str, items: list
@@ -1458,12 +1424,11 @@ class ActionBatchAppliance:
         if items is not None:
             payload["items"] = items
 
-        action = {
+        return {
             "path": path,
             "operation": "create",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def update_organization_appliance_dns_local_profile(
         self, *, organization_id: str, profile_id: str, name: str
@@ -1486,12 +1451,11 @@ class ActionBatchAppliance:
         if name is not None:
             payload["name"] = name
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def delete_organization_appliance_dns_local_profile(
         self, *, organization_id: str, profile_id: str
@@ -1509,11 +1473,10 @@ class ActionBatchAppliance:
         profile_id = urllib.parse.quote(str(profile_id), safe="")
         path = f"/organizations/{organization_id}/appliance/dns/local/profiles/{profile_id}"
 
-        action = {
+        return {
             "path": path,
             "operation": "destroy",
         }
-        return action  # noqa: RET504
 
     def create_organization_appliance_dns_local_record(
         self, *, organization_id: str, hostname: str, address: str, profile: dict
@@ -1540,12 +1503,11 @@ class ActionBatchAppliance:
         if profile is not None:
             payload["profile"] = profile
 
-        action = {
+        return {
             "path": path,
             "operation": "create",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def update_organization_appliance_dns_local_record(
         self,
@@ -1580,12 +1542,11 @@ class ActionBatchAppliance:
         if profile is not None:
             payload["profile"] = profile
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def delete_organization_appliance_dns_local_record(
         self, *, organization_id: str, record_id: str
@@ -1603,11 +1564,10 @@ class ActionBatchAppliance:
         record_id = urllib.parse.quote(str(record_id), safe="")
         path = f"/organizations/{organization_id}/appliance/dns/local/records/{record_id}"
 
-        action = {
+        return {
             "path": path,
             "operation": "destroy",
         }
-        return action  # noqa: RET504
 
     def create_organization_appliance_dns_split_profile(
         self, *, organization_id: str, name: str, hostnames: list, nameservers: dict
@@ -1635,12 +1595,11 @@ class ActionBatchAppliance:
         if nameservers is not None:
             payload["nameservers"] = nameservers
 
-        action = {
+        return {
             "path": path,
             "operation": "create",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def create_organization_appliance_dns_split_profiles_assignments_bulk_create(
         self, *, organization_id: str, items: list
@@ -1663,12 +1622,11 @@ class ActionBatchAppliance:
         if items is not None:
             payload["items"] = items
 
-        action = {
+        return {
             "path": path,
             "operation": "create",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def create_organization_appliance_dns_split_profiles_assignments_bulk_delete(
         self, *, organization_id: str, items: list
@@ -1691,12 +1649,11 @@ class ActionBatchAppliance:
         if items is not None:
             payload["items"] = items
 
-        action = {
+        return {
             "path": path,
             "operation": "create",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def update_organization_appliance_dns_split_profile(
         self,
@@ -1732,12 +1689,11 @@ class ActionBatchAppliance:
         if nameservers is not None:
             payload["nameservers"] = nameservers
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def delete_organization_appliance_dns_split_profile(
         self, *, organization_id: str, profile_id: str
@@ -1755,11 +1711,10 @@ class ActionBatchAppliance:
         profile_id = urllib.parse.quote(str(profile_id), safe="")
         path = f"/organizations/{organization_id}/appliance/dns/split/profiles/{profile_id}"
 
-        action = {
+        return {
             "path": path,
             "operation": "destroy",
         }
-        return action  # noqa: RET504
 
     def update_organization_appliance_vpn_site_to_site_ipsec_peers_slas(
         self, *, organization_id: str, items: list | None = None
@@ -1780,12 +1735,11 @@ class ActionBatchAppliance:
         if items is not None:
             payload["items"] = items
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def update_organization_appliance_vpn_third_party_v_p_n_peers(
         self, *, organization_id: str, peers: list
@@ -1806,9 +1760,8 @@ class ActionBatchAppliance:
         if peers is not None:
             payload["peers"] = peers
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504

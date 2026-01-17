@@ -70,12 +70,11 @@ class ActionBatchDevices:
         if floor_plan_id is not None:
             payload["floorPlanId"] = floor_plan_id
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def create_device_live_tools_leds_blink(
         self, *, serial: str, duration: int, callback: dict | None = None
@@ -100,12 +99,11 @@ class ActionBatchDevices:
         if callback is not None:
             payload["callback"] = callback
 
-        action = {
+        return {
             "path": path,
             "operation": "create",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def create_device_live_tools_throughput_test(
         self, *, serial: str, callback: dict | None = None
@@ -127,12 +125,11 @@ class ActionBatchDevices:
         if callback is not None:
             payload["callback"] = callback
 
-        action = {
+        return {
             "path": path,
             "operation": "create",
             "body": payload,
         }
-        return action  # noqa: RET504
 
     def update_device_management_interface(
         self, *, serial: str, wan1: dict | None = None, wan2: dict | None = None
@@ -156,9 +153,8 @@ class ActionBatchDevices:
         if wan2 is not None:
             payload["wan2"] = wan2
 
-        action = {
+        return {
             "path": path,
             "operation": "update",
             "body": payload,
         }
-        return action  # noqa: RET504
