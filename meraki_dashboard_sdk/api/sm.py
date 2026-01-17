@@ -7,13 +7,13 @@ from collections.abc import Generator
 from typing import Any, Literal, TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from meraki_dashboard_sdk.rest_session import RestSession
+    from meraki_dashboard_sdk.session import Session
 
 
 class Sm:
     """Sm class."""
 
-    def __init__(self, session: RestSession) -> None:
+    def __init__(self, session: Session) -> None:
         self._session = session
 
     def create_network_sm_bypass_activation_lock_attempt(

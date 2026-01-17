@@ -20,17 +20,13 @@ from .api.spaces import Spaces
 from .api.switch import Switch
 from .api.wireless import Wireless
 from .api.wireless_controller import WirelessController
-from .config import (
-    BE_GEO_ID,
-    CERTIFICATE_PATH,
-    DEFAULT_BASE_URL,
+from .common import BaseURL
+from .const import (
     MAXIMUM_RETRIES,
-    MERAKI_PYTHON_SDK_CALLER,
-    REQUESTS_PROXY,
     SINGLE_REQUEST_TIMEOUT,
     WAIT_ON_RATE_LIMIT,
 )
-from .rest_session import RestSession
+from .session import Session
 
 if sys.version_info < (3, 11):  # noqa: UP036
     raise RuntimeError(
@@ -38,6 +34,8 @@ if sys.version_info < (3, 11):  # noqa: UP036
         f"You are using Python {sys.version_info.major}.{sys.version_info.minor}."
     )
 
+
+__all__ = ["BaseURL", "MerakiClient"]
 __version__ = "0.1.0"
 __api_version__ = "v1.66.0"
 
@@ -55,8 +53,6 @@ class MerakiClient:
         wait_on_rate_limit: Retry if 429 rate limit error encountered?
         maximum_retries: Retry up to this many times when encountering 429s or other server-side
           errors.
-        be_geo_id: Optional partner identifier for API usage tracking; can also be set as an
-          environment variable BE_GEO_ID.
         caller: Optional identifier for API usage tracking; can also be set as an environment
           variable MERAKI_PYTHON_SDK_CALLER.
 
@@ -66,14 +62,13 @@ class MerakiClient:
         self,
         *,
         api_key: str | None = None,
-        base_url: str = DEFAULT_BASE_URL,
+        base_url: BaseURL = BaseURL.DEFAULT,
         single_request_timeout: int = SINGLE_REQUEST_TIMEOUT,
-        certificate_path: str = CERTIFICATE_PATH,
-        requests_proxy: str = REQUESTS_PROXY,
         wait_on_rate_limit: bool = WAIT_ON_RATE_LIMIT,
         maximum_retries: int = MAXIMUM_RETRIES,
-        be_geo_id: str | None = BE_GEO_ID,
-        caller: str | None = MERAKI_PYTHON_SDK_CALLER,
+        certificate_path: str | None = None,
+        requests_proxy: str | None = None,
+        caller: str | None = None,
     ) -> None:
         # Check that the API key is defined
         api_key = api_key or os.environ.get("MERAKI_DASHBOARD_API_KEY")
@@ -82,22 +77,17 @@ class MerakiClient:
                 "API key needs to be defined. Give the API key as an argument "
                 "or set the MERAKI_DASHBOARD_API_KEY environment variable."
             )
-
-        # Pull the BE GEO ID from an environment variable if present
-        be_geo_id = be_geo_id or os.environ.get("BE_GEO_ID")
-        # Pull the caller from an environment variable if present
         caller = caller or os.environ.get("MERAKI_PYTHON_SDK_CALLER")
 
         # Creates the API session
-        self._session = RestSession(
+        self._session = Session(
             api_key=api_key,
             base_url=base_url,
             single_request_timeout=single_request_timeout,
             certificate_path=certificate_path,
-            requests_proxy=requests_proxy,
+            proxy=requests_proxy,
             wait_on_rate_limit=wait_on_rate_limit,
             maximum_retries=maximum_retries,
-            be_geo_id=be_geo_id,
             caller=caller,
             version=__api_version__,
         )

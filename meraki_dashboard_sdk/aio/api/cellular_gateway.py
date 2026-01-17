@@ -7,13 +7,13 @@ from collections.abc import Generator
 from typing import Any, Literal, TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from meraki_dashboard_sdk.aio.rest_session import AsyncRestSession
+    from meraki_dashboard_sdk.aio.session import AsyncSession
 
 
 class AsyncCellularGateway:
     """CellularGateway class."""
 
-    def __init__(self, session: AsyncRestSession) -> None:
+    def __init__(self, session: AsyncSession) -> None:
         self._session = session
 
     def get_device_cellular_gateway_lan(self, *, serial: str) -> dict[str, Any] | None:

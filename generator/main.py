@@ -424,13 +424,13 @@ def copy_static_files(version_number: str, api_version: str) -> None:
     static_dir = os.path.join(SCRIPT_DIR, "static")
     static_files = [
         "__init__.py",
-        "config.py",
+        "const.py",
         "exceptions.py",
         "common.py",
-        "rest_session.py",
+        "session.py",
         "api/__init__.py",
         "aio/__init__.py",
-        "aio/rest_session.py",
+        "aio/session.py",
         "aio/api/__init__.py",
         "api/batch/__init__.py",
     ]

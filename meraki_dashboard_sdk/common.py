@@ -1,79 +1,55 @@
 """Common functions for the SDK."""
 
 import re
-import sys
 import urllib.parse
+from enum import Enum
 
-import requests
+import httpx
+
+_USER_AGENT_REGEX = re.compile(
+    r"^[A-Za-z0-9]+(?:/[0-9A-Za-z]+(?:\.[0-9A-Za-z]+)*(-[a-z]+)?)? [A-Za-z-0-9]+$"
+)
+_USER_AGENT_DOC_URL = "https://developer.cisco.com/meraki/api-v1/user-agents-overview/"
 
 
-def validate_user_agent(be_geo_id: str | None = None, caller: str | None = None) -> str:
-    """Generate extended portion of the User Agent.
+class BaseURL(str, Enum):
+    """Base URL for the Meraki dashboard API."""
 
-    Validate that it follows the expected format
+    # Default base URL for the Meraki dashboard API.
+    DEFAULT = "https://api.meraki.com/api/v1"
+    # Canada base URL for the Meraki dashboard API.
+    CANADA = "https://api.meraki.ca/api/v1"
+    # China base URL for the Meraki dashboard API.
+    CHINA = "https://api.meraki.cn/api/v1"
+    # India base URL for the Meraki dashboard API.
+    INDIA = "https://api.meraki.in/api/v1"
+    # United States FedRAMP URL for the Meraki dashboard API.
+    US_FEDRAMP = "https://api.gov-meraki.com/api/v1"
+
+
+def format_user_agent_caller(caller: str | None = None) -> str:
+    """Generate the caller portion of the User-Agent header.
+
+    Args:
+        caller: The caller identifier following the user agent format.
+
+    Returns:
+        The formatted caller string for the User-Agent header.
+
+    Raises:
+        ValueError: If caller doesn't match the expected format.
+
     """
-    user_agent = {}
-
-    allowed_format_in_regex = (
-        r"^[A-Za-z0-9]+(?:/[0-9A-Za-z]+(?:\.[0-9A-Za-z]+)*(-[a-z]+)?)? [A-Za-z-0-9]+$"
-    )
-
-    if caller and re.match(allowed_format_in_regex, caller):
-        user_agent["caller"] = caller
-    elif be_geo_id and re.match(allowed_format_in_regex, be_geo_id):
-        user_agent["caller"] = be_geo_id
-    elif caller:
-        message = (
-            "Please follow the user agent format prescribed in User Agents guide, available at:"
-        )
-        doc_link = "https://developer.cisco.com/meraki/api-v1/user-agents-overview/"
-        raise SessionInputError("MERAKI_PTYHON_SDK_CALLER", caller, message, doc_link)
-    elif be_geo_id:
-        message = (
-            "Use of be_geo_id is deprecated. "
-            "Please use the argument MERAKI_PTYHON_SDK_CALLER instead."
-        )
-        doc_link = "https://developer.cisco.com/meraki/api-v1/user-agents-overview/"
-        raise SessionInputError("BE_GEO_ID", caller, message, doc_link)
-    else:
-        user_agent["caller"] = "unidentified"
-
-    return f"Caller/({user_agent['caller']})"
-
-
-def sanitize_base_url(base_url: str) -> str:
-    """Sanitize base URL by rejecting v0 and stripping trailing slashes."""
-    if "v0" in base_url:
-        sys.exit(
-            f"This library does not support dashboard API v0 ({base_url} was configured as the base"
-            f" URL).  API v0 has been end of life since 2020 August 5."
-        )
-    elif base_url[-1] == "/":
-        base_url = base_url[:-1]
-    return base_url
-
-
-def iterator_for_get_pages_bool(self):  # noqa: ANN001, ANN201
-    """Return the value of the use_iterator_for_get_pages attribute."""
-    return self._use_iterator_for_get_pages
-
-
-def validate_base_url(base_url: str, path: str) -> str:
-    """Validate base URL by checking if it is in the allowed domains."""
-    allowed_domains = [
-        "meraki.com",
-        "meraki.ca",
-        "meraki.cn",
-        "meraki.in",
-        "gov-meraki.com",
-    ]
-    parsed_path = urllib.parse.urlparse(path)
-    return (
-        path if any(domain in parsed_path.netloc for domain in allowed_domains) else base_url + path
+    if caller is None:
+        return "Caller/(unidentified)"
+    if _USER_AGENT_REGEX.match(caller):
+        return f"Caller/({caller})"
+    raise ValueError(
+        f"Invalid MERAKI_PYTHON_SDK_CALLER format: {caller!r}. See: {_USER_AGENT_DOC_URL}"
     )
 
 
-def handle_3xx(base_url: str, response: requests.Response) -> tuple[str, str]:
+def handle_3xx(response: httpx.Response) -> tuple[str, str]:
     """Handle 3xx redirects.
 
     Args:
@@ -88,9 +64,16 @@ def handle_3xx(base_url: str, response: requests.Response) -> tuple[str, str]:
 
     """
     abs_url = response.headers["Location"]
-    for substring in ("meraki.com/api/v", "meraki.cn/api/v"):
-        idx = abs_url.find(substring)
+
+    for base in BaseURL:
+        parsed = urllib.parse.urlparse(base.value)
+        # Pattern: domain (without api. prefix) + /api/v
+        domain = parsed.netloc.removeprefix("api.")
+        pattern = f"{domain}/api/v"
+
+        idx = abs_url.find(pattern)
         if idx != -1:
-            base_url = abs_url[: idx + len(substring) + 1]
-            return abs_url, base_url
-    raise ValueError(f"Unexpected redirect URL format: {abs_url}")
+            new_base_url = abs_url[: idx + len(pattern) + 1]
+            return abs_url, new_base_url
+
+    raise ValueError(f"Unexpected redirect URL: {abs_url!r}")

@@ -1,10 +1,9 @@
 """Exceptions for the SDK."""
 
-# ruff: noqa: ANN401
 from typing import Any
 
+import httpx
 import pydantic
-import requests
 
 
 class _ErrorResponse(pydantic.BaseModel):
@@ -35,7 +34,7 @@ class MerakiHTTPError(MerakiException):
         self,
         *args: Any,
         cause: dict[str, Any] | Exception | None = None,
-        response: requests.Response | None = None,
+        response: httpx.Response | None = None,
     ) -> None:
         """Initialize MerakiHTTPError with cause.
 
@@ -46,14 +45,14 @@ class MerakiHTTPError(MerakiException):
 
         """
         self.cause: dict[str, Any] | Exception | None = cause
-        self.response: requests.Response | None = response
+        self.response: httpx.Response | None = response
         self.status_code: int | None = None
         self.reason: str | None = None
         self.errors: list[str] | None = None
 
         if response:
             self.status_code = response.status_code
-            self.reason = response.reason
+            self.reason = response.reason_phrase
             try:
                 self.errors = _ErrorResponse.model_validate_json(response.text).errors
             except pydantic.ValidationError:
@@ -100,20 +99,20 @@ class MerakiConnectionError(MerakiException):
     """Connection failed to the API."""
 
 
-def raise_http_error(e: requests.exceptions.RequestException) -> MerakiHTTPError:
+def raise_http_error(response: httpx.Response) -> MerakiHTTPError:
     """Raise the appropriate HTTP error based on the response."""
-    match e.response.status_code:
+    match response.status_code:
         case 400:
-            return InvalidRequestError(cause=e, response=e.response)
+            return InvalidRequestError(response=response)
         case 401:
-            return UnauthorizedError(cause=e, response=e.response)
+            return UnauthorizedError(response=response)
         case 403:
-            return PermissionDeniedError(cause=e, response=e.response)
+            return PermissionDeniedError(response=response)
         case 404:
-            return ResourceNotFoundError(cause=e, response=e.response)
+            return ResourceNotFoundError(response=response)
         case 429:
-            return RateLimitError(cause=e, response=e.response)
+            return RateLimitError(response=response)
         case status if 500 <= status < 600:
-            return ServerError(cause=e, response=e.response)
+            return ServerError(response=response)
         case _:
-            return MerakiHTTPError(cause=e, response=e.response)
+            return MerakiHTTPError(response=response)

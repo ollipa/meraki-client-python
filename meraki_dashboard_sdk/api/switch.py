@@ -7,13 +7,13 @@ from collections.abc import Generator
 from typing import Any, Literal, TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from meraki_dashboard_sdk.rest_session import RestSession
+    from meraki_dashboard_sdk.session import Session
 
 
 class Switch:
     """Switch class."""
 
-    def __init__(self, session: RestSession) -> None:
+    def __init__(self, session: Session) -> None:
         self._session = session
 
     def get_device_switch_ports(self, *, serial: str) -> dict[str, Any] | None:

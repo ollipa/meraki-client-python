@@ -1,6 +1,5 @@
 """Session for the SDK."""
 
-import io
 import logging
 import random
 import time
@@ -9,15 +8,12 @@ from collections.abc import Callable, Iterator
 from datetime import UTC, datetime
 from typing import Any, Generic, Literal, Self, TypeVar
 
-import requests
-from requests.compat import basestring, urlencode
-from requests.utils import to_key_val_list
+import httpx
 
 from .common import (
+    BaseURL,
+    format_user_agent_caller,
     handle_3xx,
-    sanitize_base_url,
-    validate_base_url,
-    validate_user_agent,
 )
 from .exceptions import MerakiConnectionError, MerakiHTTPError, raise_http_error
 
@@ -56,132 +52,90 @@ class PaginatedResponse(Iterator[T], Generic[T]):
         return list(self)
 
 
-def encode_params(_, data: dict | list | str | bytes | io.BytesIO) -> str:  # noqa: ANN001
-    """Encode parameters in a piece of data.
+def encode_params(
+    data: dict[str, Any] | None,
+) -> list[tuple[str, str | int | float | None]] | None:
+    """Encode parameters for Meraki API.
 
-    Will successfully encode parameters when passed as a dict or a list of
-    2-tuples. Order is retained if data is a list of 2-tuples but arbitrary
-    if parameters are supplied as a dict.
+    Handles the "array of objects" query parameter format used by Meraki:
+    {"param": [{"key_1":"value_1"}, {"key_2":"value_2"}]} => ?param[]key_1=value_1&param[]key_2=value_2
 
-    MERAKI OVERRIDE:
-    By default, when parameters are supplied as a dict, only the object keys
-    are encoded.
-
-    Ex. {"param": [{"key_1":"value_1"}, {"key_2":"value_2"}]} => ?param[]=key_1&param[]=key_2
-
-    Now when parameters are supplied as a dict, dict keys will be appended to
-    parameter names. This adds support for the "array of objects" query parameter type.
-
-    Ex. {"param": [{"key_1":"value_1"}, {"key_2":"value_2"}]} => ?param[]key_1=value_1&param[]key_2=value_2
+    For simple values, produces standard encoding:
+    {"param": ["a", "b"]} => ?param=a&param=b
     """
-    if isinstance(data, (str, bytes)) or hasattr(data, "read"):
-        return data
-    if hasattr(data, "__iter__"):
-        result = []
-        # Get each query parameter key value pair
-        for k, vs in to_key_val_list(data):
-            """
-            Turn value into list/iterable if it is not already.
-            Ex. {"param": "value"} => {"param": ["value"]}
-            """
-            if isinstance(vs, basestring) or not hasattr(vs, "__iter__"):
-                vs = [vs]  # noqa: PLW2901
-            for v in vs:
-                # List params
-                if v is not None and not isinstance(v, dict):
-                    """
-                    Add a query parameter key-value pair for each value to the list of results.
-                    Ex. {"param": ["value_1", "value_2"]} => [(param, value_1), (param, value_2)]
-                    """
-                    result.append(
-                        (
-                            k.encode("utf-8") if isinstance(k, str) else k,
-                            v.encode("utf-8") if isinstance(v, str) else v,
-                        )
-                    )
-                # Dict params
+    if data is None:
+        return None
+
+    result: list[tuple[str, str | int | float | None]] = []
+    for key, value in data.items():
+        if value is None:
+            continue
+        if isinstance(value, (list, tuple)):
+            for item in value:
+                if isinstance(item, dict):
+                    for k, v in item.items():
+                        result.append((f"{key}{k}", v if isinstance(v, (int, float)) else str(v)))
+                elif isinstance(item, (int, float)):
+                    result.append((key, item))
                 else:
-                    """
-                    Append each dict key to the parameter name.
-                    Add a query parameter key-value pair for each value to the list of results.
-                    {"param": [{"key_1": "value_1"}, {"key_2": "value_2"}]} =>
-                      [(param + key_1, value1), (param + key_2, value2)]
-                    """
-                    for k_1, v_1 in v.items():
-                        result.append(
-                            (
-                                ((k + k_1).encode("utf-8") if isinstance(k, str) else k_1),
-                                ((v + v_1).encode("utf-8") if isinstance(v, str) else v_1),
-                            )
-                        )
-        # Return URL encoded string
-        return urlencode(result, doseq=True)
-    return data
+                    result.append((key, str(item)))
+        elif isinstance(value, (int, float)):
+            result.append((key, value))
+        else:
+            result.append((key, str(value)))
+    return result
 
 
-# Monkey patch the _encode_params from the requests library with the encode_params function above
-requests.models.RequestEncodingMixin._encode_params = encode_params  # noqa: SLF001
-
-
-def user_agent_extended(be_geo_id: str, caller: str) -> str:
-    """Generate the extended portion of the User-Agent."""
-    user_agent = {}
-
-    if caller:
-        user_agent["caller"] = caller
-    elif be_geo_id:
-        user_agent["caller"] = be_geo_id
-    else:
-        user_agent["caller"] = "unidentified"
-
-    return f"Caller/({user_agent['caller']})"
-
-
-class RestSession:
-    """Main module interface."""
+class Session:
+    """HTTP session for the SDK."""
 
     def __init__(
         self,
         *,
         api_key: str,
-        base_url: str,
+        base_url: BaseURL,
         single_request_timeout: int,
-        certificate_path: str,
-        requests_proxy: str,
+        certificate_path: str | None,
+        proxy: str | None,
         wait_on_rate_limit: bool,
         maximum_retries: int,
-        be_geo_id: str | None,
         caller: str | None,
         version: str,
     ) -> None:
-        # Initialize attributes and properties
         self._version = version
-        self._api_key = str(api_key)
         self._base_url = str(base_url)
         self._single_request_timeout = single_request_timeout
         self._certificate_path = certificate_path
-        self._requests_proxy = requests_proxy
+        self._proxy = proxy
         self._wait_on_rate_limit = wait_on_rate_limit
         self._maximum_retries = maximum_retries
-        self._be_geo_id = be_geo_id
-        self._caller = caller
-
-        # Initialize a new `requests` session
-        self._req_session: requests.Session = requests.session()
-        self._req_session.encoding = "utf-8"
 
         # Check base URL
-        self._base_url = sanitize_base_url(self._base_url)
+        self._base_url: str = base_url.value
 
-        # Update the headers for the session
-        self._req_session.headers = {
-            "Authorization": "Bearer " + self._api_key,
-            "Content-Type": "application/json",
-            "User-Agent": f"python-meraki/{self._version} "
-            + validate_user_agent(self._be_geo_id, self._caller),
-        }
+        # Initialize httpx client
+        self._client = httpx.Client(
+            headers={
+                "Authorization": f"Bearer {api_key}",
+                "Content-Type": "application/json",
+                "User-Agent": f"meraki-client-python/{self._version} {format_user_agent_caller(caller)}",
+            },
+            timeout=httpx.Timeout(single_request_timeout),
+            verify=certificate_path or True,
+            proxy=proxy,
+        )
 
-    def _request(  # noqa: PLR0912, PLR0915
+    def close(self) -> None:
+        """Close the HTTP client."""
+        self._client.close()
+
+    def __enter__(self) -> "Session":
+        return self
+
+    def __exit__(self, *args: object) -> None:
+        self.close()
+
+    def _request(
         self,
         *,
         operation: str,
@@ -190,26 +144,28 @@ class RestSession:
         params: dict[str, Any] | None = None,
         json: dict[str, Any] | None = None,
         current_page: int | None = None,
-    ) -> requests.Response:
+    ) -> httpx.Response:
         """Make an HTTP request to the API endpoint."""
-        # Ensure proper base URL
-        abs_url = validate_base_url(self._base_url, path)
+        url = f"{self._base_url}{path}"
 
-        # Set the maximum number of retries
         retries = self._maximum_retries
         redirects = 0
 
-        response: requests.Response
+        response: httpx.Response
         while retries >= 0:
             if current_page is not None:
-                log.debug(f"{operation} - {method} {abs_url} (page={current_page})")
+                log.debug(f"{operation} - {method} {url} (page={current_page})")
             else:
-                log.debug(f"{operation} - {method} {abs_url}")
+                log.debug(f"{operation} - {method} {url}")
             try:
-                response = self._req_session.request(
-                    method, abs_url, allow_redirects=False, params=params, json=json
+                response = self._client.request(
+                    method,
+                    url,
+                    params=encode_params(params),
+                    json=json,
+                    follow_redirects=False,
                 )
-            except requests.exceptions.RequestException as e:
+            except httpx.RequestError as e:
                 if retries == 0:
                     raise MerakiConnectionError(cause=e) from e
                 retries -= 1
@@ -217,10 +173,10 @@ class RestSession:
                 time.sleep(1)
                 continue
 
-            reason = response.reason or "ERROR"
+            reason = response.reason_phrase or "ERROR"
             status = response.status_code
 
-            # Handle 3xx redirects automatically
+            # Handle 3xx redirects manually
             if 300 <= status < 400:
                 if redirects >= 3:
                     raise MerakiHTTPError(
@@ -228,7 +184,7 @@ class RestSession:
                         cause=response,
                         response=response,
                     )
-                abs_url, base_url = handle_3xx(self._base_url, response)
+                url, base_url = handle_3xx(response)
                 self._base_url = base_url
                 redirects += 1
                 continue
@@ -243,21 +199,23 @@ class RestSession:
                 log.warning(f"{operation} - {status} {reason}, retrying in {wait} seconds")
                 time.sleep(wait)
                 retries -= 1
-            else:
-                raise raise_http_error(response)
+                continue
 
             # Handle 4xx errors
             if 400 <= status < 500:
                 raise raise_http_error(response)
 
             # Handle 5xx errors
-            if status >= 500:
+            if 500 <= status < 600:
                 if retries == 0:
                     raise raise_http_error(response)
                 retries -= 1
                 log.warning(f"{operation} - {status} {reason}, retrying in 1 second")
                 time.sleep(1)
                 continue
+
+            raise raise_http_error(response)
+
         raise RuntimeError(
             f"Maximum number of retries reached: {retries}. This should never happen."
         )
@@ -269,12 +227,9 @@ class RestSession:
         response = self._request(
             operation=f"{scope}.{operation_id}", method="GET", path=path, params=params
         )
-        ret = None
-        if response:
-            if response.content.strip():
-                ret = response.json()
-            response.close()
-        return ret
+        if response.content.strip():
+            return response.json()
+        return None
 
     def get_pages(
         self,
@@ -355,7 +310,6 @@ class RestSession:
                 )
                 results = response.json()
                 links = response.links
-                response.close()
 
                 yield from extract_items(results)
 
@@ -364,7 +318,7 @@ class RestSession:
 
                 link_key = direction
                 if link_key in links:
-                    link_url = links[link_key]["url"]
+                    link_url = str(links[link_key]["url"])
                     if operation_id == "getNetworkEvents" and should_stop_event_pagination(
                         link_url
                     ):
@@ -381,12 +335,9 @@ class RestSession:
         response = self._request(
             operation=f"{scope}.{operation_id}", method="POST", path=path, json=json
         )
-        ret = None
-        if response:
-            if response.content.strip():
-                ret = response.json()
-            response.close()
-        return ret
+        if response.content.strip():
+            return response.json()
+        return None
 
     def put(
         self, *, scope: str, operation_id: str, path: str, json: dict[str, Any] | None = None
@@ -395,19 +346,12 @@ class RestSession:
         response = self._request(
             operation=f"{scope}.{operation_id}", method="PUT", path=path, json=json
         )
-        ret = None
-        if response:
-            if response.content.strip():
-                ret = response.json()
-            response.close()
-        return ret
+        if response.content.strip():
+            return response.json()
+        return None
 
     def delete(
         self, *, scope: str, operation_id: str, path: str, json: dict[str, Any] | None = None
     ) -> None:
         """Make a DELETE request to the API endpoint."""
-        response = self._request(
-            operation=f"{scope}.{operation_id}", method="DELETE", path=path, json=json
-        )
-        if response:
-            response.close()
+        self._request(operation=f"{scope}.{operation_id}", method="DELETE", path=path, json=json)

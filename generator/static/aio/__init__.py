@@ -3,6 +3,13 @@
 import os
 from types import TracebackType
 
+from meraki_dashboard_sdk.const import (
+    ASYNC_MAXIMUM_CONCURRENT_REQUESTS,
+    MAXIMUM_RETRIES,
+    SINGLE_REQUEST_TIMEOUT,
+    WAIT_ON_RATE_LIMIT,
+)
+
 from meraki_dashboard_sdk.aio.api.administered import AsyncAdministered
 from meraki_dashboard_sdk.aio.api.appliance import AsyncAppliance
 from meraki_dashboard_sdk.aio.api.camera import AsyncCamera
@@ -21,24 +28,6 @@ from meraki_dashboard_sdk.aio.api.wireless import AsyncWireless
 from meraki_dashboard_sdk.aio.api.wireless_controller import AsyncWirelessController
 from meraki_dashboard_sdk.aio.rest_session import AsyncRestSession
 from meraki_dashboard_sdk.api.batch import Batch
-from meraki_dashboard_sdk.config import (
-    ACTION_BATCH_RETRY_WAIT_TIME,
-    AIO_MAXIMUM_CONCURRENT_REQUESTS,
-    BE_GEO_ID,
-    CERTIFICATE_PATH,
-    DEFAULT_BASE_URL,
-    MAXIMUM_RETRIES,
-    MERAKI_PYTHON_SDK_CALLER,
-    NETWORK_DELETE_RETRY_WAIT_TIME,
-    NGINX_429_RETRY_WAIT_TIME,
-    REQUESTS_PROXY,
-    RETRY_4XX_ERROR,
-    RETRY_4XX_ERROR_WAIT_TIME,
-    SIMULATE_API_CALLS,
-    SINGLE_REQUEST_TIMEOUT,
-    USE_ITERATOR_FOR_GET_PAGES,
-    WAIT_ON_RATE_LIMIT,
-)
 
 
 class MerakiClient:
