@@ -1,26 +1,59 @@
-"""Session for the SDK."""
+"""{{ "Asynchronous" if is_async else "Synchronous" }} HTTP session for the SDK."""
+{% set async_ = "async " if is_async else "" %}
+{% set await_ = "await " if is_async else "" %}
+{% set sleep = "await asyncio.sleep" if is_async else "time.sleep" %}
+{% set PaginatedResponse = "AsyncPaginatedResponse" if is_async else "PaginatedResponse" %}
 
+import asyncio
 import logging
 import random
 import time
 import urllib.parse
-from collections.abc import Callable, Iterator
+from collections.abc import AsyncIterator, Callable, Iterator
 from datetime import UTC, datetime
 from typing import Any, Generic, Literal, Self, TypeVar
 
 import httpx
 
-from .common import (
-    BaseURL,
-    format_user_agent_caller,
-    handle_3xx,
-)
-from .exceptions import MerakiConnectionError, MerakiHTTPError, raise_http_error
+from meraki_dashboard_sdk.common import BaseURL, format_user_agent_caller, handle_3xx
+from meraki_dashboard_sdk.exceptions import MerakiConnectionError, MerakiHTTPError, raise_http_error
 
 log = logging.getLogger(__name__)
 
 T = TypeVar("T")
 
+
+{% if is_async %}
+class AsyncPaginatedResponse(AsyncIterator[T], Generic[T]):
+    """Lazy asynchronous paginated response that can be iterated or collected."""
+
+    def __init__(self, page_fetcher: Callable[[], AsyncIterator[T]]) -> None:
+        self._page_fetcher = page_fetcher
+        self._iterator: AsyncIterator[T] | None = None
+        self._exhausted = False
+
+    def _ensure_iterator(self) -> AsyncIterator[T]:
+        if self._iterator is None:
+            self._iterator = self._page_fetcher()
+        return self._iterator
+
+    def __aiter__(self) -> Self:
+        return self
+
+    async def __anext__(self) -> T:
+        if self._exhausted:
+            raise StopAsyncIteration
+        try:
+            return await self._ensure_iterator().__anext__()
+        except StopAsyncIteration:
+            self._exhausted = True
+            raise
+
+    async def collect(self) -> list[T]:
+        """Collect all remaining items into a list."""
+        return [item async for item in self]
+
+{% else %}
 
 class PaginatedResponse(Iterator[T], Generic[T]):
     """Lazy paginated response that can be iterated or collected."""
@@ -50,6 +83,7 @@ class PaginatedResponse(Iterator[T], Generic[T]):
     def collect(self) -> list[T]:
         """Collect all remaining items into a list."""
         return list(self)
+{% endif %}
 
 
 def encode_params(
@@ -101,30 +135,50 @@ class Session:
         maximum_retries: int,
         caller: str | None,
         version: str,
+{% if is_async %}
+        maximum_concurrent_requests: int,
+{% endif %}
     ) -> None:
-        self._version = version
         self._base_url = str(base_url)
         self._single_request_timeout = single_request_timeout
         self._certificate_path = certificate_path
         self._proxy = proxy
         self._wait_on_rate_limit = wait_on_rate_limit
         self._maximum_retries = maximum_retries
+{% if is_async %}
+        self._semaphore = asyncio.Semaphore(maximum_concurrent_requests)
+{% endif %}
 
         # Check base URL
         self._base_url: str = base_url.value
 
         # Initialize httpx client
+{% if is_async %}
+        self._client = httpx.AsyncClient(
+{% else %}
         self._client = httpx.Client(
+{% endif %}
             headers={
                 "Authorization": f"Bearer {api_key}",
                 "Content-Type": "application/json",
-                "User-Agent": f"meraki-client-python/{self._version} {format_user_agent_caller(caller)}",
+                "User-Agent": f"meraki-client-python/{version} {format_user_agent_caller(caller)}",
             },
             timeout=httpx.Timeout(single_request_timeout),
             verify=certificate_path or True,
             proxy=proxy,
         )
 
+{% if is_async %}
+    async def close(self) -> None:
+        """Close the HTTP client."""
+        await self._client.aclose()
+
+    async def __aenter__(self) -> "Session":
+        return self
+
+    async def __aexit__(self, *args: object) -> None:
+        await self.close()
+{% else %}
     def close(self) -> None:
         """Close the HTTP client."""
         self._client.close()
@@ -134,8 +188,9 @@ class Session:
 
     def __exit__(self, *args: object) -> None:
         self.close()
+{% endif %}
 
-    def _request(
+    {{ async_ }}def _request(
         self,
         *,
         operation: str,
@@ -158,6 +213,16 @@ class Session:
             else:
                 log.debug(f"{operation} - {method} {url}")
             try:
+{% if is_async %}
+                async with self._semaphore:
+                    response = await self._client.request(
+                        method,
+                        url,
+                        params=encode_params(params),
+                        json=json,
+                        follow_redirects=False,
+                    )
+{% else %}
                 response = self._client.request(
                     method,
                     url,
@@ -165,12 +230,13 @@ class Session:
                     json=json,
                     follow_redirects=False,
                 )
+{% endif %}
             except httpx.RequestError as e:
                 if retries == 0:
                     raise MerakiConnectionError(cause=e) from e
                 retries -= 1
                 log.warning(f"{operation} - {e}, retrying in 1 second")
-                time.sleep(1)
+                {{ sleep }}(1)
                 continue
 
             reason = response.reason_phrase or "ERROR"
@@ -197,7 +263,7 @@ class Session:
             if status == 429 and self._wait_on_rate_limit and retries > 0:
                 wait = int(response.headers.get("Retry-After", random.randint(2, 5)))
                 log.warning(f"{operation} - {status} {reason}, retrying in {wait} seconds")
-                time.sleep(wait)
+                {{ sleep }}(wait)
                 retries -= 1
                 continue
 
@@ -211,7 +277,7 @@ class Session:
                     raise raise_http_error(response)
                 retries -= 1
                 log.warning(f"{operation} - {status} {reason}, retrying in 1 second")
-                time.sleep(1)
+                {{ sleep }}(1)
                 continue
 
             raise raise_http_error(response)
@@ -220,11 +286,11 @@ class Session:
             f"Maximum number of retries reached: {retries}. This should never happen."
         )
 
-    def get(
+    {{ async_ }}def get(
         self, *, scope: str, operation_id: str, path: str, params: dict[str, Any] | None = None
     ) -> dict[str, Any] | None:
         """Make a GET request to the API endpoint."""
-        response = self._request(
+        response = {{ await_ }}self._request(
             operation=f"{scope}.{operation_id}", method="GET", path=path, params=params
         )
         if response.content.strip():
@@ -241,10 +307,10 @@ class Session:
         total_pages: int | Literal["all"] = -1,
         direction: Literal["next", "prev"] = "next",
         event_log_end_time: str | None = None,
-    ) -> PaginatedResponse[Any]:
+    ) -> {{ PaginatedResponse }}[Any]:
         """Make a GET request to the API endpoint with pagination.
 
-        Returns a PaginatedResponse that can be iterated for individual items
+        Returns a {{ PaginatedResponse }} that can be iterated for individual items
         or collected with .collect() to get all results as a list.
         """
         if isinstance(total_pages, str) and total_pages.lower() == "all":
@@ -294,14 +360,14 @@ class Session:
                     return True
             return False
 
-        def fetch_pages() -> Iterator[Any]:
+        {{ async_ }}def fetch_pages() -> {{ "Async" if is_async else "" }}Iterator[Any]:
             current_page = 1
             operation = f"{scope}.{operation_id}"
             next_url: str | None = path
             remaining_pages = total_pages
 
             while next_url and remaining_pages != 0:
-                response = self._request(
+                response = {{ await_ }}self._request(
                     operation=operation,
                     method="GET",
                     path=next_url,
@@ -311,7 +377,8 @@ class Session:
                 results = response.json()
                 links = response.links
 
-                yield from extract_items(results)
+                for item in extract_items(results):
+                    yield item
 
                 remaining_pages -= 1
                 next_url = None
@@ -326,32 +393,32 @@ class Session:
                     next_url = link_url
                     current_page += 1
 
-        return PaginatedResponse(fetch_pages)
+        return {{ PaginatedResponse }}(fetch_pages)
 
-    def post(
+    {{ async_ }}def post(
         self, *, scope: str, operation_id: str, path: str, json: dict[str, Any] | None = None
     ) -> dict[str, Any] | None:
         """Make a POST request to the API endpoint."""
-        response = self._request(
+        response = {{ await_ }}self._request(
             operation=f"{scope}.{operation_id}", method="POST", path=path, json=json
         )
         if response.content.strip():
             return response.json()
         return None
 
-    def put(
+    {{ async_ }}def put(
         self, *, scope: str, operation_id: str, path: str, json: dict[str, Any] | None = None
     ) -> dict[str, Any] | None:
         """Make a PUT request to the API endpoint."""
-        response = self._request(
+        response = {{ await_ }}self._request(
             operation=f"{scope}.{operation_id}", method="PUT", path=path, json=json
         )
         if response.content.strip():
             return response.json()
         return None
 
-    def delete(
+    {{ async_ }}def delete(
         self, *, scope: str, operation_id: str, path: str, json: dict[str, Any] | None = None
     ) -> None:
         """Make a DELETE request to the API endpoint."""
-        self._request(operation=f"{scope}.{operation_id}", method="DELETE", path=path, json=json)
+        {{ await_ }}self._request(operation=f"{scope}.{operation_id}", method="DELETE", path=path, json=json)

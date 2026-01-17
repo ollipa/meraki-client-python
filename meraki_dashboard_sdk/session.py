@@ -1,4 +1,4 @@
-"""Session for the SDK."""
+"""Synchronous HTTP session for the SDK."""
 
 import logging
 import random
@@ -10,12 +10,8 @@ from typing import Any, Generic, Literal, Self, TypeVar
 
 import httpx
 
-from .common import (
-    BaseURL,
-    format_user_agent_caller,
-    handle_3xx,
-)
-from .exceptions import MerakiConnectionError, MerakiHTTPError, raise_http_error
+from meraki_dashboard_sdk.common import BaseURL, format_user_agent_caller, handle_3xx
+from meraki_dashboard_sdk.exceptions import MerakiConnectionError, MerakiHTTPError, raise_http_error
 
 log = logging.getLogger(__name__)
 
@@ -102,7 +98,6 @@ class Session:
         caller: str | None,
         version: str,
     ) -> None:
-        self._version = version
         self._base_url = str(base_url)
         self._single_request_timeout = single_request_timeout
         self._certificate_path = certificate_path
@@ -118,7 +113,7 @@ class Session:
             headers={
                 "Authorization": f"Bearer {api_key}",
                 "Content-Type": "application/json",
-                "User-Agent": f"meraki-client-python/{self._version} {format_user_agent_caller(caller)}",
+                "User-Agent": f"meraki-client-python/{version} {format_user_agent_caller(caller)}",
             },
             timeout=httpx.Timeout(single_request_timeout),
             verify=certificate_path or True,
@@ -311,7 +306,8 @@ class Session:
                 results = response.json()
                 links = response.links
 
-                yield from extract_items(results)
+                for item in extract_items(results):
+                    yield item
 
                 remaining_pages -= 1
                 next_url = None

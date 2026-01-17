@@ -139,6 +139,7 @@ class Templates:
     class_template: jinja2.Template
     function_template: jinja2.Template
     init_template: jinja2.Template
+    session_template: jinja2.Template
 
 
 PathsType: TypeAlias = dict[str, dict[Literal["get", "put", "post", "delete"], Operation]]
@@ -292,6 +293,12 @@ def generate_library(
                 modules=modules, version=version_number, api_version=api_version, is_async=True
             )
         )
+
+    # Generate session.py from template
+    with open(f"{OUTPUT_DIR}/session.py", "w") as f:
+        f.write(templates.session_template.render(is_async=False))
+    with open(f"{OUTPUT_DIR}/aio/session.py", "w") as f:
+        f.write(templates.session_template.render(is_async=True))
 
     def generate_scope(scope: str, paths: PathsType) -> ModuleInfo | None:
         """Generate a single scope's modules.
@@ -500,12 +507,13 @@ def init_templates() -> Templates:
     """Initialize the templates."""
     jinja_env = jinja2.Environment(trim_blocks=True, lstrip_blocks=True, keep_trailing_newline=True)  # noqa: S701
     return Templates(
-        class_template=read_template("class_template.py", jinja_env),
-        function_template=read_template("function_template.py", jinja_env),
         batch_class_template=read_template("batch_class_template.py", jinja_env),
         batch_function_template=read_template("batch_function_template.py", jinja_env),
-        init_template=read_template("init_template.py", jinja_env),
         batch_init_template=read_template("batch_init_template.py", jinja_env),
+        class_template=read_template("class_template.py", jinja_env),
+        function_template=read_template("function_template.py", jinja_env),
+        init_template=read_template("init_template.py", jinja_env),
+        session_template=read_template("session_template.py", jinja_env),
     )
 
 

@@ -98,7 +98,7 @@ class AsyncMerakiClient:
             wait_on_rate_limit=wait_on_rate_limit,
             maximum_retries=maximum_retries,
             caller=caller,
-            version=__api_version__,
+            version=__version__,
             maximum_concurrent_requests=maximum_concurrent_requests,
         )
 

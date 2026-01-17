@@ -99,7 +99,7 @@ class {{ "Async" if is_async else "" }}MerakiClient:
             wait_on_rate_limit=wait_on_rate_limit,
             maximum_retries=maximum_retries,
             caller=caller,
-            version=__api_version__,
+            version=__version__,
 {% if is_async %}
             maximum_concurrent_requests=maximum_concurrent_requests,
 {% endif %}

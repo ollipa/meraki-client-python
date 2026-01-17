@@ -46,6 +46,6 @@ endif
 	@printf '*****************\n'
 	@uv run python generator/main.py -v $(VERSION)
 	@printf "Formatting the generated code..."
-	@uv run ruff format meraki_dashboard_sdk > /dev/null
-	@uv run ruff check --select I --fix meraki_dashboard_sdk > /dev/null
+	@uv run ruff format  meraki_dashboard_sdk > /dev/null
+	@uv run ruff check --quiet --select I,F401 --fix meraki_dashboard_sdk
 	@printf "Done!\n"

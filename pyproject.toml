@@ -119,14 +119,7 @@ ignore = [
 # Ignore docstring errors in tests.
 "tests/**.py" = ["D"]
 # Ignore some errors is generated code.
-"meraki_dashboard_sdk/**.py" = [
-    "PLR0912",
-    "E501",
-    "PLR0915",
-    "F541",
-    "RUF100",
-    "F401",
-]
+"meraki_dashboard_sdk/**.py" = ["PLR0912", "E501", "PLR0915", "F541", "RUF100"]
 
 [tool.pytest.ini_options]
 xfail_strict = true

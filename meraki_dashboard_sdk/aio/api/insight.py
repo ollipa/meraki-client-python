@@ -3,8 +3,7 @@
 from __future__ import annotations
 
 import urllib
-from collections.abc import Generator
-from typing import TYPE_CHECKING, Any, Literal
+from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
     from meraki_dashboard_sdk.aio.session import Session

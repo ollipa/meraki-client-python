@@ -1,7 +1,7 @@
 """ActionBatchWireless API endpoints."""
 
 import urllib
-from typing import Any, Literal
+from typing import Any
 
 
 class ActionBatchWireless:

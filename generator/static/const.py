@@ -13,4 +13,4 @@ WAIT_ON_RATE_LIMIT = True
 MAXIMUM_RETRIES = 2
 
 # Number of concurrent API requests for asynchronous operations
-ASYNC_MAXIMUM_CONCURRENT_REQUESTS = 3
+ASYNC_MAXIMUM_CONCURRENT_REQUESTS = 8
