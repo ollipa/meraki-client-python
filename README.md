@@ -23,7 +23,7 @@ pip install meraki-dashboard-sdk
 2. Pass the API key to the client, or set it as an environment variable:
 
    ```python
-   dashboard = meraki.MerakiClient(api_key="YOUR_KEY_HERE")
+   client = MerakiClient(api_key="YOUR_KEY_HERE")
    ```
 
    ```shell
@@ -32,14 +32,38 @@ pip install meraki-dashboard-sdk
 
 ## Usage
 
+API calls follow the pattern `client.<scope>.<operation>()`, where scope maps to the OpenAPI tags (e.g., `organizations`, `networks`, `devices`).
+
+### Synchronous
+
 ```python
 from meraki_client import MerakiClient
 
 client = MerakiClient()
-orgs = await client.organizations.get_organizations()
+org = client.organizations.get_organization(org_id)
 ```
 
-API calls follow the pattern `client.<scope>.<operation>()`, where scope maps to the OpenAPI tags (e.g., `organizations`, `networks`, `devices`).
+### Asynchronous
+
+```python
+from meraki_client.aio import AsyncMerakiClient
+
+async with AsyncMerakiClient() as client:
+    orgs = await client.organizations.get_organization(org_id)
+```
+
+### Pagination
+
+Paginated endpoints return lazy iterators. Iterate directly or call `collect()` to fetch all pages:
+
+```python
+# Iterate page by page
+for device in client.organizations.get_organization_devices(organization_id=org_id, total_pages="all"):
+    print(device["name"])
+
+# Or collect all results at once
+devices = client.organizations.get_organization_devices(organization_id=org_id, total_pages="all").collect()
+```
 
 ## Code Generation
 
