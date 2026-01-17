@@ -26,8 +26,8 @@ class GetNetworkInsightApplicationHealthByTimeResponseItem(_BaseSchema):
     num_clients: int | None = Field(default=None, alias="numClients")
 
 
-class GetOrganizationInsightApplicationsResponseItemThresholdsByNetworkItem(_BaseSchema):
-    """Schema for GetOrganizationInsightApplicationsResponseItemThresholdsByNetworkItem."""
+class InsightByNetworkItem(_BaseSchema):
+    """Schema for InsightByNetworkItem."""
 
     network_id: str | None = Field(default=None, alias="networkId")
     goodput: int | None = None
@@ -90,13 +90,11 @@ class GetNetworkInsightApplicationHealthByTimeResponse(
     """Get application health by time."""
 
 
-class GetOrganizationInsightApplicationsResponseItemThresholds(_BaseSchema):
+class InsightThresholds(_BaseSchema):
     """Thresholds defined by a user or Meraki models for each application."""
 
     type_: str | None = Field(default=None, alias="type")
-    by_network: (
-        list[GetOrganizationInsightApplicationsResponseItemThresholdsByNetworkItem] | None
-    ) = Field(default=None, alias="byNetwork")
+    by_network: list[InsightByNetworkItem] | None = Field(default=None, alias="byNetwork")
 
 
 class GetOrganizationInsightMonitoredMediaServersResponse(
@@ -112,7 +110,7 @@ class GetOrganizationInsightApplicationsResponseItem(_BaseSchema):
 
     application_id: str | None = Field(default=None, alias="applicationId")
     name: str | None = None
-    thresholds: GetOrganizationInsightApplicationsResponseItemThresholds | None = None
+    thresholds: InsightThresholds | None = None
 
 
 class GetOrganizationInsightApplicationsResponse(

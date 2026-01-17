@@ -9,7 +9,7 @@ from pydantic import Field, RootModel
 from meraki_client.schemas._base import _BaseSchema
 
 
-class GetDeviceSensorCommandsResponseItemCreatedBy(_BaseSchema):
+class SensorCreatedBy(_BaseSchema):
     """Information about the admin who triggered the command."""
 
     admin_id: str | None = Field(default=None, alias="adminId")
@@ -17,56 +17,27 @@ class GetDeviceSensorCommandsResponseItemCreatedBy(_BaseSchema):
     email: str | None = None
 
 
-class CreateDeviceSensorCommandResponseCreatedBy(_BaseSchema):
-    """Information about the admin who triggered the command."""
-
-    admin_id: str | None = Field(default=None, alias="adminId")
-    name: str | None = None
-    email: str | None = None
-
-
-class GetDeviceSensorCommandResponseCreatedBy(_BaseSchema):
-    """Information about the admin who triggered the command."""
-
-    admin_id: str | None = Field(default=None, alias="adminId")
-    name: str | None = None
-    email: str | None = None
-
-
-class GetDeviceSensorRelationshipsResponseLivestreamRelatedDevicesItem(_BaseSchema):
-    """Schema for GetDeviceSensorRelationshipsResponseLivestreamRelatedDevicesItem."""
+class SensorLivestreamRelatedDevicesItem(_BaseSchema):
+    """Schema for SensorLivestreamRelatedDevicesItem."""
 
     serial: str | None = None
     product_type: str | None = Field(default=None, alias="productType")
 
 
-class UpdateDeviceSensorRelationshipsResponseLivestreamRelatedDevicesItem(_BaseSchema):
-    """Schema for UpdateDeviceSensorRelationshipsResponseLivestreamRelatedDevicesItem."""
-
-    serial: str | None = None
-    product_type: str | None = Field(default=None, alias="productType")
-
-
-class GetNetworkSensorAlertsCurrentOverviewByMetricResponseCountsNoise(_BaseSchema):
+class SensorCountsNoise(_BaseSchema):
     """Object containing the number of sensors that are currently alerting due to noise readings."""
 
     ambient: int | None = None
 
 
-class GetNetworkSensorAlertsOverviewByMetricResponseItemCountsNoise(_BaseSchema):
-    """Object containing the number of sensor alerts that occurred due to noise readings."""
-
-    ambient: int | None = None
-
-
-class GetNetworkSensorAlertsProfilesResponseItemSchedule(_BaseSchema):
+class SensorSchedule(_BaseSchema):
     """The sensor schedule to use with the alert profile."""
 
     id_: str | None = Field(default=None, alias="id")
     name: str | None = None
 
 
-class GetNetworkSensorAlertsProfilesResponseItemConditionsItemThresholdTemperature(_BaseSchema):
+class SensorTemperature(_BaseSchema):
     """Temperature threshold. One of 'celsius', 'fahrenheit', or 'quality' must be provided."""
 
     celsius: float | None = None
@@ -74,462 +45,71 @@ class GetNetworkSensorAlertsProfilesResponseItemConditionsItemThresholdTemperatu
     quality: str | None = None
 
 
-class GetNetworkSensorAlertsProfilesResponseItemConditionsItemThresholdHumidity(_BaseSchema):
+class SensorHumidity(_BaseSchema):
     """Humidity threshold. One of 'relativePercentage' or 'quality' must be provided."""
 
     relative_percentage: int | None = Field(default=None, alias="relativePercentage")
     quality: str | None = None
 
 
-class GetNetworkSensorAlertsProfilesResponseItemConditionsItemThresholdWater(_BaseSchema):
+class SensorWater(_BaseSchema):
     """Water detection threshold. 'present' must be provided and set to true."""
 
     present: bool
 
 
-class GetNetworkSensorAlertsProfilesResponseItemConditionsItemThresholdDoor(_BaseSchema):
+class SensorDoor(_BaseSchema):
     """Door open threshold. 'open' must be provided and set to true."""
 
     open_: bool = Field(alias="open")
 
 
-class GetNetworkSensorAlertsProfilesResponseItemConditionsItemThresholdTvoc(_BaseSchema):
+class SensorTvoc(_BaseSchema):
     """TVOC concentration threshold. One of 'concentration' or 'quality' must be provided."""
 
     concentration: int | None = None
     quality: str | None = None
 
 
-class GetNetworkSensorAlertsProfilesResponseItemConditionsItemThresholdCo2(_BaseSchema):
-    """CO2 concentration threshold. One of 'concentration' or 'quality' must be provided."""
-
-    concentration: int | None = None
-    quality: str | None = None
-
-
-class GetNetworkSensorAlertsProfilesResponseItemConditionsItemThresholdPm25(_BaseSchema):
-    """PM2.5 concentration threshold. One of 'concentration' or 'quality' must be provided."""
-
-    concentration: int | None = None
-    quality: str | None = None
-
-
-class GetNetworkSensorAlertsProfilesResponseItemConditionsItemThresholdNoiseAmbient(_BaseSchema):
+class SensorAmbient(_BaseSchema):
     """Ambient noise threshold. One of 'level' or 'quality' must be provided."""
 
     level: int | None = None
     quality: str | None = None
 
 
-class GetNetworkSensorAlertsProfilesResponseItemConditionsItemThresholdIndoorAirQuality(
-    _BaseSchema
-):
+class SensorIndoorAirQuality(_BaseSchema):
     """Indoor air quality score threshold. One of 'score' or 'quality' must be provided."""
 
     score: int | None = None
     quality: str | None = None
 
 
-class GetNetworkSensorAlertsProfilesResponseItemConditionsItemThresholdRealPower(_BaseSchema):
+class SensorRealPower(_BaseSchema):
     """Real power threshold. 'draw' must be provided."""
 
     draw: float
 
 
-class GetNetworkSensorAlertsProfilesResponseItemConditionsItemThresholdApparentPower(_BaseSchema):
-    """Apparent power threshold. 'draw' must be provided."""
-
-    draw: float
-
-
-class GetNetworkSensorAlertsProfilesResponseItemConditionsItemThresholdPowerFactor(_BaseSchema):
+class SensorPowerFactor(_BaseSchema):
     """Power factor threshold. 'percentage' must be provided."""
 
     percentage: int
 
 
-class GetNetworkSensorAlertsProfilesResponseItemConditionsItemThresholdCurrent(_BaseSchema):
-    """Electrical current threshold. 'level' must be provided."""
-
-    draw: float
-
-
-class GetNetworkSensorAlertsProfilesResponseItemConditionsItemThresholdVoltage(_BaseSchema):
+class SensorVoltage(_BaseSchema):
     """Voltage threshold. 'level' must be provided."""
 
     level: float
 
 
-class GetNetworkSensorAlertsProfilesResponseItemConditionsItemThresholdFrequency(_BaseSchema):
-    """Electrical frequency threshold. 'level' must be provided."""
-
-    level: float
-
-
-class GetNetworkSensorAlertsProfilesResponseItemConditionsItemThresholdUpstreamPower(_BaseSchema):
+class SensorUpstreamPower(_BaseSchema):
     """Upstream power threshold. 'outageDetected' must be provided and set to true."""
 
     outage_detected: bool = Field(alias="outageDetected")
 
 
-class GetNetworkSensorAlertsProfilesResponseItemRecipients(_BaseSchema):
-    """List of recipients that will receive the alert."""
-
-    emails: list[str] | None = None
-    sms_numbers: list[str] | None = Field(default=None, alias="smsNumbers")
-    http_server_ids: list[str] | None = Field(default=None, alias="httpServerIds")
-
-
-class CreateNetworkSensorAlertsProfileResponseSchedule(_BaseSchema):
-    """The sensor schedule to use with the alert profile."""
-
-    id_: str | None = Field(default=None, alias="id")
-    name: str | None = None
-
-
-class CreateNetworkSensorAlertsProfileResponseConditionsItemThresholdTemperature(_BaseSchema):
-    """Temperature threshold. One of 'celsius', 'fahrenheit', or 'quality' must be provided."""
-
-    celsius: float | None = None
-    fahrenheit: float | None = None
-    quality: str | None = None
-
-
-class CreateNetworkSensorAlertsProfileResponseConditionsItemThresholdHumidity(_BaseSchema):
-    """Humidity threshold. One of 'relativePercentage' or 'quality' must be provided."""
-
-    relative_percentage: int | None = Field(default=None, alias="relativePercentage")
-    quality: str | None = None
-
-
-class CreateNetworkSensorAlertsProfileResponseConditionsItemThresholdWater(_BaseSchema):
-    """Water detection threshold. 'present' must be provided and set to true."""
-
-    present: bool
-
-
-class CreateNetworkSensorAlertsProfileResponseConditionsItemThresholdDoor(_BaseSchema):
-    """Door open threshold. 'open' must be provided and set to true."""
-
-    open_: bool = Field(alias="open")
-
-
-class CreateNetworkSensorAlertsProfileResponseConditionsItemThresholdTvoc(_BaseSchema):
-    """TVOC concentration threshold. One of 'concentration' or 'quality' must be provided."""
-
-    concentration: int | None = None
-    quality: str | None = None
-
-
-class CreateNetworkSensorAlertsProfileResponseConditionsItemThresholdCo2(_BaseSchema):
-    """CO2 concentration threshold. One of 'concentration' or 'quality' must be provided."""
-
-    concentration: int | None = None
-    quality: str | None = None
-
-
-class CreateNetworkSensorAlertsProfileResponseConditionsItemThresholdPm25(_BaseSchema):
-    """PM2.5 concentration threshold. One of 'concentration' or 'quality' must be provided."""
-
-    concentration: int | None = None
-    quality: str | None = None
-
-
-class CreateNetworkSensorAlertsProfileResponseConditionsItemThresholdNoiseAmbient(_BaseSchema):
-    """Ambient noise threshold. One of 'level' or 'quality' must be provided."""
-
-    level: int | None = None
-    quality: str | None = None
-
-
-class CreateNetworkSensorAlertsProfileResponseConditionsItemThresholdIndoorAirQuality(_BaseSchema):
-    """Indoor air quality score threshold. One of 'score' or 'quality' must be provided."""
-
-    score: int | None = None
-    quality: str | None = None
-
-
-class CreateNetworkSensorAlertsProfileResponseConditionsItemThresholdRealPower(_BaseSchema):
-    """Real power threshold. 'draw' must be provided."""
-
-    draw: float
-
-
-class CreateNetworkSensorAlertsProfileResponseConditionsItemThresholdApparentPower(_BaseSchema):
-    """Apparent power threshold. 'draw' must be provided."""
-
-    draw: float
-
-
-class CreateNetworkSensorAlertsProfileResponseConditionsItemThresholdPowerFactor(_BaseSchema):
-    """Power factor threshold. 'percentage' must be provided."""
-
-    percentage: int
-
-
-class CreateNetworkSensorAlertsProfileResponseConditionsItemThresholdCurrent(_BaseSchema):
-    """Electrical current threshold. 'level' must be provided."""
-
-    draw: float
-
-
-class CreateNetworkSensorAlertsProfileResponseConditionsItemThresholdVoltage(_BaseSchema):
-    """Voltage threshold. 'level' must be provided."""
-
-    level: float
-
-
-class CreateNetworkSensorAlertsProfileResponseConditionsItemThresholdFrequency(_BaseSchema):
-    """Electrical frequency threshold. 'level' must be provided."""
-
-    level: float
-
-
-class CreateNetworkSensorAlertsProfileResponseConditionsItemThresholdUpstreamPower(_BaseSchema):
-    """Upstream power threshold. 'outageDetected' must be provided and set to true."""
-
-    outage_detected: bool = Field(alias="outageDetected")
-
-
-class CreateNetworkSensorAlertsProfileResponseRecipients(_BaseSchema):
-    """List of recipients that will receive the alert."""
-
-    emails: list[str] | None = None
-    sms_numbers: list[str] | None = Field(default=None, alias="smsNumbers")
-    http_server_ids: list[str] | None = Field(default=None, alias="httpServerIds")
-
-
-class GetNetworkSensorAlertsProfileResponseSchedule(_BaseSchema):
-    """The sensor schedule to use with the alert profile."""
-
-    id_: str | None = Field(default=None, alias="id")
-    name: str | None = None
-
-
-class GetNetworkSensorAlertsProfileResponseConditionsItemThresholdTemperature(_BaseSchema):
-    """Temperature threshold. One of 'celsius', 'fahrenheit', or 'quality' must be provided."""
-
-    celsius: float | None = None
-    fahrenheit: float | None = None
-    quality: str | None = None
-
-
-class GetNetworkSensorAlertsProfileResponseConditionsItemThresholdHumidity(_BaseSchema):
-    """Humidity threshold. One of 'relativePercentage' or 'quality' must be provided."""
-
-    relative_percentage: int | None = Field(default=None, alias="relativePercentage")
-    quality: str | None = None
-
-
-class GetNetworkSensorAlertsProfileResponseConditionsItemThresholdWater(_BaseSchema):
-    """Water detection threshold. 'present' must be provided and set to true."""
-
-    present: bool
-
-
-class GetNetworkSensorAlertsProfileResponseConditionsItemThresholdDoor(_BaseSchema):
-    """Door open threshold. 'open' must be provided and set to true."""
-
-    open_: bool = Field(alias="open")
-
-
-class GetNetworkSensorAlertsProfileResponseConditionsItemThresholdTvoc(_BaseSchema):
-    """TVOC concentration threshold. One of 'concentration' or 'quality' must be provided."""
-
-    concentration: int | None = None
-    quality: str | None = None
-
-
-class GetNetworkSensorAlertsProfileResponseConditionsItemThresholdCo2(_BaseSchema):
-    """CO2 concentration threshold. One of 'concentration' or 'quality' must be provided."""
-
-    concentration: int | None = None
-    quality: str | None = None
-
-
-class GetNetworkSensorAlertsProfileResponseConditionsItemThresholdPm25(_BaseSchema):
-    """PM2.5 concentration threshold. One of 'concentration' or 'quality' must be provided."""
-
-    concentration: int | None = None
-    quality: str | None = None
-
-
-class GetNetworkSensorAlertsProfileResponseConditionsItemThresholdNoiseAmbient(_BaseSchema):
-    """Ambient noise threshold. One of 'level' or 'quality' must be provided."""
-
-    level: int | None = None
-    quality: str | None = None
-
-
-class GetNetworkSensorAlertsProfileResponseConditionsItemThresholdIndoorAirQuality(_BaseSchema):
-    """Indoor air quality score threshold. One of 'score' or 'quality' must be provided."""
-
-    score: int | None = None
-    quality: str | None = None
-
-
-class GetNetworkSensorAlertsProfileResponseConditionsItemThresholdRealPower(_BaseSchema):
-    """Real power threshold. 'draw' must be provided."""
-
-    draw: float
-
-
-class GetNetworkSensorAlertsProfileResponseConditionsItemThresholdApparentPower(_BaseSchema):
-    """Apparent power threshold. 'draw' must be provided."""
-
-    draw: float
-
-
-class GetNetworkSensorAlertsProfileResponseConditionsItemThresholdPowerFactor(_BaseSchema):
-    """Power factor threshold. 'percentage' must be provided."""
-
-    percentage: int
-
-
-class GetNetworkSensorAlertsProfileResponseConditionsItemThresholdCurrent(_BaseSchema):
-    """Electrical current threshold. 'level' must be provided."""
-
-    draw: float
-
-
-class GetNetworkSensorAlertsProfileResponseConditionsItemThresholdVoltage(_BaseSchema):
-    """Voltage threshold. 'level' must be provided."""
-
-    level: float
-
-
-class GetNetworkSensorAlertsProfileResponseConditionsItemThresholdFrequency(_BaseSchema):
-    """Electrical frequency threshold. 'level' must be provided."""
-
-    level: float
-
-
-class GetNetworkSensorAlertsProfileResponseConditionsItemThresholdUpstreamPower(_BaseSchema):
-    """Upstream power threshold. 'outageDetected' must be provided and set to true."""
-
-    outage_detected: bool = Field(alias="outageDetected")
-
-
-class GetNetworkSensorAlertsProfileResponseRecipients(_BaseSchema):
-    """List of recipients that will receive the alert."""
-
-    emails: list[str] | None = None
-    sms_numbers: list[str] | None = Field(default=None, alias="smsNumbers")
-    http_server_ids: list[str] | None = Field(default=None, alias="httpServerIds")
-
-
-class UpdateNetworkSensorAlertsProfileResponseSchedule(_BaseSchema):
-    """The sensor schedule to use with the alert profile."""
-
-    id_: str | None = Field(default=None, alias="id")
-    name: str | None = None
-
-
-class UpdateNetworkSensorAlertsProfileResponseConditionsItemThresholdTemperature(_BaseSchema):
-    """Temperature threshold. One of 'celsius', 'fahrenheit', or 'quality' must be provided."""
-
-    celsius: float | None = None
-    fahrenheit: float | None = None
-    quality: str | None = None
-
-
-class UpdateNetworkSensorAlertsProfileResponseConditionsItemThresholdHumidity(_BaseSchema):
-    """Humidity threshold. One of 'relativePercentage' or 'quality' must be provided."""
-
-    relative_percentage: int | None = Field(default=None, alias="relativePercentage")
-    quality: str | None = None
-
-
-class UpdateNetworkSensorAlertsProfileResponseConditionsItemThresholdWater(_BaseSchema):
-    """Water detection threshold. 'present' must be provided and set to true."""
-
-    present: bool
-
-
-class UpdateNetworkSensorAlertsProfileResponseConditionsItemThresholdDoor(_BaseSchema):
-    """Door open threshold. 'open' must be provided and set to true."""
-
-    open_: bool = Field(alias="open")
-
-
-class UpdateNetworkSensorAlertsProfileResponseConditionsItemThresholdTvoc(_BaseSchema):
-    """TVOC concentration threshold. One of 'concentration' or 'quality' must be provided."""
-
-    concentration: int | None = None
-    quality: str | None = None
-
-
-class UpdateNetworkSensorAlertsProfileResponseConditionsItemThresholdCo2(_BaseSchema):
-    """CO2 concentration threshold. One of 'concentration' or 'quality' must be provided."""
-
-    concentration: int | None = None
-    quality: str | None = None
-
-
-class UpdateNetworkSensorAlertsProfileResponseConditionsItemThresholdPm25(_BaseSchema):
-    """PM2.5 concentration threshold. One of 'concentration' or 'quality' must be provided."""
-
-    concentration: int | None = None
-    quality: str | None = None
-
-
-class UpdateNetworkSensorAlertsProfileResponseConditionsItemThresholdNoiseAmbient(_BaseSchema):
-    """Ambient noise threshold. One of 'level' or 'quality' must be provided."""
-
-    level: int | None = None
-    quality: str | None = None
-
-
-class UpdateNetworkSensorAlertsProfileResponseConditionsItemThresholdIndoorAirQuality(_BaseSchema):
-    """Indoor air quality score threshold. One of 'score' or 'quality' must be provided."""
-
-    score: int | None = None
-    quality: str | None = None
-
-
-class UpdateNetworkSensorAlertsProfileResponseConditionsItemThresholdRealPower(_BaseSchema):
-    """Real power threshold. 'draw' must be provided."""
-
-    draw: float
-
-
-class UpdateNetworkSensorAlertsProfileResponseConditionsItemThresholdApparentPower(_BaseSchema):
-    """Apparent power threshold. 'draw' must be provided."""
-
-    draw: float
-
-
-class UpdateNetworkSensorAlertsProfileResponseConditionsItemThresholdPowerFactor(_BaseSchema):
-    """Power factor threshold. 'percentage' must be provided."""
-
-    percentage: int
-
-
-class UpdateNetworkSensorAlertsProfileResponseConditionsItemThresholdCurrent(_BaseSchema):
-    """Electrical current threshold. 'level' must be provided."""
-
-    draw: float
-
-
-class UpdateNetworkSensorAlertsProfileResponseConditionsItemThresholdVoltage(_BaseSchema):
-    """Voltage threshold. 'level' must be provided."""
-
-    level: float
-
-
-class UpdateNetworkSensorAlertsProfileResponseConditionsItemThresholdFrequency(_BaseSchema):
-    """Electrical frequency threshold. 'level' must be provided."""
-
-    level: float
-
-
-class UpdateNetworkSensorAlertsProfileResponseConditionsItemThresholdUpstreamPower(_BaseSchema):
-    """Upstream power threshold. 'outageDetected' must be provided and set to true."""
-
-    outage_detected: bool = Field(alias="outageDetected")
-
-
-class UpdateNetworkSensorAlertsProfileResponseRecipients(_BaseSchema):
+class SensorRecipients(_BaseSchema):
     """List of recipients that will receive the alert."""
 
     emails: list[str] | None = None
@@ -562,7 +142,7 @@ class UpdateNetworkSensorMqttBrokerResponse(_BaseSchema):
     enabled: bool | None = None
 
 
-class GetNetworkSensorRelationshipsResponseItemDevice(_BaseSchema):
+class SensorDevice(_BaseSchema):
     """A sensor or gateway device in the network."""
 
     name: str | None = None
@@ -570,25 +150,14 @@ class GetNetworkSensorRelationshipsResponseItemDevice(_BaseSchema):
     product_type: str | None = Field(default=None, alias="productType")
 
 
-class GetNetworkSensorRelationshipsResponseItemRelationshipsLivestreamRelatedDevicesItem(
-    _BaseSchema
-):
-    """Schema for
-    GetNetworkSensorRelationshipsResponseItemRelationshipsLivestreamRelatedDevicesItem.
-    """
-
-    serial: str | None = None
-    product_type: str | None = Field(default=None, alias="productType")
-
-
-class GetOrganizationSensorGatewaysConnectionsLatestResponseItemsItemNetwork(_BaseSchema):
+class SensorNetwork(_BaseSchema):
     """Information about the network that the sensor and gateway are in."""
 
     name: str
     id_: str = Field(alias="id")
 
 
-class GetOrganizationSensorGatewaysConnectionsLatestResponseItemsItemSensor(_BaseSchema):
+class SensorSensor(_BaseSchema):
     """Information about the sensor."""
 
     serial: str | None = None
@@ -596,29 +165,14 @@ class GetOrganizationSensorGatewaysConnectionsLatestResponseItemsItemSensor(_Bas
     mac: str
 
 
-class GetOrganizationSensorGatewaysConnectionsLatestResponseItemsItemGateway(_BaseSchema):
-    """Information about the gateway."""
-
-    serial: str | None = None
-    name: str
-    mac: str
-
-
-class GetOrganizationSensorGatewaysConnectionsLatestResponseMetaCountsItems(_BaseSchema):
+class SensorItems(_BaseSchema):
     """The count metadata."""
 
     total: int | None = None
     remaining: int | None = None
 
 
-class GetOrganizationSensorReadingsHistoryResponseItemNetwork(_BaseSchema):
-    """Network to which the sensor belongs."""
-
-    id_: str | None = Field(default=None, alias="id")
-    name: str | None = None
-
-
-class GetOrganizationSensorReadingsHistoryResponseItemApparentPower(_BaseSchema):
+class SensorApparentPower(_BaseSchema):
     """Reading for the 'apparentPower' metric. This will only be present if the 'metric' property
     equals 'apparentPower'.
     """
@@ -626,7 +180,7 @@ class GetOrganizationSensorReadingsHistoryResponseItemApparentPower(_BaseSchema)
     draw: float | None = None
 
 
-class GetOrganizationSensorReadingsHistoryResponseItemBattery(_BaseSchema):
+class SensorBattery(_BaseSchema):
     """Reading for the 'battery' metric. This will only be present if the 'metric' property equals
     'battery'.
     """
@@ -634,7 +188,7 @@ class GetOrganizationSensorReadingsHistoryResponseItemBattery(_BaseSchema):
     percentage: int | None = None
 
 
-class GetOrganizationSensorReadingsHistoryResponseItemButton(_BaseSchema):
+class SensorButton(_BaseSchema):
     """Reading for the 'button' metric. This will only be present if the 'metric' property equals
     'button'.
     """
@@ -642,7 +196,7 @@ class GetOrganizationSensorReadingsHistoryResponseItemButton(_BaseSchema):
     press_type: str | None = Field(default=None, alias="pressType")
 
 
-class GetOrganizationSensorReadingsHistoryResponseItemCo2(_BaseSchema):
+class SensorCo2(_BaseSchema):
     """Reading for the 'co2' metric. This will only be present if the 'metric' property equals
     'co2'.
     """
@@ -650,15 +204,7 @@ class GetOrganizationSensorReadingsHistoryResponseItemCo2(_BaseSchema):
     concentration: int | None = None
 
 
-class GetOrganizationSensorReadingsHistoryResponseItemCurrent(_BaseSchema):
-    """Reading for the 'current' metric. This will only be present if the 'metric' property equals
-    'current'.
-    """
-
-    draw: float | None = None
-
-
-class GetOrganizationSensorReadingsHistoryResponseItemDoor(_BaseSchema):
+class SensorDoor2(_BaseSchema):
     """Reading for the 'door' metric. This will only be present if the 'metric' property equals
     'door'.
     """
@@ -666,7 +212,7 @@ class GetOrganizationSensorReadingsHistoryResponseItemDoor(_BaseSchema):
     open_: bool | None = Field(default=None, alias="open")
 
 
-class GetOrganizationSensorReadingsHistoryResponseItemDownstreamPower(_BaseSchema):
+class SensorDownstreamPower(_BaseSchema):
     """Reading for the 'downstreamPower' metric. This will only be present if the 'metric' property
     equals 'downstreamPower'.
     """
@@ -674,7 +220,7 @@ class GetOrganizationSensorReadingsHistoryResponseItemDownstreamPower(_BaseSchem
     enabled: bool | None = None
 
 
-class GetOrganizationSensorReadingsHistoryResponseItemFrequency(_BaseSchema):
+class SensorFrequency(_BaseSchema):
     """Reading for the 'frequency' metric. This will only be present if the 'metric' property
     equals 'frequency'.
     """
@@ -682,7 +228,7 @@ class GetOrganizationSensorReadingsHistoryResponseItemFrequency(_BaseSchema):
     level: float | None = None
 
 
-class GetOrganizationSensorReadingsHistoryResponseItemHumidity(_BaseSchema):
+class SensorHumidity2(_BaseSchema):
     """Reading for the 'humidity' metric. This will only be present if the 'metric' property equals
     'humidity'.
     """
@@ -690,7 +236,7 @@ class GetOrganizationSensorReadingsHistoryResponseItemHumidity(_BaseSchema):
     relative_percentage: int | None = Field(default=None, alias="relativePercentage")
 
 
-class GetOrganizationSensorReadingsHistoryResponseItemIndoorAirQuality(_BaseSchema):
+class SensorIndoorAirQuality2(_BaseSchema):
     """Reading for the 'indoorAirQuality' metric. This will only be present if the 'metric'
     property equals 'indoorAirQuality'.
     """
@@ -698,59 +244,13 @@ class GetOrganizationSensorReadingsHistoryResponseItemIndoorAirQuality(_BaseSche
     score: int | None = None
 
 
-class GetOrganizationSensorReadingsHistoryResponseItemNoiseAmbient(_BaseSchema):
+class SensorAmbient2(_BaseSchema):
     """Ambient noise reading."""
 
     level: int | None = None
 
 
-class GetOrganizationSensorReadingsHistoryResponseItemNo2(_BaseSchema):
-    """Reading for the 'no2' metric. This will only be present if the 'metric' property equals
-    'no2'.
-    """
-
-    concentration: int | None = None
-
-
-class GetOrganizationSensorReadingsHistoryResponseItemO3(_BaseSchema):
-    """Reading for the 'o3' metric. This will only be present if the 'metric' property equals 'o3'."""
-
-    concentration: int | None = None
-
-
-class GetOrganizationSensorReadingsHistoryResponseItemPm10(_BaseSchema):
-    """Reading for the 'pm10' metric. This will only be present if the 'metric' property equals
-    'pm10'.
-    """
-
-    concentration: int | None = None
-
-
-class GetOrganizationSensorReadingsHistoryResponseItemPm25(_BaseSchema):
-    """Reading for the 'pm25' metric. This will only be present if the 'metric' property equals
-    'pm25'.
-    """
-
-    concentration: int | None = None
-
-
-class GetOrganizationSensorReadingsHistoryResponseItemPowerFactor(_BaseSchema):
-    """Reading for the 'powerFactor' metric. This will only be present if the 'metric' property
-    equals 'powerFactor'.
-    """
-
-    percentage: int | None = None
-
-
-class GetOrganizationSensorReadingsHistoryResponseItemRealPower(_BaseSchema):
-    """Reading for the 'realPower' metric. This will only be present if the 'metric' property
-    equals 'realPower'.
-    """
-
-    draw: float | None = None
-
-
-class GetOrganizationSensorReadingsHistoryResponseItemRemoteLockoutSwitch(_BaseSchema):
+class SensorRemoteLockoutSwitch(_BaseSchema):
     """Reading for the 'remoteLockoutSwitch' metric. This will only be present if the 'metric'
     property equals 'remoteLockoutSwitch'.
     """
@@ -758,7 +258,7 @@ class GetOrganizationSensorReadingsHistoryResponseItemRemoteLockoutSwitch(_BaseS
     locked: bool | None = None
 
 
-class GetOrganizationSensorReadingsHistoryResponseItemTemperature(_BaseSchema):
+class SensorTemperature2(_BaseSchema):
     """Reading for the 'temperature' metric. This will only be present if the 'metric' property
     equals 'temperature'.
     """
@@ -767,23 +267,7 @@ class GetOrganizationSensorReadingsHistoryResponseItemTemperature(_BaseSchema):
     celsius: float | None = None
 
 
-class GetOrganizationSensorReadingsHistoryResponseItemTvoc(_BaseSchema):
-    """Reading for the 'tvoc' metric. This will only be present if the 'metric' property equals
-    'tvoc'.
-    """
-
-    concentration: int | None = None
-
-
-class GetOrganizationSensorReadingsHistoryResponseItemVoltage(_BaseSchema):
-    """Reading for the 'voltage' metric. This will only be present if the 'metric' property equals
-    'voltage'.
-    """
-
-    level: float | None = None
-
-
-class GetOrganizationSensorReadingsHistoryResponseItemWater(_BaseSchema):
+class SensorWater2(_BaseSchema):
     """Reading for the 'water' metric. This will only be present if the 'metric' property equals
     'water'.
     """
@@ -791,202 +275,16 @@ class GetOrganizationSensorReadingsHistoryResponseItemWater(_BaseSchema):
     present: bool | None = None
 
 
-class GetOrganizationSensorReadingsHistoryResponseItemRawTemperature(_BaseSchema):
-    """Reading for the 'rawTemperature' metric. This will only be present if the 'metric' property
-    equals 'rawTemperature'.
-    """
-
-    fahrenheit: float | None = None
-    celsius: float | None = None
-
-
-class GetOrganizationSensorReadingsLatestResponseItemNetwork(_BaseSchema):
-    """Network to which the sensor belongs."""
-
-    id_: str | None = Field(default=None, alias="id")
-    name: str | None = None
-
-
-class GetOrganizationSensorReadingsLatestResponseItemReadingsItemApparentPower(_BaseSchema):
-    """Reading for the 'apparentPower' metric. This will only be present if the 'metric' property
-    equals 'apparentPower'.
-    """
-
-    draw: float | None = None
-
-
-class GetOrganizationSensorReadingsLatestResponseItemReadingsItemBattery(_BaseSchema):
-    """Reading for the 'battery' metric. This will only be present if the 'metric' property equals
-    'battery'.
-    """
-
-    percentage: int | None = None
-
-
-class GetOrganizationSensorReadingsLatestResponseItemReadingsItemButton(_BaseSchema):
-    """Reading for the 'button' metric. This will only be present if the 'metric' property equals
-    'button'.
-    """
-
-    press_type: str | None = Field(default=None, alias="pressType")
-
-
-class GetOrganizationSensorReadingsLatestResponseItemReadingsItemCo2(_BaseSchema):
-    """Reading for the 'co2' metric. This will only be present if the 'metric' property equals
-    'co2'.
-    """
-
-    concentration: int | None = None
-
-
-class GetOrganizationSensorReadingsLatestResponseItemReadingsItemCurrent(_BaseSchema):
-    """Reading for the 'current' metric. This will only be present if the 'metric' property equals
-    'current'.
-    """
-
-    draw: float | None = None
-
-
-class GetOrganizationSensorReadingsLatestResponseItemReadingsItemDoor(_BaseSchema):
-    """Reading for the 'door' metric. This will only be present if the 'metric' property equals
-    'door'.
-    """
-
-    open_: bool | None = Field(default=None, alias="open")
-
-
-class GetOrganizationSensorReadingsLatestResponseItemReadingsItemDownstreamPower(_BaseSchema):
-    """Reading for the 'downstreamPower' metric. This will only be present if the 'metric' property
-    equals 'downstreamPower'.
-    """
-
-    enabled: bool | None = None
-
-
-class GetOrganizationSensorReadingsLatestResponseItemReadingsItemFrequency(_BaseSchema):
-    """Reading for the 'frequency' metric. This will only be present if the 'metric' property
-    equals 'frequency'.
-    """
-
-    level: float | None = None
-
-
-class GetOrganizationSensorReadingsLatestResponseItemReadingsItemHumidity(_BaseSchema):
-    """Reading for the 'humidity' metric. This will only be present if the 'metric' property equals
-    'humidity'.
-    """
-
-    relative_percentage: int | None = Field(default=None, alias="relativePercentage")
-
-
-class GetOrganizationSensorReadingsLatestResponseItemReadingsItemIndoorAirQuality(_BaseSchema):
-    """Reading for the 'indoorAirQuality' metric. This will only be present if the 'metric'
-    property equals 'indoorAirQuality'.
-    """
-
-    score: int | None = None
-
-
-class GetOrganizationSensorReadingsLatestResponseItemReadingsItemNoiseAmbient(_BaseSchema):
-    """Ambient noise reading."""
-
-    level: int | None = None
-
-
-class GetOrganizationSensorReadingsLatestResponseItemReadingsItemNo2(_BaseSchema):
-    """Reading for the 'no2' metric. This will only be present if the 'metric' property equals
-    'no2'.
-    """
-
-    concentration: int | None = None
-
-
-class GetOrganizationSensorReadingsLatestResponseItemReadingsItemO3(_BaseSchema):
-    """Reading for the 'o3' metric. This will only be present if the 'metric' property equals 'o3'."""
-
-    concentration: int | None = None
-
-
-class GetOrganizationSensorReadingsLatestResponseItemReadingsItemPm10(_BaseSchema):
-    """Reading for the 'pm10' metric. This will only be present if the 'metric' property equals
-    'pm10'.
-    """
-
-    concentration: int | None = None
-
-
-class GetOrganizationSensorReadingsLatestResponseItemReadingsItemPm25(_BaseSchema):
-    """Reading for the 'pm25' metric. This will only be present if the 'metric' property equals
-    'pm25'.
-    """
-
-    concentration: int | None = None
-
-
-class GetOrganizationSensorReadingsLatestResponseItemReadingsItemPowerFactor(_BaseSchema):
-    """Reading for the 'powerFactor' metric. This will only be present if the 'metric' property
-    equals 'powerFactor'.
-    """
-
-    percentage: int | None = None
-
-
-class GetOrganizationSensorReadingsLatestResponseItemReadingsItemRealPower(_BaseSchema):
-    """Reading for the 'realPower' metric. This will only be present if the 'metric' property
-    equals 'realPower'.
-    """
-
-    draw: float | None = None
-
-
-class GetOrganizationSensorReadingsLatestResponseItemReadingsItemRemoteLockoutSwitch(_BaseSchema):
-    """Reading for the 'remoteLockoutSwitch' metric. This will only be present if the 'metric'
-    property equals 'remoteLockoutSwitch'.
-    """
-
-    locked: bool | None = None
-
-
-class GetOrganizationSensorReadingsLatestResponseItemReadingsItemTemperature(_BaseSchema):
-    """Reading for the 'temperature' metric. This will only be present if the 'metric' property
-    equals 'temperature'.
-    """
-
-    fahrenheit: float | None = None
-    celsius: float | None = None
-
-
-class GetOrganizationSensorReadingsLatestResponseItemReadingsItemTvoc(_BaseSchema):
-    """Reading for the 'tvoc' metric. This will only be present if the 'metric' property equals
-    'tvoc'.
-    """
-
-    concentration: int | None = None
-
-
-class GetOrganizationSensorReadingsLatestResponseItemReadingsItemVoltage(_BaseSchema):
-    """Reading for the 'voltage' metric. This will only be present if the 'metric' property equals
-    'voltage'.
-    """
-
-    level: float | None = None
-
-
-class GetOrganizationSensorReadingsLatestResponseItemReadingsItemWater(_BaseSchema):
-    """Reading for the 'water' metric. This will only be present if the 'metric' property equals
-    'water'.
-    """
-
-    present: bool | None = None
-
-
-class GetOrganizationSensorReadingsLatestResponseItemReadingsItemRawTemperature(_BaseSchema):
-    """Reading for the 'rawTemperature' metric. This will only be present if the 'metric' property
-    equals 'rawTemperature'.
-    """
-
-    fahrenheit: float | None = None
-    celsius: float | None = None
+class GetDeviceSensorCommandsResponseItem(_BaseSchema):
+    """Schema for GetDeviceSensorCommandsResponseItem."""
+
+    command_id: str | None = Field(default=None, alias="commandId")
+    created_at: str | None = Field(default=None, alias="createdAt")
+    completed_at: str | None = Field(default=None, alias="completedAt")
+    created_by: SensorCreatedBy | None = Field(default=None, alias="createdBy")
+    operation: str | None = None
+    status: str | None = None
+    errors: list[str] | None = None
 
 
 class CreateDeviceSensorCommandResponse(_BaseSchema):
@@ -995,9 +293,7 @@ class CreateDeviceSensorCommandResponse(_BaseSchema):
     command_id: str | None = Field(default=None, alias="commandId")
     created_at: str | None = Field(default=None, alias="createdAt")
     completed_at: str | None = Field(default=None, alias="completedAt")
-    created_by: CreateDeviceSensorCommandResponseCreatedBy | None = Field(
-        default=None, alias="createdBy"
-    )
+    created_by: SensorCreatedBy | None = Field(default=None, alias="createdBy")
     operation: str | None = None
     status: str | None = None
     errors: list[str] | None = None
@@ -1009,9 +305,7 @@ class GetDeviceSensorCommandResponse(_BaseSchema):
     command_id: str | None = Field(default=None, alias="commandId")
     created_at: str | None = Field(default=None, alias="createdAt")
     completed_at: str | None = Field(default=None, alias="completedAt")
-    created_by: GetDeviceSensorCommandResponseCreatedBy | None = Field(
-        default=None, alias="createdBy"
-    )
+    created_by: SensorCreatedBy | None = Field(default=None, alias="createdBy")
     operation: str | None = None
     status: str | None = None
     errors: list[str] | None = None
@@ -1023,68 +317,9 @@ class GetDeviceSensorRelationshipsResponseLivestream(_BaseSchema):
     that the sensor triggers.
     """
 
-    related_devices: (
-        list[GetDeviceSensorRelationshipsResponseLivestreamRelatedDevicesItem] | None
-    ) = Field(default=None, alias="relatedDevices")
-
-
-class UpdateDeviceSensorRelationshipsResponseLivestream(_BaseSchema):
-    """A role defined between an MT sensor and an MV camera that adds the camera's livestream to
-    the sensor's details page. Snapshots from the camera will also appear in alert notifications
-    that the sensor triggers.
-    """
-
-    related_devices: (
-        list[UpdateDeviceSensorRelationshipsResponseLivestreamRelatedDevicesItem] | None
-    ) = Field(default=None, alias="relatedDevices")
-
-
-class GetNetworkSensorMqttBrokersResponse(RootModel[list[GetNetworkSensorMqttBrokersResponseItem]]):
-    """List the sensor settings of all MQTT brokers for this network. To get the brokers
-    themselves, use /networks/{networkId}/mqttBrokers.
-    """
-
-
-class GetNetworkSensorRelationshipsResponseItemRelationshipsLivestream(_BaseSchema):
-    """A role defined between an MT sensor and an MV camera that adds the camera's livestream to
-    the sensor's details page. Snapshots from the camera will also appear in alert notifications
-    that the sensor triggers.
-    """
-
-    related_devices: (
-        list[GetNetworkSensorRelationshipsResponseItemRelationshipsLivestreamRelatedDevicesItem]
-        | None
-    ) = Field(default=None, alias="relatedDevices")
-
-
-class GetDeviceSensorRelationshipsResponse(_BaseSchema):
-    """List the sensor roles for a given sensor or camera device."""
-
-    livestream: GetDeviceSensorRelationshipsResponseLivestream | None = None
-
-
-class UpdateDeviceSensorRelationshipsResponse(_BaseSchema):
-    """Assign one or more sensor roles to a given sensor or camera device."""
-
-    livestream: UpdateDeviceSensorRelationshipsResponseLivestream | None = None
-
-
-class GetDeviceSensorCommandsResponseItem(_BaseSchema):
-    """Schema for GetDeviceSensorCommandsResponseItem."""
-
-    command_id: str | None = Field(default=None, alias="commandId")
-    created_at: str | None = Field(default=None, alias="createdAt")
-    completed_at: str | None = Field(default=None, alias="completedAt")
-    created_by: GetDeviceSensorCommandsResponseItemCreatedBy | None = Field(
-        default=None, alias="createdBy"
+    related_devices: list[SensorLivestreamRelatedDevicesItem] | None = Field(
+        default=None, alias="relatedDevices"
     )
-    operation: str | None = None
-    status: str | None = None
-    errors: list[str] | None = None
-
-
-class GetDeviceSensorCommandsResponse(RootModel[list[GetDeviceSensorCommandsResponseItem]]):
-    """Returns a historical log of all commands."""
 
 
 class GetNetworkSensorAlertsCurrentOverviewByMetricResponseCounts(_BaseSchema):
@@ -1097,7 +332,7 @@ class GetNetworkSensorAlertsCurrentOverviewByMetricResponseCounts(_BaseSchema):
     frequency: int | None = None
     humidity: int | None = None
     indoor_air_quality: int | None = Field(default=None, alias="indoorAirQuality")
-    noise: GetNetworkSensorAlertsCurrentOverviewByMetricResponseCountsNoise | None = None
+    noise: SensorCountsNoise | None = None
     pm25: int | None = None
     power_factor: int | None = Field(default=None, alias="powerFactor")
     real_power: int | None = Field(default=None, alias="realPower")
@@ -1106,6 +341,53 @@ class GetNetworkSensorAlertsCurrentOverviewByMetricResponseCounts(_BaseSchema):
     upstream_power: int | None = Field(default=None, alias="upstreamPower")
     voltage: int | None = None
     water: int | None = None
+
+
+class SensorNoise(_BaseSchema):
+    """Noise threshold. 'ambient' must be provided."""
+
+    ambient: SensorAmbient
+
+
+class GetNetworkSensorMqttBrokersResponse(RootModel[list[GetNetworkSensorMqttBrokersResponseItem]]):
+    """List the sensor settings of all MQTT brokers for this network. To get the brokers
+    themselves, use /networks/{networkId}/mqttBrokers.
+    """
+
+
+class GetOrganizationSensorGatewaysConnectionsLatestResponseItemsItem(_BaseSchema):
+    """Schema for GetOrganizationSensorGatewaysConnectionsLatestResponseItemsItem."""
+
+    last_reported_at: str = Field(alias="lastReportedAt")
+    last_connected_at: str | None = Field(default=None, alias="lastConnectedAt")
+    rssi: int
+    network: SensorNetwork
+    sensor: SensorSensor
+    gateway: SensorSensor
+
+
+class SensorMetaCounts(_BaseSchema):
+    """Count metadata related to this result set."""
+
+    items: SensorItems | None = None
+
+
+class SensorNoise2(_BaseSchema):
+    """Reading for the 'noise' metric. This will only be present if the 'metric' property equals
+    'noise'.
+    """
+
+    ambient: SensorAmbient2 | None = None
+
+
+class GetDeviceSensorCommandsResponse(RootModel[list[GetDeviceSensorCommandsResponseItem]]):
+    """Returns a historical log of all commands."""
+
+
+class GetDeviceSensorRelationshipsResponse(_BaseSchema):
+    """List the sensor roles for a given sensor or camera device."""
+
+    livestream: GetDeviceSensorRelationshipsResponseLivestream | None = None
 
 
 class GetNetworkSensorAlertsCurrentOverviewByMetricResponse(_BaseSchema):
@@ -1115,25 +397,117 @@ class GetNetworkSensorAlertsCurrentOverviewByMetricResponse(_BaseSchema):
     counts: GetNetworkSensorAlertsCurrentOverviewByMetricResponseCounts | None = None
 
 
-class GetNetworkSensorAlertsOverviewByMetricResponseItemCounts(_BaseSchema):
-    """Counts of sensor alerts over the timespan, by reading metric."""
+class SensorThreshold(_BaseSchema):
+    """Threshold for sensor readings that will cause an alert to be sent. This object should
+    contain a single property key matching the condition's 'metric' value.
+    """
 
-    apparent_power: int | None = Field(default=None, alias="apparentPower")
-    co2: int | None = None
-    current: int | None = None
-    door: int | None = None
-    frequency: int | None = None
-    humidity: int | None = None
-    indoor_air_quality: int | None = Field(default=None, alias="indoorAirQuality")
-    noise: GetNetworkSensorAlertsOverviewByMetricResponseItemCountsNoise | None = None
-    pm25: int | None = None
-    power_factor: int | None = Field(default=None, alias="powerFactor")
-    real_power: int | None = Field(default=None, alias="realPower")
-    temperature: int | None = None
-    tvoc: int | None = None
-    upstream_power: int | None = Field(default=None, alias="upstreamPower")
-    voltage: int | None = None
-    water: int | None = None
+    temperature: SensorTemperature | None = None
+    humidity: SensorHumidity | None = None
+    water: SensorWater | None = None
+    door: SensorDoor | None = None
+    tvoc: SensorTvoc | None = None
+    co2: SensorTvoc | None = None
+    pm25: SensorTvoc | None = None
+    noise: SensorNoise | None = None
+    indoor_air_quality: SensorIndoorAirQuality | None = Field(
+        default=None, alias="indoorAirQuality"
+    )
+    real_power: SensorRealPower | None = Field(default=None, alias="realPower")
+    apparent_power: SensorRealPower | None = Field(default=None, alias="apparentPower")
+    power_factor: SensorPowerFactor | None = Field(default=None, alias="powerFactor")
+    current: SensorRealPower | None = None
+    voltage: SensorVoltage | None = None
+    frequency: SensorVoltage | None = None
+    upstream_power: SensorUpstreamPower | None = Field(default=None, alias="upstreamPower")
+
+
+class GetOrganizationSensorGatewaysConnectionsLatestResponseMeta(_BaseSchema):
+    """Other metadata related to this result set."""
+
+    counts: SensorMetaCounts | None = None
+
+
+class GetOrganizationSensorReadingsHistoryResponseItem(_BaseSchema):
+    """Schema for GetOrganizationSensorReadingsHistoryResponseItem."""
+
+    serial: str | None = None
+    network: SensorSchedule | None = None
+    ts: str | None = None
+    metric: str | None = None
+    apparent_power: SensorApparentPower | None = Field(default=None, alias="apparentPower")
+    battery: SensorBattery | None = None
+    button: SensorButton | None = None
+    co2: SensorCo2 | None = None
+    current: SensorApparentPower | None = None
+    door: SensorDoor2 | None = None
+    downstream_power: SensorDownstreamPower | None = Field(default=None, alias="downstreamPower")
+    frequency: SensorFrequency | None = None
+    humidity: SensorHumidity2 | None = None
+    indoor_air_quality: SensorIndoorAirQuality2 | None = Field(
+        default=None, alias="indoorAirQuality"
+    )
+    noise: SensorNoise2 | None = None
+    no2: SensorCo2 | None = None
+    o3: SensorCo2 | None = None
+    pm10: SensorCo2 | None = None
+    pm25: SensorCo2 | None = None
+    power_factor: SensorBattery | None = Field(default=None, alias="powerFactor")
+    real_power: SensorApparentPower | None = Field(default=None, alias="realPower")
+    remote_lockout_switch: SensorRemoteLockoutSwitch | None = Field(
+        default=None, alias="remoteLockoutSwitch"
+    )
+    temperature: SensorTemperature2 | None = None
+    tvoc: SensorCo2 | None = None
+    voltage: SensorFrequency | None = None
+    water: SensorWater2 | None = None
+    raw_temperature: SensorTemperature2 | None = Field(default=None, alias="rawTemperature")
+
+
+class SensorReadingsItem(_BaseSchema):
+    """Schema for SensorReadingsItem."""
+
+    ts: str | None = None
+    metric: str | None = None
+    apparent_power: SensorApparentPower | None = Field(default=None, alias="apparentPower")
+    battery: SensorBattery | None = None
+    button: SensorButton | None = None
+    co2: SensorCo2 | None = None
+    current: SensorApparentPower | None = None
+    door: SensorDoor2 | None = None
+    downstream_power: SensorDownstreamPower | None = Field(default=None, alias="downstreamPower")
+    frequency: SensorFrequency | None = None
+    humidity: SensorHumidity2 | None = None
+    indoor_air_quality: SensorIndoorAirQuality2 | None = Field(
+        default=None, alias="indoorAirQuality"
+    )
+    noise: SensorNoise2 | None = None
+    no2: SensorCo2 | None = None
+    o3: SensorCo2 | None = None
+    pm10: SensorCo2 | None = None
+    pm25: SensorCo2 | None = None
+    power_factor: SensorBattery | None = Field(default=None, alias="powerFactor")
+    real_power: SensorApparentPower | None = Field(default=None, alias="realPower")
+    remote_lockout_switch: SensorRemoteLockoutSwitch | None = Field(
+        default=None, alias="remoteLockoutSwitch"
+    )
+    temperature: SensorTemperature2 | None = None
+    tvoc: SensorCo2 | None = None
+    voltage: SensorFrequency | None = None
+    water: SensorWater2 | None = None
+    raw_temperature: SensorTemperature2 | None = Field(default=None, alias="rawTemperature")
+
+
+class UpdateDeviceSensorRelationshipsResponse(_BaseSchema):
+    """Assign one or more sensor roles to a given sensor or camera device."""
+
+    livestream: GetDeviceSensorRelationshipsResponseLivestream | None = None
+
+
+class SensorRelationships(_BaseSchema):
+    """An object describing the relationships defined between the device and other devices."""
+
+    livestream: GetDeviceSensorRelationshipsResponseLivestream | None = None
 
 
 class GetNetworkSensorAlertsOverviewByMetricResponseItem(_BaseSchema):
@@ -1141,321 +515,16 @@ class GetNetworkSensorAlertsOverviewByMetricResponseItem(_BaseSchema):
 
     start_ts: str | None = Field(default=None, alias="startTs")
     end_ts: str | None = Field(default=None, alias="endTs")
-    counts: GetNetworkSensorAlertsOverviewByMetricResponseItemCounts | None = None
+    counts: GetNetworkSensorAlertsCurrentOverviewByMetricResponseCounts | None = None
 
 
-class GetNetworkSensorAlertsOverviewByMetricResponse(
-    RootModel[list[GetNetworkSensorAlertsOverviewByMetricResponseItem]]
-):
-    """Return an overview of alert occurrences over a timespan, by metric."""
-
-
-class GetNetworkSensorAlertsProfilesResponseItemConditionsItemThresholdNoise(_BaseSchema):
-    """Noise threshold. 'ambient' must be provided."""
-
-    ambient: GetNetworkSensorAlertsProfilesResponseItemConditionsItemThresholdNoiseAmbient
-
-
-class GetNetworkSensorAlertsProfilesResponseItemConditionsItemThreshold(_BaseSchema):
-    """Threshold for sensor readings that will cause an alert to be sent. This object should
-    contain a single property key matching the condition's 'metric' value.
-    """
-
-    temperature: (
-        GetNetworkSensorAlertsProfilesResponseItemConditionsItemThresholdTemperature | None
-    ) = None
-    humidity: GetNetworkSensorAlertsProfilesResponseItemConditionsItemThresholdHumidity | None = (
-        None
-    )
-    water: GetNetworkSensorAlertsProfilesResponseItemConditionsItemThresholdWater | None = None
-    door: GetNetworkSensorAlertsProfilesResponseItemConditionsItemThresholdDoor | None = None
-    tvoc: GetNetworkSensorAlertsProfilesResponseItemConditionsItemThresholdTvoc | None = None
-    co2: GetNetworkSensorAlertsProfilesResponseItemConditionsItemThresholdCo2 | None = None
-    pm25: GetNetworkSensorAlertsProfilesResponseItemConditionsItemThresholdPm25 | None = None
-    noise: GetNetworkSensorAlertsProfilesResponseItemConditionsItemThresholdNoise | None = None
-    indoor_air_quality: (
-        GetNetworkSensorAlertsProfilesResponseItemConditionsItemThresholdIndoorAirQuality | None
-    ) = Field(default=None, alias="indoorAirQuality")
-    real_power: (
-        GetNetworkSensorAlertsProfilesResponseItemConditionsItemThresholdRealPower | None
-    ) = Field(default=None, alias="realPower")
-    apparent_power: (
-        GetNetworkSensorAlertsProfilesResponseItemConditionsItemThresholdApparentPower | None
-    ) = Field(default=None, alias="apparentPower")
-    power_factor: (
-        GetNetworkSensorAlertsProfilesResponseItemConditionsItemThresholdPowerFactor | None
-    ) = Field(default=None, alias="powerFactor")
-    current: GetNetworkSensorAlertsProfilesResponseItemConditionsItemThresholdCurrent | None = None
-    voltage: GetNetworkSensorAlertsProfilesResponseItemConditionsItemThresholdVoltage | None = None
-    frequency: GetNetworkSensorAlertsProfilesResponseItemConditionsItemThresholdFrequency | None = (
-        None
-    )
-    upstream_power: (
-        GetNetworkSensorAlertsProfilesResponseItemConditionsItemThresholdUpstreamPower | None
-    ) = Field(default=None, alias="upstreamPower")
-
-
-class GetNetworkSensorAlertsProfilesResponseItemConditionsItem(_BaseSchema):
-    """Schema for GetNetworkSensorAlertsProfilesResponseItemConditionsItem."""
+class SensorConditionsItem(_BaseSchema):
+    """Schema for SensorConditionsItem."""
 
     metric: str
-    threshold: GetNetworkSensorAlertsProfilesResponseItemConditionsItemThreshold
+    threshold: SensorThreshold
     direction: str | None = None
     duration: int | None = None
-
-
-class GetNetworkSensorAlertsProfilesResponseItem(_BaseSchema):
-    """Schema for GetNetworkSensorAlertsProfilesResponseItem."""
-
-    profile_id: str | None = Field(default=None, alias="profileId")
-    name: str | None = None
-    schedule: GetNetworkSensorAlertsProfilesResponseItemSchedule | None = None
-    conditions: list[GetNetworkSensorAlertsProfilesResponseItemConditionsItem]
-    recipients: GetNetworkSensorAlertsProfilesResponseItemRecipients | None = None
-    serials: list[str] | None = None
-    include_sensor_url: bool | None = Field(default=None, alias="includeSensorUrl")
-    message: str | None = None
-
-
-class GetNetworkSensorAlertsProfilesResponse(
-    RootModel[list[GetNetworkSensorAlertsProfilesResponseItem]]
-):
-    """Lists all sensor alert profiles for a network."""
-
-
-class CreateNetworkSensorAlertsProfileResponseConditionsItemThresholdNoise(_BaseSchema):
-    """Noise threshold. 'ambient' must be provided."""
-
-    ambient: CreateNetworkSensorAlertsProfileResponseConditionsItemThresholdNoiseAmbient
-
-
-class CreateNetworkSensorAlertsProfileResponseConditionsItemThreshold(_BaseSchema):
-    """Threshold for sensor readings that will cause an alert to be sent. This object should
-    contain a single property key matching the condition's 'metric' value.
-    """
-
-    temperature: (
-        CreateNetworkSensorAlertsProfileResponseConditionsItemThresholdTemperature | None
-    ) = None
-    humidity: CreateNetworkSensorAlertsProfileResponseConditionsItemThresholdHumidity | None = None
-    water: CreateNetworkSensorAlertsProfileResponseConditionsItemThresholdWater | None = None
-    door: CreateNetworkSensorAlertsProfileResponseConditionsItemThresholdDoor | None = None
-    tvoc: CreateNetworkSensorAlertsProfileResponseConditionsItemThresholdTvoc | None = None
-    co2: CreateNetworkSensorAlertsProfileResponseConditionsItemThresholdCo2 | None = None
-    pm25: CreateNetworkSensorAlertsProfileResponseConditionsItemThresholdPm25 | None = None
-    noise: CreateNetworkSensorAlertsProfileResponseConditionsItemThresholdNoise | None = None
-    indoor_air_quality: (
-        CreateNetworkSensorAlertsProfileResponseConditionsItemThresholdIndoorAirQuality | None
-    ) = Field(default=None, alias="indoorAirQuality")
-    real_power: CreateNetworkSensorAlertsProfileResponseConditionsItemThresholdRealPower | None = (
-        Field(default=None, alias="realPower")
-    )
-    apparent_power: (
-        CreateNetworkSensorAlertsProfileResponseConditionsItemThresholdApparentPower | None
-    ) = Field(default=None, alias="apparentPower")
-    power_factor: (
-        CreateNetworkSensorAlertsProfileResponseConditionsItemThresholdPowerFactor | None
-    ) = Field(default=None, alias="powerFactor")
-    current: CreateNetworkSensorAlertsProfileResponseConditionsItemThresholdCurrent | None = None
-    voltage: CreateNetworkSensorAlertsProfileResponseConditionsItemThresholdVoltage | None = None
-    frequency: CreateNetworkSensorAlertsProfileResponseConditionsItemThresholdFrequency | None = (
-        None
-    )
-    upstream_power: (
-        CreateNetworkSensorAlertsProfileResponseConditionsItemThresholdUpstreamPower | None
-    ) = Field(default=None, alias="upstreamPower")
-
-
-class CreateNetworkSensorAlertsProfileResponseConditionsItem(_BaseSchema):
-    """Schema for CreateNetworkSensorAlertsProfileResponseConditionsItem."""
-
-    metric: str
-    threshold: CreateNetworkSensorAlertsProfileResponseConditionsItemThreshold
-    direction: str | None = None
-    duration: int | None = None
-
-
-class CreateNetworkSensorAlertsProfileResponse(_BaseSchema):
-    """Creates a sensor alert profile for a network."""
-
-    profile_id: str | None = Field(default=None, alias="profileId")
-    name: str | None = None
-    schedule: CreateNetworkSensorAlertsProfileResponseSchedule | None = None
-    conditions: list[CreateNetworkSensorAlertsProfileResponseConditionsItem]
-    recipients: CreateNetworkSensorAlertsProfileResponseRecipients | None = None
-    serials: list[str] | None = None
-    include_sensor_url: bool | None = Field(default=None, alias="includeSensorUrl")
-    message: str | None = None
-
-
-class GetNetworkSensorAlertsProfileResponseConditionsItemThresholdNoise(_BaseSchema):
-    """Noise threshold. 'ambient' must be provided."""
-
-    ambient: GetNetworkSensorAlertsProfileResponseConditionsItemThresholdNoiseAmbient
-
-
-class GetNetworkSensorAlertsProfileResponseConditionsItemThreshold(_BaseSchema):
-    """Threshold for sensor readings that will cause an alert to be sent. This object should
-    contain a single property key matching the condition's 'metric' value.
-    """
-
-    temperature: GetNetworkSensorAlertsProfileResponseConditionsItemThresholdTemperature | None = (
-        None
-    )
-    humidity: GetNetworkSensorAlertsProfileResponseConditionsItemThresholdHumidity | None = None
-    water: GetNetworkSensorAlertsProfileResponseConditionsItemThresholdWater | None = None
-    door: GetNetworkSensorAlertsProfileResponseConditionsItemThresholdDoor | None = None
-    tvoc: GetNetworkSensorAlertsProfileResponseConditionsItemThresholdTvoc | None = None
-    co2: GetNetworkSensorAlertsProfileResponseConditionsItemThresholdCo2 | None = None
-    pm25: GetNetworkSensorAlertsProfileResponseConditionsItemThresholdPm25 | None = None
-    noise: GetNetworkSensorAlertsProfileResponseConditionsItemThresholdNoise | None = None
-    indoor_air_quality: (
-        GetNetworkSensorAlertsProfileResponseConditionsItemThresholdIndoorAirQuality | None
-    ) = Field(default=None, alias="indoorAirQuality")
-    real_power: GetNetworkSensorAlertsProfileResponseConditionsItemThresholdRealPower | None = (
-        Field(default=None, alias="realPower")
-    )
-    apparent_power: (
-        GetNetworkSensorAlertsProfileResponseConditionsItemThresholdApparentPower | None
-    ) = Field(default=None, alias="apparentPower")
-    power_factor: GetNetworkSensorAlertsProfileResponseConditionsItemThresholdPowerFactor | None = (
-        Field(default=None, alias="powerFactor")
-    )
-    current: GetNetworkSensorAlertsProfileResponseConditionsItemThresholdCurrent | None = None
-    voltage: GetNetworkSensorAlertsProfileResponseConditionsItemThresholdVoltage | None = None
-    frequency: GetNetworkSensorAlertsProfileResponseConditionsItemThresholdFrequency | None = None
-    upstream_power: (
-        GetNetworkSensorAlertsProfileResponseConditionsItemThresholdUpstreamPower | None
-    ) = Field(default=None, alias="upstreamPower")
-
-
-class GetNetworkSensorAlertsProfileResponseConditionsItem(_BaseSchema):
-    """Schema for GetNetworkSensorAlertsProfileResponseConditionsItem."""
-
-    metric: str
-    threshold: GetNetworkSensorAlertsProfileResponseConditionsItemThreshold
-    direction: str | None = None
-    duration: int | None = None
-
-
-class GetNetworkSensorAlertsProfileResponse(_BaseSchema):
-    """Show details of a sensor alert profile for a network."""
-
-    profile_id: str | None = Field(default=None, alias="profileId")
-    name: str | None = None
-    schedule: GetNetworkSensorAlertsProfileResponseSchedule | None = None
-    conditions: list[GetNetworkSensorAlertsProfileResponseConditionsItem]
-    recipients: GetNetworkSensorAlertsProfileResponseRecipients | None = None
-    serials: list[str] | None = None
-    include_sensor_url: bool | None = Field(default=None, alias="includeSensorUrl")
-    message: str | None = None
-
-
-class UpdateNetworkSensorAlertsProfileResponseConditionsItemThresholdNoise(_BaseSchema):
-    """Noise threshold. 'ambient' must be provided."""
-
-    ambient: UpdateNetworkSensorAlertsProfileResponseConditionsItemThresholdNoiseAmbient
-
-
-class UpdateNetworkSensorAlertsProfileResponseConditionsItemThreshold(_BaseSchema):
-    """Threshold for sensor readings that will cause an alert to be sent. This object should
-    contain a single property key matching the condition's 'metric' value.
-    """
-
-    temperature: (
-        UpdateNetworkSensorAlertsProfileResponseConditionsItemThresholdTemperature | None
-    ) = None
-    humidity: UpdateNetworkSensorAlertsProfileResponseConditionsItemThresholdHumidity | None = None
-    water: UpdateNetworkSensorAlertsProfileResponseConditionsItemThresholdWater | None = None
-    door: UpdateNetworkSensorAlertsProfileResponseConditionsItemThresholdDoor | None = None
-    tvoc: UpdateNetworkSensorAlertsProfileResponseConditionsItemThresholdTvoc | None = None
-    co2: UpdateNetworkSensorAlertsProfileResponseConditionsItemThresholdCo2 | None = None
-    pm25: UpdateNetworkSensorAlertsProfileResponseConditionsItemThresholdPm25 | None = None
-    noise: UpdateNetworkSensorAlertsProfileResponseConditionsItemThresholdNoise | None = None
-    indoor_air_quality: (
-        UpdateNetworkSensorAlertsProfileResponseConditionsItemThresholdIndoorAirQuality | None
-    ) = Field(default=None, alias="indoorAirQuality")
-    real_power: UpdateNetworkSensorAlertsProfileResponseConditionsItemThresholdRealPower | None = (
-        Field(default=None, alias="realPower")
-    )
-    apparent_power: (
-        UpdateNetworkSensorAlertsProfileResponseConditionsItemThresholdApparentPower | None
-    ) = Field(default=None, alias="apparentPower")
-    power_factor: (
-        UpdateNetworkSensorAlertsProfileResponseConditionsItemThresholdPowerFactor | None
-    ) = Field(default=None, alias="powerFactor")
-    current: UpdateNetworkSensorAlertsProfileResponseConditionsItemThresholdCurrent | None = None
-    voltage: UpdateNetworkSensorAlertsProfileResponseConditionsItemThresholdVoltage | None = None
-    frequency: UpdateNetworkSensorAlertsProfileResponseConditionsItemThresholdFrequency | None = (
-        None
-    )
-    upstream_power: (
-        UpdateNetworkSensorAlertsProfileResponseConditionsItemThresholdUpstreamPower | None
-    ) = Field(default=None, alias="upstreamPower")
-
-
-class UpdateNetworkSensorAlertsProfileResponseConditionsItem(_BaseSchema):
-    """Schema for UpdateNetworkSensorAlertsProfileResponseConditionsItem."""
-
-    metric: str
-    threshold: UpdateNetworkSensorAlertsProfileResponseConditionsItemThreshold
-    direction: str | None = None
-    duration: int | None = None
-
-
-class UpdateNetworkSensorAlertsProfileResponse(_BaseSchema):
-    """Updates a sensor alert profile for a network."""
-
-    profile_id: str | None = Field(default=None, alias="profileId")
-    name: str | None = None
-    schedule: UpdateNetworkSensorAlertsProfileResponseSchedule | None = None
-    conditions: list[UpdateNetworkSensorAlertsProfileResponseConditionsItem]
-    recipients: UpdateNetworkSensorAlertsProfileResponseRecipients | None = None
-    serials: list[str] | None = None
-    include_sensor_url: bool | None = Field(default=None, alias="includeSensorUrl")
-    message: str | None = None
-
-
-class GetNetworkSensorRelationshipsResponseItemRelationships(_BaseSchema):
-    """An object describing the relationships defined between the device and other devices."""
-
-    livestream: GetNetworkSensorRelationshipsResponseItemRelationshipsLivestream | None = None
-
-
-class GetNetworkSensorRelationshipsResponseItem(_BaseSchema):
-    """Schema for GetNetworkSensorRelationshipsResponseItem."""
-
-    device: GetNetworkSensorRelationshipsResponseItemDevice | None = None
-    relationships: GetNetworkSensorRelationshipsResponseItemRelationships | None = None
-
-
-class GetNetworkSensorRelationshipsResponse(
-    RootModel[list[GetNetworkSensorRelationshipsResponseItem]]
-):
-    """List the sensor roles for devices in a given network."""
-
-
-class GetOrganizationSensorGatewaysConnectionsLatestResponseItemsItem(_BaseSchema):
-    """Schema for GetOrganizationSensorGatewaysConnectionsLatestResponseItemsItem."""
-
-    last_reported_at: str = Field(alias="lastReportedAt")
-    last_connected_at: str | None = Field(default=None, alias="lastConnectedAt")
-    rssi: int
-    network: GetOrganizationSensorGatewaysConnectionsLatestResponseItemsItemNetwork
-    sensor: GetOrganizationSensorGatewaysConnectionsLatestResponseItemsItemSensor
-    gateway: GetOrganizationSensorGatewaysConnectionsLatestResponseItemsItemGateway
-
-
-class GetOrganizationSensorGatewaysConnectionsLatestResponseMetaCounts(_BaseSchema):
-    """Count metadata related to this result set."""
-
-    items: GetOrganizationSensorGatewaysConnectionsLatestResponseMetaCountsItems | None = None
-
-
-class GetOrganizationSensorGatewaysConnectionsLatestResponseMeta(_BaseSchema):
-    """Other metadata related to this result set."""
-
-    counts: GetOrganizationSensorGatewaysConnectionsLatestResponseMetaCounts | None = None
 
 
 class GetOrganizationSensorGatewaysConnectionsLatestResponse(_BaseSchema):
@@ -1465,126 +534,83 @@ class GetOrganizationSensorGatewaysConnectionsLatestResponse(_BaseSchema):
     meta: GetOrganizationSensorGatewaysConnectionsLatestResponseMeta | None = None
 
 
-class GetOrganizationSensorReadingsHistoryResponseItemNoise(_BaseSchema):
-    """Reading for the 'noise' metric. This will only be present if the 'metric' property equals
-    'noise'.
-    """
-
-    ambient: GetOrganizationSensorReadingsHistoryResponseItemNoiseAmbient | None = None
-
-
-class GetOrganizationSensorReadingsHistoryResponseItem(_BaseSchema):
-    """Schema for GetOrganizationSensorReadingsHistoryResponseItem."""
-
-    serial: str | None = None
-    network: GetOrganizationSensorReadingsHistoryResponseItemNetwork | None = None
-    ts: str | None = None
-    metric: str | None = None
-    apparent_power: GetOrganizationSensorReadingsHistoryResponseItemApparentPower | None = Field(
-        default=None, alias="apparentPower"
-    )
-    battery: GetOrganizationSensorReadingsHistoryResponseItemBattery | None = None
-    button: GetOrganizationSensorReadingsHistoryResponseItemButton | None = None
-    co2: GetOrganizationSensorReadingsHistoryResponseItemCo2 | None = None
-    current: GetOrganizationSensorReadingsHistoryResponseItemCurrent | None = None
-    door: GetOrganizationSensorReadingsHistoryResponseItemDoor | None = None
-    downstream_power: GetOrganizationSensorReadingsHistoryResponseItemDownstreamPower | None = (
-        Field(default=None, alias="downstreamPower")
-    )
-    frequency: GetOrganizationSensorReadingsHistoryResponseItemFrequency | None = None
-    humidity: GetOrganizationSensorReadingsHistoryResponseItemHumidity | None = None
-    indoor_air_quality: GetOrganizationSensorReadingsHistoryResponseItemIndoorAirQuality | None = (
-        Field(default=None, alias="indoorAirQuality")
-    )
-    noise: GetOrganizationSensorReadingsHistoryResponseItemNoise | None = None
-    no2: GetOrganizationSensorReadingsHistoryResponseItemNo2 | None = None
-    o3: GetOrganizationSensorReadingsHistoryResponseItemO3 | None = None
-    pm10: GetOrganizationSensorReadingsHistoryResponseItemPm10 | None = None
-    pm25: GetOrganizationSensorReadingsHistoryResponseItemPm25 | None = None
-    power_factor: GetOrganizationSensorReadingsHistoryResponseItemPowerFactor | None = Field(
-        default=None, alias="powerFactor"
-    )
-    real_power: GetOrganizationSensorReadingsHistoryResponseItemRealPower | None = Field(
-        default=None, alias="realPower"
-    )
-    remote_lockout_switch: (
-        GetOrganizationSensorReadingsHistoryResponseItemRemoteLockoutSwitch | None
-    ) = Field(default=None, alias="remoteLockoutSwitch")
-    temperature: GetOrganizationSensorReadingsHistoryResponseItemTemperature | None = None
-    tvoc: GetOrganizationSensorReadingsHistoryResponseItemTvoc | None = None
-    voltage: GetOrganizationSensorReadingsHistoryResponseItemVoltage | None = None
-    water: GetOrganizationSensorReadingsHistoryResponseItemWater | None = None
-    raw_temperature: GetOrganizationSensorReadingsHistoryResponseItemRawTemperature | None = Field(
-        default=None, alias="rawTemperature"
-    )
-
-
 class GetOrganizationSensorReadingsHistoryResponse(
     RootModel[list[GetOrganizationSensorReadingsHistoryResponseItem]]
 ):
     """Return all reported readings from sensors in a given timespan, sorted by timestamp."""
 
 
-class GetOrganizationSensorReadingsLatestResponseItemReadingsItemNoise(_BaseSchema):
-    """Reading for the 'noise' metric. This will only be present if the 'metric' property equals
-    'noise'.
-    """
-
-    ambient: GetOrganizationSensorReadingsLatestResponseItemReadingsItemNoiseAmbient | None = None
-
-
-class GetOrganizationSensorReadingsLatestResponseItemReadingsItem(_BaseSchema):
-    """Schema for GetOrganizationSensorReadingsLatestResponseItemReadingsItem."""
-
-    ts: str | None = None
-    metric: str | None = None
-    apparent_power: (
-        GetOrganizationSensorReadingsLatestResponseItemReadingsItemApparentPower | None
-    ) = Field(default=None, alias="apparentPower")
-    battery: GetOrganizationSensorReadingsLatestResponseItemReadingsItemBattery | None = None
-    button: GetOrganizationSensorReadingsLatestResponseItemReadingsItemButton | None = None
-    co2: GetOrganizationSensorReadingsLatestResponseItemReadingsItemCo2 | None = None
-    current: GetOrganizationSensorReadingsLatestResponseItemReadingsItemCurrent | None = None
-    door: GetOrganizationSensorReadingsLatestResponseItemReadingsItemDoor | None = None
-    downstream_power: (
-        GetOrganizationSensorReadingsLatestResponseItemReadingsItemDownstreamPower | None
-    ) = Field(default=None, alias="downstreamPower")
-    frequency: GetOrganizationSensorReadingsLatestResponseItemReadingsItemFrequency | None = None
-    humidity: GetOrganizationSensorReadingsLatestResponseItemReadingsItemHumidity | None = None
-    indoor_air_quality: (
-        GetOrganizationSensorReadingsLatestResponseItemReadingsItemIndoorAirQuality | None
-    ) = Field(default=None, alias="indoorAirQuality")
-    noise: GetOrganizationSensorReadingsLatestResponseItemReadingsItemNoise | None = None
-    no2: GetOrganizationSensorReadingsLatestResponseItemReadingsItemNo2 | None = None
-    o3: GetOrganizationSensorReadingsLatestResponseItemReadingsItemO3 | None = None
-    pm10: GetOrganizationSensorReadingsLatestResponseItemReadingsItemPm10 | None = None
-    pm25: GetOrganizationSensorReadingsLatestResponseItemReadingsItemPm25 | None = None
-    power_factor: GetOrganizationSensorReadingsLatestResponseItemReadingsItemPowerFactor | None = (
-        Field(default=None, alias="powerFactor")
-    )
-    real_power: GetOrganizationSensorReadingsLatestResponseItemReadingsItemRealPower | None = Field(
-        default=None, alias="realPower"
-    )
-    remote_lockout_switch: (
-        GetOrganizationSensorReadingsLatestResponseItemReadingsItemRemoteLockoutSwitch | None
-    ) = Field(default=None, alias="remoteLockoutSwitch")
-    temperature: GetOrganizationSensorReadingsLatestResponseItemReadingsItemTemperature | None = (
-        None
-    )
-    tvoc: GetOrganizationSensorReadingsLatestResponseItemReadingsItemTvoc | None = None
-    voltage: GetOrganizationSensorReadingsLatestResponseItemReadingsItemVoltage | None = None
-    water: GetOrganizationSensorReadingsLatestResponseItemReadingsItemWater | None = None
-    raw_temperature: (
-        GetOrganizationSensorReadingsLatestResponseItemReadingsItemRawTemperature | None
-    ) = Field(default=None, alias="rawTemperature")
-
-
 class GetOrganizationSensorReadingsLatestResponseItem(_BaseSchema):
     """Schema for GetOrganizationSensorReadingsLatestResponseItem."""
 
     serial: str | None = None
-    network: GetOrganizationSensorReadingsLatestResponseItemNetwork | None = None
-    readings: list[GetOrganizationSensorReadingsLatestResponseItemReadingsItem] | None = None
+    network: SensorSchedule | None = None
+    readings: list[SensorReadingsItem] | None = None
+
+
+class GetNetworkSensorRelationshipsResponseItem(_BaseSchema):
+    """Schema for GetNetworkSensorRelationshipsResponseItem."""
+
+    device: SensorDevice | None = None
+    relationships: SensorRelationships | None = None
+
+
+class GetNetworkSensorAlertsOverviewByMetricResponse(
+    RootModel[list[GetNetworkSensorAlertsOverviewByMetricResponseItem]]
+):
+    """Return an overview of alert occurrences over a timespan, by metric."""
+
+
+class GetNetworkSensorAlertsProfilesResponseItem(_BaseSchema):
+    """Schema for GetNetworkSensorAlertsProfilesResponseItem."""
+
+    profile_id: str | None = Field(default=None, alias="profileId")
+    name: str | None = None
+    schedule: SensorSchedule | None = None
+    conditions: list[SensorConditionsItem]
+    recipients: SensorRecipients | None = None
+    serials: list[str] | None = None
+    include_sensor_url: bool | None = Field(default=None, alias="includeSensorUrl")
+    message: str | None = None
+
+
+class CreateNetworkSensorAlertsProfileResponse(_BaseSchema):
+    """Creates a sensor alert profile for a network."""
+
+    profile_id: str | None = Field(default=None, alias="profileId")
+    name: str | None = None
+    schedule: SensorSchedule | None = None
+    conditions: list[SensorConditionsItem]
+    recipients: SensorRecipients | None = None
+    serials: list[str] | None = None
+    include_sensor_url: bool | None = Field(default=None, alias="includeSensorUrl")
+    message: str | None = None
+
+
+class GetNetworkSensorAlertsProfileResponse(_BaseSchema):
+    """Show details of a sensor alert profile for a network."""
+
+    profile_id: str | None = Field(default=None, alias="profileId")
+    name: str | None = None
+    schedule: SensorSchedule | None = None
+    conditions: list[SensorConditionsItem]
+    recipients: SensorRecipients | None = None
+    serials: list[str] | None = None
+    include_sensor_url: bool | None = Field(default=None, alias="includeSensorUrl")
+    message: str | None = None
+
+
+class UpdateNetworkSensorAlertsProfileResponse(_BaseSchema):
+    """Updates a sensor alert profile for a network."""
+
+    profile_id: str | None = Field(default=None, alias="profileId")
+    name: str | None = None
+    schedule: SensorSchedule | None = None
+    conditions: list[SensorConditionsItem]
+    recipients: SensorRecipients | None = None
+    serials: list[str] | None = None
+    include_sensor_url: bool | None = Field(default=None, alias="includeSensorUrl")
+    message: str | None = None
 
 
 class GetOrganizationSensorReadingsLatestResponse(
@@ -1593,3 +619,15 @@ class GetOrganizationSensorReadingsLatestResponse(
     """Return the latest available reading for each metric from each sensor, sorted by sensor
     serial.
     """
+
+
+class GetNetworkSensorRelationshipsResponse(
+    RootModel[list[GetNetworkSensorRelationshipsResponseItem]]
+):
+    """List the sensor roles for devices in a given network."""
+
+
+class GetNetworkSensorAlertsProfilesResponse(
+    RootModel[list[GetNetworkSensorAlertsProfilesResponseItem]]
+):
+    """Lists all sensor alert profiles for a network."""

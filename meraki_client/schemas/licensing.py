@@ -21,7 +21,7 @@ class GetAdministeredLicensingSubscriptionEntitlementsResponse(_BaseSchema):
     is_free: bool | None = Field(default=None, alias="isFree")
 
 
-class GetAdministeredLicensingSubscriptionSubscriptionsResponseItemSmartAccountAccount(_BaseSchema):
+class LicensingAccount(_BaseSchema):
     """Smart Account data."""
 
     id_: str | None = Field(default=None, alias="id")
@@ -29,9 +29,7 @@ class GetAdministeredLicensingSubscriptionSubscriptionsResponseItemSmartAccountA
     domain: str | None = None
 
 
-class GetAdministeredLicensingSubscriptionSubscriptionsResponseItemEntitlementsItemSeats(
-    _BaseSchema
-):
+class LicensingSeats(_BaseSchema):
     """Seat distribution."""
 
     assigned: int | None = None
@@ -39,91 +37,13 @@ class GetAdministeredLicensingSubscriptionSubscriptionsResponseItemEntitlementsI
     limit: int | None = None
 
 
-class GetAdministeredLicensingSubscriptionSubscriptionsResponseItemCountsSeats(_BaseSchema):
-    """Seat distribution."""
-
-    assigned: int | None = None
-    available: int | None = None
-    limit: int | None = None
-
-
-class GetAdministeredLicensingSubscriptionSubscriptionsResponseItemEnterpriseAgreement(_BaseSchema):
+class LicensingEnterpriseAgreement(_BaseSchema):
     """enterprise agreement details."""
 
     suites: list[str] | None = None
 
 
-class ClaimAdministeredLicensingSubscriptionSubscriptionsResponseSmartAccountAccount(_BaseSchema):
-    """Smart Account data."""
-
-    id_: str | None = Field(default=None, alias="id")
-    name: str | None = None
-    domain: str | None = None
-
-
-class ClaimAdministeredLicensingSubscriptionSubscriptionsResponseEntitlementsItemSeats(_BaseSchema):
-    """Seat distribution."""
-
-    assigned: int | None = None
-    available: int | None = None
-    limit: int | None = None
-
-
-class ClaimAdministeredLicensingSubscriptionSubscriptionsResponseCountsSeats(_BaseSchema):
-    """Seat distribution."""
-
-    assigned: int | None = None
-    available: int | None = None
-    limit: int | None = None
-
-
-class ClaimAdministeredLicensingSubscriptionSubscriptionsResponseEnterpriseAgreement(_BaseSchema):
-    """enterprise agreement details."""
-
-    suites: list[str] | None = None
-
-
-class ValidateAdministeredLicensingSubscriptionSubscriptionsClaimKeyResponseSmartAccountAccount(
-    _BaseSchema
-):
-    """Smart Account data."""
-
-    id_: str | None = Field(default=None, alias="id")
-    name: str | None = None
-    domain: str | None = None
-
-
-class ValidateAdministeredLicensingSubscriptionSubscriptionsClaimKeyResponseEntitlementsItemSeats(
-    _BaseSchema
-):
-    """Seat distribution."""
-
-    assigned: int | None = None
-    available: int | None = None
-    limit: int | None = None
-
-
-class ValidateAdministeredLicensingSubscriptionSubscriptionsClaimKeyResponseCountsSeats(
-    _BaseSchema
-):
-    """Seat distribution."""
-
-    assigned: int | None = None
-    available: int | None = None
-    limit: int | None = None
-
-
-class ValidateAdministeredLicensingSubscriptionSubscriptionsClaimKeyResponseEnterpriseAgreement(
-    _BaseSchema
-):
-    """enterprise agreement details."""
-
-    suites: list[str] | None = None
-
-
-class GetAdministeredLicensingSubscriptionSubscriptionsComplianceStatusesResponseItemSubscription(
-    _BaseSchema
-):
+class LicensingSubscription(_BaseSchema):
     """Subscription details."""
 
     id_: str | None = Field(default=None, alias="id")
@@ -131,12 +51,8 @@ class GetAdministeredLicensingSubscriptionSubscriptionsComplianceStatusesRespons
     status: str | None = None
 
 
-class GetAdministeredLicensingSubscriptionSubscriptionsComplianceStatusesResponseItemViolationsByProductClassItemMissingEntitlementsItem(
-    _BaseSchema
-):
-    """Schema for GetAdministeredLicensingSubscriptionSubscriptionsComplianceStatusesResponseItemVi
-    olationsByProductClassItemMissingEntitlementsItem.
-    """
+class LicensingEntitlementsItem2(_BaseSchema):
+    """Schema for LicensingEntitlementsItem2."""
 
     sku: str | None = None
     quantity: int | None = None
@@ -149,70 +65,46 @@ class BindAdministeredLicensingSubscriptionSubscriptionResponseNetworksItem(_Bas
     name: str | None = None
 
 
-class BindAdministeredLicensingSubscriptionSubscriptionResponseInsufficientEntitlementsItem(
-    _BaseSchema
-):
-    """Schema for
-    BindAdministeredLicensingSubscriptionSubscriptionResponseInsufficientEntitlementsItem.
-    """
+class LicensingEditionsItem(_BaseSchema):
+    """Schema for LicensingEditionsItem."""
+
+    edition: str | None = None
+    product_type: str | None = Field(default=None, alias="productType")
+
+
+class LicensingCountsItem(_BaseSchema):
+    """Schema for LicensingCountsItem."""
+
+    model: str | None = None
+    count: int | None = None
+
+
+class LicensingSmartAccount(_BaseSchema):
+    """Smart Account linkage information."""
+
+    status: str | None = None
+    account: LicensingAccount | None = None
+
+
+class LicensingEntitlementsItem(_BaseSchema):
+    """Schema for LicensingEntitlementsItem."""
 
     sku: str | None = None
-    quantity: int | None = None
+    seats: LicensingSeats | None = None
 
 
-class GetOrganizationLicensingCotermLicensesResponseItemEditionsItem(_BaseSchema):
-    """Schema for GetOrganizationLicensingCotermLicensesResponseItemEditionsItem."""
+class LicensingCounts(_BaseSchema):
+    """Numeric breakdown of network, organizations, entitlement counts."""
 
-    edition: str | None = None
-    product_type: str | None = Field(default=None, alias="productType")
-
-
-class GetOrganizationLicensingCotermLicensesResponseItemCountsItem(_BaseSchema):
-    """Schema for GetOrganizationLicensingCotermLicensesResponseItemCountsItem."""
-
-    model: str | None = None
-    count: int | None = None
+    seats: LicensingSeats | None = None
+    networks: int | None = None
+    organizations: int | None = None
 
 
-class MoveOrganizationLicensingCotermLicensesResponseRemainderLicensesItemEditionsItem(_BaseSchema):
-    """Schema for MoveOrganizationLicensingCotermLicensesResponseRemainderLicensesItemEditionsItem."""
-
-    edition: str | None = None
-    product_type: str | None = Field(default=None, alias="productType")
-
-
-class MoveOrganizationLicensingCotermLicensesResponseRemainderLicensesItemCountsItem(_BaseSchema):
-    """Schema for MoveOrganizationLicensingCotermLicensesResponseRemainderLicensesItemCountsItem."""
-
-    model: str | None = None
-    count: int | None = None
-
-
-class MoveOrganizationLicensingCotermLicensesResponseMovedLicensesItemEditionsItem(_BaseSchema):
-    """Schema for MoveOrganizationLicensingCotermLicensesResponseMovedLicensesItemEditionsItem."""
-
-    edition: str | None = None
-    product_type: str | None = Field(default=None, alias="productType")
-
-
-class MoveOrganizationLicensingCotermLicensesResponseMovedLicensesItemCountsItem(_BaseSchema):
-    """Schema for MoveOrganizationLicensingCotermLicensesResponseMovedLicensesItemCountsItem."""
-
-    model: str | None = None
-    count: int | None = None
-
-
-class GetAdministeredLicensingSubscriptionSubscriptionsComplianceStatusesResponseItemViolationsByProductClassItemMissing(
-    _BaseSchema
-):
+class LicensingMissing(_BaseSchema):
     """Missing entitlements details."""
 
-    entitlements: (
-        list[
-            GetAdministeredLicensingSubscriptionSubscriptionsComplianceStatusesResponseItemViolationsByProductClassItemMissingEntitlementsItem
-        ]
-        | None
-    ) = None
+    entitlements: list[LicensingEntitlementsItem2] | None = None
 
 
 class BindAdministeredLicensingSubscriptionSubscriptionResponse(_BaseSchema):
@@ -223,10 +115,9 @@ class BindAdministeredLicensingSubscriptionSubscriptionResponse(_BaseSchema):
         None
     )
     errors: list[str] | None = None
-    insufficient_entitlements: (
-        list[BindAdministeredLicensingSubscriptionSubscriptionResponseInsufficientEntitlementsItem]
-        | None
-    ) = Field(default=None, alias="insufficientEntitlements")
+    insufficient_entitlements: list[LicensingEntitlementsItem2] | None = Field(
+        default=None, alias="insufficientEntitlements"
+    )
 
 
 class GetOrganizationLicensingCotermLicensesResponseItem(_BaseSchema):
@@ -241,8 +132,8 @@ class GetOrganizationLicensingCotermLicensesResponseItem(_BaseSchema):
     invalidated: bool | None = None
     invalidated_at: str | None = Field(default=None, alias="invalidatedAt")
     expired: bool | None = None
-    editions: list[GetOrganizationLicensingCotermLicensesResponseItemEditionsItem] | None = None
-    counts: list[GetOrganizationLicensingCotermLicensesResponseItemCountsItem] | None = None
+    editions: list[LicensingEditionsItem] | None = None
+    counts: list[LicensingCountsItem] | None = None
 
 
 class MoveOrganizationLicensingCotermLicensesResponseRemainderLicensesItem(_BaseSchema):
@@ -257,33 +148,82 @@ class MoveOrganizationLicensingCotermLicensesResponseRemainderLicensesItem(_Base
     invalidated: bool | None = None
     invalidated_at: str | None = Field(default=None, alias="invalidatedAt")
     expired: bool | None = None
-    editions: (
-        list[MoveOrganizationLicensingCotermLicensesResponseRemainderLicensesItemEditionsItem]
-        | None
-    ) = None
-    counts: (
-        list[MoveOrganizationLicensingCotermLicensesResponseRemainderLicensesItemCountsItem] | None
-    ) = None
+    editions: list[LicensingEditionsItem] | None = None
+    counts: list[LicensingCountsItem] | None = None
 
 
-class MoveOrganizationLicensingCotermLicensesResponseMovedLicensesItem(_BaseSchema):
-    """Schema for MoveOrganizationLicensingCotermLicensesResponseMovedLicensesItem."""
+class GetAdministeredLicensingSubscriptionSubscriptionsResponseItem(_BaseSchema):
+    """Schema for GetAdministeredLicensingSubscriptionSubscriptionsResponseItem."""
 
-    key: str | None = None
-    organization_id: str | None = Field(default=None, alias="organizationId")
-    duration: int | None = None
-    mode: str | None = None
-    started_at: str | None = Field(default=None, alias="startedAt")
-    claimed_at: str | None = Field(default=None, alias="claimedAt")
-    invalidated: bool | None = None
-    invalidated_at: str | None = Field(default=None, alias="invalidatedAt")
-    expired: bool | None = None
-    editions: (
-        list[MoveOrganizationLicensingCotermLicensesResponseMovedLicensesItemEditionsItem] | None
-    ) = None
-    counts: (
-        list[MoveOrganizationLicensingCotermLicensesResponseMovedLicensesItemCountsItem] | None
-    ) = None
+    subscription_id: str | None = Field(default=None, alias="subscriptionId")
+    name: str | None = None
+    description: str | None = None
+    status: str | None = None
+    start_date: str | None = Field(default=None, alias="startDate")
+    end_date: str | None = Field(default=None, alias="endDate")
+    last_updated_at: str | None = Field(default=None, alias="lastUpdatedAt")
+    web_order_id: str | None = Field(default=None, alias="webOrderId")
+    type_: str | None = Field(default=None, alias="type")
+    smart_account: LicensingSmartAccount | None = Field(default=None, alias="smartAccount")
+    renewal_requested: bool | None = Field(default=None, alias="renewalRequested")
+    product_types: list[str] | None = Field(default=None, alias="productTypes")
+    entitlements: list[LicensingEntitlementsItem] | None = None
+    counts: LicensingCounts | None = None
+    enterprise_agreement: LicensingEnterpriseAgreement | None = Field(
+        default=None, alias="enterpriseAgreement"
+    )
+
+
+class ClaimAdministeredLicensingSubscriptionSubscriptionsResponse(_BaseSchema):
+    """Claim a subscription into an organization."""
+
+    subscription_id: str | None = Field(default=None, alias="subscriptionId")
+    name: str | None = None
+    description: str | None = None
+    status: str | None = None
+    start_date: str | None = Field(default=None, alias="startDate")
+    end_date: str | None = Field(default=None, alias="endDate")
+    last_updated_at: str | None = Field(default=None, alias="lastUpdatedAt")
+    web_order_id: str | None = Field(default=None, alias="webOrderId")
+    type_: str | None = Field(default=None, alias="type")
+    smart_account: LicensingSmartAccount | None = Field(default=None, alias="smartAccount")
+    renewal_requested: bool | None = Field(default=None, alias="renewalRequested")
+    product_types: list[str] | None = Field(default=None, alias="productTypes")
+    entitlements: list[LicensingEntitlementsItem] | None = None
+    counts: LicensingCounts | None = None
+    enterprise_agreement: LicensingEnterpriseAgreement | None = Field(
+        default=None, alias="enterpriseAgreement"
+    )
+
+
+class ValidateAdministeredLicensingSubscriptionSubscriptionsClaimKeyResponse(_BaseSchema):
+    """Find a subscription by claim key. Returns 400 if the key has already been claimed."""
+
+    subscription_id: str | None = Field(default=None, alias="subscriptionId")
+    name: str | None = None
+    description: str | None = None
+    status: str | None = None
+    start_date: str | None = Field(default=None, alias="startDate")
+    end_date: str | None = Field(default=None, alias="endDate")
+    last_updated_at: str | None = Field(default=None, alias="lastUpdatedAt")
+    web_order_id: str | None = Field(default=None, alias="webOrderId")
+    type_: str | None = Field(default=None, alias="type")
+    smart_account: LicensingSmartAccount | None = Field(default=None, alias="smartAccount")
+    renewal_requested: bool | None = Field(default=None, alias="renewalRequested")
+    product_types: list[str] | None = Field(default=None, alias="productTypes")
+    entitlements: list[LicensingEntitlementsItem] | None = None
+    counts: LicensingCounts | None = None
+    enterprise_agreement: LicensingEnterpriseAgreement | None = Field(
+        default=None, alias="enterpriseAgreement"
+    )
+
+
+class LicensingByProductClassItem(_BaseSchema):
+    """Schema for LicensingByProductClassItem."""
+
+    product_class: str | None = Field(default=None, alias="productClass")
+    grace_period_ends_at: str | None = Field(default=None, alias="gracePeriodEndsAt")
+    missing: LicensingMissing | None = None
 
 
 class GetOrganizationLicensingCotermLicensesResponse(
@@ -299,60 +239,8 @@ class MoveOrganizationLicensingCotermLicensesResponse(_BaseSchema):
         list[MoveOrganizationLicensingCotermLicensesResponseRemainderLicensesItem] | None
     ) = Field(default=None, alias="remainderLicenses")
     moved_licenses: (
-        list[MoveOrganizationLicensingCotermLicensesResponseMovedLicensesItem] | None
+        list[MoveOrganizationLicensingCotermLicensesResponseRemainderLicensesItem] | None
     ) = Field(default=None, alias="movedLicenses")
-
-
-class GetAdministeredLicensingSubscriptionSubscriptionsResponseItemSmartAccount(_BaseSchema):
-    """Smart Account linkage information."""
-
-    status: str | None = None
-    account: (
-        GetAdministeredLicensingSubscriptionSubscriptionsResponseItemSmartAccountAccount | None
-    ) = None
-
-
-class GetAdministeredLicensingSubscriptionSubscriptionsResponseItemEntitlementsItem(_BaseSchema):
-    """Schema for GetAdministeredLicensingSubscriptionSubscriptionsResponseItemEntitlementsItem."""
-
-    sku: str | None = None
-    seats: (
-        GetAdministeredLicensingSubscriptionSubscriptionsResponseItemEntitlementsItemSeats | None
-    ) = None
-
-
-class GetAdministeredLicensingSubscriptionSubscriptionsResponseItemCounts(_BaseSchema):
-    """Numeric breakdown of network, organizations, entitlement counts."""
-
-    seats: GetAdministeredLicensingSubscriptionSubscriptionsResponseItemCountsSeats | None = None
-    networks: int | None = None
-    organizations: int | None = None
-
-
-class GetAdministeredLicensingSubscriptionSubscriptionsResponseItem(_BaseSchema):
-    """Schema for GetAdministeredLicensingSubscriptionSubscriptionsResponseItem."""
-
-    subscription_id: str | None = Field(default=None, alias="subscriptionId")
-    name: str | None = None
-    description: str | None = None
-    status: str | None = None
-    start_date: str | None = Field(default=None, alias="startDate")
-    end_date: str | None = Field(default=None, alias="endDate")
-    last_updated_at: str | None = Field(default=None, alias="lastUpdatedAt")
-    web_order_id: str | None = Field(default=None, alias="webOrderId")
-    type_: str | None = Field(default=None, alias="type")
-    smart_account: (
-        GetAdministeredLicensingSubscriptionSubscriptionsResponseItemSmartAccount | None
-    ) = Field(default=None, alias="smartAccount")
-    renewal_requested: bool | None = Field(default=None, alias="renewalRequested")
-    product_types: list[str] | None = Field(default=None, alias="productTypes")
-    entitlements: (
-        list[GetAdministeredLicensingSubscriptionSubscriptionsResponseItemEntitlementsItem] | None
-    ) = None
-    counts: GetAdministeredLicensingSubscriptionSubscriptionsResponseItemCounts | None = None
-    enterprise_agreement: (
-        GetAdministeredLicensingSubscriptionSubscriptionsResponseItemEnterpriseAgreement | None
-    ) = Field(default=None, alias="enterpriseAgreement")
 
 
 class GetAdministeredLicensingSubscriptionSubscriptionsResponse(
@@ -361,163 +249,19 @@ class GetAdministeredLicensingSubscriptionSubscriptionsResponse(
     """List available subscriptions."""
 
 
-class ClaimAdministeredLicensingSubscriptionSubscriptionsResponseSmartAccount(_BaseSchema):
-    """Smart Account linkage information."""
-
-    status: str | None = None
-    account: (
-        ClaimAdministeredLicensingSubscriptionSubscriptionsResponseSmartAccountAccount | None
-    ) = None
-
-
-class ClaimAdministeredLicensingSubscriptionSubscriptionsResponseEntitlementsItem(_BaseSchema):
-    """Schema for ClaimAdministeredLicensingSubscriptionSubscriptionsResponseEntitlementsItem."""
-
-    sku: str | None = None
-    seats: (
-        ClaimAdministeredLicensingSubscriptionSubscriptionsResponseEntitlementsItemSeats | None
-    ) = None
-
-
-class ClaimAdministeredLicensingSubscriptionSubscriptionsResponseCounts(_BaseSchema):
-    """Numeric breakdown of network, organizations, entitlement counts."""
-
-    seats: ClaimAdministeredLicensingSubscriptionSubscriptionsResponseCountsSeats | None = None
-    networks: int | None = None
-    organizations: int | None = None
-
-
-class ClaimAdministeredLicensingSubscriptionSubscriptionsResponse(_BaseSchema):
-    """Claim a subscription into an organization."""
-
-    subscription_id: str | None = Field(default=None, alias="subscriptionId")
-    name: str | None = None
-    description: str | None = None
-    status: str | None = None
-    start_date: str | None = Field(default=None, alias="startDate")
-    end_date: str | None = Field(default=None, alias="endDate")
-    last_updated_at: str | None = Field(default=None, alias="lastUpdatedAt")
-    web_order_id: str | None = Field(default=None, alias="webOrderId")
-    type_: str | None = Field(default=None, alias="type")
-    smart_account: (
-        ClaimAdministeredLicensingSubscriptionSubscriptionsResponseSmartAccount | None
-    ) = Field(default=None, alias="smartAccount")
-    renewal_requested: bool | None = Field(default=None, alias="renewalRequested")
-    product_types: list[str] | None = Field(default=None, alias="productTypes")
-    entitlements: (
-        list[ClaimAdministeredLicensingSubscriptionSubscriptionsResponseEntitlementsItem] | None
-    ) = None
-    counts: ClaimAdministeredLicensingSubscriptionSubscriptionsResponseCounts | None = None
-    enterprise_agreement: (
-        ClaimAdministeredLicensingSubscriptionSubscriptionsResponseEnterpriseAgreement | None
-    ) = Field(default=None, alias="enterpriseAgreement")
-
-
-class ValidateAdministeredLicensingSubscriptionSubscriptionsClaimKeyResponseSmartAccount(
-    _BaseSchema
-):
-    """Smart Account linkage information."""
-
-    status: str | None = None
-    account: (
-        ValidateAdministeredLicensingSubscriptionSubscriptionsClaimKeyResponseSmartAccountAccount
-        | None
-    ) = None
-
-
-class ValidateAdministeredLicensingSubscriptionSubscriptionsClaimKeyResponseEntitlementsItem(
-    _BaseSchema
-):
-    """Schema for
-    ValidateAdministeredLicensingSubscriptionSubscriptionsClaimKeyResponseEntitlementsItem.
-    """
-
-    sku: str | None = None
-    seats: (
-        ValidateAdministeredLicensingSubscriptionSubscriptionsClaimKeyResponseEntitlementsItemSeats
-        | None
-    ) = None
-
-
-class ValidateAdministeredLicensingSubscriptionSubscriptionsClaimKeyResponseCounts(_BaseSchema):
-    """Numeric breakdown of network, organizations, entitlement counts."""
-
-    seats: (
-        ValidateAdministeredLicensingSubscriptionSubscriptionsClaimKeyResponseCountsSeats | None
-    ) = None
-    networks: int | None = None
-    organizations: int | None = None
-
-
-class ValidateAdministeredLicensingSubscriptionSubscriptionsClaimKeyResponse(_BaseSchema):
-    """Find a subscription by claim key. Returns 400 if the key has already been claimed."""
-
-    subscription_id: str | None = Field(default=None, alias="subscriptionId")
-    name: str | None = None
-    description: str | None = None
-    status: str | None = None
-    start_date: str | None = Field(default=None, alias="startDate")
-    end_date: str | None = Field(default=None, alias="endDate")
-    last_updated_at: str | None = Field(default=None, alias="lastUpdatedAt")
-    web_order_id: str | None = Field(default=None, alias="webOrderId")
-    type_: str | None = Field(default=None, alias="type")
-    smart_account: (
-        ValidateAdministeredLicensingSubscriptionSubscriptionsClaimKeyResponseSmartAccount | None
-    ) = Field(default=None, alias="smartAccount")
-    renewal_requested: bool | None = Field(default=None, alias="renewalRequested")
-    product_types: list[str] | None = Field(default=None, alias="productTypes")
-    entitlements: (
-        list[ValidateAdministeredLicensingSubscriptionSubscriptionsClaimKeyResponseEntitlementsItem]
-        | None
-    ) = None
-    counts: ValidateAdministeredLicensingSubscriptionSubscriptionsClaimKeyResponseCounts | None = (
-        None
-    )
-    enterprise_agreement: (
-        ValidateAdministeredLicensingSubscriptionSubscriptionsClaimKeyResponseEnterpriseAgreement
-        | None
-    ) = Field(default=None, alias="enterpriseAgreement")
-
-
-class GetAdministeredLicensingSubscriptionSubscriptionsComplianceStatusesResponseItemViolationsByProductClassItem(
-    _BaseSchema
-):
-    """Schema for GetAdministeredLicensingSubscriptionSubscriptionsComplianceStatusesResponseItemVi
-    olationsByProductClassItem.
-    """
-
-    product_class: str | None = Field(default=None, alias="productClass")
-    grace_period_ends_at: str | None = Field(default=None, alias="gracePeriodEndsAt")
-    missing: (
-        GetAdministeredLicensingSubscriptionSubscriptionsComplianceStatusesResponseItemViolationsByProductClassItemMissing
-        | None
-    ) = None
-
-
-class GetAdministeredLicensingSubscriptionSubscriptionsComplianceStatusesResponseItemViolations(
-    _BaseSchema
-):
+class LicensingViolations(_BaseSchema):
     """Violations."""
 
-    by_product_class: (
-        list[
-            GetAdministeredLicensingSubscriptionSubscriptionsComplianceStatusesResponseItemViolationsByProductClassItem
-        ]
-        | None
-    ) = Field(default=None, alias="byProductClass")
+    by_product_class: list[LicensingByProductClassItem] | None = Field(
+        default=None, alias="byProductClass"
+    )
 
 
 class GetAdministeredLicensingSubscriptionSubscriptionsComplianceStatusesResponseItem(_BaseSchema):
     """Schema for GetAdministeredLicensingSubscriptionSubscriptionsComplianceStatusesResponseItem."""
 
-    subscription: (
-        GetAdministeredLicensingSubscriptionSubscriptionsComplianceStatusesResponseItemSubscription
-        | None
-    ) = None
-    violations: (
-        GetAdministeredLicensingSubscriptionSubscriptionsComplianceStatusesResponseItemViolations
-        | None
-    ) = None
+    subscription: LicensingSubscription | None = None
+    violations: LicensingViolations | None = None
 
 
 class GetAdministeredLicensingSubscriptionSubscriptionsComplianceStatusesResponse(

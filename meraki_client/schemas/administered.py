@@ -9,20 +9,14 @@ from pydantic import Field, RootModel
 from meraki_client.schemas._base import _BaseSchema
 
 
-class GetAdministeredIdentitiesMeResponseAuthenticationApiKey(_BaseSchema):
+class AdministeredKey(_BaseSchema):
     """API key."""
 
     created: bool | None = None
 
 
-class GetAdministeredIdentitiesMeResponseAuthenticationTwoFactor(_BaseSchema):
+class AdministeredAuthenticationTwoFactor(_BaseSchema):
     """TwoFactor authentication."""
-
-    enabled: bool | None = None
-
-
-class GetAdministeredIdentitiesMeResponseAuthenticationSaml(_BaseSchema):
-    """SAML authentication."""
 
     enabled: bool | None = None
 
@@ -44,27 +38,25 @@ class GenerateAdministeredIdentitiesMeApiKeysResponse(_BaseSchema):
     key: str | None = None
 
 
+class AdministeredAuthenticationApi(_BaseSchema):
+    """API authentication."""
+
+    key: AdministeredKey | None = None
+
+
 class GetAdministeredIdentitiesMeApiKeysResponse(
     RootModel[list[GetAdministeredIdentitiesMeApiKeysResponseItem]]
 ):
     """List the non-sensitive metadata associated with the API keys that belong to the user."""
 
 
-class GetAdministeredIdentitiesMeResponseAuthenticationApi(_BaseSchema):
-    """API authentication."""
-
-    key: GetAdministeredIdentitiesMeResponseAuthenticationApiKey | None = None
-
-
 class GetAdministeredIdentitiesMeResponseAuthentication(_BaseSchema):
     """Authentication info."""
 
     mode: str | None = None
-    api: GetAdministeredIdentitiesMeResponseAuthenticationApi | None = None
-    two_factor: GetAdministeredIdentitiesMeResponseAuthenticationTwoFactor | None = Field(
-        default=None, alias="twoFactor"
-    )
-    saml: GetAdministeredIdentitiesMeResponseAuthenticationSaml | None = None
+    api: AdministeredAuthenticationApi | None = None
+    two_factor: AdministeredAuthenticationTwoFactor | None = Field(default=None, alias="twoFactor")
+    saml: AdministeredAuthenticationTwoFactor | None = None
 
 
 class GetAdministeredIdentitiesMeResponse(_BaseSchema):

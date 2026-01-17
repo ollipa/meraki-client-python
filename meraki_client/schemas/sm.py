@@ -171,7 +171,7 @@ class GetNetworkSmDeviceNetworkAdaptersResponseItem(_BaseSchema):
     subnet: str | None = None
 
 
-class GetNetworkSmDevicePerformanceHistoryResponseItemDiskUsageC(_BaseSchema):
+class SmC(_BaseSchema):
     """An object containing current disk usage details."""
 
     used: int | None = None
@@ -307,8 +307,8 @@ class GetNetworkSmTrustedAccessConfigsResponseItem(_BaseSchema):
     access_end_at: str | None = Field(default=None, alias="accessEndAt")
 
 
-class GetNetworkSmUserAccessDevicesResponseItemTrustedAccessConnectionsItem(_BaseSchema):
-    """Schema for GetNetworkSmUserAccessDevicesResponseItemTrustedAccessConnectionsItem."""
+class SmTrustedAccessConnectionsItem(_BaseSchema):
+    """Schema for SmTrustedAccessConnectionsItem."""
 
     trusted_access_config_id: str | None = Field(default=None, alias="trustedAccessConfigId")
     downloaded_at: str | None = Field(default=None, alias="downloadedAt")
@@ -385,7 +385,7 @@ class GetOrganizationSmAdminsRolesResponseItemsItem(_BaseSchema):
     tags: list[str] | None = None
 
 
-class GetOrganizationSmAdminsRolesResponseMetaCountsItems(_BaseSchema):
+class SmItems(_BaseSchema):
     """Counts relating to the paginated items."""
 
     total: int | None = None
@@ -425,8 +425,8 @@ class GetOrganizationSmApnsCertResponse(_BaseSchema):
     certificate: str | None = None
 
 
-class UpdateOrganizationSmSentryPoliciesAssignmentsResponseItemsItemPoliciesItem(_BaseSchema):
-    """Schema for UpdateOrganizationSmSentryPoliciesAssignmentsResponseItemsItemPoliciesItem."""
+class SmPoliciesItem(_BaseSchema):
+    """Schema for SmPoliciesItem."""
 
     policy_id: str | None = Field(default=None, alias="policyId")
     network_id: str | None = Field(default=None, alias="networkId")
@@ -440,41 +440,7 @@ class UpdateOrganizationSmSentryPoliciesAssignmentsResponseItemsItemPoliciesItem
     last_updated_at: str | None = Field(default=None, alias="lastUpdatedAt")
 
 
-class GetOrganizationSmSentryPoliciesAssignmentsByNetworkResponseItemItemsItemPoliciesItem(
-    _BaseSchema
-):
-    """Schema for
-    GetOrganizationSmSentryPoliciesAssignmentsByNetworkResponseItemItemsItemPoliciesItem.
-    """
-
-    policy_id: str | None = Field(default=None, alias="policyId")
-    network_id: str | None = Field(default=None, alias="networkId")
-    sm_network_id: str | None = Field(default=None, alias="smNetworkId")
-    tags: list[str] | None = None
-    scope: str | None = None
-    group_number: str | None = Field(default=None, alias="groupNumber")
-    group_policy_id: str | None = Field(default=None, alias="groupPolicyId")
-    priority: str | None = None
-    created_at: str | None = Field(default=None, alias="createdAt")
-    last_updated_at: str | None = Field(default=None, alias="lastUpdatedAt")
-
-
-class GetOrganizationSmSentryPoliciesAssignmentsByNetworkResponseItemMetaCountsItems(_BaseSchema):
-    """Counts relating to the paginated items."""
-
-    total: int | None = None
-    remaining: int | None = None
-
-
-class GetOrganizationSmVppAccountsResponseItemParsedToken(_BaseSchema):
-    """The parsed VPP service token."""
-
-    org_name: str | None = Field(default=None, alias="orgName")
-    hashed_token: str | None = Field(default=None, alias="hashedToken")
-    expires_at: str | None = Field(default=None, alias="expiresAt")
-
-
-class GetOrganizationSmVppAccountResponseParsedToken(_BaseSchema):
+class SmParsedToken(_BaseSchema):
     """The parsed VPP service token."""
 
     org_name: str | None = Field(default=None, alias="orgName")
@@ -544,6 +510,12 @@ class GetNetworkSmDeviceNetworkAdaptersResponse(
     """List the network adapters of a device."""
 
 
+class SmDiskUsage(_BaseSchema):
+    """An object containing disk usage details."""
+
+    c: SmC | None = None
+
+
 class GetNetworkSmDeviceRestrictionsResponse(_BaseSchema):
     """List the restrictions on a device."""
 
@@ -588,9 +560,9 @@ class GetNetworkSmUserAccessDevicesResponseItem(_BaseSchema):
     username: str | None = None
     email: str | None = None
     tags: list[str] | None = None
-    trusted_access_connections: (
-        list[GetNetworkSmUserAccessDevicesResponseItemTrustedAccessConnectionsItem] | None
-    ) = Field(default=None, alias="trustedAccessConnections")
+    trusted_access_connections: list[SmTrustedAccessConnectionsItem] | None = Field(
+        default=None, alias="trustedAccessConnections"
+    )
 
 
 class GetNetworkSmUsersResponse(RootModel[list[GetNetworkSmUsersResponseItem]]):
@@ -607,137 +579,17 @@ class GetNetworkSmUserSoftwaresResponse(RootModel[list[GetNetworkSmUserSoftwares
     """Get a list of softwares associated with a user."""
 
 
+class SmMetaCounts(_BaseSchema):
+    """Counts relating to the paginated dataset."""
+
+    items: SmItems | None = None
+
+
 class UpdateOrganizationSmSentryPoliciesAssignmentsResponseItemsItem(_BaseSchema):
     """Schema for UpdateOrganizationSmSentryPoliciesAssignmentsResponseItemsItem."""
 
     network_id: str | None = Field(default=None, alias="networkId")
-    policies: (
-        list[UpdateOrganizationSmSentryPoliciesAssignmentsResponseItemsItemPoliciesItem] | None
-    ) = None
-
-
-class GetOrganizationSmSentryPoliciesAssignmentsByNetworkResponseItemItemsItem(_BaseSchema):
-    """Schema for GetOrganizationSmSentryPoliciesAssignmentsByNetworkResponseItemItemsItem."""
-
-    network_id: str | None = Field(default=None, alias="networkId")
-    policies: (
-        list[GetOrganizationSmSentryPoliciesAssignmentsByNetworkResponseItemItemsItemPoliciesItem]
-        | None
-    ) = None
-
-
-class GetOrganizationSmVppAccountResponse(_BaseSchema):
-    """Get a hash containing the unparsed token of the VPP account with the given ID."""
-
-    vpp_account_id: str | None = Field(default=None, alias="vppAccountId")
-    content_token: str | None = Field(default=None, alias="contentToken")
-    email: str | None = None
-    name: str | None = None
-    allowed_admins: str | None = Field(default=None, alias="allowedAdmins")
-    network_id_admins: str | None = Field(default=None, alias="networkIdAdmins")
-    assignable_networks: str | None = Field(default=None, alias="assignableNetworks")
-    assignable_network_ids: list[str] | None = Field(default=None, alias="assignableNetworkIds")
-    vpp_location_id: str | None = Field(default=None, alias="vppLocationId")
-    vpp_location_name: str | None = Field(default=None, alias="vppLocationName")
-    last_synced_at: str | None = Field(default=None, alias="lastSyncedAt")
-    last_force_synced_at: str | None = Field(default=None, alias="lastForceSyncedAt")
-    parsed_token: GetOrganizationSmVppAccountResponseParsedToken | None = Field(
-        default=None, alias="parsedToken"
-    )
-    id_: str | None = Field(default=None, alias="id")
-    vpp_service_token: str | None = Field(default=None, alias="vppServiceToken")
-
-
-class GetNetworkSmUserAccessDevicesResponse(
-    RootModel[list[GetNetworkSmUserAccessDevicesResponseItem]]
-):
-    """List User Access Devices and its Trusted Access Connections."""
-
-
-class UpdateOrganizationSmSentryPoliciesAssignmentsResponse(_BaseSchema):
-    """Update an Organizations Sentry Policies using the provided list. Sentry Policies are ordered
-    in descending order of priority (i.e. highest priority at the bottom, this is opposite the
-    Dashboard UI). Policies not present in the request will be deleted.
-    """
-
-    items: list[UpdateOrganizationSmSentryPoliciesAssignmentsResponseItemsItem] | None = None
-
-
-class GetNetworkSmDevicePerformanceHistoryResponseItemDiskUsage(_BaseSchema):
-    """An object containing disk usage details."""
-
-    c: GetNetworkSmDevicePerformanceHistoryResponseItemDiskUsageC | None = None
-
-
-class GetNetworkSmDevicePerformanceHistoryResponseItem(_BaseSchema):
-    """Schema for GetNetworkSmDevicePerformanceHistoryResponseItem."""
-
-    cpu_percent_used: float | None = Field(default=None, alias="cpuPercentUsed")
-    mem_free: int | None = Field(default=None, alias="memFree")
-    mem_wired: int | None = Field(default=None, alias="memWired")
-    mem_active: int | None = Field(default=None, alias="memActive")
-    mem_inactive: int | None = Field(default=None, alias="memInactive")
-    network_sent: int | None = Field(default=None, alias="networkSent")
-    network_received: int | None = Field(default=None, alias="networkReceived")
-    swap_used: int | None = Field(default=None, alias="swapUsed")
-    disk_usage: GetNetworkSmDevicePerformanceHistoryResponseItemDiskUsage | None = Field(
-        default=None, alias="diskUsage"
-    )
-    ts: str | None = None
-
-
-class GetNetworkSmDevicePerformanceHistoryResponse(
-    RootModel[list[GetNetworkSmDevicePerformanceHistoryResponseItem]]
-):
-    """Return historical records of various Systems Manager client metrics for desktop devices."""
-
-
-class GetOrganizationSmAdminsRolesResponseMetaCounts(_BaseSchema):
-    """Counts relating to the paginated dataset."""
-
-    items: GetOrganizationSmAdminsRolesResponseMetaCountsItems | None = None
-
-
-class GetOrganizationSmAdminsRolesResponseMeta(_BaseSchema):
-    """Metadata relevant to the paginated dataset."""
-
-    counts: GetOrganizationSmAdminsRolesResponseMetaCounts | None = None
-
-
-class GetOrganizationSmAdminsRolesResponse(_BaseSchema):
-    """List the Limited Access Roles for an organization."""
-
-    items: list[GetOrganizationSmAdminsRolesResponseItemsItem] | None = None
-    meta: GetOrganizationSmAdminsRolesResponseMeta | None = None
-
-
-class GetOrganizationSmSentryPoliciesAssignmentsByNetworkResponseItemMetaCounts(_BaseSchema):
-    """Counts relating to the paginated dataset."""
-
-    items: GetOrganizationSmSentryPoliciesAssignmentsByNetworkResponseItemMetaCountsItems | None = (
-        None
-    )
-
-
-class GetOrganizationSmSentryPoliciesAssignmentsByNetworkResponseItemMeta(_BaseSchema):
-    """Metadata relevant to the paginated dataset."""
-
-    counts: GetOrganizationSmSentryPoliciesAssignmentsByNetworkResponseItemMetaCounts | None = None
-
-
-class GetOrganizationSmSentryPoliciesAssignmentsByNetworkResponseItem(_BaseSchema):
-    """Schema for GetOrganizationSmSentryPoliciesAssignmentsByNetworkResponseItem."""
-
-    items: list[GetOrganizationSmSentryPoliciesAssignmentsByNetworkResponseItemItemsItem] | None = (
-        None
-    )
-    meta: GetOrganizationSmSentryPoliciesAssignmentsByNetworkResponseItemMeta | None = None
-
-
-class GetOrganizationSmSentryPoliciesAssignmentsByNetworkResponse(
-    RootModel[list[GetOrganizationSmSentryPoliciesAssignmentsByNetworkResponseItem]]
-):
-    """List the Sentry Policies for an organization ordered in ascending order of priority."""
+    policies: list[SmPoliciesItem] | None = None
 
 
 class GetOrganizationSmVppAccountsResponseItem(_BaseSchema):
@@ -755,14 +607,94 @@ class GetOrganizationSmVppAccountsResponseItem(_BaseSchema):
     vpp_location_name: str | None = Field(default=None, alias="vppLocationName")
     last_synced_at: str | None = Field(default=None, alias="lastSyncedAt")
     last_force_synced_at: str | None = Field(default=None, alias="lastForceSyncedAt")
-    parsed_token: GetOrganizationSmVppAccountsResponseItemParsedToken | None = Field(
-        default=None, alias="parsedToken"
-    )
+    parsed_token: SmParsedToken | None = Field(default=None, alias="parsedToken")
     id_: str | None = Field(default=None, alias="id")
     vpp_service_token: str | None = Field(default=None, alias="vppServiceToken")
+
+
+class GetOrganizationSmVppAccountResponse(_BaseSchema):
+    """Get a hash containing the unparsed token of the VPP account with the given ID."""
+
+    vpp_account_id: str | None = Field(default=None, alias="vppAccountId")
+    content_token: str | None = Field(default=None, alias="contentToken")
+    email: str | None = None
+    name: str | None = None
+    allowed_admins: str | None = Field(default=None, alias="allowedAdmins")
+    network_id_admins: str | None = Field(default=None, alias="networkIdAdmins")
+    assignable_networks: str | None = Field(default=None, alias="assignableNetworks")
+    assignable_network_ids: list[str] | None = Field(default=None, alias="assignableNetworkIds")
+    vpp_location_id: str | None = Field(default=None, alias="vppLocationId")
+    vpp_location_name: str | None = Field(default=None, alias="vppLocationName")
+    last_synced_at: str | None = Field(default=None, alias="lastSyncedAt")
+    last_force_synced_at: str | None = Field(default=None, alias="lastForceSyncedAt")
+    parsed_token: SmParsedToken | None = Field(default=None, alias="parsedToken")
+    id_: str | None = Field(default=None, alias="id")
+    vpp_service_token: str | None = Field(default=None, alias="vppServiceToken")
+
+
+class GetNetworkSmDevicePerformanceHistoryResponseItem(_BaseSchema):
+    """Schema for GetNetworkSmDevicePerformanceHistoryResponseItem."""
+
+    cpu_percent_used: float | None = Field(default=None, alias="cpuPercentUsed")
+    mem_free: int | None = Field(default=None, alias="memFree")
+    mem_wired: int | None = Field(default=None, alias="memWired")
+    mem_active: int | None = Field(default=None, alias="memActive")
+    mem_inactive: int | None = Field(default=None, alias="memInactive")
+    network_sent: int | None = Field(default=None, alias="networkSent")
+    network_received: int | None = Field(default=None, alias="networkReceived")
+    swap_used: int | None = Field(default=None, alias="swapUsed")
+    disk_usage: SmDiskUsage | None = Field(default=None, alias="diskUsage")
+    ts: str | None = None
+
+
+class GetNetworkSmUserAccessDevicesResponse(
+    RootModel[list[GetNetworkSmUserAccessDevicesResponseItem]]
+):
+    """List User Access Devices and its Trusted Access Connections."""
+
+
+class GetOrganizationSmAdminsRolesResponseMeta(_BaseSchema):
+    """Metadata relevant to the paginated dataset."""
+
+    counts: SmMetaCounts | None = None
+
+
+class UpdateOrganizationSmSentryPoliciesAssignmentsResponse(_BaseSchema):
+    """Update an Organizations Sentry Policies using the provided list. Sentry Policies are ordered
+    in descending order of priority (i.e. highest priority at the bottom, this is opposite the
+    Dashboard UI). Policies not present in the request will be deleted.
+    """
+
+    items: list[UpdateOrganizationSmSentryPoliciesAssignmentsResponseItemsItem] | None = None
 
 
 class GetOrganizationSmVppAccountsResponse(
     RootModel[list[GetOrganizationSmVppAccountsResponseItem]]
 ):
     """List the VPP accounts in the organization."""
+
+
+class GetNetworkSmDevicePerformanceHistoryResponse(
+    RootModel[list[GetNetworkSmDevicePerformanceHistoryResponseItem]]
+):
+    """Return historical records of various Systems Manager client metrics for desktop devices."""
+
+
+class GetOrganizationSmAdminsRolesResponse(_BaseSchema):
+    """List the Limited Access Roles for an organization."""
+
+    items: list[GetOrganizationSmAdminsRolesResponseItemsItem] | None = None
+    meta: GetOrganizationSmAdminsRolesResponseMeta | None = None
+
+
+class GetOrganizationSmSentryPoliciesAssignmentsByNetworkResponseItem(_BaseSchema):
+    """Schema for GetOrganizationSmSentryPoliciesAssignmentsByNetworkResponseItem."""
+
+    items: list[UpdateOrganizationSmSentryPoliciesAssignmentsResponseItemsItem] | None = None
+    meta: GetOrganizationSmAdminsRolesResponseMeta | None = None
+
+
+class GetOrganizationSmSentryPoliciesAssignmentsByNetworkResponse(
+    RootModel[list[GetOrganizationSmSentryPoliciesAssignmentsByNetworkResponseItem]]
+):
+    """List the Sentry Policies for an organization ordered in ascending order of priority."""

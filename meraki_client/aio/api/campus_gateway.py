@@ -11,9 +11,9 @@ import urllib.parse
 from typing import TYPE_CHECKING, Literal
 
 from meraki_client.schemas import (
+    CampusGatewayItemsItem,
     CreateNetworkCampusGatewayClusterResponse,
     GetOrganizationCampusGatewayClustersResponseItemsItem,
-    GetOrganizationCampusGatewayDevicesUplinksLocalOverridesByDeviceResponseItemsItem,
     UpdateNetworkCampusGatewayClusterResponse,
 )
 
@@ -206,9 +206,7 @@ class CampusGateway:
         ending_before: str | None = None,
         total_pages: int | Literal["all"] = 1,
         direction: Literal["prev", "next"] = "next",
-    ) -> AsyncPaginatedResponse[
-        GetOrganizationCampusGatewayDevicesUplinksLocalOverridesByDeviceResponseItemsItem
-    ]:
+    ) -> AsyncPaginatedResponse[CampusGatewayItemsItem]:
         """Uplink overrides configured locally on Campus Gateway devices in an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-campus-gateway-devices-uplinks-local-overrides-by-device
@@ -252,5 +250,5 @@ class CampusGateway:
             params=params,
             total_pages=total_pages,
             direction=direction,
-            item_schema=GetOrganizationCampusGatewayDevicesUplinksLocalOverridesByDeviceResponseItemsItem,
+            item_schema=CampusGatewayItemsItem,
         )

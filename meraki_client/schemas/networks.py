@@ -41,32 +41,14 @@ class UpdateNetworkResponse(_BaseSchema):
     is_bound_to_config_template: bool | None = Field(default=None, alias="isBoundToConfigTemplate")
 
 
-class GetNetworkAlertsHistoryResponseItemDevice(_BaseSchema):
+class NetworksDevice(_BaseSchema):
     """info related to the device that caused the alert."""
 
     serial: str | None = None
 
 
-class GetNetworkAlertsHistoryResponseItemDestinationsEmail(_BaseSchema):
+class NetworksEmail(_BaseSchema):
     """email destinations for this alert."""
-
-    sent_at: str | None = Field(default=None, alias="sentAt")
-
-
-class GetNetworkAlertsHistoryResponseItemDestinationsPush(_BaseSchema):
-    """push destinations for this alert."""
-
-    sent_at: str | None = Field(default=None, alias="sentAt")
-
-
-class GetNetworkAlertsHistoryResponseItemDestinationsSms(_BaseSchema):
-    """sms destinations for this alert."""
-
-    sent_at: str | None = Field(default=None, alias="sentAt")
-
-
-class GetNetworkAlertsHistoryResponseItemDestinationsWebhook(_BaseSchema):
-    """webhook destinations for this alert."""
 
     sent_at: str | None = Field(default=None, alias="sentAt")
 
@@ -80,7 +62,7 @@ class GetNetworkAlertsSettingsResponseDefaultDestinations(_BaseSchema):
     http_server_ids: list[str] | None = Field(default=None, alias="httpServerIds")
 
 
-class GetNetworkAlertsSettingsResponseAlertsItemAlertDestinations(_BaseSchema):
+class NetworksAlertsAlertDestinations(_BaseSchema):
     """A hash of destinations for this specific alert."""
 
     emails: list[str] | None = None
@@ -90,8 +72,8 @@ class GetNetworkAlertsSettingsResponseAlertsItemAlertDestinations(_BaseSchema):
     http_server_ids: list[str] | None = Field(default=None, alias="httpServerIds")
 
 
-class GetNetworkAlertsSettingsResponseAlertsItemFiltersConditionsItem(_BaseSchema):
-    """Schema for GetNetworkAlertsSettingsResponseAlertsItemFiltersConditionsItem."""
+class NetworksConditionsItem(_BaseSchema):
+    """Schema for NetworksConditionsItem."""
 
     type_: str | None = Field(default=None, alias="type")
     unit: str | None = None
@@ -100,42 +82,7 @@ class GetNetworkAlertsSettingsResponseAlertsItemFiltersConditionsItem(_BaseSchem
     threshold: float | None = None
 
 
-class GetNetworkAlertsSettingsResponseMutingByPortSchedules(_BaseSchema):
-    """Mute wireless unreachable alerts based on switch port schedules."""
-
-    enabled: bool | None = None
-
-
-class UpdateNetworkAlertsSettingsResponseDefaultDestinations(_BaseSchema):
-    """The network-wide destinations for all alerts on the network."""
-
-    emails: list[str] | None = None
-    all_admins: bool | None = Field(default=None, alias="allAdmins")
-    snmp: bool | None = None
-    http_server_ids: list[str] | None = Field(default=None, alias="httpServerIds")
-
-
-class UpdateNetworkAlertsSettingsResponseAlertsItemAlertDestinations(_BaseSchema):
-    """A hash of destinations for this specific alert."""
-
-    emails: list[str] | None = None
-    sms_numbers: list[str] | None = Field(default=None, alias="smsNumbers")
-    all_admins: bool | None = Field(default=None, alias="allAdmins")
-    snmp: bool | None = None
-    http_server_ids: list[str] | None = Field(default=None, alias="httpServerIds")
-
-
-class UpdateNetworkAlertsSettingsResponseAlertsItemFiltersConditionsItem(_BaseSchema):
-    """Schema for UpdateNetworkAlertsSettingsResponseAlertsItemFiltersConditionsItem."""
-
-    type_: str | None = Field(default=None, alias="type")
-    unit: str | None = None
-    duration: int | None = None
-    direction: str | None = None
-    threshold: float | None = None
-
-
-class UpdateNetworkAlertsSettingsResponseMutingByPortSchedules(_BaseSchema):
+class NetworksMutingByPortSchedules(_BaseSchema):
     """Mute wireless unreachable alerts based on switch port schedules."""
 
     enabled: bool | None = None
@@ -189,15 +136,15 @@ class GetNetworkBluetoothClientResponse(_BaseSchema):
     tags: list[str] | None = None
 
 
-class GetNetworkClientsResponseItemUsage(_BaseSchema):
+class NetworksUsage(_BaseSchema):
     """Usage, sent and received."""
 
     sent: float | None = None
     recv: float | None = None
 
 
-class GetNetworkClientsApplicationUsageResponseItemApplicationUsageItem(_BaseSchema):
-    """Schema for GetNetworkClientsApplicationUsageResponseItemApplicationUsageItem."""
+class NetworksApplicationUsageItem(_BaseSchema):
+    """Schema for NetworksApplicationUsageItem."""
 
     application: str | None = None
     received: int | None = None
@@ -236,8 +183,8 @@ class ProvisionNetworkClientsResponseClientsItem(_BaseSchema):
     message: str | None = None
 
 
-class GetNetworkClientsUsageHistoriesResponseItemUsageHistoryItem(_BaseSchema):
-    """Schema for GetNetworkClientsUsageHistoriesResponseItemUsageHistoryItem."""
+class NetworksUsageHistoryItem(_BaseSchema):
+    """Schema for NetworksUsageHistoryItem."""
 
     received: float | None = None
     sent: float | None = None
@@ -254,14 +201,6 @@ class GetNetworkClientResponseClientVpnConnectionsItem(_BaseSchema):
 
 class GetNetworkClientPolicyResponsePoliciesBySsidItem(_BaseSchema):
     """Schema for GetNetworkClientPolicyResponsePoliciesBySsidItem."""
-
-    ssid_number: int | None = Field(default=None, alias="ssidNumber")
-    device_policy: str | None = Field(default=None, alias="devicePolicy")
-    group_policy_id: str | None = Field(default=None, alias="groupPolicyId")
-
-
-class UpdateNetworkClientPolicyResponsePoliciesBySsidItem(_BaseSchema):
-    """Schema for UpdateNetworkClientPolicyResponsePoliciesBySsidItem."""
 
     ssid_number: int | None = Field(default=None, alias="ssidNumber")
     device_policy: str | None = Field(default=None, alias="devicePolicy")
@@ -290,14 +229,14 @@ class GetNetworkClientUsageHistoryResponseItem(_BaseSchema):
     ts: str | None = None
 
 
-class GetNetworkDevicesResponseItemDetailsItem(_BaseSchema):
-    """Schema for GetNetworkDevicesResponseItemDetailsItem."""
+class NetworksDetailsItem(_BaseSchema):
+    """Schema for NetworksDetailsItem."""
 
     name: str | None = None
     value: str | None = None
 
 
-class GetNetworkDevicesResponseItemBeaconIdParams(_BaseSchema):
+class NetworksBeaconIdParams(_BaseSchema):
     """Beacon Id parameters with an identifier and major and minor versions."""
 
     uuid: str | None = None
@@ -312,14 +251,7 @@ class ClaimNetworkDevicesResponseErrorsItem(_BaseSchema):
     errors: list[str]
 
 
-class VmxNetworkDevicesClaimResponseDetailsItem(_BaseSchema):
-    """Schema for VmxNetworkDevicesClaimResponseDetailsItem."""
-
-    name: str | None = None
-    value: str | None = None
-
-
-class GetNetworkEventsResponseEventsItemEventData(_BaseSchema):
+class NetworksEventsEventData(_BaseSchema):
     """An object containing more data related to the event."""
 
     radio: str | None = None
@@ -346,837 +278,8 @@ class GetNetworkFirmwareUpgradesResponseUpgradeWindow(_BaseSchema):
     hour_of_day: str | None = Field(default=None, alias="hourOfDay")
 
 
-class GetNetworkFirmwareUpgradesResponseProductsWirelessCurrentVersion(_BaseSchema):
+class NetworksCurrentVersion(_BaseSchema):
     """Details of the current version on the device."""
-
-    id_: str | None = Field(default=None, alias="id")
-    firmware: str | None = None
-    short_name: str | None = Field(default=None, alias="shortName")
-    release_type: str | None = Field(default=None, alias="releaseType")
-    release_date: str | None = Field(default=None, alias="releaseDate")
-
-
-class GetNetworkFirmwareUpgradesResponseProductsWirelessLastUpgradeFromVersion(_BaseSchema):
-    """Details of the version the device upgraded from."""
-
-    id_: str | None = Field(default=None, alias="id")
-    firmware: str | None = None
-    short_name: str | None = Field(default=None, alias="shortName")
-    release_type: str | None = Field(default=None, alias="releaseType")
-    release_date: str | None = Field(default=None, alias="releaseDate")
-
-
-class GetNetworkFirmwareUpgradesResponseProductsWirelessLastUpgradeToVersion(_BaseSchema):
-    """Details of the version the device upgraded to."""
-
-    id_: str | None = Field(default=None, alias="id")
-    firmware: str | None = None
-    short_name: str | None = Field(default=None, alias="shortName")
-    release_type: str | None = Field(default=None, alias="releaseType")
-    release_date: str | None = Field(default=None, alias="releaseDate")
-
-
-class GetNetworkFirmwareUpgradesResponseProductsWirelessNextUpgradeToVersion(_BaseSchema):
-    """Details of the version the device will upgrade to if it exists."""
-
-    id_: str | None = Field(default=None, alias="id")
-    firmware: str | None = None
-    short_name: str | None = Field(default=None, alias="shortName")
-    release_type: str | None = Field(default=None, alias="releaseType")
-    release_date: str | None = Field(default=None, alias="releaseDate")
-
-
-class GetNetworkFirmwareUpgradesResponseProductsWirelessAvailableVersionsItem(_BaseSchema):
-    """Schema for GetNetworkFirmwareUpgradesResponseProductsWirelessAvailableVersionsItem."""
-
-    id_: str | None = Field(default=None, alias="id")
-    firmware: str | None = None
-    short_name: str | None = Field(default=None, alias="shortName")
-    release_type: str | None = Field(default=None, alias="releaseType")
-    release_date: str | None = Field(default=None, alias="releaseDate")
-
-
-class GetNetworkFirmwareUpgradesResponseProductsApplianceCurrentVersion(_BaseSchema):
-    """Details of the current version on the device."""
-
-    id_: str | None = Field(default=None, alias="id")
-    firmware: str | None = None
-    short_name: str | None = Field(default=None, alias="shortName")
-    release_type: str | None = Field(default=None, alias="releaseType")
-    release_date: str | None = Field(default=None, alias="releaseDate")
-
-
-class GetNetworkFirmwareUpgradesResponseProductsApplianceLastUpgradeFromVersion(_BaseSchema):
-    """Details of the version the device upgraded from."""
-
-    id_: str | None = Field(default=None, alias="id")
-    firmware: str | None = None
-    short_name: str | None = Field(default=None, alias="shortName")
-    release_type: str | None = Field(default=None, alias="releaseType")
-    release_date: str | None = Field(default=None, alias="releaseDate")
-
-
-class GetNetworkFirmwareUpgradesResponseProductsApplianceLastUpgradeToVersion(_BaseSchema):
-    """Details of the version the device upgraded to."""
-
-    id_: str | None = Field(default=None, alias="id")
-    firmware: str | None = None
-    short_name: str | None = Field(default=None, alias="shortName")
-    release_type: str | None = Field(default=None, alias="releaseType")
-    release_date: str | None = Field(default=None, alias="releaseDate")
-
-
-class GetNetworkFirmwareUpgradesResponseProductsApplianceNextUpgradeToVersion(_BaseSchema):
-    """Details of the version the device will upgrade to if it exists."""
-
-    id_: str | None = Field(default=None, alias="id")
-    firmware: str | None = None
-    short_name: str | None = Field(default=None, alias="shortName")
-    release_type: str | None = Field(default=None, alias="releaseType")
-    release_date: str | None = Field(default=None, alias="releaseDate")
-
-
-class GetNetworkFirmwareUpgradesResponseProductsApplianceAvailableVersionsItem(_BaseSchema):
-    """Schema for GetNetworkFirmwareUpgradesResponseProductsApplianceAvailableVersionsItem."""
-
-    id_: str | None = Field(default=None, alias="id")
-    firmware: str | None = None
-    short_name: str | None = Field(default=None, alias="shortName")
-    release_type: str | None = Field(default=None, alias="releaseType")
-    release_date: str | None = Field(default=None, alias="releaseDate")
-
-
-class GetNetworkFirmwareUpgradesResponseProductsSwitchCurrentVersion(_BaseSchema):
-    """Details of the current version on the device."""
-
-    id_: str | None = Field(default=None, alias="id")
-    firmware: str | None = None
-    short_name: str | None = Field(default=None, alias="shortName")
-    release_type: str | None = Field(default=None, alias="releaseType")
-    release_date: str | None = Field(default=None, alias="releaseDate")
-
-
-class GetNetworkFirmwareUpgradesResponseProductsSwitchLastUpgradeFromVersion(_BaseSchema):
-    """Details of the version the device upgraded from."""
-
-    id_: str | None = Field(default=None, alias="id")
-    firmware: str | None = None
-    short_name: str | None = Field(default=None, alias="shortName")
-    release_type: str | None = Field(default=None, alias="releaseType")
-    release_date: str | None = Field(default=None, alias="releaseDate")
-
-
-class GetNetworkFirmwareUpgradesResponseProductsSwitchLastUpgradeToVersion(_BaseSchema):
-    """Details of the version the device upgraded to."""
-
-    id_: str | None = Field(default=None, alias="id")
-    firmware: str | None = None
-    short_name: str | None = Field(default=None, alias="shortName")
-    release_type: str | None = Field(default=None, alias="releaseType")
-    release_date: str | None = Field(default=None, alias="releaseDate")
-
-
-class GetNetworkFirmwareUpgradesResponseProductsSwitchNextUpgradeToVersion(_BaseSchema):
-    """Details of the version the device will upgrade to if it exists."""
-
-    id_: str | None = Field(default=None, alias="id")
-    firmware: str | None = None
-    short_name: str | None = Field(default=None, alias="shortName")
-    release_type: str | None = Field(default=None, alias="releaseType")
-    release_date: str | None = Field(default=None, alias="releaseDate")
-
-
-class GetNetworkFirmwareUpgradesResponseProductsSwitchAvailableVersionsItem(_BaseSchema):
-    """Schema for GetNetworkFirmwareUpgradesResponseProductsSwitchAvailableVersionsItem."""
-
-    id_: str | None = Field(default=None, alias="id")
-    firmware: str | None = None
-    short_name: str | None = Field(default=None, alias="shortName")
-    release_type: str | None = Field(default=None, alias="releaseType")
-    release_date: str | None = Field(default=None, alias="releaseDate")
-
-
-class GetNetworkFirmwareUpgradesResponseProductsCameraCurrentVersion(_BaseSchema):
-    """Details of the current version on the device."""
-
-    id_: str | None = Field(default=None, alias="id")
-    firmware: str | None = None
-    short_name: str | None = Field(default=None, alias="shortName")
-    release_type: str | None = Field(default=None, alias="releaseType")
-    release_date: str | None = Field(default=None, alias="releaseDate")
-
-
-class GetNetworkFirmwareUpgradesResponseProductsCameraLastUpgradeFromVersion(_BaseSchema):
-    """Details of the version the device upgraded from."""
-
-    id_: str | None = Field(default=None, alias="id")
-    firmware: str | None = None
-    short_name: str | None = Field(default=None, alias="shortName")
-    release_type: str | None = Field(default=None, alias="releaseType")
-    release_date: str | None = Field(default=None, alias="releaseDate")
-
-
-class GetNetworkFirmwareUpgradesResponseProductsCameraLastUpgradeToVersion(_BaseSchema):
-    """Details of the version the device upgraded to."""
-
-    id_: str | None = Field(default=None, alias="id")
-    firmware: str | None = None
-    short_name: str | None = Field(default=None, alias="shortName")
-    release_type: str | None = Field(default=None, alias="releaseType")
-    release_date: str | None = Field(default=None, alias="releaseDate")
-
-
-class GetNetworkFirmwareUpgradesResponseProductsCameraNextUpgradeToVersion(_BaseSchema):
-    """Details of the version the device will upgrade to if it exists."""
-
-    id_: str | None = Field(default=None, alias="id")
-    firmware: str | None = None
-    short_name: str | None = Field(default=None, alias="shortName")
-    release_type: str | None = Field(default=None, alias="releaseType")
-    release_date: str | None = Field(default=None, alias="releaseDate")
-
-
-class GetNetworkFirmwareUpgradesResponseProductsCameraAvailableVersionsItem(_BaseSchema):
-    """Schema for GetNetworkFirmwareUpgradesResponseProductsCameraAvailableVersionsItem."""
-
-    id_: str | None = Field(default=None, alias="id")
-    firmware: str | None = None
-    short_name: str | None = Field(default=None, alias="shortName")
-    release_type: str | None = Field(default=None, alias="releaseType")
-    release_date: str | None = Field(default=None, alias="releaseDate")
-
-
-class GetNetworkFirmwareUpgradesResponseProductsCellularGatewayCurrentVersion(_BaseSchema):
-    """Details of the current version on the device."""
-
-    id_: str | None = Field(default=None, alias="id")
-    firmware: str | None = None
-    short_name: str | None = Field(default=None, alias="shortName")
-    release_type: str | None = Field(default=None, alias="releaseType")
-    release_date: str | None = Field(default=None, alias="releaseDate")
-
-
-class GetNetworkFirmwareUpgradesResponseProductsCellularGatewayLastUpgradeFromVersion(_BaseSchema):
-    """Details of the version the device upgraded from."""
-
-    id_: str | None = Field(default=None, alias="id")
-    firmware: str | None = None
-    short_name: str | None = Field(default=None, alias="shortName")
-    release_type: str | None = Field(default=None, alias="releaseType")
-    release_date: str | None = Field(default=None, alias="releaseDate")
-
-
-class GetNetworkFirmwareUpgradesResponseProductsCellularGatewayLastUpgradeToVersion(_BaseSchema):
-    """Details of the version the device upgraded to."""
-
-    id_: str | None = Field(default=None, alias="id")
-    firmware: str | None = None
-    short_name: str | None = Field(default=None, alias="shortName")
-    release_type: str | None = Field(default=None, alias="releaseType")
-    release_date: str | None = Field(default=None, alias="releaseDate")
-
-
-class GetNetworkFirmwareUpgradesResponseProductsCellularGatewayNextUpgradeToVersion(_BaseSchema):
-    """Details of the version the device will upgrade to if it exists."""
-
-    id_: str | None = Field(default=None, alias="id")
-    firmware: str | None = None
-    short_name: str | None = Field(default=None, alias="shortName")
-    release_type: str | None = Field(default=None, alias="releaseType")
-    release_date: str | None = Field(default=None, alias="releaseDate")
-
-
-class GetNetworkFirmwareUpgradesResponseProductsCellularGatewayAvailableVersionsItem(_BaseSchema):
-    """Schema for GetNetworkFirmwareUpgradesResponseProductsCellularGatewayAvailableVersionsItem."""
-
-    id_: str | None = Field(default=None, alias="id")
-    firmware: str | None = None
-    short_name: str | None = Field(default=None, alias="shortName")
-    release_type: str | None = Field(default=None, alias="releaseType")
-    release_date: str | None = Field(default=None, alias="releaseDate")
-
-
-class GetNetworkFirmwareUpgradesResponseProductsSensorCurrentVersion(_BaseSchema):
-    """Details of the current version on the device."""
-
-    id_: str | None = Field(default=None, alias="id")
-    firmware: str | None = None
-    short_name: str | None = Field(default=None, alias="shortName")
-    release_type: str | None = Field(default=None, alias="releaseType")
-    release_date: str | None = Field(default=None, alias="releaseDate")
-
-
-class GetNetworkFirmwareUpgradesResponseProductsSensorLastUpgradeFromVersion(_BaseSchema):
-    """Details of the version the device upgraded from."""
-
-    id_: str | None = Field(default=None, alias="id")
-    firmware: str | None = None
-    short_name: str | None = Field(default=None, alias="shortName")
-    release_type: str | None = Field(default=None, alias="releaseType")
-    release_date: str | None = Field(default=None, alias="releaseDate")
-
-
-class GetNetworkFirmwareUpgradesResponseProductsSensorLastUpgradeToVersion(_BaseSchema):
-    """Details of the version the device upgraded to."""
-
-    id_: str | None = Field(default=None, alias="id")
-    firmware: str | None = None
-    short_name: str | None = Field(default=None, alias="shortName")
-    release_type: str | None = Field(default=None, alias="releaseType")
-    release_date: str | None = Field(default=None, alias="releaseDate")
-
-
-class GetNetworkFirmwareUpgradesResponseProductsSensorNextUpgradeToVersion(_BaseSchema):
-    """Details of the version the device will upgrade to if it exists."""
-
-    id_: str | None = Field(default=None, alias="id")
-    firmware: str | None = None
-    short_name: str | None = Field(default=None, alias="shortName")
-    release_type: str | None = Field(default=None, alias="releaseType")
-    release_date: str | None = Field(default=None, alias="releaseDate")
-
-
-class GetNetworkFirmwareUpgradesResponseProductsSensorAvailableVersionsItem(_BaseSchema):
-    """Schema for GetNetworkFirmwareUpgradesResponseProductsSensorAvailableVersionsItem."""
-
-    id_: str | None = Field(default=None, alias="id")
-    firmware: str | None = None
-    short_name: str | None = Field(default=None, alias="shortName")
-    release_type: str | None = Field(default=None, alias="releaseType")
-    release_date: str | None = Field(default=None, alias="releaseDate")
-
-
-class GetNetworkFirmwareUpgradesResponseProductsWirelessControllerCurrentVersion(_BaseSchema):
-    """Details of the current version on the device."""
-
-    id_: str | None = Field(default=None, alias="id")
-    firmware: str | None = None
-    short_name: str | None = Field(default=None, alias="shortName")
-    release_type: str | None = Field(default=None, alias="releaseType")
-    release_date: str | None = Field(default=None, alias="releaseDate")
-
-
-class GetNetworkFirmwareUpgradesResponseProductsWirelessControllerLastUpgradeFromVersion(
-    _BaseSchema
-):
-    """Details of the version the device upgraded from."""
-
-    id_: str | None = Field(default=None, alias="id")
-    firmware: str | None = None
-    short_name: str | None = Field(default=None, alias="shortName")
-    release_type: str | None = Field(default=None, alias="releaseType")
-    release_date: str | None = Field(default=None, alias="releaseDate")
-
-
-class GetNetworkFirmwareUpgradesResponseProductsWirelessControllerLastUpgradeToVersion(_BaseSchema):
-    """Details of the version the device upgraded to."""
-
-    id_: str | None = Field(default=None, alias="id")
-    firmware: str | None = None
-    short_name: str | None = Field(default=None, alias="shortName")
-    release_type: str | None = Field(default=None, alias="releaseType")
-    release_date: str | None = Field(default=None, alias="releaseDate")
-
-
-class GetNetworkFirmwareUpgradesResponseProductsWirelessControllerNextUpgradeToVersion(_BaseSchema):
-    """Details of the version the device will upgrade to if it exists."""
-
-    id_: str | None = Field(default=None, alias="id")
-    firmware: str | None = None
-    short_name: str | None = Field(default=None, alias="shortName")
-    release_type: str | None = Field(default=None, alias="releaseType")
-    release_date: str | None = Field(default=None, alias="releaseDate")
-
-
-class GetNetworkFirmwareUpgradesResponseProductsWirelessControllerAvailableVersionsItem(
-    _BaseSchema
-):
-    """Schema for
-    GetNetworkFirmwareUpgradesResponseProductsWirelessControllerAvailableVersionsItem.
-    """
-
-    id_: str | None = Field(default=None, alias="id")
-    firmware: str | None = None
-    short_name: str | None = Field(default=None, alias="shortName")
-    release_type: str | None = Field(default=None, alias="releaseType")
-    release_date: str | None = Field(default=None, alias="releaseDate")
-
-
-class GetNetworkFirmwareUpgradesResponseProductsSecureConnectCurrentVersion(_BaseSchema):
-    """Details of the current version on the device."""
-
-    id_: str | None = Field(default=None, alias="id")
-    firmware: str | None = None
-    short_name: str | None = Field(default=None, alias="shortName")
-    release_type: str | None = Field(default=None, alias="releaseType")
-    release_date: str | None = Field(default=None, alias="releaseDate")
-
-
-class GetNetworkFirmwareUpgradesResponseProductsSecureConnectLastUpgradeFromVersion(_BaseSchema):
-    """Details of the version the device upgraded from."""
-
-    id_: str | None = Field(default=None, alias="id")
-    firmware: str | None = None
-    short_name: str | None = Field(default=None, alias="shortName")
-    release_type: str | None = Field(default=None, alias="releaseType")
-    release_date: str | None = Field(default=None, alias="releaseDate")
-
-
-class GetNetworkFirmwareUpgradesResponseProductsSecureConnectLastUpgradeToVersion(_BaseSchema):
-    """Details of the version the device upgraded to."""
-
-    id_: str | None = Field(default=None, alias="id")
-    firmware: str | None = None
-    short_name: str | None = Field(default=None, alias="shortName")
-    release_type: str | None = Field(default=None, alias="releaseType")
-    release_date: str | None = Field(default=None, alias="releaseDate")
-
-
-class GetNetworkFirmwareUpgradesResponseProductsSecureConnectNextUpgradeToVersion(_BaseSchema):
-    """Details of the version the device will upgrade to if it exists."""
-
-    id_: str | None = Field(default=None, alias="id")
-    firmware: str | None = None
-    short_name: str | None = Field(default=None, alias="shortName")
-    release_type: str | None = Field(default=None, alias="releaseType")
-    release_date: str | None = Field(default=None, alias="releaseDate")
-
-
-class GetNetworkFirmwareUpgradesResponseProductsSecureConnectAvailableVersionsItem(_BaseSchema):
-    """Schema for GetNetworkFirmwareUpgradesResponseProductsSecureConnectAvailableVersionsItem."""
-
-    id_: str | None = Field(default=None, alias="id")
-    firmware: str | None = None
-    short_name: str | None = Field(default=None, alias="shortName")
-    release_type: str | None = Field(default=None, alias="releaseType")
-    release_date: str | None = Field(default=None, alias="releaseDate")
-
-
-class UpdateNetworkFirmwareUpgradesResponseUpgradeWindow(_BaseSchema):
-    """Upgrade window for devices in network."""
-
-    day_of_week: str | None = Field(default=None, alias="dayOfWeek")
-    hour_of_day: str | None = Field(default=None, alias="hourOfDay")
-
-
-class UpdateNetworkFirmwareUpgradesResponseProductsWirelessCurrentVersion(_BaseSchema):
-    """Details of the current version on the device."""
-
-    id_: str | None = Field(default=None, alias="id")
-    firmware: str | None = None
-    short_name: str | None = Field(default=None, alias="shortName")
-    release_type: str | None = Field(default=None, alias="releaseType")
-    release_date: str | None = Field(default=None, alias="releaseDate")
-
-
-class UpdateNetworkFirmwareUpgradesResponseProductsWirelessLastUpgradeFromVersion(_BaseSchema):
-    """Details of the version the device upgraded from."""
-
-    id_: str | None = Field(default=None, alias="id")
-    firmware: str | None = None
-    short_name: str | None = Field(default=None, alias="shortName")
-    release_type: str | None = Field(default=None, alias="releaseType")
-    release_date: str | None = Field(default=None, alias="releaseDate")
-
-
-class UpdateNetworkFirmwareUpgradesResponseProductsWirelessLastUpgradeToVersion(_BaseSchema):
-    """Details of the version the device upgraded to."""
-
-    id_: str | None = Field(default=None, alias="id")
-    firmware: str | None = None
-    short_name: str | None = Field(default=None, alias="shortName")
-    release_type: str | None = Field(default=None, alias="releaseType")
-    release_date: str | None = Field(default=None, alias="releaseDate")
-
-
-class UpdateNetworkFirmwareUpgradesResponseProductsWirelessNextUpgradeToVersion(_BaseSchema):
-    """Details of the version the device will upgrade to if it exists."""
-
-    id_: str | None = Field(default=None, alias="id")
-    firmware: str | None = None
-    short_name: str | None = Field(default=None, alias="shortName")
-    release_type: str | None = Field(default=None, alias="releaseType")
-    release_date: str | None = Field(default=None, alias="releaseDate")
-
-
-class UpdateNetworkFirmwareUpgradesResponseProductsWirelessAvailableVersionsItem(_BaseSchema):
-    """Schema for UpdateNetworkFirmwareUpgradesResponseProductsWirelessAvailableVersionsItem."""
-
-    id_: str | None = Field(default=None, alias="id")
-    firmware: str | None = None
-    short_name: str | None = Field(default=None, alias="shortName")
-    release_type: str | None = Field(default=None, alias="releaseType")
-    release_date: str | None = Field(default=None, alias="releaseDate")
-
-
-class UpdateNetworkFirmwareUpgradesResponseProductsApplianceCurrentVersion(_BaseSchema):
-    """Details of the current version on the device."""
-
-    id_: str | None = Field(default=None, alias="id")
-    firmware: str | None = None
-    short_name: str | None = Field(default=None, alias="shortName")
-    release_type: str | None = Field(default=None, alias="releaseType")
-    release_date: str | None = Field(default=None, alias="releaseDate")
-
-
-class UpdateNetworkFirmwareUpgradesResponseProductsApplianceLastUpgradeFromVersion(_BaseSchema):
-    """Details of the version the device upgraded from."""
-
-    id_: str | None = Field(default=None, alias="id")
-    firmware: str | None = None
-    short_name: str | None = Field(default=None, alias="shortName")
-    release_type: str | None = Field(default=None, alias="releaseType")
-    release_date: str | None = Field(default=None, alias="releaseDate")
-
-
-class UpdateNetworkFirmwareUpgradesResponseProductsApplianceLastUpgradeToVersion(_BaseSchema):
-    """Details of the version the device upgraded to."""
-
-    id_: str | None = Field(default=None, alias="id")
-    firmware: str | None = None
-    short_name: str | None = Field(default=None, alias="shortName")
-    release_type: str | None = Field(default=None, alias="releaseType")
-    release_date: str | None = Field(default=None, alias="releaseDate")
-
-
-class UpdateNetworkFirmwareUpgradesResponseProductsApplianceNextUpgradeToVersion(_BaseSchema):
-    """Details of the version the device will upgrade to if it exists."""
-
-    id_: str | None = Field(default=None, alias="id")
-    firmware: str | None = None
-    short_name: str | None = Field(default=None, alias="shortName")
-    release_type: str | None = Field(default=None, alias="releaseType")
-    release_date: str | None = Field(default=None, alias="releaseDate")
-
-
-class UpdateNetworkFirmwareUpgradesResponseProductsApplianceAvailableVersionsItem(_BaseSchema):
-    """Schema for UpdateNetworkFirmwareUpgradesResponseProductsApplianceAvailableVersionsItem."""
-
-    id_: str | None = Field(default=None, alias="id")
-    firmware: str | None = None
-    short_name: str | None = Field(default=None, alias="shortName")
-    release_type: str | None = Field(default=None, alias="releaseType")
-    release_date: str | None = Field(default=None, alias="releaseDate")
-
-
-class UpdateNetworkFirmwareUpgradesResponseProductsSwitchCurrentVersion(_BaseSchema):
-    """Details of the current version on the device."""
-
-    id_: str | None = Field(default=None, alias="id")
-    firmware: str | None = None
-    short_name: str | None = Field(default=None, alias="shortName")
-    release_type: str | None = Field(default=None, alias="releaseType")
-    release_date: str | None = Field(default=None, alias="releaseDate")
-
-
-class UpdateNetworkFirmwareUpgradesResponseProductsSwitchLastUpgradeFromVersion(_BaseSchema):
-    """Details of the version the device upgraded from."""
-
-    id_: str | None = Field(default=None, alias="id")
-    firmware: str | None = None
-    short_name: str | None = Field(default=None, alias="shortName")
-    release_type: str | None = Field(default=None, alias="releaseType")
-    release_date: str | None = Field(default=None, alias="releaseDate")
-
-
-class UpdateNetworkFirmwareUpgradesResponseProductsSwitchLastUpgradeToVersion(_BaseSchema):
-    """Details of the version the device upgraded to."""
-
-    id_: str | None = Field(default=None, alias="id")
-    firmware: str | None = None
-    short_name: str | None = Field(default=None, alias="shortName")
-    release_type: str | None = Field(default=None, alias="releaseType")
-    release_date: str | None = Field(default=None, alias="releaseDate")
-
-
-class UpdateNetworkFirmwareUpgradesResponseProductsSwitchNextUpgradeToVersion(_BaseSchema):
-    """Details of the version the device will upgrade to if it exists."""
-
-    id_: str | None = Field(default=None, alias="id")
-    firmware: str | None = None
-    short_name: str | None = Field(default=None, alias="shortName")
-    release_type: str | None = Field(default=None, alias="releaseType")
-    release_date: str | None = Field(default=None, alias="releaseDate")
-
-
-class UpdateNetworkFirmwareUpgradesResponseProductsSwitchAvailableVersionsItem(_BaseSchema):
-    """Schema for UpdateNetworkFirmwareUpgradesResponseProductsSwitchAvailableVersionsItem."""
-
-    id_: str | None = Field(default=None, alias="id")
-    firmware: str | None = None
-    short_name: str | None = Field(default=None, alias="shortName")
-    release_type: str | None = Field(default=None, alias="releaseType")
-    release_date: str | None = Field(default=None, alias="releaseDate")
-
-
-class UpdateNetworkFirmwareUpgradesResponseProductsCameraCurrentVersion(_BaseSchema):
-    """Details of the current version on the device."""
-
-    id_: str | None = Field(default=None, alias="id")
-    firmware: str | None = None
-    short_name: str | None = Field(default=None, alias="shortName")
-    release_type: str | None = Field(default=None, alias="releaseType")
-    release_date: str | None = Field(default=None, alias="releaseDate")
-
-
-class UpdateNetworkFirmwareUpgradesResponseProductsCameraLastUpgradeFromVersion(_BaseSchema):
-    """Details of the version the device upgraded from."""
-
-    id_: str | None = Field(default=None, alias="id")
-    firmware: str | None = None
-    short_name: str | None = Field(default=None, alias="shortName")
-    release_type: str | None = Field(default=None, alias="releaseType")
-    release_date: str | None = Field(default=None, alias="releaseDate")
-
-
-class UpdateNetworkFirmwareUpgradesResponseProductsCameraLastUpgradeToVersion(_BaseSchema):
-    """Details of the version the device upgraded to."""
-
-    id_: str | None = Field(default=None, alias="id")
-    firmware: str | None = None
-    short_name: str | None = Field(default=None, alias="shortName")
-    release_type: str | None = Field(default=None, alias="releaseType")
-    release_date: str | None = Field(default=None, alias="releaseDate")
-
-
-class UpdateNetworkFirmwareUpgradesResponseProductsCameraNextUpgradeToVersion(_BaseSchema):
-    """Details of the version the device will upgrade to if it exists."""
-
-    id_: str | None = Field(default=None, alias="id")
-    firmware: str | None = None
-    short_name: str | None = Field(default=None, alias="shortName")
-    release_type: str | None = Field(default=None, alias="releaseType")
-    release_date: str | None = Field(default=None, alias="releaseDate")
-
-
-class UpdateNetworkFirmwareUpgradesResponseProductsCameraAvailableVersionsItem(_BaseSchema):
-    """Schema for UpdateNetworkFirmwareUpgradesResponseProductsCameraAvailableVersionsItem."""
-
-    id_: str | None = Field(default=None, alias="id")
-    firmware: str | None = None
-    short_name: str | None = Field(default=None, alias="shortName")
-    release_type: str | None = Field(default=None, alias="releaseType")
-    release_date: str | None = Field(default=None, alias="releaseDate")
-
-
-class UpdateNetworkFirmwareUpgradesResponseProductsCellularGatewayCurrentVersion(_BaseSchema):
-    """Details of the current version on the device."""
-
-    id_: str | None = Field(default=None, alias="id")
-    firmware: str | None = None
-    short_name: str | None = Field(default=None, alias="shortName")
-    release_type: str | None = Field(default=None, alias="releaseType")
-    release_date: str | None = Field(default=None, alias="releaseDate")
-
-
-class UpdateNetworkFirmwareUpgradesResponseProductsCellularGatewayLastUpgradeFromVersion(
-    _BaseSchema
-):
-    """Details of the version the device upgraded from."""
-
-    id_: str | None = Field(default=None, alias="id")
-    firmware: str | None = None
-    short_name: str | None = Field(default=None, alias="shortName")
-    release_type: str | None = Field(default=None, alias="releaseType")
-    release_date: str | None = Field(default=None, alias="releaseDate")
-
-
-class UpdateNetworkFirmwareUpgradesResponseProductsCellularGatewayLastUpgradeToVersion(_BaseSchema):
-    """Details of the version the device upgraded to."""
-
-    id_: str | None = Field(default=None, alias="id")
-    firmware: str | None = None
-    short_name: str | None = Field(default=None, alias="shortName")
-    release_type: str | None = Field(default=None, alias="releaseType")
-    release_date: str | None = Field(default=None, alias="releaseDate")
-
-
-class UpdateNetworkFirmwareUpgradesResponseProductsCellularGatewayNextUpgradeToVersion(_BaseSchema):
-    """Details of the version the device will upgrade to if it exists."""
-
-    id_: str | None = Field(default=None, alias="id")
-    firmware: str | None = None
-    short_name: str | None = Field(default=None, alias="shortName")
-    release_type: str | None = Field(default=None, alias="releaseType")
-    release_date: str | None = Field(default=None, alias="releaseDate")
-
-
-class UpdateNetworkFirmwareUpgradesResponseProductsCellularGatewayAvailableVersionsItem(
-    _BaseSchema
-):
-    """Schema for
-    UpdateNetworkFirmwareUpgradesResponseProductsCellularGatewayAvailableVersionsItem.
-    """
-
-    id_: str | None = Field(default=None, alias="id")
-    firmware: str | None = None
-    short_name: str | None = Field(default=None, alias="shortName")
-    release_type: str | None = Field(default=None, alias="releaseType")
-    release_date: str | None = Field(default=None, alias="releaseDate")
-
-
-class UpdateNetworkFirmwareUpgradesResponseProductsSensorCurrentVersion(_BaseSchema):
-    """Details of the current version on the device."""
-
-    id_: str | None = Field(default=None, alias="id")
-    firmware: str | None = None
-    short_name: str | None = Field(default=None, alias="shortName")
-    release_type: str | None = Field(default=None, alias="releaseType")
-    release_date: str | None = Field(default=None, alias="releaseDate")
-
-
-class UpdateNetworkFirmwareUpgradesResponseProductsSensorLastUpgradeFromVersion(_BaseSchema):
-    """Details of the version the device upgraded from."""
-
-    id_: str | None = Field(default=None, alias="id")
-    firmware: str | None = None
-    short_name: str | None = Field(default=None, alias="shortName")
-    release_type: str | None = Field(default=None, alias="releaseType")
-    release_date: str | None = Field(default=None, alias="releaseDate")
-
-
-class UpdateNetworkFirmwareUpgradesResponseProductsSensorLastUpgradeToVersion(_BaseSchema):
-    """Details of the version the device upgraded to."""
-
-    id_: str | None = Field(default=None, alias="id")
-    firmware: str | None = None
-    short_name: str | None = Field(default=None, alias="shortName")
-    release_type: str | None = Field(default=None, alias="releaseType")
-    release_date: str | None = Field(default=None, alias="releaseDate")
-
-
-class UpdateNetworkFirmwareUpgradesResponseProductsSensorNextUpgradeToVersion(_BaseSchema):
-    """Details of the version the device will upgrade to if it exists."""
-
-    id_: str | None = Field(default=None, alias="id")
-    firmware: str | None = None
-    short_name: str | None = Field(default=None, alias="shortName")
-    release_type: str | None = Field(default=None, alias="releaseType")
-    release_date: str | None = Field(default=None, alias="releaseDate")
-
-
-class UpdateNetworkFirmwareUpgradesResponseProductsSensorAvailableVersionsItem(_BaseSchema):
-    """Schema for UpdateNetworkFirmwareUpgradesResponseProductsSensorAvailableVersionsItem."""
-
-    id_: str | None = Field(default=None, alias="id")
-    firmware: str | None = None
-    short_name: str | None = Field(default=None, alias="shortName")
-    release_type: str | None = Field(default=None, alias="releaseType")
-    release_date: str | None = Field(default=None, alias="releaseDate")
-
-
-class UpdateNetworkFirmwareUpgradesResponseProductsWirelessControllerCurrentVersion(_BaseSchema):
-    """Details of the current version on the device."""
-
-    id_: str | None = Field(default=None, alias="id")
-    firmware: str | None = None
-    short_name: str | None = Field(default=None, alias="shortName")
-    release_type: str | None = Field(default=None, alias="releaseType")
-    release_date: str | None = Field(default=None, alias="releaseDate")
-
-
-class UpdateNetworkFirmwareUpgradesResponseProductsWirelessControllerLastUpgradeFromVersion(
-    _BaseSchema
-):
-    """Details of the version the device upgraded from."""
-
-    id_: str | None = Field(default=None, alias="id")
-    firmware: str | None = None
-    short_name: str | None = Field(default=None, alias="shortName")
-    release_type: str | None = Field(default=None, alias="releaseType")
-    release_date: str | None = Field(default=None, alias="releaseDate")
-
-
-class UpdateNetworkFirmwareUpgradesResponseProductsWirelessControllerLastUpgradeToVersion(
-    _BaseSchema
-):
-    """Details of the version the device upgraded to."""
-
-    id_: str | None = Field(default=None, alias="id")
-    firmware: str | None = None
-    short_name: str | None = Field(default=None, alias="shortName")
-    release_type: str | None = Field(default=None, alias="releaseType")
-    release_date: str | None = Field(default=None, alias="releaseDate")
-
-
-class UpdateNetworkFirmwareUpgradesResponseProductsWirelessControllerNextUpgradeToVersion(
-    _BaseSchema
-):
-    """Details of the version the device will upgrade to if it exists."""
-
-    id_: str | None = Field(default=None, alias="id")
-    firmware: str | None = None
-    short_name: str | None = Field(default=None, alias="shortName")
-    release_type: str | None = Field(default=None, alias="releaseType")
-    release_date: str | None = Field(default=None, alias="releaseDate")
-
-
-class UpdateNetworkFirmwareUpgradesResponseProductsWirelessControllerAvailableVersionsItem(
-    _BaseSchema
-):
-    """Schema for
-    UpdateNetworkFirmwareUpgradesResponseProductsWirelessControllerAvailableVersionsItem.
-    """
-
-    id_: str | None = Field(default=None, alias="id")
-    firmware: str | None = None
-    short_name: str | None = Field(default=None, alias="shortName")
-    release_type: str | None = Field(default=None, alias="releaseType")
-    release_date: str | None = Field(default=None, alias="releaseDate")
-
-
-class UpdateNetworkFirmwareUpgradesResponseProductsSecureConnectCurrentVersion(_BaseSchema):
-    """Details of the current version on the device."""
-
-    id_: str | None = Field(default=None, alias="id")
-    firmware: str | None = None
-    short_name: str | None = Field(default=None, alias="shortName")
-    release_type: str | None = Field(default=None, alias="releaseType")
-    release_date: str | None = Field(default=None, alias="releaseDate")
-
-
-class UpdateNetworkFirmwareUpgradesResponseProductsSecureConnectLastUpgradeFromVersion(_BaseSchema):
-    """Details of the version the device upgraded from."""
-
-    id_: str | None = Field(default=None, alias="id")
-    firmware: str | None = None
-    short_name: str | None = Field(default=None, alias="shortName")
-    release_type: str | None = Field(default=None, alias="releaseType")
-    release_date: str | None = Field(default=None, alias="releaseDate")
-
-
-class UpdateNetworkFirmwareUpgradesResponseProductsSecureConnectLastUpgradeToVersion(_BaseSchema):
-    """Details of the version the device upgraded to."""
-
-    id_: str | None = Field(default=None, alias="id")
-    firmware: str | None = None
-    short_name: str | None = Field(default=None, alias="shortName")
-    release_type: str | None = Field(default=None, alias="releaseType")
-    release_date: str | None = Field(default=None, alias="releaseDate")
-
-
-class UpdateNetworkFirmwareUpgradesResponseProductsSecureConnectNextUpgradeToVersion(_BaseSchema):
-    """Details of the version the device will upgrade to if it exists."""
-
-    id_: str | None = Field(default=None, alias="id")
-    firmware: str | None = None
-    short_name: str | None = Field(default=None, alias="shortName")
-    release_type: str | None = Field(default=None, alias="releaseType")
-    release_date: str | None = Field(default=None, alias="releaseDate")
-
-
-class UpdateNetworkFirmwareUpgradesResponseProductsSecureConnectAvailableVersionsItem(_BaseSchema):
-    """Schema for UpdateNetworkFirmwareUpgradesResponseProductsSecureConnectAvailableVersionsItem."""
-
-    id_: str | None = Field(default=None, alias="id")
-    firmware: str | None = None
-    short_name: str | None = Field(default=None, alias="shortName")
-    release_type: str | None = Field(default=None, alias="releaseType")
-    release_date: str | None = Field(default=None, alias="releaseDate")
-
-
-class CreateNetworkFirmwareUpgradesRollbackResponseToVersion(_BaseSchema):
-    """Version to downgrade to (if the network has firmware flexibility)."""
 
     id_: str | None = Field(default=None, alias="id")
     firmware: str | None = None
@@ -1192,14 +295,14 @@ class CreateNetworkFirmwareUpgradesRollbackResponseReasonsItem(_BaseSchema):
     comment: str | None = None
 
 
-class GetNetworkFirmwareUpgradesStagedEventsResponseProductsSwitchNextUpgradeToVersion(_BaseSchema):
+class NetworksToVersion(_BaseSchema):
     """Details of the version the device will upgrade to."""
 
     id_: str | None = Field(default=None, alias="id")
     short_name: str | None = Field(default=None, alias="shortName")
 
 
-class GetNetworkFirmwareUpgradesStagedEventsResponseStagesItemGroup(_BaseSchema):
+class NetworksStagesGroup(_BaseSchema):
     """The staged upgrade group."""
 
     id_: str | None = Field(default=None, alias="id")
@@ -1207,7 +310,7 @@ class GetNetworkFirmwareUpgradesStagedEventsResponseStagesItemGroup(_BaseSchema)
     description: str | None = None
 
 
-class GetNetworkFirmwareUpgradesStagedEventsResponseStagesItemMilestones(_BaseSchema):
+class NetworksStagesMilestones(_BaseSchema):
     """The Staged Upgrade Milestones for the stage."""
 
     scheduled_for: str | None = Field(default=None, alias="scheduledFor")
@@ -1216,229 +319,21 @@ class GetNetworkFirmwareUpgradesStagedEventsResponseStagesItemMilestones(_BaseSc
     canceled_at: str | None = Field(default=None, alias="canceledAt")
 
 
-class GetNetworkFirmwareUpgradesStagedEventsResponseReasonsItem(_BaseSchema):
-    """Schema for GetNetworkFirmwareUpgradesStagedEventsResponseReasonsItem."""
-
-    category: str | None = None
-    comment: str | None = None
-
-
-class UpdateNetworkFirmwareUpgradesStagedEventsResponseProductsSwitchNextUpgradeToVersion(
-    _BaseSchema
-):
-    """Details of the version the device will upgrade to."""
-
-    id_: str | None = Field(default=None, alias="id")
-    short_name: str | None = Field(default=None, alias="shortName")
-
-
-class UpdateNetworkFirmwareUpgradesStagedEventsResponseStagesItemGroup(_BaseSchema):
-    """The staged upgrade group."""
-
-    id_: str | None = Field(default=None, alias="id")
-    name: str | None = None
-    description: str | None = None
-
-
-class UpdateNetworkFirmwareUpgradesStagedEventsResponseStagesItemMilestones(_BaseSchema):
-    """The Staged Upgrade Milestones for the stage."""
-
-    scheduled_for: str | None = Field(default=None, alias="scheduledFor")
-    started_at: str | None = Field(default=None, alias="startedAt")
-    completed_at: str | None = Field(default=None, alias="completedAt")
-    canceled_at: str | None = Field(default=None, alias="canceledAt")
-
-
-class UpdateNetworkFirmwareUpgradesStagedEventsResponseReasonsItem(_BaseSchema):
-    """Schema for UpdateNetworkFirmwareUpgradesStagedEventsResponseReasonsItem."""
-
-    category: str | None = None
-    comment: str | None = None
-
-
-class CreateNetworkFirmwareUpgradesStagedEventResponseProductsSwitchNextUpgradeToVersion(
-    _BaseSchema
-):
-    """Details of the version the device will upgrade to."""
-
-    id_: str | None = Field(default=None, alias="id")
-    short_name: str | None = Field(default=None, alias="shortName")
-
-
-class CreateNetworkFirmwareUpgradesStagedEventResponseStagesItemGroup(_BaseSchema):
-    """The staged upgrade group."""
-
-    id_: str | None = Field(default=None, alias="id")
-    name: str | None = None
-    description: str | None = None
-
-
-class CreateNetworkFirmwareUpgradesStagedEventResponseStagesItemMilestones(_BaseSchema):
-    """The Staged Upgrade Milestones for the stage."""
-
-    scheduled_for: str | None = Field(default=None, alias="scheduledFor")
-    started_at: str | None = Field(default=None, alias="startedAt")
-    completed_at: str | None = Field(default=None, alias="completedAt")
-    canceled_at: str | None = Field(default=None, alias="canceledAt")
-
-
-class CreateNetworkFirmwareUpgradesStagedEventResponseReasonsItem(_BaseSchema):
-    """Schema for CreateNetworkFirmwareUpgradesStagedEventResponseReasonsItem."""
-
-    category: str | None = None
-    comment: str | None = None
-
-
-class DeferNetworkFirmwareUpgradesStagedEventsResponseProductsSwitchNextUpgradeToVersion(
-    _BaseSchema
-):
-    """Details of the version the device will upgrade to."""
-
-    id_: str | None = Field(default=None, alias="id")
-    short_name: str | None = Field(default=None, alias="shortName")
-
-
-class DeferNetworkFirmwareUpgradesStagedEventsResponseStagesItemGroup(_BaseSchema):
-    """The staged upgrade group."""
-
-    id_: str | None = Field(default=None, alias="id")
-    name: str | None = None
-    description: str | None = None
-
-
-class DeferNetworkFirmwareUpgradesStagedEventsResponseStagesItemMilestones(_BaseSchema):
-    """The Staged Upgrade Milestones for the stage."""
-
-    scheduled_for: str | None = Field(default=None, alias="scheduledFor")
-    started_at: str | None = Field(default=None, alias="startedAt")
-    completed_at: str | None = Field(default=None, alias="completedAt")
-    canceled_at: str | None = Field(default=None, alias="canceledAt")
-
-
-class DeferNetworkFirmwareUpgradesStagedEventsResponseReasonsItem(_BaseSchema):
-    """Schema for DeferNetworkFirmwareUpgradesStagedEventsResponseReasonsItem."""
-
-    category: str | None = None
-    comment: str | None = None
-
-
-class RollbacksNetworkFirmwareUpgradesStagedEventsResponseProductsSwitchNextUpgradeToVersion(
-    _BaseSchema
-):
-    """Details of the version the device will upgrade to."""
-
-    id_: str | None = Field(default=None, alias="id")
-    short_name: str | None = Field(default=None, alias="shortName")
-
-
-class RollbacksNetworkFirmwareUpgradesStagedEventsResponseStagesItemGroup(_BaseSchema):
-    """The staged upgrade group."""
-
-    id_: str | None = Field(default=None, alias="id")
-    name: str | None = None
-    description: str | None = None
-
-
-class RollbacksNetworkFirmwareUpgradesStagedEventsResponseStagesItemMilestones(_BaseSchema):
-    """The Staged Upgrade Milestones for the stage."""
-
-    scheduled_for: str | None = Field(default=None, alias="scheduledFor")
-    started_at: str | None = Field(default=None, alias="startedAt")
-    completed_at: str | None = Field(default=None, alias="completedAt")
-    canceled_at: str | None = Field(default=None, alias="canceledAt")
-
-
-class RollbacksNetworkFirmwareUpgradesStagedEventsResponseReasonsItem(_BaseSchema):
-    """Schema for RollbacksNetworkFirmwareUpgradesStagedEventsResponseReasonsItem."""
-
-    category: str | None = None
-    comment: str | None = None
-
-
-class GetNetworkFirmwareUpgradesStagedGroupsResponseItemAssignedDevicesDevicesItem(_BaseSchema):
-    """Schema for GetNetworkFirmwareUpgradesStagedGroupsResponseItemAssignedDevicesDevicesItem."""
+class NetworksDevicesItem(_BaseSchema):
+    """Schema for NetworksDevicesItem."""
 
     serial: str | None = None
     name: str | None = None
 
 
-class GetNetworkFirmwareUpgradesStagedGroupsResponseItemAssignedDevicesSwitchStacksItem(
-    _BaseSchema
-):
-    """Schema for
-    GetNetworkFirmwareUpgradesStagedGroupsResponseItemAssignedDevicesSwitchStacksItem.
-    """
+class NetworksSwitchStacksItem(_BaseSchema):
+    """Schema for NetworksSwitchStacksItem."""
 
     id_: str | None = Field(default=None, alias="id")
     name: str | None = None
 
 
-class CreateNetworkFirmwareUpgradesStagedGroupResponseAssignedDevicesDevicesItem(_BaseSchema):
-    """Schema for CreateNetworkFirmwareUpgradesStagedGroupResponseAssignedDevicesDevicesItem."""
-
-    serial: str | None = None
-    name: str | None = None
-
-
-class CreateNetworkFirmwareUpgradesStagedGroupResponseAssignedDevicesSwitchStacksItem(_BaseSchema):
-    """Schema for CreateNetworkFirmwareUpgradesStagedGroupResponseAssignedDevicesSwitchStacksItem."""
-
-    id_: str | None = Field(default=None, alias="id")
-    name: str | None = None
-
-
-class GetNetworkFirmwareUpgradesStagedGroupResponseAssignedDevicesDevicesItem(_BaseSchema):
-    """Schema for GetNetworkFirmwareUpgradesStagedGroupResponseAssignedDevicesDevicesItem."""
-
-    serial: str | None = None
-    name: str | None = None
-
-
-class GetNetworkFirmwareUpgradesStagedGroupResponseAssignedDevicesSwitchStacksItem(_BaseSchema):
-    """Schema for GetNetworkFirmwareUpgradesStagedGroupResponseAssignedDevicesSwitchStacksItem."""
-
-    id_: str | None = Field(default=None, alias="id")
-    name: str | None = None
-
-
-class UpdateNetworkFirmwareUpgradesStagedGroupResponseAssignedDevicesDevicesItem(_BaseSchema):
-    """Schema for UpdateNetworkFirmwareUpgradesStagedGroupResponseAssignedDevicesDevicesItem."""
-
-    serial: str | None = None
-    name: str | None = None
-
-
-class UpdateNetworkFirmwareUpgradesStagedGroupResponseAssignedDevicesSwitchStacksItem(_BaseSchema):
-    """Schema for UpdateNetworkFirmwareUpgradesStagedGroupResponseAssignedDevicesSwitchStacksItem."""
-
-    id_: str | None = Field(default=None, alias="id")
-    name: str | None = None
-
-
-class GetNetworkFirmwareUpgradesStagedStagesResponseItemGroup(_BaseSchema):
-    """The Staged Upgrade Group."""
-
-    id_: str | None = Field(default=None, alias="id")
-    name: str | None = None
-    description: str | None = None
-
-
-class UpdateNetworkFirmwareUpgradesStagedStagesResponseItemGroup(_BaseSchema):
-    """The Staged Upgrade Group."""
-
-    id_: str | None = Field(default=None, alias="id")
-    name: str | None = None
-    description: str | None = None
-
-
-class GetNetworkFloorPlansResponseItemDevicesItemDetailsItem(_BaseSchema):
-    """Schema for GetNetworkFloorPlansResponseItemDevicesItemDetailsItem."""
-
-    name: str | None = None
-    value: str | None = None
-
-
-class GetNetworkFloorPlansResponseItemCenter(_BaseSchema):
+class NetworksCenter(_BaseSchema):
     """The longitude and latitude of the center of your floor plan. The 'center' or two adjacent
     corners (e.g. 'topLeftCorner' and 'bottomLeftCorner') must be specified. If 'center' is
     specified, the floor plan is placed over that point with no rotation. If two adjacent
@@ -1453,104 +348,14 @@ class GetNetworkFloorPlansResponseItemCenter(_BaseSchema):
     lng: float | None = None
 
 
-class GetNetworkFloorPlansResponseItemBottomLeftCorner(_BaseSchema):
-    """The longitude and latitude of the bottom left corner of your floor plan."""
-
-    lat: float | None = None
-    lng: float | None = None
-
-
-class GetNetworkFloorPlansResponseItemBottomRightCorner(_BaseSchema):
-    """The longitude and latitude of the bottom right corner of your floor plan."""
-
-    lat: float | None = None
-    lng: float | None = None
-
-
-class GetNetworkFloorPlansResponseItemTopLeftCorner(_BaseSchema):
-    """The longitude and latitude of the top left corner of your floor plan."""
-
-    lat: float | None = None
-    lng: float | None = None
-
-
-class GetNetworkFloorPlansResponseItemTopRightCorner(_BaseSchema):
-    """The longitude and latitude of the top right corner of your floor plan."""
-
-    lat: float | None = None
-    lng: float | None = None
-
-
-class CreateNetworkFloorPlanResponseDevicesItemDetailsItem(_BaseSchema):
-    """Schema for CreateNetworkFloorPlanResponseDevicesItemDetailsItem."""
-
-    name: str | None = None
-    value: str | None = None
-
-
-class CreateNetworkFloorPlanResponseCenter(_BaseSchema):
-    """The longitude and latitude of the center of your floor plan. The 'center' or two adjacent
-    corners (e.g. 'topLeftCorner' and 'bottomLeftCorner') must be specified. If 'center' is
-    specified, the floor plan is placed over that point with no rotation. If two adjacent
-    corners are specified, the floor plan is rotated to line up with the two specified points.
-    The aspect ratio of the floor plan's image is preserved regardless of which corners/center
-    are specified. (This means if that more than two corners are specified, only two corners may
-    be used to preserve the floor plan's aspect ratio.). No two points can have the same
-    latitude, longitude pair.
-    """
-
-    lat: float | None = None
-    lng: float | None = None
-
-
-class CreateNetworkFloorPlanResponseBottomLeftCorner(_BaseSchema):
-    """The longitude and latitude of the bottom left corner of your floor plan."""
-
-    lat: float | None = None
-    lng: float | None = None
-
-
-class CreateNetworkFloorPlanResponseBottomRightCorner(_BaseSchema):
-    """The longitude and latitude of the bottom right corner of your floor plan."""
-
-    lat: float | None = None
-    lng: float | None = None
-
-
-class CreateNetworkFloorPlanResponseTopLeftCorner(_BaseSchema):
-    """The longitude and latitude of the top left corner of your floor plan."""
-
-    lat: float | None = None
-    lng: float | None = None
-
-
-class CreateNetworkFloorPlanResponseTopRightCorner(_BaseSchema):
-    """The longitude and latitude of the top right corner of your floor plan."""
-
-    lat: float | None = None
-    lng: float | None = None
-
-
-class BatchNetworkFloorPlansAutoLocateJobsResponseJobsItemCompleted(_BaseSchema):
+class NetworksJobsCompleted(_BaseSchema):
     """Auto locate job progress information."""
 
     percentage: int | None = None
 
 
-class BatchNetworkFloorPlansAutoLocateJobsResponseJobsItemRangingCompleted(_BaseSchema):
-    """Progress information for the ranging process."""
-
-    percentage: int | None = None
-
-
-class BatchNetworkFloorPlansAutoLocateJobsResponseJobsItemGnssCompleted(_BaseSchema):
-    """Progress information for the GNSS acquisition process."""
-
-    percentage: int | None = None
-
-
-class BatchNetworkFloorPlansAutoLocateJobsResponseJobsItemErrorsItem(_BaseSchema):
-    """Schema for BatchNetworkFloorPlansAutoLocateJobsResponseJobsItemErrorsItem."""
+class NetworksJobsErrorsItem(_BaseSchema):
+    """Schema for NetworksJobsErrorsItem."""
 
     source: str | None = None
     type_: str | None = Field(default=None, alias="type")
@@ -1576,107 +381,7 @@ class BatchNetworkFloorPlansDevicesUpdateResponse(_BaseSchema):
     success: bool | None = None
 
 
-class GetNetworkFloorPlanResponseDevicesItemDetailsItem(_BaseSchema):
-    """Schema for GetNetworkFloorPlanResponseDevicesItemDetailsItem."""
-
-    name: str | None = None
-    value: str | None = None
-
-
-class GetNetworkFloorPlanResponseCenter(_BaseSchema):
-    """The longitude and latitude of the center of your floor plan. The 'center' or two adjacent
-    corners (e.g. 'topLeftCorner' and 'bottomLeftCorner') must be specified. If 'center' is
-    specified, the floor plan is placed over that point with no rotation. If two adjacent
-    corners are specified, the floor plan is rotated to line up with the two specified points.
-    The aspect ratio of the floor plan's image is preserved regardless of which corners/center
-    are specified. (This means if that more than two corners are specified, only two corners may
-    be used to preserve the floor plan's aspect ratio.). No two points can have the same
-    latitude, longitude pair.
-    """
-
-    lat: float | None = None
-    lng: float | None = None
-
-
-class GetNetworkFloorPlanResponseBottomLeftCorner(_BaseSchema):
-    """The longitude and latitude of the bottom left corner of your floor plan."""
-
-    lat: float | None = None
-    lng: float | None = None
-
-
-class GetNetworkFloorPlanResponseBottomRightCorner(_BaseSchema):
-    """The longitude and latitude of the bottom right corner of your floor plan."""
-
-    lat: float | None = None
-    lng: float | None = None
-
-
-class GetNetworkFloorPlanResponseTopLeftCorner(_BaseSchema):
-    """The longitude and latitude of the top left corner of your floor plan."""
-
-    lat: float | None = None
-    lng: float | None = None
-
-
-class GetNetworkFloorPlanResponseTopRightCorner(_BaseSchema):
-    """The longitude and latitude of the top right corner of your floor plan."""
-
-    lat: float | None = None
-    lng: float | None = None
-
-
-class UpdateNetworkFloorPlanResponseDevicesItemDetailsItem(_BaseSchema):
-    """Schema for UpdateNetworkFloorPlanResponseDevicesItemDetailsItem."""
-
-    name: str | None = None
-    value: str | None = None
-
-
-class UpdateNetworkFloorPlanResponseCenter(_BaseSchema):
-    """The longitude and latitude of the center of your floor plan. The 'center' or two adjacent
-    corners (e.g. 'topLeftCorner' and 'bottomLeftCorner') must be specified. If 'center' is
-    specified, the floor plan is placed over that point with no rotation. If two adjacent
-    corners are specified, the floor plan is rotated to line up with the two specified points.
-    The aspect ratio of the floor plan's image is preserved regardless of which corners/center
-    are specified. (This means if that more than two corners are specified, only two corners may
-    be used to preserve the floor plan's aspect ratio.). No two points can have the same
-    latitude, longitude pair.
-    """
-
-    lat: float | None = None
-    lng: float | None = None
-
-
-class UpdateNetworkFloorPlanResponseBottomLeftCorner(_BaseSchema):
-    """The longitude and latitude of the bottom left corner of your floor plan."""
-
-    lat: float | None = None
-    lng: float | None = None
-
-
-class UpdateNetworkFloorPlanResponseBottomRightCorner(_BaseSchema):
-    """The longitude and latitude of the bottom right corner of your floor plan."""
-
-    lat: float | None = None
-    lng: float | None = None
-
-
-class UpdateNetworkFloorPlanResponseTopLeftCorner(_BaseSchema):
-    """The longitude and latitude of the top left corner of your floor plan."""
-
-    lat: float | None = None
-    lng: float | None = None
-
-
-class UpdateNetworkFloorPlanResponseTopRightCorner(_BaseSchema):
-    """The longitude and latitude of the top right corner of your floor plan."""
-
-    lat: float | None = None
-    lng: float | None = None
-
-
-class GetNetworkGroupPoliciesResponseItemSchedulingMonday(_BaseSchema):
+class NetworksMonday(_BaseSchema):
     """The schedule object for Monday."""
 
     active: bool | None = None
@@ -1684,55 +389,7 @@ class GetNetworkGroupPoliciesResponseItemSchedulingMonday(_BaseSchema):
     to: str | None = None
 
 
-class GetNetworkGroupPoliciesResponseItemSchedulingTuesday(_BaseSchema):
-    """The schedule object for Tuesday."""
-
-    active: bool | None = None
-    from_: str | None = Field(default=None, alias="from")
-    to: str | None = None
-
-
-class GetNetworkGroupPoliciesResponseItemSchedulingWednesday(_BaseSchema):
-    """The schedule object for Wednesday."""
-
-    active: bool | None = None
-    from_: str | None = Field(default=None, alias="from")
-    to: str | None = None
-
-
-class GetNetworkGroupPoliciesResponseItemSchedulingThursday(_BaseSchema):
-    """The schedule object for Thursday."""
-
-    active: bool | None = None
-    from_: str | None = Field(default=None, alias="from")
-    to: str | None = None
-
-
-class GetNetworkGroupPoliciesResponseItemSchedulingFriday(_BaseSchema):
-    """The schedule object for Friday."""
-
-    active: bool | None = None
-    from_: str | None = Field(default=None, alias="from")
-    to: str | None = None
-
-
-class GetNetworkGroupPoliciesResponseItemSchedulingSaturday(_BaseSchema):
-    """The schedule object for Saturday."""
-
-    active: bool | None = None
-    from_: str | None = Field(default=None, alias="from")
-    to: str | None = None
-
-
-class GetNetworkGroupPoliciesResponseItemSchedulingSunday(_BaseSchema):
-    """The schedule object for Sunday."""
-
-    active: bool | None = None
-    from_: str | None = Field(default=None, alias="from")
-    to: str | None = None
-
-
-class GetNetworkGroupPoliciesResponseItemBandwidthBandwidthLimits(_BaseSchema):
+class NetworksBandwidthLimits(_BaseSchema):
     """The bandwidth limits object, specifying upload and download speed for clients bound to the
     group policy. These are only enforced if 'settings' is set to 'custom'.
     """
@@ -1741,30 +398,15 @@ class GetNetworkGroupPoliciesResponseItemBandwidthBandwidthLimits(_BaseSchema):
     limit_down: int | None = Field(default=None, alias="limitDown")
 
 
-class GetNetworkGroupPoliciesResponseItemFirewallAndTrafficShapingTrafficShapingRulesItemDefinitionsItem(
-    _BaseSchema
-):
-    """Schema for GetNetworkGroupPoliciesResponseItemFirewallAndTrafficShapingTrafficShapingRulesIt
-    emDefinitionsItem.
-    """
+class NetworksDefinitionsItem(_BaseSchema):
+    """Schema for NetworksDefinitionsItem."""
 
     type_: str = Field(alias="type")
     value: str
 
 
-class GetNetworkGroupPoliciesResponseItemFirewallAndTrafficShapingTrafficShapingRulesItemPerClientBandwidthLimitsBandwidthLimits(
-    _BaseSchema
-):
-    """The bandwidth limits object, specifying the upload ('limitUp') and download ('limitDown')
-    speed in Kbps. These are only enforced if 'settings' is set to 'custom'.
-    """
-
-    limit_up: int | None = Field(default=None, alias="limitUp")
-    limit_down: int | None = Field(default=None, alias="limitDown")
-
-
-class GetNetworkGroupPoliciesResponseItemFirewallAndTrafficShapingL3FirewallRulesItem(_BaseSchema):
-    """Schema for GetNetworkGroupPoliciesResponseItemFirewallAndTrafficShapingL3FirewallRulesItem."""
+class NetworksL3FirewallRulesItem(_BaseSchema):
+    """Schema for NetworksL3FirewallRulesItem."""
 
     comment: str | None = None
     policy: str
@@ -1773,36 +415,29 @@ class GetNetworkGroupPoliciesResponseItemFirewallAndTrafficShapingL3FirewallRule
     dest_cidr: str = Field(alias="destCidr")
 
 
-class GetNetworkGroupPoliciesResponseItemFirewallAndTrafficShapingL7FirewallRulesItem(_BaseSchema):
-    """Schema for GetNetworkGroupPoliciesResponseItemFirewallAndTrafficShapingL7FirewallRulesItem."""
+class NetworksL7FirewallRulesItem(_BaseSchema):
+    """Schema for NetworksL7FirewallRulesItem."""
 
     policy: str | None = None
     type_: str | None = Field(default=None, alias="type")
     value: str | None = None
 
 
-class GetNetworkGroupPoliciesResponseItemContentFilteringAllowedUrlPatterns(_BaseSchema):
+class NetworksAllowedUrlPatterns(_BaseSchema):
     """Settings for allowed URL patterns."""
 
     settings: str | None = None
     patterns: list[str] | None = None
 
 
-class GetNetworkGroupPoliciesResponseItemContentFilteringBlockedUrlPatterns(_BaseSchema):
-    """Settings for blocked URL patterns."""
-
-    settings: str | None = None
-    patterns: list[str] | None = None
-
-
-class GetNetworkGroupPoliciesResponseItemContentFilteringBlockedUrlCategories(_BaseSchema):
+class NetworksBlockedUrlCategories(_BaseSchema):
     """Settings for blocked URL categories."""
 
     settings: str | None = None
     categories: list[str] | None = None
 
 
-class GetNetworkGroupPoliciesResponseItemVlanTagging(_BaseSchema):
+class NetworksVlanTagging(_BaseSchema):
     """The VLAN tagging settings for your group policy. Only available if your network has a
     wireless configuration.
     """
@@ -1811,471 +446,35 @@ class GetNetworkGroupPoliciesResponseItemVlanTagging(_BaseSchema):
     vlan_id: str | None = Field(default=None, alias="vlanId")
 
 
-class GetNetworkGroupPoliciesResponseItemBonjourForwardingRulesItem(_BaseSchema):
-    """Schema for GetNetworkGroupPoliciesResponseItemBonjourForwardingRulesItem."""
+class NetworksRulesItem(_BaseSchema):
+    """Schema for NetworksRulesItem."""
 
     description: str | None = None
     vlan_id: str = Field(alias="vlanId")
     services: list[str]
 
 
-class CreateNetworkGroupPolicyResponseSchedulingMonday(_BaseSchema):
-    """The schedule object for Monday."""
-
-    active: bool | None = None
-    from_: str | None = Field(default=None, alias="from")
-    to: str | None = None
-
-
-class CreateNetworkGroupPolicyResponseSchedulingTuesday(_BaseSchema):
-    """The schedule object for Tuesday."""
-
-    active: bool | None = None
-    from_: str | None = Field(default=None, alias="from")
-    to: str | None = None
-
-
-class CreateNetworkGroupPolicyResponseSchedulingWednesday(_BaseSchema):
-    """The schedule object for Wednesday."""
-
-    active: bool | None = None
-    from_: str | None = Field(default=None, alias="from")
-    to: str | None = None
-
-
-class CreateNetworkGroupPolicyResponseSchedulingThursday(_BaseSchema):
-    """The schedule object for Thursday."""
-
-    active: bool | None = None
-    from_: str | None = Field(default=None, alias="from")
-    to: str | None = None
-
-
-class CreateNetworkGroupPolicyResponseSchedulingFriday(_BaseSchema):
-    """The schedule object for Friday."""
-
-    active: bool | None = None
-    from_: str | None = Field(default=None, alias="from")
-    to: str | None = None
-
-
-class CreateNetworkGroupPolicyResponseSchedulingSaturday(_BaseSchema):
-    """The schedule object for Saturday."""
-
-    active: bool | None = None
-    from_: str | None = Field(default=None, alias="from")
-    to: str | None = None
-
-
-class CreateNetworkGroupPolicyResponseSchedulingSunday(_BaseSchema):
-    """The schedule object for Sunday."""
-
-    active: bool | None = None
-    from_: str | None = Field(default=None, alias="from")
-    to: str | None = None
-
-
-class CreateNetworkGroupPolicyResponseBandwidthBandwidthLimits(_BaseSchema):
-    """The bandwidth limits object, specifying upload and download speed for clients bound to the
-    group policy. These are only enforced if 'settings' is set to 'custom'.
-    """
-
-    limit_up: int | None = Field(default=None, alias="limitUp")
-    limit_down: int | None = Field(default=None, alias="limitDown")
-
-
-class CreateNetworkGroupPolicyResponseFirewallAndTrafficShapingTrafficShapingRulesItemDefinitionsItem(
-    _BaseSchema
-):
-    """Schema for CreateNetworkGroupPolicyResponseFirewallAndTrafficShapingTrafficShapingRulesItemD
-    efinitionsItem.
-    """
-
-    type_: str = Field(alias="type")
-    value: str
-
-
-class CreateNetworkGroupPolicyResponseFirewallAndTrafficShapingTrafficShapingRulesItemPerClientBandwidthLimitsBandwidthLimits(
-    _BaseSchema
-):
-    """The bandwidth limits object, specifying the upload ('limitUp') and download ('limitDown')
-    speed in Kbps. These are only enforced if 'settings' is set to 'custom'.
-    """
-
-    limit_up: int | None = Field(default=None, alias="limitUp")
-    limit_down: int | None = Field(default=None, alias="limitDown")
-
-
-class CreateNetworkGroupPolicyResponseFirewallAndTrafficShapingL3FirewallRulesItem(_BaseSchema):
-    """Schema for CreateNetworkGroupPolicyResponseFirewallAndTrafficShapingL3FirewallRulesItem."""
-
-    comment: str | None = None
-    policy: str
-    protocol: str
-    dest_port: str | None = Field(default=None, alias="destPort")
-    dest_cidr: str = Field(alias="destCidr")
-
-
-class CreateNetworkGroupPolicyResponseFirewallAndTrafficShapingL7FirewallRulesItem(_BaseSchema):
-    """Schema for CreateNetworkGroupPolicyResponseFirewallAndTrafficShapingL7FirewallRulesItem."""
-
-    policy: str | None = None
-    type_: str | None = Field(default=None, alias="type")
-    value: str | None = None
-
-
-class CreateNetworkGroupPolicyResponseContentFilteringAllowedUrlPatterns(_BaseSchema):
-    """Settings for allowed URL patterns."""
-
-    settings: str | None = None
-    patterns: list[str] | None = None
-
-
-class CreateNetworkGroupPolicyResponseContentFilteringBlockedUrlPatterns(_BaseSchema):
-    """Settings for blocked URL patterns."""
-
-    settings: str | None = None
-    patterns: list[str] | None = None
-
-
-class CreateNetworkGroupPolicyResponseContentFilteringBlockedUrlCategories(_BaseSchema):
-    """Settings for blocked URL categories."""
-
-    settings: str | None = None
-    categories: list[str] | None = None
-
-
-class CreateNetworkGroupPolicyResponseVlanTagging(_BaseSchema):
-    """The VLAN tagging settings for your group policy. Only available if your network has a
-    wireless configuration.
-    """
-
-    settings: str | None = None
-    vlan_id: str | None = Field(default=None, alias="vlanId")
-
-
-class CreateNetworkGroupPolicyResponseBonjourForwardingRulesItem(_BaseSchema):
-    """Schema for CreateNetworkGroupPolicyResponseBonjourForwardingRulesItem."""
-
-    description: str | None = None
-    vlan_id: str = Field(alias="vlanId")
-    services: list[str]
-
-
-class GetNetworkGroupPolicyResponseSchedulingMonday(_BaseSchema):
-    """The schedule object for Monday."""
-
-    active: bool | None = None
-    from_: str | None = Field(default=None, alias="from")
-    to: str | None = None
-
-
-class GetNetworkGroupPolicyResponseSchedulingTuesday(_BaseSchema):
-    """The schedule object for Tuesday."""
-
-    active: bool | None = None
-    from_: str | None = Field(default=None, alias="from")
-    to: str | None = None
-
-
-class GetNetworkGroupPolicyResponseSchedulingWednesday(_BaseSchema):
-    """The schedule object for Wednesday."""
-
-    active: bool | None = None
-    from_: str | None = Field(default=None, alias="from")
-    to: str | None = None
-
-
-class GetNetworkGroupPolicyResponseSchedulingThursday(_BaseSchema):
-    """The schedule object for Thursday."""
-
-    active: bool | None = None
-    from_: str | None = Field(default=None, alias="from")
-    to: str | None = None
-
-
-class GetNetworkGroupPolicyResponseSchedulingFriday(_BaseSchema):
-    """The schedule object for Friday."""
-
-    active: bool | None = None
-    from_: str | None = Field(default=None, alias="from")
-    to: str | None = None
-
-
-class GetNetworkGroupPolicyResponseSchedulingSaturday(_BaseSchema):
-    """The schedule object for Saturday."""
-
-    active: bool | None = None
-    from_: str | None = Field(default=None, alias="from")
-    to: str | None = None
-
-
-class GetNetworkGroupPolicyResponseSchedulingSunday(_BaseSchema):
-    """The schedule object for Sunday."""
-
-    active: bool | None = None
-    from_: str | None = Field(default=None, alias="from")
-    to: str | None = None
-
-
-class GetNetworkGroupPolicyResponseBandwidthBandwidthLimits(_BaseSchema):
-    """The bandwidth limits object, specifying upload and download speed for clients bound to the
-    group policy. These are only enforced if 'settings' is set to 'custom'.
-    """
-
-    limit_up: int | None = Field(default=None, alias="limitUp")
-    limit_down: int | None = Field(default=None, alias="limitDown")
-
-
-class GetNetworkGroupPolicyResponseFirewallAndTrafficShapingTrafficShapingRulesItemDefinitionsItem(
-    _BaseSchema
-):
-    """Schema for GetNetworkGroupPolicyResponseFirewallAndTrafficShapingTrafficShapingRulesItemDefi
-    nitionsItem.
-    """
-
-    type_: str = Field(alias="type")
-    value: str
-
-
-class GetNetworkGroupPolicyResponseFirewallAndTrafficShapingTrafficShapingRulesItemPerClientBandwidthLimitsBandwidthLimits(
-    _BaseSchema
-):
-    """The bandwidth limits object, specifying the upload ('limitUp') and download ('limitDown')
-    speed in Kbps. These are only enforced if 'settings' is set to 'custom'.
-    """
-
-    limit_up: int | None = Field(default=None, alias="limitUp")
-    limit_down: int | None = Field(default=None, alias="limitDown")
-
-
-class GetNetworkGroupPolicyResponseFirewallAndTrafficShapingL3FirewallRulesItem(_BaseSchema):
-    """Schema for GetNetworkGroupPolicyResponseFirewallAndTrafficShapingL3FirewallRulesItem."""
-
-    comment: str | None = None
-    policy: str
-    protocol: str
-    dest_port: str | None = Field(default=None, alias="destPort")
-    dest_cidr: str = Field(alias="destCidr")
-
-
-class GetNetworkGroupPolicyResponseFirewallAndTrafficShapingL7FirewallRulesItem(_BaseSchema):
-    """Schema for GetNetworkGroupPolicyResponseFirewallAndTrafficShapingL7FirewallRulesItem."""
-
-    policy: str | None = None
-    type_: str | None = Field(default=None, alias="type")
-    value: str | None = None
-
-
-class GetNetworkGroupPolicyResponseContentFilteringAllowedUrlPatterns(_BaseSchema):
-    """Settings for allowed URL patterns."""
-
-    settings: str | None = None
-    patterns: list[str] | None = None
-
-
-class GetNetworkGroupPolicyResponseContentFilteringBlockedUrlPatterns(_BaseSchema):
-    """Settings for blocked URL patterns."""
-
-    settings: str | None = None
-    patterns: list[str] | None = None
-
-
-class GetNetworkGroupPolicyResponseContentFilteringBlockedUrlCategories(_BaseSchema):
-    """Settings for blocked URL categories."""
-
-    settings: str | None = None
-    categories: list[str] | None = None
-
-
-class GetNetworkGroupPolicyResponseVlanTagging(_BaseSchema):
-    """The VLAN tagging settings for your group policy. Only available if your network has a
-    wireless configuration.
-    """
-
-    settings: str | None = None
-    vlan_id: str | None = Field(default=None, alias="vlanId")
-
-
-class GetNetworkGroupPolicyResponseBonjourForwardingRulesItem(_BaseSchema):
-    """Schema for GetNetworkGroupPolicyResponseBonjourForwardingRulesItem."""
-
-    description: str | None = None
-    vlan_id: str = Field(alias="vlanId")
-    services: list[str]
-
-
-class UpdateNetworkGroupPolicyResponseSchedulingMonday(_BaseSchema):
-    """The schedule object for Monday."""
-
-    active: bool | None = None
-    from_: str | None = Field(default=None, alias="from")
-    to: str | None = None
-
-
-class UpdateNetworkGroupPolicyResponseSchedulingTuesday(_BaseSchema):
-    """The schedule object for Tuesday."""
-
-    active: bool | None = None
-    from_: str | None = Field(default=None, alias="from")
-    to: str | None = None
-
-
-class UpdateNetworkGroupPolicyResponseSchedulingWednesday(_BaseSchema):
-    """The schedule object for Wednesday."""
-
-    active: bool | None = None
-    from_: str | None = Field(default=None, alias="from")
-    to: str | None = None
-
-
-class UpdateNetworkGroupPolicyResponseSchedulingThursday(_BaseSchema):
-    """The schedule object for Thursday."""
-
-    active: bool | None = None
-    from_: str | None = Field(default=None, alias="from")
-    to: str | None = None
-
-
-class UpdateNetworkGroupPolicyResponseSchedulingFriday(_BaseSchema):
-    """The schedule object for Friday."""
-
-    active: bool | None = None
-    from_: str | None = Field(default=None, alias="from")
-    to: str | None = None
-
-
-class UpdateNetworkGroupPolicyResponseSchedulingSaturday(_BaseSchema):
-    """The schedule object for Saturday."""
-
-    active: bool | None = None
-    from_: str | None = Field(default=None, alias="from")
-    to: str | None = None
-
-
-class UpdateNetworkGroupPolicyResponseSchedulingSunday(_BaseSchema):
-    """The schedule object for Sunday."""
-
-    active: bool | None = None
-    from_: str | None = Field(default=None, alias="from")
-    to: str | None = None
-
-
-class UpdateNetworkGroupPolicyResponseBandwidthBandwidthLimits(_BaseSchema):
-    """The bandwidth limits object, specifying upload and download speed for clients bound to the
-    group policy. These are only enforced if 'settings' is set to 'custom'.
-    """
-
-    limit_up: int | None = Field(default=None, alias="limitUp")
-    limit_down: int | None = Field(default=None, alias="limitDown")
-
-
-class UpdateNetworkGroupPolicyResponseFirewallAndTrafficShapingTrafficShapingRulesItemDefinitionsItem(
-    _BaseSchema
-):
-    """Schema for UpdateNetworkGroupPolicyResponseFirewallAndTrafficShapingTrafficShapingRulesItemD
-    efinitionsItem.
-    """
-
-    type_: str = Field(alias="type")
-    value: str
-
-
-class UpdateNetworkGroupPolicyResponseFirewallAndTrafficShapingTrafficShapingRulesItemPerClientBandwidthLimitsBandwidthLimits(
-    _BaseSchema
-):
-    """The bandwidth limits object, specifying the upload ('limitUp') and download ('limitDown')
-    speed in Kbps. These are only enforced if 'settings' is set to 'custom'.
-    """
-
-    limit_up: int | None = Field(default=None, alias="limitUp")
-    limit_down: int | None = Field(default=None, alias="limitDown")
-
-
-class UpdateNetworkGroupPolicyResponseFirewallAndTrafficShapingL3FirewallRulesItem(_BaseSchema):
-    """Schema for UpdateNetworkGroupPolicyResponseFirewallAndTrafficShapingL3FirewallRulesItem."""
-
-    comment: str | None = None
-    policy: str
-    protocol: str
-    dest_port: str | None = Field(default=None, alias="destPort")
-    dest_cidr: str = Field(alias="destCidr")
-
-
-class UpdateNetworkGroupPolicyResponseFirewallAndTrafficShapingL7FirewallRulesItem(_BaseSchema):
-    """Schema for UpdateNetworkGroupPolicyResponseFirewallAndTrafficShapingL7FirewallRulesItem."""
-
-    policy: str | None = None
-    type_: str | None = Field(default=None, alias="type")
-    value: str | None = None
-
-
-class UpdateNetworkGroupPolicyResponseContentFilteringAllowedUrlPatterns(_BaseSchema):
-    """Settings for allowed URL patterns."""
-
-    settings: str | None = None
-    patterns: list[str] | None = None
-
-
-class UpdateNetworkGroupPolicyResponseContentFilteringBlockedUrlPatterns(_BaseSchema):
-    """Settings for blocked URL patterns."""
-
-    settings: str | None = None
-    patterns: list[str] | None = None
-
-
-class UpdateNetworkGroupPolicyResponseContentFilteringBlockedUrlCategories(_BaseSchema):
-    """Settings for blocked URL categories."""
-
-    settings: str | None = None
-    categories: list[str] | None = None
-
-
-class UpdateNetworkGroupPolicyResponseVlanTagging(_BaseSchema):
-    """The VLAN tagging settings for your group policy. Only available if your network has a
-    wireless configuration.
-    """
-
-    settings: str | None = None
-    vlan_id: str | None = Field(default=None, alias="vlanId")
-
-
-class UpdateNetworkGroupPolicyResponseBonjourForwardingRulesItem(_BaseSchema):
-    """Schema for UpdateNetworkGroupPolicyResponseBonjourForwardingRulesItem."""
-
-    description: str | None = None
-    vlan_id: str = Field(alias="vlanId")
-    services: list[str]
-
-
-class GetNetworkHealthAlertsResponseItemScopeDevicesItemLldp(_BaseSchema):
+class NetworksLldp(_BaseSchema):
     """Lldp information."""
 
     port_id: str | None = Field(default=None, alias="portId")
 
 
-class GetNetworkHealthAlertsResponseItemScopeDevicesItemClientsItem(_BaseSchema):
-    """Schema for GetNetworkHealthAlertsResponseItemScopeDevicesItemClientsItem."""
+class NetworksClientsItem(_BaseSchema):
+    """Schema for NetworksClientsItem."""
 
     mac: str | None = None
 
 
-class GetNetworkHealthAlertsResponseItemScopeApplicationsItem(_BaseSchema):
-    """Schema for GetNetworkHealthAlertsResponseItemScopeApplicationsItem."""
+class NetworksApplicationsItem(_BaseSchema):
+    """Schema for NetworksApplicationsItem."""
 
     url: str | None = None
     name: str | None = None
 
 
-class GetNetworkHealthAlertsResponseItemScopePeersItemNetwork(_BaseSchema):
-    """Network of the peer."""
-
-    name: str | None = None
-    id_: str | None = Field(default=None, alias="id")
-
-
-class GetNetworkMerakiAuthUsersResponseItemAuthorizationsItem(_BaseSchema):
-    """Schema for GetNetworkMerakiAuthUsersResponseItemAuthorizationsItem."""
+class NetworksAuthorizationsItem(_BaseSchema):
+    """Schema for NetworksAuthorizationsItem."""
 
     ssid_number: int | None = Field(default=None, alias="ssidNumber")
     authorized_zone: str | None = Field(default=None, alias="authorizedZone")
@@ -2284,83 +483,14 @@ class GetNetworkMerakiAuthUsersResponseItemAuthorizationsItem(_BaseSchema):
     authorized_by_email: str | None = Field(default=None, alias="authorizedByEmail")
 
 
-class CreateNetworkMerakiAuthUserResponseAuthorizationsItem(_BaseSchema):
-    """Schema for CreateNetworkMerakiAuthUserResponseAuthorizationsItem."""
-
-    ssid_number: int | None = Field(default=None, alias="ssidNumber")
-    authorized_zone: str | None = Field(default=None, alias="authorizedZone")
-    expires_at: str | None = Field(default=None, alias="expiresAt")
-    authorized_by_name: str | None = Field(default=None, alias="authorizedByName")
-    authorized_by_email: str | None = Field(default=None, alias="authorizedByEmail")
-
-
-class GetNetworkMerakiAuthUserResponseAuthorizationsItem(_BaseSchema):
-    """Schema for GetNetworkMerakiAuthUserResponseAuthorizationsItem."""
-
-    ssid_number: int | None = Field(default=None, alias="ssidNumber")
-    authorized_zone: str | None = Field(default=None, alias="authorizedZone")
-    expires_at: str | None = Field(default=None, alias="expiresAt")
-    authorized_by_name: str | None = Field(default=None, alias="authorizedByName")
-    authorized_by_email: str | None = Field(default=None, alias="authorizedByEmail")
-
-
-class UpdateNetworkMerakiAuthUserResponseAuthorizationsItem(_BaseSchema):
-    """Schema for UpdateNetworkMerakiAuthUserResponseAuthorizationsItem."""
-
-    ssid_number: int | None = Field(default=None, alias="ssidNumber")
-    authorized_zone: str | None = Field(default=None, alias="authorizedZone")
-    expires_at: str | None = Field(default=None, alias="expiresAt")
-    authorized_by_name: str | None = Field(default=None, alias="authorizedByName")
-    authorized_by_email: str | None = Field(default=None, alias="authorizedByEmail")
-
-
-class GetNetworkMqttBrokersResponseItemSecurityTls(_BaseSchema):
+class NetworksTls(_BaseSchema):
     """TLS settings of the MQTT broker."""
 
     has_ca_certificate: bool | None = Field(default=None, alias="hasCaCertificate")
     verify_hostnames: bool | None = Field(default=None, alias="verifyHostnames")
 
 
-class GetNetworkMqttBrokersResponseItemAuthentication(_BaseSchema):
-    """Authentication settings of the MQTT broker."""
-
-    username: str | None = None
-
-
-class CreateNetworkMqttBrokerResponseSecurityTls(_BaseSchema):
-    """TLS settings of the MQTT broker."""
-
-    has_ca_certificate: bool | None = Field(default=None, alias="hasCaCertificate")
-    verify_hostnames: bool | None = Field(default=None, alias="verifyHostnames")
-
-
-class CreateNetworkMqttBrokerResponseAuthentication(_BaseSchema):
-    """Authentication settings of the MQTT broker."""
-
-    username: str | None = None
-
-
-class GetNetworkMqttBrokerResponseSecurityTls(_BaseSchema):
-    """TLS settings of the MQTT broker."""
-
-    has_ca_certificate: bool | None = Field(default=None, alias="hasCaCertificate")
-    verify_hostnames: bool | None = Field(default=None, alias="verifyHostnames")
-
-
-class GetNetworkMqttBrokerResponseAuthentication(_BaseSchema):
-    """Authentication settings of the MQTT broker."""
-
-    username: str | None = None
-
-
-class UpdateNetworkMqttBrokerResponseSecurityTls(_BaseSchema):
-    """TLS settings of the MQTT broker."""
-
-    has_ca_certificate: bool | None = Field(default=None, alias="hasCaCertificate")
-    verify_hostnames: bool | None = Field(default=None, alias="verifyHostnames")
-
-
-class UpdateNetworkMqttBrokerResponseAuthentication(_BaseSchema):
+class NetworksAuthentication(_BaseSchema):
     """Authentication settings of the MQTT broker."""
 
     username: str | None = None
@@ -2386,18 +516,8 @@ class UpdateNetworkNetflowResponse(_BaseSchema):
     eta_dst_port: int | None = Field(default=None, alias="etaDstPort")
 
 
-class GetNetworkNetworkHealthChannelUtilizationResponseItemWifi0Item(_BaseSchema):
-    """Schema for GetNetworkNetworkHealthChannelUtilizationResponseItemWifi0Item."""
-
-    start_time: str | None = Field(default=None, alias="startTime")
-    end_time: str | None = Field(default=None, alias="endTime")
-    utilization_total: float | None = Field(default=None, alias="utilizationTotal")
-    utilization80211: float | None = None
-    utilization_non80211: float | None = Field(default=None, alias="utilizationNon80211")
-
-
-class GetNetworkNetworkHealthChannelUtilizationResponseItemWifi1Item(_BaseSchema):
-    """Schema for GetNetworkNetworkHealthChannelUtilizationResponseItemWifi1Item."""
+class NetworksWifi0Item(_BaseSchema):
+    """Schema for NetworksWifi0Item."""
 
     start_time: str | None = Field(default=None, alias="startTime")
     end_time: str | None = Field(default=None, alias="endTime")
@@ -2477,29 +597,17 @@ class GetNetworkPiiSmOwnersForKeyResponse(_BaseSchema):
     """
 
 
-class GetNetworkPoliciesByClientResponseItemAssignedItemSsidItem(_BaseSchema):
-    """Schema for GetNetworkPoliciesByClientResponseItemAssignedItemSsidItem."""
+class NetworksSsidItem(_BaseSchema):
+    """Schema for NetworksSsidItem."""
 
     ssid_number: int | None = Field(default=None, alias="ssidNumber")
 
 
-class GetNetworkSettingsResponseLocalStatusPageAuthentication(_BaseSchema):
+class NetworksLocalStatusPageAuthentication(_BaseSchema):
     """A hash of Local Status page(s)' authentication options applied to the Network."""
 
     enabled: bool | None = None
     username: str | None = None
-
-
-class GetNetworkSettingsResponseSecurePort(_BaseSchema):
-    """A hash of SecureConnect options applied to the Network."""
-
-    enabled: bool | None = None
-
-
-class GetNetworkSettingsResponseFips(_BaseSchema):
-    """A hash of FIPS options applied to the Network."""
-
-    enabled: bool | None = None
 
 
 class GetNetworkSettingsResponseNamedVlans(_BaseSchema):
@@ -2508,40 +616,8 @@ class GetNetworkSettingsResponseNamedVlans(_BaseSchema):
     enabled: bool
 
 
-class UpdateNetworkSettingsResponseLocalStatusPageAuthentication(_BaseSchema):
-    """A hash of Local Status page(s)' authentication options applied to the Network."""
-
-    enabled: bool | None = None
-    username: str | None = None
-
-
-class UpdateNetworkSettingsResponseSecurePort(_BaseSchema):
-    """A hash of SecureConnect options applied to the Network."""
-
-    enabled: bool | None = None
-
-
-class UpdateNetworkSettingsResponseFips(_BaseSchema):
-    """A hash of FIPS options applied to the Network."""
-
-    enabled: bool | None = None
-
-
-class UpdateNetworkSettingsResponseNamedVlans(_BaseSchema):
-    """A hash of Named VLANs options applied to the Network."""
-
-    enabled: bool
-
-
 class GetNetworkSnmpResponseUsersItem(_BaseSchema):
     """Schema for GetNetworkSnmpResponseUsersItem."""
-
-    username: str | None = None
-    passphrase: str | None = None
-
-
-class UpdateNetworkSnmpResponseUsersItem(_BaseSchema):
-    """Schema for UpdateNetworkSnmpResponseUsersItem."""
 
     username: str | None = None
     passphrase: str | None = None
@@ -2583,27 +659,19 @@ class GetNetworkSyslogServersResponseServersItem(_BaseSchema):
     roles: list[str] | None = None
 
 
-class UpdateNetworkSyslogServersResponseServersItem(_BaseSchema):
-    """Schema for UpdateNetworkSyslogServersResponseServersItem."""
-
-    host: str | None = None
-    port: int | None = None
-    roles: list[str] | None = None
-
-
-class GetNetworkTopologyLinkLayerResponseNodesItemDeviceClientsCounts(_BaseSchema):
+class NetworksCounts(_BaseSchema):
     """Client counts."""
 
     total: int | None = None
 
 
-class GetNetworkTopologyLinkLayerResponseNodesItemDeviceUplinksItem(_BaseSchema):
-    """Schema for GetNetworkTopologyLinkLayerResponseNodesItemDeviceUplinksItem."""
+class NetworksUplinksItem(_BaseSchema):
+    """Schema for NetworksUplinksItem."""
 
     vlan_id: int | None = Field(default=None, alias="vlanId")
 
 
-class GetNetworkTopologyLinkLayerResponseNodesItemDiscoveredLldp(_BaseSchema):
+class NetworksLldp2(_BaseSchema):
     """LLDP information."""
 
     chassis_id: str | None = Field(default=None, alias="chassisId")
@@ -2613,7 +681,7 @@ class GetNetworkTopologyLinkLayerResponseNodesItemDiscoveredLldp(_BaseSchema):
     management_address: str | None = Field(default=None, alias="managementAddress")
 
 
-class GetNetworkTopologyLinkLayerResponseNodesItemDiscoveredCdp(_BaseSchema):
+class NetworksCdp(_BaseSchema):
     """CDP information."""
 
     platform: str | None = None
@@ -2623,34 +691,21 @@ class GetNetworkTopologyLinkLayerResponseNodesItemDiscoveredCdp(_BaseSchema):
     management_address: str | None = Field(default=None, alias="managementAddress")
 
 
-class GetNetworkTopologyLinkLayerResponseNodesItemStackClientsCounts(_BaseSchema):
-    """Client counts."""
-
-    total: int | None = None
-
-
-class GetNetworkTopologyLinkLayerResponseLinksItemEndsItemNode(_BaseSchema):
+class NetworksNode(_BaseSchema):
     """Node reference."""
 
     derived_id: str | None = Field(default=None, alias="derivedId")
     type_: str | None = Field(default=None, alias="type")
 
 
-class GetNetworkTopologyLinkLayerResponseLinksItemEndsItemDevice(_BaseSchema):
-    """Device information at this end of the link."""
-
-    serial: str | None = None
-    name: str | None = None
-
-
-class GetNetworkTopologyLinkLayerResponseLinksItemEndsItemDiscoveredLldp(_BaseSchema):
+class NetworksLldp3(_BaseSchema):
     """LLDP port information."""
 
     port_id: str | None = Field(default=None, alias="portId")
     port_description: str | None = Field(default=None, alias="portDescription")
 
 
-class GetNetworkTopologyLinkLayerResponseLinksItemEndsItemDiscoveredCdp(_BaseSchema):
+class NetworksCdp2(_BaseSchema):
     """CDP port information."""
 
     port_id: str | None = Field(default=None, alias="portId")
@@ -2679,14 +734,6 @@ class GetNetworkTrafficAnalysisResponseCustomPieChartItemsItem(_BaseSchema):
     value: str
 
 
-class UpdateNetworkTrafficAnalysisResponseCustomPieChartItemsItem(_BaseSchema):
-    """Schema for UpdateNetworkTrafficAnalysisResponseCustomPieChartItemsItem."""
-
-    name: str
-    type_: str = Field(alias="type")
-    value: str
-
-
 class GetNetworkTrafficShapingDscpTaggingOptionsResponse(RootModel[list[dict[str, Any]]]):
     """Returns the available DSCP tagging options for your traffic shaping rules."""
 
@@ -2706,35 +753,14 @@ class UnbindNetworkResponse(_BaseSchema):
     is_bound_to_config_template: bool | None = Field(default=None, alias="isBoundToConfigTemplate")
 
 
-class GetNetworkVlanProfilesResponseItemVlanNamesItemAdaptivePolicyGroup(_BaseSchema):
-    """Adaptive Policy Group assigned to Vlan ID."""
-
-    id_: str | None = Field(default=None, alias="id")
-    name: str | None = None
-
-
-class GetNetworkVlanProfilesResponseItemVlanGroupsItem(_BaseSchema):
-    """Schema for GetNetworkVlanProfilesResponseItemVlanGroupsItem."""
+class NetworksVlanGroupsItem(_BaseSchema):
+    """Schema for NetworksVlanGroupsItem."""
 
     name: str | None = None
     vlan_ids: str | None = Field(default=None, alias="vlanIds")
 
 
-class CreateNetworkVlanProfileResponseVlanNamesItemAdaptivePolicyGroup(_BaseSchema):
-    """Adaptive Policy Group assigned to Vlan ID."""
-
-    id_: str | None = Field(default=None, alias="id")
-    name: str | None = None
-
-
-class CreateNetworkVlanProfileResponseVlanGroupsItem(_BaseSchema):
-    """Schema for CreateNetworkVlanProfileResponseVlanGroupsItem."""
-
-    name: str | None = None
-    vlan_ids: str | None = Field(default=None, alias="vlanIds")
-
-
-class GetNetworkVlanProfilesAssignmentsByDeviceResponseItemVlanProfile(_BaseSchema):
+class NetworksVlanProfile(_BaseSchema):
     """The VLAN Profile."""
 
     iname: str | None = None
@@ -2742,7 +768,7 @@ class GetNetworkVlanProfilesAssignmentsByDeviceResponseItemVlanProfile(_BaseSche
     is_default: bool | None = Field(default=None, alias="isDefault")
 
 
-class GetNetworkVlanProfilesAssignmentsByDeviceResponseItemStack(_BaseSchema):
+class NetworksStack(_BaseSchema):
     """The Switch Stack the device belongs to."""
 
     id_: str | None = Field(default=None, alias="id")
@@ -2755,109 +781,21 @@ class ReassignNetworkVlanProfilesAssignmentsResponseVlanProfile(_BaseSchema):
     name: str | None = None
 
 
-class GetNetworkVlanProfileResponseVlanNamesItemAdaptivePolicyGroup(_BaseSchema):
-    """Adaptive Policy Group assigned to Vlan ID."""
-
-    id_: str | None = Field(default=None, alias="id")
-    name: str | None = None
-
-
-class GetNetworkVlanProfileResponseVlanGroupsItem(_BaseSchema):
-    """Schema for GetNetworkVlanProfileResponseVlanGroupsItem."""
-
-    name: str | None = None
-    vlan_ids: str | None = Field(default=None, alias="vlanIds")
-
-
-class UpdateNetworkVlanProfileResponseVlanNamesItemAdaptivePolicyGroup(_BaseSchema):
-    """Adaptive Policy Group assigned to Vlan ID."""
-
-    id_: str | None = Field(default=None, alias="id")
-    name: str | None = None
-
-
-class UpdateNetworkVlanProfileResponseVlanGroupsItem(_BaseSchema):
-    """Schema for UpdateNetworkVlanProfileResponseVlanGroupsItem."""
-
-    name: str | None = None
-    vlan_ids: str | None = Field(default=None, alias="vlanIds")
-
-
-class GetNetworkWebhooksHttpServersResponseItemPayloadTemplate(_BaseSchema):
+class NetworksPayloadTemplate(_BaseSchema):
     """The payload template to use when posting data to the HTTP server."""
 
     payload_template_id: str | None = Field(default=None, alias="payloadTemplateId")
     name: str | None = None
 
 
-class CreateNetworkWebhooksHttpServerResponsePayloadTemplate(_BaseSchema):
-    """The payload template to use when posting data to the HTTP server."""
-
-    payload_template_id: str | None = Field(default=None, alias="payloadTemplateId")
-    name: str | None = None
-
-
-class GetNetworkWebhooksHttpServerResponsePayloadTemplate(_BaseSchema):
-    """The payload template to use when posting data to the HTTP server."""
-
-    payload_template_id: str | None = Field(default=None, alias="payloadTemplateId")
-    name: str | None = None
-
-
-class UpdateNetworkWebhooksHttpServerResponsePayloadTemplate(_BaseSchema):
-    """The payload template to use when posting data to the HTTP server."""
-
-    payload_template_id: str | None = Field(default=None, alias="payloadTemplateId")
-    name: str | None = None
-
-
-class GetNetworkWebhooksPayloadTemplatesResponseItemHeadersItem(_BaseSchema):
-    """Schema for GetNetworkWebhooksPayloadTemplatesResponseItemHeadersItem."""
+class NetworksHeadersItem(_BaseSchema):
+    """Schema for NetworksHeadersItem."""
 
     name: str | None = None
     template: str | None = None
 
 
-class GetNetworkWebhooksPayloadTemplatesResponseItemSharingByNetwork(_BaseSchema):
-    """Information on network access to the template."""
-
-    admins_can_modify: bool | None = Field(default=None, alias="adminsCanModify")
-
-
-class CreateNetworkWebhooksPayloadTemplateResponseHeadersItem(_BaseSchema):
-    """Schema for CreateNetworkWebhooksPayloadTemplateResponseHeadersItem."""
-
-    name: str | None = None
-    template: str | None = None
-
-
-class CreateNetworkWebhooksPayloadTemplateResponseSharingByNetwork(_BaseSchema):
-    """Information on network access to the template."""
-
-    admins_can_modify: bool | None = Field(default=None, alias="adminsCanModify")
-
-
-class GetNetworkWebhooksPayloadTemplateResponseHeadersItem(_BaseSchema):
-    """Schema for GetNetworkWebhooksPayloadTemplateResponseHeadersItem."""
-
-    name: str | None = None
-    template: str | None = None
-
-
-class GetNetworkWebhooksPayloadTemplateResponseSharingByNetwork(_BaseSchema):
-    """Information on network access to the template."""
-
-    admins_can_modify: bool | None = Field(default=None, alias="adminsCanModify")
-
-
-class UpdateNetworkWebhooksPayloadTemplateResponseHeadersItem(_BaseSchema):
-    """Schema for UpdateNetworkWebhooksPayloadTemplateResponseHeadersItem."""
-
-    name: str | None = None
-    template: str | None = None
-
-
-class UpdateNetworkWebhooksPayloadTemplateResponseSharingByNetwork(_BaseSchema):
+class NetworksByNetwork(_BaseSchema):
     """Information on network access to the template."""
 
     admins_can_modify: bool | None = Field(default=None, alias="adminsCanModify")
@@ -2879,12 +817,21 @@ class GetNetworkWebhooksWebhookTestResponse(_BaseSchema):
     status: str | None = None
 
 
-class GetNetworkAlertsSettingsResponseAlertsItemFilters(_BaseSchema):
+class NetworksDestinations(_BaseSchema):
+    """the destinations this alert is configured to be delivered to."""
+
+    email: NetworksEmail | None = None
+    push: NetworksEmail | None = None
+    sms: NetworksEmail | None = None
+    webhook: NetworksEmail | None = None
+
+
+class NetworksAlertsFilters(_BaseSchema):
     """A hash of specific configuration data for the alert. Only filters specific to the alert will
     be updated.
     """
 
-    conditions: list[GetNetworkAlertsSettingsResponseAlertsItemFiltersConditionsItem] | None = None
+    conditions: list[NetworksConditionsItem] | None = None
     failure_type: str | None = Field(default=None, alias="failureType")
     lookback_window: int | None = Field(default=None, alias="lookbackWindow")
     min_duration: int | None = Field(default=None, alias="minDuration")
@@ -2900,31 +847,49 @@ class GetNetworkAlertsSettingsResponseAlertsItemFilters(_BaseSchema):
     timeout: int | None = None
 
 
-class UpdateNetworkAlertsSettingsResponseAlertsItemFilters(_BaseSchema):
-    """A hash of specific configuration data for the alert. Only filters specific to the alert will
-    be updated.
-    """
+class GetNetworkAlertsSettingsResponseMuting(_BaseSchema):
+    """Mute alerts under certain conditions."""
 
-    conditions: list[UpdateNetworkAlertsSettingsResponseAlertsItemFiltersConditionsItem] | None = (
-        None
+    by_port_schedules: NetworksMutingByPortSchedules | None = Field(
+        default=None, alias="byPortSchedules"
     )
-    failure_type: str | None = Field(default=None, alias="failureType")
-    lookback_window: int | None = Field(default=None, alias="lookbackWindow")
-    min_duration: int | None = Field(default=None, alias="minDuration")
-    name: str | None = None
-    period: int | None = None
-    priority: str | None = None
-    regex: str | None = None
-    selector: str | None = None
-    serials: list[str] | None = None
-    ssid_num: int | None = Field(default=None, alias="ssidNum")
-    tag: str | None = None
-    threshold: int | None = None
-    timeout: int | None = None
 
 
 class GetNetworkBluetoothClientsResponse(RootModel[list[GetNetworkBluetoothClientsResponseItem]]):
     """List the Bluetooth clients seen by APs in this network."""
+
+
+class GetNetworkClientsResponseItem(_BaseSchema):
+    """Schema for GetNetworkClientsResponseItem."""
+
+    id_: str | None = Field(default=None, alias="id")
+    mac: str | None = None
+    ip: str | None = None
+    ip6: str | None = None
+    description: str | None = None
+    first_seen: int | None = Field(default=None, alias="firstSeen")
+    last_seen: int | None = Field(default=None, alias="lastSeen")
+    manufacturer: str | None = None
+    os: str | None = None
+    user: str | None = None
+    vlan: str | None = None
+    ssid: str | None = None
+    switchport: str | None = None
+    wireless_capabilities: str | None = Field(default=None, alias="wirelessCapabilities")
+    sm_installed: bool | None = Field(default=None, alias="smInstalled")
+    recent_device_mac: str | None = Field(default=None, alias="recentDeviceMac")
+    status: str | None = None
+    usage: NetworksUsage | None = None
+    named_vlan: str | None = Field(default=None, alias="namedVlan")
+    adaptive_policy_group: str | None = Field(default=None, alias="adaptivePolicyGroup")
+    device_type_prediction: str | None = Field(default=None, alias="deviceTypePrediction")
+    recent_device_serial: str | None = Field(default=None, alias="recentDeviceSerial")
+    recent_device_name: str | None = Field(default=None, alias="recentDeviceName")
+    recent_device_connection: str | None = Field(default=None, alias="recentDeviceConnection")
+    notes: str | None = None
+    ip6_local: str | None = Field(default=None, alias="ip6Local")
+    group_policy8021x: str | None = Field(default=None, alias="groupPolicy8021x")
+    psk_group: str | None = Field(default=None, alias="pskGroup")
 
 
 class GetNetworkClientsApplicationUsageResponseItem(_BaseSchema):
@@ -2933,9 +898,9 @@ class GetNetworkClientsApplicationUsageResponseItem(_BaseSchema):
     client_id: str | None = Field(default=None, alias="clientId")
     client_ip: str | None = Field(default=None, alias="clientIp")
     client_mac: str | None = Field(default=None, alias="clientMac")
-    application_usage: (
-        list[GetNetworkClientsApplicationUsageResponseItemApplicationUsageItem] | None
-    ) = Field(default=None, alias="applicationUsage")
+    application_usage: list[NetworksApplicationUsageItem] | None = Field(
+        default=None, alias="applicationUsage"
+    )
 
 
 class GetNetworkClientsBandwidthUsageHistoryResponse(
@@ -2969,9 +934,7 @@ class GetNetworkClientsUsageHistoriesResponseItem(_BaseSchema):
     client_id: str | None = Field(default=None, alias="clientId")
     client_ip: str | None = Field(default=None, alias="clientIp")
     client_mac: str | None = Field(default=None, alias="clientMac")
-    usage_history: list[GetNetworkClientsUsageHistoriesResponseItemUsageHistoryItem] | None = Field(
-        default=None, alias="usageHistory"
-    )
+    usage_history: list[NetworksUsageHistoryItem] | None = Field(default=None, alias="usageHistory")
 
 
 class GetNetworkClientResponse(_BaseSchema):
@@ -3031,7 +994,7 @@ class UpdateNetworkClientPolicyResponse(_BaseSchema):
     mac: str | None = None
     device_policy: str | None = Field(default=None, alias="devicePolicy")
     group_policy_id: str | None = Field(default=None, alias="groupPolicyId")
-    policies_by_ssid: list[UpdateNetworkClientPolicyResponsePoliciesBySsidItem] | None = Field(
+    policies_by_ssid: list[GetNetworkClientPolicyResponsePoliciesBySsidItem] | None = Field(
         default=None, alias="policiesBySsid"
     )
 
@@ -3055,16 +1018,6 @@ class GetNetworkClientUsageHistoryResponse(
     """
 
 
-class ClaimNetworkDevicesResponse(_BaseSchema):
-    """Claim devices into a network. (Note: for recently claimed devices, it may take a few minutes
-    for API requests against that device to succeed). This operation can be used up to ten times
-    within a single five minute window.
-    """
-
-    serials: list[str] | None = None
-    errors: list[ClaimNetworkDevicesResponseErrorsItem] | None = None
-
-
 class VmxNetworkDevicesClaimResponse(_BaseSchema):
     """Claim a vMX into a network."""
 
@@ -3082,11 +1035,93 @@ class VmxNetworkDevicesClaimResponse(_BaseSchema):
     lan_ip: str | None = Field(default=None, alias="lanIp")
     firmware: str | None = None
     product_type: str | None = Field(default=None, alias="productType")
-    details: list[VmxNetworkDevicesClaimResponseDetailsItem] | None = None
+    details: list[NetworksDetailsItem] | None = None
+
+
+class NetworksDevicesItem2(_BaseSchema):
+    """Schema for NetworksDevicesItem2."""
+
+    name: str | None = None
+    lat: float | None = None
+    lng: float | None = None
+    address: str | None = None
+    notes: str | None = None
+    tags: list[str] | None = None
+    network_id: str | None = Field(default=None, alias="networkId")
+    serial: str | None = None
+    model: str | None = None
+    imei: str | None = None
+    mac: str | None = None
+    lan_ip: str | None = Field(default=None, alias="lanIp")
+    firmware: str | None = None
+    product_type: str | None = Field(default=None, alias="productType")
+    details: list[NetworksDetailsItem] | None = None
+
+
+class GetNetworkDevicesResponseItem(_BaseSchema):
+    """Schema for GetNetworkDevicesResponseItem."""
+
+    name: str | None = None
+    lat: float | None = None
+    lng: float | None = None
+    address: str | None = None
+    notes: str | None = None
+    tags: list[str] | None = None
+    network_id: str | None = Field(default=None, alias="networkId")
+    serial: str | None = None
+    model: str | None = None
+    mac: str | None = None
+    lan_ip: str | None = Field(default=None, alias="lanIp")
+    firmware: str | None = None
+    floor_plan_id: str | None = Field(default=None, alias="floorPlanId")
+    details: list[NetworksDetailsItem] | None = None
+    beacon_id_params: NetworksBeaconIdParams | None = Field(default=None, alias="beaconIdParams")
+
+
+class ClaimNetworkDevicesResponse(_BaseSchema):
+    """Claim devices into a network. (Note: for recently claimed devices, it may take a few minutes
+    for API requests against that device to succeed). This operation can be used up to ten times
+    within a single five minute window.
+    """
+
+    serials: list[str] | None = None
+    errors: list[ClaimNetworkDevicesResponseErrorsItem] | None = None
+
+
+class GetNetworkEventsResponseEventsItem(_BaseSchema):
+    """Schema for GetNetworkEventsResponseEventsItem."""
+
+    occurred_at: str | None = Field(default=None, alias="occurredAt")
+    network_id: str | None = Field(default=None, alias="networkId")
+    type_: str | None = Field(default=None, alias="type")
+    description: str | None = None
+    category: str | None = None
+    client_id: str | None = Field(default=None, alias="clientId")
+    client_description: str | None = Field(default=None, alias="clientDescription")
+    client_mac: str | None = Field(default=None, alias="clientMac")
+    device_serial: str | None = Field(default=None, alias="deviceSerial")
+    device_name: str | None = Field(default=None, alias="deviceName")
+    ssid_number: int | None = Field(default=None, alias="ssidNumber")
+    event_data: NetworksEventsEventData | None = Field(default=None, alias="eventData")
 
 
 class GetNetworkEventsEventTypesResponse(RootModel[list[GetNetworkEventsEventTypesResponseItem]]):
     """List the event type to human-readable description."""
+
+
+class NetworksLastUpgrade(_BaseSchema):
+    """Details of the last firmware upgrade on the device."""
+
+    time: str | None = None
+    from_version: NetworksCurrentVersion | None = Field(default=None, alias="fromVersion")
+    to_version: NetworksCurrentVersion | None = Field(default=None, alias="toVersion")
+
+
+class NetworksNextUpgrade(_BaseSchema):
+    """Details of the next firmware upgrade on the device."""
+
+    time: str | None = None
+    to_version: NetworksCurrentVersion | None = Field(default=None, alias="toVersion")
 
 
 class CreateNetworkFirmwareUpgradesRollbackResponse(_BaseSchema):
@@ -3096,171 +1131,120 @@ class CreateNetworkFirmwareUpgradesRollbackResponse(_BaseSchema):
     status: str | None = None
     upgrade_batch_id: str | None = Field(default=None, alias="upgradeBatchId")
     time: str | None = None
-    to_version: CreateNetworkFirmwareUpgradesRollbackResponseToVersion | None = Field(
-        default=None, alias="toVersion"
-    )
+    to_version: NetworksCurrentVersion | None = Field(default=None, alias="toVersion")
     reasons: list[CreateNetworkFirmwareUpgradesRollbackResponseReasonsItem] | None = None
 
 
-class GetNetworkFirmwareUpgradesStagedGroupsResponseItemAssignedDevices(_BaseSchema):
+class NetworksNextUpgrade2(_BaseSchema):
+    """Details of the next firmware upgrade."""
+
+    to_version: NetworksToVersion | None = Field(default=None, alias="toVersion")
+
+
+class GetNetworkFirmwareUpgradesStagedStagesResponseItem(_BaseSchema):
+    """Schema for GetNetworkFirmwareUpgradesStagedStagesResponseItem."""
+
+    group: NetworksStagesGroup | None = None
+
+
+class UpdateNetworkFirmwareUpgradesStagedStagesResponseItem(_BaseSchema):
+    """Schema for UpdateNetworkFirmwareUpgradesStagedStagesResponseItem."""
+
+    group: NetworksStagesGroup | None = None
+
+
+class GetNetworkFirmwareUpgradesStagedEventsResponseStagesItem(_BaseSchema):
+    """Schema for GetNetworkFirmwareUpgradesStagedEventsResponseStagesItem."""
+
+    group: NetworksStagesGroup | None = None
+    milestones: NetworksStagesMilestones | None = None
+    status: str | None = None
+
+
+class NetworksAssignedDevices(_BaseSchema):
     """The devices and Switch Stacks assigned to the Group."""
 
-    devices: (
-        list[GetNetworkFirmwareUpgradesStagedGroupsResponseItemAssignedDevicesDevicesItem] | None
-    ) = None
-    switch_stacks: (
-        list[GetNetworkFirmwareUpgradesStagedGroupsResponseItemAssignedDevicesSwitchStacksItem]
-        | None
-    ) = Field(default=None, alias="switchStacks")
+    devices: list[NetworksDevicesItem] | None = None
+    switch_stacks: list[NetworksSwitchStacksItem] | None = Field(default=None, alias="switchStacks")
 
 
-class CreateNetworkFirmwareUpgradesStagedGroupResponseAssignedDevices(_BaseSchema):
-    """The devices and Switch Stacks assigned to the Group."""
+class NetworksPeersItem(_BaseSchema):
+    """Schema for NetworksPeersItem."""
 
-    devices: (
-        list[CreateNetworkFirmwareUpgradesStagedGroupResponseAssignedDevicesDevicesItem] | None
-    ) = None
-    switch_stacks: (
-        list[CreateNetworkFirmwareUpgradesStagedGroupResponseAssignedDevicesSwitchStacksItem] | None
-    ) = Field(default=None, alias="switchStacks")
+    url: str | None = None
+    network: NetworksSwitchStacksItem | None = None
 
 
-class GetNetworkFirmwareUpgradesStagedGroupResponseAssignedDevices(_BaseSchema):
-    """The devices and Switch Stacks assigned to the Group."""
-
-    devices: (
-        list[GetNetworkFirmwareUpgradesStagedGroupResponseAssignedDevicesDevicesItem] | None
-    ) = None
-    switch_stacks: (
-        list[GetNetworkFirmwareUpgradesStagedGroupResponseAssignedDevicesSwitchStacksItem] | None
-    ) = Field(default=None, alias="switchStacks")
-
-
-class UpdateNetworkFirmwareUpgradesStagedGroupResponseAssignedDevices(_BaseSchema):
-    """The devices and Switch Stacks assigned to the Group."""
-
-    devices: (
-        list[UpdateNetworkFirmwareUpgradesStagedGroupResponseAssignedDevicesDevicesItem] | None
-    ) = None
-    switch_stacks: (
-        list[UpdateNetworkFirmwareUpgradesStagedGroupResponseAssignedDevicesSwitchStacksItem] | None
-    ) = Field(default=None, alias="switchStacks")
-
-
-class GetNetworkFloorPlansResponseItemDevicesItem(_BaseSchema):
-    """Schema for GetNetworkFloorPlansResponseItemDevicesItem."""
+class NetworksVlanNamesItem(_BaseSchema):
+    """Schema for NetworksVlanNamesItem."""
 
     name: str | None = None
-    lat: float | None = None
-    lng: float | None = None
-    address: str | None = None
-    notes: str | None = None
-    tags: list[str] | None = None
-    network_id: str | None = Field(default=None, alias="networkId")
-    serial: str | None = None
-    model: str | None = None
-    imei: str | None = None
-    mac: str | None = None
-    lan_ip: str | None = Field(default=None, alias="lanIp")
-    firmware: str | None = None
-    product_type: str | None = Field(default=None, alias="productType")
-    details: list[GetNetworkFloorPlansResponseItemDevicesItemDetailsItem] | None = None
+    vlan_id: str | None = Field(default=None, alias="vlanId")
+    adaptive_policy_group: NetworksSwitchStacksItem | None = Field(
+        default=None, alias="adaptivePolicyGroup"
+    )
 
 
-class CreateNetworkFloorPlanResponseDevicesItem(_BaseSchema):
-    """Schema for CreateNetworkFloorPlanResponseDevicesItem."""
+class NetworksJobsRanging(_BaseSchema):
+    """Ranging status and progress information."""
 
-    name: str | None = None
-    lat: float | None = None
-    lng: float | None = None
-    address: str | None = None
-    notes: str | None = None
-    tags: list[str] | None = None
-    network_id: str | None = Field(default=None, alias="networkId")
-    serial: str | None = None
-    model: str | None = None
-    imei: str | None = None
-    mac: str | None = None
-    lan_ip: str | None = Field(default=None, alias="lanIp")
-    firmware: str | None = None
-    product_type: str | None = Field(default=None, alias="productType")
-    details: list[CreateNetworkFloorPlanResponseDevicesItemDetailsItem] | None = None
+    status: str | None = None
+    completed: NetworksJobsCompleted | None = None
 
 
-class GetNetworkFloorPlanResponseDevicesItem(_BaseSchema):
-    """Schema for GetNetworkFloorPlanResponseDevicesItem."""
+class NetworksScheduling(_BaseSchema):
+    """The schedule for the group policy. Schedules are applied to days of the week."""
 
-    name: str | None = None
-    lat: float | None = None
-    lng: float | None = None
-    address: str | None = None
-    notes: str | None = None
-    tags: list[str] | None = None
-    network_id: str | None = Field(default=None, alias="networkId")
-    serial: str | None = None
-    model: str | None = None
-    imei: str | None = None
-    mac: str | None = None
-    lan_ip: str | None = Field(default=None, alias="lanIp")
-    firmware: str | None = None
-    product_type: str | None = Field(default=None, alias="productType")
-    details: list[GetNetworkFloorPlanResponseDevicesItemDetailsItem] | None = None
+    enabled: bool | None = None
+    monday: NetworksMonday | None = None
+    tuesday: NetworksMonday | None = None
+    wednesday: NetworksMonday | None = None
+    thursday: NetworksMonday | None = None
+    friday: NetworksMonday | None = None
+    saturday: NetworksMonday | None = None
+    sunday: NetworksMonday | None = None
 
 
-class UpdateNetworkFloorPlanResponseDevicesItem(_BaseSchema):
-    """Schema for UpdateNetworkFloorPlanResponseDevicesItem."""
+class NetworksBandwidth(_BaseSchema):
+    """The bandwidth settings for clients bound to your group policy."""
 
-    name: str | None = None
-    lat: float | None = None
-    lng: float | None = None
-    address: str | None = None
-    notes: str | None = None
-    tags: list[str] | None = None
-    network_id: str | None = Field(default=None, alias="networkId")
-    serial: str | None = None
-    model: str | None = None
-    imei: str | None = None
-    mac: str | None = None
-    lan_ip: str | None = Field(default=None, alias="lanIp")
-    firmware: str | None = None
-    product_type: str | None = Field(default=None, alias="productType")
-    details: list[UpdateNetworkFloorPlanResponseDevicesItemDetailsItem] | None = None
+    settings: str | None = None
+    bandwidth_limits: NetworksBandwidthLimits | None = Field(default=None, alias="bandwidthLimits")
 
 
-class GetNetworkGroupPoliciesResponseItemBonjourForwarding(_BaseSchema):
+class NetworksContentFiltering(_BaseSchema):
+    """The content filtering settings for your group policy."""
+
+    allowed_url_patterns: NetworksAllowedUrlPatterns | None = Field(
+        default=None, alias="allowedUrlPatterns"
+    )
+    blocked_url_patterns: NetworksAllowedUrlPatterns | None = Field(
+        default=None, alias="blockedUrlPatterns"
+    )
+    blocked_url_categories: NetworksBlockedUrlCategories | None = Field(
+        default=None, alias="blockedUrlCategories"
+    )
+
+
+class NetworksBonjourForwarding(_BaseSchema):
     """The Bonjour settings for your group policy. Only valid if your network has a wireless
     configuration.
     """
 
     settings: str | None = None
-    rules: list[GetNetworkGroupPoliciesResponseItemBonjourForwardingRulesItem] | None = None
+    rules: list[NetworksRulesItem] | None = None
 
 
-class CreateNetworkGroupPolicyResponseBonjourForwarding(_BaseSchema):
-    """The Bonjour settings for your group policy. Only valid if your network has a wireless
-    configuration.
-    """
+class NetworksDevicesItem3(_BaseSchema):
+    """Schema for NetworksDevicesItem3."""
 
-    settings: str | None = None
-    rules: list[CreateNetworkGroupPolicyResponseBonjourForwardingRulesItem] | None = None
-
-
-class GetNetworkGroupPolicyResponseBonjourForwarding(_BaseSchema):
-    """The Bonjour settings for your group policy. Only valid if your network has a wireless
-    configuration.
-    """
-
-    settings: str | None = None
-    rules: list[GetNetworkGroupPolicyResponseBonjourForwardingRulesItem] | None = None
-
-
-class UpdateNetworkGroupPolicyResponseBonjourForwarding(_BaseSchema):
-    """The Bonjour settings for your group policy. Only valid if your network has a wireless
-    configuration.
-    """
-
-    settings: str | None = None
-    rules: list[UpdateNetworkGroupPolicyResponseBonjourForwardingRulesItem] | None = None
+    url: str | None = None
+    name: str | None = None
+    product_type: str | None = Field(default=None, alias="productType")
+    serial: str | None = None
+    mac: str | None = None
+    lldp: NetworksLldp | None = None
+    clients: list[NetworksClientsItem] | None = None
 
 
 class GetNetworkMerakiAuthUsersResponseItem(_BaseSchema):
@@ -3272,7 +1256,7 @@ class GetNetworkMerakiAuthUsersResponseItem(_BaseSchema):
     created_at: str | None = Field(default=None, alias="createdAt")
     account_type: str | None = Field(default=None, alias="accountType")
     is_admin: bool | None = Field(default=None, alias="isAdmin")
-    authorizations: list[GetNetworkMerakiAuthUsersResponseItemAuthorizationsItem] | None = None
+    authorizations: list[NetworksAuthorizationsItem] | None = None
 
 
 class CreateNetworkMerakiAuthUserResponse(_BaseSchema):
@@ -3287,7 +1271,7 @@ class CreateNetworkMerakiAuthUserResponse(_BaseSchema):
     created_at: str | None = Field(default=None, alias="createdAt")
     account_type: str | None = Field(default=None, alias="accountType")
     is_admin: bool | None = Field(default=None, alias="isAdmin")
-    authorizations: list[CreateNetworkMerakiAuthUserResponseAuthorizationsItem] | None = None
+    authorizations: list[NetworksAuthorizationsItem] | None = None
 
 
 class GetNetworkMerakiAuthUserResponse(_BaseSchema):
@@ -3299,7 +1283,7 @@ class GetNetworkMerakiAuthUserResponse(_BaseSchema):
     created_at: str | None = Field(default=None, alias="createdAt")
     account_type: str | None = Field(default=None, alias="accountType")
     is_admin: bool | None = Field(default=None, alias="isAdmin")
-    authorizations: list[GetNetworkMerakiAuthUserResponseAuthorizationsItem] | None = None
+    authorizations: list[NetworksAuthorizationsItem] | None = None
 
 
 class UpdateNetworkMerakiAuthUserResponse(_BaseSchema):
@@ -3313,7 +1297,14 @@ class UpdateNetworkMerakiAuthUserResponse(_BaseSchema):
     created_at: str | None = Field(default=None, alias="createdAt")
     account_type: str | None = Field(default=None, alias="accountType")
     is_admin: bool | None = Field(default=None, alias="isAdmin")
-    authorizations: list[UpdateNetworkMerakiAuthUserResponseAuthorizationsItem] | None = None
+    authorizations: list[NetworksAuthorizationsItem] | None = None
+
+
+class NetworksSecurity(_BaseSchema):
+    """Security settings of the MQTT broker."""
+
+    mode: str | None = None
+    tls: NetworksTls | None = None
 
 
 class GetNetworkNetworkHealthChannelUtilizationResponseItem(_BaseSchema):
@@ -3322,8 +1313,8 @@ class GetNetworkNetworkHealthChannelUtilizationResponseItem(_BaseSchema):
     serial: str | None = None
     model: str | None = None
     tags: str | None = None
-    wifi0: list[GetNetworkNetworkHealthChannelUtilizationResponseItemWifi0Item] | None = None
-    wifi1: list[GetNetworkNetworkHealthChannelUtilizationResponseItemWifi1Item] | None = None
+    wifi0: list[NetworksWifi0Item] | None = None
+    wifi1: list[NetworksWifi0Item] | None = None
 
 
 class GetNetworkPiiRequestsResponse(RootModel[list[GetNetworkPiiRequestsResponseItem]]):
@@ -3332,13 +1323,19 @@ class GetNetworkPiiRequestsResponse(RootModel[list[GetNetworkPiiRequestsResponse
     """
 
 
-class GetNetworkPoliciesByClientResponseItemAssignedItem(_BaseSchema):
-    """Schema for GetNetworkPoliciesByClientResponseItemAssignedItem."""
+class NetworksAssignedItem(_BaseSchema):
+    """Schema for NetworksAssignedItem."""
 
     name: str | None = None
     type_: str | None = Field(default=None, alias="type")
     group_policy_id: str | None = Field(default=None, alias="groupPolicyId")
-    ssid: list[GetNetworkPoliciesByClientResponseItemAssignedItemSsidItem] | None = None
+    ssid: list[NetworksSsidItem] | None = None
+
+
+class GetNetworkSettingsResponseLocalStatusPage(_BaseSchema):
+    """A hash of Local Status page(s)' authentication options applied to the Network."""
+
+    authentication: NetworksLocalStatusPageAuthentication | None = None
 
 
 class GetNetworkSnmpResponse(_BaseSchema):
@@ -3354,7 +1351,7 @@ class UpdateNetworkSnmpResponse(_BaseSchema):
 
     access: str | None = None
     community_string: str | None = Field(default=None, alias="communityString")
-    users: list[UpdateNetworkSnmpResponseUsersItem] | None = None
+    users: list[GetNetworkSnmpResponseUsersItem] | None = None
 
 
 class GetNetworkSplashLoginAttemptsResponse(
@@ -3380,7 +1377,27 @@ class GetNetworkSyslogServersResponse(_BaseSchema):
 class UpdateNetworkSyslogServersResponse(_BaseSchema):
     """Update the syslog servers for a network."""
 
-    servers: list[UpdateNetworkSyslogServersResponseServersItem] | None = None
+    servers: list[GetNetworkSyslogServersResponseServersItem] | None = None
+
+
+class NetworksClients(_BaseSchema):
+    """Client information."""
+
+    counts: NetworksCounts | None = None
+
+
+class NetworksNodesDiscovered(_BaseSchema):
+    """Discovered device information (present when type is 'discovered')."""
+
+    lldp: NetworksLldp2 | None = None
+    cdp: NetworksCdp | None = None
+
+
+class NetworksDiscovered(_BaseSchema):
+    """Discovered LLDP/CDP information at this end."""
+
+    lldp: NetworksLldp3 | None = None
+    cdp: NetworksCdp2 | None = None
 
 
 class GetNetworkTrafficResponse(RootModel[list[GetNetworkTrafficResponseItem]]):
@@ -3403,8 +1420,19 @@ class UpdateNetworkTrafficAnalysisResponse(_BaseSchema):
 
     mode: str | None = None
     custom_pie_chart_items: (
-        list[UpdateNetworkTrafficAnalysisResponseCustomPieChartItemsItem] | None
+        list[GetNetworkTrafficAnalysisResponseCustomPieChartItemsItem] | None
     ) = Field(default=None, alias="customPieChartItems")
+
+
+class GetNetworkVlanProfilesAssignmentsByDeviceResponseItem(_BaseSchema):
+    """Schema for GetNetworkVlanProfilesAssignmentsByDeviceResponseItem."""
+
+    name: str | None = None
+    serial: str | None = None
+    mac: str | None = None
+    product_type: str | None = Field(default=None, alias="productType")
+    vlan_profile: NetworksVlanProfile | None = Field(default=None, alias="vlanProfile")
+    stack: NetworksStack | None = None
 
 
 class ReassignNetworkVlanProfilesAssignmentsResponse(_BaseSchema):
@@ -3417,6 +1445,16 @@ class ReassignNetworkVlanProfilesAssignmentsResponse(_BaseSchema):
     stack_ids: list[str] | None = Field(default=None, alias="stackIds")
 
 
+class GetNetworkWebhooksHttpServersResponseItem(_BaseSchema):
+    """Schema for GetNetworkWebhooksHttpServersResponseItem."""
+
+    id_: str | None = Field(default=None, alias="id")
+    name: str | None = None
+    url: str | None = None
+    network_id: str | None = Field(default=None, alias="networkId")
+    payload_template: NetworksPayloadTemplate | None = Field(default=None, alias="payloadTemplate")
+
+
 class CreateNetworkWebhooksHttpServerResponse(_BaseSchema):
     """Add an HTTP server to a network."""
 
@@ -3424,9 +1462,7 @@ class CreateNetworkWebhooksHttpServerResponse(_BaseSchema):
     name: str | None = None
     url: str | None = None
     network_id: str | None = Field(default=None, alias="networkId")
-    payload_template: CreateNetworkWebhooksHttpServerResponsePayloadTemplate | None = Field(
-        default=None, alias="payloadTemplate"
-    )
+    payload_template: NetworksPayloadTemplate | None = Field(default=None, alias="payloadTemplate")
 
 
 class GetNetworkWebhooksHttpServerResponse(_BaseSchema):
@@ -3436,9 +1472,7 @@ class GetNetworkWebhooksHttpServerResponse(_BaseSchema):
     name: str | None = None
     url: str | None = None
     network_id: str | None = Field(default=None, alias="networkId")
-    payload_template: GetNetworkWebhooksHttpServerResponsePayloadTemplate | None = Field(
-        default=None, alias="payloadTemplate"
-    )
+    payload_template: NetworksPayloadTemplate | None = Field(default=None, alias="payloadTemplate")
 
 
 class UpdateNetworkWebhooksHttpServerResponse(_BaseSchema):
@@ -3448,9 +1482,41 @@ class UpdateNetworkWebhooksHttpServerResponse(_BaseSchema):
     name: str | None = None
     url: str | None = None
     network_id: str | None = Field(default=None, alias="networkId")
-    payload_template: UpdateNetworkWebhooksHttpServerResponsePayloadTemplate | None = Field(
-        default=None, alias="payloadTemplate"
+    payload_template: NetworksPayloadTemplate | None = Field(default=None, alias="payloadTemplate")
+
+
+class NetworksSharing(_BaseSchema):
+    """Information on which entities have access to the template."""
+
+    by_network: NetworksByNetwork | None = Field(default=None, alias="byNetwork")
+
+
+class GetNetworkAlertsHistoryResponseItem(_BaseSchema):
+    """Schema for GetNetworkAlertsHistoryResponseItem."""
+
+    occurred_at: str | None = Field(default=None, alias="occurredAt")
+    alert_type_id: str | None = Field(default=None, alias="alertTypeId")
+    alert_type: str | None = Field(default=None, alias="alertType")
+    device: NetworksDevice | None = None
+    destinations: NetworksDestinations | None = None
+    alert_data: dict[str, Any] | None = Field(default=None, alias="alertData")
+
+
+class GetNetworkAlertsSettingsResponseAlertsItem(_BaseSchema):
+    """Schema for GetNetworkAlertsSettingsResponseAlertsItem."""
+
+    type_: str = Field(alias="type")
+    enabled: bool | None = None
+    alert_destinations: NetworksAlertsAlertDestinations | None = Field(
+        default=None, alias="alertDestinations"
     )
+    filters: NetworksAlertsFilters | None = None
+
+
+class GetNetworkClientsResponse(RootModel[list[GetNetworkClientsResponseItem]]):
+    """List the clients that have used this network in the timespan. The data is updated at most
+    once every five minutes.
+    """
 
 
 class GetNetworkClientsApplicationUsageResponse(
@@ -3471,40 +1537,24 @@ class GetNetworkClientsUsageHistoriesResponse(
     """
 
 
-class CreateNetworkFirmwareUpgradesStagedGroupResponse(_BaseSchema):
-    """Create a Staged Upgrade Group for a network."""
+class GetNetworkFloorPlansResponseItem(_BaseSchema):
+    """Schema for GetNetworkFloorPlansResponseItem."""
 
-    group_id: str | None = Field(default=None, alias="groupId")
+    floor_plan_id: str | None = Field(default=None, alias="floorPlanId")
+    image_url: str | None = Field(default=None, alias="imageUrl")
+    image_url_expires_at: str | None = Field(default=None, alias="imageUrlExpiresAt")
+    image_extension: str | None = Field(default=None, alias="imageExtension")
+    image_md5: str | None = Field(default=None, alias="imageMd5")
     name: str | None = None
-    description: str | None = None
-    is_default: bool | None = Field(default=None, alias="isDefault")
-    assigned_devices: CreateNetworkFirmwareUpgradesStagedGroupResponseAssignedDevices | None = (
-        Field(default=None, alias="assignedDevices")
-    )
-
-
-class GetNetworkFirmwareUpgradesStagedGroupResponse(_BaseSchema):
-    """Get a Staged Upgrade Group from a network."""
-
-    group_id: str | None = Field(default=None, alias="groupId")
-    name: str | None = None
-    description: str | None = None
-    is_default: bool | None = Field(default=None, alias="isDefault")
-    assigned_devices: GetNetworkFirmwareUpgradesStagedGroupResponseAssignedDevices | None = Field(
-        default=None, alias="assignedDevices"
-    )
-
-
-class UpdateNetworkFirmwareUpgradesStagedGroupResponse(_BaseSchema):
-    """Update a Staged Upgrade Group for a network."""
-
-    group_id: str | None = Field(default=None, alias="groupId")
-    name: str | None = None
-    description: str | None = None
-    is_default: bool | None = Field(default=None, alias="isDefault")
-    assigned_devices: UpdateNetworkFirmwareUpgradesStagedGroupResponseAssignedDevices | None = (
-        Field(default=None, alias="assignedDevices")
-    )
+    devices: list[NetworksDevicesItem2] | None = None
+    width: float | None = None
+    height: float | None = None
+    center: NetworksCenter | None = None
+    bottom_left_corner: NetworksCenter | None = Field(default=None, alias="bottomLeftCorner")
+    bottom_right_corner: NetworksCenter | None = Field(default=None, alias="bottomRightCorner")
+    top_left_corner: NetworksCenter | None = Field(default=None, alias="topLeftCorner")
+    top_right_corner: NetworksCenter | None = Field(default=None, alias="topRightCorner")
+    floor_number: float | None = Field(default=None, alias="floorNumber")
 
 
 class CreateNetworkFloorPlanResponse(_BaseSchema):
@@ -3516,22 +1566,14 @@ class CreateNetworkFloorPlanResponse(_BaseSchema):
     image_extension: str | None = Field(default=None, alias="imageExtension")
     image_md5: str | None = Field(default=None, alias="imageMd5")
     name: str | None = None
-    devices: list[CreateNetworkFloorPlanResponseDevicesItem] | None = None
+    devices: list[NetworksDevicesItem2] | None = None
     width: float | None = None
     height: float | None = None
-    center: CreateNetworkFloorPlanResponseCenter | None = None
-    bottom_left_corner: CreateNetworkFloorPlanResponseBottomLeftCorner | None = Field(
-        default=None, alias="bottomLeftCorner"
-    )
-    bottom_right_corner: CreateNetworkFloorPlanResponseBottomRightCorner | None = Field(
-        default=None, alias="bottomRightCorner"
-    )
-    top_left_corner: CreateNetworkFloorPlanResponseTopLeftCorner | None = Field(
-        default=None, alias="topLeftCorner"
-    )
-    top_right_corner: CreateNetworkFloorPlanResponseTopRightCorner | None = Field(
-        default=None, alias="topRightCorner"
-    )
+    center: NetworksCenter | None = None
+    bottom_left_corner: NetworksCenter | None = Field(default=None, alias="bottomLeftCorner")
+    bottom_right_corner: NetworksCenter | None = Field(default=None, alias="bottomRightCorner")
+    top_left_corner: NetworksCenter | None = Field(default=None, alias="topLeftCorner")
+    top_right_corner: NetworksCenter | None = Field(default=None, alias="topRightCorner")
     floor_number: float | None = Field(default=None, alias="floorNumber")
 
 
@@ -3544,22 +1586,14 @@ class GetNetworkFloorPlanResponse(_BaseSchema):
     image_extension: str | None = Field(default=None, alias="imageExtension")
     image_md5: str | None = Field(default=None, alias="imageMd5")
     name: str | None = None
-    devices: list[GetNetworkFloorPlanResponseDevicesItem] | None = None
+    devices: list[NetworksDevicesItem2] | None = None
     width: float | None = None
     height: float | None = None
-    center: GetNetworkFloorPlanResponseCenter | None = None
-    bottom_left_corner: GetNetworkFloorPlanResponseBottomLeftCorner | None = Field(
-        default=None, alias="bottomLeftCorner"
-    )
-    bottom_right_corner: GetNetworkFloorPlanResponseBottomRightCorner | None = Field(
-        default=None, alias="bottomRightCorner"
-    )
-    top_left_corner: GetNetworkFloorPlanResponseTopLeftCorner | None = Field(
-        default=None, alias="topLeftCorner"
-    )
-    top_right_corner: GetNetworkFloorPlanResponseTopRightCorner | None = Field(
-        default=None, alias="topRightCorner"
-    )
+    center: NetworksCenter | None = None
+    bottom_left_corner: NetworksCenter | None = Field(default=None, alias="bottomLeftCorner")
+    bottom_right_corner: NetworksCenter | None = Field(default=None, alias="bottomRightCorner")
+    top_left_corner: NetworksCenter | None = Field(default=None, alias="topLeftCorner")
+    top_right_corner: NetworksCenter | None = Field(default=None, alias="topRightCorner")
     floor_number: float | None = Field(default=None, alias="floorNumber")
 
 
@@ -3572,29 +1606,220 @@ class UpdateNetworkFloorPlanResponse(_BaseSchema):
     image_extension: str | None = Field(default=None, alias="imageExtension")
     image_md5: str | None = Field(default=None, alias="imageMd5")
     name: str | None = None
-    devices: list[UpdateNetworkFloorPlanResponseDevicesItem] | None = None
+    devices: list[NetworksDevicesItem2] | None = None
     width: float | None = None
     height: float | None = None
-    center: UpdateNetworkFloorPlanResponseCenter | None = None
-    bottom_left_corner: UpdateNetworkFloorPlanResponseBottomLeftCorner | None = Field(
-        default=None, alias="bottomLeftCorner"
-    )
-    bottom_right_corner: UpdateNetworkFloorPlanResponseBottomRightCorner | None = Field(
-        default=None, alias="bottomRightCorner"
-    )
-    top_left_corner: UpdateNetworkFloorPlanResponseTopLeftCorner | None = Field(
-        default=None, alias="topLeftCorner"
-    )
-    top_right_corner: UpdateNetworkFloorPlanResponseTopRightCorner | None = Field(
-        default=None, alias="topRightCorner"
-    )
+    center: NetworksCenter | None = None
+    bottom_left_corner: NetworksCenter | None = Field(default=None, alias="bottomLeftCorner")
+    bottom_right_corner: NetworksCenter | None = Field(default=None, alias="bottomRightCorner")
+    top_left_corner: NetworksCenter | None = Field(default=None, alias="topLeftCorner")
+    top_right_corner: NetworksCenter | None = Field(default=None, alias="topRightCorner")
     floor_number: float | None = Field(default=None, alias="floorNumber")
+
+
+class GetNetworkDevicesResponse(RootModel[list[GetNetworkDevicesResponseItem]]):
+    """List the devices in a network."""
+
+
+class GetNetworkEventsResponse(_BaseSchema):
+    """List the events for the network."""
+
+    message: str | None = None
+    page_start_at: str | None = Field(default=None, alias="pageStartAt")
+    page_end_at: str | None = Field(default=None, alias="pageEndAt")
+    events: list[GetNetworkEventsResponseEventsItem] | None = None
+
+
+class NetworksProductsWireless(_BaseSchema):
+    """The network device to be updated."""
+
+    current_version: NetworksCurrentVersion | None = Field(default=None, alias="currentVersion")
+    last_upgrade: NetworksLastUpgrade | None = Field(default=None, alias="lastUpgrade")
+    next_upgrade: NetworksNextUpgrade | None = Field(default=None, alias="nextUpgrade")
+    is_upgrade_available: bool | None = Field(default=None, alias="isUpgradeAvailable")
+    available_versions: list[NetworksCurrentVersion] | None = Field(
+        default=None, alias="availableVersions"
+    )
+    participate_in_next_beta_release: bool | None = Field(
+        default=None, alias="participateInNextBetaRelease"
+    )
+
+
+class NetworksProductsSwitch(_BaseSchema):
+    """The Switch network to be updated."""
+
+    next_upgrade: NetworksNextUpgrade2 | None = Field(default=None, alias="nextUpgrade")
+
+
+class GetNetworkFirmwareUpgradesStagedStagesResponse(
+    RootModel[list[GetNetworkFirmwareUpgradesStagedStagesResponseItem]]
+):
+    """Order of Staged Upgrade Groups in a network."""
+
+
+class UpdateNetworkFirmwareUpgradesStagedStagesResponse(
+    RootModel[list[UpdateNetworkFirmwareUpgradesStagedStagesResponseItem]]
+):
+    """Assign Staged Upgrade Group order in the sequence."""
+
+
+class GetNetworkFirmwareUpgradesStagedGroupsResponseItem(_BaseSchema):
+    """Schema for GetNetworkFirmwareUpgradesStagedGroupsResponseItem."""
+
+    group_id: str | None = Field(default=None, alias="groupId")
+    name: str | None = None
+    description: str | None = None
+    is_default: bool | None = Field(default=None, alias="isDefault")
+    assigned_devices: NetworksAssignedDevices | None = Field(default=None, alias="assignedDevices")
+
+
+class CreateNetworkFirmwareUpgradesStagedGroupResponse(_BaseSchema):
+    """Create a Staged Upgrade Group for a network."""
+
+    group_id: str | None = Field(default=None, alias="groupId")
+    name: str | None = None
+    description: str | None = None
+    is_default: bool | None = Field(default=None, alias="isDefault")
+    assigned_devices: NetworksAssignedDevices | None = Field(default=None, alias="assignedDevices")
+
+
+class GetNetworkFirmwareUpgradesStagedGroupResponse(_BaseSchema):
+    """Get a Staged Upgrade Group from a network."""
+
+    group_id: str | None = Field(default=None, alias="groupId")
+    name: str | None = None
+    description: str | None = None
+    is_default: bool | None = Field(default=None, alias="isDefault")
+    assigned_devices: NetworksAssignedDevices | None = Field(default=None, alias="assignedDevices")
+
+
+class UpdateNetworkFirmwareUpgradesStagedGroupResponse(_BaseSchema):
+    """Update a Staged Upgrade Group for a network."""
+
+    group_id: str | None = Field(default=None, alias="groupId")
+    name: str | None = None
+    description: str | None = None
+    is_default: bool | None = Field(default=None, alias="isDefault")
+    assigned_devices: NetworksAssignedDevices | None = Field(default=None, alias="assignedDevices")
+
+
+class GetNetworkVlanProfilesResponseItem(_BaseSchema):
+    """Schema for GetNetworkVlanProfilesResponseItem."""
+
+    iname: str | None = None
+    name: str | None = None
+    is_default: bool | None = Field(default=None, alias="isDefault")
+    vlan_names: list[NetworksVlanNamesItem] | None = Field(default=None, alias="vlanNames")
+    vlan_groups: list[NetworksVlanGroupsItem] | None = Field(default=None, alias="vlanGroups")
+
+
+class CreateNetworkVlanProfileResponse(_BaseSchema):
+    """Create a VLAN profile for a network."""
+
+    iname: str | None = None
+    name: str | None = None
+    is_default: bool | None = Field(default=None, alias="isDefault")
+    vlan_names: list[NetworksVlanNamesItem] | None = Field(default=None, alias="vlanNames")
+    vlan_groups: list[NetworksVlanGroupsItem] | None = Field(default=None, alias="vlanGroups")
+
+
+class GetNetworkVlanProfileResponse(_BaseSchema):
+    """Get an existing VLAN profile of a network."""
+
+    iname: str | None = None
+    name: str | None = None
+    is_default: bool | None = Field(default=None, alias="isDefault")
+    vlan_names: list[NetworksVlanNamesItem] | None = Field(default=None, alias="vlanNames")
+    vlan_groups: list[NetworksVlanGroupsItem] | None = Field(default=None, alias="vlanGroups")
+
+
+class UpdateNetworkVlanProfileResponse(_BaseSchema):
+    """Update an existing VLAN profile of a network."""
+
+    iname: str | None = None
+    name: str | None = None
+    is_default: bool | None = Field(default=None, alias="isDefault")
+    vlan_names: list[NetworksVlanNamesItem] | None = Field(default=None, alias="vlanNames")
+    vlan_groups: list[NetworksVlanGroupsItem] | None = Field(default=None, alias="vlanGroups")
+
+
+class BatchNetworkFloorPlansAutoLocateJobsResponseJobsItem(_BaseSchema):
+    """Schema for BatchNetworkFloorPlansAutoLocateJobsResponseJobsItem."""
+
+    id_: str | None = Field(default=None, alias="id")
+    network_id: str | None = Field(default=None, alias="networkId")
+    floor_plan_id: str | None = Field(default=None, alias="floorPlanId")
+    status: str | None = None
+    scheduled_at: str | None = Field(default=None, alias="scheduledAt")
+    completed: NetworksJobsCompleted | None = None
+    ranging: NetworksJobsRanging | None = None
+    gnss: NetworksJobsRanging | None = None
+    errors: list[NetworksJobsErrorsItem] | None = None
+
+
+class NetworksPerClientBandwidthLimits(_BaseSchema):
+    """An object describing the bandwidth settings for your rule."""
+
+    settings: str | None = None
+    bandwidth_limits: NetworksBandwidthLimits | None = Field(default=None, alias="bandwidthLimits")
+
+
+class NetworksScope(_BaseSchema):
+    """The scope of the alert."""
+
+    devices: list[NetworksDevicesItem3] | None = None
+    applications: list[NetworksApplicationsItem] | None = None
+    peers: list[NetworksPeersItem] | None = None
 
 
 class GetNetworkMerakiAuthUsersResponse(RootModel[list[GetNetworkMerakiAuthUsersResponseItem]]):
     """List the authorized users configured under Meraki Authentication for a network (splash guest
     or RADIUS users for a wireless network, or client VPN users for a MX network).
     """
+
+
+class GetNetworkMqttBrokersResponseItem(_BaseSchema):
+    """Schema for GetNetworkMqttBrokersResponseItem."""
+
+    id_: str | None = Field(default=None, alias="id")
+    name: str | None = None
+    host: str | None = None
+    port: int | None = None
+    security: NetworksSecurity | None = None
+    authentication: NetworksAuthentication | None = None
+
+
+class CreateNetworkMqttBrokerResponse(_BaseSchema):
+    """Add an MQTT broker."""
+
+    id_: str | None = Field(default=None, alias="id")
+    name: str | None = None
+    host: str | None = None
+    port: int | None = None
+    security: NetworksSecurity | None = None
+    authentication: NetworksAuthentication | None = None
+
+
+class GetNetworkMqttBrokerResponse(_BaseSchema):
+    """Return an MQTT broker."""
+
+    id_: str | None = Field(default=None, alias="id")
+    name: str | None = None
+    host: str | None = None
+    port: int | None = None
+    security: NetworksSecurity | None = None
+    authentication: NetworksAuthentication | None = None
+
+
+class UpdateNetworkMqttBrokerResponse(_BaseSchema):
+    """Update an MQTT broker."""
+
+    id_: str | None = Field(default=None, alias="id")
+    name: str | None = None
+    host: str | None = None
+    port: int | None = None
+    security: NetworksSecurity | None = None
+    authentication: NetworksAuthentication | None = None
 
 
 class GetNetworkNetworkHealthChannelUtilizationResponse(
@@ -3608,54 +1833,112 @@ class GetNetworkPoliciesByClientResponseItem(_BaseSchema):
 
     name: str | None = None
     client_id: str | None = Field(default=None, alias="clientId")
-    assigned: list[GetNetworkPoliciesByClientResponseItemAssignedItem] | None = None
+    assigned: list[NetworksAssignedItem] | None = None
 
 
-class GetNetworkPoliciesByClientResponse(RootModel[list[GetNetworkPoliciesByClientResponseItem]]):
-    """Get policies for all clients with policies."""
+class GetNetworkSettingsResponse(_BaseSchema):
+    """Return the settings for a network."""
+
+    local_status_page_enabled: bool | None = Field(default=None, alias="localStatusPageEnabled")
+    remote_status_page_enabled: bool | None = Field(default=None, alias="remoteStatusPageEnabled")
+    local_status_page: GetNetworkSettingsResponseLocalStatusPage | None = Field(
+        default=None, alias="localStatusPage"
+    )
+    secure_port: NetworksMutingByPortSchedules | None = Field(default=None, alias="securePort")
+    fips: NetworksMutingByPortSchedules | None = None
+    named_vlans: GetNetworkSettingsResponseNamedVlans | None = Field(
+        default=None, alias="namedVlans"
+    )
 
 
-class GetNetworkAlertsHistoryResponseItemDestinations(_BaseSchema):
-    """the destinations this alert is configured to be delivered to."""
+class NetworksNodesDevice(_BaseSchema):
+    """Device information (present when type is 'device')."""
 
-    email: GetNetworkAlertsHistoryResponseItemDestinationsEmail | None = None
-    push: GetNetworkAlertsHistoryResponseItemDestinationsPush | None = None
-    sms: GetNetworkAlertsHistoryResponseItemDestinationsSms | None = None
-    webhook: GetNetworkAlertsHistoryResponseItemDestinationsWebhook | None = None
+    serial: str | None = None
+    name: str | None = None
+    model: str | None = None
+    product_type: str | None = Field(default=None, alias="productType")
+    status: str | None = None
+    last_reported_at: str | None = Field(default=None, alias="lastReportedAt")
+    clients: NetworksClients | None = None
+    uplinks: list[NetworksUplinksItem] | None = None
 
 
-class GetNetworkAlertsHistoryResponseItem(_BaseSchema):
-    """Schema for GetNetworkAlertsHistoryResponseItem."""
+class NetworksNodesStack(_BaseSchema):
+    """Stack information (present when type is 'stack')."""
 
-    occurred_at: str | None = Field(default=None, alias="occurredAt")
-    alert_type_id: str | None = Field(default=None, alias="alertTypeId")
-    alert_type: str | None = Field(default=None, alias="alertType")
-    device: GetNetworkAlertsHistoryResponseItemDevice | None = None
-    destinations: GetNetworkAlertsHistoryResponseItemDestinations | None = None
-    alert_data: dict[str, Any] | None = Field(default=None, alias="alertData")
+    id_: int | None = Field(default=None, alias="id")
+    name: str | None = None
+    members: list[dict[str, Any]] | None = None
+    clients: NetworksClients | None = None
+
+
+class NetworksLinksEndsItem(_BaseSchema):
+    """Schema for NetworksLinksEndsItem."""
+
+    node: NetworksNode | None = None
+    device: NetworksDevicesItem | None = None
+    discovered: NetworksDiscovered | None = None
+
+
+class GetNetworkVlanProfilesAssignmentsByDeviceResponse(
+    RootModel[list[GetNetworkVlanProfilesAssignmentsByDeviceResponseItem]]
+):
+    """Get the assigned VLAN Profiles for devices in a network."""
+
+
+class GetNetworkWebhooksHttpServersResponse(
+    RootModel[list[GetNetworkWebhooksHttpServersResponseItem]]
+):
+    """List the HTTP servers for a network."""
+
+
+class GetNetworkWebhooksPayloadTemplatesResponseItem(_BaseSchema):
+    """Schema for GetNetworkWebhooksPayloadTemplatesResponseItem."""
+
+    payload_template_id: str | None = Field(default=None, alias="payloadTemplateId")
+    type_: str | None = Field(default=None, alias="type")
+    name: str | None = None
+    headers: list[NetworksHeadersItem] | None = None
+    body: str | None = None
+    sharing: NetworksSharing | None = None
+
+
+class CreateNetworkWebhooksPayloadTemplateResponse(_BaseSchema):
+    """Create a webhook payload template for a network."""
+
+    payload_template_id: str | None = Field(default=None, alias="payloadTemplateId")
+    type_: str | None = Field(default=None, alias="type")
+    name: str | None = None
+    headers: list[NetworksHeadersItem] | None = None
+    body: str | None = None
+    sharing: NetworksSharing | None = None
+
+
+class GetNetworkWebhooksPayloadTemplateResponse(_BaseSchema):
+    """Get the webhook payload template for a network."""
+
+    payload_template_id: str | None = Field(default=None, alias="payloadTemplateId")
+    type_: str | None = Field(default=None, alias="type")
+    name: str | None = None
+    headers: list[NetworksHeadersItem] | None = None
+    body: str | None = None
+    sharing: NetworksSharing | None = None
+
+
+class UpdateNetworkWebhooksPayloadTemplateResponse(_BaseSchema):
+    """Update a webhook payload template for a network."""
+
+    payload_template_id: str | None = Field(default=None, alias="payloadTemplateId")
+    type_: str | None = Field(default=None, alias="type")
+    name: str | None = None
+    headers: list[NetworksHeadersItem] | None = None
+    body: str | None = None
+    sharing: NetworksSharing | None = None
 
 
 class GetNetworkAlertsHistoryResponse(RootModel[list[GetNetworkAlertsHistoryResponseItem]]):
     """Return the alert history for this network."""
-
-
-class GetNetworkAlertsSettingsResponseAlertsItem(_BaseSchema):
-    """Schema for GetNetworkAlertsSettingsResponseAlertsItem."""
-
-    type_: str = Field(alias="type")
-    enabled: bool | None = None
-    alert_destinations: GetNetworkAlertsSettingsResponseAlertsItemAlertDestinations | None = Field(
-        default=None, alias="alertDestinations"
-    )
-    filters: GetNetworkAlertsSettingsResponseAlertsItemFilters | None = None
-
-
-class GetNetworkAlertsSettingsResponseMuting(_BaseSchema):
-    """Mute alerts under certain conditions."""
-
-    by_port_schedules: GetNetworkAlertsSettingsResponseMutingByPortSchedules | None = Field(
-        default=None, alias="byPortSchedules"
-    )
 
 
 class GetNetworkAlertsSettingsResponse(_BaseSchema):
@@ -3668,482 +1951,125 @@ class GetNetworkAlertsSettingsResponse(_BaseSchema):
     muting: GetNetworkAlertsSettingsResponseMuting | None = None
 
 
-class UpdateNetworkAlertsSettingsResponseAlertsItem(_BaseSchema):
-    """Schema for UpdateNetworkAlertsSettingsResponseAlertsItem."""
-
-    type_: str = Field(alias="type")
-    enabled: bool | None = None
-    alert_destinations: UpdateNetworkAlertsSettingsResponseAlertsItemAlertDestinations | None = (
-        Field(default=None, alias="alertDestinations")
-    )
-    filters: UpdateNetworkAlertsSettingsResponseAlertsItemFilters | None = None
-
-
-class UpdateNetworkAlertsSettingsResponseMuting(_BaseSchema):
-    """Mute alerts under certain conditions."""
-
-    by_port_schedules: UpdateNetworkAlertsSettingsResponseMutingByPortSchedules | None = Field(
-        default=None, alias="byPortSchedules"
-    )
-
-
-class UpdateNetworkAlertsSettingsResponse(_BaseSchema):
-    """Update the alert configuration for this network."""
-
-    default_destinations: UpdateNetworkAlertsSettingsResponseDefaultDestinations | None = Field(
-        default=None, alias="defaultDestinations"
-    )
-    alerts: list[UpdateNetworkAlertsSettingsResponseAlertsItem] | None = None
-    muting: UpdateNetworkAlertsSettingsResponseMuting | None = None
-
-
-class GetNetworkClientsResponseItem(_BaseSchema):
-    """Schema for GetNetworkClientsResponseItem."""
-
-    id_: str | None = Field(default=None, alias="id")
-    mac: str | None = None
-    ip: str | None = None
-    ip6: str | None = None
-    description: str | None = None
-    first_seen: int | None = Field(default=None, alias="firstSeen")
-    last_seen: int | None = Field(default=None, alias="lastSeen")
-    manufacturer: str | None = None
-    os: str | None = None
-    user: str | None = None
-    vlan: str | None = None
-    ssid: str | None = None
-    switchport: str | None = None
-    wireless_capabilities: str | None = Field(default=None, alias="wirelessCapabilities")
-    sm_installed: bool | None = Field(default=None, alias="smInstalled")
-    recent_device_mac: str | None = Field(default=None, alias="recentDeviceMac")
-    status: str | None = None
-    usage: GetNetworkClientsResponseItemUsage | None = None
-    named_vlan: str | None = Field(default=None, alias="namedVlan")
-    adaptive_policy_group: str | None = Field(default=None, alias="adaptivePolicyGroup")
-    device_type_prediction: str | None = Field(default=None, alias="deviceTypePrediction")
-    recent_device_serial: str | None = Field(default=None, alias="recentDeviceSerial")
-    recent_device_name: str | None = Field(default=None, alias="recentDeviceName")
-    recent_device_connection: str | None = Field(default=None, alias="recentDeviceConnection")
-    notes: str | None = None
-    ip6_local: str | None = Field(default=None, alias="ip6Local")
-    group_policy8021x: str | None = Field(default=None, alias="groupPolicy8021x")
-    psk_group: str | None = Field(default=None, alias="pskGroup")
-
-
-class GetNetworkClientsResponse(RootModel[list[GetNetworkClientsResponseItem]]):
-    """List the clients that have used this network in the timespan. The data is updated at most
-    once every five minutes.
-    """
-
-
-class GetNetworkDevicesResponseItem(_BaseSchema):
-    """Schema for GetNetworkDevicesResponseItem."""
-
-    name: str | None = None
-    lat: float | None = None
-    lng: float | None = None
-    address: str | None = None
-    notes: str | None = None
-    tags: list[str] | None = None
-    network_id: str | None = Field(default=None, alias="networkId")
-    serial: str | None = None
-    model: str | None = None
-    mac: str | None = None
-    lan_ip: str | None = Field(default=None, alias="lanIp")
-    firmware: str | None = None
-    floor_plan_id: str | None = Field(default=None, alias="floorPlanId")
-    details: list[GetNetworkDevicesResponseItemDetailsItem] | None = None
-    beacon_id_params: GetNetworkDevicesResponseItemBeaconIdParams | None = Field(
-        default=None, alias="beaconIdParams"
-    )
-
-
-class GetNetworkDevicesResponse(RootModel[list[GetNetworkDevicesResponseItem]]):
-    """List the devices in a network."""
-
-
-class GetNetworkEventsResponseEventsItem(_BaseSchema):
-    """Schema for GetNetworkEventsResponseEventsItem."""
-
-    occurred_at: str | None = Field(default=None, alias="occurredAt")
-    network_id: str | None = Field(default=None, alias="networkId")
-    type_: str | None = Field(default=None, alias="type")
-    description: str | None = None
-    category: str | None = None
-    client_id: str | None = Field(default=None, alias="clientId")
-    client_description: str | None = Field(default=None, alias="clientDescription")
-    client_mac: str | None = Field(default=None, alias="clientMac")
-    device_serial: str | None = Field(default=None, alias="deviceSerial")
-    device_name: str | None = Field(default=None, alias="deviceName")
-    ssid_number: int | None = Field(default=None, alias="ssidNumber")
-    event_data: GetNetworkEventsResponseEventsItemEventData | None = Field(
-        default=None, alias="eventData"
-    )
-
-
-class GetNetworkEventsResponse(_BaseSchema):
-    """List the events for the network."""
-
-    message: str | None = None
-    page_start_at: str | None = Field(default=None, alias="pageStartAt")
-    page_end_at: str | None = Field(default=None, alias="pageEndAt")
-    events: list[GetNetworkEventsResponseEventsItem] | None = None
-
-
-class GetNetworkFirmwareUpgradesResponseProductsWirelessLastUpgrade(_BaseSchema):
-    """Details of the last firmware upgrade on the device."""
-
-    time: str | None = None
-    from_version: (
-        GetNetworkFirmwareUpgradesResponseProductsWirelessLastUpgradeFromVersion | None
-    ) = Field(default=None, alias="fromVersion")
-    to_version: GetNetworkFirmwareUpgradesResponseProductsWirelessLastUpgradeToVersion | None = (
-        Field(default=None, alias="toVersion")
-    )
-
-
-class GetNetworkFirmwareUpgradesResponseProductsWirelessNextUpgrade(_BaseSchema):
-    """Details of the next firmware upgrade on the device."""
-
-    time: str | None = None
-    to_version: GetNetworkFirmwareUpgradesResponseProductsWirelessNextUpgradeToVersion | None = (
-        Field(default=None, alias="toVersion")
-    )
-
-
-class GetNetworkFirmwareUpgradesResponseProductsWireless(_BaseSchema):
-    """The network device to be updated."""
-
-    current_version: GetNetworkFirmwareUpgradesResponseProductsWirelessCurrentVersion | None = (
-        Field(default=None, alias="currentVersion")
-    )
-    last_upgrade: GetNetworkFirmwareUpgradesResponseProductsWirelessLastUpgrade | None = Field(
-        default=None, alias="lastUpgrade"
-    )
-    next_upgrade: GetNetworkFirmwareUpgradesResponseProductsWirelessNextUpgrade | None = Field(
-        default=None, alias="nextUpgrade"
-    )
-    is_upgrade_available: bool | None = Field(default=None, alias="isUpgradeAvailable")
-    available_versions: (
-        list[GetNetworkFirmwareUpgradesResponseProductsWirelessAvailableVersionsItem] | None
-    ) = Field(default=None, alias="availableVersions")
-    participate_in_next_beta_release: bool | None = Field(
-        default=None, alias="participateInNextBetaRelease"
-    )
-
-
-class GetNetworkFirmwareUpgradesResponseProductsApplianceLastUpgrade(_BaseSchema):
-    """Details of the last firmware upgrade on the device."""
-
-    time: str | None = None
-    from_version: (
-        GetNetworkFirmwareUpgradesResponseProductsApplianceLastUpgradeFromVersion | None
-    ) = Field(default=None, alias="fromVersion")
-    to_version: GetNetworkFirmwareUpgradesResponseProductsApplianceLastUpgradeToVersion | None = (
-        Field(default=None, alias="toVersion")
-    )
-
-
-class GetNetworkFirmwareUpgradesResponseProductsApplianceNextUpgrade(_BaseSchema):
-    """Details of the next firmware upgrade on the device."""
-
-    time: str | None = None
-    to_version: GetNetworkFirmwareUpgradesResponseProductsApplianceNextUpgradeToVersion | None = (
-        Field(default=None, alias="toVersion")
-    )
-
-
-class GetNetworkFirmwareUpgradesResponseProductsAppliance(_BaseSchema):
-    """The network device to be updated."""
-
-    current_version: GetNetworkFirmwareUpgradesResponseProductsApplianceCurrentVersion | None = (
-        Field(default=None, alias="currentVersion")
-    )
-    last_upgrade: GetNetworkFirmwareUpgradesResponseProductsApplianceLastUpgrade | None = Field(
-        default=None, alias="lastUpgrade"
-    )
-    next_upgrade: GetNetworkFirmwareUpgradesResponseProductsApplianceNextUpgrade | None = Field(
-        default=None, alias="nextUpgrade"
-    )
-    is_upgrade_available: bool | None = Field(default=None, alias="isUpgradeAvailable")
-    available_versions: (
-        list[GetNetworkFirmwareUpgradesResponseProductsApplianceAvailableVersionsItem] | None
-    ) = Field(default=None, alias="availableVersions")
-    participate_in_next_beta_release: bool | None = Field(
-        default=None, alias="participateInNextBetaRelease"
-    )
-
-
-class GetNetworkFirmwareUpgradesResponseProductsSwitchLastUpgrade(_BaseSchema):
-    """Details of the last firmware upgrade on the device."""
-
-    time: str | None = None
-    from_version: GetNetworkFirmwareUpgradesResponseProductsSwitchLastUpgradeFromVersion | None = (
-        Field(default=None, alias="fromVersion")
-    )
-    to_version: GetNetworkFirmwareUpgradesResponseProductsSwitchLastUpgradeToVersion | None = Field(
-        default=None, alias="toVersion"
-    )
-
-
-class GetNetworkFirmwareUpgradesResponseProductsSwitchNextUpgrade(_BaseSchema):
-    """Details of the next firmware upgrade on the device."""
-
-    time: str | None = None
-    to_version: GetNetworkFirmwareUpgradesResponseProductsSwitchNextUpgradeToVersion | None = Field(
-        default=None, alias="toVersion"
-    )
-
-
-class GetNetworkFirmwareUpgradesResponseProductsSwitch(_BaseSchema):
-    """The network device to be updated."""
-
-    current_version: GetNetworkFirmwareUpgradesResponseProductsSwitchCurrentVersion | None = Field(
-        default=None, alias="currentVersion"
-    )
-    last_upgrade: GetNetworkFirmwareUpgradesResponseProductsSwitchLastUpgrade | None = Field(
-        default=None, alias="lastUpgrade"
-    )
-    next_upgrade: GetNetworkFirmwareUpgradesResponseProductsSwitchNextUpgrade | None = Field(
-        default=None, alias="nextUpgrade"
-    )
-    is_upgrade_available: bool | None = Field(default=None, alias="isUpgradeAvailable")
-    available_versions: (
-        list[GetNetworkFirmwareUpgradesResponseProductsSwitchAvailableVersionsItem] | None
-    ) = Field(default=None, alias="availableVersions")
-    participate_in_next_beta_release: bool | None = Field(
-        default=None, alias="participateInNextBetaRelease"
-    )
-
-
-class GetNetworkFirmwareUpgradesResponseProductsCameraLastUpgrade(_BaseSchema):
-    """Details of the last firmware upgrade on the device."""
-
-    time: str | None = None
-    from_version: GetNetworkFirmwareUpgradesResponseProductsCameraLastUpgradeFromVersion | None = (
-        Field(default=None, alias="fromVersion")
-    )
-    to_version: GetNetworkFirmwareUpgradesResponseProductsCameraLastUpgradeToVersion | None = Field(
-        default=None, alias="toVersion"
-    )
-
-
-class GetNetworkFirmwareUpgradesResponseProductsCameraNextUpgrade(_BaseSchema):
-    """Details of the next firmware upgrade on the device."""
-
-    time: str | None = None
-    to_version: GetNetworkFirmwareUpgradesResponseProductsCameraNextUpgradeToVersion | None = Field(
-        default=None, alias="toVersion"
-    )
-
-
-class GetNetworkFirmwareUpgradesResponseProductsCamera(_BaseSchema):
-    """The network device to be updated."""
-
-    current_version: GetNetworkFirmwareUpgradesResponseProductsCameraCurrentVersion | None = Field(
-        default=None, alias="currentVersion"
-    )
-    last_upgrade: GetNetworkFirmwareUpgradesResponseProductsCameraLastUpgrade | None = Field(
-        default=None, alias="lastUpgrade"
-    )
-    next_upgrade: GetNetworkFirmwareUpgradesResponseProductsCameraNextUpgrade | None = Field(
-        default=None, alias="nextUpgrade"
-    )
-    is_upgrade_available: bool | None = Field(default=None, alias="isUpgradeAvailable")
-    available_versions: (
-        list[GetNetworkFirmwareUpgradesResponseProductsCameraAvailableVersionsItem] | None
-    ) = Field(default=None, alias="availableVersions")
-    participate_in_next_beta_release: bool | None = Field(
-        default=None, alias="participateInNextBetaRelease"
-    )
-
-
-class GetNetworkFirmwareUpgradesResponseProductsCellularGatewayLastUpgrade(_BaseSchema):
-    """Details of the last firmware upgrade on the device."""
-
-    time: str | None = None
-    from_version: (
-        GetNetworkFirmwareUpgradesResponseProductsCellularGatewayLastUpgradeFromVersion | None
-    ) = Field(default=None, alias="fromVersion")
-    to_version: (
-        GetNetworkFirmwareUpgradesResponseProductsCellularGatewayLastUpgradeToVersion | None
-    ) = Field(default=None, alias="toVersion")
-
-
-class GetNetworkFirmwareUpgradesResponseProductsCellularGatewayNextUpgrade(_BaseSchema):
-    """Details of the next firmware upgrade on the device."""
-
-    time: str | None = None
-    to_version: (
-        GetNetworkFirmwareUpgradesResponseProductsCellularGatewayNextUpgradeToVersion | None
-    ) = Field(default=None, alias="toVersion")
-
-
-class GetNetworkFirmwareUpgradesResponseProductsCellularGateway(_BaseSchema):
-    """The network device to be updated."""
-
-    current_version: (
-        GetNetworkFirmwareUpgradesResponseProductsCellularGatewayCurrentVersion | None
-    ) = Field(default=None, alias="currentVersion")
-    last_upgrade: GetNetworkFirmwareUpgradesResponseProductsCellularGatewayLastUpgrade | None = (
-        Field(default=None, alias="lastUpgrade")
-    )
-    next_upgrade: GetNetworkFirmwareUpgradesResponseProductsCellularGatewayNextUpgrade | None = (
-        Field(default=None, alias="nextUpgrade")
-    )
-    is_upgrade_available: bool | None = Field(default=None, alias="isUpgradeAvailable")
-    available_versions: (
-        list[GetNetworkFirmwareUpgradesResponseProductsCellularGatewayAvailableVersionsItem] | None
-    ) = Field(default=None, alias="availableVersions")
-    participate_in_next_beta_release: bool | None = Field(
-        default=None, alias="participateInNextBetaRelease"
-    )
-
-
-class GetNetworkFirmwareUpgradesResponseProductsSensorLastUpgrade(_BaseSchema):
-    """Details of the last firmware upgrade on the device."""
-
-    time: str | None = None
-    from_version: GetNetworkFirmwareUpgradesResponseProductsSensorLastUpgradeFromVersion | None = (
-        Field(default=None, alias="fromVersion")
-    )
-    to_version: GetNetworkFirmwareUpgradesResponseProductsSensorLastUpgradeToVersion | None = Field(
-        default=None, alias="toVersion"
-    )
-
-
-class GetNetworkFirmwareUpgradesResponseProductsSensorNextUpgrade(_BaseSchema):
-    """Details of the next firmware upgrade on the device."""
-
-    time: str | None = None
-    to_version: GetNetworkFirmwareUpgradesResponseProductsSensorNextUpgradeToVersion | None = Field(
-        default=None, alias="toVersion"
-    )
-
-
-class GetNetworkFirmwareUpgradesResponseProductsSensor(_BaseSchema):
-    """The network device to be updated."""
-
-    current_version: GetNetworkFirmwareUpgradesResponseProductsSensorCurrentVersion | None = Field(
-        default=None, alias="currentVersion"
-    )
-    last_upgrade: GetNetworkFirmwareUpgradesResponseProductsSensorLastUpgrade | None = Field(
-        default=None, alias="lastUpgrade"
-    )
-    next_upgrade: GetNetworkFirmwareUpgradesResponseProductsSensorNextUpgrade | None = Field(
-        default=None, alias="nextUpgrade"
-    )
-    is_upgrade_available: bool | None = Field(default=None, alias="isUpgradeAvailable")
-    available_versions: (
-        list[GetNetworkFirmwareUpgradesResponseProductsSensorAvailableVersionsItem] | None
-    ) = Field(default=None, alias="availableVersions")
-    participate_in_next_beta_release: bool | None = Field(
-        default=None, alias="participateInNextBetaRelease"
-    )
-
-
-class GetNetworkFirmwareUpgradesResponseProductsWirelessControllerLastUpgrade(_BaseSchema):
-    """Details of the last firmware upgrade on the device."""
-
-    time: str | None = None
-    from_version: (
-        GetNetworkFirmwareUpgradesResponseProductsWirelessControllerLastUpgradeFromVersion | None
-    ) = Field(default=None, alias="fromVersion")
-    to_version: (
-        GetNetworkFirmwareUpgradesResponseProductsWirelessControllerLastUpgradeToVersion | None
-    ) = Field(default=None, alias="toVersion")
-
-
-class GetNetworkFirmwareUpgradesResponseProductsWirelessControllerNextUpgrade(_BaseSchema):
-    """Details of the next firmware upgrade on the device."""
-
-    time: str | None = None
-    to_version: (
-        GetNetworkFirmwareUpgradesResponseProductsWirelessControllerNextUpgradeToVersion | None
-    ) = Field(default=None, alias="toVersion")
-
-
-class GetNetworkFirmwareUpgradesResponseProductsWirelessController(_BaseSchema):
-    """The network device to be updated."""
-
-    current_version: (
-        GetNetworkFirmwareUpgradesResponseProductsWirelessControllerCurrentVersion | None
-    ) = Field(default=None, alias="currentVersion")
-    last_upgrade: GetNetworkFirmwareUpgradesResponseProductsWirelessControllerLastUpgrade | None = (
-        Field(default=None, alias="lastUpgrade")
-    )
-    next_upgrade: GetNetworkFirmwareUpgradesResponseProductsWirelessControllerNextUpgrade | None = (
-        Field(default=None, alias="nextUpgrade")
-    )
-    is_upgrade_available: bool | None = Field(default=None, alias="isUpgradeAvailable")
-    available_versions: (
-        list[GetNetworkFirmwareUpgradesResponseProductsWirelessControllerAvailableVersionsItem]
-        | None
-    ) = Field(default=None, alias="availableVersions")
-    participate_in_next_beta_release: bool | None = Field(
-        default=None, alias="participateInNextBetaRelease"
-    )
-
-
-class GetNetworkFirmwareUpgradesResponseProductsSecureConnectLastUpgrade(_BaseSchema):
-    """Details of the last firmware upgrade on the device."""
-
-    time: str | None = None
-    from_version: (
-        GetNetworkFirmwareUpgradesResponseProductsSecureConnectLastUpgradeFromVersion | None
-    ) = Field(default=None, alias="fromVersion")
-    to_version: (
-        GetNetworkFirmwareUpgradesResponseProductsSecureConnectLastUpgradeToVersion | None
-    ) = Field(default=None, alias="toVersion")
-
-
-class GetNetworkFirmwareUpgradesResponseProductsSecureConnectNextUpgrade(_BaseSchema):
-    """Details of the next firmware upgrade on the device."""
-
-    time: str | None = None
-    to_version: (
-        GetNetworkFirmwareUpgradesResponseProductsSecureConnectNextUpgradeToVersion | None
-    ) = Field(default=None, alias="toVersion")
-
-
-class GetNetworkFirmwareUpgradesResponseProductsSecureConnect(_BaseSchema):
-    """The network device to be updated."""
-
-    current_version: (
-        GetNetworkFirmwareUpgradesResponseProductsSecureConnectCurrentVersion | None
-    ) = Field(default=None, alias="currentVersion")
-    last_upgrade: GetNetworkFirmwareUpgradesResponseProductsSecureConnectLastUpgrade | None = Field(
-        default=None, alias="lastUpgrade"
-    )
-    next_upgrade: GetNetworkFirmwareUpgradesResponseProductsSecureConnectNextUpgrade | None = Field(
-        default=None, alias="nextUpgrade"
-    )
-    is_upgrade_available: bool | None = Field(default=None, alias="isUpgradeAvailable")
-    available_versions: (
-        list[GetNetworkFirmwareUpgradesResponseProductsSecureConnectAvailableVersionsItem] | None
-    ) = Field(default=None, alias="availableVersions")
-    participate_in_next_beta_release: bool | None = Field(
-        default=None, alias="participateInNextBetaRelease"
-    )
+class GetNetworkFloorPlansResponse(RootModel[list[GetNetworkFloorPlansResponseItem]]):
+    """List the floor plans that belong to your network."""
 
 
 class GetNetworkFirmwareUpgradesResponseProducts(_BaseSchema):
     """The network devices to be updated."""
 
-    wireless: GetNetworkFirmwareUpgradesResponseProductsWireless | None = None
-    appliance: GetNetworkFirmwareUpgradesResponseProductsAppliance | None = None
-    switch: GetNetworkFirmwareUpgradesResponseProductsSwitch | None = None
-    camera: GetNetworkFirmwareUpgradesResponseProductsCamera | None = None
-    cellular_gateway: GetNetworkFirmwareUpgradesResponseProductsCellularGateway | None = Field(
-        default=None, alias="cellularGateway"
+    wireless: NetworksProductsWireless | None = None
+    appliance: NetworksProductsWireless | None = None
+    switch: NetworksProductsWireless | None = None
+    camera: NetworksProductsWireless | None = None
+    cellular_gateway: NetworksProductsWireless | None = Field(default=None, alias="cellularGateway")
+    sensor: NetworksProductsWireless | None = None
+    wireless_controller: NetworksProductsWireless | None = Field(
+        default=None, alias="wirelessController"
     )
-    sensor: GetNetworkFirmwareUpgradesResponseProductsSensor | None = None
-    wireless_controller: GetNetworkFirmwareUpgradesResponseProductsWirelessController | None = (
-        Field(default=None, alias="wirelessController")
+    secure_connect: NetworksProductsWireless | None = Field(default=None, alias="secureConnect")
+
+
+class GetNetworkFirmwareUpgradesStagedEventsResponseProducts(_BaseSchema):
+    """The network devices to be updated."""
+
+    switch: NetworksProductsSwitch | None = None
+
+
+class GetNetworkFirmwareUpgradesStagedGroupsResponse(
+    RootModel[list[GetNetworkFirmwareUpgradesStagedGroupsResponseItem]]
+):
+    """List of Staged Upgrade Groups in a network."""
+
+
+class GetNetworkVlanProfilesResponse(RootModel[list[GetNetworkVlanProfilesResponseItem]]):
+    """List VLAN profiles for a network."""
+
+
+class BatchNetworkFloorPlansAutoLocateJobsResponse(_BaseSchema):
+    """Schedule auto locate jobs for one or more floor plans in a network."""
+
+    jobs: list[BatchNetworkFloorPlansAutoLocateJobsResponseJobsItem] | None = None
+
+
+class NetworksTrafficShapingRulesItem(_BaseSchema):
+    """Schema for NetworksTrafficShapingRulesItem."""
+
+    definitions: list[NetworksDefinitionsItem]
+    per_client_bandwidth_limits: NetworksPerClientBandwidthLimits | None = Field(
+        default=None, alias="perClientBandwidthLimits"
     )
-    secure_connect: GetNetworkFirmwareUpgradesResponseProductsSecureConnect | None = Field(
-        default=None, alias="secureConnect"
+    dscp_tag_value: int | None = Field(default=None, alias="dscpTagValue")
+    pcp_tag_value: int | None = Field(default=None, alias="pcpTagValue")
+    priority: str | None = None
+
+
+class GetNetworkHealthAlertsResponseItem(_BaseSchema):
+    """Schema for GetNetworkHealthAlertsResponseItem."""
+
+    id_: str | None = Field(default=None, alias="id")
+    category: str | None = None
+    type_: str | None = Field(default=None, alias="type")
+    severity: str | None = None
+    scope: NetworksScope | None = None
+
+
+class GetNetworkMqttBrokersResponse(RootModel[list[GetNetworkMqttBrokersResponseItem]]):
+    """List the MQTT brokers for this network."""
+
+
+class GetNetworkPoliciesByClientResponse(RootModel[list[GetNetworkPoliciesByClientResponseItem]]):
+    """Get policies for all clients with policies."""
+
+
+class UpdateNetworkSettingsResponse(_BaseSchema):
+    """Update the settings for a network."""
+
+    local_status_page_enabled: bool | None = Field(default=None, alias="localStatusPageEnabled")
+    remote_status_page_enabled: bool | None = Field(default=None, alias="remoteStatusPageEnabled")
+    local_status_page: GetNetworkSettingsResponseLocalStatusPage | None = Field(
+        default=None, alias="localStatusPage"
     )
+    secure_port: NetworksMutingByPortSchedules | None = Field(default=None, alias="securePort")
+    fips: NetworksMutingByPortSchedules | None = None
+    named_vlans: GetNetworkSettingsResponseNamedVlans | None = Field(
+        default=None, alias="namedVlans"
+    )
+
+
+class GetNetworkTopologyLinkLayerResponseNodesItem(_BaseSchema):
+    """Schema for GetNetworkTopologyLinkLayerResponseNodesItem."""
+
+    derived_id: str | None = Field(default=None, alias="derivedId")
+    mac: str | None = None
+    type_: str | None = Field(default=None, alias="type")
+    root: bool | None = None
+    device: NetworksNodesDevice | None = None
+    discovered: NetworksNodesDiscovered | None = None
+    stack: NetworksNodesStack | None = None
+
+
+class GetNetworkTopologyLinkLayerResponseLinksItem(_BaseSchema):
+    """Schema for GetNetworkTopologyLinkLayerResponseLinksItem."""
+
+    ends: list[NetworksLinksEndsItem] | None = None
+    last_reported_at: str | None = Field(default=None, alias="lastReportedAt")
+
+
+class GetNetworkWebhooksPayloadTemplatesResponse(
+    RootModel[list[GetNetworkWebhooksPayloadTemplatesResponseItem]]
+):
+    """List the webhook payload templates for a network."""
+
+
+class UpdateNetworkAlertsSettingsResponse(_BaseSchema):
+    """Update the alert configuration for this network."""
+
+    default_destinations: GetNetworkAlertsSettingsResponseDefaultDestinations | None = Field(
+        default=None, alias="defaultDestinations"
+    )
+    alerts: list[GetNetworkAlertsSettingsResponseAlertsItem] | None = None
+    muting: GetNetworkAlertsSettingsResponseMuting | None = None
 
 
 class GetNetworkFirmwareUpgradesResponse(_BaseSchema):
@@ -4156,1317 +2082,31 @@ class GetNetworkFirmwareUpgradesResponse(_BaseSchema):
     products: GetNetworkFirmwareUpgradesResponseProducts | None = None
 
 
-class UpdateNetworkFirmwareUpgradesResponseProductsWirelessLastUpgrade(_BaseSchema):
-    """Details of the last firmware upgrade on the device."""
-
-    time: str | None = None
-    from_version: (
-        UpdateNetworkFirmwareUpgradesResponseProductsWirelessLastUpgradeFromVersion | None
-    ) = Field(default=None, alias="fromVersion")
-    to_version: UpdateNetworkFirmwareUpgradesResponseProductsWirelessLastUpgradeToVersion | None = (
-        Field(default=None, alias="toVersion")
-    )
-
-
-class UpdateNetworkFirmwareUpgradesResponseProductsWirelessNextUpgrade(_BaseSchema):
-    """Details of the next firmware upgrade on the device."""
-
-    time: str | None = None
-    to_version: UpdateNetworkFirmwareUpgradesResponseProductsWirelessNextUpgradeToVersion | None = (
-        Field(default=None, alias="toVersion")
-    )
-
-
-class UpdateNetworkFirmwareUpgradesResponseProductsWireless(_BaseSchema):
-    """The network device to be updated."""
-
-    current_version: UpdateNetworkFirmwareUpgradesResponseProductsWirelessCurrentVersion | None = (
-        Field(default=None, alias="currentVersion")
-    )
-    last_upgrade: UpdateNetworkFirmwareUpgradesResponseProductsWirelessLastUpgrade | None = Field(
-        default=None, alias="lastUpgrade"
-    )
-    next_upgrade: UpdateNetworkFirmwareUpgradesResponseProductsWirelessNextUpgrade | None = Field(
-        default=None, alias="nextUpgrade"
-    )
-    is_upgrade_available: bool | None = Field(default=None, alias="isUpgradeAvailable")
-    available_versions: (
-        list[UpdateNetworkFirmwareUpgradesResponseProductsWirelessAvailableVersionsItem] | None
-    ) = Field(default=None, alias="availableVersions")
-    participate_in_next_beta_release: bool | None = Field(
-        default=None, alias="participateInNextBetaRelease"
-    )
-
-
-class UpdateNetworkFirmwareUpgradesResponseProductsApplianceLastUpgrade(_BaseSchema):
-    """Details of the last firmware upgrade on the device."""
-
-    time: str | None = None
-    from_version: (
-        UpdateNetworkFirmwareUpgradesResponseProductsApplianceLastUpgradeFromVersion | None
-    ) = Field(default=None, alias="fromVersion")
-    to_version: (
-        UpdateNetworkFirmwareUpgradesResponseProductsApplianceLastUpgradeToVersion | None
-    ) = Field(default=None, alias="toVersion")
-
-
-class UpdateNetworkFirmwareUpgradesResponseProductsApplianceNextUpgrade(_BaseSchema):
-    """Details of the next firmware upgrade on the device."""
-
-    time: str | None = None
-    to_version: (
-        UpdateNetworkFirmwareUpgradesResponseProductsApplianceNextUpgradeToVersion | None
-    ) = Field(default=None, alias="toVersion")
-
-
-class UpdateNetworkFirmwareUpgradesResponseProductsAppliance(_BaseSchema):
-    """The network device to be updated."""
-
-    current_version: UpdateNetworkFirmwareUpgradesResponseProductsApplianceCurrentVersion | None = (
-        Field(default=None, alias="currentVersion")
-    )
-    last_upgrade: UpdateNetworkFirmwareUpgradesResponseProductsApplianceLastUpgrade | None = Field(
-        default=None, alias="lastUpgrade"
-    )
-    next_upgrade: UpdateNetworkFirmwareUpgradesResponseProductsApplianceNextUpgrade | None = Field(
-        default=None, alias="nextUpgrade"
-    )
-    is_upgrade_available: bool | None = Field(default=None, alias="isUpgradeAvailable")
-    available_versions: (
-        list[UpdateNetworkFirmwareUpgradesResponseProductsApplianceAvailableVersionsItem] | None
-    ) = Field(default=None, alias="availableVersions")
-    participate_in_next_beta_release: bool | None = Field(
-        default=None, alias="participateInNextBetaRelease"
-    )
-
-
-class UpdateNetworkFirmwareUpgradesResponseProductsSwitchLastUpgrade(_BaseSchema):
-    """Details of the last firmware upgrade on the device."""
-
-    time: str | None = None
-    from_version: (
-        UpdateNetworkFirmwareUpgradesResponseProductsSwitchLastUpgradeFromVersion | None
-    ) = Field(default=None, alias="fromVersion")
-    to_version: UpdateNetworkFirmwareUpgradesResponseProductsSwitchLastUpgradeToVersion | None = (
-        Field(default=None, alias="toVersion")
-    )
-
-
-class UpdateNetworkFirmwareUpgradesResponseProductsSwitchNextUpgrade(_BaseSchema):
-    """Details of the next firmware upgrade on the device."""
-
-    time: str | None = None
-    to_version: UpdateNetworkFirmwareUpgradesResponseProductsSwitchNextUpgradeToVersion | None = (
-        Field(default=None, alias="toVersion")
-    )
-
-
-class UpdateNetworkFirmwareUpgradesResponseProductsSwitch(_BaseSchema):
-    """The network device to be updated."""
-
-    current_version: UpdateNetworkFirmwareUpgradesResponseProductsSwitchCurrentVersion | None = (
-        Field(default=None, alias="currentVersion")
-    )
-    last_upgrade: UpdateNetworkFirmwareUpgradesResponseProductsSwitchLastUpgrade | None = Field(
-        default=None, alias="lastUpgrade"
-    )
-    next_upgrade: UpdateNetworkFirmwareUpgradesResponseProductsSwitchNextUpgrade | None = Field(
-        default=None, alias="nextUpgrade"
-    )
-    is_upgrade_available: bool | None = Field(default=None, alias="isUpgradeAvailable")
-    available_versions: (
-        list[UpdateNetworkFirmwareUpgradesResponseProductsSwitchAvailableVersionsItem] | None
-    ) = Field(default=None, alias="availableVersions")
-    participate_in_next_beta_release: bool | None = Field(
-        default=None, alias="participateInNextBetaRelease"
-    )
-
-
-class UpdateNetworkFirmwareUpgradesResponseProductsCameraLastUpgrade(_BaseSchema):
-    """Details of the last firmware upgrade on the device."""
-
-    time: str | None = None
-    from_version: (
-        UpdateNetworkFirmwareUpgradesResponseProductsCameraLastUpgradeFromVersion | None
-    ) = Field(default=None, alias="fromVersion")
-    to_version: UpdateNetworkFirmwareUpgradesResponseProductsCameraLastUpgradeToVersion | None = (
-        Field(default=None, alias="toVersion")
-    )
-
-
-class UpdateNetworkFirmwareUpgradesResponseProductsCameraNextUpgrade(_BaseSchema):
-    """Details of the next firmware upgrade on the device."""
-
-    time: str | None = None
-    to_version: UpdateNetworkFirmwareUpgradesResponseProductsCameraNextUpgradeToVersion | None = (
-        Field(default=None, alias="toVersion")
-    )
-
-
-class UpdateNetworkFirmwareUpgradesResponseProductsCamera(_BaseSchema):
-    """The network device to be updated."""
-
-    current_version: UpdateNetworkFirmwareUpgradesResponseProductsCameraCurrentVersion | None = (
-        Field(default=None, alias="currentVersion")
-    )
-    last_upgrade: UpdateNetworkFirmwareUpgradesResponseProductsCameraLastUpgrade | None = Field(
-        default=None, alias="lastUpgrade"
-    )
-    next_upgrade: UpdateNetworkFirmwareUpgradesResponseProductsCameraNextUpgrade | None = Field(
-        default=None, alias="nextUpgrade"
-    )
-    is_upgrade_available: bool | None = Field(default=None, alias="isUpgradeAvailable")
-    available_versions: (
-        list[UpdateNetworkFirmwareUpgradesResponseProductsCameraAvailableVersionsItem] | None
-    ) = Field(default=None, alias="availableVersions")
-    participate_in_next_beta_release: bool | None = Field(
-        default=None, alias="participateInNextBetaRelease"
-    )
-
-
-class UpdateNetworkFirmwareUpgradesResponseProductsCellularGatewayLastUpgrade(_BaseSchema):
-    """Details of the last firmware upgrade on the device."""
-
-    time: str | None = None
-    from_version: (
-        UpdateNetworkFirmwareUpgradesResponseProductsCellularGatewayLastUpgradeFromVersion | None
-    ) = Field(default=None, alias="fromVersion")
-    to_version: (
-        UpdateNetworkFirmwareUpgradesResponseProductsCellularGatewayLastUpgradeToVersion | None
-    ) = Field(default=None, alias="toVersion")
-
-
-class UpdateNetworkFirmwareUpgradesResponseProductsCellularGatewayNextUpgrade(_BaseSchema):
-    """Details of the next firmware upgrade on the device."""
-
-    time: str | None = None
-    to_version: (
-        UpdateNetworkFirmwareUpgradesResponseProductsCellularGatewayNextUpgradeToVersion | None
-    ) = Field(default=None, alias="toVersion")
-
-
-class UpdateNetworkFirmwareUpgradesResponseProductsCellularGateway(_BaseSchema):
-    """The network device to be updated."""
-
-    current_version: (
-        UpdateNetworkFirmwareUpgradesResponseProductsCellularGatewayCurrentVersion | None
-    ) = Field(default=None, alias="currentVersion")
-    last_upgrade: UpdateNetworkFirmwareUpgradesResponseProductsCellularGatewayLastUpgrade | None = (
-        Field(default=None, alias="lastUpgrade")
-    )
-    next_upgrade: UpdateNetworkFirmwareUpgradesResponseProductsCellularGatewayNextUpgrade | None = (
-        Field(default=None, alias="nextUpgrade")
-    )
-    is_upgrade_available: bool | None = Field(default=None, alias="isUpgradeAvailable")
-    available_versions: (
-        list[UpdateNetworkFirmwareUpgradesResponseProductsCellularGatewayAvailableVersionsItem]
-        | None
-    ) = Field(default=None, alias="availableVersions")
-    participate_in_next_beta_release: bool | None = Field(
-        default=None, alias="participateInNextBetaRelease"
-    )
-
-
-class UpdateNetworkFirmwareUpgradesResponseProductsSensorLastUpgrade(_BaseSchema):
-    """Details of the last firmware upgrade on the device."""
-
-    time: str | None = None
-    from_version: (
-        UpdateNetworkFirmwareUpgradesResponseProductsSensorLastUpgradeFromVersion | None
-    ) = Field(default=None, alias="fromVersion")
-    to_version: UpdateNetworkFirmwareUpgradesResponseProductsSensorLastUpgradeToVersion | None = (
-        Field(default=None, alias="toVersion")
-    )
-
-
-class UpdateNetworkFirmwareUpgradesResponseProductsSensorNextUpgrade(_BaseSchema):
-    """Details of the next firmware upgrade on the device."""
-
-    time: str | None = None
-    to_version: UpdateNetworkFirmwareUpgradesResponseProductsSensorNextUpgradeToVersion | None = (
-        Field(default=None, alias="toVersion")
-    )
-
-
-class UpdateNetworkFirmwareUpgradesResponseProductsSensor(_BaseSchema):
-    """The network device to be updated."""
-
-    current_version: UpdateNetworkFirmwareUpgradesResponseProductsSensorCurrentVersion | None = (
-        Field(default=None, alias="currentVersion")
-    )
-    last_upgrade: UpdateNetworkFirmwareUpgradesResponseProductsSensorLastUpgrade | None = Field(
-        default=None, alias="lastUpgrade"
-    )
-    next_upgrade: UpdateNetworkFirmwareUpgradesResponseProductsSensorNextUpgrade | None = Field(
-        default=None, alias="nextUpgrade"
-    )
-    is_upgrade_available: bool | None = Field(default=None, alias="isUpgradeAvailable")
-    available_versions: (
-        list[UpdateNetworkFirmwareUpgradesResponseProductsSensorAvailableVersionsItem] | None
-    ) = Field(default=None, alias="availableVersions")
-    participate_in_next_beta_release: bool | None = Field(
-        default=None, alias="participateInNextBetaRelease"
-    )
-
-
-class UpdateNetworkFirmwareUpgradesResponseProductsWirelessControllerLastUpgrade(_BaseSchema):
-    """Details of the last firmware upgrade on the device."""
-
-    time: str | None = None
-    from_version: (
-        UpdateNetworkFirmwareUpgradesResponseProductsWirelessControllerLastUpgradeFromVersion | None
-    ) = Field(default=None, alias="fromVersion")
-    to_version: (
-        UpdateNetworkFirmwareUpgradesResponseProductsWirelessControllerLastUpgradeToVersion | None
-    ) = Field(default=None, alias="toVersion")
-
-
-class UpdateNetworkFirmwareUpgradesResponseProductsWirelessControllerNextUpgrade(_BaseSchema):
-    """Details of the next firmware upgrade on the device."""
-
-    time: str | None = None
-    to_version: (
-        UpdateNetworkFirmwareUpgradesResponseProductsWirelessControllerNextUpgradeToVersion | None
-    ) = Field(default=None, alias="toVersion")
-
-
-class UpdateNetworkFirmwareUpgradesResponseProductsWirelessController(_BaseSchema):
-    """The network device to be updated."""
-
-    current_version: (
-        UpdateNetworkFirmwareUpgradesResponseProductsWirelessControllerCurrentVersion | None
-    ) = Field(default=None, alias="currentVersion")
-    last_upgrade: (
-        UpdateNetworkFirmwareUpgradesResponseProductsWirelessControllerLastUpgrade | None
-    ) = Field(default=None, alias="lastUpgrade")
-    next_upgrade: (
-        UpdateNetworkFirmwareUpgradesResponseProductsWirelessControllerNextUpgrade | None
-    ) = Field(default=None, alias="nextUpgrade")
-    is_upgrade_available: bool | None = Field(default=None, alias="isUpgradeAvailable")
-    available_versions: (
-        list[UpdateNetworkFirmwareUpgradesResponseProductsWirelessControllerAvailableVersionsItem]
-        | None
-    ) = Field(default=None, alias="availableVersions")
-    participate_in_next_beta_release: bool | None = Field(
-        default=None, alias="participateInNextBetaRelease"
-    )
-
-
-class UpdateNetworkFirmwareUpgradesResponseProductsSecureConnectLastUpgrade(_BaseSchema):
-    """Details of the last firmware upgrade on the device."""
-
-    time: str | None = None
-    from_version: (
-        UpdateNetworkFirmwareUpgradesResponseProductsSecureConnectLastUpgradeFromVersion | None
-    ) = Field(default=None, alias="fromVersion")
-    to_version: (
-        UpdateNetworkFirmwareUpgradesResponseProductsSecureConnectLastUpgradeToVersion | None
-    ) = Field(default=None, alias="toVersion")
-
-
-class UpdateNetworkFirmwareUpgradesResponseProductsSecureConnectNextUpgrade(_BaseSchema):
-    """Details of the next firmware upgrade on the device."""
-
-    time: str | None = None
-    to_version: (
-        UpdateNetworkFirmwareUpgradesResponseProductsSecureConnectNextUpgradeToVersion | None
-    ) = Field(default=None, alias="toVersion")
-
-
-class UpdateNetworkFirmwareUpgradesResponseProductsSecureConnect(_BaseSchema):
-    """The network device to be updated."""
-
-    current_version: (
-        UpdateNetworkFirmwareUpgradesResponseProductsSecureConnectCurrentVersion | None
-    ) = Field(default=None, alias="currentVersion")
-    last_upgrade: UpdateNetworkFirmwareUpgradesResponseProductsSecureConnectLastUpgrade | None = (
-        Field(default=None, alias="lastUpgrade")
-    )
-    next_upgrade: UpdateNetworkFirmwareUpgradesResponseProductsSecureConnectNextUpgrade | None = (
-        Field(default=None, alias="nextUpgrade")
-    )
-    is_upgrade_available: bool | None = Field(default=None, alias="isUpgradeAvailable")
-    available_versions: (
-        list[UpdateNetworkFirmwareUpgradesResponseProductsSecureConnectAvailableVersionsItem] | None
-    ) = Field(default=None, alias="availableVersions")
-    participate_in_next_beta_release: bool | None = Field(
-        default=None, alias="participateInNextBetaRelease"
-    )
-
-
-class UpdateNetworkFirmwareUpgradesResponseProducts(_BaseSchema):
-    """The network devices to be updated."""
-
-    wireless: UpdateNetworkFirmwareUpgradesResponseProductsWireless | None = None
-    appliance: UpdateNetworkFirmwareUpgradesResponseProductsAppliance | None = None
-    switch: UpdateNetworkFirmwareUpgradesResponseProductsSwitch | None = None
-    camera: UpdateNetworkFirmwareUpgradesResponseProductsCamera | None = None
-    cellular_gateway: UpdateNetworkFirmwareUpgradesResponseProductsCellularGateway | None = Field(
-        default=None, alias="cellularGateway"
-    )
-    sensor: UpdateNetworkFirmwareUpgradesResponseProductsSensor | None = None
-    wireless_controller: UpdateNetworkFirmwareUpgradesResponseProductsWirelessController | None = (
-        Field(default=None, alias="wirelessController")
-    )
-    secure_connect: UpdateNetworkFirmwareUpgradesResponseProductsSecureConnect | None = Field(
-        default=None, alias="secureConnect"
-    )
-
-
-class UpdateNetworkFirmwareUpgradesResponse(_BaseSchema):
-    """Update firmware upgrade information for a network."""
-
-    upgrade_window: UpdateNetworkFirmwareUpgradesResponseUpgradeWindow | None = Field(
-        default=None, alias="upgradeWindow"
-    )
-    timezone: str | None = None
-    products: UpdateNetworkFirmwareUpgradesResponseProducts | None = None
-
-
-class GetNetworkFirmwareUpgradesStagedEventsResponseProductsSwitchNextUpgrade(_BaseSchema):
-    """Details of the next firmware upgrade."""
-
-    to_version: (
-        GetNetworkFirmwareUpgradesStagedEventsResponseProductsSwitchNextUpgradeToVersion | None
-    ) = Field(default=None, alias="toVersion")
-
-
-class GetNetworkFirmwareUpgradesStagedEventsResponseProductsSwitch(_BaseSchema):
-    """The Switch network to be updated."""
-
-    next_upgrade: GetNetworkFirmwareUpgradesStagedEventsResponseProductsSwitchNextUpgrade | None = (
-        Field(default=None, alias="nextUpgrade")
-    )
-
-
-class GetNetworkFirmwareUpgradesStagedEventsResponseProducts(_BaseSchema):
-    """The network devices to be updated."""
-
-    switch: GetNetworkFirmwareUpgradesStagedEventsResponseProductsSwitch | None = None
-
-
-class GetNetworkFirmwareUpgradesStagedEventsResponseStagesItem(_BaseSchema):
-    """Schema for GetNetworkFirmwareUpgradesStagedEventsResponseStagesItem."""
-
-    group: GetNetworkFirmwareUpgradesStagedEventsResponseStagesItemGroup | None = None
-    milestones: GetNetworkFirmwareUpgradesStagedEventsResponseStagesItemMilestones | None = None
-    status: str | None = None
-
-
 class GetNetworkFirmwareUpgradesStagedEventsResponse(_BaseSchema):
     """Get the Staged Upgrade Event from a network."""
 
     products: GetNetworkFirmwareUpgradesStagedEventsResponseProducts | None = None
     stages: list[GetNetworkFirmwareUpgradesStagedEventsResponseStagesItem] | None = None
-    reasons: list[GetNetworkFirmwareUpgradesStagedEventsResponseReasonsItem] | None = None
+    reasons: list[CreateNetworkFirmwareUpgradesRollbackResponseReasonsItem] | None = None
 
 
-class UpdateNetworkFirmwareUpgradesStagedEventsResponseProductsSwitchNextUpgrade(_BaseSchema):
-    """Details of the next firmware upgrade."""
-
-    to_version: (
-        UpdateNetworkFirmwareUpgradesStagedEventsResponseProductsSwitchNextUpgradeToVersion | None
-    ) = Field(default=None, alias="toVersion")
-
-
-class UpdateNetworkFirmwareUpgradesStagedEventsResponseProductsSwitch(_BaseSchema):
-    """The Switch network to be updated."""
-
-    next_upgrade: (
-        UpdateNetworkFirmwareUpgradesStagedEventsResponseProductsSwitchNextUpgrade | None
-    ) = Field(default=None, alias="nextUpgrade")
-
-
-class UpdateNetworkFirmwareUpgradesStagedEventsResponseProducts(_BaseSchema):
-    """The network devices to be updated."""
-
-    switch: UpdateNetworkFirmwareUpgradesStagedEventsResponseProductsSwitch | None = None
-
-
-class UpdateNetworkFirmwareUpgradesStagedEventsResponseStagesItem(_BaseSchema):
-    """Schema for UpdateNetworkFirmwareUpgradesStagedEventsResponseStagesItem."""
-
-    group: UpdateNetworkFirmwareUpgradesStagedEventsResponseStagesItemGroup | None = None
-    milestones: UpdateNetworkFirmwareUpgradesStagedEventsResponseStagesItemMilestones | None = None
-    status: str | None = None
-
-
-class UpdateNetworkFirmwareUpgradesStagedEventsResponse(_BaseSchema):
-    """Update the Staged Upgrade Event for a network."""
-
-    products: UpdateNetworkFirmwareUpgradesStagedEventsResponseProducts | None = None
-    stages: list[UpdateNetworkFirmwareUpgradesStagedEventsResponseStagesItem] | None = None
-    reasons: list[UpdateNetworkFirmwareUpgradesStagedEventsResponseReasonsItem] | None = None
-
-
-class CreateNetworkFirmwareUpgradesStagedEventResponseProductsSwitchNextUpgrade(_BaseSchema):
-    """Details of the next firmware upgrade."""
-
-    to_version: (
-        CreateNetworkFirmwareUpgradesStagedEventResponseProductsSwitchNextUpgradeToVersion | None
-    ) = Field(default=None, alias="toVersion")
-
-
-class CreateNetworkFirmwareUpgradesStagedEventResponseProductsSwitch(_BaseSchema):
-    """The Switch network to be updated."""
-
-    next_upgrade: (
-        CreateNetworkFirmwareUpgradesStagedEventResponseProductsSwitchNextUpgrade | None
-    ) = Field(default=None, alias="nextUpgrade")
-
-
-class CreateNetworkFirmwareUpgradesStagedEventResponseProducts(_BaseSchema):
-    """The network devices to be updated."""
-
-    switch: CreateNetworkFirmwareUpgradesStagedEventResponseProductsSwitch | None = None
-
-
-class CreateNetworkFirmwareUpgradesStagedEventResponseStagesItem(_BaseSchema):
-    """Schema for CreateNetworkFirmwareUpgradesStagedEventResponseStagesItem."""
-
-    group: CreateNetworkFirmwareUpgradesStagedEventResponseStagesItemGroup | None = None
-    milestones: CreateNetworkFirmwareUpgradesStagedEventResponseStagesItemMilestones | None = None
-    status: str | None = None
-
-
-class CreateNetworkFirmwareUpgradesStagedEventResponse(_BaseSchema):
-    """Create a Staged Upgrade Event for a network."""
-
-    products: CreateNetworkFirmwareUpgradesStagedEventResponseProducts | None = None
-    stages: list[CreateNetworkFirmwareUpgradesStagedEventResponseStagesItem] | None = None
-    reasons: list[CreateNetworkFirmwareUpgradesStagedEventResponseReasonsItem] | None = None
-
-
-class DeferNetworkFirmwareUpgradesStagedEventsResponseProductsSwitchNextUpgrade(_BaseSchema):
-    """Details of the next firmware upgrade."""
-
-    to_version: (
-        DeferNetworkFirmwareUpgradesStagedEventsResponseProductsSwitchNextUpgradeToVersion | None
-    ) = Field(default=None, alias="toVersion")
-
-
-class DeferNetworkFirmwareUpgradesStagedEventsResponseProductsSwitch(_BaseSchema):
-    """The Switch network to be updated."""
-
-    next_upgrade: (
-        DeferNetworkFirmwareUpgradesStagedEventsResponseProductsSwitchNextUpgrade | None
-    ) = Field(default=None, alias="nextUpgrade")
-
-
-class DeferNetworkFirmwareUpgradesStagedEventsResponseProducts(_BaseSchema):
-    """The network devices to be updated."""
-
-    switch: DeferNetworkFirmwareUpgradesStagedEventsResponseProductsSwitch | None = None
-
-
-class DeferNetworkFirmwareUpgradesStagedEventsResponseStagesItem(_BaseSchema):
-    """Schema for DeferNetworkFirmwareUpgradesStagedEventsResponseStagesItem."""
-
-    group: DeferNetworkFirmwareUpgradesStagedEventsResponseStagesItemGroup | None = None
-    milestones: DeferNetworkFirmwareUpgradesStagedEventsResponseStagesItemMilestones | None = None
-    status: str | None = None
-
-
-class DeferNetworkFirmwareUpgradesStagedEventsResponse(_BaseSchema):
-    """Postpone by 1 week all pending staged upgrade stages for a network."""
-
-    products: DeferNetworkFirmwareUpgradesStagedEventsResponseProducts | None = None
-    stages: list[DeferNetworkFirmwareUpgradesStagedEventsResponseStagesItem] | None = None
-    reasons: list[DeferNetworkFirmwareUpgradesStagedEventsResponseReasonsItem] | None = None
-
-
-class RollbacksNetworkFirmwareUpgradesStagedEventsResponseProductsSwitchNextUpgrade(_BaseSchema):
-    """Details of the next firmware upgrade."""
-
-    to_version: (
-        RollbacksNetworkFirmwareUpgradesStagedEventsResponseProductsSwitchNextUpgradeToVersion
-        | None
-    ) = Field(default=None, alias="toVersion")
-
-
-class RollbacksNetworkFirmwareUpgradesStagedEventsResponseProductsSwitch(_BaseSchema):
-    """The Switch network to be updated."""
-
-    next_upgrade: (
-        RollbacksNetworkFirmwareUpgradesStagedEventsResponseProductsSwitchNextUpgrade | None
-    ) = Field(default=None, alias="nextUpgrade")
-
-
-class RollbacksNetworkFirmwareUpgradesStagedEventsResponseProducts(_BaseSchema):
-    """The network devices to be updated."""
-
-    switch: RollbacksNetworkFirmwareUpgradesStagedEventsResponseProductsSwitch | None = None
-
-
-class RollbacksNetworkFirmwareUpgradesStagedEventsResponseStagesItem(_BaseSchema):
-    """Schema for RollbacksNetworkFirmwareUpgradesStagedEventsResponseStagesItem."""
-
-    group: RollbacksNetworkFirmwareUpgradesStagedEventsResponseStagesItemGroup | None = None
-    milestones: RollbacksNetworkFirmwareUpgradesStagedEventsResponseStagesItemMilestones | None = (
-        None
-    )
-    status: str | None = None
-
-
-class RollbacksNetworkFirmwareUpgradesStagedEventsResponse(_BaseSchema):
-    """Rollback a Staged Upgrade Event for a network."""
-
-    products: RollbacksNetworkFirmwareUpgradesStagedEventsResponseProducts | None = None
-    stages: list[RollbacksNetworkFirmwareUpgradesStagedEventsResponseStagesItem] | None = None
-    reasons: list[RollbacksNetworkFirmwareUpgradesStagedEventsResponseReasonsItem] | None = None
-
-
-class GetNetworkFirmwareUpgradesStagedGroupsResponseItem(_BaseSchema):
-    """Schema for GetNetworkFirmwareUpgradesStagedGroupsResponseItem."""
-
-    group_id: str | None = Field(default=None, alias="groupId")
-    name: str | None = None
-    description: str | None = None
-    is_default: bool | None = Field(default=None, alias="isDefault")
-    assigned_devices: GetNetworkFirmwareUpgradesStagedGroupsResponseItemAssignedDevices | None = (
-        Field(default=None, alias="assignedDevices")
-    )
-
-
-class GetNetworkFirmwareUpgradesStagedGroupsResponse(
-    RootModel[list[GetNetworkFirmwareUpgradesStagedGroupsResponseItem]]
-):
-    """List of Staged Upgrade Groups in a network."""
-
-
-class GetNetworkFirmwareUpgradesStagedStagesResponseItem(_BaseSchema):
-    """Schema for GetNetworkFirmwareUpgradesStagedStagesResponseItem."""
-
-    group: GetNetworkFirmwareUpgradesStagedStagesResponseItemGroup | None = None
-
-
-class GetNetworkFirmwareUpgradesStagedStagesResponse(
-    RootModel[list[GetNetworkFirmwareUpgradesStagedStagesResponseItem]]
-):
-    """Order of Staged Upgrade Groups in a network."""
-
-
-class UpdateNetworkFirmwareUpgradesStagedStagesResponseItem(_BaseSchema):
-    """Schema for UpdateNetworkFirmwareUpgradesStagedStagesResponseItem."""
-
-    group: UpdateNetworkFirmwareUpgradesStagedStagesResponseItemGroup | None = None
-
-
-class UpdateNetworkFirmwareUpgradesStagedStagesResponse(
-    RootModel[list[UpdateNetworkFirmwareUpgradesStagedStagesResponseItem]]
-):
-    """Assign Staged Upgrade Group order in the sequence."""
-
-
-class GetNetworkFloorPlansResponseItem(_BaseSchema):
-    """Schema for GetNetworkFloorPlansResponseItem."""
-
-    floor_plan_id: str | None = Field(default=None, alias="floorPlanId")
-    image_url: str | None = Field(default=None, alias="imageUrl")
-    image_url_expires_at: str | None = Field(default=None, alias="imageUrlExpiresAt")
-    image_extension: str | None = Field(default=None, alias="imageExtension")
-    image_md5: str | None = Field(default=None, alias="imageMd5")
-    name: str | None = None
-    devices: list[GetNetworkFloorPlansResponseItemDevicesItem] | None = None
-    width: float | None = None
-    height: float | None = None
-    center: GetNetworkFloorPlansResponseItemCenter | None = None
-    bottom_left_corner: GetNetworkFloorPlansResponseItemBottomLeftCorner | None = Field(
-        default=None, alias="bottomLeftCorner"
-    )
-    bottom_right_corner: GetNetworkFloorPlansResponseItemBottomRightCorner | None = Field(
-        default=None, alias="bottomRightCorner"
-    )
-    top_left_corner: GetNetworkFloorPlansResponseItemTopLeftCorner | None = Field(
-        default=None, alias="topLeftCorner"
-    )
-    top_right_corner: GetNetworkFloorPlansResponseItemTopRightCorner | None = Field(
-        default=None, alias="topRightCorner"
-    )
-    floor_number: float | None = Field(default=None, alias="floorNumber")
-
-
-class GetNetworkFloorPlansResponse(RootModel[list[GetNetworkFloorPlansResponseItem]]):
-    """List the floor plans that belong to your network."""
-
-
-class BatchNetworkFloorPlansAutoLocateJobsResponseJobsItemRanging(_BaseSchema):
-    """Ranging status and progress information."""
-
-    status: str | None = None
-    completed: BatchNetworkFloorPlansAutoLocateJobsResponseJobsItemRangingCompleted | None = None
-
-
-class BatchNetworkFloorPlansAutoLocateJobsResponseJobsItemGnss(_BaseSchema):
-    """GNSS (e.g. GPS) status and progress information."""
-
-    status: str | None = None
-    completed: BatchNetworkFloorPlansAutoLocateJobsResponseJobsItemGnssCompleted | None = None
-
-
-class BatchNetworkFloorPlansAutoLocateJobsResponseJobsItem(_BaseSchema):
-    """Schema for BatchNetworkFloorPlansAutoLocateJobsResponseJobsItem."""
-
-    id_: str | None = Field(default=None, alias="id")
-    network_id: str | None = Field(default=None, alias="networkId")
-    floor_plan_id: str | None = Field(default=None, alias="floorPlanId")
-    status: str | None = None
-    scheduled_at: str | None = Field(default=None, alias="scheduledAt")
-    completed: BatchNetworkFloorPlansAutoLocateJobsResponseJobsItemCompleted | None = None
-    ranging: BatchNetworkFloorPlansAutoLocateJobsResponseJobsItemRanging | None = None
-    gnss: BatchNetworkFloorPlansAutoLocateJobsResponseJobsItemGnss | None = None
-    errors: list[BatchNetworkFloorPlansAutoLocateJobsResponseJobsItemErrorsItem] | None = None
-
-
-class BatchNetworkFloorPlansAutoLocateJobsResponse(_BaseSchema):
-    """Schedule auto locate jobs for one or more floor plans in a network."""
-
-    jobs: list[BatchNetworkFloorPlansAutoLocateJobsResponseJobsItem] | None = None
-
-
-class GetNetworkGroupPoliciesResponseItemScheduling(_BaseSchema):
-    """The schedule for the group policy. Schedules are applied to days of the week."""
-
-    enabled: bool | None = None
-    monday: GetNetworkGroupPoliciesResponseItemSchedulingMonday | None = None
-    tuesday: GetNetworkGroupPoliciesResponseItemSchedulingTuesday | None = None
-    wednesday: GetNetworkGroupPoliciesResponseItemSchedulingWednesday | None = None
-    thursday: GetNetworkGroupPoliciesResponseItemSchedulingThursday | None = None
-    friday: GetNetworkGroupPoliciesResponseItemSchedulingFriday | None = None
-    saturday: GetNetworkGroupPoliciesResponseItemSchedulingSaturday | None = None
-    sunday: GetNetworkGroupPoliciesResponseItemSchedulingSunday | None = None
-
-
-class GetNetworkGroupPoliciesResponseItemBandwidth(_BaseSchema):
-    """The bandwidth settings for clients bound to your group policy."""
-
-    settings: str | None = None
-    bandwidth_limits: GetNetworkGroupPoliciesResponseItemBandwidthBandwidthLimits | None = Field(
-        default=None, alias="bandwidthLimits"
-    )
-
-
-class GetNetworkGroupPoliciesResponseItemFirewallAndTrafficShapingTrafficShapingRulesItemPerClientBandwidthLimits(
-    _BaseSchema
-):
-    """An object describing the bandwidth settings for your rule."""
-
-    settings: str | None = None
-    bandwidth_limits: (
-        GetNetworkGroupPoliciesResponseItemFirewallAndTrafficShapingTrafficShapingRulesItemPerClientBandwidthLimitsBandwidthLimits
-        | None
-    ) = Field(default=None, alias="bandwidthLimits")
-
-
-class GetNetworkGroupPoliciesResponseItemFirewallAndTrafficShapingTrafficShapingRulesItem(
-    _BaseSchema
-):
-    """Schema for
-    GetNetworkGroupPoliciesResponseItemFirewallAndTrafficShapingTrafficShapingRulesItem.
-    """
-
-    definitions: list[
-        GetNetworkGroupPoliciesResponseItemFirewallAndTrafficShapingTrafficShapingRulesItemDefinitionsItem
-    ]
-    per_client_bandwidth_limits: (
-        GetNetworkGroupPoliciesResponseItemFirewallAndTrafficShapingTrafficShapingRulesItemPerClientBandwidthLimits
-        | None
-    ) = Field(default=None, alias="perClientBandwidthLimits")
-    dscp_tag_value: int | None = Field(default=None, alias="dscpTagValue")
-    pcp_tag_value: int | None = Field(default=None, alias="pcpTagValue")
-    priority: str | None = None
-
-
-class GetNetworkGroupPoliciesResponseItemFirewallAndTrafficShaping(_BaseSchema):
+class NetworksFirewallAndTrafficShaping(_BaseSchema):
     """The firewall and traffic shaping rules and settings for your policy."""
 
     settings: str | None = None
-    traffic_shaping_rules: (
-        list[GetNetworkGroupPoliciesResponseItemFirewallAndTrafficShapingTrafficShapingRulesItem]
-        | None
-    ) = Field(default=None, alias="trafficShapingRules")
-    l3_firewall_rules: (
-        list[GetNetworkGroupPoliciesResponseItemFirewallAndTrafficShapingL3FirewallRulesItem] | None
-    ) = Field(default=None, alias="l3FirewallRules")
-    l7_firewall_rules: (
-        list[GetNetworkGroupPoliciesResponseItemFirewallAndTrafficShapingL7FirewallRulesItem] | None
-    ) = Field(default=None, alias="l7FirewallRules")
-
-
-class GetNetworkGroupPoliciesResponseItemContentFiltering(_BaseSchema):
-    """The content filtering settings for your group policy."""
-
-    allowed_url_patterns: (
-        GetNetworkGroupPoliciesResponseItemContentFilteringAllowedUrlPatterns | None
-    ) = Field(default=None, alias="allowedUrlPatterns")
-    blocked_url_patterns: (
-        GetNetworkGroupPoliciesResponseItemContentFilteringBlockedUrlPatterns | None
-    ) = Field(default=None, alias="blockedUrlPatterns")
-    blocked_url_categories: (
-        GetNetworkGroupPoliciesResponseItemContentFilteringBlockedUrlCategories | None
-    ) = Field(default=None, alias="blockedUrlCategories")
-
-
-class GetNetworkGroupPoliciesResponseItem(_BaseSchema):
-    """Schema for GetNetworkGroupPoliciesResponseItem."""
-
-    group_policy_id: str | None = Field(default=None, alias="groupPolicyId")
-    scheduling: GetNetworkGroupPoliciesResponseItemScheduling | None = None
-    bandwidth: GetNetworkGroupPoliciesResponseItemBandwidth | None = None
-    firewall_and_traffic_shaping: (
-        GetNetworkGroupPoliciesResponseItemFirewallAndTrafficShaping | None
-    ) = Field(default=None, alias="firewallAndTrafficShaping")
-    content_filtering: GetNetworkGroupPoliciesResponseItemContentFiltering | None = Field(
-        default=None, alias="contentFiltering"
+    traffic_shaping_rules: list[NetworksTrafficShapingRulesItem] | None = Field(
+        default=None, alias="trafficShapingRules"
     )
-    splash_auth_settings: str | None = Field(default=None, alias="splashAuthSettings")
-    vlan_tagging: GetNetworkGroupPoliciesResponseItemVlanTagging | None = Field(
-        default=None, alias="vlanTagging"
+    l3_firewall_rules: list[NetworksL3FirewallRulesItem] | None = Field(
+        default=None, alias="l3FirewallRules"
     )
-    bonjour_forwarding: GetNetworkGroupPoliciesResponseItemBonjourForwarding | None = Field(
-        default=None, alias="bonjourForwarding"
+    l7_firewall_rules: list[NetworksL7FirewallRulesItem] | None = Field(
+        default=None, alias="l7FirewallRules"
     )
-
-
-class GetNetworkGroupPoliciesResponse(RootModel[list[GetNetworkGroupPoliciesResponseItem]]):
-    """List the group policies in a network."""
-
-
-class CreateNetworkGroupPolicyResponseScheduling(_BaseSchema):
-    """The schedule for the group policy. Schedules are applied to days of the week."""
-
-    enabled: bool | None = None
-    monday: CreateNetworkGroupPolicyResponseSchedulingMonday | None = None
-    tuesday: CreateNetworkGroupPolicyResponseSchedulingTuesday | None = None
-    wednesday: CreateNetworkGroupPolicyResponseSchedulingWednesday | None = None
-    thursday: CreateNetworkGroupPolicyResponseSchedulingThursday | None = None
-    friday: CreateNetworkGroupPolicyResponseSchedulingFriday | None = None
-    saturday: CreateNetworkGroupPolicyResponseSchedulingSaturday | None = None
-    sunday: CreateNetworkGroupPolicyResponseSchedulingSunday | None = None
-
-
-class CreateNetworkGroupPolicyResponseBandwidth(_BaseSchema):
-    """The bandwidth settings for clients bound to your group policy."""
-
-    settings: str | None = None
-    bandwidth_limits: CreateNetworkGroupPolicyResponseBandwidthBandwidthLimits | None = Field(
-        default=None, alias="bandwidthLimits"
-    )
-
-
-class CreateNetworkGroupPolicyResponseFirewallAndTrafficShapingTrafficShapingRulesItemPerClientBandwidthLimits(
-    _BaseSchema
-):
-    """An object describing the bandwidth settings for your rule."""
-
-    settings: str | None = None
-    bandwidth_limits: (
-        CreateNetworkGroupPolicyResponseFirewallAndTrafficShapingTrafficShapingRulesItemPerClientBandwidthLimitsBandwidthLimits
-        | None
-    ) = Field(default=None, alias="bandwidthLimits")
-
-
-class CreateNetworkGroupPolicyResponseFirewallAndTrafficShapingTrafficShapingRulesItem(_BaseSchema):
-    """Schema for CreateNetworkGroupPolicyResponseFirewallAndTrafficShapingTrafficShapingRulesItem."""
-
-    definitions: list[
-        CreateNetworkGroupPolicyResponseFirewallAndTrafficShapingTrafficShapingRulesItemDefinitionsItem
-    ]
-    per_client_bandwidth_limits: (
-        CreateNetworkGroupPolicyResponseFirewallAndTrafficShapingTrafficShapingRulesItemPerClientBandwidthLimits
-        | None
-    ) = Field(default=None, alias="perClientBandwidthLimits")
-    dscp_tag_value: int | None = Field(default=None, alias="dscpTagValue")
-    pcp_tag_value: int | None = Field(default=None, alias="pcpTagValue")
-    priority: str | None = None
-
-
-class CreateNetworkGroupPolicyResponseFirewallAndTrafficShaping(_BaseSchema):
-    """The firewall and traffic shaping rules and settings for your policy."""
-
-    settings: str | None = None
-    traffic_shaping_rules: (
-        list[CreateNetworkGroupPolicyResponseFirewallAndTrafficShapingTrafficShapingRulesItem]
-        | None
-    ) = Field(default=None, alias="trafficShapingRules")
-    l3_firewall_rules: (
-        list[CreateNetworkGroupPolicyResponseFirewallAndTrafficShapingL3FirewallRulesItem] | None
-    ) = Field(default=None, alias="l3FirewallRules")
-    l7_firewall_rules: (
-        list[CreateNetworkGroupPolicyResponseFirewallAndTrafficShapingL7FirewallRulesItem] | None
-    ) = Field(default=None, alias="l7FirewallRules")
-
-
-class CreateNetworkGroupPolicyResponseContentFiltering(_BaseSchema):
-    """The content filtering settings for your group policy."""
-
-    allowed_url_patterns: (
-        CreateNetworkGroupPolicyResponseContentFilteringAllowedUrlPatterns | None
-    ) = Field(default=None, alias="allowedUrlPatterns")
-    blocked_url_patterns: (
-        CreateNetworkGroupPolicyResponseContentFilteringBlockedUrlPatterns | None
-    ) = Field(default=None, alias="blockedUrlPatterns")
-    blocked_url_categories: (
-        CreateNetworkGroupPolicyResponseContentFilteringBlockedUrlCategories | None
-    ) = Field(default=None, alias="blockedUrlCategories")
-
-
-class CreateNetworkGroupPolicyResponse(_BaseSchema):
-    """Create a group policy."""
-
-    group_policy_id: str | None = Field(default=None, alias="groupPolicyId")
-    scheduling: CreateNetworkGroupPolicyResponseScheduling | None = None
-    bandwidth: CreateNetworkGroupPolicyResponseBandwidth | None = None
-    firewall_and_traffic_shaping: (
-        CreateNetworkGroupPolicyResponseFirewallAndTrafficShaping | None
-    ) = Field(default=None, alias="firewallAndTrafficShaping")
-    content_filtering: CreateNetworkGroupPolicyResponseContentFiltering | None = Field(
-        default=None, alias="contentFiltering"
-    )
-    splash_auth_settings: str | None = Field(default=None, alias="splashAuthSettings")
-    vlan_tagging: CreateNetworkGroupPolicyResponseVlanTagging | None = Field(
-        default=None, alias="vlanTagging"
-    )
-    bonjour_forwarding: CreateNetworkGroupPolicyResponseBonjourForwarding | None = Field(
-        default=None, alias="bonjourForwarding"
-    )
-
-
-class GetNetworkGroupPolicyResponseScheduling(_BaseSchema):
-    """The schedule for the group policy. Schedules are applied to days of the week."""
-
-    enabled: bool | None = None
-    monday: GetNetworkGroupPolicyResponseSchedulingMonday | None = None
-    tuesday: GetNetworkGroupPolicyResponseSchedulingTuesday | None = None
-    wednesday: GetNetworkGroupPolicyResponseSchedulingWednesday | None = None
-    thursday: GetNetworkGroupPolicyResponseSchedulingThursday | None = None
-    friday: GetNetworkGroupPolicyResponseSchedulingFriday | None = None
-    saturday: GetNetworkGroupPolicyResponseSchedulingSaturday | None = None
-    sunday: GetNetworkGroupPolicyResponseSchedulingSunday | None = None
-
-
-class GetNetworkGroupPolicyResponseBandwidth(_BaseSchema):
-    """The bandwidth settings for clients bound to your group policy."""
-
-    settings: str | None = None
-    bandwidth_limits: GetNetworkGroupPolicyResponseBandwidthBandwidthLimits | None = Field(
-        default=None, alias="bandwidthLimits"
-    )
-
-
-class GetNetworkGroupPolicyResponseFirewallAndTrafficShapingTrafficShapingRulesItemPerClientBandwidthLimits(
-    _BaseSchema
-):
-    """An object describing the bandwidth settings for your rule."""
-
-    settings: str | None = None
-    bandwidth_limits: (
-        GetNetworkGroupPolicyResponseFirewallAndTrafficShapingTrafficShapingRulesItemPerClientBandwidthLimitsBandwidthLimits
-        | None
-    ) = Field(default=None, alias="bandwidthLimits")
-
-
-class GetNetworkGroupPolicyResponseFirewallAndTrafficShapingTrafficShapingRulesItem(_BaseSchema):
-    """Schema for GetNetworkGroupPolicyResponseFirewallAndTrafficShapingTrafficShapingRulesItem."""
-
-    definitions: list[
-        GetNetworkGroupPolicyResponseFirewallAndTrafficShapingTrafficShapingRulesItemDefinitionsItem
-    ]
-    per_client_bandwidth_limits: (
-        GetNetworkGroupPolicyResponseFirewallAndTrafficShapingTrafficShapingRulesItemPerClientBandwidthLimits
-        | None
-    ) = Field(default=None, alias="perClientBandwidthLimits")
-    dscp_tag_value: int | None = Field(default=None, alias="dscpTagValue")
-    pcp_tag_value: int | None = Field(default=None, alias="pcpTagValue")
-    priority: str | None = None
-
-
-class GetNetworkGroupPolicyResponseFirewallAndTrafficShaping(_BaseSchema):
-    """The firewall and traffic shaping rules and settings for your policy."""
-
-    settings: str | None = None
-    traffic_shaping_rules: (
-        list[GetNetworkGroupPolicyResponseFirewallAndTrafficShapingTrafficShapingRulesItem] | None
-    ) = Field(default=None, alias="trafficShapingRules")
-    l3_firewall_rules: (
-        list[GetNetworkGroupPolicyResponseFirewallAndTrafficShapingL3FirewallRulesItem] | None
-    ) = Field(default=None, alias="l3FirewallRules")
-    l7_firewall_rules: (
-        list[GetNetworkGroupPolicyResponseFirewallAndTrafficShapingL7FirewallRulesItem] | None
-    ) = Field(default=None, alias="l7FirewallRules")
-
-
-class GetNetworkGroupPolicyResponseContentFiltering(_BaseSchema):
-    """The content filtering settings for your group policy."""
-
-    allowed_url_patterns: GetNetworkGroupPolicyResponseContentFilteringAllowedUrlPatterns | None = (
-        Field(default=None, alias="allowedUrlPatterns")
-    )
-    blocked_url_patterns: GetNetworkGroupPolicyResponseContentFilteringBlockedUrlPatterns | None = (
-        Field(default=None, alias="blockedUrlPatterns")
-    )
-    blocked_url_categories: (
-        GetNetworkGroupPolicyResponseContentFilteringBlockedUrlCategories | None
-    ) = Field(default=None, alias="blockedUrlCategories")
-
-
-class GetNetworkGroupPolicyResponse(_BaseSchema):
-    """Display a group policy."""
-
-    group_policy_id: str | None = Field(default=None, alias="groupPolicyId")
-    scheduling: GetNetworkGroupPolicyResponseScheduling | None = None
-    bandwidth: GetNetworkGroupPolicyResponseBandwidth | None = None
-    firewall_and_traffic_shaping: GetNetworkGroupPolicyResponseFirewallAndTrafficShaping | None = (
-        Field(default=None, alias="firewallAndTrafficShaping")
-    )
-    content_filtering: GetNetworkGroupPolicyResponseContentFiltering | None = Field(
-        default=None, alias="contentFiltering"
-    )
-    splash_auth_settings: str | None = Field(default=None, alias="splashAuthSettings")
-    vlan_tagging: GetNetworkGroupPolicyResponseVlanTagging | None = Field(
-        default=None, alias="vlanTagging"
-    )
-    bonjour_forwarding: GetNetworkGroupPolicyResponseBonjourForwarding | None = Field(
-        default=None, alias="bonjourForwarding"
-    )
-
-
-class UpdateNetworkGroupPolicyResponseScheduling(_BaseSchema):
-    """The schedule for the group policy. Schedules are applied to days of the week."""
-
-    enabled: bool | None = None
-    monday: UpdateNetworkGroupPolicyResponseSchedulingMonday | None = None
-    tuesday: UpdateNetworkGroupPolicyResponseSchedulingTuesday | None = None
-    wednesday: UpdateNetworkGroupPolicyResponseSchedulingWednesday | None = None
-    thursday: UpdateNetworkGroupPolicyResponseSchedulingThursday | None = None
-    friday: UpdateNetworkGroupPolicyResponseSchedulingFriday | None = None
-    saturday: UpdateNetworkGroupPolicyResponseSchedulingSaturday | None = None
-    sunday: UpdateNetworkGroupPolicyResponseSchedulingSunday | None = None
-
-
-class UpdateNetworkGroupPolicyResponseBandwidth(_BaseSchema):
-    """The bandwidth settings for clients bound to your group policy."""
-
-    settings: str | None = None
-    bandwidth_limits: UpdateNetworkGroupPolicyResponseBandwidthBandwidthLimits | None = Field(
-        default=None, alias="bandwidthLimits"
-    )
-
-
-class UpdateNetworkGroupPolicyResponseFirewallAndTrafficShapingTrafficShapingRulesItemPerClientBandwidthLimits(
-    _BaseSchema
-):
-    """An object describing the bandwidth settings for your rule."""
-
-    settings: str | None = None
-    bandwidth_limits: (
-        UpdateNetworkGroupPolicyResponseFirewallAndTrafficShapingTrafficShapingRulesItemPerClientBandwidthLimitsBandwidthLimits
-        | None
-    ) = Field(default=None, alias="bandwidthLimits")
-
-
-class UpdateNetworkGroupPolicyResponseFirewallAndTrafficShapingTrafficShapingRulesItem(_BaseSchema):
-    """Schema for UpdateNetworkGroupPolicyResponseFirewallAndTrafficShapingTrafficShapingRulesItem."""
-
-    definitions: list[
-        UpdateNetworkGroupPolicyResponseFirewallAndTrafficShapingTrafficShapingRulesItemDefinitionsItem
-    ]
-    per_client_bandwidth_limits: (
-        UpdateNetworkGroupPolicyResponseFirewallAndTrafficShapingTrafficShapingRulesItemPerClientBandwidthLimits
-        | None
-    ) = Field(default=None, alias="perClientBandwidthLimits")
-    dscp_tag_value: int | None = Field(default=None, alias="dscpTagValue")
-    pcp_tag_value: int | None = Field(default=None, alias="pcpTagValue")
-    priority: str | None = None
-
-
-class UpdateNetworkGroupPolicyResponseFirewallAndTrafficShaping(_BaseSchema):
-    """The firewall and traffic shaping rules and settings for your policy."""
-
-    settings: str | None = None
-    traffic_shaping_rules: (
-        list[UpdateNetworkGroupPolicyResponseFirewallAndTrafficShapingTrafficShapingRulesItem]
-        | None
-    ) = Field(default=None, alias="trafficShapingRules")
-    l3_firewall_rules: (
-        list[UpdateNetworkGroupPolicyResponseFirewallAndTrafficShapingL3FirewallRulesItem] | None
-    ) = Field(default=None, alias="l3FirewallRules")
-    l7_firewall_rules: (
-        list[UpdateNetworkGroupPolicyResponseFirewallAndTrafficShapingL7FirewallRulesItem] | None
-    ) = Field(default=None, alias="l7FirewallRules")
-
-
-class UpdateNetworkGroupPolicyResponseContentFiltering(_BaseSchema):
-    """The content filtering settings for your group policy."""
-
-    allowed_url_patterns: (
-        UpdateNetworkGroupPolicyResponseContentFilteringAllowedUrlPatterns | None
-    ) = Field(default=None, alias="allowedUrlPatterns")
-    blocked_url_patterns: (
-        UpdateNetworkGroupPolicyResponseContentFilteringBlockedUrlPatterns | None
-    ) = Field(default=None, alias="blockedUrlPatterns")
-    blocked_url_categories: (
-        UpdateNetworkGroupPolicyResponseContentFilteringBlockedUrlCategories | None
-    ) = Field(default=None, alias="blockedUrlCategories")
-
-
-class UpdateNetworkGroupPolicyResponse(_BaseSchema):
-    """Update a group policy."""
-
-    group_policy_id: str | None = Field(default=None, alias="groupPolicyId")
-    scheduling: UpdateNetworkGroupPolicyResponseScheduling | None = None
-    bandwidth: UpdateNetworkGroupPolicyResponseBandwidth | None = None
-    firewall_and_traffic_shaping: (
-        UpdateNetworkGroupPolicyResponseFirewallAndTrafficShaping | None
-    ) = Field(default=None, alias="firewallAndTrafficShaping")
-    content_filtering: UpdateNetworkGroupPolicyResponseContentFiltering | None = Field(
-        default=None, alias="contentFiltering"
-    )
-    splash_auth_settings: str | None = Field(default=None, alias="splashAuthSettings")
-    vlan_tagging: UpdateNetworkGroupPolicyResponseVlanTagging | None = Field(
-        default=None, alias="vlanTagging"
-    )
-    bonjour_forwarding: UpdateNetworkGroupPolicyResponseBonjourForwarding | None = Field(
-        default=None, alias="bonjourForwarding"
-    )
-
-
-class GetNetworkHealthAlertsResponseItemScopeDevicesItem(_BaseSchema):
-    """Schema for GetNetworkHealthAlertsResponseItemScopeDevicesItem."""
-
-    url: str | None = None
-    name: str | None = None
-    product_type: str | None = Field(default=None, alias="productType")
-    serial: str | None = None
-    mac: str | None = None
-    lldp: GetNetworkHealthAlertsResponseItemScopeDevicesItemLldp | None = None
-    clients: list[GetNetworkHealthAlertsResponseItemScopeDevicesItemClientsItem] | None = None
-
-
-class GetNetworkHealthAlertsResponseItemScopePeersItem(_BaseSchema):
-    """Schema for GetNetworkHealthAlertsResponseItemScopePeersItem."""
-
-    url: str | None = None
-    network: GetNetworkHealthAlertsResponseItemScopePeersItemNetwork | None = None
-
-
-class GetNetworkHealthAlertsResponseItemScope(_BaseSchema):
-    """The scope of the alert."""
-
-    devices: list[GetNetworkHealthAlertsResponseItemScopeDevicesItem] | None = None
-    applications: list[GetNetworkHealthAlertsResponseItemScopeApplicationsItem] | None = None
-    peers: list[GetNetworkHealthAlertsResponseItemScopePeersItem] | None = None
-
-
-class GetNetworkHealthAlertsResponseItem(_BaseSchema):
-    """Schema for GetNetworkHealthAlertsResponseItem."""
-
-    id_: str | None = Field(default=None, alias="id")
-    category: str | None = None
-    type_: str | None = Field(default=None, alias="type")
-    severity: str | None = None
-    scope: GetNetworkHealthAlertsResponseItemScope | None = None
 
 
 class GetNetworkHealthAlertsResponse(RootModel[list[GetNetworkHealthAlertsResponseItem]]):
     """Return all global alerts on this network."""
-
-
-class GetNetworkMqttBrokersResponseItemSecurity(_BaseSchema):
-    """Security settings of the MQTT broker."""
-
-    mode: str | None = None
-    tls: GetNetworkMqttBrokersResponseItemSecurityTls | None = None
-
-
-class GetNetworkMqttBrokersResponseItem(_BaseSchema):
-    """Schema for GetNetworkMqttBrokersResponseItem."""
-
-    id_: str | None = Field(default=None, alias="id")
-    name: str | None = None
-    host: str | None = None
-    port: int | None = None
-    security: GetNetworkMqttBrokersResponseItemSecurity | None = None
-    authentication: GetNetworkMqttBrokersResponseItemAuthentication | None = None
-
-
-class GetNetworkMqttBrokersResponse(RootModel[list[GetNetworkMqttBrokersResponseItem]]):
-    """List the MQTT brokers for this network."""
-
-
-class CreateNetworkMqttBrokerResponseSecurity(_BaseSchema):
-    """Security settings of the MQTT broker."""
-
-    mode: str | None = None
-    tls: CreateNetworkMqttBrokerResponseSecurityTls | None = None
-
-
-class CreateNetworkMqttBrokerResponse(_BaseSchema):
-    """Add an MQTT broker."""
-
-    id_: str | None = Field(default=None, alias="id")
-    name: str | None = None
-    host: str | None = None
-    port: int | None = None
-    security: CreateNetworkMqttBrokerResponseSecurity | None = None
-    authentication: CreateNetworkMqttBrokerResponseAuthentication | None = None
-
-
-class GetNetworkMqttBrokerResponseSecurity(_BaseSchema):
-    """Security settings of the MQTT broker."""
-
-    mode: str | None = None
-    tls: GetNetworkMqttBrokerResponseSecurityTls | None = None
-
-
-class GetNetworkMqttBrokerResponse(_BaseSchema):
-    """Return an MQTT broker."""
-
-    id_: str | None = Field(default=None, alias="id")
-    name: str | None = None
-    host: str | None = None
-    port: int | None = None
-    security: GetNetworkMqttBrokerResponseSecurity | None = None
-    authentication: GetNetworkMqttBrokerResponseAuthentication | None = None
-
-
-class UpdateNetworkMqttBrokerResponseSecurity(_BaseSchema):
-    """Security settings of the MQTT broker."""
-
-    mode: str | None = None
-    tls: UpdateNetworkMqttBrokerResponseSecurityTls | None = None
-
-
-class UpdateNetworkMqttBrokerResponse(_BaseSchema):
-    """Update an MQTT broker."""
-
-    id_: str | None = Field(default=None, alias="id")
-    name: str | None = None
-    host: str | None = None
-    port: int | None = None
-    security: UpdateNetworkMqttBrokerResponseSecurity | None = None
-    authentication: UpdateNetworkMqttBrokerResponseAuthentication | None = None
-
-
-class GetNetworkSettingsResponseLocalStatusPage(_BaseSchema):
-    """A hash of Local Status page(s)' authentication options applied to the Network."""
-
-    authentication: GetNetworkSettingsResponseLocalStatusPageAuthentication | None = None
-
-
-class GetNetworkSettingsResponse(_BaseSchema):
-    """Return the settings for a network."""
-
-    local_status_page_enabled: bool | None = Field(default=None, alias="localStatusPageEnabled")
-    remote_status_page_enabled: bool | None = Field(default=None, alias="remoteStatusPageEnabled")
-    local_status_page: GetNetworkSettingsResponseLocalStatusPage | None = Field(
-        default=None, alias="localStatusPage"
-    )
-    secure_port: GetNetworkSettingsResponseSecurePort | None = Field(
-        default=None, alias="securePort"
-    )
-    fips: GetNetworkSettingsResponseFips | None = None
-    named_vlans: GetNetworkSettingsResponseNamedVlans | None = Field(
-        default=None, alias="namedVlans"
-    )
-
-
-class UpdateNetworkSettingsResponseLocalStatusPage(_BaseSchema):
-    """A hash of Local Status page(s)' authentication options applied to the Network."""
-
-    authentication: UpdateNetworkSettingsResponseLocalStatusPageAuthentication | None = None
-
-
-class UpdateNetworkSettingsResponse(_BaseSchema):
-    """Update the settings for a network."""
-
-    local_status_page_enabled: bool | None = Field(default=None, alias="localStatusPageEnabled")
-    remote_status_page_enabled: bool | None = Field(default=None, alias="remoteStatusPageEnabled")
-    local_status_page: UpdateNetworkSettingsResponseLocalStatusPage | None = Field(
-        default=None, alias="localStatusPage"
-    )
-    secure_port: UpdateNetworkSettingsResponseSecurePort | None = Field(
-        default=None, alias="securePort"
-    )
-    fips: UpdateNetworkSettingsResponseFips | None = None
-    named_vlans: UpdateNetworkSettingsResponseNamedVlans | None = Field(
-        default=None, alias="namedVlans"
-    )
-
-
-class GetNetworkTopologyLinkLayerResponseNodesItemDeviceClients(_BaseSchema):
-    """Client information."""
-
-    counts: GetNetworkTopologyLinkLayerResponseNodesItemDeviceClientsCounts | None = None
-
-
-class GetNetworkTopologyLinkLayerResponseNodesItemDevice(_BaseSchema):
-    """Device information (present when type is 'device')."""
-
-    serial: str | None = None
-    name: str | None = None
-    model: str | None = None
-    product_type: str | None = Field(default=None, alias="productType")
-    status: str | None = None
-    last_reported_at: str | None = Field(default=None, alias="lastReportedAt")
-    clients: GetNetworkTopologyLinkLayerResponseNodesItemDeviceClients | None = None
-    uplinks: list[GetNetworkTopologyLinkLayerResponseNodesItemDeviceUplinksItem] | None = None
-
-
-class GetNetworkTopologyLinkLayerResponseNodesItemDiscovered(_BaseSchema):
-    """Discovered device information (present when type is 'discovered')."""
-
-    lldp: GetNetworkTopologyLinkLayerResponseNodesItemDiscoveredLldp | None = None
-    cdp: GetNetworkTopologyLinkLayerResponseNodesItemDiscoveredCdp | None = None
-
-
-class GetNetworkTopologyLinkLayerResponseNodesItemStackClients(_BaseSchema):
-    """Client information for the stack."""
-
-    counts: GetNetworkTopologyLinkLayerResponseNodesItemStackClientsCounts | None = None
-
-
-class GetNetworkTopologyLinkLayerResponseNodesItemStack(_BaseSchema):
-    """Stack information (present when type is 'stack')."""
-
-    id_: int | None = Field(default=None, alias="id")
-    name: str | None = None
-    members: list[dict[str, Any]] | None = None
-    clients: GetNetworkTopologyLinkLayerResponseNodesItemStackClients | None = None
-
-
-class GetNetworkTopologyLinkLayerResponseNodesItem(_BaseSchema):
-    """Schema for GetNetworkTopologyLinkLayerResponseNodesItem."""
-
-    derived_id: str | None = Field(default=None, alias="derivedId")
-    mac: str | None = None
-    type_: str | None = Field(default=None, alias="type")
-    root: bool | None = None
-    device: GetNetworkTopologyLinkLayerResponseNodesItemDevice | None = None
-    discovered: GetNetworkTopologyLinkLayerResponseNodesItemDiscovered | None = None
-    stack: GetNetworkTopologyLinkLayerResponseNodesItemStack | None = None
-
-
-class GetNetworkTopologyLinkLayerResponseLinksItemEndsItemDiscovered(_BaseSchema):
-    """Discovered LLDP/CDP information at this end."""
-
-    lldp: GetNetworkTopologyLinkLayerResponseLinksItemEndsItemDiscoveredLldp | None = None
-    cdp: GetNetworkTopologyLinkLayerResponseLinksItemEndsItemDiscoveredCdp | None = None
-
-
-class GetNetworkTopologyLinkLayerResponseLinksItemEndsItem(_BaseSchema):
-    """Schema for GetNetworkTopologyLinkLayerResponseLinksItemEndsItem."""
-
-    node: GetNetworkTopologyLinkLayerResponseLinksItemEndsItemNode | None = None
-    device: GetNetworkTopologyLinkLayerResponseLinksItemEndsItemDevice | None = None
-    discovered: GetNetworkTopologyLinkLayerResponseLinksItemEndsItemDiscovered | None = None
-
-
-class GetNetworkTopologyLinkLayerResponseLinksItem(_BaseSchema):
-    """Schema for GetNetworkTopologyLinkLayerResponseLinksItem."""
-
-    ends: list[GetNetworkTopologyLinkLayerResponseLinksItemEndsItem] | None = None
-    last_reported_at: str | None = Field(default=None, alias="lastReportedAt")
 
 
 class GetNetworkTopologyLinkLayerResponse(_BaseSchema):
@@ -5479,220 +2119,123 @@ class GetNetworkTopologyLinkLayerResponse(_BaseSchema):
     errors: list[str] | None = None
 
 
-class GetNetworkVlanProfilesResponseItemVlanNamesItem(_BaseSchema):
-    """Schema for GetNetworkVlanProfilesResponseItemVlanNamesItem."""
+class UpdateNetworkFirmwareUpgradesResponse(_BaseSchema):
+    """Update firmware upgrade information for a network."""
 
-    name: str | None = None
-    vlan_id: str | None = Field(default=None, alias="vlanId")
-    adaptive_policy_group: (
-        GetNetworkVlanProfilesResponseItemVlanNamesItemAdaptivePolicyGroup | None
-    ) = Field(default=None, alias="adaptivePolicyGroup")
-
-
-class GetNetworkVlanProfilesResponseItem(_BaseSchema):
-    """Schema for GetNetworkVlanProfilesResponseItem."""
-
-    iname: str | None = None
-    name: str | None = None
-    is_default: bool | None = Field(default=None, alias="isDefault")
-    vlan_names: list[GetNetworkVlanProfilesResponseItemVlanNamesItem] | None = Field(
-        default=None, alias="vlanNames"
+    upgrade_window: GetNetworkFirmwareUpgradesResponseUpgradeWindow | None = Field(
+        default=None, alias="upgradeWindow"
     )
-    vlan_groups: list[GetNetworkVlanProfilesResponseItemVlanGroupsItem] | None = Field(
-        default=None, alias="vlanGroups"
+    timezone: str | None = None
+    products: GetNetworkFirmwareUpgradesResponseProducts | None = None
+
+
+class UpdateNetworkFirmwareUpgradesStagedEventsResponse(_BaseSchema):
+    """Update the Staged Upgrade Event for a network."""
+
+    products: GetNetworkFirmwareUpgradesStagedEventsResponseProducts | None = None
+    stages: list[GetNetworkFirmwareUpgradesStagedEventsResponseStagesItem] | None = None
+    reasons: list[CreateNetworkFirmwareUpgradesRollbackResponseReasonsItem] | None = None
+
+
+class CreateNetworkFirmwareUpgradesStagedEventResponse(_BaseSchema):
+    """Create a Staged Upgrade Event for a network."""
+
+    products: GetNetworkFirmwareUpgradesStagedEventsResponseProducts | None = None
+    stages: list[GetNetworkFirmwareUpgradesStagedEventsResponseStagesItem] | None = None
+    reasons: list[CreateNetworkFirmwareUpgradesRollbackResponseReasonsItem] | None = None
+
+
+class DeferNetworkFirmwareUpgradesStagedEventsResponse(_BaseSchema):
+    """Postpone by 1 week all pending staged upgrade stages for a network."""
+
+    products: GetNetworkFirmwareUpgradesStagedEventsResponseProducts | None = None
+    stages: list[GetNetworkFirmwareUpgradesStagedEventsResponseStagesItem] | None = None
+    reasons: list[CreateNetworkFirmwareUpgradesRollbackResponseReasonsItem] | None = None
+
+
+class RollbacksNetworkFirmwareUpgradesStagedEventsResponse(_BaseSchema):
+    """Rollback a Staged Upgrade Event for a network."""
+
+    products: GetNetworkFirmwareUpgradesStagedEventsResponseProducts | None = None
+    stages: list[GetNetworkFirmwareUpgradesStagedEventsResponseStagesItem] | None = None
+    reasons: list[CreateNetworkFirmwareUpgradesRollbackResponseReasonsItem] | None = None
+
+
+class GetNetworkGroupPoliciesResponseItem(_BaseSchema):
+    """Schema for GetNetworkGroupPoliciesResponseItem."""
+
+    group_policy_id: str | None = Field(default=None, alias="groupPolicyId")
+    scheduling: NetworksScheduling | None = None
+    bandwidth: NetworksBandwidth | None = None
+    firewall_and_traffic_shaping: NetworksFirewallAndTrafficShaping | None = Field(
+        default=None, alias="firewallAndTrafficShaping"
     )
-
-
-class GetNetworkVlanProfilesResponse(RootModel[list[GetNetworkVlanProfilesResponseItem]]):
-    """List VLAN profiles for a network."""
-
-
-class CreateNetworkVlanProfileResponseVlanNamesItem(_BaseSchema):
-    """Schema for CreateNetworkVlanProfileResponseVlanNamesItem."""
-
-    name: str | None = None
-    vlan_id: str | None = Field(default=None, alias="vlanId")
-    adaptive_policy_group: (
-        CreateNetworkVlanProfileResponseVlanNamesItemAdaptivePolicyGroup | None
-    ) = Field(default=None, alias="adaptivePolicyGroup")
-
-
-class CreateNetworkVlanProfileResponse(_BaseSchema):
-    """Create a VLAN profile for a network."""
-
-    iname: str | None = None
-    name: str | None = None
-    is_default: bool | None = Field(default=None, alias="isDefault")
-    vlan_names: list[CreateNetworkVlanProfileResponseVlanNamesItem] | None = Field(
-        default=None, alias="vlanNames"
+    content_filtering: NetworksContentFiltering | None = Field(
+        default=None, alias="contentFiltering"
     )
-    vlan_groups: list[CreateNetworkVlanProfileResponseVlanGroupsItem] | None = Field(
-        default=None, alias="vlanGroups"
-    )
-
-
-class GetNetworkVlanProfilesAssignmentsByDeviceResponseItem(_BaseSchema):
-    """Schema for GetNetworkVlanProfilesAssignmentsByDeviceResponseItem."""
-
-    name: str | None = None
-    serial: str | None = None
-    mac: str | None = None
-    product_type: str | None = Field(default=None, alias="productType")
-    vlan_profile: GetNetworkVlanProfilesAssignmentsByDeviceResponseItemVlanProfile | None = Field(
-        default=None, alias="vlanProfile"
-    )
-    stack: GetNetworkVlanProfilesAssignmentsByDeviceResponseItemStack | None = None
-
-
-class GetNetworkVlanProfilesAssignmentsByDeviceResponse(
-    RootModel[list[GetNetworkVlanProfilesAssignmentsByDeviceResponseItem]]
-):
-    """Get the assigned VLAN Profiles for devices in a network."""
-
-
-class GetNetworkVlanProfileResponseVlanNamesItem(_BaseSchema):
-    """Schema for GetNetworkVlanProfileResponseVlanNamesItem."""
-
-    name: str | None = None
-    vlan_id: str | None = Field(default=None, alias="vlanId")
-    adaptive_policy_group: GetNetworkVlanProfileResponseVlanNamesItemAdaptivePolicyGroup | None = (
-        Field(default=None, alias="adaptivePolicyGroup")
+    splash_auth_settings: str | None = Field(default=None, alias="splashAuthSettings")
+    vlan_tagging: NetworksVlanTagging | None = Field(default=None, alias="vlanTagging")
+    bonjour_forwarding: NetworksBonjourForwarding | None = Field(
+        default=None, alias="bonjourForwarding"
     )
 
 
-class GetNetworkVlanProfileResponse(_BaseSchema):
-    """Get an existing VLAN profile of a network."""
+class CreateNetworkGroupPolicyResponse(_BaseSchema):
+    """Create a group policy."""
 
-    iname: str | None = None
-    name: str | None = None
-    is_default: bool | None = Field(default=None, alias="isDefault")
-    vlan_names: list[GetNetworkVlanProfileResponseVlanNamesItem] | None = Field(
-        default=None, alias="vlanNames"
+    group_policy_id: str | None = Field(default=None, alias="groupPolicyId")
+    scheduling: NetworksScheduling | None = None
+    bandwidth: NetworksBandwidth | None = None
+    firewall_and_traffic_shaping: NetworksFirewallAndTrafficShaping | None = Field(
+        default=None, alias="firewallAndTrafficShaping"
     )
-    vlan_groups: list[GetNetworkVlanProfileResponseVlanGroupsItem] | None = Field(
-        default=None, alias="vlanGroups"
+    content_filtering: NetworksContentFiltering | None = Field(
+        default=None, alias="contentFiltering"
     )
-
-
-class UpdateNetworkVlanProfileResponseVlanNamesItem(_BaseSchema):
-    """Schema for UpdateNetworkVlanProfileResponseVlanNamesItem."""
-
-    name: str | None = None
-    vlan_id: str | None = Field(default=None, alias="vlanId")
-    adaptive_policy_group: (
-        UpdateNetworkVlanProfileResponseVlanNamesItemAdaptivePolicyGroup | None
-    ) = Field(default=None, alias="adaptivePolicyGroup")
-
-
-class UpdateNetworkVlanProfileResponse(_BaseSchema):
-    """Update an existing VLAN profile of a network."""
-
-    iname: str | None = None
-    name: str | None = None
-    is_default: bool | None = Field(default=None, alias="isDefault")
-    vlan_names: list[UpdateNetworkVlanProfileResponseVlanNamesItem] | None = Field(
-        default=None, alias="vlanNames"
-    )
-    vlan_groups: list[UpdateNetworkVlanProfileResponseVlanGroupsItem] | None = Field(
-        default=None, alias="vlanGroups"
+    splash_auth_settings: str | None = Field(default=None, alias="splashAuthSettings")
+    vlan_tagging: NetworksVlanTagging | None = Field(default=None, alias="vlanTagging")
+    bonjour_forwarding: NetworksBonjourForwarding | None = Field(
+        default=None, alias="bonjourForwarding"
     )
 
 
-class GetNetworkWebhooksHttpServersResponseItem(_BaseSchema):
-    """Schema for GetNetworkWebhooksHttpServersResponseItem."""
+class GetNetworkGroupPolicyResponse(_BaseSchema):
+    """Display a group policy."""
 
-    id_: str | None = Field(default=None, alias="id")
-    name: str | None = None
-    url: str | None = None
-    network_id: str | None = Field(default=None, alias="networkId")
-    payload_template: GetNetworkWebhooksHttpServersResponseItemPayloadTemplate | None = Field(
-        default=None, alias="payloadTemplate"
+    group_policy_id: str | None = Field(default=None, alias="groupPolicyId")
+    scheduling: NetworksScheduling | None = None
+    bandwidth: NetworksBandwidth | None = None
+    firewall_and_traffic_shaping: NetworksFirewallAndTrafficShaping | None = Field(
+        default=None, alias="firewallAndTrafficShaping"
+    )
+    content_filtering: NetworksContentFiltering | None = Field(
+        default=None, alias="contentFiltering"
+    )
+    splash_auth_settings: str | None = Field(default=None, alias="splashAuthSettings")
+    vlan_tagging: NetworksVlanTagging | None = Field(default=None, alias="vlanTagging")
+    bonjour_forwarding: NetworksBonjourForwarding | None = Field(
+        default=None, alias="bonjourForwarding"
     )
 
 
-class GetNetworkWebhooksHttpServersResponse(
-    RootModel[list[GetNetworkWebhooksHttpServersResponseItem]]
-):
-    """List the HTTP servers for a network."""
+class UpdateNetworkGroupPolicyResponse(_BaseSchema):
+    """Update a group policy."""
 
-
-class GetNetworkWebhooksPayloadTemplatesResponseItemSharing(_BaseSchema):
-    """Information on which entities have access to the template."""
-
-    by_network: GetNetworkWebhooksPayloadTemplatesResponseItemSharingByNetwork | None = Field(
-        default=None, alias="byNetwork"
+    group_policy_id: str | None = Field(default=None, alias="groupPolicyId")
+    scheduling: NetworksScheduling | None = None
+    bandwidth: NetworksBandwidth | None = None
+    firewall_and_traffic_shaping: NetworksFirewallAndTrafficShaping | None = Field(
+        default=None, alias="firewallAndTrafficShaping"
+    )
+    content_filtering: NetworksContentFiltering | None = Field(
+        default=None, alias="contentFiltering"
+    )
+    splash_auth_settings: str | None = Field(default=None, alias="splashAuthSettings")
+    vlan_tagging: NetworksVlanTagging | None = Field(default=None, alias="vlanTagging")
+    bonjour_forwarding: NetworksBonjourForwarding | None = Field(
+        default=None, alias="bonjourForwarding"
     )
 
 
-class GetNetworkWebhooksPayloadTemplatesResponseItem(_BaseSchema):
-    """Schema for GetNetworkWebhooksPayloadTemplatesResponseItem."""
-
-    payload_template_id: str | None = Field(default=None, alias="payloadTemplateId")
-    type_: str | None = Field(default=None, alias="type")
-    name: str | None = None
-    headers: list[GetNetworkWebhooksPayloadTemplatesResponseItemHeadersItem] | None = None
-    body: str | None = None
-    sharing: GetNetworkWebhooksPayloadTemplatesResponseItemSharing | None = None
-
-
-class GetNetworkWebhooksPayloadTemplatesResponse(
-    RootModel[list[GetNetworkWebhooksPayloadTemplatesResponseItem]]
-):
-    """List the webhook payload templates for a network."""
-
-
-class CreateNetworkWebhooksPayloadTemplateResponseSharing(_BaseSchema):
-    """Information on which entities have access to the template."""
-
-    by_network: CreateNetworkWebhooksPayloadTemplateResponseSharingByNetwork | None = Field(
-        default=None, alias="byNetwork"
-    )
-
-
-class CreateNetworkWebhooksPayloadTemplateResponse(_BaseSchema):
-    """Create a webhook payload template for a network."""
-
-    payload_template_id: str | None = Field(default=None, alias="payloadTemplateId")
-    type_: str | None = Field(default=None, alias="type")
-    name: str | None = None
-    headers: list[CreateNetworkWebhooksPayloadTemplateResponseHeadersItem] | None = None
-    body: str | None = None
-    sharing: CreateNetworkWebhooksPayloadTemplateResponseSharing | None = None
-
-
-class GetNetworkWebhooksPayloadTemplateResponseSharing(_BaseSchema):
-    """Information on which entities have access to the template."""
-
-    by_network: GetNetworkWebhooksPayloadTemplateResponseSharingByNetwork | None = Field(
-        default=None, alias="byNetwork"
-    )
-
-
-class GetNetworkWebhooksPayloadTemplateResponse(_BaseSchema):
-    """Get the webhook payload template for a network."""
-
-    payload_template_id: str | None = Field(default=None, alias="payloadTemplateId")
-    type_: str | None = Field(default=None, alias="type")
-    name: str | None = None
-    headers: list[GetNetworkWebhooksPayloadTemplateResponseHeadersItem] | None = None
-    body: str | None = None
-    sharing: GetNetworkWebhooksPayloadTemplateResponseSharing | None = None
-
-
-class UpdateNetworkWebhooksPayloadTemplateResponseSharing(_BaseSchema):
-    """Information on which entities have access to the template."""
-
-    by_network: UpdateNetworkWebhooksPayloadTemplateResponseSharingByNetwork | None = Field(
-        default=None, alias="byNetwork"
-    )
-
-
-class UpdateNetworkWebhooksPayloadTemplateResponse(_BaseSchema):
-    """Update a webhook payload template for a network."""
-
-    payload_template_id: str | None = Field(default=None, alias="payloadTemplateId")
-    type_: str | None = Field(default=None, alias="type")
-    name: str | None = None
-    headers: list[UpdateNetworkWebhooksPayloadTemplateResponseHeadersItem] | None = None
-    body: str | None = None
-    sharing: UpdateNetworkWebhooksPayloadTemplateResponseSharing | None = None
+class GetNetworkGroupPoliciesResponse(RootModel[list[GetNetworkGroupPoliciesResponseItem]]):
+    """List the group policies in a network."""

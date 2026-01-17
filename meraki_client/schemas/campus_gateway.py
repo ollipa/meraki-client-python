@@ -9,8 +9,8 @@ from pydantic import Field
 from meraki_client.schemas._base import _BaseSchema
 
 
-class CreateNetworkCampusGatewayClusterResponseUplinksItemAddressesItem(_BaseSchema):
-    """Schema for CreateNetworkCampusGatewayClusterResponseUplinksItemAddressesItem."""
+class CampusGatewayUplinksAddressesItem(_BaseSchema):
+    """Schema for CampusGatewayUplinksAddressesItem."""
 
     assignment_mode: str | None = Field(default=None, alias="assignmentMode")
     protocol: str | None = None
@@ -18,14 +18,14 @@ class CreateNetworkCampusGatewayClusterResponseUplinksItemAddressesItem(_BaseSch
     subnet_mask: str | None = Field(default=None, alias="subnetMask")
 
 
-class CreateNetworkCampusGatewayClusterResponseTunnelsItemUplink(_BaseSchema):
+class CampusGatewayTunnelsUplink(_BaseSchema):
     """Use uplink interface as tunnel interface."""
 
     interface: str | None = None
 
 
-class CreateNetworkCampusGatewayClusterResponseTunnelsItemAddressesItem(_BaseSchema):
-    """Schema for CreateNetworkCampusGatewayClusterResponseTunnelsItemAddressesItem."""
+class CampusGatewayTunnelsAddressesItem(_BaseSchema):
+    """Schema for CampusGatewayTunnelsAddressesItem."""
 
     protocol: str | None = None
     gateway: str | None = None
@@ -47,174 +47,34 @@ class CreateNetworkCampusGatewayClusterResponsePortChannelsItem(_BaseSchema):
     allowed_vlans: str | None = Field(default=None, alias="allowedVlans")
 
 
-class CreateNetworkCampusGatewayClusterResponseDevicesItemUplinksItemAddressesItem(_BaseSchema):
-    """Schema for CreateNetworkCampusGatewayClusterResponseDevicesItemUplinksItemAddressesItem."""
+class CampusGatewayAddressesItem(_BaseSchema):
+    """Schema for CampusGatewayAddressesItem."""
 
     protocol: str | None = None
     address: str | None = None
 
 
-class CreateNetworkCampusGatewayClusterResponseDevicesItemTunnelsItemAddressesItem(_BaseSchema):
-    """Schema for CreateNetworkCampusGatewayClusterResponseDevicesItemTunnelsItemAddressesItem."""
-
-    protocol: str | None = None
-    address: str | None = None
-
-
-class UpdateNetworkCampusGatewayClusterResponseUplinksItemAddressesItem(_BaseSchema):
-    """Schema for UpdateNetworkCampusGatewayClusterResponseUplinksItemAddressesItem."""
-
-    assignment_mode: str | None = Field(default=None, alias="assignmentMode")
-    protocol: str | None = None
-    gateway: str | None = None
-    subnet_mask: str | None = Field(default=None, alias="subnetMask")
-
-
-class UpdateNetworkCampusGatewayClusterResponseTunnelsItemUplink(_BaseSchema):
-    """Use uplink interface as tunnel interface."""
-
-    interface: str | None = None
-
-
-class UpdateNetworkCampusGatewayClusterResponseTunnelsItemAddressesItem(_BaseSchema):
-    """Schema for UpdateNetworkCampusGatewayClusterResponseTunnelsItemAddressesItem."""
-
-    protocol: str | None = None
-    gateway: str | None = None
-    subnet_mask: str | None = Field(default=None, alias="subnetMask")
-
-
-class UpdateNetworkCampusGatewayClusterResponseNameservers(_BaseSchema):
-    """Nameservers of the cluster."""
-
-    addresses: list[str] | None = None
-
-
-class UpdateNetworkCampusGatewayClusterResponsePortChannelsItem(_BaseSchema):
-    """Schema for UpdateNetworkCampusGatewayClusterResponsePortChannelsItem."""
-
-    id_: str | None = Field(default=None, alias="id")
-    name: str | None = None
-    vlan: int | None = None
-    allowed_vlans: str | None = Field(default=None, alias="allowedVlans")
-
-
-class UpdateNetworkCampusGatewayClusterResponseDevicesItemUplinksItemAddressesItem(_BaseSchema):
-    """Schema for UpdateNetworkCampusGatewayClusterResponseDevicesItemUplinksItemAddressesItem."""
-
-    protocol: str | None = None
-    address: str | None = None
-
-
-class UpdateNetworkCampusGatewayClusterResponseDevicesItemTunnelsItemAddressesItem(_BaseSchema):
-    """Schema for UpdateNetworkCampusGatewayClusterResponseDevicesItemTunnelsItemAddressesItem."""
-
-    protocol: str | None = None
-    address: str | None = None
-
-
-class GetOrganizationCampusGatewayClustersResponseItemsItemNetwork(_BaseSchema):
+class CampusGatewayNetwork(_BaseSchema):
     """Network details of the cluster."""
 
     id_: str | None = Field(default=None, alias="id")
 
 
-class GetOrganizationCampusGatewayClustersResponseItemsItemUplinksItemAddressesItem(_BaseSchema):
-    """Schema for GetOrganizationCampusGatewayClustersResponseItemsItemUplinksItemAddressesItem."""
-
-    assignment_mode: str | None = Field(default=None, alias="assignmentMode")
-    protocol: str | None = None
-    gateway: str | None = None
-    subnet_mask: str | None = Field(default=None, alias="subnetMask")
-
-
-class GetOrganizationCampusGatewayClustersResponseItemsItemTunnelsItemUplink(_BaseSchema):
-    """Use uplink interface as tunnel interface."""
-
-    interface: str | None = None
-
-
-class GetOrganizationCampusGatewayClustersResponseItemsItemTunnelsItemAddressesItem(_BaseSchema):
-    """Schema for GetOrganizationCampusGatewayClustersResponseItemsItemTunnelsItemAddressesItem."""
-
-    protocol: str | None = None
-    gateway: str | None = None
-    subnet_mask: str | None = Field(default=None, alias="subnetMask")
-
-
-class GetOrganizationCampusGatewayClustersResponseItemsItemNameservers(_BaseSchema):
-    """Nameservers of the cluster."""
-
-    addresses: list[str] | None = None
-
-
-class GetOrganizationCampusGatewayClustersResponseItemsItemPortChannelsItem(_BaseSchema):
-    """Schema for GetOrganizationCampusGatewayClustersResponseItemsItemPortChannelsItem."""
-
-    id_: str | None = Field(default=None, alias="id")
-    name: str | None = None
-    vlan: int | None = None
-    allowed_vlans: str | None = Field(default=None, alias="allowedVlans")
-
-
-class GetOrganizationCampusGatewayClustersResponseItemsItemDevicesItemUplinksItemAddressesItem(
-    _BaseSchema
-):
-    """Schema for
-    GetOrganizationCampusGatewayClustersResponseItemsItemDevicesItemUplinksItemAddressesItem.
-    """
-
-    protocol: str | None = None
-    address: str | None = None
-
-
-class GetOrganizationCampusGatewayClustersResponseItemsItemDevicesItemTunnelsItemAddressesItem(
-    _BaseSchema
-):
-    """Schema for
-    GetOrganizationCampusGatewayClustersResponseItemsItemDevicesItemTunnelsItemAddressesItem.
-    """
-
-    protocol: str | None = None
-    address: str | None = None
-
-
-class GetOrganizationCampusGatewayClustersResponseMetaCountsItems(_BaseSchema):
+class CampusGatewayItems(_BaseSchema):
     """The count metadata."""
 
     total: int | None = None
     remaining: int | None = None
 
 
-class GetOrganizationCampusGatewayDevicesUplinksLocalOverridesByDeviceResponseItemsItemUplinkAddressesItem(
-    _BaseSchema
-):
-    """Schema for GetOrganizationCampusGatewayDevicesUplinksLocalOverridesByDeviceResponseItemsItem
-    UplinkAddressesItem.
-    """
+class CampusGatewayAddressesItem2(_BaseSchema):
+    """Schema for CampusGatewayAddressesItem2."""
 
     assignment_mode: str | None = Field(default=None, alias="assignmentMode")
     protocol: str | None = None
     gateway: str | None = None
     subnet_mask: str | None = Field(default=None, alias="subnetMask")
     address: str | None = None
-
-
-class GetOrganizationCampusGatewayDevicesUplinksLocalOverridesByDeviceResponseItemsItemNameservers(
-    _BaseSchema
-):
-    """Nameservers of the cluster."""
-
-    addresses: list[str] | None = None
-
-
-class GetOrganizationCampusGatewayDevicesUplinksLocalOverridesByDeviceResponseMetaCountsItems(
-    _BaseSchema
-):
-    """The count metadata."""
-
-    total: int | None = None
-    remaining: int | None = None
 
 
 class CreateNetworkCampusGatewayClusterResponseUplinksItem(_BaseSchema):
@@ -222,100 +82,37 @@ class CreateNetworkCampusGatewayClusterResponseUplinksItem(_BaseSchema):
 
     interface: str | None = None
     vlan: int | None = None
-    addresses: list[CreateNetworkCampusGatewayClusterResponseUplinksItemAddressesItem] | None = None
+    addresses: list[CampusGatewayUplinksAddressesItem] | None = None
 
 
-class CreateNetworkCampusGatewayClusterResponseDevicesItemUplinksItem(_BaseSchema):
-    """Schema for CreateNetworkCampusGatewayClusterResponseDevicesItemUplinksItem."""
+class CreateNetworkCampusGatewayClusterResponseTunnelsItem(_BaseSchema):
+    """Schema for CreateNetworkCampusGatewayClusterResponseTunnelsItem."""
 
-    interface: str | None = None
-    addresses: (
-        list[CreateNetworkCampusGatewayClusterResponseDevicesItemUplinksItemAddressesItem] | None
-    ) = None
-
-
-class CreateNetworkCampusGatewayClusterResponseDevicesItemTunnelsItem(_BaseSchema):
-    """Schema for CreateNetworkCampusGatewayClusterResponseDevicesItemTunnelsItem."""
-
-    interface: str | None = None
-    addresses: (
-        list[CreateNetworkCampusGatewayClusterResponseDevicesItemTunnelsItemAddressesItem] | None
-    ) = None
-
-
-class UpdateNetworkCampusGatewayClusterResponseUplinksItem(_BaseSchema):
-    """Schema for UpdateNetworkCampusGatewayClusterResponseUplinksItem."""
-
+    uplink: CampusGatewayTunnelsUplink | None = None
     interface: str | None = None
     vlan: int | None = None
-    addresses: list[UpdateNetworkCampusGatewayClusterResponseUplinksItemAddressesItem] | None = None
+    addresses: list[CampusGatewayTunnelsAddressesItem] | None = None
 
 
-class UpdateNetworkCampusGatewayClusterResponseDevicesItemUplinksItem(_BaseSchema):
-    """Schema for UpdateNetworkCampusGatewayClusterResponseDevicesItemUplinksItem."""
-
-    interface: str | None = None
-    addresses: (
-        list[UpdateNetworkCampusGatewayClusterResponseDevicesItemUplinksItemAddressesItem] | None
-    ) = None
-
-
-class UpdateNetworkCampusGatewayClusterResponseDevicesItemTunnelsItem(_BaseSchema):
-    """Schema for UpdateNetworkCampusGatewayClusterResponseDevicesItemTunnelsItem."""
+class CampusGatewayDevicesUplinksItem(_BaseSchema):
+    """Schema for CampusGatewayDevicesUplinksItem."""
 
     interface: str | None = None
-    addresses: (
-        list[UpdateNetworkCampusGatewayClusterResponseDevicesItemTunnelsItemAddressesItem] | None
-    ) = None
+    addresses: list[CampusGatewayAddressesItem] | None = None
 
 
-class GetOrganizationCampusGatewayClustersResponseItemsItemUplinksItem(_BaseSchema):
-    """Schema for GetOrganizationCampusGatewayClustersResponseItemsItemUplinksItem."""
+class CampusGatewayMetaCounts(_BaseSchema):
+    """Count metadata related to this result set."""
 
-    interface: str | None = None
-    vlan: int | None = None
-    addresses: (
-        list[GetOrganizationCampusGatewayClustersResponseItemsItemUplinksItemAddressesItem] | None
-    ) = None
+    items: CampusGatewayItems | None = None
 
 
-class GetOrganizationCampusGatewayClustersResponseItemsItemDevicesItemUplinksItem(_BaseSchema):
-    """Schema for GetOrganizationCampusGatewayClustersResponseItemsItemDevicesItemUplinksItem."""
-
-    interface: str | None = None
-    addresses: (
-        list[
-            GetOrganizationCampusGatewayClustersResponseItemsItemDevicesItemUplinksItemAddressesItem
-        ]
-        | None
-    ) = None
-
-
-class GetOrganizationCampusGatewayClustersResponseItemsItemDevicesItemTunnelsItem(_BaseSchema):
-    """Schema for GetOrganizationCampusGatewayClustersResponseItemsItemDevicesItemTunnelsItem."""
-
-    interface: str | None = None
-    addresses: (
-        list[
-            GetOrganizationCampusGatewayClustersResponseItemsItemDevicesItemTunnelsItemAddressesItem
-        ]
-        | None
-    ) = None
-
-
-class GetOrganizationCampusGatewayDevicesUplinksLocalOverridesByDeviceResponseItemsItemUplink(
-    _BaseSchema
-):
+class CampusGatewayUplink(_BaseSchema):
     """Uplink setting of the cluster."""
 
     interface: str | None = None
     vlan: int | None = None
-    addresses: (
-        list[
-            GetOrganizationCampusGatewayDevicesUplinksLocalOverridesByDeviceResponseItemsItemUplinkAddressesItem
-        ]
-        | None
-    ) = None
+    addresses: list[CampusGatewayAddressesItem2] | None = None
 
 
 class CreateNetworkCampusGatewayClusterResponseDevicesItem(_BaseSchema):
@@ -323,39 +120,14 @@ class CreateNetworkCampusGatewayClusterResponseDevicesItem(_BaseSchema):
 
     serial: str | None = None
     member_id: str | None = Field(default=None, alias="memberId")
-    uplinks: list[CreateNetworkCampusGatewayClusterResponseDevicesItemUplinksItem] | None = None
-    tunnels: list[CreateNetworkCampusGatewayClusterResponseDevicesItemTunnelsItem] | None = None
+    uplinks: list[CampusGatewayDevicesUplinksItem] | None = None
+    tunnels: list[CampusGatewayDevicesUplinksItem] | None = None
 
 
-class UpdateNetworkCampusGatewayClusterResponseDevicesItem(_BaseSchema):
-    """Schema for UpdateNetworkCampusGatewayClusterResponseDevicesItem."""
+class GetOrganizationCampusGatewayClustersResponseMeta(_BaseSchema):
+    """Other metadata related to this result set."""
 
-    serial: str | None = None
-    member_id: str | None = Field(default=None, alias="memberId")
-    uplinks: list[UpdateNetworkCampusGatewayClusterResponseDevicesItemUplinksItem] | None = None
-    tunnels: list[UpdateNetworkCampusGatewayClusterResponseDevicesItemTunnelsItem] | None = None
-
-
-class GetOrganizationCampusGatewayClustersResponseItemsItemDevicesItem(_BaseSchema):
-    """Schema for GetOrganizationCampusGatewayClustersResponseItemsItemDevicesItem."""
-
-    serial: str | None = None
-    member_id: str | None = Field(default=None, alias="memberId")
-    uplinks: (
-        list[GetOrganizationCampusGatewayClustersResponseItemsItemDevicesItemUplinksItem] | None
-    ) = None
-    tunnels: (
-        list[GetOrganizationCampusGatewayClustersResponseItemsItemDevicesItemTunnelsItem] | None
-    ) = None
-
-
-class CreateNetworkCampusGatewayClusterResponseTunnelsItem(_BaseSchema):
-    """Schema for CreateNetworkCampusGatewayClusterResponseTunnelsItem."""
-
-    uplink: CreateNetworkCampusGatewayClusterResponseTunnelsItemUplink | None = None
-    interface: str | None = None
-    vlan: int | None = None
-    addresses: list[CreateNetworkCampusGatewayClusterResponseTunnelsItemAddressesItem] | None = None
+    counts: CampusGatewayMetaCounts | None = None
 
 
 class CreateNetworkCampusGatewayClusterResponse(_BaseSchema):
@@ -374,69 +146,46 @@ class CreateNetworkCampusGatewayClusterResponse(_BaseSchema):
     url: str | None = None
 
 
-class UpdateNetworkCampusGatewayClusterResponseTunnelsItem(_BaseSchema):
-    """Schema for UpdateNetworkCampusGatewayClusterResponseTunnelsItem."""
-
-    uplink: UpdateNetworkCampusGatewayClusterResponseTunnelsItemUplink | None = None
-    interface: str | None = None
-    vlan: int | None = None
-    addresses: list[UpdateNetworkCampusGatewayClusterResponseTunnelsItemAddressesItem] | None = None
-
-
 class UpdateNetworkCampusGatewayClusterResponse(_BaseSchema):
     """Update a cluster and add/remove campus gateways to/from it."""
 
     cluster_id: str | None = Field(default=None, alias="clusterId")
     name: str | None = None
-    uplinks: list[UpdateNetworkCampusGatewayClusterResponseUplinksItem] | None = None
-    tunnels: list[UpdateNetworkCampusGatewayClusterResponseTunnelsItem] | None = None
-    nameservers: UpdateNetworkCampusGatewayClusterResponseNameservers | None = None
-    port_channels: list[UpdateNetworkCampusGatewayClusterResponsePortChannelsItem] | None = Field(
+    uplinks: list[CreateNetworkCampusGatewayClusterResponseUplinksItem] | None = None
+    tunnels: list[CreateNetworkCampusGatewayClusterResponseTunnelsItem] | None = None
+    nameservers: CreateNetworkCampusGatewayClusterResponseNameservers | None = None
+    port_channels: list[CreateNetworkCampusGatewayClusterResponsePortChannelsItem] | None = Field(
         default=None, alias="portChannels"
     )
-    devices: list[UpdateNetworkCampusGatewayClusterResponseDevicesItem] | None = None
+    devices: list[CreateNetworkCampusGatewayClusterResponseDevicesItem] | None = None
     notes: str | None = None
     url: str | None = None
-
-
-class GetOrganizationCampusGatewayClustersResponseItemsItemTunnelsItem(_BaseSchema):
-    """Schema for GetOrganizationCampusGatewayClustersResponseItemsItemTunnelsItem."""
-
-    uplink: GetOrganizationCampusGatewayClustersResponseItemsItemTunnelsItemUplink | None = None
-    interface: str | None = None
-    vlan: int | None = None
-    addresses: (
-        list[GetOrganizationCampusGatewayClustersResponseItemsItemTunnelsItemAddressesItem] | None
-    ) = None
 
 
 class GetOrganizationCampusGatewayClustersResponseItemsItem(_BaseSchema):
     """Schema for GetOrganizationCampusGatewayClustersResponseItemsItem."""
 
-    network: GetOrganizationCampusGatewayClustersResponseItemsItemNetwork | None = None
+    network: CampusGatewayNetwork | None = None
     cluster_id: str | None = Field(default=None, alias="clusterId")
     name: str | None = None
-    uplinks: list[GetOrganizationCampusGatewayClustersResponseItemsItemUplinksItem] | None = None
-    tunnels: list[GetOrganizationCampusGatewayClustersResponseItemsItemTunnelsItem] | None = None
-    nameservers: GetOrganizationCampusGatewayClustersResponseItemsItemNameservers | None = None
-    port_channels: (
-        list[GetOrganizationCampusGatewayClustersResponseItemsItemPortChannelsItem] | None
-    ) = Field(default=None, alias="portChannels")
-    devices: list[GetOrganizationCampusGatewayClustersResponseItemsItemDevicesItem] | None = None
+    uplinks: list[CreateNetworkCampusGatewayClusterResponseUplinksItem] | None = None
+    tunnels: list[CreateNetworkCampusGatewayClusterResponseTunnelsItem] | None = None
+    nameservers: CreateNetworkCampusGatewayClusterResponseNameservers | None = None
+    port_channels: list[CreateNetworkCampusGatewayClusterResponsePortChannelsItem] | None = Field(
+        default=None, alias="portChannels"
+    )
+    devices: list[CreateNetworkCampusGatewayClusterResponseDevicesItem] | None = None
     notes: str | None = None
     url: str | None = None
 
 
-class GetOrganizationCampusGatewayClustersResponseMetaCounts(_BaseSchema):
-    """Count metadata related to this result set."""
+class CampusGatewayItemsItem(_BaseSchema):
+    """Schema for CampusGatewayItemsItem."""
 
-    items: GetOrganizationCampusGatewayClustersResponseMetaCountsItems | None = None
-
-
-class GetOrganizationCampusGatewayClustersResponseMeta(_BaseSchema):
-    """Other metadata related to this result set."""
-
-    counts: GetOrganizationCampusGatewayClustersResponseMetaCounts | None = None
+    serial: str | None = None
+    uplink: CampusGatewayUplink | None = None
+    nameservers: CreateNetworkCampusGatewayClusterResponseNameservers | None = None
+    sgt: int | None = None
 
 
 class GetOrganizationCampusGatewayClustersResponse(_BaseSchema):
@@ -446,49 +195,8 @@ class GetOrganizationCampusGatewayClustersResponse(_BaseSchema):
     meta: GetOrganizationCampusGatewayClustersResponseMeta | None = None
 
 
-class GetOrganizationCampusGatewayDevicesUplinksLocalOverridesByDeviceResponseItemsItem(
-    _BaseSchema
-):
-    """Schema for
-    GetOrganizationCampusGatewayDevicesUplinksLocalOverridesByDeviceResponseItemsItem.
-    """
-
-    serial: str | None = None
-    uplink: (
-        GetOrganizationCampusGatewayDevicesUplinksLocalOverridesByDeviceResponseItemsItemUplink
-        | None
-    ) = None
-    nameservers: (
-        GetOrganizationCampusGatewayDevicesUplinksLocalOverridesByDeviceResponseItemsItemNameservers
-        | None
-    ) = None
-    sgt: int | None = None
-
-
-class GetOrganizationCampusGatewayDevicesUplinksLocalOverridesByDeviceResponseMetaCounts(
-    _BaseSchema
-):
-    """Count metadata related to this result set."""
-
-    items: (
-        GetOrganizationCampusGatewayDevicesUplinksLocalOverridesByDeviceResponseMetaCountsItems
-        | None
-    ) = None
-
-
-class GetOrganizationCampusGatewayDevicesUplinksLocalOverridesByDeviceResponseMeta(_BaseSchema):
-    """Other metadata related to this result set."""
-
-    counts: (
-        GetOrganizationCampusGatewayDevicesUplinksLocalOverridesByDeviceResponseMetaCounts | None
-    ) = None
-
-
 class GetOrganizationCampusGatewayDevicesUplinksLocalOverridesByDeviceResponse(_BaseSchema):
     """Uplink overrides configured locally on Campus Gateway devices in an organization."""
 
-    items: (
-        list[GetOrganizationCampusGatewayDevicesUplinksLocalOverridesByDeviceResponseItemsItem]
-        | None
-    ) = None
-    meta: GetOrganizationCampusGatewayDevicesUplinksLocalOverridesByDeviceResponseMeta | None = None
+    items: list[CampusGatewayItemsItem] | None = None
+    meta: GetOrganizationCampusGatewayClustersResponseMeta | None = None

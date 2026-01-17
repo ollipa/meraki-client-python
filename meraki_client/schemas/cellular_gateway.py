@@ -25,22 +25,6 @@ class GetDeviceCellularGatewayLanResponseReservedIpRangesItem(_BaseSchema):
     comment: str | None = None
 
 
-class UpdateDeviceCellularGatewayLanResponseFixedIpAssignmentsItem(_BaseSchema):
-    """Schema for UpdateDeviceCellularGatewayLanResponseFixedIpAssignmentsItem."""
-
-    name: str | None = None
-    ip: str | None = None
-    mac: str | None = None
-
-
-class UpdateDeviceCellularGatewayLanResponseReservedIpRangesItem(_BaseSchema):
-    """Schema for UpdateDeviceCellularGatewayLanResponseReservedIpRangesItem."""
-
-    start: str | None = None
-    end: str | None = None
-    comment: str | None = None
-
-
 class GetDeviceCellularGatewayPortForwardingRulesResponseRulesItem(_BaseSchema):
     """Schema for GetDeviceCellularGatewayPortForwardingRulesResponseRulesItem."""
 
@@ -53,36 +37,8 @@ class GetDeviceCellularGatewayPortForwardingRulesResponseRulesItem(_BaseSchema):
     access: str | None = None
 
 
-class UpdateDeviceCellularGatewayPortForwardingRulesResponseRulesItem(_BaseSchema):
-    """Schema for UpdateDeviceCellularGatewayPortForwardingRulesResponseRulesItem."""
-
-    name: str | None = None
-    lan_ip: str | None = Field(default=None, alias="lanIp")
-    public_port: str | None = Field(default=None, alias="publicPort")
-    local_port: str | None = Field(default=None, alias="localPort")
-    allowed_ips: list[str] | None = Field(default=None, alias="allowedIps")
-    protocol: str | None = None
-    access: str | None = None
-
-
-class GetNetworkCellularGatewayConnectivityMonitoringDestinationsResponseDestinationsItem(
-    _BaseSchema
-):
-    """Schema for
-    GetNetworkCellularGatewayConnectivityMonitoringDestinationsResponseDestinationsItem.
-    """
-
-    ip: str | None = None
-    description: str | None = None
-    default: bool | None = None
-
-
-class UpdateNetworkCellularGatewayConnectivityMonitoringDestinationsResponseDestinationsItem(
-    _BaseSchema
-):
-    """Schema for
-    UpdateNetworkCellularGatewayConnectivityMonitoringDestinationsResponseDestinationsItem.
-    """
+class CellularGatewayDestinationsItem(_BaseSchema):
+    """Schema for CellularGatewayDestinationsItem."""
 
     ip: str | None = None
     description: str | None = None
@@ -114,15 +70,6 @@ class GetNetworkCellularGatewaySubnetPoolResponseSubnetsItem(_BaseSchema):
     subnet: str | None = None
 
 
-class UpdateNetworkCellularGatewaySubnetPoolResponseSubnetsItem(_BaseSchema):
-    """Schema for UpdateNetworkCellularGatewaySubnetPoolResponseSubnetsItem."""
-
-    serial: str | None = None
-    name: str | None = None
-    appliance_ip: str | None = Field(default=None, alias="applianceIp")
-    subnet: str | None = None
-
-
 class GetNetworkCellularGatewayUplinkResponseBandwidthLimits(_BaseSchema):
     """The bandwidth settings for the 'cellular' uplink."""
 
@@ -130,14 +77,7 @@ class GetNetworkCellularGatewayUplinkResponseBandwidthLimits(_BaseSchema):
     limit_down: int | None = Field(default=None, alias="limitDown")
 
 
-class UpdateNetworkCellularGatewayUplinkResponseBandwidthLimits(_BaseSchema):
-    """The bandwidth settings for the 'cellular' uplink."""
-
-    limit_up: int | None = Field(default=None, alias="limitUp")
-    limit_down: int | None = Field(default=None, alias="limitDown")
-
-
-class GetOrganizationCellularGatewayEsimsInventoryResponseItemsItemDevice(_BaseSchema):
+class CellularGatewayDevice(_BaseSchema):
     """Meraki Device properties."""
 
     name: str | None = None
@@ -147,147 +87,50 @@ class GetOrganizationCellularGatewayEsimsInventoryResponseItemsItemDevice(_BaseS
     status: str | None = None
 
 
-class GetOrganizationCellularGatewayEsimsInventoryResponseItemsItemNetwork(_BaseSchema):
+class CellularGatewayNetwork(_BaseSchema):
     """Meraki Network properties."""
 
     id_: str | None = Field(default=None, alias="id")
 
 
-class GetOrganizationCellularGatewayEsimsInventoryResponseItemsItemProfilesItemServiceProviderPlansItem(
-    _BaseSchema
-):
-    """Schema for GetOrganizationCellularGatewayEsimsInventoryResponseItemsItemProfilesItemServiceP
-    roviderPlansItem.
-    """
+class CellularGatewayPlansItem(_BaseSchema):
+    """Schema for CellularGatewayPlansItem."""
 
     name: str | None = None
     type_: str | None = Field(default=None, alias="type")
 
 
-class GetOrganizationCellularGatewayEsimsInventoryResponseMetaCountsItems(_BaseSchema):
+class CellularGatewayItems(_BaseSchema):
     """Count of eSIM Devices available."""
 
     total: int | None = None
     remaining: int | None = None
 
 
-class UpdateOrganizationCellularGatewayEsimsInventoryResponseDevice(_BaseSchema):
-    """Meraki Device properties."""
-
-    name: str | None = None
-    model: str | None = None
-    serial: str | None = None
-    url: str | None = None
-    status: str | None = None
-
-
-class UpdateOrganizationCellularGatewayEsimsInventoryResponseNetwork(_BaseSchema):
-    """Meraki Network properties."""
-
-    id_: str | None = Field(default=None, alias="id")
-
-
-class UpdateOrganizationCellularGatewayEsimsInventoryResponseProfilesItemServiceProviderPlansItem(
-    _BaseSchema
-):
-    """Schema for
-    UpdateOrganizationCellularGatewayEsimsInventoryResponseProfilesItemServiceProviderPlansItem.
-    """
-
-    name: str | None = None
-    type_: str | None = Field(default=None, alias="type")
-
-
-class GetOrganizationCellularGatewayEsimsServiceProvidersResponseItemsItemLogo(_BaseSchema):
+class CellularGatewayLogo(_BaseSchema):
     """Service Provider logo data."""
 
     url: str | None = None
 
 
-class GetOrganizationCellularGatewayEsimsServiceProvidersResponseItemsItemTerms(_BaseSchema):
+class CellularGatewayTerms(_BaseSchema):
     """Service provider terms."""
 
     content: str | None = None
     name: str | None = None
 
 
-class GetOrganizationCellularGatewayEsimsServiceProvidersResponseMetaCountsItems(_BaseSchema):
-    """Service Providers available."""
-
-    total: int | None = None
-    remaining: int | None = None
-
-
-class GetOrganizationCellularGatewayEsimsServiceProvidersAccountsResponseItemItemsItemServiceProviderLogo(
-    _BaseSchema
-):
-    """Service provider logo data."""
-
-    url: str | None = None
-
-
-class GetOrganizationCellularGatewayEsimsServiceProvidersAccountsResponseItemMetaCountsItems(
-    _BaseSchema
-):
-    """Count of Cellular Service Providers available."""
-
-    total: int | None = None
-    remaining: int | None = None
-
-
-class CreateOrganizationCellularGatewayEsimsServiceProvidersAccountResponseServiceProviderLogo(
-    _BaseSchema
-):
-    """Service provider logo data."""
-
-    url: str | None = None
-
-
-class GetOrganizationCellularGatewayEsimsServiceProvidersAccountsCommunicationPlansResponseItemsItemApnsItem(
-    _BaseSchema
-):
-    """Schema for GetOrganizationCellularGatewayEsimsServiceProvidersAccountsCommunicationPlansResp
-    onseItemsItemApnsItem.
-    """
+class CellularGatewayApnsItem(_BaseSchema):
+    """Schema for CellularGatewayApnsItem."""
 
     name: str | None = None
 
 
-class GetOrganizationCellularGatewayEsimsServiceProvidersAccountsCommunicationPlansResponseMetaCountsItems(
-    _BaseSchema
-):
-    """Count of Communication Plans available."""
-
-    total: int | None = None
-    remaining: int | None = None
-
-
-class GetOrganizationCellularGatewayEsimsServiceProvidersAccountsRatePlansResponseItemsItem(
-    _BaseSchema
-):
-    """Schema for
-    GetOrganizationCellularGatewayEsimsServiceProvidersAccountsRatePlansResponseItemsItem.
-    """
+class CellularGatewayItemsItem3(_BaseSchema):
+    """Schema for CellularGatewayItemsItem3."""
 
     account_id: str | None = Field(default=None, alias="accountId")
     name: str | None = None
-
-
-class GetOrganizationCellularGatewayEsimsServiceProvidersAccountsRatePlansResponseMetaCountsItems(
-    _BaseSchema
-):
-    """Count of Rate Plans available."""
-
-    total: int | None = None
-    remaining: int | None = None
-
-
-class UpdateOrganizationCellularGatewayEsimsServiceProvidersAccountResponseServiceProviderLogo(
-    _BaseSchema
-):
-    """Service provider logo data."""
-
-    url: str | None = None
 
 
 class CreateOrganizationCellularGatewayEsimsSwapResponse(_BaseSchema):
@@ -306,14 +149,14 @@ class UpdateOrganizationCellularGatewayEsimsSwapResponse(_BaseSchema):
     status: str
 
 
-class GetOrganizationCellularGatewayUplinkStatusesResponseItemUplinksItemSignalStat(_BaseSchema):
+class CellularGatewaySignalStat(_BaseSchema):
     """Tower Signal Status (Cellular Signal Stats)."""
 
     rsrp: str | None = None
     rsrq: str | None = None
 
 
-class GetOrganizationCellularGatewayUplinkStatusesResponseItemUplinksItemRoaming(_BaseSchema):
+class CellularGatewayRoaming(_BaseSchema):
     """Roaming Status."""
 
     status: str | None = None
@@ -339,10 +182,10 @@ class UpdateDeviceCellularGatewayLanResponse(_BaseSchema):
     device_name: str | None = Field(default=None, alias="deviceName")
     device_lan_ip: str | None = Field(default=None, alias="deviceLanIp")
     device_subnet: str | None = Field(default=None, alias="deviceSubnet")
-    fixed_ip_assignments: (
-        list[UpdateDeviceCellularGatewayLanResponseFixedIpAssignmentsItem] | None
-    ) = Field(default=None, alias="fixedIpAssignments")
-    reserved_ip_ranges: list[UpdateDeviceCellularGatewayLanResponseReservedIpRangesItem] | None = (
+    fixed_ip_assignments: list[GetDeviceCellularGatewayLanResponseFixedIpAssignmentsItem] | None = (
+        Field(default=None, alias="fixedIpAssignments")
+    )
+    reserved_ip_ranges: list[GetDeviceCellularGatewayLanResponseReservedIpRangesItem] | None = (
         Field(default=None, alias="reservedIpRanges")
     )
 
@@ -356,25 +199,19 @@ class GetDeviceCellularGatewayPortForwardingRulesResponse(_BaseSchema):
 class UpdateDeviceCellularGatewayPortForwardingRulesResponse(_BaseSchema):
     """Updates the port forwarding rules for a single MG."""
 
-    rules: list[UpdateDeviceCellularGatewayPortForwardingRulesResponseRulesItem] | None = None
+    rules: list[GetDeviceCellularGatewayPortForwardingRulesResponseRulesItem] | None = None
 
 
 class GetNetworkCellularGatewayConnectivityMonitoringDestinationsResponse(_BaseSchema):
     """Return the connectivity testing destinations for an MG network."""
 
-    destinations: (
-        list[GetNetworkCellularGatewayConnectivityMonitoringDestinationsResponseDestinationsItem]
-        | None
-    ) = None
+    destinations: list[CellularGatewayDestinationsItem] | None = None
 
 
 class UpdateNetworkCellularGatewayConnectivityMonitoringDestinationsResponse(_BaseSchema):
     """Update the connectivity testing destinations for an MG network."""
 
-    destinations: (
-        list[UpdateNetworkCellularGatewayConnectivityMonitoringDestinationsResponseDestinationsItem]
-        | None
-    ) = None
+    destinations: list[CellularGatewayDestinationsItem] | None = None
 
 
 class GetNetworkCellularGatewaySubnetPoolResponse(_BaseSchema):
@@ -392,7 +229,7 @@ class UpdateNetworkCellularGatewaySubnetPoolResponse(_BaseSchema):
     deployment_mode: str | None = Field(default=None, alias="deploymentMode")
     cidr: str | None = None
     mask: int | None = None
-    subnets: list[UpdateNetworkCellularGatewaySubnetPoolResponseSubnetsItem] | None = None
+    subnets: list[GetNetworkCellularGatewaySubnetPoolResponseSubnetsItem] | None = None
 
 
 class GetNetworkCellularGatewayUplinkResponse(_BaseSchema):
@@ -403,336 +240,45 @@ class GetNetworkCellularGatewayUplinkResponse(_BaseSchema):
     )
 
 
-class UpdateNetworkCellularGatewayUplinkResponse(_BaseSchema):
-    """Updates the uplink settings for your MG network."""
-
-    bandwidth_limits: UpdateNetworkCellularGatewayUplinkResponseBandwidthLimits | None = Field(
-        default=None, alias="bandwidthLimits"
-    )
-
-
-class GetOrganizationCellularGatewayEsimsInventoryResponseItemsItemProfilesItemServiceProvider(
-    _BaseSchema
-):
+class CellularGatewayServiceProvider(_BaseSchema):
     """Service Provider information."""
 
     name: str | None = None
-    plans: (
-        list[
-            GetOrganizationCellularGatewayEsimsInventoryResponseItemsItemProfilesItemServiceProviderPlansItem
-        ]
-        | None
-    ) = None
+    plans: list[CellularGatewayPlansItem] | None = None
 
 
-class UpdateOrganizationCellularGatewayEsimsInventoryResponseProfilesItemServiceProvider(
-    _BaseSchema
-):
-    """Service Provider information."""
-
-    name: str | None = None
-    plans: (
-        list[
-            UpdateOrganizationCellularGatewayEsimsInventoryResponseProfilesItemServiceProviderPlansItem
-        ]
-        | None
-    ) = None
-
-
-class GetOrganizationCellularGatewayEsimsServiceProvidersAccountsCommunicationPlansResponseItemsItem(
-    _BaseSchema
-):
-    """Schema for GetOrganizationCellularGatewayEsimsServiceProvidersAccountsCommunicationPlansResp
-    onseItemsItem.
-    """
-
-    account_id: str | None = Field(default=None, alias="accountId")
-    apns: (
-        list[
-            GetOrganizationCellularGatewayEsimsServiceProvidersAccountsCommunicationPlansResponseItemsItemApnsItem
-        ]
-        | None
-    ) = None
-    name: str | None = None
-
-
-class GetOrganizationCellularGatewayEsimsInventoryResponseItemsItemProfilesItem(_BaseSchema):
-    """Schema for GetOrganizationCellularGatewayEsimsInventoryResponseItemsItemProfilesItem."""
-
-    custom_apns: list[str] | None = Field(default=None, alias="customApns")
-    iccid: str | None = None
-    status: str | None = None
-    service_provider: (
-        GetOrganizationCellularGatewayEsimsInventoryResponseItemsItemProfilesItemServiceProvider
-        | None
-    ) = Field(default=None, alias="serviceProvider")
-
-
-class GetOrganizationCellularGatewayEsimsInventoryResponseItemsItem(_BaseSchema):
-    """Schema for GetOrganizationCellularGatewayEsimsInventoryResponseItemsItem."""
-
-    device: GetOrganizationCellularGatewayEsimsInventoryResponseItemsItemDevice | None = None
-    active: bool | None = None
-    eid: str | None = None
-    last_updated_at: str | None = Field(default=None, alias="lastUpdatedAt")
-    network: GetOrganizationCellularGatewayEsimsInventoryResponseItemsItemNetwork | None = None
-    profiles: (
-        list[GetOrganizationCellularGatewayEsimsInventoryResponseItemsItemProfilesItem] | None
-    ) = None
-
-
-class GetOrganizationCellularGatewayEsimsInventoryResponseMetaCounts(_BaseSchema):
+class CellularGatewayMetaCounts(_BaseSchema):
     """Counts of involved entities."""
 
-    items: GetOrganizationCellularGatewayEsimsInventoryResponseMetaCountsItems | None = None
+    items: CellularGatewayItems | None = None
 
 
-class GetOrganizationCellularGatewayEsimsInventoryResponseMeta(_BaseSchema):
-    """Meta details about the result."""
+class CellularGatewayServiceProvider2(_BaseSchema):
+    """Service provider data."""
 
-    counts: GetOrganizationCellularGatewayEsimsInventoryResponseMetaCounts | None = None
-
-
-class GetOrganizationCellularGatewayEsimsInventoryResponse(_BaseSchema):
-    """The eSIM inventory of a given organization."""
-
-    items: list[GetOrganizationCellularGatewayEsimsInventoryResponseItemsItem] | None = None
-    meta: GetOrganizationCellularGatewayEsimsInventoryResponseMeta | None = None
-
-
-class UpdateOrganizationCellularGatewayEsimsInventoryResponseProfilesItem(_BaseSchema):
-    """Schema for UpdateOrganizationCellularGatewayEsimsInventoryResponseProfilesItem."""
-
-    custom_apns: list[str] | None = Field(default=None, alias="customApns")
-    iccid: str | None = None
-    status: str | None = None
-    service_provider: (
-        UpdateOrganizationCellularGatewayEsimsInventoryResponseProfilesItemServiceProvider | None
-    ) = Field(default=None, alias="serviceProvider")
-
-
-class UpdateOrganizationCellularGatewayEsimsInventoryResponse(_BaseSchema):
-    """Toggle the status of an eSIM."""
-
-    device: UpdateOrganizationCellularGatewayEsimsInventoryResponseDevice | None = None
-    active: bool | None = None
-    eid: str | None = None
-    last_updated_at: str | None = Field(default=None, alias="lastUpdatedAt")
-    network: UpdateOrganizationCellularGatewayEsimsInventoryResponseNetwork | None = None
-    profiles: list[UpdateOrganizationCellularGatewayEsimsInventoryResponseProfilesItem] | None = (
-        None
-    )
+    name: str | None = None
+    logo: CellularGatewayLogo | None = None
 
 
 class GetOrganizationCellularGatewayEsimsServiceProvidersResponseItemsItem(_BaseSchema):
     """Schema for GetOrganizationCellularGatewayEsimsServiceProvidersResponseItemsItem."""
 
     name: str | None = None
-    logo: GetOrganizationCellularGatewayEsimsServiceProvidersResponseItemsItemLogo | None = None
+    logo: CellularGatewayLogo | None = None
     is_bootstrap: bool | None = Field(default=None, alias="isBootstrap")
-    terms: GetOrganizationCellularGatewayEsimsServiceProvidersResponseItemsItemTerms | None = None
+    terms: CellularGatewayTerms | None = None
 
 
-class GetOrganizationCellularGatewayEsimsServiceProvidersResponseMetaCounts(_BaseSchema):
-    """Counts of involved entities."""
-
-    items: GetOrganizationCellularGatewayEsimsServiceProvidersResponseMetaCountsItems | None = None
-
-
-class GetOrganizationCellularGatewayEsimsServiceProvidersResponseMeta(_BaseSchema):
-    """Meta details about the result."""
-
-    counts: GetOrganizationCellularGatewayEsimsServiceProvidersResponseMetaCounts | None = None
-
-
-class GetOrganizationCellularGatewayEsimsServiceProvidersResponse(_BaseSchema):
-    """Service providers customers can add accounts for."""
-
-    items: list[GetOrganizationCellularGatewayEsimsServiceProvidersResponseItemsItem] | None = None
-    meta: GetOrganizationCellularGatewayEsimsServiceProvidersResponseMeta | None = None
-
-
-class GetOrganizationCellularGatewayEsimsServiceProvidersAccountsResponseItemItemsItemServiceProvider(
-    _BaseSchema
-):
-    """Service provider data."""
-
-    name: str | None = None
-    logo: (
-        GetOrganizationCellularGatewayEsimsServiceProvidersAccountsResponseItemItemsItemServiceProviderLogo
-        | None
-    ) = None
-
-
-class GetOrganizationCellularGatewayEsimsServiceProvidersAccountsResponseItemItemsItem(_BaseSchema):
-    """Schema for GetOrganizationCellularGatewayEsimsServiceProvidersAccountsResponseItemItemsItem."""
+class CellularGatewayItemsItem2(_BaseSchema):
+    """Schema for CellularGatewayItemsItem2."""
 
     account_id: str | None = Field(default=None, alias="accountId")
-    last_updated_at: str | None = Field(default=None, alias="lastUpdatedAt")
-    service_provider: (
-        GetOrganizationCellularGatewayEsimsServiceProvidersAccountsResponseItemItemsItemServiceProvider
-        | None
-    ) = Field(default=None, alias="serviceProvider")
-    title: str | None = None
-    username: str | None = None
-
-
-class GetOrganizationCellularGatewayEsimsServiceProvidersAccountsResponseItemMetaCounts(
-    _BaseSchema
-):
-    """Counts of involved entities."""
-
-    items: (
-        GetOrganizationCellularGatewayEsimsServiceProvidersAccountsResponseItemMetaCountsItems
-        | None
-    ) = None
-
-
-class GetOrganizationCellularGatewayEsimsServiceProvidersAccountsResponseItemMeta(_BaseSchema):
-    """Meta details about the result."""
-
-    counts: (
-        GetOrganizationCellularGatewayEsimsServiceProvidersAccountsResponseItemMetaCounts | None
-    ) = None
-
-
-class GetOrganizationCellularGatewayEsimsServiceProvidersAccountsResponseItem(_BaseSchema):
-    """Schema for GetOrganizationCellularGatewayEsimsServiceProvidersAccountsResponseItem."""
-
-    items: (
-        list[GetOrganizationCellularGatewayEsimsServiceProvidersAccountsResponseItemItemsItem]
-        | None
-    ) = None
-    meta: GetOrganizationCellularGatewayEsimsServiceProvidersAccountsResponseItemMeta | None = None
-
-
-class GetOrganizationCellularGatewayEsimsServiceProvidersAccountsResponse(
-    RootModel[list[GetOrganizationCellularGatewayEsimsServiceProvidersAccountsResponseItem]]
-):
-    """Inventory of service provider accounts tied to the organization."""
-
-
-class CreateOrganizationCellularGatewayEsimsServiceProvidersAccountResponseServiceProvider(
-    _BaseSchema
-):
-    """Service provider data."""
-
+    apns: list[CellularGatewayApnsItem] | None = None
     name: str | None = None
-    logo: (
-        CreateOrganizationCellularGatewayEsimsServiceProvidersAccountResponseServiceProviderLogo
-        | None
-    ) = None
 
 
-class CreateOrganizationCellularGatewayEsimsServiceProvidersAccountResponse(_BaseSchema):
-    """Add a service provider account."""
-
-    account_id: str | None = Field(default=None, alias="accountId")
-    last_updated_at: str | None = Field(default=None, alias="lastUpdatedAt")
-    service_provider: (
-        CreateOrganizationCellularGatewayEsimsServiceProvidersAccountResponseServiceProvider | None
-    ) = Field(default=None, alias="serviceProvider")
-    title: str | None = None
-    username: str | None = None
-
-
-class GetOrganizationCellularGatewayEsimsServiceProvidersAccountsCommunicationPlansResponseMetaCounts(
-    _BaseSchema
-):
-    """Counts of involved entities."""
-
-    items: (
-        GetOrganizationCellularGatewayEsimsServiceProvidersAccountsCommunicationPlansResponseMetaCountsItems
-        | None
-    ) = None
-
-
-class GetOrganizationCellularGatewayEsimsServiceProvidersAccountsCommunicationPlansResponseMeta(
-    _BaseSchema
-):
-    """Meta details about the result."""
-
-    counts: (
-        GetOrganizationCellularGatewayEsimsServiceProvidersAccountsCommunicationPlansResponseMetaCounts
-        | None
-    ) = None
-
-
-class GetOrganizationCellularGatewayEsimsServiceProvidersAccountsCommunicationPlansResponse(
-    _BaseSchema
-):
-    """The communication plans available for a given provider."""
-
-    items: (
-        list[
-            GetOrganizationCellularGatewayEsimsServiceProvidersAccountsCommunicationPlansResponseItemsItem
-        ]
-        | None
-    ) = None
-    meta: (
-        GetOrganizationCellularGatewayEsimsServiceProvidersAccountsCommunicationPlansResponseMeta
-        | None
-    ) = None
-
-
-class GetOrganizationCellularGatewayEsimsServiceProvidersAccountsRatePlansResponseMetaCounts(
-    _BaseSchema
-):
-    """Counts of involved entities."""
-
-    items: (
-        GetOrganizationCellularGatewayEsimsServiceProvidersAccountsRatePlansResponseMetaCountsItems
-        | None
-    ) = None
-
-
-class GetOrganizationCellularGatewayEsimsServiceProvidersAccountsRatePlansResponseMeta(_BaseSchema):
-    """Meta details about the result."""
-
-    counts: (
-        GetOrganizationCellularGatewayEsimsServiceProvidersAccountsRatePlansResponseMetaCounts
-        | None
-    ) = None
-
-
-class GetOrganizationCellularGatewayEsimsServiceProvidersAccountsRatePlansResponse(_BaseSchema):
-    """The rate plans available for a given provider."""
-
-    items: (
-        list[GetOrganizationCellularGatewayEsimsServiceProvidersAccountsRatePlansResponseItemsItem]
-        | None
-    ) = None
-    meta: (
-        GetOrganizationCellularGatewayEsimsServiceProvidersAccountsRatePlansResponseMeta | None
-    ) = None
-
-
-class UpdateOrganizationCellularGatewayEsimsServiceProvidersAccountResponseServiceProvider(
-    _BaseSchema
-):
-    """Service provider data."""
-
-    name: str | None = None
-    logo: (
-        UpdateOrganizationCellularGatewayEsimsServiceProvidersAccountResponseServiceProviderLogo
-        | None
-    ) = None
-
-
-class UpdateOrganizationCellularGatewayEsimsServiceProvidersAccountResponse(_BaseSchema):
-    """Edit service provider account info stored in Meraki's database."""
-
-    account_id: str | None = Field(default=None, alias="accountId")
-    last_updated_at: str | None = Field(default=None, alias="lastUpdatedAt")
-    service_provider: (
-        UpdateOrganizationCellularGatewayEsimsServiceProvidersAccountResponseServiceProvider | None
-    ) = Field(default=None, alias="serviceProvider")
-    title: str | None = None
-    username: str | None = None
-
-
-class GetOrganizationCellularGatewayUplinkStatusesResponseItemUplinksItem(_BaseSchema):
-    """Schema for GetOrganizationCellularGatewayUplinkStatusesResponseItemUplinksItem."""
+class CellularGatewayUplinksItem(_BaseSchema):
+    """Schema for CellularGatewayUplinksItem."""
 
     interface: str | None = None
     status: str | None = None
@@ -740,14 +286,10 @@ class GetOrganizationCellularGatewayUplinkStatusesResponseItemUplinksItem(_BaseS
     provider: str | None = None
     public_ip: str | None = Field(default=None, alias="publicIp")
     model: str | None = None
-    signal_stat: (
-        GetOrganizationCellularGatewayUplinkStatusesResponseItemUplinksItemSignalStat | None
-    ) = Field(default=None, alias="signalStat")
+    signal_stat: CellularGatewaySignalStat | None = Field(default=None, alias="signalStat")
     mcc: str | None = None
     mnc: str | None = None
-    roaming: GetOrganizationCellularGatewayUplinkStatusesResponseItemUplinksItemRoaming | None = (
-        None
-    )
+    roaming: CellularGatewayRoaming | None = None
     connection_type: str | None = Field(default=None, alias="connectionType")
     apn: str | None = None
     gateway: str | None = None
@@ -760,6 +302,67 @@ class GetOrganizationCellularGatewayUplinkStatusesResponseItemUplinksItem(_BaseS
     msisdn: str | None = None
 
 
+class UpdateNetworkCellularGatewayUplinkResponse(_BaseSchema):
+    """Updates the uplink settings for your MG network."""
+
+    bandwidth_limits: GetNetworkCellularGatewayUplinkResponseBandwidthLimits | None = Field(
+        default=None, alias="bandwidthLimits"
+    )
+
+
+class CellularGatewayProfilesItem(_BaseSchema):
+    """Schema for CellularGatewayProfilesItem."""
+
+    custom_apns: list[str] | None = Field(default=None, alias="customApns")
+    iccid: str | None = None
+    status: str | None = None
+    service_provider: CellularGatewayServiceProvider | None = Field(
+        default=None, alias="serviceProvider"
+    )
+
+
+class GetOrganizationCellularGatewayEsimsInventoryResponseMeta(_BaseSchema):
+    """Meta details about the result."""
+
+    counts: CellularGatewayMetaCounts | None = None
+
+
+class CellularGatewayItemsItem(_BaseSchema):
+    """Schema for CellularGatewayItemsItem."""
+
+    account_id: str | None = Field(default=None, alias="accountId")
+    last_updated_at: str | None = Field(default=None, alias="lastUpdatedAt")
+    service_provider: CellularGatewayServiceProvider2 | None = Field(
+        default=None, alias="serviceProvider"
+    )
+    title: str | None = None
+    username: str | None = None
+
+
+class CreateOrganizationCellularGatewayEsimsServiceProvidersAccountResponse(_BaseSchema):
+    """Add a service provider account."""
+
+    account_id: str | None = Field(default=None, alias="accountId")
+    last_updated_at: str | None = Field(default=None, alias="lastUpdatedAt")
+    service_provider: CellularGatewayServiceProvider2 | None = Field(
+        default=None, alias="serviceProvider"
+    )
+    title: str | None = None
+    username: str | None = None
+
+
+class UpdateOrganizationCellularGatewayEsimsServiceProvidersAccountResponse(_BaseSchema):
+    """Edit service provider account info stored in Meraki's database."""
+
+    account_id: str | None = Field(default=None, alias="accountId")
+    last_updated_at: str | None = Field(default=None, alias="lastUpdatedAt")
+    service_provider: CellularGatewayServiceProvider2 | None = Field(
+        default=None, alias="serviceProvider"
+    )
+    title: str | None = None
+    username: str | None = None
+
+
 class GetOrganizationCellularGatewayUplinkStatusesResponseItem(_BaseSchema):
     """Schema for GetOrganizationCellularGatewayUplinkStatusesResponseItem."""
 
@@ -767,10 +370,75 @@ class GetOrganizationCellularGatewayUplinkStatusesResponseItem(_BaseSchema):
     serial: str | None = None
     model: str | None = None
     last_reported_at: str | None = Field(default=None, alias="lastReportedAt")
-    uplinks: list[GetOrganizationCellularGatewayUplinkStatusesResponseItemUplinksItem] | None = None
+    uplinks: list[CellularGatewayUplinksItem] | None = None
+
+
+class GetOrganizationCellularGatewayEsimsInventoryResponseItemsItem(_BaseSchema):
+    """Schema for GetOrganizationCellularGatewayEsimsInventoryResponseItemsItem."""
+
+    device: CellularGatewayDevice | None = None
+    active: bool | None = None
+    eid: str | None = None
+    last_updated_at: str | None = Field(default=None, alias="lastUpdatedAt")
+    network: CellularGatewayNetwork | None = None
+    profiles: list[CellularGatewayProfilesItem] | None = None
+
+
+class UpdateOrganizationCellularGatewayEsimsInventoryResponse(_BaseSchema):
+    """Toggle the status of an eSIM."""
+
+    device: CellularGatewayDevice | None = None
+    active: bool | None = None
+    eid: str | None = None
+    last_updated_at: str | None = Field(default=None, alias="lastUpdatedAt")
+    network: CellularGatewayNetwork | None = None
+    profiles: list[CellularGatewayProfilesItem] | None = None
 
 
 class GetOrganizationCellularGatewayUplinkStatusesResponse(
     RootModel[list[GetOrganizationCellularGatewayUplinkStatusesResponseItem]]
 ):
     """List the uplink status of every Meraki MG cellular gateway in the organization."""
+
+
+class GetOrganizationCellularGatewayEsimsInventoryResponse(_BaseSchema):
+    """The eSIM inventory of a given organization."""
+
+    items: list[GetOrganizationCellularGatewayEsimsInventoryResponseItemsItem] | None = None
+    meta: GetOrganizationCellularGatewayEsimsInventoryResponseMeta | None = None
+
+
+class GetOrganizationCellularGatewayEsimsServiceProvidersResponse(_BaseSchema):
+    """Service providers customers can add accounts for."""
+
+    items: list[GetOrganizationCellularGatewayEsimsServiceProvidersResponseItemsItem] | None = None
+    meta: GetOrganizationCellularGatewayEsimsInventoryResponseMeta | None = None
+
+
+class GetOrganizationCellularGatewayEsimsServiceProvidersAccountsResponseItem(_BaseSchema):
+    """Schema for GetOrganizationCellularGatewayEsimsServiceProvidersAccountsResponseItem."""
+
+    items: list[CellularGatewayItemsItem] | None = None
+    meta: GetOrganizationCellularGatewayEsimsInventoryResponseMeta | None = None
+
+
+class GetOrganizationCellularGatewayEsimsServiceProvidersAccountsCommunicationPlansResponse(
+    _BaseSchema
+):
+    """The communication plans available for a given provider."""
+
+    items: list[CellularGatewayItemsItem2] | None = None
+    meta: GetOrganizationCellularGatewayEsimsInventoryResponseMeta | None = None
+
+
+class GetOrganizationCellularGatewayEsimsServiceProvidersAccountsRatePlansResponse(_BaseSchema):
+    """The rate plans available for a given provider."""
+
+    items: list[CellularGatewayItemsItem3] | None = None
+    meta: GetOrganizationCellularGatewayEsimsInventoryResponseMeta | None = None
+
+
+class GetOrganizationCellularGatewayEsimsServiceProvidersAccountsResponse(
+    RootModel[list[GetOrganizationCellularGatewayEsimsServiceProvidersAccountsResponseItem]]
+):
+    """Inventory of service provider accounts tied to the organization."""

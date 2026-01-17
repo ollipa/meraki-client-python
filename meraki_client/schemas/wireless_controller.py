@@ -9,59 +9,40 @@ from pydantic import Field, RootModel
 from meraki_client.schemas._base import _BaseSchema
 
 
-class GetOrganizationWirelessControllerAvailabilitiesChangeHistoryResponseItemsItemChangesItem(
-    _BaseSchema
-):
-    """Schema for
-    GetOrganizationWirelessControllerAvailabilitiesChangeHistoryResponseItemsItemChangesItem.
-    """
+class WirelessControllerChangesItem(_BaseSchema):
+    """Schema for WirelessControllerChangesItem."""
 
     start_ts: str | None = Field(default=None, alias="startTs")
     end_ts: str | None = Field(default=None, alias="endTs")
     status: str | None = None
 
 
-class GetOrganizationWirelessControllerAvailabilitiesChangeHistoryResponseMetaCountsItems(
-    _BaseSchema
-):
+class WirelessControllerItems(_BaseSchema):
     """Counts relating to the paginated items."""
 
     total: int | None = None
     remaining: int | None = None
 
 
-class GetOrganizationWirelessControllerClientsOverviewHistoryByDeviceByIntervalResponseItemsItemNetwork(
-    _BaseSchema
-):
+class WirelessControllerNetwork(_BaseSchema):
     """Wireless LAN controller network."""
 
     id_: str | None = Field(default=None, alias="id")
 
 
-class GetOrganizationWirelessControllerClientsOverviewHistoryByDeviceByIntervalResponseItemsItemReadingsItemCountsByStatus(
-    _BaseSchema
-):
+class WirelessControllerByStatus(_BaseSchema):
     """Client counts by its status."""
 
     online: int | None = None
 
 
-class GetOrganizationWirelessControllerClientsOverviewHistoryByDeviceByIntervalResponseMetaCountsItems(
-    _BaseSchema
-):
-    """Counts relating to the paginated items."""
-
-    total: int | None = None
-    remaining: int | None = None
-
-
-class GetOrganizationWirelessControllerConnectionsResponseItemsItemController(_BaseSchema):
+class WirelessControllerController(_BaseSchema):
     """Associated wireless LAN controller."""
 
     serial: str | None = None
 
 
-class GetOrganizationWirelessControllerConnectionsResponseItemsItemNetwork(_BaseSchema):
+class WirelessControllerNetwork2(_BaseSchema):
     """Access points network."""
 
     id_: str | None = Field(default=None, alias="id")
@@ -69,44 +50,20 @@ class GetOrganizationWirelessControllerConnectionsResponseItemsItemNetwork(_Base
     name: str | None = None
 
 
-class GetOrganizationWirelessControllerConnectionsResponseMetaCountsItems(_BaseSchema):
-    """Counts relating to the paginated items."""
-
-    total: int | None = None
-    remaining: int | None = None
-
-
-class GetOrganizationWirelessControllerDevicesInterfacesL2ByDeviceResponseItemsItemInterfacesItemChannelGroup(
-    _BaseSchema
-):
+class WirelessControllerChannelGroup(_BaseSchema):
     """The channel group of this wireless LAN controller interface."""
 
     number: int | None = None
 
 
-class GetOrganizationWirelessControllerDevicesInterfacesL2ByDeviceResponseItemsItemInterfacesItemModule(
-    _BaseSchema
-):
+class WirelessControllerModule(_BaseSchema):
     """The module of this wireless LAN controller interface."""
 
     model: str | None = None
 
 
-class GetOrganizationWirelessControllerDevicesInterfacesL2ByDeviceResponseMetaCountsItems(
-    _BaseSchema
-):
-    """Counts relating to the paginated items."""
-
-    total: int | None = None
-    remaining: int | None = None
-
-
-class GetOrganizationWirelessControllerDevicesInterfacesL2StatusesChangeHistoryByDeviceResponseItemsItemInterfacesItemChangesItem(
-    _BaseSchema
-):
-    """Schema for GetOrganizationWirelessControllerDevicesInterfacesL2StatusesChangeHistoryByDevice
-    ResponseItemsItemInterfacesItemChangesItem.
-    """
+class WirelessControllerChangesItem2(_BaseSchema):
+    """Schema for WirelessControllerChangesItem2."""
 
     ts: str | None = None
     status: str | None = None
@@ -114,21 +71,8 @@ class GetOrganizationWirelessControllerDevicesInterfacesL2StatusesChangeHistoryB
     errors: list[str] | None = None
 
 
-class GetOrganizationWirelessControllerDevicesInterfacesL2StatusesChangeHistoryByDeviceResponseMetaCountsItems(
-    _BaseSchema
-):
-    """Counts relating to the paginated items."""
-
-    total: int | None = None
-    remaining: int | None = None
-
-
-class GetOrganizationWirelessControllerDevicesInterfacesL2UsageHistoryByIntervalResponseItemsItemReadingsItem(
-    _BaseSchema
-):
-    """Schema for GetOrganizationWirelessControllerDevicesInterfacesL2UsageHistoryByIntervalRespons
-    eItemsItemReadingsItem.
-    """
+class WirelessControllerReadingsItem2(_BaseSchema):
+    """Schema for WirelessControllerReadingsItem2."""
 
     name: str | None = None
     mac: str | None = None
@@ -136,107 +80,21 @@ class GetOrganizationWirelessControllerDevicesInterfacesL2UsageHistoryByInterval
     send: int | None = None
 
 
-class GetOrganizationWirelessControllerDevicesInterfacesL2UsageHistoryByIntervalResponseMetaCountsItems(
-    _BaseSchema
-):
-    """Counts relating to the paginated items."""
-
-    total: int | None = None
-    remaining: int | None = None
-
-
-class GetOrganizationWirelessControllerDevicesInterfacesL3ByDeviceResponseItemsItemInterfacesItemAddressesItem(
-    _BaseSchema
-):
-    """Schema for GetOrganizationWirelessControllerDevicesInterfacesL3ByDeviceResponseItemsItemInte
-    rfacesItemAddressesItem.
-    """
+class WirelessControllerAddressesItem(_BaseSchema):
+    """Schema for WirelessControllerAddressesItem."""
 
     protocol: str | None = None
     address: str | None = None
     subnet: str | None = None
 
 
-class GetOrganizationWirelessControllerDevicesInterfacesL3ByDeviceResponseItemsItemInterfacesItemVrf(
-    _BaseSchema
-):
+class WirelessControllerVrf(_BaseSchema):
     """The virtual routing and forwarding (VRF) for the wireless LAN controller interface."""
 
     name: str | None = None
 
 
-class GetOrganizationWirelessControllerDevicesInterfacesL3ByDeviceResponseItemsItemInterfacesItemChannelGroup(
-    _BaseSchema
-):
-    """The channel group of this wireless LAN controller interface."""
-
-    number: int | None = None
-
-
-class GetOrganizationWirelessControllerDevicesInterfacesL3ByDeviceResponseItemsItemInterfacesItemModule(
-    _BaseSchema
-):
-    """The module of this wireless LAN controller interface."""
-
-    model: str | None = None
-
-
-class GetOrganizationWirelessControllerDevicesInterfacesL3ByDeviceResponseMetaCountsItems(
-    _BaseSchema
-):
-    """Counts relating to the paginated items."""
-
-    total: int | None = None
-    remaining: int | None = None
-
-
-class GetOrganizationWirelessControllerDevicesInterfacesL3StatusesChangeHistoryByDeviceResponseItemsItemInterfacesItemChangesItem(
-    _BaseSchema
-):
-    """Schema for GetOrganizationWirelessControllerDevicesInterfacesL3StatusesChangeHistoryByDevice
-    ResponseItemsItemInterfacesItemChangesItem.
-    """
-
-    ts: str | None = None
-    status: str | None = None
-    warnings: list[str] | None = None
-    errors: list[str] | None = None
-
-
-class GetOrganizationWirelessControllerDevicesInterfacesL3StatusesChangeHistoryByDeviceResponseMetaCountsItems(
-    _BaseSchema
-):
-    """Counts relating to the paginated items."""
-
-    total: int | None = None
-    remaining: int | None = None
-
-
-class GetOrganizationWirelessControllerDevicesInterfacesL3UsageHistoryByIntervalResponseItemsItemReadingsItem(
-    _BaseSchema
-):
-    """Schema for GetOrganizationWirelessControllerDevicesInterfacesL3UsageHistoryByIntervalRespons
-    eItemsItemReadingsItem.
-    """
-
-    name: str | None = None
-    mac: str | None = None
-    recv: int | None = None
-    send: int | None = None
-
-
-class GetOrganizationWirelessControllerDevicesInterfacesL3UsageHistoryByIntervalResponseMetaCountsItems(
-    _BaseSchema
-):
-    """Counts relating to the paginated items."""
-
-    total: int | None = None
-    remaining: int | None = None
-
-
-class GetOrganizationWirelessControllerDevicesInterfacesPacketsOverviewByDeviceResponseItemsItemInterfacesItemReadingsItemRate(
-    _BaseSchema
-):
+class WirelessControllerRate(_BaseSchema):
     """The interface packet rates measured in packets per second."""
 
     total: int | None = None
@@ -244,305 +102,266 @@ class GetOrganizationWirelessControllerDevicesInterfacesPacketsOverviewByDeviceR
     send: int | None = None
 
 
-class GetOrganizationWirelessControllerDevicesInterfacesPacketsOverviewByDeviceResponseMetaCountsItems(
-    _BaseSchema
-):
-    """Counts relating to the paginated items."""
-
-    total: int | None = None
-    remaining: int | None = None
-
-
-class GetOrganizationWirelessControllerDevicesInterfacesUsageHistoryByIntervalResponseItemsItemIntervalsItemOverall(
-    _BaseSchema
-):
-    """The overall usage of all queried interfaces of the wireless LAN controller."""
-
-    total: int | None = None
-    recv: int | None = None
-    send: int | None = None
-
-
-class GetOrganizationWirelessControllerDevicesInterfacesUsageHistoryByIntervalResponseItemsItemIntervalsItemByInterfaceItemUsage(
-    _BaseSchema
-):
-    """The usage on the interfaces of the wireless LAN controller."""
-
-    total: int | None = None
-    recv: int | None = None
-    send: int | None = None
-
-
-class GetOrganizationWirelessControllerDevicesInterfacesUsageHistoryByIntervalResponseMetaCountsItems(
-    _BaseSchema
-):
-    """Counts relating to the paginated items."""
-
-    total: int | None = None
-    remaining: int | None = None
-
-
-class GetOrganizationWirelessControllerDevicesRedundancyFailoverHistoryResponseItemItemsItemFailedChassis(
-    _BaseSchema
-):
-    """Details about the failed unit chassis."""
-
-    name: str | None = None
-
-
-class GetOrganizationWirelessControllerDevicesRedundancyFailoverHistoryResponseItemItemsItemActiveChassis(
-    _BaseSchema
-):
-    """Details about the active unit chassis."""
-
-    name: str | None = None
-
-
-class GetOrganizationWirelessControllerDevicesRedundancyFailoverHistoryResponseItemMetaCountsItems(
-    _BaseSchema
-):
-    """Counts relating to the paginated items."""
-
-    total: int | None = None
-    remaining: int | None = None
-
-
-class GetOrganizationWirelessControllerDevicesRedundancyStatusesResponseItemsItemFailoverLast(
-    _BaseSchema
-):
+class WirelessControllerLast(_BaseSchema):
     """Wireless LAN controller last failover information."""
 
     ts: str | None = None
     reason: str | None = None
 
 
-class GetOrganizationWirelessControllerDevicesRedundancyStatusesResponseItemsItemFailoverCounts(
-    _BaseSchema
-):
+class WirelessControllerCounts2(_BaseSchema):
     """Wireless LAN controller switchover counts."""
 
     total: int | None = None
 
 
-class GetOrganizationWirelessControllerDevicesRedundancyStatusesResponseMetaCountsItems(
-    _BaseSchema
-):
-    """Counts relating to the paginated items."""
-
-    total: int | None = None
-    remaining: int | None = None
-
-
-class GetOrganizationWirelessControllerDevicesSystemUtilizationHistoryByIntervalResponseItemsItemIntervalsItemOverallUsageAverage(
-    _BaseSchema
-):
+class WirelessControllerAverage(_BaseSchema):
     """The average CPU usage of the wireless LAN controller."""
 
     percentage: float | None = None
 
 
-class GetOrganizationWirelessControllerDevicesSystemUtilizationHistoryByIntervalResponseItemsItemIntervalsItemByCoreItemUsageAverage(
-    _BaseSchema
-):
-    """The specific core average CPU usage of the wireless LAN controller."""
-
-    percentage: float | None = None
-
-
-class GetOrganizationWirelessControllerDevicesSystemUtilizationHistoryByIntervalResponseMetaCountsItems(
-    _BaseSchema
-):
-    """Counts relating to the paginated items."""
-
-    total: int | None = None
-    remaining: int | None = None
-
-
-class GetOrganizationWirelessControllerOverviewByDeviceResponseItemsItemNetwork(_BaseSchema):
-    """Wireless LAN controller network."""
-
-    id_: str | None = Field(default=None, alias="id")
-
-
-class GetOrganizationWirelessControllerOverviewByDeviceResponseItemsItemCountsClientsByStatus(
-    _BaseSchema
-):
-    """Client counts by their status."""
-
-    online: int | None = None
-
-
-class GetOrganizationWirelessControllerOverviewByDeviceResponseItemsItemCountsConnectionsByStatus(
-    _BaseSchema
-):
+class WirelessControllerByStatus2(_BaseSchema):
     """Access point counts by their status."""
 
     online: int | None = None
     offline: int | None = None
 
 
-class GetOrganizationWirelessControllerOverviewByDeviceResponseItemsItemRedundancyManagementAddressesItem(
-    _BaseSchema
-):
-    """Schema for GetOrganizationWirelessControllerOverviewByDeviceResponseItemsItemRedundancyManag
-    ementAddressesItem.
-    """
+class WirelessControllerAddressesItem2(_BaseSchema):
+    """Schema for WirelessControllerAddressesItem2."""
 
     address: str | None = None
 
 
-class GetOrganizationWirelessControllerOverviewByDeviceResponseItemsItemFirmwareVersion(
-    _BaseSchema
-):
+class WirelessControllerVersion(_BaseSchema):
     """Wireless LAN controller firmware version."""
 
     short_name: str | None = Field(default=None, alias="shortName")
-
-
-class GetOrganizationWirelessControllerOverviewByDeviceResponseMetaCountsItems(_BaseSchema):
-    """Counts relating to the paginated items."""
-
-    total: int | None = None
-    remaining: int | None = None
 
 
 class GetOrganizationWirelessControllerAvailabilitiesChangeHistoryResponseItemsItem(_BaseSchema):
     """Schema for GetOrganizationWirelessControllerAvailabilitiesChangeHistoryResponseItemsItem."""
 
     serial: str | None = None
-    changes: (
-        list[
-            GetOrganizationWirelessControllerAvailabilitiesChangeHistoryResponseItemsItemChangesItem
-        ]
-        | None
-    ) = None
+    changes: list[WirelessControllerChangesItem] | None = None
 
 
-class GetOrganizationWirelessControllerDevicesInterfacesL2StatusesChangeHistoryByDeviceResponseItemsItemInterfacesItem(
-    _BaseSchema
-):
-    """Schema for GetOrganizationWirelessControllerDevicesInterfacesL2StatusesChangeHistoryByDevice
-    ResponseItemsItemInterfacesItem.
-    """
-
-    name: str | None = None
-    mac: str | None = None
-    changes: (
-        list[
-            GetOrganizationWirelessControllerDevicesInterfacesL2StatusesChangeHistoryByDeviceResponseItemsItemInterfacesItemChangesItem
-        ]
-        | None
-    ) = None
-
-
-class GetOrganizationWirelessControllerDevicesInterfacesL2UsageHistoryByIntervalResponseItemsItem(
-    _BaseSchema
-):
-    """Schema for
-    GetOrganizationWirelessControllerDevicesInterfacesL2UsageHistoryByIntervalResponseItemsItem.
-    """
-
-    serial: str | None = None
-    readings: (
-        list[
-            GetOrganizationWirelessControllerDevicesInterfacesL2UsageHistoryByIntervalResponseItemsItemReadingsItem
-        ]
-        | None
-    ) = None
-
-
-class GetOrganizationWirelessControllerDevicesInterfacesL3StatusesChangeHistoryByDeviceResponseItemsItemInterfacesItem(
-    _BaseSchema
-):
-    """Schema for GetOrganizationWirelessControllerDevicesInterfacesL3StatusesChangeHistoryByDevice
-    ResponseItemsItemInterfacesItem.
-    """
-
-    name: str | None = None
-    mac: str | None = None
-    changes: (
-        list[
-            GetOrganizationWirelessControllerDevicesInterfacesL3StatusesChangeHistoryByDeviceResponseItemsItemInterfacesItemChangesItem
-        ]
-        | None
-    ) = None
-
-
-class GetOrganizationWirelessControllerDevicesInterfacesL3UsageHistoryByIntervalResponseItemsItem(
-    _BaseSchema
-):
-    """Schema for
-    GetOrganizationWirelessControllerDevicesInterfacesL3UsageHistoryByIntervalResponseItemsItem.
-    """
-
-    serial: str | None = None
-    readings: (
-        list[
-            GetOrganizationWirelessControllerDevicesInterfacesL3UsageHistoryByIntervalResponseItemsItemReadingsItem
-        ]
-        | None
-    ) = None
-
-
-class GetOrganizationWirelessControllerOverviewByDeviceResponseItemsItemRedundancyManagement(
-    _BaseSchema
-):
-    """Wireless LAN controller redundancy management interface information."""
-
-    addresses: (
-        list[
-            GetOrganizationWirelessControllerOverviewByDeviceResponseItemsItemRedundancyManagementAddressesItem
-        ]
-        | None
-    ) = None
-
-
-class GetOrganizationWirelessControllerDevicesInterfacesL2StatusesChangeHistoryByDeviceResponseItemsItem(
-    _BaseSchema
-):
-    """Schema for GetOrganizationWirelessControllerDevicesInterfacesL2StatusesChangeHistoryByDevice
-    ResponseItemsItem.
-    """
-
-    serial: str | None = None
-    interfaces: (
-        list[
-            GetOrganizationWirelessControllerDevicesInterfacesL2StatusesChangeHistoryByDeviceResponseItemsItemInterfacesItem
-        ]
-        | None
-    ) = None
-
-
-class GetOrganizationWirelessControllerDevicesInterfacesL3StatusesChangeHistoryByDeviceResponseItemsItem(
-    _BaseSchema
-):
-    """Schema for GetOrganizationWirelessControllerDevicesInterfacesL3StatusesChangeHistoryByDevice
-    ResponseItemsItem.
-    """
-
-    serial: str | None = None
-    interfaces: (
-        list[
-            GetOrganizationWirelessControllerDevicesInterfacesL3StatusesChangeHistoryByDeviceResponseItemsItemInterfacesItem
-        ]
-        | None
-    ) = None
-
-
-class GetOrganizationWirelessControllerAvailabilitiesChangeHistoryResponseMetaCounts(_BaseSchema):
+class WirelessControllerMetaCounts(_BaseSchema):
     """Counts relating to the paginated dataset."""
 
-    items: (
-        GetOrganizationWirelessControllerAvailabilitiesChangeHistoryResponseMetaCountsItems | None
-    ) = None
+    items: WirelessControllerItems | None = None
+
+
+class WirelessControllerCounts(_BaseSchema):
+    """Client counts."""
+
+    by_status: WirelessControllerByStatus | None = Field(default=None, alias="byStatus")
+
+
+class GetOrganizationWirelessControllerConnectionsResponseItemsItem(_BaseSchema):
+    """Schema for GetOrganizationWirelessControllerConnectionsResponseItemsItem."""
+
+    serial: str | None = None
+    controller: WirelessControllerController | None = None
+    network: WirelessControllerNetwork2 | None = None
+
+
+class WirelessControllerInterfacesItem(_BaseSchema):
+    """Schema for WirelessControllerInterfacesItem."""
+
+    name: str | None = None
+    description: str | None = None
+    enabled: bool | None = None
+    mac: str | None = None
+    status: str | None = None
+    speed: str | None = None
+    is_uplink: bool | None = Field(default=None, alias="isUplink")
+    vlan: int | None = None
+    is_redundancy_port: bool | None = Field(default=None, alias="isRedundancyPort")
+    link_negotiation: str | None = Field(default=None, alias="linkNegotiation")
+    channel_group: WirelessControllerChannelGroup | None = Field(default=None, alias="channelGroup")
+    module: WirelessControllerModule | None = None
+
+
+class WirelessControllerInterfacesItem2(_BaseSchema):
+    """Schema for WirelessControllerInterfacesItem2."""
+
+    name: str | None = None
+    mac: str | None = None
+    changes: list[WirelessControllerChangesItem2] | None = None
+
+
+class WirelessControllerItemsItem3(_BaseSchema):
+    """Schema for WirelessControllerItemsItem3."""
+
+    serial: str | None = None
+    readings: list[WirelessControllerReadingsItem2] | None = None
+
+
+class WirelessControllerInterfacesItem3(_BaseSchema):
+    """Schema for WirelessControllerInterfacesItem3."""
+
+    name: str | None = None
+    description: str | None = None
+    mac: str | None = None
+    status: str | None = None
+    speed: str | None = None
+    addresses: list[WirelessControllerAddressesItem] | None = None
+    vrf: WirelessControllerVrf | None = None
+    is_uplink: bool | None = Field(default=None, alias="isUplink")
+    vlan: int | None = None
+    link_negotiation: str | None = Field(default=None, alias="linkNegotiation")
+    channel_group: WirelessControllerChannelGroup | None = Field(default=None, alias="channelGroup")
+    module: WirelessControllerModule | None = None
+
+
+class WirelessControllerFailed(_BaseSchema):
+    """Details about the failed unit."""
+
+    chassis: WirelessControllerVrf | None = None
+
+
+class WirelessControllerReadingsItem3(_BaseSchema):
+    """Schema for WirelessControllerReadingsItem3."""
+
+    name: str | None = None
+    total: int | None = None
+    recv: int | None = None
+    send: int | None = None
+    rate: WirelessControllerRate | None = None
+
+
+class WirelessControllerByInterfaceItem(_BaseSchema):
+    """Schema for WirelessControllerByInterfaceItem."""
+
+    name: str | None = None
+    usage: WirelessControllerRate | None = None
+
+
+class WirelessControllerUsage(_BaseSchema):
+    """The CPU usage of the wireless LAN controller."""
+
+    average: WirelessControllerAverage | None = None
+
+
+class WirelessControllerConnections(_BaseSchema):
+    """Wireless LAN controller associated access point counts."""
+
+    total: int | None = None
+    by_status: WirelessControllerByStatus2 | None = Field(default=None, alias="byStatus")
+
+
+class WirelessControllerManagement(_BaseSchema):
+    """Wireless LAN controller redundancy management interface information."""
+
+    addresses: list[WirelessControllerAddressesItem2] | None = None
+
+
+class WirelessControllerFirmware(_BaseSchema):
+    """Wireless LAN controller device firmware information."""
+
+    version: WirelessControllerVersion | None = None
 
 
 class GetOrganizationWirelessControllerAvailabilitiesChangeHistoryResponseMeta(_BaseSchema):
     """Metadata relevant to the paginated dataset."""
 
-    counts: (
-        GetOrganizationWirelessControllerAvailabilitiesChangeHistoryResponseMetaCounts | None
-    ) = None
+    counts: WirelessControllerMetaCounts | None = None
+
+
+class WirelessControllerReadingsItem(_BaseSchema):
+    """Schema for WirelessControllerReadingsItem."""
+
+    start_ts: str | None = Field(default=None, alias="startTs")
+    end_ts: str | None = Field(default=None, alias="endTs")
+    counts: WirelessControllerCounts | None = None
+
+
+class WirelessControllerFailover(_BaseSchema):
+    """Wireless LAN controller failover information."""
+
+    last: WirelessControllerLast | None = None
+    counts: WirelessControllerCounts2 | None = None
+
+
+class GetOrganizationWirelessControllerDevicesInterfacesL2ByDeviceResponseItemsItem(_BaseSchema):
+    """Schema for GetOrganizationWirelessControllerDevicesInterfacesL2ByDeviceResponseItemsItem."""
+
+    serial: str | None = None
+    interfaces: list[WirelessControllerInterfacesItem] | None = None
+
+
+class WirelessControllerItemsItem2(_BaseSchema):
+    """Schema for WirelessControllerItemsItem2."""
+
+    serial: str | None = None
+    interfaces: list[WirelessControllerInterfacesItem2] | None = None
+
+
+class GetOrganizationWirelessControllerDevicesInterfacesL3ByDeviceResponseItemsItem(_BaseSchema):
+    """Schema for GetOrganizationWirelessControllerDevicesInterfacesL3ByDeviceResponseItemsItem."""
+
+    serial: str | None = None
+    interfaces: list[WirelessControllerInterfacesItem3] | None = None
+
+
+class WirelessControllerItemsItem6(_BaseSchema):
+    """Schema for WirelessControllerItemsItem6."""
+
+    serial: str | None = None
+    ts: str | None = None
+    reason: str | None = None
+    failed: WirelessControllerFailed | None = None
+    active: WirelessControllerFailed | None = None
+
+
+class WirelessControllerInterfacesItem4(_BaseSchema):
+    """Schema for WirelessControllerInterfacesItem4."""
+
+    name: str | None = None
+    readings: list[WirelessControllerReadingsItem3] | None = None
+
+
+class WirelessControllerIntervalsItem(_BaseSchema):
+    """Schema for WirelessControllerIntervalsItem."""
+
+    start_ts: str | None = Field(default=None, alias="startTs")
+    end_ts: str | None = Field(default=None, alias="endTs")
+    overall: WirelessControllerRate | None = None
+    by_interface: list[WirelessControllerByInterfaceItem] | None = Field(
+        default=None, alias="byInterface"
+    )
+
+
+class WirelessControllerOverall(_BaseSchema):
+    """The overall CPU usage of the wireless LAN controller."""
+
+    usage: WirelessControllerUsage | None = None
+
+
+class WirelessControllerByCoreItem(_BaseSchema):
+    """Schema for WirelessControllerByCoreItem."""
+
+    name: str | None = None
+    usage: WirelessControllerUsage | None = None
+
+
+class WirelessControllerCounts3(_BaseSchema):
+    """Wireless LAN controller client and access point counts."""
+
+    clients: WirelessControllerCounts | None = None
+    connections: WirelessControllerConnections | None = None
+
+
+class WirelessControllerRedundancy(_BaseSchema):
+    """Wireless LAN controller redundancy information."""
+
+    role: str | None = None
+    id_: str | None = Field(default=None, alias="id")
+    chassis_name: str | None = Field(default=None, alias="chassisName")
+    redundant_serial: str | None = Field(default=None, alias="redundantSerial")
+    management: WirelessControllerManagement | None = None
 
 
 class GetOrganizationWirelessControllerAvailabilitiesChangeHistoryResponse(_BaseSchema):
@@ -556,680 +375,12 @@ class GetOrganizationWirelessControllerAvailabilitiesChangeHistoryResponse(_Base
     meta: GetOrganizationWirelessControllerAvailabilitiesChangeHistoryResponseMeta | None = None
 
 
-class GetOrganizationWirelessControllerClientsOverviewHistoryByDeviceByIntervalResponseItemsItemReadingsItemCounts(
-    _BaseSchema
-):
-    """Client counts."""
-
-    by_status: (
-        GetOrganizationWirelessControllerClientsOverviewHistoryByDeviceByIntervalResponseItemsItemReadingsItemCountsByStatus
-        | None
-    ) = Field(default=None, alias="byStatus")
-
-
-class GetOrganizationWirelessControllerClientsOverviewHistoryByDeviceByIntervalResponseItemsItemReadingsItem(
-    _BaseSchema
-):
-    """Schema for GetOrganizationWirelessControllerClientsOverviewHistoryByDeviceByIntervalResponse
-    ItemsItemReadingsItem.
-    """
-
-    start_ts: str | None = Field(default=None, alias="startTs")
-    end_ts: str | None = Field(default=None, alias="endTs")
-    counts: (
-        GetOrganizationWirelessControllerClientsOverviewHistoryByDeviceByIntervalResponseItemsItemReadingsItemCounts
-        | None
-    ) = None
-
-
-class GetOrganizationWirelessControllerClientsOverviewHistoryByDeviceByIntervalResponseItemsItem(
-    _BaseSchema
-):
-    """Schema for
-    GetOrganizationWirelessControllerClientsOverviewHistoryByDeviceByIntervalResponseItemsItem.
-    """
+class WirelessControllerItemsItem(_BaseSchema):
+    """Schema for WirelessControllerItemsItem."""
 
     serial: str | None = None
-    network: (
-        GetOrganizationWirelessControllerClientsOverviewHistoryByDeviceByIntervalResponseItemsItemNetwork
-        | None
-    ) = None
-    readings: (
-        list[
-            GetOrganizationWirelessControllerClientsOverviewHistoryByDeviceByIntervalResponseItemsItemReadingsItem
-        ]
-        | None
-    ) = None
-
-
-class GetOrganizationWirelessControllerClientsOverviewHistoryByDeviceByIntervalResponseMetaCounts(
-    _BaseSchema
-):
-    """Counts relating to the paginated dataset."""
-
-    items: (
-        GetOrganizationWirelessControllerClientsOverviewHistoryByDeviceByIntervalResponseMetaCountsItems
-        | None
-    ) = None
-
-
-class GetOrganizationWirelessControllerClientsOverviewHistoryByDeviceByIntervalResponseMeta(
-    _BaseSchema
-):
-    """Metadata relevant to the paginated dataset."""
-
-    counts: (
-        GetOrganizationWirelessControllerClientsOverviewHistoryByDeviceByIntervalResponseMetaCounts
-        | None
-    ) = None
-
-
-class GetOrganizationWirelessControllerClientsOverviewHistoryByDeviceByIntervalResponse(
-    _BaseSchema
-):
-    """List wireless client counts of wireless LAN controllers over time in an organization."""
-
-    items: (
-        list[
-            GetOrganizationWirelessControllerClientsOverviewHistoryByDeviceByIntervalResponseItemsItem
-        ]
-        | None
-    ) = None
-    meta: (
-        GetOrganizationWirelessControllerClientsOverviewHistoryByDeviceByIntervalResponseMeta | None
-    ) = None
-
-
-class GetOrganizationWirelessControllerConnectionsResponseItemsItem(_BaseSchema):
-    """Schema for GetOrganizationWirelessControllerConnectionsResponseItemsItem."""
-
-    serial: str | None = None
-    controller: GetOrganizationWirelessControllerConnectionsResponseItemsItemController | None = (
-        None
-    )
-    network: GetOrganizationWirelessControllerConnectionsResponseItemsItemNetwork | None = None
-
-
-class GetOrganizationWirelessControllerConnectionsResponseMetaCounts(_BaseSchema):
-    """Counts relating to the paginated dataset."""
-
-    items: GetOrganizationWirelessControllerConnectionsResponseMetaCountsItems | None = None
-
-
-class GetOrganizationWirelessControllerConnectionsResponseMeta(_BaseSchema):
-    """Metadata relevant to the paginated dataset."""
-
-    counts: GetOrganizationWirelessControllerConnectionsResponseMetaCounts | None = None
-
-
-class GetOrganizationWirelessControllerConnectionsResponse(_BaseSchema):
-    """List all access points associated with wireless LAN controllers in an organization."""
-
-    items: list[GetOrganizationWirelessControllerConnectionsResponseItemsItem] | None = None
-    meta: GetOrganizationWirelessControllerConnectionsResponseMeta | None = None
-
-
-class GetOrganizationWirelessControllerDevicesInterfacesL2ByDeviceResponseItemsItemInterfacesItem(
-    _BaseSchema
-):
-    """Schema for
-    GetOrganizationWirelessControllerDevicesInterfacesL2ByDeviceResponseItemsItemInterfacesItem.
-    """
-
-    name: str | None = None
-    description: str | None = None
-    enabled: bool | None = None
-    mac: str | None = None
-    status: str | None = None
-    speed: str | None = None
-    is_uplink: bool | None = Field(default=None, alias="isUplink")
-    vlan: int | None = None
-    is_redundancy_port: bool | None = Field(default=None, alias="isRedundancyPort")
-    link_negotiation: str | None = Field(default=None, alias="linkNegotiation")
-    channel_group: (
-        GetOrganizationWirelessControllerDevicesInterfacesL2ByDeviceResponseItemsItemInterfacesItemChannelGroup
-        | None
-    ) = Field(default=None, alias="channelGroup")
-    module: (
-        GetOrganizationWirelessControllerDevicesInterfacesL2ByDeviceResponseItemsItemInterfacesItemModule
-        | None
-    ) = None
-
-
-class GetOrganizationWirelessControllerDevicesInterfacesL2ByDeviceResponseItemsItem(_BaseSchema):
-    """Schema for GetOrganizationWirelessControllerDevicesInterfacesL2ByDeviceResponseItemsItem."""
-
-    serial: str | None = None
-    interfaces: (
-        list[
-            GetOrganizationWirelessControllerDevicesInterfacesL2ByDeviceResponseItemsItemInterfacesItem
-        ]
-        | None
-    ) = None
-
-
-class GetOrganizationWirelessControllerDevicesInterfacesL2ByDeviceResponseMetaCounts(_BaseSchema):
-    """Counts relating to the paginated dataset."""
-
-    items: (
-        GetOrganizationWirelessControllerDevicesInterfacesL2ByDeviceResponseMetaCountsItems | None
-    ) = None
-
-
-class GetOrganizationWirelessControllerDevicesInterfacesL2ByDeviceResponseMeta(_BaseSchema):
-    """Metadata relevant to the paginated dataset."""
-
-    counts: (
-        GetOrganizationWirelessControllerDevicesInterfacesL2ByDeviceResponseMetaCounts | None
-    ) = None
-
-
-class GetOrganizationWirelessControllerDevicesInterfacesL2ByDeviceResponse(_BaseSchema):
-    """List wireless LAN controller layer 2 interfaces in an organization."""
-
-    items: (
-        list[GetOrganizationWirelessControllerDevicesInterfacesL2ByDeviceResponseItemsItem] | None
-    ) = None
-    meta: GetOrganizationWirelessControllerDevicesInterfacesL2ByDeviceResponseMeta | None = None
-
-
-class GetOrganizationWirelessControllerDevicesInterfacesL2StatusesChangeHistoryByDeviceResponseMetaCounts(
-    _BaseSchema
-):
-    """Counts relating to the paginated dataset."""
-
-    items: (
-        GetOrganizationWirelessControllerDevicesInterfacesL2StatusesChangeHistoryByDeviceResponseMetaCountsItems
-        | None
-    ) = None
-
-
-class GetOrganizationWirelessControllerDevicesInterfacesL2StatusesChangeHistoryByDeviceResponseMeta(
-    _BaseSchema
-):
-    """Metadata relevant to the paginated dataset."""
-
-    counts: (
-        GetOrganizationWirelessControllerDevicesInterfacesL2StatusesChangeHistoryByDeviceResponseMetaCounts
-        | None
-    ) = None
-
-
-class GetOrganizationWirelessControllerDevicesInterfacesL2StatusesChangeHistoryByDeviceResponse(
-    _BaseSchema
-):
-    """List wireless LAN controller layer 2 interfaces history status in an organization."""
-
-    items: (
-        list[
-            GetOrganizationWirelessControllerDevicesInterfacesL2StatusesChangeHistoryByDeviceResponseItemsItem
-        ]
-        | None
-    ) = None
-    meta: (
-        GetOrganizationWirelessControllerDevicesInterfacesL2StatusesChangeHistoryByDeviceResponseMeta
-        | None
-    ) = None
-
-
-class GetOrganizationWirelessControllerDevicesInterfacesL2UsageHistoryByIntervalResponseMetaCounts(
-    _BaseSchema
-):
-    """Counts relating to the paginated dataset."""
-
-    items: (
-        GetOrganizationWirelessControllerDevicesInterfacesL2UsageHistoryByIntervalResponseMetaCountsItems
-        | None
-    ) = None
-
-
-class GetOrganizationWirelessControllerDevicesInterfacesL2UsageHistoryByIntervalResponseMeta(
-    _BaseSchema
-):
-    """Metadata relevant to the paginated dataset."""
-
-    counts: (
-        GetOrganizationWirelessControllerDevicesInterfacesL2UsageHistoryByIntervalResponseMetaCounts
-        | None
-    ) = None
-
-
-class GetOrganizationWirelessControllerDevicesInterfacesL2UsageHistoryByIntervalResponse(
-    _BaseSchema
-):
-    """List wireless LAN controller layer 2 interfaces history usage in an organization."""
-
-    items: (
-        list[
-            GetOrganizationWirelessControllerDevicesInterfacesL2UsageHistoryByIntervalResponseItemsItem
-        ]
-        | None
-    ) = None
-    meta: (
-        GetOrganizationWirelessControllerDevicesInterfacesL2UsageHistoryByIntervalResponseMeta
-        | None
-    ) = None
-
-
-class GetOrganizationWirelessControllerDevicesInterfacesL3ByDeviceResponseItemsItemInterfacesItem(
-    _BaseSchema
-):
-    """Schema for
-    GetOrganizationWirelessControllerDevicesInterfacesL3ByDeviceResponseItemsItemInterfacesItem.
-    """
-
-    name: str | None = None
-    description: str | None = None
-    mac: str | None = None
-    status: str | None = None
-    speed: str | None = None
-    addresses: (
-        list[
-            GetOrganizationWirelessControllerDevicesInterfacesL3ByDeviceResponseItemsItemInterfacesItemAddressesItem
-        ]
-        | None
-    ) = None
-    vrf: (
-        GetOrganizationWirelessControllerDevicesInterfacesL3ByDeviceResponseItemsItemInterfacesItemVrf
-        | None
-    ) = None
-    is_uplink: bool | None = Field(default=None, alias="isUplink")
-    vlan: int | None = None
-    link_negotiation: str | None = Field(default=None, alias="linkNegotiation")
-    channel_group: (
-        GetOrganizationWirelessControllerDevicesInterfacesL3ByDeviceResponseItemsItemInterfacesItemChannelGroup
-        | None
-    ) = Field(default=None, alias="channelGroup")
-    module: (
-        GetOrganizationWirelessControllerDevicesInterfacesL3ByDeviceResponseItemsItemInterfacesItemModule
-        | None
-    ) = None
-
-
-class GetOrganizationWirelessControllerDevicesInterfacesL3ByDeviceResponseItemsItem(_BaseSchema):
-    """Schema for GetOrganizationWirelessControllerDevicesInterfacesL3ByDeviceResponseItemsItem."""
-
-    serial: str | None = None
-    interfaces: (
-        list[
-            GetOrganizationWirelessControllerDevicesInterfacesL3ByDeviceResponseItemsItemInterfacesItem
-        ]
-        | None
-    ) = None
-
-
-class GetOrganizationWirelessControllerDevicesInterfacesL3ByDeviceResponseMetaCounts(_BaseSchema):
-    """Counts relating to the paginated dataset."""
-
-    items: (
-        GetOrganizationWirelessControllerDevicesInterfacesL3ByDeviceResponseMetaCountsItems | None
-    ) = None
-
-
-class GetOrganizationWirelessControllerDevicesInterfacesL3ByDeviceResponseMeta(_BaseSchema):
-    """Metadata relevant to the paginated dataset."""
-
-    counts: (
-        GetOrganizationWirelessControllerDevicesInterfacesL3ByDeviceResponseMetaCounts | None
-    ) = None
-
-
-class GetOrganizationWirelessControllerDevicesInterfacesL3ByDeviceResponse(_BaseSchema):
-    """List wireless LAN controller layer 3 interfaces in an organization."""
-
-    items: (
-        list[GetOrganizationWirelessControllerDevicesInterfacesL3ByDeviceResponseItemsItem] | None
-    ) = None
-    meta: GetOrganizationWirelessControllerDevicesInterfacesL3ByDeviceResponseMeta | None = None
-
-
-class GetOrganizationWirelessControllerDevicesInterfacesL3StatusesChangeHistoryByDeviceResponseMetaCounts(
-    _BaseSchema
-):
-    """Counts relating to the paginated dataset."""
-
-    items: (
-        GetOrganizationWirelessControllerDevicesInterfacesL3StatusesChangeHistoryByDeviceResponseMetaCountsItems
-        | None
-    ) = None
-
-
-class GetOrganizationWirelessControllerDevicesInterfacesL3StatusesChangeHistoryByDeviceResponseMeta(
-    _BaseSchema
-):
-    """Metadata relevant to the paginated dataset."""
-
-    counts: (
-        GetOrganizationWirelessControllerDevicesInterfacesL3StatusesChangeHistoryByDeviceResponseMetaCounts
-        | None
-    ) = None
-
-
-class GetOrganizationWirelessControllerDevicesInterfacesL3StatusesChangeHistoryByDeviceResponse(
-    _BaseSchema
-):
-    """List wireless LAN controller layer 3 interfaces history status in an organization."""
-
-    items: (
-        list[
-            GetOrganizationWirelessControllerDevicesInterfacesL3StatusesChangeHistoryByDeviceResponseItemsItem
-        ]
-        | None
-    ) = None
-    meta: (
-        GetOrganizationWirelessControllerDevicesInterfacesL3StatusesChangeHistoryByDeviceResponseMeta
-        | None
-    ) = None
-
-
-class GetOrganizationWirelessControllerDevicesInterfacesL3UsageHistoryByIntervalResponseMetaCounts(
-    _BaseSchema
-):
-    """Counts relating to the paginated dataset."""
-
-    items: (
-        GetOrganizationWirelessControllerDevicesInterfacesL3UsageHistoryByIntervalResponseMetaCountsItems
-        | None
-    ) = None
-
-
-class GetOrganizationWirelessControllerDevicesInterfacesL3UsageHistoryByIntervalResponseMeta(
-    _BaseSchema
-):
-    """Metadata relevant to the paginated dataset."""
-
-    counts: (
-        GetOrganizationWirelessControllerDevicesInterfacesL3UsageHistoryByIntervalResponseMetaCounts
-        | None
-    ) = None
-
-
-class GetOrganizationWirelessControllerDevicesInterfacesL3UsageHistoryByIntervalResponse(
-    _BaseSchema
-):
-    """List wireless LAN controller layer 3 interfaces history usage in an organization."""
-
-    items: (
-        list[
-            GetOrganizationWirelessControllerDevicesInterfacesL3UsageHistoryByIntervalResponseItemsItem
-        ]
-        | None
-    ) = None
-    meta: (
-        GetOrganizationWirelessControllerDevicesInterfacesL3UsageHistoryByIntervalResponseMeta
-        | None
-    ) = None
-
-
-class GetOrganizationWirelessControllerDevicesInterfacesPacketsOverviewByDeviceResponseItemsItemInterfacesItemReadingsItem(
-    _BaseSchema
-):
-    """Schema for GetOrganizationWirelessControllerDevicesInterfacesPacketsOverviewByDeviceResponse
-    ItemsItemInterfacesItemReadingsItem.
-    """
-
-    name: str | None = None
-    total: int | None = None
-    recv: int | None = None
-    send: int | None = None
-    rate: (
-        GetOrganizationWirelessControllerDevicesInterfacesPacketsOverviewByDeviceResponseItemsItemInterfacesItemReadingsItemRate
-        | None
-    ) = None
-
-
-class GetOrganizationWirelessControllerDevicesInterfacesPacketsOverviewByDeviceResponseItemsItemInterfacesItem(
-    _BaseSchema
-):
-    """Schema for GetOrganizationWirelessControllerDevicesInterfacesPacketsOverviewByDeviceResponse
-    ItemsItemInterfacesItem.
-    """
-
-    name: str | None = None
-    readings: (
-        list[
-            GetOrganizationWirelessControllerDevicesInterfacesPacketsOverviewByDeviceResponseItemsItemInterfacesItemReadingsItem
-        ]
-        | None
-    ) = None
-
-
-class GetOrganizationWirelessControllerDevicesInterfacesPacketsOverviewByDeviceResponseItemsItem(
-    _BaseSchema
-):
-    """Schema for
-    GetOrganizationWirelessControllerDevicesInterfacesPacketsOverviewByDeviceResponseItemsItem.
-    """
-
-    serial: str | None = None
-    interfaces: (
-        list[
-            GetOrganizationWirelessControllerDevicesInterfacesPacketsOverviewByDeviceResponseItemsItemInterfacesItem
-        ]
-        | None
-    ) = None
-
-
-class GetOrganizationWirelessControllerDevicesInterfacesPacketsOverviewByDeviceResponseMetaCounts(
-    _BaseSchema
-):
-    """Counts relating to the paginated dataset."""
-
-    items: (
-        GetOrganizationWirelessControllerDevicesInterfacesPacketsOverviewByDeviceResponseMetaCountsItems
-        | None
-    ) = None
-
-
-class GetOrganizationWirelessControllerDevicesInterfacesPacketsOverviewByDeviceResponseMeta(
-    _BaseSchema
-):
-    """Metadata relevant to the paginated dataset."""
-
-    counts: (
-        GetOrganizationWirelessControllerDevicesInterfacesPacketsOverviewByDeviceResponseMetaCounts
-        | None
-    ) = None
-
-
-class GetOrganizationWirelessControllerDevicesInterfacesPacketsOverviewByDeviceResponse(
-    _BaseSchema
-):
-    """Retrieve the packet counters for the interfaces of a Wireless LAN controller."""
-
-    items: (
-        list[
-            GetOrganizationWirelessControllerDevicesInterfacesPacketsOverviewByDeviceResponseItemsItem
-        ]
-        | None
-    ) = None
-    meta: (
-        GetOrganizationWirelessControllerDevicesInterfacesPacketsOverviewByDeviceResponseMeta | None
-    ) = None
-
-
-class GetOrganizationWirelessControllerDevicesInterfacesUsageHistoryByIntervalResponseItemsItemIntervalsItemByInterfaceItem(
-    _BaseSchema
-):
-    """Schema for GetOrganizationWirelessControllerDevicesInterfacesUsageHistoryByIntervalResponseI
-    temsItemIntervalsItemByInterfaceItem.
-    """
-
-    name: str | None = None
-    usage: (
-        GetOrganizationWirelessControllerDevicesInterfacesUsageHistoryByIntervalResponseItemsItemIntervalsItemByInterfaceItemUsage
-        | None
-    ) = None
-
-
-class GetOrganizationWirelessControllerDevicesInterfacesUsageHistoryByIntervalResponseItemsItemIntervalsItem(
-    _BaseSchema
-):
-    """Schema for GetOrganizationWirelessControllerDevicesInterfacesUsageHistoryByIntervalResponseI
-    temsItemIntervalsItem.
-    """
-
-    start_ts: str | None = Field(default=None, alias="startTs")
-    end_ts: str | None = Field(default=None, alias="endTs")
-    overall: (
-        GetOrganizationWirelessControllerDevicesInterfacesUsageHistoryByIntervalResponseItemsItemIntervalsItemOverall
-        | None
-    ) = None
-    by_interface: (
-        list[
-            GetOrganizationWirelessControllerDevicesInterfacesUsageHistoryByIntervalResponseItemsItemIntervalsItemByInterfaceItem
-        ]
-        | None
-    ) = Field(default=None, alias="byInterface")
-
-
-class GetOrganizationWirelessControllerDevicesInterfacesUsageHistoryByIntervalResponseItemsItem(
-    _BaseSchema
-):
-    """Schema for
-    GetOrganizationWirelessControllerDevicesInterfacesUsageHistoryByIntervalResponseItemsItem.
-    """
-
-    serial: str | None = None
-    intervals: (
-        list[
-            GetOrganizationWirelessControllerDevicesInterfacesUsageHistoryByIntervalResponseItemsItemIntervalsItem
-        ]
-        | None
-    ) = None
-
-
-class GetOrganizationWirelessControllerDevicesInterfacesUsageHistoryByIntervalResponseMetaCounts(
-    _BaseSchema
-):
-    """Counts relating to the paginated dataset."""
-
-    items: (
-        GetOrganizationWirelessControllerDevicesInterfacesUsageHistoryByIntervalResponseMetaCountsItems
-        | None
-    ) = None
-
-
-class GetOrganizationWirelessControllerDevicesInterfacesUsageHistoryByIntervalResponseMeta(
-    _BaseSchema
-):
-    """Metadata relevant to the paginated dataset."""
-
-    counts: (
-        GetOrganizationWirelessControllerDevicesInterfacesUsageHistoryByIntervalResponseMetaCounts
-        | None
-    ) = None
-
-
-class GetOrganizationWirelessControllerDevicesInterfacesUsageHistoryByIntervalResponse(_BaseSchema):
-    """Retrieve the traffic for the interfaces of a Wireless LAN controller."""
-
-    items: (
-        list[
-            GetOrganizationWirelessControllerDevicesInterfacesUsageHistoryByIntervalResponseItemsItem
-        ]
-        | None
-    ) = None
-    meta: (
-        GetOrganizationWirelessControllerDevicesInterfacesUsageHistoryByIntervalResponseMeta | None
-    ) = None
-
-
-class GetOrganizationWirelessControllerDevicesRedundancyFailoverHistoryResponseItemItemsItemFailed(
-    _BaseSchema
-):
-    """Details about the failed unit."""
-
-    chassis: (
-        GetOrganizationWirelessControllerDevicesRedundancyFailoverHistoryResponseItemItemsItemFailedChassis
-        | None
-    ) = None
-
-
-class GetOrganizationWirelessControllerDevicesRedundancyFailoverHistoryResponseItemItemsItemActive(
-    _BaseSchema
-):
-    """Details about the active unit."""
-
-    chassis: (
-        GetOrganizationWirelessControllerDevicesRedundancyFailoverHistoryResponseItemItemsItemActiveChassis
-        | None
-    ) = None
-
-
-class GetOrganizationWirelessControllerDevicesRedundancyFailoverHistoryResponseItemItemsItem(
-    _BaseSchema
-):
-    """Schema for
-    GetOrganizationWirelessControllerDevicesRedundancyFailoverHistoryResponseItemItemsItem.
-    """
-
-    serial: str | None = None
-    ts: str | None = None
-    reason: str | None = None
-    failed: (
-        GetOrganizationWirelessControllerDevicesRedundancyFailoverHistoryResponseItemItemsItemFailed
-        | None
-    ) = None
-    active: (
-        GetOrganizationWirelessControllerDevicesRedundancyFailoverHistoryResponseItemItemsItemActive
-        | None
-    ) = None
-
-
-class GetOrganizationWirelessControllerDevicesRedundancyFailoverHistoryResponseItemMetaCounts(
-    _BaseSchema
-):
-    """Counts relating to the paginated dataset."""
-
-    items: (
-        GetOrganizationWirelessControllerDevicesRedundancyFailoverHistoryResponseItemMetaCountsItems
-        | None
-    ) = None
-
-
-class GetOrganizationWirelessControllerDevicesRedundancyFailoverHistoryResponseItemMeta(
-    _BaseSchema
-):
-    """Metadata relevant to the paginated dataset."""
-
-    counts: (
-        GetOrganizationWirelessControllerDevicesRedundancyFailoverHistoryResponseItemMetaCounts
-        | None
-    ) = None
-
-
-class GetOrganizationWirelessControllerDevicesRedundancyFailoverHistoryResponseItem(_BaseSchema):
-    """Schema for GetOrganizationWirelessControllerDevicesRedundancyFailoverHistoryResponseItem."""
-
-    items: (
-        list[GetOrganizationWirelessControllerDevicesRedundancyFailoverHistoryResponseItemItemsItem]
-        | None
-    ) = None
-    meta: (
-        GetOrganizationWirelessControllerDevicesRedundancyFailoverHistoryResponseItemMeta | None
-    ) = None
-
-
-class GetOrganizationWirelessControllerDevicesRedundancyFailoverHistoryResponse(
-    RootModel[list[GetOrganizationWirelessControllerDevicesRedundancyFailoverHistoryResponseItem]]
-):
-    """List the failover events of wireless LAN controllers in an organization."""
-
-
-class GetOrganizationWirelessControllerDevicesRedundancyStatusesResponseItemsItemFailover(
-    _BaseSchema
-):
-    """Wireless LAN controller failover information."""
-
-    last: (
-        GetOrganizationWirelessControllerDevicesRedundancyStatusesResponseItemsItemFailoverLast
-        | None
-    ) = None
-    counts: (
-        GetOrganizationWirelessControllerDevicesRedundancyStatusesResponseItemsItemFailoverCounts
-        | None
-    ) = None
+    network: WirelessControllerNetwork | None = None
+    readings: list[WirelessControllerReadingsItem] | None = None
 
 
 class GetOrganizationWirelessControllerDevicesRedundancyStatusesResponseItemsItem(_BaseSchema):
@@ -1238,26 +389,118 @@ class GetOrganizationWirelessControllerDevicesRedundancyStatusesResponseItemsIte
     serial: str | None = None
     mode: str | None = None
     enabled: bool | None = None
-    failover: (
-        GetOrganizationWirelessControllerDevicesRedundancyStatusesResponseItemsItemFailover | None
-    ) = None
+    failover: WirelessControllerFailover | None = None
     mobility_mac: str | None = Field(default=None, alias="mobilityMac")
 
 
-class GetOrganizationWirelessControllerDevicesRedundancyStatusesResponseMetaCounts(_BaseSchema):
-    """Counts relating to the paginated dataset."""
+class WirelessControllerItemsItem4(_BaseSchema):
+    """Schema for WirelessControllerItemsItem4."""
+
+    serial: str | None = None
+    interfaces: list[WirelessControllerInterfacesItem4] | None = None
+
+
+class WirelessControllerItemsItem5(_BaseSchema):
+    """Schema for WirelessControllerItemsItem5."""
+
+    serial: str | None = None
+    intervals: list[WirelessControllerIntervalsItem] | None = None
+
+
+class WirelessControllerIntervalsItem2(_BaseSchema):
+    """Schema for WirelessControllerIntervalsItem2."""
+
+    start_ts: str | None = Field(default=None, alias="startTs")
+    end_ts: str | None = Field(default=None, alias="endTs")
+    overall: WirelessControllerOverall | None = None
+    by_core: list[WirelessControllerByCoreItem] | None = Field(default=None, alias="byCore")
+
+
+class GetOrganizationWirelessControllerOverviewByDeviceResponseItemsItem(_BaseSchema):
+    """Schema for GetOrganizationWirelessControllerOverviewByDeviceResponseItemsItem."""
+
+    serial: str | None = None
+    network: WirelessControllerNetwork | None = None
+    counts: WirelessControllerCounts3 | None = None
+    redundancy: WirelessControllerRedundancy | None = None
+    firmware: WirelessControllerFirmware | None = None
+
+
+class GetOrganizationWirelessControllerConnectionsResponse(_BaseSchema):
+    """List all access points associated with wireless LAN controllers in an organization."""
+
+    items: list[GetOrganizationWirelessControllerConnectionsResponseItemsItem] | None = None
+    meta: GetOrganizationWirelessControllerAvailabilitiesChangeHistoryResponseMeta | None = None
+
+
+class GetOrganizationWirelessControllerDevicesInterfacesL2ByDeviceResponse(_BaseSchema):
+    """List wireless LAN controller layer 2 interfaces in an organization."""
 
     items: (
-        GetOrganizationWirelessControllerDevicesRedundancyStatusesResponseMetaCountsItems | None
+        list[GetOrganizationWirelessControllerDevicesInterfacesL2ByDeviceResponseItemsItem] | None
     ) = None
+    meta: GetOrganizationWirelessControllerAvailabilitiesChangeHistoryResponseMeta | None = None
 
 
-class GetOrganizationWirelessControllerDevicesRedundancyStatusesResponseMeta(_BaseSchema):
-    """Metadata relevant to the paginated dataset."""
+class GetOrganizationWirelessControllerDevicesInterfacesL2StatusesChangeHistoryByDeviceResponse(
+    _BaseSchema
+):
+    """List wireless LAN controller layer 2 interfaces history status in an organization."""
 
-    counts: GetOrganizationWirelessControllerDevicesRedundancyStatusesResponseMetaCounts | None = (
-        None
-    )
+    items: list[WirelessControllerItemsItem2] | None = None
+    meta: GetOrganizationWirelessControllerAvailabilitiesChangeHistoryResponseMeta | None = None
+
+
+class GetOrganizationWirelessControllerDevicesInterfacesL2UsageHistoryByIntervalResponse(
+    _BaseSchema
+):
+    """List wireless LAN controller layer 2 interfaces history usage in an organization."""
+
+    items: list[WirelessControllerItemsItem3] | None = None
+    meta: GetOrganizationWirelessControllerAvailabilitiesChangeHistoryResponseMeta | None = None
+
+
+class GetOrganizationWirelessControllerDevicesInterfacesL3ByDeviceResponse(_BaseSchema):
+    """List wireless LAN controller layer 3 interfaces in an organization."""
+
+    items: (
+        list[GetOrganizationWirelessControllerDevicesInterfacesL3ByDeviceResponseItemsItem] | None
+    ) = None
+    meta: GetOrganizationWirelessControllerAvailabilitiesChangeHistoryResponseMeta | None = None
+
+
+class GetOrganizationWirelessControllerDevicesInterfacesL3StatusesChangeHistoryByDeviceResponse(
+    _BaseSchema
+):
+    """List wireless LAN controller layer 3 interfaces history status in an organization."""
+
+    items: list[WirelessControllerItemsItem2] | None = None
+    meta: GetOrganizationWirelessControllerAvailabilitiesChangeHistoryResponseMeta | None = None
+
+
+class GetOrganizationWirelessControllerDevicesInterfacesL3UsageHistoryByIntervalResponse(
+    _BaseSchema
+):
+    """List wireless LAN controller layer 3 interfaces history usage in an organization."""
+
+    items: list[WirelessControllerItemsItem3] | None = None
+    meta: GetOrganizationWirelessControllerAvailabilitiesChangeHistoryResponseMeta | None = None
+
+
+class GetOrganizationWirelessControllerDevicesRedundancyFailoverHistoryResponseItem(_BaseSchema):
+    """Schema for GetOrganizationWirelessControllerDevicesRedundancyFailoverHistoryResponseItem."""
+
+    items: list[WirelessControllerItemsItem6] | None = None
+    meta: GetOrganizationWirelessControllerAvailabilitiesChangeHistoryResponseMeta | None = None
+
+
+class GetOrganizationWirelessControllerClientsOverviewHistoryByDeviceByIntervalResponse(
+    _BaseSchema
+):
+    """List wireless client counts of wireless LAN controllers over time in an organization."""
+
+    items: list[WirelessControllerItemsItem] | None = None
+    meta: GetOrganizationWirelessControllerAvailabilitiesChangeHistoryResponseMeta | None = None
 
 
 class GetOrganizationWirelessControllerDevicesRedundancyStatusesResponse(_BaseSchema):
@@ -1269,209 +512,30 @@ class GetOrganizationWirelessControllerDevicesRedundancyStatusesResponse(_BaseSc
     items: (
         list[GetOrganizationWirelessControllerDevicesRedundancyStatusesResponseItemsItem] | None
     ) = None
-    meta: GetOrganizationWirelessControllerDevicesRedundancyStatusesResponseMeta | None = None
+    meta: GetOrganizationWirelessControllerAvailabilitiesChangeHistoryResponseMeta | None = None
 
 
-class GetOrganizationWirelessControllerDevicesSystemUtilizationHistoryByIntervalResponseItemsItemIntervalsItemOverallUsage(
+class GetOrganizationWirelessControllerDevicesInterfacesPacketsOverviewByDeviceResponse(
     _BaseSchema
 ):
-    """The CPU usage of the wireless LAN controller."""
+    """Retrieve the packet counters for the interfaces of a Wireless LAN controller."""
 
-    average: (
-        GetOrganizationWirelessControllerDevicesSystemUtilizationHistoryByIntervalResponseItemsItemIntervalsItemOverallUsageAverage
-        | None
-    ) = None
+    items: list[WirelessControllerItemsItem4] | None = None
+    meta: GetOrganizationWirelessControllerAvailabilitiesChangeHistoryResponseMeta | None = None
 
 
-class GetOrganizationWirelessControllerDevicesSystemUtilizationHistoryByIntervalResponseItemsItemIntervalsItemOverall(
-    _BaseSchema
-):
-    """The overall CPU usage of the wireless LAN controller."""
+class GetOrganizationWirelessControllerDevicesInterfacesUsageHistoryByIntervalResponse(_BaseSchema):
+    """Retrieve the traffic for the interfaces of a Wireless LAN controller."""
 
-    usage: (
-        GetOrganizationWirelessControllerDevicesSystemUtilizationHistoryByIntervalResponseItemsItemIntervalsItemOverallUsage
-        | None
-    ) = None
+    items: list[WirelessControllerItemsItem5] | None = None
+    meta: GetOrganizationWirelessControllerAvailabilitiesChangeHistoryResponseMeta | None = None
 
 
-class GetOrganizationWirelessControllerDevicesSystemUtilizationHistoryByIntervalResponseItemsItemIntervalsItemByCoreItemUsage(
-    _BaseSchema
-):
-    """The specific core CPU usage of the wireless LAN controller."""
-
-    average: (
-        GetOrganizationWirelessControllerDevicesSystemUtilizationHistoryByIntervalResponseItemsItemIntervalsItemByCoreItemUsageAverage
-        | None
-    ) = None
-
-
-class GetOrganizationWirelessControllerDevicesSystemUtilizationHistoryByIntervalResponseItemsItemIntervalsItemByCoreItem(
-    _BaseSchema
-):
-    """Schema for GetOrganizationWirelessControllerDevicesSystemUtilizationHistoryByIntervalRespons
-    eItemsItemIntervalsItemByCoreItem.
-    """
-
-    name: str | None = None
-    usage: (
-        GetOrganizationWirelessControllerDevicesSystemUtilizationHistoryByIntervalResponseItemsItemIntervalsItemByCoreItemUsage
-        | None
-    ) = None
-
-
-class GetOrganizationWirelessControllerDevicesSystemUtilizationHistoryByIntervalResponseItemsItemIntervalsItem(
-    _BaseSchema
-):
-    """Schema for GetOrganizationWirelessControllerDevicesSystemUtilizationHistoryByIntervalRespons
-    eItemsItemIntervalsItem.
-    """
-
-    start_ts: str | None = Field(default=None, alias="startTs")
-    end_ts: str | None = Field(default=None, alias="endTs")
-    overall: (
-        GetOrganizationWirelessControllerDevicesSystemUtilizationHistoryByIntervalResponseItemsItemIntervalsItemOverall
-        | None
-    ) = None
-    by_core: (
-        list[
-            GetOrganizationWirelessControllerDevicesSystemUtilizationHistoryByIntervalResponseItemsItemIntervalsItemByCoreItem
-        ]
-        | None
-    ) = Field(default=None, alias="byCore")
-
-
-class GetOrganizationWirelessControllerDevicesSystemUtilizationHistoryByIntervalResponseItemsItem(
-    _BaseSchema
-):
-    """Schema for
-    GetOrganizationWirelessControllerDevicesSystemUtilizationHistoryByIntervalResponseItemsItem.
-    """
+class WirelessControllerItemsItem7(_BaseSchema):
+    """Schema for WirelessControllerItemsItem7."""
 
     serial: str | None = None
-    intervals: (
-        list[
-            GetOrganizationWirelessControllerDevicesSystemUtilizationHistoryByIntervalResponseItemsItemIntervalsItem
-        ]
-        | None
-    ) = None
-
-
-class GetOrganizationWirelessControllerDevicesSystemUtilizationHistoryByIntervalResponseMetaCounts(
-    _BaseSchema
-):
-    """Counts relating to the paginated dataset."""
-
-    items: (
-        GetOrganizationWirelessControllerDevicesSystemUtilizationHistoryByIntervalResponseMetaCountsItems
-        | None
-    ) = None
-
-
-class GetOrganizationWirelessControllerDevicesSystemUtilizationHistoryByIntervalResponseMeta(
-    _BaseSchema
-):
-    """Metadata relevant to the paginated dataset."""
-
-    counts: (
-        GetOrganizationWirelessControllerDevicesSystemUtilizationHistoryByIntervalResponseMetaCounts
-        | None
-    ) = None
-
-
-class GetOrganizationWirelessControllerDevicesSystemUtilizationHistoryByIntervalResponse(
-    _BaseSchema
-):
-    """List cpu utilization data of wireless LAN controllers in an organization."""
-
-    items: (
-        list[
-            GetOrganizationWirelessControllerDevicesSystemUtilizationHistoryByIntervalResponseItemsItem
-        ]
-        | None
-    ) = None
-    meta: (
-        GetOrganizationWirelessControllerDevicesSystemUtilizationHistoryByIntervalResponseMeta
-        | None
-    ) = None
-
-
-class GetOrganizationWirelessControllerOverviewByDeviceResponseItemsItemCountsClients(_BaseSchema):
-    """Wireless LAN controller client counts."""
-
-    by_status: (
-        GetOrganizationWirelessControllerOverviewByDeviceResponseItemsItemCountsClientsByStatus
-        | None
-    ) = Field(default=None, alias="byStatus")
-
-
-class GetOrganizationWirelessControllerOverviewByDeviceResponseItemsItemCountsConnections(
-    _BaseSchema
-):
-    """Wireless LAN controller associated access point counts."""
-
-    total: int | None = None
-    by_status: (
-        GetOrganizationWirelessControllerOverviewByDeviceResponseItemsItemCountsConnectionsByStatus
-        | None
-    ) = Field(default=None, alias="byStatus")
-
-
-class GetOrganizationWirelessControllerOverviewByDeviceResponseItemsItemCounts(_BaseSchema):
-    """Wireless LAN controller client and access point counts."""
-
-    clients: (
-        GetOrganizationWirelessControllerOverviewByDeviceResponseItemsItemCountsClients | None
-    ) = None
-    connections: (
-        GetOrganizationWirelessControllerOverviewByDeviceResponseItemsItemCountsConnections | None
-    ) = None
-
-
-class GetOrganizationWirelessControllerOverviewByDeviceResponseItemsItemRedundancy(_BaseSchema):
-    """Wireless LAN controller redundancy information."""
-
-    role: str | None = None
-    id_: str | None = Field(default=None, alias="id")
-    chassis_name: str | None = Field(default=None, alias="chassisName")
-    redundant_serial: str | None = Field(default=None, alias="redundantSerial")
-    management: (
-        GetOrganizationWirelessControllerOverviewByDeviceResponseItemsItemRedundancyManagement
-        | None
-    ) = None
-
-
-class GetOrganizationWirelessControllerOverviewByDeviceResponseItemsItemFirmware(_BaseSchema):
-    """Wireless LAN controller device firmware information."""
-
-    version: (
-        GetOrganizationWirelessControllerOverviewByDeviceResponseItemsItemFirmwareVersion | None
-    ) = None
-
-
-class GetOrganizationWirelessControllerOverviewByDeviceResponseItemsItem(_BaseSchema):
-    """Schema for GetOrganizationWirelessControllerOverviewByDeviceResponseItemsItem."""
-
-    serial: str | None = None
-    network: GetOrganizationWirelessControllerOverviewByDeviceResponseItemsItemNetwork | None = None
-    counts: GetOrganizationWirelessControllerOverviewByDeviceResponseItemsItemCounts | None = None
-    redundancy: (
-        GetOrganizationWirelessControllerOverviewByDeviceResponseItemsItemRedundancy | None
-    ) = None
-    firmware: GetOrganizationWirelessControllerOverviewByDeviceResponseItemsItemFirmware | None = (
-        None
-    )
-
-
-class GetOrganizationWirelessControllerOverviewByDeviceResponseMetaCounts(_BaseSchema):
-    """Counts relating to the paginated dataset."""
-
-    items: GetOrganizationWirelessControllerOverviewByDeviceResponseMetaCountsItems | None = None
-
-
-class GetOrganizationWirelessControllerOverviewByDeviceResponseMeta(_BaseSchema):
-    """Metadata relevant to the paginated dataset."""
-
-    counts: GetOrganizationWirelessControllerOverviewByDeviceResponseMetaCounts | None = None
+    intervals: list[WirelessControllerIntervalsItem2] | None = None
 
 
 class GetOrganizationWirelessControllerOverviewByDeviceResponse(_BaseSchema):
@@ -1480,4 +544,19 @@ class GetOrganizationWirelessControllerOverviewByDeviceResponse(_BaseSchema):
     """
 
     items: list[GetOrganizationWirelessControllerOverviewByDeviceResponseItemsItem] | None = None
-    meta: GetOrganizationWirelessControllerOverviewByDeviceResponseMeta | None = None
+    meta: GetOrganizationWirelessControllerAvailabilitiesChangeHistoryResponseMeta | None = None
+
+
+class GetOrganizationWirelessControllerDevicesRedundancyFailoverHistoryResponse(
+    RootModel[list[GetOrganizationWirelessControllerDevicesRedundancyFailoverHistoryResponseItem]]
+):
+    """List the failover events of wireless LAN controllers in an organization."""
+
+
+class GetOrganizationWirelessControllerDevicesSystemUtilizationHistoryByIntervalResponse(
+    _BaseSchema
+):
+    """List cpu utilization data of wireless LAN controllers in an organization."""
+
+    items: list[WirelessControllerItemsItem7] | None = None
+    meta: GetOrganizationWirelessControllerAvailabilitiesChangeHistoryResponseMeta | None = None
