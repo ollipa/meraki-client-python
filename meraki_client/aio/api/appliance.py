@@ -227,7 +227,7 @@ class Appliance:
             scope="appliance", operation_id="createDeviceApplianceVmxAuthenticationToken", path=path
         )
 
-    async def get_network_appliance_client_security_events(
+    def get_network_appliance_client_security_events(
         self,
         *,
         network_id: str,
@@ -1375,7 +1375,7 @@ class Appliance:
             json=payload,
         )
 
-    async def get_network_appliance_security_events(
+    def get_network_appliance_security_events(
         self,
         *,
         network_id: str,
@@ -3523,7 +3523,7 @@ class Appliance:
             scope="appliance", operation_id="deleteOrganizationApplianceDnsSplitProfile", path=path
         )
 
-    async def get_organization_appliance_firewall_multicast_forwarding_by_network(
+    def get_organization_appliance_firewall_multicast_forwarding_by_network(
         self,
         *,
         organization_id: str,
@@ -3578,7 +3578,7 @@ class Appliance:
             direction=direction,
         )
 
-    async def get_organization_appliance_security_events(
+    def get_organization_appliance_security_events(
         self,
         *,
         organization_id: str,
@@ -3699,7 +3699,7 @@ class Appliance:
             json=payload,
         )
 
-    async def get_organization_appliance_traffic_shaping_vpn_exclusions_by_network(
+    def get_organization_appliance_traffic_shaping_vpn_exclusions_by_network(
         self,
         *,
         organization_id: str,
@@ -3754,7 +3754,7 @@ class Appliance:
             direction=direction,
         )
 
-    async def get_organization_appliance_uplink_statuses(
+    def get_organization_appliance_uplink_statuses(
         self,
         *,
         organization_id: str,
@@ -3933,7 +3933,7 @@ class Appliance:
             json=payload,
         )
 
-    async def get_organization_appliance_vpn_stats(
+    def get_organization_appliance_vpn_stats(
         self,
         *,
         organization_id: str,
@@ -4004,7 +4004,7 @@ class Appliance:
             direction=direction,
         )
 
-    async def get_organization_appliance_vpn_statuses(
+    def get_organization_appliance_vpn_statuses(
         self,
         *,
         organization_id: str,

@@ -61,7 +61,7 @@ class Sm:
             scope="sm", operation_id="getNetworkSmBypassActivationLockAttempt", path=path
         )
 
-    async def get_network_sm_devices(
+    def get_network_sm_devices(
         self,
         *,
         network_id: str,
@@ -541,7 +541,7 @@ class Sm:
             scope="sm", operation_id="getNetworkSmDeviceCerts", path=path
         )
 
-    async def get_network_sm_device_connectivity(
+    def get_network_sm_device_connectivity(
         self,
         *,
         network_id: str,
@@ -595,7 +595,7 @@ class Sm:
             direction=direction,
         )
 
-    async def get_network_sm_device_desktop_logs(
+    def get_network_sm_device_desktop_logs(
         self,
         *,
         network_id: str,
@@ -649,7 +649,7 @@ class Sm:
             direction=direction,
         )
 
-    async def get_network_sm_device_device_command_logs(
+    def get_network_sm_device_device_command_logs(
         self,
         *,
         network_id: str,
@@ -773,7 +773,7 @@ class Sm:
             scope="sm", operation_id="getNetworkSmDeviceNetworkAdapters", path=path
         )
 
-    async def get_network_sm_device_performance_history(
+    def get_network_sm_device_performance_history(
         self,
         *,
         network_id: str,
@@ -1128,7 +1128,7 @@ class Sm:
             scope="sm", operation_id="deleteNetworkSmTargetGroup", path=path
         )
 
-    async def get_network_sm_trusted_access_configs(
+    def get_network_sm_trusted_access_configs(
         self,
         *,
         network_id: str,
@@ -1179,7 +1179,7 @@ class Sm:
             direction=direction,
         )
 
-    async def get_network_sm_user_access_devices(
+    def get_network_sm_user_access_devices(
         self,
         *,
         network_id: str,
@@ -1329,7 +1329,7 @@ class Sm:
             scope="sm", operation_id="getNetworkSmUserSoftwares", path=path
         )
 
-    async def get_organization_sm_admins_roles(
+    def get_organization_sm_admins_roles(
         self,
         *,
         organization_id: str,
@@ -1540,7 +1540,7 @@ class Sm:
             json=payload,
         )
 
-    async def get_organization_sm_sentry_policies_assignments_by_network(
+    def get_organization_sm_sentry_policies_assignments_by_network(
         self,
         *,
         organization_id: str,

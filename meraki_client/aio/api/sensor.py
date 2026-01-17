@@ -15,7 +15,7 @@ class Sensor:
     def __init__(self, session: Session) -> None:
         self._session = session
 
-    async def get_device_sensor_commands(
+    def get_device_sensor_commands(
         self,
         *,
         serial: str,
@@ -496,7 +496,7 @@ class Sensor:
             scope="sensor", operation_id="getNetworkSensorRelationships", path=path
         )
 
-    async def get_organization_sensor_gateways_connections_latest(
+    def get_organization_sensor_gateways_connections_latest(
         self,
         *,
         organization_id: str,
@@ -551,7 +551,7 @@ class Sensor:
             direction=direction,
         )
 
-    async def get_organization_sensor_readings_history(
+    def get_organization_sensor_readings_history(
         self,
         *,
         organization_id: str,
@@ -630,7 +630,7 @@ class Sensor:
             direction=direction,
         )
 
-    async def get_organization_sensor_readings_latest(
+    def get_organization_sensor_readings_latest(
         self,
         *,
         organization_id: str,

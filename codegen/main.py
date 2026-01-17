@@ -430,6 +430,7 @@ def generate_module(
                         method=method, is_paginated=is_paginated, is_async=False
                     ),
                     is_async=False,
+                    is_paginated=is_paginated,
                 )
             )
             async_output.write(
@@ -448,6 +449,7 @@ def generate_module(
                         method=method, is_paginated=is_paginated, is_async=True
                     ),
                     is_async=True,
+                    is_paginated=is_paginated,
                 )
             )
 

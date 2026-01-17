@@ -15,7 +15,7 @@ class Organizations:
     def __init__(self, session: Session) -> None:
         self._session = session
 
-    async def get_organizations(
+    def get_organizations(
         self,
         *,
         per_page: int | None = None,
@@ -1150,7 +1150,7 @@ class Organizations:
             scope="organizations", operation_id="deleteOrganizationAlertsProfile", path=path
         )
 
-    async def get_organization_api_requests(
+    def get_organization_api_requests(
         self,
         *,
         organization_id: str,
@@ -1374,7 +1374,7 @@ class Organizations:
             params=params,
         )
 
-    async def get_organization_assurance_alerts(
+    def get_organization_assurance_alerts(
         self,
         *,
         organization_id: str,
@@ -1619,7 +1619,7 @@ class Organizations:
             params=params,
         )
 
-    async def get_organization_assurance_alerts_overview_by_network(
+    def get_organization_assurance_alerts_overview_by_network(
         self,
         *,
         organization_id: str,
@@ -1742,7 +1742,7 @@ class Organizations:
             direction=direction,
         )
 
-    async def get_organization_assurance_alerts_overview_by_type(
+    def get_organization_assurance_alerts_overview_by_type(
         self,
         *,
         organization_id: str,
@@ -2364,7 +2364,7 @@ class Organizations:
             params=params,
         )
 
-    async def get_organization_clients_search(
+    def get_organization_clients_search(
         self,
         *,
         organization_id: str,
@@ -2578,7 +2578,7 @@ class Organizations:
             scope="organizations", operation_id="deleteOrganizationConfigTemplate", path=path
         )
 
-    async def get_organization_configuration_changes(
+    def get_organization_configuration_changes(
         self,
         *,
         organization_id: str,
@@ -2652,7 +2652,7 @@ class Organizations:
             direction=direction,
         )
 
-    async def get_organization_devices(
+    def get_organization_devices(
         self,
         *,
         organization_id: str,
@@ -2779,7 +2779,7 @@ class Organizations:
             direction=direction,
         )
 
-    async def get_organization_devices_availabilities(
+    def get_organization_devices_availabilities(
         self,
         *,
         organization_id: str,
@@ -2870,7 +2870,7 @@ class Organizations:
             direction=direction,
         )
 
-    async def get_organization_devices_availabilities_change_history(
+    def get_organization_devices_availabilities_change_history(
         self,
         *,
         organization_id: str,
@@ -2954,7 +2954,7 @@ class Organizations:
             direction=direction,
         )
 
-    async def get_organization_devices_controller_migrations(
+    def get_organization_devices_controller_migrations(
         self,
         *,
         organization_id: str,
@@ -3126,7 +3126,7 @@ class Organizations:
             params=params,
         )
 
-    async def get_organization_devices_packet_capture_captures(
+    def get_organization_devices_packet_capture_captures(
         self,
         *,
         organization_id: str,
@@ -3656,7 +3656,7 @@ class Organizations:
             path=path,
         )
 
-    async def get_organization_devices_power_modules_statuses_by_device(
+    def get_organization_devices_power_modules_statuses_by_device(
         self,
         *,
         organization_id: str,
@@ -3740,7 +3740,7 @@ class Organizations:
             direction=direction,
         )
 
-    async def get_organization_devices_provisioning_statuses(
+    def get_organization_devices_provisioning_statuses(
         self,
         *,
         organization_id: str,
@@ -3834,7 +3834,7 @@ class Organizations:
             direction=direction,
         )
 
-    async def get_organization_devices_statuses(
+    def get_organization_devices_statuses(
         self,
         *,
         organization_id: str,
@@ -3963,7 +3963,7 @@ class Organizations:
             params=params,
         )
 
-    async def get_organization_devices_system_memory_usage_history_by_interval(
+    def get_organization_devices_system_memory_usage_history_by_interval(
         self,
         *,
         organization_id: str,
@@ -4052,7 +4052,7 @@ class Organizations:
             direction=direction,
         )
 
-    async def get_organization_devices_uplinks_addresses_by_device(
+    def get_organization_devices_uplinks_addresses_by_device(
         self,
         *,
         organization_id: str,
@@ -4330,7 +4330,7 @@ class Organizations:
             path=path,
         )
 
-    async def get_organization_firmware_upgrades(
+    def get_organization_firmware_upgrades(
         self,
         *,
         organization_id: str,
@@ -4389,7 +4389,7 @@ class Organizations:
             direction=direction,
         )
 
-    async def get_organization_firmware_upgrades_by_device(
+    def get_organization_firmware_upgrades_by_device(
         self,
         *,
         organization_id: str,
@@ -4472,7 +4472,7 @@ class Organizations:
             direction=direction,
         )
 
-    async def get_organization_floor_plans_auto_locate_devices(
+    def get_organization_floor_plans_auto_locate_devices(
         self,
         *,
         organization_id: str,
@@ -4531,7 +4531,7 @@ class Organizations:
             direction=direction,
         )
 
-    async def get_organization_floor_plans_auto_locate_statuses(
+    def get_organization_floor_plans_auto_locate_statuses(
         self,
         *,
         organization_id: str,
@@ -4590,7 +4590,7 @@ class Organizations:
             direction=direction,
         )
 
-    async def get_organization_integrations_xdr_networks(
+    def get_organization_integrations_xdr_networks(
         self,
         *,
         organization_id: str,
@@ -4734,7 +4734,7 @@ class Organizations:
             json=payload,
         )
 
-    async def get_organization_inventory_devices(
+    def get_organization_inventory_devices(
         self,
         *,
         organization_id: str,
@@ -5005,7 +5005,7 @@ class Organizations:
             json=payload,
         )
 
-    async def get_organization_inventory_onboarding_cloud_monitoring_networks(
+    def get_organization_inventory_onboarding_cloud_monitoring_networks(
         self,
         *,
         organization_id: str,
@@ -5180,7 +5180,7 @@ class Organizations:
             json=payload,
         )
 
-    async def get_organization_licenses(
+    def get_organization_licenses(
         self,
         *,
         organization_id: str,
@@ -5554,7 +5554,7 @@ class Organizations:
             json=payload,
         )
 
-    async def get_organization_networks(
+    def get_organization_networks(
         self,
         *,
         organization_id: str,
@@ -5766,7 +5766,7 @@ class Organizations:
             params=params,
         )
 
-    async def get_organization_policies_assignments_by_client(
+    def get_organization_policies_assignments_by_client(
         self,
         *,
         organization_id: str,
@@ -5837,7 +5837,7 @@ class Organizations:
             direction=direction,
         )
 
-    async def get_organization_policy_objects(
+    def get_organization_policy_objects(
         self,
         *,
         organization_id: str,
@@ -5946,7 +5946,7 @@ class Organizations:
             json=payload,
         )
 
-    async def get_organization_policy_objects_groups(
+    def get_organization_policy_objects_groups(
         self,
         *,
         organization_id: str,
@@ -7171,7 +7171,7 @@ class Organizations:
             params=params,
         )
 
-    async def get_organization_summary_top_networks_by_status(
+    def get_organization_summary_top_networks_by_status(
         self,
         *,
         organization_id: str,
@@ -7361,7 +7361,7 @@ class Organizations:
             params=params,
         )
 
-    async def get_organization_uplinks_statuses(
+    def get_organization_uplinks_statuses(
         self,
         *,
         organization_id: str,
@@ -7488,7 +7488,7 @@ class Organizations:
             scope="organizations", operation_id="getOrganizationWebhooksCallbacksStatus", path=path
         )
 
-    async def get_organization_webhooks_logs(
+    def get_organization_webhooks_logs(
         self,
         *,
         organization_id: str,

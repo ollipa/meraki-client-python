@@ -607,7 +607,7 @@ class CellularGateway:
             path=path,
         )
 
-    async def get_organization_cellular_gateway_uplink_statuses(
+    def get_organization_cellular_gateway_uplink_statuses(
         self,
         *,
         organization_id: str,

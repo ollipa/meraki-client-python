@@ -91,7 +91,7 @@ class Networks:
 
         return await self._session.delete(scope="networks", operation_id="deleteNetwork", path=path)
 
-    async def get_network_alerts_history(
+    def get_network_alerts_history(
         self,
         *,
         network_id: str,
@@ -223,7 +223,7 @@ class Networks:
             scope="networks", operation_id="bindNetwork", path=path, json=payload
         )
 
-    async def get_network_bluetooth_clients(
+    def get_network_bluetooth_clients(
         self,
         *,
         network_id: str,
@@ -323,7 +323,7 @@ class Networks:
             scope="networks", operation_id="getNetworkBluetoothClient", path=path, params=params
         )
 
-    async def get_network_clients(
+    def get_network_clients(
         self,
         *,
         network_id: str,
@@ -432,7 +432,7 @@ class Networks:
             direction=direction,
         )
 
-    async def get_network_clients_application_usage(
+    def get_network_clients_application_usage(
         self,
         *,
         network_id: str,
@@ -512,7 +512,7 @@ class Networks:
             direction=direction,
         )
 
-    async def get_network_clients_bandwidth_usage_history(
+    def get_network_clients_bandwidth_usage_history(
         self,
         *,
         network_id: str,
@@ -674,7 +674,7 @@ class Networks:
             scope="networks", operation_id="provisionNetworkClients", path=path, json=payload
         )
 
-    async def get_network_clients_usage_histories(
+    def get_network_clients_usage_histories(
         self,
         *,
         network_id: str,
@@ -876,7 +876,7 @@ class Networks:
             json=payload,
         )
 
-    async def get_network_client_traffic_history(
+    def get_network_client_traffic_history(
         self,
         *,
         network_id: str,
@@ -1054,7 +1054,7 @@ class Networks:
             scope="networks", operation_id="removeNetworkDevices", path=path, json=payload
         )
 
-    async def get_network_events(
+    def get_network_events(
         self,
         *,
         network_id: str,
@@ -2538,7 +2538,7 @@ class Networks:
             scope="networks", operation_id="updateNetworkNetflow", path=path, json=payload
         )
 
-    async def get_network_network_health_channel_utilization(
+    def get_network_network_health_channel_utilization(
         self,
         *,
         network_id: str,
@@ -2867,7 +2867,7 @@ class Networks:
             scope="networks", operation_id="getNetworkPiiSmOwnersForKey", path=path, params=params
         )
 
-    async def get_network_policies_by_client(
+    def get_network_policies_by_client(
         self,
         *,
         network_id: str,
@@ -3369,7 +3369,7 @@ class Networks:
             scope="networks", operation_id="createNetworkVlanProfile", path=path, json=payload
         )
 
-    async def get_network_vlan_profiles_assignments_by_device(
+    def get_network_vlan_profiles_assignments_by_device(
         self,
         *,
         network_id: str,

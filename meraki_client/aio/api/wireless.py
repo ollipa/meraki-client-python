@@ -1050,7 +1050,7 @@ class Wireless:
             params=params,
         )
 
-    async def get_network_wireless_client_connectivity_events(
+    def get_network_wireless_client_connectivity_events(
         self,
         *,
         network_id: str,
@@ -2046,7 +2046,7 @@ class Wireless:
             json=payload,
         )
 
-    async def get_network_wireless_mesh_statuses(
+    def get_network_wireless_mesh_statuses(
         self,
         *,
         network_id: str,
@@ -4009,7 +4009,7 @@ class Wireless:
             scope="wireless", operation_id="updateNetworkWirelessZigbee", path=path, json=payload
         )
 
-    async def get_organization_wireless_air_marshal_rules(
+    def get_organization_wireless_air_marshal_rules(
         self,
         *,
         organization_id: str,
@@ -4064,7 +4064,7 @@ class Wireless:
             direction=direction,
         )
 
-    async def get_organization_wireless_air_marshal_settings_by_network(
+    def get_organization_wireless_air_marshal_settings_by_network(
         self,
         *,
         organization_id: str,
@@ -4119,7 +4119,7 @@ class Wireless:
             direction=direction,
         )
 
-    async def get_organization_wireless_clients_overview_by_device(
+    def get_organization_wireless_clients_overview_by_device(
         self,
         *,
         organization_id: str,
@@ -4185,7 +4185,7 @@ class Wireless:
             direction=direction,
         )
 
-    async def get_organization_wireless_devices_channel_utilization_by_device(
+    def get_organization_wireless_devices_channel_utilization_by_device(
         self,
         *,
         organization_id: str,
@@ -4264,7 +4264,7 @@ class Wireless:
             direction=direction,
         )
 
-    async def get_organization_wireless_devices_channel_utilization_by_network(
+    def get_organization_wireless_devices_channel_utilization_by_network(
         self,
         *,
         organization_id: str,
@@ -4343,7 +4343,7 @@ class Wireless:
             direction=direction,
         )
 
-    async def get_organization_wireless_devices_channel_utilization_history_by_device_by_interval(
+    def get_organization_wireless_devices_channel_utilization_history_by_device_by_interval(
         self,
         *,
         organization_id: str,
@@ -4422,7 +4422,7 @@ class Wireless:
             direction=direction,
         )
 
-    async def get_organization_wireless_devices_channel_utilization_history_by_network_by_interval(
+    def get_organization_wireless_devices_channel_utilization_history_by_network_by_interval(
         self,
         *,
         organization_id: str,
@@ -4501,7 +4501,7 @@ class Wireless:
             direction=direction,
         )
 
-    async def get_organization_wireless_devices_ethernet_statuses(
+    def get_organization_wireless_devices_ethernet_statuses(
         self,
         *,
         organization_id: str,
@@ -4557,7 +4557,7 @@ class Wireless:
             direction=direction,
         )
 
-    async def get_organization_wireless_devices_packet_loss_by_client(
+    def get_organization_wireless_devices_packet_loss_by_client(
         self,
         *,
         organization_id: str,
@@ -4640,7 +4640,7 @@ class Wireless:
             direction=direction,
         )
 
-    async def get_organization_wireless_devices_packet_loss_by_device(
+    def get_organization_wireless_devices_packet_loss_by_device(
         self,
         *,
         organization_id: str,
@@ -4723,7 +4723,7 @@ class Wireless:
             direction=direction,
         )
 
-    async def get_organization_wireless_devices_packet_loss_by_network(
+    def get_organization_wireless_devices_packet_loss_by_network(
         self,
         *,
         organization_id: str,
@@ -4806,7 +4806,7 @@ class Wireless:
             direction=direction,
         )
 
-    async def get_organization_wireless_devices_power_mode_history(
+    def get_organization_wireless_devices_power_mode_history(
         self,
         *,
         organization_id: str,
@@ -5017,7 +5017,7 @@ class Wireless:
             params=params,
         )
 
-    async def get_organization_wireless_devices_system_cpu_load_history(
+    def get_organization_wireless_devices_system_cpu_load_history(
         self,
         *,
         organization_id: str,
@@ -5093,7 +5093,7 @@ class Wireless:
             direction=direction,
         )
 
-    async def get_organization_wireless_devices_wireless_controllers_by_device(
+    def get_organization_wireless_devices_wireless_controllers_by_device(
         self,
         *,
         organization_id: str,
@@ -5159,7 +5159,7 @@ class Wireless:
             direction=direction,
         )
 
-    async def get_organization_wireless_location_scanning_by_network(
+    def get_organization_wireless_location_scanning_by_network(
         self,
         *,
         organization_id: str,
@@ -5214,7 +5214,7 @@ class Wireless:
             direction=direction,
         )
 
-    async def get_organization_wireless_location_scanning_receivers(
+    def get_organization_wireless_location_scanning_receivers(
         self,
         *,
         organization_id: str,
@@ -5380,7 +5380,7 @@ class Wireless:
             path=path,
         )
 
-    async def get_organization_wireless_mqtt_settings(
+    def get_organization_wireless_mqtt_settings(
         self,
         *,
         organization_id: str,
@@ -5502,7 +5502,7 @@ class Wireless:
             json=payload,
         )
 
-    async def get_organization_wireless_rf_profiles_assignments_by_device(
+    def get_organization_wireless_rf_profiles_assignments_by_device(
         self,
         *,
         organization_id: str,
@@ -5600,7 +5600,7 @@ class Wireless:
             direction=direction,
         )
 
-    async def get_organization_wireless_ssids_firewall_isolation_allowlist_entries(
+    def get_organization_wireless_ssids_firewall_isolation_allowlist_entries(
         self,
         *,
         organization_id: str,
@@ -5762,7 +5762,7 @@ class Wireless:
             path=path,
         )
 
-    async def get_organization_wireless_ssids_open_roaming_by_network(
+    def get_organization_wireless_ssids_open_roaming_by_network(
         self,
         *,
         organization_id: str,
@@ -5822,7 +5822,7 @@ class Wireless:
             direction=direction,
         )
 
-    async def get_organization_wireless_ssids_statuses_by_device(
+    def get_organization_wireless_ssids_statuses_by_device(
         self,
         *,
         organization_id: str,
@@ -5893,7 +5893,7 @@ class Wireless:
             direction=direction,
         )
 
-    async def get_organization_wireless_zigbee_by_network(
+    def get_organization_wireless_zigbee_by_network(
         self,
         *,
         organization_id: str,
@@ -5948,7 +5948,7 @@ class Wireless:
             direction=direction,
         )
 
-    async def get_organization_wireless_zigbee_devices(
+    def get_organization_wireless_zigbee_devices(
         self,
         *,
         organization_id: str,
@@ -6089,7 +6089,7 @@ class Wireless:
             scope="wireless", operation_id="getOrganizationWirelessZigbeeDisenrollment", path=path
         )
 
-    async def get_organization_wireless_zigbee_door_locks(
+    def get_organization_wireless_zigbee_door_locks(
         self,
         *,
         organization_id: str,

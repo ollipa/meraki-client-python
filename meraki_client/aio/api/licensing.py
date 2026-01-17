@@ -39,7 +39,7 @@ class Licensing:
             params=params,
         )
 
-    async def get_administered_licensing_subscription_subscriptions(
+    def get_administered_licensing_subscription_subscriptions(
         self,
         *,
         organization_ids: list,
@@ -252,7 +252,7 @@ class Licensing:
             json=payload,
         )
 
-    async def get_organization_licensing_coterm_licenses(
+    def get_organization_licensing_coterm_licenses(
         self,
         *,
         organization_id: str,

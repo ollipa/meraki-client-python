@@ -15,7 +15,7 @@ class WirelessController:
     def __init__(self, session: Session) -> None:
         self._session = session
 
-    async def get_organization_wireless_controller_availabilities_change_history(
+    def get_organization_wireless_controller_availabilities_change_history(
         self,
         *,
         organization_id: str,
@@ -86,7 +86,7 @@ class WirelessController:
             direction=direction,
         )
 
-    async def get_organization_wireless_controller_clients_overview_history_by_device_by_interval(
+    def get_organization_wireless_controller_clients_overview_history_by_device_by_interval(
         self,
         *,
         organization_id: str,
@@ -167,7 +167,7 @@ class WirelessController:
             direction=direction,
         )
 
-    async def get_organization_wireless_controller_connections(
+    def get_organization_wireless_controller_connections(
         self,
         *,
         organization_id: str,
@@ -228,7 +228,7 @@ class WirelessController:
             direction=direction,
         )
 
-    async def get_organization_wireless_controller_devices_interfaces_l2_by_device(
+    def get_organization_wireless_controller_devices_interfaces_l2_by_device(
         self,
         *,
         organization_id: str,
@@ -299,7 +299,7 @@ class WirelessController:
             direction=direction,
         )
 
-    async def get_organization_wireless_controller_devices_interfaces_l2_statuses_change_history_by_device(
+    def get_organization_wireless_controller_devices_interfaces_l2_statuses_change_history_by_device(
         self,
         *,
         organization_id: str,
@@ -376,7 +376,7 @@ class WirelessController:
             direction=direction,
         )
 
-    async def get_organization_wireless_controller_devices_interfaces_l2_usage_history_by_interval(
+    def get_organization_wireless_controller_devices_interfaces_l2_usage_history_by_interval(
         self,
         *,
         organization_id: str,
@@ -447,7 +447,7 @@ class WirelessController:
             direction=direction,
         )
 
-    async def get_organization_wireless_controller_devices_interfaces_l3_by_device(
+    def get_organization_wireless_controller_devices_interfaces_l3_by_device(
         self,
         *,
         organization_id: str,
@@ -518,7 +518,7 @@ class WirelessController:
             direction=direction,
         )
 
-    async def get_organization_wireless_controller_devices_interfaces_l3_statuses_change_history_by_device(
+    def get_organization_wireless_controller_devices_interfaces_l3_statuses_change_history_by_device(
         self,
         *,
         organization_id: str,
@@ -595,7 +595,7 @@ class WirelessController:
             direction=direction,
         )
 
-    async def get_organization_wireless_controller_devices_interfaces_l3_usage_history_by_interval(
+    def get_organization_wireless_controller_devices_interfaces_l3_usage_history_by_interval(
         self,
         *,
         organization_id: str,
@@ -666,7 +666,7 @@ class WirelessController:
             direction=direction,
         )
 
-    async def get_organization_wireless_controller_devices_interfaces_packets_overview_by_device(
+    def get_organization_wireless_controller_devices_interfaces_packets_overview_by_device(
         self,
         *,
         organization_id: str,
@@ -742,7 +742,7 @@ class WirelessController:
             direction=direction,
         )
 
-    async def get_organization_wireless_controller_devices_interfaces_usage_history_by_interval(
+    def get_organization_wireless_controller_devices_interfaces_usage_history_by_interval(
         self,
         *,
         organization_id: str,
@@ -818,7 +818,7 @@ class WirelessController:
             direction=direction,
         )
 
-    async def get_organization_wireless_controller_devices_redundancy_failover_history(
+    def get_organization_wireless_controller_devices_redundancy_failover_history(
         self,
         *,
         organization_id: str,
@@ -889,7 +889,7 @@ class WirelessController:
             direction=direction,
         )
 
-    async def get_organization_wireless_controller_devices_redundancy_statuses(
+    def get_organization_wireless_controller_devices_redundancy_statuses(
         self,
         *,
         organization_id: str,
@@ -945,7 +945,7 @@ class WirelessController:
             direction=direction,
         )
 
-    async def get_organization_wireless_controller_devices_system_utilization_history_by_interval(
+    def get_organization_wireless_controller_devices_system_utilization_history_by_interval(
         self,
         *,
         organization_id: str,
@@ -1016,7 +1016,7 @@ class WirelessController:
             direction=direction,
         )
 
-    async def get_organization_wireless_controller_overview_by_device(
+    def get_organization_wireless_controller_overview_by_device(
         self,
         *,
         organization_id: str,

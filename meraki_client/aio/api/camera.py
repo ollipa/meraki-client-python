@@ -1068,7 +1068,7 @@ class Camera:
             path=path,
         )
 
-    async def get_organization_camera_detections_history_by_boundary_by_interval(
+    def get_organization_camera_detections_history_by_boundary_by_interval(
         self,
         *,
         organization_id: str,

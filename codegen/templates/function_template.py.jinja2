@@ -1,4 +1,4 @@
-    {{ "async " if is_async else "" }}def {{ operation }}(self{% if function_definition|length > 0 %}{{ function_definition }}{% endif %}) -> {{ return_type }}:
+    {{ "async " if is_async and not is_paginated else "" }}def {{ operation }}(self{% if function_definition|length > 0 %}{{ function_definition }}{% endif %}) -> {{ return_type }}:
         """{{ description }}
 
         {{ doc_url }}

@@ -1310,7 +1310,7 @@ class Switch:
             json=payload,
         )
 
-    async def get_network_switch_dhcp_v4_servers_seen(
+    def get_network_switch_dhcp_v4_servers_seen(
         self,
         *,
         network_id: str,
@@ -1443,7 +1443,7 @@ class Switch:
             json=payload,
         )
 
-    async def get_network_switch_dhcp_server_policy_arp_inspection_trusted_servers(
+    def get_network_switch_dhcp_server_policy_arp_inspection_trusted_servers(
         self,
         *,
         network_id: str,
@@ -1588,7 +1588,7 @@ class Switch:
             path=path,
         )
 
-    async def get_network_switch_dhcp_server_policy_arp_inspection_warnings_by_device(
+    def get_network_switch_dhcp_server_policy_arp_inspection_warnings_by_device(
         self,
         *,
         network_id: str,
@@ -3624,7 +3624,7 @@ class Switch:
             scope="switch", operation_id="cloneOrganizationSwitchDevices", path=path, json=payload
         )
 
-    async def get_organization_switch_ports_by_switch(
+    def get_organization_switch_ports_by_switch(
         self,
         *,
         organization_id: str,
@@ -3715,7 +3715,7 @@ class Switch:
             direction=direction,
         )
 
-    async def get_organization_switch_ports_clients_overview_by_device(
+    def get_organization_switch_ports_clients_overview_by_device(
         self,
         *,
         organization_id: str,
@@ -3857,7 +3857,7 @@ class Switch:
             params=params,
         )
 
-    async def get_organization_switch_ports_statuses_by_switch(
+    def get_organization_switch_ports_statuses_by_switch(
         self,
         *,
         organization_id: str,
@@ -3948,7 +3948,7 @@ class Switch:
             direction=direction,
         )
 
-    async def get_organization_switch_ports_topology_discovery_by_device(
+    def get_organization_switch_ports_topology_discovery_by_device(
         self,
         *,
         organization_id: str,
@@ -4050,7 +4050,7 @@ class Switch:
             direction=direction,
         )
 
-    async def get_organization_switch_ports_usage_history_by_device_by_interval(
+    def get_organization_switch_ports_usage_history_by_device_by_interval(
         self,
         *,
         organization_id: str,
