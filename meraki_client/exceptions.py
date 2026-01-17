@@ -92,7 +92,36 @@ class ServerError(MerakiHTTPError):
 
 
 class InvalidResponseError(MerakiException):
-    """Request to API failed due to an invalid response payload."""
+    """Response payload failed schema validation."""
+
+    def __init__(
+        self,
+        message: str,
+        *,
+        cause: pydantic.ValidationError | None = None,
+        response_body: Any = None,
+    ) -> None:
+        """Initialize InvalidResponseError.
+
+        Args:
+            message: Error message describing the validation failure.
+            cause: The pydantic ValidationError that caused this exception.
+            response_body: The raw response body that failed validation.
+
+        """
+        self.validation_error: pydantic.ValidationError | None = cause
+        self.response_body: Any = response_body
+        super().__init__(message, cause=cause)
+
+    def __str__(self) -> str:
+        """Return the exception message with validation error details."""
+        if self.validation_error:
+            errors = self.validation_error.errors()
+            details = "; ".join(f"{e['loc']}: {e['msg']}" for e in errors[:5])
+            if len(errors) > 5:
+                details += f" ... and {len(errors) - 5} more errors"
+            return f"InvalidResponseError: {details}"
+        return f"InvalidResponseError: {self.args[0] if self.args else 'Unknown error'}"
 
 
 class MerakiConnectionError(MerakiException):

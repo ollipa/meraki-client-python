@@ -43,23 +43,23 @@
         {% endif %}
         {% if method == "get" %}
             {% if is_paginated %}
-        return self._session.get_pages(scope="{{ scope }}", operation_id="{{ operation_id }}", path=path, params=params, total_pages=total_pages, direction=direction{% if operation_id == "getNetworkEvents" %}, event_log_end_time=event_log_end_time{% endif %})
+        return self._session.get_pages(scope="{{ scope }}", operation_id="{{ operation_id }}", path=path, params=params, total_pages=total_pages, direction=direction{% if operation_id == "getNetworkEvents" %}, event_log_end_time=event_log_end_time{% endif %}{% if item_schema_name %}, item_schema={{ item_schema_name }}{% endif %})
             {% elif query_params|length > 0 %}
-        return {{ await_ }}self._session.get(scope="{{ scope }}", operation_id="{{ operation_id }}", path=path, params=params)
+        return {{ await_ }}self._session.get(scope="{{ scope }}", operation_id="{{ operation_id }}", path=path, params=params{% if response_schema_name %}, response_schema={{ response_schema_name }}{% endif %})
             {% else %}
-        return {{ await_ }}self._session.get(scope="{{ scope }}", operation_id="{{ operation_id }}", path=path)
+        return {{ await_ }}self._session.get(scope="{{ scope }}", operation_id="{{ operation_id }}", path=path{% if response_schema_name %}, response_schema={{ response_schema_name }}{% endif %})
             {% endif %}
         {% elif method == "post" %}
             {% if body_params|length > 0 %}
-        return {{ await_ }}self._session.post(scope="{{ scope }}", operation_id="{{ operation_id }}", path=path, json=payload)
+        return {{ await_ }}self._session.post(scope="{{ scope }}", operation_id="{{ operation_id }}", path=path, json=payload{% if response_schema_name %}, response_schema={{ response_schema_name }}{% endif %})
             {% else %}
-        return {{ await_ }}self._session.post(scope="{{ scope }}", operation_id="{{ operation_id }}", path=path)
+        return {{ await_ }}self._session.post(scope="{{ scope }}", operation_id="{{ operation_id }}", path=path{% if response_schema_name %}, response_schema={{ response_schema_name }}{% endif %})
             {% endif %}
         {% elif method == "put" %}
             {% if body_params|length > 0 %}
-        return {{ await_ }}self._session.put(scope="{{ scope }}", operation_id="{{ operation_id }}", path=path, json=payload)
+        return {{ await_ }}self._session.put(scope="{{ scope }}", operation_id="{{ operation_id }}", path=path, json=payload{% if response_schema_name %}, response_schema={{ response_schema_name }}{% endif %})
             {% else %}
-        return {{ await_ }}self._session.put(scope="{{ scope }}", operation_id="{{ operation_id }}", path=path)
+        return {{ await_ }}self._session.put(scope="{{ scope }}", operation_id="{{ operation_id }}", path=path{% if response_schema_name %}, response_schema={{ response_schema_name }}{% endif %})
             {% endif %}
         {% elif method == "delete" %}
         return {{ await_ }}self._session.delete(scope="{{ scope }}", operation_id="{{ operation_id }}", path=path)

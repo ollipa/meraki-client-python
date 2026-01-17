@@ -12,7 +12,7 @@ import tomllib
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Literal, TextIO, TypeAlias, TypeVar, assert_never
+from typing import Any, Literal, TextIO, TypeAlias, TypeVar, assert_never, overload
 from urllib.parse import unquote
 
 import httpx
@@ -121,6 +121,16 @@ class FunctionDefinition:
 
 
 @dataclass
+class ResponseSchemaInfo:
+    """Information about a response schema for an operation."""
+
+    operation_id: str
+    schema_class_name: str
+    is_array: bool = False
+    item_class_name: str | None = None
+
+
+@dataclass
 class ModuleInfo:
     """Module information for template generation."""
 
@@ -131,7 +141,7 @@ class ModuleInfo:
 
 @dataclass
 class Templates:
-    """Ninja templates."""
+    """Jinja templates."""
 
     batch_class_template: jinja2.Template
     batch_function_template: jinja2.Template
@@ -139,6 +149,9 @@ class Templates:
     class_template: jinja2.Template
     function_template: jinja2.Template
     init_template: jinja2.Template
+    schema_base_template: jinja2.Template
+    schema_init_template: jinja2.Template
+    schema_module_template: jinja2.Template
     session_template: jinja2.Template
 
 
@@ -227,6 +240,11 @@ def generate_library(  # noqa: PLR0915
     recreate_output_directory()
     copy_static_files()
 
+    templates = init_templates()
+
+    # Generate response schemas and collect registry
+    schema_registry, item_schema_map = generate_response_schemas(spec, templates)
+
     # Collect all operations by scope
     scopes: dict[str, PathsType] = {}
     operation_count = 0
@@ -261,8 +279,6 @@ def generate_library(  # noqa: PLR0915
     log.info(
         f"Total of {len(scopes)} scopes and {operation_count} operations found from OpenAPI spec"
     )
-
-    templates = init_templates()
 
     # Collect module info for __init__.py generation
     modules = sorted(
@@ -320,6 +336,8 @@ def generate_library(  # noqa: PLR0915
                 output=output,
                 async_output=async_output,
                 templates=templates,
+                schema_registry=schema_registry,
+                item_schema_map=item_schema_map,
             )
 
         if batch_content:
@@ -354,7 +372,7 @@ def generate_library(  # noqa: PLR0915
         f.write(templates.batch_init_template.render(modules=batch_modules))
 
 
-def generate_module(
+def generate_module(  # noqa: PLR0915
     *,
     scope: str,
     paths: PathsType,
@@ -363,6 +381,8 @@ def generate_module(
     output: TextIO,
     async_output: TextIO,
     templates: Templates,
+    schema_registry: set[str],
+    item_schema_map: dict[str, str],
 ) -> str | None:
     """Generate a module for a scope.
 
@@ -371,10 +391,35 @@ def generate_module(
 
     """
     class_name = scope[:1].upper() + scope[1:]
-    output.write(templates.class_template.render(class_name=class_name, is_async=False))
-    async_output.write(templates.class_template.render(class_name=class_name, is_async=True))
+    schemas_used: list[str] = []
 
     batch_content: list[str] = []
+
+    # First pass: collect all schemas used by this module
+    for methods in paths.values():
+        for method, endpoint in methods.items():
+            operation_id = endpoint.operationId
+            if not operation_id or method == "delete":
+                continue
+
+            response_schema_name = get_response_schema_name(operation_id)
+            if response_schema_name in schema_registry:
+                schemas_used.append(response_schema_name)
+                # Check if there's an item schema for paginated endpoints
+                if response_schema_name in item_schema_map:
+                    schemas_used.append(item_schema_map[response_schema_name])
+
+    # Write class header with schema imports
+    output.write(
+        templates.class_template.render(
+            class_name=class_name, is_async=False, schemas_used=sorted(set(schemas_used))
+        )
+    )
+    async_output.write(
+        templates.class_template.render(
+            class_name=class_name, is_async=True, schemas_used=sorted(set(schemas_used))
+        )
+    )
 
     # Generate API & Asyncio API functions
     for path, methods in paths.items():
@@ -400,6 +445,27 @@ def generate_module(
             all_args = function_definition.required_args + function_definition.optional_args
             definition = ", *, " + ", ".join(all_args) if all_args else ""
 
+            # Determine schema names for this operation
+            response_schema_name = None
+            item_schema_name = None
+            if method != "delete":
+                schema_name = get_response_schema_name(operation_id)
+                if schema_name in schema_registry:
+                    response_schema_name = schema_name
+                    # For paginated endpoints, use item schema from map or fallback to response schema
+                    # (some OpenAPI specs incorrectly define array responses as objects)
+                    if is_paginated:
+                        item_schema_name = item_schema_map.get(schema_name, schema_name)
+
+            if is_paginated and not item_schema_name:
+                raise ValueError(f"Paginated endpoint {operation_id} has no response schema")
+
+            # Endpoints with 200/201 responses should have schemas
+            if method != "delete" and not response_schema_name:
+                responses = endpoint.responses or {}
+                if "200" in responses or "201" in responses:
+                    raise ValueError(f"Endpoint {operation_id} has 200/201 response but no schema")
+
             # Common template parameters
             common_params = {
                 "operation": to_snake_case(operation_id),
@@ -412,6 +478,8 @@ def generate_module(
                 "query_params": function_definition.query_params,
                 "body_params": function_definition.body_params,
                 "path_params": function_definition.path_params,
+                "response_schema_name": response_schema_name,
+                "item_schema_name": item_schema_name,
             }
 
             output.write(
@@ -421,7 +489,11 @@ def generate_module(
                     scope=scope,
                     operation_id=operation_id,
                     return_type=get_return_type(
-                        method=method, is_paginated=is_paginated, is_async=False
+                        method=method,
+                        is_paginated=is_paginated,
+                        is_async=False,
+                        response_schema_name=response_schema_name,
+                        item_schema_name=item_schema_name,
                     ),
                     is_async=False,
                     is_paginated=is_paginated,
@@ -434,7 +506,11 @@ def generate_module(
                     scope=scope,
                     operation_id=operation_id,
                     return_type=get_return_type(
-                        method=method, is_paginated=is_paginated, is_async=True
+                        method=method,
+                        is_paginated=is_paginated,
+                        is_async=True,
+                        response_schema_name=response_schema_name,
+                        item_schema_name=item_schema_name,
                     ),
                     is_async=True,
                     is_paginated=is_paginated,
@@ -485,6 +561,7 @@ def recreate_output_directory() -> None:
         f"{OUTPUT_DIR}/api/batch",
         f"{OUTPUT_DIR}/aio",
         f"{OUTPUT_DIR}/aio/api",
+        f"{OUTPUT_DIR}/schemas",
     ]
     for directory in subdirs:
         os.makedirs(directory, exist_ok=True)
@@ -510,6 +587,9 @@ def init_templates() -> Templates:
         class_template=read_template("class_template.py", jinja_env),
         function_template=read_template("function_template.py", jinja_env),
         init_template=read_template("init_template.py", jinja_env),
+        schema_base_template=read_template("schema_base_template.py", jinja_env),
+        schema_init_template=read_template("schema_init_template.py", jinja_env),
+        schema_module_template=read_template("schema_module_template.py", jinja_env),
         session_template=read_template("session_template.py", jinja_env),
     )
 
@@ -696,14 +776,25 @@ def collect_pagination_params(operation_id: str, function_definition: FunctionDe
 
 
 def get_return_type(
-    *, method: Literal["get", "put", "post", "delete"], is_paginated: bool, is_async: bool
+    *,
+    method: Literal["get", "put", "post", "delete"],
+    is_paginated: bool,
+    is_async: bool,
+    response_schema_name: str | None = None,
+    item_schema_name: str | None = None,
 ) -> str:
     """Get the return type for a function."""
     if method == "delete":
         return "None"
-    if method == "get" and is_paginated:
-        return "AsyncPaginatedResponse[Any]" if is_async else "PaginatedResponse[Any]"
-    return "dict[str, Any] | None"
+    if method == "get" and is_paginated and item_schema_name:
+        return (
+            f"AsyncPaginatedResponse[{item_schema_name}]"
+            if is_async
+            else f"PaginatedResponse[{item_schema_name}]"
+        )
+    if response_schema_name:
+        return f"{response_schema_name} | None"
+    return "None"
 
 
 def sanitize_description(text: str) -> str:
@@ -734,6 +825,50 @@ def format_param_description(name: str, description: str) -> str:
         subsequent_indent=" " * (INDENT_WIDTH + 2),
     )
     return wrapper.fill(first_line)
+
+
+SCHEMA_DOCSTRING_WIDTH = 100 - 4
+
+
+@overload
+def _format_schema_docstring(doc: str, *, as_lines: Literal[True]) -> list[str]: ...
+
+
+@overload
+def _format_schema_docstring(doc: str, *, as_lines: Literal[False] = False) -> str: ...
+
+
+def _format_schema_docstring(doc: str, *, as_lines: bool = False) -> str | list[str]:
+    """Format a docstring for a schema class with proper line wrapping."""
+    if not doc:
+        return [] if as_lines else ""
+
+    doc = sanitize_description(doc)
+    indent = "    "
+    # Account for indent + quotes: `    """text"""`
+    max_single_line = SCHEMA_DOCSTRING_WIDTH - len(indent) - 6
+
+    if len(doc) <= max_single_line:
+        # Single line docstring
+        line = f'{indent}"""{doc}"""'
+        return [line, ""] if as_lines else f"{line}\n\n"
+
+    # Multi-line docstring
+    wrapper = textwrap.TextWrapper(
+        width=SCHEMA_DOCSTRING_WIDTH - len(indent),
+        initial_indent="",
+        subsequent_indent="",
+    )
+    wrapped_lines = wrapper.wrap(doc)
+
+    lines = [f'{indent}"""{wrapped_lines[0]}']
+    lines.extend(f"{indent}{wrapped}" for wrapped in wrapped_lines[1:])
+    lines.append(f'{indent}"""')
+    lines.append("")
+
+    if as_lines:
+        return lines
+    return "\n".join(lines) + "\n"
 
 
 _T = TypeVar("_T")
@@ -858,6 +993,355 @@ def get_python_type(data_type: DataType) -> str:
             return "str"
         case _:
             assert_never(data_type)
+
+
+def generate_response_schemas(
+    spec: OpenAPI, templates: Templates
+) -> tuple[set[str], dict[str, str]]:
+    """Generate Pydantic response schemas from OpenAPI specification.
+
+    Returns:
+        Tuple of (set of schema names, mapping from response schema to item schema).
+
+    """
+    schemas: dict[str, str] = {}  # class_name -> class definition
+    schema_to_scope: dict[str, str] = {}  # class_name -> scope (snake_case)
+    item_schema_map: dict[str, str] = {}  # response_schema -> item_schema
+
+    for path_item in spec.paths.values():
+        operations: dict[Literal["get", "put", "post", "delete"], Operation | None] = {
+            "get": path_item.get,
+            "put": path_item.put,
+            "post": path_item.post,
+            "delete": path_item.delete,
+        }
+        for method, operation in operations.items():
+            if not operation or not operation.operationId:
+                continue
+            if method == "delete":
+                continue
+
+            operation_id = operation.operationId
+            scope = operation.tags[0] if operation.tags else "common"
+            scope_snake = to_snake_case(scope)
+
+            response_schema = extract_response_schema(operation)
+            if not response_schema:
+                continue
+
+            class_name = operation_id[0].upper() + operation_id[1:] + "Response"
+            description = (
+                operation.description or operation.summary or f"Response for {operation_id}."
+            )
+            info = generate_schema_class(
+                class_name, response_schema, schemas, schema_to_scope, scope_snake, description
+            )
+            if info and info.item_class_name:
+                item_schema_map[class_name] = info.item_class_name
+
+    write_schemas_files(schemas, schema_to_scope, templates)
+    log.info(f"Generated {len(schemas)} response schemas")
+    return set(schemas.keys()), item_schema_map
+
+
+def extract_response_schema(operation: Operation) -> dict[str, Any] | None:
+    """Extract the response schema from the operation's 2xx response."""
+    if not operation.responses:
+        return None
+
+    found_schema: dict[str, Any] | None = None
+    found_status: str | None = None
+
+    for status_code, response in operation.responses.items():
+        if not status_code.startswith("2"):
+            continue
+        if isinstance(response, Reference):
+            raise ValueError(
+                f"Operation {operation.operationId} has a reference response for {status_code}"
+            )
+
+        content = response.content
+        if not content:
+            continue
+
+        json_content = content.get("application/json")
+        if not json_content:
+            continue
+
+        schema = json_content.media_type_schema
+        if not schema:
+            continue
+        if isinstance(schema, Reference):
+            raise ValueError(
+                f"Operation {operation.operationId} has a reference schema for {status_code}"
+            )
+        if found_schema is not None:
+            raise ValueError(
+                f"Operation {operation.operationId} has multiple 2xx responses "
+                f"with schemas: {found_status} and {status_code}"
+            )
+        found_schema = schema.model_dump(exclude_none=True)
+        found_status = status_code
+
+    return found_schema
+
+
+def generate_schema_class(
+    class_name: str,
+    schema: dict[str, Any],
+    schemas: dict[str, str],
+    schema_to_scope: dict[str, str] | None = None,
+    scope: str | None = None,
+    description: str = "",
+) -> ResponseSchemaInfo | None:
+    """Generate a Pydantic model class from an OpenAPI schema."""
+    schema_type = schema.get("type")
+    # Use schema description if available, otherwise use passed description or generate generic
+    docstring = schema.get("description") or description or f"Schema for {class_name}."
+
+    def register_schema(name: str, definition: str) -> None:
+        schemas[name] = definition
+        if schema_to_scope is not None and scope is not None:
+            schema_to_scope[name] = scope
+
+    if schema_type == "array":
+        items_schema = schema.get("items", {})
+        item_class_name = class_name + "Item"
+
+        if items_schema.get("type") == "object":
+            generate_schema_class(item_class_name, items_schema, schemas, schema_to_scope, scope)
+            # Generate RootModel for array response
+            doc_lines = _format_schema_docstring(docstring)
+            # Only add pass if there's no docstring
+            body = "" if doc_lines else "    pass\n"
+            register_schema(
+                class_name,
+                f"class {class_name}(RootModel[list[{item_class_name}]]):\n{doc_lines}{body}",
+            )
+        else:
+            item_type = _get_schema_type(items_schema)
+            doc_lines = _format_schema_docstring(docstring)
+            body = "" if doc_lines else "    pass\n"
+            register_schema(
+                class_name,
+                f"class {class_name}(RootModel[list[{item_type}]]):\n{doc_lines}{body}",
+            )
+            item_class_name = None
+
+        return ResponseSchemaInfo(
+            operation_id="",
+            schema_class_name=class_name,
+            is_array=True,
+            item_class_name=item_class_name,
+        )
+
+    if schema_type == "object" or "properties" in schema:
+        lines = [f"class {class_name}(_BaseSchema):"]
+        if docstring:
+            lines.extend(_format_schema_docstring(docstring, as_lines=True))
+
+        properties = schema.get("properties", {})
+        required = set(schema.get("required", []))
+
+        # Track item class name for paginated wrapper responses
+        item_class_name: str | None = None
+
+        if not properties:
+            # Only add pass if there's no docstring
+            if not docstring:
+                lines.append("    pass")
+        else:
+            for prop_name, prop_schema in properties.items():
+                field_def = _generate_field(
+                    prop_name,
+                    prop_schema,
+                    schemas,
+                    class_name,
+                    schema_to_scope,
+                    scope,
+                    is_required=prop_name in required,
+                )
+                lines.append(f"    {field_def}")
+
+                # Detect array properties that could be paginated items
+                if (
+                    prop_schema.get("type") == "array"
+                    and prop_schema.get("items", {}).get("type") == "object"
+                    and prop_schema.get("items", {}).get("properties")
+                ):
+                    item_class_name = class_name + prop_name[0].upper() + prop_name[1:] + "Item"
+
+        register_schema(class_name, "\n".join(lines) + "\n")
+        return ResponseSchemaInfo(
+            operation_id="",
+            schema_class_name=class_name,
+            is_array=False,
+            item_class_name=item_class_name,
+        )
+
+    return None
+
+
+def _generate_field(
+    prop_name: str,
+    prop_schema: dict[str, Any],
+    schemas: dict[str, str],
+    parent_class: str,
+    schema_to_scope: dict[str, str] | None = None,
+    scope: str | None = None,
+    *,
+    is_required: bool,
+) -> str:
+    """Generate a field definition for a Pydantic model."""
+    snake_name = _sanitize_field_name(prop_name)
+    py_type = _get_schema_type(
+        prop_schema, schemas, parent_class, prop_name, schema_to_scope, scope
+    )
+
+    needs_alias = snake_name != prop_name
+
+    if is_required:
+        if needs_alias:
+            return f'{snake_name}: {py_type} = Field(alias="{prop_name}")'
+        return f"{snake_name}: {py_type}"
+    if needs_alias:
+        return f'{snake_name}: {py_type} | None = Field(default=None, alias="{prop_name}")'
+    return f"{snake_name}: {py_type} | None = None"
+
+
+def _sanitize_field_name(name: str) -> str:
+    """Sanitize a field name to be a valid Python identifier."""
+    # Handle numeric field names (e.g., "0.5", "1.0")
+    if name and (name[0].isdigit() or name.replace(".", "").replace("-", "").isdigit()):
+        return "n_" + name.replace(".", "_").replace("-", "_")
+    # Convert to snake_case and sanitize
+    return sanitize_param_name(to_snake_case(name))
+
+
+def _get_schema_type(
+    schema: dict[str, Any],
+    schemas: dict[str, str] | None = None,
+    parent_class: str = "",
+    prop_name: str = "",
+    schema_to_scope: dict[str, str] | None = None,
+    scope: str | None = None,
+) -> str:
+    """Get Python type annotation from OpenAPI schema."""
+    schema_type = schema.get("type")
+
+    if schema_type == "string":
+        return "str"
+    if schema_type == "integer":
+        return "int"
+    if schema_type == "number":
+        return "float"
+    if schema_type == "boolean":
+        return "bool"
+    if schema_type == "array":
+        items = schema.get("items", {})
+        if items.get("type") == "object" and items.get("properties") and schemas is not None:
+            nested_class = parent_class + prop_name[0].upper() + prop_name[1:] + "Item"
+            generate_schema_class(nested_class, items, schemas, schema_to_scope, scope)
+            return f"list[{nested_class}]"
+        item_type = _get_schema_type(
+            items, schemas, parent_class, prop_name, schema_to_scope, scope
+        )
+        return f"list[{item_type}]"
+    if schema_type == "object":
+        props = schema.get("properties")
+        if props and schemas is not None:
+            nested_class = parent_class + prop_name[0].upper() + prop_name[1:]
+            generate_schema_class(nested_class, schema, schemas, schema_to_scope, scope)
+            return nested_class
+        return "dict[str, Any]"
+
+    # Default fallback
+    return "Any"
+
+
+def write_schemas_files(
+    schemas: dict[str, str], schema_to_scope: dict[str, str], templates: Templates
+) -> None:
+    """Write per-module schema files and a main __init__.py that re-exports all."""
+    # Group schemas by scope
+    schemas_by_scope: dict[str, dict[str, str]] = {}
+    for class_name, class_def in schemas.items():
+        scope = schema_to_scope.get(class_name, "common")
+        schemas_by_scope.setdefault(scope, {})[class_name] = class_def
+
+    # Write base module with _BaseSchema
+    with open(f"{OUTPUT_DIR}/schemas/_base.py", "w") as f:
+        f.write(templates.schema_base_template.render())
+
+    # Write per-scope schema files
+    all_exports: dict[str, list[str]] = {}  # scope -> list of class names (sorted)
+    for scope, scope_schemas in schemas_by_scope.items():
+        sorted_schemas = _topological_sort_schemas(scope_schemas)
+        all_exports[scope] = sorted(sorted_schemas)
+
+        schema_definitions = [scope_schemas[name] for name in sorted_schemas]
+        with open(f"{OUTPUT_DIR}/schemas/{scope}.py", "w") as f:
+            f.write(
+                templates.schema_module_template.render(
+                    scope=scope,
+                    schema_definitions=schema_definitions,
+                )
+            )
+
+    # Write __init__.py that re-exports all schemas (sorted by scope)
+    sorted_exports = dict(sorted(all_exports.items()))
+    all_schemas = sorted(name for names in all_exports.values() for name in names)
+    with open(f"{OUTPUT_DIR}/schemas/__init__.py", "w") as f:
+        f.write(
+            templates.schema_init_template.render(
+                exports=sorted_exports,
+                all_schemas=all_schemas,
+            )
+        )
+
+
+def _topological_sort_schemas(schemas: dict[str, str]) -> list[str]:
+    """Sort schemas so dependencies come before dependents."""
+    # Build dependency graph
+    dependencies: dict[str, set[str]] = {}
+    for class_name, class_def in schemas.items():
+        deps = set()
+        for other_class in schemas:
+            if other_class != class_name and other_class in class_def:
+                # Check if it's actually used as a type (not just substring match)
+                patterns = [
+                    f": {other_class}",
+                    f"[{other_class}]",
+                    f"list[{other_class}]",
+                ]
+                if any(p in class_def for p in patterns):
+                    deps.add(other_class)
+        dependencies[class_name] = deps
+
+    # Topological sort using Kahn's algorithm
+    result: list[str] = []
+    no_deps = [c for c, deps in dependencies.items() if not deps]
+
+    while no_deps:
+        class_name = no_deps.pop(0)
+        result.append(class_name)
+        for other_class, deps in dependencies.items():
+            if class_name in deps:
+                deps.remove(class_name)
+                if not deps and other_class not in result and other_class not in no_deps:
+                    no_deps.append(other_class)
+
+    # Add any remaining (circular dependencies - shouldn't happen)
+    for class_name in schemas:
+        if class_name not in result:
+            result.append(class_name)
+
+    return result
+
+
+def get_response_schema_name(operation_id: str) -> str:
+    """Get the response schema class name for an operation."""
+    return operation_id[0].upper() + operation_id[1:] + "Response"
 
 
 if __name__ == "__main__":

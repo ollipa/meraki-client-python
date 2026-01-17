@@ -18,7 +18,10 @@ classifiers = [
 keywords = ["meraki", "dashboard", "cisco"]
 requires-python = ">=3.11"
 
-dependencies = ["httpx (>=0.28.1,<0.29.0)"]
+dependencies = [
+    "httpx (>=0.28.1,<0.29.0)",
+    "pydantic>=2.12.5",
+]
 
 [dependency-groups]
 dev = [
@@ -121,6 +124,8 @@ packages = ["meraki_client"]
 "tests/**.py" = ["D"]
 # Ignore some errors in generated code.
 "meraki_client/**.py" = ["PLR0912", "E501", "PLR0915", "F541", "RUF100"]
+# Ignore docstring errors in generated schemas (too many classes).
+"meraki_client/schemas.py" = ["D"]
 
 [tool.pytest.ini_options]
 xfail_strict = true
