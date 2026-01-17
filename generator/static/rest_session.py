@@ -5,9 +5,9 @@ import logging
 import random
 import time
 import urllib.parse
-from collections.abc import Generator
+from collections.abc import Callable, Iterator
 from datetime import UTC, datetime
-from typing import Any, Literal
+from typing import Any, Generic, Literal, Self, TypeVar
 
 import requests
 from requests.compat import basestring, urlencode
@@ -22,6 +22,38 @@ from .common import (
 from .exceptions import MerakiConnectionError, MerakiHTTPError, raise_http_error
 
 log = logging.getLogger(__name__)
+
+T = TypeVar("T")
+
+
+class PaginatedResponse(Iterator[T], Generic[T]):
+    """Lazy paginated response that can be iterated or collected."""
+
+    def __init__(self, page_fetcher: Callable[[], Iterator[T]]) -> None:
+        self._page_fetcher = page_fetcher
+        self._iterator: Iterator[T] | None = None
+        self._exhausted = False
+
+    def _ensure_iterator(self) -> Iterator[T]:
+        if self._iterator is None:
+            self._iterator = self._page_fetcher()
+        return self._iterator
+
+    def __iter__(self) -> Self:
+        return self
+
+    def __next__(self) -> T:
+        if self._exhausted:
+            raise StopIteration
+        try:
+            return next(self._ensure_iterator())
+        except StopIteration:
+            self._exhausted = True
+            raise
+
+    def collect(self) -> list[T]:
+        """Collect all remaining items into a list."""
+        return list(self)
 
 
 def encode_params(_, data: dict | list | str | bytes | io.BytesIO) -> str:  # noqa: ANN001
@@ -252,83 +284,95 @@ class RestSession:
         path: str,
         params: dict[str, Any] | None = None,
         total_pages: int | Literal["all"] = -1,
-        direction: str = "next",
+        direction: Literal["next", "prev"] = "next",
         event_log_end_time: str | None = None,
-    ) -> Generator[Any, None, None]:
-        """Make a GET request to the API endpoint with pagination."""
+    ) -> PaginatedResponse[Any]:
+        """Make a GET request to the API endpoint with pagination.
+
+        Returns a PaginatedResponse that can be iterated for individual items
+        or collected with .collect() to get all results as a list.
+        """
         if isinstance(total_pages, str) and total_pages.lower() == "all":
             total_pages = -1
-        elif isinstance(total_pages, str) and total_pages.isnumeric():
-            total_pages = int(total_pages)
         elif isinstance(total_pages, int):
             pass
         else:
             raise ValueError(
                 f"total_pages must be either an integer or 'all' as a string. Got {total_pages}",
             )
-        current_page = 1
-        operation = f"{scope}.{operation_id}"
 
-        response = self._request(
-            operation=operation, method="GET", path=path, params=params, current_page=current_page
-        )
+        def extract_items(results: Any) -> list[Any]:
+            """Extract items from various response formats."""
+            if isinstance(results, list):
+                return results
+            if isinstance(results, dict):
+                if "items" in results:
+                    return results["items"]
+                if "events" in results:
+                    # getNetworkEvents returns events in reverse chronological order,
+                    # reverse when paginating forward to restore chronological order
+                    events = results["events"]
+                    return events[::-1] if direction == "next" else events
+            return []
 
-        # Get additional pages if more than one requested
-        while total_pages != 0:
-            results = response.json()
-            links = response.links
+        def get_link_param(link_url: str, param: str) -> str | None:
+            """Safely extract a query parameter from a pagination link."""
+            parsed = urllib.parse.urlparse(str(link_url))
+            query_params = urllib.parse.parse_qs(parsed.query)
+            values = query_params.get(param)
+            return values[0] if values else None
 
-            # GET the subsequent page
-            if direction == "next" and "next" in links:
-                # Prevent getNetworkEvents from infinite loop as time goes forward
-                if operation_id == "getNetworkEvents":
-                    starting_after = urllib.parse.unquote(
-                        str(links["next"]["url"]).split("startingAfter=")[1]
-                    )
-                    delta = datetime.now(tz=UTC) - datetime.fromisoformat(starting_after)
-                    # Break out of loop if startingAfter returned from next link is within 5 minutes of current time
-                    if delta.total_seconds() < 300 or (
-                        event_log_end_time and starting_after > event_log_end_time
+        def should_stop_event_pagination(link_url: str) -> bool:
+            """Check if getNetworkEvents pagination should stop to prevent infinite loops."""
+            if direction == "next":
+                starting_after = get_link_param(link_url, "startingAfter")
+                if not starting_after:
+                    return False
+                delta = datetime.now(tz=UTC) - datetime.fromisoformat(starting_after)
+                if delta.total_seconds() < 300:
+                    return True
+                if event_log_end_time and starting_after > event_log_end_time:
+                    return True
+            else:
+                ending_before = get_link_param(link_url, "endingBefore")
+                if ending_before and ending_before < "2014-01-01":
+                    return True
+            return False
+
+        def fetch_pages() -> Iterator[Any]:
+            current_page = 1
+            operation = f"{scope}.{operation_id}"
+            next_url: str | None = path
+            remaining_pages = total_pages
+
+            while next_url and remaining_pages != 0:
+                response = self._request(
+                    operation=operation,
+                    method="GET",
+                    path=next_url,
+                    params=params if current_page == 1 else None,
+                    current_page=current_page,
+                )
+                results = response.json()
+                links = response.links
+                response.close()
+
+                yield from extract_items(results)
+
+                remaining_pages -= 1
+                next_url = None
+
+                link_key = direction
+                if link_key in links:
+                    link_url = links[link_key]["url"]
+                    if operation_id == "getNetworkEvents" and should_stop_event_pagination(
+                        link_url
                     ):
                         break
+                    next_url = link_url
+                    current_page += 1
 
-                current_page += 1
-                nextlink = links["next"]["url"]
-            elif direction == "prev" and "prev" in links:
-                # Prevent getNetworkEvents from infinite loop as time goes backward (to epoch 0)
-                if operation_id == "getNetworkEvents":
-                    ending_before = urllib.parse.unquote(
-                        str(links["prev"]["url"]).split("endingBefore=")[1]
-                    )
-                    # Break out of loop if endingBefore returned from prev link is before 2014
-                    if ending_before < "2014-01-01":
-                        break
-
-                current_page += 1
-                nextlink = links["prev"]["url"]
-            else:
-                break
-
-            response.close()
-
-            return_items = []
-            # Just prepare the list
-            if isinstance(results, list):
-                return_items = results
-            elif isinstance(results, dict) and "items" in results:
-                return_items = results["items"]
-            # For event log endpoint
-            elif isinstance(results, dict):
-                return_items = results["events"][::-1] if direction == "next" else results["events"]
-
-            yield from return_items
-
-            total_pages = total_pages - 1
-
-            if total_pages != 0:
-                response = self._request(
-                    operation=operation, method="GET", path=nextlink, current_page=current_page
-                )
+        return PaginatedResponse(fetch_pages)
 
     def post(
         self, *, scope: str, operation_id: str, path: str, json: dict[str, Any] | None = None
