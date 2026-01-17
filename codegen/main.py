@@ -195,6 +195,14 @@ def get_client_version() -> str:
     return pyproject["project"]["version"]
 
 
+def get_min_python_version() -> tuple[int, int]:
+    """Read the minimum Python version from .python-version file."""
+    python_version_path = PROJECT_ROOT / ".python-version"
+    version_str = python_version_path.read_text().strip()
+    parts = version_str.split(".")
+    return (int(parts[0]), int(parts[1]))
+
+
 def get_openapi_specification(api_version: str) -> dict[str, Any]:
     """Retrieve the OpenAPI specification from GitHub repository.
 
@@ -241,6 +249,7 @@ def generate_library(  # noqa: PLR0915
     copy_static_files()
 
     templates = init_templates()
+    min_python_version = get_min_python_version()
 
     # Generate response schemas and collect registry
     schema_registry, item_schema_map = generate_response_schemas(spec, templates)
@@ -300,13 +309,18 @@ def generate_library(  # noqa: PLR0915
                 modules=modules,
                 version=version_number,
                 api_version=api_version,
+                min_python_version=min_python_version,
                 is_async=False,
             )
         )
     with open(f"{OUTPUT_DIR}/aio/__init__.py", "w") as f:
         f.write(
             templates.init_template.render(
-                modules=modules, version=version_number, api_version=api_version, is_async=True
+                modules=modules,
+                version=version_number,
+                api_version=api_version,
+                min_python_version=min_python_version,
+                is_async=True,
             )
         )
 
