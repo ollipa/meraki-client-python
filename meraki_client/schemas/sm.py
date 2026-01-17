@@ -11,14 +11,6 @@ from pydantic import Field, RootModel
 from meraki_client.schemas._base import _BaseSchema
 
 
-class CreateNetworkSmBypassActivationLockAttemptResponse(_BaseSchema):
-    """Bypass activation lock attempt."""
-
-
-class GetNetworkSmBypassActivationLockAttemptResponse(_BaseSchema):
-    """Bypass activation lock attempt status."""
-
-
 class GetNetworkSmDevicesResponseItem(_BaseSchema):
     """Schema for GetNetworkSmDevicesResponseItem."""
 
@@ -166,10 +158,6 @@ class GetNetworkSmDeviceDeviceProfilesResponseItem(_BaseSchema):
     version: str | None = None
 
 
-class InstallNetworkSmDeviceAppsResponse(_BaseSchema):
-    """Install applications on a device."""
-
-
 class GetNetworkSmDeviceNetworkAdaptersResponseItem(_BaseSchema):
     """Schema for GetNetworkSmDeviceNetworkAdaptersResponseItem."""
 
@@ -188,10 +176,6 @@ class GetNetworkSmDevicePerformanceHistoryResponseItemDiskUsageC(_BaseSchema):
 
     used: int | None = None
     space: int | None = None
-
-
-class RefreshNetworkSmDeviceDetailsResponse(_BaseSchema):
-    """Refresh the details of a device."""
 
 
 class GetNetworkSmDeviceRestrictionsResponseRestrictionsItem(_BaseSchema):
@@ -248,10 +232,6 @@ class UnenrollNetworkSmDeviceResponse(_BaseSchema):
     """Unenroll a device."""
 
     success: bool | None = None
-
-
-class UninstallNetworkSmDeviceAppsResponse(_BaseSchema):
-    """Uninstall applications on a device."""
 
 
 class GetNetworkSmDeviceWlanListsResponseItem(_BaseSchema):

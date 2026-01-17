@@ -1764,10 +1764,6 @@ class GetOrganizationInventoryDeviceResponseDetailsItem(_BaseSchema):
     value: str | None = None
 
 
-class CreateOrganizationInventoryOnboardingCloudMonitoringExportEventResponse(_BaseSchema):
-    """Imports event logs related to the onboarding app into elastisearch."""
-
-
 class GetOrganizationInventoryOnboardingCloudMonitoringImportsResponseItemDevice(_BaseSchema):
     """Represents the details of an imported device."""
 
@@ -2043,10 +2039,6 @@ class CombineOrganizationNetworksResponseResultingNetwork(_BaseSchema):
     url: str | None = None
     notes: str | None = None
     is_bound_to_config_template: bool | None = Field(default=None, alias="isBoundToConfigTemplate")
-
-
-class GetOrganizationOpenapiSpecResponse(_BaseSchema):
-    """Return the OpenAPI Specification of the organization's API documentation in JSON."""
 
 
 class GetOrganizationPoliciesAssignmentsByClientResponseItemAssignedItemLimitToItemSsidsItem(

@@ -28,12 +28,12 @@ class GetDeviceAppliancePerformanceResponse(_BaseSchema):
     perf_score: float | None = Field(default=None, alias="perfScore")
 
 
-class GetDeviceAppliancePrefixesDelegatedResponseItem(_BaseSchema):
-    """Schema for GetDeviceAppliancePrefixesDelegatedResponseItem."""
+class GetDeviceAppliancePrefixesDelegatedResponse(RootModel[list[dict[str, Any]]]):
+    """Return current delegated IPv6 prefixes on an appliance."""
 
 
-class GetDeviceAppliancePrefixesDelegatedVlanAssignmentsResponseItem(_BaseSchema):
-    """Schema for GetDeviceAppliancePrefixesDelegatedVlanAssignmentsResponseItem."""
+class GetDeviceAppliancePrefixesDelegatedVlanAssignmentsResponse(RootModel[list[dict[str, Any]]]):
+    """Return prefixes assigned to all IPv6 enabled VLANs on an appliance."""
 
 
 class GetDeviceApplianceRadioSettingsResponseTwoFourGhzSettings(_BaseSchema):
@@ -211,18 +211,6 @@ class UpdateNetworkApplianceContentFilteringResponseBlockedUrlCategoriesItem(_Ba
     name: str | None = None
 
 
-class GetNetworkApplianceContentFilteringCategoriesResponse(_BaseSchema):
-    """List all available content filtering categories for an MX network."""
-
-
-class GetNetworkApplianceFirewallCellularFirewallRulesResponse(_BaseSchema):
-    """Return the cellular firewall rules for an MX network."""
-
-
-class UpdateNetworkApplianceFirewallCellularFirewallRulesResponse(_BaseSchema):
-    """Update the cellular firewall rules of an MX network."""
-
-
 class GetNetworkApplianceFirewallFirewalledServicesResponseItem(_BaseSchema):
     """Schema for GetNetworkApplianceFirewallFirewalledServicesResponseItem."""
 
@@ -299,22 +287,6 @@ class UpdateNetworkApplianceFirewallInboundFirewallRulesResponseRulesItem(_BaseS
     syslog_enabled: bool | None = Field(default=None, alias="syslogEnabled")
 
 
-class GetNetworkApplianceFirewallL3FirewallRulesResponse(_BaseSchema):
-    """Return the L3 firewall rules for an MX network."""
-
-
-class UpdateNetworkApplianceFirewallL3FirewallRulesResponse(_BaseSchema):
-    """Update the L3 firewall rules of an MX network."""
-
-
-class GetNetworkApplianceFirewallL7FirewallRulesResponse(_BaseSchema):
-    """List the MX L7 firewall rules for an MX network."""
-
-
-class UpdateNetworkApplianceFirewallL7FirewallRulesResponse(_BaseSchema):
-    """Update the MX L7 firewall rules for an MX network."""
-
-
 class GetNetworkApplianceFirewallL7FirewallRulesApplicationCategoriesResponseApplicationCategoriesItemApplicationsItem(
     _BaseSchema
 ):
@@ -341,22 +313,6 @@ class UpdateNetworkApplianceFirewallMulticastForwardingResponseRulesItem(_BaseSc
     vlan_ids: list[str] = Field(alias="vlanIds")
 
 
-class GetNetworkApplianceFirewallOneToManyNatRulesResponse(_BaseSchema):
-    """Return the 1:Many NAT mapping rules for an MX network."""
-
-
-class UpdateNetworkApplianceFirewallOneToManyNatRulesResponse(_BaseSchema):
-    """Set the 1:Many NAT mapping rules for an MX network."""
-
-
-class GetNetworkApplianceFirewallOneToOneNatRulesResponse(_BaseSchema):
-    """Return the 1:1 NAT mapping rules for an MX network."""
-
-
-class UpdateNetworkApplianceFirewallOneToOneNatRulesResponse(_BaseSchema):
-    """Set the 1:1 NAT mapping rules for an MX network."""
-
-
 class GetNetworkApplianceFirewallPortForwardingRulesResponseRulesItem(_BaseSchema):
     """Schema for GetNetworkApplianceFirewallPortForwardingRulesResponseRulesItem."""
 
@@ -379,14 +335,6 @@ class UpdateNetworkApplianceFirewallPortForwardingRulesResponseRulesItem(_BaseSc
     public_port: str | None = Field(default=None, alias="publicPort")
     local_port: str | None = Field(default=None, alias="localPort")
     uplink: str | None = None
-
-
-class GetNetworkApplianceFirewallSettingsResponse(_BaseSchema):
-    """Return the firewall settings for this network."""
-
-
-class UpdateNetworkApplianceFirewallSettingsResponse(_BaseSchema):
-    """Update the firewall settings for this network."""
 
 
 class GetNetworkAppliancePortsResponseItem(_BaseSchema):
@@ -432,19 +380,11 @@ class GetNetworkAppliancePrefixesDelegatedStaticsResponseItemOrigin(_BaseSchema)
     interfaces: list[str] | None = None
 
 
-class CreateNetworkAppliancePrefixesDelegatedStaticResponse(_BaseSchema):
-    """Add a static delegated prefix from a network."""
-
-
 class GetNetworkAppliancePrefixesDelegatedStaticResponseOrigin(_BaseSchema):
     """WAN1/WAN2/Independent prefix."""
 
     type_: str | None = Field(default=None, alias="type")
     interfaces: list[str] | None = None
-
-
-class UpdateNetworkAppliancePrefixesDelegatedStaticResponse(_BaseSchema):
-    """Update a static delegated prefix from a network."""
 
 
 class GetNetworkApplianceRfProfilesResponseAssignedItemTwoFourGhzSettings(_BaseSchema):
@@ -799,14 +739,6 @@ class UpdateNetworkApplianceStaticRouteResponseReservedIpRangesItem(_BaseSchema)
     comment: str | None = None
 
 
-class GetNetworkApplianceTrafficShapingResponse(_BaseSchema):
-    """Display the traffic shaping settings for an MX network."""
-
-
-class UpdateNetworkApplianceTrafficShapingResponse(_BaseSchema):
-    """Update the traffic shaping settings for an MX network."""
-
-
 class GetNetworkApplianceTrafficShapingCustomPerformanceClassesResponseItem(_BaseSchema):
     """Schema for GetNetworkApplianceTrafficShapingCustomPerformanceClassesResponseItem."""
 
@@ -847,14 +779,6 @@ class UpdateNetworkApplianceTrafficShapingCustomPerformanceClassResponse(_BaseSc
     max_loss_percentage: int | None = Field(default=None, alias="maxLossPercentage")
 
 
-class GetNetworkApplianceTrafficShapingRulesResponse(_BaseSchema):
-    """Display the traffic shaping settings rules for an MX network."""
-
-
-class UpdateNetworkApplianceTrafficShapingRulesResponse(_BaseSchema):
-    """Update the traffic shaping settings rules for an MX network."""
-
-
 class GetNetworkApplianceTrafficShapingUplinkBandwidthResponseBandwidthLimitsWan1(_BaseSchema):
     """uplink wan1 configured limits [optional]."""
 
@@ -874,10 +798,6 @@ class GetNetworkApplianceTrafficShapingUplinkBandwidthResponseBandwidthLimitsCel
 
     limit_up: int | None = Field(default=None, alias="limitUp")
     limit_down: int | None = Field(default=None, alias="limitDown")
-
-
-class UpdateNetworkApplianceTrafficShapingUplinkBandwidthResponse(_BaseSchema):
-    """Updates the uplink bandwidth settings for your MX network."""
 
 
 class GetNetworkApplianceTrafficShapingUplinkSelectionResponseFailoverAndFailbackImmediate(
@@ -1474,14 +1394,6 @@ class GetOrganizationApplianceSecurityEventsResponseItem(_BaseSchema):
     """Schema for GetOrganizationApplianceSecurityEventsResponseItem."""
 
 
-class GetOrganizationApplianceSecurityIntrusionResponse(_BaseSchema):
-    """Returns all supported intrusion settings for an organization."""
-
-
-class UpdateOrganizationApplianceSecurityIntrusionResponse(_BaseSchema):
-    """Sets supported intrusion settings for an organization."""
-
-
 class GetOrganizationApplianceTrafficShapingVpnExclusionsByNetworkResponseItemsItemCustomItem(
     _BaseSchema
 ):
@@ -1797,18 +1709,6 @@ class GetDeviceApplianceDhcpSubnetsResponse(
     RootModel[list[GetDeviceApplianceDhcpSubnetsResponseItem]]
 ):
     """Return the DHCP subnet information for an appliance."""
-
-
-class GetDeviceAppliancePrefixesDelegatedResponse(
-    RootModel[list[GetDeviceAppliancePrefixesDelegatedResponseItem]]
-):
-    """Return current delegated IPv6 prefixes on an appliance."""
-
-
-class GetDeviceAppliancePrefixesDelegatedVlanAssignmentsResponse(
-    RootModel[list[GetDeviceAppliancePrefixesDelegatedVlanAssignmentsResponseItem]]
-):
-    """Return prefixes assigned to all IPv6 enabled VLANs on an appliance."""
 
 
 class GetDeviceApplianceRadioSettingsResponse(_BaseSchema):

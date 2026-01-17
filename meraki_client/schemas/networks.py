@@ -268,20 +268,6 @@ class UpdateNetworkClientPolicyResponsePoliciesBySsidItem(_BaseSchema):
     group_policy_id: str | None = Field(default=None, alias="groupPolicyId")
 
 
-class GetNetworkClientSplashAuthorizationStatusResponse(_BaseSchema):
-    """Return the splash authorization for a client, for each SSID they've associated with through
-    splash. Only enabled SSIDs with Click-through splash enabled will be included. Clients can
-    be identified by a client key or either the MAC or IP depending on whether the network uses
-    Track-by-IP.
-    """
-
-
-class UpdateNetworkClientSplashAuthorizationStatusResponse(_BaseSchema):
-    """Update a client's splash authorization. Clients can be identified by a client key or either
-    the MAC or IP depending on whether the network uses Track-by-IP.
-    """
-
-
 class GetNetworkClientTrafficHistoryResponseItem(_BaseSchema):
     """Schema for GetNetworkClientTrafficHistoryResponseItem."""
 
@@ -2701,14 +2687,8 @@ class UpdateNetworkTrafficAnalysisResponseCustomPieChartItemsItem(_BaseSchema):
     value: str
 
 
-class GetNetworkTrafficShapingApplicationCategoriesResponse(_BaseSchema):
-    """Returns the application categories for traffic shaping rules. Only applicable on networks
-    with a security applicance.
-    """
-
-
-class GetNetworkTrafficShapingDscpTaggingOptionsResponseItem(_BaseSchema):
-    """Schema for GetNetworkTrafficShapingDscpTaggingOptionsResponseItem."""
+class GetNetworkTrafficShapingDscpTaggingOptionsResponse(RootModel[list[dict[str, Any]]]):
+    """Returns the available DSCP tagging options for your traffic shaping rules."""
 
 
 class UnbindNetworkResponse(_BaseSchema):
@@ -3425,12 +3405,6 @@ class UpdateNetworkTrafficAnalysisResponse(_BaseSchema):
     custom_pie_chart_items: (
         list[UpdateNetworkTrafficAnalysisResponseCustomPieChartItemsItem] | None
     ) = Field(default=None, alias="customPieChartItems")
-
-
-class GetNetworkTrafficShapingDscpTaggingOptionsResponse(
-    RootModel[list[GetNetworkTrafficShapingDscpTaggingOptionsResponseItem]]
-):
-    """Returns the available DSCP tagging options for your traffic shaping rules."""
 
 
 class ReassignNetworkVlanProfilesAssignmentsResponse(_BaseSchema):

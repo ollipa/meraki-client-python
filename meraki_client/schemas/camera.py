@@ -78,24 +78,8 @@ class GenerateDeviceCameraSnapshotResponse(_BaseSchema):
     expiry: str | None = None
 
 
-class GetDeviceCameraQualityAndRetentionResponse(_BaseSchema):
-    """Returns quality and retention settings for the given camera."""
-
-
-class UpdateDeviceCameraQualityAndRetentionResponse(_BaseSchema):
-    """Update quality and retention settings for the given camera."""
-
-
-class GetDeviceCameraSenseResponse(_BaseSchema):
-    """Returns sense settings for a given camera."""
-
-
-class UpdateDeviceCameraSenseResponse(_BaseSchema):
-    """Update sense settings for the given camera."""
-
-
-class GetDeviceCameraSenseObjectDetectionModelsResponseItem(_BaseSchema):
-    """Schema for GetDeviceCameraSenseObjectDetectionModelsResponseItem."""
+class GetDeviceCameraSenseObjectDetectionModelsResponse(RootModel[list[dict[str, Any]]]):
+    """Returns the MV Sense object detection model list for the given camera."""
 
 
 class GetDeviceCameraVideoSettingsResponse(_BaseSchema):
@@ -110,22 +94,6 @@ class UpdateDeviceCameraVideoSettingsResponse(_BaseSchema):
 
     external_rtsp_enabled: bool | None = Field(default=None, alias="externalRtspEnabled")
     rtsp_url: str | None = Field(default=None, alias="rtspUrl")
-
-
-class GetDeviceCameraVideoLinkResponse(_BaseSchema):
-    """Returns video link to the specified camera. If a timestamp is supplied, it links to that
-    timestamp.
-    """
-
-
-class GetDeviceCameraWirelessProfilesResponse(_BaseSchema):
-    """Returns wireless profile assigned to the given camera."""
-
-
-class UpdateDeviceCameraWirelessProfilesResponse(_BaseSchema):
-    """Assign wireless profiles to the given camera. Incremental updates are not supported, all
-    profile assignment need to be supplied at once.
-    """
 
 
 class GetNetworkCameraQualityRetentionProfilesResponseItemSmartRetention(_BaseSchema):
@@ -285,12 +253,8 @@ class GetOrganizationCameraDetectionsHistoryByBoundaryByIntervalResponseItemResu
     out: int | None = None
 
 
-class GetOrganizationCameraOnboardingStatusesResponseItem(_BaseSchema):
-    """Schema for GetOrganizationCameraOnboardingStatusesResponseItem."""
-
-
-class UpdateOrganizationCameraOnboardingStatusesResponse(_BaseSchema):
-    """Notify that credential handoff to camera has completed."""
+class GetOrganizationCameraOnboardingStatusesResponse(RootModel[list[dict[str, Any]]]):
+    """Fetch onboarding status of cameras."""
 
 
 class GetOrganizationCameraPermissionsResponseItem(_BaseSchema):
@@ -459,12 +423,6 @@ class UpdateDeviceCameraCustomAnalyticsResponse(_BaseSchema):
     parameters: list[UpdateDeviceCameraCustomAnalyticsResponseParametersItem] | None = None
 
 
-class GetDeviceCameraSenseObjectDetectionModelsResponse(
-    RootModel[list[GetDeviceCameraSenseObjectDetectionModelsResponseItem]]
-):
-    """Returns the MV Sense object detection model list for the given camera."""
-
-
 class CreateNetworkCameraQualityRetentionProfileResponse(_BaseSchema):
     """Creates new quality retention profile for this network."""
 
@@ -600,12 +558,6 @@ class GetOrganizationCameraCustomAnalyticsArtifactResponse(_BaseSchema):
     organization_id: str | None = Field(default=None, alias="organizationId")
     name: str | None = None
     status: GetOrganizationCameraCustomAnalyticsArtifactResponseStatus | None = None
-
-
-class GetOrganizationCameraOnboardingStatusesResponse(
-    RootModel[list[GetOrganizationCameraOnboardingStatusesResponseItem]]
-):
-    """Fetch onboarding status of cameras."""
 
 
 class GetOrganizationCameraPermissionsResponse(

@@ -69,10 +69,6 @@ class UpdateDeviceWirelessElectronicShelfLabelResponse(_BaseSchema):
     provider: str | None = None
 
 
-class GetDeviceWirelessLatencyStatsResponse(_BaseSchema):
-    """Aggregated latency info for a given AP on this network."""
-
-
 class GetDeviceWirelessRadioSettingsResponseTwoFourGhzSettings(_BaseSchema):
     """Manual radio settings for 2.4 GHz."""
 
@@ -190,14 +186,6 @@ class UpdateNetworkWirelessAirMarshalSettingsResponse(_BaseSchema):
     default_policy: str | None = Field(default=None, alias="defaultPolicy")
 
 
-class GetNetworkWirelessAlternateManagementInterfaceResponse(_BaseSchema):
-    """Return alternate management interface and devices with IP assigned."""
-
-
-class UpdateNetworkWirelessAlternateManagementInterfaceResponse(_BaseSchema):
-    """Update alternate management interface and device static IP."""
-
-
 class GetNetworkWirelessBillingResponsePlansItemBandwidthLimits(_BaseSchema):
     """The uplink bandwidth settings for the pricing plan."""
 
@@ -260,12 +248,12 @@ class GetNetworkWirelessClientCountHistoryResponseItem(_BaseSchema):
     client_count: int | None = Field(default=None, alias="clientCount")
 
 
-class GetNetworkWirelessClientsConnectionStatsResponseItem(_BaseSchema):
-    """Schema for GetNetworkWirelessClientsConnectionStatsResponseItem."""
+class GetNetworkWirelessClientsConnectionStatsResponse(RootModel[list[dict[str, Any]]]):
+    """Aggregated connectivity info for this network, grouped by clients."""
 
 
-class GetNetworkWirelessClientsLatencyStatsResponseItem(_BaseSchema):
-    """Schema for GetNetworkWirelessClientsLatencyStatsResponseItem."""
+class GetNetworkWirelessClientsLatencyStatsResponse(RootModel[list[dict[str, Any]]]):
+    """Aggregated latency info for this network, grouped by clients."""
 
 
 class GetNetworkWirelessClientConnectionStatsResponseConnectionStats(_BaseSchema):
@@ -374,12 +362,6 @@ class GetNetworkWirelessClientLatencyHistoryResponseItemLatencyBinsByCategoryVoi
     n_2048_0: int | None = Field(default=None, alias="2048.0")
 
 
-class GetNetworkWirelessClientLatencyStatsResponse(_BaseSchema):
-    """Aggregated latency info for a given client on this network. Clients are identified by their
-    MAC.
-    """
-
-
 class GetNetworkWirelessConnectionStatsResponse(_BaseSchema):
     """Aggregated connectivity info for this network."""
 
@@ -410,8 +392,8 @@ class GetNetworkWirelessDevicesConnectionStatsResponseItemConnectionStats(_BaseS
     success: int | None = None
 
 
-class GetNetworkWirelessDevicesLatencyStatsResponseItem(_BaseSchema):
-    """Schema for GetNetworkWirelessDevicesLatencyStatsResponseItem."""
+class GetNetworkWirelessDevicesLatencyStatsResponse(RootModel[list[dict[str, Any]]]):
+    """Aggregated latency info for this network, grouped by node."""
 
 
 class GetNetworkWirelessElectronicShelfLabelResponse(_BaseSchema):
@@ -542,10 +524,6 @@ class GetNetworkWirelessLatencyHistoryResponseItem(_BaseSchema):
     start_ts: str | None = Field(default=None, alias="startTs")
     end_ts: str | None = Field(default=None, alias="endTs")
     avg_latency_ms: int | None = Field(default=None, alias="avgLatencyMs")
-
-
-class GetNetworkWirelessLatencyStatsResponse(_BaseSchema):
-    """Aggregated latency info for this network."""
 
 
 class UpdateNetworkWirelessLocationScanningResponseApiValidator(_BaseSchema):
@@ -1223,14 +1201,6 @@ class UpdateNetworkWirelessSsidBonjourForwardingResponseRulesItem(_BaseSchema):
     services: list[str] | None = None
 
 
-class GetNetworkWirelessSsidDeviceTypeGroupPoliciesResponse(_BaseSchema):
-    """List the device type group policies for the SSID."""
-
-
-class UpdateNetworkWirelessSsidDeviceTypeGroupPoliciesResponse(_BaseSchema):
-    """Update the device type group policies for the SSID."""
-
-
 class GetNetworkWirelessSsidEapOverrideResponseIdentity(_BaseSchema):
     """EAP settings for identity requests."""
 
@@ -1592,14 +1562,6 @@ class UpdateNetworkWirelessSsidTrafficShapingRulesResponseRulesItemPerClientBand
 
     limit_up: int | None = Field(default=None, alias="limitUp")
     limit_down: int | None = Field(default=None, alias="limitDown")
-
-
-class GetNetworkWirelessSsidVpnResponse(_BaseSchema):
-    """List the VPN settings for the SSID."""
-
-
-class UpdateNetworkWirelessSsidVpnResponse(_BaseSchema):
-    """Update the VPN settings for the SSID."""
 
 
 class GetNetworkWirelessUsageHistoryResponseItem(_BaseSchema):
@@ -2673,18 +2635,6 @@ class GetNetworkWirelessClientCountHistoryResponse(
     """Return wireless client counts over time for a network, device, or network client."""
 
 
-class GetNetworkWirelessClientsConnectionStatsResponse(
-    RootModel[list[GetNetworkWirelessClientsConnectionStatsResponseItem]]
-):
-    """Aggregated connectivity info for this network, grouped by clients."""
-
-
-class GetNetworkWirelessClientsLatencyStatsResponse(
-    RootModel[list[GetNetworkWirelessClientsLatencyStatsResponseItem]]
-):
-    """Aggregated latency info for this network, grouped by clients."""
-
-
 class GetNetworkWirelessClientConnectionStatsResponse(_BaseSchema):
     """Aggregated connectivity info for a given client on this network. Clients are identified by
     their MAC.
@@ -2706,12 +2656,6 @@ class GetNetworkWirelessDataRateHistoryResponse(
     RootModel[list[GetNetworkWirelessDataRateHistoryResponseItem]]
 ):
     """Return PHY data rates over time for a network, device, or network client."""
-
-
-class GetNetworkWirelessDevicesLatencyStatsResponse(
-    RootModel[list[GetNetworkWirelessDevicesLatencyStatsResponseItem]]
-):
-    """Aggregated latency info for this network, grouped by node."""
 
 
 class GetNetworkWirelessElectronicShelfLabelConfiguredDevicesResponse(

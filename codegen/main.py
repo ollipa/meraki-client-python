@@ -131,6 +131,15 @@ class ResponseSchemaInfo:
 
 
 @dataclass
+class SchemaRegistry:
+    """Registry of generated response schemas."""
+
+    schema_names: set[str]
+    item_schema_map: dict[str, str]
+    untyped_response_ops: set[str]
+
+
+@dataclass
 class ModuleInfo:
     """Module information for template generation."""
 
@@ -252,7 +261,7 @@ def generate_library(  # noqa: PLR0915
     min_python_version = get_min_python_version()
 
     # Generate response schemas and collect registry
-    schema_registry, item_schema_map = generate_response_schemas(spec, templates)
+    schema_registry = generate_response_schemas(spec, templates)
 
     # Collect all operations by scope
     scopes: dict[str, PathsType] = {}
@@ -351,7 +360,6 @@ def generate_library(  # noqa: PLR0915
                 async_output=async_output,
                 templates=templates,
                 schema_registry=schema_registry,
-                item_schema_map=item_schema_map,
             )
 
         if batch_content:
@@ -395,8 +403,7 @@ def generate_module(  # noqa: PLR0915
     output: TextIO,
     async_output: TextIO,
     templates: Templates,
-    schema_registry: set[str],
-    item_schema_map: dict[str, str],
+    schema_registry: SchemaRegistry,
 ) -> str | None:
     """Generate a module for a scope.
 
@@ -417,11 +424,11 @@ def generate_module(  # noqa: PLR0915
                 continue
 
             response_schema_name = get_response_schema_name(operation_id)
-            if response_schema_name in schema_registry:
+            if response_schema_name in schema_registry.schema_names:
                 schemas_used.append(response_schema_name)
                 # Check if there's an item schema for paginated endpoints
-                if response_schema_name in item_schema_map:
-                    schemas_used.append(item_schema_map[response_schema_name])
+                if response_schema_name in schema_registry.item_schema_map:
+                    schemas_used.append(schema_registry.item_schema_map[response_schema_name])
 
     # Write class header with schema imports
     output.write(
@@ -462,20 +469,23 @@ def generate_module(  # noqa: PLR0915
             # Determine schema names for this operation
             response_schema_name = None
             item_schema_name = None
+            has_untyped_response = operation_id in schema_registry.untyped_response_ops
             if method != "delete":
                 schema_name = get_response_schema_name(operation_id)
-                if schema_name in schema_registry:
+                if schema_name in schema_registry.schema_names:
                     response_schema_name = schema_name
                     # For paginated endpoints, use item schema from map or fallback to response schema
                     # (some OpenAPI specs incorrectly define array responses as objects)
                     if is_paginated:
-                        item_schema_name = item_schema_map.get(schema_name, schema_name)
+                        item_schema_name = schema_registry.item_schema_map.get(
+                            schema_name, schema_name
+                        )
 
             if is_paginated and not item_schema_name:
                 raise ValueError(f"Paginated endpoint {operation_id} has no response schema")
 
             # Endpoints with 200/201 responses should have schemas
-            if method != "delete" and not response_schema_name:
+            if method != "delete" and not response_schema_name and not has_untyped_response:
                 responses = endpoint.responses or {}
                 if "200" in responses or "201" in responses:
                     raise ValueError(f"Endpoint {operation_id} has 200/201 response but no schema")
@@ -508,6 +518,7 @@ def generate_module(  # noqa: PLR0915
                         is_async=False,
                         response_schema_name=response_schema_name,
                         item_schema_name=item_schema_name,
+                        has_untyped_response=has_untyped_response,
                     ),
                     is_async=False,
                     is_paginated=is_paginated,
@@ -525,6 +536,7 @@ def generate_module(  # noqa: PLR0915
                         is_async=True,
                         response_schema_name=response_schema_name,
                         item_schema_name=item_schema_name,
+                        has_untyped_response=has_untyped_response,
                     ),
                     is_async=True,
                     is_paginated=is_paginated,
@@ -796,6 +808,7 @@ def get_return_type(
     is_async: bool,
     response_schema_name: str | None = None,
     item_schema_name: str | None = None,
+    has_untyped_response: bool = False,
 ) -> str:
     """Get the return type for a function."""
     if method == "delete":
@@ -808,6 +821,8 @@ def get_return_type(
         )
     if response_schema_name:
         return f"{response_schema_name} | None"
+    if has_untyped_response:
+        return "dict[str, Any] | None"
     return "None"
 
 
@@ -1009,18 +1024,12 @@ def get_python_type(data_type: DataType) -> str:
             assert_never(data_type)
 
 
-def generate_response_schemas(
-    spec: OpenAPI, templates: Templates
-) -> tuple[set[str], dict[str, str]]:
-    """Generate Pydantic response schemas from OpenAPI specification.
-
-    Returns:
-        Tuple of (set of schema names, mapping from response schema to item schema).
-
-    """
+def generate_response_schemas(spec: OpenAPI, templates: Templates) -> SchemaRegistry:
+    """Generate Pydantic response schemas from OpenAPI specification."""
     schemas: dict[str, str] = {}  # class_name -> class definition
     schema_to_scope: dict[str, str] = {}  # class_name -> scope (snake_case)
     item_schema_map: dict[str, str] = {}  # response_schema -> item_schema
+    untyped_response_operations: set[str] = set()  # operations with untyped object responses
 
     for path_item in spec.paths.values():
         operations: dict[Literal["get", "put", "post", "delete"], Operation | None] = {
@@ -1050,12 +1059,20 @@ def generate_response_schemas(
             info = generate_schema_class(
                 class_name, response_schema, schemas, schema_to_scope, scope_snake, description
             )
-            if info and info.item_class_name:
-                item_schema_map[class_name] = info.item_class_name
+            if info:
+                if info.item_class_name:
+                    item_schema_map[class_name] = info.item_class_name
+            else:
+                # Schema was not generated (untyped object), track for dict[str, Any] return type
+                untyped_response_operations.add(operation_id)
 
     write_schemas_files(schemas, schema_to_scope, templates)
     log.info(f"Generated {len(schemas)} response schemas")
-    return set(schemas.keys()), item_schema_map
+    return SchemaRegistry(
+        schema_names=set(schemas.keys()),
+        item_schema_map=item_schema_map,
+        untyped_response_ops=untyped_response_operations,
+    )
 
 
 def extract_response_schema(operation: Operation) -> dict[str, Any] | None:
@@ -1123,24 +1140,26 @@ def generate_schema_class(
         item_class_name = class_name + "Item"
 
         if items_schema.get("type") == "object":
-            generate_schema_class(item_class_name, items_schema, schemas, schema_to_scope, scope)
-            # Generate RootModel for array response
-            doc_lines = _format_schema_docstring(docstring)
-            # Only add pass if there's no docstring
-            body = "" if doc_lines else "    pass\n"
-            register_schema(
-                class_name,
-                f"class {class_name}(RootModel[list[{item_class_name}]]):\n{doc_lines}{body}",
+            item_info = generate_schema_class(
+                item_class_name, items_schema, schemas, schema_to_scope, scope
             )
+            # If item schema was generated, use the class name; otherwise use dict[str, Any]
+            if item_info:
+                item_type = item_class_name
+            else:
+                item_type = "dict[str, Any]"
+                item_class_name = None
         else:
             item_type = _get_schema_type(items_schema)
-            doc_lines = _format_schema_docstring(docstring)
-            body = "" if doc_lines else "    pass\n"
-            register_schema(
-                class_name,
-                f"class {class_name}(RootModel[list[{item_type}]]):\n{doc_lines}{body}",
-            )
             item_class_name = None
+
+        # Generate RootModel for array response
+        doc_lines = _format_schema_docstring(docstring)
+        body = "" if doc_lines else "    pass\n"
+        register_schema(
+            class_name,
+            f"class {class_name}(RootModel[list[{item_type}]]):\n{doc_lines}{body}",
+        )
 
         return ResponseSchemaInfo(
             operation_id="",
@@ -1150,11 +1169,17 @@ def generate_schema_class(
         )
 
     if schema_type == "object" or "properties" in schema:
+        properties = schema.get("properties", {})
+
+        # Skip generating schema for untyped objects (just "type": "object" without properties)
+        # These will use dict[str, Any] as the return type instead
+        if not properties and "additionalProperties" not in schema:
+            return None
+
         lines = [f"class {class_name}(_BaseSchema):"]
         if docstring:
             lines.extend(_format_schema_docstring(docstring, as_lines=True))
 
-        properties = schema.get("properties", {})
         required = set(schema.get("required", []))
 
         # Track item class name for paginated wrapper responses
