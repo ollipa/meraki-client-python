@@ -121,14 +121,24 @@ class FunctionDefinition:
 
 
 @dataclass
+class ModuleInfo:
+    """Module information for template generation."""
+
+    snake_name: str
+    class_name: str
+    attr_name: str
+
+
+@dataclass
 class Templates:
     """Ninja templates."""
 
-    class_template: jinja2.Template
-    async_class_template: jinja2.Template
-    function_template: jinja2.Template
     batch_class_template: jinja2.Template
     batch_function_template: jinja2.Template
+    batch_init_template: jinja2.Template
+    class_template: jinja2.Template
+    function_template: jinja2.Template
+    init_template: jinja2.Template
 
 
 PathsType: TypeAlias = dict[str, dict[Literal["get", "put", "post", "delete"], Operation]]
@@ -214,7 +224,7 @@ def generate_library(
     batchable_action_summaries = [action.summary for action in batchable_actions]
 
     recreate_output_directory()
-    copy_static_files(version_number, api_version)
+    copy_static_files()
 
     # Collect all operations by scope
     scopes: dict[str, PathsType] = {}
@@ -253,25 +263,69 @@ def generate_library(
 
     templates = init_templates()
 
-    def generate_scope(scope: str, paths: PathsType) -> None:
-        """Generate a single scope's modules."""
+    # Collect module info for __init__.py generation
+    modules = sorted(
+        [
+            ModuleInfo(
+                snake_name=to_snake_case(scope),
+                class_name=scope[:1].upper() + scope[1:],
+                attr_name=to_snake_case(scope),
+            )
+            for scope in scopes
+        ],
+        key=lambda m: m.snake_name,
+    )
+
+    # Generate __init__.py from template
+    with open(f"{OUTPUT_DIR}/__init__.py", "w") as f:
+        f.write(
+            templates.init_template.render(
+                modules=modules,
+                version=version_number,
+                api_version=api_version,
+                is_async=False,
+            )
+        )
+    with open(f"{OUTPUT_DIR}/aio/__init__.py", "w") as f:
+        f.write(
+            templates.init_template.render(
+                modules=modules, version=version_number, api_version=api_version, is_async=True
+            )
+        )
+
+    def generate_scope(scope: str, paths: PathsType) -> ModuleInfo | None:
+        """Generate a single scope's modules.
+
+        Returns:
+            ModuleInfo if scope has batch endpoints, None otherwise.
+
+        """
         module_name = to_snake_case(scope)
         with (
             open(f"{OUTPUT_DIR}/api/{module_name}.py", "w") as output,
             open(f"{OUTPUT_DIR}/aio/api/{module_name}.py", "w") as async_output,
-            open(f"{OUTPUT_DIR}/api/batch/{module_name}.py", "w") as batch_output,
         ):
-            generate_module(
+            batch_content = generate_module(
                 scope=scope,
                 paths=paths,
                 spec=spec,
                 batchable_action_summaries=batchable_action_summaries,
                 output=output,
                 async_output=async_output,
-                batch_output=batch_output,
                 templates=templates,
             )
 
+        if batch_content:
+            with open(f"{OUTPUT_DIR}/api/batch/{module_name}.py", "w") as batch_output:
+                batch_output.write(batch_content)
+            return ModuleInfo(
+                snake_name=module_name,
+                class_name=scope[:1].upper() + scope[1:],
+                attr_name=module_name,
+            )
+        return None
+
+    batch_modules: list[ModuleInfo] = []
     with ThreadPoolExecutor() as executor:
         futures = {
             executor.submit(generate_scope, scope, paths): scope for scope, paths in scopes.items()
@@ -279,11 +333,18 @@ def generate_library(
         for future in as_completed(futures):
             scope = futures[future]
             try:
-                future.result()
+                batch_module = future.result()
+                if batch_module:
+                    batch_modules.append(batch_module)
             except Exception:
                 log.exception(f"Failed to generate {scope}")
                 raise
             log.info(f"Generated {scope}")
+
+    # Generate batch __init__.py from template
+    batch_modules.sort(key=lambda m: m.snake_name)
+    with open(f"{OUTPUT_DIR}/api/batch/__init__.py", "w") as f:
+        f.write(templates.batch_init_template.render(modules=batch_modules))
 
 
 def generate_module(
@@ -294,14 +355,19 @@ def generate_module(
     batchable_action_summaries: list[str],
     output: TextIO,
     async_output: TextIO,
-    batch_output: TextIO,
     templates: Templates,
-) -> None:
-    """Generate a module for a scope."""
+) -> str | None:
+    """Generate a module for a scope.
+
+    Returns:
+        Batch module content if scope has batch endpoints, None otherwise.
+
+    """
     class_name = scope[:1].upper() + scope[1:]
-    output.write(templates.class_template.render(class_name=class_name))
-    batch_output.write(templates.batch_class_template.render(class_name=class_name))
-    async_output.write(templates.async_class_template.render(class_name=class_name))
+    output.write(templates.class_template.render(class_name=class_name, is_async=False))
+    async_output.write(templates.class_template.render(class_name=class_name, is_async=True))
+
+    batch_content: list[str] = []
 
     # Generate API & Asyncio API functions
     for path, methods in paths.items():
@@ -380,10 +446,7 @@ def generate_module(
                     case _:
                         raise ValueError(f"Unsupported batch operation method: {method}")
 
-                # Function return statement
-                call_line = "return action  # noqa: RET504"
-
-                batch_output.write(
+                batch_content.append(
                     templates.batch_function_template.render(
                         operation=to_snake_case(operation_id),
                         function_definition=definition,
@@ -395,11 +458,15 @@ def generate_module(
                         query_params=function_definition.query_params,
                         body_params=function_definition.body_params,
                         path_params=function_definition.path_params,
-                        call_line=call_line,
+                        call_line="return action  # noqa: RET504",
                         batch_operation=batch_operation,
                         return_type="dict[str, Any]",
                     )
                 )
+
+    if batch_content:
+        return templates.batch_class_template.render(class_name=class_name) + "".join(batch_content)
+    return None
 
 
 def recreate_output_directory() -> None:
@@ -419,51 +486,26 @@ def recreate_output_directory() -> None:
         os.makedirs(directory, exist_ok=True)
 
 
-def copy_static_files(version_number: str, api_version: str) -> None:
+def copy_static_files() -> None:
     """Copy static files from generator/static/ to the output directory."""
-    static_dir = os.path.join(SCRIPT_DIR, "static")
-    static_files = [
-        "__init__.py",
-        "const.py",
-        "exceptions.py",
-        "common.py",
-        "session.py",
-        "api/__init__.py",
-        "aio/__init__.py",
-        "aio/session.py",
-        "aio/api/__init__.py",
-        "api/batch/__init__.py",
-    ]
-    for file in static_files:
-        src = os.path.join(static_dir, file)
-        dst = os.path.join(OUTPUT_DIR, file)
+    static_dir = Path(SCRIPT_DIR) / "static"
+    for src in static_dir.rglob("*.py"):
+        relative_path = src.relative_to(static_dir)
+        dst = Path(OUTPUT_DIR) / relative_path
+        dst.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy2(src, dst)
-
-        # Update versions in __init__.py
-        if file == "__init__.py":
-            with open(dst, encoding="utf-8") as f:
-                contents = f.read()
-            # Update __version__
-            start = contents.find("__version__ = ")
-            end = contents.find("\n", start)
-            contents = f"{contents[:start]}__version__ = '{version_number}'{contents[end:]}"
-            # Update __api_version__
-            start = contents.find("__api_version__ = ")
-            end = contents.find("\n", start)
-            contents = f"{contents[:start]}__api_version__ = '{api_version}'{contents[end:]}"
-            with open(dst, "w", encoding="utf-8") as f:
-                f.write(contents)
 
 
 def init_templates() -> Templates:
     """Initialize the templates."""
     jinja_env = jinja2.Environment(trim_blocks=True, lstrip_blocks=True, keep_trailing_newline=True)  # noqa: S701
     return Templates(
-        class_template=read_template("class_template", jinja_env),
-        async_class_template=read_template("async_class_template", jinja_env),
-        function_template=read_template("function_template", jinja_env),
-        batch_class_template=read_template("batch_class_template", jinja_env),
-        batch_function_template=read_template("batch_function_template", jinja_env),
+        class_template=read_template("class_template.py", jinja_env),
+        function_template=read_template("function_template.py", jinja_env),
+        batch_class_template=read_template("batch_class_template.py", jinja_env),
+        batch_function_template=read_template("batch_function_template.py", jinja_env),
+        init_template=read_template("init_template.py", jinja_env),
+        batch_init_template=read_template("batch_init_template.py", jinja_env),
     )
 
 

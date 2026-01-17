@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import urllib
 from collections.abc import Generator
-from typing import Any, Literal, TYPE_CHECKING
+from typing import TYPE_CHECKING, Any, Literal
 
 if TYPE_CHECKING:
     from meraki_dashboard_sdk.session import Session

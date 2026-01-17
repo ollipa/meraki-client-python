@@ -3,30 +3,31 @@
 import os
 import sys
 
-from .api.administered import Administered
-from .api.appliance import Appliance
-from .api.batch import Batch
-from .api.camera import Camera
-from .api.campus_gateway import CampusGateway
-from .api.cellular_gateway import CellularGateway
-from .api.devices import Devices
-from .api.insight import Insight
-from .api.licensing import Licensing
-from .api.networks import Networks
-from .api.organizations import Organizations
-from .api.sensor import Sensor
-from .api.sm import Sm
-from .api.spaces import Spaces
-from .api.switch import Switch
-from .api.wireless import Wireless
-from .api.wireless_controller import WirelessController
-from .common import BaseURL
-from .const import (
+from meraki_dashboard_sdk.api.administered import Administered
+from meraki_dashboard_sdk.api.appliance import Appliance
+from meraki_dashboard_sdk.api.batch import Batch
+from meraki_dashboard_sdk.api.camera import Camera
+from meraki_dashboard_sdk.api.campus_gateway import CampusGateway
+from meraki_dashboard_sdk.api.cellular_gateway import CellularGateway
+from meraki_dashboard_sdk.api.devices import Devices
+from meraki_dashboard_sdk.api.insight import Insight
+from meraki_dashboard_sdk.api.licensing import Licensing
+from meraki_dashboard_sdk.api.nac import Nac
+from meraki_dashboard_sdk.api.networks import Networks
+from meraki_dashboard_sdk.api.organizations import Organizations
+from meraki_dashboard_sdk.api.sensor import Sensor
+from meraki_dashboard_sdk.api.sm import Sm
+from meraki_dashboard_sdk.api.spaces import Spaces
+from meraki_dashboard_sdk.api.switch import Switch
+from meraki_dashboard_sdk.api.wireless import Wireless
+from meraki_dashboard_sdk.api.wireless_controller import WirelessController
+from meraki_dashboard_sdk.common import BaseURL
+from meraki_dashboard_sdk.const import (
     MAXIMUM_RETRIES,
     SINGLE_REQUEST_TIMEOUT,
     WAIT_ON_RATE_LIMIT,
 )
-from .session import Session
+from meraki_dashboard_sdk.session import Session
 
 if sys.version_info < (3, 11):  # noqa: UP036
     raise RuntimeError(
@@ -35,13 +36,16 @@ if sys.version_info < (3, 11):  # noqa: UP036
     )
 
 
-__all__ = ["BaseURL", "MerakiClient"]
+__all__ = [
+    "BaseURL",
+    "MerakiClient",
+]
 __version__ = "0.1.0"
 __api_version__ = "v1.66.0"
 
 
 class MerakiClient:
-    """Creates a persistent Meraki dashboard API session.
+    """Client class for the Meraki dashboard API.
 
     Args:
         api_key: API key generated in dashboard; can also be set as an environment variable
@@ -94,21 +98,22 @@ class MerakiClient:
 
         # API endpoints by section
         self.administered = Administered(self._session)
-        self.organizations = Organizations(self._session)
-        self.networks = Networks(self._session)
-        self.devices = Devices(self._session)
         self.appliance = Appliance(self._session)
         self.camera = Camera(self._session)
+        self.campus_gateway = CampusGateway(self._session)
         self.cellular_gateway = CellularGateway(self._session)
+        self.devices = Devices(self._session)
         self.insight = Insight(self._session)
         self.licensing = Licensing(self._session)
+        self.nac = Nac(self._session)
+        self.networks = Networks(self._session)
+        self.organizations = Organizations(self._session)
         self.sensor = Sensor(self._session)
         self.sm = Sm(self._session)
+        self.spaces = Spaces(self._session)
         self.switch = Switch(self._session)
         self.wireless = Wireless(self._session)
-        self.spaces = Spaces(self._session)
         self.wireless_controller = WirelessController(self._session)
-        self.campus_gateway = CampusGateway(self._session)
 
         # Batch definitions
         self.batch = Batch()

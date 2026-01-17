@@ -4,16 +4,16 @@ from __future__ import annotations
 
 import urllib
 from collections.abc import Generator
-from typing import Any, Literal, TYPE_CHECKING
+from typing import TYPE_CHECKING, Any, Literal
 
 if TYPE_CHECKING:
-    from meraki_dashboard_sdk.aio.session import AsyncSession
+    from meraki_dashboard_sdk.aio.session import Session
 
 
-class AsyncNac:
+class Nac:
     """Nac class."""
 
-    def __init__(self, session: AsyncSession) -> None:
+    def __init__(self, session: Session) -> None:
         self._session = session
 
     def create_organization_nac_certificates_authorities_crl(

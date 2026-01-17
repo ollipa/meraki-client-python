@@ -44,5 +44,8 @@ endif
 	@printf '\n\n*****************\n'
 	@printf '$(color)Generating SDK$(off)\n'
 	@printf '*****************\n'
-	uv run python generator/main.py -v $(VERSION)
-	uv run ruff format meraki_dashboard_sdk
+	@uv run python generator/main.py -v $(VERSION)
+	@printf "Formatting the generated code..."
+	@uv run ruff format meraki_dashboard_sdk > /dev/null
+	@uv run ruff check --select I --fix meraki_dashboard_sdk > /dev/null
+	@printf "Done!\n"

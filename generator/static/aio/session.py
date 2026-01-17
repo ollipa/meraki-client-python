@@ -11,9 +11,6 @@ from datetime import datetime, timezone
 from typing import Any, Literal
 
 import aiohttp
-
-from meraki_dashboard_sdk.__init__ import __version__
-from meraki_dashboard_sdk.common import reject_v0_base_url, validate_user_agent
 from meraki_dashboard_sdk.config import (
     ACTION_BATCH_RETRY_WAIT_TIME,
     AIO_MAXIMUM_CONCURRENT_REQUESTS,
@@ -32,31 +29,27 @@ from meraki_dashboard_sdk.config import (
     USE_ITERATOR_FOR_GET_PAGES,
     WAIT_ON_RATE_LIMIT,
 )
+
+from meraki_dashboard_sdk.__init__ import __version__
+from meraki_dashboard_sdk.common import BaseURL, reject_v0_base_url, validate_user_agent
 from meraki_dashboard_sdk.exceptions import APIError, AsyncAPIError
 
 
-class AsyncRestSession:
+class Session:
     """Main module interface."""
 
     def __init__(
         self,
         *,
         api_key: str,
-        base_url: str = DEFAULT_BASE_URL,
-        single_request_timeout: int = SINGLE_REQUEST_TIMEOUT,
-        certificate_path: str = CERTIFICATE_PATH,
-        requests_proxy: str = REQUESTS_PROXY,
-        wait_on_rate_limit: bool = WAIT_ON_RATE_LIMIT,
-        nginx_429_retry_wait_time: int = NGINX_429_RETRY_WAIT_TIME,
-        action_batch_retry_wait_time: int = ACTION_BATCH_RETRY_WAIT_TIME,
-        network_delete_retry_wait_time: int = NETWORK_DELETE_RETRY_WAIT_TIME,
-        retry_4xx_error: bool = RETRY_4XX_ERROR,
-        retry_4xx_error_wait_time: int = RETRY_4XX_ERROR_WAIT_TIME,
-        maximum_retries: int = MAXIMUM_RETRIES,
-        simulate: bool = SIMULATE_API_CALLS,
-        be_geo_id: str | None = BE_GEO_ID,
-        caller: str | None = MERAKI_PYTHON_SDK_CALLER,
-        use_iterator_for_get_pages: bool = USE_ITERATOR_FOR_GET_PAGES,
+        base_url: BaseURL,
+        single_request_timeout: int,
+        certificate_path: str | None,
+        proxy: str | None,
+        wait_on_rate_limit: bool,
+        maximum_retries: int,
+        caller: str | None,
+        version: str,
         maximum_concurrent_requests: int = AIO_MAXIMUM_CONCURRENT_REQUESTS,
     ) -> None:
         super().__init__()
