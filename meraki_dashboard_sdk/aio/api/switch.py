@@ -2,12 +2,11 @@
 
 from __future__ import annotations
 
-import urllib
-from collections.abc import Generator
+import urllib.parse
 from typing import TYPE_CHECKING, Any, Literal
 
 if TYPE_CHECKING:
-    from meraki_dashboard_sdk.aio.session import Session
+    from meraki_dashboard_sdk.aio.session import AsyncPaginatedResponse, Session
 
 
 class Switch:
@@ -16,7 +15,7 @@ class Switch:
     def __init__(self, session: Session) -> None:
         self._session = session
 
-    def get_device_switch_ports(self, *, serial: str) -> dict[str, Any] | None:
+    async def get_device_switch_ports(self, *, serial: str) -> dict[str, Any] | None:
         """List the switch ports for a switch.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device-switch-ports
@@ -28,9 +27,11 @@ class Switch:
         serial = urllib.parse.quote(str(serial), safe="")
         path = f"/devices/{serial}/switch/ports"
 
-        return self._session.get(scope="switch", operation_id="getDeviceSwitchPorts", path=path)
+        return await self._session.get(
+            scope="switch", operation_id="getDeviceSwitchPorts", path=path
+        )
 
-    def cycle_device_switch_ports(self, *, serial: str, ports: list) -> dict[str, Any] | None:
+    async def cycle_device_switch_ports(self, *, serial: str, ports: list) -> dict[str, Any] | None:
         """Cycle a set of switch ports.
 
         https://developer.cisco.com/meraki/api-v1/#!cycle-device-switch-ports
@@ -47,11 +48,11 @@ class Switch:
         if ports is not None:
             payload["ports"] = ports
 
-        return self._session.post(
-            scope="switch", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.post(
+            scope="switch", operation_id="cycleDeviceSwitchPorts", path=path, json=payload
         )
 
-    def get_device_switch_ports_statuses(
+    async def get_device_switch_ports_statuses(
         self, *, serial: str, t0: str | None = None, timespan: float | None = None
     ) -> dict[str, Any] | None:
         """Return the status for all the ports of a switch.
@@ -76,11 +77,11 @@ class Switch:
         if timespan is not None:
             params["timespan"] = timespan
 
-        return self._session.get(
-            scope="switch", operation_id="{operation_id}", path=path, params=params
+        return await self._session.get(
+            scope="switch", operation_id="getDeviceSwitchPortsStatuses", path=path, params=params
         )
 
-    def get_device_switch_ports_statuses_packets(
+    async def get_device_switch_ports_statuses_packets(
         self, *, serial: str, t0: str | None = None, timespan: float | None = None
     ) -> dict[str, Any] | None:
         """Return the packet counters for all the ports of a switch.
@@ -107,11 +108,14 @@ class Switch:
         if timespan is not None:
             params["timespan"] = timespan
 
-        return self._session.get(
-            scope="switch", operation_id="{operation_id}", path=path, params=params
+        return await self._session.get(
+            scope="switch",
+            operation_id="getDeviceSwitchPortsStatusesPackets",
+            path=path,
+            params=params,
         )
 
-    def get_device_switch_port(self, *, serial: str, port_id: str) -> dict[str, Any] | None:
+    async def get_device_switch_port(self, *, serial: str, port_id: str) -> dict[str, Any] | None:
         """Return a switch port.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device-switch-port
@@ -125,9 +129,11 @@ class Switch:
         port_id = urllib.parse.quote(str(port_id), safe="")
         path = f"/devices/{serial}/switch/ports/{port_id}"
 
-        return self._session.get(scope="switch", operation_id="getDeviceSwitchPort", path=path)
+        return await self._session.get(
+            scope="switch", operation_id="getDeviceSwitchPort", path=path
+        )
 
-    def update_device_switch_port(
+    async def update_device_switch_port(
         self,
         *,
         serial: str,
@@ -304,11 +310,11 @@ class Switch:
         if high_speed is not None:
             payload["highSpeed"] = high_speed
 
-        return self._session.put(
-            scope="switch", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.put(
+            scope="switch", operation_id="updateDeviceSwitchPort", path=path, json=payload
         )
 
-    def get_device_switch_routing_interfaces(
+    async def get_device_switch_routing_interfaces(
         self, *, serial: str, mode: str | None = None, protocol: str | None = None
     ) -> dict[str, Any] | None:
         """List layer 3 interfaces for a switch.
@@ -339,11 +345,14 @@ class Switch:
         if protocol is not None:
             params["protocol"] = protocol
 
-        return self._session.get(
-            scope="switch", operation_id="{operation_id}", path=path, params=params
+        return await self._session.get(
+            scope="switch",
+            operation_id="getDeviceSwitchRoutingInterfaces",
+            path=path,
+            params=params,
         )
 
-    def create_device_switch_routing_interface(
+    async def create_device_switch_routing_interface(
         self,
         *,
         serial: str,
@@ -425,11 +434,14 @@ class Switch:
         if loopback is not None:
             payload["loopback"] = loopback
 
-        return self._session.post(
-            scope="switch", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.post(
+            scope="switch",
+            operation_id="createDeviceSwitchRoutingInterface",
+            path=path,
+            json=payload,
         )
 
-    def get_device_switch_routing_interface(
+    async def get_device_switch_routing_interface(
         self, *, serial: str, interface_id: str
     ) -> dict[str, Any] | None:
         """Return a layer 3 interface for a switch.
@@ -445,11 +457,11 @@ class Switch:
         interface_id = urllib.parse.quote(str(interface_id), safe="")
         path = f"/devices/{serial}/switch/routing/interfaces/{interface_id}"
 
-        return self._session.get(
+        return await self._session.get(
             scope="switch", operation_id="getDeviceSwitchRoutingInterface", path=path
         )
 
-    def update_device_switch_routing_interface(
+    async def update_device_switch_routing_interface(
         self,
         *,
         serial: str,
@@ -526,11 +538,16 @@ class Switch:
         if loopback is not None:
             payload["loopback"] = loopback
 
-        return self._session.put(
-            scope="switch", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.put(
+            scope="switch",
+            operation_id="updateDeviceSwitchRoutingInterface",
+            path=path,
+            json=payload,
         )
 
-    def delete_device_switch_routing_interface(self, *, serial: str, interface_id: str) -> None:
+    async def delete_device_switch_routing_interface(
+        self, *, serial: str, interface_id: str
+    ) -> None:
         """Delete a layer 3 interface from the switch.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-device-switch-routing-interface
@@ -544,11 +561,11 @@ class Switch:
         interface_id = urllib.parse.quote(str(interface_id), safe="")
         path = f"/devices/{serial}/switch/routing/interfaces/{interface_id}"
 
-        return self._session.delete(
+        return await self._session.delete(
             scope="switch", operation_id="deleteDeviceSwitchRoutingInterface", path=path
         )
 
-    def get_device_switch_routing_interface_dhcp(
+    async def get_device_switch_routing_interface_dhcp(
         self, *, serial: str, interface_id: str
     ) -> dict[str, Any] | None:
         """Return a layer 3 interface DHCP configuration for a switch.
@@ -564,11 +581,11 @@ class Switch:
         interface_id = urllib.parse.quote(str(interface_id), safe="")
         path = f"/devices/{serial}/switch/routing/interfaces/{interface_id}/dhcp"
 
-        return self._session.get(
+        return await self._session.get(
             scope="switch", operation_id="getDeviceSwitchRoutingInterfaceDhcp", path=path
         )
 
-    def update_device_switch_routing_interface_dhcp(
+    async def update_device_switch_routing_interface_dhcp(
         self,
         *,
         serial: str,
@@ -661,11 +678,16 @@ class Switch:
         if fixed_ip_assignments is not None:
             payload["fixedIpAssignments"] = fixed_ip_assignments
 
-        return self._session.put(
-            scope="switch", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.put(
+            scope="switch",
+            operation_id="updateDeviceSwitchRoutingInterfaceDhcp",
+            path=path,
+            json=payload,
         )
 
-    def get_device_switch_routing_static_routes(self, *, serial: str) -> dict[str, Any] | None:
+    async def get_device_switch_routing_static_routes(
+        self, *, serial: str
+    ) -> dict[str, Any] | None:
         """List layer 3 static routes for a switch.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device-switch-routing-static-routes
@@ -677,11 +699,11 @@ class Switch:
         serial = urllib.parse.quote(str(serial), safe="")
         path = f"/devices/{serial}/switch/routing/staticRoutes"
 
-        return self._session.get(
+        return await self._session.get(
             scope="switch", operation_id="getDeviceSwitchRoutingStaticRoutes", path=path
         )
 
-    def create_device_switch_routing_static_route(
+    async def create_device_switch_routing_static_route(
         self,
         *,
         serial: str,
@@ -725,11 +747,14 @@ class Switch:
         if vrf is not None:
             payload["vrf"] = vrf
 
-        return self._session.post(
-            scope="switch", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.post(
+            scope="switch",
+            operation_id="createDeviceSwitchRoutingStaticRoute",
+            path=path,
+            json=payload,
         )
 
-    def get_device_switch_routing_static_route(
+    async def get_device_switch_routing_static_route(
         self, *, serial: str, static_route_id: str
     ) -> dict[str, Any] | None:
         """Return a layer 3 static route for a switch.
@@ -745,11 +770,11 @@ class Switch:
         static_route_id = urllib.parse.quote(str(static_route_id), safe="")
         path = f"/devices/{serial}/switch/routing/staticRoutes/{static_route_id}"
 
-        return self._session.get(
+        return await self._session.get(
             scope="switch", operation_id="getDeviceSwitchRoutingStaticRoute", path=path
         )
 
-    def update_device_switch_routing_static_route(
+    async def update_device_switch_routing_static_route(
         self,
         *,
         serial: str,
@@ -800,11 +825,14 @@ class Switch:
         if vrf is not None:
             payload["vrf"] = vrf
 
-        return self._session.put(
-            scope="switch", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.put(
+            scope="switch",
+            operation_id="updateDeviceSwitchRoutingStaticRoute",
+            path=path,
+            json=payload,
         )
 
-    def delete_device_switch_routing_static_route(
+    async def delete_device_switch_routing_static_route(
         self, *, serial: str, static_route_id: str
     ) -> None:
         """Delete a layer 3 static route for a switch.
@@ -820,11 +848,11 @@ class Switch:
         static_route_id = urllib.parse.quote(str(static_route_id), safe="")
         path = f"/devices/{serial}/switch/routing/staticRoutes/{static_route_id}"
 
-        return self._session.delete(
+        return await self._session.delete(
             scope="switch", operation_id="deleteDeviceSwitchRoutingStaticRoute", path=path
         )
 
-    def get_device_switch_warm_spare(self, *, serial: str) -> dict[str, Any] | None:
+    async def get_device_switch_warm_spare(self, *, serial: str) -> dict[str, Any] | None:
         """Return warm spare configuration for a switch.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device-switch-warm-spare
@@ -836,9 +864,11 @@ class Switch:
         serial = urllib.parse.quote(str(serial), safe="")
         path = f"/devices/{serial}/switch/warmSpare"
 
-        return self._session.get(scope="switch", operation_id="getDeviceSwitchWarmSpare", path=path)
+        return await self._session.get(
+            scope="switch", operation_id="getDeviceSwitchWarmSpare", path=path
+        )
 
-    def update_device_switch_warm_spare(
+    async def update_device_switch_warm_spare(
         self, *, serial: str, enabled: bool, spare_serial: str | None = None
     ) -> dict[str, Any] | None:
         """Update warm spare configuration for a switch.
@@ -860,11 +890,13 @@ class Switch:
         if spare_serial is not None:
             payload["spareSerial"] = spare_serial
 
-        return self._session.put(
-            scope="switch", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.put(
+            scope="switch", operation_id="updateDeviceSwitchWarmSpare", path=path, json=payload
         )
 
-    def get_network_switch_access_control_lists(self, *, network_id: str) -> dict[str, Any] | None:
+    async def get_network_switch_access_control_lists(
+        self, *, network_id: str
+    ) -> dict[str, Any] | None:
         """Return the access control lists for a MS network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-switch-access-control-lists
@@ -876,11 +908,11 @@ class Switch:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/switch/accessControlLists"
 
-        return self._session.get(
+        return await self._session.get(
             scope="switch", operation_id="getNetworkSwitchAccessControlLists", path=path
         )
 
-    def update_network_switch_access_control_lists(
+    async def update_network_switch_access_control_lists(
         self, *, network_id: str, rules: list
     ) -> dict[str, Any] | None:
         """Update the access control lists for a MS network.
@@ -900,11 +932,14 @@ class Switch:
         if rules is not None:
             payload["rules"] = rules
 
-        return self._session.put(
-            scope="switch", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.put(
+            scope="switch",
+            operation_id="updateNetworkSwitchAccessControlLists",
+            path=path,
+            json=payload,
         )
 
-    def get_network_switch_access_policies(self, *, network_id: str) -> dict[str, Any] | None:
+    async def get_network_switch_access_policies(self, *, network_id: str) -> dict[str, Any] | None:
         """List the access policies for a switch network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-switch-access-policies
@@ -916,11 +951,11 @@ class Switch:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/switch/accessPolicies"
 
-        return self._session.get(
+        return await self._session.get(
             scope="switch", operation_id="getNetworkSwitchAccessPolicies", path=path
         )
 
-    def create_network_switch_access_policy(
+    async def create_network_switch_access_policy(
         self,
         *,
         network_id: str,
@@ -1040,11 +1075,11 @@ class Switch:
         if guest_sgt_id is not None:
             payload["guestSgtId"] = guest_sgt_id
 
-        return self._session.post(
-            scope="switch", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.post(
+            scope="switch", operation_id="createNetworkSwitchAccessPolicy", path=path, json=payload
         )
 
-    def get_network_switch_access_policy(
+    async def get_network_switch_access_policy(
         self, *, network_id: str, access_policy_number: str
     ) -> dict[str, Any] | None:
         """Return a specific access policy for a switch network.
@@ -1060,11 +1095,11 @@ class Switch:
         access_policy_number = urllib.parse.quote(str(access_policy_number), safe="")
         path = f"/networks/{network_id}/switch/accessPolicies/{access_policy_number}"
 
-        return self._session.get(
+        return await self._session.get(
             scope="switch", operation_id="getNetworkSwitchAccessPolicy", path=path
         )
 
-    def update_network_switch_access_policy(
+    async def update_network_switch_access_policy(
         self,
         *,
         network_id: str,
@@ -1187,11 +1222,11 @@ class Switch:
         if guest_sgt_id is not None:
             payload["guestSgtId"] = guest_sgt_id
 
-        return self._session.put(
-            scope="switch", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.put(
+            scope="switch", operation_id="updateNetworkSwitchAccessPolicy", path=path, json=payload
         )
 
-    def delete_network_switch_access_policy(
+    async def delete_network_switch_access_policy(
         self, *, network_id: str, access_policy_number: str
     ) -> None:
         """Delete an access policy for a switch network.
@@ -1207,11 +1242,11 @@ class Switch:
         access_policy_number = urllib.parse.quote(str(access_policy_number), safe="")
         path = f"/networks/{network_id}/switch/accessPolicies/{access_policy_number}"
 
-        return self._session.delete(
+        return await self._session.delete(
             scope="switch", operation_id="deleteNetworkSwitchAccessPolicy", path=path
         )
 
-    def get_network_switch_alternate_management_interface(
+    async def get_network_switch_alternate_management_interface(
         self, *, network_id: str
     ) -> dict[str, Any] | None:
         """Return the switch alternate management interface for the network.
@@ -1225,11 +1260,11 @@ class Switch:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/switch/alternateManagementInterface"
 
-        return self._session.get(
+        return await self._session.get(
             scope="switch", operation_id="getNetworkSwitchAlternateManagementInterface", path=path
         )
 
-    def update_network_switch_alternate_management_interface(
+    async def update_network_switch_alternate_management_interface(
         self,
         *,
         network_id: str,
@@ -1268,11 +1303,14 @@ class Switch:
         if switches is not None:
             payload["switches"] = switches
 
-        return self._session.put(
-            scope="switch", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.put(
+            scope="switch",
+            operation_id="updateNetworkSwitchAlternateManagementInterface",
+            path=path,
+            json=payload,
         )
 
-    def get_network_switch_dhcp_v4_servers_seen(
+    async def get_network_switch_dhcp_v4_servers_seen(
         self,
         *,
         network_id: str,
@@ -1282,8 +1320,8 @@ class Switch:
         starting_after: str | None = None,
         ending_before: str | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> AsyncPaginatedResponse[Any]:
         """Return the network's DHCPv4 servers seen within the selected timeframe (default 1 day).
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-switch-dhcp-v-4-servers-seen
@@ -1327,14 +1365,16 @@ class Switch:
 
         return self._session.get_pages(
             scope="switch",
-            operation_id="{operation_id}",
+            operation_id="getNetworkSwitchDhcpV4ServersSeen",
             path=path,
             params=params,
             total_pages=total_pages,
             direction=direction,
         )
 
-    def get_network_switch_dhcp_server_policy(self, *, network_id: str) -> dict[str, Any] | None:
+    async def get_network_switch_dhcp_server_policy(
+        self, *, network_id: str
+    ) -> dict[str, Any] | None:
         """Return the DHCP server settings.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-switch-dhcp-server-policy
@@ -1346,11 +1386,11 @@ class Switch:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/switch/dhcpServerPolicy"
 
-        return self._session.get(
+        return await self._session.get(
             scope="switch", operation_id="getNetworkSwitchDhcpServerPolicy", path=path
         )
 
-    def update_network_switch_dhcp_server_policy(
+    async def update_network_switch_dhcp_server_policy(
         self,
         *,
         network_id: str,
@@ -1396,11 +1436,14 @@ class Switch:
         if arp_inspection is not None:
             payload["arpInspection"] = arp_inspection
 
-        return self._session.put(
-            scope="switch", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.put(
+            scope="switch",
+            operation_id="updateNetworkSwitchDhcpServerPolicy",
+            path=path,
+            json=payload,
         )
 
-    def get_network_switch_dhcp_server_policy_arp_inspection_trusted_servers(
+    async def get_network_switch_dhcp_server_policy_arp_inspection_trusted_servers(
         self,
         *,
         network_id: str,
@@ -1408,8 +1451,8 @@ class Switch:
         starting_after: str | None = None,
         ending_before: str | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> AsyncPaginatedResponse[Any]:
         """Return the list of servers trusted by Dynamic ARP Inspection on this network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-switch-dhcp-server-policy-arp-inspection-trusted-servers
@@ -1444,14 +1487,14 @@ class Switch:
 
         return self._session.get_pages(
             scope="switch",
-            operation_id="{operation_id}",
+            operation_id="getNetworkSwitchDhcpServerPolicyArpInspectionTrustedServers",
             path=path,
             params=params,
             total_pages=total_pages,
             direction=direction,
         )
 
-    def create_network_switch_dhcp_server_policy_arp_inspection_trusted_server(
+    async def create_network_switch_dhcp_server_policy_arp_inspection_trusted_server(
         self, *, network_id: str, mac: str, vlan: int, ipv4: dict
     ) -> dict[str, Any] | None:
         """Add a server to be trusted by Dynamic ARP Inspection on this network.
@@ -1476,11 +1519,14 @@ class Switch:
         if ipv4 is not None:
             payload["ipv4"] = ipv4
 
-        return self._session.post(
-            scope="switch", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.post(
+            scope="switch",
+            operation_id="createNetworkSwitchDhcpServerPolicyArpInspectionTrustedServer",
+            path=path,
+            json=payload,
         )
 
-    def update_network_switch_dhcp_server_policy_arp_inspection_trusted_server(
+    async def update_network_switch_dhcp_server_policy_arp_inspection_trusted_server(
         self,
         *,
         network_id: str,
@@ -1513,11 +1559,14 @@ class Switch:
         if ipv4 is not None:
             payload["ipv4"] = ipv4
 
-        return self._session.put(
-            scope="switch", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.put(
+            scope="switch",
+            operation_id="updateNetworkSwitchDhcpServerPolicyArpInspectionTrustedServer",
+            path=path,
+            json=payload,
         )
 
-    def delete_network_switch_dhcp_server_policy_arp_inspection_trusted_server(
+    async def delete_network_switch_dhcp_server_policy_arp_inspection_trusted_server(
         self, *, network_id: str, trusted_server_id: str
     ) -> None:
         """Remove a server from being trusted by Dynamic ARP Inspection on this network.
@@ -1533,13 +1582,13 @@ class Switch:
         trusted_server_id = urllib.parse.quote(str(trusted_server_id), safe="")
         path = f"/networks/{network_id}/switch/dhcpServerPolicy/arpInspection/trustedServers/{trusted_server_id}"
 
-        return self._session.delete(
+        return await self._session.delete(
             scope="switch",
             operation_id="deleteNetworkSwitchDhcpServerPolicyArpInspectionTrustedServer",
             path=path,
         )
 
-    def get_network_switch_dhcp_server_policy_arp_inspection_warnings_by_device(
+    async def get_network_switch_dhcp_server_policy_arp_inspection_warnings_by_device(
         self,
         *,
         network_id: str,
@@ -1547,8 +1596,8 @@ class Switch:
         starting_after: str | None = None,
         ending_before: str | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> AsyncPaginatedResponse[Any]:
         """Return the devices that have a Dynamic ARP Inspection warning and their warnings.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-switch-dhcp-server-policy-arp-inspection-warnings-by-device
@@ -1583,14 +1632,16 @@ class Switch:
 
         return self._session.get_pages(
             scope="switch",
-            operation_id="{operation_id}",
+            operation_id="getNetworkSwitchDhcpServerPolicyArpInspectionWarningsByDevice",
             path=path,
             params=params,
             total_pages=total_pages,
             direction=direction,
         )
 
-    def get_network_switch_dscp_to_cos_mappings(self, *, network_id: str) -> dict[str, Any] | None:
+    async def get_network_switch_dscp_to_cos_mappings(
+        self, *, network_id: str
+    ) -> dict[str, Any] | None:
         """Return the DSCP to CoS mappings.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-switch-dscp-to-cos-mappings
@@ -1602,11 +1653,11 @@ class Switch:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/switch/dscpToCosMappings"
 
-        return self._session.get(
+        return await self._session.get(
             scope="switch", operation_id="getNetworkSwitchDscpToCosMappings", path=path
         )
 
-    def update_network_switch_dscp_to_cos_mappings(
+    async def update_network_switch_dscp_to_cos_mappings(
         self, *, network_id: str, mappings: list
     ) -> dict[str, Any] | None:
         """Update the DSCP to CoS mappings.
@@ -1626,11 +1677,16 @@ class Switch:
         if mappings is not None:
             payload["mappings"] = mappings
 
-        return self._session.put(
-            scope="switch", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.put(
+            scope="switch",
+            operation_id="updateNetworkSwitchDscpToCosMappings",
+            path=path,
+            json=payload,
         )
 
-    def get_network_switch_link_aggregations(self, *, network_id: str) -> dict[str, Any] | None:
+    async def get_network_switch_link_aggregations(
+        self, *, network_id: str
+    ) -> dict[str, Any] | None:
         """List link aggregation groups.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-switch-link-aggregations
@@ -1642,11 +1698,11 @@ class Switch:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/switch/linkAggregations"
 
-        return self._session.get(
+        return await self._session.get(
             scope="switch", operation_id="getNetworkSwitchLinkAggregations", path=path
         )
 
-    def create_network_switch_link_aggregation(
+    async def create_network_switch_link_aggregation(
         self,
         *,
         network_id: str,
@@ -1674,11 +1730,14 @@ class Switch:
         if switch_profile_ports is not None:
             payload["switchProfilePorts"] = switch_profile_ports
 
-        return self._session.post(
-            scope="switch", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.post(
+            scope="switch",
+            operation_id="createNetworkSwitchLinkAggregation",
+            path=path,
+            json=payload,
         )
 
-    def update_network_switch_link_aggregation(
+    async def update_network_switch_link_aggregation(
         self,
         *,
         network_id: str,
@@ -1709,11 +1768,14 @@ class Switch:
         if switch_profile_ports is not None:
             payload["switchProfilePorts"] = switch_profile_ports
 
-        return self._session.put(
-            scope="switch", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.put(
+            scope="switch",
+            operation_id="updateNetworkSwitchLinkAggregation",
+            path=path,
+            json=payload,
         )
 
-    def delete_network_switch_link_aggregation(
+    async def delete_network_switch_link_aggregation(
         self, *, network_id: str, link_aggregation_id: str
     ) -> None:
         """Split a link aggregation group into separate ports.
@@ -1729,11 +1791,11 @@ class Switch:
         link_aggregation_id = urllib.parse.quote(str(link_aggregation_id), safe="")
         path = f"/networks/{network_id}/switch/linkAggregations/{link_aggregation_id}"
 
-        return self._session.delete(
+        return await self._session.delete(
             scope="switch", operation_id="deleteNetworkSwitchLinkAggregation", path=path
         )
 
-    def get_network_switch_mtu(self, *, network_id: str) -> dict[str, Any] | None:
+    async def get_network_switch_mtu(self, *, network_id: str) -> dict[str, Any] | None:
         """Return the MTU configuration.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-switch-mtu
@@ -1745,9 +1807,11 @@ class Switch:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/switch/mtu"
 
-        return self._session.get(scope="switch", operation_id="getNetworkSwitchMtu", path=path)
+        return await self._session.get(
+            scope="switch", operation_id="getNetworkSwitchMtu", path=path
+        )
 
-    def update_network_switch_mtu(
+    async def update_network_switch_mtu(
         self, *, network_id: str, default_mtu_size: int | None = None, overrides: list | None = None
     ) -> dict[str, Any] | None:
         """Update the MTU configuration.
@@ -1770,11 +1834,11 @@ class Switch:
         if overrides is not None:
             payload["overrides"] = overrides
 
-        return self._session.put(
-            scope="switch", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.put(
+            scope="switch", operation_id="updateNetworkSwitchMtu", path=path, json=payload
         )
 
-    def get_network_switch_port_schedules(self, *, network_id: str) -> dict[str, Any] | None:
+    async def get_network_switch_port_schedules(self, *, network_id: str) -> dict[str, Any] | None:
         """List switch port schedules.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-switch-port-schedules
@@ -1786,11 +1850,11 @@ class Switch:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/switch/portSchedules"
 
-        return self._session.get(
+        return await self._session.get(
             scope="switch", operation_id="getNetworkSwitchPortSchedules", path=path
         )
 
-    def create_network_switch_port_schedule(
+    async def create_network_switch_port_schedule(
         self, *, network_id: str, name: str, port_schedule: dict | None = None
     ) -> dict[str, Any] | None:
         """Add a switch port schedule.
@@ -1815,11 +1879,11 @@ class Switch:
         if port_schedule is not None:
             payload["portSchedule"] = port_schedule
 
-        return self._session.post(
-            scope="switch", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.post(
+            scope="switch", operation_id="createNetworkSwitchPortSchedule", path=path, json=payload
         )
 
-    def update_network_switch_port_schedule(
+    async def update_network_switch_port_schedule(
         self,
         *,
         network_id: str,
@@ -1851,11 +1915,11 @@ class Switch:
         if port_schedule is not None:
             payload["portSchedule"] = port_schedule
 
-        return self._session.put(
-            scope="switch", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.put(
+            scope="switch", operation_id="updateNetworkSwitchPortSchedule", path=path, json=payload
         )
 
-    def delete_network_switch_port_schedule(
+    async def delete_network_switch_port_schedule(
         self, *, network_id: str, port_schedule_id: str
     ) -> None:
         """Delete a switch port schedule.
@@ -1871,11 +1935,11 @@ class Switch:
         port_schedule_id = urllib.parse.quote(str(port_schedule_id), safe="")
         path = f"/networks/{network_id}/switch/portSchedules/{port_schedule_id}"
 
-        return self._session.delete(
+        return await self._session.delete(
             scope="switch", operation_id="deleteNetworkSwitchPortSchedule", path=path
         )
 
-    def get_network_switch_qos_rules(self, *, network_id: str) -> dict[str, Any] | None:
+    async def get_network_switch_qos_rules(self, *, network_id: str) -> dict[str, Any] | None:
         """List quality of service rules.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-switch-qos-rules
@@ -1887,9 +1951,11 @@ class Switch:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/switch/qosRules"
 
-        return self._session.get(scope="switch", operation_id="getNetworkSwitchQosRules", path=path)
+        return await self._session.get(
+            scope="switch", operation_id="getNetworkSwitchQosRules", path=path
+        )
 
-    def create_network_switch_qos_rule(
+    async def create_network_switch_qos_rule(
         self,
         *,
         network_id: str,
@@ -1946,11 +2012,11 @@ class Switch:
         if dscp is not None:
             payload["dscp"] = dscp
 
-        return self._session.post(
-            scope="switch", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.post(
+            scope="switch", operation_id="createNetworkSwitchQosRule", path=path, json=payload
         )
 
-    def get_network_switch_qos_rules_order(self, *, network_id: str) -> dict[str, Any] | None:
+    async def get_network_switch_qos_rules_order(self, *, network_id: str) -> dict[str, Any] | None:
         """Return the quality of service rule IDs by order in which they will be processed by the switch.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-switch-qos-rules-order
@@ -1962,11 +2028,11 @@ class Switch:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/switch/qosRules/order"
 
-        return self._session.get(
+        return await self._session.get(
             scope="switch", operation_id="getNetworkSwitchQosRulesOrder", path=path
         )
 
-    def update_network_switch_qos_rules_order(
+    async def update_network_switch_qos_rules_order(
         self, *, network_id: str, rule_ids: list
     ) -> dict[str, Any] | None:
         """Update the order in which the rules should be processed by the switch.
@@ -1986,11 +2052,11 @@ class Switch:
         if rule_ids is not None:
             payload["ruleIds"] = rule_ids
 
-        return self._session.put(
-            scope="switch", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.put(
+            scope="switch", operation_id="updateNetworkSwitchQosRulesOrder", path=path, json=payload
         )
 
-    def get_network_switch_qos_rule(
+    async def get_network_switch_qos_rule(
         self, *, network_id: str, qos_rule_id: str
     ) -> dict[str, Any] | None:
         """Return a quality of service rule.
@@ -2006,9 +2072,11 @@ class Switch:
         qos_rule_id = urllib.parse.quote(str(qos_rule_id), safe="")
         path = f"/networks/{network_id}/switch/qosRules/{qos_rule_id}"
 
-        return self._session.get(scope="switch", operation_id="getNetworkSwitchQosRule", path=path)
+        return await self._session.get(
+            scope="switch", operation_id="getNetworkSwitchQosRule", path=path
+        )
 
-    def update_network_switch_qos_rule(
+    async def update_network_switch_qos_rule(
         self,
         *,
         network_id: str,
@@ -2068,11 +2136,11 @@ class Switch:
         if dscp is not None:
             payload["dscp"] = dscp
 
-        return self._session.put(
-            scope="switch", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.put(
+            scope="switch", operation_id="updateNetworkSwitchQosRule", path=path, json=payload
         )
 
-    def delete_network_switch_qos_rule(self, *, network_id: str, qos_rule_id: str) -> None:
+    async def delete_network_switch_qos_rule(self, *, network_id: str, qos_rule_id: str) -> None:
         """Delete a quality of service rule.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-network-switch-qos-rule
@@ -2086,11 +2154,13 @@ class Switch:
         qos_rule_id = urllib.parse.quote(str(qos_rule_id), safe="")
         path = f"/networks/{network_id}/switch/qosRules/{qos_rule_id}"
 
-        return self._session.delete(
+        return await self._session.delete(
             scope="switch", operation_id="deleteNetworkSwitchQosRule", path=path
         )
 
-    def get_network_switch_routing_multicast(self, *, network_id: str) -> dict[str, Any] | None:
+    async def get_network_switch_routing_multicast(
+        self, *, network_id: str
+    ) -> dict[str, Any] | None:
         """Return multicast settings for a network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-switch-routing-multicast
@@ -2102,11 +2172,11 @@ class Switch:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/switch/routing/multicast"
 
-        return self._session.get(
+        return await self._session.get(
             scope="switch", operation_id="getNetworkSwitchRoutingMulticast", path=path
         )
 
-    def update_network_switch_routing_multicast(
+    async def update_network_switch_routing_multicast(
         self,
         *,
         network_id: str,
@@ -2134,11 +2204,14 @@ class Switch:
         if overrides is not None:
             payload["overrides"] = overrides
 
-        return self._session.put(
-            scope="switch", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.put(
+            scope="switch",
+            operation_id="updateNetworkSwitchRoutingMulticast",
+            path=path,
+            json=payload,
         )
 
-    def get_network_switch_routing_multicast_rendezvous_points(
+    async def get_network_switch_routing_multicast_rendezvous_points(
         self, *, network_id: str
     ) -> dict[str, Any] | None:
         """List multicast rendezvous points.
@@ -2152,13 +2225,13 @@ class Switch:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/switch/routing/multicast/rendezvousPoints"
 
-        return self._session.get(
+        return await self._session.get(
             scope="switch",
             operation_id="getNetworkSwitchRoutingMulticastRendezvousPoints",
             path=path,
         )
 
-    def create_network_switch_routing_multicast_rendezvous_point(
+    async def create_network_switch_routing_multicast_rendezvous_point(
         self, *, network_id: str, interface_ip: str, multicast_group: str, vrf: dict | None = None
     ) -> dict[str, Any] | None:
         """Create a multicast rendezvous point.
@@ -2183,11 +2256,14 @@ class Switch:
         if vrf is not None:
             payload["vrf"] = vrf
 
-        return self._session.post(
-            scope="switch", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.post(
+            scope="switch",
+            operation_id="createNetworkSwitchRoutingMulticastRendezvousPoint",
+            path=path,
+            json=payload,
         )
 
-    def get_network_switch_routing_multicast_rendezvous_point(
+    async def get_network_switch_routing_multicast_rendezvous_point(
         self, *, network_id: str, rendezvous_point_id: str
     ) -> dict[str, Any] | None:
         """Return a multicast rendezvous point.
@@ -2203,13 +2279,13 @@ class Switch:
         rendezvous_point_id = urllib.parse.quote(str(rendezvous_point_id), safe="")
         path = f"/networks/{network_id}/switch/routing/multicast/rendezvousPoints/{rendezvous_point_id}"
 
-        return self._session.get(
+        return await self._session.get(
             scope="switch",
             operation_id="getNetworkSwitchRoutingMulticastRendezvousPoint",
             path=path,
         )
 
-    def update_network_switch_routing_multicast_rendezvous_point(
+    async def update_network_switch_routing_multicast_rendezvous_point(
         self,
         *,
         network_id: str,
@@ -2242,11 +2318,14 @@ class Switch:
         if vrf is not None:
             payload["vrf"] = vrf
 
-        return self._session.put(
-            scope="switch", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.put(
+            scope="switch",
+            operation_id="updateNetworkSwitchRoutingMulticastRendezvousPoint",
+            path=path,
+            json=payload,
         )
 
-    def delete_network_switch_routing_multicast_rendezvous_point(
+    async def delete_network_switch_routing_multicast_rendezvous_point(
         self, *, network_id: str, rendezvous_point_id: str
     ) -> None:
         """Delete a multicast rendezvous point.
@@ -2262,13 +2341,13 @@ class Switch:
         rendezvous_point_id = urllib.parse.quote(str(rendezvous_point_id), safe="")
         path = f"/networks/{network_id}/switch/routing/multicast/rendezvousPoints/{rendezvous_point_id}"
 
-        return self._session.delete(
+        return await self._session.delete(
             scope="switch",
             operation_id="deleteNetworkSwitchRoutingMulticastRendezvousPoint",
             path=path,
         )
 
-    def get_network_switch_routing_ospf(
+    async def get_network_switch_routing_ospf(
         self, *, network_id: str, vrf: str | None = None
     ) -> dict[str, Any] | None:
         """Return layer 3 OSPF routing configuration.
@@ -2288,11 +2367,11 @@ class Switch:
         if vrf is not None:
             params["vrf"] = vrf
 
-        return self._session.get(
-            scope="switch", operation_id="{operation_id}", path=path, params=params
+        return await self._session.get(
+            scope="switch", operation_id="getNetworkSwitchRoutingOspf", path=path, params=params
         )
 
-    def update_network_switch_routing_ospf(
+    async def update_network_switch_routing_ospf(
         self,
         *,
         network_id: str,
@@ -2351,11 +2430,11 @@ class Switch:
         if md5_authentication_key is not None:
             payload["md5AuthenticationKey"] = md5_authentication_key
 
-        return self._session.put(
-            scope="switch", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.put(
+            scope="switch", operation_id="updateNetworkSwitchRoutingOspf", path=path, json=payload
         )
 
-    def get_network_switch_settings(self, *, network_id: str) -> dict[str, Any] | None:
+    async def get_network_switch_settings(self, *, network_id: str) -> dict[str, Any] | None:
         """Returns the switch network settings.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-switch-settings
@@ -2367,9 +2446,11 @@ class Switch:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/switch/settings"
 
-        return self._session.get(scope="switch", operation_id="getNetworkSwitchSettings", path=path)
+        return await self._session.get(
+            scope="switch", operation_id="getNetworkSwitchSettings", path=path
+        )
 
-    def update_network_switch_settings(
+    async def update_network_switch_settings(
         self,
         *,
         network_id: str,
@@ -2412,11 +2493,11 @@ class Switch:
         if uplink_selection is not None:
             payload["uplinkSelection"] = uplink_selection
 
-        return self._session.put(
-            scope="switch", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.put(
+            scope="switch", operation_id="updateNetworkSwitchSettings", path=path, json=payload
         )
 
-    def get_network_switch_stacks(self, *, network_id: str) -> dict[str, Any] | None:
+    async def get_network_switch_stacks(self, *, network_id: str) -> dict[str, Any] | None:
         """List the switch stacks in a network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-switch-stacks
@@ -2428,9 +2509,11 @@ class Switch:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/switch/stacks"
 
-        return self._session.get(scope="switch", operation_id="getNetworkSwitchStacks", path=path)
+        return await self._session.get(
+            scope="switch", operation_id="getNetworkSwitchStacks", path=path
+        )
 
-    def create_network_switch_stack(
+    async def create_network_switch_stack(
         self, *, network_id: str, name: str, serials: list
     ) -> dict[str, Any] | None:
         """Create a switch stack.
@@ -2452,11 +2535,11 @@ class Switch:
         if serials is not None:
             payload["serials"] = serials
 
-        return self._session.post(
-            scope="switch", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.post(
+            scope="switch", operation_id="createNetworkSwitchStack", path=path, json=payload
         )
 
-    def get_network_switch_stack(
+    async def get_network_switch_stack(
         self, *, network_id: str, switch_stack_id: str
     ) -> dict[str, Any] | None:
         """Show a switch stack.
@@ -2472,9 +2555,11 @@ class Switch:
         switch_stack_id = urllib.parse.quote(str(switch_stack_id), safe="")
         path = f"/networks/{network_id}/switch/stacks/{switch_stack_id}"
 
-        return self._session.get(scope="switch", operation_id="getNetworkSwitchStack", path=path)
+        return await self._session.get(
+            scope="switch", operation_id="getNetworkSwitchStack", path=path
+        )
 
-    def delete_network_switch_stack(self, *, network_id: str, switch_stack_id: str) -> None:
+    async def delete_network_switch_stack(self, *, network_id: str, switch_stack_id: str) -> None:
         """Delete a stack.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-network-switch-stack
@@ -2488,11 +2573,11 @@ class Switch:
         switch_stack_id = urllib.parse.quote(str(switch_stack_id), safe="")
         path = f"/networks/{network_id}/switch/stacks/{switch_stack_id}"
 
-        return self._session.delete(
+        return await self._session.delete(
             scope="switch", operation_id="deleteNetworkSwitchStack", path=path
         )
 
-    def add_network_switch_stack(
+    async def add_network_switch_stack(
         self, *, network_id: str, switch_stack_id: str, serial: str
     ) -> dict[str, Any] | None:
         """Add a switch to a stack.
@@ -2513,11 +2598,11 @@ class Switch:
         if serial is not None:
             payload["serial"] = serial
 
-        return self._session.post(
-            scope="switch", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.post(
+            scope="switch", operation_id="addNetworkSwitchStack", path=path, json=payload
         )
 
-    def remove_network_switch_stack(
+    async def remove_network_switch_stack(
         self, *, network_id: str, switch_stack_id: str, serial: str
     ) -> dict[str, Any] | None:
         """Remove a switch from a stack.
@@ -2538,11 +2623,11 @@ class Switch:
         if serial is not None:
             payload["serial"] = serial
 
-        return self._session.post(
-            scope="switch", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.post(
+            scope="switch", operation_id="removeNetworkSwitchStack", path=path, json=payload
         )
 
-    def get_network_switch_stack_routing_interfaces(
+    async def get_network_switch_stack_routing_interfaces(
         self,
         *,
         network_id: str,
@@ -2580,11 +2665,14 @@ class Switch:
         if protocol is not None:
             params["protocol"] = protocol
 
-        return self._session.get(
-            scope="switch", operation_id="{operation_id}", path=path, params=params
+        return await self._session.get(
+            scope="switch",
+            operation_id="getNetworkSwitchStackRoutingInterfaces",
+            path=path,
+            params=params,
         )
 
-    def create_network_switch_stack_routing_interface(
+    async def create_network_switch_stack_routing_interface(
         self,
         *,
         network_id: str,
@@ -2669,11 +2757,14 @@ class Switch:
         if loopback is not None:
             payload["loopback"] = loopback
 
-        return self._session.post(
-            scope="switch", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.post(
+            scope="switch",
+            operation_id="createNetworkSwitchStackRoutingInterface",
+            path=path,
+            json=payload,
         )
 
-    def get_network_switch_stack_routing_interface(
+    async def get_network_switch_stack_routing_interface(
         self, *, network_id: str, switch_stack_id: str, interface_id: str
     ) -> dict[str, Any] | None:
         """Return a layer 3 interface from a switch stack.
@@ -2691,11 +2782,11 @@ class Switch:
         interface_id = urllib.parse.quote(str(interface_id), safe="")
         path = f"/networks/{network_id}/switch/stacks/{switch_stack_id}/routing/interfaces/{interface_id}"
 
-        return self._session.get(
+        return await self._session.get(
             scope="switch", operation_id="getNetworkSwitchStackRoutingInterface", path=path
         )
 
-    def update_network_switch_stack_routing_interface(
+    async def update_network_switch_stack_routing_interface(
         self,
         *,
         network_id: str,
@@ -2775,11 +2866,14 @@ class Switch:
         if loopback is not None:
             payload["loopback"] = loopback
 
-        return self._session.put(
-            scope="switch", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.put(
+            scope="switch",
+            operation_id="updateNetworkSwitchStackRoutingInterface",
+            path=path,
+            json=payload,
         )
 
-    def delete_network_switch_stack_routing_interface(
+    async def delete_network_switch_stack_routing_interface(
         self, *, network_id: str, switch_stack_id: str, interface_id: str
     ) -> None:
         """Delete a layer 3 interface from a switch stack.
@@ -2797,11 +2891,11 @@ class Switch:
         interface_id = urllib.parse.quote(str(interface_id), safe="")
         path = f"/networks/{network_id}/switch/stacks/{switch_stack_id}/routing/interfaces/{interface_id}"
 
-        return self._session.delete(
+        return await self._session.delete(
             scope="switch", operation_id="deleteNetworkSwitchStackRoutingInterface", path=path
         )
 
-    def get_network_switch_stack_routing_interface_dhcp(
+    async def get_network_switch_stack_routing_interface_dhcp(
         self, *, network_id: str, switch_stack_id: str, interface_id: str
     ) -> dict[str, Any] | None:
         """Return a layer 3 interface DHCP configuration for a switch stack.
@@ -2819,11 +2913,11 @@ class Switch:
         interface_id = urllib.parse.quote(str(interface_id), safe="")
         path = f"/networks/{network_id}/switch/stacks/{switch_stack_id}/routing/interfaces/{interface_id}/dhcp"
 
-        return self._session.get(
+        return await self._session.get(
             scope="switch", operation_id="getNetworkSwitchStackRoutingInterfaceDhcp", path=path
         )
 
-    def update_network_switch_stack_routing_interface_dhcp(
+    async def update_network_switch_stack_routing_interface_dhcp(
         self,
         *,
         network_id: str,
@@ -2919,11 +3013,14 @@ class Switch:
         if fixed_ip_assignments is not None:
             payload["fixedIpAssignments"] = fixed_ip_assignments
 
-        return self._session.put(
-            scope="switch", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.put(
+            scope="switch",
+            operation_id="updateNetworkSwitchStackRoutingInterfaceDhcp",
+            path=path,
+            json=payload,
         )
 
-    def get_network_switch_stack_routing_static_routes(
+    async def get_network_switch_stack_routing_static_routes(
         self, *, network_id: str, switch_stack_id: str
     ) -> dict[str, Any] | None:
         """List layer 3 static routes for a switch stack.
@@ -2939,11 +3036,11 @@ class Switch:
         switch_stack_id = urllib.parse.quote(str(switch_stack_id), safe="")
         path = f"/networks/{network_id}/switch/stacks/{switch_stack_id}/routing/staticRoutes"
 
-        return self._session.get(
+        return await self._session.get(
             scope="switch", operation_id="getNetworkSwitchStackRoutingStaticRoutes", path=path
         )
 
-    def create_network_switch_stack_routing_static_route(
+    async def create_network_switch_stack_routing_static_route(
         self,
         *,
         network_id: str,
@@ -2990,11 +3087,14 @@ class Switch:
         if vrf is not None:
             payload["vrf"] = vrf
 
-        return self._session.post(
-            scope="switch", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.post(
+            scope="switch",
+            operation_id="createNetworkSwitchStackRoutingStaticRoute",
+            path=path,
+            json=payload,
         )
 
-    def get_network_switch_stack_routing_static_route(
+    async def get_network_switch_stack_routing_static_route(
         self, *, network_id: str, switch_stack_id: str, static_route_id: str
     ) -> dict[str, Any] | None:
         """Return a layer 3 static route for a switch stack.
@@ -3012,11 +3112,11 @@ class Switch:
         static_route_id = urllib.parse.quote(str(static_route_id), safe="")
         path = f"/networks/{network_id}/switch/stacks/{switch_stack_id}/routing/staticRoutes/{static_route_id}"
 
-        return self._session.get(
+        return await self._session.get(
             scope="switch", operation_id="getNetworkSwitchStackRoutingStaticRoute", path=path
         )
 
-    def update_network_switch_stack_routing_static_route(
+    async def update_network_switch_stack_routing_static_route(
         self,
         *,
         network_id: str,
@@ -3070,11 +3170,14 @@ class Switch:
         if vrf is not None:
             payload["vrf"] = vrf
 
-        return self._session.put(
-            scope="switch", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.put(
+            scope="switch",
+            operation_id="updateNetworkSwitchStackRoutingStaticRoute",
+            path=path,
+            json=payload,
         )
 
-    def delete_network_switch_stack_routing_static_route(
+    async def delete_network_switch_stack_routing_static_route(
         self, *, network_id: str, switch_stack_id: str, static_route_id: str
     ) -> None:
         """Delete a layer 3 static route for a switch stack.
@@ -3092,11 +3195,11 @@ class Switch:
         static_route_id = urllib.parse.quote(str(static_route_id), safe="")
         path = f"/networks/{network_id}/switch/stacks/{switch_stack_id}/routing/staticRoutes/{static_route_id}"
 
-        return self._session.delete(
+        return await self._session.delete(
             scope="switch", operation_id="deleteNetworkSwitchStackRoutingStaticRoute", path=path
         )
 
-    def get_network_switch_storm_control(self, *, network_id: str) -> dict[str, Any] | None:
+    async def get_network_switch_storm_control(self, *, network_id: str) -> dict[str, Any] | None:
         """Return the storm control configuration for a switch network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-switch-storm-control
@@ -3108,11 +3211,11 @@ class Switch:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/switch/stormControl"
 
-        return self._session.get(
+        return await self._session.get(
             scope="switch", operation_id="getNetworkSwitchStormControl", path=path
         )
 
-    def update_network_switch_storm_control(
+    async def update_network_switch_storm_control(
         self,
         *,
         network_id: str,
@@ -3154,11 +3257,11 @@ class Switch:
                 treat_these_traffic_types_as_one_threshold
             )
 
-        return self._session.put(
-            scope="switch", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.put(
+            scope="switch", operation_id="updateNetworkSwitchStormControl", path=path, json=payload
         )
 
-    def get_network_switch_stp(self, *, network_id: str) -> dict[str, Any] | None:
+    async def get_network_switch_stp(self, *, network_id: str) -> dict[str, Any] | None:
         """Returns STP settings.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-switch-stp
@@ -3170,9 +3273,11 @@ class Switch:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/switch/stp"
 
-        return self._session.get(scope="switch", operation_id="getNetworkSwitchStp", path=path)
+        return await self._session.get(
+            scope="switch", operation_id="getNetworkSwitchStp", path=path
+        )
 
-    def update_network_switch_stp(
+    async def update_network_switch_stp(
         self,
         *,
         network_id: str,
@@ -3199,11 +3304,11 @@ class Switch:
         if stp_bridge_priority is not None:
             payload["stpBridgePriority"] = stp_bridge_priority
 
-        return self._session.put(
-            scope="switch", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.put(
+            scope="switch", operation_id="updateNetworkSwitchStp", path=path, json=payload
         )
 
-    def get_organization_config_template_switch_profiles(
+    async def get_organization_config_template_switch_profiles(
         self, *, organization_id: str, config_template_id: str
     ) -> dict[str, Any] | None:
         """List the switch templates for your switch template configuration.
@@ -3221,11 +3326,11 @@ class Switch:
             f"/organizations/{organization_id}/configTemplates/{config_template_id}/switch/profiles"
         )
 
-        return self._session.get(
+        return await self._session.get(
             scope="switch", operation_id="getOrganizationConfigTemplateSwitchProfiles", path=path
         )
 
-    def get_organization_config_template_switch_profile_ports(
+    async def get_organization_config_template_switch_profile_ports(
         self, *, organization_id: str, config_template_id: str, profile_id: str
     ) -> dict[str, Any] | None:
         """Return all the ports of a switch template.
@@ -3243,13 +3348,13 @@ class Switch:
         profile_id = urllib.parse.quote(str(profile_id), safe="")
         path = f"/organizations/{organization_id}/configTemplates/{config_template_id}/switch/profiles/{profile_id}/ports"
 
-        return self._session.get(
+        return await self._session.get(
             scope="switch",
             operation_id="getOrganizationConfigTemplateSwitchProfilePorts",
             path=path,
         )
 
-    def get_organization_config_template_switch_profile_port(
+    async def get_organization_config_template_switch_profile_port(
         self, *, organization_id: str, config_template_id: str, profile_id: str, port_id: str
     ) -> dict[str, Any] | None:
         """Return a switch template port.
@@ -3269,11 +3374,11 @@ class Switch:
         port_id = urllib.parse.quote(str(port_id), safe="")
         path = f"/organizations/{organization_id}/configTemplates/{config_template_id}/switch/profiles/{profile_id}/ports/{port_id}"
 
-        return self._session.get(
+        return await self._session.get(
             scope="switch", operation_id="getOrganizationConfigTemplateSwitchProfilePort", path=path
         )
 
-    def update_organization_config_template_switch_profile_port(
+    async def update_organization_config_template_switch_profile_port(
         self,
         *,
         organization_id: str,
@@ -3445,11 +3550,14 @@ class Switch:
         if high_speed is not None:
             payload["highSpeed"] = high_speed
 
-        return self._session.put(
-            scope="switch", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.put(
+            scope="switch",
+            operation_id="updateOrganizationConfigTemplateSwitchProfilePort",
+            path=path,
+            json=payload,
         )
 
-    def get_organization_summary_switch_power_history(
+    async def get_organization_summary_switch_power_history(
         self,
         *,
         organization_id: str,
@@ -3481,11 +3589,14 @@ class Switch:
         if timespan is not None:
             params["timespan"] = timespan
 
-        return self._session.get(
-            scope="switch", operation_id="{operation_id}", path=path, params=params
+        return await self._session.get(
+            scope="switch",
+            operation_id="getOrganizationSummarySwitchPowerHistory",
+            path=path,
+            params=params,
         )
 
-    def clone_organization_switch_devices(
+    async def clone_organization_switch_devices(
         self, *, organization_id: str, source_serial: str, target_serials: list
     ) -> dict[str, Any] | None:
         """Clone port-level and some switch-level configuration settings from a source switch to one or more target switches.
@@ -3509,11 +3620,11 @@ class Switch:
         if target_serials is not None:
             payload["targetSerials"] = target_serials
 
-        return self._session.post(
-            scope="switch", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.post(
+            scope="switch", operation_id="cloneOrganizationSwitchDevices", path=path, json=payload
         )
 
-    def get_organization_switch_ports_by_switch(
+    async def get_organization_switch_ports_by_switch(
         self,
         *,
         organization_id: str,
@@ -3529,8 +3640,8 @@ class Switch:
         serial: str | None = None,
         serials: list | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> AsyncPaginatedResponse[Any]:
         """List the switchports in an organization by switch.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-switch-ports-by-switch
@@ -3597,14 +3708,14 @@ class Switch:
 
         return self._session.get_pages(
             scope="switch",
-            operation_id="{operation_id}",
+            operation_id="getOrganizationSwitchPortsBySwitch",
             path=path,
             params=params,
             total_pages=total_pages,
             direction=direction,
         )
 
-    def get_organization_switch_ports_clients_overview_by_device(
+    async def get_organization_switch_ports_clients_overview_by_device(
         self,
         *,
         organization_id: str,
@@ -3622,8 +3733,8 @@ class Switch:
         serial: str | None = None,
         serials: list | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> AsyncPaginatedResponse[Any]:
         """List the number of clients for all switchports with at least one online client in an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-switch-ports-clients-overview-by-device
@@ -3699,14 +3810,14 @@ class Switch:
 
         return self._session.get_pages(
             scope="switch",
-            operation_id="{operation_id}",
+            operation_id="getOrganizationSwitchPortsClientsOverviewByDevice",
             path=path,
             params=params,
             total_pages=total_pages,
             direction=direction,
         )
 
-    def get_organization_switch_ports_overview(
+    async def get_organization_switch_ports_overview(
         self,
         *,
         organization_id: str,
@@ -3739,11 +3850,14 @@ class Switch:
         if timespan is not None:
             params["timespan"] = timespan
 
-        return self._session.get(
-            scope="switch", operation_id="{operation_id}", path=path, params=params
+        return await self._session.get(
+            scope="switch",
+            operation_id="getOrganizationSwitchPortsOverview",
+            path=path,
+            params=params,
         )
 
-    def get_organization_switch_ports_statuses_by_switch(
+    async def get_organization_switch_ports_statuses_by_switch(
         self,
         *,
         organization_id: str,
@@ -3759,8 +3873,8 @@ class Switch:
         serial: str | None = None,
         serials: list | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> AsyncPaginatedResponse[Any]:
         """List the switchports in an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-switch-ports-statuses-by-switch
@@ -3827,14 +3941,14 @@ class Switch:
 
         return self._session.get_pages(
             scope="switch",
-            operation_id="{operation_id}",
+            operation_id="getOrganizationSwitchPortsStatusesBySwitch",
             path=path,
             params=params,
             total_pages=total_pages,
             direction=direction,
         )
 
-    def get_organization_switch_ports_topology_discovery_by_device(
+    async def get_organization_switch_ports_topology_discovery_by_device(
         self,
         *,
         organization_id: str,
@@ -3852,8 +3966,8 @@ class Switch:
         serial: str | None = None,
         serials: list | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> AsyncPaginatedResponse[Any]:
         """List most recently seen LLDP/CDP discovery and topology information per switch port in an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-switch-ports-topology-discovery-by-device
@@ -3929,14 +4043,14 @@ class Switch:
 
         return self._session.get_pages(
             scope="switch",
-            operation_id="{operation_id}",
+            operation_id="getOrganizationSwitchPortsTopologyDiscoveryByDevice",
             path=path,
             params=params,
             total_pages=total_pages,
             direction=direction,
         )
 
-    def get_organization_switch_ports_usage_history_by_device_by_interval(
+    async def get_organization_switch_ports_usage_history_by_device_by_interval(
         self,
         *,
         organization_id: str,
@@ -3956,8 +4070,8 @@ class Switch:
         serial: str | None = None,
         serials: list | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> AsyncPaginatedResponse[Any]:
         """List the historical usage and traffic data of switchports in an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-switch-ports-usage-history-by-device-by-interval
@@ -4042,7 +4156,7 @@ class Switch:
 
         return self._session.get_pages(
             scope="switch",
-            operation_id="{operation_id}",
+            operation_id="getOrganizationSwitchPortsUsageHistoryByDeviceByInterval",
             path=path,
             params=params,
             total_pages=total_pages,

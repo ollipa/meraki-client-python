@@ -2,12 +2,11 @@
 
 from __future__ import annotations
 
-import urllib
-from collections.abc import Generator
+import urllib.parse
 from typing import TYPE_CHECKING, Any, Literal
 
 if TYPE_CHECKING:
-    from meraki_dashboard_sdk.aio.session import Session
+    from meraki_dashboard_sdk.aio.session import AsyncPaginatedResponse, Session
 
 
 class Camera:
@@ -16,7 +15,7 @@ class Camera:
     def __init__(self, session: Session) -> None:
         self._session = session
 
-    def get_device_camera_analytics_live(self, *, serial: str) -> dict[str, Any] | None:
+    async def get_device_camera_analytics_live(self, *, serial: str) -> dict[str, Any] | None:
         """Returns live state from camera analytics zones.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device-camera-analytics-live
@@ -28,11 +27,11 @@ class Camera:
         serial = urllib.parse.quote(str(serial), safe="")
         path = f"/devices/{serial}/camera/analytics/live"
 
-        return self._session.get(
+        return await self._session.get(
             scope="camera", operation_id="getDeviceCameraAnalyticsLive", path=path
         )
 
-    def get_device_camera_analytics_overview(
+    async def get_device_camera_analytics_overview(
         self,
         *,
         serial: str,
@@ -76,11 +75,14 @@ class Camera:
         if object_type is not None:
             params["objectType"] = object_type
 
-        return self._session.get(
-            scope="camera", operation_id="{operation_id}", path=path, params=params
+        return await self._session.get(
+            scope="camera",
+            operation_id="getDeviceCameraAnalyticsOverview",
+            path=path,
+            params=params,
         )
 
-    def get_device_camera_analytics_recent(
+    async def get_device_camera_analytics_recent(
         self, *, serial: str, object_type: str | None = None
     ) -> dict[str, Any] | None:
         """Returns most recent record for analytics zones.
@@ -106,11 +108,11 @@ class Camera:
         if object_type is not None:
             params["objectType"] = object_type
 
-        return self._session.get(
-            scope="camera", operation_id="{operation_id}", path=path, params=params
+        return await self._session.get(
+            scope="camera", operation_id="getDeviceCameraAnalyticsRecent", path=path, params=params
         )
 
-    def get_device_camera_analytics_zones(self, *, serial: str) -> dict[str, Any] | None:
+    async def get_device_camera_analytics_zones(self, *, serial: str) -> dict[str, Any] | None:
         """Returns all configured analytic zones for this camera.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device-camera-analytics-zones
@@ -122,11 +124,11 @@ class Camera:
         serial = urllib.parse.quote(str(serial), safe="")
         path = f"/devices/{serial}/camera/analytics/zones"
 
-        return self._session.get(
+        return await self._session.get(
             scope="camera", operation_id="getDeviceCameraAnalyticsZones", path=path
         )
 
-    def get_device_camera_analytics_zone_history(
+    async def get_device_camera_analytics_zone_history(
         self,
         *,
         serial: str,
@@ -178,11 +180,14 @@ class Camera:
         if object_type is not None:
             params["objectType"] = object_type
 
-        return self._session.get(
-            scope="camera", operation_id="{operation_id}", path=path, params=params
+        return await self._session.get(
+            scope="camera",
+            operation_id="getDeviceCameraAnalyticsZoneHistory",
+            path=path,
+            params=params,
         )
 
-    def get_device_camera_custom_analytics(self, *, serial: str) -> dict[str, Any] | None:
+    async def get_device_camera_custom_analytics(self, *, serial: str) -> dict[str, Any] | None:
         """Return custom analytics settings for a camera.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device-camera-custom-analytics
@@ -194,11 +199,11 @@ class Camera:
         serial = urllib.parse.quote(str(serial), safe="")
         path = f"/devices/{serial}/camera/customAnalytics"
 
-        return self._session.get(
+        return await self._session.get(
             scope="camera", operation_id="getDeviceCameraCustomAnalytics", path=path
         )
 
-    def update_device_camera_custom_analytics(
+    async def update_device_camera_custom_analytics(
         self,
         *,
         serial: str,
@@ -228,11 +233,14 @@ class Camera:
         if parameters is not None:
             payload["parameters"] = parameters
 
-        return self._session.put(
-            scope="camera", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.put(
+            scope="camera",
+            operation_id="updateDeviceCameraCustomAnalytics",
+            path=path,
+            json=payload,
         )
 
-    def generate_device_camera_snapshot(
+    async def generate_device_camera_snapshot(
         self, *, serial: str, timestamp: str | None = None, fullframe: bool | None = None
     ) -> dict[str, Any] | None:
         """Generate a snapshot of what the camera sees at the specified time and return a link to that image.
@@ -257,11 +265,13 @@ class Camera:
         if fullframe is not None:
             payload["fullframe"] = fullframe
 
-        return self._session.post(
-            scope="camera", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.post(
+            scope="camera", operation_id="generateDeviceCameraSnapshot", path=path, json=payload
         )
 
-    def get_device_camera_quality_and_retention(self, *, serial: str) -> dict[str, Any] | None:
+    async def get_device_camera_quality_and_retention(
+        self, *, serial: str
+    ) -> dict[str, Any] | None:
         """Returns quality and retention settings for the given camera.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device-camera-quality-and-retention
@@ -273,11 +283,11 @@ class Camera:
         serial = urllib.parse.quote(str(serial), safe="")
         path = f"/devices/{serial}/camera/qualityAndRetention"
 
-        return self._session.get(
+        return await self._session.get(
             scope="camera", operation_id="getDeviceCameraQualityAndRetention", path=path
         )
 
-    def update_device_camera_quality_and_retention(
+    async def update_device_camera_quality_and_retention(
         self,
         *,
         serial: str,
@@ -358,11 +368,14 @@ class Camera:
         if motion_detector_version is not None:
             payload["motionDetectorVersion"] = motion_detector_version
 
-        return self._session.put(
-            scope="camera", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.put(
+            scope="camera",
+            operation_id="updateDeviceCameraQualityAndRetention",
+            path=path,
+            json=payload,
         )
 
-    def get_device_camera_sense(self, *, serial: str) -> dict[str, Any] | None:
+    async def get_device_camera_sense(self, *, serial: str) -> dict[str, Any] | None:
         """Returns sense settings for a given camera.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device-camera-sense
@@ -374,9 +387,11 @@ class Camera:
         serial = urllib.parse.quote(str(serial), safe="")
         path = f"/devices/{serial}/camera/sense"
 
-        return self._session.get(scope="camera", operation_id="getDeviceCameraSense", path=path)
+        return await self._session.get(
+            scope="camera", operation_id="getDeviceCameraSense", path=path
+        )
 
-    def update_device_camera_sense(
+    async def update_device_camera_sense(
         self,
         *,
         serial: str,
@@ -412,11 +427,11 @@ class Camera:
         if detection_model_id is not None:
             payload["detectionModelId"] = detection_model_id
 
-        return self._session.put(
-            scope="camera", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.put(
+            scope="camera", operation_id="updateDeviceCameraSense", path=path, json=payload
         )
 
-    def get_device_camera_sense_object_detection_models(
+    async def get_device_camera_sense_object_detection_models(
         self, *, serial: str
     ) -> dict[str, Any] | None:
         """Returns the MV Sense object detection model list for the given camera.
@@ -430,11 +445,11 @@ class Camera:
         serial = urllib.parse.quote(str(serial), safe="")
         path = f"/devices/{serial}/camera/sense/objectDetectionModels"
 
-        return self._session.get(
+        return await self._session.get(
             scope="camera", operation_id="getDeviceCameraSenseObjectDetectionModels", path=path
         )
 
-    def get_device_camera_video_settings(self, *, serial: str) -> dict[str, Any] | None:
+    async def get_device_camera_video_settings(self, *, serial: str) -> dict[str, Any] | None:
         """Returns video settings for the given camera.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device-camera-video-settings
@@ -446,11 +461,11 @@ class Camera:
         serial = urllib.parse.quote(str(serial), safe="")
         path = f"/devices/{serial}/camera/video/settings"
 
-        return self._session.get(
+        return await self._session.get(
             scope="camera", operation_id="getDeviceCameraVideoSettings", path=path
         )
 
-    def update_device_camera_video_settings(
+    async def update_device_camera_video_settings(
         self, *, serial: str, external_rtsp_enabled: bool | None = None
     ) -> dict[str, Any] | None:
         """Update video settings for the given camera.
@@ -469,11 +484,11 @@ class Camera:
         if external_rtsp_enabled is not None:
             payload["externalRtspEnabled"] = external_rtsp_enabled
 
-        return self._session.put(
-            scope="camera", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.put(
+            scope="camera", operation_id="updateDeviceCameraVideoSettings", path=path, json=payload
         )
 
-    def get_device_camera_video_link(
+    async def get_device_camera_video_link(
         self, *, serial: str, timestamp: str | None = None
     ) -> dict[str, Any] | None:
         """Returns video link to the specified camera.
@@ -494,11 +509,11 @@ class Camera:
         if timestamp is not None:
             params["timestamp"] = timestamp
 
-        return self._session.get(
-            scope="camera", operation_id="{operation_id}", path=path, params=params
+        return await self._session.get(
+            scope="camera", operation_id="getDeviceCameraVideoLink", path=path, params=params
         )
 
-    def get_device_camera_wireless_profiles(self, *, serial: str) -> dict[str, Any] | None:
+    async def get_device_camera_wireless_profiles(self, *, serial: str) -> dict[str, Any] | None:
         """Returns wireless profile assigned to the given camera.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device-camera-wireless-profiles
@@ -510,11 +525,11 @@ class Camera:
         serial = urllib.parse.quote(str(serial), safe="")
         path = f"/devices/{serial}/camera/wirelessProfiles"
 
-        return self._session.get(
+        return await self._session.get(
             scope="camera", operation_id="getDeviceCameraWirelessProfiles", path=path
         )
 
-    def update_device_camera_wireless_profiles(
+    async def update_device_camera_wireless_profiles(
         self, *, serial: str, ids: dict
     ) -> dict[str, Any] | None:
         """Assign wireless profiles to the given camera.
@@ -533,11 +548,14 @@ class Camera:
         if ids is not None:
             payload["ids"] = ids
 
-        return self._session.put(
-            scope="camera", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.put(
+            scope="camera",
+            operation_id="updateDeviceCameraWirelessProfiles",
+            path=path,
+            json=payload,
         )
 
-    def get_network_camera_quality_retention_profiles(
+    async def get_network_camera_quality_retention_profiles(
         self, *, network_id: str
     ) -> dict[str, Any] | None:
         """List the quality retention profiles for this network.
@@ -551,11 +569,11 @@ class Camera:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/camera/qualityRetentionProfiles"
 
-        return self._session.get(
+        return await self._session.get(
             scope="camera", operation_id="getNetworkCameraQualityRetentionProfiles", path=path
         )
 
-    def create_network_camera_quality_retention_profile(
+    async def create_network_camera_quality_retention_profile(
         self,
         *,
         network_id: str,
@@ -624,11 +642,14 @@ class Camera:
         if video_settings is not None:
             payload["videoSettings"] = video_settings
 
-        return self._session.post(
-            scope="camera", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.post(
+            scope="camera",
+            operation_id="createNetworkCameraQualityRetentionProfile",
+            path=path,
+            json=payload,
         )
 
-    def get_network_camera_quality_retention_profile(
+    async def get_network_camera_quality_retention_profile(
         self, *, network_id: str, quality_retention_profile_id: str
     ) -> dict[str, Any] | None:
         """Retrieve a single quality retention profile.
@@ -648,11 +669,11 @@ class Camera:
             f"/networks/{network_id}/camera/qualityRetentionProfiles/{quality_retention_profile_id}"
         )
 
-        return self._session.get(
+        return await self._session.get(
             scope="camera", operation_id="getNetworkCameraQualityRetentionProfile", path=path
         )
 
-    def update_network_camera_quality_retention_profile(
+    async def update_network_camera_quality_retention_profile(
         self,
         *,
         network_id: str,
@@ -728,11 +749,14 @@ class Camera:
         if video_settings is not None:
             payload["videoSettings"] = video_settings
 
-        return self._session.put(
-            scope="camera", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.put(
+            scope="camera",
+            operation_id="updateNetworkCameraQualityRetentionProfile",
+            path=path,
+            json=payload,
         )
 
-    def delete_network_camera_quality_retention_profile(
+    async def delete_network_camera_quality_retention_profile(
         self, *, network_id: str, quality_retention_profile_id: str
     ) -> None:
         """Delete an existing quality retention profile for this network.
@@ -752,11 +776,11 @@ class Camera:
             f"/networks/{network_id}/camera/qualityRetentionProfiles/{quality_retention_profile_id}"
         )
 
-        return self._session.delete(
+        return await self._session.delete(
             scope="camera", operation_id="deleteNetworkCameraQualityRetentionProfile", path=path
         )
 
-    def get_network_camera_schedules(self, *, network_id: str) -> dict[str, Any] | None:
+    async def get_network_camera_schedules(self, *, network_id: str) -> dict[str, Any] | None:
         """Returns a list of all camera recording schedules.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-camera-schedules
@@ -768,11 +792,13 @@ class Camera:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/camera/schedules"
 
-        return self._session.get(
+        return await self._session.get(
             scope="camera", operation_id="getNetworkCameraSchedules", path=path
         )
 
-    def get_network_camera_wireless_profiles(self, *, network_id: str) -> dict[str, Any] | None:
+    async def get_network_camera_wireless_profiles(
+        self, *, network_id: str
+    ) -> dict[str, Any] | None:
         """List the camera wireless profiles for this network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-camera-wireless-profiles
@@ -784,11 +810,11 @@ class Camera:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/camera/wirelessProfiles"
 
-        return self._session.get(
+        return await self._session.get(
             scope="camera", operation_id="getNetworkCameraWirelessProfiles", path=path
         )
 
-    def create_network_camera_wireless_profile(
+    async def create_network_camera_wireless_profile(
         self, *, network_id: str, name: str, ssid: dict, identity: dict | None = None
     ) -> dict[str, Any] | None:
         """Creates a new camera wireless profile for this network.
@@ -814,11 +840,14 @@ class Camera:
         if identity is not None:
             payload["identity"] = identity
 
-        return self._session.post(
-            scope="camera", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.post(
+            scope="camera",
+            operation_id="createNetworkCameraWirelessProfile",
+            path=path,
+            json=payload,
         )
 
-    def get_network_camera_wireless_profile(
+    async def get_network_camera_wireless_profile(
         self, *, network_id: str, wireless_profile_id: str
     ) -> dict[str, Any] | None:
         """Retrieve a single camera wireless profile.
@@ -834,11 +863,11 @@ class Camera:
         wireless_profile_id = urllib.parse.quote(str(wireless_profile_id), safe="")
         path = f"/networks/{network_id}/camera/wirelessProfiles/{wireless_profile_id}"
 
-        return self._session.get(
+        return await self._session.get(
             scope="camera", operation_id="getNetworkCameraWirelessProfile", path=path
         )
 
-    def update_network_camera_wireless_profile(
+    async def update_network_camera_wireless_profile(
         self,
         *,
         network_id: str,
@@ -872,11 +901,14 @@ class Camera:
         if identity is not None:
             payload["identity"] = identity
 
-        return self._session.put(
-            scope="camera", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.put(
+            scope="camera",
+            operation_id="updateNetworkCameraWirelessProfile",
+            path=path,
+            json=payload,
         )
 
-    def delete_network_camera_wireless_profile(
+    async def delete_network_camera_wireless_profile(
         self, *, network_id: str, wireless_profile_id: str
     ) -> None:
         """Delete an existing camera wireless profile for this network.
@@ -892,11 +924,11 @@ class Camera:
         wireless_profile_id = urllib.parse.quote(str(wireless_profile_id), safe="")
         path = f"/networks/{network_id}/camera/wirelessProfiles/{wireless_profile_id}"
 
-        return self._session.delete(
+        return await self._session.delete(
             scope="camera", operation_id="deleteNetworkCameraWirelessProfile", path=path
         )
 
-    def get_organization_camera_boundaries_areas_by_device(
+    async def get_organization_camera_boundaries_areas_by_device(
         self, *, organization_id: str, serials: list | None = None
     ) -> dict[str, Any] | None:
         """Returns all configured area boundaries of cameras.
@@ -916,11 +948,14 @@ class Camera:
         if serials is not None:
             params["serials[]"] = serials
 
-        return self._session.get(
-            scope="camera", operation_id="{operation_id}", path=path, params=params
+        return await self._session.get(
+            scope="camera",
+            operation_id="getOrganizationCameraBoundariesAreasByDevice",
+            path=path,
+            params=params,
         )
 
-    def get_organization_camera_boundaries_lines_by_device(
+    async def get_organization_camera_boundaries_lines_by_device(
         self, *, organization_id: str, serials: list | None = None
     ) -> dict[str, Any] | None:
         """Returns all configured crossingline boundaries of cameras.
@@ -940,11 +975,14 @@ class Camera:
         if serials is not None:
             params["serials[]"] = serials
 
-        return self._session.get(
-            scope="camera", operation_id="{operation_id}", path=path, params=params
+        return await self._session.get(
+            scope="camera",
+            operation_id="getOrganizationCameraBoundariesLinesByDevice",
+            path=path,
+            params=params,
         )
 
-    def get_organization_camera_custom_analytics_artifacts(
+    async def get_organization_camera_custom_analytics_artifacts(
         self, *, organization_id: str
     ) -> dict[str, Any] | None:
         """List Custom Analytics Artifacts.
@@ -958,11 +996,11 @@ class Camera:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         path = f"/organizations/{organization_id}/camera/customAnalytics/artifacts"
 
-        return self._session.get(
+        return await self._session.get(
             scope="camera", operation_id="getOrganizationCameraCustomAnalyticsArtifacts", path=path
         )
 
-    def create_organization_camera_custom_analytics_artifact(
+    async def create_organization_camera_custom_analytics_artifact(
         self, *, organization_id: str, name: str | None = None
     ) -> dict[str, Any] | None:
         """Create custom analytics artifact.
@@ -981,11 +1019,14 @@ class Camera:
         if name is not None:
             payload["name"] = name
 
-        return self._session.post(
-            scope="camera", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.post(
+            scope="camera",
+            operation_id="createOrganizationCameraCustomAnalyticsArtifact",
+            path=path,
+            json=payload,
         )
 
-    def get_organization_camera_custom_analytics_artifact(
+    async def get_organization_camera_custom_analytics_artifact(
         self, *, organization_id: str, artifact_id: str
     ) -> dict[str, Any] | None:
         """Get Custom Analytics Artifact.
@@ -1001,11 +1042,11 @@ class Camera:
         artifact_id = urllib.parse.quote(str(artifact_id), safe="")
         path = f"/organizations/{organization_id}/camera/customAnalytics/artifacts/{artifact_id}"
 
-        return self._session.get(
+        return await self._session.get(
             scope="camera", operation_id="getOrganizationCameraCustomAnalyticsArtifact", path=path
         )
 
-    def delete_organization_camera_custom_analytics_artifact(
+    async def delete_organization_camera_custom_analytics_artifact(
         self, *, organization_id: str, artifact_id: str
     ) -> None:
         """Delete Custom Analytics Artifact.
@@ -1021,13 +1062,13 @@ class Camera:
         artifact_id = urllib.parse.quote(str(artifact_id), safe="")
         path = f"/organizations/{organization_id}/camera/customAnalytics/artifacts/{artifact_id}"
 
-        return self._session.delete(
+        return await self._session.delete(
             scope="camera",
             operation_id="deleteOrganizationCameraCustomAnalyticsArtifact",
             path=path,
         )
 
-    def get_organization_camera_detections_history_by_boundary_by_interval(
+    async def get_organization_camera_detections_history_by_boundary_by_interval(
         self,
         *,
         organization_id: str,
@@ -1037,8 +1078,8 @@ class Camera:
         per_page: int | None = None,
         boundary_types: list | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> AsyncPaginatedResponse[Any]:
         """Returns analytics data for timespans.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-camera-detections-history-by-boundary-by-interval
@@ -1075,14 +1116,14 @@ class Camera:
 
         return self._session.get_pages(
             scope="camera",
-            operation_id="{operation_id}",
+            operation_id="getOrganizationCameraDetectionsHistoryByBoundaryByInterval",
             path=path,
             params=params,
             total_pages=total_pages,
             direction=direction,
         )
 
-    def get_organization_camera_onboarding_statuses(
+    async def get_organization_camera_onboarding_statuses(
         self, *, organization_id: str, serials: list | None = None, network_ids: list | None = None
     ) -> dict[str, Any] | None:
         """Fetch onboarding status of cameras.
@@ -1106,11 +1147,14 @@ class Camera:
         if network_ids is not None:
             params["networkIds[]"] = network_ids
 
-        return self._session.get(
-            scope="camera", operation_id="{operation_id}", path=path, params=params
+        return await self._session.get(
+            scope="camera",
+            operation_id="getOrganizationCameraOnboardingStatuses",
+            path=path,
+            params=params,
         )
 
-    def update_organization_camera_onboarding_statuses(
+    async def update_organization_camera_onboarding_statuses(
         self,
         *,
         organization_id: str,
@@ -1136,11 +1180,16 @@ class Camera:
         if wireless_credentials_sent is not None:
             payload["wirelessCredentialsSent"] = wireless_credentials_sent
 
-        return self._session.put(
-            scope="camera", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.put(
+            scope="camera",
+            operation_id="updateOrganizationCameraOnboardingStatuses",
+            path=path,
+            json=payload,
         )
 
-    def get_organization_camera_permissions(self, *, organization_id: str) -> dict[str, Any] | None:
+    async def get_organization_camera_permissions(
+        self, *, organization_id: str
+    ) -> dict[str, Any] | None:
         """List the permissions scopes for this organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-camera-permissions
@@ -1152,11 +1201,11 @@ class Camera:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         path = f"/organizations/{organization_id}/camera/permissions"
 
-        return self._session.get(
+        return await self._session.get(
             scope="camera", operation_id="getOrganizationCameraPermissions", path=path
         )
 
-    def get_organization_camera_permission(
+    async def get_organization_camera_permission(
         self, *, organization_id: str, permission_scope_id: str
     ) -> dict[str, Any] | None:
         """Retrieve a single permission scope.
@@ -1172,11 +1221,11 @@ class Camera:
         permission_scope_id = urllib.parse.quote(str(permission_scope_id), safe="")
         path = f"/organizations/{organization_id}/camera/permissions/{permission_scope_id}"
 
-        return self._session.get(
+        return await self._session.get(
             scope="camera", operation_id="getOrganizationCameraPermission", path=path
         )
 
-    def get_organization_camera_roles(self, *, organization_id: str) -> dict[str, Any] | None:
+    async def get_organization_camera_roles(self, *, organization_id: str) -> dict[str, Any] | None:
         """List all the roles in this organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-camera-roles
@@ -1188,11 +1237,11 @@ class Camera:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         path = f"/organizations/{organization_id}/camera/roles"
 
-        return self._session.get(
+        return await self._session.get(
             scope="camera", operation_id="getOrganizationCameraRoles", path=path
         )
 
-    def create_organization_camera_role(
+    async def create_organization_camera_role(
         self,
         *,
         organization_id: str,
@@ -1226,11 +1275,11 @@ class Camera:
         if applied_org_wide is not None:
             payload["appliedOrgWide"] = applied_org_wide
 
-        return self._session.post(
-            scope="camera", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.post(
+            scope="camera", operation_id="createOrganizationCameraRole", path=path, json=payload
         )
 
-    def get_organization_camera_role(
+    async def get_organization_camera_role(
         self, *, organization_id: str, role_id: str
     ) -> dict[str, Any] | None:
         """Retrieve a single role.
@@ -1246,11 +1295,11 @@ class Camera:
         role_id = urllib.parse.quote(str(role_id), safe="")
         path = f"/organizations/{organization_id}/camera/roles/{role_id}"
 
-        return self._session.get(
+        return await self._session.get(
             scope="camera", operation_id="getOrganizationCameraRole", path=path
         )
 
-    def update_organization_camera_role(
+    async def update_organization_camera_role(
         self,
         *,
         organization_id: str,
@@ -1287,11 +1336,11 @@ class Camera:
         if applied_org_wide is not None:
             payload["appliedOrgWide"] = applied_org_wide
 
-        return self._session.put(
-            scope="camera", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.put(
+            scope="camera", operation_id="updateOrganizationCameraRole", path=path, json=payload
         )
 
-    def delete_organization_camera_role(self, *, organization_id: str, role_id: str) -> None:
+    async def delete_organization_camera_role(self, *, organization_id: str, role_id: str) -> None:
         """Delete an existing role for this organization.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-camera-role
@@ -1305,6 +1354,6 @@ class Camera:
         role_id = urllib.parse.quote(str(role_id), safe="")
         path = f"/organizations/{organization_id}/camera/roles/{role_id}"
 
-        return self._session.delete(
+        return await self._session.delete(
             scope="camera", operation_id="deleteOrganizationCameraRole", path=path
         )

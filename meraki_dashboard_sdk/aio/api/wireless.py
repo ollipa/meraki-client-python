@@ -2,12 +2,11 @@
 
 from __future__ import annotations
 
-import urllib
-from collections.abc import Generator
+import urllib.parse
 from typing import TYPE_CHECKING, Any, Literal
 
 if TYPE_CHECKING:
-    from meraki_dashboard_sdk.aio.session import Session
+    from meraki_dashboard_sdk.aio.session import AsyncPaginatedResponse, Session
 
 
 class Wireless:
@@ -16,7 +15,7 @@ class Wireless:
     def __init__(self, session: Session) -> None:
         self._session = session
 
-    def update_device_wireless_alternate_management_interface_ipv6(
+    async def update_device_wireless_alternate_management_interface_ipv6(
         self, *, serial: str, addresses: list | None = None
     ) -> dict[str, Any] | None:
         """Update alternate management interface IPv6 address.
@@ -35,11 +34,14 @@ class Wireless:
         if addresses is not None:
             payload["addresses"] = addresses
 
-        return self._session.put(
-            scope="wireless", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.put(
+            scope="wireless",
+            operation_id="updateDeviceWirelessAlternateManagementInterfaceIpv6",
+            path=path,
+            json=payload,
         )
 
-    def get_device_wireless_bluetooth_settings(self, *, serial: str) -> dict[str, Any] | None:
+    async def get_device_wireless_bluetooth_settings(self, *, serial: str) -> dict[str, Any] | None:
         """Return the bluetooth settings for a wireless device.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device-wireless-bluetooth-settings
@@ -51,11 +53,11 @@ class Wireless:
         serial = urllib.parse.quote(str(serial), safe="")
         path = f"/devices/{serial}/wireless/bluetooth/settings"
 
-        return self._session.get(
+        return await self._session.get(
             scope="wireless", operation_id="getDeviceWirelessBluetoothSettings", path=path
         )
 
-    def update_device_wireless_bluetooth_settings(
+    async def update_device_wireless_bluetooth_settings(
         self,
         *,
         serial: str,
@@ -88,11 +90,14 @@ class Wireless:
         if minor is not None:
             payload["minor"] = minor
 
-        return self._session.put(
-            scope="wireless", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.put(
+            scope="wireless",
+            operation_id="updateDeviceWirelessBluetoothSettings",
+            path=path,
+            json=payload,
         )
 
-    def get_device_wireless_connection_stats(
+    async def get_device_wireless_connection_stats(
         self,
         *,
         serial: str,
@@ -142,11 +147,16 @@ class Wireless:
         if ap_tag is not None:
             params["apTag"] = ap_tag
 
-        return self._session.get(
-            scope="wireless", operation_id="{operation_id}", path=path, params=params
+        return await self._session.get(
+            scope="wireless",
+            operation_id="getDeviceWirelessConnectionStats",
+            path=path,
+            params=params,
         )
 
-    def get_device_wireless_electronic_shelf_label(self, *, serial: str) -> dict[str, Any] | None:
+    async def get_device_wireless_electronic_shelf_label(
+        self, *, serial: str
+    ) -> dict[str, Any] | None:
         """Return the ESL settings of a device.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device-wireless-electronic-shelf-label
@@ -158,11 +168,11 @@ class Wireless:
         serial = urllib.parse.quote(str(serial), safe="")
         path = f"/devices/{serial}/wireless/electronicShelfLabel"
 
-        return self._session.get(
+        return await self._session.get(
             scope="wireless", operation_id="getDeviceWirelessElectronicShelfLabel", path=path
         )
 
-    def update_device_wireless_electronic_shelf_label(
+    async def update_device_wireless_electronic_shelf_label(
         self, *, serial: str, channel: str | None = None, enabled: bool | None = None
     ) -> dict[str, Any] | None:
         """Update the ESL settings of a device.
@@ -185,11 +195,14 @@ class Wireless:
         if enabled is not None:
             payload["enabled"] = enabled
 
-        return self._session.put(
-            scope="wireless", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.put(
+            scope="wireless",
+            operation_id="updateDeviceWirelessElectronicShelfLabel",
+            path=path,
+            json=payload,
         )
 
-    def get_device_wireless_latency_stats(
+    async def get_device_wireless_latency_stats(
         self,
         *,
         serial: str,
@@ -249,11 +262,11 @@ class Wireless:
         if fields is not None:
             params["fields"] = fields
 
-        return self._session.get(
-            scope="wireless", operation_id="{operation_id}", path=path, params=params
+        return await self._session.get(
+            scope="wireless", operation_id="getDeviceWirelessLatencyStats", path=path, params=params
         )
 
-    def get_device_wireless_radio_settings(self, *, serial: str) -> dict[str, Any] | None:
+    async def get_device_wireless_radio_settings(self, *, serial: str) -> dict[str, Any] | None:
         """Return the manually configured radio settings overrides of a device, which take precedence over RF profiles.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device-wireless-radio-settings
@@ -265,11 +278,11 @@ class Wireless:
         serial = urllib.parse.quote(str(serial), safe="")
         path = f"/devices/{serial}/wireless/radio/settings"
 
-        return self._session.get(
+        return await self._session.get(
             scope="wireless", operation_id="getDeviceWirelessRadioSettings", path=path
         )
 
-    def update_device_wireless_radio_settings(
+    async def update_device_wireless_radio_settings(
         self,
         *,
         serial: str,
@@ -303,11 +316,14 @@ class Wireless:
         if five_ghz_settings is not None:
             payload["fiveGhzSettings"] = five_ghz_settings
 
-        return self._session.put(
-            scope="wireless", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.put(
+            scope="wireless",
+            operation_id="updateDeviceWirelessRadioSettings",
+            path=path,
+            json=payload,
         )
 
-    def get_device_wireless_status(self, *, serial: str) -> dict[str, Any] | None:
+    async def get_device_wireless_status(self, *, serial: str) -> dict[str, Any] | None:
         """Return the SSID statuses of an access point.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device-wireless-status
@@ -319,11 +335,13 @@ class Wireless:
         serial = urllib.parse.quote(str(serial), safe="")
         path = f"/devices/{serial}/wireless/status"
 
-        return self._session.get(
+        return await self._session.get(
             scope="wireless", operation_id="getDeviceWirelessStatus", path=path
         )
 
-    def create_device_wireless_zigbee_enrollment(self, *, serial: str) -> dict[str, Any] | None:
+    async def create_device_wireless_zigbee_enrollment(
+        self, *, serial: str
+    ) -> dict[str, Any] | None:
         """Enqueue a job to start enrolling door locks on zigbee configured wireless devices.
 
         https://developer.cisco.com/meraki/api-v1/#!create-device-wireless-zigbee-enrollment
@@ -335,11 +353,11 @@ class Wireless:
         serial = urllib.parse.quote(str(serial), safe="")
         path = f"/devices/{serial}/wireless/zigbee/enrollments"
 
-        return self._session.post(
+        return await self._session.post(
             scope="wireless", operation_id="createDeviceWirelessZigbeeEnrollment", path=path
         )
 
-    def get_device_wireless_zigbee_enrollment(
+    async def get_device_wireless_zigbee_enrollment(
         self, *, serial: str, enrollment_id: str
     ) -> dict[str, Any] | None:
         """Return an enrollment.
@@ -355,11 +373,11 @@ class Wireless:
         enrollment_id = urllib.parse.quote(str(enrollment_id), safe="")
         path = f"/devices/{serial}/wireless/zigbee/enrollments/{enrollment_id}"
 
-        return self._session.get(
+        return await self._session.get(
             scope="wireless", operation_id="getDeviceWirelessZigbeeEnrollment", path=path
         )
 
-    def get_network_wireless_air_marshal(
+    async def get_network_wireless_air_marshal(
         self, *, network_id: str, t0: str | None = None, timespan: float | None = None
     ) -> dict[str, Any] | None:
         """List Air Marshal scan results from a network.
@@ -384,11 +402,11 @@ class Wireless:
         if timespan is not None:
             params["timespan"] = timespan
 
-        return self._session.get(
-            scope="wireless", operation_id="{operation_id}", path=path, params=params
+        return await self._session.get(
+            scope="wireless", operation_id="getNetworkWirelessAirMarshal", path=path, params=params
         )
 
-    def create_network_wireless_air_marshal_rule(
+    async def create_network_wireless_air_marshal_rule(
         self, *, network_id: str, type_: str, match: dict
     ) -> dict[str, Any] | None:
         """Creates a new rule.
@@ -416,11 +434,14 @@ class Wireless:
         if match is not None:
             payload["match"] = match
 
-        return self._session.post(
-            scope="wireless", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.post(
+            scope="wireless",
+            operation_id="createNetworkWirelessAirMarshalRule",
+            path=path,
+            json=payload,
         )
 
-    def update_network_wireless_air_marshal_rule(
+    async def update_network_wireless_air_marshal_rule(
         self, *, network_id: str, rule_id: str, type_: str | None = None, match: dict | None = None
     ) -> dict[str, Any] | None:
         """Update a rule.
@@ -450,11 +471,16 @@ class Wireless:
         if match is not None:
             payload["match"] = match
 
-        return self._session.put(
-            scope="wireless", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.put(
+            scope="wireless",
+            operation_id="updateNetworkWirelessAirMarshalRule",
+            path=path,
+            json=payload,
         )
 
-    def delete_network_wireless_air_marshal_rule(self, *, network_id: str, rule_id: str) -> None:
+    async def delete_network_wireless_air_marshal_rule(
+        self, *, network_id: str, rule_id: str
+    ) -> None:
         """Delete an Air Marshal rule.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-network-wireless-air-marshal-rule
@@ -468,11 +494,11 @@ class Wireless:
         rule_id = urllib.parse.quote(str(rule_id), safe="")
         path = f"/networks/{network_id}/wireless/airMarshal/rules/{rule_id}"
 
-        return self._session.delete(
+        return await self._session.delete(
             scope="wireless", operation_id="deleteNetworkWirelessAirMarshalRule", path=path
         )
 
-    def update_network_wireless_air_marshal_settings(
+    async def update_network_wireless_air_marshal_settings(
         self, *, network_id: str, default_policy: str
     ) -> dict[str, Any] | None:
         """Updates Air Marshal settings.
@@ -497,11 +523,14 @@ class Wireless:
         if default_policy is not None:
             payload["defaultPolicy"] = default_policy
 
-        return self._session.put(
-            scope="wireless", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.put(
+            scope="wireless",
+            operation_id="updateNetworkWirelessAirMarshalSettings",
+            path=path,
+            json=payload,
         )
 
-    def get_network_wireless_alternate_management_interface(
+    async def get_network_wireless_alternate_management_interface(
         self, *, network_id: str
     ) -> dict[str, Any] | None:
         """Return alternate management interface and devices with IP assigned.
@@ -515,13 +544,13 @@ class Wireless:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/wireless/alternateManagementInterface"
 
-        return self._session.get(
+        return await self._session.get(
             scope="wireless",
             operation_id="getNetworkWirelessAlternateManagementInterface",
             path=path,
         )
 
-    def update_network_wireless_alternate_management_interface(
+    async def update_network_wireless_alternate_management_interface(
         self,
         *,
         network_id: str,
@@ -560,11 +589,14 @@ class Wireless:
         if access_points is not None:
             payload["accessPoints"] = access_points
 
-        return self._session.put(
-            scope="wireless", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.put(
+            scope="wireless",
+            operation_id="updateNetworkWirelessAlternateManagementInterface",
+            path=path,
+            json=payload,
         )
 
-    def get_network_wireless_billing(self, *, network_id: str) -> dict[str, Any] | None:
+    async def get_network_wireless_billing(self, *, network_id: str) -> dict[str, Any] | None:
         """Return the billing settings of this network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-billing
@@ -576,11 +608,11 @@ class Wireless:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/wireless/billing"
 
-        return self._session.get(
+        return await self._session.get(
             scope="wireless", operation_id="getNetworkWirelessBilling", path=path
         )
 
-    def update_network_wireless_billing(
+    async def update_network_wireless_billing(
         self, *, network_id: str, currency: str | None = None, plans: list | None = None
     ) -> dict[str, Any] | None:
         """Update the billing settings.
@@ -602,11 +634,13 @@ class Wireless:
         if plans is not None:
             payload["plans"] = plans
 
-        return self._session.put(
-            scope="wireless", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.put(
+            scope="wireless", operation_id="updateNetworkWirelessBilling", path=path, json=payload
         )
 
-    def get_network_wireless_bluetooth_settings(self, *, network_id: str) -> dict[str, Any] | None:
+    async def get_network_wireless_bluetooth_settings(
+        self, *, network_id: str
+    ) -> dict[str, Any] | None:
         """Return the Bluetooth settings for a network. <a href="https://documentation.meraki.com/MR/Bluetooth/Bluetooth_Low_Energy_(BLE)">Bluetooth settings</a> must be enabled on the network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-bluetooth-settings
@@ -618,11 +652,11 @@ class Wireless:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/wireless/bluetooth/settings"
 
-        return self._session.get(
+        return await self._session.get(
             scope="wireless", operation_id="getNetworkWirelessBluetoothSettings", path=path
         )
 
-    def update_network_wireless_bluetooth_settings(
+    async def update_network_wireless_bluetooth_settings(
         self,
         *,
         network_id: str,
@@ -673,11 +707,14 @@ class Wireless:
         if minor is not None:
             payload["minor"] = minor
 
-        return self._session.put(
-            scope="wireless", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.put(
+            scope="wireless",
+            operation_id="updateNetworkWirelessBluetoothSettings",
+            path=path,
+            json=payload,
         )
 
-    def get_network_wireless_channel_utilization_history(
+    async def get_network_wireless_channel_utilization_history(
         self,
         *,
         network_id: str,
@@ -746,11 +783,14 @@ class Wireless:
         if band is not None:
             params["band"] = band
 
-        return self._session.get(
-            scope="wireless", operation_id="{operation_id}", path=path, params=params
+        return await self._session.get(
+            scope="wireless",
+            operation_id="getNetworkWirelessChannelUtilizationHistory",
+            path=path,
+            params=params,
         )
 
-    def get_network_wireless_client_count_history(
+    async def get_network_wireless_client_count_history(
         self,
         *,
         network_id: str,
@@ -819,11 +859,14 @@ class Wireless:
         if ssid is not None:
             params["ssid"] = ssid
 
-        return self._session.get(
-            scope="wireless", operation_id="{operation_id}", path=path, params=params
+        return await self._session.get(
+            scope="wireless",
+            operation_id="getNetworkWirelessClientCountHistory",
+            path=path,
+            params=params,
         )
 
-    def get_network_wireless_clients_connection_stats(
+    async def get_network_wireless_clients_connection_stats(
         self,
         *,
         network_id: str,
@@ -873,11 +916,14 @@ class Wireless:
         if ap_tag is not None:
             params["apTag"] = ap_tag
 
-        return self._session.get(
-            scope="wireless", operation_id="{operation_id}", path=path, params=params
+        return await self._session.get(
+            scope="wireless",
+            operation_id="getNetworkWirelessClientsConnectionStats",
+            path=path,
+            params=params,
         )
 
-    def get_network_wireless_clients_latency_stats(
+    async def get_network_wireless_clients_latency_stats(
         self,
         *,
         network_id: str,
@@ -937,11 +983,14 @@ class Wireless:
         if fields is not None:
             params["fields"] = fields
 
-        return self._session.get(
-            scope="wireless", operation_id="{operation_id}", path=path, params=params
+        return await self._session.get(
+            scope="wireless",
+            operation_id="getNetworkWirelessClientsLatencyStats",
+            path=path,
+            params=params,
         )
 
-    def get_network_wireless_client_connection_stats(
+    async def get_network_wireless_client_connection_stats(
         self,
         *,
         network_id: str,
@@ -994,11 +1043,14 @@ class Wireless:
         if ap_tag is not None:
             params["apTag"] = ap_tag
 
-        return self._session.get(
-            scope="wireless", operation_id="{operation_id}", path=path, params=params
+        return await self._session.get(
+            scope="wireless",
+            operation_id="getNetworkWirelessClientConnectionStats",
+            path=path,
+            params=params,
         )
 
-    def get_network_wireless_client_connectivity_events(
+    async def get_network_wireless_client_connectivity_events(
         self,
         *,
         network_id: str,
@@ -1016,8 +1068,8 @@ class Wireless:
         included_severities: list | None = None,
         device_serial: str | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> AsyncPaginatedResponse[Any]:
         """List the wireless connectivity events for a client within a network in the timespan.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-client-connectivity-events
@@ -1103,14 +1155,14 @@ class Wireless:
 
         return self._session.get_pages(
             scope="wireless",
-            operation_id="{operation_id}",
+            operation_id="getNetworkWirelessClientConnectivityEvents",
             path=path,
             params=params,
             total_pages=total_pages,
             direction=direction,
         )
 
-    def get_network_wireless_client_latency_history(
+    async def get_network_wireless_client_latency_history(
         self,
         *,
         network_id: str,
@@ -1151,11 +1203,14 @@ class Wireless:
         if resolution is not None:
             params["resolution"] = resolution
 
-        return self._session.get(
-            scope="wireless", operation_id="{operation_id}", path=path, params=params
+        return await self._session.get(
+            scope="wireless",
+            operation_id="getNetworkWirelessClientLatencyHistory",
+            path=path,
+            params=params,
         )
 
-    def get_network_wireless_client_latency_stats(
+    async def get_network_wireless_client_latency_stats(
         self,
         *,
         network_id: str,
@@ -1218,11 +1273,14 @@ class Wireless:
         if fields is not None:
             params["fields"] = fields
 
-        return self._session.get(
-            scope="wireless", operation_id="{operation_id}", path=path, params=params
+        return await self._session.get(
+            scope="wireless",
+            operation_id="getNetworkWirelessClientLatencyStats",
+            path=path,
+            params=params,
         )
 
-    def get_network_wireless_connection_stats(
+    async def get_network_wireless_connection_stats(
         self,
         *,
         network_id: str,
@@ -1272,11 +1330,14 @@ class Wireless:
         if ap_tag is not None:
             params["apTag"] = ap_tag
 
-        return self._session.get(
-            scope="wireless", operation_id="{operation_id}", path=path, params=params
+        return await self._session.get(
+            scope="wireless",
+            operation_id="getNetworkWirelessConnectionStats",
+            path=path,
+            params=params,
         )
 
-    def get_network_wireless_data_rate_history(
+    async def get_network_wireless_data_rate_history(
         self,
         *,
         network_id: str,
@@ -1344,11 +1405,14 @@ class Wireless:
         if ssid is not None:
             params["ssid"] = ssid
 
-        return self._session.get(
-            scope="wireless", operation_id="{operation_id}", path=path, params=params
+        return await self._session.get(
+            scope="wireless",
+            operation_id="getNetworkWirelessDataRateHistory",
+            path=path,
+            params=params,
         )
 
-    def get_network_wireless_devices_connection_stats(
+    async def get_network_wireless_devices_connection_stats(
         self,
         *,
         network_id: str,
@@ -1398,11 +1462,14 @@ class Wireless:
         if ap_tag is not None:
             params["apTag"] = ap_tag
 
-        return self._session.get(
-            scope="wireless", operation_id="{operation_id}", path=path, params=params
+        return await self._session.get(
+            scope="wireless",
+            operation_id="getNetworkWirelessDevicesConnectionStats",
+            path=path,
+            params=params,
         )
 
-    def get_network_wireless_devices_latency_stats(
+    async def get_network_wireless_devices_latency_stats(
         self,
         *,
         network_id: str,
@@ -1462,11 +1529,14 @@ class Wireless:
         if fields is not None:
             params["fields"] = fields
 
-        return self._session.get(
-            scope="wireless", operation_id="{operation_id}", path=path, params=params
+        return await self._session.get(
+            scope="wireless",
+            operation_id="getNetworkWirelessDevicesLatencyStats",
+            path=path,
+            params=params,
         )
 
-    def get_network_wireless_electronic_shelf_label(
+    async def get_network_wireless_electronic_shelf_label(
         self, *, network_id: str
     ) -> dict[str, Any] | None:
         """Return the ESL settings of a wireless network.
@@ -1480,11 +1550,11 @@ class Wireless:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/wireless/electronicShelfLabel"
 
-        return self._session.get(
+        return await self._session.get(
             scope="wireless", operation_id="getNetworkWirelessElectronicShelfLabel", path=path
         )
 
-    def update_network_wireless_electronic_shelf_label(
+    async def update_network_wireless_electronic_shelf_label(
         self,
         *,
         network_id: str,
@@ -1519,11 +1589,14 @@ class Wireless:
         if mode is not None:
             payload["mode"] = mode
 
-        return self._session.put(
-            scope="wireless", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.put(
+            scope="wireless",
+            operation_id="updateNetworkWirelessElectronicShelfLabel",
+            path=path,
+            json=payload,
         )
 
-    def get_network_wireless_electronic_shelf_label_configured_devices(
+    async def get_network_wireless_electronic_shelf_label_configured_devices(
         self, *, network_id: str
     ) -> dict[str, Any] | None:
         """Get a list of all ESL eligible devices of a network.
@@ -1537,13 +1610,13 @@ class Wireless:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/wireless/electronicShelfLabel/configuredDevices"
 
-        return self._session.get(
+        return await self._session.get(
             scope="wireless",
             operation_id="getNetworkWirelessElectronicShelfLabelConfiguredDevices",
             path=path,
         )
 
-    def get_network_wireless_ethernet_ports_profiles(
+    async def get_network_wireless_ethernet_ports_profiles(
         self, *, network_id: str
     ) -> dict[str, Any] | None:
         """List the AP port profiles for this network.
@@ -1557,11 +1630,11 @@ class Wireless:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/wireless/ethernet/ports/profiles"
 
-        return self._session.get(
+        return await self._session.get(
             scope="wireless", operation_id="getNetworkWirelessEthernetPortsProfiles", path=path
         )
 
-    def create_network_wireless_ethernet_ports_profile(
+    async def create_network_wireless_ethernet_ports_profile(
         self, *, network_id: str, name: str, ports: list, usb_ports: list | None = None
     ) -> dict[str, Any] | None:
         """Create an AP port profile.
@@ -1586,11 +1659,14 @@ class Wireless:
         if usb_ports is not None:
             payload["usbPorts"] = usb_ports
 
-        return self._session.post(
-            scope="wireless", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.post(
+            scope="wireless",
+            operation_id="createNetworkWirelessEthernetPortsProfile",
+            path=path,
+            json=payload,
         )
 
-    def assign_network_wireless_ethernet_ports_profiles(
+    async def assign_network_wireless_ethernet_ports_profiles(
         self, *, network_id: str, serials: list, profile_id: str
     ) -> dict[str, Any] | None:
         """Assign AP port profile to list of APs.
@@ -1612,11 +1688,14 @@ class Wireless:
         if profile_id is not None:
             payload["profileId"] = profile_id
 
-        return self._session.post(
-            scope="wireless", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.post(
+            scope="wireless",
+            operation_id="assignNetworkWirelessEthernetPortsProfiles",
+            path=path,
+            json=payload,
         )
 
-    def set_network_wireless_ethernet_ports_profiles_default(
+    async def set_network_wireless_ethernet_ports_profiles_default(
         self, *, network_id: str, profile_id: str
     ) -> dict[str, Any] | None:
         """Set the AP port profile to be default for this network.
@@ -1635,11 +1714,14 @@ class Wireless:
         if profile_id is not None:
             payload["profileId"] = profile_id
 
-        return self._session.post(
-            scope="wireless", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.post(
+            scope="wireless",
+            operation_id="setNetworkWirelessEthernetPortsProfilesDefault",
+            path=path,
+            json=payload,
         )
 
-    def get_network_wireless_ethernet_ports_profile(
+    async def get_network_wireless_ethernet_ports_profile(
         self, *, network_id: str, profile_id: str
     ) -> dict[str, Any] | None:
         """Show the AP port profile by ID for this network.
@@ -1655,11 +1737,11 @@ class Wireless:
         profile_id = urllib.parse.quote(str(profile_id), safe="")
         path = f"/networks/{network_id}/wireless/ethernet/ports/profiles/{profile_id}"
 
-        return self._session.get(
+        return await self._session.get(
             scope="wireless", operation_id="getNetworkWirelessEthernetPortsProfile", path=path
         )
 
-    def update_network_wireless_ethernet_ports_profile(
+    async def update_network_wireless_ethernet_ports_profile(
         self,
         *,
         network_id: str,
@@ -1692,11 +1774,14 @@ class Wireless:
         if usb_ports is not None:
             payload["usbPorts"] = usb_ports
 
-        return self._session.put(
-            scope="wireless", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.put(
+            scope="wireless",
+            operation_id="updateNetworkWirelessEthernetPortsProfile",
+            path=path,
+            json=payload,
         )
 
-    def delete_network_wireless_ethernet_ports_profile(
+    async def delete_network_wireless_ethernet_ports_profile(
         self, *, network_id: str, profile_id: str
     ) -> None:
         """Delete an AP port profile.
@@ -1712,11 +1797,11 @@ class Wireless:
         profile_id = urllib.parse.quote(str(profile_id), safe="")
         path = f"/networks/{network_id}/wireless/ethernet/ports/profiles/{profile_id}"
 
-        return self._session.delete(
+        return await self._session.delete(
             scope="wireless", operation_id="deleteNetworkWirelessEthernetPortsProfile", path=path
         )
 
-    def get_network_wireless_failed_connections(
+    async def get_network_wireless_failed_connections(
         self,
         *,
         network_id: str,
@@ -1774,11 +1859,14 @@ class Wireless:
         if client_id is not None:
             params["clientId"] = client_id
 
-        return self._session.get(
-            scope="wireless", operation_id="{operation_id}", path=path, params=params
+        return await self._session.get(
+            scope="wireless",
+            operation_id="getNetworkWirelessFailedConnections",
+            path=path,
+            params=params,
         )
 
-    def get_network_wireless_latency_history(
+    async def get_network_wireless_latency_history(
         self,
         *,
         network_id: str,
@@ -1855,11 +1943,14 @@ class Wireless:
         if access_category is not None:
             params["accessCategory"] = access_category
 
-        return self._session.get(
-            scope="wireless", operation_id="{operation_id}", path=path, params=params
+        return await self._session.get(
+            scope="wireless",
+            operation_id="getNetworkWirelessLatencyHistory",
+            path=path,
+            params=params,
         )
 
-    def get_network_wireless_latency_stats(
+    async def get_network_wireless_latency_stats(
         self,
         *,
         network_id: str,
@@ -1919,11 +2010,14 @@ class Wireless:
         if fields is not None:
             params["fields"] = fields
 
-        return self._session.get(
-            scope="wireless", operation_id="{operation_id}", path=path, params=params
+        return await self._session.get(
+            scope="wireless",
+            operation_id="getNetworkWirelessLatencyStats",
+            path=path,
+            params=params,
         )
 
-    def update_network_wireless_location_scanning(
+    async def update_network_wireless_location_scanning(
         self, *, network_id: str, enabled: bool | None = None, api: dict | None = None
     ) -> dict[str, Any] | None:
         """Change scanning API settings.
@@ -1945,11 +2039,14 @@ class Wireless:
         if api is not None:
             payload["api"] = api
 
-        return self._session.put(
-            scope="wireless", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.put(
+            scope="wireless",
+            operation_id="updateNetworkWirelessLocationScanning",
+            path=path,
+            json=payload,
         )
 
-    def get_network_wireless_mesh_statuses(
+    async def get_network_wireless_mesh_statuses(
         self,
         *,
         network_id: str,
@@ -1957,8 +2054,8 @@ class Wireless:
         starting_after: str | None = None,
         ending_before: str | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> AsyncPaginatedResponse[Any]:
         """List wireless mesh statuses for repeaters.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-mesh-statuses
@@ -1993,14 +2090,14 @@ class Wireless:
 
         return self._session.get_pages(
             scope="wireless",
-            operation_id="{operation_id}",
+            operation_id="getNetworkWirelessMeshStatuses",
             path=path,
             params=params,
             total_pages=total_pages,
             direction=direction,
         )
 
-    def get_network_wireless_rf_profiles(
+    async def get_network_wireless_rf_profiles(
         self, *, network_id: str, include_template_profiles: bool | None = None
     ) -> dict[str, Any] | None:
         """List RF profiles for this network.
@@ -2022,11 +2119,11 @@ class Wireless:
         if include_template_profiles is not None:
             params["includeTemplateProfiles"] = include_template_profiles
 
-        return self._session.get(
-            scope="wireless", operation_id="{operation_id}", path=path, params=params
+        return await self._session.get(
+            scope="wireless", operation_id="getNetworkWirelessRfProfiles", path=path, params=params
         )
 
-    def create_network_wireless_rf_profile(
+    async def create_network_wireless_rf_profile(
         self,
         *,
         network_id: str,
@@ -2103,11 +2200,11 @@ class Wireless:
         if flex_radios is not None:
             payload["flexRadios"] = flex_radios
 
-        return self._session.post(
-            scope="wireless", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.post(
+            scope="wireless", operation_id="createNetworkWirelessRfProfile", path=path, json=payload
         )
 
-    def get_network_wireless_rf_profile(
+    async def get_network_wireless_rf_profile(
         self, *, network_id: str, rf_profile_id: str
     ) -> dict[str, Any] | None:
         """Return a RF profile.
@@ -2123,11 +2220,11 @@ class Wireless:
         rf_profile_id = urllib.parse.quote(str(rf_profile_id), safe="")
         path = f"/networks/{network_id}/wireless/rfProfiles/{rf_profile_id}"
 
-        return self._session.get(
+        return await self._session.get(
             scope="wireless", operation_id="getNetworkWirelessRfProfile", path=path
         )
 
-    def update_network_wireless_rf_profile(
+    async def update_network_wireless_rf_profile(
         self,
         *,
         network_id: str,
@@ -2217,11 +2314,13 @@ class Wireless:
         if flex_radios is not None:
             payload["flexRadios"] = flex_radios
 
-        return self._session.put(
-            scope="wireless", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.put(
+            scope="wireless", operation_id="updateNetworkWirelessRfProfile", path=path, json=payload
         )
 
-    def delete_network_wireless_rf_profile(self, *, network_id: str, rf_profile_id: str) -> None:
+    async def delete_network_wireless_rf_profile(
+        self, *, network_id: str, rf_profile_id: str
+    ) -> None:
         """Delete a RF Profile.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-network-wireless-rf-profile
@@ -2235,11 +2334,11 @@ class Wireless:
         rf_profile_id = urllib.parse.quote(str(rf_profile_id), safe="")
         path = f"/networks/{network_id}/wireless/rfProfiles/{rf_profile_id}"
 
-        return self._session.delete(
+        return await self._session.delete(
             scope="wireless", operation_id="deleteNetworkWirelessRfProfile", path=path
         )
 
-    def get_network_wireless_settings(self, *, network_id: str) -> dict[str, Any] | None:
+    async def get_network_wireless_settings(self, *, network_id: str) -> dict[str, Any] | None:
         """Return the wireless settings for a network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-settings
@@ -2251,11 +2350,11 @@ class Wireless:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/wireless/settings"
 
-        return self._session.get(
+        return await self._session.get(
             scope="wireless", operation_id="getNetworkWirelessSettings", path=path
         )
 
-    def update_network_wireless_settings(
+    async def update_network_wireless_settings(
         self,
         *,
         network_id: str,
@@ -2307,11 +2406,11 @@ class Wireless:
         if named_vlans is not None:
             payload["namedVlans"] = named_vlans
 
-        return self._session.put(
-            scope="wireless", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.put(
+            scope="wireless", operation_id="updateNetworkWirelessSettings", path=path, json=payload
         )
 
-    def get_network_wireless_signal_quality_history(
+    async def get_network_wireless_signal_quality_history(
         self,
         *,
         network_id: str,
@@ -2380,11 +2479,14 @@ class Wireless:
         if ssid is not None:
             params["ssid"] = ssid
 
-        return self._session.get(
-            scope="wireless", operation_id="{operation_id}", path=path, params=params
+        return await self._session.get(
+            scope="wireless",
+            operation_id="getNetworkWirelessSignalQualityHistory",
+            path=path,
+            params=params,
         )
 
-    def get_network_wireless_ssids(self, *, network_id: str) -> dict[str, Any] | None:
+    async def get_network_wireless_ssids(self, *, network_id: str) -> dict[str, Any] | None:
         """List the MR SSIDs in a network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-ssids
@@ -2396,11 +2498,13 @@ class Wireless:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/wireless/ssids"
 
-        return self._session.get(
+        return await self._session.get(
             scope="wireless", operation_id="getNetworkWirelessSsids", path=path
         )
 
-    def get_network_wireless_ssid(self, *, network_id: str, number: str) -> dict[str, Any] | None:
+    async def get_network_wireless_ssid(
+        self, *, network_id: str, number: str
+    ) -> dict[str, Any] | None:
         """Return a single MR SSID.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-ssid
@@ -2414,9 +2518,11 @@ class Wireless:
         number = urllib.parse.quote(str(number), safe="")
         path = f"/networks/{network_id}/wireless/ssids/{number}"
 
-        return self._session.get(scope="wireless", operation_id="getNetworkWirelessSsid", path=path)
+        return await self._session.get(
+            scope="wireless", operation_id="getNetworkWirelessSsid", path=path
+        )
 
-    def update_network_wireless_ssid(
+    async def update_network_wireless_ssid(
         self,
         *,
         network_id: str,
@@ -2854,11 +2960,11 @@ class Wireless:
         if radius_accounting_start_delay is not None:
             payload["radiusAccountingStartDelay"] = radius_accounting_start_delay
 
-        return self._session.put(
-            scope="wireless", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.put(
+            scope="wireless", operation_id="updateNetworkWirelessSsid", path=path, json=payload
         )
 
-    def get_network_wireless_ssid_bonjour_forwarding(
+    async def get_network_wireless_ssid_bonjour_forwarding(
         self, *, network_id: str, number: str
     ) -> dict[str, Any] | None:
         """List the Bonjour forwarding setting and rules for the SSID.
@@ -2874,11 +2980,11 @@ class Wireless:
         number = urllib.parse.quote(str(number), safe="")
         path = f"/networks/{network_id}/wireless/ssids/{number}/bonjourForwarding"
 
-        return self._session.get(
+        return await self._session.get(
             scope="wireless", operation_id="getNetworkWirelessSsidBonjourForwarding", path=path
         )
 
-    def update_network_wireless_ssid_bonjour_forwarding(
+    async def update_network_wireless_ssid_bonjour_forwarding(
         self,
         *,
         network_id: str,
@@ -2911,11 +3017,14 @@ class Wireless:
         if exception is not None:
             payload["exception"] = exception
 
-        return self._session.put(
-            scope="wireless", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.put(
+            scope="wireless",
+            operation_id="updateNetworkWirelessSsidBonjourForwarding",
+            path=path,
+            json=payload,
         )
 
-    def get_network_wireless_ssid_device_type_group_policies(
+    async def get_network_wireless_ssid_device_type_group_policies(
         self, *, network_id: str, number: str
     ) -> dict[str, Any] | None:
         """List the device type group policies for the SSID.
@@ -2931,13 +3040,13 @@ class Wireless:
         number = urllib.parse.quote(str(number), safe="")
         path = f"/networks/{network_id}/wireless/ssids/{number}/deviceTypeGroupPolicies"
 
-        return self._session.get(
+        return await self._session.get(
             scope="wireless",
             operation_id="getNetworkWirelessSsidDeviceTypeGroupPolicies",
             path=path,
         )
 
-    def update_network_wireless_ssid_device_type_group_policies(
+    async def update_network_wireless_ssid_device_type_group_policies(
         self,
         *,
         network_id: str,
@@ -2966,11 +3075,14 @@ class Wireless:
         if device_type_policies is not None:
             payload["deviceTypePolicies"] = device_type_policies
 
-        return self._session.put(
-            scope="wireless", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.put(
+            scope="wireless",
+            operation_id="updateNetworkWirelessSsidDeviceTypeGroupPolicies",
+            path=path,
+            json=payload,
         )
 
-    def get_network_wireless_ssid_eap_override(
+    async def get_network_wireless_ssid_eap_override(
         self, *, network_id: str, number: str
     ) -> dict[str, Any] | None:
         """Return the EAP overridden parameters for an SSID.
@@ -2986,11 +3098,11 @@ class Wireless:
         number = urllib.parse.quote(str(number), safe="")
         path = f"/networks/{network_id}/wireless/ssids/{number}/eapOverride"
 
-        return self._session.get(
+        return await self._session.get(
             scope="wireless", operation_id="getNetworkWirelessSsidEapOverride", path=path
         )
 
-    def update_network_wireless_ssid_eap_override(
+    async def update_network_wireless_ssid_eap_override(
         self,
         *,
         network_id: str,
@@ -3027,11 +3139,14 @@ class Wireless:
         if eapol_key is not None:
             payload["eapolKey"] = eapol_key
 
-        return self._session.put(
-            scope="wireless", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.put(
+            scope="wireless",
+            operation_id="updateNetworkWirelessSsidEapOverride",
+            path=path,
+            json=payload,
         )
 
-    def get_network_wireless_ssid_firewall_l3_firewall_rules(
+    async def get_network_wireless_ssid_firewall_l3_firewall_rules(
         self, *, network_id: str, number: str
     ) -> dict[str, Any] | None:
         """Return the L3 firewall rules for an SSID on an MR network.
@@ -3047,13 +3162,13 @@ class Wireless:
         number = urllib.parse.quote(str(number), safe="")
         path = f"/networks/{network_id}/wireless/ssids/{number}/firewall/l3FirewallRules"
 
-        return self._session.get(
+        return await self._session.get(
             scope="wireless",
             operation_id="getNetworkWirelessSsidFirewallL3FirewallRules",
             path=path,
         )
 
-    def update_network_wireless_ssid_firewall_l3_firewall_rules(
+    async def update_network_wireless_ssid_firewall_l3_firewall_rules(
         self,
         *,
         network_id: str,
@@ -3083,11 +3198,14 @@ class Wireless:
         if allow_lan_access is not None:
             payload["allowLanAccess"] = allow_lan_access
 
-        return self._session.put(
-            scope="wireless", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.put(
+            scope="wireless",
+            operation_id="updateNetworkWirelessSsidFirewallL3FirewallRules",
+            path=path,
+            json=payload,
         )
 
-    def get_network_wireless_ssid_firewall_l7_firewall_rules(
+    async def get_network_wireless_ssid_firewall_l7_firewall_rules(
         self, *, network_id: str, number: str
     ) -> dict[str, Any] | None:
         """Return the L7 firewall rules for an SSID on an MR network.
@@ -3103,13 +3221,13 @@ class Wireless:
         number = urllib.parse.quote(str(number), safe="")
         path = f"/networks/{network_id}/wireless/ssids/{number}/firewall/l7FirewallRules"
 
-        return self._session.get(
+        return await self._session.get(
             scope="wireless",
             operation_id="getNetworkWirelessSsidFirewallL7FirewallRules",
             path=path,
         )
 
-    def update_network_wireless_ssid_firewall_l7_firewall_rules(
+    async def update_network_wireless_ssid_firewall_l7_firewall_rules(
         self, *, network_id: str, number: str, rules: list | None = None
     ) -> dict[str, Any] | None:
         """Update the L7 firewall rules of an SSID on an MR network.
@@ -3132,11 +3250,14 @@ class Wireless:
         if rules is not None:
             payload["rules"] = rules
 
-        return self._session.put(
-            scope="wireless", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.put(
+            scope="wireless",
+            operation_id="updateNetworkWirelessSsidFirewallL7FirewallRules",
+            path=path,
+            json=payload,
         )
 
-    def get_network_wireless_ssid_hotspot20(
+    async def get_network_wireless_ssid_hotspot20(
         self, *, network_id: str, number: str
     ) -> dict[str, Any] | None:
         """Return the Hotspot 2.0 settings for an SSID.
@@ -3152,11 +3273,11 @@ class Wireless:
         number = urllib.parse.quote(str(number), safe="")
         path = f"/networks/{network_id}/wireless/ssids/{number}/hotspot20"
 
-        return self._session.get(
+        return await self._session.get(
             scope="wireless", operation_id="getNetworkWirelessSsidHotspot20", path=path
         )
 
-    def update_network_wireless_ssid_hotspot20(
+    async def update_network_wireless_ssid_hotspot20(
         self,
         *,
         network_id: str,
@@ -3228,11 +3349,14 @@ class Wireless:
         if nai_realms is not None:
             payload["naiRealms"] = nai_realms
 
-        return self._session.put(
-            scope="wireless", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.put(
+            scope="wireless",
+            operation_id="updateNetworkWirelessSsidHotspot20",
+            path=path,
+            json=payload,
         )
 
-    def get_network_wireless_ssid_identity_psks(
+    async def get_network_wireless_ssid_identity_psks(
         self, *, network_id: str, number: str
     ) -> dict[str, Any] | None:
         """List all Identity PSKs in a wireless network.
@@ -3248,11 +3372,11 @@ class Wireless:
         number = urllib.parse.quote(str(number), safe="")
         path = f"/networks/{network_id}/wireless/ssids/{number}/identityPsks"
 
-        return self._session.get(
+        return await self._session.get(
             scope="wireless", operation_id="getNetworkWirelessSsidIdentityPsks", path=path
         )
 
-    def create_network_wireless_ssid_identity_psk(
+    async def create_network_wireless_ssid_identity_psk(
         self,
         *,
         network_id: str,
@@ -3290,11 +3414,14 @@ class Wireless:
         if expires_at is not None:
             payload["expiresAt"] = expires_at
 
-        return self._session.post(
-            scope="wireless", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.post(
+            scope="wireless",
+            operation_id="createNetworkWirelessSsidIdentityPsk",
+            path=path,
+            json=payload,
         )
 
-    def get_network_wireless_ssid_identity_psk(
+    async def get_network_wireless_ssid_identity_psk(
         self, *, network_id: str, number: str, identity_psk_id: str
     ) -> dict[str, Any] | None:
         """Return an Identity PSK.
@@ -3312,11 +3439,11 @@ class Wireless:
         identity_psk_id = urllib.parse.quote(str(identity_psk_id), safe="")
         path = f"/networks/{network_id}/wireless/ssids/{number}/identityPsks/{identity_psk_id}"
 
-        return self._session.get(
+        return await self._session.get(
             scope="wireless", operation_id="getNetworkWirelessSsidIdentityPsk", path=path
         )
 
-    def update_network_wireless_ssid_identity_psk(
+    async def update_network_wireless_ssid_identity_psk(
         self,
         *,
         network_id: str,
@@ -3356,11 +3483,14 @@ class Wireless:
         if expires_at is not None:
             payload["expiresAt"] = expires_at
 
-        return self._session.put(
-            scope="wireless", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.put(
+            scope="wireless",
+            operation_id="updateNetworkWirelessSsidIdentityPsk",
+            path=path,
+            json=payload,
         )
 
-    def delete_network_wireless_ssid_identity_psk(
+    async def delete_network_wireless_ssid_identity_psk(
         self, *, network_id: str, number: str, identity_psk_id: str
     ) -> None:
         """Delete an Identity PSK.
@@ -3378,11 +3508,11 @@ class Wireless:
         identity_psk_id = urllib.parse.quote(str(identity_psk_id), safe="")
         path = f"/networks/{network_id}/wireless/ssids/{number}/identityPsks/{identity_psk_id}"
 
-        return self._session.delete(
+        return await self._session.delete(
             scope="wireless", operation_id="deleteNetworkWirelessSsidIdentityPsk", path=path
         )
 
-    def update_network_wireless_ssid_open_roaming(
+    async def update_network_wireless_ssid_open_roaming(
         self,
         *,
         network_id: str,
@@ -3411,11 +3541,14 @@ class Wireless:
         if tenant_id is not None:
             payload["tenantId"] = tenant_id
 
-        return self._session.put(
-            scope="wireless", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.put(
+            scope="wireless",
+            operation_id="updateNetworkWirelessSsidOpenRoaming",
+            path=path,
+            json=payload,
         )
 
-    def get_network_wireless_ssid_schedules(
+    async def get_network_wireless_ssid_schedules(
         self, *, network_id: str, number: str
     ) -> dict[str, Any] | None:
         """List the outage schedule for the SSID.
@@ -3431,11 +3564,11 @@ class Wireless:
         number = urllib.parse.quote(str(number), safe="")
         path = f"/networks/{network_id}/wireless/ssids/{number}/schedules"
 
-        return self._session.get(
+        return await self._session.get(
             scope="wireless", operation_id="getNetworkWirelessSsidSchedules", path=path
         )
 
-    def update_network_wireless_ssid_schedules(
+    async def update_network_wireless_ssid_schedules(
         self,
         *,
         network_id: str,
@@ -3472,11 +3605,14 @@ class Wireless:
         if ranges_in_seconds is not None:
             payload["rangesInSeconds"] = ranges_in_seconds
 
-        return self._session.put(
-            scope="wireless", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.put(
+            scope="wireless",
+            operation_id="updateNetworkWirelessSsidSchedules",
+            path=path,
+            json=payload,
         )
 
-    def get_network_wireless_ssid_splash_settings(
+    async def get_network_wireless_ssid_splash_settings(
         self, *, network_id: str, number: str
     ) -> dict[str, Any] | None:
         """Display the splash page settings for the given SSID.
@@ -3492,11 +3628,11 @@ class Wireless:
         number = urllib.parse.quote(str(number), safe="")
         path = f"/networks/{network_id}/wireless/ssids/{number}/splash/settings"
 
-        return self._session.get(
+        return await self._session.get(
             scope="wireless", operation_id="getNetworkWirelessSsidSplashSettings", path=path
         )
 
-    def update_network_wireless_ssid_splash_settings(
+    async def update_network_wireless_ssid_splash_settings(
         self,
         *,
         network_id: str,
@@ -3627,11 +3763,14 @@ class Wireless:
         if self_registration is not None:
             payload["selfRegistration"] = self_registration
 
-        return self._session.put(
-            scope="wireless", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.put(
+            scope="wireless",
+            operation_id="updateNetworkWirelessSsidSplashSettings",
+            path=path,
+            json=payload,
         )
 
-    def get_network_wireless_ssid_traffic_shaping_rules(
+    async def get_network_wireless_ssid_traffic_shaping_rules(
         self, *, network_id: str, number: str
     ) -> dict[str, Any] | None:
         """Display the traffic shaping settings for a SSID on an MR network.
@@ -3647,11 +3786,11 @@ class Wireless:
         number = urllib.parse.quote(str(number), safe="")
         path = f"/networks/{network_id}/wireless/ssids/{number}/trafficShaping/rules"
 
-        return self._session.get(
+        return await self._session.get(
             scope="wireless", operation_id="getNetworkWirelessSsidTrafficShapingRules", path=path
         )
 
-    def update_network_wireless_ssid_traffic_shaping_rules(
+    async def update_network_wireless_ssid_traffic_shaping_rules(
         self,
         *,
         network_id: str,
@@ -3690,11 +3829,14 @@ class Wireless:
         if rules is not None:
             payload["rules"] = rules
 
-        return self._session.put(
-            scope="wireless", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.put(
+            scope="wireless",
+            operation_id="updateNetworkWirelessSsidTrafficShapingRules",
+            path=path,
+            json=payload,
         )
 
-    def get_network_wireless_ssid_vpn(
+    async def get_network_wireless_ssid_vpn(
         self, *, network_id: str, number: str
     ) -> dict[str, Any] | None:
         """List the VPN settings for the SSID.
@@ -3710,11 +3852,11 @@ class Wireless:
         number = urllib.parse.quote(str(number), safe="")
         path = f"/networks/{network_id}/wireless/ssids/{number}/vpn"
 
-        return self._session.get(
+        return await self._session.get(
             scope="wireless", operation_id="getNetworkWirelessSsidVpn", path=path
         )
 
-    def update_network_wireless_ssid_vpn(
+    async def update_network_wireless_ssid_vpn(
         self,
         *,
         network_id: str,
@@ -3748,11 +3890,11 @@ class Wireless:
         if failover is not None:
             payload["failover"] = failover
 
-        return self._session.put(
-            scope="wireless", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.put(
+            scope="wireless", operation_id="updateNetworkWirelessSsidVpn", path=path, json=payload
         )
 
-    def get_network_wireless_usage_history(
+    async def get_network_wireless_usage_history(
         self,
         *,
         network_id: str,
@@ -3822,11 +3964,14 @@ class Wireless:
         if ssid is not None:
             params["ssid"] = ssid
 
-        return self._session.get(
-            scope="wireless", operation_id="{operation_id}", path=path, params=params
+        return await self._session.get(
+            scope="wireless",
+            operation_id="getNetworkWirelessUsageHistory",
+            path=path,
+            params=params,
         )
 
-    def update_network_wireless_zigbee(
+    async def update_network_wireless_zigbee(
         self,
         *,
         network_id: str,
@@ -3860,11 +4005,11 @@ class Wireless:
         if defaults is not None:
             payload["defaults"] = defaults
 
-        return self._session.put(
-            scope="wireless", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.put(
+            scope="wireless", operation_id="updateNetworkWirelessZigbee", path=path, json=payload
         )
 
-    def get_organization_wireless_air_marshal_rules(
+    async def get_organization_wireless_air_marshal_rules(
         self,
         *,
         organization_id: str,
@@ -3873,8 +4018,8 @@ class Wireless:
         starting_after: str | None = None,
         ending_before: str | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> AsyncPaginatedResponse[Any]:
         """Returns the current Air Marshal rules for this organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-air-marshal-rules
@@ -3912,14 +4057,14 @@ class Wireless:
 
         return self._session.get_pages(
             scope="wireless",
-            operation_id="{operation_id}",
+            operation_id="getOrganizationWirelessAirMarshalRules",
             path=path,
             params=params,
             total_pages=total_pages,
             direction=direction,
         )
 
-    def get_organization_wireless_air_marshal_settings_by_network(
+    async def get_organization_wireless_air_marshal_settings_by_network(
         self,
         *,
         organization_id: str,
@@ -3928,8 +4073,8 @@ class Wireless:
         starting_after: str | None = None,
         ending_before: str | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> AsyncPaginatedResponse[Any]:
         """Returns the current Air Marshal settings for this network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-air-marshal-settings-by-network
@@ -3967,14 +4112,14 @@ class Wireless:
 
         return self._session.get_pages(
             scope="wireless",
-            operation_id="{operation_id}",
+            operation_id="getOrganizationWirelessAirMarshalSettingsByNetwork",
             path=path,
             params=params,
             total_pages=total_pages,
             direction=direction,
         )
 
-    def get_organization_wireless_clients_overview_by_device(
+    async def get_organization_wireless_clients_overview_by_device(
         self,
         *,
         organization_id: str,
@@ -3985,8 +4130,8 @@ class Wireless:
         starting_after: str | None = None,
         ending_before: str | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> AsyncPaginatedResponse[Any]:
         """List access point client count at the moment in an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-clients-overview-by-device
@@ -4033,14 +4178,14 @@ class Wireless:
 
         return self._session.get_pages(
             scope="wireless",
-            operation_id="{operation_id}",
+            operation_id="getOrganizationWirelessClientsOverviewByDevice",
             path=path,
             params=params,
             total_pages=total_pages,
             direction=direction,
         )
 
-    def get_organization_wireless_devices_channel_utilization_by_device(
+    async def get_organization_wireless_devices_channel_utilization_by_device(
         self,
         *,
         organization_id: str,
@@ -4054,8 +4199,8 @@ class Wireless:
         timespan: float | None = None,
         interval: int | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> AsyncPaginatedResponse[Any]:
         """Get average channel utilization for all bands in a network, split by AP.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-devices-channel-utilization-by-device
@@ -4112,14 +4257,14 @@ class Wireless:
 
         return self._session.get_pages(
             scope="wireless",
-            operation_id="{operation_id}",
+            operation_id="getOrganizationWirelessDevicesChannelUtilizationByDevice",
             path=path,
             params=params,
             total_pages=total_pages,
             direction=direction,
         )
 
-    def get_organization_wireless_devices_channel_utilization_by_network(
+    async def get_organization_wireless_devices_channel_utilization_by_network(
         self,
         *,
         organization_id: str,
@@ -4133,8 +4278,8 @@ class Wireless:
         timespan: float | None = None,
         interval: int | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> AsyncPaginatedResponse[Any]:
         """Get average channel utilization across all bands for all networks in the organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-devices-channel-utilization-by-network
@@ -4191,14 +4336,14 @@ class Wireless:
 
         return self._session.get_pages(
             scope="wireless",
-            operation_id="{operation_id}",
+            operation_id="getOrganizationWirelessDevicesChannelUtilizationByNetwork",
             path=path,
             params=params,
             total_pages=total_pages,
             direction=direction,
         )
 
-    def get_organization_wireless_devices_channel_utilization_history_by_device_by_interval(
+    async def get_organization_wireless_devices_channel_utilization_history_by_device_by_interval(
         self,
         *,
         organization_id: str,
@@ -4212,8 +4357,8 @@ class Wireless:
         timespan: float | None = None,
         interval: int | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> AsyncPaginatedResponse[Any]:
         """Get a time-series of average channel utilization for all bands, segmented by device.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-devices-channel-utilization-history-by-device-by-interval
@@ -4270,14 +4415,14 @@ class Wireless:
 
         return self._session.get_pages(
             scope="wireless",
-            operation_id="{operation_id}",
+            operation_id="getOrganizationWirelessDevicesChannelUtilizationHistoryByDeviceByInterval",
             path=path,
             params=params,
             total_pages=total_pages,
             direction=direction,
         )
 
-    def get_organization_wireless_devices_channel_utilization_history_by_network_by_interval(
+    async def get_organization_wireless_devices_channel_utilization_history_by_network_by_interval(
         self,
         *,
         organization_id: str,
@@ -4291,8 +4436,8 @@ class Wireless:
         timespan: float | None = None,
         interval: int | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> AsyncPaginatedResponse[Any]:
         """Get a time-series of average channel utilization for all bands.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-devices-channel-utilization-history-by-network-by-interval
@@ -4349,14 +4494,14 @@ class Wireless:
 
         return self._session.get_pages(
             scope="wireless",
-            operation_id="{operation_id}",
+            operation_id="getOrganizationWirelessDevicesChannelUtilizationHistoryByNetworkByInterval",
             path=path,
             params=params,
             total_pages=total_pages,
             direction=direction,
         )
 
-    def get_organization_wireless_devices_ethernet_statuses(
+    async def get_organization_wireless_devices_ethernet_statuses(
         self,
         *,
         organization_id: str,
@@ -4365,8 +4510,8 @@ class Wireless:
         ending_before: str | None = None,
         network_ids: list | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> AsyncPaginatedResponse[Any]:
         """List the most recent Ethernet link speed, duplex, aggregation and power mode and status information for wireless devices.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-devices-ethernet-statuses
@@ -4405,14 +4550,14 @@ class Wireless:
 
         return self._session.get_pages(
             scope="wireless",
-            operation_id="{operation_id}",
+            operation_id="getOrganizationWirelessDevicesEthernetStatuses",
             path=path,
             params=params,
             total_pages=total_pages,
             direction=direction,
         )
 
-    def get_organization_wireless_devices_packet_loss_by_client(
+    async def get_organization_wireless_devices_packet_loss_by_client(
         self,
         *,
         organization_id: str,
@@ -4427,8 +4572,8 @@ class Wireless:
         t1: str | None = None,
         timespan: float | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> AsyncPaginatedResponse[Any]:
         """Get average packet loss for the given timespan for all clients in the organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-devices-packet-loss-by-client
@@ -4488,14 +4633,14 @@ class Wireless:
 
         return self._session.get_pages(
             scope="wireless",
-            operation_id="{operation_id}",
+            operation_id="getOrganizationWirelessDevicesPacketLossByClient",
             path=path,
             params=params,
             total_pages=total_pages,
             direction=direction,
         )
 
-    def get_organization_wireless_devices_packet_loss_by_device(
+    async def get_organization_wireless_devices_packet_loss_by_device(
         self,
         *,
         organization_id: str,
@@ -4510,8 +4655,8 @@ class Wireless:
         t1: str | None = None,
         timespan: float | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> AsyncPaginatedResponse[Any]:
         """Get average packet loss for the given timespan for all devices in the organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-devices-packet-loss-by-device
@@ -4571,14 +4716,14 @@ class Wireless:
 
         return self._session.get_pages(
             scope="wireless",
-            operation_id="{operation_id}",
+            operation_id="getOrganizationWirelessDevicesPacketLossByDevice",
             path=path,
             params=params,
             total_pages=total_pages,
             direction=direction,
         )
 
-    def get_organization_wireless_devices_packet_loss_by_network(
+    async def get_organization_wireless_devices_packet_loss_by_network(
         self,
         *,
         organization_id: str,
@@ -4593,8 +4738,8 @@ class Wireless:
         t1: str | None = None,
         timespan: float | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> AsyncPaginatedResponse[Any]:
         """Get average packet loss for the given timespan for all networks in the organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-devices-packet-loss-by-network
@@ -4654,14 +4799,14 @@ class Wireless:
 
         return self._session.get_pages(
             scope="wireless",
-            operation_id="{operation_id}",
+            operation_id="getOrganizationWirelessDevicesPacketLossByNetwork",
             path=path,
             params=params,
             total_pages=total_pages,
             direction=direction,
         )
 
-    def get_organization_wireless_devices_power_mode_history(
+    async def get_organization_wireless_devices_power_mode_history(
         self,
         *,
         organization_id: str,
@@ -4674,8 +4819,8 @@ class Wireless:
         network_ids: list | None = None,
         serials: list | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> AsyncPaginatedResponse[Any]:
         """Return a record of power mode changes for wireless devices in the organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-devices-power-mode-history
@@ -4730,14 +4875,14 @@ class Wireless:
 
         return self._session.get_pages(
             scope="wireless",
-            operation_id="{operation_id}",
+            operation_id="getOrganizationWirelessDevicesPowerModeHistory",
             path=path,
             params=params,
             total_pages=total_pages,
             direction=direction,
         )
 
-    def get_organization_wireless_devices_radsec_certificates_authorities(
+    async def get_organization_wireless_devices_radsec_certificates_authorities(
         self, *, organization_id: str, certificate_authority_ids: list | None = None
     ) -> dict[str, Any] | None:
         """Query for details on the organization's RADSEC device Certificate Authority certificates (CAs).
@@ -4757,11 +4902,14 @@ class Wireless:
         if certificate_authority_ids is not None:
             params["certificateAuthorityIds[]"] = certificate_authority_ids
 
-        return self._session.get(
-            scope="wireless", operation_id="{operation_id}", path=path, params=params
+        return await self._session.get(
+            scope="wireless",
+            operation_id="getOrganizationWirelessDevicesRadsecCertificatesAuthorities",
+            path=path,
+            params=params,
         )
 
-    def update_organization_wireless_devices_radsec_certificates_authorities(
+    async def update_organization_wireless_devices_radsec_certificates_authorities(
         self,
         *,
         organization_id: str,
@@ -4788,11 +4936,14 @@ class Wireless:
         if certificate_authority_id is not None:
             payload["certificateAuthorityId"] = certificate_authority_id
 
-        return self._session.put(
-            scope="wireless", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.put(
+            scope="wireless",
+            operation_id="updateOrganizationWirelessDevicesRadsecCertificatesAuthorities",
+            path=path,
+            json=payload,
         )
 
-    def create_organization_wireless_devices_radsec_certificates_authority(
+    async def create_organization_wireless_devices_radsec_certificates_authority(
         self, *, organization_id: str
     ) -> dict[str, Any] | None:
         """Create an organization's RADSEC device Certificate Authority (CA).
@@ -4806,13 +4957,13 @@ class Wireless:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         path = f"/organizations/{organization_id}/wireless/devices/radsec/certificates/authorities"
 
-        return self._session.post(
+        return await self._session.post(
             scope="wireless",
             operation_id="createOrganizationWirelessDevicesRadsecCertificatesAuthority",
             path=path,
         )
 
-    def get_organization_wireless_devices_radsec_certificates_authorities_crls(
+    async def get_organization_wireless_devices_radsec_certificates_authorities_crls(
         self, *, organization_id: str, certificate_authority_ids: list | None = None
     ) -> dict[str, Any] | None:
         """Query for certificate revocation list (CRL) for the organization's RADSEC device Certificate Authorities (CAs).
@@ -4832,11 +4983,14 @@ class Wireless:
         if certificate_authority_ids is not None:
             params["certificateAuthorityIds[]"] = certificate_authority_ids
 
-        return self._session.get(
-            scope="wireless", operation_id="{operation_id}", path=path, params=params
+        return await self._session.get(
+            scope="wireless",
+            operation_id="getOrganizationWirelessDevicesRadsecCertificatesAuthoritiesCrls",
+            path=path,
+            params=params,
         )
 
-    def get_organization_wireless_devices_radsec_certificates_authorities_crls_deltas(
+    async def get_organization_wireless_devices_radsec_certificates_authorities_crls_deltas(
         self, *, organization_id: str, certificate_authority_ids: list | None = None
     ) -> dict[str, Any] | None:
         """Query for all delta certificate revocation list (CRL) for the organization's RADSEC device Certificate Authority (CA) with the given id.
@@ -4856,11 +5010,14 @@ class Wireless:
         if certificate_authority_ids is not None:
             params["certificateAuthorityIds[]"] = certificate_authority_ids
 
-        return self._session.get(
-            scope="wireless", operation_id="{operation_id}", path=path, params=params
+        return await self._session.get(
+            scope="wireless",
+            operation_id="getOrganizationWirelessDevicesRadsecCertificatesAuthoritiesCrlsDeltas",
+            path=path,
+            params=params,
         )
 
-    def get_organization_wireless_devices_system_cpu_load_history(
+    async def get_organization_wireless_devices_system_cpu_load_history(
         self,
         *,
         organization_id: str,
@@ -4873,8 +5030,8 @@ class Wireless:
         network_ids: list | None = None,
         serials: list | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> AsyncPaginatedResponse[Any]:
         """Return the CPU Load history for a list of wireless devices in the organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-devices-system-cpu-load-history
@@ -4929,14 +5086,14 @@ class Wireless:
 
         return self._session.get_pages(
             scope="wireless",
-            operation_id="{operation_id}",
+            operation_id="getOrganizationWirelessDevicesSystemCpuLoadHistory",
             path=path,
             params=params,
             total_pages=total_pages,
             direction=direction,
         )
 
-    def get_organization_wireless_devices_wireless_controllers_by_device(
+    async def get_organization_wireless_devices_wireless_controllers_by_device(
         self,
         *,
         organization_id: str,
@@ -4947,8 +5104,8 @@ class Wireless:
         starting_after: str | None = None,
         ending_before: str | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> AsyncPaginatedResponse[Any]:
         """List of Catalyst access points information.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-devices-wireless-controllers-by-device
@@ -4995,14 +5152,14 @@ class Wireless:
 
         return self._session.get_pages(
             scope="wireless",
-            operation_id="{operation_id}",
+            operation_id="getOrganizationWirelessDevicesWirelessControllersByDevice",
             path=path,
             params=params,
             total_pages=total_pages,
             direction=direction,
         )
 
-    def get_organization_wireless_location_scanning_by_network(
+    async def get_organization_wireless_location_scanning_by_network(
         self,
         *,
         organization_id: str,
@@ -5011,8 +5168,8 @@ class Wireless:
         ending_before: str | None = None,
         network_ids: list | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> AsyncPaginatedResponse[Any]:
         """Return scanning API settings.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-location-scanning-by-network
@@ -5050,14 +5207,14 @@ class Wireless:
 
         return self._session.get_pages(
             scope="wireless",
-            operation_id="{operation_id}",
+            operation_id="getOrganizationWirelessLocationScanningByNetwork",
             path=path,
             params=params,
             total_pages=total_pages,
             direction=direction,
         )
 
-    def get_organization_wireless_location_scanning_receivers(
+    async def get_organization_wireless_location_scanning_receivers(
         self,
         *,
         organization_id: str,
@@ -5066,8 +5223,8 @@ class Wireless:
         ending_before: str | None = None,
         network_ids: list | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> AsyncPaginatedResponse[Any]:
         """Return scanning API receivers.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-location-scanning-receivers
@@ -5105,14 +5262,14 @@ class Wireless:
 
         return self._session.get_pages(
             scope="wireless",
-            operation_id="{operation_id}",
+            operation_id="getOrganizationWirelessLocationScanningReceivers",
             path=path,
             params=params,
             total_pages=total_pages,
             direction=direction,
         )
 
-    def create_organization_wireless_location_scanning_receiver(
+    async def create_organization_wireless_location_scanning_receiver(
         self,
         *,
         organization_id: str,
@@ -5150,11 +5307,14 @@ class Wireless:
         if shared_secret is not None:
             payload["sharedSecret"] = shared_secret
 
-        return self._session.post(
-            scope="wireless", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.post(
+            scope="wireless",
+            operation_id="createOrganizationWirelessLocationScanningReceiver",
+            path=path,
+            json=payload,
         )
 
-    def update_organization_wireless_location_scanning_receiver(
+    async def update_organization_wireless_location_scanning_receiver(
         self,
         *,
         organization_id: str,
@@ -5189,11 +5349,14 @@ class Wireless:
         if radio is not None:
             payload["radio"] = radio
 
-        return self._session.put(
-            scope="wireless", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.put(
+            scope="wireless",
+            operation_id="updateOrganizationWirelessLocationScanningReceiver",
+            path=path,
+            json=payload,
         )
 
-    def delete_organization_wireless_location_scanning_receiver(
+    async def delete_organization_wireless_location_scanning_receiver(
         self, *, organization_id: str, receiver_id: str
     ) -> None:
         """Delete a scanning API receiver.
@@ -5211,13 +5374,13 @@ class Wireless:
             f"/organizations/{organization_id}/wireless/location/scanning/receivers/{receiver_id}"
         )
 
-        return self._session.delete(
+        return await self._session.delete(
             scope="wireless",
             operation_id="deleteOrganizationWirelessLocationScanningReceiver",
             path=path,
         )
 
-    def get_organization_wireless_mqtt_settings(
+    async def get_organization_wireless_mqtt_settings(
         self,
         *,
         organization_id: str,
@@ -5226,8 +5389,8 @@ class Wireless:
         ending_before: str | None = None,
         network_ids: list | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> AsyncPaginatedResponse[Any]:
         """Return MQTT Settings for networks.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-mqtt-settings
@@ -5265,14 +5428,14 @@ class Wireless:
 
         return self._session.get_pages(
             scope="wireless",
-            operation_id="{operation_id}",
+            operation_id="getOrganizationWirelessMqttSettings",
             path=path,
             params=params,
             total_pages=total_pages,
             direction=direction,
         )
 
-    def update_organization_wireless_mqtt_settings(
+    async def update_organization_wireless_mqtt_settings(
         self,
         *,
         organization_id: str,
@@ -5306,11 +5469,14 @@ class Wireless:
         if wifi is not None:
             payload["wifi"] = wifi
 
-        return self._session.put(
-            scope="wireless", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.put(
+            scope="wireless",
+            operation_id="updateOrganizationWirelessMqttSettings",
+            path=path,
+            json=payload,
         )
 
-    def recalculate_organization_wireless_radio_auto_rf_channels(
+    async def recalculate_organization_wireless_radio_auto_rf_channels(
         self, *, organization_id: str, network_ids: list
     ) -> dict[str, Any] | None:
         """Recalculates automatically assigned channels for every AP within specified the specified network(s).
@@ -5329,11 +5495,14 @@ class Wireless:
         if network_ids is not None:
             payload["networkIds"] = network_ids
 
-        return self._session.post(
-            scope="wireless", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.post(
+            scope="wireless",
+            operation_id="recalculateOrganizationWirelessRadioAutoRfChannels",
+            path=path,
+            json=payload,
         )
 
-    def get_organization_wireless_rf_profiles_assignments_by_device(
+    async def get_organization_wireless_rf_profiles_assignments_by_device(
         self,
         *,
         organization_id: str,
@@ -5350,8 +5519,8 @@ class Wireless:
         serials: list | None = None,
         models: list | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> AsyncPaginatedResponse[Any]:
         """List the RF profiles of an organization by device.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-rf-profiles-assignments-by-device
@@ -5424,14 +5593,14 @@ class Wireless:
 
         return self._session.get_pages(
             scope="wireless",
-            operation_id="{operation_id}",
+            operation_id="getOrganizationWirelessRfProfilesAssignmentsByDevice",
             path=path,
             params=params,
             total_pages=total_pages,
             direction=direction,
         )
 
-    def get_organization_wireless_ssids_firewall_isolation_allowlist_entries(
+    async def get_organization_wireless_ssids_firewall_isolation_allowlist_entries(
         self,
         *,
         organization_id: str,
@@ -5441,8 +5610,8 @@ class Wireless:
         network_ids: list | None = None,
         ssids: list | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> AsyncPaginatedResponse[Any]:
         """List the L2 isolation allow list MAC entry in an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-ssids-firewall-isolation-allowlist-entries
@@ -5485,14 +5654,14 @@ class Wireless:
 
         return self._session.get_pages(
             scope="wireless",
-            operation_id="{operation_id}",
+            operation_id="getOrganizationWirelessSsidsFirewallIsolationAllowlistEntries",
             path=path,
             params=params,
             total_pages=total_pages,
             direction=direction,
         )
 
-    def create_organization_wireless_ssids_firewall_isolation_allowlist_entry(
+    async def create_organization_wireless_ssids_firewall_isolation_allowlist_entry(
         self,
         *,
         organization_id: str,
@@ -5528,11 +5697,14 @@ class Wireless:
         if network is not None:
             payload["network"] = network
 
-        return self._session.post(
-            scope="wireless", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.post(
+            scope="wireless",
+            operation_id="createOrganizationWirelessSsidsFirewallIsolationAllowlistEntry",
+            path=path,
+            json=payload,
         )
 
-    def update_organization_wireless_ssids_firewall_isolation_allowlist_entry(
+    async def update_organization_wireless_ssids_firewall_isolation_allowlist_entry(
         self,
         *,
         organization_id: str,
@@ -5561,11 +5733,14 @@ class Wireless:
         if client is not None:
             payload["client"] = client
 
-        return self._session.put(
-            scope="wireless", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.put(
+            scope="wireless",
+            operation_id="updateOrganizationWirelessSsidsFirewallIsolationAllowlistEntry",
+            path=path,
+            json=payload,
         )
 
-    def delete_organization_wireless_ssids_firewall_isolation_allowlist_entry(
+    async def delete_organization_wireless_ssids_firewall_isolation_allowlist_entry(
         self, *, organization_id: str, entry_id: str
     ) -> None:
         """Destroy isolation allow list MAC entry for this organization.
@@ -5581,13 +5756,13 @@ class Wireless:
         entry_id = urllib.parse.quote(str(entry_id), safe="")
         path = f"/organizations/{organization_id}/wireless/ssids/firewall/isolation/allowlist/entries/{entry_id}"
 
-        return self._session.delete(
+        return await self._session.delete(
             scope="wireless",
             operation_id="deleteOrganizationWirelessSsidsFirewallIsolationAllowlistEntry",
             path=path,
         )
 
-    def get_organization_wireless_ssids_open_roaming_by_network(
+    async def get_organization_wireless_ssids_open_roaming_by_network(
         self,
         *,
         organization_id: str,
@@ -5597,8 +5772,8 @@ class Wireless:
         network_ids: list | None = None,
         include_disabled_ssids: bool | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> AsyncPaginatedResponse[Any]:
         """Returns an array of objects, each containing SSID OpenRoaming configs for the corresponding network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-ssids-open-roaming-by-network
@@ -5640,14 +5815,14 @@ class Wireless:
 
         return self._session.get_pages(
             scope="wireless",
-            operation_id="{operation_id}",
+            operation_id="getOrganizationWirelessSsidsOpenRoamingByNetwork",
             path=path,
             params=params,
             total_pages=total_pages,
             direction=direction,
         )
 
-    def get_organization_wireless_ssids_statuses_by_device(
+    async def get_organization_wireless_ssids_statuses_by_device(
         self,
         *,
         organization_id: str,
@@ -5659,8 +5834,8 @@ class Wireless:
         starting_after: str | None = None,
         ending_before: str | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> AsyncPaginatedResponse[Any]:
         """List status information of all BSSIDs in your organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-ssids-statuses-by-device
@@ -5711,14 +5886,14 @@ class Wireless:
 
         return self._session.get_pages(
             scope="wireless",
-            operation_id="{operation_id}",
+            operation_id="getOrganizationWirelessSsidsStatusesByDevice",
             path=path,
             params=params,
             total_pages=total_pages,
             direction=direction,
         )
 
-    def get_organization_wireless_zigbee_by_network(
+    async def get_organization_wireless_zigbee_by_network(
         self,
         *,
         organization_id: str,
@@ -5727,8 +5902,8 @@ class Wireless:
         ending_before: str | None = None,
         network_ids: list | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> AsyncPaginatedResponse[Any]:
         """Return list of Zigbee configs.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-zigbee-by-network
@@ -5766,14 +5941,14 @@ class Wireless:
 
         return self._session.get_pages(
             scope="wireless",
-            operation_id="{operation_id}",
+            operation_id="getOrganizationWirelessZigbeeByNetwork",
             path=path,
             params=params,
             total_pages=total_pages,
             direction=direction,
         )
 
-    def get_organization_wireless_zigbee_devices(
+    async def get_organization_wireless_zigbee_devices(
         self,
         *,
         organization_id: str,
@@ -5784,8 +5959,8 @@ class Wireless:
         is_enrolled: bool | None = None,
         search: str | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> AsyncPaginatedResponse[Any]:
         """List the Zigbee wireless devices for an organization or the supplied network(s).
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-zigbee-devices
@@ -5830,14 +6005,14 @@ class Wireless:
 
         return self._session.get_pages(
             scope="wireless",
-            operation_id="{operation_id}",
+            operation_id="getOrganizationWirelessZigbeeDevices",
             path=path,
             params=params,
             total_pages=total_pages,
             direction=direction,
         )
 
-    def update_organization_wireless_zigbee_device(
+    async def update_organization_wireless_zigbee_device(
         self, *, organization_id: str, id_: str, enrolled: bool, channel: str | None = None
     ) -> dict[str, Any] | None:
         """Endpoint to update zigbee gateways.
@@ -5861,11 +6036,14 @@ class Wireless:
         if channel is not None:
             payload["channel"] = channel
 
-        return self._session.put(
-            scope="wireless", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.put(
+            scope="wireless",
+            operation_id="updateOrganizationWirelessZigbeeDevice",
+            path=path,
+            json=payload,
         )
 
-    def create_organization_wireless_zigbee_disenrollment(
+    async def create_organization_wireless_zigbee_disenrollment(
         self, *, organization_id: str, door_lock_ids: list | None = None
     ) -> dict[str, Any] | None:
         """Enqueue a job to start disenrolling door locks on zigbee configured wireless devices.
@@ -5884,11 +6062,14 @@ class Wireless:
         if door_lock_ids is not None:
             payload["doorLockIds"] = door_lock_ids
 
-        return self._session.post(
-            scope="wireless", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.post(
+            scope="wireless",
+            operation_id="createOrganizationWirelessZigbeeDisenrollment",
+            path=path,
+            json=payload,
         )
 
-    def get_organization_wireless_zigbee_disenrollment(
+    async def get_organization_wireless_zigbee_disenrollment(
         self, *, organization_id: str, disenrollment_id: str
     ) -> dict[str, Any] | None:
         """Return a disenrollment.
@@ -5904,11 +6085,11 @@ class Wireless:
         disenrollment_id = urllib.parse.quote(str(disenrollment_id), safe="")
         path = f"/organizations/{organization_id}/wireless/zigbee/disenrollments/{disenrollment_id}"
 
-        return self._session.get(
+        return await self._session.get(
             scope="wireless", operation_id="getOrganizationWirelessZigbeeDisenrollment", path=path
         )
 
-    def get_organization_wireless_zigbee_door_locks(
+    async def get_organization_wireless_zigbee_door_locks(
         self,
         *,
         organization_id: str,
@@ -5918,8 +6099,8 @@ class Wireless:
         starting_after: str | None = None,
         ending_before: str | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> AsyncPaginatedResponse[Any]:
         """Return the list of door locks for a network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-zigbee-door-locks
@@ -5960,14 +6141,14 @@ class Wireless:
 
         return self._session.get_pages(
             scope="wireless",
-            operation_id="{operation_id}",
+            operation_id="getOrganizationWirelessZigbeeDoorLocks",
             path=path,
             params=params,
             total_pages=total_pages,
             direction=direction,
         )
 
-    def update_organization_wireless_zigbee_door_lock(
+    async def update_organization_wireless_zigbee_door_lock(
         self, *, organization_id: str, door_lock_id: str, name: str | None = None
     ) -> dict[str, Any] | None:
         """Endpoint to batch update door locks params.
@@ -5988,6 +6169,9 @@ class Wireless:
         if name is not None:
             payload["name"] = name
 
-        return self._session.put(
-            scope="wireless", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.put(
+            scope="wireless",
+            operation_id="updateOrganizationWirelessZigbeeDoorLock",
+            path=path,
+            json=payload,
         )

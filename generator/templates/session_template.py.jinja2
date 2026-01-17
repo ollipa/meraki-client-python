@@ -377,8 +377,12 @@ class Session:
                 results = response.json()
                 links = response.links
 
+{% if is_async %}
                 for item in extract_items(results):
                     yield item
+{% else %}
+                yield from extract_items(results)
+{% endif %}
 
                 remaining_pages -= 1
                 next_url = None

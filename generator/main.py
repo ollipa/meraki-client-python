@@ -218,7 +218,7 @@ def get_openapi_specification(api_version: str) -> dict[str, Any]:
     return json.load(spec_path.open("r"))
 
 
-def generate_library(
+def generate_library(  # noqa: PLR0915
     spec: OpenAPI, batchable_actions: list[BatchableAction], version_number: str, api_version: str
 ) -> None:
     """Generate the Meraki Python library using the public OpenAPI specification."""
@@ -395,50 +395,59 @@ def generate_module(
             )
             if is_paginated:
                 collect_pagination_params(operation_id, function_definition)
-            call_line = get_call_line(
-                method=method,
-                scope=scope,
-                operation_id=operation_id,
-                is_paginated=is_paginated,
-                has_query_params=bool(function_definition.query_params),
-                has_body_params=bool(function_definition.body_params),
-            )
-            return_type = get_return_type(method=method, is_paginated=is_paginated)
 
             # Construct function definition string
             all_args = function_definition.required_args + function_definition.optional_args
             definition = ", *, " + ", ".join(all_args) if all_args else ""
 
+            # Common template parameters
+            common_params = {
+                "operation": to_snake_case(operation_id),
+                "function_definition": definition,
+                "description": description,
+                "doc_url": docs_url(operation_id),
+                "descriptions": function_definition.param_descriptions,
+                "assert_blocks": function_definition.assert_blocks,
+                "resource": resource_path,
+                "query_params": function_definition.query_params,
+                "body_params": function_definition.body_params,
+                "path_params": function_definition.path_params,
+            }
+
             output.write(
                 templates.function_template.render(
-                    operation=to_snake_case(operation_id),
-                    function_definition=definition,
-                    description=description,
-                    doc_url=docs_url(operation_id),
-                    descriptions=function_definition.param_descriptions,
-                    assert_blocks=function_definition.assert_blocks,
-                    resource=resource_path,
-                    query_params=function_definition.query_params,
-                    body_params=function_definition.body_params,
-                    path_params=function_definition.path_params,
-                    call_line=call_line,
-                    return_type=return_type,
+                    **common_params,
+                    call_line=get_call_line(
+                        method=method,
+                        scope=scope,
+                        operation_id=operation_id,
+                        is_paginated=is_paginated,
+                        has_query_params=bool(function_definition.query_params),
+                        has_body_params=bool(function_definition.body_params),
+                        is_async=False,
+                    ),
+                    return_type=get_return_type(
+                        method=method, is_paginated=is_paginated, is_async=False
+                    ),
+                    is_async=False,
                 )
             )
             async_output.write(
                 templates.function_template.render(
-                    operation=to_snake_case(operation_id),
-                    function_definition=definition,
-                    description=description,
-                    doc_url=docs_url(operation_id),
-                    descriptions=function_definition.param_descriptions,
-                    assert_blocks=function_definition.assert_blocks,
-                    resource=resource_path,
-                    query_params=function_definition.query_params,
-                    body_params=function_definition.body_params,
-                    path_params=function_definition.path_params,
-                    call_line=call_line,
-                    return_type=return_type,
+                    **common_params,
+                    call_line=get_call_line(
+                        method=method,
+                        scope=scope,
+                        operation_id=operation_id,
+                        is_paginated=is_paginated,
+                        has_query_params=bool(function_definition.query_params),
+                        has_body_params=bool(function_definition.body_params),
+                        is_async=True,
+                    ),
+                    return_type=get_return_type(
+                        method=method, is_paginated=is_paginated, is_async=True
+                    ),
+                    is_async=True,
                 )
             )
 
@@ -674,9 +683,9 @@ def collect_pagination_params(operation_id: str, function_definition: FunctionDe
     )
 
     if operation_id in REVERSE_PAGINATION:
-        function_definition.optional_args.append("direction: Literal['prev' | 'next'] = 'prev'")
+        function_definition.optional_args.append("direction: Literal['prev', 'next'] = 'prev'")
     else:
-        function_definition.optional_args.append("direction: Literal['prev' | 'next'] = 'next'")
+        function_definition.optional_args.append("direction: Literal['prev', 'next'] = 'next'")
 
     function_definition.param_descriptions.append(
         format_param_description(
@@ -706,54 +715,58 @@ def get_call_line(
     has_query_params: bool,
     is_paginated: bool,
     has_body_params: bool,
+    is_async: bool,
 ) -> str:
     """Get the call line for a function."""
+    await_ = "await " if is_async and not is_paginated else ""
     match method:
         case "get":
             if operation_id == "getNetworkEvents":
                 return (
                     "return self._session.get_pages"
-                    "(scope=scope, operation_id=operation_id, path=path, params=params, "
+                    f'(scope="{scope}", operation_id="{operation_id}", path=path, params=params, '
                     "total_pages=total_pages, direction=direction, event_log_end_time=event_log_end_time)"
                 )
             if is_paginated:
                 return (
                     f'return self._session.get_pages(scope="{scope}", '
-                    'operation_id="{operation_id}", path=path, params=params, '
+                    f'operation_id="{operation_id}", path=path, params=params, '
                     "total_pages=total_pages, direction=direction)"
                 )
             if has_query_params:
                 return (
-                    f'return self._session.get(scope="{scope}", '
-                    'operation_id="{operation_id}", path=path, params=params)'
+                    f'return {await_}self._session.get(scope="{scope}", '
+                    f'operation_id="{operation_id}", path=path, params=params)'
                 )
-            return f'return self._session.get(scope="{scope}", operation_id="{operation_id}", path=path)'
+            return f'return {await_}self._session.get(scope="{scope}", operation_id="{operation_id}", path=path)'
         case "post":
             if has_body_params:
                 return (
-                    f'return self._session.post(scope="{scope}", '
-                    'operation_id="{operation_id}", path=path, json=payload)'
+                    f'return {await_}self._session.post(scope="{scope}", '
+                    f'operation_id="{operation_id}", path=path, json=payload)'
                 )
-            return f'return self._session.post(scope="{scope}", operation_id="{operation_id}", path=path)'
+            return f'return {await_}self._session.post(scope="{scope}", operation_id="{operation_id}", path=path)'
         case "put":
             if has_body_params:
                 return (
-                    f'return self._session.put(scope="{scope}", '
-                    'operation_id="{operation_id}", path=path, json=payload)'
+                    f'return {await_}self._session.put(scope="{scope}", '
+                    f'operation_id="{operation_id}", path=path, json=payload)'
                 )
-            return f'return self._session.put(scope="{scope}", operation_id="{operation_id}", path=path)'
+            return f'return {await_}self._session.put(scope="{scope}", operation_id="{operation_id}", path=path)'
         case "delete":
-            return f'return self._session.delete(scope="{scope}", operation_id="{operation_id}", path=path)'
+            return f'return {await_}self._session.delete(scope="{scope}", operation_id="{operation_id}", path=path)'
         case _:
             assert_never(method)
 
 
-def get_return_type(*, method: Literal["get", "put", "post", "delete"], is_paginated: bool) -> str:
+def get_return_type(
+    *, method: Literal["get", "put", "post", "delete"], is_paginated: bool, is_async: bool
+) -> str:
     """Get the return type for a function."""
     if method == "delete":
         return "None"
     if method == "get" and is_paginated:
-        return "Generator[Any, None, None]"
+        return "AsyncPaginatedResponse[Any]" if is_async else "PaginatedResponse[Any]"
     return "dict[str, Any] | None"
 
 

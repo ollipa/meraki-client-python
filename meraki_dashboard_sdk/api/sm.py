@@ -2,12 +2,11 @@
 
 from __future__ import annotations
 
-import urllib
-from collections.abc import Generator
+import urllib.parse
 from typing import TYPE_CHECKING, Any, Literal
 
 if TYPE_CHECKING:
-    from meraki_dashboard_sdk.session import Session
+    from meraki_dashboard_sdk.session import PaginatedResponse, Session
 
 
 class Sm:
@@ -36,7 +35,10 @@ class Sm:
             payload["ids"] = ids
 
         return self._session.post(
-            scope="sm", operation_id="{operation_id}", path=path, json=payload
+            scope="sm",
+            operation_id="createNetworkSmBypassActivationLockAttempt",
+            path=path,
+            json=payload,
         )
 
     def get_network_sm_bypass_activation_lock_attempt(
@@ -74,8 +76,8 @@ class Sm:
         starting_after: str | None = None,
         ending_before: str | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[Any]:
         """List the devices enrolled in an SM network with various specified fields and filters.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-sm-devices
@@ -144,7 +146,7 @@ class Sm:
 
         return self._session.get_pages(
             scope="sm",
-            operation_id="{operation_id}",
+            operation_id="getNetworkSmDevices",
             path=path,
             params=params,
             total_pages=total_pages,
@@ -187,7 +189,7 @@ class Sm:
             payload["scope"] = scope
 
         return self._session.post(
-            scope="sm", operation_id="{operation_id}", path=path, json=payload
+            scope="sm", operation_id="checkinNetworkSmDevices", path=path, json=payload
         )
 
     def update_network_sm_devices_fields(
@@ -224,7 +226,9 @@ class Sm:
         if device_fields is not None:
             payload["deviceFields"] = device_fields
 
-        return self._session.put(scope="sm", operation_id="{operation_id}", path=path, json=payload)
+        return self._session.put(
+            scope="sm", operation_id="updateNetworkSmDevicesFields", path=path, json=payload
+        )
 
     def lock_network_sm_devices(
         self,
@@ -267,7 +271,7 @@ class Sm:
             payload["pin"] = pin
 
         return self._session.post(
-            scope="sm", operation_id="{operation_id}", path=path, json=payload
+            scope="sm", operation_id="lockNetworkSmDevices", path=path, json=payload
         )
 
     def modify_network_sm_devices_tags(
@@ -315,7 +319,7 @@ class Sm:
             payload["updateAction"] = update_action
 
         return self._session.post(
-            scope="sm", operation_id="{operation_id}", path=path, json=payload
+            scope="sm", operation_id="modifyNetworkSmDevicesTags", path=path, json=payload
         )
 
     def move_network_sm_devices(
@@ -358,7 +362,7 @@ class Sm:
             payload["newNetwork"] = new_network
 
         return self._session.post(
-            scope="sm", operation_id="{operation_id}", path=path, json=payload
+            scope="sm", operation_id="moveNetworkSmDevices", path=path, json=payload
         )
 
     def reboot_network_sm_devices(
@@ -416,7 +420,7 @@ class Sm:
             payload["requestRequiresNetworkTether"] = request_requires_network_tether
 
         return self._session.post(
-            scope="sm", operation_id="{operation_id}", path=path, json=payload
+            scope="sm", operation_id="rebootNetworkSmDevices", path=path, json=payload
         )
 
     def shutdown_network_sm_devices(
@@ -455,7 +459,7 @@ class Sm:
             payload["scope"] = scope
 
         return self._session.post(
-            scope="sm", operation_id="{operation_id}", path=path, json=payload
+            scope="sm", operation_id="shutdownNetworkSmDevices", path=path, json=payload
         )
 
     def wipe_network_sm_devices(
@@ -494,7 +498,7 @@ class Sm:
             payload["pin"] = pin
 
         return self._session.post(
-            scope="sm", operation_id="{operation_id}", path=path, json=payload
+            scope="sm", operation_id="wipeNetworkSmDevices", path=path, json=payload
         )
 
     def get_network_sm_device_cellular_usage_history(
@@ -544,8 +548,8 @@ class Sm:
         starting_after: str | None = None,
         ending_before: str | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[Any]:
         """Returns historical connectivity data (whether a device is regularly checking in to Dashboard).
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-sm-device-connectivity
@@ -582,7 +586,7 @@ class Sm:
 
         return self._session.get_pages(
             scope="sm",
-            operation_id="{operation_id}",
+            operation_id="getNetworkSmDeviceConnectivity",
             path=path,
             params=params,
             total_pages=total_pages,
@@ -598,8 +602,8 @@ class Sm:
         starting_after: str | None = None,
         ending_before: str | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[Any]:
         """Return historical records of various Systems Manager network connection details for desktop devices.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-sm-device-desktop-logs
@@ -636,7 +640,7 @@ class Sm:
 
         return self._session.get_pages(
             scope="sm",
-            operation_id="{operation_id}",
+            operation_id="getNetworkSmDeviceDesktopLogs",
             path=path,
             params=params,
             total_pages=total_pages,
@@ -652,8 +656,8 @@ class Sm:
         starting_after: str | None = None,
         ending_before: str | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[Any]:
         """Return historical records of commands sent to Systems Manager devices.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-sm-device-device-command-logs
@@ -690,7 +694,7 @@ class Sm:
 
         return self._session.get_pages(
             scope="sm",
-            operation_id="{operation_id}",
+            operation_id="getNetworkSmDeviceDeviceCommandLogs",
             path=path,
             params=params,
             total_pages=total_pages,
@@ -744,7 +748,7 @@ class Sm:
             payload["force"] = force
 
         return self._session.post(
-            scope="sm", operation_id="{operation_id}", path=path, json=payload
+            scope="sm", operation_id="installNetworkSmDeviceApps", path=path, json=payload
         )
 
     def get_network_sm_device_network_adapters(
@@ -776,8 +780,8 @@ class Sm:
         starting_after: str | None = None,
         ending_before: str | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[Any]:
         """Return historical records of various Systems Manager client metrics for desktop devices.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-sm-device-performance-history
@@ -814,7 +818,7 @@ class Sm:
 
         return self._session.get_pages(
             scope="sm",
-            operation_id="{operation_id}",
+            operation_id="getNetworkSmDevicePerformanceHistory",
             path=path,
             params=params,
             total_pages=total_pages,
@@ -939,7 +943,7 @@ class Sm:
             payload["appIds"] = app_ids
 
         return self._session.post(
-            scope="sm", operation_id="{operation_id}", path=path, json=payload
+            scope="sm", operation_id="uninstallNetworkSmDeviceApps", path=path, json=payload
         )
 
     def get_network_sm_device_wlan_lists(
@@ -980,7 +984,7 @@ class Sm:
             params["payloadTypes[]"] = payload_types
 
         return self._session.get(
-            scope="sm", operation_id="{operation_id}", path=path, params=params
+            scope="sm", operation_id="getNetworkSmProfiles", path=path, params=params
         )
 
     def get_network_sm_target_groups(
@@ -1004,7 +1008,7 @@ class Sm:
             params["withDetails"] = with_details
 
         return self._session.get(
-            scope="sm", operation_id="{operation_id}", path=path, params=params
+            scope="sm", operation_id="getNetworkSmTargetGroups", path=path, params=params
         )
 
     def create_network_sm_target_group(
@@ -1032,7 +1036,7 @@ class Sm:
             payload["scope"] = scope
 
         return self._session.post(
-            scope="sm", operation_id="{operation_id}", path=path, json=payload
+            scope="sm", operation_id="createNetworkSmTargetGroup", path=path, json=payload
         )
 
     def get_network_sm_target_group(
@@ -1058,7 +1062,7 @@ class Sm:
             params["withDetails"] = with_details
 
         return self._session.get(
-            scope="sm", operation_id="{operation_id}", path=path, params=params
+            scope="sm", operation_id="getNetworkSmTargetGroup", path=path, params=params
         )
 
     def update_network_sm_target_group(
@@ -1092,7 +1096,9 @@ class Sm:
         if scope is not None:
             payload["scope"] = scope
 
-        return self._session.put(scope="sm", operation_id="{operation_id}", path=path, json=payload)
+        return self._session.put(
+            scope="sm", operation_id="updateNetworkSmTargetGroup", path=path, json=payload
+        )
 
     def delete_network_sm_target_group(self, *, network_id: str, target_group_id: str) -> None:
         """Delete a target group from a network.
@@ -1120,8 +1126,8 @@ class Sm:
         starting_after: str | None = None,
         ending_before: str | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[Any]:
         """List Trusted Access Configs.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-sm-trusted-access-configs
@@ -1156,7 +1162,7 @@ class Sm:
 
         return self._session.get_pages(
             scope="sm",
-            operation_id="{operation_id}",
+            operation_id="getNetworkSmTrustedAccessConfigs",
             path=path,
             params=params,
             total_pages=total_pages,
@@ -1171,8 +1177,8 @@ class Sm:
         starting_after: str | None = None,
         ending_before: str | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[Any]:
         """List User Access Devices and its Trusted Access Connections.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-sm-user-access-devices
@@ -1207,7 +1213,7 @@ class Sm:
 
         return self._session.get_pages(
             scope="sm",
-            operation_id="{operation_id}",
+            operation_id="getNetworkSmUserAccessDevices",
             path=path,
             params=params,
             total_pages=total_pages,
@@ -1270,7 +1276,7 @@ class Sm:
             params["scope[]"] = scope
 
         return self._session.get(
-            scope="sm", operation_id="{operation_id}", path=path, params=params
+            scope="sm", operation_id="getNetworkSmUsers", path=path, params=params
         )
 
     def get_network_sm_user_device_profiles(
@@ -1319,8 +1325,8 @@ class Sm:
         starting_after: str | None = None,
         ending_before: str | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[Any]:
         """List the Limited Access Roles for an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-sm-admins-roles
@@ -1355,7 +1361,7 @@ class Sm:
 
         return self._session.get_pages(
             scope="sm",
-            operation_id="{operation_id}",
+            operation_id="getOrganizationSmAdminsRoles",
             path=path,
             params=params,
             total_pages=total_pages,
@@ -1394,7 +1400,7 @@ class Sm:
             payload["tags"] = tags
 
         return self._session.post(
-            scope="sm", operation_id="{operation_id}", path=path, json=payload
+            scope="sm", operation_id="createOrganizationSmAdminsRole", path=path, json=payload
         )
 
     def get_organization_sm_admins_role(
@@ -1454,7 +1460,9 @@ class Sm:
         if tags is not None:
             payload["tags"] = tags
 
-        return self._session.put(scope="sm", operation_id="{operation_id}", path=path, json=payload)
+        return self._session.put(
+            scope="sm", operation_id="updateOrganizationSmAdminsRole", path=path, json=payload
+        )
 
     def delete_organization_sm_admins_role(self, *, organization_id: str, role_id: str) -> None:
         """Delete a Limited Access Role.
@@ -1507,7 +1515,12 @@ class Sm:
         if items is not None:
             payload["items"] = items
 
-        return self._session.put(scope="sm", operation_id="{operation_id}", path=path, json=payload)
+        return self._session.put(
+            scope="sm",
+            operation_id="updateOrganizationSmSentryPoliciesAssignments",
+            path=path,
+            json=payload,
+        )
 
     def get_organization_sm_sentry_policies_assignments_by_network(
         self,
@@ -1518,8 +1531,8 @@ class Sm:
         ending_before: str | None = None,
         network_ids: list | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[Any]:
         """List the Sentry Policies for an organization ordered in ascending order of priority.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-sm-sentry-policies-assignments-by-network
@@ -1557,7 +1570,7 @@ class Sm:
 
         return self._session.get_pages(
             scope="sm",
-            operation_id="{operation_id}",
+            operation_id="getOrganizationSmSentryPoliciesAssignmentsByNetwork",
             path=path,
             params=params,
             total_pages=total_pages,

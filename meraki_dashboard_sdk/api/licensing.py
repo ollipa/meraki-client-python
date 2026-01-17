@@ -2,12 +2,11 @@
 
 from __future__ import annotations
 
-import urllib
-from collections.abc import Generator
+import urllib.parse
 from typing import TYPE_CHECKING, Any, Literal
 
 if TYPE_CHECKING:
-    from meraki_dashboard_sdk.session import Session
+    from meraki_dashboard_sdk.session import PaginatedResponse, Session
 
 
 class Licensing:
@@ -34,7 +33,10 @@ class Licensing:
             params["skus[]"] = skus
 
         return self._session.get(
-            scope="licensing", operation_id="{operation_id}", path=path, params=params
+            scope="licensing",
+            operation_id="getAdministeredLicensingSubscriptionEntitlements",
+            path=path,
+            params=params,
         )
 
     def get_administered_licensing_subscription_subscriptions(
@@ -52,8 +54,8 @@ class Licensing:
         start_date: str | None = None,
         end_date: str | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[Any]:
         """List available subscriptions.
 
         https://developer.cisco.com/meraki/api-v1/#!get-administered-licensing-subscription-subscriptions
@@ -115,7 +117,7 @@ class Licensing:
 
         return self._session.get_pages(
             scope="licensing",
-            operation_id="{operation_id}",
+            operation_id="getAdministeredLicensingSubscriptionSubscriptions",
             path=path,
             params=params,
             total_pages=total_pages,
@@ -161,7 +163,10 @@ class Licensing:
             payload["description"] = description
 
         return self._session.post(
-            scope="licensing", operation_id="{operation_id}", path=path, json=payload
+            scope="licensing",
+            operation_id="claimAdministeredLicensingSubscriptionSubscriptions",
+            path=path,
+            json=payload,
         )
 
     def validate_administered_licensing_subscription_subscriptions_claim_key(
@@ -182,7 +187,10 @@ class Licensing:
             payload["claimKey"] = claim_key
 
         return self._session.post(
-            scope="licensing", operation_id="{operation_id}", path=path, json=payload
+            scope="licensing",
+            operation_id="validateAdministeredLicensingSubscriptionSubscriptionsClaimKey",
+            path=path,
+            json=payload,
         )
 
     def get_administered_licensing_subscription_subscriptions_compliance_statuses(
@@ -206,7 +214,10 @@ class Licensing:
             params["subscriptionIds[]"] = subscription_ids
 
         return self._session.get(
-            scope="licensing", operation_id="{operation_id}", path=path, params=params
+            scope="licensing",
+            operation_id="getAdministeredLicensingSubscriptionSubscriptionsComplianceStatuses",
+            path=path,
+            params=params,
         )
 
     def bind_administered_licensing_subscription_subscription(
@@ -235,7 +246,10 @@ class Licensing:
             payload["networkIds"] = network_ids
 
         return self._session.post(
-            scope="licensing", operation_id="{operation_id}", path=path, json=payload
+            scope="licensing",
+            operation_id="bindAdministeredLicensingSubscriptionSubscription",
+            path=path,
+            json=payload,
         )
 
     def get_organization_licensing_coterm_licenses(
@@ -248,8 +262,8 @@ class Licensing:
         invalidated: bool | None = None,
         expired: bool | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[Any]:
         """List the licenses in a coterm organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-licensing-coterm-licenses
@@ -290,7 +304,7 @@ class Licensing:
 
         return self._session.get_pages(
             scope="licensing",
-            operation_id="{operation_id}",
+            operation_id="getOrganizationLicensingCotermLicenses",
             path=path,
             params=params,
             total_pages=total_pages,
@@ -320,5 +334,8 @@ class Licensing:
             payload["licenses"] = licenses
 
         return self._session.post(
-            scope="licensing", operation_id="{operation_id}", path=path, json=payload
+            scope="licensing",
+            operation_id="moveOrganizationLicensingCotermLicenses",
+            path=path,
+            json=payload,
         )

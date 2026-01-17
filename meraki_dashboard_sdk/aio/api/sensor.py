@@ -2,12 +2,11 @@
 
 from __future__ import annotations
 
-import urllib
-from collections.abc import Generator
+import urllib.parse
 from typing import TYPE_CHECKING, Any, Literal
 
 if TYPE_CHECKING:
-    from meraki_dashboard_sdk.aio.session import Session
+    from meraki_dashboard_sdk.aio.session import AsyncPaginatedResponse, Session
 
 
 class Sensor:
@@ -16,7 +15,7 @@ class Sensor:
     def __init__(self, session: Session) -> None:
         self._session = session
 
-    def get_device_sensor_commands(
+    async def get_device_sensor_commands(
         self,
         *,
         serial: str,
@@ -29,8 +28,8 @@ class Sensor:
         t1: str | None = None,
         timespan: float | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> AsyncPaginatedResponse[Any]:
         """Returns a historical log of all commands.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device-sensor-commands
@@ -92,14 +91,16 @@ class Sensor:
 
         return self._session.get_pages(
             scope="sensor",
-            operation_id="{operation_id}",
+            operation_id="getDeviceSensorCommands",
             path=path,
             params=params,
             total_pages=total_pages,
             direction=direction,
         )
 
-    def create_device_sensor_command(self, *, serial: str, operation: str) -> dict[str, Any] | None:
+    async def create_device_sensor_command(
+        self, *, serial: str, operation: str
+    ) -> dict[str, Any] | None:
         """Sends a command to a sensor.
 
         https://developer.cisco.com/meraki/api-v1/#!create-device-sensor-command
@@ -131,11 +132,13 @@ class Sensor:
         if operation is not None:
             payload["operation"] = operation
 
-        return self._session.post(
-            scope="sensor", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.post(
+            scope="sensor", operation_id="createDeviceSensorCommand", path=path, json=payload
         )
 
-    def get_device_sensor_command(self, *, serial: str, command_id: str) -> dict[str, Any] | None:
+    async def get_device_sensor_command(
+        self, *, serial: str, command_id: str
+    ) -> dict[str, Any] | None:
         """Returns information about the command's execution, including the status.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device-sensor-command
@@ -149,9 +152,11 @@ class Sensor:
         command_id = urllib.parse.quote(str(command_id), safe="")
         path = f"/devices/{serial}/sensor/commands/{command_id}"
 
-        return self._session.get(scope="sensor", operation_id="getDeviceSensorCommand", path=path)
+        return await self._session.get(
+            scope="sensor", operation_id="getDeviceSensorCommand", path=path
+        )
 
-    def get_device_sensor_relationships(self, *, serial: str) -> dict[str, Any] | None:
+    async def get_device_sensor_relationships(self, *, serial: str) -> dict[str, Any] | None:
         """List the sensor roles for a given sensor or camera device.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device-sensor-relationships
@@ -163,11 +168,11 @@ class Sensor:
         serial = urllib.parse.quote(str(serial), safe="")
         path = f"/devices/{serial}/sensor/relationships"
 
-        return self._session.get(
+        return await self._session.get(
             scope="sensor", operation_id="getDeviceSensorRelationships", path=path
         )
 
-    def update_device_sensor_relationships(
+    async def update_device_sensor_relationships(
         self, *, serial: str, livestream: dict | None = None
     ) -> dict[str, Any] | None:
         """Assign one or more sensor roles to a given sensor or camera device.
@@ -188,11 +193,11 @@ class Sensor:
         if livestream is not None:
             payload["livestream"] = livestream
 
-        return self._session.put(
-            scope="sensor", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.put(
+            scope="sensor", operation_id="updateDeviceSensorRelationships", path=path, json=payload
         )
 
-    def get_network_sensor_alerts_current_overview_by_metric(
+    async def get_network_sensor_alerts_current_overview_by_metric(
         self, *, network_id: str
     ) -> dict[str, Any] | None:
         """Return an overview of currently alerting sensors by metric.
@@ -206,11 +211,11 @@ class Sensor:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/sensor/alerts/current/overview/byMetric"
 
-        return self._session.get(
+        return await self._session.get(
             scope="sensor", operation_id="getNetworkSensorAlertsCurrentOverviewByMetric", path=path
         )
 
-    def get_network_sensor_alerts_overview_by_metric(
+    async def get_network_sensor_alerts_overview_by_metric(
         self,
         *,
         network_id: str,
@@ -250,11 +255,14 @@ class Sensor:
         if interval is not None:
             params["interval"] = interval
 
-        return self._session.get(
-            scope="sensor", operation_id="{operation_id}", path=path, params=params
+        return await self._session.get(
+            scope="sensor",
+            operation_id="getNetworkSensorAlertsOverviewByMetric",
+            path=path,
+            params=params,
         )
 
-    def get_network_sensor_alerts_profiles(self, *, network_id: str) -> dict[str, Any] | None:
+    async def get_network_sensor_alerts_profiles(self, *, network_id: str) -> dict[str, Any] | None:
         """Lists all sensor alert profiles for a network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-sensor-alerts-profiles
@@ -266,11 +274,11 @@ class Sensor:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/sensor/alerts/profiles"
 
-        return self._session.get(
+        return await self._session.get(
             scope="sensor", operation_id="getNetworkSensorAlertsProfiles", path=path
         )
 
-    def create_network_sensor_alerts_profile(
+    async def create_network_sensor_alerts_profile(
         self,
         *,
         network_id: str,
@@ -316,11 +324,11 @@ class Sensor:
         if message is not None:
             payload["message"] = message
 
-        return self._session.post(
-            scope="sensor", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.post(
+            scope="sensor", operation_id="createNetworkSensorAlertsProfile", path=path, json=payload
         )
 
-    def get_network_sensor_alerts_profile(
+    async def get_network_sensor_alerts_profile(
         self, *, network_id: str, id_: str
     ) -> dict[str, Any] | None:
         """Show details of a sensor alert profile for a network.
@@ -336,11 +344,11 @@ class Sensor:
         id_ = urllib.parse.quote(str(id_), safe="")
         path = f"/networks/{network_id}/sensor/alerts/profiles/{id_}"
 
-        return self._session.get(
+        return await self._session.get(
             scope="sensor", operation_id="getNetworkSensorAlertsProfile", path=path
         )
 
-    def update_network_sensor_alerts_profile(
+    async def update_network_sensor_alerts_profile(
         self,
         *,
         network_id: str,
@@ -389,11 +397,11 @@ class Sensor:
         if message is not None:
             payload["message"] = message
 
-        return self._session.put(
-            scope="sensor", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.put(
+            scope="sensor", operation_id="updateNetworkSensorAlertsProfile", path=path, json=payload
         )
 
-    def delete_network_sensor_alerts_profile(self, *, network_id: str, id_: str) -> None:
+    async def delete_network_sensor_alerts_profile(self, *, network_id: str, id_: str) -> None:
         """Deletes a sensor alert profile from a network.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-network-sensor-alerts-profile
@@ -407,11 +415,11 @@ class Sensor:
         id_ = urllib.parse.quote(str(id_), safe="")
         path = f"/networks/{network_id}/sensor/alerts/profiles/{id_}"
 
-        return self._session.delete(
+        return await self._session.delete(
             scope="sensor", operation_id="deleteNetworkSensorAlertsProfile", path=path
         )
 
-    def get_network_sensor_mqtt_brokers(self, *, network_id: str) -> dict[str, Any] | None:
+    async def get_network_sensor_mqtt_brokers(self, *, network_id: str) -> dict[str, Any] | None:
         """List the sensor settings of all MQTT brokers for this network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-sensor-mqtt-brokers
@@ -423,11 +431,11 @@ class Sensor:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/sensor/mqttBrokers"
 
-        return self._session.get(
+        return await self._session.get(
             scope="sensor", operation_id="getNetworkSensorMqttBrokers", path=path
         )
 
-    def get_network_sensor_mqtt_broker(
+    async def get_network_sensor_mqtt_broker(
         self, *, network_id: str, mqtt_broker_id: str
     ) -> dict[str, Any] | None:
         """Return the sensor settings of an MQTT broker.
@@ -443,11 +451,11 @@ class Sensor:
         mqtt_broker_id = urllib.parse.quote(str(mqtt_broker_id), safe="")
         path = f"/networks/{network_id}/sensor/mqttBrokers/{mqtt_broker_id}"
 
-        return self._session.get(
+        return await self._session.get(
             scope="sensor", operation_id="getNetworkSensorMqttBroker", path=path
         )
 
-    def update_network_sensor_mqtt_broker(
+    async def update_network_sensor_mqtt_broker(
         self, *, network_id: str, mqtt_broker_id: str, enabled: bool
     ) -> dict[str, Any] | None:
         """Update the sensor settings of an MQTT broker.
@@ -468,11 +476,11 @@ class Sensor:
         if enabled is not None:
             payload["enabled"] = enabled
 
-        return self._session.put(
-            scope="sensor", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.put(
+            scope="sensor", operation_id="updateNetworkSensorMqttBroker", path=path, json=payload
         )
 
-    def get_network_sensor_relationships(self, *, network_id: str) -> dict[str, Any] | None:
+    async def get_network_sensor_relationships(self, *, network_id: str) -> dict[str, Any] | None:
         """List the sensor roles for devices in a given network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-sensor-relationships
@@ -484,11 +492,11 @@ class Sensor:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/sensor/relationships"
 
-        return self._session.get(
+        return await self._session.get(
             scope="sensor", operation_id="getNetworkSensorRelationships", path=path
         )
 
-    def get_organization_sensor_gateways_connections_latest(
+    async def get_organization_sensor_gateways_connections_latest(
         self,
         *,
         organization_id: str,
@@ -497,8 +505,8 @@ class Sensor:
         starting_after: str | None = None,
         ending_before: str | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> AsyncPaginatedResponse[Any]:
         """Returns latest sensor-gateway connectivity data.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-sensor-gateways-connections-latest
@@ -536,14 +544,14 @@ class Sensor:
 
         return self._session.get_pages(
             scope="sensor",
-            operation_id="{operation_id}",
+            operation_id="getOrganizationSensorGatewaysConnectionsLatest",
             path=path,
             params=params,
             total_pages=total_pages,
             direction=direction,
         )
 
-    def get_organization_sensor_readings_history(
+    async def get_organization_sensor_readings_history(
         self,
         *,
         organization_id: str,
@@ -557,8 +565,8 @@ class Sensor:
         serials: list | None = None,
         metrics: list | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> AsyncPaginatedResponse[Any]:
         """Return all reported readings from sensors in a given timespan, sorted by timestamp.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-sensor-readings-history
@@ -615,14 +623,14 @@ class Sensor:
 
         return self._session.get_pages(
             scope="sensor",
-            operation_id="{operation_id}",
+            operation_id="getOrganizationSensorReadingsHistory",
             path=path,
             params=params,
             total_pages=total_pages,
             direction=direction,
         )
 
-    def get_organization_sensor_readings_latest(
+    async def get_organization_sensor_readings_latest(
         self,
         *,
         organization_id: str,
@@ -633,8 +641,8 @@ class Sensor:
         serials: list | None = None,
         metrics: list | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> AsyncPaginatedResponse[Any]:
         """Return the latest available reading for each metric from each sensor, sorted by sensor serial.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-sensor-readings-latest
@@ -679,7 +687,7 @@ class Sensor:
 
         return self._session.get_pages(
             scope="sensor",
-            operation_id="{operation_id}",
+            operation_id="getOrganizationSensorReadingsLatest",
             path=path,
             params=params,
             total_pages=total_pages,

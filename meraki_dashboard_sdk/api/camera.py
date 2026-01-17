@@ -2,12 +2,11 @@
 
 from __future__ import annotations
 
-import urllib
-from collections.abc import Generator
+import urllib.parse
 from typing import TYPE_CHECKING, Any, Literal
 
 if TYPE_CHECKING:
-    from meraki_dashboard_sdk.session import Session
+    from meraki_dashboard_sdk.session import PaginatedResponse, Session
 
 
 class Camera:
@@ -77,7 +76,10 @@ class Camera:
             params["objectType"] = object_type
 
         return self._session.get(
-            scope="camera", operation_id="{operation_id}", path=path, params=params
+            scope="camera",
+            operation_id="getDeviceCameraAnalyticsOverview",
+            path=path,
+            params=params,
         )
 
     def get_device_camera_analytics_recent(
@@ -107,7 +109,7 @@ class Camera:
             params["objectType"] = object_type
 
         return self._session.get(
-            scope="camera", operation_id="{operation_id}", path=path, params=params
+            scope="camera", operation_id="getDeviceCameraAnalyticsRecent", path=path, params=params
         )
 
     def get_device_camera_analytics_zones(self, *, serial: str) -> dict[str, Any] | None:
@@ -179,7 +181,10 @@ class Camera:
             params["objectType"] = object_type
 
         return self._session.get(
-            scope="camera", operation_id="{operation_id}", path=path, params=params
+            scope="camera",
+            operation_id="getDeviceCameraAnalyticsZoneHistory",
+            path=path,
+            params=params,
         )
 
     def get_device_camera_custom_analytics(self, *, serial: str) -> dict[str, Any] | None:
@@ -229,7 +234,10 @@ class Camera:
             payload["parameters"] = parameters
 
         return self._session.put(
-            scope="camera", operation_id="{operation_id}", path=path, json=payload
+            scope="camera",
+            operation_id="updateDeviceCameraCustomAnalytics",
+            path=path,
+            json=payload,
         )
 
     def generate_device_camera_snapshot(
@@ -258,7 +266,7 @@ class Camera:
             payload["fullframe"] = fullframe
 
         return self._session.post(
-            scope="camera", operation_id="{operation_id}", path=path, json=payload
+            scope="camera", operation_id="generateDeviceCameraSnapshot", path=path, json=payload
         )
 
     def get_device_camera_quality_and_retention(self, *, serial: str) -> dict[str, Any] | None:
@@ -359,7 +367,10 @@ class Camera:
             payload["motionDetectorVersion"] = motion_detector_version
 
         return self._session.put(
-            scope="camera", operation_id="{operation_id}", path=path, json=payload
+            scope="camera",
+            operation_id="updateDeviceCameraQualityAndRetention",
+            path=path,
+            json=payload,
         )
 
     def get_device_camera_sense(self, *, serial: str) -> dict[str, Any] | None:
@@ -413,7 +424,7 @@ class Camera:
             payload["detectionModelId"] = detection_model_id
 
         return self._session.put(
-            scope="camera", operation_id="{operation_id}", path=path, json=payload
+            scope="camera", operation_id="updateDeviceCameraSense", path=path, json=payload
         )
 
     def get_device_camera_sense_object_detection_models(
@@ -470,7 +481,7 @@ class Camera:
             payload["externalRtspEnabled"] = external_rtsp_enabled
 
         return self._session.put(
-            scope="camera", operation_id="{operation_id}", path=path, json=payload
+            scope="camera", operation_id="updateDeviceCameraVideoSettings", path=path, json=payload
         )
 
     def get_device_camera_video_link(
@@ -495,7 +506,7 @@ class Camera:
             params["timestamp"] = timestamp
 
         return self._session.get(
-            scope="camera", operation_id="{operation_id}", path=path, params=params
+            scope="camera", operation_id="getDeviceCameraVideoLink", path=path, params=params
         )
 
     def get_device_camera_wireless_profiles(self, *, serial: str) -> dict[str, Any] | None:
@@ -534,7 +545,10 @@ class Camera:
             payload["ids"] = ids
 
         return self._session.put(
-            scope="camera", operation_id="{operation_id}", path=path, json=payload
+            scope="camera",
+            operation_id="updateDeviceCameraWirelessProfiles",
+            path=path,
+            json=payload,
         )
 
     def get_network_camera_quality_retention_profiles(
@@ -625,7 +639,10 @@ class Camera:
             payload["videoSettings"] = video_settings
 
         return self._session.post(
-            scope="camera", operation_id="{operation_id}", path=path, json=payload
+            scope="camera",
+            operation_id="createNetworkCameraQualityRetentionProfile",
+            path=path,
+            json=payload,
         )
 
     def get_network_camera_quality_retention_profile(
@@ -729,7 +746,10 @@ class Camera:
             payload["videoSettings"] = video_settings
 
         return self._session.put(
-            scope="camera", operation_id="{operation_id}", path=path, json=payload
+            scope="camera",
+            operation_id="updateNetworkCameraQualityRetentionProfile",
+            path=path,
+            json=payload,
         )
 
     def delete_network_camera_quality_retention_profile(
@@ -815,7 +835,10 @@ class Camera:
             payload["identity"] = identity
 
         return self._session.post(
-            scope="camera", operation_id="{operation_id}", path=path, json=payload
+            scope="camera",
+            operation_id="createNetworkCameraWirelessProfile",
+            path=path,
+            json=payload,
         )
 
     def get_network_camera_wireless_profile(
@@ -873,7 +896,10 @@ class Camera:
             payload["identity"] = identity
 
         return self._session.put(
-            scope="camera", operation_id="{operation_id}", path=path, json=payload
+            scope="camera",
+            operation_id="updateNetworkCameraWirelessProfile",
+            path=path,
+            json=payload,
         )
 
     def delete_network_camera_wireless_profile(
@@ -917,7 +943,10 @@ class Camera:
             params["serials[]"] = serials
 
         return self._session.get(
-            scope="camera", operation_id="{operation_id}", path=path, params=params
+            scope="camera",
+            operation_id="getOrganizationCameraBoundariesAreasByDevice",
+            path=path,
+            params=params,
         )
 
     def get_organization_camera_boundaries_lines_by_device(
@@ -941,7 +970,10 @@ class Camera:
             params["serials[]"] = serials
 
         return self._session.get(
-            scope="camera", operation_id="{operation_id}", path=path, params=params
+            scope="camera",
+            operation_id="getOrganizationCameraBoundariesLinesByDevice",
+            path=path,
+            params=params,
         )
 
     def get_organization_camera_custom_analytics_artifacts(
@@ -982,7 +1014,10 @@ class Camera:
             payload["name"] = name
 
         return self._session.post(
-            scope="camera", operation_id="{operation_id}", path=path, json=payload
+            scope="camera",
+            operation_id="createOrganizationCameraCustomAnalyticsArtifact",
+            path=path,
+            json=payload,
         )
 
     def get_organization_camera_custom_analytics_artifact(
@@ -1037,8 +1072,8 @@ class Camera:
         per_page: int | None = None,
         boundary_types: list | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[Any]:
         """Returns analytics data for timespans.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-camera-detections-history-by-boundary-by-interval
@@ -1075,7 +1110,7 @@ class Camera:
 
         return self._session.get_pages(
             scope="camera",
-            operation_id="{operation_id}",
+            operation_id="getOrganizationCameraDetectionsHistoryByBoundaryByInterval",
             path=path,
             params=params,
             total_pages=total_pages,
@@ -1107,7 +1142,10 @@ class Camera:
             params["networkIds[]"] = network_ids
 
         return self._session.get(
-            scope="camera", operation_id="{operation_id}", path=path, params=params
+            scope="camera",
+            operation_id="getOrganizationCameraOnboardingStatuses",
+            path=path,
+            params=params,
         )
 
     def update_organization_camera_onboarding_statuses(
@@ -1137,7 +1175,10 @@ class Camera:
             payload["wirelessCredentialsSent"] = wireless_credentials_sent
 
         return self._session.put(
-            scope="camera", operation_id="{operation_id}", path=path, json=payload
+            scope="camera",
+            operation_id="updateOrganizationCameraOnboardingStatuses",
+            path=path,
+            json=payload,
         )
 
     def get_organization_camera_permissions(self, *, organization_id: str) -> dict[str, Any] | None:
@@ -1227,7 +1268,7 @@ class Camera:
             payload["appliedOrgWide"] = applied_org_wide
 
         return self._session.post(
-            scope="camera", operation_id="{operation_id}", path=path, json=payload
+            scope="camera", operation_id="createOrganizationCameraRole", path=path, json=payload
         )
 
     def get_organization_camera_role(
@@ -1288,7 +1329,7 @@ class Camera:
             payload["appliedOrgWide"] = applied_org_wide
 
         return self._session.put(
-            scope="camera", operation_id="{operation_id}", path=path, json=payload
+            scope="camera", operation_id="updateOrganizationCameraRole", path=path, json=payload
         )
 
     def delete_organization_camera_role(self, *, organization_id: str, role_id: str) -> None:

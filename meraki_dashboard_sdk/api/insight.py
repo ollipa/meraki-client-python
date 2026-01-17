@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-import urllib
+import urllib.parse
 from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
@@ -57,7 +57,10 @@ class Insight:
             params["resolution"] = resolution
 
         return self._session.get(
-            scope="insight", operation_id="{operation_id}", path=path, params=params
+            scope="insight",
+            operation_id="getNetworkInsightApplicationHealthByTime",
+            path=path,
+            params=params,
         )
 
     def get_organization_insight_applications(
@@ -128,7 +131,10 @@ class Insight:
             payload["bestEffortMonitoringEnabled"] = best_effort_monitoring_enabled
 
         return self._session.post(
-            scope="insight", operation_id="{operation_id}", path=path, json=payload
+            scope="insight",
+            operation_id="createOrganizationInsightMonitoredMediaServer",
+            path=path,
+            json=payload,
         )
 
     def get_organization_insight_monitored_media_server(
@@ -186,7 +192,10 @@ class Insight:
             payload["bestEffortMonitoringEnabled"] = best_effort_monitoring_enabled
 
         return self._session.put(
-            scope="insight", operation_id="{operation_id}", path=path, json=payload
+            scope="insight",
+            operation_id="updateOrganizationInsightMonitoredMediaServer",
+            path=path,
+            json=payload,
         )
 
     def delete_organization_insight_monitored_media_server(

@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-import urllib
+import urllib.parse
 from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
@@ -15,7 +15,7 @@ class Spaces:
     def __init__(self, session: Session) -> None:
         self._session = session
 
-    def get_organization_spaces_integrate_status(
+    async def get_organization_spaces_integrate_status(
         self, *, organization_id: str
     ) -> dict[str, Any] | None:
         """Get the status of the Spaces integration in Meraki.
@@ -29,11 +29,11 @@ class Spaces:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         path = f"/organizations/{organization_id}/spaces/integrate/status"
 
-        return self._session.get(
+        return await self._session.get(
             scope="spaces", operation_id="getOrganizationSpacesIntegrateStatus", path=path
         )
 
-    def remove_organization_spaces_integration(
+    async def remove_organization_spaces_integration(
         self, *, organization_id: str
     ) -> dict[str, Any] | None:
         """Remove the Spaces integration from Meraki.
@@ -47,6 +47,6 @@ class Spaces:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         path = f"/organizations/{organization_id}/spaces/integration/remove"
 
-        return self._session.post(
+        return await self._session.post(
             scope="spaces", operation_id="removeOrganizationSpacesIntegration", path=path
         )

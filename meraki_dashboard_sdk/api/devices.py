@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-import urllib
+import urllib.parse
 from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
@@ -90,7 +90,7 @@ class Devices:
             payload["floorPlanId"] = floor_plan_id
 
         return self._session.put(
-            scope="devices", operation_id="{operation_id}", path=path, json=payload
+            scope="devices", operation_id="updateDevice", path=path, json=payload
         )
 
     def blink_device_leds(
@@ -125,7 +125,7 @@ class Devices:
             payload["duty"] = duty
 
         return self._session.post(
-            scope="devices", operation_id="{operation_id}", path=path, json=payload
+            scope="devices", operation_id="blinkDeviceLeds", path=path, json=payload
         )
 
     def get_device_cellular_sims(self, *, serial: str) -> dict[str, Any] | None:
@@ -178,7 +178,7 @@ class Devices:
             payload["simFailover"] = sim_failover
 
         return self._session.put(
-            scope="devices", operation_id="{operation_id}", path=path, json=payload
+            scope="devices", operation_id="updateDeviceCellularSims", path=path, json=payload
         )
 
     def get_device_clients(
@@ -207,7 +207,7 @@ class Devices:
             params["timespan"] = timespan
 
         return self._session.get(
-            scope="devices", operation_id="{operation_id}", path=path, params=params
+            scope="devices", operation_id="getDeviceClients", path=path, params=params
         )
 
     def create_device_live_tools_arp_table(
@@ -231,7 +231,7 @@ class Devices:
             payload["callback"] = callback
 
         return self._session.post(
-            scope="devices", operation_id="{operation_id}", path=path, json=payload
+            scope="devices", operation_id="createDeviceLiveToolsArpTable", path=path, json=payload
         )
 
     def get_device_live_tools_arp_table(
@@ -280,7 +280,7 @@ class Devices:
             payload["callback"] = callback
 
         return self._session.post(
-            scope="devices", operation_id="{operation_id}", path=path, json=payload
+            scope="devices", operation_id="createDeviceLiveToolsCableTest", path=path, json=payload
         )
 
     def get_device_live_tools_cable_test(self, *, serial: str, id_: str) -> dict[str, Any] | None:
@@ -325,7 +325,7 @@ class Devices:
             payload["callback"] = callback
 
         return self._session.post(
-            scope="devices", operation_id="{operation_id}", path=path, json=payload
+            scope="devices", operation_id="createDeviceLiveToolsLedsBlink", path=path, json=payload
         )
 
     def get_device_live_tools_leds_blink(
@@ -369,7 +369,7 @@ class Devices:
             payload["callback"] = callback
 
         return self._session.post(
-            scope="devices", operation_id="{operation_id}", path=path, json=payload
+            scope="devices", operation_id="createDeviceLiveToolsMacTable", path=path, json=payload
         )
 
     def get_device_live_tools_mac_table(
@@ -413,7 +413,10 @@ class Devices:
             payload["callback"] = callback
 
         return self._session.post(
-            scope="devices", operation_id="{operation_id}", path=path, json=payload
+            scope="devices",
+            operation_id="createDeviceLiveToolsMulticastRouting",
+            path=path,
+            json=payload,
         )
 
     def get_device_live_tools_multicast_routing(
@@ -463,7 +466,7 @@ class Devices:
             payload["callback"] = callback
 
         return self._session.post(
-            scope="devices", operation_id="{operation_id}", path=path, json=payload
+            scope="devices", operation_id="createDeviceLiveToolsPing", path=path, json=payload
         )
 
     def get_device_live_tools_ping(self, *, serial: str, id_: str) -> dict[str, Any] | None:
@@ -506,7 +509,7 @@ class Devices:
             payload["callback"] = callback
 
         return self._session.post(
-            scope="devices", operation_id="{operation_id}", path=path, json=payload
+            scope="devices", operation_id="createDeviceLiveToolsPingDevice", path=path, json=payload
         )
 
     def get_device_live_tools_ping_device(self, *, serial: str, id_: str) -> dict[str, Any] | None:
@@ -548,7 +551,10 @@ class Devices:
             payload["callback"] = callback
 
         return self._session.post(
-            scope="devices", operation_id="{operation_id}", path=path, json=payload
+            scope="devices",
+            operation_id="createDeviceLiveToolsThroughputTest",
+            path=path,
+            json=payload,
         )
 
     def get_device_live_tools_throughput_test(
@@ -598,7 +604,7 @@ class Devices:
             payload["callback"] = callback
 
         return self._session.post(
-            scope="devices", operation_id="{operation_id}", path=path, json=payload
+            scope="devices", operation_id="createDeviceLiveToolsWakeOnLan", path=path, json=payload
         )
 
     def get_device_live_tools_wake_on_lan(
@@ -689,7 +695,7 @@ class Devices:
             params["ip"] = ip
 
         return self._session.get(
-            scope="devices", operation_id="{operation_id}", path=path, params=params
+            scope="devices", operation_id="getDeviceLossAndLatencyHistory", path=path, params=params
         )
 
     def get_device_management_interface(self, *, serial: str) -> dict[str, Any] | None:
@@ -731,7 +737,7 @@ class Devices:
             payload["wan2"] = wan2
 
         return self._session.put(
-            scope="devices", operation_id="{operation_id}", path=path, json=payload
+            scope="devices", operation_id="updateDeviceManagementInterface", path=path, json=payload
         )
 
     def reboot_device(self, *, serial: str) -> dict[str, Any] | None:

@@ -2,12 +2,11 @@
 
 from __future__ import annotations
 
-import urllib
-from collections.abc import Generator
+import urllib.parse
 from typing import TYPE_CHECKING, Any, Literal
 
 if TYPE_CHECKING:
-    from meraki_dashboard_sdk.aio.session import Session
+    from meraki_dashboard_sdk.aio.session import AsyncPaginatedResponse, Session
 
 
 class Appliance:
@@ -16,7 +15,7 @@ class Appliance:
     def __init__(self, session: Session) -> None:
         self._session = session
 
-    def get_device_appliance_dhcp_subnets(self, *, serial: str) -> dict[str, Any] | None:
+    async def get_device_appliance_dhcp_subnets(self, *, serial: str) -> dict[str, Any] | None:
         """Return the DHCP subnet information for an appliance.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device-appliance-dhcp-subnets
@@ -28,11 +27,11 @@ class Appliance:
         serial = urllib.parse.quote(str(serial), safe="")
         path = f"/devices/{serial}/appliance/dhcp/subnets"
 
-        return self._session.get(
+        return await self._session.get(
             scope="appliance", operation_id="getDeviceApplianceDhcpSubnets", path=path
         )
 
-    def get_device_appliance_performance(
+    async def get_device_appliance_performance(
         self,
         *,
         serial: str,
@@ -66,11 +65,16 @@ class Appliance:
         if timespan is not None:
             params["timespan"] = timespan
 
-        return self._session.get(
-            scope="appliance", operation_id="{operation_id}", path=path, params=params
+        return await self._session.get(
+            scope="appliance",
+            operation_id="getDeviceAppliancePerformance",
+            path=path,
+            params=params,
         )
 
-    def get_device_appliance_prefixes_delegated(self, *, serial: str) -> dict[str, Any] | None:
+    async def get_device_appliance_prefixes_delegated(
+        self, *, serial: str
+    ) -> dict[str, Any] | None:
         """Return current delegated IPv6 prefixes on an appliance.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device-appliance-prefixes-delegated
@@ -82,11 +86,11 @@ class Appliance:
         serial = urllib.parse.quote(str(serial), safe="")
         path = f"/devices/{serial}/appliance/prefixes/delegated"
 
-        return self._session.get(
+        return await self._session.get(
             scope="appliance", operation_id="getDeviceAppliancePrefixesDelegated", path=path
         )
 
-    def get_device_appliance_prefixes_delegated_vlan_assignments(
+    async def get_device_appliance_prefixes_delegated_vlan_assignments(
         self, *, serial: str
     ) -> dict[str, Any] | None:
         """Return prefixes assigned to all IPv6 enabled VLANs on an appliance.
@@ -100,13 +104,13 @@ class Appliance:
         serial = urllib.parse.quote(str(serial), safe="")
         path = f"/devices/{serial}/appliance/prefixes/delegated/vlanAssignments"
 
-        return self._session.get(
+        return await self._session.get(
             scope="appliance",
             operation_id="getDeviceAppliancePrefixesDelegatedVlanAssignments",
             path=path,
         )
 
-    def get_device_appliance_radio_settings(self, *, serial: str) -> dict[str, Any] | None:
+    async def get_device_appliance_radio_settings(self, *, serial: str) -> dict[str, Any] | None:
         """Return the radio settings of an appliance.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device-appliance-radio-settings
@@ -118,11 +122,11 @@ class Appliance:
         serial = urllib.parse.quote(str(serial), safe="")
         path = f"/devices/{serial}/appliance/radio/settings"
 
-        return self._session.get(
+        return await self._session.get(
             scope="appliance", operation_id="getDeviceApplianceRadioSettings", path=path
         )
 
-    def update_device_appliance_radio_settings(
+    async def update_device_appliance_radio_settings(
         self,
         *,
         serial: str,
@@ -156,11 +160,14 @@ class Appliance:
         if five_ghz_settings is not None:
             payload["fiveGhzSettings"] = five_ghz_settings
 
-        return self._session.put(
-            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.put(
+            scope="appliance",
+            operation_id="updateDeviceApplianceRadioSettings",
+            path=path,
+            json=payload,
         )
 
-    def get_device_appliance_uplinks_settings(self, *, serial: str) -> dict[str, Any] | None:
+    async def get_device_appliance_uplinks_settings(self, *, serial: str) -> dict[str, Any] | None:
         """Return the uplink settings for an MX appliance.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device-appliance-uplinks-settings
@@ -172,11 +179,11 @@ class Appliance:
         serial = urllib.parse.quote(str(serial), safe="")
         path = f"/devices/{serial}/appliance/uplinks/settings"
 
-        return self._session.get(
+        return await self._session.get(
             scope="appliance", operation_id="getDeviceApplianceUplinksSettings", path=path
         )
 
-    def update_device_appliance_uplinks_settings(
+    async def update_device_appliance_uplinks_settings(
         self, *, serial: str, interfaces: dict
     ) -> dict[str, Any] | None:
         """Update the uplink settings for an MX appliance.
@@ -195,11 +202,14 @@ class Appliance:
         if interfaces is not None:
             payload["interfaces"] = interfaces
 
-        return self._session.put(
-            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.put(
+            scope="appliance",
+            operation_id="updateDeviceApplianceUplinksSettings",
+            path=path,
+            json=payload,
         )
 
-    def create_device_appliance_vmx_authentication_token(
+    async def create_device_appliance_vmx_authentication_token(
         self, *, serial: str
     ) -> dict[str, Any] | None:
         """Generate a new vMX authentication token.
@@ -213,11 +223,11 @@ class Appliance:
         serial = urllib.parse.quote(str(serial), safe="")
         path = f"/devices/{serial}/appliance/vmx/authenticationToken"
 
-        return self._session.post(
+        return await self._session.post(
             scope="appliance", operation_id="createDeviceApplianceVmxAuthenticationToken", path=path
         )
 
-    def get_network_appliance_client_security_events(
+    async def get_network_appliance_client_security_events(
         self,
         *,
         network_id: str,
@@ -230,8 +240,8 @@ class Appliance:
         ending_before: str | None = None,
         sort_order: str | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> AsyncPaginatedResponse[Any]:
         """List the security events for a client.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-client-security-events
@@ -290,14 +300,14 @@ class Appliance:
 
         return self._session.get_pages(
             scope="appliance",
-            operation_id="{operation_id}",
+            operation_id="getNetworkApplianceClientSecurityEvents",
             path=path,
             params=params,
             total_pages=total_pages,
             direction=direction,
         )
 
-    def get_network_appliance_connectivity_monitoring_destinations(
+    async def get_network_appliance_connectivity_monitoring_destinations(
         self, *, network_id: str
     ) -> dict[str, Any] | None:
         """Return the connectivity testing destinations for an MX network.
@@ -311,13 +321,13 @@ class Appliance:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/appliance/connectivityMonitoringDestinations"
 
-        return self._session.get(
+        return await self._session.get(
             scope="appliance",
             operation_id="getNetworkApplianceConnectivityMonitoringDestinations",
             path=path,
         )
 
-    def update_network_appliance_connectivity_monitoring_destinations(
+    async def update_network_appliance_connectivity_monitoring_destinations(
         self, *, network_id: str, destinations: list | None = None
     ) -> dict[str, Any] | None:
         """Update the connectivity testing destinations for an MX network.
@@ -336,11 +346,16 @@ class Appliance:
         if destinations is not None:
             payload["destinations"] = destinations
 
-        return self._session.put(
-            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.put(
+            scope="appliance",
+            operation_id="updateNetworkApplianceConnectivityMonitoringDestinations",
+            path=path,
+            json=payload,
         )
 
-    def get_network_appliance_content_filtering(self, *, network_id: str) -> dict[str, Any] | None:
+    async def get_network_appliance_content_filtering(
+        self, *, network_id: str
+    ) -> dict[str, Any] | None:
         """Return the content filtering settings for an MX network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-content-filtering
@@ -352,11 +367,11 @@ class Appliance:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/appliance/contentFiltering"
 
-        return self._session.get(
+        return await self._session.get(
             scope="appliance", operation_id="getNetworkApplianceContentFiltering", path=path
         )
 
-    def update_network_appliance_content_filtering(
+    async def update_network_appliance_content_filtering(
         self,
         *,
         network_id: str,
@@ -396,11 +411,14 @@ class Appliance:
         if url_category_list_size is not None:
             payload["urlCategoryListSize"] = url_category_list_size
 
-        return self._session.put(
-            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.put(
+            scope="appliance",
+            operation_id="updateNetworkApplianceContentFiltering",
+            path=path,
+            json=payload,
         )
 
-    def get_network_appliance_content_filtering_categories(
+    async def get_network_appliance_content_filtering_categories(
         self, *, network_id: str
     ) -> dict[str, Any] | None:
         """List all available content filtering categories for an MX network.
@@ -414,13 +432,13 @@ class Appliance:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/appliance/contentFiltering/categories"
 
-        return self._session.get(
+        return await self._session.get(
             scope="appliance",
             operation_id="getNetworkApplianceContentFilteringCategories",
             path=path,
         )
 
-    def get_network_appliance_firewall_cellular_firewall_rules(
+    async def get_network_appliance_firewall_cellular_firewall_rules(
         self, *, network_id: str
     ) -> dict[str, Any] | None:
         """Return the cellular firewall rules for an MX network.
@@ -434,13 +452,13 @@ class Appliance:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/appliance/firewall/cellularFirewallRules"
 
-        return self._session.get(
+        return await self._session.get(
             scope="appliance",
             operation_id="getNetworkApplianceFirewallCellularFirewallRules",
             path=path,
         )
 
-    def update_network_appliance_firewall_cellular_firewall_rules(
+    async def update_network_appliance_firewall_cellular_firewall_rules(
         self, *, network_id: str, rules: list | None = None
     ) -> dict[str, Any] | None:
         """Update the cellular firewall rules of an MX network.
@@ -459,11 +477,14 @@ class Appliance:
         if rules is not None:
             payload["rules"] = rules
 
-        return self._session.put(
-            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.put(
+            scope="appliance",
+            operation_id="updateNetworkApplianceFirewallCellularFirewallRules",
+            path=path,
+            json=payload,
         )
 
-    def get_network_appliance_firewall_firewalled_services(
+    async def get_network_appliance_firewall_firewalled_services(
         self, *, network_id: str
     ) -> dict[str, Any] | None:
         """List the appliance services and their accessibility rules.
@@ -477,13 +498,13 @@ class Appliance:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/appliance/firewall/firewalledServices"
 
-        return self._session.get(
+        return await self._session.get(
             scope="appliance",
             operation_id="getNetworkApplianceFirewallFirewalledServices",
             path=path,
         )
 
-    def get_network_appliance_firewall_firewalled_service(
+    async def get_network_appliance_firewall_firewalled_service(
         self, *, network_id: str, service: str
     ) -> dict[str, Any] | None:
         """Return the accessibility settings of the given service ('ICMP', 'web', or 'SNMP').
@@ -499,13 +520,13 @@ class Appliance:
         service = urllib.parse.quote(str(service), safe="")
         path = f"/networks/{network_id}/appliance/firewall/firewalledServices/{service}"
 
-        return self._session.get(
+        return await self._session.get(
             scope="appliance",
             operation_id="getNetworkApplianceFirewallFirewalledService",
             path=path,
         )
 
-    def update_network_appliance_firewall_firewalled_service(
+    async def update_network_appliance_firewall_firewalled_service(
         self, *, network_id: str, service: str, access: str, allowed_ips: list | None = None
     ) -> dict[str, Any] | None:
         """Updates the accessibility settings for the given service ('ICMP', 'web', or 'SNMP').
@@ -541,11 +562,14 @@ class Appliance:
         if allowed_ips is not None:
             payload["allowedIps"] = allowed_ips
 
-        return self._session.put(
-            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.put(
+            scope="appliance",
+            operation_id="updateNetworkApplianceFirewallFirewalledService",
+            path=path,
+            json=payload,
         )
 
-    def get_network_appliance_firewall_inbound_cellular_firewall_rules(
+    async def get_network_appliance_firewall_inbound_cellular_firewall_rules(
         self, *, network_id: str
     ) -> dict[str, Any] | None:
         """Return the inbound cellular firewall rules for an MX network.
@@ -559,13 +583,13 @@ class Appliance:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/appliance/firewall/inboundCellularFirewallRules"
 
-        return self._session.get(
+        return await self._session.get(
             scope="appliance",
             operation_id="getNetworkApplianceFirewallInboundCellularFirewallRules",
             path=path,
         )
 
-    def update_network_appliance_firewall_inbound_cellular_firewall_rules(
+    async def update_network_appliance_firewall_inbound_cellular_firewall_rules(
         self, *, network_id: str, rules: list | None = None
     ) -> dict[str, Any] | None:
         """Update the inbound cellular firewall rules of an MX network.
@@ -584,11 +608,14 @@ class Appliance:
         if rules is not None:
             payload["rules"] = rules
 
-        return self._session.put(
-            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.put(
+            scope="appliance",
+            operation_id="updateNetworkApplianceFirewallInboundCellularFirewallRules",
+            path=path,
+            json=payload,
         )
 
-    def get_network_appliance_firewall_inbound_firewall_rules(
+    async def get_network_appliance_firewall_inbound_firewall_rules(
         self, *, network_id: str
     ) -> dict[str, Any] | None:
         """Return the inbound firewall rules for an MX network.
@@ -602,13 +629,13 @@ class Appliance:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/appliance/firewall/inboundFirewallRules"
 
-        return self._session.get(
+        return await self._session.get(
             scope="appliance",
             operation_id="getNetworkApplianceFirewallInboundFirewallRules",
             path=path,
         )
 
-    def update_network_appliance_firewall_inbound_firewall_rules(
+    async def update_network_appliance_firewall_inbound_firewall_rules(
         self, *, network_id: str, rules: list | None = None, syslog_default_rule: bool | None = None
     ) -> dict[str, Any] | None:
         """Update the inbound firewall rules of an MX network.
@@ -631,11 +658,14 @@ class Appliance:
         if syslog_default_rule is not None:
             payload["syslogDefaultRule"] = syslog_default_rule
 
-        return self._session.put(
-            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.put(
+            scope="appliance",
+            operation_id="updateNetworkApplianceFirewallInboundFirewallRules",
+            path=path,
+            json=payload,
         )
 
-    def get_network_appliance_firewall_l3_firewall_rules(
+    async def get_network_appliance_firewall_l3_firewall_rules(
         self, *, network_id: str
     ) -> dict[str, Any] | None:
         """Return the L3 firewall rules for an MX network.
@@ -649,11 +679,11 @@ class Appliance:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/appliance/firewall/l3FirewallRules"
 
-        return self._session.get(
+        return await self._session.get(
             scope="appliance", operation_id="getNetworkApplianceFirewallL3FirewallRules", path=path
         )
 
-    def update_network_appliance_firewall_l3_firewall_rules(
+    async def update_network_appliance_firewall_l3_firewall_rules(
         self, *, network_id: str, rules: list | None = None, syslog_default_rule: bool | None = None
     ) -> dict[str, Any] | None:
         """Update the L3 firewall rules of an MX network.
@@ -676,11 +706,14 @@ class Appliance:
         if syslog_default_rule is not None:
             payload["syslogDefaultRule"] = syslog_default_rule
 
-        return self._session.put(
-            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.put(
+            scope="appliance",
+            operation_id="updateNetworkApplianceFirewallL3FirewallRules",
+            path=path,
+            json=payload,
         )
 
-    def get_network_appliance_firewall_l7_firewall_rules(
+    async def get_network_appliance_firewall_l7_firewall_rules(
         self, *, network_id: str
     ) -> dict[str, Any] | None:
         """List the MX L7 firewall rules for an MX network.
@@ -694,11 +727,11 @@ class Appliance:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/appliance/firewall/l7FirewallRules"
 
-        return self._session.get(
+        return await self._session.get(
             scope="appliance", operation_id="getNetworkApplianceFirewallL7FirewallRules", path=path
         )
 
-    def update_network_appliance_firewall_l7_firewall_rules(
+    async def update_network_appliance_firewall_l7_firewall_rules(
         self, *, network_id: str, rules: list | None = None
     ) -> dict[str, Any] | None:
         """Update the MX L7 firewall rules for an MX network.
@@ -717,11 +750,14 @@ class Appliance:
         if rules is not None:
             payload["rules"] = rules
 
-        return self._session.put(
-            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.put(
+            scope="appliance",
+            operation_id="updateNetworkApplianceFirewallL7FirewallRules",
+            path=path,
+            json=payload,
         )
 
-    def get_network_appliance_firewall_l7_firewall_rules_application_categories(
+    async def get_network_appliance_firewall_l7_firewall_rules_application_categories(
         self, *, network_id: str
     ) -> dict[str, Any] | None:
         """Return the L7 firewall application categories and their associated applications for an MX network.
@@ -735,13 +771,13 @@ class Appliance:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/appliance/firewall/l7FirewallRules/applicationCategories"
 
-        return self._session.get(
+        return await self._session.get(
             scope="appliance",
             operation_id="getNetworkApplianceFirewallL7FirewallRulesApplicationCategories",
             path=path,
         )
 
-    def update_network_appliance_firewall_multicast_forwarding(
+    async def update_network_appliance_firewall_multicast_forwarding(
         self, *, network_id: str, rules: list
     ) -> dict[str, Any] | None:
         """Update static multicast forward rules for a network.
@@ -760,11 +796,14 @@ class Appliance:
         if rules is not None:
             payload["rules"] = rules
 
-        return self._session.put(
-            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.put(
+            scope="appliance",
+            operation_id="updateNetworkApplianceFirewallMulticastForwarding",
+            path=path,
+            json=payload,
         )
 
-    def get_network_appliance_firewall_one_to_many_nat_rules(
+    async def get_network_appliance_firewall_one_to_many_nat_rules(
         self, *, network_id: str
     ) -> dict[str, Any] | None:
         """Return the 1:Many NAT mapping rules for an MX network.
@@ -778,13 +817,13 @@ class Appliance:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/appliance/firewall/oneToManyNatRules"
 
-        return self._session.get(
+        return await self._session.get(
             scope="appliance",
             operation_id="getNetworkApplianceFirewallOneToManyNatRules",
             path=path,
         )
 
-    def update_network_appliance_firewall_one_to_many_nat_rules(
+    async def update_network_appliance_firewall_one_to_many_nat_rules(
         self, *, network_id: str, rules: list
     ) -> dict[str, Any] | None:
         """Set the 1:Many NAT mapping rules for an MX network.
@@ -803,11 +842,14 @@ class Appliance:
         if rules is not None:
             payload["rules"] = rules
 
-        return self._session.put(
-            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.put(
+            scope="appliance",
+            operation_id="updateNetworkApplianceFirewallOneToManyNatRules",
+            path=path,
+            json=payload,
         )
 
-    def get_network_appliance_firewall_one_to_one_nat_rules(
+    async def get_network_appliance_firewall_one_to_one_nat_rules(
         self, *, network_id: str
     ) -> dict[str, Any] | None:
         """Return the 1:1 NAT mapping rules for an MX network.
@@ -821,11 +863,11 @@ class Appliance:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/appliance/firewall/oneToOneNatRules"
 
-        return self._session.get(
+        return await self._session.get(
             scope="appliance", operation_id="getNetworkApplianceFirewallOneToOneNatRules", path=path
         )
 
-    def update_network_appliance_firewall_one_to_one_nat_rules(
+    async def update_network_appliance_firewall_one_to_one_nat_rules(
         self, *, network_id: str, rules: list
     ) -> dict[str, Any] | None:
         """Set the 1:1 NAT mapping rules for an MX network.
@@ -844,11 +886,14 @@ class Appliance:
         if rules is not None:
             payload["rules"] = rules
 
-        return self._session.put(
-            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.put(
+            scope="appliance",
+            operation_id="updateNetworkApplianceFirewallOneToOneNatRules",
+            path=path,
+            json=payload,
         )
 
-    def get_network_appliance_firewall_port_forwarding_rules(
+    async def get_network_appliance_firewall_port_forwarding_rules(
         self, *, network_id: str
     ) -> dict[str, Any] | None:
         """Return the port forwarding rules for an MX network.
@@ -862,13 +907,13 @@ class Appliance:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/appliance/firewall/portForwardingRules"
 
-        return self._session.get(
+        return await self._session.get(
             scope="appliance",
             operation_id="getNetworkApplianceFirewallPortForwardingRules",
             path=path,
         )
 
-    def update_network_appliance_firewall_port_forwarding_rules(
+    async def update_network_appliance_firewall_port_forwarding_rules(
         self, *, network_id: str, rules: list
     ) -> dict[str, Any] | None:
         """Update the port forwarding rules for an MX network.
@@ -887,11 +932,16 @@ class Appliance:
         if rules is not None:
             payload["rules"] = rules
 
-        return self._session.put(
-            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.put(
+            scope="appliance",
+            operation_id="updateNetworkApplianceFirewallPortForwardingRules",
+            path=path,
+            json=payload,
         )
 
-    def get_network_appliance_firewall_settings(self, *, network_id: str) -> dict[str, Any] | None:
+    async def get_network_appliance_firewall_settings(
+        self, *, network_id: str
+    ) -> dict[str, Any] | None:
         """Return the firewall settings for this network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-firewall-settings
@@ -903,11 +953,11 @@ class Appliance:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/appliance/firewall/settings"
 
-        return self._session.get(
+        return await self._session.get(
             scope="appliance", operation_id="getNetworkApplianceFirewallSettings", path=path
         )
 
-    def update_network_appliance_firewall_settings(
+    async def update_network_appliance_firewall_settings(
         self, *, network_id: str, spoofing_protection: dict | None = None
     ) -> dict[str, Any] | None:
         """Update the firewall settings for this network.
@@ -926,11 +976,14 @@ class Appliance:
         if spoofing_protection is not None:
             payload["spoofingProtection"] = spoofing_protection
 
-        return self._session.put(
-            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.put(
+            scope="appliance",
+            operation_id="updateNetworkApplianceFirewallSettings",
+            path=path,
+            json=payload,
         )
 
-    def get_network_appliance_ports(self, *, network_id: str) -> dict[str, Any] | None:
+    async def get_network_appliance_ports(self, *, network_id: str) -> dict[str, Any] | None:
         """List per-port VLAN settings for all ports of a MX.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-ports
@@ -942,11 +995,13 @@ class Appliance:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/appliance/ports"
 
-        return self._session.get(
+        return await self._session.get(
             scope="appliance", operation_id="getNetworkAppliancePorts", path=path
         )
 
-    def get_network_appliance_port(self, *, network_id: str, port_id: str) -> dict[str, Any] | None:
+    async def get_network_appliance_port(
+        self, *, network_id: str, port_id: str
+    ) -> dict[str, Any] | None:
         """Return per-port VLAN settings for a single MX port.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-port
@@ -960,11 +1015,11 @@ class Appliance:
         port_id = urllib.parse.quote(str(port_id), safe="")
         path = f"/networks/{network_id}/appliance/ports/{port_id}"
 
-        return self._session.get(
+        return await self._session.get(
             scope="appliance", operation_id="getNetworkAppliancePort", path=path
         )
 
-    def update_network_appliance_port(
+    async def update_network_appliance_port(
         self,
         *,
         network_id: str,
@@ -1016,11 +1071,11 @@ class Appliance:
         if access_policy is not None:
             payload["accessPolicy"] = access_policy
 
-        return self._session.put(
-            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.put(
+            scope="appliance", operation_id="updateNetworkAppliancePort", path=path, json=payload
         )
 
-    def get_network_appliance_prefixes_delegated_statics(
+    async def get_network_appliance_prefixes_delegated_statics(
         self, *, network_id: str
     ) -> dict[str, Any] | None:
         """List static delegated prefixes for a network.
@@ -1034,11 +1089,11 @@ class Appliance:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/appliance/prefixes/delegated/statics"
 
-        return self._session.get(
+        return await self._session.get(
             scope="appliance", operation_id="getNetworkAppliancePrefixesDelegatedStatics", path=path
         )
 
-    def create_network_appliance_prefixes_delegated_static(
+    async def create_network_appliance_prefixes_delegated_static(
         self, *, network_id: str, prefix: str, origin: dict, description: str | None = None
     ) -> dict[str, Any] | None:
         """Add a static delegated prefix from a network.
@@ -1063,11 +1118,14 @@ class Appliance:
         if description is not None:
             payload["description"] = description
 
-        return self._session.post(
-            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.post(
+            scope="appliance",
+            operation_id="createNetworkAppliancePrefixesDelegatedStatic",
+            path=path,
+            json=payload,
         )
 
-    def get_network_appliance_prefixes_delegated_static(
+    async def get_network_appliance_prefixes_delegated_static(
         self, *, network_id: str, static_delegated_prefix_id: str
     ) -> dict[str, Any] | None:
         """Return a static delegated prefix from a network.
@@ -1083,11 +1141,11 @@ class Appliance:
         static_delegated_prefix_id = urllib.parse.quote(str(static_delegated_prefix_id), safe="")
         path = f"/networks/{network_id}/appliance/prefixes/delegated/statics/{static_delegated_prefix_id}"
 
-        return self._session.get(
+        return await self._session.get(
             scope="appliance", operation_id="getNetworkAppliancePrefixesDelegatedStatic", path=path
         )
 
-    def update_network_appliance_prefixes_delegated_static(
+    async def update_network_appliance_prefixes_delegated_static(
         self,
         *,
         network_id: str,
@@ -1120,11 +1178,14 @@ class Appliance:
         if description is not None:
             payload["description"] = description
 
-        return self._session.put(
-            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.put(
+            scope="appliance",
+            operation_id="updateNetworkAppliancePrefixesDelegatedStatic",
+            path=path,
+            json=payload,
         )
 
-    def delete_network_appliance_prefixes_delegated_static(
+    async def delete_network_appliance_prefixes_delegated_static(
         self, *, network_id: str, static_delegated_prefix_id: str
     ) -> None:
         """Delete a static delegated prefix from a network.
@@ -1140,13 +1201,13 @@ class Appliance:
         static_delegated_prefix_id = urllib.parse.quote(str(static_delegated_prefix_id), safe="")
         path = f"/networks/{network_id}/appliance/prefixes/delegated/statics/{static_delegated_prefix_id}"
 
-        return self._session.delete(
+        return await self._session.delete(
             scope="appliance",
             operation_id="deleteNetworkAppliancePrefixesDelegatedStatic",
             path=path,
         )
 
-    def get_network_appliance_rf_profiles(self, *, network_id: str) -> dict[str, Any] | None:
+    async def get_network_appliance_rf_profiles(self, *, network_id: str) -> dict[str, Any] | None:
         """List the RF profiles for this network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-rf-profiles
@@ -1158,11 +1219,11 @@ class Appliance:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/appliance/rfProfiles"
 
-        return self._session.get(
+        return await self._session.get(
             scope="appliance", operation_id="getNetworkApplianceRfProfiles", path=path
         )
 
-    def create_network_appliance_rf_profile(
+    async def create_network_appliance_rf_profile(
         self,
         *,
         network_id: str,
@@ -1196,11 +1257,14 @@ class Appliance:
         if per_ssid_settings is not None:
             payload["perSsidSettings"] = per_ssid_settings
 
-        return self._session.post(
-            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.post(
+            scope="appliance",
+            operation_id="createNetworkApplianceRfProfile",
+            path=path,
+            json=payload,
         )
 
-    def get_network_appliance_rf_profile(
+    async def get_network_appliance_rf_profile(
         self, *, network_id: str, rf_profile_id: str
     ) -> dict[str, Any] | None:
         """Return a RF profile.
@@ -1216,11 +1280,11 @@ class Appliance:
         rf_profile_id = urllib.parse.quote(str(rf_profile_id), safe="")
         path = f"/networks/{network_id}/appliance/rfProfiles/{rf_profile_id}"
 
-        return self._session.get(
+        return await self._session.get(
             scope="appliance", operation_id="getNetworkApplianceRfProfile", path=path
         )
 
-    def update_network_appliance_rf_profile(
+    async def update_network_appliance_rf_profile(
         self,
         *,
         network_id: str,
@@ -1257,11 +1321,16 @@ class Appliance:
         if per_ssid_settings is not None:
             payload["perSsidSettings"] = per_ssid_settings
 
-        return self._session.put(
-            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.put(
+            scope="appliance",
+            operation_id="updateNetworkApplianceRfProfile",
+            path=path,
+            json=payload,
         )
 
-    def delete_network_appliance_rf_profile(self, *, network_id: str, rf_profile_id: str) -> None:
+    async def delete_network_appliance_rf_profile(
+        self, *, network_id: str, rf_profile_id: str
+    ) -> None:
         """Delete a RF Profile.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-network-appliance-rf-profile
@@ -1275,11 +1344,11 @@ class Appliance:
         rf_profile_id = urllib.parse.quote(str(rf_profile_id), safe="")
         path = f"/networks/{network_id}/appliance/rfProfiles/{rf_profile_id}"
 
-        return self._session.delete(
+        return await self._session.delete(
             scope="appliance", operation_id="deleteNetworkApplianceRfProfile", path=path
         )
 
-    def update_network_appliance_sdwan_internet_policies(
+    async def update_network_appliance_sdwan_internet_policies(
         self, *, network_id: str, wan_traffic_uplink_preferences: list | None = None
     ) -> dict[str, Any] | None:
         """Update SDWAN internet traffic preferences for an MX network.
@@ -1299,11 +1368,14 @@ class Appliance:
         if wan_traffic_uplink_preferences is not None:
             payload["wanTrafficUplinkPreferences"] = wan_traffic_uplink_preferences
 
-        return self._session.put(
-            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.put(
+            scope="appliance",
+            operation_id="updateNetworkApplianceSdwanInternetPolicies",
+            path=path,
+            json=payload,
         )
 
-    def get_network_appliance_security_events(
+    async def get_network_appliance_security_events(
         self,
         *,
         network_id: str,
@@ -1315,8 +1387,8 @@ class Appliance:
         ending_before: str | None = None,
         sort_order: str | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> AsyncPaginatedResponse[Any]:
         """List the security events for a network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-security-events
@@ -1373,14 +1445,16 @@ class Appliance:
 
         return self._session.get_pages(
             scope="appliance",
-            operation_id="{operation_id}",
+            operation_id="getNetworkApplianceSecurityEvents",
             path=path,
             params=params,
             total_pages=total_pages,
             direction=direction,
         )
 
-    def get_network_appliance_security_intrusion(self, *, network_id: str) -> dict[str, Any] | None:
+    async def get_network_appliance_security_intrusion(
+        self, *, network_id: str
+    ) -> dict[str, Any] | None:
         """Returns all supported intrusion settings for an MX network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-security-intrusion
@@ -1392,11 +1466,11 @@ class Appliance:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/appliance/security/intrusion"
 
-        return self._session.get(
+        return await self._session.get(
             scope="appliance", operation_id="getNetworkApplianceSecurityIntrusion", path=path
         )
 
-    def update_network_appliance_security_intrusion(
+    async def update_network_appliance_security_intrusion(
         self,
         *,
         network_id: str,
@@ -1440,11 +1514,16 @@ class Appliance:
         if protected_networks is not None:
             payload["protectedNetworks"] = protected_networks
 
-        return self._session.put(
-            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.put(
+            scope="appliance",
+            operation_id="updateNetworkApplianceSecurityIntrusion",
+            path=path,
+            json=payload,
         )
 
-    def get_network_appliance_security_malware(self, *, network_id: str) -> dict[str, Any] | None:
+    async def get_network_appliance_security_malware(
+        self, *, network_id: str
+    ) -> dict[str, Any] | None:
         """Returns all supported malware settings for an MX network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-security-malware
@@ -1456,11 +1535,11 @@ class Appliance:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/appliance/security/malware"
 
-        return self._session.get(
+        return await self._session.get(
             scope="appliance", operation_id="getNetworkApplianceSecurityMalware", path=path
         )
 
-    def update_network_appliance_security_malware(
+    async def update_network_appliance_security_malware(
         self,
         *,
         network_id: str,
@@ -1498,11 +1577,14 @@ class Appliance:
         if allowed_files is not None:
             payload["allowedFiles"] = allowed_files
 
-        return self._session.put(
-            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.put(
+            scope="appliance",
+            operation_id="updateNetworkApplianceSecurityMalware",
+            path=path,
+            json=payload,
         )
 
-    def get_network_appliance_settings(self, *, network_id: str) -> dict[str, Any] | None:
+    async def get_network_appliance_settings(self, *, network_id: str) -> dict[str, Any] | None:
         """Return the appliance settings for a network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-settings
@@ -1514,11 +1596,11 @@ class Appliance:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/appliance/settings"
 
-        return self._session.get(
+        return await self._session.get(
             scope="appliance", operation_id="getNetworkApplianceSettings", path=path
         )
 
-    def update_network_appliance_settings(
+    async def update_network_appliance_settings(
         self,
         *,
         network_id: str,
@@ -1559,11 +1641,14 @@ class Appliance:
         if dynamic_dns is not None:
             payload["dynamicDns"] = dynamic_dns
 
-        return self._session.put(
-            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.put(
+            scope="appliance",
+            operation_id="updateNetworkApplianceSettings",
+            path=path,
+            json=payload,
         )
 
-    def get_network_appliance_single_lan(self, *, network_id: str) -> dict[str, Any] | None:
+    async def get_network_appliance_single_lan(self, *, network_id: str) -> dict[str, Any] | None:
         """Return single LAN configuration.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-single-lan
@@ -1575,11 +1660,11 @@ class Appliance:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/appliance/singleLan"
 
-        return self._session.get(
+        return await self._session.get(
             scope="appliance", operation_id="getNetworkApplianceSingleLan", path=path
         )
 
-    def update_network_appliance_single_lan(
+    async def update_network_appliance_single_lan(
         self,
         *,
         network_id: str,
@@ -1616,11 +1701,14 @@ class Appliance:
         if mandatory_dhcp is not None:
             payload["mandatoryDhcp"] = mandatory_dhcp
 
-        return self._session.put(
-            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.put(
+            scope="appliance",
+            operation_id="updateNetworkApplianceSingleLan",
+            path=path,
+            json=payload,
         )
 
-    def get_network_appliance_ssids(self, *, network_id: str) -> dict[str, Any] | None:
+    async def get_network_appliance_ssids(self, *, network_id: str) -> dict[str, Any] | None:
         """List the MX SSIDs in a network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-ssids
@@ -1632,11 +1720,13 @@ class Appliance:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/appliance/ssids"
 
-        return self._session.get(
+        return await self._session.get(
             scope="appliance", operation_id="getNetworkApplianceSsids", path=path
         )
 
-    def get_network_appliance_ssid(self, *, network_id: str, number: str) -> dict[str, Any] | None:
+    async def get_network_appliance_ssid(
+        self, *, network_id: str, number: str
+    ) -> dict[str, Any] | None:
         """Return a single MX SSID.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-ssid
@@ -1650,11 +1740,11 @@ class Appliance:
         number = urllib.parse.quote(str(number), safe="")
         path = f"/networks/{network_id}/appliance/ssids/{number}"
 
-        return self._session.get(
+        return await self._session.get(
             scope="appliance", operation_id="getNetworkApplianceSsid", path=path
         )
 
-    def update_network_appliance_ssid(
+    async def update_network_appliance_ssid(
         self,
         *,
         network_id: str,
@@ -1745,11 +1835,13 @@ class Appliance:
         if dot11w is not None:
             payload["dot11w"] = dot11w
 
-        return self._session.put(
-            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.put(
+            scope="appliance", operation_id="updateNetworkApplianceSsid", path=path, json=payload
         )
 
-    def get_network_appliance_static_routes(self, *, network_id: str) -> dict[str, Any] | None:
+    async def get_network_appliance_static_routes(
+        self, *, network_id: str
+    ) -> dict[str, Any] | None:
         """List the static routes for an MX or teleworker network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-static-routes
@@ -1761,11 +1853,11 @@ class Appliance:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/appliance/staticRoutes"
 
-        return self._session.get(
+        return await self._session.get(
             scope="appliance", operation_id="getNetworkApplianceStaticRoutes", path=path
         )
 
-    def create_network_appliance_static_route(
+    async def create_network_appliance_static_route(
         self,
         *,
         network_id: str,
@@ -1799,11 +1891,14 @@ class Appliance:
         if gateway_vlan_id is not None:
             payload["gatewayVlanId"] = gateway_vlan_id
 
-        return self._session.post(
-            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.post(
+            scope="appliance",
+            operation_id="createNetworkApplianceStaticRoute",
+            path=path,
+            json=payload,
         )
 
-    def get_network_appliance_static_route(
+    async def get_network_appliance_static_route(
         self, *, network_id: str, static_route_id: str
     ) -> dict[str, Any] | None:
         """Return a static route for an MX or teleworker network.
@@ -1819,11 +1914,11 @@ class Appliance:
         static_route_id = urllib.parse.quote(str(static_route_id), safe="")
         path = f"/networks/{network_id}/appliance/staticRoutes/{static_route_id}"
 
-        return self._session.get(
+        return await self._session.get(
             scope="appliance", operation_id="getNetworkApplianceStaticRoute", path=path
         )
 
-    def update_network_appliance_static_route(
+    async def update_network_appliance_static_route(
         self,
         *,
         network_id: str,
@@ -1872,11 +1967,14 @@ class Appliance:
         if reserved_ip_ranges is not None:
             payload["reservedIpRanges"] = reserved_ip_ranges
 
-        return self._session.put(
-            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.put(
+            scope="appliance",
+            operation_id="updateNetworkApplianceStaticRoute",
+            path=path,
+            json=payload,
         )
 
-    def delete_network_appliance_static_route(
+    async def delete_network_appliance_static_route(
         self, *, network_id: str, static_route_id: str
     ) -> None:
         """Delete a static route from an MX or teleworker network.
@@ -1892,11 +1990,13 @@ class Appliance:
         static_route_id = urllib.parse.quote(str(static_route_id), safe="")
         path = f"/networks/{network_id}/appliance/staticRoutes/{static_route_id}"
 
-        return self._session.delete(
+        return await self._session.delete(
             scope="appliance", operation_id="deleteNetworkApplianceStaticRoute", path=path
         )
 
-    def get_network_appliance_traffic_shaping(self, *, network_id: str) -> dict[str, Any] | None:
+    async def get_network_appliance_traffic_shaping(
+        self, *, network_id: str
+    ) -> dict[str, Any] | None:
         """Display the traffic shaping settings for an MX network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-traffic-shaping
@@ -1908,11 +2008,11 @@ class Appliance:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/appliance/trafficShaping"
 
-        return self._session.get(
+        return await self._session.get(
             scope="appliance", operation_id="getNetworkApplianceTrafficShaping", path=path
         )
 
-    def update_network_appliance_traffic_shaping(
+    async def update_network_appliance_traffic_shaping(
         self, *, network_id: str, global_bandwidth_limits: dict | None = None
     ) -> dict[str, Any] | None:
         """Update the traffic shaping settings for an MX network.
@@ -1931,11 +2031,14 @@ class Appliance:
         if global_bandwidth_limits is not None:
             payload["globalBandwidthLimits"] = global_bandwidth_limits
 
-        return self._session.put(
-            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.put(
+            scope="appliance",
+            operation_id="updateNetworkApplianceTrafficShaping",
+            path=path,
+            json=payload,
         )
 
-    def get_network_appliance_traffic_shaping_custom_performance_classes(
+    async def get_network_appliance_traffic_shaping_custom_performance_classes(
         self, *, network_id: str
     ) -> dict[str, Any] | None:
         """List all custom performance classes for an MX network.
@@ -1949,13 +2052,13 @@ class Appliance:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/appliance/trafficShaping/customPerformanceClasses"
 
-        return self._session.get(
+        return await self._session.get(
             scope="appliance",
             operation_id="getNetworkApplianceTrafficShapingCustomPerformanceClasses",
             path=path,
         )
 
-    def create_network_appliance_traffic_shaping_custom_performance_class(
+    async def create_network_appliance_traffic_shaping_custom_performance_class(
         self,
         *,
         network_id: str,
@@ -1989,11 +2092,14 @@ class Appliance:
         if max_loss_percentage is not None:
             payload["maxLossPercentage"] = max_loss_percentage
 
-        return self._session.post(
-            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.post(
+            scope="appliance",
+            operation_id="createNetworkApplianceTrafficShapingCustomPerformanceClass",
+            path=path,
+            json=payload,
         )
 
-    def get_network_appliance_traffic_shaping_custom_performance_class(
+    async def get_network_appliance_traffic_shaping_custom_performance_class(
         self, *, network_id: str, custom_performance_class_id: str
     ) -> dict[str, Any] | None:
         """Return a custom performance class for an MX network.
@@ -2009,13 +2115,13 @@ class Appliance:
         custom_performance_class_id = urllib.parse.quote(str(custom_performance_class_id), safe="")
         path = f"/networks/{network_id}/appliance/trafficShaping/customPerformanceClasses/{custom_performance_class_id}"
 
-        return self._session.get(
+        return await self._session.get(
             scope="appliance",
             operation_id="getNetworkApplianceTrafficShapingCustomPerformanceClass",
             path=path,
         )
 
-    def update_network_appliance_traffic_shaping_custom_performance_class(
+    async def update_network_appliance_traffic_shaping_custom_performance_class(
         self,
         *,
         network_id: str,
@@ -2052,11 +2158,14 @@ class Appliance:
         if max_loss_percentage is not None:
             payload["maxLossPercentage"] = max_loss_percentage
 
-        return self._session.put(
-            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.put(
+            scope="appliance",
+            operation_id="updateNetworkApplianceTrafficShapingCustomPerformanceClass",
+            path=path,
+            json=payload,
         )
 
-    def delete_network_appliance_traffic_shaping_custom_performance_class(
+    async def delete_network_appliance_traffic_shaping_custom_performance_class(
         self, *, network_id: str, custom_performance_class_id: str
     ) -> None:
         """Delete a custom performance class from an MX network.
@@ -2072,13 +2181,13 @@ class Appliance:
         custom_performance_class_id = urllib.parse.quote(str(custom_performance_class_id), safe="")
         path = f"/networks/{network_id}/appliance/trafficShaping/customPerformanceClasses/{custom_performance_class_id}"
 
-        return self._session.delete(
+        return await self._session.delete(
             scope="appliance",
             operation_id="deleteNetworkApplianceTrafficShapingCustomPerformanceClass",
             path=path,
         )
 
-    def get_network_appliance_traffic_shaping_rules(
+    async def get_network_appliance_traffic_shaping_rules(
         self, *, network_id: str
     ) -> dict[str, Any] | None:
         """Display the traffic shaping settings rules for an MX network.
@@ -2092,11 +2201,11 @@ class Appliance:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/appliance/trafficShaping/rules"
 
-        return self._session.get(
+        return await self._session.get(
             scope="appliance", operation_id="getNetworkApplianceTrafficShapingRules", path=path
         )
 
-    def update_network_appliance_traffic_shaping_rules(
+    async def update_network_appliance_traffic_shaping_rules(
         self,
         *,
         network_id: str,
@@ -2127,11 +2236,14 @@ class Appliance:
         if rules is not None:
             payload["rules"] = rules
 
-        return self._session.put(
-            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.put(
+            scope="appliance",
+            operation_id="updateNetworkApplianceTrafficShapingRules",
+            path=path,
+            json=payload,
         )
 
-    def get_network_appliance_traffic_shaping_uplink_bandwidth(
+    async def get_network_appliance_traffic_shaping_uplink_bandwidth(
         self, *, network_id: str
     ) -> dict[str, Any] | None:
         """Returns the uplink bandwidth limits for your MX network.
@@ -2145,13 +2257,13 @@ class Appliance:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/appliance/trafficShaping/uplinkBandwidth"
 
-        return self._session.get(
+        return await self._session.get(
             scope="appliance",
             operation_id="getNetworkApplianceTrafficShapingUplinkBandwidth",
             path=path,
         )
 
-    def update_network_appliance_traffic_shaping_uplink_bandwidth(
+    async def update_network_appliance_traffic_shaping_uplink_bandwidth(
         self, *, network_id: str, bandwidth_limits: dict | None = None
     ) -> dict[str, Any] | None:
         """Updates the uplink bandwidth settings for your MX network.
@@ -2171,11 +2283,14 @@ class Appliance:
         if bandwidth_limits is not None:
             payload["bandwidthLimits"] = bandwidth_limits
 
-        return self._session.put(
-            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.put(
+            scope="appliance",
+            operation_id="updateNetworkApplianceTrafficShapingUplinkBandwidth",
+            path=path,
+            json=payload,
         )
 
-    def get_network_appliance_traffic_shaping_uplink_selection(
+    async def get_network_appliance_traffic_shaping_uplink_selection(
         self, *, network_id: str
     ) -> dict[str, Any] | None:
         """Show uplink selection settings for an MX network.
@@ -2189,13 +2304,13 @@ class Appliance:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/appliance/trafficShaping/uplinkSelection"
 
-        return self._session.get(
+        return await self._session.get(
             scope="appliance",
             operation_id="getNetworkApplianceTrafficShapingUplinkSelection",
             path=path,
         )
 
-    def update_network_appliance_traffic_shaping_uplink_selection(
+    async def update_network_appliance_traffic_shaping_uplink_selection(
         self,
         *,
         network_id: str,
@@ -2237,11 +2352,14 @@ class Appliance:
         if vpn_traffic_uplink_preferences is not None:
             payload["vpnTrafficUplinkPreferences"] = vpn_traffic_uplink_preferences
 
-        return self._session.put(
-            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.put(
+            scope="appliance",
+            operation_id="updateNetworkApplianceTrafficShapingUplinkSelection",
+            path=path,
+            json=payload,
         )
 
-    def update_network_appliance_traffic_shaping_vpn_exclusions(
+    async def update_network_appliance_traffic_shaping_vpn_exclusions(
         self, *, network_id: str, custom: list | None = None, major_applications: list | None = None
     ) -> dict[str, Any] | None:
         """Update VPN exclusion rules for an MX network.
@@ -2264,11 +2382,14 @@ class Appliance:
         if major_applications is not None:
             payload["majorApplications"] = major_applications
 
-        return self._session.put(
-            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.put(
+            scope="appliance",
+            operation_id="updateNetworkApplianceTrafficShapingVpnExclusions",
+            path=path,
+            json=payload,
         )
 
-    def get_network_appliance_uplinks_usage_history(
+    async def get_network_appliance_uplinks_usage_history(
         self,
         *,
         network_id: str,
@@ -2306,11 +2427,14 @@ class Appliance:
         if resolution is not None:
             params["resolution"] = resolution
 
-        return self._session.get(
-            scope="appliance", operation_id="{operation_id}", path=path, params=params
+        return await self._session.get(
+            scope="appliance",
+            operation_id="getNetworkApplianceUplinksUsageHistory",
+            path=path,
+            params=params,
         )
 
-    def get_network_appliance_vlans(self, *, network_id: str) -> dict[str, Any] | None:
+    async def get_network_appliance_vlans(self, *, network_id: str) -> dict[str, Any] | None:
         """List the VLANs for a Cisco Secure Router network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-vlans
@@ -2322,11 +2446,11 @@ class Appliance:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/appliance/vlans"
 
-        return self._session.get(
+        return await self._session.get(
             scope="appliance", operation_id="getNetworkApplianceVlans", path=path
         )
 
-    def create_network_appliance_vlan(
+    async def create_network_appliance_vlan(
         self,
         *,
         network_id: str,
@@ -2446,11 +2570,13 @@ class Appliance:
         if dhcp_options is not None:
             payload["dhcpOptions"] = dhcp_options
 
-        return self._session.post(
-            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.post(
+            scope="appliance", operation_id="createNetworkApplianceVlan", path=path, json=payload
         )
 
-    def get_network_appliance_vlans_settings(self, *, network_id: str) -> dict[str, Any] | None:
+    async def get_network_appliance_vlans_settings(
+        self, *, network_id: str
+    ) -> dict[str, Any] | None:
         """Returns the enabled status of VLANs for the network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-vlans-settings
@@ -2462,11 +2588,11 @@ class Appliance:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/appliance/vlans/settings"
 
-        return self._session.get(
+        return await self._session.get(
             scope="appliance", operation_id="getNetworkApplianceVlansSettings", path=path
         )
 
-    def update_network_appliance_vlans_settings(
+    async def update_network_appliance_vlans_settings(
         self, *, network_id: str, vlans_enabled: bool | None = None
     ) -> dict[str, Any] | None:
         """Enable/Disable VLANs for the given network.
@@ -2486,11 +2612,16 @@ class Appliance:
         if vlans_enabled is not None:
             payload["vlansEnabled"] = vlans_enabled
 
-        return self._session.put(
-            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.put(
+            scope="appliance",
+            operation_id="updateNetworkApplianceVlansSettings",
+            path=path,
+            json=payload,
         )
 
-    def get_network_appliance_vlan(self, *, network_id: str, vlan_id: str) -> dict[str, Any] | None:
+    async def get_network_appliance_vlan(
+        self, *, network_id: str, vlan_id: str
+    ) -> dict[str, Any] | None:
         """Return a VLAN.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-vlan
@@ -2504,11 +2635,11 @@ class Appliance:
         vlan_id = urllib.parse.quote(str(vlan_id), safe="")
         path = f"/networks/{network_id}/appliance/vlans/{vlan_id}"
 
-        return self._session.get(
+        return await self._session.get(
             scope="appliance", operation_id="getNetworkApplianceVlan", path=path
         )
 
-    def update_network_appliance_vlan(
+    async def update_network_appliance_vlan(
         self,
         *,
         network_id: str,
@@ -2649,11 +2780,11 @@ class Appliance:
         if mandatory_dhcp is not None:
             payload["mandatoryDhcp"] = mandatory_dhcp
 
-        return self._session.put(
-            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.put(
+            scope="appliance", operation_id="updateNetworkApplianceVlan", path=path, json=payload
         )
 
-    def delete_network_appliance_vlan(self, *, network_id: str, vlan_id: str) -> None:
+    async def delete_network_appliance_vlan(self, *, network_id: str, vlan_id: str) -> None:
         """Delete a VLAN from a network.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-network-appliance-vlan
@@ -2667,11 +2798,11 @@ class Appliance:
         vlan_id = urllib.parse.quote(str(vlan_id), safe="")
         path = f"/networks/{network_id}/appliance/vlans/{vlan_id}"
 
-        return self._session.delete(
+        return await self._session.delete(
             scope="appliance", operation_id="deleteNetworkApplianceVlan", path=path
         )
 
-    def get_network_appliance_vpn_bgp(self, *, network_id: str) -> dict[str, Any] | None:
+    async def get_network_appliance_vpn_bgp(self, *, network_id: str) -> dict[str, Any] | None:
         """Return a Hub BGP Configuration.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-vpn-bgp
@@ -2683,11 +2814,11 @@ class Appliance:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/appliance/vpn/bgp"
 
-        return self._session.get(
+        return await self._session.get(
             scope="appliance", operation_id="getNetworkApplianceVpnBgp", path=path
         )
 
-    def update_network_appliance_vpn_bgp(
+    async def update_network_appliance_vpn_bgp(
         self,
         *,
         network_id: str,
@@ -2731,11 +2862,11 @@ class Appliance:
         if neighbors is not None:
             payload["neighbors"] = neighbors
 
-        return self._session.put(
-            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.put(
+            scope="appliance", operation_id="updateNetworkApplianceVpnBgp", path=path, json=payload
         )
 
-    def get_network_appliance_vpn_site_to_site_vpn(
+    async def get_network_appliance_vpn_site_to_site_vpn(
         self, *, network_id: str
     ) -> dict[str, Any] | None:
         """Return the site-to-site VPN settings of a network.
@@ -2749,11 +2880,11 @@ class Appliance:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/appliance/vpn/siteToSiteVpn"
 
-        return self._session.get(
+        return await self._session.get(
             scope="appliance", operation_id="getNetworkApplianceVpnSiteToSiteVpn", path=path
         )
 
-    def update_network_appliance_vpn_site_to_site_vpn(
+    async def update_network_appliance_vpn_site_to_site_vpn(
         self,
         *,
         network_id: str,
@@ -2792,11 +2923,14 @@ class Appliance:
         if subnet is not None:
             payload["subnet"] = subnet
 
-        return self._session.put(
-            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.put(
+            scope="appliance",
+            operation_id="updateNetworkApplianceVpnSiteToSiteVpn",
+            path=path,
+            json=payload,
         )
 
-    def get_network_appliance_warm_spare(self, *, network_id: str) -> dict[str, Any] | None:
+    async def get_network_appliance_warm_spare(self, *, network_id: str) -> dict[str, Any] | None:
         """Return MX warm spare settings.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-warm-spare
@@ -2808,11 +2942,11 @@ class Appliance:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/appliance/warmSpare"
 
-        return self._session.get(
+        return await self._session.get(
             scope="appliance", operation_id="getNetworkApplianceWarmSpare", path=path
         )
 
-    def update_network_appliance_warm_spare(
+    async def update_network_appliance_warm_spare(
         self,
         *,
         network_id: str,
@@ -2850,11 +2984,14 @@ class Appliance:
         if virtual_ip2 is not None:
             payload["virtualIp2"] = virtual_ip2
 
-        return self._session.put(
-            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.put(
+            scope="appliance",
+            operation_id="updateNetworkApplianceWarmSpare",
+            path=path,
+            json=payload,
         )
 
-    def swap_network_appliance_warm_spare(self, *, network_id: str) -> dict[str, Any] | None:
+    async def swap_network_appliance_warm_spare(self, *, network_id: str) -> dict[str, Any] | None:
         """Swap MX primary and warm spare appliances.
 
         https://developer.cisco.com/meraki/api-v1/#!swap-network-appliance-warm-spare
@@ -2866,11 +3003,11 @@ class Appliance:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/appliance/warmSpare/swap"
 
-        return self._session.post(
+        return await self._session.post(
             scope="appliance", operation_id="swapNetworkApplianceWarmSpare", path=path
         )
 
-    def get_organization_appliance_dns_local_profiles(
+    async def get_organization_appliance_dns_local_profiles(
         self, *, organization_id: str, profile_ids: list | None = None
     ) -> dict[str, Any] | None:
         """Fetch the local DNS profiles used in the organization.
@@ -2889,11 +3026,14 @@ class Appliance:
         if profile_ids is not None:
             params["profileIds[]"] = profile_ids
 
-        return self._session.get(
-            scope="appliance", operation_id="{operation_id}", path=path, params=params
+        return await self._session.get(
+            scope="appliance",
+            operation_id="getOrganizationApplianceDnsLocalProfiles",
+            path=path,
+            params=params,
         )
 
-    def create_organization_appliance_dns_local_profile(
+    async def create_organization_appliance_dns_local_profile(
         self, *, organization_id: str, name: str
     ) -> dict[str, Any] | None:
         """Create a new local DNS profile.
@@ -2912,11 +3052,14 @@ class Appliance:
         if name is not None:
             payload["name"] = name
 
-        return self._session.post(
-            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.post(
+            scope="appliance",
+            operation_id="createOrganizationApplianceDnsLocalProfile",
+            path=path,
+            json=payload,
         )
 
-    def get_organization_appliance_dns_local_profiles_assignments(
+    async def get_organization_appliance_dns_local_profiles_assignments(
         self,
         *,
         organization_id: str,
@@ -2942,11 +3085,14 @@ class Appliance:
         if network_ids is not None:
             params["networkIds[]"] = network_ids
 
-        return self._session.get(
-            scope="appliance", operation_id="{operation_id}", path=path, params=params
+        return await self._session.get(
+            scope="appliance",
+            operation_id="getOrganizationApplianceDnsLocalProfilesAssignments",
+            path=path,
+            params=params,
         )
 
-    def bulk_organization_appliance_dns_local_profiles_assignments_create(
+    async def bulk_organization_appliance_dns_local_profiles_assignments_create(
         self, *, organization_id: str, items: list
     ) -> dict[str, Any] | None:
         """Assign the local DNS profile to networks in the organization.
@@ -2967,11 +3113,14 @@ class Appliance:
         if items is not None:
             payload["items"] = items
 
-        return self._session.post(
-            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.post(
+            scope="appliance",
+            operation_id="bulkOrganizationApplianceDnsLocalProfilesAssignmentsCreate",
+            path=path,
+            json=payload,
         )
 
-    def create_organization_appliance_dns_local_profiles_assignments_bulk_delete(
+    async def create_organization_appliance_dns_local_profiles_assignments_bulk_delete(
         self, *, organization_id: str, items: list
     ) -> dict[str, Any] | None:
         """Unassign the local DNS profile to networks in the organization.
@@ -2992,11 +3141,14 @@ class Appliance:
         if items is not None:
             payload["items"] = items
 
-        return self._session.post(
-            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.post(
+            scope="appliance",
+            operation_id="createOrganizationApplianceDnsLocalProfilesAssignmentsBulkDelete",
+            path=path,
+            json=payload,
         )
 
-    def update_organization_appliance_dns_local_profile(
+    async def update_organization_appliance_dns_local_profile(
         self, *, organization_id: str, profile_id: str, name: str
     ) -> dict[str, Any] | None:
         """Update a local DNS profile.
@@ -3017,11 +3169,14 @@ class Appliance:
         if name is not None:
             payload["name"] = name
 
-        return self._session.put(
-            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.put(
+            scope="appliance",
+            operation_id="updateOrganizationApplianceDnsLocalProfile",
+            path=path,
+            json=payload,
         )
 
-    def delete_organization_appliance_dns_local_profile(
+    async def delete_organization_appliance_dns_local_profile(
         self, *, organization_id: str, profile_id: str
     ) -> None:
         """Deletes a local DNS profile.
@@ -3037,11 +3192,11 @@ class Appliance:
         profile_id = urllib.parse.quote(str(profile_id), safe="")
         path = f"/organizations/{organization_id}/appliance/dns/local/profiles/{profile_id}"
 
-        return self._session.delete(
+        return await self._session.delete(
             scope="appliance", operation_id="deleteOrganizationApplianceDnsLocalProfile", path=path
         )
 
-    def get_organization_appliance_dns_local_records(
+    async def get_organization_appliance_dns_local_records(
         self, *, organization_id: str, profile_ids: list | None = None
     ) -> dict[str, Any] | None:
         """Fetch the DNS records used in local DNS profiles.
@@ -3060,11 +3215,14 @@ class Appliance:
         if profile_ids is not None:
             params["profileIds[]"] = profile_ids
 
-        return self._session.get(
-            scope="appliance", operation_id="{operation_id}", path=path, params=params
+        return await self._session.get(
+            scope="appliance",
+            operation_id="getOrganizationApplianceDnsLocalRecords",
+            path=path,
+            params=params,
         )
 
-    def create_organization_appliance_dns_local_record(
+    async def create_organization_appliance_dns_local_record(
         self, *, organization_id: str, hostname: str, address: str, profile: dict
     ) -> dict[str, Any] | None:
         """Create a new local DNS record.
@@ -3089,11 +3247,14 @@ class Appliance:
         if profile is not None:
             payload["profile"] = profile
 
-        return self._session.post(
-            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.post(
+            scope="appliance",
+            operation_id="createOrganizationApplianceDnsLocalRecord",
+            path=path,
+            json=payload,
         )
 
-    def update_organization_appliance_dns_local_record(
+    async def update_organization_appliance_dns_local_record(
         self,
         *,
         organization_id: str,
@@ -3126,11 +3287,14 @@ class Appliance:
         if profile is not None:
             payload["profile"] = profile
 
-        return self._session.put(
-            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.put(
+            scope="appliance",
+            operation_id="updateOrganizationApplianceDnsLocalRecord",
+            path=path,
+            json=payload,
         )
 
-    def delete_organization_appliance_dns_local_record(
+    async def delete_organization_appliance_dns_local_record(
         self, *, organization_id: str, record_id: str
     ) -> None:
         """Deletes a local DNS record.
@@ -3146,11 +3310,11 @@ class Appliance:
         record_id = urllib.parse.quote(str(record_id), safe="")
         path = f"/organizations/{organization_id}/appliance/dns/local/records/{record_id}"
 
-        return self._session.delete(
+        return await self._session.delete(
             scope="appliance", operation_id="deleteOrganizationApplianceDnsLocalRecord", path=path
         )
 
-    def get_organization_appliance_dns_split_profiles(
+    async def get_organization_appliance_dns_split_profiles(
         self, *, organization_id: str, profile_ids: list | None = None
     ) -> dict[str, Any] | None:
         """Fetch the split DNS profiles used in the organization.
@@ -3169,11 +3333,14 @@ class Appliance:
         if profile_ids is not None:
             params["profileIds[]"] = profile_ids
 
-        return self._session.get(
-            scope="appliance", operation_id="{operation_id}", path=path, params=params
+        return await self._session.get(
+            scope="appliance",
+            operation_id="getOrganizationApplianceDnsSplitProfiles",
+            path=path,
+            params=params,
         )
 
-    def create_organization_appliance_dns_split_profile(
+    async def create_organization_appliance_dns_split_profile(
         self, *, organization_id: str, name: str, hostnames: list, nameservers: dict
     ) -> dict[str, Any] | None:
         """Create a new split DNS profile.
@@ -3199,11 +3366,14 @@ class Appliance:
         if nameservers is not None:
             payload["nameservers"] = nameservers
 
-        return self._session.post(
-            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.post(
+            scope="appliance",
+            operation_id="createOrganizationApplianceDnsSplitProfile",
+            path=path,
+            json=payload,
         )
 
-    def get_organization_appliance_dns_split_profiles_assignments(
+    async def get_organization_appliance_dns_split_profiles_assignments(
         self,
         *,
         organization_id: str,
@@ -3229,11 +3399,14 @@ class Appliance:
         if network_ids is not None:
             params["networkIds[]"] = network_ids
 
-        return self._session.get(
-            scope="appliance", operation_id="{operation_id}", path=path, params=params
+        return await self._session.get(
+            scope="appliance",
+            operation_id="getOrganizationApplianceDnsSplitProfilesAssignments",
+            path=path,
+            params=params,
         )
 
-    def create_organization_appliance_dns_split_profiles_assignments_bulk_create(
+    async def create_organization_appliance_dns_split_profiles_assignments_bulk_create(
         self, *, organization_id: str, items: list
     ) -> dict[str, Any] | None:
         """Assign the split DNS profile to networks in the organization.
@@ -3254,11 +3427,14 @@ class Appliance:
         if items is not None:
             payload["items"] = items
 
-        return self._session.post(
-            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.post(
+            scope="appliance",
+            operation_id="createOrganizationApplianceDnsSplitProfilesAssignmentsBulkCreate",
+            path=path,
+            json=payload,
         )
 
-    def create_organization_appliance_dns_split_profiles_assignments_bulk_delete(
+    async def create_organization_appliance_dns_split_profiles_assignments_bulk_delete(
         self, *, organization_id: str, items: list
     ) -> dict[str, Any] | None:
         """Unassign the split DNS profile to networks in the organization.
@@ -3279,11 +3455,14 @@ class Appliance:
         if items is not None:
             payload["items"] = items
 
-        return self._session.post(
-            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.post(
+            scope="appliance",
+            operation_id="createOrganizationApplianceDnsSplitProfilesAssignmentsBulkDelete",
+            path=path,
+            json=payload,
         )
 
-    def update_organization_appliance_dns_split_profile(
+    async def update_organization_appliance_dns_split_profile(
         self,
         *,
         organization_id: str,
@@ -3317,11 +3496,14 @@ class Appliance:
         if nameservers is not None:
             payload["nameservers"] = nameservers
 
-        return self._session.put(
-            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.put(
+            scope="appliance",
+            operation_id="updateOrganizationApplianceDnsSplitProfile",
+            path=path,
+            json=payload,
         )
 
-    def delete_organization_appliance_dns_split_profile(
+    async def delete_organization_appliance_dns_split_profile(
         self, *, organization_id: str, profile_id: str
     ) -> None:
         """Deletes a split DNS profile.
@@ -3337,11 +3519,11 @@ class Appliance:
         profile_id = urllib.parse.quote(str(profile_id), safe="")
         path = f"/organizations/{organization_id}/appliance/dns/split/profiles/{profile_id}"
 
-        return self._session.delete(
+        return await self._session.delete(
             scope="appliance", operation_id="deleteOrganizationApplianceDnsSplitProfile", path=path
         )
 
-    def get_organization_appliance_firewall_multicast_forwarding_by_network(
+    async def get_organization_appliance_firewall_multicast_forwarding_by_network(
         self,
         *,
         organization_id: str,
@@ -3350,8 +3532,8 @@ class Appliance:
         ending_before: str | None = None,
         network_ids: list | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> AsyncPaginatedResponse[Any]:
         """List Static Multicasting forwarding settings for MX networks.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-firewall-multicast-forwarding-by-network
@@ -3389,14 +3571,14 @@ class Appliance:
 
         return self._session.get_pages(
             scope="appliance",
-            operation_id="{operation_id}",
+            operation_id="getOrganizationApplianceFirewallMulticastForwardingByNetwork",
             path=path,
             params=params,
             total_pages=total_pages,
             direction=direction,
         )
 
-    def get_organization_appliance_security_events(
+    async def get_organization_appliance_security_events(
         self,
         *,
         organization_id: str,
@@ -3408,8 +3590,8 @@ class Appliance:
         ending_before: str | None = None,
         sort_order: str | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> AsyncPaginatedResponse[Any]:
         """List the security events for an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-security-events
@@ -3466,14 +3648,14 @@ class Appliance:
 
         return self._session.get_pages(
             scope="appliance",
-            operation_id="{operation_id}",
+            operation_id="getOrganizationApplianceSecurityEvents",
             path=path,
             params=params,
             total_pages=total_pages,
             direction=direction,
         )
 
-    def get_organization_appliance_security_intrusion(
+    async def get_organization_appliance_security_intrusion(
         self, *, organization_id: str
     ) -> dict[str, Any] | None:
         """Returns all supported intrusion settings for an organization.
@@ -3487,11 +3669,11 @@ class Appliance:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         path = f"/organizations/{organization_id}/appliance/security/intrusion"
 
-        return self._session.get(
+        return await self._session.get(
             scope="appliance", operation_id="getOrganizationApplianceSecurityIntrusion", path=path
         )
 
-    def update_organization_appliance_security_intrusion(
+    async def update_organization_appliance_security_intrusion(
         self, *, organization_id: str, allowed_rules: list
     ) -> dict[str, Any] | None:
         """Sets supported intrusion settings for an organization.
@@ -3510,11 +3692,14 @@ class Appliance:
         if allowed_rules is not None:
             payload["allowedRules"] = allowed_rules
 
-        return self._session.put(
-            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.put(
+            scope="appliance",
+            operation_id="updateOrganizationApplianceSecurityIntrusion",
+            path=path,
+            json=payload,
         )
 
-    def get_organization_appliance_traffic_shaping_vpn_exclusions_by_network(
+    async def get_organization_appliance_traffic_shaping_vpn_exclusions_by_network(
         self,
         *,
         organization_id: str,
@@ -3523,8 +3708,8 @@ class Appliance:
         ending_before: str | None = None,
         network_ids: list | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> AsyncPaginatedResponse[Any]:
         """Display VPN exclusion rules for MX networks.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-traffic-shaping-vpn-exclusions-by-network
@@ -3562,14 +3747,14 @@ class Appliance:
 
         return self._session.get_pages(
             scope="appliance",
-            operation_id="{operation_id}",
+            operation_id="getOrganizationApplianceTrafficShapingVpnExclusionsByNetwork",
             path=path,
             params=params,
             total_pages=total_pages,
             direction=direction,
         )
 
-    def get_organization_appliance_uplink_statuses(
+    async def get_organization_appliance_uplink_statuses(
         self,
         *,
         organization_id: str,
@@ -3580,8 +3765,8 @@ class Appliance:
         serials: list | None = None,
         iccids: list | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> AsyncPaginatedResponse[Any]:
         """List the uplink status of every Meraki MX and Z series appliances in the organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-uplink-statuses
@@ -3628,14 +3813,14 @@ class Appliance:
 
         return self._session.get_pages(
             scope="appliance",
-            operation_id="{operation_id}",
+            operation_id="getOrganizationApplianceUplinkStatuses",
             path=path,
             params=params,
             total_pages=total_pages,
             direction=direction,
         )
 
-    def get_organization_appliance_uplinks_statuses_overview(
+    async def get_organization_appliance_uplinks_statuses_overview(
         self, *, organization_id: str, network_ids: list | None = None
     ) -> dict[str, Any] | None:
         """Returns an overview of uplink statuses.
@@ -3655,11 +3840,14 @@ class Appliance:
         if network_ids is not None:
             params["networkIds[]"] = network_ids
 
-        return self._session.get(
-            scope="appliance", operation_id="{operation_id}", path=path, params=params
+        return await self._session.get(
+            scope="appliance",
+            operation_id="getOrganizationApplianceUplinksStatusesOverview",
+            path=path,
+            params=params,
         )
 
-    def get_organization_appliance_uplinks_usage_by_network(
+    async def get_organization_appliance_uplinks_usage_by_network(
         self,
         *,
         organization_id: str,
@@ -3692,11 +3880,14 @@ class Appliance:
         if timespan is not None:
             params["timespan"] = timespan
 
-        return self._session.get(
-            scope="appliance", operation_id="{operation_id}", path=path, params=params
+        return await self._session.get(
+            scope="appliance",
+            operation_id="getOrganizationApplianceUplinksUsageByNetwork",
+            path=path,
+            params=params,
         )
 
-    def get_organization_appliance_vpn_site_to_site_ipsec_peers_slas(
+    async def get_organization_appliance_vpn_site_to_site_ipsec_peers_slas(
         self, *, organization_id: str
     ) -> dict[str, Any] | None:
         """Get the list of available IPsec SLA policies for an organization.
@@ -3710,13 +3901,13 @@ class Appliance:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         path = f"/organizations/{organization_id}/appliance/vpn/siteToSite/ipsec/peers/slas"
 
-        return self._session.get(
+        return await self._session.get(
             scope="appliance",
             operation_id="getOrganizationApplianceVpnSiteToSiteIpsecPeersSlas",
             path=path,
         )
 
-    def update_organization_appliance_vpn_site_to_site_ipsec_peers_slas(
+    async def update_organization_appliance_vpn_site_to_site_ipsec_peers_slas(
         self, *, organization_id: str, items: list | None = None
     ) -> dict[str, Any] | None:
         """Update the IPsec SLA policies for an organization.
@@ -3735,11 +3926,14 @@ class Appliance:
         if items is not None:
             payload["items"] = items
 
-        return self._session.put(
-            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.put(
+            scope="appliance",
+            operation_id="updateOrganizationApplianceVpnSiteToSiteIpsecPeersSlas",
+            path=path,
+            json=payload,
         )
 
-    def get_organization_appliance_vpn_stats(
+    async def get_organization_appliance_vpn_stats(
         self,
         *,
         organization_id: str,
@@ -3751,8 +3945,8 @@ class Appliance:
         t1: str | None = None,
         timespan: float | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> AsyncPaginatedResponse[Any]:
         """Show VPN history stat for networks in an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-vpn-stats
@@ -3803,14 +3997,14 @@ class Appliance:
 
         return self._session.get_pages(
             scope="appliance",
-            operation_id="{operation_id}",
+            operation_id="getOrganizationApplianceVpnStats",
             path=path,
             params=params,
             total_pages=total_pages,
             direction=direction,
         )
 
-    def get_organization_appliance_vpn_statuses(
+    async def get_organization_appliance_vpn_statuses(
         self,
         *,
         organization_id: str,
@@ -3819,8 +4013,8 @@ class Appliance:
         ending_before: str | None = None,
         network_ids: list | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> AsyncPaginatedResponse[Any]:
         """Show VPN status for networks in an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-vpn-statuses
@@ -3859,14 +4053,14 @@ class Appliance:
 
         return self._session.get_pages(
             scope="appliance",
-            operation_id="{operation_id}",
+            operation_id="getOrganizationApplianceVpnStatuses",
             path=path,
             params=params,
             total_pages=total_pages,
             direction=direction,
         )
 
-    def get_organization_appliance_vpn_third_party_v_p_n_peers(
+    async def get_organization_appliance_vpn_third_party_v_p_n_peers(
         self, *, organization_id: str
     ) -> dict[str, Any] | None:
         """Return the third party VPN peers for an organization.
@@ -3880,13 +4074,13 @@ class Appliance:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         path = f"/organizations/{organization_id}/appliance/vpn/thirdPartyVPNPeers"
 
-        return self._session.get(
+        return await self._session.get(
             scope="appliance",
             operation_id="getOrganizationApplianceVpnThirdPartyVPNPeers",
             path=path,
         )
 
-    def update_organization_appliance_vpn_third_party_v_p_n_peers(
+    async def update_organization_appliance_vpn_third_party_v_p_n_peers(
         self, *, organization_id: str, peers: list
     ) -> dict[str, Any] | None:
         """Update the third party VPN peers for an organization.
@@ -3905,11 +4099,14 @@ class Appliance:
         if peers is not None:
             payload["peers"] = peers
 
-        return self._session.put(
-            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.put(
+            scope="appliance",
+            operation_id="updateOrganizationApplianceVpnThirdPartyVPNPeers",
+            path=path,
+            json=payload,
         )
 
-    def get_organization_appliance_vpn_vpn_firewall_rules(
+    async def get_organization_appliance_vpn_vpn_firewall_rules(
         self, *, organization_id: str
     ) -> dict[str, Any] | None:
         """Return the firewall rules for an organization's site-to-site VPN.
@@ -3923,11 +4120,11 @@ class Appliance:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         path = f"/organizations/{organization_id}/appliance/vpn/vpnFirewallRules"
 
-        return self._session.get(
+        return await self._session.get(
             scope="appliance", operation_id="getOrganizationApplianceVpnVpnFirewallRules", path=path
         )
 
-    def update_organization_appliance_vpn_vpn_firewall_rules(
+    async def update_organization_appliance_vpn_vpn_firewall_rules(
         self,
         *,
         organization_id: str,
@@ -3954,6 +4151,9 @@ class Appliance:
         if syslog_default_rule is not None:
             payload["syslogDefaultRule"] = syslog_default_rule
 
-        return self._session.put(
-            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.put(
+            scope="appliance",
+            operation_id="updateOrganizationApplianceVpnVpnFirewallRules",
+            path=path,
+            json=payload,
         )

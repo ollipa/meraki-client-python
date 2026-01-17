@@ -1,6 +1,6 @@
 """ActionBatchOrganizations API endpoints."""
 
-import urllib
+import urllib.parse
 from typing import Any
 
 

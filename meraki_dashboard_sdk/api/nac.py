@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-import urllib
+import urllib.parse
 from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
@@ -41,5 +41,8 @@ class Nac:
             payload["isDelta"] = is_delta
 
         return self._session.post(
-            scope="nac", operation_id="{operation_id}", path=path, json=payload
+            scope="nac",
+            operation_id="createOrganizationNacCertificatesAuthoritiesCrl",
+            path=path,
+            json=payload,
         )

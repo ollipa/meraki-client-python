@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-import urllib
+import urllib.parse
 from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
@@ -15,7 +15,7 @@ class Nac:
     def __init__(self, session: Session) -> None:
         self._session = session
 
-    def create_organization_nac_certificates_authorities_crl(
+    async def create_organization_nac_certificates_authorities_crl(
         self, *, organization_id: str, ca_id: str, content: str, is_delta: bool
     ) -> dict[str, Any] | None:
         """Create a new CRL (either base or delta) for an existing CA.
@@ -40,6 +40,9 @@ class Nac:
         if is_delta is not None:
             payload["isDelta"] = is_delta
 
-        return self._session.post(
-            scope="nac", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.post(
+            scope="nac",
+            operation_id="createOrganizationNacCertificatesAuthoritiesCrl",
+            path=path,
+            json=payload,
         )

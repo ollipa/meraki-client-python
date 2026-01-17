@@ -2,12 +2,11 @@
 
 from __future__ import annotations
 
-import urllib
-from collections.abc import Generator
+import urllib.parse
 from typing import TYPE_CHECKING, Any, Literal
 
 if TYPE_CHECKING:
-    from meraki_dashboard_sdk.aio.session import Session
+    from meraki_dashboard_sdk.aio.session import AsyncPaginatedResponse, Session
 
 
 class Sm:
@@ -16,7 +15,7 @@ class Sm:
     def __init__(self, session: Session) -> None:
         self._session = session
 
-    def create_network_sm_bypass_activation_lock_attempt(
+    async def create_network_sm_bypass_activation_lock_attempt(
         self, *, network_id: str, ids: list
     ) -> dict[str, Any] | None:
         """Bypass activation lock attempt.
@@ -35,11 +34,14 @@ class Sm:
         if ids is not None:
             payload["ids"] = ids
 
-        return self._session.post(
-            scope="sm", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.post(
+            scope="sm",
+            operation_id="createNetworkSmBypassActivationLockAttempt",
+            path=path,
+            json=payload,
         )
 
-    def get_network_sm_bypass_activation_lock_attempt(
+    async def get_network_sm_bypass_activation_lock_attempt(
         self, *, network_id: str, attempt_id: str
     ) -> dict[str, Any] | None:
         """Bypass activation lock attempt status.
@@ -55,11 +57,11 @@ class Sm:
         attempt_id = urllib.parse.quote(str(attempt_id), safe="")
         path = f"/networks/{network_id}/sm/bypassActivationLockAttempts/{attempt_id}"
 
-        return self._session.get(
+        return await self._session.get(
             scope="sm", operation_id="getNetworkSmBypassActivationLockAttempt", path=path
         )
 
-    def get_network_sm_devices(
+    async def get_network_sm_devices(
         self,
         *,
         network_id: str,
@@ -74,8 +76,8 @@ class Sm:
         starting_after: str | None = None,
         ending_before: str | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> AsyncPaginatedResponse[Any]:
         """List the devices enrolled in an SM network with various specified fields and filters.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-sm-devices
@@ -144,14 +146,14 @@ class Sm:
 
         return self._session.get_pages(
             scope="sm",
-            operation_id="{operation_id}",
+            operation_id="getNetworkSmDevices",
             path=path,
             params=params,
             total_pages=total_pages,
             direction=direction,
         )
 
-    def checkin_network_sm_devices(
+    async def checkin_network_sm_devices(
         self,
         *,
         network_id: str,
@@ -186,11 +188,11 @@ class Sm:
         if scope is not None:
             payload["scope"] = scope
 
-        return self._session.post(
-            scope="sm", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.post(
+            scope="sm", operation_id="checkinNetworkSmDevices", path=path, json=payload
         )
 
-    def update_network_sm_devices_fields(
+    async def update_network_sm_devices_fields(
         self,
         *,
         network_id: str,
@@ -224,9 +226,11 @@ class Sm:
         if device_fields is not None:
             payload["deviceFields"] = device_fields
 
-        return self._session.put(scope="sm", operation_id="{operation_id}", path=path, json=payload)
+        return await self._session.put(
+            scope="sm", operation_id="updateNetworkSmDevicesFields", path=path, json=payload
+        )
 
-    def lock_network_sm_devices(
+    async def lock_network_sm_devices(
         self,
         *,
         network_id: str,
@@ -266,11 +270,11 @@ class Sm:
         if pin is not None:
             payload["pin"] = pin
 
-        return self._session.post(
-            scope="sm", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.post(
+            scope="sm", operation_id="lockNetworkSmDevices", path=path, json=payload
         )
 
-    def modify_network_sm_devices_tags(
+    async def modify_network_sm_devices_tags(
         self,
         *,
         network_id: str,
@@ -314,11 +318,11 @@ class Sm:
         if update_action is not None:
             payload["updateAction"] = update_action
 
-        return self._session.post(
-            scope="sm", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.post(
+            scope="sm", operation_id="modifyNetworkSmDevicesTags", path=path, json=payload
         )
 
-    def move_network_sm_devices(
+    async def move_network_sm_devices(
         self,
         *,
         network_id: str,
@@ -357,11 +361,11 @@ class Sm:
         if new_network is not None:
             payload["newNetwork"] = new_network
 
-        return self._session.post(
-            scope="sm", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.post(
+            scope="sm", operation_id="moveNetworkSmDevices", path=path, json=payload
         )
 
-    def reboot_network_sm_devices(
+    async def reboot_network_sm_devices(
         self,
         *,
         network_id: str,
@@ -415,11 +419,11 @@ class Sm:
         if request_requires_network_tether is not None:
             payload["requestRequiresNetworkTether"] = request_requires_network_tether
 
-        return self._session.post(
-            scope="sm", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.post(
+            scope="sm", operation_id="rebootNetworkSmDevices", path=path, json=payload
         )
 
-    def shutdown_network_sm_devices(
+    async def shutdown_network_sm_devices(
         self,
         *,
         network_id: str,
@@ -454,11 +458,11 @@ class Sm:
         if scope is not None:
             payload["scope"] = scope
 
-        return self._session.post(
-            scope="sm", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.post(
+            scope="sm", operation_id="shutdownNetworkSmDevices", path=path, json=payload
         )
 
-    def wipe_network_sm_devices(
+    async def wipe_network_sm_devices(
         self,
         *,
         network_id: str,
@@ -493,11 +497,11 @@ class Sm:
         if pin is not None:
             payload["pin"] = pin
 
-        return self._session.post(
-            scope="sm", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.post(
+            scope="sm", operation_id="wipeNetworkSmDevices", path=path, json=payload
         )
 
-    def get_network_sm_device_cellular_usage_history(
+    async def get_network_sm_device_cellular_usage_history(
         self, *, network_id: str, device_id: str
     ) -> dict[str, Any] | None:
         """Return the client's daily cellular data usage history.
@@ -513,11 +517,11 @@ class Sm:
         device_id = urllib.parse.quote(str(device_id), safe="")
         path = f"/networks/{network_id}/sm/devices/{device_id}/cellularUsageHistory"
 
-        return self._session.get(
+        return await self._session.get(
             scope="sm", operation_id="getNetworkSmDeviceCellularUsageHistory", path=path
         )
 
-    def get_network_sm_device_certs(
+    async def get_network_sm_device_certs(
         self, *, network_id: str, device_id: str
     ) -> dict[str, Any] | None:
         """List the certs on a device.
@@ -533,9 +537,11 @@ class Sm:
         device_id = urllib.parse.quote(str(device_id), safe="")
         path = f"/networks/{network_id}/sm/devices/{device_id}/certs"
 
-        return self._session.get(scope="sm", operation_id="getNetworkSmDeviceCerts", path=path)
+        return await self._session.get(
+            scope="sm", operation_id="getNetworkSmDeviceCerts", path=path
+        )
 
-    def get_network_sm_device_connectivity(
+    async def get_network_sm_device_connectivity(
         self,
         *,
         network_id: str,
@@ -544,8 +550,8 @@ class Sm:
         starting_after: str | None = None,
         ending_before: str | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> AsyncPaginatedResponse[Any]:
         """Returns historical connectivity data (whether a device is regularly checking in to Dashboard).
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-sm-device-connectivity
@@ -582,14 +588,14 @@ class Sm:
 
         return self._session.get_pages(
             scope="sm",
-            operation_id="{operation_id}",
+            operation_id="getNetworkSmDeviceConnectivity",
             path=path,
             params=params,
             total_pages=total_pages,
             direction=direction,
         )
 
-    def get_network_sm_device_desktop_logs(
+    async def get_network_sm_device_desktop_logs(
         self,
         *,
         network_id: str,
@@ -598,8 +604,8 @@ class Sm:
         starting_after: str | None = None,
         ending_before: str | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> AsyncPaginatedResponse[Any]:
         """Return historical records of various Systems Manager network connection details for desktop devices.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-sm-device-desktop-logs
@@ -636,14 +642,14 @@ class Sm:
 
         return self._session.get_pages(
             scope="sm",
-            operation_id="{operation_id}",
+            operation_id="getNetworkSmDeviceDesktopLogs",
             path=path,
             params=params,
             total_pages=total_pages,
             direction=direction,
         )
 
-    def get_network_sm_device_device_command_logs(
+    async def get_network_sm_device_device_command_logs(
         self,
         *,
         network_id: str,
@@ -652,8 +658,8 @@ class Sm:
         starting_after: str | None = None,
         ending_before: str | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> AsyncPaginatedResponse[Any]:
         """Return historical records of commands sent to Systems Manager devices.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-sm-device-device-command-logs
@@ -690,14 +696,14 @@ class Sm:
 
         return self._session.get_pages(
             scope="sm",
-            operation_id="{operation_id}",
+            operation_id="getNetworkSmDeviceDeviceCommandLogs",
             path=path,
             params=params,
             total_pages=total_pages,
             direction=direction,
         )
 
-    def get_network_sm_device_device_profiles(
+    async def get_network_sm_device_device_profiles(
         self, *, network_id: str, device_id: str
     ) -> dict[str, Any] | None:
         """Get the installed profiles associated with a device.
@@ -713,11 +719,11 @@ class Sm:
         device_id = urllib.parse.quote(str(device_id), safe="")
         path = f"/networks/{network_id}/sm/devices/{device_id}/deviceProfiles"
 
-        return self._session.get(
+        return await self._session.get(
             scope="sm", operation_id="getNetworkSmDeviceDeviceProfiles", path=path
         )
 
-    def install_network_sm_device_apps(
+    async def install_network_sm_device_apps(
         self, *, network_id: str, device_id: str, app_ids: list, force: bool | None = None
     ) -> dict[str, Any] | None:
         """Install applications on a device.
@@ -743,11 +749,11 @@ class Sm:
         if force is not None:
             payload["force"] = force
 
-        return self._session.post(
-            scope="sm", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.post(
+            scope="sm", operation_id="installNetworkSmDeviceApps", path=path, json=payload
         )
 
-    def get_network_sm_device_network_adapters(
+    async def get_network_sm_device_network_adapters(
         self, *, network_id: str, device_id: str
     ) -> dict[str, Any] | None:
         """List the network adapters of a device.
@@ -763,11 +769,11 @@ class Sm:
         device_id = urllib.parse.quote(str(device_id), safe="")
         path = f"/networks/{network_id}/sm/devices/{device_id}/networkAdapters"
 
-        return self._session.get(
+        return await self._session.get(
             scope="sm", operation_id="getNetworkSmDeviceNetworkAdapters", path=path
         )
 
-    def get_network_sm_device_performance_history(
+    async def get_network_sm_device_performance_history(
         self,
         *,
         network_id: str,
@@ -776,8 +782,8 @@ class Sm:
         starting_after: str | None = None,
         ending_before: str | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> AsyncPaginatedResponse[Any]:
         """Return historical records of various Systems Manager client metrics for desktop devices.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-sm-device-performance-history
@@ -814,14 +820,14 @@ class Sm:
 
         return self._session.get_pages(
             scope="sm",
-            operation_id="{operation_id}",
+            operation_id="getNetworkSmDevicePerformanceHistory",
             path=path,
             params=params,
             total_pages=total_pages,
             direction=direction,
         )
 
-    def refresh_network_sm_device_details(
+    async def refresh_network_sm_device_details(
         self, *, network_id: str, device_id: str
     ) -> dict[str, Any] | None:
         """Refresh the details of a device.
@@ -837,11 +843,11 @@ class Sm:
         device_id = urllib.parse.quote(str(device_id), safe="")
         path = f"/networks/{network_id}/sm/devices/{device_id}/refreshDetails"
 
-        return self._session.post(
+        return await self._session.post(
             scope="sm", operation_id="refreshNetworkSmDeviceDetails", path=path
         )
 
-    def get_network_sm_device_restrictions(
+    async def get_network_sm_device_restrictions(
         self, *, network_id: str, device_id: str
     ) -> dict[str, Any] | None:
         """List the restrictions on a device.
@@ -857,11 +863,11 @@ class Sm:
         device_id = urllib.parse.quote(str(device_id), safe="")
         path = f"/networks/{network_id}/sm/devices/{device_id}/restrictions"
 
-        return self._session.get(
+        return await self._session.get(
             scope="sm", operation_id="getNetworkSmDeviceRestrictions", path=path
         )
 
-    def get_network_sm_device_security_centers(
+    async def get_network_sm_device_security_centers(
         self, *, network_id: str, device_id: str
     ) -> dict[str, Any] | None:
         """List the security centers on a device.
@@ -877,11 +883,11 @@ class Sm:
         device_id = urllib.parse.quote(str(device_id), safe="")
         path = f"/networks/{network_id}/sm/devices/{device_id}/securityCenters"
 
-        return self._session.get(
+        return await self._session.get(
             scope="sm", operation_id="getNetworkSmDeviceSecurityCenters", path=path
         )
 
-    def get_network_sm_device_softwares(
+    async def get_network_sm_device_softwares(
         self, *, network_id: str, device_id: str
     ) -> dict[str, Any] | None:
         """Get a list of softwares associated with a device.
@@ -897,9 +903,11 @@ class Sm:
         device_id = urllib.parse.quote(str(device_id), safe="")
         path = f"/networks/{network_id}/sm/devices/{device_id}/softwares"
 
-        return self._session.get(scope="sm", operation_id="getNetworkSmDeviceSoftwares", path=path)
+        return await self._session.get(
+            scope="sm", operation_id="getNetworkSmDeviceSoftwares", path=path
+        )
 
-    def unenroll_network_sm_device(
+    async def unenroll_network_sm_device(
         self, *, network_id: str, device_id: str
     ) -> dict[str, Any] | None:
         """Unenroll a device.
@@ -915,9 +923,11 @@ class Sm:
         device_id = urllib.parse.quote(str(device_id), safe="")
         path = f"/networks/{network_id}/sm/devices/{device_id}/unenroll"
 
-        return self._session.post(scope="sm", operation_id="unenrollNetworkSmDevice", path=path)
+        return await self._session.post(
+            scope="sm", operation_id="unenrollNetworkSmDevice", path=path
+        )
 
-    def uninstall_network_sm_device_apps(
+    async def uninstall_network_sm_device_apps(
         self, *, network_id: str, device_id: str, app_ids: list
     ) -> dict[str, Any] | None:
         """Uninstall applications on a device.
@@ -938,11 +948,11 @@ class Sm:
         if app_ids is not None:
             payload["appIds"] = app_ids
 
-        return self._session.post(
-            scope="sm", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.post(
+            scope="sm", operation_id="uninstallNetworkSmDeviceApps", path=path, json=payload
         )
 
-    def get_network_sm_device_wlan_lists(
+    async def get_network_sm_device_wlan_lists(
         self, *, network_id: str, device_id: str
     ) -> dict[str, Any] | None:
         """List the saved SSID names on a device.
@@ -958,9 +968,11 @@ class Sm:
         device_id = urllib.parse.quote(str(device_id), safe="")
         path = f"/networks/{network_id}/sm/devices/{device_id}/wlanLists"
 
-        return self._session.get(scope="sm", operation_id="getNetworkSmDeviceWlanLists", path=path)
+        return await self._session.get(
+            scope="sm", operation_id="getNetworkSmDeviceWlanLists", path=path
+        )
 
-    def get_network_sm_profiles(
+    async def get_network_sm_profiles(
         self, *, network_id: str, payload_types: list | None = None
     ) -> dict[str, Any] | None:
         """List all profiles in a network.
@@ -979,11 +991,11 @@ class Sm:
         if payload_types is not None:
             params["payloadTypes[]"] = payload_types
 
-        return self._session.get(
-            scope="sm", operation_id="{operation_id}", path=path, params=params
+        return await self._session.get(
+            scope="sm", operation_id="getNetworkSmProfiles", path=path, params=params
         )
 
-    def get_network_sm_target_groups(
+    async def get_network_sm_target_groups(
         self, *, network_id: str, with_details: bool | None = None
     ) -> dict[str, Any] | None:
         """List the target groups in this network.
@@ -1003,11 +1015,11 @@ class Sm:
         if with_details is not None:
             params["withDetails"] = with_details
 
-        return self._session.get(
-            scope="sm", operation_id="{operation_id}", path=path, params=params
+        return await self._session.get(
+            scope="sm", operation_id="getNetworkSmTargetGroups", path=path, params=params
         )
 
-    def create_network_sm_target_group(
+    async def create_network_sm_target_group(
         self, *, network_id: str, name: str | None = None, scope: str | None = None
     ) -> dict[str, Any] | None:
         """Add a target group.
@@ -1031,11 +1043,11 @@ class Sm:
         if scope is not None:
             payload["scope"] = scope
 
-        return self._session.post(
-            scope="sm", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.post(
+            scope="sm", operation_id="createNetworkSmTargetGroup", path=path, json=payload
         )
 
-    def get_network_sm_target_group(
+    async def get_network_sm_target_group(
         self, *, network_id: str, target_group_id: str, with_details: bool | None = None
     ) -> dict[str, Any] | None:
         """Return a target group.
@@ -1057,11 +1069,11 @@ class Sm:
         if with_details is not None:
             params["withDetails"] = with_details
 
-        return self._session.get(
-            scope="sm", operation_id="{operation_id}", path=path, params=params
+        return await self._session.get(
+            scope="sm", operation_id="getNetworkSmTargetGroup", path=path, params=params
         )
 
-    def update_network_sm_target_group(
+    async def update_network_sm_target_group(
         self,
         *,
         network_id: str,
@@ -1092,9 +1104,13 @@ class Sm:
         if scope is not None:
             payload["scope"] = scope
 
-        return self._session.put(scope="sm", operation_id="{operation_id}", path=path, json=payload)
+        return await self._session.put(
+            scope="sm", operation_id="updateNetworkSmTargetGroup", path=path, json=payload
+        )
 
-    def delete_network_sm_target_group(self, *, network_id: str, target_group_id: str) -> None:
+    async def delete_network_sm_target_group(
+        self, *, network_id: str, target_group_id: str
+    ) -> None:
         """Delete a target group from a network.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-network-sm-target-group
@@ -1108,11 +1124,11 @@ class Sm:
         target_group_id = urllib.parse.quote(str(target_group_id), safe="")
         path = f"/networks/{network_id}/sm/targetGroups/{target_group_id}"
 
-        return self._session.delete(
+        return await self._session.delete(
             scope="sm", operation_id="deleteNetworkSmTargetGroup", path=path
         )
 
-    def get_network_sm_trusted_access_configs(
+    async def get_network_sm_trusted_access_configs(
         self,
         *,
         network_id: str,
@@ -1120,8 +1136,8 @@ class Sm:
         starting_after: str | None = None,
         ending_before: str | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> AsyncPaginatedResponse[Any]:
         """List Trusted Access Configs.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-sm-trusted-access-configs
@@ -1156,14 +1172,14 @@ class Sm:
 
         return self._session.get_pages(
             scope="sm",
-            operation_id="{operation_id}",
+            operation_id="getNetworkSmTrustedAccessConfigs",
             path=path,
             params=params,
             total_pages=total_pages,
             direction=direction,
         )
 
-    def get_network_sm_user_access_devices(
+    async def get_network_sm_user_access_devices(
         self,
         *,
         network_id: str,
@@ -1171,8 +1187,8 @@ class Sm:
         starting_after: str | None = None,
         ending_before: str | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> AsyncPaginatedResponse[Any]:
         """List User Access Devices and its Trusted Access Connections.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-sm-user-access-devices
@@ -1207,14 +1223,14 @@ class Sm:
 
         return self._session.get_pages(
             scope="sm",
-            operation_id="{operation_id}",
+            operation_id="getNetworkSmUserAccessDevices",
             path=path,
             params=params,
             total_pages=total_pages,
             direction=direction,
         )
 
-    def delete_network_sm_user_access_device(
+    async def delete_network_sm_user_access_device(
         self, *, network_id: str, user_access_device_id: str
     ) -> None:
         """Delete a User Access Device.
@@ -1230,11 +1246,11 @@ class Sm:
         user_access_device_id = urllib.parse.quote(str(user_access_device_id), safe="")
         path = f"/networks/{network_id}/sm/userAccessDevices/{user_access_device_id}"
 
-        return self._session.delete(
+        return await self._session.delete(
             scope="sm", operation_id="deleteNetworkSmUserAccessDevice", path=path
         )
 
-    def get_network_sm_users(
+    async def get_network_sm_users(
         self,
         *,
         network_id: str,
@@ -1269,11 +1285,11 @@ class Sm:
         if scope is not None:
             params["scope[]"] = scope
 
-        return self._session.get(
-            scope="sm", operation_id="{operation_id}", path=path, params=params
+        return await self._session.get(
+            scope="sm", operation_id="getNetworkSmUsers", path=path, params=params
         )
 
-    def get_network_sm_user_device_profiles(
+    async def get_network_sm_user_device_profiles(
         self, *, network_id: str, user_id: str
     ) -> dict[str, Any] | None:
         """Get the profiles associated with a user.
@@ -1289,11 +1305,11 @@ class Sm:
         user_id = urllib.parse.quote(str(user_id), safe="")
         path = f"/networks/{network_id}/sm/users/{user_id}/deviceProfiles"
 
-        return self._session.get(
+        return await self._session.get(
             scope="sm", operation_id="getNetworkSmUserDeviceProfiles", path=path
         )
 
-    def get_network_sm_user_softwares(
+    async def get_network_sm_user_softwares(
         self, *, network_id: str, user_id: str
     ) -> dict[str, Any] | None:
         """Get a list of softwares associated with a user.
@@ -1309,9 +1325,11 @@ class Sm:
         user_id = urllib.parse.quote(str(user_id), safe="")
         path = f"/networks/{network_id}/sm/users/{user_id}/softwares"
 
-        return self._session.get(scope="sm", operation_id="getNetworkSmUserSoftwares", path=path)
+        return await self._session.get(
+            scope="sm", operation_id="getNetworkSmUserSoftwares", path=path
+        )
 
-    def get_organization_sm_admins_roles(
+    async def get_organization_sm_admins_roles(
         self,
         *,
         organization_id: str,
@@ -1319,8 +1337,8 @@ class Sm:
         starting_after: str | None = None,
         ending_before: str | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> AsyncPaginatedResponse[Any]:
         """List the Limited Access Roles for an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-sm-admins-roles
@@ -1355,14 +1373,14 @@ class Sm:
 
         return self._session.get_pages(
             scope="sm",
-            operation_id="{operation_id}",
+            operation_id="getOrganizationSmAdminsRoles",
             path=path,
             params=params,
             total_pages=total_pages,
             direction=direction,
         )
 
-    def create_organization_sm_admins_role(
+    async def create_organization_sm_admins_role(
         self, *, organization_id: str, name: str, scope: str | None = None, tags: list | None = None
     ) -> dict[str, Any] | None:
         """Create a Limited Access Role.
@@ -1393,11 +1411,11 @@ class Sm:
         if tags is not None:
             payload["tags"] = tags
 
-        return self._session.post(
-            scope="sm", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.post(
+            scope="sm", operation_id="createOrganizationSmAdminsRole", path=path, json=payload
         )
 
-    def get_organization_sm_admins_role(
+    async def get_organization_sm_admins_role(
         self, *, organization_id: str, role_id: str
     ) -> dict[str, Any] | None:
         """Return a Limited Access Role.
@@ -1413,9 +1431,11 @@ class Sm:
         role_id = urllib.parse.quote(str(role_id), safe="")
         path = f"/organizations/{organization_id}/sm/admins/roles/{role_id}"
 
-        return self._session.get(scope="sm", operation_id="getOrganizationSmAdminsRole", path=path)
+        return await self._session.get(
+            scope="sm", operation_id="getOrganizationSmAdminsRole", path=path
+        )
 
-    def update_organization_sm_admins_role(
+    async def update_organization_sm_admins_role(
         self,
         *,
         organization_id: str,
@@ -1454,9 +1474,13 @@ class Sm:
         if tags is not None:
             payload["tags"] = tags
 
-        return self._session.put(scope="sm", operation_id="{operation_id}", path=path, json=payload)
+        return await self._session.put(
+            scope="sm", operation_id="updateOrganizationSmAdminsRole", path=path, json=payload
+        )
 
-    def delete_organization_sm_admins_role(self, *, organization_id: str, role_id: str) -> None:
+    async def delete_organization_sm_admins_role(
+        self, *, organization_id: str, role_id: str
+    ) -> None:
         """Delete a Limited Access Role.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-sm-admins-role
@@ -1470,11 +1494,11 @@ class Sm:
         role_id = urllib.parse.quote(str(role_id), safe="")
         path = f"/organizations/{organization_id}/sm/admins/roles/{role_id}"
 
-        return self._session.delete(
+        return await self._session.delete(
             scope="sm", operation_id="deleteOrganizationSmAdminsRole", path=path
         )
 
-    def get_organization_sm_apns_cert(self, *, organization_id: str) -> dict[str, Any] | None:
+    async def get_organization_sm_apns_cert(self, *, organization_id: str) -> dict[str, Any] | None:
         """Get the organization's APNS certificate.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-sm-apns-cert
@@ -1486,9 +1510,11 @@ class Sm:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         path = f"/organizations/{organization_id}/sm/apnsCert"
 
-        return self._session.get(scope="sm", operation_id="getOrganizationSmApnsCert", path=path)
+        return await self._session.get(
+            scope="sm", operation_id="getOrganizationSmApnsCert", path=path
+        )
 
-    def update_organization_sm_sentry_policies_assignments(
+    async def update_organization_sm_sentry_policies_assignments(
         self, *, organization_id: str, items: list
     ) -> dict[str, Any] | None:
         """Update an Organizations Sentry Policies using the provided list.
@@ -1507,9 +1533,14 @@ class Sm:
         if items is not None:
             payload["items"] = items
 
-        return self._session.put(scope="sm", operation_id="{operation_id}", path=path, json=payload)
+        return await self._session.put(
+            scope="sm",
+            operation_id="updateOrganizationSmSentryPoliciesAssignments",
+            path=path,
+            json=payload,
+        )
 
-    def get_organization_sm_sentry_policies_assignments_by_network(
+    async def get_organization_sm_sentry_policies_assignments_by_network(
         self,
         *,
         organization_id: str,
@@ -1518,8 +1549,8 @@ class Sm:
         ending_before: str | None = None,
         network_ids: list | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> AsyncPaginatedResponse[Any]:
         """List the Sentry Policies for an organization ordered in ascending order of priority.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-sm-sentry-policies-assignments-by-network
@@ -1557,14 +1588,16 @@ class Sm:
 
         return self._session.get_pages(
             scope="sm",
-            operation_id="{operation_id}",
+            operation_id="getOrganizationSmSentryPoliciesAssignmentsByNetwork",
             path=path,
             params=params,
             total_pages=total_pages,
             direction=direction,
         )
 
-    def get_organization_sm_vpp_accounts(self, *, organization_id: str) -> dict[str, Any] | None:
+    async def get_organization_sm_vpp_accounts(
+        self, *, organization_id: str
+    ) -> dict[str, Any] | None:
         """List the VPP accounts in the organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-sm-vpp-accounts
@@ -1576,9 +1609,11 @@ class Sm:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         path = f"/organizations/{organization_id}/sm/vppAccounts"
 
-        return self._session.get(scope="sm", operation_id="getOrganizationSmVppAccounts", path=path)
+        return await self._session.get(
+            scope="sm", operation_id="getOrganizationSmVppAccounts", path=path
+        )
 
-    def get_organization_sm_vpp_account(
+    async def get_organization_sm_vpp_account(
         self, *, organization_id: str, vpp_account_id: str
     ) -> dict[str, Any] | None:
         """Get a hash containing the unparsed token of the VPP account with the given ID.
@@ -1594,4 +1629,6 @@ class Sm:
         vpp_account_id = urllib.parse.quote(str(vpp_account_id), safe="")
         path = f"/organizations/{organization_id}/sm/vppAccounts/{vpp_account_id}"
 
-        return self._session.get(scope="sm", operation_id="getOrganizationSmVppAccount", path=path)
+        return await self._session.get(
+            scope="sm", operation_id="getOrganizationSmVppAccount", path=path
+        )

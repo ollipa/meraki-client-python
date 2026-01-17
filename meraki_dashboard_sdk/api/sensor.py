@@ -2,12 +2,11 @@
 
 from __future__ import annotations
 
-import urllib
-from collections.abc import Generator
+import urllib.parse
 from typing import TYPE_CHECKING, Any, Literal
 
 if TYPE_CHECKING:
-    from meraki_dashboard_sdk.session import Session
+    from meraki_dashboard_sdk.session import PaginatedResponse, Session
 
 
 class Sensor:
@@ -29,8 +28,8 @@ class Sensor:
         t1: str | None = None,
         timespan: float | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[Any]:
         """Returns a historical log of all commands.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device-sensor-commands
@@ -92,7 +91,7 @@ class Sensor:
 
         return self._session.get_pages(
             scope="sensor",
-            operation_id="{operation_id}",
+            operation_id="getDeviceSensorCommands",
             path=path,
             params=params,
             total_pages=total_pages,
@@ -132,7 +131,7 @@ class Sensor:
             payload["operation"] = operation
 
         return self._session.post(
-            scope="sensor", operation_id="{operation_id}", path=path, json=payload
+            scope="sensor", operation_id="createDeviceSensorCommand", path=path, json=payload
         )
 
     def get_device_sensor_command(self, *, serial: str, command_id: str) -> dict[str, Any] | None:
@@ -189,7 +188,7 @@ class Sensor:
             payload["livestream"] = livestream
 
         return self._session.put(
-            scope="sensor", operation_id="{operation_id}", path=path, json=payload
+            scope="sensor", operation_id="updateDeviceSensorRelationships", path=path, json=payload
         )
 
     def get_network_sensor_alerts_current_overview_by_metric(
@@ -251,7 +250,10 @@ class Sensor:
             params["interval"] = interval
 
         return self._session.get(
-            scope="sensor", operation_id="{operation_id}", path=path, params=params
+            scope="sensor",
+            operation_id="getNetworkSensorAlertsOverviewByMetric",
+            path=path,
+            params=params,
         )
 
     def get_network_sensor_alerts_profiles(self, *, network_id: str) -> dict[str, Any] | None:
@@ -317,7 +319,7 @@ class Sensor:
             payload["message"] = message
 
         return self._session.post(
-            scope="sensor", operation_id="{operation_id}", path=path, json=payload
+            scope="sensor", operation_id="createNetworkSensorAlertsProfile", path=path, json=payload
         )
 
     def get_network_sensor_alerts_profile(
@@ -390,7 +392,7 @@ class Sensor:
             payload["message"] = message
 
         return self._session.put(
-            scope="sensor", operation_id="{operation_id}", path=path, json=payload
+            scope="sensor", operation_id="updateNetworkSensorAlertsProfile", path=path, json=payload
         )
 
     def delete_network_sensor_alerts_profile(self, *, network_id: str, id_: str) -> None:
@@ -469,7 +471,7 @@ class Sensor:
             payload["enabled"] = enabled
 
         return self._session.put(
-            scope="sensor", operation_id="{operation_id}", path=path, json=payload
+            scope="sensor", operation_id="updateNetworkSensorMqttBroker", path=path, json=payload
         )
 
     def get_network_sensor_relationships(self, *, network_id: str) -> dict[str, Any] | None:
@@ -497,8 +499,8 @@ class Sensor:
         starting_after: str | None = None,
         ending_before: str | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[Any]:
         """Returns latest sensor-gateway connectivity data.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-sensor-gateways-connections-latest
@@ -536,7 +538,7 @@ class Sensor:
 
         return self._session.get_pages(
             scope="sensor",
-            operation_id="{operation_id}",
+            operation_id="getOrganizationSensorGatewaysConnectionsLatest",
             path=path,
             params=params,
             total_pages=total_pages,
@@ -557,8 +559,8 @@ class Sensor:
         serials: list | None = None,
         metrics: list | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[Any]:
         """Return all reported readings from sensors in a given timespan, sorted by timestamp.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-sensor-readings-history
@@ -615,7 +617,7 @@ class Sensor:
 
         return self._session.get_pages(
             scope="sensor",
-            operation_id="{operation_id}",
+            operation_id="getOrganizationSensorReadingsHistory",
             path=path,
             params=params,
             total_pages=total_pages,
@@ -633,8 +635,8 @@ class Sensor:
         serials: list | None = None,
         metrics: list | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[Any]:
         """Return the latest available reading for each metric from each sensor, sorted by sensor serial.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-sensor-readings-latest
@@ -679,7 +681,7 @@ class Sensor:
 
         return self._session.get_pages(
             scope="sensor",
-            operation_id="{operation_id}",
+            operation_id="getOrganizationSensorReadingsLatest",
             path=path,
             params=params,
             total_pages=total_pages,

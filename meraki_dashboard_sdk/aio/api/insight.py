@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-import urllib
+import urllib.parse
 from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
@@ -15,7 +15,7 @@ class Insight:
     def __init__(self, session: Session) -> None:
         self._session = session
 
-    def get_network_insight_application_health_by_time(
+    async def get_network_insight_application_health_by_time(
         self,
         *,
         network_id: str,
@@ -56,11 +56,14 @@ class Insight:
         if resolution is not None:
             params["resolution"] = resolution
 
-        return self._session.get(
-            scope="insight", operation_id="{operation_id}", path=path, params=params
+        return await self._session.get(
+            scope="insight",
+            operation_id="getNetworkInsightApplicationHealthByTime",
+            path=path,
+            params=params,
         )
 
-    def get_organization_insight_applications(
+    async def get_organization_insight_applications(
         self, *, organization_id: str
     ) -> dict[str, Any] | None:
         """List all Insight tracked applications.
@@ -74,11 +77,11 @@ class Insight:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         path = f"/organizations/{organization_id}/insight/applications"
 
-        return self._session.get(
+        return await self._session.get(
             scope="insight", operation_id="getOrganizationInsightApplications", path=path
         )
 
-    def get_organization_insight_monitored_media_servers(
+    async def get_organization_insight_monitored_media_servers(
         self, *, organization_id: str
     ) -> dict[str, Any] | None:
         """List the monitored media servers for this organization.
@@ -92,11 +95,11 @@ class Insight:
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         path = f"/organizations/{organization_id}/insight/monitoredMediaServers"
 
-        return self._session.get(
+        return await self._session.get(
             scope="insight", operation_id="getOrganizationInsightMonitoredMediaServers", path=path
         )
 
-    def create_organization_insight_monitored_media_server(
+    async def create_organization_insight_monitored_media_server(
         self,
         *,
         organization_id: str,
@@ -127,11 +130,14 @@ class Insight:
         if best_effort_monitoring_enabled is not None:
             payload["bestEffortMonitoringEnabled"] = best_effort_monitoring_enabled
 
-        return self._session.post(
-            scope="insight", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.post(
+            scope="insight",
+            operation_id="createOrganizationInsightMonitoredMediaServer",
+            path=path,
+            json=payload,
         )
 
-    def get_organization_insight_monitored_media_server(
+    async def get_organization_insight_monitored_media_server(
         self, *, organization_id: str, monitored_media_server_id: str
     ) -> dict[str, Any] | None:
         """Return a monitored media server for this organization.
@@ -147,11 +153,11 @@ class Insight:
         monitored_media_server_id = urllib.parse.quote(str(monitored_media_server_id), safe="")
         path = f"/organizations/{organization_id}/insight/monitoredMediaServers/{monitored_media_server_id}"
 
-        return self._session.get(
+        return await self._session.get(
             scope="insight", operation_id="getOrganizationInsightMonitoredMediaServer", path=path
         )
 
-    def update_organization_insight_monitored_media_server(
+    async def update_organization_insight_monitored_media_server(
         self,
         *,
         organization_id: str,
@@ -185,11 +191,14 @@ class Insight:
         if best_effort_monitoring_enabled is not None:
             payload["bestEffortMonitoringEnabled"] = best_effort_monitoring_enabled
 
-        return self._session.put(
-            scope="insight", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.put(
+            scope="insight",
+            operation_id="updateOrganizationInsightMonitoredMediaServer",
+            path=path,
+            json=payload,
         )
 
-    def delete_organization_insight_monitored_media_server(
+    async def delete_organization_insight_monitored_media_server(
         self, *, organization_id: str, monitored_media_server_id: str
     ) -> None:
         """Delete a monitored media server from this organization.
@@ -205,6 +214,6 @@ class Insight:
         monitored_media_server_id = urllib.parse.quote(str(monitored_media_server_id), safe="")
         path = f"/organizations/{organization_id}/insight/monitoredMediaServers/{monitored_media_server_id}"
 
-        return self._session.delete(
+        return await self._session.delete(
             scope="insight", operation_id="deleteOrganizationInsightMonitoredMediaServer", path=path
         )

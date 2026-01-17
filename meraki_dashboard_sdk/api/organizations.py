@@ -2,12 +2,11 @@
 
 from __future__ import annotations
 
-import urllib
-from collections.abc import Generator
+import urllib.parse
 from typing import TYPE_CHECKING, Any, Literal
 
 if TYPE_CHECKING:
-    from meraki_dashboard_sdk.session import Session
+    from meraki_dashboard_sdk.session import PaginatedResponse, Session
 
 
 class Organizations:
@@ -23,8 +22,8 @@ class Organizations:
         starting_after: str | None = None,
         ending_before: str | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[Any]:
         """List the organizations that the user has privileges on.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organizations
@@ -57,7 +56,7 @@ class Organizations:
 
         return self._session.get_pages(
             scope="organizations",
-            operation_id="{operation_id}",
+            operation_id="getOrganizations",
             path=path,
             params=params,
             total_pages=total_pages,
@@ -85,7 +84,7 @@ class Organizations:
             payload["management"] = management
 
         return self._session.post(
-            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+            scope="organizations", operation_id="createOrganization", path=path, json=payload
         )
 
     def get_organization(self, *, organization_id: str) -> dict[str, Any] | None:
@@ -133,7 +132,7 @@ class Organizations:
             payload["api"] = api
 
         return self._session.put(
-            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+            scope="organizations", operation_id="updateOrganization", path=path, json=payload
         )
 
     def delete_organization(self, *, organization_id: str) -> None:
@@ -178,7 +177,10 @@ class Organizations:
             params["status"] = status
 
         return self._session.get(
-            scope="organizations", operation_id="{operation_id}", path=path, params=params
+            scope="organizations",
+            operation_id="getOrganizationActionBatches",
+            path=path,
+            params=params,
         )
 
     def create_organization_action_batch(
@@ -222,7 +224,10 @@ class Organizations:
             payload["callback"] = callback
 
         return self._session.post(
-            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+            scope="organizations",
+            operation_id="createOrganizationActionBatch",
+            path=path,
+            json=payload,
         )
 
     def get_organization_action_batch(
@@ -277,7 +282,10 @@ class Organizations:
             payload["synchronous"] = synchronous
 
         return self._session.put(
-            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+            scope="organizations",
+            operation_id="updateOrganizationActionBatch",
+            path=path,
+            json=payload,
         )
 
     def delete_organization_action_batch(
@@ -359,7 +367,10 @@ class Organizations:
             payload["ipVersion"] = ip_version
 
         return self._session.post(
-            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+            scope="organizations",
+            operation_id="createOrganizationAdaptivePolicyAcl",
+            path=path,
+            json=payload,
         )
 
     def get_organization_adaptive_policy_acl(
@@ -427,7 +438,10 @@ class Organizations:
             payload["ipVersion"] = ip_version
 
         return self._session.put(
-            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+            scope="organizations",
+            operation_id="updateOrganizationAdaptivePolicyAcl",
+            path=path,
+            json=payload,
         )
 
     def delete_organization_adaptive_policy_acl(self, *, organization_id: str, acl_id: str) -> None:
@@ -504,7 +518,10 @@ class Organizations:
             payload["policyObjects"] = policy_objects
 
         return self._session.post(
-            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+            scope="organizations",
+            operation_id="createOrganizationAdaptivePolicyGroup",
+            path=path,
+            json=payload,
         )
 
     def get_organization_adaptive_policy_group(
@@ -568,7 +585,10 @@ class Organizations:
             payload["policyObjects"] = policy_objects
 
         return self._session.put(
-            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+            scope="organizations",
+            operation_id="updateOrganizationAdaptivePolicyGroup",
+            path=path,
+            json=payload,
         )
 
     def delete_organization_adaptive_policy_group(self, *, organization_id: str, id_: str) -> None:
@@ -668,7 +688,10 @@ class Organizations:
             payload["lastEntryRule"] = last_entry_rule
 
         return self._session.post(
-            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+            scope="organizations",
+            operation_id="createOrganizationAdaptivePolicyPolicy",
+            path=path,
+            json=payload,
         )
 
     def get_organization_adaptive_policy_policy(
@@ -737,7 +760,10 @@ class Organizations:
             payload["lastEntryRule"] = last_entry_rule
 
         return self._session.put(
-            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+            scope="organizations",
+            operation_id="updateOrganizationAdaptivePolicyPolicy",
+            path=path,
+            json=payload,
         )
 
     def delete_organization_adaptive_policy_policy(self, *, organization_id: str, id_: str) -> None:
@@ -796,7 +822,10 @@ class Organizations:
             payload["enabledNetworks"] = enabled_networks
 
         return self._session.put(
-            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+            scope="organizations",
+            operation_id="updateOrganizationAdaptivePolicySettings",
+            path=path,
+            json=payload,
         )
 
     def get_organization_admins(
@@ -820,7 +849,7 @@ class Organizations:
             params["networkIds[]"] = network_ids
 
         return self._session.get(
-            scope="organizations", operation_id="{operation_id}", path=path, params=params
+            scope="organizations", operation_id="getOrganizationAdmins", path=path, params=params
         )
 
     def create_organization_admin(
@@ -879,7 +908,7 @@ class Organizations:
             payload["authenticationMethod"] = authentication_method
 
         return self._session.post(
-            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+            scope="organizations", operation_id="createOrganizationAdmin", path=path, json=payload
         )
 
     def update_organization_admin(
@@ -927,7 +956,7 @@ class Organizations:
             payload["networks"] = networks
 
         return self._session.put(
-            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+            scope="organizations", operation_id="updateOrganizationAdmin", path=path, json=payload
         )
 
     def delete_organization_admin(self, *, organization_id: str, admin_id: str) -> None:
@@ -1018,7 +1047,10 @@ class Organizations:
             payload["description"] = description
 
         return self._session.post(
-            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+            scope="organizations",
+            operation_id="createOrganizationAlertsProfile",
+            path=path,
+            json=payload,
         )
 
     def update_organization_alerts_profile(
@@ -1082,7 +1114,10 @@ class Organizations:
             payload["description"] = description
 
         return self._session.put(
-            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+            scope="organizations",
+            operation_id="updateOrganizationAlertsProfile",
+            path=path,
+            json=payload,
         )
 
     def delete_organization_alerts_profile(
@@ -1124,8 +1159,8 @@ class Organizations:
         version: int | None = None,
         operation_ids: list | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[Any]:
         """List the API requests made by an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-api-requests
@@ -1208,7 +1243,7 @@ class Organizations:
 
         return self._session.get_pages(
             scope="organizations",
-            operation_id="{operation_id}",
+            operation_id="getOrganizationApiRequests",
             path=path,
             params=params,
             total_pages=total_pages,
@@ -1249,7 +1284,10 @@ class Organizations:
             params["timespan"] = timespan
 
         return self._session.get(
-            scope="organizations", operation_id="{operation_id}", path=path, params=params
+            scope="organizations",
+            operation_id="getOrganizationApiRequestsOverview",
+            path=path,
+            params=params,
         )
 
     def get_organization_api_requests_overview_response_codes_by_interval(
@@ -1320,7 +1358,10 @@ class Organizations:
             params["userAgent"] = user_agent
 
         return self._session.get(
-            scope="organizations", operation_id="{operation_id}", path=path, params=params
+            scope="organizations",
+            operation_id="getOrganizationApiRequestsOverviewResponseCodesByInterval",
+            path=path,
+            params=params,
         )
 
     def get_organization_assurance_alerts(
@@ -1346,8 +1387,8 @@ class Organizations:
         resolved: bool | None = None,
         suppress_alerts_for_offline_nodes: bool | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[Any]:
         """Return all health alerts for an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-assurance-alerts
@@ -1448,7 +1489,7 @@ class Organizations:
 
         return self._session.get_pages(
             scope="organizations",
-            operation_id="{operation_id}",
+            operation_id="getOrganizationAssuranceAlerts",
             path=path,
             params=params,
             total_pages=total_pages,
@@ -1475,7 +1516,10 @@ class Organizations:
             payload["alertIds"] = alert_ids
 
         return self._session.post(
-            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+            scope="organizations",
+            operation_id="dismissOrganizationAssuranceAlerts",
+            path=path,
+            json=payload,
         )
 
     def get_organization_assurance_alerts_overview(
@@ -1559,7 +1603,10 @@ class Organizations:
             params["suppressAlertsForOfflineNodes"] = suppress_alerts_for_offline_nodes
 
         return self._session.get(
-            scope="organizations", operation_id="{operation_id}", path=path, params=params
+            scope="organizations",
+            operation_id="getOrganizationAssuranceAlertsOverview",
+            path=path,
+            params=params,
         )
 
     def get_organization_assurance_alerts_overview_by_network(
@@ -1584,8 +1631,8 @@ class Organizations:
         resolved: bool | None = None,
         suppress_alerts_for_offline_nodes: bool | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[Any]:
         """Return a Summary of Alerts grouped by network and severity.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-assurance-alerts-overview-by-network
@@ -1678,7 +1725,7 @@ class Organizations:
 
         return self._session.get_pages(
             scope="organizations",
-            operation_id="{operation_id}",
+            operation_id="getOrganizationAssuranceAlertsOverviewByNetwork",
             path=path,
             params=params,
             total_pages=total_pages,
@@ -1708,8 +1755,8 @@ class Organizations:
         resolved: bool | None = None,
         suppress_alerts_for_offline_nodes: bool | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[Any]:
         """Return a Summary of Alerts grouped by type and severity.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-assurance-alerts-overview-by-type
@@ -1810,7 +1857,7 @@ class Organizations:
 
         return self._session.get_pages(
             scope="organizations",
-            operation_id="{operation_id}",
+            operation_id="getOrganizationAssuranceAlertsOverviewByType",
             path=path,
             params=params,
             total_pages=total_pages,
@@ -1878,7 +1925,10 @@ class Organizations:
             params["deviceTypes[]"] = device_types
 
         return self._session.get(
-            scope="organizations", operation_id="{operation_id}", path=path, params=params
+            scope="organizations",
+            operation_id="getOrganizationAssuranceAlertsOverviewHistorical",
+            path=path,
+            params=params,
         )
 
     def restore_organization_assurance_alerts(
@@ -1901,7 +1951,10 @@ class Organizations:
             payload["alertIds"] = alert_ids
 
         return self._session.post(
-            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+            scope="organizations",
+            operation_id="restoreOrganizationAssuranceAlerts",
+            path=path,
+            json=payload,
         )
 
     def get_organization_assurance_alerts_taxonomy_categories(
@@ -2025,7 +2078,10 @@ class Organizations:
             payload["customLogo"] = custom_logo
 
         return self._session.post(
-            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+            scope="organizations",
+            operation_id="createOrganizationBrandingPolicy",
+            path=path,
+            json=payload,
         )
 
     def get_organization_branding_policies_priorities(
@@ -2069,7 +2125,10 @@ class Organizations:
             payload["brandingPolicyIds"] = branding_policy_ids
 
         return self._session.put(
-            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+            scope="organizations",
+            operation_id="updateOrganizationBrandingPoliciesPriorities",
+            path=path,
+            json=payload,
         )
 
     def get_organization_branding_policy(
@@ -2139,7 +2198,10 @@ class Organizations:
             payload["customLogo"] = custom_logo
 
         return self._session.put(
-            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+            scope="organizations",
+            operation_id="updateOrganizationBrandingPolicy",
+            path=path,
+            json=payload,
         )
 
     def delete_organization_branding_policy(
@@ -2193,7 +2255,7 @@ class Organizations:
             payload["licenses"] = licenses
 
         return self._session.post(
-            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+            scope="organizations", operation_id="claimIntoOrganization", path=path, json=payload
         )
 
     def get_organization_clients_bandwidth_usage_history(
@@ -2245,7 +2307,10 @@ class Organizations:
             params["timespan"] = timespan
 
         return self._session.get(
-            scope="organizations", operation_id="{operation_id}", path=path, params=params
+            scope="organizations",
+            operation_id="getOrganizationClientsBandwidthUsageHistory",
+            path=path,
+            params=params,
         )
 
     def get_organization_clients_overview(
@@ -2281,7 +2346,10 @@ class Organizations:
             params["timespan"] = timespan
 
         return self._session.get(
-            scope="organizations", operation_id="{operation_id}", path=path, params=params
+            scope="organizations",
+            operation_id="getOrganizationClientsOverview",
+            path=path,
+            params=params,
         )
 
     def get_organization_clients_search(
@@ -2293,8 +2361,8 @@ class Organizations:
         starting_after: str | None = None,
         ending_before: str | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[Any]:
         """Return the client details in an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-clients-search
@@ -2332,7 +2400,7 @@ class Organizations:
 
         return self._session.get_pages(
             scope="organizations",
-            operation_id="{operation_id}",
+            operation_id="getOrganizationClientsSearch",
             path=path,
             params=params,
             total_pages=total_pages,
@@ -2357,7 +2425,7 @@ class Organizations:
             payload["name"] = name
 
         return self._session.post(
-            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+            scope="organizations", operation_id="cloneOrganization", path=path, json=payload
         )
 
     def get_organization_config_templates(self, *, organization_id: str) -> dict[str, Any] | None:
@@ -2411,7 +2479,10 @@ class Organizations:
             payload["copyFromNetworkId"] = copy_from_network_id
 
         return self._session.post(
-            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+            scope="organizations",
+            operation_id="createOrganizationConfigTemplate",
+            path=path,
+            json=payload,
         )
 
     def get_organization_config_template(
@@ -2467,7 +2538,10 @@ class Organizations:
             payload["timeZone"] = time_zone
 
         return self._session.put(
-            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+            scope="organizations",
+            operation_id="updateOrganizationConfigTemplate",
+            path=path,
+            json=payload,
         )
 
     def delete_organization_config_template(
@@ -2503,8 +2577,8 @@ class Organizations:
         network_id: str | None = None,
         admin_id: str | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "prev",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "prev",
+    ) -> PaginatedResponse[Any]:
         """View the Change Log for your organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-configuration-changes
@@ -2557,7 +2631,7 @@ class Organizations:
 
         return self._session.get_pages(
             scope="organizations",
-            operation_id="{operation_id}",
+            operation_id="getOrganizationConfigurationChanges",
             path=path,
             params=params,
             total_pages=total_pages,
@@ -2586,8 +2660,8 @@ class Organizations:
         sensor_alert_profile_ids: list | None = None,
         models: list | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[Any]:
         """List the devices in an organization that have been assigned to a network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-devices
@@ -2684,7 +2758,7 @@ class Organizations:
 
         return self._session.get_pages(
             scope="organizations",
-            operation_id="{operation_id}",
+            operation_id="getOrganizationDevices",
             path=path,
             params=params,
             total_pages=total_pages,
@@ -2705,8 +2779,8 @@ class Organizations:
         tags_filter_type: str | None = None,
         statuses: list | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[Any]:
         """List the availability information for devices in an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-devices-availabilities
@@ -2775,7 +2849,7 @@ class Organizations:
 
         return self._session.get_pages(
             scope="organizations",
-            operation_id="{operation_id}",
+            operation_id="getOrganizationDevicesAvailabilities",
             path=path,
             params=params,
             total_pages=total_pages,
@@ -2797,8 +2871,8 @@ class Organizations:
         network_ids: list | None = None,
         statuses: list | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[Any]:
         """List the availability history information for devices in an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-devices-availabilities-change-history
@@ -2859,7 +2933,7 @@ class Organizations:
 
         return self._session.get_pages(
             scope="organizations",
-            operation_id="{operation_id}",
+            operation_id="getOrganizationDevicesAvailabilitiesChangeHistory",
             path=path,
             params=params,
             total_pages=total_pages,
@@ -2877,8 +2951,8 @@ class Organizations:
         starting_after: str | None = None,
         ending_before: str | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[Any]:
         """Retrieve device migration statuses in an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-devices-controller-migrations
@@ -2928,7 +3002,7 @@ class Organizations:
 
         return self._session.get_pages(
             scope="organizations",
-            operation_id="{operation_id}",
+            operation_id="getOrganizationDevicesControllerMigrations",
             path=path,
             params=params,
             total_pages=total_pages,
@@ -2964,7 +3038,10 @@ class Organizations:
             payload["target"] = target
 
         return self._session.post(
-            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+            scope="organizations",
+            operation_id="createOrganizationDevicesControllerMigration",
+            path=path,
+            json=payload,
         )
 
     def bulk_update_organization_devices_details(
@@ -2990,7 +3067,10 @@ class Organizations:
             payload["details"] = details
 
         return self._session.post(
-            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+            scope="organizations",
+            operation_id="bulkUpdateOrganizationDevicesDetails",
+            path=path,
+            json=payload,
         )
 
     def get_organization_devices_overview_by_model(
@@ -3026,7 +3106,10 @@ class Organizations:
             params["productTypes[]"] = product_types
 
         return self._session.get(
-            scope="organizations", operation_id="{operation_id}", path=path, params=params
+            scope="organizations",
+            operation_id="getOrganizationDevicesOverviewByModel",
+            path=path,
+            params=params,
         )
 
     def get_organization_devices_packet_capture_captures(
@@ -3051,8 +3134,8 @@ class Organizations:
         ending_before: str | None = None,
         sort_order: str | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[Any]:
         """List Packet Captures.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-devices-packet-capture-captures
@@ -3139,7 +3222,7 @@ class Organizations:
 
         return self._session.get_pages(
             scope="organizations",
-            operation_id="{operation_id}",
+            operation_id="getOrganizationDevicesPacketCaptureCaptures",
             path=path,
             params=params,
             total_pages=total_pages,
@@ -3207,7 +3290,10 @@ class Organizations:
             payload["advanced"] = advanced
 
         return self._session.post(
-            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+            scope="organizations",
+            operation_id="createOrganizationDevicesPacketCaptureCapture",
+            path=path,
+            json=payload,
         )
 
     def bulk_organization_devices_packet_capture_captures_create(
@@ -3253,7 +3339,10 @@ class Organizations:
             payload["advanced"] = advanced
 
         return self._session.post(
-            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+            scope="organizations",
+            operation_id="bulkOrganizationDevicesPacketCaptureCapturesCreate",
+            path=path,
+            json=payload,
         )
 
     def bulk_organization_devices_packet_capture_captures_delete(
@@ -3276,7 +3365,10 @@ class Organizations:
             payload["captureIds"] = capture_ids
 
         return self._session.post(
-            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+            scope="organizations",
+            operation_id="bulkOrganizationDevicesPacketCaptureCapturesDelete",
+            path=path,
+            json=payload,
         )
 
     def delete_organization_devices_packet_capture_capture(
@@ -3345,7 +3437,10 @@ class Organizations:
             payload["serials"] = serials
 
         return self._session.post(
-            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+            scope="organizations",
+            operation_id="stopOrganizationDevicesPacketCaptureCapture",
+            path=path,
+            json=payload,
         )
 
     def get_organization_devices_packet_capture_schedules(
@@ -3380,7 +3475,10 @@ class Organizations:
             params["deviceIds[]"] = device_ids
 
         return self._session.get(
-            scope="organizations", operation_id="{operation_id}", path=path, params=params
+            scope="organizations",
+            operation_id="getOrganizationDevicesPacketCaptureSchedules",
+            path=path,
+            params=params,
         )
 
     def create_organization_devices_packet_capture_schedule(
@@ -3430,7 +3528,10 @@ class Organizations:
             payload["schedule"] = schedule
 
         return self._session.post(
-            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+            scope="organizations",
+            operation_id="createOrganizationDevicesPacketCaptureSchedule",
+            path=path,
+            json=payload,
         )
 
     def reorder_organization_devices_packet_capture_schedules(
@@ -3453,7 +3554,10 @@ class Organizations:
             payload["order"] = order
 
         return self._session.post(
-            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+            scope="organizations",
+            operation_id="reorderOrganizationDevicesPacketCaptureSchedules",
+            path=path,
+            json=payload,
         )
 
     def update_organization_devices_packet_capture_schedule(
@@ -3506,7 +3610,10 @@ class Organizations:
             payload["schedule"] = schedule
 
         return self._session.put(
-            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+            scope="organizations",
+            operation_id="updateOrganizationDevicesPacketCaptureSchedule",
+            path=path,
+            json=payload,
         )
 
     def delete_organization_devices_packet_capture_schedule(
@@ -3548,8 +3655,8 @@ class Organizations:
         tags: list | None = None,
         tags_filter_type: str | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[Any]:
         """List the most recent status information for power modules in rackmount MX and MS devices that support them.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-devices-power-modules-statuses-by-device
@@ -3612,7 +3719,7 @@ class Organizations:
 
         return self._session.get_pages(
             scope="organizations",
-            operation_id="{operation_id}",
+            operation_id="getOrganizationDevicesPowerModulesStatusesByDevice",
             path=path,
             params=params,
             total_pages=total_pages,
@@ -3633,8 +3740,8 @@ class Organizations:
         tags: list | None = None,
         tags_filter_type: str | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[Any]:
         """List the provisioning statuses information for devices in an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-devices-provisioning-statuses
@@ -3706,7 +3813,7 @@ class Organizations:
 
         return self._session.get_pages(
             scope="organizations",
-            operation_id="{operation_id}",
+            operation_id="getOrganizationDevicesProvisioningStatuses",
             path=path,
             params=params,
             total_pages=total_pages,
@@ -3728,8 +3835,8 @@ class Organizations:
         tags: list | None = None,
         tags_filter_type: str | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[Any]:
         """List the status of every Meraki device in the organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-devices-statuses
@@ -3799,7 +3906,7 @@ class Organizations:
 
         return self._session.get_pages(
             scope="organizations",
-            operation_id="{operation_id}",
+            operation_id="getOrganizationDevicesStatuses",
             path=path,
             params=params,
             total_pages=total_pages,
@@ -3836,7 +3943,10 @@ class Organizations:
             params["networkIds[]"] = network_ids
 
         return self._session.get(
-            scope="organizations", operation_id="{operation_id}", path=path, params=params
+            scope="organizations",
+            operation_id="getOrganizationDevicesStatusesOverview",
+            path=path,
+            params=params,
         )
 
     def get_organization_devices_system_memory_usage_history_by_interval(
@@ -3854,8 +3964,8 @@ class Organizations:
         serials: list | None = None,
         product_types: list | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[Any]:
         """Return the memory utilization history in kB for devices in the organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-devices-system-memory-usage-history-by-interval
@@ -3921,7 +4031,7 @@ class Organizations:
 
         return self._session.get_pages(
             scope="organizations",
-            operation_id="{operation_id}",
+            operation_id="getOrganizationDevicesSystemMemoryUsageHistoryByInterval",
             path=path,
             params=params,
             total_pages=total_pages,
@@ -3941,8 +4051,8 @@ class Organizations:
         tags: list | None = None,
         tags_filter_type: str | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[Any]:
         """List the current uplink addresses for devices in an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-devices-uplinks-addresses-by-device
@@ -4005,7 +4115,7 @@ class Organizations:
 
         return self._session.get_pages(
             scope="organizations",
-            operation_id="{operation_id}",
+            operation_id="getOrganizationDevicesUplinksAddressesByDevice",
             path=path,
             params=params,
             total_pages=total_pages,
@@ -4063,7 +4173,10 @@ class Organizations:
             params["ip"] = ip
 
         return self._session.get(
-            scope="organizations", operation_id="{operation_id}", path=path, params=params
+            scope="organizations",
+            operation_id="getOrganizationDevicesUplinksLossAndLatency",
+            path=path,
+            params=params,
         )
 
     def get_organization_early_access_features(
@@ -4127,7 +4240,10 @@ class Organizations:
             payload["limitScopeToNetworks"] = limit_scope_to_networks
 
         return self._session.post(
-            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+            scope="organizations",
+            operation_id="createOrganizationEarlyAccessFeaturesOptIn",
+            path=path,
+            json=payload,
         )
 
     def get_organization_early_access_features_opt_in(
@@ -4172,7 +4288,10 @@ class Organizations:
             payload["limitScopeToNetworks"] = limit_scope_to_networks
 
         return self._session.put(
-            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+            scope="organizations",
+            operation_id="updateOrganizationEarlyAccessFeaturesOptIn",
+            path=path,
+            json=payload,
         )
 
     def delete_organization_early_access_features_opt_in(
@@ -4207,8 +4326,8 @@ class Organizations:
         status: list | None = None,
         product_types: list | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[Any]:
         """Get firmware upgrade information for an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-firmware-upgrades
@@ -4249,7 +4368,7 @@ class Organizations:
 
         return self._session.get_pages(
             scope="organizations",
-            operation_id="{operation_id}",
+            operation_id="getOrganizationFirmwareUpgrades",
             path=path,
             params=params,
             total_pages=total_pages,
@@ -4271,8 +4390,8 @@ class Organizations:
         current_upgrades_only: bool | None = None,
         limit_per_device: int | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[Any]:
         """Get firmware upgrade status for the filtered devices.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-firmware-upgrades-by-device
@@ -4332,7 +4451,7 @@ class Organizations:
 
         return self._session.get_pages(
             scope="organizations",
-            operation_id="{operation_id}",
+            operation_id="getOrganizationFirmwareUpgradesByDevice",
             path=path,
             params=params,
             total_pages=total_pages,
@@ -4349,8 +4468,8 @@ class Organizations:
         network_ids: list | None = None,
         floor_plan_ids: list | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[Any]:
         """List auto locate details for each device in your organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-floor-plans-auto-locate-devices
@@ -4391,7 +4510,7 @@ class Organizations:
 
         return self._session.get_pages(
             scope="organizations",
-            operation_id="{operation_id}",
+            operation_id="getOrganizationFloorPlansAutoLocateDevices",
             path=path,
             params=params,
             total_pages=total_pages,
@@ -4408,8 +4527,8 @@ class Organizations:
         network_ids: list | None = None,
         floor_plan_ids: list | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[Any]:
         """List the status of auto locate for each floorplan in your organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-floor-plans-auto-locate-statuses
@@ -4450,7 +4569,7 @@ class Organizations:
 
         return self._session.get_pages(
             scope="organizations",
-            operation_id="{operation_id}",
+            operation_id="getOrganizationFloorPlansAutoLocateStatuses",
             path=path,
             params=params,
             total_pages=total_pages,
@@ -4466,8 +4585,8 @@ class Organizations:
         starting_after: str | None = None,
         ending_before: str | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[Any]:
         """Returns the networks in the organization that have XDR enabled.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-integrations-xdr-networks
@@ -4505,7 +4624,7 @@ class Organizations:
 
         return self._session.get_pages(
             scope="organizations",
-            operation_id="{operation_id}",
+            operation_id="getOrganizationIntegrationsXdrNetworks",
             path=path,
             params=params,
             total_pages=total_pages,
@@ -4532,7 +4651,10 @@ class Organizations:
             payload["networks"] = networks
 
         return self._session.post(
-            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+            scope="organizations",
+            operation_id="disableOrganizationIntegrationsXdrNetworks",
+            path=path,
+            json=payload,
         )
 
     def enable_organization_integrations_xdr_networks(
@@ -4555,7 +4677,10 @@ class Organizations:
             payload["networks"] = networks
 
         return self._session.post(
-            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+            scope="organizations",
+            operation_id="enableOrganizationIntegrationsXdrNetworks",
+            path=path,
+            json=payload,
         )
 
     def claim_into_organization_inventory(
@@ -4589,7 +4714,10 @@ class Organizations:
             payload["licenses"] = licenses
 
         return self._session.post(
-            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+            scope="organizations",
+            operation_id="claimIntoOrganizationInventory",
+            path=path,
+            json=payload,
         )
 
     def get_organization_inventory_devices(
@@ -4610,8 +4738,8 @@ class Organizations:
         tags_filter_type: str | None = None,
         product_types: list | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[Any]:
         """Return the device inventory for an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-inventory-devices
@@ -4694,7 +4822,7 @@ class Organizations:
 
         return self._session.get_pages(
             scope="organizations",
-            operation_id="{operation_id}",
+            operation_id="getOrganizationInventoryDevices",
             path=path,
             params=params,
             total_pages=total_pages,
@@ -4721,7 +4849,10 @@ class Organizations:
             payload["swaps"] = swaps
 
         return self._session.post(
-            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+            scope="organizations",
+            operation_id="createOrganizationInventoryDevicesSwapsBulk",
+            path=path,
+            json=payload,
         )
 
     def get_organization_inventory_devices_swaps_bulk(
@@ -4802,7 +4933,10 @@ class Organizations:
             payload["request"] = request
 
         return self._session.post(
-            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+            scope="organizations",
+            operation_id="createOrganizationInventoryOnboardingCloudMonitoringExportEvent",
+            path=path,
+            json=payload,
         )
 
     def get_organization_inventory_onboarding_cloud_monitoring_imports(
@@ -4825,7 +4959,10 @@ class Organizations:
             params["importIds[]"] = import_ids
 
         return self._session.get(
-            scope="organizations", operation_id="{operation_id}", path=path, params=params
+            scope="organizations",
+            operation_id="getOrganizationInventoryOnboardingCloudMonitoringImports",
+            path=path,
+            params=params,
         )
 
     def create_organization_inventory_onboarding_cloud_monitoring_import(
@@ -4848,7 +4985,10 @@ class Organizations:
             payload["devices"] = devices
 
         return self._session.post(
-            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+            scope="organizations",
+            operation_id="createOrganizationInventoryOnboardingCloudMonitoringImport",
+            path=path,
+            json=payload,
         )
 
     def get_organization_inventory_onboarding_cloud_monitoring_networks(
@@ -4861,8 +5001,8 @@ class Organizations:
         starting_after: str | None = None,
         ending_before: str | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[Any]:
         """Returns list of networks eligible for adding cloud monitored device.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-inventory-onboarding-cloud-monitoring-networks
@@ -4909,7 +5049,7 @@ class Organizations:
 
         return self._session.get_pages(
             scope="organizations",
-            operation_id="{operation_id}",
+            operation_id="getOrganizationInventoryOnboardingCloudMonitoringNetworks",
             path=path,
             params=params,
             total_pages=total_pages,
@@ -4939,7 +5079,10 @@ class Organizations:
             payload["options"] = options
 
         return self._session.post(
-            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+            scope="organizations",
+            operation_id="createOrganizationInventoryOnboardingCloudMonitoringPrepare",
+            path=path,
+            json=payload,
         )
 
     def claim_organization_inventory_orders(
@@ -4965,7 +5108,10 @@ class Organizations:
             payload["subscriptions"] = subscriptions
 
         return self._session.post(
-            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+            scope="organizations",
+            operation_id="claimOrganizationInventoryOrders",
+            path=path,
+            json=payload,
         )
 
     def preview_organization_inventory_orders(
@@ -4988,7 +5134,10 @@ class Organizations:
             payload["claimId"] = claim_id
 
         return self._session.post(
-            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+            scope="organizations",
+            operation_id="previewOrganizationInventoryOrders",
+            path=path,
+            json=payload,
         )
 
     def release_from_organization_inventory(
@@ -5011,7 +5160,10 @@ class Organizations:
             payload["serials"] = serials
 
         return self._session.post(
-            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+            scope="organizations",
+            operation_id="releaseFromOrganizationInventory",
+            path=path,
+            json=payload,
         )
 
     def get_organization_licenses(
@@ -5025,8 +5177,8 @@ class Organizations:
         network_id: str | None = None,
         state: str | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[Any]:
         """List the licenses for an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-licenses
@@ -5078,7 +5230,7 @@ class Organizations:
 
         return self._session.get_pages(
             scope="organizations",
-            operation_id="{operation_id}",
+            operation_id="getOrganizationLicenses",
             path=path,
             params=params,
             total_pages=total_pages,
@@ -5112,7 +5264,10 @@ class Organizations:
             payload["seatCount"] = seat_count
 
         return self._session.post(
-            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+            scope="organizations",
+            operation_id="assignOrganizationLicensesSeats",
+            path=path,
+            json=payload,
         )
 
     def move_organization_licenses(
@@ -5138,7 +5293,7 @@ class Organizations:
             payload["licenseIds"] = license_ids
 
         return self._session.post(
-            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+            scope="organizations", operation_id="moveOrganizationLicenses", path=path, json=payload
         )
 
     def move_organization_licenses_seats(
@@ -5168,7 +5323,10 @@ class Organizations:
             payload["seatCount"] = seat_count
 
         return self._session.post(
-            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+            scope="organizations",
+            operation_id="moveOrganizationLicensesSeats",
+            path=path,
+            json=payload,
         )
 
     def get_organization_licenses_overview(self, *, organization_id: str) -> dict[str, Any] | None:
@@ -5213,7 +5371,10 @@ class Organizations:
             payload["unusedLicenseId"] = unused_license_id
 
         return self._session.post(
-            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+            scope="organizations",
+            operation_id="renewOrganizationLicensesSeats",
+            path=path,
+            json=payload,
         )
 
     def get_organization_license(
@@ -5260,7 +5421,7 @@ class Organizations:
             payload["deviceSerial"] = device_serial
 
         return self._session.put(
-            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+            scope="organizations", operation_id="updateOrganizationLicense", path=path, json=payload
         )
 
     def get_organization_login_security(self, *, organization_id: str) -> dict[str, Any] | None:
@@ -5369,7 +5530,10 @@ class Organizations:
             payload["apiAuthentication"] = api_authentication
 
         return self._session.put(
-            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+            scope="organizations",
+            operation_id="updateOrganizationLoginSecurity",
+            path=path,
+            json=payload,
         )
 
     def get_organization_networks(
@@ -5385,8 +5549,8 @@ class Organizations:
         starting_after: str | None = None,
         ending_before: str | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[Any]:
         """List the networks that the user has privileges on in an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-networks
@@ -5449,7 +5613,7 @@ class Organizations:
 
         return self._session.get_pages(
             scope="organizations",
-            operation_id="{operation_id}",
+            operation_id="getOrganizationNetworks",
             path=path,
             params=params,
             total_pages=total_pages,
@@ -5505,7 +5669,7 @@ class Organizations:
             payload["notes"] = notes
 
         return self._session.post(
-            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+            scope="organizations", operation_id="createOrganizationNetwork", path=path, json=payload
         )
 
     def combine_organization_networks(
@@ -5546,7 +5710,10 @@ class Organizations:
             payload["enrollmentString"] = enrollment_string
 
         return self._session.post(
-            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+            scope="organizations",
+            operation_id="combineOrganizationNetworks",
+            path=path,
+            json=payload,
         )
 
     def get_organization_openapi_spec(
@@ -5575,7 +5742,10 @@ class Organizations:
             params["version"] = version
 
         return self._session.get(
-            scope="organizations", operation_id="{operation_id}", path=path, params=params
+            scope="organizations",
+            operation_id="getOrganizationOpenapiSpec",
+            path=path,
+            params=params,
         )
 
     def get_organization_policies_assignments_by_client(
@@ -5590,8 +5760,8 @@ class Organizations:
         timespan: float | None = None,
         include_undetected_clients: bool | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[Any]:
         """Get policies for all clients with policies.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-policies-assignments-by-client
@@ -5642,7 +5812,7 @@ class Organizations:
 
         return self._session.get_pages(
             scope="organizations",
-            operation_id="{operation_id}",
+            operation_id="getOrganizationPoliciesAssignmentsByClient",
             path=path,
             params=params,
             total_pages=total_pages,
@@ -5657,8 +5827,8 @@ class Organizations:
         starting_after: str | None = None,
         ending_before: str | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[Any]:
         """Lists Policy Objects belonging to the organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-policy-objects
@@ -5693,7 +5863,7 @@ class Organizations:
 
         return self._session.get_pages(
             scope="organizations",
-            operation_id="{operation_id}",
+            operation_id="getOrganizationPolicyObjects",
             path=path,
             params=params,
             total_pages=total_pages,
@@ -5752,7 +5922,10 @@ class Organizations:
             payload["groupIds"] = group_ids
 
         return self._session.post(
-            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+            scope="organizations",
+            operation_id="createOrganizationPolicyObject",
+            path=path,
+            json=payload,
         )
 
     def get_organization_policy_objects_groups(
@@ -5763,8 +5936,8 @@ class Organizations:
         starting_after: str | None = None,
         ending_before: str | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[Any]:
         """Lists Policy Object Groups belonging to the organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-policy-objects-groups
@@ -5799,7 +5972,7 @@ class Organizations:
 
         return self._session.get_pages(
             scope="organizations",
-            operation_id="{operation_id}",
+            operation_id="getOrganizationPolicyObjectsGroups",
             path=path,
             params=params,
             total_pages=total_pages,
@@ -5841,7 +6014,10 @@ class Organizations:
             payload["objectIds"] = object_ids
 
         return self._session.post(
-            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+            scope="organizations",
+            operation_id="createOrganizationPolicyObjectsGroup",
+            path=path,
+            json=payload,
         )
 
     def get_organization_policy_objects_group(
@@ -5897,7 +6073,10 @@ class Organizations:
             payload["objectIds"] = object_ids
 
         return self._session.put(
-            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+            scope="organizations",
+            operation_id="updateOrganizationPolicyObjectsGroup",
+            path=path,
+            json=payload,
         )
 
     def delete_organization_policy_objects_group(
@@ -5987,7 +6166,10 @@ class Organizations:
             payload["groupIds"] = group_ids
 
         return self._session.put(
-            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+            scope="organizations",
+            operation_id="updateOrganizationPolicyObject",
+            path=path,
+            json=payload,
         )
 
     def delete_organization_policy_object(
@@ -6049,7 +6231,7 @@ class Organizations:
             payload["spInitiated"] = sp_initiated
 
         return self._session.put(
-            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+            scope="organizations", operation_id="updateOrganizationSaml", path=path, json=payload
         )
 
     def get_organization_saml_idps(self, *, organization_id: str) -> dict[str, Any] | None:
@@ -6101,7 +6283,7 @@ class Organizations:
             payload["sloLogoutUrl"] = slo_logout_url
 
         return self._session.post(
-            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+            scope="organizations", operation_id="createOrganizationSamlIdp", path=path, json=payload
         )
 
     def get_organization_saml_idp(
@@ -6160,7 +6342,7 @@ class Organizations:
             payload["sloLogoutUrl"] = slo_logout_url
 
         return self._session.put(
-            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+            scope="organizations", operation_id="updateOrganizationSamlIdp", path=path, json=payload
         )
 
     def delete_organization_saml_idp(self, *, organization_id: str, idp_id: str) -> None:
@@ -6234,7 +6416,10 @@ class Organizations:
             payload["networks"] = networks
 
         return self._session.post(
-            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+            scope="organizations",
+            operation_id="createOrganizationSamlRole",
+            path=path,
+            json=payload,
         )
 
     def get_organization_saml_role(
@@ -6297,7 +6482,10 @@ class Organizations:
             payload["networks"] = networks
 
         return self._session.put(
-            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+            scope="organizations",
+            operation_id="updateOrganizationSamlRole",
+            path=path,
+            json=payload,
         )
 
     def delete_organization_saml_role(self, *, organization_id: str, saml_role_id: str) -> None:
@@ -6394,7 +6582,7 @@ class Organizations:
             payload["peerIps"] = peer_ips
 
         return self._session.put(
-            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+            scope="organizations", operation_id="updateOrganizationSnmp", path=path, json=payload
         )
 
     def get_organization_splash_asset(
@@ -6474,7 +6662,10 @@ class Organizations:
             payload["baseTheme"] = base_theme
 
         return self._session.post(
-            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+            scope="organizations",
+            operation_id="createOrganizationSplashTheme",
+            path=path,
+            json=payload,
         )
 
     def delete_organization_splash_theme(self, *, organization_id: str, id_: str) -> None:
@@ -6525,7 +6716,10 @@ class Organizations:
             payload["content"] = content
 
         return self._session.post(
-            scope="organizations", operation_id="{operation_id}", path=path, json=payload
+            scope="organizations",
+            operation_id="createOrganizationSplashThemeAsset",
+            path=path,
+            json=payload,
         )
 
     def get_organization_summary_top_appliances_by_utilization(
@@ -6582,7 +6776,10 @@ class Organizations:
             params["timespan"] = timespan
 
         return self._session.get(
-            scope="organizations", operation_id="{operation_id}", path=path, params=params
+            scope="organizations",
+            operation_id="getOrganizationSummaryTopAppliancesByUtilization",
+            path=path,
+            params=params,
         )
 
     def get_organization_summary_top_applications_by_usage(
@@ -6643,7 +6840,10 @@ class Organizations:
             params["timespan"] = timespan
 
         return self._session.get(
-            scope="organizations", operation_id="{operation_id}", path=path, params=params
+            scope="organizations",
+            operation_id="getOrganizationSummaryTopApplicationsByUsage",
+            path=path,
+            params=params,
         )
 
     def get_organization_summary_top_applications_categories_by_usage(
@@ -6704,7 +6904,10 @@ class Organizations:
             params["timespan"] = timespan
 
         return self._session.get(
-            scope="organizations", operation_id="{operation_id}", path=path, params=params
+            scope="organizations",
+            operation_id="getOrganizationSummaryTopApplicationsCategoriesByUsage",
+            path=path,
+            params=params,
         )
 
     def get_organization_summary_top_clients_by_usage(
@@ -6761,7 +6964,10 @@ class Organizations:
             params["timespan"] = timespan
 
         return self._session.get(
-            scope="organizations", operation_id="{operation_id}", path=path, params=params
+            scope="organizations",
+            operation_id="getOrganizationSummaryTopClientsByUsage",
+            path=path,
+            params=params,
         )
 
     def get_organization_summary_top_clients_manufacturers_by_usage(
@@ -6817,7 +7023,10 @@ class Organizations:
             params["timespan"] = timespan
 
         return self._session.get(
-            scope="organizations", operation_id="{operation_id}", path=path, params=params
+            scope="organizations",
+            operation_id="getOrganizationSummaryTopClientsManufacturersByUsage",
+            path=path,
+            params=params,
         )
 
     def get_organization_summary_top_devices_by_usage(
@@ -6874,7 +7083,10 @@ class Organizations:
             params["timespan"] = timespan
 
         return self._session.get(
-            scope="organizations", operation_id="{operation_id}", path=path, params=params
+            scope="organizations",
+            operation_id="getOrganizationSummaryTopDevicesByUsage",
+            path=path,
+            params=params,
         )
 
     def get_organization_summary_top_devices_models_by_usage(
@@ -6931,7 +7143,10 @@ class Organizations:
             params["timespan"] = timespan
 
         return self._session.get(
-            scope="organizations", operation_id="{operation_id}", path=path, params=params
+            scope="organizations",
+            operation_id="getOrganizationSummaryTopDevicesModelsByUsage",
+            path=path,
+            params=params,
         )
 
     def get_organization_summary_top_networks_by_status(
@@ -6947,8 +7162,8 @@ class Organizations:
         starting_after: str | None = None,
         ending_before: str | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[Any]:
         """List the client and status overview information for the networks in an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-summary-top-networks-by-status
@@ -6997,7 +7212,7 @@ class Organizations:
 
         return self._session.get_pages(
             scope="organizations",
-            operation_id="{operation_id}",
+            operation_id="getOrganizationSummaryTopNetworksByStatus",
             path=path,
             params=params,
             total_pages=total_pages,
@@ -7058,7 +7273,10 @@ class Organizations:
             params["timespan"] = timespan
 
         return self._session.get(
-            scope="organizations", operation_id="{operation_id}", path=path, params=params
+            scope="organizations",
+            operation_id="getOrganizationSummaryTopSsidsByUsage",
+            path=path,
+            params=params,
         )
 
     def get_organization_summary_top_switches_by_energy_usage(
@@ -7115,7 +7333,10 @@ class Organizations:
             params["timespan"] = timespan
 
         return self._session.get(
-            scope="organizations", operation_id="{operation_id}", path=path, params=params
+            scope="organizations",
+            operation_id="getOrganizationSummaryTopSwitchesByEnergyUsage",
+            path=path,
+            params=params,
         )
 
     def get_organization_uplinks_statuses(
@@ -7129,8 +7350,8 @@ class Organizations:
         serials: list | None = None,
         iccids: list | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[Any]:
         """List the uplink status of every Meraki MX, MG and Z series devices in the organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-uplinks-statuses
@@ -7177,7 +7398,7 @@ class Organizations:
 
         return self._session.get_pages(
             scope="organizations",
-            operation_id="{operation_id}",
+            operation_id="getOrganizationUplinksStatuses",
             path=path,
             params=params,
             total_pages=total_pages,
@@ -7219,7 +7440,10 @@ class Organizations:
             params["productType"] = product_type
 
         return self._session.get(
-            scope="organizations", operation_id="{operation_id}", path=path, params=params
+            scope="organizations",
+            operation_id="getOrganizationWebhooksAlertTypes",
+            path=path,
+            params=params,
         )
 
     def get_organization_webhooks_callbacks_status(
@@ -7254,8 +7478,8 @@ class Organizations:
         ending_before: str | None = None,
         url: str | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[Any]:
         """Return the log of webhook POSTs sent.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-webhooks-logs
@@ -7305,7 +7529,7 @@ class Organizations:
 
         return self._session.get_pages(
             scope="organizations",
-            operation_id="{operation_id}",
+            operation_id="getOrganizationWebhooksLogs",
             path=path,
             params=params,
             total_pages=total_pages,

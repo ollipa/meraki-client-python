@@ -2,12 +2,11 @@
 
 from __future__ import annotations
 
-import urllib
-from collections.abc import Generator
+import urllib.parse
 from typing import TYPE_CHECKING, Any, Literal
 
 if TYPE_CHECKING:
-    from meraki_dashboard_sdk.session import Session
+    from meraki_dashboard_sdk.session import PaginatedResponse, Session
 
 
 class Networks:
@@ -75,7 +74,7 @@ class Networks:
             payload["notes"] = notes
 
         return self._session.put(
-            scope="networks", operation_id="{operation_id}", path=path, json=payload
+            scope="networks", operation_id="updateNetwork", path=path, json=payload
         )
 
     def delete_network(self, *, network_id: str) -> None:
@@ -100,8 +99,8 @@ class Networks:
         starting_after: str | None = None,
         ending_before: str | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[Any]:
         """Return the alert history for this network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-alerts-history
@@ -136,7 +135,7 @@ class Networks:
 
         return self._session.get_pages(
             scope="networks",
-            operation_id="{operation_id}",
+            operation_id="getNetworkAlertsHistory",
             path=path,
             params=params,
             total_pages=total_pages,
@@ -191,7 +190,7 @@ class Networks:
             payload["muting"] = muting
 
         return self._session.put(
-            scope="networks", operation_id="{operation_id}", path=path, json=payload
+            scope="networks", operation_id="updateNetworkAlertsSettings", path=path, json=payload
         )
 
     def bind_network(
@@ -221,7 +220,7 @@ class Networks:
             payload["autoBind"] = auto_bind
 
         return self._session.post(
-            scope="networks", operation_id="{operation_id}", path=path, json=payload
+            scope="networks", operation_id="bindNetwork", path=path, json=payload
         )
 
     def get_network_bluetooth_clients(
@@ -235,8 +234,8 @@ class Networks:
         ending_before: str | None = None,
         include_connectivity_history: bool | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[Any]:
         """List the Bluetooth clients seen by APs in this network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-bluetooth-clients
@@ -283,7 +282,7 @@ class Networks:
 
         return self._session.get_pages(
             scope="networks",
-            operation_id="{operation_id}",
+            operation_id="getNetworkBluetoothClients",
             path=path,
             params=params,
             total_pages=total_pages,
@@ -321,7 +320,7 @@ class Networks:
             params["connectivityHistoryTimespan"] = connectivity_history_timespan
 
         return self._session.get(
-            scope="networks", operation_id="{operation_id}", path=path, params=params
+            scope="networks", operation_id="getNetworkBluetoothClient", path=path, params=params
         )
 
     def get_network_clients(
@@ -345,8 +344,8 @@ class Networks:
         named_vlan: str | None = None,
         recent_device_connections: list | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[Any]:
         """List the clients that have used this network in the timespan.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-clients
@@ -426,7 +425,7 @@ class Networks:
 
         return self._session.get_pages(
             scope="networks",
-            operation_id="{operation_id}",
+            operation_id="getNetworkClients",
             path=path,
             params=params,
             total_pages=total_pages,
@@ -446,8 +445,8 @@ class Networks:
         t1: str | None = None,
         timespan: float | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[Any]:
         """Return the application usage data for clients.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-clients-application-usage
@@ -506,7 +505,7 @@ class Networks:
 
         return self._session.get_pages(
             scope="networks",
-            operation_id="{operation_id}",
+            operation_id="getNetworkClientsApplicationUsage",
             path=path,
             params=params,
             total_pages=total_pages,
@@ -524,8 +523,8 @@ class Networks:
         starting_after: str | None = None,
         ending_before: str | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[Any]:
         """Returns a timeseries of total traffic consumption rates for all clients on a network within a given timespan, in megabits per second.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-clients-bandwidth-usage-history
@@ -572,7 +571,7 @@ class Networks:
 
         return self._session.get_pages(
             scope="networks",
-            operation_id="{operation_id}",
+            operation_id="getNetworkClientsBandwidthUsageHistory",
             path=path,
             params=params,
             total_pages=total_pages,
@@ -618,7 +617,7 @@ class Networks:
             params["resolution"] = resolution
 
         return self._session.get(
-            scope="networks", operation_id="{operation_id}", path=path, params=params
+            scope="networks", operation_id="getNetworkClientsOverview", path=path, params=params
         )
 
     def provision_network_clients(
@@ -672,7 +671,7 @@ class Networks:
             payload["policiesBySsid"] = policies_by_ssid
 
         return self._session.post(
-            scope="networks", operation_id="{operation_id}", path=path, json=payload
+            scope="networks", operation_id="provisionNetworkClients", path=path, json=payload
         )
 
     def get_network_clients_usage_histories(
@@ -688,8 +687,8 @@ class Networks:
         t1: str | None = None,
         timespan: float | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[Any]:
         """Return the usage histories for clients.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-clients-usage-histories
@@ -748,7 +747,7 @@ class Networks:
 
         return self._session.get_pages(
             scope="networks",
-            operation_id="{operation_id}",
+            operation_id="getNetworkClientsUsageHistories",
             path=path,
             params=params,
             total_pages=total_pages,
@@ -821,7 +820,7 @@ class Networks:
             payload["groupPolicyId"] = group_policy_id
 
         return self._session.put(
-            scope="networks", operation_id="{operation_id}", path=path, json=payload
+            scope="networks", operation_id="updateNetworkClientPolicy", path=path, json=payload
         )
 
     def get_network_client_splash_authorization_status(
@@ -869,7 +868,10 @@ class Networks:
             payload["ssids"] = ssids
 
         return self._session.put(
-            scope="networks", operation_id="{operation_id}", path=path, json=payload
+            scope="networks",
+            operation_id="updateNetworkClientSplashAuthorizationStatus",
+            path=path,
+            json=payload,
         )
 
     def get_network_client_traffic_history(
@@ -881,8 +883,8 @@ class Networks:
         starting_after: str | None = None,
         ending_before: str | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[Any]:
         """Return the client's network traffic data over time.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-client-traffic-history
@@ -918,7 +920,7 @@ class Networks:
 
         return self._session.get_pages(
             scope="networks",
-            operation_id="{operation_id}",
+            operation_id="getNetworkClientTrafficHistory",
             path=path,
             params=params,
             total_pages=total_pages,
@@ -994,7 +996,7 @@ class Networks:
             payload["detailsByDevice"] = details_by_device
 
         return self._session.post(
-            scope="networks", operation_id="{operation_id}", path=path, json=payload
+            scope="networks", operation_id="claimNetworkDevices", path=path, json=payload
         )
 
     def vmx_network_devices_claim(self, *, network_id: str, size: str) -> dict[str, Any] | None:
@@ -1020,7 +1022,7 @@ class Networks:
             payload["size"] = size
 
         return self._session.post(
-            scope="networks", operation_id="{operation_id}", path=path, json=payload
+            scope="networks", operation_id="vmxNetworkDevicesClaim", path=path, json=payload
         )
 
     def remove_network_devices(self, *, network_id: str, serial: str) -> dict[str, Any] | None:
@@ -1041,7 +1043,7 @@ class Networks:
             payload["serial"] = serial
 
         return self._session.post(
-            scope="networks", operation_id="{operation_id}", path=path, json=payload
+            scope="networks", operation_id="removeNetworkDevices", path=path, json=payload
         )
 
     def get_network_events(
@@ -1066,9 +1068,9 @@ class Networks:
         starting_after: str | None = None,
         ending_before: str | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "prev",
+        direction: Literal["prev", "next"] = "prev",
         event_log_end_time: str | None = None,
-    ) -> Generator[Any, None, None]:
+    ) -> PaginatedResponse[Any]:
         """List the events for the network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-events
@@ -1178,8 +1180,8 @@ class Networks:
             params["endingBefore"] = ending_before
 
         return self._session.get_pages(
-            scope=scope,
-            operation_id=operation_id,
+            scope="networks",
+            operation_id="getNetworkEvents",
             path=path,
             params=params,
             total_pages=total_pages,
@@ -1250,7 +1252,7 @@ class Networks:
             payload["products"] = products
 
         return self._session.put(
-            scope="networks", operation_id="{operation_id}", path=path, json=payload
+            scope="networks", operation_id="updateNetworkFirmwareUpgrades", path=path, json=payload
         )
 
     def create_network_firmware_upgrades_rollback(
@@ -1303,7 +1305,10 @@ class Networks:
             payload["toVersion"] = to_version
 
         return self._session.post(
-            scope="networks", operation_id="{operation_id}", path=path, json=payload
+            scope="networks",
+            operation_id="createNetworkFirmwareUpgradesRollback",
+            path=path,
+            json=payload,
         )
 
     def get_network_firmware_upgrades_staged_events(
@@ -1344,7 +1349,10 @@ class Networks:
             payload["stages"] = stages
 
         return self._session.put(
-            scope="networks", operation_id="{operation_id}", path=path, json=payload
+            scope="networks",
+            operation_id="updateNetworkFirmwareUpgradesStagedEvents",
+            path=path,
+            json=payload,
         )
 
     def create_network_firmware_upgrades_staged_event(
@@ -1370,7 +1378,10 @@ class Networks:
             payload["stages"] = stages
 
         return self._session.post(
-            scope="networks", operation_id="{operation_id}", path=path, json=payload
+            scope="networks",
+            operation_id="createNetworkFirmwareUpgradesStagedEvent",
+            path=path,
+            json=payload,
         )
 
     def defer_network_firmware_upgrades_staged_events(
@@ -1415,7 +1426,10 @@ class Networks:
             payload["reasons"] = reasons
 
         return self._session.post(
-            scope="networks", operation_id="{operation_id}", path=path, json=payload
+            scope="networks",
+            operation_id="rollbacksNetworkFirmwareUpgradesStagedEvents",
+            path=path,
+            json=payload,
         )
 
     def get_network_firmware_upgrades_staged_groups(
@@ -1473,7 +1487,10 @@ class Networks:
             payload["assignedDevices"] = assigned_devices
 
         return self._session.post(
-            scope="networks", operation_id="{operation_id}", path=path, json=payload
+            scope="networks",
+            operation_id="createNetworkFirmwareUpgradesStagedGroup",
+            path=path,
+            json=payload,
         )
 
     def get_network_firmware_upgrades_staged_group(
@@ -1536,7 +1553,10 @@ class Networks:
             payload["assignedDevices"] = assigned_devices
 
         return self._session.put(
-            scope="networks", operation_id="{operation_id}", path=path, json=payload
+            scope="networks",
+            operation_id="updateNetworkFirmwareUpgradesStagedGroup",
+            path=path,
+            json=payload,
         )
 
     def delete_network_firmware_upgrades_staged_group(
@@ -1597,7 +1617,10 @@ class Networks:
             payload["_json"] = _json
 
         return self._session.put(
-            scope="networks", operation_id="{operation_id}", path=path, json=payload
+            scope="networks",
+            operation_id="updateNetworkFirmwareUpgradesStagedStages",
+            path=path,
+            json=payload,
         )
 
     def get_network_floor_plans(self, *, network_id: str) -> dict[str, Any] | None:
@@ -1677,7 +1700,7 @@ class Networks:
             payload["imageContents"] = image_contents
 
         return self._session.post(
-            scope="networks", operation_id="{operation_id}", path=path, json=payload
+            scope="networks", operation_id="createNetworkFloorPlan", path=path, json=payload
         )
 
     def batch_network_floor_plans_auto_locate_jobs(
@@ -1701,7 +1724,10 @@ class Networks:
             payload["jobs"] = jobs
 
         return self._session.post(
-            scope="networks", operation_id="{operation_id}", path=path, json=payload
+            scope="networks",
+            operation_id="batchNetworkFloorPlansAutoLocateJobs",
+            path=path,
+            json=payload,
         )
 
     def cancel_network_floor_plans_auto_locate_job(
@@ -1746,7 +1772,10 @@ class Networks:
             payload["devices"] = devices
 
         return self._session.post(
-            scope="networks", operation_id="{operation_id}", path=path, json=payload
+            scope="networks",
+            operation_id="publishNetworkFloorPlansAutoLocateJob",
+            path=path,
+            json=payload,
         )
 
     def recalculate_network_floor_plans_auto_locate_job(
@@ -1771,7 +1800,10 @@ class Networks:
             payload["devices"] = devices
 
         return self._session.post(
-            scope="networks", operation_id="{operation_id}", path=path, json=payload
+            scope="networks",
+            operation_id="recalculateNetworkFloorPlansAutoLocateJob",
+            path=path,
+            json=payload,
         )
 
     def batch_network_floor_plans_devices_update(
@@ -1795,7 +1827,10 @@ class Networks:
             payload["assignments"] = assignments
 
         return self._session.post(
-            scope="networks", operation_id="{operation_id}", path=path, json=payload
+            scope="networks",
+            operation_id="batchNetworkFloorPlansDevicesUpdate",
+            path=path,
+            json=payload,
         )
 
     def get_network_floor_plan(
@@ -1886,7 +1921,7 @@ class Networks:
             payload["imageContents"] = image_contents
 
         return self._session.put(
-            scope="networks", operation_id="{operation_id}", path=path, json=payload
+            scope="networks", operation_id="updateNetworkFloorPlan", path=path, json=payload
         )
 
     def delete_network_floor_plan(self, *, network_id: str, floor_plan_id: str) -> None:
@@ -1987,7 +2022,7 @@ class Networks:
             payload["bonjourForwarding"] = bonjour_forwarding
 
         return self._session.post(
-            scope="networks", operation_id="{operation_id}", path=path, json=payload
+            scope="networks", operation_id="createNetworkGroupPolicy", path=path, json=payload
         )
 
     def get_network_group_policy(
@@ -2075,7 +2110,7 @@ class Networks:
             payload["bonjourForwarding"] = bonjour_forwarding
 
         return self._session.put(
-            scope="networks", operation_id="{operation_id}", path=path, json=payload
+            scope="networks", operation_id="updateNetworkGroupPolicy", path=path, json=payload
         )
 
     def delete_network_group_policy(
@@ -2191,7 +2226,7 @@ class Networks:
             payload["authorizations"] = authorizations
 
         return self._session.post(
-            scope="networks", operation_id="{operation_id}", path=path, json=payload
+            scope="networks", operation_id="createNetworkMerakiAuthUser", path=path, json=payload
         )
 
     def get_network_meraki_auth_user(
@@ -2254,7 +2289,7 @@ class Networks:
             payload["authorizations"] = authorizations
 
         return self._session.put(
-            scope="networks", operation_id="{operation_id}", path=path, json=payload
+            scope="networks", operation_id="updateNetworkMerakiAuthUser", path=path, json=payload
         )
 
     def delete_network_meraki_auth_user(
@@ -2338,7 +2373,7 @@ class Networks:
             payload["authentication"] = authentication
 
         return self._session.post(
-            scope="networks", operation_id="{operation_id}", path=path, json=payload
+            scope="networks", operation_id="createNetworkMqttBroker", path=path, json=payload
         )
 
     def get_network_mqtt_broker(
@@ -2401,7 +2436,7 @@ class Networks:
             payload["authentication"] = authentication
 
         return self._session.put(
-            scope="networks", operation_id="{operation_id}", path=path, json=payload
+            scope="networks", operation_id="updateNetworkMqttBroker", path=path, json=payload
         )
 
     def delete_network_mqtt_broker(self, *, network_id: str, mqtt_broker_id: str) -> None:
@@ -2478,7 +2513,7 @@ class Networks:
             payload["etaDstPort"] = eta_dst_port
 
         return self._session.put(
-            scope="networks", operation_id="{operation_id}", path=path, json=payload
+            scope="networks", operation_id="updateNetworkNetflow", path=path, json=payload
         )
 
     def get_network_network_health_channel_utilization(
@@ -2493,8 +2528,8 @@ class Networks:
         starting_after: str | None = None,
         ending_before: str | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[Any]:
         """Get the channel utilization over each radio for all APs in a network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-network-health-channel-utilization
@@ -2545,7 +2580,7 @@ class Networks:
 
         return self._session.get_pages(
             scope="networks",
-            operation_id="{operation_id}",
+            operation_id="getNetworkNetworkHealthChannelUtilization",
             path=path,
             params=params,
             total_pages=total_pages,
@@ -2595,7 +2630,7 @@ class Networks:
             params["bluetoothMac"] = bluetooth_mac
 
         return self._session.get(
-            scope="networks", operation_id="{operation_id}", path=path, params=params
+            scope="networks", operation_id="getNetworkPiiPiiKeys", path=path, params=params
         )
 
     def get_network_pii_requests(self, *, network_id: str) -> dict[str, Any] | None:
@@ -2675,7 +2710,7 @@ class Networks:
             payload["smUserId"] = sm_user_id
 
         return self._session.post(
-            scope="networks", operation_id="{operation_id}", path=path, json=payload
+            scope="networks", operation_id="createNetworkPiiRequest", path=path, json=payload
         )
 
     def get_network_pii_request(self, *, network_id: str, request_id: str) -> dict[str, Any] | None:
@@ -2755,7 +2790,7 @@ class Networks:
             params["bluetoothMac"] = bluetooth_mac
 
         return self._session.get(
-            scope="networks", operation_id="{operation_id}", path=path, params=params
+            scope="networks", operation_id="getNetworkPiiSmDevicesForKey", path=path, params=params
         )
 
     def get_network_pii_sm_owners_for_key(
@@ -2801,7 +2836,7 @@ class Networks:
             params["bluetoothMac"] = bluetooth_mac
 
         return self._session.get(
-            scope="networks", operation_id="{operation_id}", path=path, params=params
+            scope="networks", operation_id="getNetworkPiiSmOwnersForKey", path=path, params=params
         )
 
     def get_network_policies_by_client(
@@ -2814,8 +2849,8 @@ class Networks:
         t0: str | None = None,
         timespan: float | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[Any]:
         """Get policies for all clients with policies.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-policies-by-client
@@ -2859,7 +2894,7 @@ class Networks:
 
         return self._session.get_pages(
             scope="networks",
-            operation_id="{operation_id}",
+            operation_id="getNetworkPoliciesByClient",
             path=path,
             params=params,
             total_pages=total_pages,
@@ -2927,7 +2962,7 @@ class Networks:
             payload["namedVlans"] = named_vlans
 
         return self._session.put(
-            scope="networks", operation_id="{operation_id}", path=path, json=payload
+            scope="networks", operation_id="updateNetworkSettings", path=path, json=payload
         )
 
     def get_network_snmp(self, *, network_id: str) -> dict[str, Any] | None:
@@ -2983,7 +3018,7 @@ class Networks:
             payload["users"] = users
 
         return self._session.put(
-            scope="networks", operation_id="{operation_id}", path=path, json=payload
+            scope="networks", operation_id="updateNetworkSnmp", path=path, json=payload
         )
 
     def get_network_splash_login_attempts(
@@ -3024,7 +3059,7 @@ class Networks:
             params["timespan"] = timespan
 
         return self._session.get(
-            scope="networks", operation_id="{operation_id}", path=path, params=params
+            scope="networks", operation_id="getNetworkSplashLoginAttempts", path=path, params=params
         )
 
     def split_network(self, *, network_id: str) -> dict[str, Any] | None:
@@ -3077,7 +3112,7 @@ class Networks:
             payload["servers"] = servers
 
         return self._session.put(
-            scope="networks", operation_id="{operation_id}", path=path, json=payload
+            scope="networks", operation_id="updateNetworkSyslogServers", path=path, json=payload
         )
 
     def get_network_topology_link_layer(self, *, network_id: str) -> dict[str, Any] | None:
@@ -3138,7 +3173,7 @@ class Networks:
             params["deviceType"] = device_type
 
         return self._session.get(
-            scope="networks", operation_id="{operation_id}", path=path, params=params
+            scope="networks", operation_id="getNetworkTraffic", path=path, params=params
         )
 
     def get_network_traffic_analysis(self, *, network_id: str) -> dict[str, Any] | None:
@@ -3191,7 +3226,7 @@ class Networks:
             payload["customPieChartItems"] = custom_pie_chart_items
 
         return self._session.put(
-            scope="networks", operation_id="{operation_id}", path=path, json=payload
+            scope="networks", operation_id="updateNetworkTrafficAnalysis", path=path, json=payload
         )
 
     def get_network_traffic_shaping_application_categories(
@@ -3253,7 +3288,7 @@ class Networks:
             payload["retainConfigs"] = retain_configs
 
         return self._session.post(
-            scope="networks", operation_id="{operation_id}", path=path, json=payload
+            scope="networks", operation_id="unbindNetwork", path=path, json=payload
         )
 
     def get_network_vlan_profiles(self, *, network_id: str) -> dict[str, Any] | None:
@@ -3299,7 +3334,7 @@ class Networks:
             payload["iname"] = iname
 
         return self._session.post(
-            scope="networks", operation_id="{operation_id}", path=path, json=payload
+            scope="networks", operation_id="createNetworkVlanProfile", path=path, json=payload
         )
 
     def get_network_vlan_profiles_assignments_by_device(
@@ -3313,8 +3348,8 @@ class Networks:
         product_types: list | None = None,
         stack_ids: list | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[Any]:
         """Get the assigned VLAN Profiles for devices in a network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-vlan-profiles-assignments-by-device
@@ -3359,7 +3394,7 @@ class Networks:
 
         return self._session.get_pages(
             scope="networks",
-            operation_id="{operation_id}",
+            operation_id="getNetworkVlanProfilesAssignmentsByDevice",
             path=path,
             params=params,
             total_pages=total_pages,
@@ -3392,7 +3427,10 @@ class Networks:
             payload["stackIds"] = stack_ids
 
         return self._session.post(
-            scope="networks", operation_id="{operation_id}", path=path, json=payload
+            scope="networks",
+            operation_id="reassignNetworkVlanProfilesAssignments",
+            path=path,
+            json=payload,
         )
 
     def get_network_vlan_profile(self, *, network_id: str, iname: str) -> dict[str, Any] | None:
@@ -3439,7 +3477,7 @@ class Networks:
             payload["vlanGroups"] = vlan_groups
 
         return self._session.put(
-            scope="networks", operation_id="{operation_id}", path=path, json=payload
+            scope="networks", operation_id="updateNetworkVlanProfile", path=path, json=payload
         )
 
     def delete_network_vlan_profile(self, *, network_id: str, iname: str) -> None:
@@ -3512,7 +3550,10 @@ class Networks:
             payload["payloadTemplate"] = payload_template
 
         return self._session.post(
-            scope="networks", operation_id="{operation_id}", path=path, json=payload
+            scope="networks",
+            operation_id="createNetworkWebhooksHttpServer",
+            path=path,
+            json=payload,
         )
 
     def get_network_webhooks_http_server(
@@ -3570,7 +3611,10 @@ class Networks:
             payload["payloadTemplate"] = payload_template
 
         return self._session.put(
-            scope="networks", operation_id="{operation_id}", path=path, json=payload
+            scope="networks",
+            operation_id="updateNetworkWebhooksHttpServer",
+            path=path,
+            json=payload,
         )
 
     def delete_network_webhooks_http_server(self, *, network_id: str, http_server_id: str) -> None:
@@ -3649,7 +3693,10 @@ class Networks:
             payload["headersFile"] = headers_file
 
         return self._session.post(
-            scope="networks", operation_id="{operation_id}", path=path, json=payload
+            scope="networks",
+            operation_id="createNetworkWebhooksPayloadTemplate",
+            path=path,
+            json=payload,
         )
 
     def get_network_webhooks_payload_template(
@@ -3714,7 +3761,10 @@ class Networks:
             payload["headersFile"] = headers_file
 
         return self._session.put(
-            scope="networks", operation_id="{operation_id}", path=path, json=payload
+            scope="networks",
+            operation_id="updateNetworkWebhooksPayloadTemplate",
+            path=path,
+            json=payload,
         )
 
     def delete_network_webhooks_payload_template(
@@ -3780,7 +3830,10 @@ class Networks:
             payload["alertTypeId"] = alert_type_id
 
         return self._session.post(
-            scope="networks", operation_id="{operation_id}", path=path, json=payload
+            scope="networks",
+            operation_id="createNetworkWebhooksWebhookTest",
+            path=path,
+            json=payload,
         )
 
     def get_network_webhooks_webhook_test(

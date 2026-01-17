@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-import urllib
+import urllib.parse
 from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
@@ -15,7 +15,7 @@ class Administered:
     def __init__(self, session: Session) -> None:
         self._session = session
 
-    def get_administered_identities_me(self) -> dict[str, Any] | None:
+    async def get_administered_identities_me(self) -> dict[str, Any] | None:
         """Returns the identity of the current user.
 
         https://developer.cisco.com/meraki/api-v1/#!get-administered-identities-me
@@ -23,11 +23,11 @@ class Administered:
         """
         path = f"/administered/identities/me"
 
-        return self._session.get(
+        return await self._session.get(
             scope="administered", operation_id="getAdministeredIdentitiesMe", path=path
         )
 
-    def get_administered_identities_me_api_keys(self) -> dict[str, Any] | None:
+    async def get_administered_identities_me_api_keys(self) -> dict[str, Any] | None:
         """List the non-sensitive metadata associated with the API keys that belong to the user.
 
         https://developer.cisco.com/meraki/api-v1/#!get-administered-identities-me-api-keys
@@ -35,11 +35,11 @@ class Administered:
         """
         path = f"/administered/identities/me/api/keys"
 
-        return self._session.get(
+        return await self._session.get(
             scope="administered", operation_id="getAdministeredIdentitiesMeApiKeys", path=path
         )
 
-    def generate_administered_identities_me_api_keys(self) -> dict[str, Any] | None:
+    async def generate_administered_identities_me_api_keys(self) -> dict[str, Any] | None:
         """Generates an API key for an identity.
 
         https://developer.cisco.com/meraki/api-v1/#!generate-administered-identities-me-api-keys
@@ -47,11 +47,13 @@ class Administered:
         """
         path = f"/administered/identities/me/api/keys/generate"
 
-        return self._session.post(
+        return await self._session.post(
             scope="administered", operation_id="generateAdministeredIdentitiesMeApiKeys", path=path
         )
 
-    def revoke_administered_identities_me_api_keys(self, *, suffix: str) -> dict[str, Any] | None:
+    async def revoke_administered_identities_me_api_keys(
+        self, *, suffix: str
+    ) -> dict[str, Any] | None:
         """Revokes an identity's API key, using the last four characters of the key.
 
         https://developer.cisco.com/meraki/api-v1/#!revoke-administered-identities-me-api-keys
@@ -63,6 +65,6 @@ class Administered:
         suffix = urllib.parse.quote(str(suffix), safe="")
         path = f"/administered/identities/me/api/keys/{suffix}/revoke"
 
-        return self._session.post(
+        return await self._session.post(
             scope="administered", operation_id="revokeAdministeredIdentitiesMeApiKeys", path=path
         )

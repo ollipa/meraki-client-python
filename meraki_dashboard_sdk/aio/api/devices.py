@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-import urllib
+import urllib.parse
 from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
@@ -15,7 +15,7 @@ class Devices:
     def __init__(self, session: Session) -> None:
         self._session = session
 
-    def get_device(self, *, serial: str) -> dict[str, Any] | None:
+    async def get_device(self, *, serial: str) -> dict[str, Any] | None:
         """Return a single device.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device
@@ -27,9 +27,9 @@ class Devices:
         serial = urllib.parse.quote(str(serial), safe="")
         path = f"/devices/{serial}"
 
-        return self._session.get(scope="devices", operation_id="getDevice", path=path)
+        return await self._session.get(scope="devices", operation_id="getDevice", path=path)
 
-    def update_device(
+    async def update_device(
         self,
         *,
         serial: str,
@@ -89,11 +89,11 @@ class Devices:
         if floor_plan_id is not None:
             payload["floorPlanId"] = floor_plan_id
 
-        return self._session.put(
-            scope="devices", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.put(
+            scope="devices", operation_id="updateDevice", path=path, json=payload
         )
 
-    def blink_device_leds(
+    async def blink_device_leds(
         self,
         *,
         serial: str,
@@ -124,11 +124,11 @@ class Devices:
         if duty is not None:
             payload["duty"] = duty
 
-        return self._session.post(
-            scope="devices", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.post(
+            scope="devices", operation_id="blinkDeviceLeds", path=path, json=payload
         )
 
-    def get_device_cellular_sims(self, *, serial: str) -> dict[str, Any] | None:
+    async def get_device_cellular_sims(self, *, serial: str) -> dict[str, Any] | None:
         """Return the SIM and APN configurations for a cellular device.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device-cellular-sims
@@ -140,9 +140,11 @@ class Devices:
         serial = urllib.parse.quote(str(serial), safe="")
         path = f"/devices/{serial}/cellular/sims"
 
-        return self._session.get(scope="devices", operation_id="getDeviceCellularSims", path=path)
+        return await self._session.get(
+            scope="devices", operation_id="getDeviceCellularSims", path=path
+        )
 
-    def update_device_cellular_sims(
+    async def update_device_cellular_sims(
         self,
         *,
         serial: str,
@@ -177,11 +179,11 @@ class Devices:
         if sim_failover is not None:
             payload["simFailover"] = sim_failover
 
-        return self._session.put(
-            scope="devices", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.put(
+            scope="devices", operation_id="updateDeviceCellularSims", path=path, json=payload
         )
 
-    def get_device_clients(
+    async def get_device_clients(
         self, *, serial: str, t0: str | None = None, timespan: float | None = None
     ) -> dict[str, Any] | None:
         """List the clients of a device, up to a maximum of a month ago.
@@ -206,11 +208,11 @@ class Devices:
         if timespan is not None:
             params["timespan"] = timespan
 
-        return self._session.get(
-            scope="devices", operation_id="{operation_id}", path=path, params=params
+        return await self._session.get(
+            scope="devices", operation_id="getDeviceClients", path=path, params=params
         )
 
-    def create_device_live_tools_arp_table(
+    async def create_device_live_tools_arp_table(
         self, *, serial: str, callback: dict | None = None
     ) -> dict[str, Any] | None:
         """Enqueue a job to perform a ARP table request for the device.
@@ -230,11 +232,11 @@ class Devices:
         if callback is not None:
             payload["callback"] = callback
 
-        return self._session.post(
-            scope="devices", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.post(
+            scope="devices", operation_id="createDeviceLiveToolsArpTable", path=path, json=payload
         )
 
-    def get_device_live_tools_arp_table(
+    async def get_device_live_tools_arp_table(
         self, *, serial: str, arp_table_id: str
     ) -> dict[str, Any] | None:
         """Return an ARP table live tool job.
@@ -250,11 +252,11 @@ class Devices:
         arp_table_id = urllib.parse.quote(str(arp_table_id), safe="")
         path = f"/devices/{serial}/liveTools/arpTable/{arp_table_id}"
 
-        return self._session.get(
+        return await self._session.get(
             scope="devices", operation_id="getDeviceLiveToolsArpTable", path=path
         )
 
-    def create_device_live_tools_cable_test(
+    async def create_device_live_tools_cable_test(
         self, *, serial: str, ports: list, callback: dict | None = None
     ) -> dict[str, Any] | None:
         """Enqueue a job to perform a cable test for the device on the specified ports.
@@ -279,11 +281,13 @@ class Devices:
         if callback is not None:
             payload["callback"] = callback
 
-        return self._session.post(
-            scope="devices", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.post(
+            scope="devices", operation_id="createDeviceLiveToolsCableTest", path=path, json=payload
         )
 
-    def get_device_live_tools_cable_test(self, *, serial: str, id_: str) -> dict[str, Any] | None:
+    async def get_device_live_tools_cable_test(
+        self, *, serial: str, id_: str
+    ) -> dict[str, Any] | None:
         """Return a cable test live tool job.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device-live-tools-cable-test
@@ -297,11 +301,11 @@ class Devices:
         id_ = urllib.parse.quote(str(id_), safe="")
         path = f"/devices/{serial}/liveTools/cableTest/{id_}"
 
-        return self._session.get(
+        return await self._session.get(
             scope="devices", operation_id="getDeviceLiveToolsCableTest", path=path
         )
 
-    def create_device_live_tools_leds_blink(
+    async def create_device_live_tools_leds_blink(
         self, *, serial: str, duration: int, callback: dict | None = None
     ) -> dict[str, Any] | None:
         """Enqueue a job to blink LEDs on a device.
@@ -324,11 +328,11 @@ class Devices:
         if callback is not None:
             payload["callback"] = callback
 
-        return self._session.post(
-            scope="devices", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.post(
+            scope="devices", operation_id="createDeviceLiveToolsLedsBlink", path=path, json=payload
         )
 
-    def get_device_live_tools_leds_blink(
+    async def get_device_live_tools_leds_blink(
         self, *, serial: str, leds_blink_id: str
     ) -> dict[str, Any] | None:
         """Return a blink LEDs job.
@@ -344,11 +348,11 @@ class Devices:
         leds_blink_id = urllib.parse.quote(str(leds_blink_id), safe="")
         path = f"/devices/{serial}/liveTools/leds/blink/{leds_blink_id}"
 
-        return self._session.get(
+        return await self._session.get(
             scope="devices", operation_id="getDeviceLiveToolsLedsBlink", path=path
         )
 
-    def create_device_live_tools_mac_table(
+    async def create_device_live_tools_mac_table(
         self, *, serial: str, callback: dict | None = None
     ) -> dict[str, Any] | None:
         """Enqueue a job to request the MAC table from the device.
@@ -368,11 +372,11 @@ class Devices:
         if callback is not None:
             payload["callback"] = callback
 
-        return self._session.post(
-            scope="devices", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.post(
+            scope="devices", operation_id="createDeviceLiveToolsMacTable", path=path, json=payload
         )
 
-    def get_device_live_tools_mac_table(
+    async def get_device_live_tools_mac_table(
         self, *, serial: str, mac_table_id: str
     ) -> dict[str, Any] | None:
         """Return a MAC table live tool job.
@@ -388,11 +392,11 @@ class Devices:
         mac_table_id = urllib.parse.quote(str(mac_table_id), safe="")
         path = f"/devices/{serial}/liveTools/macTable/{mac_table_id}"
 
-        return self._session.get(
+        return await self._session.get(
             scope="devices", operation_id="getDeviceLiveToolsMacTable", path=path
         )
 
-    def create_device_live_tools_multicast_routing(
+    async def create_device_live_tools_multicast_routing(
         self, *, serial: str, callback: dict | None = None
     ) -> dict[str, Any] | None:
         """Enqueue a job to perform a Multicast routing request for the device.
@@ -412,11 +416,14 @@ class Devices:
         if callback is not None:
             payload["callback"] = callback
 
-        return self._session.post(
-            scope="devices", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.post(
+            scope="devices",
+            operation_id="createDeviceLiveToolsMulticastRouting",
+            path=path,
+            json=payload,
         )
 
-    def get_device_live_tools_multicast_routing(
+    async def get_device_live_tools_multicast_routing(
         self, *, serial: str, multicast_routing_id: str
     ) -> dict[str, Any] | None:
         """Return a Multicast routing live tool job.
@@ -432,11 +439,11 @@ class Devices:
         multicast_routing_id = urllib.parse.quote(str(multicast_routing_id), safe="")
         path = f"/devices/{serial}/liveTools/multicastRouting/{multicast_routing_id}"
 
-        return self._session.get(
+        return await self._session.get(
             scope="devices", operation_id="getDeviceLiveToolsMulticastRouting", path=path
         )
 
-    def create_device_live_tools_ping(
+    async def create_device_live_tools_ping(
         self, *, serial: str, target: str, count: int | None = None, callback: dict | None = None
     ) -> dict[str, Any] | None:
         """Enqueue a job to ping a target host from the device.
@@ -462,11 +469,11 @@ class Devices:
         if callback is not None:
             payload["callback"] = callback
 
-        return self._session.post(
-            scope="devices", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.post(
+            scope="devices", operation_id="createDeviceLiveToolsPing", path=path, json=payload
         )
 
-    def get_device_live_tools_ping(self, *, serial: str, id_: str) -> dict[str, Any] | None:
+    async def get_device_live_tools_ping(self, *, serial: str, id_: str) -> dict[str, Any] | None:
         """Return a ping job.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device-live-tools-ping
@@ -480,9 +487,11 @@ class Devices:
         id_ = urllib.parse.quote(str(id_), safe="")
         path = f"/devices/{serial}/liveTools/ping/{id_}"
 
-        return self._session.get(scope="devices", operation_id="getDeviceLiveToolsPing", path=path)
+        return await self._session.get(
+            scope="devices", operation_id="getDeviceLiveToolsPing", path=path
+        )
 
-    def create_device_live_tools_ping_device(
+    async def create_device_live_tools_ping_device(
         self, *, serial: str, count: int | None = None, callback: dict | None = None
     ) -> dict[str, Any] | None:
         """Enqueue a job to check connectivity status to the device.
@@ -505,11 +514,13 @@ class Devices:
         if callback is not None:
             payload["callback"] = callback
 
-        return self._session.post(
-            scope="devices", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.post(
+            scope="devices", operation_id="createDeviceLiveToolsPingDevice", path=path, json=payload
         )
 
-    def get_device_live_tools_ping_device(self, *, serial: str, id_: str) -> dict[str, Any] | None:
+    async def get_device_live_tools_ping_device(
+        self, *, serial: str, id_: str
+    ) -> dict[str, Any] | None:
         """Return a ping device job.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device-live-tools-ping-device
@@ -523,11 +534,11 @@ class Devices:
         id_ = urllib.parse.quote(str(id_), safe="")
         path = f"/devices/{serial}/liveTools/pingDevice/{id_}"
 
-        return self._session.get(
+        return await self._session.get(
             scope="devices", operation_id="getDeviceLiveToolsPingDevice", path=path
         )
 
-    def create_device_live_tools_throughput_test(
+    async def create_device_live_tools_throughput_test(
         self, *, serial: str, callback: dict | None = None
     ) -> dict[str, Any] | None:
         """Enqueue a job to test a device throughput, the test will run for 10 secs to test throughput.
@@ -547,11 +558,14 @@ class Devices:
         if callback is not None:
             payload["callback"] = callback
 
-        return self._session.post(
-            scope="devices", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.post(
+            scope="devices",
+            operation_id="createDeviceLiveToolsThroughputTest",
+            path=path,
+            json=payload,
         )
 
-    def get_device_live_tools_throughput_test(
+    async def get_device_live_tools_throughput_test(
         self, *, serial: str, throughput_test_id: str
     ) -> dict[str, Any] | None:
         """Return a throughput test job.
@@ -567,11 +581,11 @@ class Devices:
         throughput_test_id = urllib.parse.quote(str(throughput_test_id), safe="")
         path = f"/devices/{serial}/liveTools/throughputTest/{throughput_test_id}"
 
-        return self._session.get(
+        return await self._session.get(
             scope="devices", operation_id="getDeviceLiveToolsThroughputTest", path=path
         )
 
-    def create_device_live_tools_wake_on_lan(
+    async def create_device_live_tools_wake_on_lan(
         self, *, serial: str, vlan_id: int, mac: str, callback: dict | None = None
     ) -> dict[str, Any] | None:
         """Enqueue a job to send a Wake-on-LAN packet from the device.
@@ -597,11 +611,11 @@ class Devices:
         if callback is not None:
             payload["callback"] = callback
 
-        return self._session.post(
-            scope="devices", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.post(
+            scope="devices", operation_id="createDeviceLiveToolsWakeOnLan", path=path, json=payload
         )
 
-    def get_device_live_tools_wake_on_lan(
+    async def get_device_live_tools_wake_on_lan(
         self, *, serial: str, wake_on_lan_id: str
     ) -> dict[str, Any] | None:
         """Return a Wake-on-LAN job.
@@ -617,11 +631,11 @@ class Devices:
         wake_on_lan_id = urllib.parse.quote(str(wake_on_lan_id), safe="")
         path = f"/devices/{serial}/liveTools/wakeOnLan/{wake_on_lan_id}"
 
-        return self._session.get(
+        return await self._session.get(
             scope="devices", operation_id="getDeviceLiveToolsWakeOnLan", path=path
         )
 
-    def get_device_lldp_cdp(self, *, serial: str) -> dict[str, Any] | None:
+    async def get_device_lldp_cdp(self, *, serial: str) -> dict[str, Any] | None:
         """List LLDP and CDP information for a device.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device-lldp-cdp
@@ -633,9 +647,9 @@ class Devices:
         serial = urllib.parse.quote(str(serial), safe="")
         path = f"/devices/{serial}/lldpCdp"
 
-        return self._session.get(scope="devices", operation_id="getDeviceLldpCdp", path=path)
+        return await self._session.get(scope="devices", operation_id="getDeviceLldpCdp", path=path)
 
-    def get_device_loss_and_latency_history(
+    async def get_device_loss_and_latency_history(
         self,
         *,
         serial: str,
@@ -688,11 +702,11 @@ class Devices:
         if ip is not None:
             params["ip"] = ip
 
-        return self._session.get(
-            scope="devices", operation_id="{operation_id}", path=path, params=params
+        return await self._session.get(
+            scope="devices", operation_id="getDeviceLossAndLatencyHistory", path=path, params=params
         )
 
-    def get_device_management_interface(self, *, serial: str) -> dict[str, Any] | None:
+    async def get_device_management_interface(self, *, serial: str) -> dict[str, Any] | None:
         """Return the management interface settings for a device.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device-management-interface
@@ -704,11 +718,11 @@ class Devices:
         serial = urllib.parse.quote(str(serial), safe="")
         path = f"/devices/{serial}/managementInterface"
 
-        return self._session.get(
+        return await self._session.get(
             scope="devices", operation_id="getDeviceManagementInterface", path=path
         )
 
-    def update_device_management_interface(
+    async def update_device_management_interface(
         self, *, serial: str, wan1: dict | None = None, wan2: dict | None = None
     ) -> dict[str, Any] | None:
         """Update the management interface settings for a device.
@@ -730,11 +744,11 @@ class Devices:
         if wan2 is not None:
             payload["wan2"] = wan2
 
-        return self._session.put(
-            scope="devices", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.put(
+            scope="devices", operation_id="updateDeviceManagementInterface", path=path, json=payload
         )
 
-    def reboot_device(self, *, serial: str) -> dict[str, Any] | None:
+    async def reboot_device(self, *, serial: str) -> dict[str, Any] | None:
         """Reboot a device.
 
         https://developer.cisco.com/meraki/api-v1/#!reboot-device
@@ -746,4 +760,4 @@ class Devices:
         serial = urllib.parse.quote(str(serial), safe="")
         path = f"/devices/{serial}/reboot"
 
-        return self._session.post(scope="devices", operation_id="rebootDevice", path=path)
+        return await self._session.post(scope="devices", operation_id="rebootDevice", path=path)

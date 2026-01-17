@@ -2,12 +2,11 @@
 
 from __future__ import annotations
 
-import urllib
-from collections.abc import Generator
+import urllib.parse
 from typing import TYPE_CHECKING, Any, Literal
 
 if TYPE_CHECKING:
-    from meraki_dashboard_sdk.session import Session
+    from meraki_dashboard_sdk.session import PaginatedResponse, Session
 
 
 class CellularGateway:
@@ -59,7 +58,10 @@ class CellularGateway:
             payload["fixedIpAssignments"] = fixed_ip_assignments
 
         return self._session.put(
-            scope="cellularGateway", operation_id="{operation_id}", path=path, json=payload
+            scope="cellularGateway",
+            operation_id="updateDeviceCellularGatewayLan",
+            path=path,
+            json=payload,
         )
 
     def get_device_cellular_gateway_port_forwarding_rules(
@@ -102,7 +104,10 @@ class CellularGateway:
             payload["rules"] = rules
 
         return self._session.put(
-            scope="cellularGateway", operation_id="{operation_id}", path=path, json=payload
+            scope="cellularGateway",
+            operation_id="updateDeviceCellularGatewayPortForwardingRules",
+            path=path,
+            json=payload,
         )
 
     def get_network_cellular_gateway_connectivity_monitoring_destinations(
@@ -145,7 +150,10 @@ class CellularGateway:
             payload["destinations"] = destinations
 
         return self._session.put(
-            scope="cellularGateway", operation_id="{operation_id}", path=path, json=payload
+            scope="cellularGateway",
+            operation_id="updateNetworkCellularGatewayConnectivityMonitoringDestinations",
+            path=path,
+            json=payload,
         )
 
     def get_network_cellular_gateway_dhcp(self, *, network_id: str) -> dict[str, Any] | None:
@@ -198,7 +206,10 @@ class CellularGateway:
             payload["dnsCustomNameservers"] = dns_custom_nameservers
 
         return self._session.put(
-            scope="cellularGateway", operation_id="{operation_id}", path=path, json=payload
+            scope="cellularGateway",
+            operation_id="updateNetworkCellularGatewayDhcp",
+            path=path,
+            json=payload,
         )
 
     def get_network_cellular_gateway_subnet_pool(self, *, network_id: str) -> dict[str, Any] | None:
@@ -241,7 +252,10 @@ class CellularGateway:
             payload["cidr"] = cidr
 
         return self._session.put(
-            scope="cellularGateway", operation_id="{operation_id}", path=path, json=payload
+            scope="cellularGateway",
+            operation_id="updateNetworkCellularGatewaySubnetPool",
+            path=path,
+            json=payload,
         )
 
     def get_network_cellular_gateway_uplink(self, *, network_id: str) -> dict[str, Any] | None:
@@ -280,7 +294,10 @@ class CellularGateway:
             payload["bandwidthLimits"] = bandwidth_limits
 
         return self._session.put(
-            scope="cellularGateway", operation_id="{operation_id}", path=path, json=payload
+            scope="cellularGateway",
+            operation_id="updateNetworkCellularGatewayUplink",
+            path=path,
+            json=payload,
         )
 
     def get_organization_cellular_gateway_esims_inventory(
@@ -303,7 +320,10 @@ class CellularGateway:
             params["eids[]"] = eids
 
         return self._session.get(
-            scope="cellularGateway", operation_id="{operation_id}", path=path, params=params
+            scope="cellularGateway",
+            operation_id="getOrganizationCellularGatewayEsimsInventory",
+            path=path,
+            params=params,
         )
 
     def update_organization_cellular_gateway_esims_inventory(
@@ -328,7 +348,10 @@ class CellularGateway:
             payload["status"] = status
 
         return self._session.put(
-            scope="cellularGateway", operation_id="{operation_id}", path=path, json=payload
+            scope="cellularGateway",
+            operation_id="updateOrganizationCellularGatewayEsimsInventory",
+            path=path,
+            json=payload,
         )
 
     def get_organization_cellular_gateway_esims_service_providers(
@@ -371,7 +394,10 @@ class CellularGateway:
             params["accountIds[]"] = account_ids
 
         return self._session.get(
-            scope="cellularGateway", operation_id="{operation_id}", path=path, params=params
+            scope="cellularGateway",
+            operation_id="getOrganizationCellularGatewayEsimsServiceProvidersAccounts",
+            path=path,
+            params=params,
         )
 
     def create_organization_cellular_gateway_esims_service_providers_account(
@@ -413,7 +439,10 @@ class CellularGateway:
             payload["username"] = username
 
         return self._session.post(
-            scope="cellularGateway", operation_id="{operation_id}", path=path, json=payload
+            scope="cellularGateway",
+            operation_id="createOrganizationCellularGatewayEsimsServiceProvidersAccount",
+            path=path,
+            json=payload,
         )
 
     def get_organization_cellular_gateway_esims_service_providers_accounts_communication_plans(
@@ -436,7 +465,10 @@ class CellularGateway:
             params["accountIds[]"] = account_ids
 
         return self._session.get(
-            scope="cellularGateway", operation_id="{operation_id}", path=path, params=params
+            scope="cellularGateway",
+            operation_id="getOrganizationCellularGatewayEsimsServiceProvidersAccountsCommunicationPlans",
+            path=path,
+            params=params,
         )
 
     def get_organization_cellular_gateway_esims_service_providers_accounts_rate_plans(
@@ -459,7 +491,10 @@ class CellularGateway:
             params["accountIds[]"] = account_ids
 
         return self._session.get(
-            scope="cellularGateway", operation_id="{operation_id}", path=path, params=params
+            scope="cellularGateway",
+            operation_id="getOrganizationCellularGatewayEsimsServiceProvidersAccountsRatePlans",
+            path=path,
+            params=params,
         )
 
     def update_organization_cellular_gateway_esims_service_providers_account(
@@ -492,7 +527,10 @@ class CellularGateway:
             payload["apiKey"] = api_key
 
         return self._session.put(
-            scope="cellularGateway", operation_id="{operation_id}", path=path, json=payload
+            scope="cellularGateway",
+            operation_id="updateOrganizationCellularGatewayEsimsServiceProvidersAccount",
+            path=path,
+            json=payload,
         )
 
     def delete_organization_cellular_gateway_esims_service_providers_account(
@@ -537,7 +575,10 @@ class CellularGateway:
             payload["swaps"] = swaps
 
         return self._session.post(
-            scope="cellularGateway", operation_id="{operation_id}", path=path, json=payload
+            scope="cellularGateway",
+            operation_id="createOrganizationCellularGatewayEsimsSwap",
+            path=path,
+            json=payload,
         )
 
     def update_organization_cellular_gateway_esims_swap(
@@ -573,8 +614,8 @@ class CellularGateway:
         serials: list | None = None,
         iccids: list | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[Any]:
         """List the uplink status of every Meraki MG cellular gateway in the organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-cellular-gateway-uplink-statuses
@@ -621,7 +662,7 @@ class CellularGateway:
 
         return self._session.get_pages(
             scope="cellularGateway",
-            operation_id="{operation_id}",
+            operation_id="getOrganizationCellularGatewayUplinkStatuses",
             path=path,
             params=params,
             total_pages=total_pages,

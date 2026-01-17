@@ -2,12 +2,11 @@
 
 from __future__ import annotations
 
-import urllib
-from collections.abc import Generator
+import urllib.parse
 from typing import TYPE_CHECKING, Any, Literal
 
 if TYPE_CHECKING:
-    from meraki_dashboard_sdk.aio.session import Session
+    from meraki_dashboard_sdk.aio.session import AsyncPaginatedResponse, Session
 
 
 class Licensing:
@@ -16,7 +15,7 @@ class Licensing:
     def __init__(self, session: Session) -> None:
         self._session = session
 
-    def get_administered_licensing_subscription_entitlements(
+    async def get_administered_licensing_subscription_entitlements(
         self, *, skus: list | None = None
     ) -> dict[str, Any] | None:
         """Retrieve the list of purchasable entitlements.
@@ -33,11 +32,14 @@ class Licensing:
         if skus is not None:
             params["skus[]"] = skus
 
-        return self._session.get(
-            scope="licensing", operation_id="{operation_id}", path=path, params=params
+        return await self._session.get(
+            scope="licensing",
+            operation_id="getAdministeredLicensingSubscriptionEntitlements",
+            path=path,
+            params=params,
         )
 
-    def get_administered_licensing_subscription_subscriptions(
+    async def get_administered_licensing_subscription_subscriptions(
         self,
         *,
         organization_ids: list,
@@ -52,8 +54,8 @@ class Licensing:
         start_date: str | None = None,
         end_date: str | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> AsyncPaginatedResponse[Any]:
         """List available subscriptions.
 
         https://developer.cisco.com/meraki/api-v1/#!get-administered-licensing-subscription-subscriptions
@@ -115,14 +117,14 @@ class Licensing:
 
         return self._session.get_pages(
             scope="licensing",
-            operation_id="{operation_id}",
+            operation_id="getAdministeredLicensingSubscriptionSubscriptions",
             path=path,
             params=params,
             total_pages=total_pages,
             direction=direction,
         )
 
-    def claim_administered_licensing_subscription_subscriptions(
+    async def claim_administered_licensing_subscription_subscriptions(
         self,
         *,
         claim_key: str,
@@ -160,11 +162,14 @@ class Licensing:
         if description is not None:
             payload["description"] = description
 
-        return self._session.post(
-            scope="licensing", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.post(
+            scope="licensing",
+            operation_id="claimAdministeredLicensingSubscriptionSubscriptions",
+            path=path,
+            json=payload,
         )
 
-    def validate_administered_licensing_subscription_subscriptions_claim_key(
+    async def validate_administered_licensing_subscription_subscriptions_claim_key(
         self, *, claim_key: str
     ) -> dict[str, Any] | None:
         """Find a subscription by claim key.
@@ -181,11 +186,14 @@ class Licensing:
         if claim_key is not None:
             payload["claimKey"] = claim_key
 
-        return self._session.post(
-            scope="licensing", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.post(
+            scope="licensing",
+            operation_id="validateAdministeredLicensingSubscriptionSubscriptionsClaimKey",
+            path=path,
+            json=payload,
         )
 
-    def get_administered_licensing_subscription_subscriptions_compliance_statuses(
+    async def get_administered_licensing_subscription_subscriptions_compliance_statuses(
         self, *, organization_ids: list, subscription_ids: list | None = None
     ) -> dict[str, Any] | None:
         """Get compliance status for requested subscriptions.
@@ -205,11 +213,14 @@ class Licensing:
         if subscription_ids is not None:
             params["subscriptionIds[]"] = subscription_ids
 
-        return self._session.get(
-            scope="licensing", operation_id="{operation_id}", path=path, params=params
+        return await self._session.get(
+            scope="licensing",
+            operation_id="getAdministeredLicensingSubscriptionSubscriptionsComplianceStatuses",
+            path=path,
+            params=params,
         )
 
-    def bind_administered_licensing_subscription_subscription(
+    async def bind_administered_licensing_subscription_subscription(
         self, *, subscription_id: str, validate: bool | None = None, network_ids: list | None = None
     ) -> dict[str, Any] | None:
         """Bind networks to a subscription.
@@ -234,11 +245,14 @@ class Licensing:
         if network_ids is not None:
             payload["networkIds"] = network_ids
 
-        return self._session.post(
-            scope="licensing", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.post(
+            scope="licensing",
+            operation_id="bindAdministeredLicensingSubscriptionSubscription",
+            path=path,
+            json=payload,
         )
 
-    def get_organization_licensing_coterm_licenses(
+    async def get_organization_licensing_coterm_licenses(
         self,
         *,
         organization_id: str,
@@ -248,8 +262,8 @@ class Licensing:
         invalidated: bool | None = None,
         expired: bool | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> AsyncPaginatedResponse[Any]:
         """List the licenses in a coterm organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-licensing-coterm-licenses
@@ -290,14 +304,14 @@ class Licensing:
 
         return self._session.get_pages(
             scope="licensing",
-            operation_id="{operation_id}",
+            operation_id="getOrganizationLicensingCotermLicenses",
             path=path,
             params=params,
             total_pages=total_pages,
             direction=direction,
         )
 
-    def move_organization_licensing_coterm_licenses(
+    async def move_organization_licensing_coterm_licenses(
         self, *, organization_id: str, destination: dict, licenses: list
     ) -> dict[str, Any] | None:
         """Moves a license to a different organization (coterm only).
@@ -319,6 +333,9 @@ class Licensing:
         if licenses is not None:
             payload["licenses"] = licenses
 
-        return self._session.post(
-            scope="licensing", operation_id="{operation_id}", path=path, json=payload
+        return await self._session.post(
+            scope="licensing",
+            operation_id="moveOrganizationLicensingCotermLicenses",
+            path=path,
+            json=payload,
         )

@@ -2,12 +2,11 @@
 
 from __future__ import annotations
 
-import urllib
-from collections.abc import Generator
+import urllib.parse
 from typing import TYPE_CHECKING, Any, Literal
 
 if TYPE_CHECKING:
-    from meraki_dashboard_sdk.session import Session
+    from meraki_dashboard_sdk.session import PaginatedResponse, Session
 
 
 class CampusGateway:
@@ -64,7 +63,10 @@ class CampusGateway:
             payload["notes"] = notes
 
         return self._session.post(
-            scope="campusGateway", operation_id="{operation_id}", path=path, json=payload
+            scope="campusGateway",
+            operation_id="createNetworkCampusGatewayCluster",
+            path=path,
+            json=payload,
         )
 
     def update_network_campus_gateway_cluster(
@@ -118,7 +120,10 @@ class CampusGateway:
             payload["notes"] = notes
 
         return self._session.put(
-            scope="campusGateway", operation_id="{operation_id}", path=path, json=payload
+            scope="campusGateway",
+            operation_id="updateNetworkCampusGatewayCluster",
+            path=path,
+            json=payload,
         )
 
     def get_organization_campus_gateway_clusters(
@@ -130,8 +135,8 @@ class CampusGateway:
         starting_after: str | None = None,
         ending_before: str | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[Any]:
         """Get the details of campus gateway clusters.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-campus-gateway-clusters
@@ -169,7 +174,7 @@ class CampusGateway:
 
         return self._session.get_pages(
             scope="campusGateway",
-            operation_id="{operation_id}",
+            operation_id="getOrganizationCampusGatewayClusters",
             path=path,
             params=params,
             total_pages=total_pages,
@@ -185,8 +190,8 @@ class CampusGateway:
         starting_after: str | None = None,
         ending_before: str | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[Any]:
         """Uplink overrides configured locally on Campus Gateway devices in an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-campus-gateway-devices-uplinks-local-overrides-by-device
@@ -225,7 +230,7 @@ class CampusGateway:
 
         return self._session.get_pages(
             scope="campusGateway",
-            operation_id="{operation_id}",
+            operation_id="getOrganizationCampusGatewayDevicesUplinksLocalOverridesByDevice",
             path=path,
             params=params,
             total_pages=total_pages,

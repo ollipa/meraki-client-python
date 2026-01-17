@@ -2,12 +2,11 @@
 
 from __future__ import annotations
 
-import urllib
-from collections.abc import Generator
+import urllib.parse
 from typing import TYPE_CHECKING, Any, Literal
 
 if TYPE_CHECKING:
-    from meraki_dashboard_sdk.session import Session
+    from meraki_dashboard_sdk.session import PaginatedResponse, Session
 
 
 class WirelessController:
@@ -28,8 +27,8 @@ class WirelessController:
         starting_after: str | None = None,
         ending_before: str | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[Any]:
         """List connectivity data of wireless LAN controllers in an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-controller-availabilities-change-history
@@ -80,7 +79,7 @@ class WirelessController:
 
         return self._session.get_pages(
             scope="wirelessController",
-            operation_id="{operation_id}",
+            operation_id="getOrganizationWirelessControllerAvailabilitiesChangeHistory",
             path=path,
             params=params,
             total_pages=total_pages,
@@ -101,8 +100,8 @@ class WirelessController:
         ending_before: str | None = None,
         resolution: int | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[Any]:
         """List wireless client counts of wireless LAN controllers over time in an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-controller-clients-overview-history-by-device-by-interval
@@ -161,7 +160,7 @@ class WirelessController:
 
         return self._session.get_pages(
             scope="wirelessController",
-            operation_id="{operation_id}",
+            operation_id="getOrganizationWirelessControllerClientsOverviewHistoryByDeviceByInterval",
             path=path,
             params=params,
             total_pages=total_pages,
@@ -178,8 +177,8 @@ class WirelessController:
         starting_after: str | None = None,
         ending_before: str | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[Any]:
         """List all access points associated with wireless LAN controllers in an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-controller-connections
@@ -222,7 +221,7 @@ class WirelessController:
 
         return self._session.get_pages(
             scope="wirelessController",
-            operation_id="{operation_id}",
+            operation_id="getOrganizationWirelessControllerConnections",
             path=path,
             params=params,
             total_pages=total_pages,
@@ -241,8 +240,8 @@ class WirelessController:
         starting_after: str | None = None,
         ending_before: str | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[Any]:
         """List wireless LAN controller layer 2 interfaces in an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-controller-devices-interfaces-l-2-by-device
@@ -293,7 +292,7 @@ class WirelessController:
 
         return self._session.get_pages(
             scope="wirelessController",
-            operation_id="{operation_id}",
+            operation_id="getOrganizationWirelessControllerDevicesInterfacesL2ByDevice",
             path=path,
             params=params,
             total_pages=total_pages,
@@ -313,8 +312,8 @@ class WirelessController:
         starting_after: str | None = None,
         ending_before: str | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[Any]:
         """List wireless LAN controller layer 2 interfaces history status in an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-controller-devices-interfaces-l-2-statuses-change-history-by-device
@@ -370,7 +369,7 @@ class WirelessController:
 
         return self._session.get_pages(
             scope="wirelessController",
-            operation_id="{operation_id}",
+            operation_id="getOrganizationWirelessControllerDevicesInterfacesL2StatusesChangeHistoryByDevice",
             path=path,
             params=params,
             total_pages=total_pages,
@@ -389,8 +388,8 @@ class WirelessController:
         starting_after: str | None = None,
         ending_before: str | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[Any]:
         """List wireless LAN controller layer 2 interfaces history usage in an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-controller-devices-interfaces-l-2-usage-history-by-interval
@@ -441,7 +440,7 @@ class WirelessController:
 
         return self._session.get_pages(
             scope="wirelessController",
-            operation_id="{operation_id}",
+            operation_id="getOrganizationWirelessControllerDevicesInterfacesL2UsageHistoryByInterval",
             path=path,
             params=params,
             total_pages=total_pages,
@@ -460,8 +459,8 @@ class WirelessController:
         starting_after: str | None = None,
         ending_before: str | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[Any]:
         """List wireless LAN controller layer 3 interfaces in an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-controller-devices-interfaces-l-3-by-device
@@ -512,7 +511,7 @@ class WirelessController:
 
         return self._session.get_pages(
             scope="wirelessController",
-            operation_id="{operation_id}",
+            operation_id="getOrganizationWirelessControllerDevicesInterfacesL3ByDevice",
             path=path,
             params=params,
             total_pages=total_pages,
@@ -532,8 +531,8 @@ class WirelessController:
         starting_after: str | None = None,
         ending_before: str | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[Any]:
         """List wireless LAN controller layer 3 interfaces history status in an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-controller-devices-interfaces-l-3-statuses-change-history-by-device
@@ -589,7 +588,7 @@ class WirelessController:
 
         return self._session.get_pages(
             scope="wirelessController",
-            operation_id="{operation_id}",
+            operation_id="getOrganizationWirelessControllerDevicesInterfacesL3StatusesChangeHistoryByDevice",
             path=path,
             params=params,
             total_pages=total_pages,
@@ -608,8 +607,8 @@ class WirelessController:
         starting_after: str | None = None,
         ending_before: str | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[Any]:
         """List wireless LAN controller layer 3 interfaces history usage in an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-controller-devices-interfaces-l-3-usage-history-by-interval
@@ -660,7 +659,7 @@ class WirelessController:
 
         return self._session.get_pages(
             scope="wirelessController",
-            operation_id="{operation_id}",
+            operation_id="getOrganizationWirelessControllerDevicesInterfacesL3UsageHistoryByInterval",
             path=path,
             params=params,
             total_pages=total_pages,
@@ -680,8 +679,8 @@ class WirelessController:
         starting_after: str | None = None,
         ending_before: str | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[Any]:
         """Retrieve the packet counters for the interfaces of a Wireless LAN controller.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-controller-devices-interfaces-packets-overview-by-device
@@ -736,7 +735,7 @@ class WirelessController:
 
         return self._session.get_pages(
             scope="wirelessController",
-            operation_id="{operation_id}",
+            operation_id="getOrganizationWirelessControllerDevicesInterfacesPacketsOverviewByDevice",
             path=path,
             params=params,
             total_pages=total_pages,
@@ -756,8 +755,8 @@ class WirelessController:
         starting_after: str | None = None,
         ending_before: str | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[Any]:
         """Retrieve the traffic for the interfaces of a Wireless LAN controller.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-controller-devices-interfaces-usage-history-by-interval
@@ -812,7 +811,7 @@ class WirelessController:
 
         return self._session.get_pages(
             scope="wirelessController",
-            operation_id="{operation_id}",
+            operation_id="getOrganizationWirelessControllerDevicesInterfacesUsageHistoryByInterval",
             path=path,
             params=params,
             total_pages=total_pages,
@@ -831,8 +830,8 @@ class WirelessController:
         starting_after: str | None = None,
         ending_before: str | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[Any]:
         """List the failover events of wireless LAN controllers in an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-controller-devices-redundancy-failover-history
@@ -883,7 +882,7 @@ class WirelessController:
 
         return self._session.get_pages(
             scope="wirelessController",
-            operation_id="{operation_id}",
+            operation_id="getOrganizationWirelessControllerDevicesRedundancyFailoverHistory",
             path=path,
             params=params,
             total_pages=total_pages,
@@ -899,8 +898,8 @@ class WirelessController:
         starting_after: str | None = None,
         ending_before: str | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[Any]:
         """List redundancy details of wireless LAN controllers in an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-controller-devices-redundancy-statuses
@@ -939,7 +938,7 @@ class WirelessController:
 
         return self._session.get_pages(
             scope="wirelessController",
-            operation_id="{operation_id}",
+            operation_id="getOrganizationWirelessControllerDevicesRedundancyStatuses",
             path=path,
             params=params,
             total_pages=total_pages,
@@ -958,8 +957,8 @@ class WirelessController:
         starting_after: str | None = None,
         ending_before: str | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[Any]:
         """List cpu utilization data of wireless LAN controllers in an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-controller-devices-system-utilization-history-by-interval
@@ -1010,7 +1009,7 @@ class WirelessController:
 
         return self._session.get_pages(
             scope="wirelessController",
-            operation_id="{operation_id}",
+            operation_id="getOrganizationWirelessControllerDevicesSystemUtilizationHistoryByInterval",
             path=path,
             params=params,
             total_pages=total_pages,
@@ -1027,8 +1026,8 @@ class WirelessController:
         starting_after: str | None = None,
         ending_before: str | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[Any]:
         """List the overview information of wireless LAN controllers in an organization and it is updated every minute.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-controller-overview-by-device
@@ -1071,7 +1070,7 @@ class WirelessController:
 
         return self._session.get_pages(
             scope="wirelessController",
-            operation_id="{operation_id}",
+            operation_id="getOrganizationWirelessControllerOverviewByDevice",
             path=path,
             params=params,
             total_pages=total_pages,

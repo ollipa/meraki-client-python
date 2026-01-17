@@ -2,12 +2,11 @@
 
 from __future__ import annotations
 
-import urllib
-from collections.abc import Generator
+import urllib.parse
 from typing import TYPE_CHECKING, Any, Literal
 
 if TYPE_CHECKING:
-    from meraki_dashboard_sdk.session import Session
+    from meraki_dashboard_sdk.session import PaginatedResponse, Session
 
 
 class Switch:
@@ -48,7 +47,7 @@ class Switch:
             payload["ports"] = ports
 
         return self._session.post(
-            scope="switch", operation_id="{operation_id}", path=path, json=payload
+            scope="switch", operation_id="cycleDeviceSwitchPorts", path=path, json=payload
         )
 
     def get_device_switch_ports_statuses(
@@ -77,7 +76,7 @@ class Switch:
             params["timespan"] = timespan
 
         return self._session.get(
-            scope="switch", operation_id="{operation_id}", path=path, params=params
+            scope="switch", operation_id="getDeviceSwitchPortsStatuses", path=path, params=params
         )
 
     def get_device_switch_ports_statuses_packets(
@@ -108,7 +107,10 @@ class Switch:
             params["timespan"] = timespan
 
         return self._session.get(
-            scope="switch", operation_id="{operation_id}", path=path, params=params
+            scope="switch",
+            operation_id="getDeviceSwitchPortsStatusesPackets",
+            path=path,
+            params=params,
         )
 
     def get_device_switch_port(self, *, serial: str, port_id: str) -> dict[str, Any] | None:
@@ -305,7 +307,7 @@ class Switch:
             payload["highSpeed"] = high_speed
 
         return self._session.put(
-            scope="switch", operation_id="{operation_id}", path=path, json=payload
+            scope="switch", operation_id="updateDeviceSwitchPort", path=path, json=payload
         )
 
     def get_device_switch_routing_interfaces(
@@ -340,7 +342,10 @@ class Switch:
             params["protocol"] = protocol
 
         return self._session.get(
-            scope="switch", operation_id="{operation_id}", path=path, params=params
+            scope="switch",
+            operation_id="getDeviceSwitchRoutingInterfaces",
+            path=path,
+            params=params,
         )
 
     def create_device_switch_routing_interface(
@@ -426,7 +431,10 @@ class Switch:
             payload["loopback"] = loopback
 
         return self._session.post(
-            scope="switch", operation_id="{operation_id}", path=path, json=payload
+            scope="switch",
+            operation_id="createDeviceSwitchRoutingInterface",
+            path=path,
+            json=payload,
         )
 
     def get_device_switch_routing_interface(
@@ -527,7 +535,10 @@ class Switch:
             payload["loopback"] = loopback
 
         return self._session.put(
-            scope="switch", operation_id="{operation_id}", path=path, json=payload
+            scope="switch",
+            operation_id="updateDeviceSwitchRoutingInterface",
+            path=path,
+            json=payload,
         )
 
     def delete_device_switch_routing_interface(self, *, serial: str, interface_id: str) -> None:
@@ -662,7 +673,10 @@ class Switch:
             payload["fixedIpAssignments"] = fixed_ip_assignments
 
         return self._session.put(
-            scope="switch", operation_id="{operation_id}", path=path, json=payload
+            scope="switch",
+            operation_id="updateDeviceSwitchRoutingInterfaceDhcp",
+            path=path,
+            json=payload,
         )
 
     def get_device_switch_routing_static_routes(self, *, serial: str) -> dict[str, Any] | None:
@@ -726,7 +740,10 @@ class Switch:
             payload["vrf"] = vrf
 
         return self._session.post(
-            scope="switch", operation_id="{operation_id}", path=path, json=payload
+            scope="switch",
+            operation_id="createDeviceSwitchRoutingStaticRoute",
+            path=path,
+            json=payload,
         )
 
     def get_device_switch_routing_static_route(
@@ -801,7 +818,10 @@ class Switch:
             payload["vrf"] = vrf
 
         return self._session.put(
-            scope="switch", operation_id="{operation_id}", path=path, json=payload
+            scope="switch",
+            operation_id="updateDeviceSwitchRoutingStaticRoute",
+            path=path,
+            json=payload,
         )
 
     def delete_device_switch_routing_static_route(
@@ -861,7 +881,7 @@ class Switch:
             payload["spareSerial"] = spare_serial
 
         return self._session.put(
-            scope="switch", operation_id="{operation_id}", path=path, json=payload
+            scope="switch", operation_id="updateDeviceSwitchWarmSpare", path=path, json=payload
         )
 
     def get_network_switch_access_control_lists(self, *, network_id: str) -> dict[str, Any] | None:
@@ -901,7 +921,10 @@ class Switch:
             payload["rules"] = rules
 
         return self._session.put(
-            scope="switch", operation_id="{operation_id}", path=path, json=payload
+            scope="switch",
+            operation_id="updateNetworkSwitchAccessControlLists",
+            path=path,
+            json=payload,
         )
 
     def get_network_switch_access_policies(self, *, network_id: str) -> dict[str, Any] | None:
@@ -1041,7 +1064,7 @@ class Switch:
             payload["guestSgtId"] = guest_sgt_id
 
         return self._session.post(
-            scope="switch", operation_id="{operation_id}", path=path, json=payload
+            scope="switch", operation_id="createNetworkSwitchAccessPolicy", path=path, json=payload
         )
 
     def get_network_switch_access_policy(
@@ -1188,7 +1211,7 @@ class Switch:
             payload["guestSgtId"] = guest_sgt_id
 
         return self._session.put(
-            scope="switch", operation_id="{operation_id}", path=path, json=payload
+            scope="switch", operation_id="updateNetworkSwitchAccessPolicy", path=path, json=payload
         )
 
     def delete_network_switch_access_policy(
@@ -1269,7 +1292,10 @@ class Switch:
             payload["switches"] = switches
 
         return self._session.put(
-            scope="switch", operation_id="{operation_id}", path=path, json=payload
+            scope="switch",
+            operation_id="updateNetworkSwitchAlternateManagementInterface",
+            path=path,
+            json=payload,
         )
 
     def get_network_switch_dhcp_v4_servers_seen(
@@ -1282,8 +1308,8 @@ class Switch:
         starting_after: str | None = None,
         ending_before: str | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[Any]:
         """Return the network's DHCPv4 servers seen within the selected timeframe (default 1 day).
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-switch-dhcp-v-4-servers-seen
@@ -1327,7 +1353,7 @@ class Switch:
 
         return self._session.get_pages(
             scope="switch",
-            operation_id="{operation_id}",
+            operation_id="getNetworkSwitchDhcpV4ServersSeen",
             path=path,
             params=params,
             total_pages=total_pages,
@@ -1397,7 +1423,10 @@ class Switch:
             payload["arpInspection"] = arp_inspection
 
         return self._session.put(
-            scope="switch", operation_id="{operation_id}", path=path, json=payload
+            scope="switch",
+            operation_id="updateNetworkSwitchDhcpServerPolicy",
+            path=path,
+            json=payload,
         )
 
     def get_network_switch_dhcp_server_policy_arp_inspection_trusted_servers(
@@ -1408,8 +1437,8 @@ class Switch:
         starting_after: str | None = None,
         ending_before: str | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[Any]:
         """Return the list of servers trusted by Dynamic ARP Inspection on this network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-switch-dhcp-server-policy-arp-inspection-trusted-servers
@@ -1444,7 +1473,7 @@ class Switch:
 
         return self._session.get_pages(
             scope="switch",
-            operation_id="{operation_id}",
+            operation_id="getNetworkSwitchDhcpServerPolicyArpInspectionTrustedServers",
             path=path,
             params=params,
             total_pages=total_pages,
@@ -1477,7 +1506,10 @@ class Switch:
             payload["ipv4"] = ipv4
 
         return self._session.post(
-            scope="switch", operation_id="{operation_id}", path=path, json=payload
+            scope="switch",
+            operation_id="createNetworkSwitchDhcpServerPolicyArpInspectionTrustedServer",
+            path=path,
+            json=payload,
         )
 
     def update_network_switch_dhcp_server_policy_arp_inspection_trusted_server(
@@ -1514,7 +1546,10 @@ class Switch:
             payload["ipv4"] = ipv4
 
         return self._session.put(
-            scope="switch", operation_id="{operation_id}", path=path, json=payload
+            scope="switch",
+            operation_id="updateNetworkSwitchDhcpServerPolicyArpInspectionTrustedServer",
+            path=path,
+            json=payload,
         )
 
     def delete_network_switch_dhcp_server_policy_arp_inspection_trusted_server(
@@ -1547,8 +1582,8 @@ class Switch:
         starting_after: str | None = None,
         ending_before: str | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[Any]:
         """Return the devices that have a Dynamic ARP Inspection warning and their warnings.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-switch-dhcp-server-policy-arp-inspection-warnings-by-device
@@ -1583,7 +1618,7 @@ class Switch:
 
         return self._session.get_pages(
             scope="switch",
-            operation_id="{operation_id}",
+            operation_id="getNetworkSwitchDhcpServerPolicyArpInspectionWarningsByDevice",
             path=path,
             params=params,
             total_pages=total_pages,
@@ -1627,7 +1662,10 @@ class Switch:
             payload["mappings"] = mappings
 
         return self._session.put(
-            scope="switch", operation_id="{operation_id}", path=path, json=payload
+            scope="switch",
+            operation_id="updateNetworkSwitchDscpToCosMappings",
+            path=path,
+            json=payload,
         )
 
     def get_network_switch_link_aggregations(self, *, network_id: str) -> dict[str, Any] | None:
@@ -1675,7 +1713,10 @@ class Switch:
             payload["switchProfilePorts"] = switch_profile_ports
 
         return self._session.post(
-            scope="switch", operation_id="{operation_id}", path=path, json=payload
+            scope="switch",
+            operation_id="createNetworkSwitchLinkAggregation",
+            path=path,
+            json=payload,
         )
 
     def update_network_switch_link_aggregation(
@@ -1710,7 +1751,10 @@ class Switch:
             payload["switchProfilePorts"] = switch_profile_ports
 
         return self._session.put(
-            scope="switch", operation_id="{operation_id}", path=path, json=payload
+            scope="switch",
+            operation_id="updateNetworkSwitchLinkAggregation",
+            path=path,
+            json=payload,
         )
 
     def delete_network_switch_link_aggregation(
@@ -1771,7 +1815,7 @@ class Switch:
             payload["overrides"] = overrides
 
         return self._session.put(
-            scope="switch", operation_id="{operation_id}", path=path, json=payload
+            scope="switch", operation_id="updateNetworkSwitchMtu", path=path, json=payload
         )
 
     def get_network_switch_port_schedules(self, *, network_id: str) -> dict[str, Any] | None:
@@ -1816,7 +1860,7 @@ class Switch:
             payload["portSchedule"] = port_schedule
 
         return self._session.post(
-            scope="switch", operation_id="{operation_id}", path=path, json=payload
+            scope="switch", operation_id="createNetworkSwitchPortSchedule", path=path, json=payload
         )
 
     def update_network_switch_port_schedule(
@@ -1852,7 +1896,7 @@ class Switch:
             payload["portSchedule"] = port_schedule
 
         return self._session.put(
-            scope="switch", operation_id="{operation_id}", path=path, json=payload
+            scope="switch", operation_id="updateNetworkSwitchPortSchedule", path=path, json=payload
         )
 
     def delete_network_switch_port_schedule(
@@ -1947,7 +1991,7 @@ class Switch:
             payload["dscp"] = dscp
 
         return self._session.post(
-            scope="switch", operation_id="{operation_id}", path=path, json=payload
+            scope="switch", operation_id="createNetworkSwitchQosRule", path=path, json=payload
         )
 
     def get_network_switch_qos_rules_order(self, *, network_id: str) -> dict[str, Any] | None:
@@ -1987,7 +2031,7 @@ class Switch:
             payload["ruleIds"] = rule_ids
 
         return self._session.put(
-            scope="switch", operation_id="{operation_id}", path=path, json=payload
+            scope="switch", operation_id="updateNetworkSwitchQosRulesOrder", path=path, json=payload
         )
 
     def get_network_switch_qos_rule(
@@ -2069,7 +2113,7 @@ class Switch:
             payload["dscp"] = dscp
 
         return self._session.put(
-            scope="switch", operation_id="{operation_id}", path=path, json=payload
+            scope="switch", operation_id="updateNetworkSwitchQosRule", path=path, json=payload
         )
 
     def delete_network_switch_qos_rule(self, *, network_id: str, qos_rule_id: str) -> None:
@@ -2135,7 +2179,10 @@ class Switch:
             payload["overrides"] = overrides
 
         return self._session.put(
-            scope="switch", operation_id="{operation_id}", path=path, json=payload
+            scope="switch",
+            operation_id="updateNetworkSwitchRoutingMulticast",
+            path=path,
+            json=payload,
         )
 
     def get_network_switch_routing_multicast_rendezvous_points(
@@ -2184,7 +2231,10 @@ class Switch:
             payload["vrf"] = vrf
 
         return self._session.post(
-            scope="switch", operation_id="{operation_id}", path=path, json=payload
+            scope="switch",
+            operation_id="createNetworkSwitchRoutingMulticastRendezvousPoint",
+            path=path,
+            json=payload,
         )
 
     def get_network_switch_routing_multicast_rendezvous_point(
@@ -2243,7 +2293,10 @@ class Switch:
             payload["vrf"] = vrf
 
         return self._session.put(
-            scope="switch", operation_id="{operation_id}", path=path, json=payload
+            scope="switch",
+            operation_id="updateNetworkSwitchRoutingMulticastRendezvousPoint",
+            path=path,
+            json=payload,
         )
 
     def delete_network_switch_routing_multicast_rendezvous_point(
@@ -2289,7 +2342,7 @@ class Switch:
             params["vrf"] = vrf
 
         return self._session.get(
-            scope="switch", operation_id="{operation_id}", path=path, params=params
+            scope="switch", operation_id="getNetworkSwitchRoutingOspf", path=path, params=params
         )
 
     def update_network_switch_routing_ospf(
@@ -2352,7 +2405,7 @@ class Switch:
             payload["md5AuthenticationKey"] = md5_authentication_key
 
         return self._session.put(
-            scope="switch", operation_id="{operation_id}", path=path, json=payload
+            scope="switch", operation_id="updateNetworkSwitchRoutingOspf", path=path, json=payload
         )
 
     def get_network_switch_settings(self, *, network_id: str) -> dict[str, Any] | None:
@@ -2413,7 +2466,7 @@ class Switch:
             payload["uplinkSelection"] = uplink_selection
 
         return self._session.put(
-            scope="switch", operation_id="{operation_id}", path=path, json=payload
+            scope="switch", operation_id="updateNetworkSwitchSettings", path=path, json=payload
         )
 
     def get_network_switch_stacks(self, *, network_id: str) -> dict[str, Any] | None:
@@ -2453,7 +2506,7 @@ class Switch:
             payload["serials"] = serials
 
         return self._session.post(
-            scope="switch", operation_id="{operation_id}", path=path, json=payload
+            scope="switch", operation_id="createNetworkSwitchStack", path=path, json=payload
         )
 
     def get_network_switch_stack(
@@ -2514,7 +2567,7 @@ class Switch:
             payload["serial"] = serial
 
         return self._session.post(
-            scope="switch", operation_id="{operation_id}", path=path, json=payload
+            scope="switch", operation_id="addNetworkSwitchStack", path=path, json=payload
         )
 
     def remove_network_switch_stack(
@@ -2539,7 +2592,7 @@ class Switch:
             payload["serial"] = serial
 
         return self._session.post(
-            scope="switch", operation_id="{operation_id}", path=path, json=payload
+            scope="switch", operation_id="removeNetworkSwitchStack", path=path, json=payload
         )
 
     def get_network_switch_stack_routing_interfaces(
@@ -2581,7 +2634,10 @@ class Switch:
             params["protocol"] = protocol
 
         return self._session.get(
-            scope="switch", operation_id="{operation_id}", path=path, params=params
+            scope="switch",
+            operation_id="getNetworkSwitchStackRoutingInterfaces",
+            path=path,
+            params=params,
         )
 
     def create_network_switch_stack_routing_interface(
@@ -2670,7 +2726,10 @@ class Switch:
             payload["loopback"] = loopback
 
         return self._session.post(
-            scope="switch", operation_id="{operation_id}", path=path, json=payload
+            scope="switch",
+            operation_id="createNetworkSwitchStackRoutingInterface",
+            path=path,
+            json=payload,
         )
 
     def get_network_switch_stack_routing_interface(
@@ -2776,7 +2835,10 @@ class Switch:
             payload["loopback"] = loopback
 
         return self._session.put(
-            scope="switch", operation_id="{operation_id}", path=path, json=payload
+            scope="switch",
+            operation_id="updateNetworkSwitchStackRoutingInterface",
+            path=path,
+            json=payload,
         )
 
     def delete_network_switch_stack_routing_interface(
@@ -2920,7 +2982,10 @@ class Switch:
             payload["fixedIpAssignments"] = fixed_ip_assignments
 
         return self._session.put(
-            scope="switch", operation_id="{operation_id}", path=path, json=payload
+            scope="switch",
+            operation_id="updateNetworkSwitchStackRoutingInterfaceDhcp",
+            path=path,
+            json=payload,
         )
 
     def get_network_switch_stack_routing_static_routes(
@@ -2991,7 +3056,10 @@ class Switch:
             payload["vrf"] = vrf
 
         return self._session.post(
-            scope="switch", operation_id="{operation_id}", path=path, json=payload
+            scope="switch",
+            operation_id="createNetworkSwitchStackRoutingStaticRoute",
+            path=path,
+            json=payload,
         )
 
     def get_network_switch_stack_routing_static_route(
@@ -3071,7 +3139,10 @@ class Switch:
             payload["vrf"] = vrf
 
         return self._session.put(
-            scope="switch", operation_id="{operation_id}", path=path, json=payload
+            scope="switch",
+            operation_id="updateNetworkSwitchStackRoutingStaticRoute",
+            path=path,
+            json=payload,
         )
 
     def delete_network_switch_stack_routing_static_route(
@@ -3155,7 +3226,7 @@ class Switch:
             )
 
         return self._session.put(
-            scope="switch", operation_id="{operation_id}", path=path, json=payload
+            scope="switch", operation_id="updateNetworkSwitchStormControl", path=path, json=payload
         )
 
     def get_network_switch_stp(self, *, network_id: str) -> dict[str, Any] | None:
@@ -3200,7 +3271,7 @@ class Switch:
             payload["stpBridgePriority"] = stp_bridge_priority
 
         return self._session.put(
-            scope="switch", operation_id="{operation_id}", path=path, json=payload
+            scope="switch", operation_id="updateNetworkSwitchStp", path=path, json=payload
         )
 
     def get_organization_config_template_switch_profiles(
@@ -3446,7 +3517,10 @@ class Switch:
             payload["highSpeed"] = high_speed
 
         return self._session.put(
-            scope="switch", operation_id="{operation_id}", path=path, json=payload
+            scope="switch",
+            operation_id="updateOrganizationConfigTemplateSwitchProfilePort",
+            path=path,
+            json=payload,
         )
 
     def get_organization_summary_switch_power_history(
@@ -3482,7 +3556,10 @@ class Switch:
             params["timespan"] = timespan
 
         return self._session.get(
-            scope="switch", operation_id="{operation_id}", path=path, params=params
+            scope="switch",
+            operation_id="getOrganizationSummarySwitchPowerHistory",
+            path=path,
+            params=params,
         )
 
     def clone_organization_switch_devices(
@@ -3510,7 +3587,7 @@ class Switch:
             payload["targetSerials"] = target_serials
 
         return self._session.post(
-            scope="switch", operation_id="{operation_id}", path=path, json=payload
+            scope="switch", operation_id="cloneOrganizationSwitchDevices", path=path, json=payload
         )
 
     def get_organization_switch_ports_by_switch(
@@ -3529,8 +3606,8 @@ class Switch:
         serial: str | None = None,
         serials: list | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[Any]:
         """List the switchports in an organization by switch.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-switch-ports-by-switch
@@ -3597,7 +3674,7 @@ class Switch:
 
         return self._session.get_pages(
             scope="switch",
-            operation_id="{operation_id}",
+            operation_id="getOrganizationSwitchPortsBySwitch",
             path=path,
             params=params,
             total_pages=total_pages,
@@ -3622,8 +3699,8 @@ class Switch:
         serial: str | None = None,
         serials: list | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[Any]:
         """List the number of clients for all switchports with at least one online client in an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-switch-ports-clients-overview-by-device
@@ -3699,7 +3776,7 @@ class Switch:
 
         return self._session.get_pages(
             scope="switch",
-            operation_id="{operation_id}",
+            operation_id="getOrganizationSwitchPortsClientsOverviewByDevice",
             path=path,
             params=params,
             total_pages=total_pages,
@@ -3740,7 +3817,10 @@ class Switch:
             params["timespan"] = timespan
 
         return self._session.get(
-            scope="switch", operation_id="{operation_id}", path=path, params=params
+            scope="switch",
+            operation_id="getOrganizationSwitchPortsOverview",
+            path=path,
+            params=params,
         )
 
     def get_organization_switch_ports_statuses_by_switch(
@@ -3759,8 +3839,8 @@ class Switch:
         serial: str | None = None,
         serials: list | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[Any]:
         """List the switchports in an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-switch-ports-statuses-by-switch
@@ -3827,7 +3907,7 @@ class Switch:
 
         return self._session.get_pages(
             scope="switch",
-            operation_id="{operation_id}",
+            operation_id="getOrganizationSwitchPortsStatusesBySwitch",
             path=path,
             params=params,
             total_pages=total_pages,
@@ -3852,8 +3932,8 @@ class Switch:
         serial: str | None = None,
         serials: list | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[Any]:
         """List most recently seen LLDP/CDP discovery and topology information per switch port in an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-switch-ports-topology-discovery-by-device
@@ -3929,7 +4009,7 @@ class Switch:
 
         return self._session.get_pages(
             scope="switch",
-            operation_id="{operation_id}",
+            operation_id="getOrganizationSwitchPortsTopologyDiscoveryByDevice",
             path=path,
             params=params,
             total_pages=total_pages,
@@ -3956,8 +4036,8 @@ class Switch:
         serial: str | None = None,
         serials: list | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[Any]:
         """List the historical usage and traffic data of switchports in an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-switch-ports-usage-history-by-device-by-interval
@@ -4042,7 +4122,7 @@ class Switch:
 
         return self._session.get_pages(
             scope="switch",
-            operation_id="{operation_id}",
+            operation_id="getOrganizationSwitchPortsUsageHistoryByDeviceByInterval",
             path=path,
             params=params,
             total_pages=total_pages,

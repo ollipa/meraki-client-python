@@ -306,8 +306,7 @@ class Session:
                 results = response.json()
                 links = response.links
 
-                for item in extract_items(results):
-                    yield item
+                yield from extract_items(results)
 
                 remaining_pages -= 1
                 next_url = None

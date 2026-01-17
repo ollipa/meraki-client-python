@@ -2,12 +2,11 @@
 
 from __future__ import annotations
 
-import urllib
-from collections.abc import Generator
+import urllib.parse
 from typing import TYPE_CHECKING, Any, Literal
 
 if TYPE_CHECKING:
-    from meraki_dashboard_sdk.session import Session
+    from meraki_dashboard_sdk.session import PaginatedResponse, Session
 
 
 class Appliance:
@@ -67,7 +66,10 @@ class Appliance:
             params["timespan"] = timespan
 
         return self._session.get(
-            scope="appliance", operation_id="{operation_id}", path=path, params=params
+            scope="appliance",
+            operation_id="getDeviceAppliancePerformance",
+            path=path,
+            params=params,
         )
 
     def get_device_appliance_prefixes_delegated(self, *, serial: str) -> dict[str, Any] | None:
@@ -157,7 +159,10 @@ class Appliance:
             payload["fiveGhzSettings"] = five_ghz_settings
 
         return self._session.put(
-            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+            scope="appliance",
+            operation_id="updateDeviceApplianceRadioSettings",
+            path=path,
+            json=payload,
         )
 
     def get_device_appliance_uplinks_settings(self, *, serial: str) -> dict[str, Any] | None:
@@ -196,7 +201,10 @@ class Appliance:
             payload["interfaces"] = interfaces
 
         return self._session.put(
-            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+            scope="appliance",
+            operation_id="updateDeviceApplianceUplinksSettings",
+            path=path,
+            json=payload,
         )
 
     def create_device_appliance_vmx_authentication_token(
@@ -230,8 +238,8 @@ class Appliance:
         ending_before: str | None = None,
         sort_order: str | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[Any]:
         """List the security events for a client.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-client-security-events
@@ -290,7 +298,7 @@ class Appliance:
 
         return self._session.get_pages(
             scope="appliance",
-            operation_id="{operation_id}",
+            operation_id="getNetworkApplianceClientSecurityEvents",
             path=path,
             params=params,
             total_pages=total_pages,
@@ -337,7 +345,10 @@ class Appliance:
             payload["destinations"] = destinations
 
         return self._session.put(
-            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+            scope="appliance",
+            operation_id="updateNetworkApplianceConnectivityMonitoringDestinations",
+            path=path,
+            json=payload,
         )
 
     def get_network_appliance_content_filtering(self, *, network_id: str) -> dict[str, Any] | None:
@@ -397,7 +408,10 @@ class Appliance:
             payload["urlCategoryListSize"] = url_category_list_size
 
         return self._session.put(
-            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+            scope="appliance",
+            operation_id="updateNetworkApplianceContentFiltering",
+            path=path,
+            json=payload,
         )
 
     def get_network_appliance_content_filtering_categories(
@@ -460,7 +474,10 @@ class Appliance:
             payload["rules"] = rules
 
         return self._session.put(
-            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+            scope="appliance",
+            operation_id="updateNetworkApplianceFirewallCellularFirewallRules",
+            path=path,
+            json=payload,
         )
 
     def get_network_appliance_firewall_firewalled_services(
@@ -542,7 +559,10 @@ class Appliance:
             payload["allowedIps"] = allowed_ips
 
         return self._session.put(
-            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+            scope="appliance",
+            operation_id="updateNetworkApplianceFirewallFirewalledService",
+            path=path,
+            json=payload,
         )
 
     def get_network_appliance_firewall_inbound_cellular_firewall_rules(
@@ -585,7 +605,10 @@ class Appliance:
             payload["rules"] = rules
 
         return self._session.put(
-            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+            scope="appliance",
+            operation_id="updateNetworkApplianceFirewallInboundCellularFirewallRules",
+            path=path,
+            json=payload,
         )
 
     def get_network_appliance_firewall_inbound_firewall_rules(
@@ -632,7 +655,10 @@ class Appliance:
             payload["syslogDefaultRule"] = syslog_default_rule
 
         return self._session.put(
-            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+            scope="appliance",
+            operation_id="updateNetworkApplianceFirewallInboundFirewallRules",
+            path=path,
+            json=payload,
         )
 
     def get_network_appliance_firewall_l3_firewall_rules(
@@ -677,7 +703,10 @@ class Appliance:
             payload["syslogDefaultRule"] = syslog_default_rule
 
         return self._session.put(
-            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+            scope="appliance",
+            operation_id="updateNetworkApplianceFirewallL3FirewallRules",
+            path=path,
+            json=payload,
         )
 
     def get_network_appliance_firewall_l7_firewall_rules(
@@ -718,7 +747,10 @@ class Appliance:
             payload["rules"] = rules
 
         return self._session.put(
-            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+            scope="appliance",
+            operation_id="updateNetworkApplianceFirewallL7FirewallRules",
+            path=path,
+            json=payload,
         )
 
     def get_network_appliance_firewall_l7_firewall_rules_application_categories(
@@ -761,7 +793,10 @@ class Appliance:
             payload["rules"] = rules
 
         return self._session.put(
-            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+            scope="appliance",
+            operation_id="updateNetworkApplianceFirewallMulticastForwarding",
+            path=path,
+            json=payload,
         )
 
     def get_network_appliance_firewall_one_to_many_nat_rules(
@@ -804,7 +839,10 @@ class Appliance:
             payload["rules"] = rules
 
         return self._session.put(
-            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+            scope="appliance",
+            operation_id="updateNetworkApplianceFirewallOneToManyNatRules",
+            path=path,
+            json=payload,
         )
 
     def get_network_appliance_firewall_one_to_one_nat_rules(
@@ -845,7 +883,10 @@ class Appliance:
             payload["rules"] = rules
 
         return self._session.put(
-            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+            scope="appliance",
+            operation_id="updateNetworkApplianceFirewallOneToOneNatRules",
+            path=path,
+            json=payload,
         )
 
     def get_network_appliance_firewall_port_forwarding_rules(
@@ -888,7 +929,10 @@ class Appliance:
             payload["rules"] = rules
 
         return self._session.put(
-            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+            scope="appliance",
+            operation_id="updateNetworkApplianceFirewallPortForwardingRules",
+            path=path,
+            json=payload,
         )
 
     def get_network_appliance_firewall_settings(self, *, network_id: str) -> dict[str, Any] | None:
@@ -927,7 +971,10 @@ class Appliance:
             payload["spoofingProtection"] = spoofing_protection
 
         return self._session.put(
-            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+            scope="appliance",
+            operation_id="updateNetworkApplianceFirewallSettings",
+            path=path,
+            json=payload,
         )
 
     def get_network_appliance_ports(self, *, network_id: str) -> dict[str, Any] | None:
@@ -1017,7 +1064,7 @@ class Appliance:
             payload["accessPolicy"] = access_policy
 
         return self._session.put(
-            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+            scope="appliance", operation_id="updateNetworkAppliancePort", path=path, json=payload
         )
 
     def get_network_appliance_prefixes_delegated_statics(
@@ -1064,7 +1111,10 @@ class Appliance:
             payload["description"] = description
 
         return self._session.post(
-            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+            scope="appliance",
+            operation_id="createNetworkAppliancePrefixesDelegatedStatic",
+            path=path,
+            json=payload,
         )
 
     def get_network_appliance_prefixes_delegated_static(
@@ -1121,7 +1171,10 @@ class Appliance:
             payload["description"] = description
 
         return self._session.put(
-            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+            scope="appliance",
+            operation_id="updateNetworkAppliancePrefixesDelegatedStatic",
+            path=path,
+            json=payload,
         )
 
     def delete_network_appliance_prefixes_delegated_static(
@@ -1197,7 +1250,10 @@ class Appliance:
             payload["perSsidSettings"] = per_ssid_settings
 
         return self._session.post(
-            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+            scope="appliance",
+            operation_id="createNetworkApplianceRfProfile",
+            path=path,
+            json=payload,
         )
 
     def get_network_appliance_rf_profile(
@@ -1258,7 +1314,10 @@ class Appliance:
             payload["perSsidSettings"] = per_ssid_settings
 
         return self._session.put(
-            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+            scope="appliance",
+            operation_id="updateNetworkApplianceRfProfile",
+            path=path,
+            json=payload,
         )
 
     def delete_network_appliance_rf_profile(self, *, network_id: str, rf_profile_id: str) -> None:
@@ -1300,7 +1359,10 @@ class Appliance:
             payload["wanTrafficUplinkPreferences"] = wan_traffic_uplink_preferences
 
         return self._session.put(
-            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+            scope="appliance",
+            operation_id="updateNetworkApplianceSdwanInternetPolicies",
+            path=path,
+            json=payload,
         )
 
     def get_network_appliance_security_events(
@@ -1315,8 +1377,8 @@ class Appliance:
         ending_before: str | None = None,
         sort_order: str | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[Any]:
         """List the security events for a network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-security-events
@@ -1373,7 +1435,7 @@ class Appliance:
 
         return self._session.get_pages(
             scope="appliance",
-            operation_id="{operation_id}",
+            operation_id="getNetworkApplianceSecurityEvents",
             path=path,
             params=params,
             total_pages=total_pages,
@@ -1441,7 +1503,10 @@ class Appliance:
             payload["protectedNetworks"] = protected_networks
 
         return self._session.put(
-            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+            scope="appliance",
+            operation_id="updateNetworkApplianceSecurityIntrusion",
+            path=path,
+            json=payload,
         )
 
     def get_network_appliance_security_malware(self, *, network_id: str) -> dict[str, Any] | None:
@@ -1499,7 +1564,10 @@ class Appliance:
             payload["allowedFiles"] = allowed_files
 
         return self._session.put(
-            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+            scope="appliance",
+            operation_id="updateNetworkApplianceSecurityMalware",
+            path=path,
+            json=payload,
         )
 
     def get_network_appliance_settings(self, *, network_id: str) -> dict[str, Any] | None:
@@ -1560,7 +1628,10 @@ class Appliance:
             payload["dynamicDns"] = dynamic_dns
 
         return self._session.put(
-            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+            scope="appliance",
+            operation_id="updateNetworkApplianceSettings",
+            path=path,
+            json=payload,
         )
 
     def get_network_appliance_single_lan(self, *, network_id: str) -> dict[str, Any] | None:
@@ -1617,7 +1688,10 @@ class Appliance:
             payload["mandatoryDhcp"] = mandatory_dhcp
 
         return self._session.put(
-            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+            scope="appliance",
+            operation_id="updateNetworkApplianceSingleLan",
+            path=path,
+            json=payload,
         )
 
     def get_network_appliance_ssids(self, *, network_id: str) -> dict[str, Any] | None:
@@ -1746,7 +1820,7 @@ class Appliance:
             payload["dot11w"] = dot11w
 
         return self._session.put(
-            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+            scope="appliance", operation_id="updateNetworkApplianceSsid", path=path, json=payload
         )
 
     def get_network_appliance_static_routes(self, *, network_id: str) -> dict[str, Any] | None:
@@ -1800,7 +1874,10 @@ class Appliance:
             payload["gatewayVlanId"] = gateway_vlan_id
 
         return self._session.post(
-            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+            scope="appliance",
+            operation_id="createNetworkApplianceStaticRoute",
+            path=path,
+            json=payload,
         )
 
     def get_network_appliance_static_route(
@@ -1873,7 +1950,10 @@ class Appliance:
             payload["reservedIpRanges"] = reserved_ip_ranges
 
         return self._session.put(
-            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+            scope="appliance",
+            operation_id="updateNetworkApplianceStaticRoute",
+            path=path,
+            json=payload,
         )
 
     def delete_network_appliance_static_route(
@@ -1932,7 +2012,10 @@ class Appliance:
             payload["globalBandwidthLimits"] = global_bandwidth_limits
 
         return self._session.put(
-            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+            scope="appliance",
+            operation_id="updateNetworkApplianceTrafficShaping",
+            path=path,
+            json=payload,
         )
 
     def get_network_appliance_traffic_shaping_custom_performance_classes(
@@ -1990,7 +2073,10 @@ class Appliance:
             payload["maxLossPercentage"] = max_loss_percentage
 
         return self._session.post(
-            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+            scope="appliance",
+            operation_id="createNetworkApplianceTrafficShapingCustomPerformanceClass",
+            path=path,
+            json=payload,
         )
 
     def get_network_appliance_traffic_shaping_custom_performance_class(
@@ -2053,7 +2139,10 @@ class Appliance:
             payload["maxLossPercentage"] = max_loss_percentage
 
         return self._session.put(
-            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+            scope="appliance",
+            operation_id="updateNetworkApplianceTrafficShapingCustomPerformanceClass",
+            path=path,
+            json=payload,
         )
 
     def delete_network_appliance_traffic_shaping_custom_performance_class(
@@ -2128,7 +2217,10 @@ class Appliance:
             payload["rules"] = rules
 
         return self._session.put(
-            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+            scope="appliance",
+            operation_id="updateNetworkApplianceTrafficShapingRules",
+            path=path,
+            json=payload,
         )
 
     def get_network_appliance_traffic_shaping_uplink_bandwidth(
@@ -2172,7 +2264,10 @@ class Appliance:
             payload["bandwidthLimits"] = bandwidth_limits
 
         return self._session.put(
-            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+            scope="appliance",
+            operation_id="updateNetworkApplianceTrafficShapingUplinkBandwidth",
+            path=path,
+            json=payload,
         )
 
     def get_network_appliance_traffic_shaping_uplink_selection(
@@ -2238,7 +2333,10 @@ class Appliance:
             payload["vpnTrafficUplinkPreferences"] = vpn_traffic_uplink_preferences
 
         return self._session.put(
-            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+            scope="appliance",
+            operation_id="updateNetworkApplianceTrafficShapingUplinkSelection",
+            path=path,
+            json=payload,
         )
 
     def update_network_appliance_traffic_shaping_vpn_exclusions(
@@ -2265,7 +2363,10 @@ class Appliance:
             payload["majorApplications"] = major_applications
 
         return self._session.put(
-            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+            scope="appliance",
+            operation_id="updateNetworkApplianceTrafficShapingVpnExclusions",
+            path=path,
+            json=payload,
         )
 
     def get_network_appliance_uplinks_usage_history(
@@ -2307,7 +2408,10 @@ class Appliance:
             params["resolution"] = resolution
 
         return self._session.get(
-            scope="appliance", operation_id="{operation_id}", path=path, params=params
+            scope="appliance",
+            operation_id="getNetworkApplianceUplinksUsageHistory",
+            path=path,
+            params=params,
         )
 
     def get_network_appliance_vlans(self, *, network_id: str) -> dict[str, Any] | None:
@@ -2447,7 +2551,7 @@ class Appliance:
             payload["dhcpOptions"] = dhcp_options
 
         return self._session.post(
-            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+            scope="appliance", operation_id="createNetworkApplianceVlan", path=path, json=payload
         )
 
     def get_network_appliance_vlans_settings(self, *, network_id: str) -> dict[str, Any] | None:
@@ -2487,7 +2591,10 @@ class Appliance:
             payload["vlansEnabled"] = vlans_enabled
 
         return self._session.put(
-            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+            scope="appliance",
+            operation_id="updateNetworkApplianceVlansSettings",
+            path=path,
+            json=payload,
         )
 
     def get_network_appliance_vlan(self, *, network_id: str, vlan_id: str) -> dict[str, Any] | None:
@@ -2650,7 +2757,7 @@ class Appliance:
             payload["mandatoryDhcp"] = mandatory_dhcp
 
         return self._session.put(
-            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+            scope="appliance", operation_id="updateNetworkApplianceVlan", path=path, json=payload
         )
 
     def delete_network_appliance_vlan(self, *, network_id: str, vlan_id: str) -> None:
@@ -2732,7 +2839,7 @@ class Appliance:
             payload["neighbors"] = neighbors
 
         return self._session.put(
-            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+            scope="appliance", operation_id="updateNetworkApplianceVpnBgp", path=path, json=payload
         )
 
     def get_network_appliance_vpn_site_to_site_vpn(
@@ -2793,7 +2900,10 @@ class Appliance:
             payload["subnet"] = subnet
 
         return self._session.put(
-            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+            scope="appliance",
+            operation_id="updateNetworkApplianceVpnSiteToSiteVpn",
+            path=path,
+            json=payload,
         )
 
     def get_network_appliance_warm_spare(self, *, network_id: str) -> dict[str, Any] | None:
@@ -2851,7 +2961,10 @@ class Appliance:
             payload["virtualIp2"] = virtual_ip2
 
         return self._session.put(
-            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+            scope="appliance",
+            operation_id="updateNetworkApplianceWarmSpare",
+            path=path,
+            json=payload,
         )
 
     def swap_network_appliance_warm_spare(self, *, network_id: str) -> dict[str, Any] | None:
@@ -2890,7 +3003,10 @@ class Appliance:
             params["profileIds[]"] = profile_ids
 
         return self._session.get(
-            scope="appliance", operation_id="{operation_id}", path=path, params=params
+            scope="appliance",
+            operation_id="getOrganizationApplianceDnsLocalProfiles",
+            path=path,
+            params=params,
         )
 
     def create_organization_appliance_dns_local_profile(
@@ -2913,7 +3029,10 @@ class Appliance:
             payload["name"] = name
 
         return self._session.post(
-            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+            scope="appliance",
+            operation_id="createOrganizationApplianceDnsLocalProfile",
+            path=path,
+            json=payload,
         )
 
     def get_organization_appliance_dns_local_profiles_assignments(
@@ -2943,7 +3062,10 @@ class Appliance:
             params["networkIds[]"] = network_ids
 
         return self._session.get(
-            scope="appliance", operation_id="{operation_id}", path=path, params=params
+            scope="appliance",
+            operation_id="getOrganizationApplianceDnsLocalProfilesAssignments",
+            path=path,
+            params=params,
         )
 
     def bulk_organization_appliance_dns_local_profiles_assignments_create(
@@ -2968,7 +3090,10 @@ class Appliance:
             payload["items"] = items
 
         return self._session.post(
-            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+            scope="appliance",
+            operation_id="bulkOrganizationApplianceDnsLocalProfilesAssignmentsCreate",
+            path=path,
+            json=payload,
         )
 
     def create_organization_appliance_dns_local_profiles_assignments_bulk_delete(
@@ -2993,7 +3118,10 @@ class Appliance:
             payload["items"] = items
 
         return self._session.post(
-            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+            scope="appliance",
+            operation_id="createOrganizationApplianceDnsLocalProfilesAssignmentsBulkDelete",
+            path=path,
+            json=payload,
         )
 
     def update_organization_appliance_dns_local_profile(
@@ -3018,7 +3146,10 @@ class Appliance:
             payload["name"] = name
 
         return self._session.put(
-            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+            scope="appliance",
+            operation_id="updateOrganizationApplianceDnsLocalProfile",
+            path=path,
+            json=payload,
         )
 
     def delete_organization_appliance_dns_local_profile(
@@ -3061,7 +3192,10 @@ class Appliance:
             params["profileIds[]"] = profile_ids
 
         return self._session.get(
-            scope="appliance", operation_id="{operation_id}", path=path, params=params
+            scope="appliance",
+            operation_id="getOrganizationApplianceDnsLocalRecords",
+            path=path,
+            params=params,
         )
 
     def create_organization_appliance_dns_local_record(
@@ -3090,7 +3224,10 @@ class Appliance:
             payload["profile"] = profile
 
         return self._session.post(
-            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+            scope="appliance",
+            operation_id="createOrganizationApplianceDnsLocalRecord",
+            path=path,
+            json=payload,
         )
 
     def update_organization_appliance_dns_local_record(
@@ -3127,7 +3264,10 @@ class Appliance:
             payload["profile"] = profile
 
         return self._session.put(
-            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+            scope="appliance",
+            operation_id="updateOrganizationApplianceDnsLocalRecord",
+            path=path,
+            json=payload,
         )
 
     def delete_organization_appliance_dns_local_record(
@@ -3170,7 +3310,10 @@ class Appliance:
             params["profileIds[]"] = profile_ids
 
         return self._session.get(
-            scope="appliance", operation_id="{operation_id}", path=path, params=params
+            scope="appliance",
+            operation_id="getOrganizationApplianceDnsSplitProfiles",
+            path=path,
+            params=params,
         )
 
     def create_organization_appliance_dns_split_profile(
@@ -3200,7 +3343,10 @@ class Appliance:
             payload["nameservers"] = nameservers
 
         return self._session.post(
-            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+            scope="appliance",
+            operation_id="createOrganizationApplianceDnsSplitProfile",
+            path=path,
+            json=payload,
         )
 
     def get_organization_appliance_dns_split_profiles_assignments(
@@ -3230,7 +3376,10 @@ class Appliance:
             params["networkIds[]"] = network_ids
 
         return self._session.get(
-            scope="appliance", operation_id="{operation_id}", path=path, params=params
+            scope="appliance",
+            operation_id="getOrganizationApplianceDnsSplitProfilesAssignments",
+            path=path,
+            params=params,
         )
 
     def create_organization_appliance_dns_split_profiles_assignments_bulk_create(
@@ -3255,7 +3404,10 @@ class Appliance:
             payload["items"] = items
 
         return self._session.post(
-            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+            scope="appliance",
+            operation_id="createOrganizationApplianceDnsSplitProfilesAssignmentsBulkCreate",
+            path=path,
+            json=payload,
         )
 
     def create_organization_appliance_dns_split_profiles_assignments_bulk_delete(
@@ -3280,7 +3432,10 @@ class Appliance:
             payload["items"] = items
 
         return self._session.post(
-            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+            scope="appliance",
+            operation_id="createOrganizationApplianceDnsSplitProfilesAssignmentsBulkDelete",
+            path=path,
+            json=payload,
         )
 
     def update_organization_appliance_dns_split_profile(
@@ -3318,7 +3473,10 @@ class Appliance:
             payload["nameservers"] = nameservers
 
         return self._session.put(
-            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+            scope="appliance",
+            operation_id="updateOrganizationApplianceDnsSplitProfile",
+            path=path,
+            json=payload,
         )
 
     def delete_organization_appliance_dns_split_profile(
@@ -3350,8 +3508,8 @@ class Appliance:
         ending_before: str | None = None,
         network_ids: list | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[Any]:
         """List Static Multicasting forwarding settings for MX networks.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-firewall-multicast-forwarding-by-network
@@ -3389,7 +3547,7 @@ class Appliance:
 
         return self._session.get_pages(
             scope="appliance",
-            operation_id="{operation_id}",
+            operation_id="getOrganizationApplianceFirewallMulticastForwardingByNetwork",
             path=path,
             params=params,
             total_pages=total_pages,
@@ -3408,8 +3566,8 @@ class Appliance:
         ending_before: str | None = None,
         sort_order: str | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[Any]:
         """List the security events for an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-security-events
@@ -3466,7 +3624,7 @@ class Appliance:
 
         return self._session.get_pages(
             scope="appliance",
-            operation_id="{operation_id}",
+            operation_id="getOrganizationApplianceSecurityEvents",
             path=path,
             params=params,
             total_pages=total_pages,
@@ -3511,7 +3669,10 @@ class Appliance:
             payload["allowedRules"] = allowed_rules
 
         return self._session.put(
-            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+            scope="appliance",
+            operation_id="updateOrganizationApplianceSecurityIntrusion",
+            path=path,
+            json=payload,
         )
 
     def get_organization_appliance_traffic_shaping_vpn_exclusions_by_network(
@@ -3523,8 +3684,8 @@ class Appliance:
         ending_before: str | None = None,
         network_ids: list | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[Any]:
         """Display VPN exclusion rules for MX networks.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-traffic-shaping-vpn-exclusions-by-network
@@ -3562,7 +3723,7 @@ class Appliance:
 
         return self._session.get_pages(
             scope="appliance",
-            operation_id="{operation_id}",
+            operation_id="getOrganizationApplianceTrafficShapingVpnExclusionsByNetwork",
             path=path,
             params=params,
             total_pages=total_pages,
@@ -3580,8 +3741,8 @@ class Appliance:
         serials: list | None = None,
         iccids: list | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[Any]:
         """List the uplink status of every Meraki MX and Z series appliances in the organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-uplink-statuses
@@ -3628,7 +3789,7 @@ class Appliance:
 
         return self._session.get_pages(
             scope="appliance",
-            operation_id="{operation_id}",
+            operation_id="getOrganizationApplianceUplinkStatuses",
             path=path,
             params=params,
             total_pages=total_pages,
@@ -3656,7 +3817,10 @@ class Appliance:
             params["networkIds[]"] = network_ids
 
         return self._session.get(
-            scope="appliance", operation_id="{operation_id}", path=path, params=params
+            scope="appliance",
+            operation_id="getOrganizationApplianceUplinksStatusesOverview",
+            path=path,
+            params=params,
         )
 
     def get_organization_appliance_uplinks_usage_by_network(
@@ -3693,7 +3857,10 @@ class Appliance:
             params["timespan"] = timespan
 
         return self._session.get(
-            scope="appliance", operation_id="{operation_id}", path=path, params=params
+            scope="appliance",
+            operation_id="getOrganizationApplianceUplinksUsageByNetwork",
+            path=path,
+            params=params,
         )
 
     def get_organization_appliance_vpn_site_to_site_ipsec_peers_slas(
@@ -3736,7 +3903,10 @@ class Appliance:
             payload["items"] = items
 
         return self._session.put(
-            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+            scope="appliance",
+            operation_id="updateOrganizationApplianceVpnSiteToSiteIpsecPeersSlas",
+            path=path,
+            json=payload,
         )
 
     def get_organization_appliance_vpn_stats(
@@ -3751,8 +3921,8 @@ class Appliance:
         t1: str | None = None,
         timespan: float | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[Any]:
         """Show VPN history stat for networks in an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-vpn-stats
@@ -3803,7 +3973,7 @@ class Appliance:
 
         return self._session.get_pages(
             scope="appliance",
-            operation_id="{operation_id}",
+            operation_id="getOrganizationApplianceVpnStats",
             path=path,
             params=params,
             total_pages=total_pages,
@@ -3819,8 +3989,8 @@ class Appliance:
         ending_before: str | None = None,
         network_ids: list | None = None,
         total_pages: int | Literal["all"] = 1,
-        direction: Literal["prev" | "next"] = "next",
-    ) -> Generator[Any, None, None]:
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[Any]:
         """Show VPN status for networks in an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-vpn-statuses
@@ -3859,7 +4029,7 @@ class Appliance:
 
         return self._session.get_pages(
             scope="appliance",
-            operation_id="{operation_id}",
+            operation_id="getOrganizationApplianceVpnStatuses",
             path=path,
             params=params,
             total_pages=total_pages,
@@ -3906,7 +4076,10 @@ class Appliance:
             payload["peers"] = peers
 
         return self._session.put(
-            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+            scope="appliance",
+            operation_id="updateOrganizationApplianceVpnThirdPartyVPNPeers",
+            path=path,
+            json=payload,
         )
 
     def get_organization_appliance_vpn_vpn_firewall_rules(
@@ -3955,5 +4128,8 @@ class Appliance:
             payload["syslogDefaultRule"] = syslog_default_rule
 
         return self._session.put(
-            scope="appliance", operation_id="{operation_id}", path=path, json=payload
+            scope="appliance",
+            operation_id="updateOrganizationApplianceVpnVpnFirewallRules",
+            path=path,
+            json=payload,
         )
