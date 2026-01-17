@@ -117,11 +117,14 @@ ignore = [
     "ASYNC109", # async-function-with-timeout
 ]
 
+[tool.hatch.build.targets.wheel]
+packages = ["meraki_client"]
+
 [tool.ruff.lint.per-file-ignores]
 # Ignore docstring errors in tests.
 "tests/**.py" = ["D"]
-# Ignore some errors is generated code.
-"meraki_dashboard_sdk/**.py" = ["PLR0912", "E501", "PLR0915", "F541", "RUF100"]
+# Ignore some errors in generated code.
+"meraki_client/**.py" = ["PLR0912", "E501", "PLR0915", "F541", "RUF100"]
 
 [tool.pytest.ini_options]
 xfail_strict = true

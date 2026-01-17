@@ -1,0 +1,127 @@
+"""{{ "Asynchronous Meraki" if is_async else "Meraki" }} dashboard API SDK."""
+{% set api_path = "aio.api" if is_async else "api" %}
+{% set session_path = "aio.session" if is_async else "session" %}
+
+import os
+import sys
+{% if is_async %}
+from types import TracebackType
+from typing import Self
+{% endif %}
+
+{% for module in modules %}
+from meraki_client.{{ api_path }}.{{ module.snake_name }} import {{ module.class_name }}
+{% endfor %}
+from meraki_client.{{ session_path }} import Session
+from meraki_client.api.batch import Batch
+from meraki_client.common import BaseURL
+from meraki_client.const import (
+{% if is_async %}
+    ASYNC_MAXIMUM_CONCURRENT_REQUESTS,
+{% endif %}
+    MAXIMUM_RETRIES,
+    SINGLE_REQUEST_TIMEOUT,
+    WAIT_ON_RATE_LIMIT,
+)
+
+if sys.version_info < (3, 11):  # noqa: UP036
+    raise RuntimeError(
+        "Python 3.11 or higher is required. "
+        f"You are using Python {sys.version_info.major}.{sys.version_info.minor}."
+    )
+
+
+__all__ = [
+    {% if is_async %}
+    "AsyncMerakiClient",
+    {% endif %}
+    "BaseURL",
+    {% if not is_async %}
+    "MerakiClient",
+    {% endif %}
+]
+__version__ = "{{ version }}"
+__api_version__ = "{{ api_version }}"
+
+
+class {{ "Async" if is_async else "" }}MerakiClient:
+    """{{ "Asynchronous client" if is_async else "Client" }} class for the Meraki dashboard API.
+
+    Args:
+        api_key: API key generated in dashboard; can also be set as an environment variable
+          MERAKI_DASHBOARD_API_KEY.
+        base_url: Base URL preceding all endpoint resources.
+        single_request_timeout: Maximum number of seconds for each API call.
+        certificate_path: Path for TLS/SSL certificate verification if behind local proxy.
+        requests_proxy: Proxy server and port, if needed, for HTTPS.
+        wait_on_rate_limit: Retry if 429 rate limit error encountered?
+        maximum_retries: Retry up to this many times when encountering 429s or other server-side
+          errors.
+        caller: Optional identifier for API usage tracking; can also be set as an environment
+          variable MERAKI_PYTHON_SDK_CALLER.
+{% if is_async %}
+        maximum_concurrent_requests: Number of concurrent API requests for asynchronous class.
+{% endif %}
+
+    """
+
+    def __init__(
+        self,
+        *,
+        api_key: str | None = None,
+        base_url: BaseURL = BaseURL.DEFAULT,
+        single_request_timeout: int = SINGLE_REQUEST_TIMEOUT,
+        wait_on_rate_limit: bool = WAIT_ON_RATE_LIMIT,
+        maximum_retries: int = MAXIMUM_RETRIES,
+        certificate_path: str | None = None,
+        requests_proxy: str | None = None,
+        caller: str | None = None,
+{% if is_async %}
+        maximum_concurrent_requests: int = ASYNC_MAXIMUM_CONCURRENT_REQUESTS,
+{% endif %}
+    ) -> None:
+        # Check that the API key is defined
+        api_key = api_key or os.environ.get("MERAKI_DASHBOARD_API_KEY")
+        if not api_key:
+            raise ValueError(
+                "API key needs to be defined. Give the API key as an argument "
+                "or set the MERAKI_DASHBOARD_API_KEY environment variable."
+            )
+        caller = caller or os.environ.get("MERAKI_PYTHON_SDK_CALLER")
+
+        # Creates the API session
+        self._session = Session(
+            api_key=api_key,
+            base_url=base_url,
+            single_request_timeout=single_request_timeout,
+            certificate_path=certificate_path,
+            proxy=requests_proxy,
+            wait_on_rate_limit=wait_on_rate_limit,
+            maximum_retries=maximum_retries,
+            caller=caller,
+            version=__version__,
+{% if is_async %}
+            maximum_concurrent_requests=maximum_concurrent_requests,
+{% endif %}
+        )
+
+        # API endpoints by section
+{% for module in modules %}
+        self.{{ module.attr_name }} = {{ module.class_name }}(self._session)
+{% endfor %}
+
+        # Batch definitions
+        self.batch = Batch()
+{% if is_async %}
+
+    async def __aenter__(self) -> Self:
+        return self
+
+    async def __aexit__(
+        self,
+        exc_type: type[BaseException] | None,
+        exc: BaseException | None,
+        tb: TracebackType | None,
+    ) -> None:
+        await self._session.close()
+{% endif %}

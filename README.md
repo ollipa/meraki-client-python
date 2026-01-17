@@ -33,13 +33,23 @@ pip install meraki-dashboard-sdk
 ## Usage
 
 ```python
-from meraki import MerakiClient
+from meraki_client import MerakiClient
 
 client = MerakiClient()
 orgs = await client.organizations.get_organizations()
 ```
 
 API calls follow the pattern `client.<scope>.<operation>()`, where scope maps to the OpenAPI tags (e.g., `organizations`, `networks`, `devices`).
+
+## Code Generation
+
+The SDK is auto-generated from Meraki's OpenAPI specification. To regenerate:
+
+```shell
+make generate VERSION=1.66.0
+```
+
+This downloads the spec for the given API version, generates the `meraki_client` package, and formats the output. See [meraki/openapi releases](https://github.com/meraki/openapi/tags) for available versions.
 
 ## Contributing
 

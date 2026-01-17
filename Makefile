@@ -1,6 +1,6 @@
 color := $(shell tput setaf 2)
 off := $(shell tput sgr0)
-TARGETS = meraki_dashboard_sdk generator tests
+TARGETS = meraki_client codegen tests
 
 .PHONY: all
 all: lint test
@@ -34,7 +34,7 @@ linter:
 	@printf '\n\n*****************\n'
 	@printf '$(color)Running linter$(off)\n'
 	@printf '*****************\n'
-	uv run ruff check ${TARGETS} --exclude generator/static
+	uv run ruff check ${TARGETS}
 
 .PHONY: generate
 generate:
@@ -44,8 +44,8 @@ endif
 	@printf '\n\n*****************\n'
 	@printf '$(color)Generating SDK$(off)\n'
 	@printf '*****************\n'
-	@uv run python generator/main.py -v $(VERSION)
+	@uv run python codegen/main.py -v $(VERSION)
 	@printf "Formatting the generated code..."
-	@uv run ruff format  meraki_dashboard_sdk > /dev/null
-	@uv run ruff check --quiet --select I,F401 --fix meraki_dashboard_sdk
+	@uv run ruff format  meraki_client > /dev/null
+	@uv run ruff check --quiet --select I,F401 --fix meraki_client
 	@printf "Done!\n"
