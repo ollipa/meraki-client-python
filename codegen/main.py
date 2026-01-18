@@ -31,11 +31,10 @@ from openapi_pydantic.v3.v3_0 import (
 )
 from pydantic import BaseModel
 
-from codegen.constants import RESERVED_NAMES
 from codegen.log_config import setup_logging
 from codegen.schema_gen import SchemaRegistry, generate_response_schemas, get_response_schema_name
 from codegen.schemas import BatchableAction
-from codegen.utils import sanitize_text
+from codegen.utils import capitalize_first, escape_reserved_name, sanitize_text, to_snake_case
 
 setup_logging()
 log = logging.getLogger("codegen")
@@ -228,7 +227,7 @@ def generate_library(  # noqa: PLR0915
         [
             ModuleInfo(
                 snake_name=to_snake_case(scope),
-                class_name=scope[:1].upper() + scope[1:],
+                class_name=capitalize_first(scope),
                 attr_name=to_snake_case(scope),
             )
             for scope in scopes
@@ -290,7 +289,7 @@ def generate_library(  # noqa: PLR0915
                 batch_output.write(batch_content)
             return ModuleInfo(
                 snake_name=module_name,
-                class_name=scope[:1].upper() + scope[1:],
+                class_name=capitalize_first(scope),
                 attr_name=module_name,
             )
         return None
@@ -340,7 +339,7 @@ def generate_module(  # noqa: PLR0915
         Batch module content if scope has batch endpoints, None otherwise.
 
     """
-    class_name = scope[:1].upper() + scope[1:]
+    class_name = capitalize_first(scope)
     schemas_used: list[str] = []
     batch_content: list[str] = []
 
@@ -573,7 +572,7 @@ def collect_params(
                 continue
 
         param_name = param.name
-        snake_name = sanitize_param_name(to_snake_case(param_name))
+        snake_name = escape_reserved_name(to_snake_case(param_name))
 
         param_schema = param.param_schema
         if not param_schema:
@@ -647,7 +646,7 @@ def collect_request_body_params(
 
     properties = content_schema.properties or {}
     for property_name, property_schema in properties.items():
-        snake_name = sanitize_param_name(to_snake_case(property_name))
+        snake_name = escape_reserved_name(to_snake_case(property_name))
         if isinstance(property_schema, Reference):
             property_schema = resolve_ref(spec, property_schema, Schema)  # noqa: PLW2901
             if not property_schema:
@@ -819,24 +818,12 @@ def docs_url(operation_id: str) -> str:
     return base_url + ret
 
 
-def to_snake_case(name: str) -> str:
-    """Convert camelCase or PascalCase to snake_case."""
-    return re.sub(r"(?<!^)(?=[A-Z])", "_", name).lower()
-
-
-def sanitize_param_name(name: str) -> str:
-    """Append underscore to reserved Python keywords/builtins."""
-    if name in RESERVED_NAMES:
-        return f"{name}_"
-    return name
-
-
 def convert_path_params(path: str) -> str:
     """Convert all {paramName} in path to {param_name} (snake_case, sanitized)."""
 
     def replace_param(match: re.Match[str]) -> str:
         param = match.group(1)
-        return f"{{{sanitize_param_name(to_snake_case(param))}}}"
+        return f"{{{escape_reserved_name(to_snake_case(param))}}}"
 
     return re.sub(r"\{(\w+)\}", replace_param, path)
 

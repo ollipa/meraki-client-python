@@ -11,10 +11,8 @@ from enum import Enum, auto
 from typing import TYPE_CHECKING, Any, Literal, overload
 
 from openapi_pydantic.v3.v3_0 import OpenAPI, Operation, Reference
-from pydantic.alias_generators import to_snake
 
-from codegen.constants import RESERVED_NAMES
-from codegen.utils import sanitize_text
+from codegen.utils import capitalize_first, escape_reserved_name, sanitize_text, to_snake_case
 
 if TYPE_CHECKING:
     from codegen.main import Templates
@@ -76,7 +74,7 @@ class GenerationContext:
 
 def get_response_schema_name(operation_id: str) -> str:
     """Get the response schema class name for an operation."""
-    return operation_id[0].upper() + operation_id[1:] + "Response"
+    return f"{capitalize_first(operation_id)}Response"
 
 
 def generate_response_schemas(
@@ -507,7 +505,7 @@ def _build_nested_class_name(
     is_array: bool,
 ) -> str:
     """Build a nested class name with scope-aware shortening."""
-    prop_pascal = prop_name[0].upper() + prop_name[1:]
+    prop_pascal = capitalize_first(prop_name)
     suffix = "Item" if is_array else ""
     full_name = _sanitize_class_name(parent_class + prop_pascal + suffix)
 
@@ -515,7 +513,7 @@ def _build_nested_class_name(
     if not should_shorten:
         return full_name
 
-    scope_prefix = ctx.scope[0].upper() + ctx.scope[1:]
+    scope_prefix = capitalize_first(ctx.scope)
     parent_context = ""
     if "Response" in parent_class:
         parent_context = parent_class.split("Response", 1)[-1]
@@ -538,8 +536,7 @@ def _sanitize_field_name(name: str) -> str:
     """Sanitize a field name to be a valid Python identifier."""
     if name and (name[0].isdigit() or name.replace(".", "").replace("-", "").isdigit()):
         return "n_" + name.replace(".", "_").replace("-", "_")
-    snake = re.sub(r"(?<!^)(?=[A-Z])", "_", name).lower()
-    return f"{snake}_" if snake in RESERVED_NAMES else snake
+    return escape_reserved_name(to_snake_case(name))
 
 
 def _sanitize_class_name(name: str) -> str:
@@ -640,7 +637,7 @@ def _write_schema_files(
 
     all_exports: dict[str, list[str]] = {}
     for scope, scope_schemas in schemas_by_scope.items():
-        module_name = to_snake(scope)
+        module_name = to_snake_case(scope)
         sorted_schemas = sorted(scope_schemas.keys())
         all_exports[module_name] = sorted(sorted_schemas)
 
