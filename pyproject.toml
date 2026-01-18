@@ -1,7 +1,7 @@
 [project]
-name = "meraki-dashboard-sdk"
+name = "meraki-client"
 version = "0.1.0"
-description = "Meraki Dashboard API SDK for Python"
+description = "Python client for Meraki Dashboard API"
 authors = [{ name = "Olli Paakkunainen", email = "olli@paakkunainen.fi" }]
 license = "MIT"
 readme = "README.md"
@@ -32,8 +32,8 @@ dev = [
 ]
 
 [project.urls]
-homepage = "https://github.com/ollipa/meraki-dashboard-sdk"
-repository = "https://github.com/ollipa/meraki-dashboard-sdk"
+homepage = "https://github.com/ollipa/meraki-client-python"
+repository = "https://github.com/ollipa/meraki-client-python"
 
 [build-system]
 requires = ["hatchling"]

@@ -1,11 +1,11 @@
-# Meraki Dashboard API Python SDK
+# Python client for Meraki Dashboard API
 
 Python client for the [Meraki Dashboard API](https://developer.cisco.com/meraki/api-v1/). Auto-generated from the OpenAPI spec to stay current with the latest releases.
 
 **Installation:**
 
 ```shell
-pip install meraki-dashboard-sdk
+pip install meraki-client
 ```
 
 ## Features

@@ -269,7 +269,7 @@ wheels = [
 ]
 
 [[package]]
-name = "meraki-dashboard-sdk"
+name = "meraki-client"
 version = "0.1.0"
 source = { editable = "." }
 dependencies = [
