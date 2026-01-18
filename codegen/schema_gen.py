@@ -213,32 +213,20 @@ def _generate_array_schema(
 ) -> SchemaResult:
     """Generate a RootModel schema for array responses."""
     items_schema = schema.get("items", {})
-    item_class_name = class_name + "Item"
-
-    if items_schema.get("type") == "object":
-        item_result = _generate_schema_class(
-            ctx.nested(), class_name=item_class_name, schema=items_schema
-        )
-        if item_result.status != SchemaStatus.SKIPPED:
-            item_type = item_class_name
-        else:
-            item_type = "dict[str, Any]"
-            item_class_name = None
-    else:
-        item_type = _get_simple_type(items_schema)
-        item_class_name = None
-
-    doc_lines = _format_docstring(docstring)
-    body = "" if doc_lines else "    pass\n"
-    type_param = f'"{item_type}"' if item_class_name else item_type
-    definition = f"class {class_name}(RootModel[list[{type_param}]]):\n{doc_lines}{body}"
-
-    status = _register_schema(ctx, name=class_name, definition=definition)
-    return SchemaResult(
-        status=status,
+    should_generate_nested = items_schema.get("type") == "object"
+    inner_type, nested_class = _resolve_inner_type(
+        ctx,
+        inner_schema=items_schema,
+        nested_class_name=class_name + "Item",
+        should_generate_nested=should_generate_nested,
+    )
+    return _build_root_model_result(
+        ctx,
         class_name=class_name,
+        root_type=f"list[{inner_type}]",
+        docstring=docstring,
         is_array=True,
-        item_class_names=[item_class_name] if item_class_name else None,
+        nested_class=nested_class,
     )
 
 
@@ -250,32 +238,67 @@ def _generate_dict_schema(
     docstring: str,
 ) -> SchemaResult:
     """Generate a RootModel schema for dict/map responses with additionalProperties."""
-    value_class_name = class_name + "Value"
+    should_generate_nested = bool(
+        value_schema.get("type") == "object" and value_schema.get("properties")
+    )
+    inner_type, nested_class = _resolve_inner_type(
+        ctx,
+        inner_schema=value_schema,
+        nested_class_name=class_name + "Value",
+        should_generate_nested=should_generate_nested,
+    )
+    return _build_root_model_result(
+        ctx,
+        class_name=class_name,
+        root_type=f"dict[str, {inner_type}]",
+        docstring=docstring,
+        is_array=False,
+        nested_class=nested_class,
+    )
 
-    if value_schema.get("type") == "object" and value_schema.get("properties"):
-        value_result = _generate_schema_class(
-            ctx.nested(), class_name=value_class_name, schema=value_schema
+
+def _resolve_inner_type(
+    ctx: GenerationContext,
+    *,
+    inner_schema: dict[str, Any],
+    nested_class_name: str,
+    should_generate_nested: bool,
+) -> tuple[str, str | None]:
+    """Resolve the inner type for a RootModel container.
+
+    Returns (type_string, nested_class_name_if_generated).
+    """
+    if should_generate_nested:
+        result = _generate_schema_class(
+            ctx.nested(), class_name=nested_class_name, schema=inner_schema
         )
-        if value_result.status != SchemaStatus.SKIPPED:
-            value_type = value_class_name
-        else:
-            value_type = "dict[str, Any]"
-            value_class_name = None
-    else:
-        value_type = _get_simple_type(value_schema)
-        value_class_name = None
+        if result.status != SchemaStatus.SKIPPED:
+            return f'"{nested_class_name}"', nested_class_name
+        return "dict[str, Any]", None
 
+    return _get_simple_type(inner_schema), None
+
+
+def _build_root_model_result(
+    ctx: GenerationContext,
+    *,
+    class_name: str,
+    root_type: str,
+    docstring: str,
+    is_array: bool,
+    nested_class: str | None,
+) -> SchemaResult:
+    """Build and register a RootModel schema, returning the result."""
     doc_lines = _format_docstring(docstring)
     body = "" if doc_lines else "    pass\n"
-    type_param = f'"{value_type}"' if value_class_name else value_type
-    definition = f"class {class_name}(RootModel[dict[str, {type_param}]]):\n{doc_lines}{body}"
+    definition = f"class {class_name}(RootModel[{root_type}]):\n{doc_lines}{body}"
 
     status = _register_schema(ctx, name=class_name, definition=definition)
     return SchemaResult(
         status=status,
         class_name=class_name,
-        is_array=False,
-        item_class_names=[value_class_name] if value_class_name else None,
+        is_array=is_array,
+        item_class_names=[nested_class] if nested_class else None,
     )
 
 
