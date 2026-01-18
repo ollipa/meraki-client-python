@@ -8,7 +8,7 @@ import re
 import textwrap
 from dataclasses import dataclass
 from enum import Enum, auto
-from typing import TYPE_CHECKING, Any, Literal, overload
+from typing import TYPE_CHECKING, Any, Literal, NamedTuple, overload
 
 from openapi_pydantic.v3.v3_0 import OpenAPI, Operation, Reference
 
@@ -70,6 +70,13 @@ class GenerationContext:
             scope=self.scope,
             depth=self.depth + 1,
         )
+
+
+class TypeResult(NamedTuple):
+    """Result of type resolution, optionally including nested item class."""
+
+    type_str: str
+    item_class: str | None = None
 
 
 def get_response_schema_name(operation_id: str) -> str:
@@ -318,7 +325,8 @@ def _generate_object_schema(
         additional_props = schema.get("additionalProperties")
         if not isinstance(additional_props, dict):
             log.debug(
-                f"Skipping schema generation for {class_name} because it has no additional properties"
+                f"Skipping schema generation for {class_name} "
+                "because it has no properties or additional properties"
             )
             return SchemaResult(status=SchemaStatus.SKIPPED)
         return _generate_dict_schema(
@@ -333,7 +341,7 @@ def _generate_object_schema(
     item_class_names: list[str] = []
 
     for prop_name, prop_schema in properties.items():
-        field_def, field_type = _generate_field(
+        field_def, item_class = _generate_field(
             ctx,
             parent_class=class_name,
             prop_name=prop_name,
@@ -341,14 +349,8 @@ def _generate_object_schema(
             is_required=prop_name in required,
         )
         lines.append(f"    {field_def}")
-
-        if (
-            prop_schema.get("type") == "array"
-            and prop_schema.get("items", {}).get("type") == "object"
-            and prop_schema.get("items", {}).get("properties")
-            and field_type.startswith("list[")
-        ):
-            item_class_names.append(field_type[5:-1])
+        if item_class:
+            item_class_names.append(item_class)
 
     status = _register_schema(ctx, name=class_name, definition="\n".join(lines) + "\n")
     return SchemaResult(
@@ -386,24 +388,30 @@ def _generate_field(
     prop_name: str,
     prop_schema: dict[str, Any],
     is_required: bool,
-) -> tuple[str, str]:
+) -> tuple[str, str | None]:
     """Generate a field definition for a Pydantic model."""
     snake_name = _sanitize_field_name(prop_name)
-    py_type = _get_python_type(
+    type_str, item_class = _get_python_type(
         ctx, parent_class=parent_class, prop_name=prop_name, schema=prop_schema
     )
     needs_alias = snake_name != prop_name
     is_nullable = prop_schema.get("nullable", False)
 
     if is_required:
-        type_annotation = f"{py_type} | None" if is_nullable else py_type
+        type_annotation = f"{type_str} | None" if is_nullable else type_str
         if needs_alias:
-            return f'{snake_name}: {type_annotation} = Field(alias="{prop_name}")', py_type
-        return f"{snake_name}: {type_annotation}", py_type
+            return (
+                f'{snake_name}: {type_annotation} = Field(alias="{prop_name}")',
+                item_class,
+            )
+        return f"{snake_name}: {type_annotation}", item_class
 
     if needs_alias:
-        return f'{snake_name}: {py_type} | None = Field(default=None, alias="{prop_name}")', py_type
-    return f"{snake_name}: {py_type} | None = None", py_type
+        return (
+            f'{snake_name}: {type_str} | None = Field(default=None, alias="{prop_name}")',
+            item_class,
+        )
+    return f"{snake_name}: {type_str} | None = None", item_class
 
 
 def _get_python_type(
@@ -412,12 +420,12 @@ def _get_python_type(
     parent_class: str,
     prop_name: str,
     schema: dict[str, Any],
-) -> str:
+) -> TypeResult:
     """Get Python type annotation from OpenAPI schema."""
     schema_type = schema.get("type")
 
     if schema_type in ("string", "integer", "number", "boolean"):
-        return _get_simple_type(schema)
+        return TypeResult(_get_simple_type(schema))
 
     if schema_type == "array":
         return _get_array_type(ctx, parent_class=parent_class, prop_name=prop_name, schema=schema)
@@ -425,7 +433,8 @@ def _get_python_type(
     if schema_type == "object":
         return _get_object_type(ctx, parent_class=parent_class, prop_name=prop_name, schema=schema)
 
-    return "Any"
+    log.warning(f"Unknown schema type: {schema_type}")
+    return TypeResult("Any")
 
 
 def _get_simple_type(schema: dict[str, Any]) -> str:
@@ -448,14 +457,15 @@ def _get_array_type(
     parent_class: str,
     prop_name: str,
     schema: dict[str, Any],
-) -> str:
+) -> TypeResult:
     """Get Python type for array schema."""
     items = schema.get("items", {})
 
     if items.get("type") == "object" and items.get("properties"):
         fingerprint = _compute_fingerprint(items, ctx.scope)
         if fingerprint in ctx.schema_fingerprints:
-            return f"list[{ctx.schema_fingerprints[fingerprint]}]"
+            existing_class = ctx.schema_fingerprints[fingerprint]
+            return TypeResult(f"list[{existing_class}]", existing_class)
 
         nested_ctx = ctx.nested()
         nested_class = _build_nested_class_name(
@@ -464,10 +474,10 @@ def _get_array_type(
         _generate_schema_class(nested_ctx, class_name=nested_class, schema=items)
         ctx.schema_fingerprints[fingerprint] = nested_class
 
-        return f"list[{nested_class}]"
+        return TypeResult(f"list[{nested_class}]", nested_class)
 
     item_type = _get_simple_type(items)
-    return f"list[{item_type}]"
+    return TypeResult(f"list[{item_type}]")
 
 
 def _get_object_type(
@@ -476,16 +486,16 @@ def _get_object_type(
     parent_class: str,
     prop_name: str,
     schema: dict[str, Any],
-) -> str:
+) -> TypeResult:
     """Get Python type for object schema."""
     props = schema.get("properties")
 
     if not props:
-        return "dict[str, Any]"
+        return TypeResult("dict[str, Any]")
 
     fingerprint = _compute_fingerprint(schema, ctx.scope)
     if fingerprint in ctx.schema_fingerprints:
-        return ctx.schema_fingerprints[fingerprint]
+        return TypeResult(ctx.schema_fingerprints[fingerprint])
 
     nested_ctx = ctx.nested()
     nested_class = _build_nested_class_name(
@@ -494,7 +504,7 @@ def _get_object_type(
     _generate_schema_class(nested_ctx, class_name=nested_class, schema=schema)
     ctx.schema_fingerprints[fingerprint] = nested_class
 
-    return nested_class
+    return TypeResult(nested_class)
 
 
 def _build_nested_class_name(
@@ -629,7 +639,7 @@ def _write_schema_files(
     """Write per-module schema files and a main __init__.py that re-exports all."""
     schemas_by_scope: dict[str, dict[str, str]] = {}
     for class_name, class_def in schemas.items():
-        scope = schema_to_scope.get(class_name, "common")
+        scope = schema_to_scope[class_name]
         schemas_by_scope.setdefault(scope, {})[class_name] = class_def
 
     with open(f"{output_dir}/schemas/_base.py", "w") as f:
