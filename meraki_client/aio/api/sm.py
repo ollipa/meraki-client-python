@@ -47,9 +47,11 @@ from meraki_client.schemas import (
     RebootNetworkSmDevicesResponse,
     ShutdownNetworkSmDevicesResponse,
     UnenrollNetworkSmDeviceResponse,
+    UpdateNetworkSmDevicesFieldsDeviceFields,
     UpdateNetworkSmDevicesFieldsResponse,
     UpdateNetworkSmTargetGroupResponse,
     UpdateOrganizationSmAdminsRoleResponse,
+    UpdateOrganizationSmSentryPoliciesAssignmentsItemsItem,
     UpdateOrganizationSmSentryPoliciesAssignmentsResponse,
     WipeNetworkSmDevicesResponse,
 )
@@ -65,7 +67,7 @@ class Sm:
         self._session = session
 
     async def create_network_sm_bypass_activation_lock_attempt(
-        self, *, network_id: str, ids: list
+        self, *, network_id: str, ids: list[str]
     ) -> dict[str, Any] | None:
         """Bypass activation lock attempt.
 
@@ -114,13 +116,13 @@ class Sm:
         self,
         *,
         network_id: str,
-        fields: list | None = None,
-        wifi_macs: list | None = None,
-        serials: list | None = None,
-        ids: list | None = None,
-        uuids: list | None = None,
-        system_types: list | None = None,
-        scope: list | None = None,
+        fields: list[str] | None = None,
+        wifi_macs: list[str] | None = None,
+        serials: list[str] | None = None,
+        ids: list[str] | None = None,
+        uuids: list[str] | None = None,
+        system_types: list[str] | None = None,
+        scope: list[str] | None = None,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
@@ -207,10 +209,10 @@ class Sm:
         self,
         *,
         network_id: str,
-        wifi_macs: list | None = None,
-        ids: list | None = None,
-        serials: list | None = None,
-        scope: list | None = None,
+        wifi_macs: list[str] | None = None,
+        ids: list[str] | None = None,
+        serials: list[str] | None = None,
+        scope: list[str] | None = None,
     ) -> CheckinNetworkSmDevicesResponse | None:
         """Force check-in a set of devices.
 
@@ -250,7 +252,7 @@ class Sm:
         self,
         *,
         network_id: str,
-        device_fields: dict,
+        device_fields: UpdateNetworkSmDevicesFieldsDeviceFields,
         wifi_mac: str | None = None,
         id_: str | None = None,
         serial: str | None = None,
@@ -278,7 +280,7 @@ class Sm:
         if serial is not None:
             payload["serial"] = serial
         if device_fields is not None:
-            payload["deviceFields"] = device_fields
+            payload["deviceFields"] = device_fields.model_dump(by_alias=True, exclude_none=True)
 
         return await self._session.put(
             scope="sm",
@@ -292,10 +294,10 @@ class Sm:
         self,
         *,
         network_id: str,
-        wifi_macs: list | None = None,
-        ids: list | None = None,
-        serials: list | None = None,
-        scope: list | None = None,
+        wifi_macs: list[str] | None = None,
+        ids: list[str] | None = None,
+        serials: list[str] | None = None,
+        scope: list[str] | None = None,
         pin: int | None = None,
     ) -> LockNetworkSmDevicesResponse | None:
         """Lock a set of devices.
@@ -340,12 +342,12 @@ class Sm:
         self,
         *,
         network_id: str,
-        tags: list,
+        tags: list[str],
         update_action: str,
-        wifi_macs: list | None = None,
-        ids: list | None = None,
-        serials: list | None = None,
-        scope: list | None = None,
+        wifi_macs: list[str] | None = None,
+        ids: list[str] | None = None,
+        serials: list[str] | None = None,
+        scope: list[str] | None = None,
     ) -> ModifyNetworkSmDevicesTagsResponse | None:
         """Add, delete, or update the tags of a set of devices.
 
@@ -393,10 +395,10 @@ class Sm:
         *,
         network_id: str,
         new_network: str,
-        wifi_macs: list | None = None,
-        ids: list | None = None,
-        serials: list | None = None,
-        scope: list | None = None,
+        wifi_macs: list[str] | None = None,
+        ids: list[str] | None = None,
+        serials: list[str] | None = None,
+        scope: list[str] | None = None,
     ) -> MoveNetworkSmDevicesResponse | None:
         """Move a set of devices to a new network.
 
@@ -439,11 +441,11 @@ class Sm:
         self,
         *,
         network_id: str,
-        wifi_macs: list | None = None,
-        ids: list | None = None,
-        serials: list | None = None,
-        scope: list | None = None,
-        kext_paths: list | None = None,
+        wifi_macs: list[str] | None = None,
+        ids: list[str] | None = None,
+        serials: list[str] | None = None,
+        scope: list[str] | None = None,
+        kext_paths: list[str] | None = None,
         notify_user: bool | None = None,
         rebuild_kernel_cache: bool | None = None,
         request_requires_network_tether: bool | None = None,
@@ -501,10 +503,10 @@ class Sm:
         self,
         *,
         network_id: str,
-        wifi_macs: list | None = None,
-        ids: list | None = None,
-        serials: list | None = None,
-        scope: list | None = None,
+        wifi_macs: list[str] | None = None,
+        ids: list[str] | None = None,
+        serials: list[str] | None = None,
+        scope: list[str] | None = None,
     ) -> ShutdownNetworkSmDevicesResponse | None:
         """Shutdown a set of endpoints.
 
@@ -818,7 +820,7 @@ class Sm:
         )
 
     async def install_network_sm_device_apps(
-        self, *, network_id: str, device_id: str, app_ids: list, force: bool | None = None
+        self, *, network_id: str, device_id: str, app_ids: list[str], force: bool | None = None
     ) -> dict[str, Any] | None:
         """Install applications on a device.
 
@@ -1038,7 +1040,7 @@ class Sm:
         )
 
     async def uninstall_network_sm_device_apps(
-        self, *, network_id: str, device_id: str, app_ids: list
+        self, *, network_id: str, device_id: str, app_ids: list[str]
     ) -> dict[str, Any] | None:
         """Uninstall applications on a device.
 
@@ -1086,7 +1088,7 @@ class Sm:
         )
 
     async def get_network_sm_profiles(
-        self, *, network_id: str, payload_types: list | None = None
+        self, *, network_id: str, payload_types: list[str] | None = None
     ) -> GetNetworkSmProfilesResponse | None:
         """List all profiles in a network.
 
@@ -1389,10 +1391,10 @@ class Sm:
         self,
         *,
         network_id: str,
-        ids: list | None = None,
-        usernames: list | None = None,
-        emails: list | None = None,
-        scope: list | None = None,
+        ids: list[str] | None = None,
+        usernames: list[str] | None = None,
+        emails: list[str] | None = None,
+        scope: list[str] | None = None,
     ) -> GetNetworkSmUsersResponse | None:
         """List the owners in an SM network with various specified fields and filters.
 
@@ -1527,7 +1529,12 @@ class Sm:
         )
 
     async def create_organization_sm_admins_role(
-        self, *, organization_id: str, name: str, scope: str | None = None, tags: list | None = None
+        self,
+        *,
+        organization_id: str,
+        name: str,
+        scope: str | None = None,
+        tags: list[str] | None = None,
     ) -> CreateOrganizationSmAdminsRoleResponse | None:
         """Create a Limited Access Role.
 
@@ -1595,7 +1602,7 @@ class Sm:
         role_id: str,
         name: str | None = None,
         scope: str | None = None,
-        tags: list | None = None,
+        tags: list[str] | None = None,
     ) -> UpdateOrganizationSmAdminsRoleResponse | None:
         """Update a Limited Access Role.
 
@@ -1677,7 +1684,10 @@ class Sm:
         )
 
     async def update_organization_sm_sentry_policies_assignments(
-        self, *, organization_id: str, items: list
+        self,
+        *,
+        organization_id: str,
+        items: list[UpdateOrganizationSmSentryPoliciesAssignmentsItemsItem],
     ) -> UpdateOrganizationSmSentryPoliciesAssignmentsResponse | None:
         """Update an Organizations Sentry Policies using the provided list.
 
@@ -1693,7 +1703,7 @@ class Sm:
 
         payload = {}
         if items is not None:
-            payload["items"] = items
+            payload["items"] = [item.model_dump(by_alias=True, exclude_none=True) for item in items]
 
         return await self._session.put(
             scope="sm",
@@ -1710,7 +1720,7 @@ class Sm:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        network_ids: list | None = None,
+        network_ids: list[str] | None = None,
         total_pages: int | Literal["all"] = 1,
         direction: Literal["prev", "next"] = "next",
     ) -> AsyncPaginatedResponse[GetOrganizationSmSentryPoliciesAssignmentsByNetworkResponseItem]:

@@ -32,7 +32,11 @@ from openapi_pydantic.v3.v3_0 import (
 from pydantic import BaseModel
 
 from codegen.log_config import setup_logging
-from codegen.schema_gen import SchemaRegistry, generate_response_schemas, get_response_schema_name
+from codegen.schema_gen import (
+    SchemaRegistry,
+    generate_response_schemas,
+    get_response_schema_name,
+)
 from codegen.schemas import BatchableAction
 from codegen.utils import capitalize_first, escape_reserved_name, sanitize_text, to_snake_case
 
@@ -50,23 +54,28 @@ DOCSTRING_LINE_WIDTH = 100 - INDENT_WIDTH
 
 
 @dataclass
+class BodyParam:
+    """Body parameter info."""
+
+    snake_name: str
+    orig_name: str
+    is_schema: bool = False
+    is_list: bool = False
+    is_dict: bool = False
+
+
+@dataclass
 class FunctionDefinition:
     """Function definition parameters."""
 
-    # List of (snake, orig)
-    body_params: list[tuple[str, str]] = field(default_factory=list)
-    # List of (snake, options)
+    body_params: list[BodyParam] = field(default_factory=list)
     assert_blocks: list[tuple[str, list[str]]] = field(default_factory=list)
-    # List of descriptions
     param_descriptions: list[str] = field(default_factory=list)
-    # List of required arguments
     required_args: list[str] = field(default_factory=list)
-    # List of optional arguments
     optional_args: list[str] = field(default_factory=list)
-    # List of query parameters
     query_params: list[tuple[str, str]] = field(default_factory=list)
-    # List of path parameters
     path_params: list[str] = field(default_factory=list)
+    request_body_schemas_used: list[str] = field(default_factory=list)
 
 
 @dataclass
@@ -342,11 +351,28 @@ def generate_module(  # noqa: PLR0915
     class_name = capitalize_first(scope)
     schemas_used: list[str] = []
     batch_content: list[str] = []
+    batch_schemas_used: list[str] = []
+    operation_request_schemas: dict[str, list[str]] = {}
 
     for methods in paths.values():
         for method, endpoint in methods.items():
             operation_id = endpoint.operationId
-            if not operation_id or method == "delete":
+            if not operation_id:
+                continue
+
+            # Collect request body schemas for this operation
+            op_schemas: list[str] = []
+            for (op_id, _prop_name), param_schema in schema_registry.request_body_schemas.items():
+                if op_id == operation_id:
+                    if param_schema.item_class_name:
+                        op_schemas.append(param_schema.item_class_name)
+                    elif not param_schema.is_list:
+                        op_schemas.append(param_schema.class_name)
+            if op_schemas:
+                operation_request_schemas[operation_id] = op_schemas
+                schemas_used.extend(op_schemas)
+
+            if method == "delete":
                 continue
 
             response_schema_name = get_response_schema_name(operation_id)
@@ -380,7 +406,7 @@ def generate_module(  # noqa: PLR0915
                 spec, operation_id, endpoint.parameters or [], function_definition
             )
             collect_request_body_params(
-                spec, operation_id, endpoint.requestBody, function_definition
+                spec, operation_id, endpoint.requestBody, function_definition, schema_registry
             )
             if is_paginated:
                 collect_pagination_params(operation_id, function_definition)
@@ -409,6 +435,11 @@ def generate_module(  # noqa: PLR0915
                 if "200" in responses or "201" in responses:
                     raise ValueError(f"Endpoint {operation_id} has 200/201 response but no schema")
 
+            body_params_for_template = [
+                (bp.snake_name, bp.orig_name, bp.is_schema, bp.is_list, bp.is_dict)
+                for bp in function_definition.body_params
+            ]
+
             common_params = {
                 "operation": to_snake_case(operation_id),
                 "function_definition": definition,
@@ -418,7 +449,7 @@ def generate_module(  # noqa: PLR0915
                 "assert_blocks": function_definition.assert_blocks,
                 "resource": resource_path,
                 "query_params": function_definition.query_params,
-                "body_params": function_definition.body_params,
+                "body_params": body_params_for_template,
                 "path_params": function_definition.path_params,
                 "response_schema_name": response_schema_name,
                 "item_schema_name": item_schema_name,
@@ -472,6 +503,8 @@ def generate_module(  # noqa: PLR0915
                     case _:
                         raise ValueError(f"Unsupported batch operation method: {method}")
 
+                batch_schemas_used.extend(function_definition.request_body_schemas_used)
+
                 batch_content.append(
                     templates.batch_function_template.render(
                         operation=to_snake_case(operation_id),
@@ -482,14 +515,16 @@ def generate_module(  # noqa: PLR0915
                         assert_blocks=function_definition.assert_blocks,
                         resource=resource_path,
                         query_params=function_definition.query_params,
-                        body_params=function_definition.body_params,
+                        body_params=body_params_for_template,
                         path_params=function_definition.path_params,
                         batch_operation=batch_operation,
                     )
                 )
 
     if batch_content:
-        return templates.batch_class_template.render(class_name=class_name) + "".join(batch_content)
+        return templates.batch_class_template.render(
+            class_name=class_name, schemas_used=sorted(set(batch_schemas_used))
+        ) + "".join(batch_content)
     return None
 
 
@@ -513,11 +548,12 @@ def recreate_output_directory() -> None:
 def copy_static_files() -> None:
     """Copy static files from the static directory to the output directory."""
     static_dir = Path(SCRIPT_DIR) / "static"
-    for src in static_dir.rglob("*.py"):
-        relative_path = src.relative_to(static_dir)
-        dst = Path(OUTPUT_DIR) / relative_path
-        dst.parent.mkdir(parents=True, exist_ok=True)
-        shutil.copy2(src, dst)
+    for src in static_dir.rglob("*"):
+        if src.is_file():
+            relative_path = src.relative_to(static_dir)
+            dst = Path(OUTPUT_DIR) / relative_path
+            dst.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(src, dst)
 
 
 def _format_generated_code(output_dir: str) -> None:
@@ -584,7 +620,7 @@ def collect_params(
                 log.error(f"Failed to resolve schema reference: {param_schema}")
                 continue
 
-        py_type = get_python_type(param_schema.type or DataType.STRING)
+        py_type = get_python_type(param_schema)
 
         if param.param_in == ParameterLocation.QUERY:
             key = param_name
@@ -624,6 +660,7 @@ def collect_request_body_params(
     operation_id: str,
     request_body: RequestBody | Reference | None,
     function_definition: FunctionDefinition,
+    schema_registry: SchemaRegistry,
 ) -> None:
     """Collect request body parameters."""
     if isinstance(request_body, Reference):
@@ -653,7 +690,15 @@ def collect_request_body_params(
                 log.error(f"Failed to resolve schema reference: {property_schema}")
                 continue
 
-        function_definition.body_params.append((snake_name, property_name))
+        schema_key = (operation_id, property_name)
+        param_schema = schema_registry.request_body_schemas.get(schema_key)
+
+        is_schema = param_schema is not None
+        is_list = param_schema.is_list if param_schema else False
+        is_dict = param_schema.is_dict if param_schema else False
+        function_definition.body_params.append(
+            BodyParam(snake_name, property_name, is_schema, is_list, is_dict)
+        )
 
         if (
             property_name == "scheduleId"
@@ -666,7 +711,15 @@ def collect_request_body_params(
             format_param_description(snake_name, property_schema.description or "")
         )
 
-        py_type = get_python_type(property_schema.type or DataType.STRING)
+        if param_schema:
+            py_type = param_schema.class_name
+            if param_schema.item_class_name:
+                function_definition.request_body_schemas_used.append(param_schema.item_class_name)
+            elif not param_schema.is_list:
+                function_definition.request_body_schemas_used.append(param_schema.class_name)
+        else:
+            py_type = get_python_type(property_schema)
+
         required_properties = content_schema.required or []
         if property_name in required_properties:
             function_definition.required_args.append(f"{snake_name}: {py_type}")
@@ -828,11 +881,17 @@ def convert_path_params(path: str) -> str:
     return re.sub(r"\{(\w+)\}", replace_param, path)
 
 
-def get_python_type(data_type: DataType) -> str:
-    """Get Python type for a data type."""
+def get_python_type(schema: Schema) -> str:
+    """Get Python type for a schema."""
+    data_type = schema.type or DataType.STRING
     match data_type:
         case DataType.ARRAY:
-            return "list"
+            items = schema.items
+            if items and isinstance(items, Schema) and items.type:
+                item_type = _get_simple_type(items.type)
+                return f"list[{item_type}]"
+            log.warning(f"Unknown array items type: {items}")
+            return "list[Any]"
         case DataType.NUMBER:
             return "float"
         case DataType.INTEGER:
@@ -840,9 +899,28 @@ def get_python_type(data_type: DataType) -> str:
         case DataType.BOOLEAN:
             return "bool"
         case DataType.OBJECT:
-            return "dict"
+            return "dict[str, Any]"
         case DataType.STRING:
             return "str"
+        case _:
+            assert_never(data_type)
+
+
+def _get_simple_type(data_type: DataType) -> str:
+    """Get Python type string for a simple data type."""
+    match data_type:
+        case DataType.STRING:
+            return "str"
+        case DataType.INTEGER:
+            return "int"
+        case DataType.NUMBER:
+            return "float"
+        case DataType.BOOLEAN:
+            return "bool"
+        case DataType.OBJECT:
+            return "dict"
+        case DataType.ARRAY:
+            return "list"
         case _:
             assert_never(data_type)
 

@@ -12,9 +12,19 @@ from typing import TYPE_CHECKING, Literal
 
 from meraki_client.schemas import (
     CampusGatewayItemsItem,
+    CreateNetworkCampusGatewayClusterDevicesItem,
+    CreateNetworkCampusGatewayClusterNameservers,
+    CreateNetworkCampusGatewayClusterPortChannelsItem,
     CreateNetworkCampusGatewayClusterResponse,
+    CreateNetworkCampusGatewayClusterTunnelsItem,
+    CreateNetworkCampusGatewayClusterUplinksItem,
     GetOrganizationCampusGatewayClustersResponseItemsItem,
+    UpdateNetworkCampusGatewayClusterDevicesItem,
+    UpdateNetworkCampusGatewayClusterNameservers,
+    UpdateNetworkCampusGatewayClusterPortChannelsItem,
     UpdateNetworkCampusGatewayClusterResponse,
+    UpdateNetworkCampusGatewayClusterTunnelsItem,
+    UpdateNetworkCampusGatewayClusterUplinksItem,
 )
 
 if TYPE_CHECKING:
@@ -32,11 +42,11 @@ class CampusGateway:
         *,
         network_id: str,
         name: str,
-        uplinks: list,
-        tunnels: list,
-        nameservers: dict,
-        port_channels: list,
-        devices: list | None = None,
+        uplinks: list[CreateNetworkCampusGatewayClusterUplinksItem],
+        tunnels: list[CreateNetworkCampusGatewayClusterTunnelsItem],
+        nameservers: CreateNetworkCampusGatewayClusterNameservers,
+        port_channels: list[CreateNetworkCampusGatewayClusterPortChannelsItem],
+        devices: list[CreateNetworkCampusGatewayClusterDevicesItem] | None = None,
         notes: str | None = None,
     ) -> CreateNetworkCampusGatewayClusterResponse | None:
         """Create a cluster and add campus gateways to it.
@@ -62,15 +72,23 @@ class CampusGateway:
         if name is not None:
             payload["name"] = name
         if uplinks is not None:
-            payload["uplinks"] = uplinks
+            payload["uplinks"] = [
+                item.model_dump(by_alias=True, exclude_none=True) for item in uplinks
+            ]
         if tunnels is not None:
-            payload["tunnels"] = tunnels
+            payload["tunnels"] = [
+                item.model_dump(by_alias=True, exclude_none=True) for item in tunnels
+            ]
         if nameservers is not None:
-            payload["nameservers"] = nameservers
+            payload["nameservers"] = nameservers.model_dump(by_alias=True, exclude_none=True)
         if port_channels is not None:
-            payload["portChannels"] = port_channels
+            payload["portChannels"] = [
+                item.model_dump(by_alias=True, exclude_none=True) for item in port_channels
+            ]
         if devices is not None:
-            payload["devices"] = devices
+            payload["devices"] = [
+                item.model_dump(by_alias=True, exclude_none=True) for item in devices
+            ]
         if notes is not None:
             payload["notes"] = notes
 
@@ -88,11 +106,11 @@ class CampusGateway:
         network_id: str,
         cluster_id: str,
         name: str | None = None,
-        uplinks: list | None = None,
-        tunnels: list | None = None,
-        nameservers: dict | None = None,
-        port_channels: list | None = None,
-        devices: list | None = None,
+        uplinks: list[UpdateNetworkCampusGatewayClusterUplinksItem] | None = None,
+        tunnels: list[UpdateNetworkCampusGatewayClusterTunnelsItem] | None = None,
+        nameservers: UpdateNetworkCampusGatewayClusterNameservers | None = None,
+        port_channels: list[UpdateNetworkCampusGatewayClusterPortChannelsItem] | None = None,
+        devices: list[UpdateNetworkCampusGatewayClusterDevicesItem] | None = None,
         notes: str | None = None,
     ) -> UpdateNetworkCampusGatewayClusterResponse | None:
         """Update a cluster and add/remove campus gateways to/from it.
@@ -120,15 +138,23 @@ class CampusGateway:
         if name is not None:
             payload["name"] = name
         if uplinks is not None:
-            payload["uplinks"] = uplinks
+            payload["uplinks"] = [
+                item.model_dump(by_alias=True, exclude_none=True) for item in uplinks
+            ]
         if tunnels is not None:
-            payload["tunnels"] = tunnels
+            payload["tunnels"] = [
+                item.model_dump(by_alias=True, exclude_none=True) for item in tunnels
+            ]
         if nameservers is not None:
-            payload["nameservers"] = nameservers
+            payload["nameservers"] = nameservers.model_dump(by_alias=True, exclude_none=True)
         if port_channels is not None:
-            payload["portChannels"] = port_channels
+            payload["portChannels"] = [
+                item.model_dump(by_alias=True, exclude_none=True) for item in port_channels
+            ]
         if devices is not None:
-            payload["devices"] = devices
+            payload["devices"] = [
+                item.model_dump(by_alias=True, exclude_none=True) for item in devices
+            ]
         if notes is not None:
             payload["notes"] = notes
 
@@ -144,7 +170,7 @@ class CampusGateway:
         self,
         *,
         organization_id: str,
-        network_ids: list | None = None,
+        network_ids: list[str] | None = None,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
@@ -200,7 +226,7 @@ class CampusGateway:
         self,
         *,
         organization_id: str,
-        serials: list | None = None,
+        serials: list[str] | None = None,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,

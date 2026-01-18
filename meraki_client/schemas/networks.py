@@ -13,6 +13,14 @@ from pydantic import Field, RootModel
 from meraki_client.schemas._base import _BaseSchema
 
 
+class BatchNetworkFloorPlansAutoLocateJobsJobsItem(_BaseSchema):
+    """Item schema for jobs."""
+
+    floor_plan_id: str = Field(alias="floorPlanId")
+    refresh: list[str] | None = None
+    scheduled_at: str | None = Field(default=None, alias="scheduledAt")
+
+
 class BatchNetworkFloorPlansAutoLocateJobsResponse(_BaseSchema):
     """Response for batchNetworkFloorPlansAutoLocateJobs operation."""
 
@@ -31,6 +39,13 @@ class BatchNetworkFloorPlansAutoLocateJobsResponseJobsItem(_BaseSchema):
     ranging: NetworksJobsRanging | None = None
     gnss: NetworksJobsRanging | None = None
     errors: list[NetworksJobsErrorsItem] | None = None
+
+
+class BatchNetworkFloorPlansDevicesUpdateAssignmentsItem(_BaseSchema):
+    """Item schema for assignments."""
+
+    serial: str
+    floor_plan: UpdateNetworkFirmwareUpgradesStagedEventsStagesItemGroup = Field(alias="floorPlan")
 
 
 class BatchNetworkFloorPlansDevicesUpdateResponse(_BaseSchema):
@@ -55,6 +70,20 @@ class BindNetworkResponse(_BaseSchema):
     config_template_id: str | None = Field(default=None, alias="configTemplateId")
 
 
+class ClaimNetworkDevicesDetailsByDeviceItem(_BaseSchema):
+    """Item schema for detailsByDevice."""
+
+    serial: str
+    details: list[ClaimNetworkDevicesDetailsByDeviceItemDetailsItem]
+
+
+class ClaimNetworkDevicesDetailsByDeviceItemDetailsItem(_BaseSchema):
+    """Schema for ClaimNetworkDevicesDetailsByDeviceItemDetailsItem."""
+
+    name: str
+    value: str | None = None
+
+
 class ClaimNetworkDevicesResponse(_BaseSchema):
     """Response for claimNetworkDevices operation."""
 
@@ -67,6 +96,13 @@ class ClaimNetworkDevicesResponseErrorsItem(_BaseSchema):
 
     serial: str
     errors: list[str]
+
+
+class CreateNetworkFirmwareUpgradesRollbackReasonsItem(_BaseSchema):
+    """Item schema for reasons."""
+
+    category: str
+    comment: str
 
 
 class CreateNetworkFirmwareUpgradesRollbackResponse(_BaseSchema):
@@ -87,12 +123,63 @@ class CreateNetworkFirmwareUpgradesRollbackResponseReasonsItem(_BaseSchema):
     comment: str | None = None
 
 
+class CreateNetworkFirmwareUpgradesRollbackToVersion(_BaseSchema):
+    """Version to downgrade to (if the network has firmware flexibility)."""
+
+    id_: str | None = Field(default=None, alias="id")
+
+
+class CreateNetworkFirmwareUpgradesStagedEventProducts(_BaseSchema):
+    """Contains firmware upgrade version information."""
+
+    switch: CreateNetworkFirmwareUpgradesStagedEventProductsSwitch | None = None
+    switch_catalyst: CreateNetworkFirmwareUpgradesStagedEventProductsSwitch | None = Field(
+        default=None, alias="switchCatalyst"
+    )
+
+
+class CreateNetworkFirmwareUpgradesStagedEventProductsSwitch(_BaseSchema):
+    """Version information for the switch network being upgraded."""
+
+    next_upgrade: NetworksNextUpgrade4 | None = Field(default=None, alias="nextUpgrade")
+
+
 class CreateNetworkFirmwareUpgradesStagedEventResponse(_BaseSchema):
     """Response for createNetworkFirmwareUpgradesStagedEvent operation."""
 
     products: GetNetworkFirmwareUpgradesStagedEventsResponseProducts | None = None
     stages: list[GetNetworkFirmwareUpgradesStagedEventsResponseStagesItem] | None = None
     reasons: list[CreateNetworkFirmwareUpgradesRollbackResponseReasonsItem] | None = None
+
+
+class CreateNetworkFirmwareUpgradesStagedEventStagesItem(_BaseSchema):
+    """Item schema for stages."""
+
+    group: UpdateNetworkFirmwareUpgradesStagedEventsStagesItemGroup | None = None
+    milestones: UpdateNetworkFirmwareUpgradesStagedEventsStagesItemMilestones | None = None
+
+
+class CreateNetworkFirmwareUpgradesStagedGroupAssignedDevices(_BaseSchema):
+    """The devices and Switch Stacks assigned to the Group."""
+
+    devices: list[CreateNetworkFirmwareUpgradesStagedGroupAssignedDevicesDevicesItem] | None = None
+    switch_stacks: (
+        list[CreateNetworkFirmwareUpgradesStagedGroupAssignedDevicesSwitchStacksItem] | None
+    ) = Field(default=None, alias="switchStacks")
+
+
+class CreateNetworkFirmwareUpgradesStagedGroupAssignedDevicesDevicesItem(_BaseSchema):
+    """Schema for CreateNetworkFirmwareUpgradesStagedGroupAssignedDevicesDevicesItem."""
+
+    serial: str
+    name: str | None = None
+
+
+class CreateNetworkFirmwareUpgradesStagedGroupAssignedDevicesSwitchStacksItem(_BaseSchema):
+    """Schema for CreateNetworkFirmwareUpgradesStagedGroupAssignedDevicesSwitchStacksItem."""
+
+    id_: str = Field(alias="id")
+    name: str | None = None
 
 
 class CreateNetworkFirmwareUpgradesStagedGroupResponse(_BaseSchema):
@@ -103,6 +190,35 @@ class CreateNetworkFirmwareUpgradesStagedGroupResponse(_BaseSchema):
     description: str | None = None
     is_default: bool | None = Field(default=None, alias="isDefault")
     assigned_devices: NetworksAssignedDevices | None = Field(default=None, alias="assignedDevices")
+
+
+class CreateNetworkFloorPlanBottomLeftCorner(_BaseSchema):
+    """The longitude and latitude of the bottom left corner of your floor plan."""
+
+    lat: float | None = None
+    lng: float | None = None
+
+
+class CreateNetworkFloorPlanBottomRightCorner(_BaseSchema):
+    """The longitude and latitude of the bottom right corner of your floor plan."""
+
+    lat: float | None = None
+    lng: float | None = None
+
+
+class CreateNetworkFloorPlanCenter(_BaseSchema):
+    """The longitude and latitude of the center of your floor plan. The 'center' or two adjacent
+    corners (e.g. 'topLeftCorner' and 'bottomLeftCorner') must be specified. If 'center' is
+    specified, the floor plan is placed over that point with no rotation. If two adjacent
+    corners are specified, the floor plan is rotated to line up with the two specified points.
+    The aspect ratio of the floor plan's image is preserved regardless of which corners/center
+    are specified. (This means if that more than two corners are specified, only two corners may
+    be used to preserve the floor plan's aspect ratio.). No two points can have the same
+    latitude, longitude pair.
+    """
+
+    lat: float | None = None
+    lng: float | None = None
 
 
 class CreateNetworkFloorPlanResponse(_BaseSchema):
@@ -125,6 +241,65 @@ class CreateNetworkFloorPlanResponse(_BaseSchema):
     floor_number: float | None = Field(default=None, alias="floorNumber")
 
 
+class CreateNetworkFloorPlanTopLeftCorner(_BaseSchema):
+    """The longitude and latitude of the top left corner of your floor plan."""
+
+    lat: float | None = None
+    lng: float | None = None
+
+
+class CreateNetworkFloorPlanTopRightCorner(_BaseSchema):
+    """The longitude and latitude of the top right corner of your floor plan."""
+
+    lat: float | None = None
+    lng: float | None = None
+
+
+class CreateNetworkGroupPolicyBandwidth(_BaseSchema):
+    """The bandwidth settings for clients bound to your group policy."""
+
+    settings: str | None = None
+    bandwidth_limits: NetworksBandwidthLimits | None = Field(default=None, alias="bandwidthLimits")
+
+
+class CreateNetworkGroupPolicyBonjourForwarding(_BaseSchema):
+    """The Bonjour settings for your group policy. Only valid if your network has a wireless
+    configuration.
+    """
+
+    settings: str | None = None
+    rules: list[NetworksRulesItem] | None = None
+
+
+class CreateNetworkGroupPolicyContentFiltering(_BaseSchema):
+    """The content filtering settings for your group policy."""
+
+    allowed_url_patterns: NetworksAllowedUrlPatterns | None = Field(
+        default=None, alias="allowedUrlPatterns"
+    )
+    blocked_url_patterns: NetworksAllowedUrlPatterns | None = Field(
+        default=None, alias="blockedUrlPatterns"
+    )
+    blocked_url_categories: NetworksBlockedUrlCategories | None = Field(
+        default=None, alias="blockedUrlCategories"
+    )
+
+
+class CreateNetworkGroupPolicyFirewallAndTrafficShaping(_BaseSchema):
+    """The firewall and traffic shaping rules and settings for your policy."""
+
+    settings: str | None = None
+    traffic_shaping_rules: list[NetworksTrafficShapingRulesItem] | None = Field(
+        default=None, alias="trafficShapingRules"
+    )
+    l3_firewall_rules: list[NetworksL3FirewallRulesItem] | None = Field(
+        default=None, alias="l3FirewallRules"
+    )
+    l7_firewall_rules: list[NetworksL7FirewallRulesItem] | None = Field(
+        default=None, alias="l7FirewallRules"
+    )
+
+
 class CreateNetworkGroupPolicyResponse(_BaseSchema):
     """Response for createNetworkGroupPolicy operation."""
 
@@ -144,6 +319,35 @@ class CreateNetworkGroupPolicyResponse(_BaseSchema):
     )
 
 
+class CreateNetworkGroupPolicyScheduling(_BaseSchema):
+    """The schedule for the group policy. Schedules are applied to days of the week."""
+
+    enabled: bool | None = None
+    monday: NetworksMonday | None = None
+    tuesday: NetworksMonday | None = None
+    wednesday: NetworksMonday | None = None
+    thursday: NetworksMonday | None = None
+    friday: NetworksMonday | None = None
+    saturday: NetworksMonday | None = None
+    sunday: NetworksMonday | None = None
+
+
+class CreateNetworkGroupPolicyVlanTagging(_BaseSchema):
+    """The VLAN tagging settings for your group policy. Only available if your network has a
+    wireless configuration.
+    """
+
+    settings: str | None = None
+    vlan_id: str | None = Field(default=None, alias="vlanId")
+
+
+class CreateNetworkMerakiAuthUserAuthorizationsItem(_BaseSchema):
+    """Item schema for authorizations."""
+
+    ssid_number: int | None = Field(default=None, alias="ssidNumber")
+    expires_at: str | None = Field(default=None, alias="expiresAt")
+
+
 class CreateNetworkMerakiAuthUserResponse(_BaseSchema):
     """Response for createNetworkMerakiAuthUser operation."""
 
@@ -156,6 +360,13 @@ class CreateNetworkMerakiAuthUserResponse(_BaseSchema):
     authorizations: list[NetworksAuthorizationsItem] | None = None
 
 
+class CreateNetworkMqttBrokerAuthentication(_BaseSchema):
+    """Authentication settings of the MQTT broker."""
+
+    username: str | None = None
+    password: str | None = None
+
+
 class CreateNetworkMqttBrokerResponse(_BaseSchema):
     """Response for createNetworkMqttBroker operation."""
 
@@ -165,6 +376,20 @@ class CreateNetworkMqttBrokerResponse(_BaseSchema):
     port: int | None = None
     security: NetworksSecurity | None = None
     authentication: NetworksAuthentication | None = None
+
+
+class CreateNetworkMqttBrokerSecurity(_BaseSchema):
+    """Security settings of the MQTT broker."""
+
+    mode: str | None = None
+    tls: CreateNetworkMqttBrokerSecurityTls | None = None
+
+
+class CreateNetworkMqttBrokerSecurityTls(_BaseSchema):
+    """TLS settings of the MQTT broker."""
+
+    ca_certificate: str | None = Field(default=None, alias="caCertificate")
+    verify_hostnames: bool | None = Field(default=None, alias="verifyHostnames")
 
 
 class CreateNetworkPiiRequestResponse(_BaseSchema):
@@ -191,6 +416,30 @@ class CreateNetworkVlanProfileResponse(_BaseSchema):
     vlan_groups: list[NetworksVlanGroupsItem] | None = Field(default=None, alias="vlanGroups")
 
 
+class CreateNetworkVlanProfileVlanGroupsItem(_BaseSchema):
+    """Item schema for vlanGroups."""
+
+    name: str
+    vlan_ids: str = Field(alias="vlanIds")
+
+
+class CreateNetworkVlanProfileVlanNamesItem(_BaseSchema):
+    """Item schema for vlanNames."""
+
+    name: str
+    vlan_id: str = Field(alias="vlanId")
+    adaptive_policy_group: NetworksToVersion | None = Field(
+        default=None, alias="adaptivePolicyGroup"
+    )
+
+
+class CreateNetworkWebhooksHttpServerPayloadTemplate(_BaseSchema):
+    """The payload template to use when posting data to the HTTP server."""
+
+    payload_template_id: str | None = Field(default=None, alias="payloadTemplateId")
+    name: str | None = None
+
+
 class CreateNetworkWebhooksHttpServerResponse(_BaseSchema):
     """Response for createNetworkWebhooksHttpServer operation."""
 
@@ -199,6 +448,13 @@ class CreateNetworkWebhooksHttpServerResponse(_BaseSchema):
     url: str | None = None
     network_id: str | None = Field(default=None, alias="networkId")
     payload_template: NetworksPayloadTemplate | None = Field(default=None, alias="payloadTemplate")
+
+
+class CreateNetworkWebhooksPayloadTemplateHeadersItem(_BaseSchema):
+    """Item schema for headers."""
+
+    name: str | None = None
+    template: str | None = None
 
 
 class CreateNetworkWebhooksPayloadTemplateResponse(_BaseSchema):
@@ -226,6 +482,26 @@ class DeferNetworkFirmwareUpgradesStagedEventsResponse(_BaseSchema):
     products: GetNetworkFirmwareUpgradesStagedEventsResponseProducts | None = None
     stages: list[GetNetworkFirmwareUpgradesStagedEventsResponseStagesItem] | None = None
     reasons: list[CreateNetworkFirmwareUpgradesRollbackResponseReasonsItem] | None = None
+
+
+class DeleteNetworkFloorPlanResponse(_BaseSchema):
+    """Response for deleteNetworkFloorPlan operation."""
+
+    floor_plan_id: str | None = Field(default=None, alias="floorPlanId")
+    image_url: str | None = Field(default=None, alias="imageUrl")
+    image_url_expires_at: str | None = Field(default=None, alias="imageUrlExpiresAt")
+    image_extension: str | None = Field(default=None, alias="imageExtension")
+    image_md5: str | None = Field(default=None, alias="imageMd5")
+    name: str | None = None
+    devices: list[NetworksDevicesItem2] | None = None
+    width: float | None = None
+    height: float | None = None
+    center: NetworksCenter | None = None
+    bottom_left_corner: NetworksCenter | None = Field(default=None, alias="bottomLeftCorner")
+    bottom_right_corner: NetworksCenter | None = Field(default=None, alias="bottomRightCorner")
+    top_left_corner: NetworksCenter | None = Field(default=None, alias="topLeftCorner")
+    top_right_corner: NetworksCenter | None = Field(default=None, alias="topRightCorner")
+    floor_number: float | None = Field(default=None, alias="floorNumber")
 
 
 class GetNetworkAlertsHistoryResponse(RootModel[list["GetNetworkAlertsHistoryResponseItem"]]):
@@ -1098,7 +1374,7 @@ class GetNetworkVlanProfilesAssignmentsByDeviceResponseItem(_BaseSchema):
     mac: str | None = None
     product_type: str | None = Field(default=None, alias="productType")
     vlan_profile: NetworksVlanProfile | None = Field(default=None, alias="vlanProfile")
-    stack: NetworksStack | None = None
+    stack: NetworksToVersion | None = None
 
 
 class GetNetworkVlanProfilesResponse(RootModel[list["GetNetworkVlanProfilesResponseItem"]]):
@@ -1613,9 +1889,24 @@ class NetworksNextUpgrade(_BaseSchema):
 
 
 class NetworksNextUpgrade2(_BaseSchema):
+    """The pending firmware upgrade if it exists."""
+
+    time: str | None = None
+    to_version: NetworksToVersion | None = Field(default=None, alias="toVersion")
+
+
+class NetworksNextUpgrade3(_BaseSchema):
     """Details of the next firmware upgrade."""
 
-    to_version: NetworksToVersion | None = Field(default=None, alias="toVersion")
+    to_version: NetworksToVersion2 | None = Field(default=None, alias="toVersion")
+
+
+class NetworksNextUpgrade4(_BaseSchema):
+    """The next upgrade version for the switch network."""
+
+    to_version: UpdateNetworkFirmwareUpgradesStagedEventsStagesItemGroup | None = Field(
+        default=None, alias="toVersion"
+    )
 
 
 class NetworksNode(_BaseSchema):
@@ -1678,7 +1969,7 @@ class NetworksPerClientBandwidthLimits(_BaseSchema):
 class NetworksProductsSwitch(_BaseSchema):
     """The Switch network to be updated."""
 
-    next_upgrade: NetworksNextUpgrade2 | None = Field(default=None, alias="nextUpgrade")
+    next_upgrade: NetworksNextUpgrade3 | None = Field(default=None, alias="nextUpgrade")
 
 
 class NetworksProductsWireless(_BaseSchema):
@@ -1744,12 +2035,6 @@ class NetworksSsidItem(_BaseSchema):
     ssid_number: int | None = Field(default=None, alias="ssidNumber")
 
 
-class NetworksStack(_BaseSchema):
-    """The Switch Stack the device belongs to."""
-
-    id_: str | None = Field(default=None, alias="id")
-
-
 class NetworksStagesGroup(_BaseSchema):
     """The staged upgrade group."""
 
@@ -1782,6 +2067,12 @@ class NetworksTls(_BaseSchema):
 
 
 class NetworksToVersion(_BaseSchema):
+    """The version to be updated to."""
+
+    id_: str | None = Field(default=None, alias="id")
+
+
+class NetworksToVersion2(_BaseSchema):
     """Details of the version the device will upgrade to."""
 
     id_: str | None = Field(default=None, alias="id")
@@ -1865,6 +2156,51 @@ class NetworksWifi0Item(_BaseSchema):
     utilization_non80211: float | None = Field(default=None, alias="utilizationNon80211")
 
 
+class ProvisionNetworkClientsClientsItem(_BaseSchema):
+    """Item schema for clients."""
+
+    mac: str
+    name: str | None = None
+
+
+class ProvisionNetworkClientsPoliciesBySecurityAppliance(_BaseSchema):
+    """An object, describing what the policy-connection association is for the security appliance.
+    (Only relevant if the security appliance is actually within the network).
+    """
+
+    device_policy: str | None = Field(default=None, alias="devicePolicy")
+
+
+class ProvisionNetworkClientsPoliciesBySsid(_BaseSchema):
+    """An object, describing the policy-connection associations for each active SSID within the
+    network. Keys should be the number of enabled SSIDs, mapping to an object describing the
+    client's policy.
+    """
+
+    n_0: ProvisionNetworkClientsPoliciesBySsid0 | None = Field(default=None, alias="0")
+    n_1: ProvisionNetworkClientsPoliciesBySsid0 | None = Field(default=None, alias="1")
+    n_2: ProvisionNetworkClientsPoliciesBySsid0 | None = Field(default=None, alias="2")
+    n_3: ProvisionNetworkClientsPoliciesBySsid0 | None = Field(default=None, alias="3")
+    n_4: ProvisionNetworkClientsPoliciesBySsid0 | None = Field(default=None, alias="4")
+    n_5: ProvisionNetworkClientsPoliciesBySsid0 | None = Field(default=None, alias="5")
+    n_6: ProvisionNetworkClientsPoliciesBySsid0 | None = Field(default=None, alias="6")
+    n_7: ProvisionNetworkClientsPoliciesBySsid0 | None = Field(default=None, alias="7")
+    n_8: ProvisionNetworkClientsPoliciesBySsid0 | None = Field(default=None, alias="8")
+    n_9: ProvisionNetworkClientsPoliciesBySsid0 | None = Field(default=None, alias="9")
+    n_10: ProvisionNetworkClientsPoliciesBySsid0 | None = Field(default=None, alias="10")
+    n_11: ProvisionNetworkClientsPoliciesBySsid0 | None = Field(default=None, alias="11")
+    n_12: ProvisionNetworkClientsPoliciesBySsid0 | None = Field(default=None, alias="12")
+    n_13: ProvisionNetworkClientsPoliciesBySsid0 | None = Field(default=None, alias="13")
+    n_14: ProvisionNetworkClientsPoliciesBySsid0 | None = Field(default=None, alias="14")
+
+
+class ProvisionNetworkClientsPoliciesBySsid0(_BaseSchema):
+    """The number for the SSID."""
+
+    device_policy: str = Field(alias="devicePolicy")
+    group_policy_id: str | None = Field(default=None, alias="groupPolicyId")
+
+
 class ProvisionNetworkClientsResponse(_BaseSchema):
     """Response for provisionNetworkClients operation."""
 
@@ -1880,6 +2216,23 @@ class ProvisionNetworkClientsResponseClientsItem(_BaseSchema):
     client_id: str | None = Field(default=None, alias="clientId")
     name: str | None = None
     message: str | None = None
+
+
+class PublishNetworkFloorPlansAutoLocateJobDevicesItem(_BaseSchema):
+    """Item schema for devices."""
+
+    serial: str
+    lat: float
+    lng: float
+    auto_locate: PublishNetworkFloorPlansAutoLocateJobDevicesItemAutoLocate | None = Field(
+        default=None, alias="autoLocate"
+    )
+
+
+class PublishNetworkFloorPlansAutoLocateJobDevicesItemAutoLocate(_BaseSchema):
+    """The auto locate position for this device."""
+
+    is_anchor: bool | None = Field(default=None, alias="isAnchor")
 
 
 class PublishNetworkFloorPlansAutoLocateJobResponse(_BaseSchema):
@@ -1905,10 +2258,40 @@ class ReassignNetworkVlanProfilesAssignmentsResponseVlanProfile(_BaseSchema):
     name: str | None = None
 
 
+class ReassignNetworkVlanProfilesAssignmentsVlanProfile(_BaseSchema):
+    """The VLAN Profile."""
+
+    iname: str | None = None
+
+
+class RecalculateNetworkFloorPlansAutoLocateJobDevicesItem(_BaseSchema):
+    """Item schema for devices."""
+
+    serial: str
+    auto_locate: RecalculateNetworkFloorPlansAutoLocateJobDevicesItemAutoLocate = Field(
+        alias="autoLocate"
+    )
+
+
+class RecalculateNetworkFloorPlansAutoLocateJobDevicesItemAutoLocate(_BaseSchema):
+    """The auto locate position for this device."""
+
+    is_anchor: bool = Field(alias="isAnchor")
+    lat: float | None = None
+    lng: float | None = None
+
+
 class RecalculateNetworkFloorPlansAutoLocateJobResponse(_BaseSchema):
     """Response for recalculateNetworkFloorPlansAutoLocateJob operation."""
 
     success: bool | None = None
+
+
+class RollbacksNetworkFirmwareUpgradesStagedEventsReasonsItem(_BaseSchema):
+    """Item schema for reasons."""
+
+    category: str
+    comment: str
 
 
 class RollbacksNetworkFirmwareUpgradesStagedEventsResponse(_BaseSchema):
@@ -1917,6 +2300,13 @@ class RollbacksNetworkFirmwareUpgradesStagedEventsResponse(_BaseSchema):
     products: GetNetworkFirmwareUpgradesStagedEventsResponseProducts | None = None
     stages: list[GetNetworkFirmwareUpgradesStagedEventsResponseStagesItem] | None = None
     reasons: list[CreateNetworkFirmwareUpgradesRollbackResponseReasonsItem] | None = None
+
+
+class RollbacksNetworkFirmwareUpgradesStagedEventsStagesItem(_BaseSchema):
+    """Item schema for stages."""
+
+    group: UpdateNetworkFirmwareUpgradesStagedEventsStagesItemGroup | None = None
+    milestones: UpdateNetworkFirmwareUpgradesStagedEventsStagesItemMilestones | None = None
 
 
 class SplitNetworkResponse(_BaseSchema):
@@ -1957,6 +2347,34 @@ class UnbindNetworkResponse(_BaseSchema):
     is_bound_to_config_template: bool | None = Field(default=None, alias="isBoundToConfigTemplate")
 
 
+class UpdateNetworkAlertsSettingsAlertsItem(_BaseSchema):
+    """Item schema for alerts."""
+
+    type_: str = Field(alias="type")
+    enabled: bool | None = None
+    alert_destinations: NetworksAlertsAlertDestinations | None = Field(
+        default=None, alias="alertDestinations"
+    )
+    filters: NetworksAlertsFilters | None = None
+
+
+class UpdateNetworkAlertsSettingsDefaultDestinations(_BaseSchema):
+    """The network-wide destinations for all alerts on the network."""
+
+    emails: list[str] | None = None
+    all_admins: bool | None = Field(default=None, alias="allAdmins")
+    snmp: bool | None = None
+    http_server_ids: list[str] | None = Field(default=None, alias="httpServerIds")
+
+
+class UpdateNetworkAlertsSettingsMuting(_BaseSchema):
+    """Mute alerts under certain conditions."""
+
+    by_port_schedules: NetworksMutingByPortSchedules | None = Field(
+        default=None, alias="byPortSchedules"
+    )
+
+
 class UpdateNetworkAlertsSettingsResponse(_BaseSchema):
     """Response for updateNetworkAlertsSettings operation."""
 
@@ -1978,6 +2396,76 @@ class UpdateNetworkClientPolicyResponse(_BaseSchema):
     )
 
 
+class UpdateNetworkClientSplashAuthorizationStatusSsids(_BaseSchema):
+    """The target SSIDs. Each SSID must be enabled and must have Click-through splash enabled. For
+    each SSID where isAuthorized is true, the expiration time will automatically be set
+    according to the SSID's splash frequency. Not all networks support configuring all SSIDs.
+    """
+
+    n_0: UpdateNetworkClientSplashAuthorizationStatusSsids0 | None = Field(default=None, alias="0")
+    n_1: UpdateNetworkClientSplashAuthorizationStatusSsids0 | None = Field(default=None, alias="1")
+    n_2: UpdateNetworkClientSplashAuthorizationStatusSsids0 | None = Field(default=None, alias="2")
+    n_3: UpdateNetworkClientSplashAuthorizationStatusSsids0 | None = Field(default=None, alias="3")
+    n_4: UpdateNetworkClientSplashAuthorizationStatusSsids0 | None = Field(default=None, alias="4")
+    n_5: UpdateNetworkClientSplashAuthorizationStatusSsids0 | None = Field(default=None, alias="5")
+    n_6: UpdateNetworkClientSplashAuthorizationStatusSsids0 | None = Field(default=None, alias="6")
+    n_7: UpdateNetworkClientSplashAuthorizationStatusSsids0 | None = Field(default=None, alias="7")
+    n_8: UpdateNetworkClientSplashAuthorizationStatusSsids0 | None = Field(default=None, alias="8")
+    n_9: UpdateNetworkClientSplashAuthorizationStatusSsids0 | None = Field(default=None, alias="9")
+    n_10: UpdateNetworkClientSplashAuthorizationStatusSsids0 | None = Field(
+        default=None, alias="10"
+    )
+    n_11: UpdateNetworkClientSplashAuthorizationStatusSsids0 | None = Field(
+        default=None, alias="11"
+    )
+    n_12: UpdateNetworkClientSplashAuthorizationStatusSsids0 | None = Field(
+        default=None, alias="12"
+    )
+    n_13: UpdateNetworkClientSplashAuthorizationStatusSsids0 | None = Field(
+        default=None, alias="13"
+    )
+    n_14: UpdateNetworkClientSplashAuthorizationStatusSsids0 | None = Field(
+        default=None, alias="14"
+    )
+
+
+class UpdateNetworkClientSplashAuthorizationStatusSsids0(_BaseSchema):
+    """Splash authorization for SSID 0."""
+
+    is_authorized: bool | None = Field(default=None, alias="isAuthorized")
+
+
+class UpdateNetworkFirmwareUpgradesProducts(_BaseSchema):
+    """Contains information about the network to update."""
+
+    wireless: UpdateNetworkFirmwareUpgradesProductsWireless | None = None
+    appliance: UpdateNetworkFirmwareUpgradesProductsWireless | None = None
+    switch: UpdateNetworkFirmwareUpgradesProductsWireless | None = None
+    camera: UpdateNetworkFirmwareUpgradesProductsWireless | None = None
+    cellular_gateway: UpdateNetworkFirmwareUpgradesProductsWireless | None = Field(
+        default=None, alias="cellularGateway"
+    )
+    sensor: UpdateNetworkFirmwareUpgradesProductsWireless | None = None
+    wireless_controller: UpdateNetworkFirmwareUpgradesProductsWireless | None = Field(
+        default=None, alias="wirelessController"
+    )
+    secure_connect: UpdateNetworkFirmwareUpgradesProductsWireless | None = Field(
+        default=None, alias="secureConnect"
+    )
+    switch_catalyst: UpdateNetworkFirmwareUpgradesProductsWireless | None = Field(
+        default=None, alias="switchCatalyst"
+    )
+
+
+class UpdateNetworkFirmwareUpgradesProductsWireless(_BaseSchema):
+    """The network device to be updated."""
+
+    next_upgrade: NetworksNextUpgrade2 | None = Field(default=None, alias="nextUpgrade")
+    participate_in_next_beta_release: bool | None = Field(
+        default=None, alias="participateInNextBetaRelease"
+    )
+
+
 class UpdateNetworkFirmwareUpgradesResponse(_BaseSchema):
     """Response for updateNetworkFirmwareUpgrades operation."""
 
@@ -1996,6 +2484,34 @@ class UpdateNetworkFirmwareUpgradesStagedEventsResponse(_BaseSchema):
     reasons: list[CreateNetworkFirmwareUpgradesRollbackResponseReasonsItem] | None = None
 
 
+class UpdateNetworkFirmwareUpgradesStagedEventsStagesItem(_BaseSchema):
+    """Item schema for stages."""
+
+    group: UpdateNetworkFirmwareUpgradesStagedEventsStagesItemGroup | None = None
+    milestones: UpdateNetworkFirmwareUpgradesStagedEventsStagesItemMilestones | None = None
+
+
+class UpdateNetworkFirmwareUpgradesStagedEventsStagesItemGroup(_BaseSchema):
+    """The Staged Upgrade Group containing the name and ID."""
+
+    id_: str = Field(alias="id")
+
+
+class UpdateNetworkFirmwareUpgradesStagedEventsStagesItemMilestones(_BaseSchema):
+    """The Staged Upgrade Milestones for the specific stage."""
+
+    scheduled_for: str = Field(alias="scheduledFor")
+
+
+class UpdateNetworkFirmwareUpgradesStagedGroupAssignedDevices(_BaseSchema):
+    """The devices and Switch Stacks assigned to the Group."""
+
+    devices: list[CreateNetworkFirmwareUpgradesStagedGroupAssignedDevicesDevicesItem] | None = None
+    switch_stacks: (
+        list[CreateNetworkFirmwareUpgradesStagedGroupAssignedDevicesSwitchStacksItem] | None
+    ) = Field(default=None, alias="switchStacks")
+
+
 class UpdateNetworkFirmwareUpgradesStagedGroupResponse(_BaseSchema):
     """Response for updateNetworkFirmwareUpgradesStagedGroup operation."""
 
@@ -2004,6 +2520,12 @@ class UpdateNetworkFirmwareUpgradesStagedGroupResponse(_BaseSchema):
     description: str | None = None
     is_default: bool | None = Field(default=None, alias="isDefault")
     assigned_devices: NetworksAssignedDevices | None = Field(default=None, alias="assignedDevices")
+
+
+class UpdateNetworkFirmwareUpgradesStagedStagesJsonItem(_BaseSchema):
+    """Item schema for _json."""
+
+    group: UpdateNetworkFirmwareUpgradesStagedEventsStagesItemGroup | None = None
 
 
 class UpdateNetworkFirmwareUpgradesStagedStagesResponse(
@@ -2016,6 +2538,43 @@ class UpdateNetworkFirmwareUpgradesStagedStagesResponseItem(_BaseSchema):
     """Schema for UpdateNetworkFirmwareUpgradesStagedStagesResponseItem."""
 
     group: NetworksStagesGroup | None = None
+
+
+class UpdateNetworkFirmwareUpgradesUpgradeWindow(_BaseSchema):
+    """Upgrade window for devices in network."""
+
+    day_of_week: str | None = Field(default=None, alias="dayOfWeek")
+    hour_of_day: str | None = Field(default=None, alias="hourOfDay")
+
+
+class UpdateNetworkFloorPlanBottomLeftCorner(_BaseSchema):
+    """The longitude and latitude of the bottom left corner of your floor plan."""
+
+    lat: float | None = None
+    lng: float | None = None
+
+
+class UpdateNetworkFloorPlanBottomRightCorner(_BaseSchema):
+    """The longitude and latitude of the bottom right corner of your floor plan."""
+
+    lat: float | None = None
+    lng: float | None = None
+
+
+class UpdateNetworkFloorPlanCenter(_BaseSchema):
+    """The longitude and latitude of the center of your floor plan. If you want to change the
+    geolocation data of your floor plan, either the 'center' or two adjacent corners (e.g.
+    'topLeftCorner' and 'bottomLeftCorner') must be specified. If 'center' is specified, the
+    floor plan is placed over that point with no rotation. If two adjacent corners are
+    specified, the floor plan is rotated to line up with the two specified points. The aspect
+    ratio of the floor plan's image is preserved regardless of which corners/center are
+    specified. (This means if that more than two corners are specified, only two corners may be
+    used to preserve the floor plan's aspect ratio.). No two points can have the same latitude,
+    longitude pair.
+    """
+
+    lat: float | None = None
+    lng: float | None = None
 
 
 class UpdateNetworkFloorPlanResponse(_BaseSchema):
@@ -2038,6 +2597,65 @@ class UpdateNetworkFloorPlanResponse(_BaseSchema):
     floor_number: float | None = Field(default=None, alias="floorNumber")
 
 
+class UpdateNetworkFloorPlanTopLeftCorner(_BaseSchema):
+    """The longitude and latitude of the top left corner of your floor plan."""
+
+    lat: float | None = None
+    lng: float | None = None
+
+
+class UpdateNetworkFloorPlanTopRightCorner(_BaseSchema):
+    """The longitude and latitude of the top right corner of your floor plan."""
+
+    lat: float | None = None
+    lng: float | None = None
+
+
+class UpdateNetworkGroupPolicyBandwidth(_BaseSchema):
+    """The bandwidth settings for clients bound to your group policy."""
+
+    settings: str | None = None
+    bandwidth_limits: NetworksBandwidthLimits | None = Field(default=None, alias="bandwidthLimits")
+
+
+class UpdateNetworkGroupPolicyBonjourForwarding(_BaseSchema):
+    """The Bonjour settings for your group policy. Only valid if your network has a wireless
+    configuration.
+    """
+
+    settings: str | None = None
+    rules: list[NetworksRulesItem] | None = None
+
+
+class UpdateNetworkGroupPolicyContentFiltering(_BaseSchema):
+    """The content filtering settings for your group policy."""
+
+    allowed_url_patterns: NetworksAllowedUrlPatterns | None = Field(
+        default=None, alias="allowedUrlPatterns"
+    )
+    blocked_url_patterns: NetworksAllowedUrlPatterns | None = Field(
+        default=None, alias="blockedUrlPatterns"
+    )
+    blocked_url_categories: NetworksBlockedUrlCategories | None = Field(
+        default=None, alias="blockedUrlCategories"
+    )
+
+
+class UpdateNetworkGroupPolicyFirewallAndTrafficShaping(_BaseSchema):
+    """The firewall and traffic shaping rules and settings for your policy."""
+
+    settings: str | None = None
+    traffic_shaping_rules: list[NetworksTrafficShapingRulesItem] | None = Field(
+        default=None, alias="trafficShapingRules"
+    )
+    l3_firewall_rules: list[NetworksL3FirewallRulesItem] | None = Field(
+        default=None, alias="l3FirewallRules"
+    )
+    l7_firewall_rules: list[NetworksL7FirewallRulesItem] | None = Field(
+        default=None, alias="l7FirewallRules"
+    )
+
+
 class UpdateNetworkGroupPolicyResponse(_BaseSchema):
     """Response for updateNetworkGroupPolicy operation."""
 
@@ -2057,6 +2675,35 @@ class UpdateNetworkGroupPolicyResponse(_BaseSchema):
     )
 
 
+class UpdateNetworkGroupPolicyScheduling(_BaseSchema):
+    """The schedule for the group policy. Schedules are applied to days of the week."""
+
+    enabled: bool | None = None
+    monday: NetworksMonday | None = None
+    tuesday: NetworksMonday | None = None
+    wednesday: NetworksMonday | None = None
+    thursday: NetworksMonday | None = None
+    friday: NetworksMonday | None = None
+    saturday: NetworksMonday | None = None
+    sunday: NetworksMonday | None = None
+
+
+class UpdateNetworkGroupPolicyVlanTagging(_BaseSchema):
+    """The VLAN tagging settings for your group policy. Only available if your network has a
+    wireless configuration.
+    """
+
+    settings: str | None = None
+    vlan_id: str | None = Field(default=None, alias="vlanId")
+
+
+class UpdateNetworkMerakiAuthUserAuthorizationsItem(_BaseSchema):
+    """Item schema for authorizations."""
+
+    ssid_number: int = Field(alias="ssidNumber")
+    expires_at: str | None = Field(default=None, alias="expiresAt")
+
+
 class UpdateNetworkMerakiAuthUserResponse(_BaseSchema):
     """Response for updateNetworkMerakiAuthUser operation."""
 
@@ -2069,6 +2716,13 @@ class UpdateNetworkMerakiAuthUserResponse(_BaseSchema):
     authorizations: list[NetworksAuthorizationsItem] | None = None
 
 
+class UpdateNetworkMqttBrokerAuthentication(_BaseSchema):
+    """Authentication settings of the MQTT broker."""
+
+    username: str | None = None
+    password: str | None = None
+
+
 class UpdateNetworkMqttBrokerResponse(_BaseSchema):
     """Response for updateNetworkMqttBroker operation."""
 
@@ -2078,6 +2732,13 @@ class UpdateNetworkMqttBrokerResponse(_BaseSchema):
     port: int | None = None
     security: NetworksSecurity | None = None
     authentication: NetworksAuthentication | None = None
+
+
+class UpdateNetworkMqttBrokerSecurity(_BaseSchema):
+    """Security settings of the MQTT broker."""
+
+    mode: str | None = None
+    tls: CreateNetworkMqttBrokerSecurityTls | None = None
 
 
 class UpdateNetworkNetflowResponse(_BaseSchema):
@@ -2105,6 +2766,26 @@ class UpdateNetworkResponse(_BaseSchema):
     is_bound_to_config_template: bool | None = Field(default=None, alias="isBoundToConfigTemplate")
 
 
+class UpdateNetworkSettingsLocalStatusPage(_BaseSchema):
+    """A hash of Local Status page(s)' authentication options applied to the Network."""
+
+    authentication: UpdateNetworkSettingsLocalStatusPageAuthentication | None = None
+
+
+class UpdateNetworkSettingsLocalStatusPageAuthentication(_BaseSchema):
+    """A hash of Local Status page(s)' authentication options applied to the Network."""
+
+    enabled: bool | None = None
+    username: str | None = None
+    password: str | None = None
+
+
+class UpdateNetworkSettingsNamedVlans(_BaseSchema):
+    """A hash of Named VLANs options applied to the Network."""
+
+    enabled: bool | None = None
+
+
 class UpdateNetworkSettingsResponse(_BaseSchema):
     """Response for updateNetworkSettings operation."""
 
@@ -2120,6 +2801,12 @@ class UpdateNetworkSettingsResponse(_BaseSchema):
     )
 
 
+class UpdateNetworkSettingsSecurePort(_BaseSchema):
+    """A hash of SecureConnect options applied to the Network."""
+
+    enabled: bool | None = None
+
+
 class UpdateNetworkSnmpResponse(_BaseSchema):
     """Response for updateNetworkSnmp operation."""
 
@@ -2128,10 +2815,33 @@ class UpdateNetworkSnmpResponse(_BaseSchema):
     users: list[GetNetworkSnmpResponseUsersItem] | None = None
 
 
+class UpdateNetworkSnmpUsersItem(_BaseSchema):
+    """Item schema for users."""
+
+    username: str
+    passphrase: str
+
+
 class UpdateNetworkSyslogServersResponse(_BaseSchema):
     """Response for updateNetworkSyslogServers operation."""
 
     servers: list[GetNetworkSyslogServersResponseServersItem] | None = None
+
+
+class UpdateNetworkSyslogServersServersItem(_BaseSchema):
+    """Item schema for servers."""
+
+    host: str
+    port: int
+    roles: list[str]
+
+
+class UpdateNetworkTrafficAnalysisCustomPieChartItemsItem(_BaseSchema):
+    """Item schema for customPieChartItems."""
+
+    name: str
+    type_: str = Field(alias="type")
+    value: str
 
 
 class UpdateNetworkTrafficAnalysisResponse(_BaseSchema):
@@ -2153,6 +2863,29 @@ class UpdateNetworkVlanProfileResponse(_BaseSchema):
     vlan_groups: list[NetworksVlanGroupsItem] | None = Field(default=None, alias="vlanGroups")
 
 
+class UpdateNetworkVlanProfileVlanGroupsItem(_BaseSchema):
+    """Item schema for vlanGroups."""
+
+    name: str
+    vlan_ids: str = Field(alias="vlanIds")
+
+
+class UpdateNetworkVlanProfileVlanNamesItem(_BaseSchema):
+    """Item schema for vlanNames."""
+
+    name: str
+    vlan_id: str = Field(alias="vlanId")
+    adaptive_policy_group: NetworksToVersion | None = Field(
+        default=None, alias="adaptivePolicyGroup"
+    )
+
+
+class UpdateNetworkWebhooksHttpServerPayloadTemplate(_BaseSchema):
+    """The payload template to use when posting data to the HTTP server."""
+
+    payload_template_id: str | None = Field(default=None, alias="payloadTemplateId")
+
+
 class UpdateNetworkWebhooksHttpServerResponse(_BaseSchema):
     """Response for updateNetworkWebhooksHttpServer operation."""
 
@@ -2161,6 +2894,13 @@ class UpdateNetworkWebhooksHttpServerResponse(_BaseSchema):
     url: str | None = None
     network_id: str | None = Field(default=None, alias="networkId")
     payload_template: NetworksPayloadTemplate | None = Field(default=None, alias="payloadTemplate")
+
+
+class UpdateNetworkWebhooksPayloadTemplateHeadersItem(_BaseSchema):
+    """Item schema for headers."""
+
+    name: str | None = None
+    template: str | None = None
 
 
 class UpdateNetworkWebhooksPayloadTemplateResponse(_BaseSchema):

@@ -642,6 +642,13 @@ class UnenrollNetworkSmDeviceResponse(_BaseSchema):
     success: bool | None = None
 
 
+class UpdateNetworkSmDevicesFieldsDeviceFields(_BaseSchema):
+    """The new fields of the device. Each field of this object is optional."""
+
+    name: str | None = None
+    notes: str | None = None
+
+
 class UpdateNetworkSmDevicesFieldsResponse(
     RootModel[list["UpdateNetworkSmDevicesFieldsResponseItem"]]
 ):
@@ -674,6 +681,23 @@ class UpdateOrganizationSmAdminsRoleResponse(_BaseSchema):
     name: str | None = None
     scope: str | None = None
     tags: list[str] | None = None
+
+
+class UpdateOrganizationSmSentryPoliciesAssignmentsItemsItem(_BaseSchema):
+    """Item schema for items."""
+
+    network_id: str = Field(alias="networkId")
+    policies: list[UpdateOrganizationSmSentryPoliciesAssignmentsItemsItemPoliciesItem] | None = None
+
+
+class UpdateOrganizationSmSentryPoliciesAssignmentsItemsItemPoliciesItem(_BaseSchema):
+    """Schema for UpdateOrganizationSmSentryPoliciesAssignmentsItemsItemPoliciesItem."""
+
+    policy_id: str | None = Field(default=None, alias="policyId")
+    sm_network_id: str = Field(alias="smNetworkId")
+    scope: str
+    tags: list[str]
+    group_policy_id: str = Field(alias="groupPolicyId")
 
 
 class UpdateOrganizationSmSentryPoliciesAssignmentsResponse(_BaseSchema):

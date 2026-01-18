@@ -12,8 +12,15 @@ from typing import TYPE_CHECKING, Any, Literal
 
 from meraki_client.schemas import (
     CreateNetworkCameraQualityRetentionProfileResponse,
+    CreateNetworkCameraQualityRetentionProfileSmartRetention,
+    CreateNetworkCameraQualityRetentionProfileVideoSettings,
+    CreateNetworkCameraWirelessProfileIdentity,
     CreateNetworkCameraWirelessProfileResponse,
+    CreateNetworkCameraWirelessProfileSsid,
     CreateOrganizationCameraCustomAnalyticsArtifactResponse,
+    CreateOrganizationCameraRoleAppliedOnDevicesItem,
+    CreateOrganizationCameraRoleAppliedOnNetworksItem,
+    CreateOrganizationCameraRoleAppliedOrgWideItem,
     CreateOrganizationCameraRoleResponse,
     GenerateDeviceCameraSnapshotResponse,
     GetDeviceCameraAnalyticsLiveResponse,
@@ -39,10 +46,20 @@ from meraki_client.schemas import (
     GetOrganizationCameraPermissionsResponse,
     GetOrganizationCameraRoleResponse,
     GetOrganizationCameraRolesResponse,
+    UpdateDeviceCameraCustomAnalyticsParametersItem,
     UpdateDeviceCameraCustomAnalyticsResponse,
+    UpdateDeviceCameraSenseAudioDetection,
     UpdateDeviceCameraVideoSettingsResponse,
+    UpdateDeviceCameraWirelessProfilesIds,
     UpdateNetworkCameraQualityRetentionProfileResponse,
+    UpdateNetworkCameraQualityRetentionProfileSmartRetention,
+    UpdateNetworkCameraQualityRetentionProfileVideoSettings,
+    UpdateNetworkCameraWirelessProfileIdentity,
     UpdateNetworkCameraWirelessProfileResponse,
+    UpdateNetworkCameraWirelessProfileSsid,
+    UpdateOrganizationCameraRoleAppliedOnDevicesItem,
+    UpdateOrganizationCameraRoleAppliedOnNetworksItem,
+    UpdateOrganizationCameraRoleAppliedOrgWideItem,
     UpdateOrganizationCameraRoleResponse,
 )
 
@@ -271,7 +288,7 @@ class Camera:
         serial: str,
         enabled: bool | None = None,
         artifact_id: str | None = None,
-        parameters: list | None = None,
+        parameters: list[UpdateDeviceCameraCustomAnalyticsParametersItem] | None = None,
     ) -> UpdateDeviceCameraCustomAnalyticsResponse | None:
         """Update custom analytics settings for a camera.
 
@@ -293,7 +310,9 @@ class Camera:
         if artifact_id is not None:
             payload["artifactId"] = artifact_id
         if parameters is not None:
-            payload["parameters"] = parameters
+            payload["parameters"] = [
+                item.model_dump(by_alias=True, exclude_none=True) for item in parameters
+            ]
 
         return self._session.put(
             scope="camera",
@@ -460,7 +479,7 @@ class Camera:
         serial: str,
         sense_enabled: bool | None = None,
         mqtt_broker_id: str | None = None,
-        audio_detection: dict | None = None,
+        audio_detection: UpdateDeviceCameraSenseAudioDetection | None = None,
         detection_model_id: str | None = None,
     ) -> dict[str, Any] | None:
         """Update sense settings for the given camera.
@@ -486,7 +505,7 @@ class Camera:
         if mqtt_broker_id is not None:
             payload["mqttBrokerId"] = mqtt_broker_id
         if audio_detection is not None:
-            payload["audioDetection"] = audio_detection
+            payload["audioDetection"] = audio_detection.model_dump(by_alias=True, exclude_none=True)
         if detection_model_id is not None:
             payload["detectionModelId"] = detection_model_id
 
@@ -605,7 +624,7 @@ class Camera:
         )
 
     def update_device_camera_wireless_profiles(
-        self, *, serial: str, ids: dict
+        self, *, serial: str, ids: UpdateDeviceCameraWirelessProfilesIds
     ) -> dict[str, Any] | None:
         """Assign wireless profiles to the given camera.
 
@@ -621,7 +640,7 @@ class Camera:
 
         payload = {}
         if ids is not None:
-            payload["ids"] = ids
+            payload["ids"] = ids.model_dump(by_alias=True, exclude_none=True)
 
         return self._session.put(
             scope="camera",
@@ -661,10 +680,10 @@ class Camera:
         audio_recording_enabled: bool | None = None,
         cloud_archive_enabled: bool | None = None,
         motion_detector_version: int | None = None,
-        smart_retention: dict | None = None,
+        smart_retention: CreateNetworkCameraQualityRetentionProfileSmartRetention | None = None,
         schedule_id: str | None = None,
         max_retention_days: int | None = None,
-        video_settings: dict | None = None,
+        video_settings: CreateNetworkCameraQualityRetentionProfileVideoSettings | None = None,
     ) -> CreateNetworkCameraQualityRetentionProfileResponse | None:
         """Creates new quality retention profile for this network.
 
@@ -712,13 +731,13 @@ class Camera:
         if motion_detector_version is not None:
             payload["motionDetectorVersion"] = motion_detector_version
         if smart_retention is not None:
-            payload["smartRetention"] = smart_retention
+            payload["smartRetention"] = smart_retention.model_dump(by_alias=True, exclude_none=True)
         if schedule_id is not None:
             payload["scheduleId"] = schedule_id
         if max_retention_days is not None:
             payload["maxRetentionDays"] = max_retention_days
         if video_settings is not None:
-            payload["videoSettings"] = video_settings
+            payload["videoSettings"] = video_settings.model_dump(by_alias=True, exclude_none=True)
 
         return self._session.post(
             scope="camera",
@@ -766,10 +785,10 @@ class Camera:
         audio_recording_enabled: bool | None = None,
         cloud_archive_enabled: bool | None = None,
         motion_detector_version: int | None = None,
-        smart_retention: dict | None = None,
+        smart_retention: UpdateNetworkCameraQualityRetentionProfileSmartRetention | None = None,
         schedule_id: str | None = None,
         max_retention_days: int | None = None,
-        video_settings: dict | None = None,
+        video_settings: UpdateNetworkCameraQualityRetentionProfileVideoSettings | None = None,
     ) -> UpdateNetworkCameraQualityRetentionProfileResponse | None:
         """Update an existing quality retention profile for this network.
 
@@ -823,13 +842,13 @@ class Camera:
         if motion_detector_version is not None:
             payload["motionDetectorVersion"] = motion_detector_version
         if smart_retention is not None:
-            payload["smartRetention"] = smart_retention
+            payload["smartRetention"] = smart_retention.model_dump(by_alias=True, exclude_none=True)
         if schedule_id is not None:
             payload["scheduleId"] = schedule_id
         if max_retention_days is not None:
             payload["maxRetentionDays"] = max_retention_days
         if video_settings is not None:
-            payload["videoSettings"] = video_settings
+            payload["videoSettings"] = video_settings.model_dump(by_alias=True, exclude_none=True)
 
         return self._session.put(
             scope="camera",
@@ -906,7 +925,12 @@ class Camera:
         )
 
     def create_network_camera_wireless_profile(
-        self, *, network_id: str, name: str, ssid: dict, identity: dict | None = None
+        self,
+        *,
+        network_id: str,
+        name: str,
+        ssid: CreateNetworkCameraWirelessProfileSsid,
+        identity: CreateNetworkCameraWirelessProfileIdentity | None = None,
     ) -> CreateNetworkCameraWirelessProfileResponse | None:
         """Creates a new camera wireless profile for this network.
 
@@ -927,9 +951,9 @@ class Camera:
         if name is not None:
             payload["name"] = name
         if ssid is not None:
-            payload["ssid"] = ssid
+            payload["ssid"] = ssid.model_dump(by_alias=True, exclude_none=True)
         if identity is not None:
-            payload["identity"] = identity
+            payload["identity"] = identity.model_dump(by_alias=True, exclude_none=True)
 
         return self._session.post(
             scope="camera",
@@ -968,8 +992,8 @@ class Camera:
         network_id: str,
         wireless_profile_id: str,
         name: str | None = None,
-        ssid: dict | None = None,
-        identity: dict | None = None,
+        ssid: UpdateNetworkCameraWirelessProfileSsid | None = None,
+        identity: UpdateNetworkCameraWirelessProfileIdentity | None = None,
     ) -> UpdateNetworkCameraWirelessProfileResponse | None:
         """Update an existing camera wireless profile in this network.
 
@@ -992,9 +1016,9 @@ class Camera:
         if name is not None:
             payload["name"] = name
         if ssid is not None:
-            payload["ssid"] = ssid
+            payload["ssid"] = ssid.model_dump(by_alias=True, exclude_none=True)
         if identity is not None:
-            payload["identity"] = identity
+            payload["identity"] = identity.model_dump(by_alias=True, exclude_none=True)
 
         return self._session.put(
             scope="camera",
@@ -1025,7 +1049,7 @@ class Camera:
         )
 
     def get_organization_camera_boundaries_areas_by_device(
-        self, *, organization_id: str, serials: list | None = None
+        self, *, organization_id: str, serials: list[str] | None = None
     ) -> GetOrganizationCameraBoundariesAreasByDeviceResponse | None:
         """Returns all configured area boundaries of cameras.
 
@@ -1053,7 +1077,7 @@ class Camera:
         )
 
     def get_organization_camera_boundaries_lines_by_device(
-        self, *, organization_id: str, serials: list | None = None
+        self, *, organization_id: str, serials: list[str] | None = None
     ) -> GetOrganizationCameraBoundariesLinesByDeviceResponse | None:
         """Returns all configured crossingline boundaries of cameras.
 
@@ -1177,11 +1201,11 @@ class Camera:
         self,
         *,
         organization_id: str,
-        boundary_ids: list,
-        ranges: list,
+        boundary_ids: list[str],
+        ranges: list[dict],
         duration: int | None = None,
         per_page: int | None = None,
-        boundary_types: list | None = None,
+        boundary_types: list[str] | None = None,
         total_pages: int | Literal["all"] = 1,
         direction: Literal["prev", "next"] = "next",
     ) -> PaginatedResponse[GetOrganizationCameraDetectionsHistoryByBoundaryByIntervalResponseItem]:
@@ -1230,7 +1254,11 @@ class Camera:
         )
 
     def get_organization_camera_onboarding_statuses(
-        self, *, organization_id: str, serials: list | None = None, network_ids: list | None = None
+        self,
+        *,
+        organization_id: str,
+        serials: list[str] | None = None,
+        network_ids: list[str] | None = None,
     ) -> GetOrganizationCameraOnboardingStatusesResponse | None:
         """Fetch onboarding status of cameras.
 
@@ -1364,9 +1392,9 @@ class Camera:
         *,
         organization_id: str,
         name: str,
-        applied_on_devices: list | None = None,
-        applied_on_networks: list | None = None,
-        applied_org_wide: list | None = None,
+        applied_on_devices: list[CreateOrganizationCameraRoleAppliedOnDevicesItem] | None = None,
+        applied_on_networks: list[CreateOrganizationCameraRoleAppliedOnNetworksItem] | None = None,
+        applied_org_wide: list[CreateOrganizationCameraRoleAppliedOrgWideItem] | None = None,
     ) -> CreateOrganizationCameraRoleResponse | None:
         """Creates new role for this organization.
 
@@ -1387,11 +1415,17 @@ class Camera:
         if name is not None:
             payload["name"] = name
         if applied_on_devices is not None:
-            payload["appliedOnDevices"] = applied_on_devices
+            payload["appliedOnDevices"] = [
+                item.model_dump(by_alias=True, exclude_none=True) for item in applied_on_devices
+            ]
         if applied_on_networks is not None:
-            payload["appliedOnNetworks"] = applied_on_networks
+            payload["appliedOnNetworks"] = [
+                item.model_dump(by_alias=True, exclude_none=True) for item in applied_on_networks
+            ]
         if applied_org_wide is not None:
-            payload["appliedOrgWide"] = applied_org_wide
+            payload["appliedOrgWide"] = [
+                item.model_dump(by_alias=True, exclude_none=True) for item in applied_org_wide
+            ]
 
         return self._session.post(
             scope="camera",
@@ -1430,9 +1464,9 @@ class Camera:
         organization_id: str,
         role_id: str,
         name: str | None = None,
-        applied_on_devices: list | None = None,
-        applied_on_networks: list | None = None,
-        applied_org_wide: list | None = None,
+        applied_on_devices: list[UpdateOrganizationCameraRoleAppliedOnDevicesItem] | None = None,
+        applied_on_networks: list[UpdateOrganizationCameraRoleAppliedOnNetworksItem] | None = None,
+        applied_org_wide: list[UpdateOrganizationCameraRoleAppliedOrgWideItem] | None = None,
     ) -> UpdateOrganizationCameraRoleResponse | None:
         """Update an existing role in this organization.
 
@@ -1455,11 +1489,17 @@ class Camera:
         if name is not None:
             payload["name"] = name
         if applied_on_devices is not None:
-            payload["appliedOnDevices"] = applied_on_devices
+            payload["appliedOnDevices"] = [
+                item.model_dump(by_alias=True, exclude_none=True) for item in applied_on_devices
+            ]
         if applied_on_networks is not None:
-            payload["appliedOnNetworks"] = applied_on_networks
+            payload["appliedOnNetworks"] = [
+                item.model_dump(by_alias=True, exclude_none=True) for item in applied_on_networks
+            ]
         if applied_org_wide is not None:
-            payload["appliedOrgWide"] = applied_org_wide
+            payload["appliedOrgWide"] = [
+                item.model_dump(by_alias=True, exclude_none=True) for item in applied_org_wide
+            ]
 
         return self._session.put(
             scope="camera",

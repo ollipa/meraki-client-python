@@ -176,12 +176,33 @@ class CreateOrganizationCellularGatewayEsimsServiceProvidersAccountResponse(_Bas
     username: str | None = None
 
 
+class CreateOrganizationCellularGatewayEsimsServiceProvidersAccountServiceProvider(_BaseSchema):
+    """Service Provider information."""
+
+    name: str | None = None
+
+
 class CreateOrganizationCellularGatewayEsimsSwapResponse(_BaseSchema):
     """Response for createOrganizationCellularGatewayEsimsSwap operation."""
 
     eid: str
     iccid: str
     status: str
+
+
+class CreateOrganizationCellularGatewayEsimsSwapSwapsItem(_BaseSchema):
+    """Item schema for swaps."""
+
+    eid: str
+    target: CreateOrganizationCellularGatewayEsimsSwapSwapsItemTarget | None = None
+
+
+class CreateOrganizationCellularGatewayEsimsSwapSwapsItemTarget(_BaseSchema):
+    """Target Profile attributes."""
+
+    account_id: str = Field(alias="accountId")
+    communication_plan: str = Field(alias="communicationPlan")
+    rate_plan: str = Field(alias="ratePlan")
 
 
 class GetDeviceCellularGatewayLanResponse(_BaseSchema):
@@ -366,6 +387,22 @@ class GetOrganizationCellularGatewayUplinkStatusesResponseItem(_BaseSchema):
     uplinks: list[CellularGatewayUplinksItem] | None = None
 
 
+class UpdateDeviceCellularGatewayLanFixedIpAssignmentsItem(_BaseSchema):
+    """Item schema for fixedIpAssignments."""
+
+    name: str | None = None
+    ip: str
+    mac: str
+
+
+class UpdateDeviceCellularGatewayLanReservedIpRangesItem(_BaseSchema):
+    """Item schema for reservedIpRanges."""
+
+    start: str
+    end: str
+    comment: str
+
+
 class UpdateDeviceCellularGatewayLanResponse(_BaseSchema):
     """Response for updateDeviceCellularGatewayLan operation."""
 
@@ -384,6 +421,26 @@ class UpdateDeviceCellularGatewayPortForwardingRulesResponse(_BaseSchema):
     """Response for updateDeviceCellularGatewayPortForwardingRules operation."""
 
     rules: list[GetDeviceCellularGatewayPortForwardingRulesResponseRulesItem] | None = None
+
+
+class UpdateDeviceCellularGatewayPortForwardingRulesRulesItem(_BaseSchema):
+    """Item schema for rules."""
+
+    name: str | None = None
+    lan_ip: str = Field(alias="lanIp")
+    public_port: str = Field(alias="publicPort")
+    local_port: str = Field(alias="localPort")
+    allowed_ips: list[str] | None = Field(default=None, alias="allowedIps")
+    protocol: str
+    access: str
+
+
+class UpdateNetworkCellularGatewayConnectivityMonitoringDestinationsDestinationsItem(_BaseSchema):
+    """Item schema for destinations."""
+
+    ip: str
+    description: str | None = None
+    default: bool | None = None
 
 
 class UpdateNetworkCellularGatewayConnectivityMonitoringDestinationsResponse(_BaseSchema):
@@ -407,6 +464,13 @@ class UpdateNetworkCellularGatewaySubnetPoolResponse(_BaseSchema):
     cidr: str | None = None
     mask: int | None = None
     subnets: list[GetNetworkCellularGatewaySubnetPoolResponseSubnetsItem] | None = None
+
+
+class UpdateNetworkCellularGatewayUplinkBandwidthLimits(_BaseSchema):
+    """The bandwidth settings for the 'cellular' uplink."""
+
+    limit_up: int | None = Field(default=None, alias="limitUp")
+    limit_down: int | None = Field(default=None, alias="limitDown")
 
 
 class UpdateNetworkCellularGatewayUplinkResponse(_BaseSchema):

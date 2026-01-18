@@ -135,6 +135,156 @@ class CreateNetworkCameraQualityRetentionProfileResponse(_BaseSchema):
     video_settings: dict[str, Any] | None = Field(default=None, alias="videoSettings")
 
 
+class CreateNetworkCameraQualityRetentionProfileSmartRetention(_BaseSchema):
+    """Smart Retention records footage in two qualities and intelligently retains higher quality
+    when motion, people or vehicles are detected.
+    """
+
+    enabled: bool | None = None
+
+
+class CreateNetworkCameraQualityRetentionProfileVideoSettings(_BaseSchema):
+    """Video quality and resolution settings for all the camera models."""
+
+    mv12_mv22_mv72: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV12MV22MV72 | None = (
+        Field(default=None, alias="MV12/MV22/MV72")
+    )
+    m_v12_w_e: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV12MV22MV72 | None = Field(
+        default=None, alias="MV12WE"
+    )
+    m_v13: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV13 | None = Field(
+        default=None, alias="MV13"
+    )
+    m_v13_m: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV13 | None = Field(
+        default=None, alias="MV13M"
+    )
+    mv21_mv71: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV21MV71 | None = Field(
+        default=None, alias="MV21/MV71"
+    )
+    mv22x_mv72x: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV22XMV72X | None = Field(
+        default=None, alias="MV22X/MV72X"
+    )
+    m_v23: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV13 | None = Field(
+        default=None, alias="MV23"
+    )
+    m_v23_m: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV13 | None = Field(
+        default=None, alias="MV23M"
+    )
+    m_v23_x: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV13 | None = Field(
+        default=None, alias="MV23X"
+    )
+    m_v32: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV32 | None = Field(
+        default=None, alias="MV32"
+    )
+    m_v33: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV33 | None = Field(
+        default=None, alias="MV33"
+    )
+    m_v33_m: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV33 | None = Field(
+        default=None, alias="MV33M"
+    )
+    m_v52: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV52 | None = Field(
+        default=None, alias="MV52"
+    )
+    m_v63: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV13 | None = Field(
+        default=None, alias="MV63"
+    )
+    m_v63_m: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV13 | None = Field(
+        default=None, alias="MV63M"
+    )
+    m_v63_x: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV13 | None = Field(
+        default=None, alias="MV63X"
+    )
+    m_v73: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV13 | None = Field(
+        default=None, alias="MV73"
+    )
+    m_v73_m: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV13 | None = Field(
+        default=None, alias="MV73M"
+    )
+    m_v73_x: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV13 | None = Field(
+        default=None, alias="MV73X"
+    )
+    m_v93: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV33 | None = Field(
+        default=None, alias="MV93"
+    )
+    m_v93_m: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV33 | None = Field(
+        default=None, alias="MV93M"
+    )
+    m_v93_x: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV33 | None = Field(
+        default=None, alias="MV93X"
+    )
+    m_v53_x: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV13 | None = Field(
+        default=None, alias="MV53X"
+    )
+    m_v84_x: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV84X | None = Field(
+        default=None, alias="MV84X"
+    )
+
+
+class CreateNetworkCameraQualityRetentionProfileVideoSettingsMV12MV22MV72(_BaseSchema):
+    """Quality and resolution for MV12/MV22/MV72 camera models."""
+
+    quality: str
+    resolution: str
+
+
+class CreateNetworkCameraQualityRetentionProfileVideoSettingsMV13(_BaseSchema):
+    """Quality and resolution for MV13 camera models."""
+
+    quality: str
+    resolution: str
+
+
+class CreateNetworkCameraQualityRetentionProfileVideoSettingsMV21MV71(_BaseSchema):
+    """Quality and resolution for MV21/MV71 camera models."""
+
+    quality: str
+    resolution: str
+
+
+class CreateNetworkCameraQualityRetentionProfileVideoSettingsMV22XMV72X(_BaseSchema):
+    """Quality and resolution for MV22X/MV72X camera models."""
+
+    quality: str
+    resolution: str
+
+
+class CreateNetworkCameraQualityRetentionProfileVideoSettingsMV32(_BaseSchema):
+    """Quality and resolution for MV32 camera models."""
+
+    quality: str
+    resolution: str
+
+
+class CreateNetworkCameraQualityRetentionProfileVideoSettingsMV33(_BaseSchema):
+    """Quality and resolution for MV33 camera models."""
+
+    quality: str
+    resolution: str
+
+
+class CreateNetworkCameraQualityRetentionProfileVideoSettingsMV52(_BaseSchema):
+    """Quality and resolution for MV52 camera models."""
+
+    quality: str
+    resolution: str
+
+
+class CreateNetworkCameraQualityRetentionProfileVideoSettingsMV84X(_BaseSchema):
+    """Quality and resolution for MV84X camera models."""
+
+    quality: str
+    resolution: str
+
+
+class CreateNetworkCameraWirelessProfileIdentity(_BaseSchema):
+    """The identity of the wireless profile. Required for creating wireless profiles in
+    8021x-radius auth mode.
+    """
+
+    username: str | None = None
+    password: str | None = None
+
+
 class CreateNetworkCameraWirelessProfileResponse(_BaseSchema):
     """Response for createNetworkCameraWirelessProfile operation."""
 
@@ -143,6 +293,15 @@ class CreateNetworkCameraWirelessProfileResponse(_BaseSchema):
     applied_device_count: int | None = Field(default=None, alias="appliedDeviceCount")
     ssid: CameraSsid | None = None
     identity: CameraIdentity | None = None
+
+
+class CreateNetworkCameraWirelessProfileSsid(_BaseSchema):
+    """The details of the SSID config."""
+
+    name: str | None = None
+    auth_mode: str | None = Field(default=None, alias="authMode")
+    encryption_mode: str | None = Field(default=None, alias="encryptionMode")
+    psk: str | None = None
 
 
 class CreateOrganizationCameraCustomAnalyticsArtifactResponse(_BaseSchema):
@@ -155,6 +314,30 @@ class CreateOrganizationCameraCustomAnalyticsArtifactResponse(_BaseSchema):
     upload_id: str | None = Field(default=None, alias="uploadId")
     upload_url: str | None = Field(default=None, alias="uploadUrl")
     upload_url_expiry: str | None = Field(default=None, alias="uploadUrlExpiry")
+
+
+class CreateOrganizationCameraRoleAppliedOnDevicesItem(_BaseSchema):
+    """Item schema for appliedOnDevices."""
+
+    tag: str | None = None
+    id_: str | None = Field(default=None, alias="id")
+    in_networks_with_tag: str | None = Field(default=None, alias="inNetworksWithTag")
+    in_networks_with_id: str | None = Field(default=None, alias="inNetworksWithId")
+    permission_scope_id: str = Field(alias="permissionScopeId")
+
+
+class CreateOrganizationCameraRoleAppliedOnNetworksItem(_BaseSchema):
+    """Item schema for appliedOnNetworks."""
+
+    tag: str | None = None
+    id_: str | None = Field(default=None, alias="id")
+    permission_scope_id: str = Field(alias="permissionScopeId")
+
+
+class CreateOrganizationCameraRoleAppliedOrgWideItem(_BaseSchema):
+    """Item schema for appliedOrgWide."""
+
+    permission_scope_id: str = Field(alias="permissionScopeId")
 
 
 class CreateOrganizationCameraRoleResponse(_BaseSchema):
@@ -493,6 +676,13 @@ class GetOrganizationCameraRolesResponseItem(_BaseSchema):
     )
 
 
+class UpdateDeviceCameraCustomAnalyticsParametersItem(_BaseSchema):
+    """Item schema for parameters."""
+
+    name: str
+    value: str
+
+
 class UpdateDeviceCameraCustomAnalyticsResponse(_BaseSchema):
     """Response for updateDeviceCameraCustomAnalytics operation."""
 
@@ -501,11 +691,25 @@ class UpdateDeviceCameraCustomAnalyticsResponse(_BaseSchema):
     parameters: list[GetDeviceCameraCustomAnalyticsResponseParametersItem] | None = None
 
 
+class UpdateDeviceCameraSenseAudioDetection(_BaseSchema):
+    """The details of the audio detection config."""
+
+    enabled: bool | None = None
+
+
 class UpdateDeviceCameraVideoSettingsResponse(_BaseSchema):
     """Response for updateDeviceCameraVideoSettings operation."""
 
     external_rtsp_enabled: bool | None = Field(default=None, alias="externalRtspEnabled")
     rtsp_url: str | None = Field(default=None, alias="rtspUrl")
+
+
+class UpdateDeviceCameraWirelessProfilesIds(_BaseSchema):
+    """The ids of the wireless profile to assign to the given camera."""
+
+    primary: str | None = None
+    secondary: str | None = None
+    backup: str | None = None
 
 
 class UpdateNetworkCameraQualityRetentionProfileResponse(_BaseSchema):
@@ -529,6 +733,100 @@ class UpdateNetworkCameraQualityRetentionProfileResponse(_BaseSchema):
     video_settings: dict[str, Any] | None = Field(default=None, alias="videoSettings")
 
 
+class UpdateNetworkCameraQualityRetentionProfileSmartRetention(_BaseSchema):
+    """Smart Retention records footage in two qualities and intelligently retains higher quality
+    when motion, people or vehicles are detected.
+    """
+
+    enabled: bool | None = None
+
+
+class UpdateNetworkCameraQualityRetentionProfileVideoSettings(_BaseSchema):
+    """Video quality and resolution settings for all the camera models."""
+
+    mv12_mv22_mv72: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV12MV22MV72 | None = (
+        Field(default=None, alias="MV12/MV22/MV72")
+    )
+    m_v12_w_e: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV12MV22MV72 | None = Field(
+        default=None, alias="MV12WE"
+    )
+    m_v13: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV13 | None = Field(
+        default=None, alias="MV13"
+    )
+    m_v13_m: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV13 | None = Field(
+        default=None, alias="MV13M"
+    )
+    mv21_mv71: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV21MV71 | None = Field(
+        default=None, alias="MV21/MV71"
+    )
+    mv22x_mv72x: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV22XMV72X | None = Field(
+        default=None, alias="MV22X/MV72X"
+    )
+    m_v23: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV13 | None = Field(
+        default=None, alias="MV23"
+    )
+    m_v23_m: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV13 | None = Field(
+        default=None, alias="MV23M"
+    )
+    m_v23_x: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV13 | None = Field(
+        default=None, alias="MV23X"
+    )
+    m_v32: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV32 | None = Field(
+        default=None, alias="MV32"
+    )
+    m_v33: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV33 | None = Field(
+        default=None, alias="MV33"
+    )
+    m_v33_m: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV33 | None = Field(
+        default=None, alias="MV33M"
+    )
+    m_v52: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV52 | None = Field(
+        default=None, alias="MV52"
+    )
+    m_v63: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV13 | None = Field(
+        default=None, alias="MV63"
+    )
+    m_v63_m: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV13 | None = Field(
+        default=None, alias="MV63M"
+    )
+    m_v63_x: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV13 | None = Field(
+        default=None, alias="MV63X"
+    )
+    m_v73: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV13 | None = Field(
+        default=None, alias="MV73"
+    )
+    m_v73_m: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV13 | None = Field(
+        default=None, alias="MV73M"
+    )
+    m_v73_x: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV13 | None = Field(
+        default=None, alias="MV73X"
+    )
+    m_v93: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV33 | None = Field(
+        default=None, alias="MV93"
+    )
+    m_v93_m: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV33 | None = Field(
+        default=None, alias="MV93M"
+    )
+    m_v93_x: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV33 | None = Field(
+        default=None, alias="MV93X"
+    )
+    m_v53_x: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV13 | None = Field(
+        default=None, alias="MV53X"
+    )
+    m_v84_x: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV84X | None = Field(
+        default=None, alias="MV84X"
+    )
+
+
+class UpdateNetworkCameraWirelessProfileIdentity(_BaseSchema):
+    """The identity of the wireless profile. Required for creating wireless profiles in
+    8021x-radius auth mode.
+    """
+
+    username: str | None = None
+    password: str | None = None
+
+
 class UpdateNetworkCameraWirelessProfileResponse(_BaseSchema):
     """Response for updateNetworkCameraWirelessProfile operation."""
 
@@ -537,6 +835,39 @@ class UpdateNetworkCameraWirelessProfileResponse(_BaseSchema):
     applied_device_count: int | None = Field(default=None, alias="appliedDeviceCount")
     ssid: CameraSsid | None = None
     identity: CameraIdentity | None = None
+
+
+class UpdateNetworkCameraWirelessProfileSsid(_BaseSchema):
+    """The details of the SSID config."""
+
+    name: str | None = None
+    auth_mode: str | None = Field(default=None, alias="authMode")
+    encryption_mode: str | None = Field(default=None, alias="encryptionMode")
+    psk: str | None = None
+
+
+class UpdateOrganizationCameraRoleAppliedOnDevicesItem(_BaseSchema):
+    """Item schema for appliedOnDevices."""
+
+    tag: str | None = None
+    id_: str | None = Field(default=None, alias="id")
+    in_networks_with_tag: str | None = Field(default=None, alias="inNetworksWithTag")
+    in_networks_with_id: str | None = Field(default=None, alias="inNetworksWithId")
+    permission_scope_id: str = Field(alias="permissionScopeId")
+
+
+class UpdateOrganizationCameraRoleAppliedOnNetworksItem(_BaseSchema):
+    """Item schema for appliedOnNetworks."""
+
+    tag: str | None = None
+    id_: str | None = Field(default=None, alias="id")
+    permission_scope_id: str = Field(alias="permissionScopeId")
+
+
+class UpdateOrganizationCameraRoleAppliedOrgWideItem(_BaseSchema):
+    """Item schema for appliedOrgWide."""
+
+    permission_scope_id: str = Field(alias="permissionScopeId")
 
 
 class UpdateOrganizationCameraRoleResponse(_BaseSchema):

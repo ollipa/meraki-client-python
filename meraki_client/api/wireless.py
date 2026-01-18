@@ -13,13 +13,28 @@ from typing import TYPE_CHECKING, Any, Literal
 from meraki_client.schemas import (
     AssignNetworkWirelessEthernetPortsProfilesResponse,
     CreateDeviceWirelessZigbeeEnrollmentResponse,
+    CreateNetworkWirelessAirMarshalRuleMatch,
     CreateNetworkWirelessAirMarshalRuleResponse,
+    CreateNetworkWirelessEthernetPortsProfilePortsItem,
     CreateNetworkWirelessEthernetPortsProfileResponse,
+    CreateNetworkWirelessEthernetPortsProfileUsbPortsItem,
+    CreateNetworkWirelessRfProfileApBandSettings,
+    CreateNetworkWirelessRfProfileFiveGhzSettings,
+    CreateNetworkWirelessRfProfileFlexRadios,
+    CreateNetworkWirelessRfProfilePerSsidSettings,
     CreateNetworkWirelessRfProfileResponse,
+    CreateNetworkWirelessRfProfileSixGhzSettings,
+    CreateNetworkWirelessRfProfileTransmission,
+    CreateNetworkWirelessRfProfileTwoFourGhzSettings,
     CreateNetworkWirelessSsidIdentityPskResponse,
     CreateOrganizationWirelessDevicesRadsecCertificatesAuthorityResponse,
+    CreateOrganizationWirelessLocationScanningReceiverNetwork,
+    CreateOrganizationWirelessLocationScanningReceiverRadio,
     CreateOrganizationWirelessLocationScanningReceiverResponse,
+    CreateOrganizationWirelessSsidsFirewallIsolationAllowlistEntryClient,
+    CreateOrganizationWirelessSsidsFirewallIsolationAllowlistEntryNetwork,
     CreateOrganizationWirelessSsidsFirewallIsolationAllowlistEntryResponse,
+    CreateOrganizationWirelessSsidsFirewallIsolationAllowlistEntrySsid,
     CreateOrganizationWirelessZigbeeDisenrollmentResponse,
     GetDeviceWirelessBluetoothSettingsResponse,
     GetDeviceWirelessConnectionStatsResponse,
@@ -95,34 +110,99 @@ from meraki_client.schemas import (
     GetOrganizationWirelessZigbeeDoorLocksResponseItem,
     RecalculateOrganizationWirelessRadioAutoRfChannelsResponse,
     SetNetworkWirelessEthernetPortsProfilesDefaultResponse,
+    UpdateDeviceWirelessAlternateManagementInterfaceIpv6AddressesItem,
     UpdateDeviceWirelessAlternateManagementInterfaceIpv6Response,
     UpdateDeviceWirelessBluetoothSettingsResponse,
     UpdateDeviceWirelessElectronicShelfLabelResponse,
+    UpdateDeviceWirelessRadioSettingsFiveGhzSettings,
     UpdateDeviceWirelessRadioSettingsResponse,
+    UpdateDeviceWirelessRadioSettingsTwoFourGhzSettings,
+    UpdateNetworkWirelessAirMarshalRuleMatch,
     UpdateNetworkWirelessAirMarshalRuleResponse,
     UpdateNetworkWirelessAirMarshalSettingsResponse,
+    UpdateNetworkWirelessAlternateManagementInterfaceAccessPointsItem,
+    UpdateNetworkWirelessBillingPlansItem,
     UpdateNetworkWirelessBillingResponse,
     UpdateNetworkWirelessBluetoothSettingsResponse,
     UpdateNetworkWirelessElectronicShelfLabelResponse,
+    UpdateNetworkWirelessEthernetPortsProfilePortsItem,
     UpdateNetworkWirelessEthernetPortsProfileResponse,
+    UpdateNetworkWirelessEthernetPortsProfileUsbPortsItem,
+    UpdateNetworkWirelessLocationScanningApi,
     UpdateNetworkWirelessLocationScanningResponse,
+    UpdateNetworkWirelessRfProfileApBandSettings,
+    UpdateNetworkWirelessRfProfileFiveGhzSettings,
+    UpdateNetworkWirelessRfProfileFlexRadios,
+    UpdateNetworkWirelessRfProfilePerSsidSettings,
     UpdateNetworkWirelessRfProfileResponse,
+    UpdateNetworkWirelessRfProfileSixGhzSettings,
+    UpdateNetworkWirelessRfProfileTransmission,
+    UpdateNetworkWirelessRfProfileTwoFourGhzSettings,
+    UpdateNetworkWirelessSettingsNamedVlans,
     UpdateNetworkWirelessSettingsResponse,
+    UpdateNetworkWirelessSsidActiveDirectory,
+    UpdateNetworkWirelessSsidApTagsAndVlanIdsItem,
+    UpdateNetworkWirelessSsidBonjourForwardingException,
     UpdateNetworkWirelessSsidBonjourForwardingResponse,
+    UpdateNetworkWirelessSsidBonjourForwardingRulesItem,
+    UpdateNetworkWirelessSsidDeviceTypeGroupPoliciesDeviceTypePoliciesItem,
+    UpdateNetworkWirelessSsidDnsRewrite,
+    UpdateNetworkWirelessSsidDot11r,
+    UpdateNetworkWirelessSsidDot11w,
+    UpdateNetworkWirelessSsidEapOverrideEapolKey,
+    UpdateNetworkWirelessSsidEapOverrideIdentity,
     UpdateNetworkWirelessSsidEapOverrideResponse,
     UpdateNetworkWirelessSsidFirewallL3FirewallRulesResponse,
+    UpdateNetworkWirelessSsidFirewallL3FirewallRulesRulesItem,
     UpdateNetworkWirelessSsidFirewallL7FirewallRulesResponse,
+    UpdateNetworkWirelessSsidFirewallL7FirewallRulesRulesItem,
+    UpdateNetworkWirelessSsidGre,
+    UpdateNetworkWirelessSsidHotspot20MccMncsItem,
+    UpdateNetworkWirelessSsidHotspot20NaiRealmsItem,
+    UpdateNetworkWirelessSsidHotspot20Operator,
     UpdateNetworkWirelessSsidHotspot20Response,
+    UpdateNetworkWirelessSsidHotspot20Venue,
     UpdateNetworkWirelessSsidIdentityPskResponse,
+    UpdateNetworkWirelessSsidLdap,
+    UpdateNetworkWirelessSsidLocalAuthFallback,
+    UpdateNetworkWirelessSsidLocalRadius,
+    UpdateNetworkWirelessSsidNamedVlans,
+    UpdateNetworkWirelessSsidOauth,
     UpdateNetworkWirelessSsidOpenRoamingResponse,
+    UpdateNetworkWirelessSsidRadiusAccountingServersItem,
+    UpdateNetworkWirelessSsidRadiusRadsec,
+    UpdateNetworkWirelessSsidRadiusServersItem,
     UpdateNetworkWirelessSsidResponse,
+    UpdateNetworkWirelessSsidSchedulesRangesInSecondsItem,
+    UpdateNetworkWirelessSsidSchedulesRangesItem,
     UpdateNetworkWirelessSsidSchedulesResponse,
+    UpdateNetworkWirelessSsidSpeedBurst,
+    UpdateNetworkWirelessSsidSplashSettingsBilling,
+    UpdateNetworkWirelessSsidSplashSettingsGuestSponsorship,
     UpdateNetworkWirelessSsidSplashSettingsResponse,
+    UpdateNetworkWirelessSsidSplashSettingsSelfRegistration,
+    UpdateNetworkWirelessSsidSplashSettingsSentryEnrollment,
+    UpdateNetworkWirelessSsidSplashSettingsSplashImage,
+    UpdateNetworkWirelessSsidSplashSettingsSplashLogo,
+    UpdateNetworkWirelessSsidSplashSettingsSplashPrepaidFront,
     UpdateNetworkWirelessSsidTrafficShapingRulesResponse,
+    UpdateNetworkWirelessSsidTrafficShapingRulesRulesItem,
+    UpdateNetworkWirelessSsidVpnConcentrator,
+    UpdateNetworkWirelessSsidVpnFailover,
+    UpdateNetworkWirelessSsidVpnSplitTunnel,
+    UpdateNetworkWirelessZigbeeDefaults,
+    UpdateNetworkWirelessZigbeeIotController,
+    UpdateNetworkWirelessZigbeeLockManagement,
     UpdateNetworkWirelessZigbeeResponse,
     UpdateOrganizationWirelessDevicesRadsecCertificatesAuthoritiesResponse,
+    UpdateOrganizationWirelessLocationScanningReceiverRadio,
     UpdateOrganizationWirelessLocationScanningReceiverResponse,
+    UpdateOrganizationWirelessMqttSettingsBle,
+    UpdateOrganizationWirelessMqttSettingsMqtt,
+    UpdateOrganizationWirelessMqttSettingsNetwork,
     UpdateOrganizationWirelessMqttSettingsResponse,
+    UpdateOrganizationWirelessMqttSettingsWifi,
+    UpdateOrganizationWirelessSsidsFirewallIsolationAllowlistEntryClient,
     UpdateOrganizationWirelessSsidsFirewallIsolationAllowlistEntryResponse,
     UpdateOrganizationWirelessZigbeeDeviceResponse,
     UpdateOrganizationWirelessZigbeeDoorLockResponse,
@@ -139,7 +219,11 @@ class Wireless:
         self._session = session
 
     def update_device_wireless_alternate_management_interface_ipv6(
-        self, *, serial: str, addresses: list | None = None
+        self,
+        *,
+        serial: str,
+        addresses: list[UpdateDeviceWirelessAlternateManagementInterfaceIpv6AddressesItem]
+        | None = None,
     ) -> UpdateDeviceWirelessAlternateManagementInterfaceIpv6Response | None:
         """Update alternate management interface IPv6 address.
 
@@ -155,7 +239,9 @@ class Wireless:
 
         payload = {}
         if addresses is not None:
-            payload["addresses"] = addresses
+            payload["addresses"] = [
+                item.model_dump(by_alias=True, exclude_none=True) for item in addresses
+            ]
 
         return self._session.put(
             scope="wireless",
@@ -427,8 +513,8 @@ class Wireless:
         *,
         serial: str,
         rf_profile_id: str | None = None,
-        two_four_ghz_settings: dict | None = None,
-        five_ghz_settings: dict | None = None,
+        two_four_ghz_settings: UpdateDeviceWirelessRadioSettingsTwoFourGhzSettings | None = None,
+        five_ghz_settings: UpdateDeviceWirelessRadioSettingsFiveGhzSettings | None = None,
     ) -> UpdateDeviceWirelessRadioSettingsResponse | None:
         """Update the radio settings overrides of a device, which take precedence over RF profiles.
 
@@ -452,9 +538,13 @@ class Wireless:
         if rf_profile_id is not None:
             payload["rfProfileId"] = rf_profile_id
         if two_four_ghz_settings is not None:
-            payload["twoFourGhzSettings"] = two_four_ghz_settings
+            payload["twoFourGhzSettings"] = two_four_ghz_settings.model_dump(
+                by_alias=True, exclude_none=True
+            )
         if five_ghz_settings is not None:
-            payload["fiveGhzSettings"] = five_ghz_settings
+            payload["fiveGhzSettings"] = five_ghz_settings.model_dump(
+                by_alias=True, exclude_none=True
+            )
 
         return self._session.put(
             scope="wireless",
@@ -561,7 +651,7 @@ class Wireless:
         )
 
     def create_network_wireless_air_marshal_rule(
-        self, *, network_id: str, type_: str, match: dict
+        self, *, network_id: str, type_: str, match: CreateNetworkWirelessAirMarshalRuleMatch
     ) -> CreateNetworkWirelessAirMarshalRuleResponse | None:
         """Creates a new rule.
 
@@ -586,7 +676,7 @@ class Wireless:
         if type_ is not None:
             payload["type"] = type_
         if match is not None:
-            payload["match"] = match
+            payload["match"] = match.model_dump(by_alias=True, exclude_none=True)
 
         return self._session.post(
             scope="wireless",
@@ -597,7 +687,12 @@ class Wireless:
         )
 
     def update_network_wireless_air_marshal_rule(
-        self, *, network_id: str, rule_id: str, type_: str | None = None, match: dict | None = None
+        self,
+        *,
+        network_id: str,
+        rule_id: str,
+        type_: str | None = None,
+        match: UpdateNetworkWirelessAirMarshalRuleMatch | None = None,
     ) -> UpdateNetworkWirelessAirMarshalRuleResponse | None:
         """Update a rule.
 
@@ -624,7 +719,7 @@ class Wireless:
         if type_ is not None:
             payload["type"] = type_
         if match is not None:
-            payload["match"] = match
+            payload["match"] = match.model_dump(by_alias=True, exclude_none=True)
 
         return self._session.put(
             scope="wireless",
@@ -711,8 +806,9 @@ class Wireless:
         network_id: str,
         enabled: bool | None = None,
         vlan_id: int | None = None,
-        protocols: list | None = None,
-        access_points: list | None = None,
+        protocols: list[str] | None = None,
+        access_points: list[UpdateNetworkWirelessAlternateManagementInterfaceAccessPointsItem]
+        | None = None,
     ) -> dict[str, Any] | None:
         """Update alternate management interface and device static IP.
 
@@ -742,7 +838,9 @@ class Wireless:
         if protocols is not None:
             payload["protocols"] = protocols
         if access_points is not None:
-            payload["accessPoints"] = access_points
+            payload["accessPoints"] = [
+                item.model_dump(by_alias=True, exclude_none=True) for item in access_points
+            ]
 
         return self._session.put(
             scope="wireless",
@@ -773,7 +871,11 @@ class Wireless:
         )
 
     def update_network_wireless_billing(
-        self, *, network_id: str, currency: str | None = None, plans: list | None = None
+        self,
+        *,
+        network_id: str,
+        currency: str | None = None,
+        plans: list[UpdateNetworkWirelessBillingPlansItem] | None = None,
     ) -> UpdateNetworkWirelessBillingResponse | None:
         """Update the billing settings.
 
@@ -792,7 +894,7 @@ class Wireless:
         if currency is not None:
             payload["currency"] = currency
         if plans is not None:
-            payload["plans"] = plans
+            payload["plans"] = [item.model_dump(by_alias=True, exclude_none=True) for item in plans]
 
         return self._session.put(
             scope="wireless",
@@ -1235,10 +1337,10 @@ class Wireless:
         t0: str | None = None,
         t1: str | None = None,
         timespan: float | None = None,
-        types: list | None = None,
+        types: list[str] | None = None,
         band: str | None = None,
         ssid_number: int | None = None,
-        included_severities: list | None = None,
+        included_severities: list[str] | None = None,
         device_serial: str | None = None,
         total_pages: int | Literal["all"] = 1,
         direction: Literal["prev", "next"] = "next",
@@ -1822,7 +1924,12 @@ class Wireless:
         )
 
     def create_network_wireless_ethernet_ports_profile(
-        self, *, network_id: str, name: str, ports: list, usb_ports: list | None = None
+        self,
+        *,
+        network_id: str,
+        name: str,
+        ports: list[CreateNetworkWirelessEthernetPortsProfilePortsItem],
+        usb_ports: list[CreateNetworkWirelessEthernetPortsProfileUsbPortsItem] | None = None,
     ) -> CreateNetworkWirelessEthernetPortsProfileResponse | None:
         """Create an AP port profile.
 
@@ -1842,9 +1949,11 @@ class Wireless:
         if name is not None:
             payload["name"] = name
         if ports is not None:
-            payload["ports"] = ports
+            payload["ports"] = [item.model_dump(by_alias=True, exclude_none=True) for item in ports]
         if usb_ports is not None:
-            payload["usbPorts"] = usb_ports
+            payload["usbPorts"] = [
+                item.model_dump(by_alias=True, exclude_none=True) for item in usb_ports
+            ]
 
         return self._session.post(
             scope="wireless",
@@ -1855,7 +1964,7 @@ class Wireless:
         )
 
     def assign_network_wireless_ethernet_ports_profiles(
-        self, *, network_id: str, serials: list, profile_id: str
+        self, *, network_id: str, serials: list[str], profile_id: str
     ) -> AssignNetworkWirelessEthernetPortsProfilesResponse | None:
         """Assign AP port profile to list of APs.
 
@@ -1940,8 +2049,8 @@ class Wireless:
         network_id: str,
         profile_id: str,
         name: str | None = None,
-        ports: list | None = None,
-        usb_ports: list | None = None,
+        ports: list[UpdateNetworkWirelessEthernetPortsProfilePortsItem] | None = None,
+        usb_ports: list[UpdateNetworkWirelessEthernetPortsProfileUsbPortsItem] | None = None,
     ) -> UpdateNetworkWirelessEthernetPortsProfileResponse | None:
         """Update the AP port profile by ID for this network.
 
@@ -1963,9 +2072,11 @@ class Wireless:
         if name is not None:
             payload["name"] = name
         if ports is not None:
-            payload["ports"] = ports
+            payload["ports"] = [item.model_dump(by_alias=True, exclude_none=True) for item in ports]
         if usb_ports is not None:
-            payload["usbPorts"] = usb_ports
+            payload["usbPorts"] = [
+                item.model_dump(by_alias=True, exclude_none=True) for item in usb_ports
+            ]
 
         return self._session.put(
             scope="wireless",
@@ -2214,7 +2325,11 @@ class Wireless:
         )
 
     def update_network_wireless_location_scanning(
-        self, *, network_id: str, enabled: bool | None = None, api: dict | None = None
+        self,
+        *,
+        network_id: str,
+        enabled: bool | None = None,
+        api: UpdateNetworkWirelessLocationScanningApi | None = None,
     ) -> UpdateNetworkWirelessLocationScanningResponse | None:
         """Change scanning API settings.
 
@@ -2233,7 +2348,7 @@ class Wireless:
         if enabled is not None:
             payload["enabled"] = enabled
         if api is not None:
-            payload["api"] = api
+            payload["api"] = api.model_dump(by_alias=True, exclude_none=True)
 
         return self._session.put(
             scope="wireless",
@@ -2333,13 +2448,13 @@ class Wireless:
         band_selection_type: str,
         client_balancing_enabled: bool | None = None,
         min_bitrate_type: str | None = None,
-        ap_band_settings: dict | None = None,
-        two_four_ghz_settings: dict | None = None,
-        five_ghz_settings: dict | None = None,
-        six_ghz_settings: dict | None = None,
-        transmission: dict | None = None,
-        per_ssid_settings: dict | None = None,
-        flex_radios: dict | None = None,
+        ap_band_settings: CreateNetworkWirelessRfProfileApBandSettings | None = None,
+        two_four_ghz_settings: CreateNetworkWirelessRfProfileTwoFourGhzSettings | None = None,
+        five_ghz_settings: CreateNetworkWirelessRfProfileFiveGhzSettings | None = None,
+        six_ghz_settings: CreateNetworkWirelessRfProfileSixGhzSettings | None = None,
+        transmission: CreateNetworkWirelessRfProfileTransmission | None = None,
+        per_ssid_settings: CreateNetworkWirelessRfProfilePerSsidSettings | None = None,
+        flex_radios: CreateNetworkWirelessRfProfileFlexRadios | None = None,
     ) -> CreateNetworkWirelessRfProfileResponse | None:
         """Creates new RF profile for this network.
 
@@ -2388,19 +2503,29 @@ class Wireless:
         if band_selection_type is not None:
             payload["bandSelectionType"] = band_selection_type
         if ap_band_settings is not None:
-            payload["apBandSettings"] = ap_band_settings
+            payload["apBandSettings"] = ap_band_settings.model_dump(
+                by_alias=True, exclude_none=True
+            )
         if two_four_ghz_settings is not None:
-            payload["twoFourGhzSettings"] = two_four_ghz_settings
+            payload["twoFourGhzSettings"] = two_four_ghz_settings.model_dump(
+                by_alias=True, exclude_none=True
+            )
         if five_ghz_settings is not None:
-            payload["fiveGhzSettings"] = five_ghz_settings
+            payload["fiveGhzSettings"] = five_ghz_settings.model_dump(
+                by_alias=True, exclude_none=True
+            )
         if six_ghz_settings is not None:
-            payload["sixGhzSettings"] = six_ghz_settings
+            payload["sixGhzSettings"] = six_ghz_settings.model_dump(
+                by_alias=True, exclude_none=True
+            )
         if transmission is not None:
-            payload["transmission"] = transmission
+            payload["transmission"] = transmission.model_dump(by_alias=True, exclude_none=True)
         if per_ssid_settings is not None:
-            payload["perSsidSettings"] = per_ssid_settings
+            payload["perSsidSettings"] = per_ssid_settings.model_dump(
+                by_alias=True, exclude_none=True
+            )
         if flex_radios is not None:
-            payload["flexRadios"] = flex_radios
+            payload["flexRadios"] = flex_radios.model_dump(by_alias=True, exclude_none=True)
 
         return self._session.post(
             scope="wireless",
@@ -2444,13 +2569,13 @@ class Wireless:
         client_balancing_enabled: bool | None = None,
         min_bitrate_type: str | None = None,
         band_selection_type: str | None = None,
-        ap_band_settings: dict | None = None,
-        two_four_ghz_settings: dict | None = None,
-        five_ghz_settings: dict | None = None,
-        six_ghz_settings: dict | None = None,
-        transmission: dict | None = None,
-        per_ssid_settings: dict | None = None,
-        flex_radios: dict | None = None,
+        ap_band_settings: UpdateNetworkWirelessRfProfileApBandSettings | None = None,
+        two_four_ghz_settings: UpdateNetworkWirelessRfProfileTwoFourGhzSettings | None = None,
+        five_ghz_settings: UpdateNetworkWirelessRfProfileFiveGhzSettings | None = None,
+        six_ghz_settings: UpdateNetworkWirelessRfProfileSixGhzSettings | None = None,
+        transmission: UpdateNetworkWirelessRfProfileTransmission | None = None,
+        per_ssid_settings: UpdateNetworkWirelessRfProfilePerSsidSettings | None = None,
+        flex_radios: UpdateNetworkWirelessRfProfileFlexRadios | None = None,
     ) -> UpdateNetworkWirelessRfProfileResponse | None:
         """Updates specified RF profile for this network.
 
@@ -2509,19 +2634,29 @@ class Wireless:
         if band_selection_type is not None:
             payload["bandSelectionType"] = band_selection_type
         if ap_band_settings is not None:
-            payload["apBandSettings"] = ap_band_settings
+            payload["apBandSettings"] = ap_band_settings.model_dump(
+                by_alias=True, exclude_none=True
+            )
         if two_four_ghz_settings is not None:
-            payload["twoFourGhzSettings"] = two_four_ghz_settings
+            payload["twoFourGhzSettings"] = two_four_ghz_settings.model_dump(
+                by_alias=True, exclude_none=True
+            )
         if five_ghz_settings is not None:
-            payload["fiveGhzSettings"] = five_ghz_settings
+            payload["fiveGhzSettings"] = five_ghz_settings.model_dump(
+                by_alias=True, exclude_none=True
+            )
         if six_ghz_settings is not None:
-            payload["sixGhzSettings"] = six_ghz_settings
+            payload["sixGhzSettings"] = six_ghz_settings.model_dump(
+                by_alias=True, exclude_none=True
+            )
         if transmission is not None:
-            payload["transmission"] = transmission
+            payload["transmission"] = transmission.model_dump(by_alias=True, exclude_none=True)
         if per_ssid_settings is not None:
-            payload["perSsidSettings"] = per_ssid_settings
+            payload["perSsidSettings"] = per_ssid_settings.model_dump(
+                by_alias=True, exclude_none=True
+            )
         if flex_radios is not None:
-            payload["flexRadios"] = flex_radios
+            payload["flexRadios"] = flex_radios.model_dump(by_alias=True, exclude_none=True)
 
         return self._session.put(
             scope="wireless",
@@ -2579,7 +2714,7 @@ class Wireless:
         location_analytics_enabled: bool | None = None,
         upgrade_strategy: str | None = None,
         led_lights_on: bool | None = None,
-        named_vlans: dict | None = None,
+        named_vlans: UpdateNetworkWirelessSettingsNamedVlans | None = None,
     ) -> UpdateNetworkWirelessSettingsResponse | None:
         """Update the wireless settings for a network.
 
@@ -2620,7 +2755,7 @@ class Wireless:
         if led_lights_on is not None:
             payload["ledLightsOn"] = led_lights_on
         if named_vlans is not None:
-            payload["namedVlans"] = named_vlans
+            payload["namedVlans"] = named_vlans.model_dump(by_alias=True, exclude_none=True)
 
         return self._session.put(
             scope="wireless",
@@ -2763,15 +2898,15 @@ class Wireless:
         encryption_mode: str | None = None,
         psk: str | None = None,
         wpa_encryption_mode: str | None = None,
-        dot11w: dict | None = None,
-        dot11r: dict | None = None,
+        dot11w: UpdateNetworkWirelessSsidDot11w | None = None,
+        dot11r: UpdateNetworkWirelessSsidDot11r | None = None,
         splash_page: str | None = None,
-        splash_guest_sponsor_domains: list | None = None,
-        oauth: dict | None = None,
-        local_radius: dict | None = None,
-        ldap: dict | None = None,
-        active_directory: dict | None = None,
-        radius_servers: list | None = None,
+        splash_guest_sponsor_domains: list[str] | None = None,
+        oauth: UpdateNetworkWirelessSsidOauth | None = None,
+        local_radius: UpdateNetworkWirelessSsidLocalRadius | None = None,
+        ldap: UpdateNetworkWirelessSsidLdap | None = None,
+        active_directory: UpdateNetworkWirelessSsidActiveDirectory | None = None,
+        radius_servers: list[UpdateNetworkWirelessSsidRadiusServersItem] | None = None,
         radius_proxy_enabled: bool | None = None,
         radius_testing_enabled: bool | None = None,
         radius_called_station_id: str | None = None,
@@ -2779,12 +2914,13 @@ class Wireless:
         radius_server_timeout: int | None = None,
         radius_server_attempts_limit: int | None = None,
         radius_fallback_enabled: bool | None = None,
-        radius_radsec: dict | None = None,
+        radius_radsec: UpdateNetworkWirelessSsidRadiusRadsec | None = None,
         radius_coa_enabled: bool | None = None,
         radius_failover_policy: str | None = None,
         radius_load_balancing_policy: str | None = None,
         radius_accounting_enabled: bool | None = None,
-        radius_accounting_servers: list | None = None,
+        radius_accounting_servers: list[UpdateNetworkWirelessSsidRadiusAccountingServersItem]
+        | None = None,
         radius_accounting_interim_interval: int | None = None,
         radius_attribute_for_group_policies: str | None = None,
         ip_assignment_mode: str | None = None,
@@ -2794,10 +2930,10 @@ class Wireless:
         disassociate_clients_on_vpn_failover: bool | None = None,
         vlan_id: int | None = None,
         default_vlan_id: int | None = None,
-        ap_tags_and_vlan_ids: list | None = None,
+        ap_tags_and_vlan_ids: list[UpdateNetworkWirelessSsidApTagsAndVlanIdsItem] | None = None,
         walled_garden_enabled: bool | None = None,
-        walled_garden_ranges: list | None = None,
-        gre: dict | None = None,
+        walled_garden_ranges: list[str] | None = None,
+        gre: UpdateNetworkWirelessSsidGre | None = None,
         radius_override: bool | None = None,
         radius_guest_vlan_enabled: bool | None = None,
         radius_guest_vlan_id: int | None = None,
@@ -2810,14 +2946,14 @@ class Wireless:
         lan_isolation_enabled: bool | None = None,
         visible: bool | None = None,
         available_on_all_aps: bool | None = None,
-        availability_tags: list | None = None,
+        availability_tags: list[str] | None = None,
         adaptive_policy_group_id: str | None = None,
         mandatory_dhcp_enabled: bool | None = None,
         adult_content_filtering_enabled: bool | None = None,
-        dns_rewrite: dict | None = None,
-        speed_burst: dict | None = None,
-        named_vlans: dict | None = None,
-        local_auth_fallback: dict | None = None,
+        dns_rewrite: UpdateNetworkWirelessSsidDnsRewrite | None = None,
+        speed_burst: UpdateNetworkWirelessSsidSpeedBurst | None = None,
+        named_vlans: UpdateNetworkWirelessSsidNamedVlans | None = None,
+        local_auth_fallback: UpdateNetworkWirelessSsidLocalAuthFallback | None = None,
         radius_accounting_start_delay: int | None = None,
     ) -> UpdateNetworkWirelessSsidResponse | None:
         """Update the attributes of an MR SSID.
@@ -3077,23 +3213,27 @@ class Wireless:
         if wpa_encryption_mode is not None:
             payload["wpaEncryptionMode"] = wpa_encryption_mode
         if dot11w is not None:
-            payload["dot11w"] = dot11w
+            payload["dot11w"] = dot11w.model_dump(by_alias=True, exclude_none=True)
         if dot11r is not None:
-            payload["dot11r"] = dot11r
+            payload["dot11r"] = dot11r.model_dump(by_alias=True, exclude_none=True)
         if splash_page is not None:
             payload["splashPage"] = splash_page
         if splash_guest_sponsor_domains is not None:
             payload["splashGuestSponsorDomains"] = splash_guest_sponsor_domains
         if oauth is not None:
-            payload["oauth"] = oauth
+            payload["oauth"] = oauth.model_dump(by_alias=True, exclude_none=True)
         if local_radius is not None:
-            payload["localRadius"] = local_radius
+            payload["localRadius"] = local_radius.model_dump(by_alias=True, exclude_none=True)
         if ldap is not None:
-            payload["ldap"] = ldap
+            payload["ldap"] = ldap.model_dump(by_alias=True, exclude_none=True)
         if active_directory is not None:
-            payload["activeDirectory"] = active_directory
+            payload["activeDirectory"] = active_directory.model_dump(
+                by_alias=True, exclude_none=True
+            )
         if radius_servers is not None:
-            payload["radiusServers"] = radius_servers
+            payload["radiusServers"] = [
+                item.model_dump(by_alias=True, exclude_none=True) for item in radius_servers
+            ]
         if radius_proxy_enabled is not None:
             payload["radiusProxyEnabled"] = radius_proxy_enabled
         if radius_testing_enabled is not None:
@@ -3109,7 +3249,7 @@ class Wireless:
         if radius_fallback_enabled is not None:
             payload["radiusFallbackEnabled"] = radius_fallback_enabled
         if radius_radsec is not None:
-            payload["radiusRadsec"] = radius_radsec
+            payload["radiusRadsec"] = radius_radsec.model_dump(by_alias=True, exclude_none=True)
         if radius_coa_enabled is not None:
             payload["radiusCoaEnabled"] = radius_coa_enabled
         if radius_failover_policy is not None:
@@ -3119,7 +3259,10 @@ class Wireless:
         if radius_accounting_enabled is not None:
             payload["radiusAccountingEnabled"] = radius_accounting_enabled
         if radius_accounting_servers is not None:
-            payload["radiusAccountingServers"] = radius_accounting_servers
+            payload["radiusAccountingServers"] = [
+                item.model_dump(by_alias=True, exclude_none=True)
+                for item in radius_accounting_servers
+            ]
         if radius_accounting_interim_interval is not None:
             payload["radiusAccountingInterimInterval"] = radius_accounting_interim_interval
         if radius_attribute_for_group_policies is not None:
@@ -3139,13 +3282,15 @@ class Wireless:
         if default_vlan_id is not None:
             payload["defaultVlanId"] = default_vlan_id
         if ap_tags_and_vlan_ids is not None:
-            payload["apTagsAndVlanIds"] = ap_tags_and_vlan_ids
+            payload["apTagsAndVlanIds"] = [
+                item.model_dump(by_alias=True, exclude_none=True) for item in ap_tags_and_vlan_ids
+            ]
         if walled_garden_enabled is not None:
             payload["walledGardenEnabled"] = walled_garden_enabled
         if walled_garden_ranges is not None:
             payload["walledGardenRanges"] = walled_garden_ranges
         if gre is not None:
-            payload["gre"] = gre
+            payload["gre"] = gre.model_dump(by_alias=True, exclude_none=True)
         if radius_override is not None:
             payload["radiusOverride"] = radius_override
         if radius_guest_vlan_enabled is not None:
@@ -3179,13 +3324,15 @@ class Wireless:
         if adult_content_filtering_enabled is not None:
             payload["adultContentFilteringEnabled"] = adult_content_filtering_enabled
         if dns_rewrite is not None:
-            payload["dnsRewrite"] = dns_rewrite
+            payload["dnsRewrite"] = dns_rewrite.model_dump(by_alias=True, exclude_none=True)
         if speed_burst is not None:
-            payload["speedBurst"] = speed_burst
+            payload["speedBurst"] = speed_burst.model_dump(by_alias=True, exclude_none=True)
         if named_vlans is not None:
-            payload["namedVlans"] = named_vlans
+            payload["namedVlans"] = named_vlans.model_dump(by_alias=True, exclude_none=True)
         if local_auth_fallback is not None:
-            payload["localAuthFallback"] = local_auth_fallback
+            payload["localAuthFallback"] = local_auth_fallback.model_dump(
+                by_alias=True, exclude_none=True
+            )
         if radius_accounting_start_delay is not None:
             payload["radiusAccountingStartDelay"] = radius_accounting_start_delay
 
@@ -3226,8 +3373,8 @@ class Wireless:
         network_id: str,
         number: str,
         enabled: bool | None = None,
-        rules: list | None = None,
-        exception: dict | None = None,
+        rules: list[UpdateNetworkWirelessSsidBonjourForwardingRulesItem] | None = None,
+        exception: UpdateNetworkWirelessSsidBonjourForwardingException | None = None,
     ) -> UpdateNetworkWirelessSsidBonjourForwardingResponse | None:
         """Update the bonjour forwarding setting and rules for the SSID.
 
@@ -3249,9 +3396,9 @@ class Wireless:
         if enabled is not None:
             payload["enabled"] = enabled
         if rules is not None:
-            payload["rules"] = rules
+            payload["rules"] = [item.model_dump(by_alias=True, exclude_none=True) for item in rules]
         if exception is not None:
-            payload["exception"] = exception
+            payload["exception"] = exception.model_dump(by_alias=True, exclude_none=True)
 
         return self._session.put(
             scope="wireless",
@@ -3289,7 +3436,10 @@ class Wireless:
         network_id: str,
         number: str,
         enabled: bool | None = None,
-        device_type_policies: list | None = None,
+        device_type_policies: list[
+            UpdateNetworkWirelessSsidDeviceTypeGroupPoliciesDeviceTypePoliciesItem
+        ]
+        | None = None,
     ) -> dict[str, Any] | None:
         """Update the device type group policies for the SSID.
 
@@ -3310,7 +3460,9 @@ class Wireless:
         if enabled is not None:
             payload["enabled"] = enabled
         if device_type_policies is not None:
-            payload["deviceTypePolicies"] = device_type_policies
+            payload["deviceTypePolicies"] = [
+                item.model_dump(by_alias=True, exclude_none=True) for item in device_type_policies
+            ]
 
         return self._session.put(
             scope="wireless",
@@ -3348,9 +3500,9 @@ class Wireless:
         network_id: str,
         number: str,
         timeout: int | None = None,
-        identity: dict | None = None,
+        identity: UpdateNetworkWirelessSsidEapOverrideIdentity | None = None,
         max_retries: int | None = None,
-        eapol_key: dict | None = None,
+        eapol_key: UpdateNetworkWirelessSsidEapOverrideEapolKey | None = None,
     ) -> UpdateNetworkWirelessSsidEapOverrideResponse | None:
         """Update the EAP overridden parameters for an SSID.
 
@@ -3373,11 +3525,11 @@ class Wireless:
         if timeout is not None:
             payload["timeout"] = timeout
         if identity is not None:
-            payload["identity"] = identity
+            payload["identity"] = identity.model_dump(by_alias=True, exclude_none=True)
         if max_retries is not None:
             payload["maxRetries"] = max_retries
         if eapol_key is not None:
-            payload["eapolKey"] = eapol_key
+            payload["eapolKey"] = eapol_key.model_dump(by_alias=True, exclude_none=True)
 
         return self._session.put(
             scope="wireless",
@@ -3415,7 +3567,7 @@ class Wireless:
         *,
         network_id: str,
         number: str,
-        rules: list | None = None,
+        rules: list[UpdateNetworkWirelessSsidFirewallL3FirewallRulesRulesItem] | None = None,
         allow_lan_access: bool | None = None,
     ) -> UpdateNetworkWirelessSsidFirewallL3FirewallRulesResponse | None:
         """Update the L3 firewall rules of an SSID on an MR network.
@@ -3436,7 +3588,7 @@ class Wireless:
 
         payload = {}
         if rules is not None:
-            payload["rules"] = rules
+            payload["rules"] = [item.model_dump(by_alias=True, exclude_none=True) for item in rules]
         if allow_lan_access is not None:
             payload["allowLanAccess"] = allow_lan_access
 
@@ -3472,7 +3624,11 @@ class Wireless:
         )
 
     def update_network_wireless_ssid_firewall_l7_firewall_rules(
-        self, *, network_id: str, number: str, rules: list | None = None
+        self,
+        *,
+        network_id: str,
+        number: str,
+        rules: list[UpdateNetworkWirelessSsidFirewallL7FirewallRulesRulesItem] | None = None,
     ) -> UpdateNetworkWirelessSsidFirewallL7FirewallRulesResponse | None:
         """Update the L7 firewall rules of an SSID on an MR network.
 
@@ -3492,7 +3648,7 @@ class Wireless:
 
         payload = {}
         if rules is not None:
-            payload["rules"] = rules
+            payload["rules"] = [item.model_dump(by_alias=True, exclude_none=True) for item in rules]
 
         return self._session.put(
             scope="wireless",
@@ -3531,13 +3687,13 @@ class Wireless:
         network_id: str,
         number: str,
         enabled: bool | None = None,
-        operator: dict | None = None,
-        venue: dict | None = None,
+        operator: UpdateNetworkWirelessSsidHotspot20Operator | None = None,
+        venue: UpdateNetworkWirelessSsidHotspot20Venue | None = None,
         network_access_type: str | None = None,
-        domains: list | None = None,
-        roam_consort_ois: list | None = None,
-        mcc_mncs: list | None = None,
-        nai_realms: list | None = None,
+        domains: list[str] | None = None,
+        roam_consort_ois: list[str] | None = None,
+        mcc_mncs: list[UpdateNetworkWirelessSsidHotspot20MccMncsItem] | None = None,
+        nai_realms: list[UpdateNetworkWirelessSsidHotspot20NaiRealmsItem] | None = None,
     ) -> UpdateNetworkWirelessSsidHotspot20Response | None:
         """Update the Hotspot 2.0 settings of an SSID.
 
@@ -3583,9 +3739,9 @@ class Wireless:
         if enabled is not None:
             payload["enabled"] = enabled
         if operator is not None:
-            payload["operator"] = operator
+            payload["operator"] = operator.model_dump(by_alias=True, exclude_none=True)
         if venue is not None:
-            payload["venue"] = venue
+            payload["venue"] = venue.model_dump(by_alias=True, exclude_none=True)
         if network_access_type is not None:
             payload["networkAccessType"] = network_access_type
         if domains is not None:
@@ -3593,9 +3749,13 @@ class Wireless:
         if roam_consort_ois is not None:
             payload["roamConsortOis"] = roam_consort_ois
         if mcc_mncs is not None:
-            payload["mccMncs"] = mcc_mncs
+            payload["mccMncs"] = [
+                item.model_dump(by_alias=True, exclude_none=True) for item in mcc_mncs
+            ]
         if nai_realms is not None:
-            payload["naiRealms"] = nai_realms
+            payload["naiRealms"] = [
+                item.model_dump(by_alias=True, exclude_none=True) for item in nai_realms
+            ]
 
         return self._session.put(
             scope="wireless",
@@ -3835,8 +3995,9 @@ class Wireless:
         network_id: str,
         number: str,
         enabled: bool | None = None,
-        ranges: list | None = None,
-        ranges_in_seconds: list | None = None,
+        ranges: list[UpdateNetworkWirelessSsidSchedulesRangesItem] | None = None,
+        ranges_in_seconds: list[UpdateNetworkWirelessSsidSchedulesRangesInSecondsItem]
+        | None = None,
     ) -> UpdateNetworkWirelessSsidSchedulesResponse | None:
         """Update the outage schedule for the SSID.
 
@@ -3862,9 +4023,13 @@ class Wireless:
         if enabled is not None:
             payload["enabled"] = enabled
         if ranges is not None:
-            payload["ranges"] = ranges
+            payload["ranges"] = [
+                item.model_dump(by_alias=True, exclude_none=True) for item in ranges
+            ]
         if ranges_in_seconds is not None:
-            payload["rangesInSeconds"] = ranges_in_seconds
+            payload["rangesInSeconds"] = [
+                item.model_dump(by_alias=True, exclude_none=True) for item in ranges_in_seconds
+            ]
 
         return self._session.put(
             scope="wireless",
@@ -3909,16 +4074,17 @@ class Wireless:
         use_redirect_url: bool | None = None,
         welcome_message: str | None = None,
         theme_id: str | None = None,
-        splash_logo: dict | None = None,
-        splash_image: dict | None = None,
-        splash_prepaid_front: dict | None = None,
+        splash_logo: UpdateNetworkWirelessSsidSplashSettingsSplashLogo | None = None,
+        splash_image: UpdateNetworkWirelessSsidSplashSettingsSplashImage | None = None,
+        splash_prepaid_front: UpdateNetworkWirelessSsidSplashSettingsSplashPrepaidFront
+        | None = None,
         block_all_traffic_before_sign_on: bool | None = None,
         controller_disconnection_behavior: str | None = None,
         allow_simultaneous_logins: bool | None = None,
-        guest_sponsorship: dict | None = None,
-        billing: dict | None = None,
-        sentry_enrollment: dict | None = None,
-        self_registration: dict | None = None,
+        guest_sponsorship: UpdateNetworkWirelessSsidSplashSettingsGuestSponsorship | None = None,
+        billing: UpdateNetworkWirelessSsidSplashSettingsBilling | None = None,
+        sentry_enrollment: UpdateNetworkWirelessSsidSplashSettingsSentryEnrollment | None = None,
+        self_registration: UpdateNetworkWirelessSsidSplashSettingsSelfRegistration | None = None,
     ) -> UpdateNetworkWirelessSsidSplashSettingsResponse | None:
         """Modify the splash page settings for the given SSID.
 
@@ -4008,11 +4174,13 @@ class Wireless:
         if theme_id is not None:
             payload["themeId"] = theme_id
         if splash_logo is not None:
-            payload["splashLogo"] = splash_logo
+            payload["splashLogo"] = splash_logo.model_dump(by_alias=True, exclude_none=True)
         if splash_image is not None:
-            payload["splashImage"] = splash_image
+            payload["splashImage"] = splash_image.model_dump(by_alias=True, exclude_none=True)
         if splash_prepaid_front is not None:
-            payload["splashPrepaidFront"] = splash_prepaid_front
+            payload["splashPrepaidFront"] = splash_prepaid_front.model_dump(
+                by_alias=True, exclude_none=True
+            )
         if block_all_traffic_before_sign_on is not None:
             payload["blockAllTrafficBeforeSignOn"] = block_all_traffic_before_sign_on
         if controller_disconnection_behavior is not None:
@@ -4020,13 +4188,19 @@ class Wireless:
         if allow_simultaneous_logins is not None:
             payload["allowSimultaneousLogins"] = allow_simultaneous_logins
         if guest_sponsorship is not None:
-            payload["guestSponsorship"] = guest_sponsorship
+            payload["guestSponsorship"] = guest_sponsorship.model_dump(
+                by_alias=True, exclude_none=True
+            )
         if billing is not None:
-            payload["billing"] = billing
+            payload["billing"] = billing.model_dump(by_alias=True, exclude_none=True)
         if sentry_enrollment is not None:
-            payload["sentryEnrollment"] = sentry_enrollment
+            payload["sentryEnrollment"] = sentry_enrollment.model_dump(
+                by_alias=True, exclude_none=True
+            )
         if self_registration is not None:
-            payload["selfRegistration"] = self_registration
+            payload["selfRegistration"] = self_registration.model_dump(
+                by_alias=True, exclude_none=True
+            )
 
         return self._session.put(
             scope="wireless",
@@ -4066,7 +4240,7 @@ class Wireless:
         number: str,
         traffic_shaping_enabled: bool | None = None,
         default_rules_enabled: bool | None = None,
-        rules: list | None = None,
+        rules: list[UpdateNetworkWirelessSsidTrafficShapingRulesRulesItem] | None = None,
     ) -> UpdateNetworkWirelessSsidTrafficShapingRulesResponse | None:
         """Update the traffic shaping rules for an SSID on an MR network.
 
@@ -4096,7 +4270,7 @@ class Wireless:
         if default_rules_enabled is not None:
             payload["defaultRulesEnabled"] = default_rules_enabled
         if rules is not None:
-            payload["rules"] = rules
+            payload["rules"] = [item.model_dump(by_alias=True, exclude_none=True) for item in rules]
 
         return self._session.put(
             scope="wireless",
@@ -4131,9 +4305,9 @@ class Wireless:
         *,
         network_id: str,
         number: str,
-        concentrator: dict | None = None,
-        split_tunnel: dict | None = None,
-        failover: dict | None = None,
+        concentrator: UpdateNetworkWirelessSsidVpnConcentrator | None = None,
+        split_tunnel: UpdateNetworkWirelessSsidVpnSplitTunnel | None = None,
+        failover: UpdateNetworkWirelessSsidVpnFailover | None = None,
     ) -> dict[str, Any] | None:
         """Update the VPN settings for the SSID.
 
@@ -4154,11 +4328,11 @@ class Wireless:
 
         payload = {}
         if concentrator is not None:
-            payload["concentrator"] = concentrator
+            payload["concentrator"] = concentrator.model_dump(by_alias=True, exclude_none=True)
         if split_tunnel is not None:
-            payload["splitTunnel"] = split_tunnel
+            payload["splitTunnel"] = split_tunnel.model_dump(by_alias=True, exclude_none=True)
         if failover is not None:
-            payload["failover"] = failover
+            payload["failover"] = failover.model_dump(by_alias=True, exclude_none=True)
 
         return self._session.put(
             scope="wireless", operation_id="updateNetworkWirelessSsidVpn", path=path, json=payload
@@ -4247,9 +4421,9 @@ class Wireless:
         *,
         network_id: str,
         enabled: bool | None = None,
-        iot_controller: dict | None = None,
-        lock_management: dict | None = None,
-        defaults: dict | None = None,
+        iot_controller: UpdateNetworkWirelessZigbeeIotController | None = None,
+        lock_management: UpdateNetworkWirelessZigbeeLockManagement | None = None,
+        defaults: UpdateNetworkWirelessZigbeeDefaults | None = None,
     ) -> UpdateNetworkWirelessZigbeeResponse | None:
         """Update Zigbee Configs for specified network.
 
@@ -4270,11 +4444,11 @@ class Wireless:
         if enabled is not None:
             payload["enabled"] = enabled
         if iot_controller is not None:
-            payload["iotController"] = iot_controller
+            payload["iotController"] = iot_controller.model_dump(by_alias=True, exclude_none=True)
         if lock_management is not None:
-            payload["lockManagement"] = lock_management
+            payload["lockManagement"] = lock_management.model_dump(by_alias=True, exclude_none=True)
         if defaults is not None:
-            payload["defaults"] = defaults
+            payload["defaults"] = defaults.model_dump(by_alias=True, exclude_none=True)
 
         return self._session.put(
             scope="wireless",
@@ -4288,7 +4462,7 @@ class Wireless:
         self,
         *,
         organization_id: str,
-        network_ids: list | None = None,
+        network_ids: list[str] | None = None,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
@@ -4344,7 +4518,7 @@ class Wireless:
         self,
         *,
         organization_id: str,
-        network_ids: list | None = None,
+        network_ids: list[str] | None = None,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
@@ -4400,9 +4574,9 @@ class Wireless:
         self,
         *,
         organization_id: str,
-        network_ids: list | None = None,
-        serials: list | None = None,
-        campus_gateway_cluster_ids: list | None = None,
+        network_ids: list[str] | None = None,
+        serials: list[str] | None = None,
+        campus_gateway_cluster_ids: list[str] | None = None,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
@@ -4467,8 +4641,8 @@ class Wireless:
         self,
         *,
         organization_id: str,
-        network_ids: list | None = None,
-        serials: list | None = None,
+        network_ids: list[str] | None = None,
+        serials: list[str] | None = None,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
@@ -4547,8 +4721,8 @@ class Wireless:
         self,
         *,
         organization_id: str,
-        network_ids: list | None = None,
-        serials: list | None = None,
+        network_ids: list[str] | None = None,
+        serials: list[str] | None = None,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
@@ -4627,8 +4801,8 @@ class Wireless:
         self,
         *,
         organization_id: str,
-        network_ids: list | None = None,
-        serials: list | None = None,
+        network_ids: list[str] | None = None,
+        serials: list[str] | None = None,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
@@ -4709,8 +4883,8 @@ class Wireless:
         self,
         *,
         organization_id: str,
-        network_ids: list | None = None,
-        serials: list | None = None,
+        network_ids: list[str] | None = None,
+        serials: list[str] | None = None,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
@@ -4794,7 +4968,7 @@ class Wireless:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        network_ids: list | None = None,
+        network_ids: list[str] | None = None,
         total_pages: int | Literal["all"] = 1,
         direction: Literal["prev", "next"] = "next",
     ) -> PaginatedResponse[GetOrganizationWirelessDevicesEthernetStatusesResponseItem]:
@@ -4848,10 +5022,10 @@ class Wireless:
         self,
         *,
         organization_id: str,
-        network_ids: list | None = None,
-        ssids: list | None = None,
-        bands: list | None = None,
-        macs: list | None = None,
+        network_ids: list[str] | None = None,
+        ssids: list[int] | None = None,
+        bands: list[str] | None = None,
+        macs: list[str] | None = None,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
@@ -4932,10 +5106,10 @@ class Wireless:
         self,
         *,
         organization_id: str,
-        network_ids: list | None = None,
-        serials: list | None = None,
-        ssids: list | None = None,
-        bands: list | None = None,
+        network_ids: list[str] | None = None,
+        serials: list[str] | None = None,
+        ssids: list[int] | None = None,
+        bands: list[str] | None = None,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
@@ -5016,10 +5190,10 @@ class Wireless:
         self,
         *,
         organization_id: str,
-        network_ids: list | None = None,
-        serials: list | None = None,
-        ssids: list | None = None,
-        bands: list | None = None,
+        network_ids: list[str] | None = None,
+        serials: list[str] | None = None,
+        ssids: list[int] | None = None,
+        bands: list[str] | None = None,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
@@ -5106,8 +5280,8 @@ class Wireless:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        network_ids: list | None = None,
-        serials: list | None = None,
+        network_ids: list[str] | None = None,
+        serials: list[str] | None = None,
         total_pages: int | Literal["all"] = 1,
         direction: Literal["prev", "next"] = "next",
     ) -> PaginatedResponse[GetOrganizationWirelessDevicesPowerModeHistoryResponseItemsItem]:
@@ -5174,7 +5348,7 @@ class Wireless:
         )
 
     def get_organization_wireless_devices_radsec_certificates_authorities(
-        self, *, organization_id: str, certificate_authority_ids: list | None = None
+        self, *, organization_id: str, certificate_authority_ids: list[str] | None = None
     ) -> GetOrganizationWirelessDevicesRadsecCertificatesAuthoritiesResponse | None:
         """Query for details on the organization's RADSEC device Certificate Authority certificates (CAs).
 
@@ -5258,7 +5432,7 @@ class Wireless:
         )
 
     def get_organization_wireless_devices_radsec_certificates_authorities_crls(
-        self, *, organization_id: str, certificate_authority_ids: list | None = None
+        self, *, organization_id: str, certificate_authority_ids: list[str] | None = None
     ) -> GetOrganizationWirelessDevicesRadsecCertificatesAuthoritiesCrlsResponse | None:
         """Query for certificate revocation list (CRL) for the organization's RADSEC device Certificate Authorities (CAs).
 
@@ -5286,7 +5460,7 @@ class Wireless:
         )
 
     def get_organization_wireless_devices_radsec_certificates_authorities_crls_deltas(
-        self, *, organization_id: str, certificate_authority_ids: list | None = None
+        self, *, organization_id: str, certificate_authority_ids: list[str] | None = None
     ) -> GetOrganizationWirelessDevicesRadsecCertificatesAuthoritiesCrlsDeltasResponse | None:
         """Query for all delta certificate revocation list (CRL) for the organization's RADSEC device Certificate Authority (CA) with the given id.
 
@@ -5323,8 +5497,8 @@ class Wireless:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        network_ids: list | None = None,
-        serials: list | None = None,
+        network_ids: list[str] | None = None,
+        serials: list[str] | None = None,
         total_pages: int | Literal["all"] = 1,
         direction: Literal["prev", "next"] = "next",
     ) -> PaginatedResponse[GetOrganizationWirelessDevicesSystemCpuLoadHistoryResponseItemsItem]:
@@ -5394,9 +5568,9 @@ class Wireless:
         self,
         *,
         organization_id: str,
-        network_ids: list | None = None,
-        serials: list | None = None,
-        controller_serials: list | None = None,
+        network_ids: list[str] | None = None,
+        serials: list[str] | None = None,
+        controller_serials: list[str] | None = None,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
@@ -5466,7 +5640,7 @@ class Wireless:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        network_ids: list | None = None,
+        network_ids: list[str] | None = None,
         total_pages: int | Literal["all"] = 1,
         direction: Literal["prev", "next"] = "next",
     ) -> PaginatedResponse[GetOrganizationWirelessLocationScanningByNetworkResponseItemsItem]:
@@ -5522,7 +5696,7 @@ class Wireless:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        network_ids: list | None = None,
+        network_ids: list[str] | None = None,
         total_pages: int | Literal["all"] = 1,
         direction: Literal["prev", "next"] = "next",
     ) -> PaginatedResponse[GetOrganizationWirelessLocationScanningReceiversResponseItemsItem]:
@@ -5575,10 +5749,10 @@ class Wireless:
         self,
         *,
         organization_id: str,
-        network: dict,
+        network: CreateOrganizationWirelessLocationScanningReceiverNetwork,
         url: str,
         version: str,
-        radio: dict,
+        radio: CreateOrganizationWirelessLocationScanningReceiverRadio,
         shared_secret: str,
     ) -> CreateOrganizationWirelessLocationScanningReceiverResponse | None:
         """Add new receiver for scanning API.
@@ -5599,13 +5773,13 @@ class Wireless:
 
         payload = {}
         if network is not None:
-            payload["network"] = network
+            payload["network"] = network.model_dump(by_alias=True, exclude_none=True)
         if url is not None:
             payload["url"] = url
         if version is not None:
             payload["version"] = version
         if radio is not None:
-            payload["radio"] = radio
+            payload["radio"] = radio.model_dump(by_alias=True, exclude_none=True)
         if shared_secret is not None:
             payload["sharedSecret"] = shared_secret
 
@@ -5624,7 +5798,7 @@ class Wireless:
         receiver_id: str,
         url: str | None = None,
         version: str | None = None,
-        radio: dict | None = None,
+        radio: UpdateOrganizationWirelessLocationScanningReceiverRadio | None = None,
     ) -> UpdateOrganizationWirelessLocationScanningReceiverResponse | None:
         """Change scanning API receiver settings.
 
@@ -5650,7 +5824,7 @@ class Wireless:
         if version is not None:
             payload["version"] = version
         if radio is not None:
-            payload["radio"] = radio
+            payload["radio"] = radio.model_dump(by_alias=True, exclude_none=True)
 
         return self._session.put(
             scope="wireless",
@@ -5691,7 +5865,7 @@ class Wireless:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        network_ids: list | None = None,
+        network_ids: list[str] | None = None,
         total_pages: int | Literal["all"] = 1,
         direction: Literal["prev", "next"] = "next",
     ) -> PaginatedResponse[GetOrganizationWirelessMqttSettingsResponseItemsItem]:
@@ -5744,10 +5918,10 @@ class Wireless:
         self,
         *,
         organization_id: str,
-        network: dict,
-        mqtt: dict,
-        ble: dict | None = None,
-        wifi: dict | None = None,
+        network: UpdateOrganizationWirelessMqttSettingsNetwork,
+        mqtt: UpdateOrganizationWirelessMqttSettingsMqtt,
+        ble: UpdateOrganizationWirelessMqttSettingsBle | None = None,
+        wifi: UpdateOrganizationWirelessMqttSettingsWifi | None = None,
     ) -> UpdateOrganizationWirelessMqttSettingsResponse | None:
         """Add new broker config for wireless MQTT.
 
@@ -5766,13 +5940,13 @@ class Wireless:
 
         payload = {}
         if network is not None:
-            payload["network"] = network
+            payload["network"] = network.model_dump(by_alias=True, exclude_none=True)
         if mqtt is not None:
-            payload["mqtt"] = mqtt
+            payload["mqtt"] = mqtt.model_dump(by_alias=True, exclude_none=True)
         if ble is not None:
-            payload["ble"] = ble
+            payload["ble"] = ble.model_dump(by_alias=True, exclude_none=True)
         if wifi is not None:
-            payload["wifi"] = wifi
+            payload["wifi"] = wifi.model_dump(by_alias=True, exclude_none=True)
 
         return self._session.put(
             scope="wireless",
@@ -5783,7 +5957,7 @@ class Wireless:
         )
 
     def recalculate_organization_wireless_radio_auto_rf_channels(
-        self, *, organization_id: str, network_ids: list
+        self, *, organization_id: str, network_ids: list[str]
     ) -> RecalculateOrganizationWirelessRadioAutoRfChannelsResponse | None:
         """Recalculates automatically assigned channels for every AP within specified the specified network(s).
 
@@ -5816,15 +5990,15 @@ class Wireless:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        network_ids: list | None = None,
-        product_types: list | None = None,
+        network_ids: list[str] | None = None,
+        product_types: list[str] | None = None,
         name: str | None = None,
         mac: str | None = None,
         serial: str | None = None,
         model: str | None = None,
-        macs: list | None = None,
-        serials: list | None = None,
-        models: list | None = None,
+        macs: list[str] | None = None,
+        serials: list[str] | None = None,
+        models: list[str] | None = None,
         total_pages: int | Literal["all"] = 1,
         direction: Literal["prev", "next"] = "next",
     ) -> PaginatedResponse[GetOrganizationWirelessRfProfilesAssignmentsByDeviceResponseItem]:
@@ -5915,8 +6089,8 @@ class Wireless:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        network_ids: list | None = None,
-        ssids: list | None = None,
+        network_ids: list[str] | None = None,
+        ssids: list[int] | None = None,
         total_pages: int | Literal["all"] = 1,
         direction: Literal["prev", "next"] = "next",
     ) -> PaginatedResponse[
@@ -5976,9 +6150,9 @@ class Wireless:
         self,
         *,
         organization_id: str,
-        client: dict,
-        ssid: dict,
-        network: dict,
+        client: CreateOrganizationWirelessSsidsFirewallIsolationAllowlistEntryClient,
+        ssid: CreateOrganizationWirelessSsidsFirewallIsolationAllowlistEntrySsid,
+        network: CreateOrganizationWirelessSsidsFirewallIsolationAllowlistEntryNetwork,
         description: str | None = None,
     ) -> CreateOrganizationWirelessSsidsFirewallIsolationAllowlistEntryResponse | None:
         """Create isolation allow list MAC entry for this organization.
@@ -6002,11 +6176,11 @@ class Wireless:
         if description is not None:
             payload["description"] = description
         if client is not None:
-            payload["client"] = client
+            payload["client"] = client.model_dump(by_alias=True, exclude_none=True)
         if ssid is not None:
-            payload["ssid"] = ssid
+            payload["ssid"] = ssid.model_dump(by_alias=True, exclude_none=True)
         if network is not None:
-            payload["network"] = network
+            payload["network"] = network.model_dump(by_alias=True, exclude_none=True)
 
         return self._session.post(
             scope="wireless",
@@ -6022,7 +6196,7 @@ class Wireless:
         organization_id: str,
         entry_id: str,
         description: str | None = None,
-        client: dict | None = None,
+        client: UpdateOrganizationWirelessSsidsFirewallIsolationAllowlistEntryClient | None = None,
     ) -> UpdateOrganizationWirelessSsidsFirewallIsolationAllowlistEntryResponse | None:
         """Update isolation allow list MAC entry info.
 
@@ -6043,7 +6217,7 @@ class Wireless:
         if description is not None:
             payload["description"] = description
         if client is not None:
-            payload["client"] = client
+            payload["client"] = client.model_dump(by_alias=True, exclude_none=True)
 
         return self._session.put(
             scope="wireless",
@@ -6082,7 +6256,7 @@ class Wireless:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        network_ids: list | None = None,
+        network_ids: list[str] | None = None,
         include_disabled_ssids: bool | None = None,
         total_pages: int | Literal["all"] = 1,
         direction: Literal["prev", "next"] = "next",
@@ -6140,9 +6314,9 @@ class Wireless:
         self,
         *,
         organization_id: str,
-        network_ids: list | None = None,
-        serials: list | None = None,
-        bssids: list | None = None,
+        network_ids: list[str] | None = None,
+        serials: list[str] | None = None,
+        bssids: list[str] | None = None,
         hide_disabled: bool | None = None,
         per_page: int | None = None,
         starting_after: str | None = None,
@@ -6215,7 +6389,7 @@ class Wireless:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        network_ids: list | None = None,
+        network_ids: list[str] | None = None,
         total_pages: int | Literal["all"] = 1,
         direction: Literal["prev", "next"] = "next",
     ) -> PaginatedResponse[GetOrganizationWirelessZigbeeByNetworkResponseItem]:
@@ -6271,7 +6445,7 @@ class Wireless:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        network_ids: list | None = None,
+        network_ids: list[str] | None = None,
         is_enrolled: bool | None = None,
         search: str | None = None,
         total_pages: int | Literal["all"] = 1,
@@ -6362,7 +6536,7 @@ class Wireless:
         )
 
     def create_organization_wireless_zigbee_disenrollment(
-        self, *, organization_id: str, door_lock_ids: list | None = None
+        self, *, organization_id: str, door_lock_ids: list[str] | None = None
     ) -> CreateOrganizationWirelessZigbeeDisenrollmentResponse | None:
         """Enqueue a job to start disenrolling door locks on zigbee configured wireless devices.
 
@@ -6415,7 +6589,7 @@ class Wireless:
         self,
         *,
         organization_id: str,
-        network_ids: list | None = None,
+        network_ids: list[str] | None = None,
         serial: str | None = None,
         per_page: int | None = None,
         starting_after: str | None = None,

@@ -43,12 +43,24 @@ class SchemaResult:
 
 
 @dataclass
+class RequestBodyParamSchema:
+    """Schema info for a request body parameter."""
+
+    class_name: str
+    is_list: bool = False
+    is_dict: bool = False
+    item_class_name: str | None = None
+
+
+@dataclass
 class SchemaRegistry:
     """Registry of generated response schemas."""
 
     schema_names: set[str]
     item_schema_map: dict[str, list[str]]
     untyped_response_ops: set[str]
+    # Map of (operation_id, property_name) -> RequestBodyParamSchema
+    request_body_schemas: dict[tuple[str, str], RequestBodyParamSchema]
 
 
 @dataclass
@@ -84,21 +96,30 @@ def get_response_schema_name(operation_id: str) -> str:
     return f"{capitalize_first(operation_id)}Response"
 
 
+def get_request_param_schema_name(operation_id: str, property_name: str) -> str:
+    """Get the request body parameter schema class name."""
+    parts = re.split(r"[/_]", property_name)
+    sanitized_prop = "".join(capitalize_first(p) if p else "" for p in parts)
+    return f"{capitalize_first(operation_id)}{sanitized_prop}"
+
+
 def generate_response_schemas(
     spec: OpenAPI, templates: Templates, output_dir: str
 ) -> SchemaRegistry:
-    """Generate Pydantic response schemas from OpenAPI specification."""
+    """Generate Pydantic response and request body schemas from OpenAPI specification."""
     schemas: dict[str, str] = {}
     schema_to_scope: dict[str, str] = {}
     schema_fingerprints: dict[str, str] = {}
     item_schema_map: dict[str, list[str]] = {}
     untyped_response_operations: set[str] = set()
+    request_body_schemas: dict[tuple[str, str], RequestBodyParamSchema] = {}
 
     for path_item in spec.paths.values():
-        operations: dict[Literal["get", "put", "post"], Operation | None] = {
+        operations: dict[Literal["get", "put", "post", "delete"], Operation | None] = {
             "get": path_item.get,
             "put": path_item.put,
             "post": path_item.post,
+            "delete": path_item.delete,
         }
         for operation in operations.values():
             if not operation or not operation.operationId:
@@ -110,28 +131,35 @@ def generate_response_schemas(
                 log.warning(f"Operation {operation_id} has no tags")
                 continue
 
-            response_schema = _extract_response_schema(operation)
-            if not response_schema:
-                continue
-
-            class_name = get_response_schema_name(operation_id)
             ctx = GenerationContext(
                 schemas=schemas,
                 schema_to_scope=schema_to_scope,
                 schema_fingerprints=schema_fingerprints,
                 scope=scope,
             )
-            result = _generate_schema_class(
+
+            # Generate response schemas
+            response_schema = _extract_response_schema(operation)
+            if response_schema:
+                class_name = get_response_schema_name(operation_id)
+                result = _generate_schema_class(
+                    ctx,
+                    class_name=class_name,
+                    schema=response_schema,
+                    description=f"Response for {operation_id} operation.",
+                )
+                if result.status != SchemaStatus.SKIPPED:
+                    if result.item_class_names:
+                        item_schema_map[class_name] = result.item_class_names
+                else:
+                    untyped_response_operations.add(operation_id)
+
+            # Generate request body schemas
+            _generate_request_body_schemas(
                 ctx,
-                class_name=class_name,
-                schema=response_schema,
-                description=f"Response for {operation_id} operation.",
+                operation=operation,
+                request_body_schemas=request_body_schemas,
             )
-            if result.status != SchemaStatus.SKIPPED:
-                if result.item_class_names:
-                    item_schema_map[class_name] = result.item_class_names
-            else:
-                untyped_response_operations.add(operation_id)
 
     _write_schema_files(
         schemas=schemas,
@@ -143,7 +171,98 @@ def generate_response_schemas(
         schema_names=set(schemas.keys()),
         item_schema_map=item_schema_map,
         untyped_response_ops=untyped_response_operations,
+        request_body_schemas=request_body_schemas,
     )
+
+
+def _generate_request_body_schemas(
+    ctx: GenerationContext,
+    *,
+    operation: Operation,
+    request_body_schemas: dict[tuple[str, str], RequestBodyParamSchema],
+) -> None:
+    """Generate schemas for request body parameters that are objects or arrays."""
+    operation_id = operation.operationId
+    if not operation_id:
+        return
+
+    request_body = operation.requestBody
+    if not request_body:
+        return
+
+    if isinstance(request_body, Reference):
+        raise ValueError(f"Operation {operation_id} has a reference request body")
+
+    json_content = request_body.content.get("application/json")
+    if not json_content:
+        raise ValueError(f"Operation {operation_id} has no JSON content")
+
+    content_schema = json_content.media_type_schema
+    if isinstance(content_schema, Reference) or not content_schema:
+        raise ValueError(f"Operation {operation_id} has no schema or schema is a reference")
+
+    properties = content_schema.properties or {}
+    for property_name, property_schema in properties.items():
+        if isinstance(property_schema, Reference):
+            raise ValueError(f"Operation {operation_id} has a reference property: {property_name}")
+
+        schema_dict = property_schema.model_dump(exclude_none=True)
+        schema_type = schema_dict.get("type")
+
+        if schema_type == "object":
+            if schema_dict.get("properties"):
+                # Object with defined properties - generate a schema class
+                class_name = get_request_param_schema_name(operation_id, property_name)
+                result = _generate_schema_class(
+                    ctx,
+                    class_name=class_name,
+                    schema=schema_dict,
+                    description=property_schema.description,
+                )
+                if result.status != SchemaStatus.SKIPPED:
+                    request_body_schemas[(operation_id, property_name)] = RequestBodyParamSchema(
+                        class_name=result.class_name or class_name,
+                    )
+            elif isinstance(schema_dict.get("additionalProperties"), dict):
+                # Object with additionalProperties - generate dict[str, ValueSchema]
+                additional_props = schema_dict["additionalProperties"]
+                if additional_props.get("type") == "object" and additional_props.get("properties"):
+                    value_class_name = (
+                        get_request_param_schema_name(operation_id, property_name) + "Value"
+                    )
+                    result = _generate_schema_class(
+                        ctx,
+                        class_name=value_class_name,
+                        schema=additional_props,
+                        description=f"Value schema for {property_name}.",
+                    )
+                    if result.status != SchemaStatus.SKIPPED:
+                        request_body_schemas[(operation_id, property_name)] = (
+                            RequestBodyParamSchema(
+                                class_name=f"dict[str, {result.class_name or value_class_name}]",
+                                is_dict=True,
+                                item_class_name=result.class_name or value_class_name,
+                            )
+                        )
+
+        elif schema_type == "array":
+            items = schema_dict.get("items", {})
+            if items.get("type") == "object" and items.get("properties"):
+                item_class_name = (
+                    get_request_param_schema_name(operation_id, property_name) + "Item"
+                )
+                result = _generate_schema_class(
+                    ctx,
+                    class_name=item_class_name,
+                    schema=items,
+                    description=f"Item schema for {property_name}.",
+                )
+                if result.status != SchemaStatus.SKIPPED:
+                    request_body_schemas[(operation_id, property_name)] = RequestBodyParamSchema(
+                        class_name=f"list[{result.class_name or item_class_name}]",
+                        is_list=True,
+                        item_class_name=result.class_name or item_class_name,
+                    )
 
 
 def _extract_response_schema(operation: Operation) -> dict[str, Any] | None:
@@ -545,12 +664,16 @@ def _build_nested_class_name(
 def _sanitize_field_name(name: str) -> str:
     """Sanitize a field name to be a valid Python identifier."""
     if name and (name[0].isdigit() or name.replace(".", "").replace("-", "").isdigit()):
-        return "n_" + name.replace(".", "_").replace("-", "_")
+        return "n_" + name.replace(".", "_").replace("-", "_").replace("/", "_")
+    if "/" in name:
+        return escape_reserved_name(name.replace("/", "_").lower())
     return escape_reserved_name(to_snake_case(name))
 
 
 def _sanitize_class_name(name: str) -> str:
-    """Sanitize a class name. Prefixes with 'N' if it starts with a digit."""
+    """Sanitize a class name to be a valid Python identifier."""
+    parts = re.split(r"[/_]", name)
+    name = "".join(capitalize_first(p) if p else "" for p in parts)
     return "N" + name if name and name[0].isdigit() else name
 
 

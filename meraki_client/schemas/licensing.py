@@ -225,6 +225,27 @@ class LicensingViolations(_BaseSchema):
     )
 
 
+class MoveOrganizationLicensingCotermLicensesDestination(_BaseSchema):
+    """Destination data for the license move."""
+
+    organization_id: str | None = Field(default=None, alias="organizationId")
+    mode: str | None = None
+
+
+class MoveOrganizationLicensingCotermLicensesLicensesItem(_BaseSchema):
+    """Item schema for licenses."""
+
+    key: str
+    counts: list[MoveOrganizationLicensingCotermLicensesLicensesItemCountsItem]
+
+
+class MoveOrganizationLicensingCotermLicensesLicensesItemCountsItem(_BaseSchema):
+    """Schema for MoveOrganizationLicensingCotermLicensesLicensesItemCountsItem."""
+
+    model: str
+    count: int
+
+
 class MoveOrganizationLicensingCotermLicensesResponse(_BaseSchema):
     """Response for moveOrganizationLicensingCotermLicenses operation."""
 

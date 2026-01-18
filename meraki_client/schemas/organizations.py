@@ -43,10 +43,38 @@ class AssignOrganizationLicensesSeatsResponseResultingLicensesItem(_BaseSchema):
     head_license_id: str | None = Field(default=None, alias="headLicenseId")
 
 
+class BulkOrganizationDevicesPacketCaptureCapturesCreateAdvanced(_BaseSchema):
+    """Advanced capture options (optional)."""
+
+    physical_interface_direction: str | None = Field(
+        default=None, alias="physicalInterfaceDirection"
+    )
+    control_plane_direction: str | None = Field(default=None, alias="controlPlaneDirection")
+    inner_filter_mac: list[str] | None = Field(default=None, alias="innerFilterMac")
+    buffer_files: int | None = Field(default=None, alias="bufferFiles")
+    max_filesize: int | None = Field(default=None, alias="maxFilesize")
+    capture_type: str | None = Field(default=None, alias="captureType")
+
+
+class BulkOrganizationDevicesPacketCaptureCapturesCreateDevicesItem(_BaseSchema):
+    """Item schema for devices."""
+
+    serial: str | None = None
+    switchports: str | None = None
+    interface: str | None = None
+
+
 class BulkOrganizationDevicesPacketCaptureCapturesCreateResponse(_BaseSchema):
     """Response for bulkOrganizationDevicesPacketCaptureCapturesCreate operation."""
 
     items: list[GetOrganizationDevicesPacketCaptureCapturesResponseItemsItem] | None = None
+
+
+class BulkUpdateOrganizationDevicesDetailsDetailsItem(_BaseSchema):
+    """Item schema for details."""
+
+    name: str
+    value: str | None = None
 
 
 class BulkUpdateOrganizationDevicesDetailsResponse(_BaseSchema):
@@ -55,12 +83,26 @@ class BulkUpdateOrganizationDevicesDetailsResponse(_BaseSchema):
     serials: list[str]
 
 
+class ClaimIntoOrganizationInventoryLicensesItem(_BaseSchema):
+    """Item schema for licenses."""
+
+    key: str
+    mode: str | None = None
+
+
 class ClaimIntoOrganizationInventoryResponse(_BaseSchema):
     """Response for claimIntoOrganizationInventory operation."""
 
     orders: list[str] | None = None
     serials: list[str] | None = None
     licenses: list[ClaimIntoOrganizationResponseLicensesItem] | None = None
+
+
+class ClaimIntoOrganizationLicensesItem(_BaseSchema):
+    """Item schema for licenses."""
+
+    key: str
+    mode: str | None = None
 
 
 class ClaimIntoOrganizationResponse(_BaseSchema):
@@ -99,6 +141,14 @@ class ClaimOrganizationInventoryOrdersResponseSubscriptionsItem(_BaseSchema):
     counts: OrganizationsSubscriptionsCounts | None = None
 
 
+class ClaimOrganizationInventoryOrdersSubscriptionsItem(_BaseSchema):
+    """Item schema for subscriptions."""
+
+    subscription_id: str = Field(alias="subscriptionId")
+    name: str | None = None
+    description: str | None = None
+
+
 class CloneOrganizationResponse(_BaseSchema):
     """Response for cloneOrganization operation."""
 
@@ -117,6 +167,33 @@ class CombineOrganizationNetworksResponse(_BaseSchema):
     resulting_network: OrganizationsRecordsNetwork | None = Field(
         default=None, alias="resultingNetwork"
     )
+
+
+class CreateOrganizationActionBatchActionsItem(_BaseSchema):
+    """Item schema for actions."""
+
+    resource: str
+    operation: str
+    body: dict[str, Any] | None = None
+
+
+class CreateOrganizationActionBatchCallback(_BaseSchema):
+    """Details for the callback. Please include either an httpServerId OR url and sharedSecret."""
+
+    url: str | None = None
+    shared_secret: str | None = Field(default=None, alias="sharedSecret")
+    http_server: CreateOrganizationActionBatchCallbackHttpServer | None = Field(
+        default=None, alias="httpServer"
+    )
+    payload_template: CreateOrganizationActionBatchCallbackHttpServer | None = Field(
+        default=None, alias="payloadTemplate"
+    )
+
+
+class CreateOrganizationActionBatchCallbackHttpServer(_BaseSchema):
+    """The webhook receiver used for the callback webhook."""
+
+    id_: str | None = Field(default=None, alias="id")
 
 
 class CreateOrganizationActionBatchResponse(_BaseSchema):
@@ -151,6 +228,24 @@ class CreateOrganizationAdaptivePolicyAclResponse(_BaseSchema):
     updated_at: str | None = Field(default=None, alias="updatedAt")
 
 
+class CreateOrganizationAdaptivePolicyAclRulesItem(_BaseSchema):
+    """Item schema for rules."""
+
+    policy: str
+    protocol: str
+    src_port: str | None = Field(default=None, alias="srcPort")
+    dst_port: str | None = Field(default=None, alias="dstPort")
+    log: bool | None = None
+    tcp_established: bool | None = Field(default=None, alias="tcpEstablished")
+
+
+class CreateOrganizationAdaptivePolicyGroupPolicyObjectsItem(_BaseSchema):
+    """Item schema for policyObjects."""
+
+    id_: str | None = Field(default=None, alias="id")
+    name: str | None = None
+
+
 class CreateOrganizationAdaptivePolicyGroupResponse(_BaseSchema):
     """Response for createOrganizationAdaptivePolicyGroup operation."""
 
@@ -167,6 +262,21 @@ class CreateOrganizationAdaptivePolicyGroupResponse(_BaseSchema):
     updated_at: str | None = Field(default=None, alias="updatedAt")
 
 
+class CreateOrganizationAdaptivePolicyPolicyAclsItem(_BaseSchema):
+    """Item schema for acls."""
+
+    id_: str | None = Field(default=None, alias="id")
+    name: str | None = None
+
+
+class CreateOrganizationAdaptivePolicyPolicyDestinationGroup(_BaseSchema):
+    """The destination adaptive policy group (requires one unique attribute)."""
+
+    id_: str | None = Field(default=None, alias="id")
+    name: str | None = None
+    sgt: int | None = None
+
+
 class CreateOrganizationAdaptivePolicyPolicyResponse(_BaseSchema):
     """Response for createOrganizationAdaptivePolicyPolicy operation."""
 
@@ -179,6 +289,21 @@ class CreateOrganizationAdaptivePolicyPolicyResponse(_BaseSchema):
     last_entry_rule: str | None = Field(default=None, alias="lastEntryRule")
     created_at: str | None = Field(default=None, alias="createdAt")
     updated_at: str | None = Field(default=None, alias="updatedAt")
+
+
+class CreateOrganizationAdaptivePolicyPolicySourceGroup(_BaseSchema):
+    """The source adaptive policy group (requires one unique attribute)."""
+
+    id_: str | None = Field(default=None, alias="id")
+    name: str | None = None
+    sgt: int | None = None
+
+
+class CreateOrganizationAdminNetworksItem(_BaseSchema):
+    """Item schema for networks."""
+
+    id_: str = Field(alias="id")
+    access: str
 
 
 class CreateOrganizationAdminResponse(_BaseSchema):
@@ -197,6 +322,33 @@ class CreateOrganizationAdminResponse(_BaseSchema):
     authentication_method: str | None = Field(default=None, alias="authenticationMethod")
 
 
+class CreateOrganizationAdminTagsItem(_BaseSchema):
+    """Item schema for tags."""
+
+    tag: str
+    access: str
+
+
+class CreateOrganizationAlertsProfileAlertCondition(_BaseSchema):
+    """The conditions that determine if the alert triggers."""
+
+    duration: int | None = None
+    window: int | None = None
+    bit_rate_bps: int | None = None
+    loss_ratio: float | None = None
+    latency_ms: int | None = None
+    jitter_ms: int | None = None
+    mos: float | None = None
+    interface: str | None = None
+
+
+class CreateOrganizationAlertsProfileRecipients(_BaseSchema):
+    """List of recipients that will recieve the alert."""
+
+    emails: list[str] | None = None
+    http_server_ids: list[str] | None = Field(default=None, alias="httpServerIds")
+
+
 class CreateOrganizationAlertsProfileResponse(_BaseSchema):
     """Response for createOrganizationAlertsProfile operation."""
 
@@ -209,6 +361,63 @@ class CreateOrganizationAlertsProfileResponse(_BaseSchema):
     recipients: OrganizationsRecipients | None = None
     network_tags: list[str] | None = Field(default=None, alias="networkTags")
     description: str | None = None
+
+
+class CreateOrganizationBrandingPolicyAdminSettings(_BaseSchema):
+    """Settings for describing which kinds of admins this policy applies to."""
+
+    applies_to: str | None = Field(default=None, alias="appliesTo")
+    values: list[str] | None = None
+
+
+class CreateOrganizationBrandingPolicyCustomLogo(_BaseSchema):
+    """Properties describing the custom logo attached to the branding policy."""
+
+    enabled: bool | None = None
+    image: CreateOrganizationBrandingPolicyCustomLogoImage | None = None
+
+
+class CreateOrganizationBrandingPolicyCustomLogoImage(_BaseSchema):
+    """Properties for setting the image."""
+
+    contents: str | None = None
+    format_: str | None = Field(default=None, alias="format")
+
+
+class CreateOrganizationBrandingPolicyHelpSettings(_BaseSchema):
+    """Settings for describing the modifications to various Help page features. Each property in
+    this object accepts one of 'default or inherit' (do not modify functionality), 'hide'
+    (remove the section from Dashboard), or 'show' (always show the section on Dashboard). Some
+    properties in this object also accept custom HTML used to replace the section on Dashboard;
+    see the documentation for each property to see the allowed values. Each property defaults to
+    'default or inherit' when not provided.
+    """
+
+    help_tab: str | None = Field(default=None, alias="helpTab")
+    get_help_subtab: str | None = Field(default=None, alias="getHelpSubtab")
+    community_subtab: str | None = Field(default=None, alias="communitySubtab")
+    cases_subtab: str | None = Field(default=None, alias="casesSubtab")
+    data_protection_requests_subtab: str | None = Field(
+        default=None, alias="dataProtectionRequestsSubtab"
+    )
+    get_help_subtab_knowledge_base_search: str | None = Field(
+        default=None, alias="getHelpSubtabKnowledgeBaseSearch"
+    )
+    universal_search_knowledge_base_search: str | None = Field(
+        default=None, alias="universalSearchKnowledgeBaseSearch"
+    )
+    cisco_meraki_product_documentation: str | None = Field(
+        default=None, alias="ciscoMerakiProductDocumentation"
+    )
+    support_contact_info: str | None = Field(default=None, alias="supportContactInfo")
+    new_features_subtab: str | None = Field(default=None, alias="newFeaturesSubtab")
+    firewall_info_subtab: str | None = Field(default=None, alias="firewallInfoSubtab")
+    api_docs_subtab: str | None = Field(default=None, alias="apiDocsSubtab")
+    hardware_replacements_subtab: str | None = Field(
+        default=None, alias="hardwareReplacementsSubtab"
+    )
+    sm_forums: str | None = Field(default=None, alias="smForums")
+    help_widget: str | None = Field(default=None, alias="helpWidget")
 
 
 class CreateOrganizationBrandingPolicyResponse(_BaseSchema):
@@ -245,6 +454,20 @@ class CreateOrganizationDevicesControllerMigrationResponseItem(_BaseSchema):
     migrated_at: str | None = Field(default=None, alias="migratedAt")
 
 
+class CreateOrganizationDevicesPacketCaptureCaptureAdvanced(_BaseSchema):
+    """Advanced filters for IOSXE devices (supported for Campus Gateway devices only)."""
+
+    physical_interface_direction: str | None = Field(
+        default=None, alias="physicalInterfaceDirection"
+    )
+    control_plane_direction: str | None = Field(default=None, alias="controlPlaneDirection")
+    inner_filter_macs: list[str] | None = Field(default=None, alias="innerFilterMacs")
+    buffer_files: int | None = Field(default=None, alias="bufferFiles")
+    max_filesize: int | None = Field(default=None, alias="maxFilesize")
+    capture_type: str | None = Field(default=None, alias="captureType")
+    packets_per_second: int | None = Field(default=None, alias="packetsPerSecond")
+
+
 class CreateOrganizationDevicesPacketCaptureCaptureResponse(_BaseSchema):
     """Response for createOrganizationDevicesPacketCaptureCapture operation."""
 
@@ -269,6 +492,14 @@ class CreateOrganizationDevicesPacketCaptureCaptureResponse(_BaseSchema):
     interface: str | None = None
 
 
+class CreateOrganizationDevicesPacketCaptureScheduleDevicesItem(_BaseSchema):
+    """Item schema for devices."""
+
+    serial: str | None = None
+    switchports: str | None = None
+    interface: str | None = None
+
+
 class CreateOrganizationDevicesPacketCaptureScheduleResponse(_BaseSchema):
     """Response for createOrganizationDevicesPacketCaptureSchedule operation."""
 
@@ -287,6 +518,17 @@ class CreateOrganizationDevicesPacketCaptureScheduleResponse(_BaseSchema):
     priority: int | None = None
     schedule: OrganizationsSchedule | None = None
     warnings: list[str] | None = None
+
+
+class CreateOrganizationDevicesPacketCaptureScheduleSchedule(_BaseSchema):
+    """Schedule details."""
+
+    name: str | None = None
+    start_ts: str | None = Field(default=None, alias="startTs")
+    end_ts: str | None = Field(default=None, alias="endTs")
+    frequency: str | None = None
+    weekdays: list[str] | None = None
+    recurrence: int | None = None
 
 
 class CreateOrganizationEarlyAccessFeaturesOptInResponse(_BaseSchema):
@@ -322,6 +564,28 @@ class CreateOrganizationInventoryDevicesSwapsBulkResponseSwapsItem(_BaseSchema):
     errors: list[str] | None = None
 
 
+class CreateOrganizationInventoryDevicesSwapsBulkSwapsItem(_BaseSchema):
+    """Item schema for swaps."""
+
+    devices: CreateOrganizationInventoryDevicesSwapsBulkSwapsItemDevices
+    after_action: str = Field(alias="afterAction")
+
+
+class CreateOrganizationInventoryDevicesSwapsBulkSwapsItemDevices(_BaseSchema):
+    """The devices involved in the swap."""
+
+    old: str
+    new: str
+
+
+class CreateOrganizationInventoryOnboardingCloudMonitoringImportDevicesItem(_BaseSchema):
+    """Item schema for devices."""
+
+    device_id: str = Field(alias="deviceId")
+    udi: str
+    network_id: str = Field(alias="networkId")
+
+
 class CreateOrganizationInventoryOnboardingCloudMonitoringImportResponse(
     RootModel[list["CreateOrganizationInventoryOnboardingCloudMonitoringImportResponseItem"]]
 ):
@@ -334,6 +598,49 @@ class CreateOrganizationInventoryOnboardingCloudMonitoringImportResponseItem(_Ba
     status: str | None = None
     import_id: str | None = Field(default=None, alias="importId")
     message: str | None = None
+
+
+class CreateOrganizationInventoryOnboardingCloudMonitoringPrepareDevicesItem(_BaseSchema):
+    """Item schema for devices."""
+
+    sudi: str
+    tunnel: CreateOrganizationInventoryOnboardingCloudMonitoringPrepareDevicesItemTunnel | None = (
+        None
+    )
+    user: CreateOrganizationInventoryOnboardingCloudMonitoringPrepareDevicesItemUser | None = None
+    vty: CreateOrganizationInventoryOnboardingCloudMonitoringPrepareDevicesItemVty | None = None
+
+
+class CreateOrganizationInventoryOnboardingCloudMonitoringPrepareDevicesItemTunnel(_BaseSchema):
+    """TLS Related Parameters."""
+
+    certificate_name: str | None = Field(default=None, alias="certificateName")
+    name: str | None = None
+    loopback_number: int | None = Field(default=None, alias="loopbackNumber")
+    local_interface: int | None = Field(default=None, alias="localInterface")
+
+
+class CreateOrganizationInventoryOnboardingCloudMonitoringPrepareDevicesItemUser(_BaseSchema):
+    """User parameters."""
+
+    username: str | None = None
+
+
+class CreateOrganizationInventoryOnboardingCloudMonitoringPrepareDevicesItemVty(_BaseSchema):
+    """VTY Related Parameters."""
+
+    start_line_number: int | None = Field(default=None, alias="startLineNumber")
+    end_line_number: int | None = Field(default=None, alias="endLineNumber")
+    authentication: OrganizationsAuthentication | None = None
+    authorization: OrganizationsAuthentication | None = None
+    access_list: OrganizationsAccessList | None = Field(default=None, alias="accessList")
+    rotary_number: int | None = Field(default=None, alias="rotaryNumber")
+
+
+class CreateOrganizationInventoryOnboardingCloudMonitoringPrepareOptions(_BaseSchema):
+    """Additional options for the import."""
+
+    skip_commit: bool | None = Field(default=None, alias="skipCommit")
 
 
 class CreateOrganizationInventoryOnboardingCloudMonitoringPrepareResponse(
@@ -350,6 +657,12 @@ class CreateOrganizationInventoryOnboardingCloudMonitoringPrepareResponseItem(_B
     device_id: str | None = Field(default=None, alias="deviceId")
     status: str | None = None
     config_params: OrganizationsConfigParams | None = Field(default=None, alias="configParams")
+
+
+class CreateOrganizationManagement(_BaseSchema):
+    """Information about the organization's management system."""
+
+    details: list[OrganizationsDetailsItem] | None = None
 
 
 class CreateOrganizationNetworkResponse(_BaseSchema):
@@ -420,6 +733,13 @@ class CreateOrganizationSamlIdpResponseItem(_BaseSchema):
     slo_logout_url: str | None = Field(default=None, alias="sloLogoutUrl")
 
 
+class CreateOrganizationSamlRoleNetworksItem(_BaseSchema):
+    """Item schema for networks."""
+
+    id_: str = Field(alias="id")
+    access: str
+
+
 class CreateOrganizationSamlRoleResponse(_BaseSchema):
     """Response for createOrganizationSamlRole operation."""
 
@@ -429,6 +749,13 @@ class CreateOrganizationSamlRoleResponse(_BaseSchema):
     networks: list[OrganizationsNetworksItem] | None = None
     tags: list[OrganizationsTagsItem] | None = None
     camera: list[OrganizationsCameraItem] | None = None
+
+
+class CreateOrganizationSamlRoleTagsItem(_BaseSchema):
+    """Item schema for tags."""
+
+    tag: str
+    access: str
 
 
 class CreateOrganizationSplashThemeAssetResponse(_BaseSchema):
@@ -449,10 +776,24 @@ class CreateOrganizationSplashThemeResponse(_BaseSchema):
     )
 
 
+class DisableOrganizationIntegrationsXdrNetworksNetworksItem(_BaseSchema):
+    """Item schema for networks."""
+
+    network_id: str = Field(alias="networkId")
+    product_types: list[str] = Field(alias="productTypes")
+
+
 class DisableOrganizationIntegrationsXdrNetworksResponse(_BaseSchema):
     """Response for disableOrganizationIntegrationsXdrNetworks operation."""
 
     networks: list[GetOrganizationIntegrationsXdrNetworksResponseItemsItem] | None = None
+
+
+class EnableOrganizationIntegrationsXdrNetworksNetworksItem(_BaseSchema):
+    """Item schema for networks."""
+
+    network_id: str = Field(alias="networkId")
+    product_types: list[str] = Field(alias="productTypes")
 
 
 class EnableOrganizationIntegrationsXdrNetworksResponse(_BaseSchema):
@@ -1066,7 +1407,7 @@ class GetOrganizationDevicesAvailabilitiesChangeHistoryResponseItem(_BaseSchema)
     ts: str | None = None
     device: OrganizationsDevice | None = None
     details: OrganizationsDetails | None = None
-    network: OrganizationsNetwork3 | None = None
+    network: OrganizationsNetwork2 | None = None
 
 
 class GetOrganizationDevicesAvailabilitiesResponse(
@@ -1080,7 +1421,7 @@ class GetOrganizationDevicesAvailabilitiesResponseItem(_BaseSchema):
 
     mac: str | None = None
     name: str | None = None
-    network: OrganizationsNetwork2 | None = None
+    network: CreateOrganizationActionBatchCallbackHttpServer | None = None
     product_type: str | None = Field(default=None, alias="productType")
     serial: str | None = None
     status: str | None = None
@@ -1197,7 +1538,7 @@ class GetOrganizationDevicesPowerModulesStatusesByDeviceResponseItem(_BaseSchema
 
     mac: str | None = None
     name: str | None = None
-    network: OrganizationsNetwork2 | None = None
+    network: CreateOrganizationActionBatchCallbackHttpServer | None = None
     product_type: str | None = Field(default=None, alias="productType")
     serial: str | None = None
     tags: list[str] | None = None
@@ -1215,7 +1556,7 @@ class GetOrganizationDevicesProvisioningStatusesResponseItem(_BaseSchema):
 
     mac: str | None = None
     name: str | None = None
-    network: OrganizationsNetwork2 | None = None
+    network: CreateOrganizationActionBatchCallbackHttpServer | None = None
     product_type: str | None = Field(default=None, alias="productType")
     serial: str | None = None
     status: str | None = None
@@ -1305,7 +1646,7 @@ class GetOrganizationDevicesSystemMemoryUsageHistoryByIntervalResponseItemsItem(
     provisioned: int | None = None
     used: OrganizationsUsed | None = None
     free: OrganizationsUsed | None = None
-    network: OrganizationsNetwork4 | None = None
+    network: OrganizationsNetwork3 | None = None
     intervals: list[OrganizationsIntervalsItem] | None = None
 
 
@@ -1320,7 +1661,7 @@ class GetOrganizationDevicesUplinksAddressesByDeviceResponseItem(_BaseSchema):
 
     mac: str | None = None
     name: str | None = None
-    network: OrganizationsNetwork2 | None = None
+    network: CreateOrganizationActionBatchCallbackHttpServer | None = None
     product_type: str | None = Field(default=None, alias="productType")
     serial: str | None = None
     tags: list[str] | None = None
@@ -2139,8 +2480,12 @@ class GetOrganizationWebhooksCallbacksStatusResponseWebhook(_BaseSchema):
     """The webhook receiver used by the callback to send results."""
 
     url: str | None = None
-    http_server: OrganizationsNetwork2 | None = Field(default=None, alias="httpServer")
-    payload_template: OrganizationsNetwork2 | None = Field(default=None, alias="payloadTemplate")
+    http_server: CreateOrganizationActionBatchCallbackHttpServer | None = Field(
+        default=None, alias="httpServer"
+    )
+    payload_template: CreateOrganizationActionBatchCallbackHttpServer | None = Field(
+        default=None, alias="payloadTemplate"
+    )
     sent_at: str | None = Field(default=None, alias="sentAt")
 
 
@@ -2194,6 +2539,13 @@ class MoveOrganizationLicensesSeatsResponse(_BaseSchema):
     seat_count: int | None = Field(default=None, alias="seatCount")
 
 
+class OrganizationsAccessList(_BaseSchema):
+    """AccessList details."""
+
+    vty_in: OrganizationsHost | None = Field(default=None, alias="vtyIn")
+    vty_out: OrganizationsHost | None = Field(default=None, alias="vtyOut")
+
+
 class OrganizationsActionsItem(_BaseSchema):
     """Schema for OrganizationsActionsItem."""
 
@@ -2211,7 +2563,7 @@ class OrganizationsAddressesItem(_BaseSchema):
     gateway: str | None = None
     nameservers: OrganizationsNameservers | None = None
     public: OrganizationsPublic | None = None
-    vlan: OrganizationsNetwork2 | None = None
+    vlan: CreateOrganizationActionBatchCallbackHttpServer | None = None
 
 
 class OrganizationsAdminSettings(_BaseSchema):
@@ -2250,6 +2602,12 @@ class OrganizationsAssignedItem(_BaseSchema):
     type_: str | None = Field(default=None, alias="type")
     id_: str | None = Field(default=None, alias="id")
     limit_to: list[OrganizationsLimitToItem] | None = Field(default=None, alias="limitTo")
+
+
+class OrganizationsAuthentication(_BaseSchema):
+    """VTY AAA authentication."""
+
+    group: OrganizationsHost | None = None
 
 
 class OrganizationsAutoLocate(_BaseSchema):
@@ -2623,7 +2981,7 @@ class OrganizationsItemsItem(_BaseSchema):
     model: str | None = None
     tags: list[str] | None = None
     status: str | None = None
-    network: OrganizationsNetwork2 | None = None
+    network: CreateOrganizationActionBatchCallbackHttpServer | None = None
     floor_plan: OrganizationsFloorPlan | None = Field(default=None, alias="floorPlan")
     lat: float | None = None
     lng: float | None = None
@@ -2635,7 +2993,7 @@ class OrganizationsItemsItem(_BaseSchema):
 class OrganizationsItemsItem2(_BaseSchema):
     """Schema for OrganizationsItemsItem2."""
 
-    network: OrganizationsNetwork2 | None = None
+    network: CreateOrganizationActionBatchCallbackHttpServer | None = None
     floor_plan_id: str | None = Field(default=None, alias="floorPlanId")
     name: str | None = None
     counts: OrganizationsCounts2 | None = None
@@ -2724,12 +3082,6 @@ class OrganizationsNetwork(_BaseSchema):
 
 
 class OrganizationsNetwork2(_BaseSchema):
-    """Network info."""
-
-    id_: str | None = Field(default=None, alias="id")
-
-
-class OrganizationsNetwork3(_BaseSchema):
     """Network information."""
 
     id_: str | None = Field(default=None, alias="id")
@@ -2738,7 +3090,7 @@ class OrganizationsNetwork3(_BaseSchema):
     tags: list[str] | None = None
 
 
-class OrganizationsNetwork4(_BaseSchema):
+class OrganizationsNetwork3(_BaseSchema):
     """Information regarding the network the device belongs to."""
 
     id_: str | None = Field(default=None, alias="id")
@@ -2997,7 +3349,7 @@ class OrganizationsSsidsItem(_BaseSchema):
 class OrganizationsStaged(_BaseSchema):
     """Staged upgrade."""
 
-    group: OrganizationsNetwork2 | None = None
+    group: CreateOrganizationActionBatchCallbackHttpServer | None = None
 
 
 class OrganizationsStatesActive(_BaseSchema):
@@ -3266,6 +3618,13 @@ class RenewOrganizationLicensesSeatsResponse(_BaseSchema):
     ) = Field(default=None, alias="resultingLicenses")
 
 
+class ReorderOrganizationDevicesPacketCaptureSchedulesOrderItem(_BaseSchema):
+    """Item schema for order."""
+
+    schedule_id: str | None = Field(default=None, alias="scheduleId")
+    priority: int | None = None
+
+
 class ReorderOrganizationDevicesPacketCaptureSchedulesResponse(_BaseSchema):
     """Response for reorderOrganizationDevicesPacketCaptureSchedules operation."""
 
@@ -3328,6 +3687,24 @@ class UpdateOrganizationAdaptivePolicyAclResponse(_BaseSchema):
     updated_at: str | None = Field(default=None, alias="updatedAt")
 
 
+class UpdateOrganizationAdaptivePolicyAclRulesItem(_BaseSchema):
+    """Item schema for rules."""
+
+    policy: str
+    protocol: str
+    src_port: str | None = Field(default=None, alias="srcPort")
+    dst_port: str | None = Field(default=None, alias="dstPort")
+    log: bool | None = None
+    tcp_established: bool | None = Field(default=None, alias="tcpEstablished")
+
+
+class UpdateOrganizationAdaptivePolicyGroupPolicyObjectsItem(_BaseSchema):
+    """Item schema for policyObjects."""
+
+    id_: str | None = Field(default=None, alias="id")
+    name: str | None = None
+
+
 class UpdateOrganizationAdaptivePolicyGroupResponse(_BaseSchema):
     """Response for updateOrganizationAdaptivePolicyGroup operation."""
 
@@ -3344,6 +3721,21 @@ class UpdateOrganizationAdaptivePolicyGroupResponse(_BaseSchema):
     updated_at: str | None = Field(default=None, alias="updatedAt")
 
 
+class UpdateOrganizationAdaptivePolicyPolicyAclsItem(_BaseSchema):
+    """Item schema for acls."""
+
+    id_: str | None = Field(default=None, alias="id")
+    name: str | None = None
+
+
+class UpdateOrganizationAdaptivePolicyPolicyDestinationGroup(_BaseSchema):
+    """The destination adaptive policy group (requires one unique attribute)."""
+
+    id_: str | None = Field(default=None, alias="id")
+    name: str | None = None
+    sgt: int | None = None
+
+
 class UpdateOrganizationAdaptivePolicyPolicyResponse(_BaseSchema):
     """Response for updateOrganizationAdaptivePolicyPolicy operation."""
 
@@ -3358,10 +3750,25 @@ class UpdateOrganizationAdaptivePolicyPolicyResponse(_BaseSchema):
     updated_at: str | None = Field(default=None, alias="updatedAt")
 
 
+class UpdateOrganizationAdaptivePolicyPolicySourceGroup(_BaseSchema):
+    """The source adaptive policy group (requires one unique attribute)."""
+
+    id_: str | None = Field(default=None, alias="id")
+    name: str | None = None
+    sgt: int | None = None
+
+
 class UpdateOrganizationAdaptivePolicySettingsResponse(_BaseSchema):
     """Response for updateOrganizationAdaptivePolicySettings operation."""
 
     enabled_networks: list[str] | None = Field(default=None, alias="enabledNetworks")
+
+
+class UpdateOrganizationAdminNetworksItem(_BaseSchema):
+    """Item schema for networks."""
+
+    id_: str = Field(alias="id")
+    access: str
 
 
 class UpdateOrganizationAdminResponse(_BaseSchema):
@@ -3380,6 +3787,33 @@ class UpdateOrganizationAdminResponse(_BaseSchema):
     authentication_method: str | None = Field(default=None, alias="authenticationMethod")
 
 
+class UpdateOrganizationAdminTagsItem(_BaseSchema):
+    """Item schema for tags."""
+
+    tag: str
+    access: str
+
+
+class UpdateOrganizationAlertsProfileAlertCondition(_BaseSchema):
+    """The conditions that determine if the alert triggers."""
+
+    duration: int | None = None
+    window: int | None = None
+    bit_rate_bps: int | None = None
+    loss_ratio: float | None = None
+    latency_ms: int | None = None
+    jitter_ms: int | None = None
+    mos: float | None = None
+    interface: str | None = None
+
+
+class UpdateOrganizationAlertsProfileRecipients(_BaseSchema):
+    """List of recipients that will recieve the alert."""
+
+    emails: list[str] | None = None
+    http_server_ids: list[str] | None = Field(default=None, alias="httpServerIds")
+
+
 class UpdateOrganizationAlertsProfileResponse(_BaseSchema):
     """Response for updateOrganizationAlertsProfile operation."""
 
@@ -3394,10 +3828,65 @@ class UpdateOrganizationAlertsProfileResponse(_BaseSchema):
     description: str | None = None
 
 
+class UpdateOrganizationApi(_BaseSchema):
+    """API-specific settings."""
+
+    enabled: bool | None = None
+
+
 class UpdateOrganizationBrandingPoliciesPrioritiesResponse(_BaseSchema):
     """Response for updateOrganizationBrandingPoliciesPriorities operation."""
 
     branding_policy_ids: list[str] | None = Field(default=None, alias="brandingPolicyIds")
+
+
+class UpdateOrganizationBrandingPolicyAdminSettings(_BaseSchema):
+    """Settings for describing which kinds of admins this policy applies to."""
+
+    applies_to: str | None = Field(default=None, alias="appliesTo")
+    values: list[str] | None = None
+
+
+class UpdateOrganizationBrandingPolicyCustomLogo(_BaseSchema):
+    """Properties describing the custom logo attached to the branding policy."""
+
+    enabled: bool | None = None
+    image: CreateOrganizationBrandingPolicyCustomLogoImage | None = None
+
+
+class UpdateOrganizationBrandingPolicyHelpSettings(_BaseSchema):
+    """Settings for describing the modifications to various Help page features. Each property in
+    this object accepts one of 'default or inherit' (do not modify functionality), 'hide'
+    (remove the section from Dashboard), or 'show' (always show the section on Dashboard). Some
+    properties in this object also accept custom HTML used to replace the section on Dashboard;
+    see the documentation for each property to see the allowed values.
+    """
+
+    help_tab: str | None = Field(default=None, alias="helpTab")
+    get_help_subtab: str | None = Field(default=None, alias="getHelpSubtab")
+    community_subtab: str | None = Field(default=None, alias="communitySubtab")
+    cases_subtab: str | None = Field(default=None, alias="casesSubtab")
+    data_protection_requests_subtab: str | None = Field(
+        default=None, alias="dataProtectionRequestsSubtab"
+    )
+    get_help_subtab_knowledge_base_search: str | None = Field(
+        default=None, alias="getHelpSubtabKnowledgeBaseSearch"
+    )
+    universal_search_knowledge_base_search: str | None = Field(
+        default=None, alias="universalSearchKnowledgeBaseSearch"
+    )
+    cisco_meraki_product_documentation: str | None = Field(
+        default=None, alias="ciscoMerakiProductDocumentation"
+    )
+    support_contact_info: str | None = Field(default=None, alias="supportContactInfo")
+    new_features_subtab: str | None = Field(default=None, alias="newFeaturesSubtab")
+    firewall_info_subtab: str | None = Field(default=None, alias="firewallInfoSubtab")
+    api_docs_subtab: str | None = Field(default=None, alias="apiDocsSubtab")
+    hardware_replacements_subtab: str | None = Field(
+        default=None, alias="hardwareReplacementsSubtab"
+    )
+    sm_forums: str | None = Field(default=None, alias="smForums")
+    help_widget: str | None = Field(default=None, alias="helpWidget")
 
 
 class UpdateOrganizationBrandingPolicyResponse(_BaseSchema):
@@ -3419,6 +3908,14 @@ class UpdateOrganizationConfigTemplateResponse(_BaseSchema):
     time_zone: str | None = Field(default=None, alias="timeZone")
 
 
+class UpdateOrganizationDevicesPacketCaptureScheduleDevicesItem(_BaseSchema):
+    """Item schema for devices."""
+
+    serial: str | None = None
+    switchports: str | None = None
+    interface: str | None = None
+
+
 class UpdateOrganizationDevicesPacketCaptureScheduleResponse(_BaseSchema):
     """Response for updateOrganizationDevicesPacketCaptureSchedule operation."""
 
@@ -3437,6 +3934,17 @@ class UpdateOrganizationDevicesPacketCaptureScheduleResponse(_BaseSchema):
     priority: int | None = None
     schedule: OrganizationsSchedule | None = None
     warnings: list[str] | None = None
+
+
+class UpdateOrganizationDevicesPacketCaptureScheduleSchedule(_BaseSchema):
+    """Schedule details."""
+
+    name: str | None = None
+    start_ts: str | None = Field(default=None, alias="startTs")
+    end_ts: str | None = Field(default=None, alias="endTs")
+    frequency: str | None = None
+    weekdays: list[str] | None = None
+    recurrence: int | None = None
 
 
 class UpdateOrganizationEarlyAccessFeaturesOptInResponse(_BaseSchema):
@@ -3475,6 +3983,16 @@ class UpdateOrganizationLicenseResponse(_BaseSchema):
     head_license_id: str | None = Field(default=None, alias="headLicenseId")
 
 
+class UpdateOrganizationLoginSecurityApiAuthentication(_BaseSchema):
+    """Details for indicating whether organization will restrict access to API (but not Dashboard)
+    to certain IP addresses.
+    """
+
+    ip_restrictions_for_keys: OrganizationsApiAuthenticationIpRestrictionsForKeys | None = Field(
+        default=None, alias="ipRestrictionsForKeys"
+    )
+
+
 class UpdateOrganizationLoginSecurityResponse(_BaseSchema):
     """Response for updateOrganizationLoginSecurity operation."""
 
@@ -3498,6 +4016,12 @@ class UpdateOrganizationLoginSecurityResponse(_BaseSchema):
     api_authentication: GetOrganizationLoginSecurityResponseApiAuthentication | None = Field(
         default=None, alias="apiAuthentication"
     )
+
+
+class UpdateOrganizationManagement(_BaseSchema):
+    """Information about the organization's management system."""
+
+    details: list[OrganizationsDetailsItem] | None = None
 
 
 class UpdateOrganizationPolicyObjectResponse(_BaseSchema):
@@ -3562,6 +4086,13 @@ class UpdateOrganizationSamlResponse(_BaseSchema):
     )
 
 
+class UpdateOrganizationSamlRoleNetworksItem(_BaseSchema):
+    """Item schema for networks."""
+
+    id_: str = Field(alias="id")
+    access: str
+
+
 class UpdateOrganizationSamlRoleResponse(_BaseSchema):
     """Response for updateOrganizationSamlRole operation."""
 
@@ -3571,6 +4102,20 @@ class UpdateOrganizationSamlRoleResponse(_BaseSchema):
     networks: list[OrganizationsNetworksItem] | None = None
     tags: list[OrganizationsTagsItem] | None = None
     camera: list[OrganizationsCameraItem] | None = None
+
+
+class UpdateOrganizationSamlRoleTagsItem(_BaseSchema):
+    """Item schema for tags."""
+
+    tag: str
+    access: str
+
+
+class UpdateOrganizationSamlSpInitiated(_BaseSchema):
+    """SP-Initiated SSO settings."""
+
+    subdomain: str | None = None
+    idp_id: str | None = Field(default=None, alias="idpId")
 
 
 class UpdateOrganizationSnmpResponse(_BaseSchema):

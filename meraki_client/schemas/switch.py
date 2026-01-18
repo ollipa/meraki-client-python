@@ -31,6 +31,24 @@ class CloneOrganizationSwitchDevicesResponse(_BaseSchema):
     target_serials: list[str] | None = Field(default=None, alias="targetSerials")
 
 
+class CreateDeviceSwitchRoutingInterfaceIpv6(_BaseSchema):
+    """The IPv6 settings of the interface."""
+
+    assignment_mode: str | None = Field(default=None, alias="assignmentMode")
+    prefix: str | None = None
+    address: str | None = None
+    gateway: str | None = None
+
+
+class CreateDeviceSwitchRoutingInterfaceOspfSettings(_BaseSchema):
+    """The OSPF routing settings of the interface."""
+
+    area: str | None = None
+    cost: int | None = None
+    is_passive_enabled: bool | None = Field(default=None, alias="isPassiveEnabled")
+    network_type: str | None = Field(default=None, alias="networkType")
+
+
 class CreateDeviceSwitchRoutingInterfaceResponse(_BaseSchema):
     """Response for createDeviceSwitchRoutingInterface operation."""
 
@@ -53,6 +71,12 @@ class CreateDeviceSwitchRoutingInterfaceResponse(_BaseSchema):
     default_gateway: str | None = Field(default=None, alias="defaultGateway")
 
 
+class CreateDeviceSwitchRoutingInterfaceVrf(_BaseSchema):
+    """The VRF settings of the interface. Requires IOS XE 17.18 or higher."""
+
+    name: str | None = None
+
+
 class CreateDeviceSwitchRoutingStaticRouteResponse(_BaseSchema):
     """Response for createDeviceSwitchRoutingStaticRoute operation."""
 
@@ -66,6 +90,62 @@ class CreateDeviceSwitchRoutingStaticRouteResponse(_BaseSchema):
     prefer_over_ospf_routes_enabled: bool | None = Field(
         default=None, alias="preferOverOspfRoutesEnabled"
     )
+
+
+class CreateDeviceSwitchRoutingStaticRouteVrf(_BaseSchema):
+    """The VRF settings of the interface. Requires IOS XE 17.18 or higher."""
+
+    name: str | None = None
+    leak_route_to_default_vrf: bool | None = Field(default=None, alias="leakRouteToDefaultVrf")
+
+
+class CreateNetworkSwitchAccessPolicyDot1x(_BaseSchema):
+    """802.1x Settings."""
+
+    control_direction: str | None = Field(default=None, alias="controlDirection")
+
+
+class CreateNetworkSwitchAccessPolicyRadius(_BaseSchema):
+    """Object for RADIUS Settings."""
+
+    critical_auth: SwitchCriticalAuth | None = Field(default=None, alias="criticalAuth")
+    failed_auth_vlan_id: int | None = Field(default=None, alias="failedAuthVlanId")
+    failed_auth_group_policy_id: str | None = Field(default=None, alias="failedAuthGroupPolicyId")
+    failed_auth_sgt_id: int | None = Field(default=None, alias="failedAuthSgtId")
+    re_authentication_interval: int | None = Field(default=None, alias="reAuthenticationInterval")
+    cache: SwitchCache | None = None
+    authentication: CreateNetworkSwitchAccessPolicyRadiusAuthentication | None = None
+    pre_authentication_group_policy_id: str | None = Field(
+        default=None, alias="preAuthenticationGroupPolicyId"
+    )
+
+
+class CreateNetworkSwitchAccessPolicyRadiusAccountingServersItem(_BaseSchema):
+    """Item schema for radiusAccountingServers."""
+
+    organization_radius_server_id: str | None = Field(
+        default=None, alias="organizationRadiusServerId"
+    )
+    host: str | None = None
+    port: int | None = None
+    secret: str | None = None
+
+
+class CreateNetworkSwitchAccessPolicyRadiusAuthentication(_BaseSchema):
+    """Object for authentication mode settings."""
+
+    mode: str | None = None
+
+
+class CreateNetworkSwitchAccessPolicyRadiusServersItem(_BaseSchema):
+    """Item schema for radiusServers."""
+
+    organization_radius_server_id: str | None = Field(
+        default=None, alias="organizationRadiusServerId"
+    )
+    host: str | None = None
+    port: int | None = None
+    secret: str | None = None
 
 
 class CreateNetworkSwitchAccessPolicyResponse(_BaseSchema):
@@ -103,6 +183,12 @@ class CreateNetworkSwitchAccessPolicyResponse(_BaseSchema):
     guest_sgt_id: int | None = Field(default=None, alias="guestSgtId")
 
 
+class CreateNetworkSwitchDhcpServerPolicyArpInspectionTrustedServerIpv4(_BaseSchema):
+    """The IPv4 attributes of the trusted server being added."""
+
+    address: str | None = None
+
+
 class CreateNetworkSwitchDhcpServerPolicyArpInspectionTrustedServerResponse(_BaseSchema):
     """Response for createNetworkSwitchDhcpServerPolicyArpInspectionTrustedServer operation."""
 
@@ -117,6 +203,35 @@ class CreateNetworkSwitchLinkAggregationResponse(_BaseSchema):
 
     id_: str | None = Field(default=None, alias="id")
     switch_ports: list[SwitchSwitchPortsItem] | None = Field(default=None, alias="switchPorts")
+
+
+class CreateNetworkSwitchLinkAggregationSwitchPortsItem(_BaseSchema):
+    """Item schema for switchPorts."""
+
+    serial: str
+    port_id: str = Field(alias="portId")
+
+
+class CreateNetworkSwitchLinkAggregationSwitchProfilePortsItem(_BaseSchema):
+    """Item schema for switchProfilePorts."""
+
+    profile: str
+    port_id: str = Field(alias="portId")
+
+
+class CreateNetworkSwitchPortSchedulePortSchedule(_BaseSchema):
+    """The schedule for switch port scheduling. Schedules are applied to days of the week. When
+    it's empty, default schedule with all days of a week are configured. Any unspecified day in
+    the schedule is added as a default schedule configuration of the day.
+    """
+
+    monday: SwitchMonday | None = None
+    tuesday: SwitchMonday | None = None
+    wednesday: SwitchMonday | None = None
+    thursday: SwitchMonday | None = None
+    friday: SwitchMonday | None = None
+    saturday: SwitchMonday | None = None
+    sunday: SwitchMonday | None = None
 
 
 class CreateNetworkSwitchPortScheduleResponse(_BaseSchema):
@@ -151,6 +266,12 @@ class CreateNetworkSwitchRoutingMulticastRendezvousPointResponse(_BaseSchema):
     multicast_group: str | None = Field(default=None, alias="multicastGroup")
 
 
+class CreateNetworkSwitchRoutingMulticastRendezvousPointVrf(_BaseSchema):
+    """The VRF with PIM enabled L3 interface."""
+
+    name: str | None = None
+
+
 class CreateNetworkSwitchStackResponse(_BaseSchema):
     """Response for createNetworkSwitchStack operation."""
 
@@ -158,6 +279,24 @@ class CreateNetworkSwitchStackResponse(_BaseSchema):
     name: str | None = None
     serials: list[str] | None = None
     workflow_id: str | None = Field(default=None, alias="workflowId")
+
+
+class CreateNetworkSwitchStackRoutingInterfaceIpv6(_BaseSchema):
+    """The IPv6 settings of the interface."""
+
+    assignment_mode: str | None = Field(default=None, alias="assignmentMode")
+    prefix: str | None = None
+    address: str | None = None
+    gateway: str | None = None
+
+
+class CreateNetworkSwitchStackRoutingInterfaceOspfSettings(_BaseSchema):
+    """The OSPF routing settings of the interface."""
+
+    area: str | None = None
+    cost: int | None = None
+    is_passive_enabled: bool | None = Field(default=None, alias="isPassiveEnabled")
+    network_type: str | None = Field(default=None, alias="networkType")
 
 
 class CreateNetworkSwitchStackRoutingInterfaceResponse(_BaseSchema):
@@ -182,6 +321,12 @@ class CreateNetworkSwitchStackRoutingInterfaceResponse(_BaseSchema):
     default_gateway: str | None = Field(default=None, alias="defaultGateway")
 
 
+class CreateNetworkSwitchStackRoutingInterfaceVrf(_BaseSchema):
+    """The VRF settings of the interface. Requires IOS XE 17.18 or higher."""
+
+    name: str | None = None
+
+
 class CreateNetworkSwitchStackRoutingStaticRouteResponse(_BaseSchema):
     """Response for createNetworkSwitchStackRoutingStaticRoute operation."""
 
@@ -195,6 +340,13 @@ class CreateNetworkSwitchStackRoutingStaticRouteResponse(_BaseSchema):
     prefer_over_ospf_routes_enabled: bool | None = Field(
         default=None, alias="preferOverOspfRoutesEnabled"
     )
+
+
+class CreateNetworkSwitchStackRoutingStaticRouteVrf(_BaseSchema):
+    """The VRF settings of the interface. Requires IOS XE 17.18 or higher."""
+
+    name: str | None = None
+    leak_route_to_default_vrf: bool | None = Field(default=None, alias="leakRouteToDefaultVrf")
 
 
 class CycleDeviceSwitchPortsResponse(_BaseSchema):
@@ -1872,6 +2024,26 @@ class SwitchVrf2(_BaseSchema):
     leak_route_to_default_vrf: bool | None = Field(default=None, alias="leakRouteToDefaultVrf")
 
 
+class UpdateDeviceSwitchPortDot3az(_BaseSchema):
+    """dot3az settings for the port."""
+
+    enabled: bool | None = None
+
+
+class UpdateDeviceSwitchPortHighSpeed(_BaseSchema):
+    """High speed port enablement settings for C9500-32QC."""
+
+    enabled: bool | None = None
+
+
+class UpdateDeviceSwitchPortProfile(_BaseSchema):
+    """Profile attributes."""
+
+    enabled: bool | None = None
+    id_: str | None = Field(default=None, alias="id")
+    iname: str | None = None
+
+
 class UpdateDeviceSwitchPortResponse(_BaseSchema):
     """Response for updateDeviceSwitchPort operation."""
 
@@ -1914,6 +2086,30 @@ class UpdateDeviceSwitchPortResponse(_BaseSchema):
     high_speed: SwitchDot3az | None = Field(default=None, alias="highSpeed")
 
 
+class UpdateDeviceSwitchRoutingInterfaceDhcpDhcpOptionsItem(_BaseSchema):
+    """Item schema for dhcpOptions."""
+
+    code: str
+    type_: str = Field(alias="type")
+    value: str
+
+
+class UpdateDeviceSwitchRoutingInterfaceDhcpFixedIpAssignmentsItem(_BaseSchema):
+    """Item schema for fixedIpAssignments."""
+
+    name: str
+    mac: str
+    ip: str
+
+
+class UpdateDeviceSwitchRoutingInterfaceDhcpReservedIpRangesItem(_BaseSchema):
+    """Item schema for reservedIpRanges."""
+
+    start: str
+    end: str
+    comment: str | None = None
+
+
 class UpdateDeviceSwitchRoutingInterfaceDhcpResponse(_BaseSchema):
     """Response for updateDeviceSwitchRoutingInterfaceDhcp operation."""
 
@@ -1934,6 +2130,24 @@ class UpdateDeviceSwitchRoutingInterfaceDhcpResponse(_BaseSchema):
     fixed_ip_assignments: (
         list[GetDeviceSwitchRoutingInterfaceDhcpResponseFixedIpAssignmentsItem] | None
     ) = Field(default=None, alias="fixedIpAssignments")
+
+
+class UpdateDeviceSwitchRoutingInterfaceIpv6(_BaseSchema):
+    """The IPv6 settings of the interface."""
+
+    assignment_mode: str | None = Field(default=None, alias="assignmentMode")
+    prefix: str | None = None
+    address: str | None = None
+    gateway: str | None = None
+
+
+class UpdateDeviceSwitchRoutingInterfaceOspfSettings(_BaseSchema):
+    """The OSPF routing settings of the interface."""
+
+    area: str | None = None
+    cost: int | None = None
+    is_passive_enabled: bool | None = Field(default=None, alias="isPassiveEnabled")
+    network_type: str | None = Field(default=None, alias="networkType")
 
 
 class UpdateDeviceSwitchRoutingInterfaceResponse(_BaseSchema):
@@ -1958,6 +2172,12 @@ class UpdateDeviceSwitchRoutingInterfaceResponse(_BaseSchema):
     default_gateway: str | None = Field(default=None, alias="defaultGateway")
 
 
+class UpdateDeviceSwitchRoutingInterfaceVrf(_BaseSchema):
+    """The VRF settings of the interface. Requires IOS XE 17.18 or higher."""
+
+    name: str | None = None
+
+
 class UpdateDeviceSwitchRoutingStaticRouteResponse(_BaseSchema):
     """Response for updateDeviceSwitchRoutingStaticRoute operation."""
 
@@ -1973,6 +2193,13 @@ class UpdateDeviceSwitchRoutingStaticRouteResponse(_BaseSchema):
     )
 
 
+class UpdateDeviceSwitchRoutingStaticRouteVrf(_BaseSchema):
+    """The VRF settings of the interface. Requires IOS XE 17.18 or higher."""
+
+    name: str | None = None
+    leak_route_to_default_vrf: bool | None = Field(default=None, alias="leakRouteToDefaultVrf")
+
+
 class UpdateDeviceSwitchWarmSpareResponse(_BaseSchema):
     """Response for updateDeviceSwitchWarmSpare operation."""
 
@@ -1985,6 +2212,65 @@ class UpdateNetworkSwitchAccessControlListsResponse(_BaseSchema):
     """Response for updateNetworkSwitchAccessControlLists operation."""
 
     rules: list[GetNetworkSwitchAccessControlListsResponseRulesItem] | None = None
+
+
+class UpdateNetworkSwitchAccessControlListsRulesItem(_BaseSchema):
+    """Item schema for rules."""
+
+    comment: str | None = None
+    policy: str
+    ip_version: str | None = Field(default=None, alias="ipVersion")
+    protocol: str
+    src_cidr: str = Field(alias="srcCidr")
+    src_port: str | None = Field(default=None, alias="srcPort")
+    dst_cidr: str = Field(alias="dstCidr")
+    dst_port: str | None = Field(default=None, alias="dstPort")
+    vlan: str | None = None
+
+
+class UpdateNetworkSwitchAccessPolicyDot1x(_BaseSchema):
+    """802.1x Settings."""
+
+    control_direction: str | None = Field(default=None, alias="controlDirection")
+
+
+class UpdateNetworkSwitchAccessPolicyRadius(_BaseSchema):
+    """Object for RADIUS Settings."""
+
+    critical_auth: SwitchCriticalAuth | None = Field(default=None, alias="criticalAuth")
+    failed_auth_vlan_id: int | None = Field(default=None, alias="failedAuthVlanId")
+    failed_auth_group_policy_id: str | None = Field(default=None, alias="failedAuthGroupPolicyId")
+    failed_auth_sgt_id: int | None = Field(default=None, alias="failedAuthSgtId")
+    re_authentication_interval: int | None = Field(default=None, alias="reAuthenticationInterval")
+    cache: SwitchCache | None = None
+    authentication: CreateNetworkSwitchAccessPolicyRadiusAuthentication | None = None
+    pre_authentication_group_policy_id: str | None = Field(
+        default=None, alias="preAuthenticationGroupPolicyId"
+    )
+
+
+class UpdateNetworkSwitchAccessPolicyRadiusAccountingServersItem(_BaseSchema):
+    """Item schema for radiusAccountingServers."""
+
+    server_id: str | None = Field(default=None, alias="serverId")
+    organization_radius_server_id: str | None = Field(
+        default=None, alias="organizationRadiusServerId"
+    )
+    host: str | None = None
+    port: int | None = None
+    secret: str | None = None
+
+
+class UpdateNetworkSwitchAccessPolicyRadiusServersItem(_BaseSchema):
+    """Item schema for radiusServers."""
+
+    server_id: str | None = Field(default=None, alias="serverId")
+    organization_radius_server_id: str | None = Field(
+        default=None, alias="organizationRadiusServerId"
+    )
+    host: str | None = None
+    port: int | None = None
+    secret: str | None = None
 
 
 class UpdateNetworkSwitchAccessPolicyResponse(_BaseSchema):
@@ -2031,6 +2317,33 @@ class UpdateNetworkSwitchAlternateManagementInterfaceResponse(_BaseSchema):
     switches: list[GetNetworkSwitchAlternateManagementInterfaceResponseSwitchesItem] | None = None
 
 
+class UpdateNetworkSwitchAlternateManagementInterfaceSwitchesItem(_BaseSchema):
+    """Item schema for switches."""
+
+    serial: str
+    alternate_management_ip: str = Field(alias="alternateManagementIp")
+    subnet_mask: str | None = Field(default=None, alias="subnetMask")
+    gateway: str | None = None
+
+
+class UpdateNetworkSwitchDhcpServerPolicyAlerts(_BaseSchema):
+    """Alert settings for DHCP servers."""
+
+    email: SwitchDot3az | None = None
+
+
+class UpdateNetworkSwitchDhcpServerPolicyArpInspection(_BaseSchema):
+    """Dynamic ARP Inspection settings."""
+
+    enabled: bool | None = None
+
+
+class UpdateNetworkSwitchDhcpServerPolicyArpInspectionTrustedServerIpv4(_BaseSchema):
+    """The updated IPv4 attributes of the trusted server."""
+
+    address: str | None = None
+
+
 class UpdateNetworkSwitchDhcpServerPolicyArpInspectionTrustedServerResponse(_BaseSchema):
     """Response for updateNetworkSwitchDhcpServerPolicyArpInspectionTrustedServer operation."""
 
@@ -2052,6 +2365,14 @@ class UpdateNetworkSwitchDhcpServerPolicyResponse(_BaseSchema):
     )
 
 
+class UpdateNetworkSwitchDscpToCosMappingsMappingsItem(_BaseSchema):
+    """Item schema for mappings."""
+
+    dscp: int
+    cos: int
+    title: str | None = None
+
+
 class UpdateNetworkSwitchDscpToCosMappingsResponse(_BaseSchema):
     """Response for updateNetworkSwitchDscpToCosMappings operation."""
 
@@ -2065,11 +2386,48 @@ class UpdateNetworkSwitchLinkAggregationResponse(_BaseSchema):
     switch_ports: list[SwitchSwitchPortsItem] | None = Field(default=None, alias="switchPorts")
 
 
+class UpdateNetworkSwitchLinkAggregationSwitchPortsItem(_BaseSchema):
+    """Item schema for switchPorts."""
+
+    serial: str
+    port_id: str = Field(alias="portId")
+
+
+class UpdateNetworkSwitchLinkAggregationSwitchProfilePortsItem(_BaseSchema):
+    """Item schema for switchProfilePorts."""
+
+    profile: str
+    port_id: str = Field(alias="portId")
+
+
+class UpdateNetworkSwitchMtuOverridesItem(_BaseSchema):
+    """Item schema for overrides."""
+
+    switches: list[str] | None = None
+    switch_profiles: list[str] | None = Field(default=None, alias="switchProfiles")
+    mtu_size: int = Field(alias="mtuSize")
+
+
 class UpdateNetworkSwitchMtuResponse(_BaseSchema):
     """Response for updateNetworkSwitchMtu operation."""
 
     default_mtu_size: int | None = Field(default=None, alias="defaultMtuSize")
     overrides: list[GetNetworkSwitchMtuResponseOverridesItem] | None = None
+
+
+class UpdateNetworkSwitchPortSchedulePortSchedule(_BaseSchema):
+    """The schedule for switch port scheduling. Schedules are applied to days of the week. When
+    it's empty, default schedule with all days of a week are configured. Any unspecified day in
+    the schedule is added as a default schedule configuration of the day.
+    """
+
+    monday: SwitchMonday | None = None
+    tuesday: SwitchMonday | None = None
+    wednesday: SwitchMonday | None = None
+    thursday: SwitchMonday | None = None
+    friday: SwitchMonday | None = None
+    saturday: SwitchMonday | None = None
+    sunday: SwitchMonday | None = None
 
 
 class UpdateNetworkSwitchPortScheduleResponse(_BaseSchema):
@@ -2100,6 +2458,29 @@ class UpdateNetworkSwitchQosRulesOrderResponse(_BaseSchema):
     rule_ids: list[str] | None = Field(default=None, alias="ruleIds")
 
 
+class UpdateNetworkSwitchRoutingMulticastDefaultSettings(_BaseSchema):
+    """Default multicast setting for entire network. IGMP snooping and Flood unknown multicast
+    traffic settings are enabled by default.
+    """
+
+    igmp_snooping_enabled: bool | None = Field(default=None, alias="igmpSnoopingEnabled")
+    flood_unknown_multicast_traffic_enabled: bool | None = Field(
+        default=None, alias="floodUnknownMulticastTrafficEnabled"
+    )
+
+
+class UpdateNetworkSwitchRoutingMulticastOverridesItem(_BaseSchema):
+    """Item schema for overrides."""
+
+    switch_profiles: list[str] | None = Field(default=None, alias="switchProfiles")
+    switches: list[str] | None = None
+    stacks: list[str] | None = None
+    igmp_snooping_enabled: bool = Field(alias="igmpSnoopingEnabled")
+    flood_unknown_multicast_traffic_enabled: bool = Field(
+        alias="floodUnknownMulticastTrafficEnabled"
+    )
+
+
 class UpdateNetworkSwitchRoutingMulticastRendezvousPointResponse(_BaseSchema):
     """Response for updateNetworkSwitchRoutingMulticastRendezvousPoint operation."""
 
@@ -2110,6 +2491,12 @@ class UpdateNetworkSwitchRoutingMulticastRendezvousPointResponse(_BaseSchema):
     multicast_group: str | None = Field(default=None, alias="multicastGroup")
 
 
+class UpdateNetworkSwitchRoutingMulticastRendezvousPointVrf(_BaseSchema):
+    """The VRF with PIM enabled L3 interface."""
+
+    name: str | None = None
+
+
 class UpdateNetworkSwitchRoutingMulticastResponse(_BaseSchema):
     """Response for updateNetworkSwitchRoutingMulticast operation."""
 
@@ -2117,6 +2504,23 @@ class UpdateNetworkSwitchRoutingMulticastResponse(_BaseSchema):
         default=None, alias="defaultSettings"
     )
     overrides: list[GetNetworkSwitchRoutingMulticastResponseOverridesItem] | None = None
+
+
+class UpdateNetworkSwitchRoutingOspfAreasItem(_BaseSchema):
+    """Item schema for areas."""
+
+    area_id: str = Field(alias="areaId")
+    area_name: str = Field(alias="areaName")
+    area_type: str = Field(alias="areaType")
+
+
+class UpdateNetworkSwitchRoutingOspfMd5AuthenticationKey(_BaseSchema):
+    """MD5 authentication credentials. This param is only relevant if md5AuthenticationEnabled is
+    true.
+    """
+
+    id_: int | None = Field(default=None, alias="id")
+    passphrase: str | None = None
 
 
 class UpdateNetworkSwitchRoutingOspfResponse(_BaseSchema):
@@ -2134,6 +2538,36 @@ class UpdateNetworkSwitchRoutingOspfResponse(_BaseSchema):
     vrf: SwitchVrf | None = None
 
 
+class UpdateNetworkSwitchRoutingOspfV3(_BaseSchema):
+    """OSPF v3 configuration."""
+
+    enabled: bool | None = None
+    hello_timer_in_seconds: int | None = Field(default=None, alias="helloTimerInSeconds")
+    dead_timer_in_seconds: int | None = Field(default=None, alias="deadTimerInSeconds")
+    areas: list[UpdateNetworkSwitchRoutingOspfV3AreasItem] | None = None
+
+
+class UpdateNetworkSwitchRoutingOspfV3AreasItem(_BaseSchema):
+    """Schema for UpdateNetworkSwitchRoutingOspfV3AreasItem."""
+
+    area_id: str = Field(alias="areaId")
+    area_name: str = Field(alias="areaName")
+    area_type: str = Field(alias="areaType")
+
+
+class UpdateNetworkSwitchSettingsMacBlocklist(_BaseSchema):
+    """MAC blocklist."""
+
+    enabled: bool | None = None
+
+
+class UpdateNetworkSwitchSettingsPowerExceptionsItem(_BaseSchema):
+    """Item schema for powerExceptions."""
+
+    serial: str
+    power_type: str = Field(alias="powerType")
+
+
 class UpdateNetworkSwitchSettingsResponse(_BaseSchema):
     """Response for updateNetworkSwitchSettings operation."""
 
@@ -2147,6 +2581,49 @@ class UpdateNetworkSwitchSettingsResponse(_BaseSchema):
     uplink_selection: GetNetworkSwitchSettingsResponseUplinkSelection | None = Field(
         default=None, alias="uplinkSelection"
     )
+
+
+class UpdateNetworkSwitchSettingsUplinkClientSampling(_BaseSchema):
+    """Uplink client sampling."""
+
+    enabled: bool | None = None
+
+
+class UpdateNetworkSwitchSettingsUplinkSelection(_BaseSchema):
+    """Settings related to uplink selection on IOS-XE switches."""
+
+    failback: UpdateNetworkSwitchSettingsUplinkSelectionFailback | None = None
+    candidates: str | None = None
+
+
+class UpdateNetworkSwitchSettingsUplinkSelectionFailback(_BaseSchema):
+    """If a preferred uplink ever goes offline, we will periodically reattempt it."""
+
+    enabled: bool
+
+
+class UpdateNetworkSwitchStackRoutingInterfaceDhcpDhcpOptionsItem(_BaseSchema):
+    """Item schema for dhcpOptions."""
+
+    code: str
+    type_: str = Field(alias="type")
+    value: str
+
+
+class UpdateNetworkSwitchStackRoutingInterfaceDhcpFixedIpAssignmentsItem(_BaseSchema):
+    """Item schema for fixedIpAssignments."""
+
+    name: str
+    mac: str
+    ip: str
+
+
+class UpdateNetworkSwitchStackRoutingInterfaceDhcpReservedIpRangesItem(_BaseSchema):
+    """Item schema for reservedIpRanges."""
+
+    start: str
+    end: str
+    comment: str | None = None
 
 
 class UpdateNetworkSwitchStackRoutingInterfaceDhcpResponse(_BaseSchema):
@@ -2171,6 +2648,24 @@ class UpdateNetworkSwitchStackRoutingInterfaceDhcpResponse(_BaseSchema):
     ) = Field(default=None, alias="fixedIpAssignments")
 
 
+class UpdateNetworkSwitchStackRoutingInterfaceIpv6(_BaseSchema):
+    """The IPv6 settings of the interface."""
+
+    assignment_mode: str | None = Field(default=None, alias="assignmentMode")
+    prefix: str | None = None
+    address: str | None = None
+    gateway: str | None = None
+
+
+class UpdateNetworkSwitchStackRoutingInterfaceOspfSettings(_BaseSchema):
+    """The OSPF routing settings of the interface."""
+
+    area: str | None = None
+    cost: int | None = None
+    is_passive_enabled: bool | None = Field(default=None, alias="isPassiveEnabled")
+    network_type: str | None = Field(default=None, alias="networkType")
+
+
 class UpdateNetworkSwitchStackRoutingInterfaceResponse(_BaseSchema):
     """Response for updateNetworkSwitchStackRoutingInterface operation."""
 
@@ -2192,6 +2687,12 @@ class UpdateNetworkSwitchStackRoutingInterfaceResponse(_BaseSchema):
     loopback: dict[str, Any] | None = None
 
 
+class UpdateNetworkSwitchStackRoutingInterfaceVrf(_BaseSchema):
+    """The VRF settings of the interface. Requires IOS XE 17.18 or higher."""
+
+    name: str | None = None
+
+
 class UpdateNetworkSwitchStackRoutingStaticRouteResponse(_BaseSchema):
     """Response for updateNetworkSwitchStackRoutingStaticRoute operation."""
 
@@ -2205,6 +2706,13 @@ class UpdateNetworkSwitchStackRoutingStaticRouteResponse(_BaseSchema):
     prefer_over_ospf_routes_enabled: bool | None = Field(
         default=None, alias="preferOverOspfRoutesEnabled"
     )
+
+
+class UpdateNetworkSwitchStackRoutingStaticRouteVrf(_BaseSchema):
+    """The VRF settings of the interface. Requires IOS XE 17.18 or higher."""
+
+    name: str | None = None
+    leak_route_to_default_vrf: bool | None = Field(default=None, alias="leakRouteToDefaultVrf")
 
 
 class UpdateNetworkSwitchStormControlResponse(_BaseSchema):
@@ -2225,6 +2733,35 @@ class UpdateNetworkSwitchStpResponse(_BaseSchema):
     stp_bridge_priority: list[GetNetworkSwitchStpResponseStpBridgePriorityItem] | None = Field(
         default=None, alias="stpBridgePriority"
     )
+
+
+class UpdateNetworkSwitchStpStpBridgePriorityItem(_BaseSchema):
+    """Item schema for stpBridgePriority."""
+
+    switch_profiles: list[str] | None = Field(default=None, alias="switchProfiles")
+    switches: list[str] | None = None
+    stacks: list[str] | None = None
+    stp_priority: int = Field(alias="stpPriority")
+
+
+class UpdateOrganizationConfigTemplateSwitchProfilePortDot3az(_BaseSchema):
+    """dot3az settings for the port."""
+
+    enabled: bool | None = None
+
+
+class UpdateOrganizationConfigTemplateSwitchProfilePortHighSpeed(_BaseSchema):
+    """High speed port enablement settings for C9500-32QC."""
+
+    enabled: bool | None = None
+
+
+class UpdateOrganizationConfigTemplateSwitchProfilePortProfile(_BaseSchema):
+    """Profile attributes."""
+
+    enabled: bool | None = None
+    id_: str | None = Field(default=None, alias="id")
+    iname: str | None = None
 
 
 class UpdateOrganizationConfigTemplateSwitchProfilePortResponse(_BaseSchema):

@@ -12,7 +12,9 @@ from typing import TYPE_CHECKING, Literal
 
 from meraki_client.schemas import (
     CreateOrganizationCellularGatewayEsimsServiceProvidersAccountResponse,
+    CreateOrganizationCellularGatewayEsimsServiceProvidersAccountServiceProvider,
     CreateOrganizationCellularGatewayEsimsSwapResponse,
+    CreateOrganizationCellularGatewayEsimsSwapSwapsItem,
     GetDeviceCellularGatewayLanResponse,
     GetDeviceCellularGatewayPortForwardingRulesResponse,
     GetNetworkCellularGatewayConnectivityMonitoringDestinationsResponse,
@@ -25,11 +27,16 @@ from meraki_client.schemas import (
     GetOrganizationCellularGatewayEsimsServiceProvidersAccountsResponse,
     GetOrganizationCellularGatewayEsimsServiceProvidersResponse,
     GetOrganizationCellularGatewayUplinkStatusesResponseItem,
+    UpdateDeviceCellularGatewayLanFixedIpAssignmentsItem,
+    UpdateDeviceCellularGatewayLanReservedIpRangesItem,
     UpdateDeviceCellularGatewayLanResponse,
     UpdateDeviceCellularGatewayPortForwardingRulesResponse,
+    UpdateDeviceCellularGatewayPortForwardingRulesRulesItem,
+    UpdateNetworkCellularGatewayConnectivityMonitoringDestinationsDestinationsItem,
     UpdateNetworkCellularGatewayConnectivityMonitoringDestinationsResponse,
     UpdateNetworkCellularGatewayDhcpResponse,
     UpdateNetworkCellularGatewaySubnetPoolResponse,
+    UpdateNetworkCellularGatewayUplinkBandwidthLimits,
     UpdateNetworkCellularGatewayUplinkResponse,
     UpdateOrganizationCellularGatewayEsimsInventoryResponse,
     UpdateOrganizationCellularGatewayEsimsServiceProvidersAccountResponse,
@@ -71,8 +78,9 @@ class CellularGateway:
         self,
         *,
         serial: str,
-        reserved_ip_ranges: list | None = None,
-        fixed_ip_assignments: list | None = None,
+        reserved_ip_ranges: list[UpdateDeviceCellularGatewayLanReservedIpRangesItem] | None = None,
+        fixed_ip_assignments: list[UpdateDeviceCellularGatewayLanFixedIpAssignmentsItem]
+        | None = None,
     ) -> UpdateDeviceCellularGatewayLanResponse | None:
         """Update the LAN Settings for a single MG.
 
@@ -89,9 +97,13 @@ class CellularGateway:
 
         payload = {}
         if reserved_ip_ranges is not None:
-            payload["reservedIpRanges"] = reserved_ip_ranges
+            payload["reservedIpRanges"] = [
+                item.model_dump(by_alias=True, exclude_none=True) for item in reserved_ip_ranges
+            ]
         if fixed_ip_assignments is not None:
-            payload["fixedIpAssignments"] = fixed_ip_assignments
+            payload["fixedIpAssignments"] = [
+                item.model_dump(by_alias=True, exclude_none=True) for item in fixed_ip_assignments
+            ]
 
         return await self._session.put(
             scope="cellularGateway",
@@ -123,7 +135,10 @@ class CellularGateway:
         )
 
     async def update_device_cellular_gateway_port_forwarding_rules(
-        self, *, serial: str, rules: list | None = None
+        self,
+        *,
+        serial: str,
+        rules: list[UpdateDeviceCellularGatewayPortForwardingRulesRulesItem] | None = None,
     ) -> UpdateDeviceCellularGatewayPortForwardingRulesResponse | None:
         """Updates the port forwarding rules for a single MG.
 
@@ -139,7 +154,7 @@ class CellularGateway:
 
         payload = {}
         if rules is not None:
-            payload["rules"] = rules
+            payload["rules"] = [item.model_dump(by_alias=True, exclude_none=True) for item in rules]
 
         return await self._session.put(
             scope="cellularGateway",
@@ -171,7 +186,13 @@ class CellularGateway:
         )
 
     async def update_network_cellular_gateway_connectivity_monitoring_destinations(
-        self, *, network_id: str, destinations: list | None = None
+        self,
+        *,
+        network_id: str,
+        destinations: list[
+            UpdateNetworkCellularGatewayConnectivityMonitoringDestinationsDestinationsItem
+        ]
+        | None = None,
     ) -> UpdateNetworkCellularGatewayConnectivityMonitoringDestinationsResponse | None:
         """Update the connectivity testing destinations for an MG network.
 
@@ -187,7 +208,9 @@ class CellularGateway:
 
         payload = {}
         if destinations is not None:
-            payload["destinations"] = destinations
+            payload["destinations"] = [
+                item.model_dump(by_alias=True, exclude_none=True) for item in destinations
+            ]
 
         return await self._session.put(
             scope="cellularGateway",
@@ -224,7 +247,7 @@ class CellularGateway:
         network_id: str,
         dhcp_lease_time: str | None = None,
         dns_nameservers: str | None = None,
-        dns_custom_nameservers: list | None = None,
+        dns_custom_nameservers: list[str] | None = None,
     ) -> UpdateNetworkCellularGatewayDhcpResponse | None:
         """Update common DHCP settings of MGs.
 
@@ -333,7 +356,10 @@ class CellularGateway:
         )
 
     async def update_network_cellular_gateway_uplink(
-        self, *, network_id: str, bandwidth_limits: dict | None = None
+        self,
+        *,
+        network_id: str,
+        bandwidth_limits: UpdateNetworkCellularGatewayUplinkBandwidthLimits | None = None,
     ) -> UpdateNetworkCellularGatewayUplinkResponse | None:
         """Updates the uplink settings for your MG network.
 
@@ -349,7 +375,9 @@ class CellularGateway:
 
         payload = {}
         if bandwidth_limits is not None:
-            payload["bandwidthLimits"] = bandwidth_limits
+            payload["bandwidthLimits"] = bandwidth_limits.model_dump(
+                by_alias=True, exclude_none=True
+            )
 
         return await self._session.put(
             scope="cellularGateway",
@@ -360,7 +388,7 @@ class CellularGateway:
         )
 
     async def get_organization_cellular_gateway_esims_inventory(
-        self, *, organization_id: str, eids: list | None = None
+        self, *, organization_id: str, eids: list[str] | None = None
     ) -> GetOrganizationCellularGatewayEsimsInventoryResponse | None:
         """The eSIM inventory of a given organization.
 
@@ -437,7 +465,7 @@ class CellularGateway:
         )
 
     async def get_organization_cellular_gateway_esims_service_providers_accounts(
-        self, *, organization_id: str, account_ids: list | None = None
+        self, *, organization_id: str, account_ids: list[int] | None = None
     ) -> GetOrganizationCellularGatewayEsimsServiceProvidersAccountsResponse | None:
         """Inventory of service provider accounts tied to the organization.
 
@@ -469,7 +497,7 @@ class CellularGateway:
         organization_id: str,
         account_id: str,
         api_key: str,
-        service_provider: dict,
+        service_provider: CreateOrganizationCellularGatewayEsimsServiceProvidersAccountServiceProvider,
         title: str,
         username: str,
     ) -> CreateOrganizationCellularGatewayEsimsServiceProvidersAccountResponse | None:
@@ -495,7 +523,9 @@ class CellularGateway:
         if api_key is not None:
             payload["apiKey"] = api_key
         if service_provider is not None:
-            payload["serviceProvider"] = service_provider
+            payload["serviceProvider"] = service_provider.model_dump(
+                by_alias=True, exclude_none=True
+            )
         if title is not None:
             payload["title"] = title
         if username is not None:
@@ -510,7 +540,7 @@ class CellularGateway:
         )
 
     async def get_organization_cellular_gateway_esims_service_providers_accounts_communication_plans(
-        self, *, organization_id: str, account_ids: list
+        self, *, organization_id: str, account_ids: list[str]
     ) -> (
         GetOrganizationCellularGatewayEsimsServiceProvidersAccountsCommunicationPlansResponse | None
     ):
@@ -539,7 +569,7 @@ class CellularGateway:
         )
 
     async def get_organization_cellular_gateway_esims_service_providers_accounts_rate_plans(
-        self, *, organization_id: str, account_ids: list
+        self, *, organization_id: str, account_ids: list[str]
     ) -> GetOrganizationCellularGatewayEsimsServiceProvidersAccountsRatePlansResponse | None:
         """The rate plans available for a given provider.
 
@@ -625,7 +655,10 @@ class CellularGateway:
         )
 
     async def create_organization_cellular_gateway_esims_swap(
-        self, *, organization_id: str, swaps: list
+        self,
+        *,
+        organization_id: str,
+        swaps: list[CreateOrganizationCellularGatewayEsimsSwapSwapsItem],
     ) -> CreateOrganizationCellularGatewayEsimsSwapResponse | None:
         """Swap which profile an eSIM uses.
 
@@ -641,7 +674,7 @@ class CellularGateway:
 
         payload = {}
         if swaps is not None:
-            payload["swaps"] = swaps
+            payload["swaps"] = [item.model_dump(by_alias=True, exclude_none=True) for item in swaps]
 
         return await self._session.post(
             scope="cellularGateway",
@@ -681,9 +714,9 @@ class CellularGateway:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        network_ids: list | None = None,
-        serials: list | None = None,
-        iccids: list | None = None,
+        network_ids: list[str] | None = None,
+        serials: list[str] | None = None,
+        iccids: list[str] | None = None,
         total_pages: int | Literal["all"] = 1,
         direction: Literal["prev", "next"] = "next",
     ) -> AsyncPaginatedResponse[GetOrganizationCellularGatewayUplinkStatusesResponseItem]:

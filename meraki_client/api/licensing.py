@@ -17,6 +17,8 @@ from meraki_client.schemas import (
     GetAdministeredLicensingSubscriptionSubscriptionsComplianceStatusesResponse,
     GetAdministeredLicensingSubscriptionSubscriptionsResponseItem,
     GetOrganizationLicensingCotermLicensesResponseItem,
+    MoveOrganizationLicensingCotermLicensesDestination,
+    MoveOrganizationLicensingCotermLicensesLicensesItem,
     MoveOrganizationLicensingCotermLicensesResponse,
     ValidateAdministeredLicensingSubscriptionSubscriptionsClaimKeyResponse,
 )
@@ -32,7 +34,7 @@ class Licensing:
         self._session = session
 
     def get_administered_licensing_subscription_entitlements(
-        self, *, skus: list | None = None
+        self, *, skus: list[str] | None = None
     ) -> GetAdministeredLicensingSubscriptionEntitlementsResponse | None:
         """Retrieve the list of purchasable entitlements.
 
@@ -59,14 +61,14 @@ class Licensing:
     def get_administered_licensing_subscription_subscriptions(
         self,
         *,
-        organization_ids: list,
+        organization_ids: list[str],
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        subscription_ids: list | None = None,
-        statuses: list | None = None,
-        product_types: list | None = None,
-        skus: list | None = None,
+        subscription_ids: list[str] | None = None,
+        statuses: list[str] | None = None,
+        product_types: list[str] | None = None,
+        skus: list[str] | None = None,
         name: str | None = None,
         start_date: str | None = None,
         end_date: str | None = None,
@@ -214,7 +216,7 @@ class Licensing:
         )
 
     def get_administered_licensing_subscription_subscriptions_compliance_statuses(
-        self, *, organization_ids: list, subscription_ids: list | None = None
+        self, *, organization_ids: list[str], subscription_ids: list[str] | None = None
     ) -> GetAdministeredLicensingSubscriptionSubscriptionsComplianceStatusesResponse | None:
         """Get compliance status for requested subscriptions.
 
@@ -242,7 +244,11 @@ class Licensing:
         )
 
     def bind_administered_licensing_subscription_subscription(
-        self, *, subscription_id: str, validate: bool | None = None, network_ids: list | None = None
+        self,
+        *,
+        subscription_id: str,
+        validate: bool | None = None,
+        network_ids: list[str] | None = None,
     ) -> BindAdministeredLicensingSubscriptionSubscriptionResponse | None:
         """Bind networks to a subscription.
 
@@ -335,7 +341,11 @@ class Licensing:
         )
 
     def move_organization_licensing_coterm_licenses(
-        self, *, organization_id: str, destination: dict, licenses: list
+        self,
+        *,
+        organization_id: str,
+        destination: MoveOrganizationLicensingCotermLicensesDestination,
+        licenses: list[MoveOrganizationLicensingCotermLicensesLicensesItem],
     ) -> MoveOrganizationLicensingCotermLicensesResponse | None:
         """Moves a license to a different organization (coterm only).
 
@@ -352,9 +362,11 @@ class Licensing:
 
         payload = {}
         if destination is not None:
-            payload["destination"] = destination
+            payload["destination"] = destination.model_dump(by_alias=True, exclude_none=True)
         if licenses is not None:
-            payload["licenses"] = licenses
+            payload["licenses"] = [
+                item.model_dump(by_alias=True, exclude_none=True) for item in licenses
+            ]
 
         return self._session.post(
             scope="licensing",

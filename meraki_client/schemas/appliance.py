@@ -68,8 +68,18 @@ class ApplianceAuthentication(_BaseSchema):
     username: str | None = None
 
 
-class ApplianceBandwidthLimitsWan1(_BaseSchema):
-    """uplink wan1 configured limits [optional]."""
+class ApplianceAuthentication2(_BaseSchema):
+    """Settings for PPPoE Authentication."""
+
+    enabled: bool | None = None
+    username: str | None = None
+    password: str | None = None
+
+
+class ApplianceBandwidthLimits(_BaseSchema):
+    """The bandwidth limits object, specifying the upload ('limitUp') and download ('limitDown')
+    speed in Kbps. These are only enforced if 'settings' is set to 'custom'.
+    """
 
     limit_up: int | None = Field(default=None, alias="limitUp")
     limit_down: int | None = Field(default=None, alias="limitDown")
@@ -119,6 +129,13 @@ class ApplianceDestination2(_BaseSchema):
     vlan: int | None = None
     host: int | None = None
     fqdn: str | None = None
+
+
+class ApplianceDestination3(_BaseSchema):
+    """Destination of this custom type traffic filter."""
+
+    port: str | None = None
+    cidr: str | None = None
 
 
 class ApplianceDhcpOptionsItem(_BaseSchema):
@@ -307,6 +324,13 @@ class ApplianceOrigin2(_BaseSchema):
     interfaces: list[str] | None = None
 
 
+class ApplianceOrigin3(_BaseSchema):
+    """The origin of the prefix."""
+
+    type_: str = Field(alias="type")
+    interfaces: list[str] | None = None
+
+
 class AppliancePeersEbgpNeighbor(_BaseSchema):
     """[optional] The BGP neighbor configuration for the VPN peer. Supported only for MX 19.1 and
     above.
@@ -382,6 +406,13 @@ class AppliancePppoe(_BaseSchema):
 
     enabled: bool | None = None
     authentication: ApplianceAuthentication | None = None
+
+
+class AppliancePppoe2(_BaseSchema):
+    """Configuration options for PPPoE."""
+
+    enabled: bool | None = None
+    authentication: ApplianceAuthentication2 | None = None
 
 
 class ApplianceRadiusServersItem(_BaseSchema):
@@ -467,6 +498,13 @@ class ApplianceTrafficFiltersItem3(_BaseSchema):
     value: ApplianceValue2
 
 
+class ApplianceTrafficFiltersItem4(_BaseSchema):
+    """Schema for ApplianceTrafficFiltersItem4."""
+
+    type_: str = Field(alias="type")
+    value: ApplianceValue3
+
+
 class ApplianceUplinksItem(_BaseSchema):
     """Schema for ApplianceUplinksItem."""
 
@@ -511,6 +549,14 @@ class ApplianceValue2(_BaseSchema):
     destination: ApplianceDestination2 | None = None
 
 
+class ApplianceValue3(_BaseSchema):
+    """Value object of this traffic filter."""
+
+    protocol: str | None = None
+    source: ApplianceSource
+    destination: ApplianceDestination3
+
+
 class ApplianceVlanTagging(_BaseSchema):
     """VLAN tagging settings."""
 
@@ -547,6 +593,13 @@ class ApplianceWanTrafficUplinkPreferencesItem2(_BaseSchema):
     preferred_uplink: str = Field(alias="preferredUplink")
 
 
+class BulkOrganizationApplianceDnsLocalProfilesAssignmentsCreateItemsItem(_BaseSchema):
+    """Item schema for items."""
+
+    network: ApplianceNetwork | None = None
+    profile: ApplianceNetwork | None = None
+
+
 class BulkOrganizationApplianceDnsLocalProfilesAssignmentsCreateResponse(_BaseSchema):
     """Response for bulkOrganizationApplianceDnsLocalProfilesAssignmentsCreate operation."""
 
@@ -558,6 +611,36 @@ class CreateDeviceApplianceVmxAuthenticationTokenResponse(_BaseSchema):
 
     token: str | None = None
     expires_at: str | None = Field(default=None, alias="expiresAt")
+
+
+class CreateNetworkAppliancePrefixesDelegatedStaticOrigin(_BaseSchema):
+    """The origin of the prefix."""
+
+    type_: str | None = Field(default=None, alias="type")
+    interfaces: list[str] | None = None
+
+
+class CreateNetworkApplianceRfProfileFiveGhzSettings(_BaseSchema):
+    """Settings related to 5Ghz band."""
+
+    min_bitrate: int | None = Field(default=None, alias="minBitrate")
+    ax_enabled: bool | None = Field(default=None, alias="axEnabled")
+
+
+class CreateNetworkApplianceRfProfilePerSsidSettings(_BaseSchema):
+    """Per-SSID radio settings by number."""
+
+    n_1: CreateNetworkApplianceRfProfilePerSsidSettings1 | None = Field(default=None, alias="1")
+    n_2: CreateNetworkApplianceRfProfilePerSsidSettings1 | None = Field(default=None, alias="2")
+    n_3: CreateNetworkApplianceRfProfilePerSsidSettings1 | None = Field(default=None, alias="3")
+    n_4: CreateNetworkApplianceRfProfilePerSsidSettings1 | None = Field(default=None, alias="4")
+
+
+class CreateNetworkApplianceRfProfilePerSsidSettings1(_BaseSchema):
+    """Settings for SSID 1."""
+
+    band_operation_mode: str | None = Field(default=None, alias="bandOperationMode")
+    band_steering_enabled: bool | None = Field(default=None, alias="bandSteeringEnabled")
 
 
 class CreateNetworkApplianceRfProfileResponse(_BaseSchema):
@@ -575,6 +658,13 @@ class CreateNetworkApplianceRfProfileResponse(_BaseSchema):
     per_ssid_settings: ApplianceAssignedPerSsidSettings | None = Field(
         default=None, alias="perSsidSettings"
     )
+
+
+class CreateNetworkApplianceRfProfileTwoFourGhzSettings(_BaseSchema):
+    """Settings related to 2.4Ghz band."""
+
+    min_bitrate: float | None = Field(default=None, alias="minBitrate")
+    ax_enabled: bool | None = Field(default=None, alias="axEnabled")
 
 
 class CreateNetworkApplianceStaticRouteResponse(_BaseSchema):
@@ -604,6 +694,32 @@ class CreateNetworkApplianceTrafficShapingCustomPerformanceClassResponse(_BaseSc
     max_loss_percentage: int | None = Field(default=None, alias="maxLossPercentage")
 
 
+class CreateNetworkApplianceVlanDhcpOptionsItem(_BaseSchema):
+    """Item schema for dhcpOptions."""
+
+    code: str
+    type_: str = Field(alias="type")
+    value: str
+
+
+class CreateNetworkApplianceVlanIpv6(_BaseSchema):
+    """IPv6 configuration on the VLAN."""
+
+    enabled: bool | None = None
+    prefix_assignments: list[UpdateNetworkApplianceSingleLanIpv6PrefixAssignmentsItem] | None = (
+        Field(default=None, alias="prefixAssignments")
+    )
+
+
+class CreateNetworkApplianceVlanMandatoryDhcp(_BaseSchema):
+    """Mandatory DHCP will enforce that clients connecting to this VLAN must use the IP address
+    assigned by the DHCP server. Clients who use a static IP address won't be able to associate.
+    Only available on firmware versions 17.0 and above.
+    """
+
+    enabled: bool | None = None
+
+
 class CreateNetworkApplianceVlanResponse(_BaseSchema):
     """Response for createNetworkApplianceVlan operation."""
 
@@ -629,10 +745,22 @@ class CreateOrganizationApplianceDnsLocalProfileResponse(_BaseSchema):
     name: str | None = None
 
 
+class CreateOrganizationApplianceDnsLocalProfilesAssignmentsBulkDeleteItemsItem(_BaseSchema):
+    """Item schema for items."""
+
+    assignment_id: str | None = Field(default=None, alias="assignmentId")
+
+
 class CreateOrganizationApplianceDnsLocalProfilesAssignmentsBulkDeleteResponse(_BaseSchema):
     """Response for createOrganizationApplianceDnsLocalProfilesAssignmentsBulkDelete operation."""
 
     items: list[GetOrganizationApplianceDnsLocalProfilesAssignmentsResponseItemsItem] | None = None
+
+
+class CreateOrganizationApplianceDnsLocalRecordProfile(_BaseSchema):
+    """The profile the DNS record is associated with."""
+
+    id_: str | None = Field(default=None, alias="id")
 
 
 class CreateOrganizationApplianceDnsLocalRecordResponse(
@@ -650,6 +778,12 @@ class CreateOrganizationApplianceDnsLocalRecordResponseItem(_BaseSchema):
     profile: ApplianceNetwork | None = None
 
 
+class CreateOrganizationApplianceDnsSplitProfileNameservers(_BaseSchema):
+    """Contains the nameserver information for redirection."""
+
+    addresses: list[str] | None = None
+
+
 class CreateOrganizationApplianceDnsSplitProfileResponse(_BaseSchema):
     """Response for createOrganizationApplianceDnsSplitProfile operation."""
 
@@ -659,10 +793,23 @@ class CreateOrganizationApplianceDnsSplitProfileResponse(_BaseSchema):
     nameservers: ApplianceNameservers | None = None
 
 
+class CreateOrganizationApplianceDnsSplitProfilesAssignmentsBulkCreateItemsItem(_BaseSchema):
+    """Item schema for items."""
+
+    network: ApplianceNetwork | None = None
+    profile: ApplianceNetwork | None = None
+
+
 class CreateOrganizationApplianceDnsSplitProfilesAssignmentsBulkCreateResponse(_BaseSchema):
     """Response for createOrganizationApplianceDnsSplitProfilesAssignmentsBulkCreate operation."""
 
     items: list[GetOrganizationApplianceDnsLocalProfilesAssignmentsResponseItemsItem] | None = None
+
+
+class CreateOrganizationApplianceDnsSplitProfilesAssignmentsBulkDeleteItemsItem(_BaseSchema):
+    """Item schema for items."""
+
+    assignment_id: str | None = Field(default=None, alias="assignmentId")
 
 
 class CreateOrganizationApplianceDnsSplitProfilesAssignmentsBulkDeleteResponse(_BaseSchema):
@@ -1161,9 +1308,9 @@ class GetNetworkApplianceTrafficShapingUplinkBandwidthResponse(_BaseSchema):
 class GetNetworkApplianceTrafficShapingUplinkBandwidthResponseBandwidthLimits(_BaseSchema):
     """A hash uplink keys and their configured settings for the Appliance."""
 
-    wan1: ApplianceBandwidthLimitsWan1 | None = None
-    wan2: ApplianceBandwidthLimitsWan1 | None = None
-    cellular: ApplianceBandwidthLimitsWan1 | None = None
+    wan1: ApplianceBandwidthLimits | None = None
+    wan2: ApplianceBandwidthLimits | None = None
+    cellular: ApplianceBandwidthLimits | None = None
 
 
 class GetNetworkApplianceTrafficShapingUplinkSelectionResponse(_BaseSchema):
@@ -1615,6 +1762,14 @@ class SwapNetworkApplianceWarmSpareResponse(_BaseSchema):
     wan2: GetNetworkApplianceWarmSpareResponseWan1 | None = None
 
 
+class UpdateDeviceApplianceRadioSettingsFiveGhzSettings(_BaseSchema):
+    """Manual radio settings for 5 GHz."""
+
+    channel: int | None = None
+    channel_width: int | None = Field(default=None, alias="channelWidth")
+    target_power: int | None = Field(default=None, alias="targetPower")
+
+
 class UpdateDeviceApplianceRadioSettingsResponse(_BaseSchema):
     """Response for updateDeviceApplianceRadioSettings operation."""
 
@@ -1628,10 +1783,41 @@ class UpdateDeviceApplianceRadioSettingsResponse(_BaseSchema):
     )
 
 
+class UpdateDeviceApplianceRadioSettingsTwoFourGhzSettings(_BaseSchema):
+    """Manual radio settings for 2.4 GHz."""
+
+    channel: int | None = None
+    target_power: int | None = Field(default=None, alias="targetPower")
+
+
+class UpdateDeviceApplianceUplinksSettingsInterfaces(_BaseSchema):
+    """Interface settings."""
+
+    wan1: UpdateDeviceApplianceUplinksSettingsInterfacesWan1 | None = None
+    wan2: UpdateDeviceApplianceUplinksSettingsInterfacesWan1 | None = None
+
+
+class UpdateDeviceApplianceUplinksSettingsInterfacesWan1(_BaseSchema):
+    """WAN 1 settings."""
+
+    enabled: bool | None = None
+    vlan_tagging: ApplianceVlanTagging | None = Field(default=None, alias="vlanTagging")
+    svis: ApplianceSvis | None = None
+    pppoe: AppliancePppoe2 | None = None
+
+
 class UpdateDeviceApplianceUplinksSettingsResponse(_BaseSchema):
     """Response for updateDeviceApplianceUplinksSettings operation."""
 
     interfaces: GetDeviceApplianceUplinksSettingsResponseInterfaces | None = None
+
+
+class UpdateNetworkApplianceConnectivityMonitoringDestinationsDestinationsItem(_BaseSchema):
+    """Item schema for destinations."""
+
+    ip: str
+    description: str | None = None
+    default: bool | None = None
 
 
 class UpdateNetworkApplianceConnectivityMonitoringDestinationsResponse(_BaseSchema):
@@ -1653,6 +1839,19 @@ class UpdateNetworkApplianceContentFilteringResponse(_BaseSchema):
     url_category_list_size: str | None = Field(default=None, alias="urlCategoryListSize")
 
 
+class UpdateNetworkApplianceFirewallCellularFirewallRulesRulesItem(_BaseSchema):
+    """Item schema for rules."""
+
+    comment: str | None = None
+    policy: str
+    protocol: str
+    src_port: str | None = Field(default=None, alias="srcPort")
+    src_cidr: str = Field(alias="srcCidr")
+    dest_port: str | None = Field(default=None, alias="destPort")
+    dest_cidr: str = Field(alias="destCidr")
+    syslog_enabled: bool | None = Field(default=None, alias="syslogEnabled")
+
+
 class UpdateNetworkApplianceFirewallFirewalledServiceResponse(_BaseSchema):
     """Response for updateNetworkApplianceFirewallFirewalledService operation."""
 
@@ -1669,6 +1868,19 @@ class UpdateNetworkApplianceFirewallInboundCellularFirewallRulesResponse(_BaseSc
     )
 
 
+class UpdateNetworkApplianceFirewallInboundCellularFirewallRulesRulesItem(_BaseSchema):
+    """Item schema for rules."""
+
+    comment: str | None = None
+    policy: str
+    protocol: str
+    src_port: str | None = Field(default=None, alias="srcPort")
+    src_cidr: str = Field(alias="srcCidr")
+    dest_port: str | None = Field(default=None, alias="destPort")
+    dest_cidr: str = Field(alias="destCidr")
+    syslog_enabled: bool | None = Field(default=None, alias="syslogEnabled")
+
+
 class UpdateNetworkApplianceFirewallInboundFirewallRulesResponse(_BaseSchema):
     """Response for updateNetworkApplianceFirewallInboundFirewallRules operation."""
 
@@ -1676,6 +1888,40 @@ class UpdateNetworkApplianceFirewallInboundFirewallRulesResponse(_BaseSchema):
         None
     )
     syslog_default_rule: bool | None = Field(default=None, alias="syslogDefaultRule")
+
+
+class UpdateNetworkApplianceFirewallInboundFirewallRulesRulesItem(_BaseSchema):
+    """Item schema for rules."""
+
+    comment: str | None = None
+    policy: str
+    protocol: str
+    src_port: str | None = Field(default=None, alias="srcPort")
+    src_cidr: str = Field(alias="srcCidr")
+    dest_port: str | None = Field(default=None, alias="destPort")
+    dest_cidr: str = Field(alias="destCidr")
+    syslog_enabled: bool | None = Field(default=None, alias="syslogEnabled")
+
+
+class UpdateNetworkApplianceFirewallL3FirewallRulesRulesItem(_BaseSchema):
+    """Item schema for rules."""
+
+    comment: str | None = None
+    policy: str
+    protocol: str
+    src_port: str | None = Field(default=None, alias="srcPort")
+    src_cidr: str = Field(alias="srcCidr")
+    dest_port: str | None = Field(default=None, alias="destPort")
+    dest_cidr: str = Field(alias="destCidr")
+    syslog_enabled: bool | None = Field(default=None, alias="syslogEnabled")
+
+
+class UpdateNetworkApplianceFirewallL7FirewallRulesRulesItem(_BaseSchema):
+    """Item schema for rules."""
+
+    policy: str | None = None
+    type_: str | None = Field(default=None, alias="type")
+    value: str | None = None
 
 
 class UpdateNetworkApplianceFirewallMulticastForwardingResponse(_BaseSchema):
@@ -1700,10 +1946,85 @@ class UpdateNetworkApplianceFirewallMulticastForwardingResponseRulesItem(_BaseSc
     vlan_ids: list[str] = Field(alias="vlanIds")
 
 
+class UpdateNetworkApplianceFirewallMulticastForwardingRulesItem(_BaseSchema):
+    """Item schema for rules."""
+
+    description: str
+    address: str
+    vlan_ids: list[str] = Field(alias="vlanIds")
+
+
+class UpdateNetworkApplianceFirewallOneToManyNatRulesRulesItem(_BaseSchema):
+    """Item schema for rules."""
+
+    public_ip: str = Field(alias="publicIp")
+    uplink: str
+    port_rules: list[UpdateNetworkApplianceFirewallOneToManyNatRulesRulesItemPortRulesItem] = Field(
+        alias="portRules"
+    )
+
+
+class UpdateNetworkApplianceFirewallOneToManyNatRulesRulesItemPortRulesItem(_BaseSchema):
+    """Schema for UpdateNetworkApplianceFirewallOneToManyNatRulesRulesItemPortRulesItem."""
+
+    name: str | None = None
+    protocol: str | None = None
+    public_port: str | None = Field(default=None, alias="publicPort")
+    local_ip: str | None = Field(default=None, alias="localIp")
+    local_port: str | None = Field(default=None, alias="localPort")
+    allowed_ips: list[str] | None = Field(default=None, alias="allowedIps")
+
+
+class UpdateNetworkApplianceFirewallOneToOneNatRulesRulesItem(_BaseSchema):
+    """Item schema for rules."""
+
+    name: str | None = None
+    public_ip: str | None = Field(default=None, alias="publicIp")
+    lan_ip: str = Field(alias="lanIp")
+    uplink: str | None = None
+    allowed_inbound: (
+        list[UpdateNetworkApplianceFirewallOneToOneNatRulesRulesItemAllowedInboundItem] | None
+    ) = Field(default=None, alias="allowedInbound")
+
+
+class UpdateNetworkApplianceFirewallOneToOneNatRulesRulesItemAllowedInboundItem(_BaseSchema):
+    """Schema for UpdateNetworkApplianceFirewallOneToOneNatRulesRulesItemAllowedInboundItem."""
+
+    protocol: str | None = None
+    destination_ports: list[str] | None = Field(default=None, alias="destinationPorts")
+    allowed_ips: list[str] | None = Field(default=None, alias="allowedIps")
+
+
 class UpdateNetworkApplianceFirewallPortForwardingRulesResponse(_BaseSchema):
     """Response for updateNetworkApplianceFirewallPortForwardingRules operation."""
 
     rules: list[GetNetworkApplianceFirewallPortForwardingRulesResponseRulesItem] | None = None
+
+
+class UpdateNetworkApplianceFirewallPortForwardingRulesRulesItem(_BaseSchema):
+    """Item schema for rules."""
+
+    name: str | None = None
+    lan_ip: str = Field(alias="lanIp")
+    uplink: str | None = None
+    public_port: str = Field(alias="publicPort")
+    local_port: str = Field(alias="localPort")
+    allowed_ips: list[str] = Field(alias="allowedIps")
+    protocol: str
+
+
+class UpdateNetworkApplianceFirewallSettingsSpoofingProtection(_BaseSchema):
+    """Spoofing protection settings."""
+
+    ip_source_guard: (
+        UpdateNetworkApplianceFirewallSettingsSpoofingProtectionIpSourceGuard | None
+    ) = Field(default=None, alias="ipSourceGuard")
+
+
+class UpdateNetworkApplianceFirewallSettingsSpoofingProtectionIpSourceGuard(_BaseSchema):
+    """IP source address spoofing settings."""
+
+    mode: str | None = None
 
 
 class UpdateNetworkAppliancePortResponse(_BaseSchema):
@@ -1716,6 +2037,29 @@ class UpdateNetworkAppliancePortResponse(_BaseSchema):
     vlan: int | None = None
     allowed_vlans: str | None = Field(default=None, alias="allowedVlans")
     access_policy: str | None = Field(default=None, alias="accessPolicy")
+
+
+class UpdateNetworkAppliancePrefixesDelegatedStaticOrigin(_BaseSchema):
+    """The origin of the prefix."""
+
+    type_: str | None = Field(default=None, alias="type")
+    interfaces: list[str] | None = None
+
+
+class UpdateNetworkApplianceRfProfileFiveGhzSettings(_BaseSchema):
+    """Settings related to 5Ghz band."""
+
+    min_bitrate: int | None = Field(default=None, alias="minBitrate")
+    ax_enabled: bool | None = Field(default=None, alias="axEnabled")
+
+
+class UpdateNetworkApplianceRfProfilePerSsidSettings(_BaseSchema):
+    """Per-SSID radio settings by number."""
+
+    n_1: CreateNetworkApplianceRfProfilePerSsidSettings1 | None = Field(default=None, alias="1")
+    n_2: CreateNetworkApplianceRfProfilePerSsidSettings1 | None = Field(default=None, alias="2")
+    n_3: CreateNetworkApplianceRfProfilePerSsidSettings1 | None = Field(default=None, alias="3")
+    n_4: CreateNetworkApplianceRfProfilePerSsidSettings1 | None = Field(default=None, alias="4")
 
 
 class UpdateNetworkApplianceRfProfileResponse(_BaseSchema):
@@ -1735,12 +2079,40 @@ class UpdateNetworkApplianceRfProfileResponse(_BaseSchema):
     )
 
 
+class UpdateNetworkApplianceRfProfileTwoFourGhzSettings(_BaseSchema):
+    """Settings related to 2.4Ghz band."""
+
+    min_bitrate: float | None = Field(default=None, alias="minBitrate")
+    ax_enabled: bool | None = Field(default=None, alias="axEnabled")
+
+
 class UpdateNetworkApplianceSdwanInternetPoliciesResponse(_BaseSchema):
     """Response for updateNetworkApplianceSdwanInternetPolicies operation."""
 
     wan_traffic_uplink_preferences: list[ApplianceWanTrafficUplinkPreferencesItem] | None = Field(
         default=None, alias="wanTrafficUplinkPreferences"
     )
+
+
+class UpdateNetworkApplianceSdwanInternetPoliciesWanTrafficUplinkPreferencesItem(_BaseSchema):
+    """Item schema for wanTrafficUplinkPreferences."""
+
+    preferred_uplink: str = Field(alias="preferredUplink")
+    fail_over_criterion: str | None = Field(default=None, alias="failOverCriterion")
+    performance_class: AppliancePerformanceClass | None = Field(
+        default=None, alias="performanceClass"
+    )
+    traffic_filters: list[ApplianceTrafficFiltersItem] = Field(alias="trafficFilters")
+
+
+class UpdateNetworkApplianceSecurityIntrusionProtectedNetworks(_BaseSchema):
+    """Set the included/excluded networks from the intrusion engine (optional - omitting will leave
+    current config unchanged). This is available only in 'passthrough' mode.
+    """
+
+    use_default: bool | None = Field(default=None, alias="useDefault")
+    included_cidr: list[str] | None = Field(default=None, alias="includedCidr")
+    excluded_cidr: list[str] | None = Field(default=None, alias="excludedCidr")
 
 
 class UpdateNetworkApplianceSecurityIntrusionResponse(_BaseSchema):
@@ -1751,6 +2123,20 @@ class UpdateNetworkApplianceSecurityIntrusionResponse(_BaseSchema):
     protected_networks: GetNetworkApplianceSecurityIntrusionResponseProtectedNetworks | None = (
         Field(default=None, alias="protectedNetworks")
     )
+
+
+class UpdateNetworkApplianceSecurityMalwareAllowedFilesItem(_BaseSchema):
+    """Item schema for allowedFiles."""
+
+    sha256: str
+    comment: str
+
+
+class UpdateNetworkApplianceSecurityMalwareAllowedUrlsItem(_BaseSchema):
+    """Item schema for allowedUrls."""
+
+    url: str
+    comment: str
 
 
 class UpdateNetworkApplianceSecurityMalwareResponse(_BaseSchema):
@@ -1765,6 +2151,13 @@ class UpdateNetworkApplianceSecurityMalwareResponse(_BaseSchema):
     )
 
 
+class UpdateNetworkApplianceSettingsDynamicDns(_BaseSchema):
+    """Dynamic DNS settings for a network."""
+
+    prefix: str | None = None
+    enabled: bool | None = None
+
+
 class UpdateNetworkApplianceSettingsResponse(_BaseSchema):
     """Response for updateNetworkApplianceSettings operation."""
 
@@ -1773,6 +2166,34 @@ class UpdateNetworkApplianceSettingsResponse(_BaseSchema):
     dynamic_dns: GetNetworkApplianceSettingsResponseDynamicDns | None = Field(
         default=None, alias="dynamicDns"
     )
+
+
+class UpdateNetworkApplianceSingleLanIpv6(_BaseSchema):
+    """IPv6 configuration on the VLAN."""
+
+    enabled: bool | None = None
+    prefix_assignments: list[UpdateNetworkApplianceSingleLanIpv6PrefixAssignmentsItem] | None = (
+        Field(default=None, alias="prefixAssignments")
+    )
+
+
+class UpdateNetworkApplianceSingleLanIpv6PrefixAssignmentsItem(_BaseSchema):
+    """Schema for UpdateNetworkApplianceSingleLanIpv6PrefixAssignmentsItem."""
+
+    autonomous: bool | None = None
+    disabled: bool
+    static_prefix: str | None = Field(default=None, alias="staticPrefix")
+    static_appliance_ip6: str | None = Field(default=None, alias="staticApplianceIp6")
+    origin: ApplianceOrigin3 | None = None
+
+
+class UpdateNetworkApplianceSingleLanMandatoryDhcp(_BaseSchema):
+    """Mandatory DHCP will enforce that clients connecting to this LAN must use the IP address
+    assigned by the DHCP server. Clients who use a static IP address won't be able to associate.
+    Only available on firmware versions 17.0 and above.
+    """
+
+    enabled: bool | None = None
 
 
 class UpdateNetworkApplianceSingleLanResponse(_BaseSchema):
@@ -1784,6 +2205,30 @@ class UpdateNetworkApplianceSingleLanResponse(_BaseSchema):
         default=None, alias="mandatoryDhcp"
     )
     ipv6: GetNetworkApplianceSingleLanResponseIpv6 | None = None
+
+
+class UpdateNetworkApplianceSsidDhcpEnforcedDeauthentication(_BaseSchema):
+    """DHCP Enforced Deauthentication enables the disassociation of wireless clients in addition to
+    Mandatory DHCP. This param is only valid on firmware versions >= MX 17.0 where the
+    associated LAN has Mandatory DHCP Enabled.
+    """
+
+    enabled: bool | None = None
+
+
+class UpdateNetworkApplianceSsidDot11w(_BaseSchema):
+    """The current setting for Protected Management Frames (802.11w)."""
+
+    enabled: bool | None = None
+    required: bool | None = None
+
+
+class UpdateNetworkApplianceSsidRadiusServersItem(_BaseSchema):
+    """Item schema for radiusServers."""
+
+    host: str | None = None
+    port: int | None = None
+    secret: str | None = None
 
 
 class UpdateNetworkApplianceSsidResponse(_BaseSchema):
@@ -1800,6 +2245,21 @@ class UpdateNetworkApplianceSsidResponse(_BaseSchema):
     encryption_mode: str | None = Field(default=None, alias="encryptionMode")
     wpa_encryption_mode: str | None = Field(default=None, alias="wpaEncryptionMode")
     visible: bool | None = None
+
+
+class UpdateNetworkApplianceStaticRouteFixedIpAssignmentsValue(_BaseSchema):
+    """An object mapping MAC addresses to IP addresses and client names."""
+
+    ip: str | None = None
+    name: str | None = None
+
+
+class UpdateNetworkApplianceStaticRouteReservedIpRangesItem(_BaseSchema):
+    """Item schema for reservedIpRanges."""
+
+    start: str
+    end: str
+    comment: str
 
 
 class UpdateNetworkApplianceStaticRouteResponse(_BaseSchema):
@@ -1829,6 +2289,54 @@ class UpdateNetworkApplianceTrafficShapingCustomPerformanceClassResponse(_BaseSc
     max_loss_percentage: int | None = Field(default=None, alias="maxLossPercentage")
 
 
+class UpdateNetworkApplianceTrafficShapingGlobalBandwidthLimits(_BaseSchema):
+    """Global per-client bandwidth limit."""
+
+    limit_up: int | None = Field(default=None, alias="limitUp")
+    limit_down: int | None = Field(default=None, alias="limitDown")
+
+
+class UpdateNetworkApplianceTrafficShapingRulesRulesItem(_BaseSchema):
+    """Item schema for rules."""
+
+    definitions: list[UpdateNetworkApplianceTrafficShapingRulesRulesItemDefinitionsItem]
+    per_client_bandwidth_limits: (
+        UpdateNetworkApplianceTrafficShapingRulesRulesItemPerClientBandwidthLimits | None
+    ) = Field(default=None, alias="perClientBandwidthLimits")
+    dscp_tag_value: int | None = Field(default=None, alias="dscpTagValue")
+    priority: str | None = None
+
+
+class UpdateNetworkApplianceTrafficShapingRulesRulesItemDefinitionsItem(_BaseSchema):
+    """Schema for UpdateNetworkApplianceTrafficShapingRulesRulesItemDefinitionsItem."""
+
+    type_: str = Field(alias="type")
+    value: str
+
+
+class UpdateNetworkApplianceTrafficShapingRulesRulesItemPerClientBandwidthLimits(_BaseSchema):
+    """An object describing the bandwidth settings for your rule."""
+
+    settings: str | None = None
+    bandwidth_limits: ApplianceBandwidthLimits | None = Field(default=None, alias="bandwidthLimits")
+
+
+class UpdateNetworkApplianceTrafficShapingUplinkBandwidthBandwidthLimits(_BaseSchema):
+    """A mapping of uplinks to their bandwidth settings (be sure to check which uplinks are
+    supported for your network).
+    """
+
+    wan1: ApplianceBandwidthLimits | None = None
+    wan2: ApplianceBandwidthLimits | None = None
+    cellular: ApplianceBandwidthLimits | None = None
+
+
+class UpdateNetworkApplianceTrafficShapingUplinkSelectionFailoverAndFailback(_BaseSchema):
+    """WAN failover and failback behavior."""
+
+    immediate: ApplianceFailoverAndFailbackImmediate | None = None
+
+
 class UpdateNetworkApplianceTrafficShapingUplinkSelectionResponse(_BaseSchema):
     """Response for updateNetworkApplianceTrafficShapingUplinkSelection operation."""
 
@@ -1846,6 +2354,43 @@ class UpdateNetworkApplianceTrafficShapingUplinkSelectionResponse(_BaseSchema):
     vpn_traffic_uplink_preferences: list[ApplianceVpnTrafficUplinkPreferencesItem] | None = Field(
         default=None, alias="vpnTrafficUplinkPreferences"
     )
+
+
+class UpdateNetworkApplianceTrafficShapingUplinkSelectionVpnTrafficUplinkPreferencesItem(
+    _BaseSchema
+):
+    """Item schema for vpnTrafficUplinkPreferences."""
+
+    traffic_filters: list[ApplianceTrafficFiltersItem3] = Field(alias="trafficFilters")
+    preferred_uplink: str = Field(alias="preferredUplink")
+    fail_over_criterion: str | None = Field(default=None, alias="failOverCriterion")
+    performance_class: AppliancePerformanceClass2 | None = Field(
+        default=None, alias="performanceClass"
+    )
+
+
+class UpdateNetworkApplianceTrafficShapingUplinkSelectionWanTrafficUplinkPreferencesItem(
+    _BaseSchema
+):
+    """Item schema for wanTrafficUplinkPreferences."""
+
+    traffic_filters: list[ApplianceTrafficFiltersItem4] = Field(alias="trafficFilters")
+    preferred_uplink: str = Field(alias="preferredUplink")
+
+
+class UpdateNetworkApplianceTrafficShapingVpnExclusionsCustomItem(_BaseSchema):
+    """Item schema for custom."""
+
+    protocol: str
+    destination: str | None = None
+    port: str | None = None
+
+
+class UpdateNetworkApplianceTrafficShapingVpnExclusionsMajorApplicationsItem(_BaseSchema):
+    """Item schema for majorApplications."""
+
+    id_: str = Field(alias="id")
+    name: str | None = None
 
 
 class UpdateNetworkApplianceTrafficShapingVpnExclusionsResponse(_BaseSchema):
@@ -1872,6 +2417,49 @@ class UpdateNetworkApplianceTrafficShapingVpnExclusionsResponseMajorApplications
 
     id_: str = Field(alias="id")
     name: str
+
+
+class UpdateNetworkApplianceVlanDhcpOptionsItem(_BaseSchema):
+    """Item schema for dhcpOptions."""
+
+    code: str
+    type_: str = Field(alias="type")
+    value: str
+
+
+class UpdateNetworkApplianceVlanIpv6(_BaseSchema):
+    """IPv6 configuration on the VLAN."""
+
+    enabled: bool | None = None
+    prefix_assignments: list[UpdateNetworkApplianceVlanIpv6PrefixAssignmentsItem] | None = Field(
+        default=None, alias="prefixAssignments"
+    )
+
+
+class UpdateNetworkApplianceVlanIpv6PrefixAssignmentsItem(_BaseSchema):
+    """Schema for UpdateNetworkApplianceVlanIpv6PrefixAssignmentsItem."""
+
+    autonomous: bool | None = None
+    static_prefix: str | None = Field(default=None, alias="staticPrefix")
+    static_appliance_ip6: str | None = Field(default=None, alias="staticApplianceIp6")
+    origin: ApplianceOrigin3 | None = None
+
+
+class UpdateNetworkApplianceVlanMandatoryDhcp(_BaseSchema):
+    """Mandatory DHCP will enforce that clients connecting to this VLAN must use the IP address
+    assigned by the DHCP server. Clients who use a static IP address won't be able to associate.
+    Only available on firmware versions 17.0 and above.
+    """
+
+    enabled: bool | None = None
+
+
+class UpdateNetworkApplianceVlanReservedIpRangesItem(_BaseSchema):
+    """Item schema for reservedIpRanges."""
+
+    start: str
+    end: str
+    comment: str
 
 
 class UpdateNetworkApplianceVlanResponse(_BaseSchema):
@@ -1911,6 +2499,33 @@ class UpdateNetworkApplianceVlansSettingsResponse(_BaseSchema):
     vlans_enabled: bool | None = Field(default=None, alias="vlansEnabled")
 
 
+class UpdateNetworkApplianceVpnBgpNeighborsItem(_BaseSchema):
+    """Item schema for neighbors."""
+
+    ip: str | None = None
+    ipv6: UpdateNetworkApplianceVpnBgpNeighborsItemIpv6 | None = None
+    remote_as_number: int = Field(alias="remoteAsNumber")
+    receive_limit: int | None = Field(default=None, alias="receiveLimit")
+    allow_transit: bool | None = Field(default=None, alias="allowTransit")
+    ebgp_hold_timer: int = Field(alias="ebgpHoldTimer")
+    ebgp_multihop: int = Field(alias="ebgpMultihop")
+    source_interface: str | None = Field(default=None, alias="sourceInterface")
+    next_hop_ip: str | None = Field(default=None, alias="nextHopIp")
+    ttl_security: GetNetworkApplianceSingleLanResponseMandatoryDhcp | None = Field(
+        default=None, alias="ttlSecurity"
+    )
+    authentication: ApplianceNeighborsAuthentication | None = None
+    multi_exit_discriminator: int | None = Field(default=None, alias="multiExitDiscriminator")
+    path_prepend: list[int] | None = Field(default=None, alias="pathPrepend")
+    weight: int | None = None
+
+
+class UpdateNetworkApplianceVpnBgpNeighborsItemIpv6(_BaseSchema):
+    """Information regarding IPv6 address of the neighbor, Required if `ip` is not present."""
+
+    address: str
+
+
 class UpdateNetworkApplianceVpnBgpResponse(_BaseSchema):
     """Response for updateNetworkApplianceVpnBgp operation."""
 
@@ -1920,6 +2535,13 @@ class UpdateNetworkApplianceVpnBgpResponse(_BaseSchema):
     neighbors: list[GetNetworkApplianceVpnBgpResponseNeighborsItem] | None = None
 
 
+class UpdateNetworkApplianceVpnSiteToSiteVpnHubsItem(_BaseSchema):
+    """Item schema for hubs."""
+
+    hub_id: str = Field(alias="hubId")
+    use_default_route: bool | None = Field(default=None, alias="useDefaultRoute")
+
+
 class UpdateNetworkApplianceVpnSiteToSiteVpnResponse(_BaseSchema):
     """Response for updateNetworkApplianceVpnSiteToSiteVpn operation."""
 
@@ -1927,6 +2549,20 @@ class UpdateNetworkApplianceVpnSiteToSiteVpnResponse(_BaseSchema):
     hubs: list[GetNetworkApplianceVpnSiteToSiteVpnResponseHubsItem] | None = None
     subnets: list[GetNetworkApplianceVpnSiteToSiteVpnResponseSubnetsItem] | None = None
     subnet: GetNetworkApplianceVpnSiteToSiteVpnResponseSubnet | None = None
+
+
+class UpdateNetworkApplianceVpnSiteToSiteVpnSubnet(_BaseSchema):
+    """Configuration of subnet features."""
+
+    nat: ApplianceSubnetNat | None = None
+
+
+class UpdateNetworkApplianceVpnSiteToSiteVpnSubnetsItem(_BaseSchema):
+    """Item schema for subnets."""
+
+    local_subnet: str = Field(alias="localSubnet")
+    use_vpn: bool | None = Field(default=None, alias="useVpn")
+    nat: ApplianceSubnetsNat | None = None
 
 
 class UpdateNetworkApplianceWarmSpareResponse(_BaseSchema):
@@ -1947,6 +2583,12 @@ class UpdateOrganizationApplianceDnsLocalProfileResponse(_BaseSchema):
     name: str | None = None
 
 
+class UpdateOrganizationApplianceDnsLocalRecordProfile(_BaseSchema):
+    """The profile the DNS record is associated with."""
+
+    id_: str | None = Field(default=None, alias="id")
+
+
 class UpdateOrganizationApplianceDnsLocalRecordResponse(_BaseSchema):
     """Response for updateOrganizationApplianceDnsLocalRecord operation."""
 
@@ -1954,6 +2596,12 @@ class UpdateOrganizationApplianceDnsLocalRecordResponse(_BaseSchema):
     hostname: str | None = None
     address: str | None = None
     profile: ApplianceNetwork | None = None
+
+
+class UpdateOrganizationApplianceDnsSplitProfileNameservers(_BaseSchema):
+    """Contains the nameserver information for redirection."""
+
+    addresses: list[str] | None = None
 
 
 class UpdateOrganizationApplianceDnsSplitProfileResponse(_BaseSchema):
@@ -1965,11 +2613,74 @@ class UpdateOrganizationApplianceDnsSplitProfileResponse(_BaseSchema):
     nameservers: ApplianceNameservers | None = None
 
 
+class UpdateOrganizationApplianceSecurityIntrusionAllowedRulesItem(_BaseSchema):
+    """Item schema for allowedRules."""
+
+    rule_id: str = Field(alias="ruleId")
+    message: str | None = None
+
+
+class UpdateOrganizationApplianceVpnSiteToSiteIpsecPeersSlasItemsItem(_BaseSchema):
+    """Item schema for items."""
+
+    name: str | None = None
+    uri: str | None = None
+
+
 class UpdateOrganizationApplianceVpnSiteToSiteIpsecPeersSlasResponse(_BaseSchema):
     """Response for updateOrganizationApplianceVpnSiteToSiteIpsecPeersSlas operation."""
 
     items: list[GetOrganizationApplianceVpnSiteToSiteIpsecPeersSlasResponseItemsItem] | None = None
     meta: GetOrganizationApplianceDnsLocalProfilesAssignmentsResponseMeta | None = None
+
+
+class UpdateOrganizationApplianceVpnThirdPartyVPNPeersPeersItem(_BaseSchema):
+    """Item schema for peers."""
+
+    peer_id: str | None = Field(default=None, alias="peerId")
+    name: str
+    public_ip: str | None = Field(default=None, alias="publicIp")
+    public_hostname: str | None = Field(default=None, alias="publicHostname")
+    private_subnets: list[str] = Field(alias="privateSubnets")
+    local_id: str | None = Field(default=None, alias="localId")
+    remote_id: str | None = Field(default=None, alias="remoteId")
+    ipsec_policies: AppliancePeersIpsecPolicies | None = Field(default=None, alias="ipsecPolicies")
+    ipsec_policies_preset: str | None = Field(default=None, alias="ipsecPoliciesPreset")
+    sla_policy: ApplianceNetwork | None = Field(default=None, alias="slaPolicy")
+    secret: str
+    ike_version: str | None = Field(default=None, alias="ikeVersion")
+    network_tags: list[str] | None = Field(default=None, alias="networkTags")
+    network: UpdateOrganizationApplianceVpnThirdPartyVPNPeersPeersItemNetwork | None = None
+    is_route_based: bool | None = Field(default=None, alias="isRouteBased")
+    ebgp_neighbor: UpdateOrganizationApplianceVpnThirdPartyVPNPeersPeersItemEbgpNeighbor | None = (
+        Field(default=None, alias="ebgpNeighbor")
+    )
+    priority_in_group: int | None = Field(default=None, alias="priorityInGroup")
+    group: AppliancePeersGroup | None = None
+
+
+class UpdateOrganizationApplianceVpnThirdPartyVPNPeersPeersItemEbgpNeighbor(_BaseSchema):
+    """[optional] The BGP neighbor configuration for the VPN peer. Supported only for MX 19.1 and
+    above.
+    """
+
+    neighbor_ip: str | None = Field(default=None, alias="neighborIp")
+    ip_version: int | None = Field(default=None, alias="ipVersion")
+    remote_as_number: int | None = Field(default=None, alias="remoteAsNumber")
+    ebgp_hold_timer: int | None = Field(default=None, alias="ebgpHoldTimer")
+    ebgp_multihop: int | None = Field(default=None, alias="ebgpMultihop")
+    source_ip: str | None = Field(default=None, alias="sourceIp")
+    path_prepend: list[int] | None = Field(default=None, alias="pathPrepend")
+    multi_exit_discriminator: int | None = Field(default=None, alias="multiExitDiscriminator")
+    weight: int | None = None
+
+
+class UpdateOrganizationApplianceVpnThirdPartyVPNPeersPeersItemNetwork(_BaseSchema):
+    """[optional] A list of network Names and IDs that will connect with this peer. Supported only
+    for MX 19.1 and above.
+    """
+
+    ids: list[str] | None = None
 
 
 class UpdateOrganizationApplianceVpnThirdPartyVPNPeersResponse(_BaseSchema):
@@ -1984,3 +2695,16 @@ class UpdateOrganizationApplianceVpnVpnFirewallRulesResponse(_BaseSchema):
     rules: list[GetNetworkApplianceFirewallInboundCellularFirewallRulesResponseRulesItem] | None = (
         None
     )
+
+
+class UpdateOrganizationApplianceVpnVpnFirewallRulesRulesItem(_BaseSchema):
+    """Item schema for rules."""
+
+    comment: str | None = None
+    policy: str
+    protocol: str
+    src_port: str | None = Field(default=None, alias="srcPort")
+    src_cidr: str = Field(alias="srcCidr")
+    dest_port: str | None = Field(default=None, alias="destPort")
+    dest_cidr: str = Field(alias="destCidr")
+    syslog_enabled: bool | None = Field(default=None, alias="syslogEnabled")

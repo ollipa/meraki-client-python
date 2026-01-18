@@ -12,14 +12,23 @@ from typing import TYPE_CHECKING
 
 from meraki_client.schemas import (
     BlinkDeviceLedsResponse,
+    CreateDeviceLiveToolsArpTableCallback,
     CreateDeviceLiveToolsArpTableResponse,
+    CreateDeviceLiveToolsCableTestCallback,
     CreateDeviceLiveToolsCableTestResponse,
+    CreateDeviceLiveToolsLedsBlinkCallback,
     CreateDeviceLiveToolsLedsBlinkResponse,
+    CreateDeviceLiveToolsMacTableCallback,
     CreateDeviceLiveToolsMacTableResponse,
+    CreateDeviceLiveToolsMulticastRoutingCallback,
     CreateDeviceLiveToolsMulticastRoutingResponse,
+    CreateDeviceLiveToolsPingCallback,
+    CreateDeviceLiveToolsPingDeviceCallback,
     CreateDeviceLiveToolsPingDeviceResponse,
     CreateDeviceLiveToolsPingResponse,
+    CreateDeviceLiveToolsThroughputTestCallback,
     CreateDeviceLiveToolsThroughputTestResponse,
+    CreateDeviceLiveToolsWakeOnLanCallback,
     CreateDeviceLiveToolsWakeOnLanResponse,
     GetDeviceCellularSimsResponse,
     GetDeviceClientsResponse,
@@ -38,7 +47,11 @@ from meraki_client.schemas import (
     GetDeviceResponse,
     RebootDeviceResponse,
     UpdateDeviceCellularSimsResponse,
+    UpdateDeviceCellularSimsSimFailover,
+    UpdateDeviceCellularSimsSimsItem,
     UpdateDeviceManagementInterfaceResponse,
+    UpdateDeviceManagementInterfaceWan1,
+    UpdateDeviceManagementInterfaceWan2,
     UpdateDeviceResponse,
 )
 
@@ -73,7 +86,7 @@ class Devices:
         *,
         serial: str,
         name: str | None = None,
-        tags: list | None = None,
+        tags: list[str] | None = None,
         lat: float | None = None,
         lng: float | None = None,
         address: str | None = None,
@@ -200,9 +213,9 @@ class Devices:
         self,
         *,
         serial: str,
-        sims: list | None = None,
-        sim_ordering: list | None = None,
-        sim_failover: dict | None = None,
+        sims: list[UpdateDeviceCellularSimsSimsItem] | None = None,
+        sim_ordering: list[str] | None = None,
+        sim_failover: UpdateDeviceCellularSimsSimFailover | None = None,
     ) -> UpdateDeviceCellularSimsResponse | None:
         """Updates the SIM and APN configurations for a cellular device.
 
@@ -225,11 +238,11 @@ class Devices:
 
         payload = {}
         if sims is not None:
-            payload["sims"] = sims
+            payload["sims"] = [item.model_dump(by_alias=True, exclude_none=True) for item in sims]
         if sim_ordering is not None:
             payload["simOrdering"] = sim_ordering
         if sim_failover is not None:
-            payload["simFailover"] = sim_failover
+            payload["simFailover"] = sim_failover.model_dump(by_alias=True, exclude_none=True)
 
         return await self._session.put(
             scope="devices",
@@ -273,7 +286,7 @@ class Devices:
         )
 
     async def create_device_live_tools_arp_table(
-        self, *, serial: str, callback: dict | None = None
+        self, *, serial: str, callback: CreateDeviceLiveToolsArpTableCallback | None = None
     ) -> CreateDeviceLiveToolsArpTableResponse | None:
         """Enqueue a job to perform a ARP table request for the device.
 
@@ -290,7 +303,7 @@ class Devices:
 
         payload = {}
         if callback is not None:
-            payload["callback"] = callback
+            payload["callback"] = callback.model_dump(by_alias=True, exclude_none=True)
 
         return await self._session.post(
             scope="devices",
@@ -324,7 +337,11 @@ class Devices:
         )
 
     async def create_device_live_tools_cable_test(
-        self, *, serial: str, ports: list, callback: dict | None = None
+        self,
+        *,
+        serial: str,
+        ports: list[str],
+        callback: CreateDeviceLiveToolsCableTestCallback | None = None,
     ) -> CreateDeviceLiveToolsCableTestResponse | None:
         """Enqueue a job to perform a cable test for the device on the specified ports.
 
@@ -346,7 +363,7 @@ class Devices:
         if ports is not None:
             payload["ports"] = ports
         if callback is not None:
-            payload["callback"] = callback
+            payload["callback"] = callback.model_dump(by_alias=True, exclude_none=True)
 
         return await self._session.post(
             scope="devices",
@@ -380,7 +397,11 @@ class Devices:
         )
 
     async def create_device_live_tools_leds_blink(
-        self, *, serial: str, duration: int, callback: dict | None = None
+        self,
+        *,
+        serial: str,
+        duration: int,
+        callback: CreateDeviceLiveToolsLedsBlinkCallback | None = None,
     ) -> CreateDeviceLiveToolsLedsBlinkResponse | None:
         """Enqueue a job to blink LEDs on a device.
 
@@ -400,7 +421,7 @@ class Devices:
         if duration is not None:
             payload["duration"] = duration
         if callback is not None:
-            payload["callback"] = callback
+            payload["callback"] = callback.model_dump(by_alias=True, exclude_none=True)
 
         return await self._session.post(
             scope="devices",
@@ -434,7 +455,7 @@ class Devices:
         )
 
     async def create_device_live_tools_mac_table(
-        self, *, serial: str, callback: dict | None = None
+        self, *, serial: str, callback: CreateDeviceLiveToolsMacTableCallback | None = None
     ) -> CreateDeviceLiveToolsMacTableResponse | None:
         """Enqueue a job to request the MAC table from the device.
 
@@ -451,7 +472,7 @@ class Devices:
 
         payload = {}
         if callback is not None:
-            payload["callback"] = callback
+            payload["callback"] = callback.model_dump(by_alias=True, exclude_none=True)
 
         return await self._session.post(
             scope="devices",
@@ -485,7 +506,7 @@ class Devices:
         )
 
     async def create_device_live_tools_multicast_routing(
-        self, *, serial: str, callback: dict | None = None
+        self, *, serial: str, callback: CreateDeviceLiveToolsMulticastRoutingCallback | None = None
     ) -> CreateDeviceLiveToolsMulticastRoutingResponse | None:
         """Enqueue a job to perform a Multicast routing request for the device.
 
@@ -502,7 +523,7 @@ class Devices:
 
         payload = {}
         if callback is not None:
-            payload["callback"] = callback
+            payload["callback"] = callback.model_dump(by_alias=True, exclude_none=True)
 
         return await self._session.post(
             scope="devices",
@@ -536,7 +557,12 @@ class Devices:
         )
 
     async def create_device_live_tools_ping(
-        self, *, serial: str, target: str, count: int | None = None, callback: dict | None = None
+        self,
+        *,
+        serial: str,
+        target: str,
+        count: int | None = None,
+        callback: CreateDeviceLiveToolsPingCallback | None = None,
     ) -> CreateDeviceLiveToolsPingResponse | None:
         """Enqueue a job to ping a target host from the device.
 
@@ -559,7 +585,7 @@ class Devices:
         if count is not None:
             payload["count"] = count
         if callback is not None:
-            payload["callback"] = callback
+            payload["callback"] = callback.model_dump(by_alias=True, exclude_none=True)
 
         return await self._session.post(
             scope="devices",
@@ -593,7 +619,11 @@ class Devices:
         )
 
     async def create_device_live_tools_ping_device(
-        self, *, serial: str, count: int | None = None, callback: dict | None = None
+        self,
+        *,
+        serial: str,
+        count: int | None = None,
+        callback: CreateDeviceLiveToolsPingDeviceCallback | None = None,
     ) -> CreateDeviceLiveToolsPingDeviceResponse | None:
         """Enqueue a job to check connectivity status to the device.
 
@@ -613,7 +643,7 @@ class Devices:
         if count is not None:
             payload["count"] = count
         if callback is not None:
-            payload["callback"] = callback
+            payload["callback"] = callback.model_dump(by_alias=True, exclude_none=True)
 
         return await self._session.post(
             scope="devices",
@@ -647,7 +677,7 @@ class Devices:
         )
 
     async def create_device_live_tools_throughput_test(
-        self, *, serial: str, callback: dict | None = None
+        self, *, serial: str, callback: CreateDeviceLiveToolsThroughputTestCallback | None = None
     ) -> CreateDeviceLiveToolsThroughputTestResponse | None:
         """Enqueue a job to test a device throughput, the test will run for 10 secs to test throughput.
 
@@ -664,7 +694,7 @@ class Devices:
 
         payload = {}
         if callback is not None:
-            payload["callback"] = callback
+            payload["callback"] = callback.model_dump(by_alias=True, exclude_none=True)
 
         return await self._session.post(
             scope="devices",
@@ -698,7 +728,12 @@ class Devices:
         )
 
     async def create_device_live_tools_wake_on_lan(
-        self, *, serial: str, vlan_id: int, mac: str, callback: dict | None = None
+        self,
+        *,
+        serial: str,
+        vlan_id: int,
+        mac: str,
+        callback: CreateDeviceLiveToolsWakeOnLanCallback | None = None,
     ) -> CreateDeviceLiveToolsWakeOnLanResponse | None:
         """Enqueue a job to send a Wake-on-LAN packet from the device.
 
@@ -721,7 +756,7 @@ class Devices:
         if mac is not None:
             payload["mac"] = mac
         if callback is not None:
-            payload["callback"] = callback
+            payload["callback"] = callback.model_dump(by_alias=True, exclude_none=True)
 
         return await self._session.post(
             scope="devices",
@@ -856,7 +891,11 @@ class Devices:
         )
 
     async def update_device_management_interface(
-        self, *, serial: str, wan1: dict | None = None, wan2: dict | None = None
+        self,
+        *,
+        serial: str,
+        wan1: UpdateDeviceManagementInterfaceWan1 | None = None,
+        wan2: UpdateDeviceManagementInterfaceWan2 | None = None,
     ) -> UpdateDeviceManagementInterfaceResponse | None:
         """Update the management interface settings for a device.
 
@@ -873,9 +912,9 @@ class Devices:
 
         payload = {}
         if wan1 is not None:
-            payload["wan1"] = wan1
+            payload["wan1"] = wan1.model_dump(by_alias=True, exclude_none=True)
         if wan2 is not None:
-            payload["wan2"] = wan2
+            payload["wan2"] = wan2.model_dump(by_alias=True, exclude_none=True)
 
         return await self._session.put(
             scope="devices",

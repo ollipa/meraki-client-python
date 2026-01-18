@@ -11,20 +11,46 @@ import urllib.parse
 from typing import TYPE_CHECKING, Any, Literal
 
 from meraki_client.schemas import (
+    BatchNetworkFloorPlansAutoLocateJobsJobsItem,
     BatchNetworkFloorPlansAutoLocateJobsResponse,
+    BatchNetworkFloorPlansDevicesUpdateAssignmentsItem,
     BatchNetworkFloorPlansDevicesUpdateResponse,
     BindNetworkResponse,
+    ClaimNetworkDevicesDetailsByDeviceItem,
     ClaimNetworkDevicesResponse,
+    CreateNetworkFirmwareUpgradesRollbackReasonsItem,
     CreateNetworkFirmwareUpgradesRollbackResponse,
+    CreateNetworkFirmwareUpgradesRollbackToVersion,
+    CreateNetworkFirmwareUpgradesStagedEventProducts,
     CreateNetworkFirmwareUpgradesStagedEventResponse,
+    CreateNetworkFirmwareUpgradesStagedEventStagesItem,
+    CreateNetworkFirmwareUpgradesStagedGroupAssignedDevices,
     CreateNetworkFirmwareUpgradesStagedGroupResponse,
+    CreateNetworkFloorPlanBottomLeftCorner,
+    CreateNetworkFloorPlanBottomRightCorner,
+    CreateNetworkFloorPlanCenter,
     CreateNetworkFloorPlanResponse,
+    CreateNetworkFloorPlanTopLeftCorner,
+    CreateNetworkFloorPlanTopRightCorner,
+    CreateNetworkGroupPolicyBandwidth,
+    CreateNetworkGroupPolicyBonjourForwarding,
+    CreateNetworkGroupPolicyContentFiltering,
+    CreateNetworkGroupPolicyFirewallAndTrafficShaping,
     CreateNetworkGroupPolicyResponse,
+    CreateNetworkGroupPolicyScheduling,
+    CreateNetworkGroupPolicyVlanTagging,
+    CreateNetworkMerakiAuthUserAuthorizationsItem,
     CreateNetworkMerakiAuthUserResponse,
+    CreateNetworkMqttBrokerAuthentication,
     CreateNetworkMqttBrokerResponse,
+    CreateNetworkMqttBrokerSecurity,
     CreateNetworkPiiRequestResponse,
     CreateNetworkVlanProfileResponse,
+    CreateNetworkVlanProfileVlanGroupsItem,
+    CreateNetworkVlanProfileVlanNamesItem,
+    CreateNetworkWebhooksHttpServerPayloadTemplate,
     CreateNetworkWebhooksHttpServerResponse,
+    CreateNetworkWebhooksPayloadTemplateHeadersItem,
     CreateNetworkWebhooksPayloadTemplateResponse,
     CreateNetworkWebhooksWebhookTestResponse,
     DeferNetworkFirmwareUpgradesStagedEventsResponse,
@@ -83,31 +109,72 @@ from meraki_client.schemas import (
     GetNetworkWebhooksPayloadTemplateResponse,
     GetNetworkWebhooksPayloadTemplatesResponse,
     GetNetworkWebhooksWebhookTestResponse,
+    ProvisionNetworkClientsClientsItem,
+    ProvisionNetworkClientsPoliciesBySecurityAppliance,
+    ProvisionNetworkClientsPoliciesBySsid,
     ProvisionNetworkClientsResponse,
+    PublishNetworkFloorPlansAutoLocateJobDevicesItem,
     PublishNetworkFloorPlansAutoLocateJobResponse,
     ReassignNetworkVlanProfilesAssignmentsResponse,
+    ReassignNetworkVlanProfilesAssignmentsVlanProfile,
+    RecalculateNetworkFloorPlansAutoLocateJobDevicesItem,
     RecalculateNetworkFloorPlansAutoLocateJobResponse,
+    RollbacksNetworkFirmwareUpgradesStagedEventsReasonsItem,
     RollbacksNetworkFirmwareUpgradesStagedEventsResponse,
+    RollbacksNetworkFirmwareUpgradesStagedEventsStagesItem,
     SplitNetworkResponse,
     UnbindNetworkResponse,
+    UpdateNetworkAlertsSettingsAlertsItem,
+    UpdateNetworkAlertsSettingsDefaultDestinations,
+    UpdateNetworkAlertsSettingsMuting,
     UpdateNetworkAlertsSettingsResponse,
     UpdateNetworkClientPolicyResponse,
+    UpdateNetworkClientSplashAuthorizationStatusSsids,
+    UpdateNetworkFirmwareUpgradesProducts,
     UpdateNetworkFirmwareUpgradesResponse,
     UpdateNetworkFirmwareUpgradesStagedEventsResponse,
+    UpdateNetworkFirmwareUpgradesStagedEventsStagesItem,
+    UpdateNetworkFirmwareUpgradesStagedGroupAssignedDevices,
     UpdateNetworkFirmwareUpgradesStagedGroupResponse,
+    UpdateNetworkFirmwareUpgradesStagedStagesJsonItem,
     UpdateNetworkFirmwareUpgradesStagedStagesResponse,
+    UpdateNetworkFirmwareUpgradesUpgradeWindow,
+    UpdateNetworkFloorPlanBottomLeftCorner,
+    UpdateNetworkFloorPlanBottomRightCorner,
+    UpdateNetworkFloorPlanCenter,
     UpdateNetworkFloorPlanResponse,
+    UpdateNetworkFloorPlanTopLeftCorner,
+    UpdateNetworkFloorPlanTopRightCorner,
+    UpdateNetworkGroupPolicyBandwidth,
+    UpdateNetworkGroupPolicyBonjourForwarding,
+    UpdateNetworkGroupPolicyContentFiltering,
+    UpdateNetworkGroupPolicyFirewallAndTrafficShaping,
     UpdateNetworkGroupPolicyResponse,
+    UpdateNetworkGroupPolicyScheduling,
+    UpdateNetworkGroupPolicyVlanTagging,
+    UpdateNetworkMerakiAuthUserAuthorizationsItem,
     UpdateNetworkMerakiAuthUserResponse,
+    UpdateNetworkMqttBrokerAuthentication,
     UpdateNetworkMqttBrokerResponse,
+    UpdateNetworkMqttBrokerSecurity,
     UpdateNetworkNetflowResponse,
     UpdateNetworkResponse,
+    UpdateNetworkSettingsLocalStatusPage,
+    UpdateNetworkSettingsNamedVlans,
     UpdateNetworkSettingsResponse,
+    UpdateNetworkSettingsSecurePort,
     UpdateNetworkSnmpResponse,
+    UpdateNetworkSnmpUsersItem,
     UpdateNetworkSyslogServersResponse,
+    UpdateNetworkSyslogServersServersItem,
+    UpdateNetworkTrafficAnalysisCustomPieChartItemsItem,
     UpdateNetworkTrafficAnalysisResponse,
     UpdateNetworkVlanProfileResponse,
+    UpdateNetworkVlanProfileVlanGroupsItem,
+    UpdateNetworkVlanProfileVlanNamesItem,
+    UpdateNetworkWebhooksHttpServerPayloadTemplate,
     UpdateNetworkWebhooksHttpServerResponse,
+    UpdateNetworkWebhooksPayloadTemplateHeadersItem,
     UpdateNetworkWebhooksPayloadTemplateResponse,
     VmxNetworkDevicesClaimResponse,
 )
@@ -147,7 +214,7 @@ class Networks:
         network_id: str,
         name: str | None = None,
         time_zone: str | None = None,
-        tags: list | None = None,
+        tags: list[str] | None = None,
         enrollment_string: str | None = None,
         notes: str | None = None,
     ) -> UpdateNetworkResponse | None:
@@ -284,9 +351,9 @@ class Networks:
         self,
         *,
         network_id: str,
-        default_destinations: dict | None = None,
-        alerts: list | None = None,
-        muting: dict | None = None,
+        default_destinations: UpdateNetworkAlertsSettingsDefaultDestinations | None = None,
+        alerts: list[UpdateNetworkAlertsSettingsAlertsItem] | None = None,
+        muting: UpdateNetworkAlertsSettingsMuting | None = None,
     ) -> UpdateNetworkAlertsSettingsResponse | None:
         """Update the alert configuration for this network.
 
@@ -305,11 +372,15 @@ class Networks:
 
         payload = {}
         if default_destinations is not None:
-            payload["defaultDestinations"] = default_destinations
+            payload["defaultDestinations"] = default_destinations.model_dump(
+                by_alias=True, exclude_none=True
+            )
         if alerts is not None:
-            payload["alerts"] = alerts
+            payload["alerts"] = [
+                item.model_dump(by_alias=True, exclude_none=True) for item in alerts
+            ]
         if muting is not None:
-            payload["muting"] = muting
+            payload["muting"] = muting.model_dump(by_alias=True, exclude_none=True)
 
         return await self._session.put(
             scope="networks",
@@ -467,7 +538,7 @@ class Networks:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        statuses: list | None = None,
+        statuses: list[str] | None = None,
         ip: str | None = None,
         ip6: str | None = None,
         ip6_local: str | None = None,
@@ -477,7 +548,7 @@ class Networks:
         description: str | None = None,
         vlan: str | None = None,
         named_vlan: str | None = None,
-        recent_device_connections: list | None = None,
+        recent_device_connections: list[str] | None = None,
         total_pages: int | Literal["all"] = 1,
         direction: Literal["prev", "next"] = "next",
     ) -> AsyncPaginatedResponse[GetNetworkClientsResponseItem]:
@@ -766,11 +837,12 @@ class Networks:
         self,
         *,
         network_id: str,
-        clients: list,
+        clients: list[ProvisionNetworkClientsClientsItem],
         device_policy: str,
         group_policy_id: str | None = None,
-        policies_by_security_appliance: dict | None = None,
-        policies_by_ssid: dict | None = None,
+        policies_by_security_appliance: ProvisionNetworkClientsPoliciesBySecurityAppliance
+        | None = None,
+        policies_by_ssid: ProvisionNetworkClientsPoliciesBySsid | None = None,
     ) -> ProvisionNetworkClientsResponse | None:
         """Provisions a client with a name and policy.
 
@@ -802,15 +874,21 @@ class Networks:
 
         payload = {}
         if clients is not None:
-            payload["clients"] = clients
+            payload["clients"] = [
+                item.model_dump(by_alias=True, exclude_none=True) for item in clients
+            ]
         if device_policy is not None:
             payload["devicePolicy"] = device_policy
         if group_policy_id is not None:
             payload["groupPolicyId"] = group_policy_id
         if policies_by_security_appliance is not None:
-            payload["policiesBySecurityAppliance"] = policies_by_security_appliance
+            payload["policiesBySecurityAppliance"] = policies_by_security_appliance.model_dump(
+                by_alias=True, exclude_none=True
+            )
         if policies_by_ssid is not None:
-            payload["policiesBySsid"] = policies_by_ssid
+            payload["policiesBySsid"] = policies_by_ssid.model_dump(
+                by_alias=True, exclude_none=True
+            )
 
         return await self._session.post(
             scope="networks",
@@ -1007,7 +1085,11 @@ class Networks:
         )
 
     async def update_network_client_splash_authorization_status(
-        self, *, network_id: str, client_id: str, ssids: dict
+        self,
+        *,
+        network_id: str,
+        client_id: str,
+        ssids: UpdateNetworkClientSplashAuthorizationStatusSsids,
     ) -> dict[str, Any] | None:
         """Update a client's splash authorization.
 
@@ -1028,7 +1110,7 @@ class Networks:
 
         payload = {}
         if ssids is not None:
-            payload["ssids"] = ssids
+            payload["ssids"] = ssids.model_dump(by_alias=True, exclude_none=True)
 
         return await self._session.put(
             scope="networks",
@@ -1137,9 +1219,9 @@ class Networks:
         self,
         *,
         network_id: str,
-        serials: list,
+        serials: list[str],
         add_atomically: bool | None = None,
-        details_by_device: list | None = None,
+        details_by_device: list[ClaimNetworkDevicesDetailsByDeviceItem] | None = None,
     ) -> ClaimNetworkDevicesResponse | None:
         """Claim devices into a network. (Note: for recently claimed devices, it may take a few minutes for API requests against that device to succeed).
 
@@ -1165,7 +1247,9 @@ class Networks:
         if serials is not None:
             payload["serials"] = serials
         if details_by_device is not None:
-            payload["detailsByDevice"] = details_by_device
+            payload["detailsByDevice"] = [
+                item.model_dump(by_alias=True, exclude_none=True) for item in details_by_device
+            ]
 
         return await self._session.post(
             scope="networks",
@@ -1233,8 +1317,8 @@ class Networks:
         *,
         network_id: str,
         product_type: str | None = None,
-        included_event_types: list | None = None,
-        excluded_event_types: list | None = None,
+        included_event_types: list[str] | None = None,
+        excluded_event_types: list[str] | None = None,
         device_mac: str | None = None,
         device_serial: str | None = None,
         device_name: str | None = None,
@@ -1418,9 +1502,9 @@ class Networks:
         self,
         *,
         network_id: str,
-        upgrade_window: dict | None = None,
+        upgrade_window: UpdateNetworkFirmwareUpgradesUpgradeWindow | None = None,
         timezone: str | None = None,
-        products: dict | None = None,
+        products: UpdateNetworkFirmwareUpgradesProducts | None = None,
     ) -> UpdateNetworkFirmwareUpgradesResponse | None:
         """Update firmware upgrade information for a network.
 
@@ -1438,11 +1522,11 @@ class Networks:
 
         payload = {}
         if upgrade_window is not None:
-            payload["upgradeWindow"] = upgrade_window
+            payload["upgradeWindow"] = upgrade_window.model_dump(by_alias=True, exclude_none=True)
         if timezone is not None:
             payload["timezone"] = timezone
         if products is not None:
-            payload["products"] = products
+            payload["products"] = products.model_dump(by_alias=True, exclude_none=True)
 
         return await self._session.put(
             scope="networks",
@@ -1456,10 +1540,10 @@ class Networks:
         self,
         *,
         network_id: str,
-        reasons: list,
+        reasons: list[CreateNetworkFirmwareUpgradesRollbackReasonsItem],
         product: str | None = None,
         time: str | None = None,
-        to_version: dict | None = None,
+        to_version: CreateNetworkFirmwareUpgradesRollbackToVersion | None = None,
     ) -> CreateNetworkFirmwareUpgradesRollbackResponse | None:
         """Rollback a Firmware Upgrade For A Network.
 
@@ -1497,9 +1581,11 @@ class Networks:
         if time is not None:
             payload["time"] = time
         if reasons is not None:
-            payload["reasons"] = reasons
+            payload["reasons"] = [
+                item.model_dump(by_alias=True, exclude_none=True) for item in reasons
+            ]
         if to_version is not None:
-            payload["toVersion"] = to_version
+            payload["toVersion"] = to_version.model_dump(by_alias=True, exclude_none=True)
 
         return await self._session.post(
             scope="networks",
@@ -1531,7 +1617,7 @@ class Networks:
         )
 
     async def update_network_firmware_upgrades_staged_events(
-        self, *, network_id: str, stages: list
+        self, *, network_id: str, stages: list[UpdateNetworkFirmwareUpgradesStagedEventsStagesItem]
     ) -> UpdateNetworkFirmwareUpgradesStagedEventsResponse | None:
         """Update the Staged Upgrade Event for a network.
 
@@ -1547,7 +1633,9 @@ class Networks:
 
         payload = {}
         if stages is not None:
-            payload["stages"] = stages
+            payload["stages"] = [
+                item.model_dump(by_alias=True, exclude_none=True) for item in stages
+            ]
 
         return await self._session.put(
             scope="networks",
@@ -1558,7 +1646,11 @@ class Networks:
         )
 
     async def create_network_firmware_upgrades_staged_event(
-        self, *, network_id: str, stages: list, products: dict | None = None
+        self,
+        *,
+        network_id: str,
+        stages: list[CreateNetworkFirmwareUpgradesStagedEventStagesItem],
+        products: CreateNetworkFirmwareUpgradesStagedEventProducts | None = None,
     ) -> CreateNetworkFirmwareUpgradesStagedEventResponse | None:
         """Create a Staged Upgrade Event for a network.
 
@@ -1575,9 +1667,11 @@ class Networks:
 
         payload = {}
         if products is not None:
-            payload["products"] = products
+            payload["products"] = products.model_dump(by_alias=True, exclude_none=True)
         if stages is not None:
-            payload["stages"] = stages
+            payload["stages"] = [
+                item.model_dump(by_alias=True, exclude_none=True) for item in stages
+            ]
 
         return await self._session.post(
             scope="networks",
@@ -1609,7 +1703,11 @@ class Networks:
         )
 
     async def rollbacks_network_firmware_upgrades_staged_events(
-        self, *, network_id: str, stages: list, reasons: list | None = None
+        self,
+        *,
+        network_id: str,
+        stages: list[RollbacksNetworkFirmwareUpgradesStagedEventsStagesItem],
+        reasons: list[RollbacksNetworkFirmwareUpgradesStagedEventsReasonsItem] | None = None,
     ) -> RollbacksNetworkFirmwareUpgradesStagedEventsResponse | None:
         """Rollback a Staged Upgrade Event for a network.
 
@@ -1627,9 +1725,13 @@ class Networks:
 
         payload = {}
         if stages is not None:
-            payload["stages"] = stages
+            payload["stages"] = [
+                item.model_dump(by_alias=True, exclude_none=True) for item in stages
+            ]
         if reasons is not None:
-            payload["reasons"] = reasons
+            payload["reasons"] = [
+                item.model_dump(by_alias=True, exclude_none=True) for item in reasons
+            ]
 
         return await self._session.post(
             scope="networks",
@@ -1667,7 +1769,7 @@ class Networks:
         name: str,
         is_default: bool,
         description: str | None = None,
-        assigned_devices: dict | None = None,
+        assigned_devices: CreateNetworkFirmwareUpgradesStagedGroupAssignedDevices | None = None,
     ) -> CreateNetworkFirmwareUpgradesStagedGroupResponse | None:
         """Create a Staged Upgrade Group for a network.
 
@@ -1694,7 +1796,9 @@ class Networks:
         if is_default is not None:
             payload["isDefault"] = is_default
         if assigned_devices is not None:
-            payload["assignedDevices"] = assigned_devices
+            payload["assignedDevices"] = assigned_devices.model_dump(
+                by_alias=True, exclude_none=True
+            )
 
         return await self._session.post(
             scope="networks",
@@ -1735,7 +1839,7 @@ class Networks:
         name: str,
         is_default: bool,
         description: str | None = None,
-        assigned_devices: dict | None = None,
+        assigned_devices: UpdateNetworkFirmwareUpgradesStagedGroupAssignedDevices | None = None,
     ) -> UpdateNetworkFirmwareUpgradesStagedGroupResponse | None:
         """Update a Staged Upgrade Group for a network.
 
@@ -1764,7 +1868,9 @@ class Networks:
         if is_default is not None:
             payload["isDefault"] = is_default
         if assigned_devices is not None:
-            payload["assignedDevices"] = assigned_devices
+            payload["assignedDevices"] = assigned_devices.model_dump(
+                by_alias=True, exclude_none=True
+            )
 
         return await self._session.put(
             scope="networks",
@@ -1816,7 +1922,10 @@ class Networks:
         )
 
     async def update_network_firmware_upgrades_staged_stages(
-        self, *, network_id: str, _json: list | None = None
+        self,
+        *,
+        network_id: str,
+        _json: list[UpdateNetworkFirmwareUpgradesStagedStagesJsonItem] | None = None,
     ) -> UpdateNetworkFirmwareUpgradesStagedStagesResponse | None:
         """Assign Staged Upgrade Group order in the sequence.
 
@@ -1832,7 +1941,7 @@ class Networks:
 
         payload = {}
         if _json is not None:
-            payload["_json"] = _json
+            payload["_json"] = [item.model_dump(by_alias=True, exclude_none=True) for item in _json]
 
         return await self._session.put(
             scope="networks",
@@ -1869,11 +1978,11 @@ class Networks:
         network_id: str,
         name: str,
         image_contents: str,
-        center: dict | None = None,
-        bottom_left_corner: dict | None = None,
-        bottom_right_corner: dict | None = None,
-        top_left_corner: dict | None = None,
-        top_right_corner: dict | None = None,
+        center: CreateNetworkFloorPlanCenter | None = None,
+        bottom_left_corner: CreateNetworkFloorPlanBottomLeftCorner | None = None,
+        bottom_right_corner: CreateNetworkFloorPlanBottomRightCorner | None = None,
+        top_left_corner: CreateNetworkFloorPlanTopLeftCorner | None = None,
+        top_right_corner: CreateNetworkFloorPlanTopRightCorner | None = None,
         floor_number: float | None = None,
     ) -> CreateNetworkFloorPlanResponse | None:
         """Upload a floor plan.
@@ -1911,15 +2020,21 @@ class Networks:
         if name is not None:
             payload["name"] = name
         if center is not None:
-            payload["center"] = center
+            payload["center"] = center.model_dump(by_alias=True, exclude_none=True)
         if bottom_left_corner is not None:
-            payload["bottomLeftCorner"] = bottom_left_corner
+            payload["bottomLeftCorner"] = bottom_left_corner.model_dump(
+                by_alias=True, exclude_none=True
+            )
         if bottom_right_corner is not None:
-            payload["bottomRightCorner"] = bottom_right_corner
+            payload["bottomRightCorner"] = bottom_right_corner.model_dump(
+                by_alias=True, exclude_none=True
+            )
         if top_left_corner is not None:
-            payload["topLeftCorner"] = top_left_corner
+            payload["topLeftCorner"] = top_left_corner.model_dump(by_alias=True, exclude_none=True)
         if top_right_corner is not None:
-            payload["topRightCorner"] = top_right_corner
+            payload["topRightCorner"] = top_right_corner.model_dump(
+                by_alias=True, exclude_none=True
+            )
         if floor_number is not None:
             payload["floorNumber"] = floor_number
         if image_contents is not None:
@@ -1934,7 +2049,7 @@ class Networks:
         )
 
     async def batch_network_floor_plans_auto_locate_jobs(
-        self, *, network_id: str, jobs: list
+        self, *, network_id: str, jobs: list[BatchNetworkFloorPlansAutoLocateJobsJobsItem]
     ) -> BatchNetworkFloorPlansAutoLocateJobsResponse | None:
         """Schedule auto locate jobs for one or more floor plans in a network.
 
@@ -1951,7 +2066,7 @@ class Networks:
 
         payload = {}
         if jobs is not None:
-            payload["jobs"] = jobs
+            payload["jobs"] = [item.model_dump(by_alias=True, exclude_none=True) for item in jobs]
 
         return await self._session.post(
             scope="networks",
@@ -1982,7 +2097,11 @@ class Networks:
         )
 
     async def publish_network_floor_plans_auto_locate_job(
-        self, *, network_id: str, job_id: str, devices: list | None = None
+        self,
+        *,
+        network_id: str,
+        job_id: str,
+        devices: list[PublishNetworkFloorPlansAutoLocateJobDevicesItem] | None = None,
     ) -> PublishNetworkFloorPlansAutoLocateJobResponse | None:
         """Update the status of a finished auto locate job to be published, and update device locations.
 
@@ -2000,7 +2119,9 @@ class Networks:
 
         payload = {}
         if devices is not None:
-            payload["devices"] = devices
+            payload["devices"] = [
+                item.model_dump(by_alias=True, exclude_none=True) for item in devices
+            ]
 
         return await self._session.post(
             scope="networks",
@@ -2011,7 +2132,11 @@ class Networks:
         )
 
     async def recalculate_network_floor_plans_auto_locate_job(
-        self, *, network_id: str, job_id: str, devices: list | None = None
+        self,
+        *,
+        network_id: str,
+        job_id: str,
+        devices: list[RecalculateNetworkFloorPlansAutoLocateJobDevicesItem] | None = None,
     ) -> RecalculateNetworkFloorPlansAutoLocateJobResponse | None:
         """Trigger auto locate recalculation for a job, and optionally set anchors.
 
@@ -2029,7 +2154,9 @@ class Networks:
 
         payload = {}
         if devices is not None:
-            payload["devices"] = devices
+            payload["devices"] = [
+                item.model_dump(by_alias=True, exclude_none=True) for item in devices
+            ]
 
         return await self._session.post(
             scope="networks",
@@ -2040,7 +2167,10 @@ class Networks:
         )
 
     async def batch_network_floor_plans_devices_update(
-        self, *, network_id: str, assignments: list
+        self,
+        *,
+        network_id: str,
+        assignments: list[BatchNetworkFloorPlansDevicesUpdateAssignmentsItem],
     ) -> BatchNetworkFloorPlansDevicesUpdateResponse | None:
         """Update floorplan assignments for a batch of devices.
 
@@ -2057,7 +2187,9 @@ class Networks:
 
         payload = {}
         if assignments is not None:
-            payload["assignments"] = assignments
+            payload["assignments"] = [
+                item.model_dump(by_alias=True, exclude_none=True) for item in assignments
+            ]
 
         return await self._session.post(
             scope="networks",
@@ -2096,11 +2228,11 @@ class Networks:
         network_id: str,
         floor_plan_id: str,
         name: str | None = None,
-        center: dict | None = None,
-        bottom_left_corner: dict | None = None,
-        bottom_right_corner: dict | None = None,
-        top_left_corner: dict | None = None,
-        top_right_corner: dict | None = None,
+        center: UpdateNetworkFloorPlanCenter | None = None,
+        bottom_left_corner: UpdateNetworkFloorPlanBottomLeftCorner | None = None,
+        bottom_right_corner: UpdateNetworkFloorPlanBottomRightCorner | None = None,
+        top_left_corner: UpdateNetworkFloorPlanTopLeftCorner | None = None,
+        top_right_corner: UpdateNetworkFloorPlanTopRightCorner | None = None,
         floor_number: float | None = None,
         image_contents: str | None = None,
     ) -> UpdateNetworkFloorPlanResponse | None:
@@ -2145,15 +2277,21 @@ class Networks:
         if name is not None:
             payload["name"] = name
         if center is not None:
-            payload["center"] = center
+            payload["center"] = center.model_dump(by_alias=True, exclude_none=True)
         if bottom_left_corner is not None:
-            payload["bottomLeftCorner"] = bottom_left_corner
+            payload["bottomLeftCorner"] = bottom_left_corner.model_dump(
+                by_alias=True, exclude_none=True
+            )
         if bottom_right_corner is not None:
-            payload["bottomRightCorner"] = bottom_right_corner
+            payload["bottomRightCorner"] = bottom_right_corner.model_dump(
+                by_alias=True, exclude_none=True
+            )
         if top_left_corner is not None:
-            payload["topLeftCorner"] = top_left_corner
+            payload["topLeftCorner"] = top_left_corner.model_dump(by_alias=True, exclude_none=True)
         if top_right_corner is not None:
-            payload["topRightCorner"] = top_right_corner
+            payload["topRightCorner"] = top_right_corner.model_dump(
+                by_alias=True, exclude_none=True
+            )
         if floor_number is not None:
             payload["floorNumber"] = floor_number
         if image_contents is not None:
@@ -2211,13 +2349,14 @@ class Networks:
         *,
         network_id: str,
         name: str,
-        scheduling: dict | None = None,
-        bandwidth: dict | None = None,
-        firewall_and_traffic_shaping: dict | None = None,
-        content_filtering: dict | None = None,
+        scheduling: CreateNetworkGroupPolicyScheduling | None = None,
+        bandwidth: CreateNetworkGroupPolicyBandwidth | None = None,
+        firewall_and_traffic_shaping: CreateNetworkGroupPolicyFirewallAndTrafficShaping
+        | None = None,
+        content_filtering: CreateNetworkGroupPolicyContentFiltering | None = None,
         splash_auth_settings: str | None = None,
-        vlan_tagging: dict | None = None,
-        bonjour_forwarding: dict | None = None,
+        vlan_tagging: CreateNetworkGroupPolicyVlanTagging | None = None,
+        bonjour_forwarding: CreateNetworkGroupPolicyBonjourForwarding | None = None,
     ) -> CreateNetworkGroupPolicyResponse | None:
         """Create a group policy.
 
@@ -2255,19 +2394,25 @@ class Networks:
         if name is not None:
             payload["name"] = name
         if scheduling is not None:
-            payload["scheduling"] = scheduling
+            payload["scheduling"] = scheduling.model_dump(by_alias=True, exclude_none=True)
         if bandwidth is not None:
-            payload["bandwidth"] = bandwidth
+            payload["bandwidth"] = bandwidth.model_dump(by_alias=True, exclude_none=True)
         if firewall_and_traffic_shaping is not None:
-            payload["firewallAndTrafficShaping"] = firewall_and_traffic_shaping
+            payload["firewallAndTrafficShaping"] = firewall_and_traffic_shaping.model_dump(
+                by_alias=True, exclude_none=True
+            )
         if content_filtering is not None:
-            payload["contentFiltering"] = content_filtering
+            payload["contentFiltering"] = content_filtering.model_dump(
+                by_alias=True, exclude_none=True
+            )
         if splash_auth_settings is not None:
             payload["splashAuthSettings"] = splash_auth_settings
         if vlan_tagging is not None:
-            payload["vlanTagging"] = vlan_tagging
+            payload["vlanTagging"] = vlan_tagging.model_dump(by_alias=True, exclude_none=True)
         if bonjour_forwarding is not None:
-            payload["bonjourForwarding"] = bonjour_forwarding
+            payload["bonjourForwarding"] = bonjour_forwarding.model_dump(
+                by_alias=True, exclude_none=True
+            )
 
         return await self._session.post(
             scope="networks",
@@ -2306,13 +2451,14 @@ class Networks:
         network_id: str,
         group_policy_id: str,
         name: str | None = None,
-        scheduling: dict | None = None,
-        bandwidth: dict | None = None,
-        firewall_and_traffic_shaping: dict | None = None,
-        content_filtering: dict | None = None,
+        scheduling: UpdateNetworkGroupPolicyScheduling | None = None,
+        bandwidth: UpdateNetworkGroupPolicyBandwidth | None = None,
+        firewall_and_traffic_shaping: UpdateNetworkGroupPolicyFirewallAndTrafficShaping
+        | None = None,
+        content_filtering: UpdateNetworkGroupPolicyContentFiltering | None = None,
         splash_auth_settings: str | None = None,
-        vlan_tagging: dict | None = None,
-        bonjour_forwarding: dict | None = None,
+        vlan_tagging: UpdateNetworkGroupPolicyVlanTagging | None = None,
+        bonjour_forwarding: UpdateNetworkGroupPolicyBonjourForwarding | None = None,
     ) -> UpdateNetworkGroupPolicyResponse | None:
         """Update a group policy.
 
@@ -2352,19 +2498,25 @@ class Networks:
         if name is not None:
             payload["name"] = name
         if scheduling is not None:
-            payload["scheduling"] = scheduling
+            payload["scheduling"] = scheduling.model_dump(by_alias=True, exclude_none=True)
         if bandwidth is not None:
-            payload["bandwidth"] = bandwidth
+            payload["bandwidth"] = bandwidth.model_dump(by_alias=True, exclude_none=True)
         if firewall_and_traffic_shaping is not None:
-            payload["firewallAndTrafficShaping"] = firewall_and_traffic_shaping
+            payload["firewallAndTrafficShaping"] = firewall_and_traffic_shaping.model_dump(
+                by_alias=True, exclude_none=True
+            )
         if content_filtering is not None:
-            payload["contentFiltering"] = content_filtering
+            payload["contentFiltering"] = content_filtering.model_dump(
+                by_alias=True, exclude_none=True
+            )
         if splash_auth_settings is not None:
             payload["splashAuthSettings"] = splash_auth_settings
         if vlan_tagging is not None:
-            payload["vlanTagging"] = vlan_tagging
+            payload["vlanTagging"] = vlan_tagging.model_dump(by_alias=True, exclude_none=True)
         if bonjour_forwarding is not None:
-            payload["bonjourForwarding"] = bonjour_forwarding
+            payload["bonjourForwarding"] = bonjour_forwarding.model_dump(
+                by_alias=True, exclude_none=True
+            )
 
         return await self._session.put(
             scope="networks",
@@ -2448,7 +2600,7 @@ class Networks:
         *,
         network_id: str,
         email: str,
-        authorizations: list,
+        authorizations: list[CreateNetworkMerakiAuthUserAuthorizationsItem],
         name: str | None = None,
         password: str | None = None,
         account_type: str | None = None,
@@ -2496,7 +2648,9 @@ class Networks:
         if is_admin is not None:
             payload["isAdmin"] = is_admin
         if authorizations is not None:
-            payload["authorizations"] = authorizations
+            payload["authorizations"] = [
+                item.model_dump(by_alias=True, exclude_none=True) for item in authorizations
+            ]
 
         return await self._session.post(
             scope="networks",
@@ -2537,7 +2691,7 @@ class Networks:
         name: str | None = None,
         password: str | None = None,
         email_password_to_user: bool | None = None,
-        authorizations: list | None = None,
+        authorizations: list[UpdateNetworkMerakiAuthUserAuthorizationsItem] | None = None,
     ) -> UpdateNetworkMerakiAuthUserResponse | None:
         """Update a user configured with Meraki Authentication (currently, 802.1X RADIUS, splash guest, and client VPN users can be updated).
 
@@ -2566,7 +2720,9 @@ class Networks:
         if email_password_to_user is not None:
             payload["emailPasswordToUser"] = email_password_to_user
         if authorizations is not None:
-            payload["authorizations"] = authorizations
+            payload["authorizations"] = [
+                item.model_dump(by_alias=True, exclude_none=True) for item in authorizations
+            ]
 
         return await self._session.put(
             scope="networks",
@@ -2632,8 +2788,8 @@ class Networks:
         name: str,
         host: str,
         port: int,
-        security: dict | None = None,
-        authentication: dict | None = None,
+        security: CreateNetworkMqttBrokerSecurity | None = None,
+        authentication: CreateNetworkMqttBrokerAuthentication | None = None,
     ) -> CreateNetworkMqttBrokerResponse | None:
         """Add an MQTT broker.
 
@@ -2659,9 +2815,9 @@ class Networks:
         if port is not None:
             payload["port"] = port
         if security is not None:
-            payload["security"] = security
+            payload["security"] = security.model_dump(by_alias=True, exclude_none=True)
         if authentication is not None:
-            payload["authentication"] = authentication
+            payload["authentication"] = authentication.model_dump(by_alias=True, exclude_none=True)
 
         return await self._session.post(
             scope="networks",
@@ -2702,8 +2858,8 @@ class Networks:
         name: str | None = None,
         host: str | None = None,
         port: int | None = None,
-        security: dict | None = None,
-        authentication: dict | None = None,
+        security: UpdateNetworkMqttBrokerSecurity | None = None,
+        authentication: UpdateNetworkMqttBrokerAuthentication | None = None,
     ) -> UpdateNetworkMqttBrokerResponse | None:
         """Update an MQTT broker.
 
@@ -2731,9 +2887,9 @@ class Networks:
         if port is not None:
             payload["port"] = port
         if security is not None:
-            payload["security"] = security
+            payload["security"] = security.model_dump(by_alias=True, exclude_none=True)
         if authentication is not None:
-            payload["authentication"] = authentication
+            payload["authentication"] = authentication.model_dump(by_alias=True, exclude_none=True)
 
         return await self._session.put(
             scope="networks",
@@ -2977,7 +3133,7 @@ class Networks:
         *,
         network_id: str,
         type_: str | None = None,
-        datasets: list | None = None,
+        datasets: list[str] | None = None,
         username: str | None = None,
         email: str | None = None,
         mac: str | None = None,
@@ -3271,9 +3427,9 @@ class Networks:
         network_id: str,
         local_status_page_enabled: bool | None = None,
         remote_status_page_enabled: bool | None = None,
-        local_status_page: dict | None = None,
-        secure_port: dict | None = None,
-        named_vlans: dict | None = None,
+        local_status_page: UpdateNetworkSettingsLocalStatusPage | None = None,
+        secure_port: UpdateNetworkSettingsSecurePort | None = None,
+        named_vlans: UpdateNetworkSettingsNamedVlans | None = None,
     ) -> UpdateNetworkSettingsResponse | None:
         """Update the settings for a network.
 
@@ -3305,11 +3461,13 @@ class Networks:
         if remote_status_page_enabled is not None:
             payload["remoteStatusPageEnabled"] = remote_status_page_enabled
         if local_status_page is not None:
-            payload["localStatusPage"] = local_status_page
+            payload["localStatusPage"] = local_status_page.model_dump(
+                by_alias=True, exclude_none=True
+            )
         if secure_port is not None:
-            payload["securePort"] = secure_port
+            payload["securePort"] = secure_port.model_dump(by_alias=True, exclude_none=True)
         if named_vlans is not None:
-            payload["namedVlans"] = named_vlans
+            payload["namedVlans"] = named_vlans.model_dump(by_alias=True, exclude_none=True)
 
         return await self._session.put(
             scope="networks",
@@ -3344,7 +3502,7 @@ class Networks:
         network_id: str,
         access: str | None = None,
         community_string: str | None = None,
-        users: list | None = None,
+        users: list[UpdateNetworkSnmpUsersItem] | None = None,
     ) -> UpdateNetworkSnmpResponse | None:
         """Update the SNMP settings for a network.
 
@@ -3374,7 +3532,7 @@ class Networks:
         if community_string is not None:
             payload["communityString"] = community_string
         if users is not None:
-            payload["users"] = users
+            payload["users"] = [item.model_dump(by_alias=True, exclude_none=True) for item in users]
 
         return await self._session.put(
             scope="networks",
@@ -3470,7 +3628,7 @@ class Networks:
         )
 
     async def update_network_syslog_servers(
-        self, *, network_id: str, servers: list
+        self, *, network_id: str, servers: list[UpdateNetworkSyslogServersServersItem]
     ) -> UpdateNetworkSyslogServersResponse | None:
         """Update the syslog servers for a network.
 
@@ -3486,7 +3644,9 @@ class Networks:
 
         payload = {}
         if servers is not None:
-            payload["servers"] = servers
+            payload["servers"] = [
+                item.model_dump(by_alias=True, exclude_none=True) for item in servers
+            ]
 
         return await self._session.put(
             scope="networks",
@@ -3592,7 +3752,8 @@ class Networks:
         *,
         network_id: str,
         mode: str | None = None,
-        custom_pie_chart_items: list | None = None,
+        custom_pie_chart_items: list[UpdateNetworkTrafficAnalysisCustomPieChartItemsItem]
+        | None = None,
     ) -> UpdateNetworkTrafficAnalysisResponse | None:
         """Update the traffic analysis settings for a network.
 
@@ -3618,7 +3779,9 @@ class Networks:
         if mode is not None:
             payload["mode"] = mode
         if custom_pie_chart_items is not None:
-            payload["customPieChartItems"] = custom_pie_chart_items
+            payload["customPieChartItems"] = [
+                item.model_dump(by_alias=True, exclude_none=True) for item in custom_pie_chart_items
+            ]
 
         return await self._session.put(
             scope="networks",
@@ -3719,7 +3882,13 @@ class Networks:
         )
 
     async def create_network_vlan_profile(
-        self, *, network_id: str, name: str, vlan_names: list, vlan_groups: list, iname: str
+        self,
+        *,
+        network_id: str,
+        name: str,
+        vlan_names: list[CreateNetworkVlanProfileVlanNamesItem],
+        vlan_groups: list[CreateNetworkVlanProfileVlanGroupsItem],
+        iname: str,
     ) -> CreateNetworkVlanProfileResponse | None:
         """Create a VLAN profile for a network.
 
@@ -3740,9 +3909,13 @@ class Networks:
         if name is not None:
             payload["name"] = name
         if vlan_names is not None:
-            payload["vlanNames"] = vlan_names
+            payload["vlanNames"] = [
+                item.model_dump(by_alias=True, exclude_none=True) for item in vlan_names
+            ]
         if vlan_groups is not None:
-            payload["vlanGroups"] = vlan_groups
+            payload["vlanGroups"] = [
+                item.model_dump(by_alias=True, exclude_none=True) for item in vlan_groups
+            ]
         if iname is not None:
             payload["iname"] = iname
 
@@ -3761,9 +3934,9 @@ class Networks:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        serials: list | None = None,
-        product_types: list | None = None,
-        stack_ids: list | None = None,
+        serials: list[str] | None = None,
+        product_types: list[str] | None = None,
+        stack_ids: list[str] | None = None,
         total_pages: int | Literal["all"] = 1,
         direction: Literal["prev", "next"] = "next",
     ) -> AsyncPaginatedResponse[GetNetworkVlanProfilesAssignmentsByDeviceResponseItem]:
@@ -3820,7 +3993,12 @@ class Networks:
         )
 
     async def reassign_network_vlan_profiles_assignments(
-        self, *, network_id: str, serials: list, stack_ids: list, vlan_profile: dict | None = None
+        self,
+        *,
+        network_id: str,
+        serials: list[str],
+        stack_ids: list[str],
+        vlan_profile: ReassignNetworkVlanProfilesAssignmentsVlanProfile | None = None,
     ) -> ReassignNetworkVlanProfilesAssignmentsResponse | None:
         """Update the assigned VLAN Profile for devices in a network.
 
@@ -3838,7 +4016,7 @@ class Networks:
 
         payload = {}
         if vlan_profile is not None:
-            payload["vlanProfile"] = vlan_profile
+            payload["vlanProfile"] = vlan_profile.model_dump(by_alias=True, exclude_none=True)
         if serials is not None:
             payload["serials"] = serials
         if stack_ids is not None:
@@ -3876,7 +4054,13 @@ class Networks:
         )
 
     async def update_network_vlan_profile(
-        self, *, network_id: str, iname: str, name: str, vlan_names: list, vlan_groups: list
+        self,
+        *,
+        network_id: str,
+        iname: str,
+        name: str,
+        vlan_names: list[UpdateNetworkVlanProfileVlanNamesItem],
+        vlan_groups: list[UpdateNetworkVlanProfileVlanGroupsItem],
     ) -> UpdateNetworkVlanProfileResponse | None:
         """Update an existing VLAN profile of a network.
 
@@ -3898,9 +4082,13 @@ class Networks:
         if name is not None:
             payload["name"] = name
         if vlan_names is not None:
-            payload["vlanNames"] = vlan_names
+            payload["vlanNames"] = [
+                item.model_dump(by_alias=True, exclude_none=True) for item in vlan_names
+            ]
         if vlan_groups is not None:
-            payload["vlanGroups"] = vlan_groups
+            payload["vlanGroups"] = [
+                item.model_dump(by_alias=True, exclude_none=True) for item in vlan_groups
+            ]
 
         return await self._session.put(
             scope="networks",
@@ -3956,7 +4144,7 @@ class Networks:
         name: str,
         url: str,
         shared_secret: str | None = None,
-        payload_template: dict | None = None,
+        payload_template: CreateNetworkWebhooksHttpServerPayloadTemplate | None = None,
     ) -> CreateNetworkWebhooksHttpServerResponse | None:
         """Add an HTTP server to a network.
 
@@ -3982,7 +4170,9 @@ class Networks:
         if shared_secret is not None:
             payload["sharedSecret"] = shared_secret
         if payload_template is not None:
-            payload["payloadTemplate"] = payload_template
+            payload["payloadTemplate"] = payload_template.model_dump(
+                by_alias=True, exclude_none=True
+            )
 
         return await self._session.post(
             scope="networks",
@@ -4022,7 +4212,7 @@ class Networks:
         http_server_id: str,
         name: str | None = None,
         shared_secret: str | None = None,
-        payload_template: dict | None = None,
+        payload_template: UpdateNetworkWebhooksHttpServerPayloadTemplate | None = None,
     ) -> UpdateNetworkWebhooksHttpServerResponse | None:
         """Update an HTTP server.
 
@@ -4047,7 +4237,9 @@ class Networks:
         if shared_secret is not None:
             payload["sharedSecret"] = shared_secret
         if payload_template is not None:
-            payload["payloadTemplate"] = payload_template
+            payload["payloadTemplate"] = payload_template.model_dump(
+                by_alias=True, exclude_none=True
+            )
 
         return await self._session.put(
             scope="networks",
@@ -4104,7 +4296,7 @@ class Networks:
         network_id: str,
         name: str,
         body: str | None = None,
-        headers: list | None = None,
+        headers: list[CreateNetworkWebhooksPayloadTemplateHeadersItem] | None = None,
         body_file: str | None = None,
         headers_file: str | None = None,
     ) -> CreateNetworkWebhooksPayloadTemplateResponse | None:
@@ -4133,7 +4325,9 @@ class Networks:
         if body is not None:
             payload["body"] = body
         if headers is not None:
-            payload["headers"] = headers
+            payload["headers"] = [
+                item.model_dump(by_alias=True, exclude_none=True) for item in headers
+            ]
         if body_file is not None:
             payload["bodyFile"] = body_file
         if headers_file is not None:
@@ -4177,7 +4371,7 @@ class Networks:
         payload_template_id: str,
         name: str | None = None,
         body: str | None = None,
-        headers: list | None = None,
+        headers: list[UpdateNetworkWebhooksPayloadTemplateHeadersItem] | None = None,
         body_file: str | None = None,
         headers_file: str | None = None,
     ) -> UpdateNetworkWebhooksPayloadTemplateResponse | None:
@@ -4205,7 +4399,9 @@ class Networks:
         if body is not None:
             payload["body"] = body
         if headers is not None:
-            payload["headers"] = headers
+            payload["headers"] = [
+                item.model_dump(by_alias=True, exclude_none=True) for item in headers
+            ]
         if body_file is not None:
             payload["bodyFile"] = body_file
         if headers_file is not None:

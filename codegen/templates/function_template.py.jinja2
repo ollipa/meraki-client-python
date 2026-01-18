@@ -35,9 +35,17 @@
         {% endif %}
         {% if body_params|length > 0 %}
         payload = {}
-        {% for snake, orig in body_params %}
+        {% for snake, orig, is_schema, is_list, is_dict in body_params %}
         if {{ snake }} is not None:
+            {% if is_schema and is_list %}
+            payload['{{ orig }}'] = [item.model_dump(by_alias=True, exclude_none=True) for item in {{ snake }}]
+            {% elif is_schema and is_dict %}
+            payload['{{ orig }}'] = {k: v.model_dump(by_alias=True, exclude_none=True) for k, v in {{ snake }}.items()}
+            {% elif is_schema %}
+            payload['{{ orig }}'] = {{ snake }}.model_dump(by_alias=True, exclude_none=True)
+            {% else %}
             payload['{{ orig }}'] = {{ snake }}
+            {% endif %}
         {% endfor %}
 
         {% endif %}

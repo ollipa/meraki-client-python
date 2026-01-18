@@ -12,37 +12,69 @@ from typing import TYPE_CHECKING, Any, Literal
 
 from meraki_client.schemas import (
     AssignOrganizationLicensesSeatsResponse,
+    BulkOrganizationDevicesPacketCaptureCapturesCreateAdvanced,
+    BulkOrganizationDevicesPacketCaptureCapturesCreateDevicesItem,
     BulkOrganizationDevicesPacketCaptureCapturesCreateResponse,
+    BulkUpdateOrganizationDevicesDetailsDetailsItem,
     BulkUpdateOrganizationDevicesDetailsResponse,
+    ClaimIntoOrganizationInventoryLicensesItem,
     ClaimIntoOrganizationInventoryResponse,
+    ClaimIntoOrganizationLicensesItem,
     ClaimIntoOrganizationResponse,
     ClaimOrganizationInventoryOrdersResponse,
+    ClaimOrganizationInventoryOrdersSubscriptionsItem,
     CloneOrganizationResponse,
     CombineOrganizationNetworksResponse,
+    CreateOrganizationActionBatchActionsItem,
+    CreateOrganizationActionBatchCallback,
     CreateOrganizationActionBatchResponse,
     CreateOrganizationAdaptivePolicyAclResponse,
+    CreateOrganizationAdaptivePolicyAclRulesItem,
+    CreateOrganizationAdaptivePolicyGroupPolicyObjectsItem,
     CreateOrganizationAdaptivePolicyGroupResponse,
+    CreateOrganizationAdaptivePolicyPolicyAclsItem,
+    CreateOrganizationAdaptivePolicyPolicyDestinationGroup,
     CreateOrganizationAdaptivePolicyPolicyResponse,
+    CreateOrganizationAdaptivePolicyPolicySourceGroup,
+    CreateOrganizationAdminNetworksItem,
     CreateOrganizationAdminResponse,
+    CreateOrganizationAdminTagsItem,
+    CreateOrganizationAlertsProfileAlertCondition,
+    CreateOrganizationAlertsProfileRecipients,
     CreateOrganizationAlertsProfileResponse,
+    CreateOrganizationBrandingPolicyAdminSettings,
+    CreateOrganizationBrandingPolicyCustomLogo,
+    CreateOrganizationBrandingPolicyHelpSettings,
     CreateOrganizationBrandingPolicyResponse,
     CreateOrganizationConfigTemplateResponse,
     CreateOrganizationDevicesControllerMigrationResponse,
+    CreateOrganizationDevicesPacketCaptureCaptureAdvanced,
     CreateOrganizationDevicesPacketCaptureCaptureResponse,
+    CreateOrganizationDevicesPacketCaptureScheduleDevicesItem,
     CreateOrganizationDevicesPacketCaptureScheduleResponse,
+    CreateOrganizationDevicesPacketCaptureScheduleSchedule,
     CreateOrganizationEarlyAccessFeaturesOptInResponse,
     CreateOrganizationInventoryDevicesSwapsBulkResponse,
+    CreateOrganizationInventoryDevicesSwapsBulkSwapsItem,
+    CreateOrganizationInventoryOnboardingCloudMonitoringImportDevicesItem,
     CreateOrganizationInventoryOnboardingCloudMonitoringImportResponse,
+    CreateOrganizationInventoryOnboardingCloudMonitoringPrepareDevicesItem,
+    CreateOrganizationInventoryOnboardingCloudMonitoringPrepareOptions,
     CreateOrganizationInventoryOnboardingCloudMonitoringPrepareResponse,
+    CreateOrganizationManagement,
     CreateOrganizationNetworkResponse,
     CreateOrganizationPolicyObjectResponse,
     CreateOrganizationPolicyObjectsGroupResponse,
     CreateOrganizationResponse,
     CreateOrganizationSamlIdpResponse,
+    CreateOrganizationSamlRoleNetworksItem,
     CreateOrganizationSamlRoleResponse,
+    CreateOrganizationSamlRoleTagsItem,
     CreateOrganizationSplashThemeAssetResponse,
     CreateOrganizationSplashThemeResponse,
+    DisableOrganizationIntegrationsXdrNetworksNetworksItem,
     DisableOrganizationIntegrationsXdrNetworksResponse,
+    EnableOrganizationIntegrationsXdrNetworksNetworksItem,
     EnableOrganizationIntegrationsXdrNetworksResponse,
     GenerateOrganizationDevicesPacketCaptureCaptureDownloadUrlResponse,
     GetOrganizationActionBatchesResponse,
@@ -143,28 +175,49 @@ from meraki_client.schemas import (
     PreviewOrganizationInventoryOrdersResponse,
     ReleaseFromOrganizationInventoryResponse,
     RenewOrganizationLicensesSeatsResponse,
+    ReorderOrganizationDevicesPacketCaptureSchedulesOrderItem,
     ReorderOrganizationDevicesPacketCaptureSchedulesResponse,
     StopOrganizationDevicesPacketCaptureCaptureResponse,
     UpdateOrganizationActionBatchResponse,
     UpdateOrganizationAdaptivePolicyAclResponse,
+    UpdateOrganizationAdaptivePolicyAclRulesItem,
+    UpdateOrganizationAdaptivePolicyGroupPolicyObjectsItem,
     UpdateOrganizationAdaptivePolicyGroupResponse,
+    UpdateOrganizationAdaptivePolicyPolicyAclsItem,
+    UpdateOrganizationAdaptivePolicyPolicyDestinationGroup,
     UpdateOrganizationAdaptivePolicyPolicyResponse,
+    UpdateOrganizationAdaptivePolicyPolicySourceGroup,
     UpdateOrganizationAdaptivePolicySettingsResponse,
+    UpdateOrganizationAdminNetworksItem,
     UpdateOrganizationAdminResponse,
+    UpdateOrganizationAdminTagsItem,
+    UpdateOrganizationAlertsProfileAlertCondition,
+    UpdateOrganizationAlertsProfileRecipients,
     UpdateOrganizationAlertsProfileResponse,
+    UpdateOrganizationApi,
     UpdateOrganizationBrandingPoliciesPrioritiesResponse,
+    UpdateOrganizationBrandingPolicyAdminSettings,
+    UpdateOrganizationBrandingPolicyCustomLogo,
+    UpdateOrganizationBrandingPolicyHelpSettings,
     UpdateOrganizationBrandingPolicyResponse,
     UpdateOrganizationConfigTemplateResponse,
+    UpdateOrganizationDevicesPacketCaptureScheduleDevicesItem,
     UpdateOrganizationDevicesPacketCaptureScheduleResponse,
+    UpdateOrganizationDevicesPacketCaptureScheduleSchedule,
     UpdateOrganizationEarlyAccessFeaturesOptInResponse,
     UpdateOrganizationLicenseResponse,
+    UpdateOrganizationLoginSecurityApiAuthentication,
     UpdateOrganizationLoginSecurityResponse,
+    UpdateOrganizationManagement,
     UpdateOrganizationPolicyObjectResponse,
     UpdateOrganizationPolicyObjectsGroupResponse,
     UpdateOrganizationResponse,
     UpdateOrganizationSamlIdpResponse,
     UpdateOrganizationSamlResponse,
+    UpdateOrganizationSamlRoleNetworksItem,
     UpdateOrganizationSamlRoleResponse,
+    UpdateOrganizationSamlRoleTagsItem,
+    UpdateOrganizationSamlSpInitiated,
     UpdateOrganizationSnmpResponse,
 )
 
@@ -228,7 +281,7 @@ class Organizations:
         )
 
     async def create_organization(
-        self, *, name: str, management: dict | None = None
+        self, *, name: str, management: CreateOrganizationManagement | None = None
     ) -> CreateOrganizationResponse | None:
         """Create a new organization.
 
@@ -245,7 +298,7 @@ class Organizations:
         if name is not None:
             payload["name"] = name
         if management is not None:
-            payload["management"] = management
+            payload["management"] = management.model_dump(by_alias=True, exclude_none=True)
 
         return await self._session.post(
             scope="organizations",
@@ -279,8 +332,8 @@ class Organizations:
         *,
         organization_id: str,
         name: str | None = None,
-        management: dict | None = None,
-        api: dict | None = None,
+        management: UpdateOrganizationManagement | None = None,
+        api: UpdateOrganizationApi | None = None,
     ) -> UpdateOrganizationResponse | None:
         """Update an organization.
 
@@ -300,9 +353,9 @@ class Organizations:
         if name is not None:
             payload["name"] = name
         if management is not None:
-            payload["management"] = management
+            payload["management"] = management.model_dump(by_alias=True, exclude_none=True)
         if api is not None:
-            payload["api"] = api
+            payload["api"] = api.model_dump(by_alias=True, exclude_none=True)
 
         return await self._session.put(
             scope="organizations",
@@ -365,10 +418,10 @@ class Organizations:
         self,
         *,
         organization_id: str,
-        actions: list,
+        actions: list[CreateOrganizationActionBatchActionsItem],
         confirmed: bool | None = None,
         synchronous: bool | None = None,
-        callback: dict | None = None,
+        callback: CreateOrganizationActionBatchCallback | None = None,
     ) -> CreateOrganizationActionBatchResponse | None:
         """Create an action batch.
 
@@ -397,9 +450,11 @@ class Organizations:
         if synchronous is not None:
             payload["synchronous"] = synchronous
         if actions is not None:
-            payload["actions"] = actions
+            payload["actions"] = [
+                item.model_dump(by_alias=True, exclude_none=True) for item in actions
+            ]
         if callback is not None:
-            payload["callback"] = callback
+            payload["callback"] = callback.model_dump(by_alias=True, exclude_none=True)
 
         return await self._session.post(
             scope="organizations",
@@ -517,7 +572,7 @@ class Organizations:
         *,
         organization_id: str,
         name: str,
-        rules: list,
+        rules: list[CreateOrganizationAdaptivePolicyAclRulesItem],
         ip_version: str,
         description: str | None = None,
     ) -> CreateOrganizationAdaptivePolicyAclResponse | None:
@@ -548,7 +603,7 @@ class Organizations:
         if description is not None:
             payload["description"] = description
         if rules is not None:
-            payload["rules"] = rules
+            payload["rules"] = [item.model_dump(by_alias=True, exclude_none=True) for item in rules]
         if ip_version is not None:
             payload["ipVersion"] = ip_version
 
@@ -590,7 +645,7 @@ class Organizations:
         acl_id: str,
         name: str | None = None,
         description: str | None = None,
-        rules: list | None = None,
+        rules: list[UpdateOrganizationAdaptivePolicyAclRulesItem] | None = None,
         ip_version: str | None = None,
     ) -> UpdateOrganizationAdaptivePolicyAclResponse | None:
         """Updates an adaptive policy ACL.
@@ -623,7 +678,7 @@ class Organizations:
         if description is not None:
             payload["description"] = description
         if rules is not None:
-            payload["rules"] = rules
+            payload["rules"] = [item.model_dump(by_alias=True, exclude_none=True) for item in rules]
         if ip_version is not None:
             payload["ipVersion"] = ip_version
 
@@ -683,7 +738,7 @@ class Organizations:
         name: str,
         sgt: int,
         description: str | None = None,
-        policy_objects: list | None = None,
+        policy_objects: list[CreateOrganizationAdaptivePolicyGroupPolicyObjectsItem] | None = None,
     ) -> CreateOrganizationAdaptivePolicyGroupResponse | None:
         """Creates a new adaptive policy group.
 
@@ -711,7 +766,9 @@ class Organizations:
         if description is not None:
             payload["description"] = description
         if policy_objects is not None:
-            payload["policyObjects"] = policy_objects
+            payload["policyObjects"] = [
+                item.model_dump(by_alias=True, exclude_none=True) for item in policy_objects
+            ]
 
         return await self._session.post(
             scope="organizations",
@@ -752,7 +809,7 @@ class Organizations:
         name: str | None = None,
         sgt: int | None = None,
         description: str | None = None,
-        policy_objects: list | None = None,
+        policy_objects: list[UpdateOrganizationAdaptivePolicyGroupPolicyObjectsItem] | None = None,
     ) -> UpdateOrganizationAdaptivePolicyGroupResponse | None:
         """Updates an adaptive policy group.
 
@@ -782,7 +839,9 @@ class Organizations:
         if description is not None:
             payload["description"] = description
         if policy_objects is not None:
-            payload["policyObjects"] = policy_objects
+            payload["policyObjects"] = [
+                item.model_dump(by_alias=True, exclude_none=True) for item in policy_objects
+            ]
 
         return await self._session.put(
             scope="organizations",
@@ -858,9 +917,9 @@ class Organizations:
         self,
         *,
         organization_id: str,
-        source_group: dict,
-        destination_group: dict,
-        acls: list | None = None,
+        source_group: CreateOrganizationAdaptivePolicyPolicySourceGroup,
+        destination_group: CreateOrganizationAdaptivePolicyPolicyDestinationGroup,
+        acls: list[CreateOrganizationAdaptivePolicyPolicyAclsItem] | None = None,
         last_entry_rule: str | None = None,
     ) -> CreateOrganizationAdaptivePolicyPolicyResponse | None:
         """Add an Adaptive Policy.
@@ -888,11 +947,13 @@ class Organizations:
 
         payload = {}
         if source_group is not None:
-            payload["sourceGroup"] = source_group
+            payload["sourceGroup"] = source_group.model_dump(by_alias=True, exclude_none=True)
         if destination_group is not None:
-            payload["destinationGroup"] = destination_group
+            payload["destinationGroup"] = destination_group.model_dump(
+                by_alias=True, exclude_none=True
+            )
         if acls is not None:
-            payload["acls"] = acls
+            payload["acls"] = [item.model_dump(by_alias=True, exclude_none=True) for item in acls]
         if last_entry_rule is not None:
             payload["lastEntryRule"] = last_entry_rule
 
@@ -932,9 +993,9 @@ class Organizations:
         *,
         organization_id: str,
         id_: str,
-        source_group: dict | None = None,
-        destination_group: dict | None = None,
-        acls: list | None = None,
+        source_group: UpdateOrganizationAdaptivePolicyPolicySourceGroup | None = None,
+        destination_group: UpdateOrganizationAdaptivePolicyPolicyDestinationGroup | None = None,
+        acls: list[UpdateOrganizationAdaptivePolicyPolicyAclsItem] | None = None,
         last_entry_rule: str | None = None,
     ) -> UpdateOrganizationAdaptivePolicyPolicyResponse | None:
         """Update an Adaptive Policy.
@@ -964,11 +1025,13 @@ class Organizations:
 
         payload = {}
         if source_group is not None:
-            payload["sourceGroup"] = source_group
+            payload["sourceGroup"] = source_group.model_dump(by_alias=True, exclude_none=True)
         if destination_group is not None:
-            payload["destinationGroup"] = destination_group
+            payload["destinationGroup"] = destination_group.model_dump(
+                by_alias=True, exclude_none=True
+            )
         if acls is not None:
-            payload["acls"] = acls
+            payload["acls"] = [item.model_dump(by_alias=True, exclude_none=True) for item in acls]
         if last_entry_rule is not None:
             payload["lastEntryRule"] = last_entry_rule
 
@@ -1022,7 +1085,7 @@ class Organizations:
         )
 
     async def update_organization_adaptive_policy_settings(
-        self, *, organization_id: str, enabled_networks: list | None = None
+        self, *, organization_id: str, enabled_networks: list[str] | None = None
     ) -> UpdateOrganizationAdaptivePolicySettingsResponse | None:
         """Update global adaptive policy settings.
 
@@ -1049,7 +1112,7 @@ class Organizations:
         )
 
     async def get_organization_admins(
-        self, *, organization_id: str, network_ids: list | None = None
+        self, *, organization_id: str, network_ids: list[str] | None = None
     ) -> GetOrganizationAdminsResponse | None:
         """List the dashboard administrators in this organization.
 
@@ -1083,8 +1146,8 @@ class Organizations:
         email: str,
         name: str,
         org_access: str,
-        tags: list | None = None,
-        networks: list | None = None,
+        tags: list[CreateOrganizationAdminTagsItem] | None = None,
+        networks: list[CreateOrganizationAdminNetworksItem] | None = None,
         authentication_method: str | None = None,
     ) -> CreateOrganizationAdminResponse | None:
         """Create a new dashboard administrator.
@@ -1125,9 +1188,11 @@ class Organizations:
         if org_access is not None:
             payload["orgAccess"] = org_access
         if tags is not None:
-            payload["tags"] = tags
+            payload["tags"] = [item.model_dump(by_alias=True, exclude_none=True) for item in tags]
         if networks is not None:
-            payload["networks"] = networks
+            payload["networks"] = [
+                item.model_dump(by_alias=True, exclude_none=True) for item in networks
+            ]
         if authentication_method is not None:
             payload["authenticationMethod"] = authentication_method
 
@@ -1146,8 +1211,8 @@ class Organizations:
         admin_id: str,
         name: str | None = None,
         org_access: str | None = None,
-        tags: list | None = None,
-        networks: list | None = None,
+        tags: list[UpdateOrganizationAdminTagsItem] | None = None,
+        networks: list[UpdateOrganizationAdminNetworksItem] | None = None,
     ) -> UpdateOrganizationAdminResponse | None:
         """Update an administrator.
 
@@ -1179,9 +1244,11 @@ class Organizations:
         if org_access is not None:
             payload["orgAccess"] = org_access
         if tags is not None:
-            payload["tags"] = tags
+            payload["tags"] = [item.model_dump(by_alias=True, exclude_none=True) for item in tags]
         if networks is not None:
-            payload["networks"] = networks
+            payload["networks"] = [
+                item.model_dump(by_alias=True, exclude_none=True) for item in networks
+            ]
 
         return await self._session.put(
             scope="organizations",
@@ -1235,9 +1302,9 @@ class Organizations:
         *,
         organization_id: str,
         type_: str,
-        alert_condition: dict,
-        recipients: dict,
-        network_tags: list,
+        alert_condition: CreateOrganizationAlertsProfileAlertCondition,
+        recipients: CreateOrganizationAlertsProfileRecipients,
+        network_tags: list[str],
         description: str | None = None,
     ) -> CreateOrganizationAlertsProfileResponse | None:
         """Create an organization-wide alert configuration.
@@ -1275,9 +1342,9 @@ class Organizations:
         if type_ is not None:
             payload["type"] = type_
         if alert_condition is not None:
-            payload["alertCondition"] = alert_condition
+            payload["alertCondition"] = alert_condition.model_dump(by_alias=True, exclude_none=True)
         if recipients is not None:
-            payload["recipients"] = recipients
+            payload["recipients"] = recipients.model_dump(by_alias=True, exclude_none=True)
         if network_tags is not None:
             payload["networkTags"] = network_tags
         if description is not None:
@@ -1298,9 +1365,9 @@ class Organizations:
         alert_config_id: str,
         enabled: bool | None = None,
         type_: str | None = None,
-        alert_condition: dict | None = None,
-        recipients: dict | None = None,
-        network_tags: list | None = None,
+        alert_condition: UpdateOrganizationAlertsProfileAlertCondition | None = None,
+        recipients: UpdateOrganizationAlertsProfileRecipients | None = None,
+        network_tags: list[str] | None = None,
         description: str | None = None,
     ) -> UpdateOrganizationAlertsProfileResponse | None:
         """Update an organization-wide alert config.
@@ -1343,9 +1410,9 @@ class Organizations:
         if type_ is not None:
             payload["type"] = type_
         if alert_condition is not None:
-            payload["alertCondition"] = alert_condition
+            payload["alertCondition"] = alert_condition.model_dump(by_alias=True, exclude_none=True)
         if recipients is not None:
-            payload["recipients"] = recipients
+            payload["recipients"] = recipients.model_dump(by_alias=True, exclude_none=True)
         if network_tags is not None:
             payload["networkTags"] = network_tags
         if description is not None:
@@ -1396,7 +1463,7 @@ class Organizations:
         source_ip: str | None = None,
         user_agent: str | None = None,
         version: int | None = None,
-        operation_ids: list | None = None,
+        operation_ids: list[str] | None = None,
         total_pages: int | Literal["all"] = 1,
         direction: Literal["prev", "next"] = "next",
     ) -> AsyncPaginatedResponse[GetOrganizationApiRequestsResponseItem]:
@@ -1540,9 +1607,9 @@ class Organizations:
         timespan: float | None = None,
         interval: int | None = None,
         version: int | None = None,
-        operation_ids: list | None = None,
-        source_ips: list | None = None,
-        admin_ids: list | None = None,
+        operation_ids: list[str] | None = None,
+        source_ips: list[str] | None = None,
+        admin_ids: list[str] | None = None,
         user_agent: str | None = None,
     ) -> GetOrganizationApiRequestsOverviewResponseCodesByIntervalResponse | None:
         """Tracks organizations' API requests by response code across a given time period.
@@ -1616,14 +1683,14 @@ class Organizations:
         sort_order: str | None = None,
         network_id: str | None = None,
         severity: str | None = None,
-        types: list | None = None,
+        types: list[str] | None = None,
         ts_start: str | None = None,
         ts_end: str | None = None,
         category: str | None = None,
         sort_by: str | None = None,
-        serials: list | None = None,
-        device_types: list | None = None,
-        device_tags: list | None = None,
+        serials: list[str] | None = None,
+        device_types: list[str] | None = None,
+        device_tags: list[str] | None = None,
         active: bool | None = None,
         dismissed: bool | None = None,
         resolved: bool | None = None,
@@ -1740,7 +1807,7 @@ class Organizations:
         )
 
     async def dismiss_organization_assurance_alerts(
-        self, *, organization_id: str, alert_ids: list
+        self, *, organization_id: str, alert_ids: list[str]
     ) -> None:
         """Dismiss health alerts.
 
@@ -1771,13 +1838,13 @@ class Organizations:
         organization_id: str,
         network_id: str | None = None,
         severity: str | None = None,
-        types: list | None = None,
+        types: list[str] | None = None,
         ts_start: str | None = None,
         ts_end: str | None = None,
         category: str | None = None,
-        serials: list | None = None,
-        device_types: list | None = None,
-        device_tags: list | None = None,
+        serials: list[str] | None = None,
+        device_types: list[str] | None = None,
+        device_tags: list[str] | None = None,
         active: bool | None = None,
         dismissed: bool | None = None,
         resolved: bool | None = None,
@@ -1863,13 +1930,13 @@ class Organizations:
         sort_order: str | None = None,
         network_id: str | None = None,
         severity: str | None = None,
-        types: list | None = None,
+        types: list[str] | None = None,
         ts_start: str | None = None,
         ts_end: str | None = None,
         category: str | None = None,
-        serials: list | None = None,
-        device_types: list | None = None,
-        device_tags: list | None = None,
+        serials: list[str] | None = None,
+        device_types: list[str] | None = None,
+        device_tags: list[str] | None = None,
         active: bool | None = None,
         dismissed: bool | None = None,
         resolved: bool | None = None,
@@ -1987,14 +2054,14 @@ class Organizations:
         sort_order: str | None = None,
         network_id: str | None = None,
         severity: str | None = None,
-        types: list | None = None,
+        types: list[str] | None = None,
         ts_start: str | None = None,
         ts_end: str | None = None,
         category: str | None = None,
         sort_by: str | None = None,
-        serials: list | None = None,
-        device_types: list | None = None,
-        device_tags: list | None = None,
+        serials: list[str] | None = None,
+        device_types: list[str] | None = None,
+        device_tags: list[str] | None = None,
         active: bool | None = None,
         dismissed: bool | None = None,
         resolved: bool | None = None,
@@ -2118,11 +2185,11 @@ class Organizations:
         ts_start: str,
         network_id: str | None = None,
         severity: str | None = None,
-        types: list | None = None,
+        types: list[str] | None = None,
         ts_end: str | None = None,
         category: str | None = None,
-        serials: list | None = None,
-        device_types: list | None = None,
+        serials: list[str] | None = None,
+        device_types: list[str] | None = None,
     ) -> GetOrganizationAssuranceAlertsOverviewHistoricalResponse | None:
         """Returns historical health alert overviews.
 
@@ -2179,7 +2246,7 @@ class Organizations:
         )
 
     async def restore_organization_assurance_alerts(
-        self, *, organization_id: str, alert_ids: list
+        self, *, organization_id: str, alert_ids: list[str]
     ) -> None:
         """Restore health alerts from dismissed.
 
@@ -2296,9 +2363,9 @@ class Organizations:
         organization_id: str,
         name: str,
         enabled: bool | None = None,
-        admin_settings: dict | None = None,
-        help_settings: dict | None = None,
-        custom_logo: dict | None = None,
+        admin_settings: CreateOrganizationBrandingPolicyAdminSettings | None = None,
+        help_settings: CreateOrganizationBrandingPolicyHelpSettings | None = None,
+        custom_logo: CreateOrganizationBrandingPolicyCustomLogo | None = None,
     ) -> CreateOrganizationBrandingPolicyResponse | None:
         """Add a new branding policy to an organization.
 
@@ -2328,11 +2395,11 @@ class Organizations:
         if enabled is not None:
             payload["enabled"] = enabled
         if admin_settings is not None:
-            payload["adminSettings"] = admin_settings
+            payload["adminSettings"] = admin_settings.model_dump(by_alias=True, exclude_none=True)
         if help_settings is not None:
-            payload["helpSettings"] = help_settings
+            payload["helpSettings"] = help_settings.model_dump(by_alias=True, exclude_none=True)
         if custom_logo is not None:
-            payload["customLogo"] = custom_logo
+            payload["customLogo"] = custom_logo.model_dump(by_alias=True, exclude_none=True)
 
         return await self._session.post(
             scope="organizations",
@@ -2364,7 +2431,7 @@ class Organizations:
         )
 
     async def update_organization_branding_policies_priorities(
-        self, *, organization_id: str, branding_policy_ids: list | None = None
+        self, *, organization_id: str, branding_policy_ids: list[str] | None = None
     ) -> UpdateOrganizationBrandingPoliciesPrioritiesResponse | None:
         """Update the priority ordering of an organization's branding policies.
 
@@ -2421,9 +2488,9 @@ class Organizations:
         branding_policy_id: str,
         name: str,
         enabled: bool | None = None,
-        admin_settings: dict | None = None,
-        help_settings: dict | None = None,
-        custom_logo: dict | None = None,
+        admin_settings: UpdateOrganizationBrandingPolicyAdminSettings | None = None,
+        help_settings: UpdateOrganizationBrandingPolicyHelpSettings | None = None,
+        custom_logo: UpdateOrganizationBrandingPolicyCustomLogo | None = None,
     ) -> UpdateOrganizationBrandingPolicyResponse | None:
         """Update a branding policy.
 
@@ -2454,11 +2521,11 @@ class Organizations:
         if enabled is not None:
             payload["enabled"] = enabled
         if admin_settings is not None:
-            payload["adminSettings"] = admin_settings
+            payload["adminSettings"] = admin_settings.model_dump(by_alias=True, exclude_none=True)
         if help_settings is not None:
-            payload["helpSettings"] = help_settings
+            payload["helpSettings"] = help_settings.model_dump(by_alias=True, exclude_none=True)
         if custom_logo is not None:
-            payload["customLogo"] = custom_logo
+            payload["customLogo"] = custom_logo.model_dump(by_alias=True, exclude_none=True)
 
         return await self._session.put(
             scope="organizations",
@@ -2492,9 +2559,9 @@ class Organizations:
         self,
         *,
         organization_id: str,
-        orders: list | None = None,
-        serials: list | None = None,
-        licenses: list | None = None,
+        orders: list[str] | None = None,
+        serials: list[str] | None = None,
+        licenses: list[ClaimIntoOrganizationLicensesItem] | None = None,
     ) -> ClaimIntoOrganizationResponse | None:
         """Claim a list of devices, licenses, and/or orders into an organization inventory.
 
@@ -2516,7 +2583,9 @@ class Organizations:
         if serials is not None:
             payload["serials"] = serials
         if licenses is not None:
-            payload["licenses"] = licenses
+            payload["licenses"] = [
+                item.model_dump(by_alias=True, exclude_none=True) for item in licenses
+            ]
 
         return await self._session.post(
             scope="organizations",
@@ -2934,19 +3003,19 @@ class Organizations:
         starting_after: str | None = None,
         ending_before: str | None = None,
         configuration_updated_after: str | None = None,
-        network_ids: list | None = None,
-        product_types: list | None = None,
-        tags: list | None = None,
+        network_ids: list[str] | None = None,
+        product_types: list[str] | None = None,
+        tags: list[str] | None = None,
         tags_filter_type: str | None = None,
         name: str | None = None,
         mac: str | None = None,
         serial: str | None = None,
         model: str | None = None,
-        macs: list | None = None,
-        serials: list | None = None,
-        sensor_metrics: list | None = None,
-        sensor_alert_profile_ids: list | None = None,
-        models: list | None = None,
+        macs: list[str] | None = None,
+        serials: list[str] | None = None,
+        sensor_metrics: list[str] | None = None,
+        sensor_alert_profile_ids: list[str] | None = None,
+        models: list[str] | None = None,
         total_pages: int | Literal["all"] = 1,
         direction: Literal["prev", "next"] = "next",
     ) -> AsyncPaginatedResponse[GetOrganizationDevicesResponseItem]:
@@ -3061,12 +3130,12 @@ class Organizations:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        network_ids: list | None = None,
-        product_types: list | None = None,
-        serials: list | None = None,
-        tags: list | None = None,
+        network_ids: list[str] | None = None,
+        product_types: list[str] | None = None,
+        serials: list[str] | None = None,
+        tags: list[str] | None = None,
         tags_filter_type: str | None = None,
-        statuses: list | None = None,
+        statuses: list[str] | None = None,
         total_pages: int | Literal["all"] = 1,
         direction: Literal["prev", "next"] = "next",
     ) -> AsyncPaginatedResponse[GetOrganizationDevicesAvailabilitiesResponseItem]:
@@ -3156,10 +3225,10 @@ class Organizations:
         t0: str | None = None,
         t1: str | None = None,
         timespan: float | None = None,
-        serials: list | None = None,
-        product_types: list | None = None,
-        network_ids: list | None = None,
-        statuses: list | None = None,
+        serials: list[str] | None = None,
+        product_types: list[str] | None = None,
+        network_ids: list[str] | None = None,
+        statuses: list[str] | None = None,
         total_pages: int | Literal["all"] = 1,
         direction: Literal["prev", "next"] = "next",
     ) -> AsyncPaginatedResponse[GetOrganizationDevicesAvailabilitiesChangeHistoryResponseItem]:
@@ -3235,8 +3304,8 @@ class Organizations:
         self,
         *,
         organization_id: str,
-        serials: list | None = None,
-        network_ids: list | None = None,
+        serials: list[str] | None = None,
+        network_ids: list[str] | None = None,
         target: str | None = None,
         per_page: int | None = None,
         starting_after: str | None = None,
@@ -3302,7 +3371,7 @@ class Organizations:
         )
 
     async def create_organization_devices_controller_migration(
-        self, *, organization_id: str, serials: list, target: str
+        self, *, organization_id: str, serials: list[str], target: str
     ) -> CreateOrganizationDevicesControllerMigrationResponse | None:
         """Migrate devices to another controller or management mode.
 
@@ -3338,7 +3407,11 @@ class Organizations:
         )
 
     async def bulk_update_organization_devices_details(
-        self, *, organization_id: str, serials: list, details: list
+        self,
+        *,
+        organization_id: str,
+        serials: list[str],
+        details: list[BulkUpdateOrganizationDevicesDetailsDetailsItem],
     ) -> BulkUpdateOrganizationDevicesDetailsResponse | None:
         """Updating device details (currently only used for Catalyst devices).
 
@@ -3357,7 +3430,9 @@ class Organizations:
         if serials is not None:
             payload["serials"] = serials
         if details is not None:
-            payload["details"] = details
+            payload["details"] = [
+                item.model_dump(by_alias=True, exclude_none=True) for item in details
+            ]
 
         return await self._session.post(
             scope="organizations",
@@ -3371,9 +3446,9 @@ class Organizations:
         self,
         *,
         organization_id: str,
-        models: list | None = None,
-        network_ids: list | None = None,
-        product_types: list | None = None,
+        models: list[str] | None = None,
+        network_ids: list[str] | None = None,
+        product_types: list[str] | None = None,
     ) -> GetOrganizationDevicesOverviewByModelResponse | None:
         """Lists the count for each device model.
 
@@ -3411,13 +3486,13 @@ class Organizations:
         self,
         *,
         organization_id: str,
-        capture_ids: list | None = None,
-        network_ids: list | None = None,
-        serials: list | None = None,
-        process: list | None = None,
-        capture_status: list | None = None,
-        name: list | None = None,
-        client_mac: list | None = None,
+        capture_ids: list[str] | None = None,
+        network_ids: list[str] | None = None,
+        serials: list[str] | None = None,
+        process: list[str] | None = None,
+        capture_status: list[str] | None = None,
+        name: list[str] | None = None,
+        client_mac: list[str] | None = None,
         notes: str | None = None,
         device_name: str | None = None,
         admin_name: str | None = None,
@@ -3529,7 +3604,7 @@ class Organizations:
         self,
         *,
         organization_id: str,
-        serials: list,
+        serials: list[str],
         name: str,
         output_type: str | None = None,
         destination: str | None = None,
@@ -3538,7 +3613,7 @@ class Organizations:
         duration: int | None = None,
         filter_expression: str | None = None,
         interface: str | None = None,
-        advanced: dict | None = None,
+        advanced: CreateOrganizationDevicesPacketCaptureCaptureAdvanced | None = None,
     ) -> CreateOrganizationDevicesPacketCaptureCaptureResponse | None:
         """Perform a packet capture on a device and store in Meraki Cloud.
 
@@ -3583,7 +3658,7 @@ class Organizations:
         if interface is not None:
             payload["interface"] = interface
         if advanced is not None:
-            payload["advanced"] = advanced
+            payload["advanced"] = advanced.model_dump(by_alias=True, exclude_none=True)
 
         return await self._session.post(
             scope="organizations",
@@ -3597,12 +3672,12 @@ class Organizations:
         self,
         *,
         organization_id: str,
-        devices: list,
+        devices: list[BulkOrganizationDevicesPacketCaptureCapturesCreateDevicesItem],
         name: str,
         notes: str | None = None,
         duration: int | None = None,
         filter_expression: str | None = None,
-        advanced: dict | None = None,
+        advanced: BulkOrganizationDevicesPacketCaptureCapturesCreateAdvanced | None = None,
     ) -> BulkOrganizationDevicesPacketCaptureCapturesCreateResponse | None:
         """Perform a packet capture on multiple devices and store in Meraki Cloud.
 
@@ -3623,7 +3698,9 @@ class Organizations:
 
         payload = {}
         if devices is not None:
-            payload["devices"] = devices
+            payload["devices"] = [
+                item.model_dump(by_alias=True, exclude_none=True) for item in devices
+            ]
         if notes is not None:
             payload["notes"] = notes
         if duration is not None:
@@ -3633,7 +3710,7 @@ class Organizations:
         if name is not None:
             payload["name"] = name
         if advanced is not None:
-            payload["advanced"] = advanced
+            payload["advanced"] = advanced.model_dump(by_alias=True, exclude_none=True)
 
         return await self._session.post(
             scope="organizations",
@@ -3644,7 +3721,7 @@ class Organizations:
         )
 
     async def bulk_organization_devices_packet_capture_captures_delete(
-        self, *, organization_id: str, capture_ids: list
+        self, *, organization_id: str, capture_ids: list[str]
     ) -> None:
         """BulkDelete packet captures from cloud.
 
@@ -3715,7 +3792,7 @@ class Organizations:
         )
 
     async def stop_organization_devices_packet_capture_capture(
-        self, *, organization_id: str, capture_id: str, serials: list
+        self, *, organization_id: str, capture_id: str, serials: list[str]
     ) -> StopOrganizationDevicesPacketCaptureCaptureResponse | None:
         """Stop a specific packet capture (not supported for Catalyst devices).
 
@@ -3747,9 +3824,9 @@ class Organizations:
         self,
         *,
         organization_id: str,
-        schedule_ids: list | None = None,
-        network_ids: list | None = None,
-        device_ids: list | None = None,
+        schedule_ids: list[str] | None = None,
+        network_ids: list[str] | None = None,
+        device_ids: list[str] | None = None,
     ) -> GetOrganizationDevicesPacketCaptureSchedulesResponse | None:
         """List the Packet Capture Schedules.
 
@@ -3786,13 +3863,13 @@ class Organizations:
         self,
         *,
         organization_id: str,
-        devices: list,
+        devices: list[CreateOrganizationDevicesPacketCaptureScheduleDevicesItem],
         name: str | None = None,
         notes: str | None = None,
         duration: int | None = None,
         filter_expression: str | None = None,
         enabled: bool | None = None,
-        schedule: dict | None = None,
+        schedule: CreateOrganizationDevicesPacketCaptureScheduleSchedule | None = None,
     ) -> CreateOrganizationDevicesPacketCaptureScheduleResponse | None:
         """Create a schedule for packet capture.
 
@@ -3814,7 +3891,9 @@ class Organizations:
 
         payload = {}
         if devices is not None:
-            payload["devices"] = devices
+            payload["devices"] = [
+                item.model_dump(by_alias=True, exclude_none=True) for item in devices
+            ]
         if name is not None:
             payload["name"] = name
         if notes is not None:
@@ -3826,7 +3905,7 @@ class Organizations:
         if enabled is not None:
             payload["enabled"] = enabled
         if schedule is not None:
-            payload["schedule"] = schedule
+            payload["schedule"] = schedule.model_dump(by_alias=True, exclude_none=True)
 
         return await self._session.post(
             scope="organizations",
@@ -3837,7 +3916,10 @@ class Organizations:
         )
 
     async def reorder_organization_devices_packet_capture_schedules(
-        self, *, organization_id: str, order: list
+        self,
+        *,
+        organization_id: str,
+        order: list[ReorderOrganizationDevicesPacketCaptureSchedulesOrderItem],
     ) -> ReorderOrganizationDevicesPacketCaptureSchedulesResponse | None:
         """Bulk update priorities of pcap schedules.
 
@@ -3853,7 +3935,7 @@ class Organizations:
 
         payload = {}
         if order is not None:
-            payload["order"] = order
+            payload["order"] = [item.model_dump(by_alias=True, exclude_none=True) for item in order]
 
         return await self._session.post(
             scope="organizations",
@@ -3868,13 +3950,13 @@ class Organizations:
         *,
         organization_id: str,
         schedule_id: str,
-        devices: list,
+        devices: list[UpdateOrganizationDevicesPacketCaptureScheduleDevicesItem],
         name: str | None = None,
         notes: str | None = None,
         duration: int | None = None,
         filter_expression: str | None = None,
         enabled: bool | None = None,
-        schedule: dict | None = None,
+        schedule: UpdateOrganizationDevicesPacketCaptureScheduleSchedule | None = None,
     ) -> UpdateOrganizationDevicesPacketCaptureScheduleResponse | None:
         """Update a schedule for packet capture.
 
@@ -3898,7 +3980,9 @@ class Organizations:
 
         payload = {}
         if devices is not None:
-            payload["devices"] = devices
+            payload["devices"] = [
+                item.model_dump(by_alias=True, exclude_none=True) for item in devices
+            ]
         if name is not None:
             payload["name"] = name
         if notes is not None:
@@ -3910,7 +3994,7 @@ class Organizations:
         if enabled is not None:
             payload["enabled"] = enabled
         if schedule is not None:
-            payload["schedule"] = schedule
+            payload["schedule"] = schedule.model_dump(by_alias=True, exclude_none=True)
 
         return await self._session.put(
             scope="organizations",
@@ -3953,10 +4037,10 @@ class Organizations:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        network_ids: list | None = None,
-        product_types: list | None = None,
-        serials: list | None = None,
-        tags: list | None = None,
+        network_ids: list[str] | None = None,
+        product_types: list[str] | None = None,
+        serials: list[str] | None = None,
+        tags: list[str] | None = None,
         tags_filter_type: str | None = None,
         total_pages: int | Literal["all"] = 1,
         direction: Literal["prev", "next"] = "next",
@@ -4038,11 +4122,11 @@ class Organizations:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        network_ids: list | None = None,
-        product_types: list | None = None,
-        serials: list | None = None,
+        network_ids: list[str] | None = None,
+        product_types: list[str] | None = None,
+        serials: list[str] | None = None,
         status: str | None = None,
-        tags: list | None = None,
+        tags: list[str] | None = None,
         tags_filter_type: str | None = None,
         total_pages: int | Literal["all"] = 1,
         direction: Literal["prev", "next"] = "next",
@@ -4133,12 +4217,12 @@ class Organizations:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        network_ids: list | None = None,
-        serials: list | None = None,
-        statuses: list | None = None,
-        product_types: list | None = None,
-        models: list | None = None,
-        tags: list | None = None,
+        network_ids: list[str] | None = None,
+        serials: list[str] | None = None,
+        statuses: list[str] | None = None,
+        product_types: list[str] | None = None,
+        models: list[str] | None = None,
+        tags: list[str] | None = None,
         tags_filter_type: str | None = None,
         total_pages: int | Literal["all"] = 1,
         direction: Literal["prev", "next"] = "next",
@@ -4224,8 +4308,8 @@ class Organizations:
         self,
         *,
         organization_id: str,
-        product_types: list | None = None,
-        network_ids: list | None = None,
+        product_types: list[str] | None = None,
+        network_ids: list[str] | None = None,
     ) -> GetOrganizationDevicesStatusesOverviewResponse | None:
         """Return an overview of current device statuses.
 
@@ -4268,9 +4352,9 @@ class Organizations:
         t1: str | None = None,
         timespan: float | None = None,
         interval: int | None = None,
-        network_ids: list | None = None,
-        serials: list | None = None,
-        product_types: list | None = None,
+        network_ids: list[str] | None = None,
+        serials: list[str] | None = None,
+        product_types: list[str] | None = None,
         total_pages: int | Literal["all"] = 1,
         direction: Literal["prev", "next"] = "next",
     ) -> AsyncPaginatedResponse[
@@ -4356,10 +4440,10 @@ class Organizations:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        network_ids: list | None = None,
-        product_types: list | None = None,
-        serials: list | None = None,
-        tags: list | None = None,
+        network_ids: list[str] | None = None,
+        product_types: list[str] | None = None,
+        serials: list[str] | None = None,
+        tags: list[str] | None = None,
         tags_filter_type: str | None = None,
         total_pages: int | Literal["all"] = 1,
         direction: Literal["prev", "next"] = "next",
@@ -4535,7 +4619,11 @@ class Organizations:
         )
 
     async def create_organization_early_access_features_opt_in(
-        self, *, organization_id: str, short_name: str, limit_scope_to_networks: list | None = None
+        self,
+        *,
+        organization_id: str,
+        short_name: str,
+        limit_scope_to_networks: list[str] | None = None,
     ) -> CreateOrganizationEarlyAccessFeaturesOptInResponse | None:
         """Create a new early access feature opt-in for an organization.
 
@@ -4588,7 +4676,11 @@ class Organizations:
         )
 
     async def update_organization_early_access_features_opt_in(
-        self, *, organization_id: str, opt_in_id: str, limit_scope_to_networks: list | None = None
+        self,
+        *,
+        organization_id: str,
+        opt_in_id: str,
+        limit_scope_to_networks: list[str] | None = None,
     ) -> UpdateOrganizationEarlyAccessFeaturesOptInResponse | None:
         """Update an early access feature opt-in for an organization.
 
@@ -4645,8 +4737,8 @@ class Organizations:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        status: list | None = None,
-        product_types: list | None = None,
+        status: list[str] | None = None,
+        product_types: list[str] | None = None,
         total_pages: int | Literal["all"] = 1,
         direction: Literal["prev", "next"] = "next",
     ) -> AsyncPaginatedResponse[GetOrganizationFirmwareUpgradesResponseItem]:
@@ -4705,11 +4797,11 @@ class Organizations:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        network_ids: list | None = None,
-        serials: list | None = None,
-        macs: list | None = None,
-        firmware_upgrade_batch_ids: list | None = None,
-        upgrade_statuses: list | None = None,
+        network_ids: list[str] | None = None,
+        serials: list[str] | None = None,
+        macs: list[str] | None = None,
+        firmware_upgrade_batch_ids: list[str] | None = None,
+        upgrade_statuses: list[str] | None = None,
         current_upgrades_only: bool | None = None,
         limit_per_device: int | None = None,
         total_pages: int | Literal["all"] = 1,
@@ -4789,8 +4881,8 @@ class Organizations:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        network_ids: list | None = None,
-        floor_plan_ids: list | None = None,
+        network_ids: list[str] | None = None,
+        floor_plan_ids: list[str] | None = None,
         total_pages: int | Literal["all"] = 1,
         direction: Literal["prev", "next"] = "next",
     ) -> AsyncPaginatedResponse[GetOrganizationFloorPlansAutoLocateDevicesResponseItem]:
@@ -4849,8 +4941,8 @@ class Organizations:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        network_ids: list | None = None,
-        floor_plan_ids: list | None = None,
+        network_ids: list[str] | None = None,
+        floor_plan_ids: list[str] | None = None,
         total_pages: int | Literal["all"] = 1,
         direction: Literal["prev", "next"] = "next",
     ) -> AsyncPaginatedResponse[GetOrganizationFloorPlansAutoLocateStatusesResponseItem]:
@@ -4906,7 +4998,7 @@ class Organizations:
         self,
         *,
         organization_id: str,
-        network_ids: list | None = None,
+        network_ids: list[str] | None = None,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
@@ -4959,7 +5051,10 @@ class Organizations:
         )
 
     async def disable_organization_integrations_xdr_networks(
-        self, *, organization_id: str, networks: list
+        self,
+        *,
+        organization_id: str,
+        networks: list[DisableOrganizationIntegrationsXdrNetworksNetworksItem],
     ) -> DisableOrganizationIntegrationsXdrNetworksResponse | None:
         """Disable XDR on networks.
 
@@ -4975,7 +5070,9 @@ class Organizations:
 
         payload = {}
         if networks is not None:
-            payload["networks"] = networks
+            payload["networks"] = [
+                item.model_dump(by_alias=True, exclude_none=True) for item in networks
+            ]
 
         return await self._session.post(
             scope="organizations",
@@ -4986,7 +5083,10 @@ class Organizations:
         )
 
     async def enable_organization_integrations_xdr_networks(
-        self, *, organization_id: str, networks: list
+        self,
+        *,
+        organization_id: str,
+        networks: list[EnableOrganizationIntegrationsXdrNetworksNetworksItem],
     ) -> EnableOrganizationIntegrationsXdrNetworksResponse | None:
         """Enable XDR on networks.
 
@@ -5002,7 +5102,9 @@ class Organizations:
 
         payload = {}
         if networks is not None:
-            payload["networks"] = networks
+            payload["networks"] = [
+                item.model_dump(by_alias=True, exclude_none=True) for item in networks
+            ]
 
         return await self._session.post(
             scope="organizations",
@@ -5016,9 +5118,9 @@ class Organizations:
         self,
         *,
         organization_id: str,
-        orders: list | None = None,
-        serials: list | None = None,
-        licenses: list | None = None,
+        orders: list[str] | None = None,
+        serials: list[str] | None = None,
+        licenses: list[ClaimIntoOrganizationInventoryLicensesItem] | None = None,
     ) -> ClaimIntoOrganizationInventoryResponse | None:
         """Claim a list of devices, licenses, and/or orders into an organization inventory.
 
@@ -5040,7 +5142,9 @@ class Organizations:
         if serials is not None:
             payload["serials"] = serials
         if licenses is not None:
-            payload["licenses"] = licenses
+            payload["licenses"] = [
+                item.model_dump(by_alias=True, exclude_none=True) for item in licenses
+            ]
 
         return await self._session.post(
             scope="organizations",
@@ -5059,14 +5163,14 @@ class Organizations:
         ending_before: str | None = None,
         used_state: str | None = None,
         search: str | None = None,
-        macs: list | None = None,
-        network_ids: list | None = None,
-        serials: list | None = None,
-        models: list | None = None,
-        order_numbers: list | None = None,
-        tags: list | None = None,
+        macs: list[str] | None = None,
+        network_ids: list[str] | None = None,
+        serials: list[str] | None = None,
+        models: list[str] | None = None,
+        order_numbers: list[str] | None = None,
+        tags: list[str] | None = None,
         tags_filter_type: str | None = None,
-        product_types: list | None = None,
+        product_types: list[str] | None = None,
         total_pages: int | Literal["all"] = 1,
         direction: Literal["prev", "next"] = "next",
     ) -> AsyncPaginatedResponse[GetOrganizationInventoryDevicesResponseItem]:
@@ -5161,7 +5265,10 @@ class Organizations:
         )
 
     async def create_organization_inventory_devices_swaps_bulk(
-        self, *, organization_id: str, swaps: list
+        self,
+        *,
+        organization_id: str,
+        swaps: list[CreateOrganizationInventoryDevicesSwapsBulkSwapsItem],
     ) -> CreateOrganizationInventoryDevicesSwapsBulkResponse | None:
         """Swap the devices identified by devices.old with a devices.new, then perform the :afterAction on the devices.old.
 
@@ -5177,7 +5284,7 @@ class Organizations:
 
         payload = {}
         if swaps is not None:
-            payload["swaps"] = swaps
+            payload["swaps"] = [item.model_dump(by_alias=True, exclude_none=True) for item in swaps]
 
         return await self._session.post(
             scope="organizations",
@@ -5276,7 +5383,7 @@ class Organizations:
         )
 
     async def get_organization_inventory_onboarding_cloud_monitoring_imports(
-        self, *, organization_id: str, import_ids: list
+        self, *, organization_id: str, import_ids: list[str]
     ) -> GetOrganizationInventoryOnboardingCloudMonitoringImportsResponse | None:
         """Check the status of a committed Import operation.
 
@@ -5303,7 +5410,10 @@ class Organizations:
         )
 
     async def create_organization_inventory_onboarding_cloud_monitoring_import(
-        self, *, organization_id: str, devices: list
+        self,
+        *,
+        organization_id: str,
+        devices: list[CreateOrganizationInventoryOnboardingCloudMonitoringImportDevicesItem],
     ) -> CreateOrganizationInventoryOnboardingCloudMonitoringImportResponse | None:
         """Commits the import operation to complete the onboarding of a device into Dashboard for monitoring.
 
@@ -5319,7 +5429,9 @@ class Organizations:
 
         payload = {}
         if devices is not None:
-            payload["devices"] = devices
+            payload["devices"] = [
+                item.model_dump(by_alias=True, exclude_none=True) for item in devices
+            ]
 
         return await self._session.post(
             scope="organizations",
@@ -5398,7 +5510,11 @@ class Organizations:
         )
 
     async def create_organization_inventory_onboarding_cloud_monitoring_prepare(
-        self, *, organization_id: str, devices: list, options: dict | None = None
+        self,
+        *,
+        organization_id: str,
+        devices: list[CreateOrganizationInventoryOnboardingCloudMonitoringPrepareDevicesItem],
+        options: CreateOrganizationInventoryOnboardingCloudMonitoringPrepareOptions | None = None,
     ) -> CreateOrganizationInventoryOnboardingCloudMonitoringPrepareResponse | None:
         """Initiates or updates an import session.
 
@@ -5415,9 +5531,11 @@ class Organizations:
 
         payload = {}
         if devices is not None:
-            payload["devices"] = devices
+            payload["devices"] = [
+                item.model_dump(by_alias=True, exclude_none=True) for item in devices
+            ]
         if options is not None:
-            payload["options"] = options
+            payload["options"] = options.model_dump(by_alias=True, exclude_none=True)
 
         return await self._session.post(
             scope="organizations",
@@ -5428,7 +5546,11 @@ class Organizations:
         )
 
     async def claim_organization_inventory_orders(
-        self, *, organization_id: str, claim_id: str, subscriptions: list | None = None
+        self,
+        *,
+        organization_id: str,
+        claim_id: str,
+        subscriptions: list[ClaimOrganizationInventoryOrdersSubscriptionsItem] | None = None,
     ) -> ClaimOrganizationInventoryOrdersResponse | None:
         """Claim an order by the secure unique order claim number, the order claim id.
 
@@ -5447,7 +5569,9 @@ class Organizations:
         if claim_id is not None:
             payload["claimId"] = claim_id
         if subscriptions is not None:
-            payload["subscriptions"] = subscriptions
+            payload["subscriptions"] = [
+                item.model_dump(by_alias=True, exclude_none=True) for item in subscriptions
+            ]
 
         return await self._session.post(
             scope="organizations",
@@ -5485,7 +5609,7 @@ class Organizations:
         )
 
     async def release_from_organization_inventory(
-        self, *, organization_id: str, serials: list | None = None
+        self, *, organization_id: str, serials: list[str] | None = None
     ) -> ReleaseFromOrganizationInventoryResponse | None:
         """Release a list of claimed devices from an organization.
 
@@ -5618,7 +5742,7 @@ class Organizations:
         )
 
     async def move_organization_licenses(
-        self, *, organization_id: str, dest_organization_id: str, license_ids: list
+        self, *, organization_id: str, dest_organization_id: str, license_ids: list[str]
     ) -> MoveOrganizationLicensesResponse | None:
         """Move licenses to another organization.
 
@@ -5826,8 +5950,8 @@ class Organizations:
         idle_timeout_minutes: int | None = None,
         enforce_two_factor_auth: bool | None = None,
         enforce_login_ip_ranges: bool | None = None,
-        login_ip_ranges: list | None = None,
-        api_authentication: dict | None = None,
+        login_ip_ranges: list[str] | None = None,
+        api_authentication: UpdateOrganizationLoginSecurityApiAuthentication | None = None,
     ) -> UpdateOrganizationLoginSecurityResponse | None:
         """Update the login security settings for an organization.
 
@@ -5897,7 +6021,9 @@ class Organizations:
         if login_ip_ranges is not None:
             payload["loginIpRanges"] = login_ip_ranges
         if api_authentication is not None:
-            payload["apiAuthentication"] = api_authentication
+            payload["apiAuthentication"] = api_authentication.model_dump(
+                by_alias=True, exclude_none=True
+            )
 
         return await self._session.put(
             scope="organizations",
@@ -5913,9 +6039,9 @@ class Organizations:
         organization_id: str,
         config_template_id: str | None = None,
         is_bound_to_config_template: bool | None = None,
-        tags: list | None = None,
+        tags: list[str] | None = None,
         tags_filter_type: str | None = None,
-        product_types: list | None = None,
+        product_types: list[str] | None = None,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
@@ -5997,8 +6123,8 @@ class Organizations:
         *,
         organization_id: str,
         name: str,
-        product_types: list,
-        tags: list | None = None,
+        product_types: list[str],
+        tags: list[str] | None = None,
         time_zone: str | None = None,
         copy_from_network_id: str | None = None,
         notes: str | None = None,
@@ -6053,7 +6179,7 @@ class Organizations:
         *,
         organization_id: str,
         name: str,
-        network_ids: list,
+        network_ids: list[str],
         enrollment_string: str | None = None,
     ) -> CombineOrganizationNetworksResponse | None:
         """Combine multiple networks into a single network.
@@ -6129,7 +6255,7 @@ class Organizations:
         self,
         *,
         organization_id: str,
-        network_ids: list,
+        network_ids: list[str],
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
@@ -6260,7 +6386,7 @@ class Organizations:
         fqdn: str | None = None,
         mask: str | None = None,
         ip: str | None = None,
-        group_ids: list | None = None,
+        group_ids: list[str] | None = None,
     ) -> CreateOrganizationPolicyObjectResponse | None:
         """Creates a new Policy Object.
 
@@ -6366,7 +6492,7 @@ class Organizations:
         organization_id: str,
         name: str,
         category: str | None = None,
-        object_ids: list | None = None,
+        object_ids: list[int] | None = None,
     ) -> CreateOrganizationPolicyObjectsGroupResponse | None:
         """Creates a new Policy Object Group.
 
@@ -6431,7 +6557,7 @@ class Organizations:
         organization_id: str,
         policy_object_group_id: str,
         name: str | None = None,
-        object_ids: list | None = None,
+        object_ids: list[int] | None = None,
     ) -> UpdateOrganizationPolicyObjectsGroupResponse | None:
         """Updates a Policy Object Group.
 
@@ -6518,7 +6644,7 @@ class Organizations:
         fqdn: str | None = None,
         mask: str | None = None,
         ip: str | None = None,
-        group_ids: list | None = None,
+        group_ids: list[str] | None = None,
     ) -> UpdateOrganizationPolicyObjectResponse | None:
         """Updates a Policy Object.
 
@@ -6604,7 +6730,11 @@ class Organizations:
         )
 
     async def update_organization_saml(
-        self, *, organization_id: str, enabled: bool | None = None, sp_initiated: dict | None = None
+        self,
+        *,
+        organization_id: str,
+        enabled: bool | None = None,
+        sp_initiated: UpdateOrganizationSamlSpInitiated | None = None,
     ) -> UpdateOrganizationSamlResponse | None:
         """Updates the SAML SSO enabled settings for an organization.
 
@@ -6623,7 +6753,7 @@ class Organizations:
         if enabled is not None:
             payload["enabled"] = enabled
         if sp_initiated is not None:
-            payload["spInitiated"] = sp_initiated
+            payload["spInitiated"] = sp_initiated.model_dump(by_alias=True, exclude_none=True)
 
         return await self._session.put(
             scope="organizations",
@@ -6805,8 +6935,8 @@ class Organizations:
         organization_id: str,
         role: str,
         org_access: str,
-        tags: list | None = None,
-        networks: list | None = None,
+        tags: list[CreateOrganizationSamlRoleTagsItem] | None = None,
+        networks: list[CreateOrganizationSamlRoleNetworksItem] | None = None,
     ) -> CreateOrganizationSamlRoleResponse | None:
         """Create a SAML role.
 
@@ -6831,9 +6961,11 @@ class Organizations:
         if org_access is not None:
             payload["orgAccess"] = org_access
         if tags is not None:
-            payload["tags"] = tags
+            payload["tags"] = [item.model_dump(by_alias=True, exclude_none=True) for item in tags]
         if networks is not None:
-            payload["networks"] = networks
+            payload["networks"] = [
+                item.model_dump(by_alias=True, exclude_none=True) for item in networks
+            ]
 
         return await self._session.post(
             scope="organizations",
@@ -6873,8 +7005,8 @@ class Organizations:
         saml_role_id: str,
         role: str | None = None,
         org_access: str | None = None,
-        tags: list | None = None,
-        networks: list | None = None,
+        tags: list[UpdateOrganizationSamlRoleTagsItem] | None = None,
+        networks: list[UpdateOrganizationSamlRoleNetworksItem] | None = None,
     ) -> UpdateOrganizationSamlRoleResponse | None:
         """Update a SAML role.
 
@@ -6901,9 +7033,11 @@ class Organizations:
         if org_access is not None:
             payload["orgAccess"] = org_access
         if tags is not None:
-            payload["tags"] = tags
+            payload["tags"] = [item.model_dump(by_alias=True, exclude_none=True) for item in tags]
         if networks is not None:
-            payload["networks"] = networks
+            payload["networks"] = [
+                item.model_dump(by_alias=True, exclude_none=True) for item in networks
+            ]
 
         return await self._session.put(
             scope="organizations",
@@ -6964,7 +7098,7 @@ class Organizations:
         v3_auth_pass: str | None = None,
         v3_priv_mode: str | None = None,
         v3_priv_pass: str | None = None,
-        peer_ips: list | None = None,
+        peer_ips: list[str] | None = None,
     ) -> UpdateOrganizationSnmpResponse | None:
         """Update the SNMP settings for an organization.
 
@@ -7802,9 +7936,9 @@ class Organizations:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        network_ids: list | None = None,
-        serials: list | None = None,
-        iccids: list | None = None,
+        network_ids: list[str] | None = None,
+        serials: list[str] | None = None,
+        iccids: list[str] | None = None,
         total_pages: int | Literal["all"] = 1,
         direction: Literal["prev", "next"] = "next",
     ) -> AsyncPaginatedResponse[GetOrganizationUplinksStatusesResponseItem]:

@@ -11,17 +11,30 @@ import urllib.parse
 from typing import TYPE_CHECKING, Any, Literal
 
 from meraki_client.schemas import (
+    BulkOrganizationApplianceDnsLocalProfilesAssignmentsCreateItemsItem,
     BulkOrganizationApplianceDnsLocalProfilesAssignmentsCreateResponse,
     CreateDeviceApplianceVmxAuthenticationTokenResponse,
+    CreateNetworkAppliancePrefixesDelegatedStaticOrigin,
+    CreateNetworkApplianceRfProfileFiveGhzSettings,
+    CreateNetworkApplianceRfProfilePerSsidSettings,
     CreateNetworkApplianceRfProfileResponse,
+    CreateNetworkApplianceRfProfileTwoFourGhzSettings,
     CreateNetworkApplianceStaticRouteResponse,
     CreateNetworkApplianceTrafficShapingCustomPerformanceClassResponse,
+    CreateNetworkApplianceVlanDhcpOptionsItem,
+    CreateNetworkApplianceVlanIpv6,
+    CreateNetworkApplianceVlanMandatoryDhcp,
     CreateNetworkApplianceVlanResponse,
     CreateOrganizationApplianceDnsLocalProfileResponse,
+    CreateOrganizationApplianceDnsLocalProfilesAssignmentsBulkDeleteItemsItem,
     CreateOrganizationApplianceDnsLocalProfilesAssignmentsBulkDeleteResponse,
+    CreateOrganizationApplianceDnsLocalRecordProfile,
     CreateOrganizationApplianceDnsLocalRecordResponse,
+    CreateOrganizationApplianceDnsSplitProfileNameservers,
     CreateOrganizationApplianceDnsSplitProfileResponse,
+    CreateOrganizationApplianceDnsSplitProfilesAssignmentsBulkCreateItemsItem,
     CreateOrganizationApplianceDnsSplitProfilesAssignmentsBulkCreateResponse,
+    CreateOrganizationApplianceDnsSplitProfilesAssignmentsBulkDeleteItemsItem,
     CreateOrganizationApplianceDnsSplitProfilesAssignmentsBulkDeleteResponse,
     GetDeviceApplianceDhcpSubnetsResponse,
     GetDeviceAppliancePerformanceResponse,
@@ -81,38 +94,90 @@ from meraki_client.schemas import (
     GetOrganizationApplianceVpnThirdPartyVPNPeersResponse,
     GetOrganizationApplianceVpnVpnFirewallRulesResponse,
     SwapNetworkApplianceWarmSpareResponse,
+    UpdateDeviceApplianceRadioSettingsFiveGhzSettings,
     UpdateDeviceApplianceRadioSettingsResponse,
+    UpdateDeviceApplianceRadioSettingsTwoFourGhzSettings,
+    UpdateDeviceApplianceUplinksSettingsInterfaces,
     UpdateDeviceApplianceUplinksSettingsResponse,
+    UpdateNetworkApplianceConnectivityMonitoringDestinationsDestinationsItem,
     UpdateNetworkApplianceConnectivityMonitoringDestinationsResponse,
     UpdateNetworkApplianceContentFilteringResponse,
+    UpdateNetworkApplianceFirewallCellularFirewallRulesRulesItem,
     UpdateNetworkApplianceFirewallFirewalledServiceResponse,
     UpdateNetworkApplianceFirewallInboundCellularFirewallRulesResponse,
+    UpdateNetworkApplianceFirewallInboundCellularFirewallRulesRulesItem,
     UpdateNetworkApplianceFirewallInboundFirewallRulesResponse,
+    UpdateNetworkApplianceFirewallInboundFirewallRulesRulesItem,
+    UpdateNetworkApplianceFirewallL3FirewallRulesRulesItem,
+    UpdateNetworkApplianceFirewallL7FirewallRulesRulesItem,
     UpdateNetworkApplianceFirewallMulticastForwardingResponse,
+    UpdateNetworkApplianceFirewallMulticastForwardingRulesItem,
+    UpdateNetworkApplianceFirewallOneToManyNatRulesRulesItem,
+    UpdateNetworkApplianceFirewallOneToOneNatRulesRulesItem,
     UpdateNetworkApplianceFirewallPortForwardingRulesResponse,
+    UpdateNetworkApplianceFirewallPortForwardingRulesRulesItem,
+    UpdateNetworkApplianceFirewallSettingsSpoofingProtection,
     UpdateNetworkAppliancePortResponse,
+    UpdateNetworkAppliancePrefixesDelegatedStaticOrigin,
+    UpdateNetworkApplianceRfProfileFiveGhzSettings,
+    UpdateNetworkApplianceRfProfilePerSsidSettings,
     UpdateNetworkApplianceRfProfileResponse,
+    UpdateNetworkApplianceRfProfileTwoFourGhzSettings,
     UpdateNetworkApplianceSdwanInternetPoliciesResponse,
+    UpdateNetworkApplianceSdwanInternetPoliciesWanTrafficUplinkPreferencesItem,
+    UpdateNetworkApplianceSecurityIntrusionProtectedNetworks,
     UpdateNetworkApplianceSecurityIntrusionResponse,
+    UpdateNetworkApplianceSecurityMalwareAllowedFilesItem,
+    UpdateNetworkApplianceSecurityMalwareAllowedUrlsItem,
     UpdateNetworkApplianceSecurityMalwareResponse,
+    UpdateNetworkApplianceSettingsDynamicDns,
     UpdateNetworkApplianceSettingsResponse,
+    UpdateNetworkApplianceSingleLanIpv6,
+    UpdateNetworkApplianceSingleLanMandatoryDhcp,
     UpdateNetworkApplianceSingleLanResponse,
+    UpdateNetworkApplianceSsidDhcpEnforcedDeauthentication,
+    UpdateNetworkApplianceSsidDot11w,
+    UpdateNetworkApplianceSsidRadiusServersItem,
     UpdateNetworkApplianceSsidResponse,
+    UpdateNetworkApplianceStaticRouteFixedIpAssignmentsValue,
+    UpdateNetworkApplianceStaticRouteReservedIpRangesItem,
     UpdateNetworkApplianceStaticRouteResponse,
     UpdateNetworkApplianceTrafficShapingCustomPerformanceClassResponse,
+    UpdateNetworkApplianceTrafficShapingGlobalBandwidthLimits,
+    UpdateNetworkApplianceTrafficShapingRulesRulesItem,
+    UpdateNetworkApplianceTrafficShapingUplinkBandwidthBandwidthLimits,
+    UpdateNetworkApplianceTrafficShapingUplinkSelectionFailoverAndFailback,
     UpdateNetworkApplianceTrafficShapingUplinkSelectionResponse,
+    UpdateNetworkApplianceTrafficShapingUplinkSelectionVpnTrafficUplinkPreferencesItem,
+    UpdateNetworkApplianceTrafficShapingUplinkSelectionWanTrafficUplinkPreferencesItem,
+    UpdateNetworkApplianceTrafficShapingVpnExclusionsCustomItem,
+    UpdateNetworkApplianceTrafficShapingVpnExclusionsMajorApplicationsItem,
     UpdateNetworkApplianceTrafficShapingVpnExclusionsResponse,
+    UpdateNetworkApplianceVlanDhcpOptionsItem,
+    UpdateNetworkApplianceVlanIpv6,
+    UpdateNetworkApplianceVlanMandatoryDhcp,
+    UpdateNetworkApplianceVlanReservedIpRangesItem,
     UpdateNetworkApplianceVlanResponse,
     UpdateNetworkApplianceVlansSettingsResponse,
+    UpdateNetworkApplianceVpnBgpNeighborsItem,
     UpdateNetworkApplianceVpnBgpResponse,
+    UpdateNetworkApplianceVpnSiteToSiteVpnHubsItem,
     UpdateNetworkApplianceVpnSiteToSiteVpnResponse,
+    UpdateNetworkApplianceVpnSiteToSiteVpnSubnet,
+    UpdateNetworkApplianceVpnSiteToSiteVpnSubnetsItem,
     UpdateNetworkApplianceWarmSpareResponse,
     UpdateOrganizationApplianceDnsLocalProfileResponse,
+    UpdateOrganizationApplianceDnsLocalRecordProfile,
     UpdateOrganizationApplianceDnsLocalRecordResponse,
+    UpdateOrganizationApplianceDnsSplitProfileNameservers,
     UpdateOrganizationApplianceDnsSplitProfileResponse,
+    UpdateOrganizationApplianceSecurityIntrusionAllowedRulesItem,
+    UpdateOrganizationApplianceVpnSiteToSiteIpsecPeersSlasItemsItem,
     UpdateOrganizationApplianceVpnSiteToSiteIpsecPeersSlasResponse,
+    UpdateOrganizationApplianceVpnThirdPartyVPNPeersPeersItem,
     UpdateOrganizationApplianceVpnThirdPartyVPNPeersResponse,
     UpdateOrganizationApplianceVpnVpnFirewallRulesResponse,
+    UpdateOrganizationApplianceVpnVpnFirewallRulesRulesItem,
 )
 
 if TYPE_CHECKING:
@@ -256,8 +321,8 @@ class Appliance:
         *,
         serial: str,
         rf_profile_id: str | None = None,
-        two_four_ghz_settings: dict | None = None,
-        five_ghz_settings: dict | None = None,
+        two_four_ghz_settings: UpdateDeviceApplianceRadioSettingsTwoFourGhzSettings | None = None,
+        five_ghz_settings: UpdateDeviceApplianceRadioSettingsFiveGhzSettings | None = None,
     ) -> UpdateDeviceApplianceRadioSettingsResponse | None:
         """Update the radio settings of an appliance.
 
@@ -281,9 +346,13 @@ class Appliance:
         if rf_profile_id is not None:
             payload["rfProfileId"] = rf_profile_id
         if two_four_ghz_settings is not None:
-            payload["twoFourGhzSettings"] = two_four_ghz_settings
+            payload["twoFourGhzSettings"] = two_four_ghz_settings.model_dump(
+                by_alias=True, exclude_none=True
+            )
         if five_ghz_settings is not None:
-            payload["fiveGhzSettings"] = five_ghz_settings
+            payload["fiveGhzSettings"] = five_ghz_settings.model_dump(
+                by_alias=True, exclude_none=True
+            )
 
         return self._session.put(
             scope="appliance",
@@ -315,7 +384,7 @@ class Appliance:
         )
 
     def update_device_appliance_uplinks_settings(
-        self, *, serial: str, interfaces: dict
+        self, *, serial: str, interfaces: UpdateDeviceApplianceUplinksSettingsInterfaces
     ) -> UpdateDeviceApplianceUplinksSettingsResponse | None:
         """Update the uplink settings for an MX appliance.
 
@@ -331,7 +400,7 @@ class Appliance:
 
         payload = {}
         if interfaces is not None:
-            payload["interfaces"] = interfaces
+            payload["interfaces"] = interfaces.model_dump(by_alias=True, exclude_none=True)
 
         return self._session.put(
             scope="appliance",
@@ -465,7 +534,11 @@ class Appliance:
         )
 
     def update_network_appliance_connectivity_monitoring_destinations(
-        self, *, network_id: str, destinations: list | None = None
+        self,
+        *,
+        network_id: str,
+        destinations: list[UpdateNetworkApplianceConnectivityMonitoringDestinationsDestinationsItem]
+        | None = None,
     ) -> UpdateNetworkApplianceConnectivityMonitoringDestinationsResponse | None:
         """Update the connectivity testing destinations for an MX network.
 
@@ -481,7 +554,9 @@ class Appliance:
 
         payload = {}
         if destinations is not None:
-            payload["destinations"] = destinations
+            payload["destinations"] = [
+                item.model_dump(by_alias=True, exclude_none=True) for item in destinations
+            ]
 
         return self._session.put(
             scope="appliance",
@@ -516,9 +591,9 @@ class Appliance:
         self,
         *,
         network_id: str,
-        allowed_url_patterns: list | None = None,
-        blocked_url_patterns: list | None = None,
-        blocked_url_categories: list | None = None,
+        allowed_url_patterns: list[str] | None = None,
+        blocked_url_patterns: list[str] | None = None,
+        blocked_url_categories: list[str] | None = None,
         url_category_list_size: str | None = None,
     ) -> UpdateNetworkApplianceContentFilteringResponse | None:
         """Update the content filtering settings for an MX network.
@@ -601,7 +676,10 @@ class Appliance:
         )
 
     def update_network_appliance_firewall_cellular_firewall_rules(
-        self, *, network_id: str, rules: list | None = None
+        self,
+        *,
+        network_id: str,
+        rules: list[UpdateNetworkApplianceFirewallCellularFirewallRulesRulesItem] | None = None,
     ) -> dict[str, Any] | None:
         """Update the cellular firewall rules of an MX network.
 
@@ -617,7 +695,7 @@ class Appliance:
 
         payload = {}
         if rules is not None:
-            payload["rules"] = rules
+            payload["rules"] = [item.model_dump(by_alias=True, exclude_none=True) for item in rules]
 
         return self._session.put(
             scope="appliance",
@@ -671,7 +749,7 @@ class Appliance:
         )
 
     def update_network_appliance_firewall_firewalled_service(
-        self, *, network_id: str, service: str, access: str, allowed_ips: list | None = None
+        self, *, network_id: str, service: str, access: str, allowed_ips: list[str] | None = None
     ) -> UpdateNetworkApplianceFirewallFirewalledServiceResponse | None:
         """Updates the accessibility settings for the given service ('ICMP', 'web', or 'SNMP').
 
@@ -736,7 +814,11 @@ class Appliance:
         )
 
     def update_network_appliance_firewall_inbound_cellular_firewall_rules(
-        self, *, network_id: str, rules: list | None = None
+        self,
+        *,
+        network_id: str,
+        rules: list[UpdateNetworkApplianceFirewallInboundCellularFirewallRulesRulesItem]
+        | None = None,
     ) -> UpdateNetworkApplianceFirewallInboundCellularFirewallRulesResponse | None:
         """Update the inbound cellular firewall rules of an MX network.
 
@@ -752,7 +834,7 @@ class Appliance:
 
         payload = {}
         if rules is not None:
-            payload["rules"] = rules
+            payload["rules"] = [item.model_dump(by_alias=True, exclude_none=True) for item in rules]
 
         return self._session.put(
             scope="appliance",
@@ -784,7 +866,11 @@ class Appliance:
         )
 
     def update_network_appliance_firewall_inbound_firewall_rules(
-        self, *, network_id: str, rules: list | None = None, syslog_default_rule: bool | None = None
+        self,
+        *,
+        network_id: str,
+        rules: list[UpdateNetworkApplianceFirewallInboundFirewallRulesRulesItem] | None = None,
+        syslog_default_rule: bool | None = None,
     ) -> UpdateNetworkApplianceFirewallInboundFirewallRulesResponse | None:
         """Update the inbound firewall rules of an MX network.
 
@@ -802,7 +888,7 @@ class Appliance:
 
         payload = {}
         if rules is not None:
-            payload["rules"] = rules
+            payload["rules"] = [item.model_dump(by_alias=True, exclude_none=True) for item in rules]
         if syslog_default_rule is not None:
             payload["syslogDefaultRule"] = syslog_default_rule
 
@@ -833,7 +919,11 @@ class Appliance:
         )
 
     def update_network_appliance_firewall_l3_firewall_rules(
-        self, *, network_id: str, rules: list | None = None, syslog_default_rule: bool | None = None
+        self,
+        *,
+        network_id: str,
+        rules: list[UpdateNetworkApplianceFirewallL3FirewallRulesRulesItem] | None = None,
+        syslog_default_rule: bool | None = None,
     ) -> dict[str, Any] | None:
         """Update the L3 firewall rules of an MX network.
 
@@ -851,7 +941,7 @@ class Appliance:
 
         payload = {}
         if rules is not None:
-            payload["rules"] = rules
+            payload["rules"] = [item.model_dump(by_alias=True, exclude_none=True) for item in rules]
         if syslog_default_rule is not None:
             payload["syslogDefaultRule"] = syslog_default_rule
 
@@ -881,7 +971,10 @@ class Appliance:
         )
 
     def update_network_appliance_firewall_l7_firewall_rules(
-        self, *, network_id: str, rules: list | None = None
+        self,
+        *,
+        network_id: str,
+        rules: list[UpdateNetworkApplianceFirewallL7FirewallRulesRulesItem] | None = None,
     ) -> dict[str, Any] | None:
         """Update the MX L7 firewall rules for an MX network.
 
@@ -897,7 +990,7 @@ class Appliance:
 
         payload = {}
         if rules is not None:
-            payload["rules"] = rules
+            payload["rules"] = [item.model_dump(by_alias=True, exclude_none=True) for item in rules]
 
         return self._session.put(
             scope="appliance",
@@ -928,7 +1021,10 @@ class Appliance:
         )
 
     def update_network_appliance_firewall_multicast_forwarding(
-        self, *, network_id: str, rules: list
+        self,
+        *,
+        network_id: str,
+        rules: list[UpdateNetworkApplianceFirewallMulticastForwardingRulesItem],
     ) -> UpdateNetworkApplianceFirewallMulticastForwardingResponse | None:
         """Update static multicast forward rules for a network.
 
@@ -944,7 +1040,7 @@ class Appliance:
 
         payload = {}
         if rules is not None:
-            payload["rules"] = rules
+            payload["rules"] = [item.model_dump(by_alias=True, exclude_none=True) for item in rules]
 
         return self._session.put(
             scope="appliance",
@@ -975,7 +1071,10 @@ class Appliance:
         )
 
     def update_network_appliance_firewall_one_to_many_nat_rules(
-        self, *, network_id: str, rules: list
+        self,
+        *,
+        network_id: str,
+        rules: list[UpdateNetworkApplianceFirewallOneToManyNatRulesRulesItem],
     ) -> dict[str, Any] | None:
         """Set the 1:Many NAT mapping rules for an MX network.
 
@@ -991,7 +1090,7 @@ class Appliance:
 
         payload = {}
         if rules is not None:
-            payload["rules"] = rules
+            payload["rules"] = [item.model_dump(by_alias=True, exclude_none=True) for item in rules]
 
         return self._session.put(
             scope="appliance",
@@ -1019,7 +1118,10 @@ class Appliance:
         )
 
     def update_network_appliance_firewall_one_to_one_nat_rules(
-        self, *, network_id: str, rules: list
+        self,
+        *,
+        network_id: str,
+        rules: list[UpdateNetworkApplianceFirewallOneToOneNatRulesRulesItem],
     ) -> dict[str, Any] | None:
         """Set the 1:1 NAT mapping rules for an MX network.
 
@@ -1035,7 +1137,7 @@ class Appliance:
 
         payload = {}
         if rules is not None:
-            payload["rules"] = rules
+            payload["rules"] = [item.model_dump(by_alias=True, exclude_none=True) for item in rules]
 
         return self._session.put(
             scope="appliance",
@@ -1066,7 +1168,10 @@ class Appliance:
         )
 
     def update_network_appliance_firewall_port_forwarding_rules(
-        self, *, network_id: str, rules: list
+        self,
+        *,
+        network_id: str,
+        rules: list[UpdateNetworkApplianceFirewallPortForwardingRulesRulesItem],
     ) -> UpdateNetworkApplianceFirewallPortForwardingRulesResponse | None:
         """Update the port forwarding rules for an MX network.
 
@@ -1082,7 +1187,7 @@ class Appliance:
 
         payload = {}
         if rules is not None:
-            payload["rules"] = rules
+            payload["rules"] = [item.model_dump(by_alias=True, exclude_none=True) for item in rules]
 
         return self._session.put(
             scope="appliance",
@@ -1109,7 +1214,10 @@ class Appliance:
         )
 
     def update_network_appliance_firewall_settings(
-        self, *, network_id: str, spoofing_protection: dict | None = None
+        self,
+        *,
+        network_id: str,
+        spoofing_protection: UpdateNetworkApplianceFirewallSettingsSpoofingProtection | None = None,
     ) -> dict[str, Any] | None:
         """Update the firewall settings for this network.
 
@@ -1125,7 +1233,9 @@ class Appliance:
 
         payload = {}
         if spoofing_protection is not None:
-            payload["spoofingProtection"] = spoofing_protection
+            payload["spoofingProtection"] = spoofing_protection.model_dump(
+                by_alias=True, exclude_none=True
+            )
 
         return self._session.put(
             scope="appliance",
@@ -1260,7 +1370,12 @@ class Appliance:
         )
 
     def create_network_appliance_prefixes_delegated_static(
-        self, *, network_id: str, prefix: str, origin: dict, description: str | None = None
+        self,
+        *,
+        network_id: str,
+        prefix: str,
+        origin: CreateNetworkAppliancePrefixesDelegatedStaticOrigin,
+        description: str | None = None,
     ) -> dict[str, Any] | None:
         """Add a static delegated prefix from a network.
 
@@ -1280,7 +1395,7 @@ class Appliance:
         if prefix is not None:
             payload["prefix"] = prefix
         if origin is not None:
-            payload["origin"] = origin
+            payload["origin"] = origin.model_dump(by_alias=True, exclude_none=True)
         if description is not None:
             payload["description"] = description
 
@@ -1320,7 +1435,7 @@ class Appliance:
         network_id: str,
         static_delegated_prefix_id: str,
         prefix: str | None = None,
-        origin: dict | None = None,
+        origin: UpdateNetworkAppliancePrefixesDelegatedStaticOrigin | None = None,
         description: str | None = None,
     ) -> dict[str, Any] | None:
         """Update a static delegated prefix from a network.
@@ -1343,7 +1458,7 @@ class Appliance:
         if prefix is not None:
             payload["prefix"] = prefix
         if origin is not None:
-            payload["origin"] = origin
+            payload["origin"] = origin.model_dump(by_alias=True, exclude_none=True)
         if description is not None:
             payload["description"] = description
 
@@ -1402,9 +1517,9 @@ class Appliance:
         *,
         network_id: str,
         name: str,
-        two_four_ghz_settings: dict | None = None,
-        five_ghz_settings: dict | None = None,
-        per_ssid_settings: dict | None = None,
+        two_four_ghz_settings: CreateNetworkApplianceRfProfileTwoFourGhzSettings | None = None,
+        five_ghz_settings: CreateNetworkApplianceRfProfileFiveGhzSettings | None = None,
+        per_ssid_settings: CreateNetworkApplianceRfProfilePerSsidSettings | None = None,
     ) -> CreateNetworkApplianceRfProfileResponse | None:
         """Creates new RF profile for this network.
 
@@ -1425,11 +1540,17 @@ class Appliance:
         if name is not None:
             payload["name"] = name
         if two_four_ghz_settings is not None:
-            payload["twoFourGhzSettings"] = two_four_ghz_settings
+            payload["twoFourGhzSettings"] = two_four_ghz_settings.model_dump(
+                by_alias=True, exclude_none=True
+            )
         if five_ghz_settings is not None:
-            payload["fiveGhzSettings"] = five_ghz_settings
+            payload["fiveGhzSettings"] = five_ghz_settings.model_dump(
+                by_alias=True, exclude_none=True
+            )
         if per_ssid_settings is not None:
-            payload["perSsidSettings"] = per_ssid_settings
+            payload["perSsidSettings"] = per_ssid_settings.model_dump(
+                by_alias=True, exclude_none=True
+            )
 
         return self._session.post(
             scope="appliance",
@@ -1468,9 +1589,9 @@ class Appliance:
         network_id: str,
         rf_profile_id: str,
         name: str | None = None,
-        two_four_ghz_settings: dict | None = None,
-        five_ghz_settings: dict | None = None,
-        per_ssid_settings: dict | None = None,
+        two_four_ghz_settings: UpdateNetworkApplianceRfProfileTwoFourGhzSettings | None = None,
+        five_ghz_settings: UpdateNetworkApplianceRfProfileFiveGhzSettings | None = None,
+        per_ssid_settings: UpdateNetworkApplianceRfProfilePerSsidSettings | None = None,
     ) -> UpdateNetworkApplianceRfProfileResponse | None:
         """Updates specified RF profile for this network.
 
@@ -1493,11 +1614,17 @@ class Appliance:
         if name is not None:
             payload["name"] = name
         if two_four_ghz_settings is not None:
-            payload["twoFourGhzSettings"] = two_four_ghz_settings
+            payload["twoFourGhzSettings"] = two_four_ghz_settings.model_dump(
+                by_alias=True, exclude_none=True
+            )
         if five_ghz_settings is not None:
-            payload["fiveGhzSettings"] = five_ghz_settings
+            payload["fiveGhzSettings"] = five_ghz_settings.model_dump(
+                by_alias=True, exclude_none=True
+            )
         if per_ssid_settings is not None:
-            payload["perSsidSettings"] = per_ssid_settings
+            payload["perSsidSettings"] = per_ssid_settings.model_dump(
+                by_alias=True, exclude_none=True
+            )
 
         return self._session.put(
             scope="appliance",
@@ -1526,7 +1653,13 @@ class Appliance:
         )
 
     def update_network_appliance_sdwan_internet_policies(
-        self, *, network_id: str, wan_traffic_uplink_preferences: list | None = None
+        self,
+        *,
+        network_id: str,
+        wan_traffic_uplink_preferences: list[
+            UpdateNetworkApplianceSdwanInternetPoliciesWanTrafficUplinkPreferencesItem
+        ]
+        | None = None,
     ) -> UpdateNetworkApplianceSdwanInternetPoliciesResponse | None:
         """Update SDWAN internet traffic preferences for an MX network.
 
@@ -1543,7 +1676,10 @@ class Appliance:
 
         payload = {}
         if wan_traffic_uplink_preferences is not None:
-            payload["wanTrafficUplinkPreferences"] = wan_traffic_uplink_preferences
+            payload["wanTrafficUplinkPreferences"] = [
+                item.model_dump(by_alias=True, exclude_none=True)
+                for item in wan_traffic_uplink_preferences
+            ]
 
         return self._session.put(
             scope="appliance",
@@ -1658,7 +1794,7 @@ class Appliance:
         network_id: str,
         mode: str | None = None,
         ids_rulesets: str | None = None,
-        protected_networks: dict | None = None,
+        protected_networks: UpdateNetworkApplianceSecurityIntrusionProtectedNetworks | None = None,
     ) -> UpdateNetworkApplianceSecurityIntrusionResponse | None:
         """Set the supported intrusion settings for an MX network.
 
@@ -1694,7 +1830,9 @@ class Appliance:
         if ids_rulesets is not None:
             payload["idsRulesets"] = ids_rulesets
         if protected_networks is not None:
-            payload["protectedNetworks"] = protected_networks
+            payload["protectedNetworks"] = protected_networks.model_dump(
+                by_alias=True, exclude_none=True
+            )
 
         return self._session.put(
             scope="appliance",
@@ -1730,8 +1868,8 @@ class Appliance:
         *,
         network_id: str,
         mode: str,
-        allowed_urls: list | None = None,
-        allowed_files: list | None = None,
+        allowed_urls: list[UpdateNetworkApplianceSecurityMalwareAllowedUrlsItem] | None = None,
+        allowed_files: list[UpdateNetworkApplianceSecurityMalwareAllowedFilesItem] | None = None,
     ) -> UpdateNetworkApplianceSecurityMalwareResponse | None:
         """Set the supported malware settings for an MX network.
 
@@ -1759,9 +1897,13 @@ class Appliance:
         if mode is not None:
             payload["mode"] = mode
         if allowed_urls is not None:
-            payload["allowedUrls"] = allowed_urls
+            payload["allowedUrls"] = [
+                item.model_dump(by_alias=True, exclude_none=True) for item in allowed_urls
+            ]
         if allowed_files is not None:
-            payload["allowedFiles"] = allowed_files
+            payload["allowedFiles"] = [
+                item.model_dump(by_alias=True, exclude_none=True) for item in allowed_files
+            ]
 
         return self._session.put(
             scope="appliance",
@@ -1798,7 +1940,7 @@ class Appliance:
         network_id: str,
         client_tracking_method: str | None = None,
         deployment_mode: str | None = None,
-        dynamic_dns: dict | None = None,
+        dynamic_dns: UpdateNetworkApplianceSettingsDynamicDns | None = None,
     ) -> UpdateNetworkApplianceSettingsResponse | None:
         """Update the appliance settings for a network.
 
@@ -1831,7 +1973,7 @@ class Appliance:
         if deployment_mode is not None:
             payload["deploymentMode"] = deployment_mode
         if dynamic_dns is not None:
-            payload["dynamicDns"] = dynamic_dns
+            payload["dynamicDns"] = dynamic_dns.model_dump(by_alias=True, exclude_none=True)
 
         return self._session.put(
             scope="appliance",
@@ -1868,8 +2010,8 @@ class Appliance:
         network_id: str,
         subnet: str | None = None,
         appliance_ip: str | None = None,
-        ipv6: dict | None = None,
-        mandatory_dhcp: dict | None = None,
+        ipv6: UpdateNetworkApplianceSingleLanIpv6 | None = None,
+        mandatory_dhcp: UpdateNetworkApplianceSingleLanMandatoryDhcp | None = None,
     ) -> UpdateNetworkApplianceSingleLanResponse | None:
         """Update single LAN configuration.
 
@@ -1895,9 +2037,9 @@ class Appliance:
         if appliance_ip is not None:
             payload["applianceIp"] = appliance_ip
         if ipv6 is not None:
-            payload["ipv6"] = ipv6
+            payload["ipv6"] = ipv6.model_dump(by_alias=True, exclude_none=True)
         if mandatory_dhcp is not None:
-            payload["mandatoryDhcp"] = mandatory_dhcp
+            payload["mandatoryDhcp"] = mandatory_dhcp.model_dump(by_alias=True, exclude_none=True)
 
         return self._session.put(
             scope="appliance",
@@ -1961,12 +2103,13 @@ class Appliance:
         default_vlan_id: int | None = None,
         auth_mode: str | None = None,
         psk: str | None = None,
-        radius_servers: list | None = None,
+        radius_servers: list[UpdateNetworkApplianceSsidRadiusServersItem] | None = None,
         encryption_mode: str | None = None,
         wpa_encryption_mode: str | None = None,
         visible: bool | None = None,
-        dhcp_enforced_deauthentication: dict | None = None,
-        dot11w: dict | None = None,
+        dhcp_enforced_deauthentication: UpdateNetworkApplianceSsidDhcpEnforcedDeauthentication
+        | None = None,
+        dot11w: UpdateNetworkApplianceSsidDot11w | None = None,
     ) -> UpdateNetworkApplianceSsidResponse | None:
         """Update the attributes of an MX SSID.
 
@@ -2030,7 +2173,9 @@ class Appliance:
         if psk is not None:
             payload["psk"] = psk
         if radius_servers is not None:
-            payload["radiusServers"] = radius_servers
+            payload["radiusServers"] = [
+                item.model_dump(by_alias=True, exclude_none=True) for item in radius_servers
+            ]
         if encryption_mode is not None:
             payload["encryptionMode"] = encryption_mode
         if wpa_encryption_mode is not None:
@@ -2038,9 +2183,11 @@ class Appliance:
         if visible is not None:
             payload["visible"] = visible
         if dhcp_enforced_deauthentication is not None:
-            payload["dhcpEnforcedDeauthentication"] = dhcp_enforced_deauthentication
+            payload["dhcpEnforcedDeauthentication"] = dhcp_enforced_deauthentication.model_dump(
+                by_alias=True, exclude_none=True
+            )
         if dot11w is not None:
-            payload["dot11w"] = dot11w
+            payload["dot11w"] = dot11w.model_dump(by_alias=True, exclude_none=True)
 
         return self._session.put(
             scope="appliance",
@@ -2146,8 +2293,10 @@ class Appliance:
         gateway_ip: str | None = None,
         gateway_vlan_id: str | None = None,
         enabled: bool | None = None,
-        fixed_ip_assignments: dict | None = None,
-        reserved_ip_ranges: list | None = None,
+        fixed_ip_assignments: dict[str, UpdateNetworkApplianceStaticRouteFixedIpAssignmentsValue]
+        | None = None,
+        reserved_ip_ranges: list[UpdateNetworkApplianceStaticRouteReservedIpRangesItem]
+        | None = None,
     ) -> UpdateNetworkApplianceStaticRouteResponse | None:
         """Update a static route for an MX or teleworker network.
 
@@ -2181,9 +2330,14 @@ class Appliance:
         if enabled is not None:
             payload["enabled"] = enabled
         if fixed_ip_assignments is not None:
-            payload["fixedIpAssignments"] = fixed_ip_assignments
+            payload["fixedIpAssignments"] = {
+                k: v.model_dump(by_alias=True, exclude_none=True)
+                for k, v in fixed_ip_assignments.items()
+            }
         if reserved_ip_ranges is not None:
-            payload["reservedIpRanges"] = reserved_ip_ranges
+            payload["reservedIpRanges"] = [
+                item.model_dump(by_alias=True, exclude_none=True) for item in reserved_ip_ranges
+            ]
 
         return self._session.put(
             scope="appliance",
@@ -2230,7 +2384,11 @@ class Appliance:
         )
 
     def update_network_appliance_traffic_shaping(
-        self, *, network_id: str, global_bandwidth_limits: dict | None = None
+        self,
+        *,
+        network_id: str,
+        global_bandwidth_limits: UpdateNetworkApplianceTrafficShapingGlobalBandwidthLimits
+        | None = None,
     ) -> dict[str, Any] | None:
         """Update the traffic shaping settings for an MX network.
 
@@ -2246,7 +2404,9 @@ class Appliance:
 
         payload = {}
         if global_bandwidth_limits is not None:
-            payload["globalBandwidthLimits"] = global_bandwidth_limits
+            payload["globalBandwidthLimits"] = global_bandwidth_limits.model_dump(
+                by_alias=True, exclude_none=True
+            )
 
         return self._session.put(
             scope="appliance",
@@ -2431,7 +2591,7 @@ class Appliance:
         *,
         network_id: str,
         default_rules_enabled: bool | None = None,
-        rules: list | None = None,
+        rules: list[UpdateNetworkApplianceTrafficShapingRulesRulesItem] | None = None,
     ) -> dict[str, Any] | None:
         """Update the traffic shaping settings rules for an MX network.
 
@@ -2455,7 +2615,7 @@ class Appliance:
         if default_rules_enabled is not None:
             payload["defaultRulesEnabled"] = default_rules_enabled
         if rules is not None:
-            payload["rules"] = rules
+            payload["rules"] = [item.model_dump(by_alias=True, exclude_none=True) for item in rules]
 
         return self._session.put(
             scope="appliance",
@@ -2486,7 +2646,11 @@ class Appliance:
         )
 
     def update_network_appliance_traffic_shaping_uplink_bandwidth(
-        self, *, network_id: str, bandwidth_limits: dict | None = None
+        self,
+        *,
+        network_id: str,
+        bandwidth_limits: UpdateNetworkApplianceTrafficShapingUplinkBandwidthBandwidthLimits
+        | None = None,
     ) -> dict[str, Any] | None:
         """Updates the uplink bandwidth settings for your MX network.
 
@@ -2503,7 +2667,9 @@ class Appliance:
 
         payload = {}
         if bandwidth_limits is not None:
-            payload["bandwidthLimits"] = bandwidth_limits
+            payload["bandwidthLimits"] = bandwidth_limits.model_dump(
+                by_alias=True, exclude_none=True
+            )
 
         return self._session.put(
             scope="appliance",
@@ -2540,9 +2706,16 @@ class Appliance:
         active_active_auto_vpn_enabled: bool | None = None,
         default_uplink: str | None = None,
         load_balancing_enabled: bool | None = None,
-        failover_and_failback: dict | None = None,
-        wan_traffic_uplink_preferences: list | None = None,
-        vpn_traffic_uplink_preferences: list | None = None,
+        failover_and_failback: UpdateNetworkApplianceTrafficShapingUplinkSelectionFailoverAndFailback
+        | None = None,
+        wan_traffic_uplink_preferences: list[
+            UpdateNetworkApplianceTrafficShapingUplinkSelectionWanTrafficUplinkPreferencesItem
+        ]
+        | None = None,
+        vpn_traffic_uplink_preferences: list[
+            UpdateNetworkApplianceTrafficShapingUplinkSelectionVpnTrafficUplinkPreferencesItem
+        ]
+        | None = None,
     ) -> UpdateNetworkApplianceTrafficShapingUplinkSelectionResponse | None:
         """Update uplink selection settings for an MX network.
 
@@ -2569,11 +2742,19 @@ class Appliance:
         if load_balancing_enabled is not None:
             payload["loadBalancingEnabled"] = load_balancing_enabled
         if failover_and_failback is not None:
-            payload["failoverAndFailback"] = failover_and_failback
+            payload["failoverAndFailback"] = failover_and_failback.model_dump(
+                by_alias=True, exclude_none=True
+            )
         if wan_traffic_uplink_preferences is not None:
-            payload["wanTrafficUplinkPreferences"] = wan_traffic_uplink_preferences
+            payload["wanTrafficUplinkPreferences"] = [
+                item.model_dump(by_alias=True, exclude_none=True)
+                for item in wan_traffic_uplink_preferences
+            ]
         if vpn_traffic_uplink_preferences is not None:
-            payload["vpnTrafficUplinkPreferences"] = vpn_traffic_uplink_preferences
+            payload["vpnTrafficUplinkPreferences"] = [
+                item.model_dump(by_alias=True, exclude_none=True)
+                for item in vpn_traffic_uplink_preferences
+            ]
 
         return self._session.put(
             scope="appliance",
@@ -2584,7 +2765,14 @@ class Appliance:
         )
 
     def update_network_appliance_traffic_shaping_vpn_exclusions(
-        self, *, network_id: str, custom: list | None = None, major_applications: list | None = None
+        self,
+        *,
+        network_id: str,
+        custom: list[UpdateNetworkApplianceTrafficShapingVpnExclusionsCustomItem] | None = None,
+        major_applications: list[
+            UpdateNetworkApplianceTrafficShapingVpnExclusionsMajorApplicationsItem
+        ]
+        | None = None,
     ) -> UpdateNetworkApplianceTrafficShapingVpnExclusionsResponse | None:
         """Update VPN exclusion rules for an MX network.
 
@@ -2602,9 +2790,13 @@ class Appliance:
 
         payload = {}
         if custom is not None:
-            payload["custom"] = custom
+            payload["custom"] = [
+                item.model_dump(by_alias=True, exclude_none=True) for item in custom
+            ]
         if major_applications is not None:
-            payload["majorApplications"] = major_applications
+            payload["majorApplications"] = [
+                item.model_dump(by_alias=True, exclude_none=True) for item in major_applications
+            ]
 
         return self._session.put(
             scope="appliance",
@@ -2693,15 +2885,15 @@ class Appliance:
         template_vlan_type: str | None = None,
         cidr: str | None = None,
         mask: int | None = None,
-        ipv6: dict | None = None,
+        ipv6: CreateNetworkApplianceVlanIpv6 | None = None,
         dhcp_handling: str | None = None,
-        dhcp_relay_server_ips: list | None = None,
+        dhcp_relay_server_ips: list[str] | None = None,
         dhcp_lease_time: str | None = None,
-        mandatory_dhcp: dict | None = None,
+        mandatory_dhcp: CreateNetworkApplianceVlanMandatoryDhcp | None = None,
         dhcp_boot_options_enabled: bool | None = None,
         dhcp_boot_next_server: str | None = None,
         dhcp_boot_filename: str | None = None,
-        dhcp_options: list | None = None,
+        dhcp_options: list[CreateNetworkApplianceVlanDhcpOptionsItem] | None = None,
     ) -> CreateNetworkApplianceVlanResponse | None:
         """Add a VLAN.
 
@@ -2783,7 +2975,7 @@ class Appliance:
         if mask is not None:
             payload["mask"] = mask
         if ipv6 is not None:
-            payload["ipv6"] = ipv6
+            payload["ipv6"] = ipv6.model_dump(by_alias=True, exclude_none=True)
         if dhcp_handling is not None:
             payload["dhcpHandling"] = dhcp_handling
         if dhcp_relay_server_ips is not None:
@@ -2791,7 +2983,7 @@ class Appliance:
         if dhcp_lease_time is not None:
             payload["dhcpLeaseTime"] = dhcp_lease_time
         if mandatory_dhcp is not None:
-            payload["mandatoryDhcp"] = mandatory_dhcp
+            payload["mandatoryDhcp"] = mandatory_dhcp.model_dump(by_alias=True, exclude_none=True)
         if dhcp_boot_options_enabled is not None:
             payload["dhcpBootOptionsEnabled"] = dhcp_boot_options_enabled
         if dhcp_boot_next_server is not None:
@@ -2799,7 +2991,9 @@ class Appliance:
         if dhcp_boot_filename is not None:
             payload["dhcpBootFilename"] = dhcp_boot_filename
         if dhcp_options is not None:
-            payload["dhcpOptions"] = dhcp_options
+            payload["dhcpOptions"] = [
+                item.model_dump(by_alias=True, exclude_none=True) for item in dhcp_options
+            ]
 
         return self._session.post(
             scope="appliance",
@@ -2892,20 +3086,20 @@ class Appliance:
         group_policy_id: str | None = None,
         vpn_nat_subnet: str | None = None,
         dhcp_handling: str | None = None,
-        dhcp_relay_server_ips: list | None = None,
+        dhcp_relay_server_ips: list[str] | None = None,
         dhcp_lease_time: str | None = None,
         dhcp_boot_options_enabled: bool | None = None,
         dhcp_boot_next_server: str | None = None,
         dhcp_boot_filename: str | None = None,
-        fixed_ip_assignments: dict | None = None,
-        reserved_ip_ranges: list | None = None,
+        fixed_ip_assignments: dict[str, Any] | None = None,
+        reserved_ip_ranges: list[UpdateNetworkApplianceVlanReservedIpRangesItem] | None = None,
         dns_nameservers: str | None = None,
-        dhcp_options: list | None = None,
+        dhcp_options: list[UpdateNetworkApplianceVlanDhcpOptionsItem] | None = None,
         template_vlan_type: str | None = None,
         cidr: str | None = None,
         mask: int | None = None,
-        ipv6: dict | None = None,
-        mandatory_dhcp: dict | None = None,
+        ipv6: UpdateNetworkApplianceVlanIpv6 | None = None,
+        mandatory_dhcp: UpdateNetworkApplianceVlanMandatoryDhcp | None = None,
     ) -> UpdateNetworkApplianceVlanResponse | None:
         """Update a VLAN.
 
@@ -3006,11 +3200,15 @@ class Appliance:
         if fixed_ip_assignments is not None:
             payload["fixedIpAssignments"] = fixed_ip_assignments
         if reserved_ip_ranges is not None:
-            payload["reservedIpRanges"] = reserved_ip_ranges
+            payload["reservedIpRanges"] = [
+                item.model_dump(by_alias=True, exclude_none=True) for item in reserved_ip_ranges
+            ]
         if dns_nameservers is not None:
             payload["dnsNameservers"] = dns_nameservers
         if dhcp_options is not None:
-            payload["dhcpOptions"] = dhcp_options
+            payload["dhcpOptions"] = [
+                item.model_dump(by_alias=True, exclude_none=True) for item in dhcp_options
+            ]
         if template_vlan_type is not None:
             payload["templateVlanType"] = template_vlan_type
         if cidr is not None:
@@ -3018,9 +3216,9 @@ class Appliance:
         if mask is not None:
             payload["mask"] = mask
         if ipv6 is not None:
-            payload["ipv6"] = ipv6
+            payload["ipv6"] = ipv6.model_dump(by_alias=True, exclude_none=True)
         if mandatory_dhcp is not None:
-            payload["mandatoryDhcp"] = mandatory_dhcp
+            payload["mandatoryDhcp"] = mandatory_dhcp.model_dump(by_alias=True, exclude_none=True)
 
         return self._session.put(
             scope="appliance",
@@ -3076,7 +3274,7 @@ class Appliance:
         enabled: bool,
         as_number: int | None = None,
         ibgp_hold_timer: int | None = None,
-        neighbors: list | None = None,
+        neighbors: list[UpdateNetworkApplianceVpnBgpNeighborsItem] | None = None,
     ) -> UpdateNetworkApplianceVpnBgpResponse | None:
         """Update a Hub BGP Configuration.
 
@@ -3111,7 +3309,9 @@ class Appliance:
         if ibgp_hold_timer is not None:
             payload["ibgpHoldTimer"] = ibgp_hold_timer
         if neighbors is not None:
-            payload["neighbors"] = neighbors
+            payload["neighbors"] = [
+                item.model_dump(by_alias=True, exclude_none=True) for item in neighbors
+            ]
 
         return self._session.put(
             scope="appliance",
@@ -3147,9 +3347,9 @@ class Appliance:
         *,
         network_id: str,
         mode: str,
-        hubs: list | None = None,
-        subnets: list | None = None,
-        subnet: dict | None = None,
+        hubs: list[UpdateNetworkApplianceVpnSiteToSiteVpnHubsItem] | None = None,
+        subnets: list[UpdateNetworkApplianceVpnSiteToSiteVpnSubnetsItem] | None = None,
+        subnet: UpdateNetworkApplianceVpnSiteToSiteVpnSubnet | None = None,
     ) -> UpdateNetworkApplianceVpnSiteToSiteVpnResponse | None:
         """Update the site-to-site VPN settings of a network.
 
@@ -3175,11 +3375,13 @@ class Appliance:
         if mode is not None:
             payload["mode"] = mode
         if hubs is not None:
-            payload["hubs"] = hubs
+            payload["hubs"] = [item.model_dump(by_alias=True, exclude_none=True) for item in hubs]
         if subnets is not None:
-            payload["subnets"] = subnets
+            payload["subnets"] = [
+                item.model_dump(by_alias=True, exclude_none=True) for item in subnets
+            ]
         if subnet is not None:
-            payload["subnet"] = subnet
+            payload["subnet"] = subnet.model_dump(by_alias=True, exclude_none=True)
 
         return self._session.put(
             scope="appliance",
@@ -3278,7 +3480,7 @@ class Appliance:
         )
 
     def get_organization_appliance_dns_local_profiles(
-        self, *, organization_id: str, profile_ids: list | None = None
+        self, *, organization_id: str, profile_ids: list[str] | None = None
     ) -> GetOrganizationApplianceDnsLocalProfilesResponse | None:
         """Fetch the local DNS profiles used in the organization.
 
@@ -3335,8 +3537,8 @@ class Appliance:
         self,
         *,
         organization_id: str,
-        profile_ids: list | None = None,
-        network_ids: list | None = None,
+        profile_ids: list[str] | None = None,
+        network_ids: list[str] | None = None,
     ) -> GetOrganizationApplianceDnsLocalProfilesAssignmentsResponse | None:
         """Fetch the local DNS profile assignments in the organization.
 
@@ -3366,7 +3568,10 @@ class Appliance:
         )
 
     def bulk_organization_appliance_dns_local_profiles_assignments_create(
-        self, *, organization_id: str, items: list
+        self,
+        *,
+        organization_id: str,
+        items: list[BulkOrganizationApplianceDnsLocalProfilesAssignmentsCreateItemsItem],
     ) -> BulkOrganizationApplianceDnsLocalProfilesAssignmentsCreateResponse | None:
         """Assign the local DNS profile to networks in the organization.
 
@@ -3384,7 +3589,7 @@ class Appliance:
 
         payload = {}
         if items is not None:
-            payload["items"] = items
+            payload["items"] = [item.model_dump(by_alias=True, exclude_none=True) for item in items]
 
         return self._session.post(
             scope="appliance",
@@ -3395,7 +3600,10 @@ class Appliance:
         )
 
     def create_organization_appliance_dns_local_profiles_assignments_bulk_delete(
-        self, *, organization_id: str, items: list
+        self,
+        *,
+        organization_id: str,
+        items: list[CreateOrganizationApplianceDnsLocalProfilesAssignmentsBulkDeleteItemsItem],
     ) -> CreateOrganizationApplianceDnsLocalProfilesAssignmentsBulkDeleteResponse | None:
         """Unassign the local DNS profile to networks in the organization.
 
@@ -3413,7 +3621,7 @@ class Appliance:
 
         payload = {}
         if items is not None:
-            payload["items"] = items
+            payload["items"] = [item.model_dump(by_alias=True, exclude_none=True) for item in items]
 
         return self._session.post(
             scope="appliance",
@@ -3473,7 +3681,7 @@ class Appliance:
         )
 
     def get_organization_appliance_dns_local_records(
-        self, *, organization_id: str, profile_ids: list | None = None
+        self, *, organization_id: str, profile_ids: list[str] | None = None
     ) -> GetOrganizationApplianceDnsLocalRecordsResponse | None:
         """Fetch the DNS records used in local DNS profiles.
 
@@ -3500,7 +3708,12 @@ class Appliance:
         )
 
     def create_organization_appliance_dns_local_record(
-        self, *, organization_id: str, hostname: str, address: str, profile: dict
+        self,
+        *,
+        organization_id: str,
+        hostname: str,
+        address: str,
+        profile: CreateOrganizationApplianceDnsLocalRecordProfile,
     ) -> CreateOrganizationApplianceDnsLocalRecordResponse | None:
         """Create a new local DNS record.
 
@@ -3522,7 +3735,7 @@ class Appliance:
         if address is not None:
             payload["address"] = address
         if profile is not None:
-            payload["profile"] = profile
+            payload["profile"] = profile.model_dump(by_alias=True, exclude_none=True)
 
         return self._session.post(
             scope="appliance",
@@ -3539,7 +3752,7 @@ class Appliance:
         record_id: str,
         hostname: str | None = None,
         address: str | None = None,
-        profile: dict | None = None,
+        profile: UpdateOrganizationApplianceDnsLocalRecordProfile | None = None,
     ) -> UpdateOrganizationApplianceDnsLocalRecordResponse | None:
         """Updates a local DNS record.
 
@@ -3563,7 +3776,7 @@ class Appliance:
         if address is not None:
             payload["address"] = address
         if profile is not None:
-            payload["profile"] = profile
+            payload["profile"] = profile.model_dump(by_alias=True, exclude_none=True)
 
         return self._session.put(
             scope="appliance",
@@ -3594,7 +3807,7 @@ class Appliance:
         )
 
     def get_organization_appliance_dns_split_profiles(
-        self, *, organization_id: str, profile_ids: list | None = None
+        self, *, organization_id: str, profile_ids: list[str] | None = None
     ) -> GetOrganizationApplianceDnsSplitProfilesResponse | None:
         """Fetch the split DNS profiles used in the organization.
 
@@ -3621,7 +3834,12 @@ class Appliance:
         )
 
     def create_organization_appliance_dns_split_profile(
-        self, *, organization_id: str, name: str, hostnames: list, nameservers: dict
+        self,
+        *,
+        organization_id: str,
+        name: str,
+        hostnames: list[str],
+        nameservers: CreateOrganizationApplianceDnsSplitProfileNameservers,
     ) -> CreateOrganizationApplianceDnsSplitProfileResponse | None:
         """Create a new split DNS profile.
 
@@ -3644,7 +3862,7 @@ class Appliance:
         if hostnames is not None:
             payload["hostnames"] = hostnames
         if nameservers is not None:
-            payload["nameservers"] = nameservers
+            payload["nameservers"] = nameservers.model_dump(by_alias=True, exclude_none=True)
 
         return self._session.post(
             scope="appliance",
@@ -3658,8 +3876,8 @@ class Appliance:
         self,
         *,
         organization_id: str,
-        profile_ids: list | None = None,
-        network_ids: list | None = None,
+        profile_ids: list[str] | None = None,
+        network_ids: list[str] | None = None,
     ) -> GetOrganizationApplianceDnsSplitProfilesAssignmentsResponse | None:
         """Fetch the split DNS profile assignments in the organization.
 
@@ -3689,7 +3907,10 @@ class Appliance:
         )
 
     def create_organization_appliance_dns_split_profiles_assignments_bulk_create(
-        self, *, organization_id: str, items: list
+        self,
+        *,
+        organization_id: str,
+        items: list[CreateOrganizationApplianceDnsSplitProfilesAssignmentsBulkCreateItemsItem],
     ) -> CreateOrganizationApplianceDnsSplitProfilesAssignmentsBulkCreateResponse | None:
         """Assign the split DNS profile to networks in the organization.
 
@@ -3707,7 +3928,7 @@ class Appliance:
 
         payload = {}
         if items is not None:
-            payload["items"] = items
+            payload["items"] = [item.model_dump(by_alias=True, exclude_none=True) for item in items]
 
         return self._session.post(
             scope="appliance",
@@ -3718,7 +3939,10 @@ class Appliance:
         )
 
     def create_organization_appliance_dns_split_profiles_assignments_bulk_delete(
-        self, *, organization_id: str, items: list
+        self,
+        *,
+        organization_id: str,
+        items: list[CreateOrganizationApplianceDnsSplitProfilesAssignmentsBulkDeleteItemsItem],
     ) -> CreateOrganizationApplianceDnsSplitProfilesAssignmentsBulkDeleteResponse | None:
         """Unassign the split DNS profile to networks in the organization.
 
@@ -3736,7 +3960,7 @@ class Appliance:
 
         payload = {}
         if items is not None:
-            payload["items"] = items
+            payload["items"] = [item.model_dump(by_alias=True, exclude_none=True) for item in items]
 
         return self._session.post(
             scope="appliance",
@@ -3752,8 +3976,8 @@ class Appliance:
         organization_id: str,
         profile_id: str,
         name: str | None = None,
-        hostnames: list | None = None,
-        nameservers: dict | None = None,
+        hostnames: list[str] | None = None,
+        nameservers: UpdateOrganizationApplianceDnsSplitProfileNameservers | None = None,
     ) -> UpdateOrganizationApplianceDnsSplitProfileResponse | None:
         """Update a split DNS profile.
 
@@ -3778,7 +4002,7 @@ class Appliance:
         if hostnames is not None:
             payload["hostnames"] = hostnames
         if nameservers is not None:
-            payload["nameservers"] = nameservers
+            payload["nameservers"] = nameservers.model_dump(by_alias=True, exclude_none=True)
 
         return self._session.put(
             scope="appliance",
@@ -3815,7 +4039,7 @@ class Appliance:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        network_ids: list | None = None,
+        network_ids: list[str] | None = None,
         total_pages: int | Literal["all"] = 1,
         direction: Literal["prev", "next"] = "next",
     ) -> PaginatedResponse[
@@ -3963,7 +4187,10 @@ class Appliance:
         )
 
     def update_organization_appliance_security_intrusion(
-        self, *, organization_id: str, allowed_rules: list
+        self,
+        *,
+        organization_id: str,
+        allowed_rules: list[UpdateOrganizationApplianceSecurityIntrusionAllowedRulesItem],
     ) -> dict[str, Any] | None:
         """Sets supported intrusion settings for an organization.
 
@@ -3979,7 +4206,9 @@ class Appliance:
 
         payload = {}
         if allowed_rules is not None:
-            payload["allowedRules"] = allowed_rules
+            payload["allowedRules"] = [
+                item.model_dump(by_alias=True, exclude_none=True) for item in allowed_rules
+            ]
 
         return self._session.put(
             scope="appliance",
@@ -3995,7 +4224,7 @@ class Appliance:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        network_ids: list | None = None,
+        network_ids: list[str] | None = None,
         total_pages: int | Literal["all"] = 1,
         direction: Literal["prev", "next"] = "next",
     ) -> PaginatedResponse[
@@ -4053,9 +4282,9 @@ class Appliance:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        network_ids: list | None = None,
-        serials: list | None = None,
-        iccids: list | None = None,
+        network_ids: list[str] | None = None,
+        serials: list[str] | None = None,
+        iccids: list[str] | None = None,
         total_pages: int | Literal["all"] = 1,
         direction: Literal["prev", "next"] = "next",
     ) -> PaginatedResponse[GetOrganizationApplianceUplinkStatusesResponseItem]:
@@ -4114,7 +4343,7 @@ class Appliance:
         )
 
     def get_organization_appliance_uplinks_statuses_overview(
-        self, *, organization_id: str, network_ids: list | None = None
+        self, *, organization_id: str, network_ids: list[str] | None = None
     ) -> GetOrganizationApplianceUplinksStatusesOverviewResponse | None:
         """Returns an overview of uplink statuses.
 
@@ -4204,7 +4433,10 @@ class Appliance:
         )
 
     def update_organization_appliance_vpn_site_to_site_ipsec_peers_slas(
-        self, *, organization_id: str, items: list | None = None
+        self,
+        *,
+        organization_id: str,
+        items: list[UpdateOrganizationApplianceVpnSiteToSiteIpsecPeersSlasItemsItem] | None = None,
     ) -> UpdateOrganizationApplianceVpnSiteToSiteIpsecPeersSlasResponse | None:
         """Update the IPsec SLA policies for an organization.
 
@@ -4220,7 +4452,7 @@ class Appliance:
 
         payload = {}
         if items is not None:
-            payload["items"] = items
+            payload["items"] = [item.model_dump(by_alias=True, exclude_none=True) for item in items]
 
         return self._session.put(
             scope="appliance",
@@ -4237,7 +4469,7 @@ class Appliance:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        network_ids: list | None = None,
+        network_ids: list[str] | None = None,
         t0: str | None = None,
         t1: str | None = None,
         timespan: float | None = None,
@@ -4309,7 +4541,7 @@ class Appliance:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        network_ids: list | None = None,
+        network_ids: list[str] | None = None,
         total_pages: int | Literal["all"] = 1,
         direction: Literal["prev", "next"] = "next",
     ) -> PaginatedResponse[GetOrganizationApplianceVpnStatusesResponseItem]:
@@ -4381,7 +4613,10 @@ class Appliance:
         )
 
     def update_organization_appliance_vpn_third_party_v_p_n_peers(
-        self, *, organization_id: str, peers: list
+        self,
+        *,
+        organization_id: str,
+        peers: list[UpdateOrganizationApplianceVpnThirdPartyVPNPeersPeersItem],
     ) -> UpdateOrganizationApplianceVpnThirdPartyVPNPeersResponse | None:
         """Update the third party VPN peers for an organization.
 
@@ -4397,7 +4632,7 @@ class Appliance:
 
         payload = {}
         if peers is not None:
-            payload["peers"] = peers
+            payload["peers"] = [item.model_dump(by_alias=True, exclude_none=True) for item in peers]
 
         return self._session.put(
             scope="appliance",
@@ -4432,7 +4667,7 @@ class Appliance:
         self,
         *,
         organization_id: str,
-        rules: list | None = None,
+        rules: list[UpdateOrganizationApplianceVpnVpnFirewallRulesRulesItem] | None = None,
         syslog_default_rule: bool | None = None,
     ) -> UpdateOrganizationApplianceVpnVpnFirewallRulesResponse | None:
         """Update the firewall rules of an organization's site-to-site VPN.
@@ -4451,7 +4686,7 @@ class Appliance:
 
         payload = {}
         if rules is not None:
-            payload["rules"] = rules
+            payload["rules"] = [item.model_dump(by_alias=True, exclude_none=True) for item in rules]
         if syslog_default_rule is not None:
             payload["syslogDefaultRule"] = syslog_default_rule
 

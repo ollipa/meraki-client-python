@@ -12,7 +12,10 @@ from typing import TYPE_CHECKING, Literal
 
 from meraki_client.schemas import (
     CreateDeviceSensorCommandResponse,
+    CreateNetworkSensorAlertsProfileConditionsItem,
+    CreateNetworkSensorAlertsProfileRecipients,
     CreateNetworkSensorAlertsProfileResponse,
+    CreateNetworkSensorAlertsProfileSchedule,
     GetDeviceSensorCommandResponse,
     GetDeviceSensorCommandsResponseItem,
     GetDeviceSensorRelationshipsResponse,
@@ -26,8 +29,12 @@ from meraki_client.schemas import (
     GetOrganizationSensorGatewaysConnectionsLatestResponseItemsItem,
     GetOrganizationSensorReadingsHistoryResponseItem,
     GetOrganizationSensorReadingsLatestResponseItem,
+    UpdateDeviceSensorRelationshipsLivestream,
     UpdateDeviceSensorRelationshipsResponse,
+    UpdateNetworkSensorAlertsProfileConditionsItem,
+    UpdateNetworkSensorAlertsProfileRecipients,
     UpdateNetworkSensorAlertsProfileResponse,
+    UpdateNetworkSensorAlertsProfileSchedule,
     UpdateNetworkSensorMqttBrokerResponse,
 )
 
@@ -45,7 +52,7 @@ class Sensor:
         self,
         *,
         serial: str,
-        operations: list | None = None,
+        operations: list[str] | None = None,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
@@ -212,7 +219,7 @@ class Sensor:
         )
 
     def update_device_sensor_relationships(
-        self, *, serial: str, livestream: dict | None = None
+        self, *, serial: str, livestream: UpdateDeviceSensorRelationshipsLivestream | None = None
     ) -> UpdateDeviceSensorRelationshipsResponse | None:
         """Assign one or more sensor roles to a given sensor or camera device.
 
@@ -230,7 +237,7 @@ class Sensor:
 
         payload = {}
         if livestream is not None:
-            payload["livestream"] = livestream
+            payload["livestream"] = livestream.model_dump(by_alias=True, exclude_none=True)
 
         return self._session.put(
             scope="sensor",
@@ -335,10 +342,10 @@ class Sensor:
         *,
         network_id: str,
         name: str,
-        conditions: list,
-        schedule: dict | None = None,
-        recipients: dict | None = None,
-        serials: list | None = None,
+        conditions: list[CreateNetworkSensorAlertsProfileConditionsItem],
+        schedule: CreateNetworkSensorAlertsProfileSchedule | None = None,
+        recipients: CreateNetworkSensorAlertsProfileRecipients | None = None,
+        serials: list[str] | None = None,
         include_sensor_url: bool | None = None,
         message: str | None = None,
     ) -> CreateNetworkSensorAlertsProfileResponse | None:
@@ -364,11 +371,13 @@ class Sensor:
         if name is not None:
             payload["name"] = name
         if schedule is not None:
-            payload["schedule"] = schedule
+            payload["schedule"] = schedule.model_dump(by_alias=True, exclude_none=True)
         if conditions is not None:
-            payload["conditions"] = conditions
+            payload["conditions"] = [
+                item.model_dump(by_alias=True, exclude_none=True) for item in conditions
+            ]
         if recipients is not None:
-            payload["recipients"] = recipients
+            payload["recipients"] = recipients.model_dump(by_alias=True, exclude_none=True)
         if serials is not None:
             payload["serials"] = serials
         if include_sensor_url is not None:
@@ -413,10 +422,10 @@ class Sensor:
         network_id: str,
         id_: str,
         name: str | None = None,
-        schedule: dict | None = None,
-        conditions: list | None = None,
-        recipients: dict | None = None,
-        serials: list | None = None,
+        schedule: UpdateNetworkSensorAlertsProfileSchedule | None = None,
+        conditions: list[UpdateNetworkSensorAlertsProfileConditionsItem] | None = None,
+        recipients: UpdateNetworkSensorAlertsProfileRecipients | None = None,
+        serials: list[str] | None = None,
         include_sensor_url: bool | None = None,
         message: str | None = None,
     ) -> UpdateNetworkSensorAlertsProfileResponse | None:
@@ -444,11 +453,13 @@ class Sensor:
         if name is not None:
             payload["name"] = name
         if schedule is not None:
-            payload["schedule"] = schedule
+            payload["schedule"] = schedule.model_dump(by_alias=True, exclude_none=True)
         if conditions is not None:
-            payload["conditions"] = conditions
+            payload["conditions"] = [
+                item.model_dump(by_alias=True, exclude_none=True) for item in conditions
+            ]
         if recipients is not None:
-            payload["recipients"] = recipients
+            payload["recipients"] = recipients.model_dump(by_alias=True, exclude_none=True)
         if serials is not None:
             payload["serials"] = serials
         if include_sensor_url is not None:
@@ -580,7 +591,7 @@ class Sensor:
         self,
         *,
         organization_id: str,
-        sensor_serials: list | None = None,
+        sensor_serials: list[str] | None = None,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
@@ -642,9 +653,9 @@ class Sensor:
         t0: str | None = None,
         t1: str | None = None,
         timespan: float | None = None,
-        network_ids: list | None = None,
-        serials: list | None = None,
-        metrics: list | None = None,
+        network_ids: list[str] | None = None,
+        serials: list[str] | None = None,
+        metrics: list[str] | None = None,
         total_pages: int | Literal["all"] = 1,
         direction: Literal["prev", "next"] = "next",
     ) -> PaginatedResponse[GetOrganizationSensorReadingsHistoryResponseItem]:
@@ -719,9 +730,9 @@ class Sensor:
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
-        network_ids: list | None = None,
-        serials: list | None = None,
-        metrics: list | None = None,
+        network_ids: list[str] | None = None,
+        serials: list[str] | None = None,
+        metrics: list[str] | None = None,
         total_pages: int | Literal["all"] = 1,
         direction: Literal["prev", "next"] = "next",
     ) -> PaginatedResponse[GetOrganizationSensorReadingsLatestResponseItem]:

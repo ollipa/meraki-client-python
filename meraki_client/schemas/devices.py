@@ -21,6 +21,25 @@ class BlinkDeviceLedsResponse(_BaseSchema):
     duty: int | None = None
 
 
+class CreateDeviceLiveToolsArpTableCallback(_BaseSchema):
+    """Details for the callback. Please include either an httpServerId OR url and sharedSecret."""
+
+    url: str | None = None
+    shared_secret: str | None = Field(default=None, alias="sharedSecret")
+    http_server: CreateDeviceLiveToolsArpTableCallbackHttpServer | None = Field(
+        default=None, alias="httpServer"
+    )
+    payload_template: CreateDeviceLiveToolsArpTableCallbackHttpServer | None = Field(
+        default=None, alias="payloadTemplate"
+    )
+
+
+class CreateDeviceLiveToolsArpTableCallbackHttpServer(_BaseSchema):
+    """The webhook receiver used for the callback webhook."""
+
+    id_: str | None = Field(default=None, alias="id")
+
+
 class CreateDeviceLiveToolsArpTableResponse(_BaseSchema):
     """Response for createDeviceLiveToolsArpTable operation."""
 
@@ -45,6 +64,19 @@ class CreateDeviceLiveToolsArpTableResponseRequest(_BaseSchema):
     serial: str | None = None
 
 
+class CreateDeviceLiveToolsCableTestCallback(_BaseSchema):
+    """Details for the callback. Please include either an httpServerId OR url and sharedSecret."""
+
+    url: str | None = None
+    shared_secret: str | None = Field(default=None, alias="sharedSecret")
+    http_server: CreateDeviceLiveToolsArpTableCallbackHttpServer | None = Field(
+        default=None, alias="httpServer"
+    )
+    payload_template: CreateDeviceLiveToolsArpTableCallbackHttpServer | None = Field(
+        default=None, alias="payloadTemplate"
+    )
+
+
 class CreateDeviceLiveToolsCableTestResponse(_BaseSchema):
     """Response for createDeviceLiveToolsCableTest operation."""
 
@@ -60,6 +92,19 @@ class CreateDeviceLiveToolsCableTestResponseRequest(_BaseSchema):
 
     serial: str | None = None
     ports: list[str] | None = None
+
+
+class CreateDeviceLiveToolsLedsBlinkCallback(_BaseSchema):
+    """Details for the callback. Please include either an httpServerId OR url and sharedSecret."""
+
+    url: str | None = None
+    shared_secret: str | None = Field(default=None, alias="sharedSecret")
+    http_server: CreateDeviceLiveToolsArpTableCallbackHttpServer | None = Field(
+        default=None, alias="httpServer"
+    )
+    payload_template: CreateDeviceLiveToolsArpTableCallbackHttpServer | None = Field(
+        default=None, alias="payloadTemplate"
+    )
 
 
 class CreateDeviceLiveToolsLedsBlinkResponse(_BaseSchema):
@@ -80,6 +125,19 @@ class CreateDeviceLiveToolsLedsBlinkResponseRequest(_BaseSchema):
     duration: int | None = None
 
 
+class CreateDeviceLiveToolsMacTableCallback(_BaseSchema):
+    """Details for the callback. Please include either an httpServerId OR url and sharedSecret."""
+
+    url: str | None = None
+    shared_secret: str | None = Field(default=None, alias="sharedSecret")
+    http_server: CreateDeviceLiveToolsArpTableCallbackHttpServer | None = Field(
+        default=None, alias="httpServer"
+    )
+    payload_template: CreateDeviceLiveToolsArpTableCallbackHttpServer | None = Field(
+        default=None, alias="payloadTemplate"
+    )
+
+
 class CreateDeviceLiveToolsMacTableResponse(_BaseSchema):
     """Response for createDeviceLiveToolsMacTable operation."""
 
@@ -90,6 +148,19 @@ class CreateDeviceLiveToolsMacTableResponse(_BaseSchema):
     callback: CreateDeviceLiveToolsArpTableResponseCallback | None = None
 
 
+class CreateDeviceLiveToolsMulticastRoutingCallback(_BaseSchema):
+    """Details for the callback. Please include either an httpServerId OR url and sharedSecret."""
+
+    url: str | None = None
+    shared_secret: str | None = Field(default=None, alias="sharedSecret")
+    http_server: CreateDeviceLiveToolsArpTableCallbackHttpServer | None = Field(
+        default=None, alias="httpServer"
+    )
+    payload_template: CreateDeviceLiveToolsArpTableCallbackHttpServer | None = Field(
+        default=None, alias="payloadTemplate"
+    )
+
+
 class CreateDeviceLiveToolsMulticastRoutingResponse(_BaseSchema):
     """Response for createDeviceLiveToolsMulticastRouting operation."""
 
@@ -98,6 +169,32 @@ class CreateDeviceLiveToolsMulticastRoutingResponse(_BaseSchema):
     request: CreateDeviceLiveToolsArpTableResponseRequest | None = None
     status: str | None = None
     callback: CreateDeviceLiveToolsArpTableResponseCallback | None = None
+
+
+class CreateDeviceLiveToolsPingCallback(_BaseSchema):
+    """Details for the callback. Please include either an httpServerId OR url and sharedSecret."""
+
+    url: str | None = None
+    shared_secret: str | None = Field(default=None, alias="sharedSecret")
+    http_server: CreateDeviceLiveToolsArpTableCallbackHttpServer | None = Field(
+        default=None, alias="httpServer"
+    )
+    payload_template: CreateDeviceLiveToolsArpTableCallbackHttpServer | None = Field(
+        default=None, alias="payloadTemplate"
+    )
+
+
+class CreateDeviceLiveToolsPingDeviceCallback(_BaseSchema):
+    """Details for the callback. Please include either an httpServerId OR url and sharedSecret."""
+
+    url: str | None = None
+    shared_secret: str | None = Field(default=None, alias="sharedSecret")
+    http_server: CreateDeviceLiveToolsArpTableCallbackHttpServer | None = Field(
+        default=None, alias="httpServer"
+    )
+    payload_template: CreateDeviceLiveToolsArpTableCallbackHttpServer | None = Field(
+        default=None, alias="payloadTemplate"
+    )
 
 
 class CreateDeviceLiveToolsPingDeviceResponse(_BaseSchema):
@@ -135,6 +232,19 @@ class CreateDeviceLiveToolsPingResponseRequest(_BaseSchema):
     count: int | None = None
 
 
+class CreateDeviceLiveToolsThroughputTestCallback(_BaseSchema):
+    """Details for the callback. Please include either an httpServerId OR url and sharedSecret."""
+
+    url: str | None = None
+    shared_secret: str | None = Field(default=None, alias="sharedSecret")
+    http_server: CreateDeviceLiveToolsArpTableCallbackHttpServer | None = Field(
+        default=None, alias="httpServer"
+    )
+    payload_template: CreateDeviceLiveToolsArpTableCallbackHttpServer | None = Field(
+        default=None, alias="payloadTemplate"
+    )
+
+
 class CreateDeviceLiveToolsThroughputTestResponse(_BaseSchema):
     """Response for createDeviceLiveToolsThroughputTest operation."""
 
@@ -151,6 +261,19 @@ class CreateDeviceLiveToolsThroughputTestResponseResult(_BaseSchema):
     """Result of the throughput test request."""
 
     speeds: DevicesResultSpeeds | None = None
+
+
+class CreateDeviceLiveToolsWakeOnLanCallback(_BaseSchema):
+    """Details for the callback. Please include either an httpServerId OR url and sharedSecret."""
+
+    url: str | None = None
+    shared_secret: str | None = Field(default=None, alias="sharedSecret")
+    http_server: CreateDeviceLiveToolsArpTableCallbackHttpServer | None = Field(
+        default=None, alias="httpServer"
+    )
+    payload_template: CreateDeviceLiveToolsArpTableCallbackHttpServer | None = Field(
+        default=None, alias="payloadTemplate"
+    )
 
 
 class CreateDeviceLiveToolsWakeOnLanResponse(_BaseSchema):
@@ -551,6 +674,22 @@ class UpdateDeviceCellularSimsResponse(_BaseSchema):
     )
 
 
+class UpdateDeviceCellularSimsSimFailover(_BaseSchema):
+    """SIM Failover settings."""
+
+    enabled: bool | None = None
+    timeout: int | None = None
+
+
+class UpdateDeviceCellularSimsSimsItem(_BaseSchema):
+    """Item schema for sims."""
+
+    slot: str | None = None
+    is_primary: bool | None = Field(default=None, alias="isPrimary")
+    apns: list[DevicesSimsApnsItem] | None = None
+    sim_order: int | None = Field(default=None, alias="simOrder")
+
+
 class UpdateDeviceManagementInterfaceResponse(_BaseSchema):
     """Response for updateDeviceManagementInterface operation."""
 
@@ -559,6 +698,30 @@ class UpdateDeviceManagementInterfaceResponse(_BaseSchema):
     )
     wan1: GetDeviceManagementInterfaceResponseWan1 | None = None
     wan2: GetDeviceManagementInterfaceResponseWan1 | None = None
+
+
+class UpdateDeviceManagementInterfaceWan1(_BaseSchema):
+    """WAN 1 settings."""
+
+    wan_enabled: str | None = Field(default=None, alias="wanEnabled")
+    using_static_ip: bool | None = Field(default=None, alias="usingStaticIp")
+    static_ip: str | None = Field(default=None, alias="staticIp")
+    static_gateway_ip: str | None = Field(default=None, alias="staticGatewayIp")
+    static_subnet_mask: str | None = Field(default=None, alias="staticSubnetMask")
+    static_dns: list[str] | None = Field(default=None, alias="staticDns")
+    vlan: int | None = None
+
+
+class UpdateDeviceManagementInterfaceWan2(_BaseSchema):
+    """WAN 2 settings (only for MX devices)."""
+
+    wan_enabled: str | None = Field(default=None, alias="wanEnabled")
+    using_static_ip: bool | None = Field(default=None, alias="usingStaticIp")
+    static_ip: str | None = Field(default=None, alias="staticIp")
+    static_gateway_ip: str | None = Field(default=None, alias="staticGatewayIp")
+    static_subnet_mask: str | None = Field(default=None, alias="staticSubnetMask")
+    static_dns: list[str] | None = Field(default=None, alias="staticDns")
+    vlan: int | None = None
 
 
 class UpdateDeviceResponse(_BaseSchema):

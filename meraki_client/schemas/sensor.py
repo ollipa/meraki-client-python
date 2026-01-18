@@ -23,6 +23,23 @@ class CreateDeviceSensorCommandResponse(_BaseSchema):
     errors: list[str] | None = None
 
 
+class CreateNetworkSensorAlertsProfileConditionsItem(_BaseSchema):
+    """Item schema for conditions."""
+
+    metric: str
+    threshold: SensorThreshold
+    direction: str | None = None
+    duration: int | None = None
+
+
+class CreateNetworkSensorAlertsProfileRecipients(_BaseSchema):
+    """List of recipients that will receive the alert."""
+
+    emails: list[str] | None = None
+    sms_numbers: list[str] | None = Field(default=None, alias="smsNumbers")
+    http_server_ids: list[str] | None = Field(default=None, alias="httpServerIds")
+
+
 class CreateNetworkSensorAlertsProfileResponse(_BaseSchema):
     """Response for createNetworkSensorAlertsProfile operation."""
 
@@ -34,6 +51,12 @@ class CreateNetworkSensorAlertsProfileResponse(_BaseSchema):
     serials: list[str] | None = None
     include_sensor_url: bool | None = Field(default=None, alias="includeSensorUrl")
     message: str | None = None
+
+
+class CreateNetworkSensorAlertsProfileSchedule(_BaseSchema):
+    """The sensor schedule to use with the alert profile."""
+
+    id_: str | None = Field(default=None, alias="id")
 
 
 class GetDeviceSensorCommandResponse(_BaseSchema):
@@ -603,10 +626,44 @@ class SensorWater2(_BaseSchema):
     present: bool | None = None
 
 
+class UpdateDeviceSensorRelationshipsLivestream(_BaseSchema):
+    """A role defined between an MT sensor and an MV camera that adds the camera's livestream to
+    the sensor's details page. Snapshots from the camera will also appear in alert notifications
+    that the sensor triggers.
+    """
+
+    related_devices: list[UpdateDeviceSensorRelationshipsLivestreamRelatedDevicesItem] | None = (
+        Field(default=None, alias="relatedDevices")
+    )
+
+
+class UpdateDeviceSensorRelationshipsLivestreamRelatedDevicesItem(_BaseSchema):
+    """Schema for UpdateDeviceSensorRelationshipsLivestreamRelatedDevicesItem."""
+
+    serial: str
+
+
 class UpdateDeviceSensorRelationshipsResponse(_BaseSchema):
     """Response for updateDeviceSensorRelationships operation."""
 
     livestream: GetDeviceSensorRelationshipsResponseLivestream | None = None
+
+
+class UpdateNetworkSensorAlertsProfileConditionsItem(_BaseSchema):
+    """Item schema for conditions."""
+
+    metric: str
+    threshold: SensorThreshold
+    direction: str | None = None
+    duration: int | None = None
+
+
+class UpdateNetworkSensorAlertsProfileRecipients(_BaseSchema):
+    """List of recipients that will receive the alert."""
+
+    emails: list[str] | None = None
+    sms_numbers: list[str] | None = Field(default=None, alias="smsNumbers")
+    http_server_ids: list[str] | None = Field(default=None, alias="httpServerIds")
 
 
 class UpdateNetworkSensorAlertsProfileResponse(_BaseSchema):
@@ -620,6 +677,12 @@ class UpdateNetworkSensorAlertsProfileResponse(_BaseSchema):
     serials: list[str] | None = None
     include_sensor_url: bool | None = Field(default=None, alias="includeSensorUrl")
     message: str | None = None
+
+
+class UpdateNetworkSensorAlertsProfileSchedule(_BaseSchema):
+    """The sensor schedule to use with the alert profile."""
+
+    id_: str | None = Field(default=None, alias="id")
 
 
 class UpdateNetworkSensorMqttBrokerResponse(_BaseSchema):
