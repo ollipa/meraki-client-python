@@ -14,6 +14,7 @@ from openapi_pydantic.v3.v3_0 import OpenAPI, Operation, Reference
 from pydantic.alias_generators import to_snake
 
 from codegen.constants import RESERVED_NAMES
+from codegen.utils import sanitize_text
 
 if TYPE_CHECKING:
     from codegen.main import Templates
@@ -22,6 +23,7 @@ log = logging.getLogger("codegen")
 
 SCHEMA_DOCSTRING_WIDTH = 96
 MAX_CLASS_NAME_LENGTH = 80
+TYPE_MAP = {"string": "str", "integer": "int", "number": "float", "boolean": "bool"}
 
 
 class SchemaStatus(Enum):
@@ -431,14 +433,14 @@ def _get_python_type(
 def _get_simple_type(schema: dict[str, Any]) -> str:
     """Get Python type for simple (non-class) schema types."""
     schema_type = schema.get("type")
-    type_map = {"string": "str", "integer": "int", "number": "float", "boolean": "bool"}
-    if schema_type in type_map:
-        return type_map[schema_type]
+    if schema_type in TYPE_MAP:
+        return TYPE_MAP[schema_type]
     if schema_type == "array":
         item_type = _get_simple_type(schema.get("items", {}))
         return f"list[{item_type}]"
     if schema_type == "object":
         return "dict[str, Any]"
+    log.warning(f"Unknown schema type: {schema_type}")
     return "Any"
 
 
@@ -558,7 +560,7 @@ def _format_docstring(doc: str, *, as_lines: bool = False) -> str | list[str]:
     if not doc:
         return [] if as_lines else ""
 
-    doc = _sanitize_text(doc)
+    doc = sanitize_text(doc)
     indent = "    "
     max_single_line = SCHEMA_DOCSTRING_WIDTH - len(indent) - 6
 
@@ -579,15 +581,6 @@ def _format_docstring(doc: str, *, as_lines: bool = False) -> str | list[str]:
     lines.append("")
 
     return lines if as_lines else "\n".join(lines) + "\n"
-
-
-def _sanitize_text(text: str) -> str:
-    """Clean up text from OpenAPI spec."""
-    text = text.replace("\u00a0", " ").replace("\u2007", " ").replace("\u202f", " ")
-    text = " ".join(text.split())
-    if not text.endswith("."):
-        text += "."
-    return text
 
 
 def _compute_fingerprint(schema: dict[str, Any], scope: str) -> str:

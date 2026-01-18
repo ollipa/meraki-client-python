@@ -35,6 +35,7 @@ from codegen.constants import RESERVED_NAMES
 from codegen.log_config import setup_logging
 from codegen.schema_gen import SchemaRegistry, generate_response_schemas, get_response_schema_name
 from codegen.schemas import BatchableAction
+from codegen.utils import sanitize_text
 
 setup_logging()
 log = logging.getLogger("codegen")
@@ -373,7 +374,7 @@ def generate_module(  # noqa: PLR0915
                 log.warning(f"Operation ID is missing for path: {path}")
                 continue
 
-            description = sanitize_description(str(endpoint.summary))
+            description = sanitize_text(str(endpoint.summary))
             resource_path = convert_path_params(path)
             function_definition = FunctionDefinition()
             is_paginated = collect_params(
@@ -739,24 +740,9 @@ def get_return_type(
     return "None"
 
 
-def sanitize_description(text: str) -> str:
-    """Clean up description text from OpenAPI spec."""
-    # Replace NO-BREAK SPACE (U+00A0) and other problematic whitespace with regular space
-    text = text.replace("\u00a0", " ").replace("\u2007", " ").replace("\u202f", " ")
-    # Strip leading/trailing whitespace and normalize internal whitespace
-    text = " ".join(text.split())
-    # Add a period if it doesn't end with one
-    if not text.endswith("."):
-        text += "."
-    return text
-
-
 def format_param_description(name: str, description: str) -> str:
     """Format a parameter description for Google-style docstring with line wrapping."""
-    description = sanitize_description(description)
-    if not description.endswith("."):
-        description += "."
-    first_line = f"{name}: {description}"
+    first_line = f"{name}: {sanitize_text(description)}"
     if len(first_line) <= DOCSTRING_LINE_WIDTH:
         return first_line
 
