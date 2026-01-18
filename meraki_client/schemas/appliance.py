@@ -743,16 +743,10 @@ class GetDeviceApplianceUplinksSettingsResponseInterfaces(_BaseSchema):
     wan2: ApplianceInterfacesWan1 | None = None
 
 
-class GetNetworkApplianceClientSecurityEventsResponse(
-    RootModel[list["GetNetworkApplianceClientSecurityEventsResponseItem"]]
-):
+class GetNetworkApplianceClientSecurityEventsResponse(RootModel[list[dict[str, Any]]]):
     """List the security events for a client. Clients can be identified by a client key or either
     the MAC or IP depending on whether the network uses Track-by-IP.
     """
-
-
-class GetNetworkApplianceClientSecurityEventsResponseItem(_BaseSchema):
-    """Schema for GetNetworkApplianceClientSecurityEventsResponseItem."""
 
 
 class GetNetworkApplianceConnectivityMonitoringDestinationsResponse(_BaseSchema):
@@ -965,14 +959,8 @@ class GetNetworkApplianceRfProfilesResponseAssignedItem(_BaseSchema):
     )
 
 
-class GetNetworkApplianceSecurityEventsResponse(
-    RootModel[list["GetNetworkApplianceSecurityEventsResponseItem"]]
-):
+class GetNetworkApplianceSecurityEventsResponse(RootModel[list[dict[str, Any]]]):
     """List the security events for a network."""
-
-
-class GetNetworkApplianceSecurityEventsResponseItem(_BaseSchema):
-    """Schema for GetNetworkApplianceSecurityEventsResponseItem."""
 
 
 class GetNetworkApplianceSecurityIntrusionResponse(_BaseSchema):
@@ -1464,14 +1452,8 @@ class GetOrganizationApplianceFirewallMulticastForwardingByNetworkResponseItemsI
     rules: list[UpdateNetworkApplianceFirewallMulticastForwardingResponseRulesItem]
 
 
-class GetOrganizationApplianceSecurityEventsResponse(
-    RootModel[list["GetOrganizationApplianceSecurityEventsResponseItem"]]
-):
+class GetOrganizationApplianceSecurityEventsResponse(RootModel[list[dict[str, Any]]]):
     """List the security events for an organization."""
-
-
-class GetOrganizationApplianceSecurityEventsResponseItem(_BaseSchema):
-    """Schema for GetOrganizationApplianceSecurityEventsResponseItem."""
 
 
 class GetOrganizationApplianceTrafficShapingVpnExclusionsByNetworkResponse(_BaseSchema):

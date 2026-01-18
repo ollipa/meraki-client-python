@@ -882,13 +882,24 @@ class GetNetworkNetworkHealthChannelUtilizationResponseItem(_BaseSchema):
     wifi1: list[NetworksWifi0Item] | None = None
 
 
-class GetNetworkPiiPiiKeysResponse(_BaseSchema):
+class GetNetworkPiiPiiKeysResponse(RootModel[dict[str, "GetNetworkPiiPiiKeysResponseValue"]]):
     """List the keys required to access Personally Identifiable Information (PII) for a given
     identifier. Exactly one identifier will be accepted. If the organization contains org-wide
     Systems Manager users matching the key provided then there will be an entry with the key "0"
     containing the applicable keys. ## ALTERNATE PATH ```
     /organizations/{organizationId}/pii/piiKeys ```.
     """
+
+
+class GetNetworkPiiPiiKeysResponseValue(_BaseSchema):
+    """List of pii keys."""
+
+    macs: list[str] | None = None
+    emails: list[str] | None = None
+    usernames: list[str] | None = None
+    serials: list[str] | None = None
+    imeis: list[str] | None = None
+    bluetooth_macs: list[str] | None = Field(default=None, alias="bluetoothMacs")
 
 
 class GetNetworkPiiRequestResponse(_BaseSchema):
@@ -927,7 +938,7 @@ class GetNetworkPiiRequestsResponseItem(_BaseSchema):
     completed_at: int | None = Field(default=None, alias="completedAt")
 
 
-class GetNetworkPiiSmDevicesForKeyResponse(_BaseSchema):
+class GetNetworkPiiSmDevicesForKeyResponse(RootModel[dict[str, list[str]]]):
     """Given a piece of Personally Identifiable Information (PII), return the Systems Manager
     device ID(s) associated with that identifier. These device IDs can be used with the Systems
     Manager API endpoints to retrieve device details. Exactly one identifier will be accepted.
@@ -935,7 +946,7 @@ class GetNetworkPiiSmDevicesForKeyResponse(_BaseSchema):
     """
 
 
-class GetNetworkPiiSmOwnersForKeyResponse(_BaseSchema):
+class GetNetworkPiiSmOwnersForKeyResponse(RootModel[dict[str, list[str]]]):
     """Given a piece of Personally Identifiable Information (PII), return the Systems Manager owner
     ID(s) associated with that identifier. These owner IDs can be used with the Systems Manager
     API endpoints to retrieve owner details. Exactly one identifier will be accepted. ##

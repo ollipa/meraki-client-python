@@ -29,7 +29,7 @@ from meraki_client.schemas import (
     GetDeviceAppliancePrefixesDelegatedVlanAssignmentsResponse,
     GetDeviceApplianceRadioSettingsResponse,
     GetDeviceApplianceUplinksSettingsResponse,
-    GetNetworkApplianceClientSecurityEventsResponseItem,
+    GetNetworkApplianceClientSecurityEventsResponse,
     GetNetworkApplianceConnectivityMonitoringDestinationsResponse,
     GetNetworkApplianceContentFilteringResponse,
     GetNetworkApplianceFirewallFirewalledServiceResponse,
@@ -44,7 +44,7 @@ from meraki_client.schemas import (
     GetNetworkAppliancePrefixesDelegatedStaticsResponse,
     GetNetworkApplianceRfProfileResponse,
     GetNetworkApplianceRfProfilesResponse,
-    GetNetworkApplianceSecurityEventsResponseItem,
+    GetNetworkApplianceSecurityEventsResponse,
     GetNetworkApplianceSecurityIntrusionResponse,
     GetNetworkApplianceSecurityMalwareResponse,
     GetNetworkApplianceSettingsResponse,
@@ -70,7 +70,7 @@ from meraki_client.schemas import (
     GetOrganizationApplianceDnsSplitProfilesAssignmentsResponse,
     GetOrganizationApplianceDnsSplitProfilesResponse,
     GetOrganizationApplianceFirewallMulticastForwardingByNetworkResponseItemsItem,
-    GetOrganizationApplianceSecurityEventsResponseItem,
+    GetOrganizationApplianceSecurityEventsResponse,
     GetOrganizationApplianceTrafficShapingVpnExclusionsByNetworkResponseItemsItem,
     GetOrganizationApplianceUplinksStatusesOverviewResponse,
     GetOrganizationApplianceUplinkStatusesResponseItem,
@@ -376,7 +376,7 @@ class Appliance:
         sort_order: str | None = None,
         total_pages: int | Literal["all"] = 1,
         direction: Literal["prev", "next"] = "next",
-    ) -> PaginatedResponse[GetNetworkApplianceClientSecurityEventsResponseItem]:
+    ) -> PaginatedResponse[GetNetworkApplianceClientSecurityEventsResponse]:
         """List the security events for a client.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-client-security-events
@@ -440,7 +440,7 @@ class Appliance:
             params=params,
             total_pages=total_pages,
             direction=direction,
-            item_schema=GetNetworkApplianceClientSecurityEventsResponseItem,
+            item_schema=GetNetworkApplianceClientSecurityEventsResponse,
         )
 
     def get_network_appliance_connectivity_monitoring_destinations(
@@ -1566,7 +1566,7 @@ class Appliance:
         sort_order: str | None = None,
         total_pages: int | Literal["all"] = 1,
         direction: Literal["prev", "next"] = "next",
-    ) -> PaginatedResponse[GetNetworkApplianceSecurityEventsResponseItem]:
+    ) -> PaginatedResponse[GetNetworkApplianceSecurityEventsResponse]:
         """List the security events for a network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-security-events
@@ -1628,7 +1628,7 @@ class Appliance:
             params=params,
             total_pages=total_pages,
             direction=direction,
-            item_schema=GetNetworkApplianceSecurityEventsResponseItem,
+            item_schema=GetNetworkApplianceSecurityEventsResponse,
         )
 
     def get_network_appliance_security_intrusion(
@@ -3879,7 +3879,7 @@ class Appliance:
         sort_order: str | None = None,
         total_pages: int | Literal["all"] = 1,
         direction: Literal["prev", "next"] = "next",
-    ) -> PaginatedResponse[GetOrganizationApplianceSecurityEventsResponseItem]:
+    ) -> PaginatedResponse[GetOrganizationApplianceSecurityEventsResponse]:
         """List the security events for an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-security-events
@@ -3941,7 +3941,7 @@ class Appliance:
             params=params,
             total_pages=total_pages,
             direction=direction,
-            item_schema=GetOrganizationApplianceSecurityEventsResponseItem,
+            item_schema=GetOrganizationApplianceSecurityEventsResponse,
         )
 
     def get_organization_appliance_security_intrusion(

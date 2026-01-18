@@ -246,6 +246,60 @@ def _generate_array_schema(
     )
 
 
+def _generate_dict_schema(
+    *,
+    class_name: str,
+    value_schema: dict[str, Any],
+    schemas: dict[str, str],
+    schema_to_scope: dict[str, str],
+    schema_fingerprints: dict[str, str],
+    scope: str,
+    docstring: str,
+    depth: int,
+) -> ResponseSchemaInfo | None:
+    """Generate a RootModel schema for dict/map responses with additionalProperties."""
+    value_class_name = class_name + "Value"
+
+    if value_schema.get("type") == "object" and value_schema.get("properties"):
+        value_info = _generate_schema_class(
+            class_name=value_class_name,
+            schema=value_schema,
+            schemas=schemas,
+            schema_to_scope=schema_to_scope,
+            schema_fingerprints=schema_fingerprints,
+            scope=scope,
+            depth=depth + 1,
+        )
+        if value_info:
+            value_type = value_class_name
+        else:
+            value_type = "dict[str, Any]"
+            value_class_name = None
+    else:
+        value_type = _get_simple_type(value_schema)
+        value_class_name = None
+
+    doc_lines = _format_docstring(docstring)
+    body = "" if doc_lines else "    pass\n"
+    type_param = f'"{value_type}"' if value_class_name else value_type
+    definition = f"class {class_name}(RootModel[dict[str, {type_param}]]):\n{doc_lines}{body}"
+
+    if not _register_schema(
+        name=class_name,
+        definition=definition,
+        schemas=schemas,
+        schema_to_scope=schema_to_scope,
+        scope=scope,
+    ):
+        return None
+
+    return ResponseSchemaInfo(
+        schema_class_name=class_name,
+        is_array=False,
+        item_class_names=[value_class_name] if value_class_name else None,
+    )
+
+
 def _generate_object_schema(
     *,
     class_name: str,
@@ -260,8 +314,20 @@ def _generate_object_schema(
     """Generate a _BaseSchema class for object responses."""
     properties = schema.get("properties", {})
 
-    if not properties and "additionalProperties" not in schema:
-        return None
+    if not properties:
+        additional_props = schema.get("additionalProperties")
+        if not isinstance(additional_props, dict):
+            return None
+        return _generate_dict_schema(
+            class_name=class_name,
+            value_schema=additional_props,
+            schemas=schemas,
+            schema_to_scope=schema_to_scope,
+            schema_fingerprints=schema_fingerprints,
+            scope=scope,
+            docstring=docstring,
+            depth=depth,
+        )
 
     lines = [f"class {class_name}(_BaseSchema):"]
     if docstring:
@@ -270,31 +336,27 @@ def _generate_object_schema(
     required = set(schema.get("required", []))
     item_class_names: list[str] = []
 
-    if not properties:
-        if not docstring:
-            lines.append("    pass")
-    else:
-        for prop_name, prop_schema in properties.items():
-            field_def, field_type = _generate_field(
-                prop_name=prop_name,
-                prop_schema=prop_schema,
-                schemas=schemas,
-                parent_class=class_name,
-                schema_to_scope=schema_to_scope,
-                schema_fingerprints=schema_fingerprints,
-                scope=scope,
-                depth=depth,
-                is_required=prop_name in required,
-            )
-            lines.append(f"    {field_def}")
+    for prop_name, prop_schema in properties.items():
+        field_def, field_type = _generate_field(
+            prop_name=prop_name,
+            prop_schema=prop_schema,
+            schemas=schemas,
+            parent_class=class_name,
+            schema_to_scope=schema_to_scope,
+            schema_fingerprints=schema_fingerprints,
+            scope=scope,
+            depth=depth,
+            is_required=prop_name in required,
+        )
+        lines.append(f"    {field_def}")
 
-            if (
-                prop_schema.get("type") == "array"
-                and prop_schema.get("items", {}).get("type") == "object"
-                and prop_schema.get("items", {}).get("properties")
-                and field_type.startswith("list[")
-            ):
-                item_class_names.append(field_type[5:-1])
+        if (
+            prop_schema.get("type") == "array"
+            and prop_schema.get("items", {}).get("type") == "object"
+            and prop_schema.get("items", {}).get("properties")
+            and field_type.startswith("list[")
+        ):
+            item_class_names.append(field_type[5:-1])
 
     if not _register_schema(
         name=class_name,

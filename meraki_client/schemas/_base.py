@@ -10,4 +10,4 @@ from pydantic import BaseModel, ConfigDict
 class _BaseSchema(BaseModel):
     """Base class for all response schemas."""
 
-    model_config = ConfigDict(extra="ignore", populate_by_name=True)
+    model_config = ConfigDict(extra="allow", populate_by_name=True)
