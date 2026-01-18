@@ -12,7 +12,7 @@ from meraki_client.schemas._base import _BaseSchema
 
 
 class CreateOrganizationNacCertificatesAuthoritiesCrlResponse(_BaseSchema):
-    """Create a new CRL (either base or delta) for an existing CA."""
+    """Response for createOrganizationNacCertificatesAuthoritiesCrl operation."""
 
     crl_id: str = Field(alias="crlId")
     data: list[CreateOrganizationNacCertificatesAuthoritiesCrlResponseDataItem]

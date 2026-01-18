@@ -98,16 +98,16 @@ def generate_response_schemas(
                 continue
 
             operation_id = operation.operationId
-            scope = operation.tags[0] if operation.tags else "common"
+            scope = operation.tags[0] if operation.tags else None
+            if not scope:
+                log.warning(f"Operation {operation_id} has no tags")
+                continue
 
             response_schema = _extract_response_schema(operation)
             if not response_schema:
                 continue
 
             class_name = get_response_schema_name(operation_id)
-            description = (
-                operation.description or operation.summary or f"Response for {operation_id}."
-            )
             ctx = GenerationContext(
                 schemas=schemas,
                 schema_to_scope=schema_to_scope,
@@ -115,7 +115,10 @@ def generate_response_schemas(
                 scope=scope,
             )
             result = _generate_schema_class(
-                ctx, class_name=class_name, schema=response_schema, description=description
+                ctx,
+                class_name=class_name,
+                schema=response_schema,
+                description=f"Response for {operation_id} operation.",
             )
             if result.status != SchemaStatus.SKIPPED:
                 if result.item_class_names:
@@ -138,9 +141,6 @@ def generate_response_schemas(
 
 def _extract_response_schema(operation: Operation) -> dict[str, Any] | None:
     """Extract the response schema from the operation's 2xx response."""
-    if not operation.responses:
-        return None
-
     found_schema: dict[str, Any] | None = None
     found_status: str | None = None
 
@@ -154,14 +154,18 @@ def _extract_response_schema(operation: Operation) -> dict[str, Any] | None:
 
         content = response.content
         if not content:
+            if status_code not in ["202", "204"]:
+                log.warning(f"Operation {operation.operationId} has no content for {status_code}")
             continue
 
         json_content = content.get("application/json")
         if not json_content:
+            log.warning(f"Operation {operation.operationId} has no JSON content for {status_code}")
             continue
 
         schema = json_content.media_type_schema
         if not schema:
+            log.warning(f"Operation {operation.operationId} has no schema for {status_code}")
             continue
         if isinstance(schema, Reference):
             raise ValueError(
@@ -183,7 +187,7 @@ def _generate_schema_class(
     *,
     class_name: str,
     schema: dict[str, Any],
-    description: str = "",
+    description: str | None = None,
 ) -> SchemaResult:
     """Generate a Pydantic model class from an OpenAPI schema."""
     schema_type = schema.get("type")

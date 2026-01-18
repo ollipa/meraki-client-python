@@ -12,7 +12,7 @@ from meraki_client.schemas._base import _BaseSchema
 
 
 class GetOrganizationSpacesIntegrateStatusResponse(_BaseSchema):
-    """Get the status of the Spaces integration in Meraki."""
+    """Response for getOrganizationSpacesIntegrateStatus operation."""
 
     status: bool | None = None
     states: list[str] | None = None
@@ -22,7 +22,7 @@ class GetOrganizationSpacesIntegrateStatusResponse(_BaseSchema):
 
 
 class RemoveOrganizationSpacesIntegrationResponse(_BaseSchema):
-    """Remove the Spaces integration from Meraki."""
+    """Response for removeOrganizationSpacesIntegration operation."""
 
     status: bool | None = None
     message: str | None = None

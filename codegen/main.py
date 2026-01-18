@@ -217,7 +217,7 @@ def generate_library(  # noqa: PLR0915
             # First tag is the scope
             scope = operation.tags[0] if operation.tags else None
             if not scope:
-                log.warning(f"Path {path} has no tags")
+                log.warning(f"Operation {operation.operationId} has no tags")
                 continue
             scopes.setdefault(scope, {}).setdefault(path, {})[method] = operation
             operation_count += 1

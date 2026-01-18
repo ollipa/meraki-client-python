@@ -30,11 +30,7 @@ class AdministeredKey(_BaseSchema):
 
 
 class GenerateAdministeredIdentitiesMeApiKeysResponse(_BaseSchema):
-    """Generates an API key for an identity. For users who have access to more than one
-    organization, the change will take up to five minutes to propagate. If one of the
-    organizations is currently under maintenance, the change may not propagate fully until after
-    the maintenance has been completed.
-    """
+    """Response for generateAdministeredIdentitiesMeApiKeys operation."""
 
     key: str | None = None
 
@@ -42,7 +38,7 @@ class GenerateAdministeredIdentitiesMeApiKeysResponse(_BaseSchema):
 class GetAdministeredIdentitiesMeApiKeysResponse(
     RootModel[list["GetAdministeredIdentitiesMeApiKeysResponseItem"]]
 ):
-    """List the non-sensitive metadata associated with the API keys that belong to the user."""
+    """Response for getAdministeredIdentitiesMeApiKeys operation."""
 
 
 class GetAdministeredIdentitiesMeApiKeysResponseItem(_BaseSchema):
@@ -53,7 +49,7 @@ class GetAdministeredIdentitiesMeApiKeysResponseItem(_BaseSchema):
 
 
 class GetAdministeredIdentitiesMeResponse(_BaseSchema):
-    """Returns the identity of the current user."""
+    """Response for getAdministeredIdentitiesMe operation."""
 
     name: str | None = None
     email: str | None = None

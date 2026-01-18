@@ -14,7 +14,7 @@ from meraki_client.schemas._base import _BaseSchema
 
 
 class AddNetworkSwitchStackResponse(_BaseSchema):
-    """Add a switch to a stack."""
+    """Response for addNetworkSwitchStack operation."""
 
     id_: str | None = Field(default=None, alias="id")
     name: str | None = None
@@ -25,17 +25,14 @@ class AddNetworkSwitchStackResponse(_BaseSchema):
 
 
 class CloneOrganizationSwitchDevicesResponse(_BaseSchema):
-    """Clone port-level and some switch-level configuration settings from a source switch to one or
-    more target switches. Cloned settings include: Aggregation Groups, Power Settings, Multicast
-    Settings, MTU Configuration, STP Bridge priority, Port Mirroring.
-    """
+    """Response for cloneOrganizationSwitchDevices operation."""
 
     source_serial: str | None = Field(default=None, alias="sourceSerial")
     target_serials: list[str] | None = Field(default=None, alias="targetSerials")
 
 
 class CreateDeviceSwitchRoutingInterfaceResponse(_BaseSchema):
-    """Create a layer 3 interface for a switch."""
+    """Response for createDeviceSwitchRoutingInterface operation."""
 
     interface_id: str | None = Field(default=None, alias="interfaceId")
     name: str | None = None
@@ -57,7 +54,7 @@ class CreateDeviceSwitchRoutingInterfaceResponse(_BaseSchema):
 
 
 class CreateDeviceSwitchRoutingStaticRouteResponse(_BaseSchema):
-    """Create a layer 3 static route for a switch."""
+    """Response for createDeviceSwitchRoutingStaticRoute operation."""
 
     static_route_id: str = Field(alias="staticRouteId")
     name: str | None = None
@@ -72,9 +69,7 @@ class CreateDeviceSwitchRoutingStaticRouteResponse(_BaseSchema):
 
 
 class CreateNetworkSwitchAccessPolicyResponse(_BaseSchema):
-    """Create an access policy for a switch network. If you would like to enable Meraki
-    Authentication, set radiusServers to empty array.
-    """
+    """Response for createNetworkSwitchAccessPolicy operation."""
 
     access_policy_number: str | None = Field(default=None, alias="accessPolicyNumber")
     name: str | None = None
@@ -109,7 +104,7 @@ class CreateNetworkSwitchAccessPolicyResponse(_BaseSchema):
 
 
 class CreateNetworkSwitchDhcpServerPolicyArpInspectionTrustedServerResponse(_BaseSchema):
-    """Add a server to be trusted by Dynamic ARP Inspection on this network."""
+    """Response for createNetworkSwitchDhcpServerPolicyArpInspectionTrustedServer operation."""
 
     trusted_server_id: str | None = Field(default=None, alias="trustedServerId")
     mac: str | None = None
@@ -118,14 +113,14 @@ class CreateNetworkSwitchDhcpServerPolicyArpInspectionTrustedServerResponse(_Bas
 
 
 class CreateNetworkSwitchLinkAggregationResponse(_BaseSchema):
-    """Create a link aggregation group."""
+    """Response for createNetworkSwitchLinkAggregation operation."""
 
     id_: str | None = Field(default=None, alias="id")
     switch_ports: list[SwitchSwitchPortsItem] | None = Field(default=None, alias="switchPorts")
 
 
 class CreateNetworkSwitchPortScheduleResponse(_BaseSchema):
-    """Add a switch port schedule."""
+    """Response for createNetworkSwitchPortSchedule operation."""
 
     id_: str | None = Field(default=None, alias="id")
     network_id: str | None = Field(default=None, alias="networkId")
@@ -134,7 +129,7 @@ class CreateNetworkSwitchPortScheduleResponse(_BaseSchema):
 
 
 class CreateNetworkSwitchQosRuleResponse(_BaseSchema):
-    """Add a quality of service rule."""
+    """Response for createNetworkSwitchQosRule operation."""
 
     id_: str | None = Field(default=None, alias="id")
     vlan: int | None = None
@@ -147,7 +142,7 @@ class CreateNetworkSwitchQosRuleResponse(_BaseSchema):
 
 
 class CreateNetworkSwitchRoutingMulticastRendezvousPointResponse(_BaseSchema):
-    """Create a multicast rendezvous point."""
+    """Response for createNetworkSwitchRoutingMulticastRendezvousPoint operation."""
 
     rendezvous_point_id: str | None = Field(default=None, alias="rendezvousPointId")
     serial: str | None = None
@@ -157,7 +152,7 @@ class CreateNetworkSwitchRoutingMulticastRendezvousPointResponse(_BaseSchema):
 
 
 class CreateNetworkSwitchStackResponse(_BaseSchema):
-    """Create a switch stack."""
+    """Response for createNetworkSwitchStack operation."""
 
     id_: str | None = Field(default=None, alias="id")
     name: str | None = None
@@ -166,7 +161,7 @@ class CreateNetworkSwitchStackResponse(_BaseSchema):
 
 
 class CreateNetworkSwitchStackRoutingInterfaceResponse(_BaseSchema):
-    """Create a layer 3 interface for a switch stack."""
+    """Response for createNetworkSwitchStackRoutingInterface operation."""
 
     interface_id: str | None = Field(default=None, alias="interfaceId")
     name: str | None = None
@@ -188,7 +183,7 @@ class CreateNetworkSwitchStackRoutingInterfaceResponse(_BaseSchema):
 
 
 class CreateNetworkSwitchStackRoutingStaticRouteResponse(_BaseSchema):
-    """Create a layer 3 static route for a switch stack."""
+    """Response for createNetworkSwitchStackRoutingStaticRoute operation."""
 
     static_route_id: str = Field(alias="staticRouteId")
     name: str | None = None
@@ -203,13 +198,13 @@ class CreateNetworkSwitchStackRoutingStaticRouteResponse(_BaseSchema):
 
 
 class CycleDeviceSwitchPortsResponse(_BaseSchema):
-    """Cycle a set of switch ports."""
+    """Response for cycleDeviceSwitchPorts operation."""
 
     ports: list[str] | None = None
 
 
 class GetDeviceSwitchPortResponse(_BaseSchema):
-    """Return a switch port."""
+    """Response for getDeviceSwitchPort operation."""
 
     port_id: str | None = Field(default=None, alias="portId")
     name: str | None = None
@@ -251,7 +246,7 @@ class GetDeviceSwitchPortResponse(_BaseSchema):
 
 
 class GetDeviceSwitchPortsResponse(RootModel[list["GetDeviceSwitchPortsResponseItem"]]):
-    """List the switch ports for a switch."""
+    """Response for getDeviceSwitchPorts operation."""
 
 
 class GetDeviceSwitchPortsResponseItem(_BaseSchema):
@@ -299,7 +294,7 @@ class GetDeviceSwitchPortsResponseItem(_BaseSchema):
 class GetDeviceSwitchPortsStatusesPacketsResponse(
     RootModel[list["GetDeviceSwitchPortsStatusesPacketsResponseItem"]]
 ):
-    """Return the packet counters for all the ports of a switch."""
+    """Response for getDeviceSwitchPortsStatusesPackets operation."""
 
 
 class GetDeviceSwitchPortsStatusesPacketsResponseItem(_BaseSchema):
@@ -312,7 +307,7 @@ class GetDeviceSwitchPortsStatusesPacketsResponseItem(_BaseSchema):
 class GetDeviceSwitchPortsStatusesResponse(
     RootModel[list["GetDeviceSwitchPortsStatusesResponseItem"]]
 ):
-    """Return the status for all the ports of a switch."""
+    """Response for getDeviceSwitchPortsStatuses operation."""
 
 
 class GetDeviceSwitchPortsStatusesResponseItem(_BaseSchema):
@@ -338,7 +333,7 @@ class GetDeviceSwitchPortsStatusesResponseItem(_BaseSchema):
 
 
 class GetDeviceSwitchRoutingInterfaceDhcpResponse(_BaseSchema):
-    """Return a layer 3 interface DHCP configuration for a switch."""
+    """Response for getDeviceSwitchRoutingInterfaceDhcp operation."""
 
     dhcp_mode: str | None = Field(default=None, alias="dhcpMode")
     dhcp_relay_server_ips: list[str] | None = Field(default=None, alias="dhcpRelayServerIps")
@@ -384,7 +379,7 @@ class GetDeviceSwitchRoutingInterfaceDhcpResponseReservedIpRangesItem(_BaseSchem
 
 
 class GetDeviceSwitchRoutingInterfaceResponse(_BaseSchema):
-    """Return a layer 3 interface for a switch."""
+    """Response for getDeviceSwitchRoutingInterface operation."""
 
     interface_id: str | None = Field(default=None, alias="interfaceId")
     name: str | None = None
@@ -408,9 +403,7 @@ class GetDeviceSwitchRoutingInterfaceResponse(_BaseSchema):
 class GetDeviceSwitchRoutingInterfacesResponse(
     RootModel[list["GetDeviceSwitchRoutingInterfacesResponseItem"]]
 ):
-    """List layer 3 interfaces for a switch. Those for a stack may be found under switch stack
-    routing.
-    """
+    """Response for getDeviceSwitchRoutingInterfaces operation."""
 
 
 class GetDeviceSwitchRoutingInterfacesResponseItem(_BaseSchema):
@@ -436,7 +429,7 @@ class GetDeviceSwitchRoutingInterfacesResponseItem(_BaseSchema):
 
 
 class GetDeviceSwitchRoutingStaticRouteResponse(_BaseSchema):
-    """Return a layer 3 static route for a switch."""
+    """Response for getDeviceSwitchRoutingStaticRoute operation."""
 
     static_route_id: str = Field(alias="staticRouteId")
     name: str | None = None
@@ -453,7 +446,7 @@ class GetDeviceSwitchRoutingStaticRouteResponse(_BaseSchema):
 class GetDeviceSwitchRoutingStaticRoutesResponse(
     RootModel[list["GetDeviceSwitchRoutingStaticRoutesResponseItem"]]
 ):
-    """List layer 3 static routes for a switch."""
+    """Response for getDeviceSwitchRoutingStaticRoutes operation."""
 
 
 class GetDeviceSwitchRoutingStaticRoutesResponseItem(_BaseSchema):
@@ -472,7 +465,7 @@ class GetDeviceSwitchRoutingStaticRoutesResponseItem(_BaseSchema):
 
 
 class GetDeviceSwitchWarmSpareResponse(_BaseSchema):
-    """Return warm spare configuration for a switch."""
+    """Response for getDeviceSwitchWarmSpare operation."""
 
     enabled: bool | None = None
     primary_serial: str | None = Field(default=None, alias="primarySerial")
@@ -480,7 +473,7 @@ class GetDeviceSwitchWarmSpareResponse(_BaseSchema):
 
 
 class GetNetworkSwitchAccessControlListsResponse(_BaseSchema):
-    """Return the access control lists for a MS network."""
+    """Response for getNetworkSwitchAccessControlLists operation."""
 
     rules: list[GetNetworkSwitchAccessControlListsResponseRulesItem] | None = None
 
@@ -502,9 +495,7 @@ class GetNetworkSwitchAccessControlListsResponseRulesItem(_BaseSchema):
 class GetNetworkSwitchAccessPoliciesResponse(
     RootModel[list["GetNetworkSwitchAccessPoliciesResponseItem"]]
 ):
-    """List the access policies for a switch network. Only returns access policies with 'my RADIUS
-    server' as authentication method.
-    """
+    """Response for getNetworkSwitchAccessPolicies operation."""
 
 
 class GetNetworkSwitchAccessPoliciesResponseItem(_BaseSchema):
@@ -543,7 +534,7 @@ class GetNetworkSwitchAccessPoliciesResponseItem(_BaseSchema):
 
 
 class GetNetworkSwitchAccessPolicyResponse(_BaseSchema):
-    """Return a specific access policy for a switch network."""
+    """Response for getNetworkSwitchAccessPolicy operation."""
 
     access_policy_number: str | None = Field(default=None, alias="accessPolicyNumber")
     name: str | None = None
@@ -578,7 +569,7 @@ class GetNetworkSwitchAccessPolicyResponse(_BaseSchema):
 
 
 class GetNetworkSwitchAlternateManagementInterfaceResponse(_BaseSchema):
-    """Return the switch alternate management interface for the network."""
+    """Response for getNetworkSwitchAlternateManagementInterface operation."""
 
     enabled: bool | None = None
     vlan_id: int | None = Field(default=None, alias="vlanId")
@@ -598,9 +589,7 @@ class GetNetworkSwitchAlternateManagementInterfaceResponseSwitchesItem(_BaseSche
 class GetNetworkSwitchDhcpServerPolicyArpInspectionTrustedServersResponse(
     RootModel[list["GetNetworkSwitchDhcpServerPolicyArpInspectionTrustedServersResponseItem"]]
 ):
-    """Return the list of servers trusted by Dynamic ARP Inspection on this network. These are also
-    known as allow listed snoop entries.
-    """
+    """Response for getNetworkSwitchDhcpServerPolicyArpInspectionTrustedServers operation."""
 
 
 class GetNetworkSwitchDhcpServerPolicyArpInspectionTrustedServersResponseItem(_BaseSchema):
@@ -615,7 +604,7 @@ class GetNetworkSwitchDhcpServerPolicyArpInspectionTrustedServersResponseItem(_B
 class GetNetworkSwitchDhcpServerPolicyArpInspectionWarningsByDeviceResponse(
     RootModel[list["GetNetworkSwitchDhcpServerPolicyArpInspectionWarningsByDeviceResponseItem"]]
 ):
-    """Return the devices that have a Dynamic ARP Inspection warning and their warnings."""
+    """Response for getNetworkSwitchDhcpServerPolicyArpInspectionWarningsByDevice operation."""
 
 
 class GetNetworkSwitchDhcpServerPolicyArpInspectionWarningsByDeviceResponseItem(_BaseSchema):
@@ -629,9 +618,7 @@ class GetNetworkSwitchDhcpServerPolicyArpInspectionWarningsByDeviceResponseItem(
 
 
 class GetNetworkSwitchDhcpServerPolicyResponse(_BaseSchema):
-    """Return the DHCP server settings. Blocked/allowed servers are only applied when default
-    policy is allow/block, respectively.
-    """
+    """Response for getNetworkSwitchDhcpServerPolicy operation."""
 
     alerts: GetNetworkSwitchDhcpServerPolicyResponseAlerts | None = None
     default_policy: str | None = Field(default=None, alias="defaultPolicy")
@@ -658,7 +645,7 @@ class GetNetworkSwitchDhcpServerPolicyResponseArpInspection(_BaseSchema):
 class GetNetworkSwitchDhcpV4ServersSeenResponse(
     RootModel[list["GetNetworkSwitchDhcpV4ServersSeenResponseItem"]]
 ):
-    """Return the network's DHCPv4 servers seen within the selected timeframe (default 1 day)."""
+    """Response for getNetworkSwitchDhcpV4ServersSeen operation."""
 
 
 class GetNetworkSwitchDhcpV4ServersSeenResponseItem(_BaseSchema):
@@ -679,7 +666,7 @@ class GetNetworkSwitchDhcpV4ServersSeenResponseItem(_BaseSchema):
 
 
 class GetNetworkSwitchDscpToCosMappingsResponse(_BaseSchema):
-    """Return the DSCP to CoS mappings."""
+    """Response for getNetworkSwitchDscpToCosMappings operation."""
 
     mappings: list[GetNetworkSwitchDscpToCosMappingsResponseMappingsItem] | None = None
 
@@ -695,7 +682,7 @@ class GetNetworkSwitchDscpToCosMappingsResponseMappingsItem(_BaseSchema):
 class GetNetworkSwitchLinkAggregationsResponse(
     RootModel[list["GetNetworkSwitchLinkAggregationsResponseItem"]]
 ):
-    """List link aggregation groups."""
+    """Response for getNetworkSwitchLinkAggregations operation."""
 
 
 class GetNetworkSwitchLinkAggregationsResponseItem(_BaseSchema):
@@ -706,7 +693,7 @@ class GetNetworkSwitchLinkAggregationsResponseItem(_BaseSchema):
 
 
 class GetNetworkSwitchMtuResponse(_BaseSchema):
-    """Return the MTU configuration."""
+    """Response for getNetworkSwitchMtu operation."""
 
     default_mtu_size: int | None = Field(default=None, alias="defaultMtuSize")
     overrides: list[GetNetworkSwitchMtuResponseOverridesItem] | None = None
@@ -723,7 +710,7 @@ class GetNetworkSwitchMtuResponseOverridesItem(_BaseSchema):
 class GetNetworkSwitchPortSchedulesResponse(
     RootModel[list["GetNetworkSwitchPortSchedulesResponseItem"]]
 ):
-    """List switch port schedules."""
+    """Response for getNetworkSwitchPortSchedules operation."""
 
 
 class GetNetworkSwitchPortSchedulesResponseItem(_BaseSchema):
@@ -736,7 +723,7 @@ class GetNetworkSwitchPortSchedulesResponseItem(_BaseSchema):
 
 
 class GetNetworkSwitchQosRuleResponse(_BaseSchema):
-    """Return a quality of service rule."""
+    """Response for getNetworkSwitchQosRule operation."""
 
     id_: str | None = Field(default=None, alias="id")
     vlan: int | None = None
@@ -749,15 +736,13 @@ class GetNetworkSwitchQosRuleResponse(_BaseSchema):
 
 
 class GetNetworkSwitchQosRulesOrderResponse(_BaseSchema):
-    """Return the quality of service rule IDs by order in which they will be processed by the
-    switch.
-    """
+    """Response for getNetworkSwitchQosRulesOrder operation."""
 
     rule_ids: list[str] | None = Field(default=None, alias="ruleIds")
 
 
 class GetNetworkSwitchQosRulesResponse(RootModel[list["GetNetworkSwitchQosRulesResponseItem"]]):
-    """List quality of service rules."""
+    """Response for getNetworkSwitchQosRules operation."""
 
 
 class GetNetworkSwitchQosRulesResponseItem(_BaseSchema):
@@ -774,7 +759,7 @@ class GetNetworkSwitchQosRulesResponseItem(_BaseSchema):
 
 
 class GetNetworkSwitchRoutingMulticastRendezvousPointResponse(_BaseSchema):
-    """Return a multicast rendezvous point."""
+    """Response for getNetworkSwitchRoutingMulticastRendezvousPoint operation."""
 
     rendezvous_point_id: str | None = Field(default=None, alias="rendezvousPointId")
     serial: str | None = None
@@ -786,7 +771,7 @@ class GetNetworkSwitchRoutingMulticastRendezvousPointResponse(_BaseSchema):
 class GetNetworkSwitchRoutingMulticastRendezvousPointsResponse(
     RootModel[list["GetNetworkSwitchRoutingMulticastRendezvousPointsResponseItem"]]
 ):
-    """List multicast rendezvous points."""
+    """Response for getNetworkSwitchRoutingMulticastRendezvousPoints operation."""
 
 
 class GetNetworkSwitchRoutingMulticastRendezvousPointsResponseItem(_BaseSchema):
@@ -800,7 +785,7 @@ class GetNetworkSwitchRoutingMulticastRendezvousPointsResponseItem(_BaseSchema):
 
 
 class GetNetworkSwitchRoutingMulticastResponse(_BaseSchema):
-    """Return multicast settings for a network."""
+    """Response for getNetworkSwitchRoutingMulticast operation."""
 
     default_settings: GetNetworkSwitchRoutingMulticastResponseDefaultSettings | None = Field(
         default=None, alias="defaultSettings"
@@ -832,7 +817,7 @@ class GetNetworkSwitchRoutingMulticastResponseOverridesItem(_BaseSchema):
 
 
 class GetNetworkSwitchRoutingOspfResponse(_BaseSchema):
-    """Return layer 3 OSPF routing configuration."""
+    """Response for getNetworkSwitchRoutingOspf operation."""
 
     enabled: bool | None = None
     hello_timer_in_seconds: int | None = Field(default=None, alias="helloTimerInSeconds")
@@ -873,7 +858,7 @@ class GetNetworkSwitchRoutingOspfResponseV3(_BaseSchema):
 
 
 class GetNetworkSwitchSettingsResponse(_BaseSchema):
-    """Returns the switch network settings."""
+    """Response for getNetworkSwitchSettings operation."""
 
     vlan: int | None = None
     use_combined_power: bool | None = Field(default=None, alias="useCombinedPower")
@@ -902,7 +887,7 @@ class GetNetworkSwitchSettingsResponseUplinkSelection(_BaseSchema):
 
 
 class GetNetworkSwitchStackResponse(_BaseSchema):
-    """Show a switch stack."""
+    """Response for getNetworkSwitchStack operation."""
 
     id_: str | None = Field(default=None, alias="id")
     name: str | None = None
@@ -913,7 +898,7 @@ class GetNetworkSwitchStackResponse(_BaseSchema):
 
 
 class GetNetworkSwitchStackRoutingInterfaceDhcpResponse(_BaseSchema):
-    """Return a layer 3 interface DHCP configuration for a switch stack."""
+    """Response for getNetworkSwitchStackRoutingInterfaceDhcp operation."""
 
     dhcp_mode: str | None = Field(default=None, alias="dhcpMode")
     dhcp_relay_server_ips: list[str] | None = Field(default=None, alias="dhcpRelayServerIps")
@@ -935,7 +920,7 @@ class GetNetworkSwitchStackRoutingInterfaceDhcpResponse(_BaseSchema):
 
 
 class GetNetworkSwitchStackRoutingInterfaceResponse(_BaseSchema):
-    """Return a layer 3 interface from a switch stack."""
+    """Response for getNetworkSwitchStackRoutingInterface operation."""
 
     interface_id: str | None = Field(default=None, alias="interfaceId")
     name: str | None = None
@@ -959,7 +944,7 @@ class GetNetworkSwitchStackRoutingInterfaceResponse(_BaseSchema):
 class GetNetworkSwitchStackRoutingInterfacesResponse(
     RootModel[list["GetNetworkSwitchStackRoutingInterfacesResponseItem"]]
 ):
-    """List layer 3 interfaces for a switch stack."""
+    """Response for getNetworkSwitchStackRoutingInterfaces operation."""
 
 
 class GetNetworkSwitchStackRoutingInterfacesResponseItem(_BaseSchema):
@@ -985,7 +970,7 @@ class GetNetworkSwitchStackRoutingInterfacesResponseItem(_BaseSchema):
 
 
 class GetNetworkSwitchStackRoutingStaticRouteResponse(_BaseSchema):
-    """Return a layer 3 static route for a switch stack."""
+    """Response for getNetworkSwitchStackRoutingStaticRoute operation."""
 
     static_route_id: str = Field(alias="staticRouteId")
     name: str | None = None
@@ -1002,7 +987,7 @@ class GetNetworkSwitchStackRoutingStaticRouteResponse(_BaseSchema):
 class GetNetworkSwitchStackRoutingStaticRoutesResponse(
     RootModel[list["GetNetworkSwitchStackRoutingStaticRoutesResponseItem"]]
 ):
-    """List layer 3 static routes for a switch stack."""
+    """Response for getNetworkSwitchStackRoutingStaticRoutes operation."""
 
 
 class GetNetworkSwitchStackRoutingStaticRoutesResponseItem(_BaseSchema):
@@ -1021,7 +1006,7 @@ class GetNetworkSwitchStackRoutingStaticRoutesResponseItem(_BaseSchema):
 
 
 class GetNetworkSwitchStacksResponse(RootModel[list["GetNetworkSwitchStacksResponseItem"]]):
-    """List the switch stacks in a network."""
+    """Response for getNetworkSwitchStacks operation."""
 
 
 class GetNetworkSwitchStacksResponseItem(_BaseSchema):
@@ -1036,7 +1021,7 @@ class GetNetworkSwitchStacksResponseItem(_BaseSchema):
 
 
 class GetNetworkSwitchStormControlResponse(_BaseSchema):
-    """Return the storm control configuration for a switch network."""
+    """Response for getNetworkSwitchStormControl operation."""
 
     broadcast_threshold: int | None = Field(default=None, alias="broadcastThreshold")
     multicast_threshold: int | None = Field(default=None, alias="multicastThreshold")
@@ -1047,7 +1032,7 @@ class GetNetworkSwitchStormControlResponse(_BaseSchema):
 
 
 class GetNetworkSwitchStpResponse(_BaseSchema):
-    """Returns STP settings."""
+    """Response for getNetworkSwitchStp operation."""
 
     rstp_enabled: bool | None = Field(default=None, alias="rstpEnabled")
     stp_bridge_priority: list[GetNetworkSwitchStpResponseStpBridgePriorityItem] | None = Field(
@@ -1065,7 +1050,7 @@ class GetNetworkSwitchStpResponseStpBridgePriorityItem(_BaseSchema):
 
 
 class GetOrganizationConfigTemplateSwitchProfilePortResponse(_BaseSchema):
-    """Return a switch template port."""
+    """Response for getOrganizationConfigTemplateSwitchProfilePort operation."""
 
     port_id: str | None = Field(default=None, alias="portId")
     name: str | None = None
@@ -1106,7 +1091,7 @@ class GetOrganizationConfigTemplateSwitchProfilePortResponse(_BaseSchema):
 class GetOrganizationConfigTemplateSwitchProfilePortsResponse(
     RootModel[list["GetOrganizationConfigTemplateSwitchProfilePortsResponseItem"]]
 ):
-    """Return all the ports of a switch template."""
+    """Response for getOrganizationConfigTemplateSwitchProfilePorts operation."""
 
 
 class GetOrganizationConfigTemplateSwitchProfilePortsResponseItem(_BaseSchema):
@@ -1151,7 +1136,7 @@ class GetOrganizationConfigTemplateSwitchProfilePortsResponseItem(_BaseSchema):
 class GetOrganizationConfigTemplateSwitchProfilesResponse(
     RootModel[list["GetOrganizationConfigTemplateSwitchProfilesResponseItem"]]
 ):
-    """List the switch templates for your switch template configuration."""
+    """Response for getOrganizationConfigTemplateSwitchProfiles operation."""
 
 
 class GetOrganizationConfigTemplateSwitchProfilesResponseItem(_BaseSchema):
@@ -1165,12 +1150,7 @@ class GetOrganizationConfigTemplateSwitchProfilesResponseItem(_BaseSchema):
 class GetOrganizationSummarySwitchPowerHistoryResponse(
     RootModel[list["GetOrganizationSummarySwitchPowerHistoryResponseItem"]]
 ):
-    """Returns the total PoE power draw for all switch ports in the organization over the requested
-    timespan (by default the last 24 hours). The returned array is a newest-first list of
-    intervals. The time between intervals depends on the requested timespan with 20 minute
-    intervals used for timespans up to 1 day, 4 hour intervals used for timespans up to 2 weeks,
-    and 1 day intervals for timespans larger than 2 weeks.
-    """
+    """Response for getOrganizationSummarySwitchPowerHistory operation."""
 
 
 class GetOrganizationSummarySwitchPowerHistoryResponseItem(_BaseSchema):
@@ -1181,7 +1161,7 @@ class GetOrganizationSummarySwitchPowerHistoryResponseItem(_BaseSchema):
 
 
 class GetOrganizationSwitchPortsBySwitchResponse(_BaseSchema):
-    """List the switchports in an organization by switch."""
+    """Response for getOrganizationSwitchPortsBySwitch operation."""
 
     name: str | None = None
     serial: str | None = None
@@ -1212,9 +1192,7 @@ class GetOrganizationSwitchPortsBySwitchResponsePortsItem(_BaseSchema):
 
 
 class GetOrganizationSwitchPortsClientsOverviewByDeviceResponse(_BaseSchema):
-    """List the number of clients for all switchports with at least one online client in an
-    organization.
-    """
+    """Response for getOrganizationSwitchPortsClientsOverviewByDevice operation."""
 
     items: list[GetOrganizationSwitchPortsClientsOverviewByDeviceResponseItemsItem] | None = None
     meta: GetOrganizationSwitchPortsClientsOverviewByDeviceResponseMeta | None = None
@@ -1238,14 +1216,7 @@ class GetOrganizationSwitchPortsClientsOverviewByDeviceResponseMeta(_BaseSchema)
 
 
 class GetOrganizationSwitchPortsOverviewResponse(_BaseSchema):
-    """Returns the counts of all active ports for the requested timespan, grouped by speed. An
-    active port is a port that at any point during the timeframe is observed to be connected to
-    a responsive device and isn't configured to be disabled. For a port that is observed at
-    multiple speeds during the timeframe, it will be counted at the highest speed observed. The
-    number of inactive ports, and the total number of ports are also provided. Only ports on
-    switches online during the timeframe will be represented and a port is only guaranteed to be
-    present if its switch was online for at least 6 hours of the timeframe.
-    """
+    """Response for getOrganizationSwitchPortsOverview operation."""
 
     counts: GetOrganizationSwitchPortsOverviewResponseCounts | None = None
 
@@ -1258,7 +1229,7 @@ class GetOrganizationSwitchPortsOverviewResponseCounts(_BaseSchema):
 
 
 class GetOrganizationSwitchPortsStatusesBySwitchResponse(_BaseSchema):
-    """List the switchports in an organization."""
+    """Response for getOrganizationSwitchPortsStatusesBySwitch operation."""
 
     items: list[GetOrganizationSwitchPortsStatusesBySwitchResponseItemsItem] | None = None
     meta: GetOrganizationSwitchPortsClientsOverviewByDeviceResponseMeta | None = None
@@ -1276,9 +1247,7 @@ class GetOrganizationSwitchPortsStatusesBySwitchResponseItemsItem(_BaseSchema):
 
 
 class GetOrganizationSwitchPortsTopologyDiscoveryByDeviceResponse(_BaseSchema):
-    """List most recently seen LLDP/CDP discovery and topology information per switch port in an
-    organization.
-    """
+    """Response for getOrganizationSwitchPortsTopologyDiscoveryByDevice operation."""
 
     items: list[GetOrganizationSwitchPortsTopologyDiscoveryByDeviceResponseItemsItem] | None = None
     meta: GetOrganizationSwitchPortsClientsOverviewByDeviceResponseMeta | None = None
@@ -1296,7 +1265,7 @@ class GetOrganizationSwitchPortsTopologyDiscoveryByDeviceResponseItemsItem(_Base
 
 
 class GetOrganizationSwitchPortsUsageHistoryByDeviceByIntervalResponse(_BaseSchema):
-    """List the historical usage and traffic data of switchports in an organization."""
+    """Response for getOrganizationSwitchPortsUsageHistoryByDeviceByInterval operation."""
 
     items: (
         list[GetOrganizationSwitchPortsUsageHistoryByDeviceByIntervalResponseItemsItem] | None
@@ -1316,7 +1285,7 @@ class GetOrganizationSwitchPortsUsageHistoryByDeviceByIntervalResponseItemsItem(
 
 
 class RemoveNetworkSwitchStackResponse(_BaseSchema):
-    """Remove a switch from a stack."""
+    """Response for removeNetworkSwitchStack operation."""
 
     id_: str | None = Field(default=None, alias="id")
     name: str | None = None
@@ -1904,7 +1873,7 @@ class SwitchVrf2(_BaseSchema):
 
 
 class UpdateDeviceSwitchPortResponse(_BaseSchema):
-    """Update a switch port."""
+    """Response for updateDeviceSwitchPort operation."""
 
     port_id: str | None = Field(default=None, alias="portId")
     name: str | None = None
@@ -1946,7 +1915,7 @@ class UpdateDeviceSwitchPortResponse(_BaseSchema):
 
 
 class UpdateDeviceSwitchRoutingInterfaceDhcpResponse(_BaseSchema):
-    """Update a layer 3 interface DHCP configuration for a switch."""
+    """Response for updateDeviceSwitchRoutingInterfaceDhcp operation."""
 
     dhcp_mode: str | None = Field(default=None, alias="dhcpMode")
     dhcp_relay_server_ips: list[str] | None = Field(default=None, alias="dhcpRelayServerIps")
@@ -1968,7 +1937,7 @@ class UpdateDeviceSwitchRoutingInterfaceDhcpResponse(_BaseSchema):
 
 
 class UpdateDeviceSwitchRoutingInterfaceResponse(_BaseSchema):
-    """Update a layer 3 interface for a switch."""
+    """Response for updateDeviceSwitchRoutingInterface operation."""
 
     interface_id: str | None = Field(default=None, alias="interfaceId")
     name: str | None = None
@@ -1990,7 +1959,7 @@ class UpdateDeviceSwitchRoutingInterfaceResponse(_BaseSchema):
 
 
 class UpdateDeviceSwitchRoutingStaticRouteResponse(_BaseSchema):
-    """Update a layer 3 static route for a switch."""
+    """Response for updateDeviceSwitchRoutingStaticRoute operation."""
 
     static_route_id: str = Field(alias="staticRouteId")
     name: str | None = None
@@ -2005,10 +1974,7 @@ class UpdateDeviceSwitchRoutingStaticRouteResponse(_BaseSchema):
 
 
 class UpdateDeviceSwitchWarmSpareResponse(_BaseSchema):
-    """Update warm spare configuration for a switch. The spare will use the same L3 configuration
-    as the primary. Note that this will irreversibly destroy any existing L3 configuration on
-    the spare.
-    """
+    """Response for updateDeviceSwitchWarmSpare operation."""
 
     enabled: bool | None = None
     primary_serial: str | None = Field(default=None, alias="primarySerial")
@@ -2016,15 +1982,13 @@ class UpdateDeviceSwitchWarmSpareResponse(_BaseSchema):
 
 
 class UpdateNetworkSwitchAccessControlListsResponse(_BaseSchema):
-    """Update the access control lists for a MS network."""
+    """Response for updateNetworkSwitchAccessControlLists operation."""
 
     rules: list[GetNetworkSwitchAccessControlListsResponseRulesItem] | None = None
 
 
 class UpdateNetworkSwitchAccessPolicyResponse(_BaseSchema):
-    """Update an access policy for a switch network. If you would like to enable Meraki
-    Authentication, set radiusServers to empty array.
-    """
+    """Response for updateNetworkSwitchAccessPolicy operation."""
 
     access_policy_number: str | None = Field(default=None, alias="accessPolicyNumber")
     name: str | None = None
@@ -2059,7 +2023,7 @@ class UpdateNetworkSwitchAccessPolicyResponse(_BaseSchema):
 
 
 class UpdateNetworkSwitchAlternateManagementInterfaceResponse(_BaseSchema):
-    """Update the switch alternate management interface for the network."""
+    """Response for updateNetworkSwitchAlternateManagementInterface operation."""
 
     enabled: bool | None = None
     vlan_id: int | None = Field(default=None, alias="vlanId")
@@ -2068,7 +2032,7 @@ class UpdateNetworkSwitchAlternateManagementInterfaceResponse(_BaseSchema):
 
 
 class UpdateNetworkSwitchDhcpServerPolicyArpInspectionTrustedServerResponse(_BaseSchema):
-    """Update a server that is trusted by Dynamic ARP Inspection on this network."""
+    """Response for updateNetworkSwitchDhcpServerPolicyArpInspectionTrustedServer operation."""
 
     trusted_server_id: str | None = Field(default=None, alias="trustedServerId")
     mac: str | None = None
@@ -2077,9 +2041,7 @@ class UpdateNetworkSwitchDhcpServerPolicyArpInspectionTrustedServerResponse(_Bas
 
 
 class UpdateNetworkSwitchDhcpServerPolicyResponse(_BaseSchema):
-    """Update the DHCP server settings. Blocked/allowed servers are only applied when default
-    policy is allow/block, respectively.
-    """
+    """Response for updateNetworkSwitchDhcpServerPolicy operation."""
 
     alerts: GetNetworkSwitchDhcpServerPolicyResponseAlerts | None = None
     default_policy: str | None = Field(default=None, alias="defaultPolicy")
@@ -2091,27 +2053,27 @@ class UpdateNetworkSwitchDhcpServerPolicyResponse(_BaseSchema):
 
 
 class UpdateNetworkSwitchDscpToCosMappingsResponse(_BaseSchema):
-    """Update the DSCP to CoS mappings."""
+    """Response for updateNetworkSwitchDscpToCosMappings operation."""
 
     mappings: list[GetNetworkSwitchDscpToCosMappingsResponseMappingsItem] | None = None
 
 
 class UpdateNetworkSwitchLinkAggregationResponse(_BaseSchema):
-    """Update a link aggregation group."""
+    """Response for updateNetworkSwitchLinkAggregation operation."""
 
     id_: str | None = Field(default=None, alias="id")
     switch_ports: list[SwitchSwitchPortsItem] | None = Field(default=None, alias="switchPorts")
 
 
 class UpdateNetworkSwitchMtuResponse(_BaseSchema):
-    """Update the MTU configuration."""
+    """Response for updateNetworkSwitchMtu operation."""
 
     default_mtu_size: int | None = Field(default=None, alias="defaultMtuSize")
     overrides: list[GetNetworkSwitchMtuResponseOverridesItem] | None = None
 
 
 class UpdateNetworkSwitchPortScheduleResponse(_BaseSchema):
-    """Update a switch port schedule."""
+    """Response for updateNetworkSwitchPortSchedule operation."""
 
     id_: str | None = Field(default=None, alias="id")
     network_id: str | None = Field(default=None, alias="networkId")
@@ -2120,7 +2082,7 @@ class UpdateNetworkSwitchPortScheduleResponse(_BaseSchema):
 
 
 class UpdateNetworkSwitchQosRuleResponse(_BaseSchema):
-    """Update a quality of service rule."""
+    """Response for updateNetworkSwitchQosRule operation."""
 
     id_: str | None = Field(default=None, alias="id")
     vlan: int | None = None
@@ -2133,13 +2095,13 @@ class UpdateNetworkSwitchQosRuleResponse(_BaseSchema):
 
 
 class UpdateNetworkSwitchQosRulesOrderResponse(_BaseSchema):
-    """Update the order in which the rules should be processed by the switch."""
+    """Response for updateNetworkSwitchQosRulesOrder operation."""
 
     rule_ids: list[str] | None = Field(default=None, alias="ruleIds")
 
 
 class UpdateNetworkSwitchRoutingMulticastRendezvousPointResponse(_BaseSchema):
-    """Update a multicast rendezvous point."""
+    """Response for updateNetworkSwitchRoutingMulticastRendezvousPoint operation."""
 
     rendezvous_point_id: str | None = Field(default=None, alias="rendezvousPointId")
     serial: str | None = None
@@ -2149,7 +2111,7 @@ class UpdateNetworkSwitchRoutingMulticastRendezvousPointResponse(_BaseSchema):
 
 
 class UpdateNetworkSwitchRoutingMulticastResponse(_BaseSchema):
-    """Update multicast settings for a network."""
+    """Response for updateNetworkSwitchRoutingMulticast operation."""
 
     default_settings: GetNetworkSwitchRoutingMulticastResponseDefaultSettings | None = Field(
         default=None, alias="defaultSettings"
@@ -2158,7 +2120,7 @@ class UpdateNetworkSwitchRoutingMulticastResponse(_BaseSchema):
 
 
 class UpdateNetworkSwitchRoutingOspfResponse(_BaseSchema):
-    """Update layer 3 OSPF routing configuration."""
+    """Response for updateNetworkSwitchRoutingOspf operation."""
 
     enabled: bool | None = None
     hello_timer_in_seconds: int | None = Field(default=None, alias="helloTimerInSeconds")
@@ -2173,7 +2135,7 @@ class UpdateNetworkSwitchRoutingOspfResponse(_BaseSchema):
 
 
 class UpdateNetworkSwitchSettingsResponse(_BaseSchema):
-    """Update switch network settings."""
+    """Response for updateNetworkSwitchSettings operation."""
 
     vlan: int | None = None
     use_combined_power: bool | None = Field(default=None, alias="useCombinedPower")
@@ -2188,7 +2150,7 @@ class UpdateNetworkSwitchSettingsResponse(_BaseSchema):
 
 
 class UpdateNetworkSwitchStackRoutingInterfaceDhcpResponse(_BaseSchema):
-    """Update a layer 3 interface DHCP configuration for a switch stack."""
+    """Response for updateNetworkSwitchStackRoutingInterfaceDhcp operation."""
 
     dhcp_mode: str | None = Field(default=None, alias="dhcpMode")
     dhcp_relay_server_ips: list[str] | None = Field(default=None, alias="dhcpRelayServerIps")
@@ -2210,7 +2172,7 @@ class UpdateNetworkSwitchStackRoutingInterfaceDhcpResponse(_BaseSchema):
 
 
 class UpdateNetworkSwitchStackRoutingInterfaceResponse(_BaseSchema):
-    """Update a layer 3 interface for a switch stack."""
+    """Response for updateNetworkSwitchStackRoutingInterface operation."""
 
     interface_id: str | None = Field(default=None, alias="interfaceId")
     name: str | None = None
@@ -2231,7 +2193,7 @@ class UpdateNetworkSwitchStackRoutingInterfaceResponse(_BaseSchema):
 
 
 class UpdateNetworkSwitchStackRoutingStaticRouteResponse(_BaseSchema):
-    """Update a layer 3 static route for a switch stack."""
+    """Response for updateNetworkSwitchStackRoutingStaticRoute operation."""
 
     static_route_id: str = Field(alias="staticRouteId")
     name: str | None = None
@@ -2246,7 +2208,7 @@ class UpdateNetworkSwitchStackRoutingStaticRouteResponse(_BaseSchema):
 
 
 class UpdateNetworkSwitchStormControlResponse(_BaseSchema):
-    """Update the storm control configuration for a switch network."""
+    """Response for updateNetworkSwitchStormControl operation."""
 
     broadcast_threshold: int | None = Field(default=None, alias="broadcastThreshold")
     multicast_threshold: int | None = Field(default=None, alias="multicastThreshold")
@@ -2257,7 +2219,7 @@ class UpdateNetworkSwitchStormControlResponse(_BaseSchema):
 
 
 class UpdateNetworkSwitchStpResponse(_BaseSchema):
-    """Updates STP settings."""
+    """Response for updateNetworkSwitchStp operation."""
 
     rstp_enabled: bool | None = Field(default=None, alias="rstpEnabled")
     stp_bridge_priority: list[GetNetworkSwitchStpResponseStpBridgePriorityItem] | None = Field(
@@ -2266,7 +2228,7 @@ class UpdateNetworkSwitchStpResponse(_BaseSchema):
 
 
 class UpdateOrganizationConfigTemplateSwitchProfilePortResponse(_BaseSchema):
-    """Update a switch template port."""
+    """Response for updateOrganizationConfigTemplateSwitchProfilePort operation."""
 
     port_id: str | None = Field(default=None, alias="portId")
     name: str | None = None

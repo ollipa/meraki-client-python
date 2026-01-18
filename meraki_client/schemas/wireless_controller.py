@@ -12,9 +12,7 @@ from meraki_client.schemas._base import _BaseSchema
 
 
 class GetOrganizationWirelessControllerAvailabilitiesChangeHistoryResponse(_BaseSchema):
-    """List connectivity data of wireless LAN controllers in an organization. If it is HA setup,
-    then only returns active WLC data start from switchover.
-    """
+    """Response for getOrganizationWirelessControllerAvailabilitiesChangeHistory operation."""
 
     items: (
         list[GetOrganizationWirelessControllerAvailabilitiesChangeHistoryResponseItemsItem] | None
@@ -38,14 +36,16 @@ class GetOrganizationWirelessControllerAvailabilitiesChangeHistoryResponseMeta(_
 class GetOrganizationWirelessControllerClientsOverviewHistoryByDeviceByIntervalResponse(
     _BaseSchema
 ):
-    """List wireless client counts of wireless LAN controllers over time in an organization."""
+    """Response for getOrganizationWirelessControllerClientsOverviewHistoryByDeviceByInterval
+    operation.
+    """
 
     items: list[WirelessControllerItemsItem] | None = None
     meta: GetOrganizationWirelessControllerAvailabilitiesChangeHistoryResponseMeta | None = None
 
 
 class GetOrganizationWirelessControllerConnectionsResponse(_BaseSchema):
-    """List all access points associated with wireless LAN controllers in an organization."""
+    """Response for getOrganizationWirelessControllerConnections operation."""
 
     items: list[GetOrganizationWirelessControllerConnectionsResponseItemsItem] | None = None
     meta: GetOrganizationWirelessControllerAvailabilitiesChangeHistoryResponseMeta | None = None
@@ -60,7 +60,7 @@ class GetOrganizationWirelessControllerConnectionsResponseItemsItem(_BaseSchema)
 
 
 class GetOrganizationWirelessControllerDevicesInterfacesL2ByDeviceResponse(_BaseSchema):
-    """List wireless LAN controller layer 2 interfaces in an organization."""
+    """Response for getOrganizationWirelessControllerDevicesInterfacesL2ByDevice operation."""
 
     items: (
         list[GetOrganizationWirelessControllerDevicesInterfacesL2ByDeviceResponseItemsItem] | None
@@ -78,7 +78,9 @@ class GetOrganizationWirelessControllerDevicesInterfacesL2ByDeviceResponseItemsI
 class GetOrganizationWirelessControllerDevicesInterfacesL2StatusesChangeHistoryByDeviceResponse(
     _BaseSchema
 ):
-    """List wireless LAN controller layer 2 interfaces history status in an organization."""
+    """Response for
+    getOrganizationWirelessControllerDevicesInterfacesL2StatusesChangeHistoryByDevice operation.
+    """
 
     items: list[WirelessControllerItemsItem2] | None = None
     meta: GetOrganizationWirelessControllerAvailabilitiesChangeHistoryResponseMeta | None = None
@@ -87,14 +89,16 @@ class GetOrganizationWirelessControllerDevicesInterfacesL2StatusesChangeHistoryB
 class GetOrganizationWirelessControllerDevicesInterfacesL2UsageHistoryByIntervalResponse(
     _BaseSchema
 ):
-    """List wireless LAN controller layer 2 interfaces history usage in an organization."""
+    """Response for getOrganizationWirelessControllerDevicesInterfacesL2UsageHistoryByInterval
+    operation.
+    """
 
     items: list[WirelessControllerItemsItem3] | None = None
     meta: GetOrganizationWirelessControllerAvailabilitiesChangeHistoryResponseMeta | None = None
 
 
 class GetOrganizationWirelessControllerDevicesInterfacesL3ByDeviceResponse(_BaseSchema):
-    """List wireless LAN controller layer 3 interfaces in an organization."""
+    """Response for getOrganizationWirelessControllerDevicesInterfacesL3ByDevice operation."""
 
     items: (
         list[GetOrganizationWirelessControllerDevicesInterfacesL3ByDeviceResponseItemsItem] | None
@@ -112,7 +116,9 @@ class GetOrganizationWirelessControllerDevicesInterfacesL3ByDeviceResponseItemsI
 class GetOrganizationWirelessControllerDevicesInterfacesL3StatusesChangeHistoryByDeviceResponse(
     _BaseSchema
 ):
-    """List wireless LAN controller layer 3 interfaces history status in an organization."""
+    """Response for
+    getOrganizationWirelessControllerDevicesInterfacesL3StatusesChangeHistoryByDevice operation.
+    """
 
     items: list[WirelessControllerItemsItem2] | None = None
     meta: GetOrganizationWirelessControllerAvailabilitiesChangeHistoryResponseMeta | None = None
@@ -121,7 +127,9 @@ class GetOrganizationWirelessControllerDevicesInterfacesL3StatusesChangeHistoryB
 class GetOrganizationWirelessControllerDevicesInterfacesL3UsageHistoryByIntervalResponse(
     _BaseSchema
 ):
-    """List wireless LAN controller layer 3 interfaces history usage in an organization."""
+    """Response for getOrganizationWirelessControllerDevicesInterfacesL3UsageHistoryByInterval
+    operation.
+    """
 
     items: list[WirelessControllerItemsItem3] | None = None
     meta: GetOrganizationWirelessControllerAvailabilitiesChangeHistoryResponseMeta | None = None
@@ -130,14 +138,18 @@ class GetOrganizationWirelessControllerDevicesInterfacesL3UsageHistoryByInterval
 class GetOrganizationWirelessControllerDevicesInterfacesPacketsOverviewByDeviceResponse(
     _BaseSchema
 ):
-    """Retrieve the packet counters for the interfaces of a Wireless LAN controller."""
+    """Response for getOrganizationWirelessControllerDevicesInterfacesPacketsOverviewByDevice
+    operation.
+    """
 
     items: list[WirelessControllerItemsItem4] | None = None
     meta: GetOrganizationWirelessControllerAvailabilitiesChangeHistoryResponseMeta | None = None
 
 
 class GetOrganizationWirelessControllerDevicesInterfacesUsageHistoryByIntervalResponse(_BaseSchema):
-    """Retrieve the traffic for the interfaces of a Wireless LAN controller."""
+    """Response for getOrganizationWirelessControllerDevicesInterfacesUsageHistoryByInterval
+    operation.
+    """
 
     items: list[WirelessControllerItemsItem5] | None = None
     meta: GetOrganizationWirelessControllerAvailabilitiesChangeHistoryResponseMeta | None = None
@@ -146,7 +158,7 @@ class GetOrganizationWirelessControllerDevicesInterfacesUsageHistoryByIntervalRe
 class GetOrganizationWirelessControllerDevicesRedundancyFailoverHistoryResponse(
     RootModel[list["GetOrganizationWirelessControllerDevicesRedundancyFailoverHistoryResponseItem"]]
 ):
-    """List the failover events of wireless LAN controllers in an organization."""
+    """Response for getOrganizationWirelessControllerDevicesRedundancyFailoverHistory operation."""
 
 
 class GetOrganizationWirelessControllerDevicesRedundancyFailoverHistoryResponseItem(_BaseSchema):
@@ -157,10 +169,7 @@ class GetOrganizationWirelessControllerDevicesRedundancyFailoverHistoryResponseI
 
 
 class GetOrganizationWirelessControllerDevicesRedundancyStatusesResponse(_BaseSchema):
-    """List redundancy details of wireless LAN controllers in an organization. The failover count
-    refers to the total failovers system happens from the moment of this device onboarding to
-    Dashboard.
-    """
+    """Response for getOrganizationWirelessControllerDevicesRedundancyStatuses operation."""
 
     items: (
         list[GetOrganizationWirelessControllerDevicesRedundancyStatusesResponseItemsItem] | None
@@ -181,16 +190,16 @@ class GetOrganizationWirelessControllerDevicesRedundancyStatusesResponseItemsIte
 class GetOrganizationWirelessControllerDevicesSystemUtilizationHistoryByIntervalResponse(
     _BaseSchema
 ):
-    """List cpu utilization data of wireless LAN controllers in an organization."""
+    """Response for getOrganizationWirelessControllerDevicesSystemUtilizationHistoryByInterval
+    operation.
+    """
 
     items: list[WirelessControllerItemsItem7] | None = None
     meta: GetOrganizationWirelessControllerAvailabilitiesChangeHistoryResponseMeta | None = None
 
 
 class GetOrganizationWirelessControllerOverviewByDeviceResponse(_BaseSchema):
-    """List the overview information of wireless LAN controllers in an organization and it is
-    updated every minute.
-    """
+    """Response for getOrganizationWirelessControllerOverviewByDevice operation."""
 
     items: list[GetOrganizationWirelessControllerOverviewByDeviceResponseItemsItem] | None = None
     meta: GetOrganizationWirelessControllerAvailabilitiesChangeHistoryResponseMeta | None = None

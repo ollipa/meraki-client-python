@@ -14,14 +14,14 @@ from meraki_client.schemas._base import _BaseSchema
 
 
 class AssignNetworkWirelessEthernetPortsProfilesResponse(_BaseSchema):
-    """Assign AP port profile to list of APs."""
+    """Response for assignNetworkWirelessEthernetPortsProfiles operation."""
 
     serials: list[str] | None = None
     profile_id: str | None = Field(default=None, alias="profileId")
 
 
 class CreateDeviceWirelessZigbeeEnrollmentResponse(_BaseSchema):
-    """Enqueue a job to start enrolling door locks on zigbee configured wireless devices."""
+    """Response for createDeviceWirelessZigbeeEnrollment operation."""
 
     enrollment_id: str | None = Field(default=None, alias="enrollmentId")
     url: str | None = None
@@ -36,7 +36,7 @@ class CreateDeviceWirelessZigbeeEnrollmentResponseRequest(_BaseSchema):
 
 
 class CreateNetworkWirelessAirMarshalRuleResponse(_BaseSchema):
-    """Creates a new rule."""
+    """Response for createNetworkWirelessAirMarshalRule operation."""
 
     network: WirelessDoorLocksNetwork | None = None
     rule_id: str | None = Field(default=None, alias="ruleId")
@@ -56,7 +56,7 @@ class CreateNetworkWirelessAirMarshalRuleResponseMatch(_BaseSchema):
 
 
 class CreateNetworkWirelessEthernetPortsProfileResponse(_BaseSchema):
-    """Create an AP port profile."""
+    """Response for createNetworkWirelessEthernetPortsProfile operation."""
 
     profile_id: str | None = Field(default=None, alias="profileId")
     name: str | None = None
@@ -66,7 +66,7 @@ class CreateNetworkWirelessEthernetPortsProfileResponse(_BaseSchema):
 
 
 class CreateNetworkWirelessRfProfileResponse(_BaseSchema):
-    """Creates new RF profile for this network."""
+    """Response for createNetworkWirelessRfProfile operation."""
 
     id_: str | None = Field(default=None, alias="id")
     network_id: str | None = Field(default=None, alias="networkId")
@@ -95,7 +95,7 @@ class CreateNetworkWirelessRfProfileResponse(_BaseSchema):
 
 
 class CreateNetworkWirelessSsidIdentityPskResponse(_BaseSchema):
-    """Create an Identity PSK."""
+    """Response for createNetworkWirelessSsidIdentityPsk operation."""
 
     name: str | None = None
     id_: str | None = Field(default=None, alias="id")
@@ -107,12 +107,7 @@ class CreateNetworkWirelessSsidIdentityPskResponse(_BaseSchema):
 
 
 class CreateOrganizationWirelessDevicesRadsecCertificatesAuthorityResponse(_BaseSchema):
-    """Create an organization's RADSEC device Certificate Authority (CA). Call this endpoint when
-    turning on RADSEC in the firmware for the first time. Calling this endpoint starts an
-    asynchronous process to generate the CA; call GET afterwards to retrieve the contents of the
-    CA. Note this CA is generated and controlled by Meraki. Subsequent calls will not generate a
-    new CA.
-    """
+    """Response for createOrganizationWirelessDevicesRadsecCertificatesAuthority operation."""
 
     certificate_authority_id: str | None = Field(default=None, alias="certificateAuthorityId")
     status: str | None = None
@@ -120,7 +115,7 @@ class CreateOrganizationWirelessDevicesRadsecCertificatesAuthorityResponse(_Base
 
 
 class CreateOrganizationWirelessLocationScanningReceiverResponse(_BaseSchema):
-    """Add new receiver for scanning API."""
+    """Response for createOrganizationWirelessLocationScanningReceiver operation."""
 
     network: WirelessDoorLocksNetwork | None = None
     receiver_id: str | None = Field(default=None, alias="receiverId")
@@ -130,7 +125,7 @@ class CreateOrganizationWirelessLocationScanningReceiverResponse(_BaseSchema):
 
 
 class CreateOrganizationWirelessSsidsFirewallIsolationAllowlistEntryResponse(_BaseSchema):
-    """Create isolation allow list MAC entry for this organization."""
+    """Response for createOrganizationWirelessSsidsFirewallIsolationAllowlistEntry operation."""
 
     entry_id: str = Field(alias="entryId")
     created_at: str | None = Field(default=None, alias="createdAt")
@@ -142,7 +137,7 @@ class CreateOrganizationWirelessSsidsFirewallIsolationAllowlistEntryResponse(_Ba
 
 
 class CreateOrganizationWirelessZigbeeDisenrollmentResponse(_BaseSchema):
-    """Enqueue a job to start disenrolling door locks on zigbee configured wireless devices."""
+    """Response for createOrganizationWirelessZigbeeDisenrollment operation."""
 
     disenrollment_id: str | None = Field(default=None, alias="disenrollmentId")
     url: str | None = None
@@ -157,7 +152,7 @@ class CreateOrganizationWirelessZigbeeDisenrollmentResponseRequest(_BaseSchema):
 
 
 class GetDeviceWirelessBluetoothSettingsResponse(_BaseSchema):
-    """Return the bluetooth settings for a wireless device."""
+    """Response for getDeviceWirelessBluetoothSettings operation."""
 
     uuid: str | None = None
     major: int | None = None
@@ -165,7 +160,7 @@ class GetDeviceWirelessBluetoothSettingsResponse(_BaseSchema):
 
 
 class GetDeviceWirelessConnectionStatsResponse(_BaseSchema):
-    """Aggregated connectivity info for a given AP on this network."""
+    """Response for getDeviceWirelessConnectionStats operation."""
 
     serial: str | None = None
     connection_stats: GetDeviceWirelessConnectionStatsResponseConnectionStats | None = Field(
@@ -184,7 +179,7 @@ class GetDeviceWirelessConnectionStatsResponseConnectionStats(_BaseSchema):
 
 
 class GetDeviceWirelessElectronicShelfLabelResponse(_BaseSchema):
-    """Return the ESL settings of a device."""
+    """Response for getDeviceWirelessElectronicShelfLabel operation."""
 
     ap_esl_id: int | None = Field(default=None, alias="apEslId")
     serial: str | None = None
@@ -196,9 +191,7 @@ class GetDeviceWirelessElectronicShelfLabelResponse(_BaseSchema):
 
 
 class GetDeviceWirelessRadioSettingsResponse(_BaseSchema):
-    """Return the manually configured radio settings overrides of a device, which take precedence
-    over RF profiles.
-    """
+    """Response for getDeviceWirelessRadioSettings operation."""
 
     serial: str | None = None
     rf_profile_id: str | None = Field(default=None, alias="rfProfileId")
@@ -226,7 +219,7 @@ class GetDeviceWirelessRadioSettingsResponseTwoFourGhzSettings(_BaseSchema):
 
 
 class GetDeviceWirelessStatusResponse(_BaseSchema):
-    """Return the SSID statuses of an access point."""
+    """Response for getDeviceWirelessStatus operation."""
 
     basic_service_sets: list[GetDeviceWirelessStatusResponseBasicServiceSetsItem] | None = Field(
         default=None, alias="basicServiceSets"
@@ -249,7 +242,7 @@ class GetDeviceWirelessStatusResponseBasicServiceSetsItem(_BaseSchema):
 
 
 class GetDeviceWirelessZigbeeEnrollmentResponse(_BaseSchema):
-    """Return an enrollment."""
+    """Response for getDeviceWirelessZigbeeEnrollment operation."""
 
     enrollment_id: str | None = Field(default=None, alias="enrollmentId")
     url: str | None = None
@@ -280,7 +273,7 @@ class GetDeviceWirelessZigbeeEnrollmentResponseDoorLocksItem(_BaseSchema):
 class GetNetworkWirelessAirMarshalResponse(
     RootModel[list["GetNetworkWirelessAirMarshalResponseItem"]]
 ):
-    """List Air Marshal scan results from a network."""
+    """Response for getNetworkWirelessAirMarshal operation."""
 
 
 class GetNetworkWirelessAirMarshalResponseItem(_BaseSchema):
@@ -297,7 +290,7 @@ class GetNetworkWirelessAirMarshalResponseItem(_BaseSchema):
 
 
 class GetNetworkWirelessBillingResponse(_BaseSchema):
-    """Return the billing settings of this network."""
+    """Response for getNetworkWirelessBilling operation."""
 
     currency: str | None = None
     plans: list[GetNetworkWirelessBillingResponsePlansItem] | None = None
@@ -315,10 +308,7 @@ class GetNetworkWirelessBillingResponsePlansItem(_BaseSchema):
 
 
 class GetNetworkWirelessBluetoothSettingsResponse(_BaseSchema):
-    """Return the Bluetooth settings for a network. <a
-    href="https://documentation.meraki.com/MR/Bluetooth/Bluetooth_Low_Energy_(BLE)">Bluetooth
-    settings</a> must be enabled on the network.
-    """
+    """Response for getNetworkWirelessBluetoothSettings operation."""
 
     scanning_enabled: bool | None = Field(default=None, alias="scanningEnabled")
     advertising_enabled: bool | None = Field(default=None, alias="advertisingEnabled")
@@ -332,7 +322,7 @@ class GetNetworkWirelessBluetoothSettingsResponse(_BaseSchema):
 class GetNetworkWirelessChannelUtilizationHistoryResponse(
     RootModel[list["GetNetworkWirelessChannelUtilizationHistoryResponseItem"]]
 ):
-    """Return AP channel utilization over time for a device or network client."""
+    """Response for getNetworkWirelessChannelUtilizationHistory operation."""
 
 
 class GetNetworkWirelessChannelUtilizationHistoryResponseItem(_BaseSchema):
@@ -346,9 +336,7 @@ class GetNetworkWirelessChannelUtilizationHistoryResponseItem(_BaseSchema):
 
 
 class GetNetworkWirelessClientConnectionStatsResponse(_BaseSchema):
-    """Aggregated connectivity info for a given client on this network. Clients are identified by
-    their MAC.
-    """
+    """Response for getNetworkWirelessClientConnectionStats operation."""
 
     mac: str | None = None
     connection_stats: GetNetworkWirelessClientConnectionStatsResponseConnectionStats | None = Field(
@@ -368,7 +356,7 @@ class GetNetworkWirelessClientConnectionStatsResponseConnectionStats(_BaseSchema
 class GetNetworkWirelessClientConnectivityEventsResponse(
     RootModel[list["GetNetworkWirelessClientConnectivityEventsResponseItem"]]
 ):
-    """List the wireless connectivity events for a client within a network in the timespan."""
+    """Response for getNetworkWirelessClientConnectivityEvents operation."""
 
 
 class GetNetworkWirelessClientConnectivityEventsResponseItem(_BaseSchema):
@@ -391,7 +379,7 @@ class GetNetworkWirelessClientConnectivityEventsResponseItem(_BaseSchema):
 class GetNetworkWirelessClientCountHistoryResponse(
     RootModel[list["GetNetworkWirelessClientCountHistoryResponseItem"]]
 ):
-    """Return wireless client counts over time for a network, device, or network client."""
+    """Response for getNetworkWirelessClientCountHistory operation."""
 
 
 class GetNetworkWirelessClientCountHistoryResponseItem(_BaseSchema):
@@ -405,12 +393,7 @@ class GetNetworkWirelessClientCountHistoryResponseItem(_BaseSchema):
 class GetNetworkWirelessClientLatencyHistoryResponse(
     RootModel[list["GetNetworkWirelessClientLatencyHistoryResponseItem"]]
 ):
-    """Return the latency history for a client. Clients can be identified by a client key or either
-    the MAC or IP depending on whether the network uses Track-by-IP. The latency data is from a
-    sample of 2% of packets and is grouped into 4 traffic categories: background, best effort,
-    video, voice. Within these categories the sampled packet counters are bucketed by latency in
-    milliseconds.
-    """
+    """Response for getNetworkWirelessClientLatencyHistory operation."""
 
 
 class GetNetworkWirelessClientLatencyHistoryResponseItem(_BaseSchema):
@@ -424,15 +407,15 @@ class GetNetworkWirelessClientLatencyHistoryResponseItem(_BaseSchema):
 
 
 class GetNetworkWirelessClientsConnectionStatsResponse(RootModel[list[dict[str, Any]]]):
-    """Aggregated connectivity info for this network, grouped by clients."""
+    """Response for getNetworkWirelessClientsConnectionStats operation."""
 
 
 class GetNetworkWirelessClientsLatencyStatsResponse(RootModel[list[dict[str, Any]]]):
-    """Aggregated latency info for this network, grouped by clients."""
+    """Response for getNetworkWirelessClientsLatencyStats operation."""
 
 
 class GetNetworkWirelessConnectionStatsResponse(_BaseSchema):
-    """Aggregated connectivity info for this network."""
+    """Response for getNetworkWirelessConnectionStats operation."""
 
     assoc: int | None = None
     auth: int | None = None
@@ -444,7 +427,7 @@ class GetNetworkWirelessConnectionStatsResponse(_BaseSchema):
 class GetNetworkWirelessDataRateHistoryResponse(
     RootModel[list["GetNetworkWirelessDataRateHistoryResponseItem"]]
 ):
-    """Return PHY data rates over time for a network, device, or network client."""
+    """Response for getNetworkWirelessDataRateHistory operation."""
 
 
 class GetNetworkWirelessDataRateHistoryResponseItem(_BaseSchema):
@@ -460,7 +443,7 @@ class GetNetworkWirelessDataRateHistoryResponseItem(_BaseSchema):
 class GetNetworkWirelessDevicesConnectionStatsResponse(
     RootModel[list["GetNetworkWirelessDevicesConnectionStatsResponseItem"]]
 ):
-    """Aggregated connectivity info for this network, grouped by node."""
+    """Response for getNetworkWirelessDevicesConnectionStats operation."""
 
 
 class GetNetworkWirelessDevicesConnectionStatsResponseItem(_BaseSchema):
@@ -473,13 +456,13 @@ class GetNetworkWirelessDevicesConnectionStatsResponseItem(_BaseSchema):
 
 
 class GetNetworkWirelessDevicesLatencyStatsResponse(RootModel[list[dict[str, Any]]]):
-    """Aggregated latency info for this network, grouped by node."""
+    """Response for getNetworkWirelessDevicesLatencyStats operation."""
 
 
 class GetNetworkWirelessElectronicShelfLabelConfiguredDevicesResponse(
     RootModel[list["GetNetworkWirelessElectronicShelfLabelConfiguredDevicesResponseItem"]]
 ):
-    """Get a list of all ESL eligible devices of a network."""
+    """Response for getNetworkWirelessElectronicShelfLabelConfiguredDevices operation."""
 
 
 class GetNetworkWirelessElectronicShelfLabelConfiguredDevicesResponseItem(_BaseSchema):
@@ -491,7 +474,7 @@ class GetNetworkWirelessElectronicShelfLabelConfiguredDevicesResponseItem(_BaseS
 
 
 class GetNetworkWirelessElectronicShelfLabelResponse(_BaseSchema):
-    """Return the ESL settings of a wireless network."""
+    """Response for getNetworkWirelessElectronicShelfLabel operation."""
 
     hostname: str | None = None
     enabled: bool | None = None
@@ -499,7 +482,7 @@ class GetNetworkWirelessElectronicShelfLabelResponse(_BaseSchema):
 
 
 class GetNetworkWirelessEthernetPortsProfileResponse(_BaseSchema):
-    """Show the AP port profile by ID for this network."""
+    """Response for getNetworkWirelessEthernetPortsProfile operation."""
 
     profile_id: str | None = Field(default=None, alias="profileId")
     name: str | None = None
@@ -511,7 +494,7 @@ class GetNetworkWirelessEthernetPortsProfileResponse(_BaseSchema):
 class GetNetworkWirelessEthernetPortsProfilesResponse(
     RootModel[list["GetNetworkWirelessEthernetPortsProfilesResponseItem"]]
 ):
-    """List the AP port profiles for this network."""
+    """Response for getNetworkWirelessEthernetPortsProfiles operation."""
 
 
 class GetNetworkWirelessEthernetPortsProfilesResponseItem(_BaseSchema):
@@ -527,7 +510,7 @@ class GetNetworkWirelessEthernetPortsProfilesResponseItem(_BaseSchema):
 class GetNetworkWirelessFailedConnectionsResponse(
     RootModel[list["GetNetworkWirelessFailedConnectionsResponseItem"]]
 ):
-    """List of all failed client connection events on this network in a given time range."""
+    """Response for getNetworkWirelessFailedConnections operation."""
 
 
 class GetNetworkWirelessFailedConnectionsResponseItem(_BaseSchema):
@@ -546,7 +529,7 @@ class GetNetworkWirelessFailedConnectionsResponseItem(_BaseSchema):
 class GetNetworkWirelessLatencyHistoryResponse(
     RootModel[list["GetNetworkWirelessLatencyHistoryResponseItem"]]
 ):
-    """Return average wireless latency over time for a network, device, or network client."""
+    """Response for getNetworkWirelessLatencyHistory operation."""
 
 
 class GetNetworkWirelessLatencyHistoryResponseItem(_BaseSchema):
@@ -560,7 +543,7 @@ class GetNetworkWirelessLatencyHistoryResponseItem(_BaseSchema):
 class GetNetworkWirelessMeshStatusesResponse(
     RootModel[list["GetNetworkWirelessMeshStatusesResponseItem"]]
 ):
-    """List wireless mesh statuses for repeaters."""
+    """Response for getNetworkWirelessMeshStatuses operation."""
 
 
 class GetNetworkWirelessMeshStatusesResponseItem(_BaseSchema):
@@ -574,7 +557,7 @@ class GetNetworkWirelessMeshStatusesResponseItem(_BaseSchema):
 
 
 class GetNetworkWirelessRfProfileResponse(_BaseSchema):
-    """Return a RF profile."""
+    """Response for getNetworkWirelessRfProfile operation."""
 
     id_: str | None = Field(default=None, alias="id")
     network_id: str | None = Field(default=None, alias="networkId")
@@ -603,7 +586,7 @@ class GetNetworkWirelessRfProfileResponse(_BaseSchema):
 
 
 class GetNetworkWirelessRfProfilesResponse(_BaseSchema):
-    """List RF profiles for this network."""
+    """Response for getNetworkWirelessRfProfiles operation."""
 
     id_: str | None = Field(default=None, alias="id")
     network_id: str | None = Field(default=None, alias="networkId")
@@ -688,7 +671,7 @@ class GetNetworkWirelessRfProfilesResponseTwoFourGhzSettings(_BaseSchema):
 
 
 class GetNetworkWirelessSettingsResponse(_BaseSchema):
-    """Return the wireless settings for a network."""
+    """Response for getNetworkWirelessSettings operation."""
 
     meshing_enabled: bool | None = Field(default=None, alias="meshingEnabled")
     ipv6_bridge_enabled: bool | None = Field(default=None, alias="ipv6BridgeEnabled")
@@ -722,7 +705,7 @@ class GetNetworkWirelessSettingsResponseRegulatoryDomain(_BaseSchema):
 class GetNetworkWirelessSignalQualityHistoryResponse(
     RootModel[list["GetNetworkWirelessSignalQualityHistoryResponseItem"]]
 ):
-    """Return signal quality (SNR/RSSI) over time for a device or network client."""
+    """Response for getNetworkWirelessSignalQualityHistory operation."""
 
 
 class GetNetworkWirelessSignalQualityHistoryResponseItem(_BaseSchema):
@@ -735,7 +718,7 @@ class GetNetworkWirelessSignalQualityHistoryResponseItem(_BaseSchema):
 
 
 class GetNetworkWirelessSsidBonjourForwardingResponse(_BaseSchema):
-    """List the Bonjour forwarding setting and rules for the SSID."""
+    """Response for getNetworkWirelessSsidBonjourForwarding operation."""
 
     enabled: bool | None = None
     exception: GetNetworkWirelessRfProfilesResponseTransmission | None = None
@@ -751,7 +734,7 @@ class GetNetworkWirelessSsidBonjourForwardingResponseRulesItem(_BaseSchema):
 
 
 class GetNetworkWirelessSsidEapOverrideResponse(_BaseSchema):
-    """Return the EAP overridden parameters for an SSID."""
+    """Response for getNetworkWirelessSsidEapOverride operation."""
 
     timeout: int | None = None
     max_retries: int | None = Field(default=None, alias="maxRetries")
@@ -776,7 +759,7 @@ class GetNetworkWirelessSsidEapOverrideResponseIdentity(_BaseSchema):
 
 
 class GetNetworkWirelessSsidFirewallL3FirewallRulesResponse(_BaseSchema):
-    """Return the L3 firewall rules for an SSID on an MR network."""
+    """Response for getNetworkWirelessSsidFirewallL3FirewallRules operation."""
 
     rules: list[GetNetworkWirelessSsidFirewallL3FirewallRulesResponseRulesItem] | None = None
     allow_lan_access: bool | None = Field(default=None, alias="allowLanAccess")
@@ -794,7 +777,7 @@ class GetNetworkWirelessSsidFirewallL3FirewallRulesResponseRulesItem(_BaseSchema
 
 
 class GetNetworkWirelessSsidFirewallL7FirewallRulesResponse(_BaseSchema):
-    """Return the L7 firewall rules for an SSID on an MR network."""
+    """Response for getNetworkWirelessSsidFirewallL7FirewallRules operation."""
 
     rules: list[GetNetworkWirelessSsidFirewallL7FirewallRulesResponseRulesItem] | None = None
 
@@ -808,7 +791,7 @@ class GetNetworkWirelessSsidFirewallL7FirewallRulesResponseRulesItem(_BaseSchema
 
 
 class GetNetworkWirelessSsidHotspot20Response(_BaseSchema):
-    """Return the Hotspot 2.0 settings for an SSID."""
+    """Response for getNetworkWirelessSsidHotspot20 operation."""
 
     enabled: bool | None = None
     operator: GetNetworkWirelessSsidHotspot20ResponseOperator | None = None
@@ -853,7 +836,7 @@ class GetNetworkWirelessSsidHotspot20ResponseVenue(_BaseSchema):
 
 
 class GetNetworkWirelessSsidIdentityPskResponse(_BaseSchema):
-    """Return an Identity PSK."""
+    """Response for getNetworkWirelessSsidIdentityPsk operation."""
 
     name: str | None = None
     id_: str | None = Field(default=None, alias="id")
@@ -867,7 +850,7 @@ class GetNetworkWirelessSsidIdentityPskResponse(_BaseSchema):
 class GetNetworkWirelessSsidIdentityPsksResponse(
     RootModel[list["GetNetworkWirelessSsidIdentityPsksResponseItem"]]
 ):
-    """List all Identity PSKs in a wireless network."""
+    """Response for getNetworkWirelessSsidIdentityPsks operation."""
 
 
 class GetNetworkWirelessSsidIdentityPsksResponseItem(_BaseSchema):
@@ -883,7 +866,7 @@ class GetNetworkWirelessSsidIdentityPsksResponseItem(_BaseSchema):
 
 
 class GetNetworkWirelessSsidResponse(_BaseSchema):
-    """Return a single MR SSID."""
+    """Response for getNetworkWirelessSsid operation."""
 
     number: int | None = None
     name: str | None = None
@@ -933,7 +916,7 @@ class GetNetworkWirelessSsidResponse(_BaseSchema):
 
 
 class GetNetworkWirelessSsidSchedulesResponse(_BaseSchema):
-    """List the outage schedule for the SSID."""
+    """Response for getNetworkWirelessSsidSchedules operation."""
 
     enabled: bool | None = None
     ranges: list[GetNetworkWirelessSsidSchedulesResponseRangesItem] | None = None
@@ -959,7 +942,7 @@ class GetNetworkWirelessSsidSchedulesResponseRangesItem(_BaseSchema):
 
 
 class GetNetworkWirelessSsidSplashSettingsResponse(_BaseSchema):
-    """Display the splash page settings for the given SSID."""
+    """Response for getNetworkWirelessSsidSplashSettings operation."""
 
     ssid_number: int | None = Field(default=None, alias="ssidNumber")
     splash_page: str | None = Field(default=None, alias="splashPage")
@@ -1040,7 +1023,7 @@ class GetNetworkWirelessSsidSplashSettingsResponseSplashLogo(_BaseSchema):
 
 
 class GetNetworkWirelessSsidTrafficShapingRulesResponse(_BaseSchema):
-    """Display the traffic shaping settings for a SSID on an MR network."""
+    """Response for getNetworkWirelessSsidTrafficShapingRules operation."""
 
     traffic_shaping_enabled: bool | None = Field(default=None, alias="trafficShapingEnabled")
     default_rules_enabled: bool | None = Field(default=None, alias="defaultRulesEnabled")
@@ -1059,7 +1042,7 @@ class GetNetworkWirelessSsidTrafficShapingRulesResponseRulesItem(_BaseSchema):
 
 
 class GetNetworkWirelessSsidsResponse(RootModel[list["GetNetworkWirelessSsidsResponseItem"]]):
-    """List the MR SSIDs in a network."""
+    """Response for getNetworkWirelessSsids operation."""
 
 
 class GetNetworkWirelessSsidsResponseItem(_BaseSchema):
@@ -1115,7 +1098,7 @@ class GetNetworkWirelessSsidsResponseItem(_BaseSchema):
 class GetNetworkWirelessUsageHistoryResponse(
     RootModel[list["GetNetworkWirelessUsageHistoryResponseItem"]]
 ):
-    """Return AP usage over time for a device or network client."""
+    """Response for getNetworkWirelessUsageHistory operation."""
 
 
 class GetNetworkWirelessUsageHistoryResponseItem(_BaseSchema):
@@ -1129,7 +1112,7 @@ class GetNetworkWirelessUsageHistoryResponseItem(_BaseSchema):
 
 
 class GetOrganizationWirelessAirMarshalRulesResponse(_BaseSchema):
-    """Returns the current Air Marshal rules for this organization."""
+    """Response for getOrganizationWirelessAirMarshalRules operation."""
 
     items: list[GetOrganizationWirelessAirMarshalRulesResponseItemsItem] | None = None
     meta: GetOrganizationWirelessAirMarshalRulesResponseMeta | None = None
@@ -1153,7 +1136,7 @@ class GetOrganizationWirelessAirMarshalRulesResponseMeta(_BaseSchema):
 
 
 class GetOrganizationWirelessAirMarshalSettingsByNetworkResponse(_BaseSchema):
-    """Returns the current Air Marshal settings for this network."""
+    """Response for getOrganizationWirelessAirMarshalSettingsByNetwork operation."""
 
     items: list[GetOrganizationWirelessAirMarshalSettingsByNetworkResponseItemsItem] | None = None
     meta: GetOrganizationWirelessAirMarshalSettingsByNetworkResponseMeta | None = None
@@ -1173,7 +1156,7 @@ class GetOrganizationWirelessAirMarshalSettingsByNetworkResponseMeta(_BaseSchema
 
 
 class GetOrganizationWirelessClientsOverviewByDeviceResponse(_BaseSchema):
-    """List access point client count at the moment in an organization."""
+    """Response for getOrganizationWirelessClientsOverviewByDevice operation."""
 
     items: list[GetOrganizationWirelessClientsOverviewByDeviceResponseItemsItem] | None = None
     meta: GetOrganizationWirelessAirMarshalSettingsByNetworkResponseMeta | None = None
@@ -1190,7 +1173,7 @@ class GetOrganizationWirelessClientsOverviewByDeviceResponseItemsItem(_BaseSchem
 class GetOrganizationWirelessDevicesChannelUtilizationByDeviceResponse(
     RootModel[list["GetOrganizationWirelessDevicesChannelUtilizationByDeviceResponseItem"]]
 ):
-    """Get average channel utilization for all bands in a network, split by AP."""
+    """Response for getOrganizationWirelessDevicesChannelUtilizationByDevice operation."""
 
 
 class GetOrganizationWirelessDevicesChannelUtilizationByDeviceResponseItem(_BaseSchema):
@@ -1205,7 +1188,7 @@ class GetOrganizationWirelessDevicesChannelUtilizationByDeviceResponseItem(_Base
 class GetOrganizationWirelessDevicesChannelUtilizationByNetworkResponse(
     RootModel[list["GetOrganizationWirelessDevicesChannelUtilizationByNetworkResponseItem"]]
 ):
-    """Get average channel utilization across all bands for all networks in the organization."""
+    """Response for getOrganizationWirelessDevicesChannelUtilizationByNetwork operation."""
 
 
 class GetOrganizationWirelessDevicesChannelUtilizationByNetworkResponseItem(_BaseSchema):
@@ -1222,7 +1205,9 @@ class GetOrganizationWirelessDevicesChannelUtilizationHistoryByDeviceByIntervalR
         ]
     ]
 ):
-    """Get a time-series of average channel utilization for all bands, segmented by device."""
+    """Response for getOrganizationWirelessDevicesChannelUtilizationHistoryByDeviceByInterval
+    operation.
+    """
 
 
 class GetOrganizationWirelessDevicesChannelUtilizationHistoryByDeviceByIntervalResponseItem(
@@ -1247,7 +1232,9 @@ class GetOrganizationWirelessDevicesChannelUtilizationHistoryByNetworkByInterval
         ]
     ]
 ):
-    """Get a time-series of average channel utilization for all bands."""
+    """Response for getOrganizationWirelessDevicesChannelUtilizationHistoryByNetworkByInterval
+    operation.
+    """
 
 
 class GetOrganizationWirelessDevicesChannelUtilizationHistoryByNetworkByIntervalResponseItem(
@@ -1266,9 +1253,7 @@ class GetOrganizationWirelessDevicesChannelUtilizationHistoryByNetworkByInterval
 class GetOrganizationWirelessDevicesEthernetStatusesResponse(
     RootModel[list["GetOrganizationWirelessDevicesEthernetStatusesResponseItem"]]
 ):
-    """List the most recent Ethernet link speed, duplex, aggregation and power mode and status
-    information for wireless devices.
-    """
+    """Response for getOrganizationWirelessDevicesEthernetStatuses operation."""
 
 
 class GetOrganizationWirelessDevicesEthernetStatusesResponseItem(_BaseSchema):
@@ -1285,7 +1270,7 @@ class GetOrganizationWirelessDevicesEthernetStatusesResponseItem(_BaseSchema):
 class GetOrganizationWirelessDevicesPacketLossByClientResponse(
     RootModel[list["GetOrganizationWirelessDevicesPacketLossByClientResponseItem"]]
 ):
-    """Get average packet loss for the given timespan for all clients in the organization."""
+    """Response for getOrganizationWirelessDevicesPacketLossByClient operation."""
 
 
 class GetOrganizationWirelessDevicesPacketLossByClientResponseItem(_BaseSchema):
@@ -1300,9 +1285,7 @@ class GetOrganizationWirelessDevicesPacketLossByClientResponseItem(_BaseSchema):
 class GetOrganizationWirelessDevicesPacketLossByDeviceResponse(
     RootModel[list["GetOrganizationWirelessDevicesPacketLossByDeviceResponseItem"]]
 ):
-    """Get average packet loss for the given timespan for all devices in the organization. Does not
-    include device's own traffic.
-    """
+    """Response for getOrganizationWirelessDevicesPacketLossByDevice operation."""
 
 
 class GetOrganizationWirelessDevicesPacketLossByDeviceResponseItem(_BaseSchema):
@@ -1317,7 +1300,7 @@ class GetOrganizationWirelessDevicesPacketLossByDeviceResponseItem(_BaseSchema):
 class GetOrganizationWirelessDevicesPacketLossByNetworkResponse(
     RootModel[list["GetOrganizationWirelessDevicesPacketLossByNetworkResponseItem"]]
 ):
-    """Get average packet loss for the given timespan for all networks in the organization."""
+    """Response for getOrganizationWirelessDevicesPacketLossByNetwork operation."""
 
 
 class GetOrganizationWirelessDevicesPacketLossByNetworkResponseItem(_BaseSchema):
@@ -1329,10 +1312,7 @@ class GetOrganizationWirelessDevicesPacketLossByNetworkResponseItem(_BaseSchema)
 
 
 class GetOrganizationWirelessDevicesPowerModeHistoryResponse(_BaseSchema):
-    """Return a record of power mode changes for wireless devices in the organization. For each
-    device, it provides a series of events with timestamps indicating when a power mode change
-    occurred and the new mode. The events are ordered by timestamp.
-    """
+    """Response for getOrganizationWirelessDevicesPowerModeHistory operation."""
 
     items: list[GetOrganizationWirelessDevicesPowerModeHistoryResponseItemsItem] | None = None
 
@@ -1350,8 +1330,8 @@ class GetOrganizationWirelessDevicesPowerModeHistoryResponseItemsItem(_BaseSchem
 
 
 class GetOrganizationWirelessDevicesRadsecCertificatesAuthoritiesCrlsDeltasResponse(_BaseSchema):
-    """Query for all delta certificate revocation list (CRL) for the organization's RADSEC device
-    Certificate Authority (CA) with the given id.
+    """Response for getOrganizationWirelessDevicesRadsecCertificatesAuthoritiesCrlsDeltas
+    operation.
     """
 
     items: (
@@ -1362,9 +1342,7 @@ class GetOrganizationWirelessDevicesRadsecCertificatesAuthoritiesCrlsDeltasRespo
 
 
 class GetOrganizationWirelessDevicesRadsecCertificatesAuthoritiesCrlsResponse(_BaseSchema):
-    """Query for certificate revocation list (CRL) for the organization's RADSEC device Certificate
-    Authorities (CAs).
-    """
+    """Response for getOrganizationWirelessDevicesRadsecCertificatesAuthoritiesCrls operation."""
 
     items: (
         list[GetOrganizationWirelessDevicesRadsecCertificatesAuthoritiesCrlsResponseItemsItem]
@@ -1383,12 +1361,7 @@ class GetOrganizationWirelessDevicesRadsecCertificatesAuthoritiesCrlsResponseIte
 class GetOrganizationWirelessDevicesRadsecCertificatesAuthoritiesResponse(
     RootModel[list["GetOrganizationWirelessDevicesRadsecCertificatesAuthoritiesResponseItem"]]
 ):
-    """Query for details on the organization's RADSEC device Certificate Authority certificates
-    (CAs). The primary CA signs all the certificates that devices present when establishing a
-    secure connection to RADIUS servers via RADSEC protocol. This API returns an array of the
-    status of all of the CAs as well as their contents, if they've been generated. An
-    organization will have at most one CA unless the CA is being rotated.
-    """
+    """Response for getOrganizationWirelessDevicesRadsecCertificatesAuthorities operation."""
 
 
 class GetOrganizationWirelessDevicesRadsecCertificatesAuthoritiesResponseItem(_BaseSchema):
@@ -1399,7 +1372,7 @@ class GetOrganizationWirelessDevicesRadsecCertificatesAuthoritiesResponseItem(_B
 
 
 class GetOrganizationWirelessDevicesSystemCpuLoadHistoryResponse(_BaseSchema):
-    """Return the CPU Load history for a list of wireless devices in the organization."""
+    """Response for getOrganizationWirelessDevicesSystemCpuLoadHistory operation."""
 
     items: list[GetOrganizationWirelessDevicesSystemCpuLoadHistoryResponseItemsItem] | None = None
 
@@ -1418,7 +1391,7 @@ class GetOrganizationWirelessDevicesSystemCpuLoadHistoryResponseItemsItem(_BaseS
 
 
 class GetOrganizationWirelessDevicesWirelessControllersByDeviceResponse(_BaseSchema):
-    """List of Catalyst access points information."""
+    """Response for getOrganizationWirelessDevicesWirelessControllersByDevice operation."""
 
     items: (
         list[GetOrganizationWirelessDevicesWirelessControllersByDeviceResponseItemsItem] | None
@@ -1441,7 +1414,7 @@ class GetOrganizationWirelessDevicesWirelessControllersByDeviceResponseItemsItem
 
 
 class GetOrganizationWirelessLocationScanningByNetworkResponse(_BaseSchema):
-    """Return scanning API settings."""
+    """Response for getOrganizationWirelessLocationScanningByNetwork operation."""
 
     items: list[GetOrganizationWirelessLocationScanningByNetworkResponseItemsItem] | None = None
     meta: GetOrganizationWirelessAirMarshalSettingsByNetworkResponseMeta | None = None
@@ -1457,7 +1430,7 @@ class GetOrganizationWirelessLocationScanningByNetworkResponseItemsItem(_BaseSch
 
 
 class GetOrganizationWirelessLocationScanningReceiversResponse(_BaseSchema):
-    """Return scanning API receivers."""
+    """Response for getOrganizationWirelessLocationScanningReceivers operation."""
 
     items: list[GetOrganizationWirelessLocationScanningReceiversResponseItemsItem] | None = None
     meta: GetOrganizationWirelessAirMarshalSettingsByNetworkResponseMeta | None = None
@@ -1474,7 +1447,7 @@ class GetOrganizationWirelessLocationScanningReceiversResponseItemsItem(_BaseSch
 
 
 class GetOrganizationWirelessMqttSettingsResponse(_BaseSchema):
-    """Return MQTT Settings for networks."""
+    """Response for getOrganizationWirelessMqttSettings operation."""
 
     items: list[GetOrganizationWirelessMqttSettingsResponseItemsItem] | None = None
     meta: GetOrganizationWirelessAirMarshalSettingsByNetworkResponseMeta | None = None
@@ -1492,7 +1465,7 @@ class GetOrganizationWirelessMqttSettingsResponseItemsItem(_BaseSchema):
 class GetOrganizationWirelessRfProfilesAssignmentsByDeviceResponse(
     RootModel[list["GetOrganizationWirelessRfProfilesAssignmentsByDeviceResponseItem"]]
 ):
-    """List the RF profiles of an organization by device."""
+    """Response for getOrganizationWirelessRfProfilesAssignmentsByDevice operation."""
 
 
 class GetOrganizationWirelessRfProfilesAssignmentsByDeviceResponseItem(_BaseSchema):
@@ -1503,7 +1476,7 @@ class GetOrganizationWirelessRfProfilesAssignmentsByDeviceResponseItem(_BaseSche
 
 
 class GetOrganizationWirelessSsidsFirewallIsolationAllowlistEntriesResponse(_BaseSchema):
-    """List the L2 isolation allow list MAC entry in an organization."""
+    """Response for getOrganizationWirelessSsidsFirewallIsolationAllowlistEntries operation."""
 
     items: (
         list[GetOrganizationWirelessSsidsFirewallIsolationAllowlistEntriesResponseItemsItem] | None
@@ -1524,9 +1497,7 @@ class GetOrganizationWirelessSsidsFirewallIsolationAllowlistEntriesResponseItems
 
 
 class GetOrganizationWirelessSsidsOpenRoamingByNetworkResponse(_BaseSchema):
-    """Returns an array of objects, each containing SSID OpenRoaming configs for the corresponding
-    network.
-    """
+    """Response for getOrganizationWirelessSsidsOpenRoamingByNetwork operation."""
 
     items: list[GetOrganizationWirelessSsidsOpenRoamingByNetworkResponseItemsItem] | None = None
     meta: GetOrganizationWirelessAirMarshalSettingsByNetworkResponseMeta | None = None
@@ -1541,7 +1512,7 @@ class GetOrganizationWirelessSsidsOpenRoamingByNetworkResponseItemsItem(_BaseSch
 
 
 class GetOrganizationWirelessSsidsStatusesByDeviceResponse(_BaseSchema):
-    """List status information of all BSSIDs in your organization."""
+    """Response for getOrganizationWirelessSsidsStatusesByDevice operation."""
 
     items: list[GetOrganizationWirelessSsidsStatusesByDeviceResponseItemsItem] | None = None
     meta: GetOrganizationWirelessAirMarshalSettingsByNetworkResponseMeta | None = None
@@ -1561,7 +1532,7 @@ class GetOrganizationWirelessSsidsStatusesByDeviceResponseItemsItem(_BaseSchema)
 class GetOrganizationWirelessZigbeeByNetworkResponse(
     RootModel[list["GetOrganizationWirelessZigbeeByNetworkResponseItem"]]
 ):
-    """Return list of Zigbee configs."""
+    """Response for getOrganizationWirelessZigbeeByNetwork operation."""
 
 
 class GetOrganizationWirelessZigbeeByNetworkResponseItem(_BaseSchema):
@@ -1581,7 +1552,7 @@ class GetOrganizationWirelessZigbeeByNetworkResponseItem(_BaseSchema):
 class GetOrganizationWirelessZigbeeDevicesResponse(
     RootModel[list["GetOrganizationWirelessZigbeeDevicesResponseItem"]]
 ):
-    """List the Zigbee wireless devices for an organization or the supplied network(s)."""
+    """Response for getOrganizationWirelessZigbeeDevices operation."""
 
 
 class GetOrganizationWirelessZigbeeDevicesResponseItem(_BaseSchema):
@@ -1598,7 +1569,7 @@ class GetOrganizationWirelessZigbeeDevicesResponseItem(_BaseSchema):
 
 
 class GetOrganizationWirelessZigbeeDisenrollmentResponse(_BaseSchema):
-    """Return a disenrollment."""
+    """Response for getOrganizationWirelessZigbeeDisenrollment operation."""
 
     disenrollment_id: str | None = Field(default=None, alias="disenrollmentId")
     url: str | None = None
@@ -1619,7 +1590,7 @@ class GetOrganizationWirelessZigbeeDisenrollmentResponseDoorLocksItem(_BaseSchem
 class GetOrganizationWirelessZigbeeDoorLocksResponse(
     RootModel[list["GetOrganizationWirelessZigbeeDoorLocksResponseItem"]]
 ):
-    """Return the list of door locks for a network."""
+    """Response for getOrganizationWirelessZigbeeDoorLocks operation."""
 
 
 class GetOrganizationWirelessZigbeeDoorLocksResponseItem(_BaseSchema):
@@ -1639,21 +1610,19 @@ class GetOrganizationWirelessZigbeeDoorLocksResponseItem(_BaseSchema):
 
 
 class RecalculateOrganizationWirelessRadioAutoRfChannelsResponse(_BaseSchema):
-    """Recalculates automatically assigned channels for every AP within specified the specified
-    network(s). Note: This could cause a brief loss in connectivity for wireless clients.
-    """
+    """Response for recalculateOrganizationWirelessRadioAutoRfChannels operation."""
 
     estimated_completed_at: str | None = Field(default=None, alias="estimatedCompletedAt")
 
 
 class SetNetworkWirelessEthernetPortsProfilesDefaultResponse(_BaseSchema):
-    """Set the AP port profile to be default for this network."""
+    """Response for setNetworkWirelessEthernetPortsProfilesDefault operation."""
 
     profile_id: str | None = Field(default=None, alias="profileId")
 
 
 class UpdateDeviceWirelessAlternateManagementInterfaceIpv6Response(_BaseSchema):
-    """Update alternate management interface IPv6 address."""
+    """Response for updateDeviceWirelessAlternateManagementInterfaceIpv6 operation."""
 
     addresses: (
         list[UpdateDeviceWirelessAlternateManagementInterfaceIpv6ResponseAddressesItem] | None
@@ -1672,7 +1641,7 @@ class UpdateDeviceWirelessAlternateManagementInterfaceIpv6ResponseAddressesItem(
 
 
 class UpdateDeviceWirelessBluetoothSettingsResponse(_BaseSchema):
-    """Update the bluetooth settings for a wireless device."""
+    """Response for updateDeviceWirelessBluetoothSettings operation."""
 
     uuid: str | None = None
     major: int | None = None
@@ -1680,7 +1649,7 @@ class UpdateDeviceWirelessBluetoothSettingsResponse(_BaseSchema):
 
 
 class UpdateDeviceWirelessElectronicShelfLabelResponse(_BaseSchema):
-    """Update the ESL settings of a device."""
+    """Response for updateDeviceWirelessElectronicShelfLabel operation."""
 
     ap_esl_id: int | None = Field(default=None, alias="apEslId")
     serial: str | None = None
@@ -1692,7 +1661,7 @@ class UpdateDeviceWirelessElectronicShelfLabelResponse(_BaseSchema):
 
 
 class UpdateDeviceWirelessRadioSettingsResponse(_BaseSchema):
-    """Update the radio settings overrides of a device, which take precedence over RF profiles."""
+    """Response for updateDeviceWirelessRadioSettings operation."""
 
     serial: str | None = None
     rf_profile_id: str | None = Field(default=None, alias="rfProfileId")
@@ -1705,7 +1674,7 @@ class UpdateDeviceWirelessRadioSettingsResponse(_BaseSchema):
 
 
 class UpdateNetworkWirelessAirMarshalRuleResponse(_BaseSchema):
-    """Update a rule."""
+    """Response for updateNetworkWirelessAirMarshalRule operation."""
 
     network: WirelessDoorLocksNetwork | None = None
     rule_id: str | None = Field(default=None, alias="ruleId")
@@ -1716,24 +1685,21 @@ class UpdateNetworkWirelessAirMarshalRuleResponse(_BaseSchema):
 
 
 class UpdateNetworkWirelessAirMarshalSettingsResponse(_BaseSchema):
-    """Updates Air Marshal settings."""
+    """Response for updateNetworkWirelessAirMarshalSettings operation."""
 
     network_id: str | None = Field(default=None, alias="networkId")
     default_policy: str | None = Field(default=None, alias="defaultPolicy")
 
 
 class UpdateNetworkWirelessBillingResponse(_BaseSchema):
-    """Update the billing settings."""
+    """Response for updateNetworkWirelessBilling operation."""
 
     currency: str | None = None
     plans: list[GetNetworkWirelessBillingResponsePlansItem] | None = None
 
 
 class UpdateNetworkWirelessBluetoothSettingsResponse(_BaseSchema):
-    """Update the Bluetooth settings for a network. See the docs page for <a
-    href="https://documentation.meraki.com/MR/Bluetooth/Bluetooth_Low_Energy_(BLE)">Bluetooth
-    settings</a>.
-    """
+    """Response for updateNetworkWirelessBluetoothSettings operation."""
 
     scanning_enabled: bool | None = Field(default=None, alias="scanningEnabled")
     advertising_enabled: bool | None = Field(default=None, alias="advertisingEnabled")
@@ -1745,7 +1711,7 @@ class UpdateNetworkWirelessBluetoothSettingsResponse(_BaseSchema):
 
 
 class UpdateNetworkWirelessElectronicShelfLabelResponse(_BaseSchema):
-    """Update the ESL settings of a wireless network."""
+    """Response for updateNetworkWirelessElectronicShelfLabel operation."""
 
     hostname: str | None = None
     enabled: bool | None = None
@@ -1753,7 +1719,7 @@ class UpdateNetworkWirelessElectronicShelfLabelResponse(_BaseSchema):
 
 
 class UpdateNetworkWirelessEthernetPortsProfileResponse(_BaseSchema):
-    """Update the AP port profile by ID for this network."""
+    """Response for updateNetworkWirelessEthernetPortsProfile operation."""
 
     profile_id: str | None = Field(default=None, alias="profileId")
     name: str | None = None
@@ -1763,7 +1729,7 @@ class UpdateNetworkWirelessEthernetPortsProfileResponse(_BaseSchema):
 
 
 class UpdateNetworkWirelessLocationScanningResponse(_BaseSchema):
-    """Change scanning API settings."""
+    """Response for updateNetworkWirelessLocationScanning operation."""
 
     enabled: bool | None = None
     api: UpdateNetworkWirelessLocationScanningResponseApi | None = None
@@ -1777,9 +1743,7 @@ class UpdateNetworkWirelessLocationScanningResponseApi(_BaseSchema):
 
 
 class UpdateNetworkWirelessRfProfileResponse(_BaseSchema):
-    """Updates specified RF profile for this network. Note: built-in RF profiles can only be
-    assigned as a default, and its attributes are immutable.
-    """
+    """Response for updateNetworkWirelessRfProfile operation."""
 
     id_: str | None = Field(default=None, alias="id")
     network_id: str | None = Field(default=None, alias="networkId")
@@ -1808,7 +1772,7 @@ class UpdateNetworkWirelessRfProfileResponse(_BaseSchema):
 
 
 class UpdateNetworkWirelessSettingsResponse(_BaseSchema):
-    """Update the wireless settings for a network."""
+    """Response for updateNetworkWirelessSettings operation."""
 
     meshing_enabled: bool | None = Field(default=None, alias="meshingEnabled")
     ipv6_bridge_enabled: bool | None = Field(default=None, alias="ipv6BridgeEnabled")
@@ -1824,7 +1788,7 @@ class UpdateNetworkWirelessSettingsResponse(_BaseSchema):
 
 
 class UpdateNetworkWirelessSsidBonjourForwardingResponse(_BaseSchema):
-    """Update the bonjour forwarding setting and rules for the SSID."""
+    """Response for updateNetworkWirelessSsidBonjourForwarding operation."""
 
     enabled: bool | None = None
     exception: GetNetworkWirelessRfProfilesResponseTransmission | None = None
@@ -1832,7 +1796,7 @@ class UpdateNetworkWirelessSsidBonjourForwardingResponse(_BaseSchema):
 
 
 class UpdateNetworkWirelessSsidEapOverrideResponse(_BaseSchema):
-    """Update the EAP overridden parameters for an SSID."""
+    """Response for updateNetworkWirelessSsidEapOverride operation."""
 
     timeout: int | None = None
     max_retries: int | None = Field(default=None, alias="maxRetries")
@@ -1843,20 +1807,20 @@ class UpdateNetworkWirelessSsidEapOverrideResponse(_BaseSchema):
 
 
 class UpdateNetworkWirelessSsidFirewallL3FirewallRulesResponse(_BaseSchema):
-    """Update the L3 firewall rules of an SSID on an MR network."""
+    """Response for updateNetworkWirelessSsidFirewallL3FirewallRules operation."""
 
     rules: list[GetNetworkWirelessSsidFirewallL3FirewallRulesResponseRulesItem] | None = None
     allow_lan_access: bool | None = Field(default=None, alias="allowLanAccess")
 
 
 class UpdateNetworkWirelessSsidFirewallL7FirewallRulesResponse(_BaseSchema):
-    """Update the L7 firewall rules of an SSID on an MR network."""
+    """Response for updateNetworkWirelessSsidFirewallL7FirewallRules operation."""
 
     rules: list[GetNetworkWirelessSsidFirewallL7FirewallRulesResponseRulesItem] | None = None
 
 
 class UpdateNetworkWirelessSsidHotspot20Response(_BaseSchema):
-    """Update the Hotspot 2.0 settings of an SSID."""
+    """Response for updateNetworkWirelessSsidHotspot20 operation."""
 
     enabled: bool | None = None
     operator: GetNetworkWirelessSsidHotspot20ResponseOperator | None = None
@@ -1873,7 +1837,7 @@ class UpdateNetworkWirelessSsidHotspot20Response(_BaseSchema):
 
 
 class UpdateNetworkWirelessSsidIdentityPskResponse(_BaseSchema):
-    """Update an Identity PSK."""
+    """Response for updateNetworkWirelessSsidIdentityPsk operation."""
 
     name: str | None = None
     id_: str | None = Field(default=None, alias="id")
@@ -1885,14 +1849,14 @@ class UpdateNetworkWirelessSsidIdentityPskResponse(_BaseSchema):
 
 
 class UpdateNetworkWirelessSsidOpenRoamingResponse(_BaseSchema):
-    """Update the OpenRoaming setting for the SSID."""
+    """Response for updateNetworkWirelessSsidOpenRoaming operation."""
 
     enabled: bool | None = None
     tenant_id: str | None = Field(default=None, alias="tenantId")
 
 
 class UpdateNetworkWirelessSsidResponse(_BaseSchema):
-    """Update the attributes of an MR SSID."""
+    """Response for updateNetworkWirelessSsid operation."""
 
     number: int | None = None
     name: str | None = None
@@ -1942,7 +1906,7 @@ class UpdateNetworkWirelessSsidResponse(_BaseSchema):
 
 
 class UpdateNetworkWirelessSsidSchedulesResponse(_BaseSchema):
-    """Update the outage schedule for the SSID."""
+    """Response for updateNetworkWirelessSsidSchedules operation."""
 
     enabled: bool | None = None
     ranges: list[GetNetworkWirelessSsidSchedulesResponseRangesItem] | None = None
@@ -1952,7 +1916,7 @@ class UpdateNetworkWirelessSsidSchedulesResponse(_BaseSchema):
 
 
 class UpdateNetworkWirelessSsidSplashSettingsResponse(_BaseSchema):
-    """Modify the splash page settings for the given SSID."""
+    """Response for updateNetworkWirelessSsidSplashSettings operation."""
 
     ssid_number: int | None = Field(default=None, alias="ssidNumber")
     splash_page: str | None = Field(default=None, alias="splashPage")
@@ -1992,7 +1956,7 @@ class UpdateNetworkWirelessSsidSplashSettingsResponse(_BaseSchema):
 
 
 class UpdateNetworkWirelessSsidTrafficShapingRulesResponse(_BaseSchema):
-    """Update the traffic shaping rules for an SSID on an MR network."""
+    """Response for updateNetworkWirelessSsidTrafficShapingRules operation."""
 
     traffic_shaping_enabled: bool | None = Field(default=None, alias="trafficShapingEnabled")
     default_rules_enabled: bool | None = Field(default=None, alias="defaultRulesEnabled")
@@ -2000,7 +1964,7 @@ class UpdateNetworkWirelessSsidTrafficShapingRulesResponse(_BaseSchema):
 
 
 class UpdateNetworkWirelessZigbeeResponse(_BaseSchema):
-    """Update Zigbee Configs for specified network."""
+    """Response for updateNetworkWirelessZigbee operation."""
 
     network: WirelessSentryEnrollmentSystemsManagerNetwork | None = None
     enabled: bool | None = None
@@ -2038,12 +2002,7 @@ class UpdateNetworkWirelessZigbeeResponseLockManagement(_BaseSchema):
 
 
 class UpdateOrganizationWirelessDevicesRadsecCertificatesAuthoritiesResponse(_BaseSchema):
-    """Update an organization's RADSEC device Certificate Authority (CA) state. Note this CA is
-    generated and controlled by Meraki. Call this endpoint to update the state to "trusted", at
-    which point Meraki will generate device certificates. "trusted" means the CA is placed on
-    your RADSEC server(s) and devices establishing a secure connection using certs signed by
-    this CA will pass verification.
-    """
+    """Response for updateOrganizationWirelessDevicesRadsecCertificatesAuthorities operation."""
 
     certificate_authority_id: str | None = Field(default=None, alias="certificateAuthorityId")
     status: str | None = None
@@ -2051,7 +2010,7 @@ class UpdateOrganizationWirelessDevicesRadsecCertificatesAuthoritiesResponse(_Ba
 
 
 class UpdateOrganizationWirelessLocationScanningReceiverResponse(_BaseSchema):
-    """Change scanning API receiver settings."""
+    """Response for updateOrganizationWirelessLocationScanningReceiver operation."""
 
     network: WirelessDoorLocksNetwork | None = None
     receiver_id: str | None = Field(default=None, alias="receiverId")
@@ -2061,7 +2020,7 @@ class UpdateOrganizationWirelessLocationScanningReceiverResponse(_BaseSchema):
 
 
 class UpdateOrganizationWirelessMqttSettingsResponse(_BaseSchema):
-    """Add new broker config for wireless MQTT."""
+    """Response for updateOrganizationWirelessMqttSettings operation."""
 
     network: WirelessDoorLocksNetwork | None = None
     mqtt: WirelessMqtt | None = None
@@ -2070,7 +2029,7 @@ class UpdateOrganizationWirelessMqttSettingsResponse(_BaseSchema):
 
 
 class UpdateOrganizationWirelessSsidsFirewallIsolationAllowlistEntryResponse(_BaseSchema):
-    """Update isolation allow list MAC entry info."""
+    """Response for updateOrganizationWirelessSsidsFirewallIsolationAllowlistEntry operation."""
 
     entry_id: str = Field(alias="entryId")
     created_at: str | None = Field(default=None, alias="createdAt")
@@ -2082,7 +2041,7 @@ class UpdateOrganizationWirelessSsidsFirewallIsolationAllowlistEntryResponse(_Ba
 
 
 class UpdateOrganizationWirelessZigbeeDeviceResponse(_BaseSchema):
-    """Endpoint to update zigbee gateways."""
+    """Response for updateOrganizationWirelessZigbeeDevice operation."""
 
     network: WirelessDoorLocksNetwork | None = None
     pan_id: str | None = Field(default=None, alias="panId")
@@ -2095,7 +2054,7 @@ class UpdateOrganizationWirelessZigbeeDeviceResponse(_BaseSchema):
 
 
 class UpdateOrganizationWirelessZigbeeDoorLockResponse(_BaseSchema):
-    """Endpoint to batch update door locks params."""
+    """Response for updateOrganizationWirelessZigbeeDoorLock operation."""
 
     door_lock_id: str | None = Field(default=None, alias="doorLockId")
     name: str | None = None

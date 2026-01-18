@@ -12,9 +12,7 @@ from meraki_client.schemas._base import _BaseSchema
 
 
 class CreateOrganizationInsightMonitoredMediaServerResponse(_BaseSchema):
-    """Add a media server to be monitored for this organization. Only valid for organizations with
-    Meraki Insight.
-    """
+    """Response for createOrganizationInsightMonitoredMediaServer operation."""
 
     id_: str | None = Field(default=None, alias="id")
     name: str | None = None
@@ -27,7 +25,7 @@ class CreateOrganizationInsightMonitoredMediaServerResponse(_BaseSchema):
 class GetNetworkInsightApplicationHealthByTimeResponse(
     RootModel[list["GetNetworkInsightApplicationHealthByTimeResponseItem"]]
 ):
-    """Get application health by time."""
+    """Response for getNetworkInsightApplicationHealthByTime operation."""
 
 
 class GetNetworkInsightApplicationHealthByTimeResponseItem(_BaseSchema):
@@ -50,7 +48,7 @@ class GetNetworkInsightApplicationHealthByTimeResponseItem(_BaseSchema):
 class GetOrganizationInsightApplicationsResponse(
     RootModel[list["GetOrganizationInsightApplicationsResponseItem"]]
 ):
-    """List all Insight tracked applications."""
+    """Response for getOrganizationInsightApplications operation."""
 
 
 class GetOrganizationInsightApplicationsResponseItem(_BaseSchema):
@@ -62,9 +60,7 @@ class GetOrganizationInsightApplicationsResponseItem(_BaseSchema):
 
 
 class GetOrganizationInsightMonitoredMediaServerResponse(_BaseSchema):
-    """Return a monitored media server for this organization. Only valid for organizations with
-    Meraki Insight.
-    """
+    """Response for getOrganizationInsightMonitoredMediaServer operation."""
 
     id_: str | None = Field(default=None, alias="id")
     name: str | None = None
@@ -77,9 +73,7 @@ class GetOrganizationInsightMonitoredMediaServerResponse(_BaseSchema):
 class GetOrganizationInsightMonitoredMediaServersResponse(
     RootModel[list["GetOrganizationInsightMonitoredMediaServersResponseItem"]]
 ):
-    """List the monitored media servers for this organization. Only valid for organizations with
-    Meraki Insight.
-    """
+    """Response for getOrganizationInsightMonitoredMediaServers operation."""
 
 
 class GetOrganizationInsightMonitoredMediaServersResponseItem(_BaseSchema):
@@ -109,9 +103,7 @@ class InsightThresholds(_BaseSchema):
 
 
 class UpdateOrganizationInsightMonitoredMediaServerResponse(_BaseSchema):
-    """Update a monitored media server for this organization. Only valid for organizations with
-    Meraki Insight.
-    """
+    """Response for updateOrganizationInsightMonitoredMediaServer operation."""
 
     id_: str | None = Field(default=None, alias="id")
     name: str | None = None

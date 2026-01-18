@@ -14,7 +14,7 @@ from meraki_client.schemas._base import _BaseSchema
 
 
 class BatchNetworkFloorPlansAutoLocateJobsResponse(_BaseSchema):
-    """Schedule auto locate jobs for one or more floor plans in a network."""
+    """Response for batchNetworkFloorPlansAutoLocateJobs operation."""
 
     jobs: list[BatchNetworkFloorPlansAutoLocateJobsResponseJobsItem] | None = None
 
@@ -34,13 +34,13 @@ class BatchNetworkFloorPlansAutoLocateJobsResponseJobsItem(_BaseSchema):
 
 
 class BatchNetworkFloorPlansDevicesUpdateResponse(_BaseSchema):
-    """Update floorplan assignments for a batch of devices."""
+    """Response for batchNetworkFloorPlansDevicesUpdate operation."""
 
     success: bool | None = None
 
 
 class BindNetworkResponse(_BaseSchema):
-    """Bind a network to a template."""
+    """Response for bindNetwork operation."""
 
     id_: str | None = Field(default=None, alias="id")
     organization_id: str | None = Field(default=None, alias="organizationId")
@@ -56,10 +56,7 @@ class BindNetworkResponse(_BaseSchema):
 
 
 class ClaimNetworkDevicesResponse(_BaseSchema):
-    """Claim devices into a network. (Note: for recently claimed devices, it may take a few minutes
-    for API requests against that device to succeed). This operation can be used up to ten times
-    within a single five minute window.
-    """
+    """Response for claimNetworkDevices operation."""
 
     serials: list[str] | None = None
     errors: list[ClaimNetworkDevicesResponseErrorsItem] | None = None
@@ -73,7 +70,7 @@ class ClaimNetworkDevicesResponseErrorsItem(_BaseSchema):
 
 
 class CreateNetworkFirmwareUpgradesRollbackResponse(_BaseSchema):
-    """Rollback a Firmware Upgrade For A Network."""
+    """Response for createNetworkFirmwareUpgradesRollback operation."""
 
     product: str | None = None
     status: str | None = None
@@ -91,7 +88,7 @@ class CreateNetworkFirmwareUpgradesRollbackResponseReasonsItem(_BaseSchema):
 
 
 class CreateNetworkFirmwareUpgradesStagedEventResponse(_BaseSchema):
-    """Create a Staged Upgrade Event for a network."""
+    """Response for createNetworkFirmwareUpgradesStagedEvent operation."""
 
     products: GetNetworkFirmwareUpgradesStagedEventsResponseProducts | None = None
     stages: list[GetNetworkFirmwareUpgradesStagedEventsResponseStagesItem] | None = None
@@ -99,7 +96,7 @@ class CreateNetworkFirmwareUpgradesStagedEventResponse(_BaseSchema):
 
 
 class CreateNetworkFirmwareUpgradesStagedGroupResponse(_BaseSchema):
-    """Create a Staged Upgrade Group for a network."""
+    """Response for createNetworkFirmwareUpgradesStagedGroup operation."""
 
     group_id: str | None = Field(default=None, alias="groupId")
     name: str | None = None
@@ -109,7 +106,7 @@ class CreateNetworkFirmwareUpgradesStagedGroupResponse(_BaseSchema):
 
 
 class CreateNetworkFloorPlanResponse(_BaseSchema):
-    """Upload a floor plan."""
+    """Response for createNetworkFloorPlan operation."""
 
     floor_plan_id: str | None = Field(default=None, alias="floorPlanId")
     image_url: str | None = Field(default=None, alias="imageUrl")
@@ -129,7 +126,7 @@ class CreateNetworkFloorPlanResponse(_BaseSchema):
 
 
 class CreateNetworkGroupPolicyResponse(_BaseSchema):
-    """Create a group policy."""
+    """Response for createNetworkGroupPolicy operation."""
 
     group_policy_id: str | None = Field(default=None, alias="groupPolicyId")
     scheduling: NetworksScheduling | None = None
@@ -148,10 +145,7 @@ class CreateNetworkGroupPolicyResponse(_BaseSchema):
 
 
 class CreateNetworkMerakiAuthUserResponse(_BaseSchema):
-    """Authorize a user configured with Meraki Authentication for a network (currently supports
-    802.1X, splash guest, and client VPN users, and currently, organizations have a 50,000 user
-    cap).
-    """
+    """Response for createNetworkMerakiAuthUser operation."""
 
     id_: str | None = Field(default=None, alias="id")
     email: str | None = None
@@ -163,7 +157,7 @@ class CreateNetworkMerakiAuthUserResponse(_BaseSchema):
 
 
 class CreateNetworkMqttBrokerResponse(_BaseSchema):
-    """Add an MQTT broker."""
+    """Response for createNetworkMqttBroker operation."""
 
     id_: str | None = Field(default=None, alias="id")
     name: str | None = None
@@ -174,9 +168,7 @@ class CreateNetworkMqttBrokerResponse(_BaseSchema):
 
 
 class CreateNetworkPiiRequestResponse(_BaseSchema):
-    """Submit a new delete or restrict processing PII request ## ALTERNATE PATH ```
-    /organizations/{organizationId}/pii/requests ```.
-    """
+    """Response for createNetworkPiiRequest operation."""
 
     id_: str | None = Field(default=None, alias="id")
     organization_wide: bool | None = Field(default=None, alias="organizationWide")
@@ -190,7 +182,7 @@ class CreateNetworkPiiRequestResponse(_BaseSchema):
 
 
 class CreateNetworkVlanProfileResponse(_BaseSchema):
-    """Create a VLAN profile for a network."""
+    """Response for createNetworkVlanProfile operation."""
 
     iname: str | None = None
     name: str | None = None
@@ -200,7 +192,7 @@ class CreateNetworkVlanProfileResponse(_BaseSchema):
 
 
 class CreateNetworkWebhooksHttpServerResponse(_BaseSchema):
-    """Add an HTTP server to a network."""
+    """Response for createNetworkWebhooksHttpServer operation."""
 
     id_: str | None = Field(default=None, alias="id")
     name: str | None = None
@@ -210,7 +202,7 @@ class CreateNetworkWebhooksHttpServerResponse(_BaseSchema):
 
 
 class CreateNetworkWebhooksPayloadTemplateResponse(_BaseSchema):
-    """Create a webhook payload template for a network."""
+    """Response for createNetworkWebhooksPayloadTemplate operation."""
 
     payload_template_id: str | None = Field(default=None, alias="payloadTemplateId")
     type_: str | None = Field(default=None, alias="type")
@@ -221,7 +213,7 @@ class CreateNetworkWebhooksPayloadTemplateResponse(_BaseSchema):
 
 
 class CreateNetworkWebhooksWebhookTestResponse(_BaseSchema):
-    """Send a test webhook for a network."""
+    """Response for createNetworkWebhooksWebhookTest operation."""
 
     id_: str | None = Field(default=None, alias="id")
     url: str | None = None
@@ -229,7 +221,7 @@ class CreateNetworkWebhooksWebhookTestResponse(_BaseSchema):
 
 
 class DeferNetworkFirmwareUpgradesStagedEventsResponse(_BaseSchema):
-    """Postpone by 1 week all pending staged upgrade stages for a network."""
+    """Response for deferNetworkFirmwareUpgradesStagedEvents operation."""
 
     products: GetNetworkFirmwareUpgradesStagedEventsResponseProducts | None = None
     stages: list[GetNetworkFirmwareUpgradesStagedEventsResponseStagesItem] | None = None
@@ -237,7 +229,7 @@ class DeferNetworkFirmwareUpgradesStagedEventsResponse(_BaseSchema):
 
 
 class GetNetworkAlertsHistoryResponse(RootModel[list["GetNetworkAlertsHistoryResponseItem"]]):
-    """Return the alert history for this network."""
+    """Response for getNetworkAlertsHistory operation."""
 
 
 class GetNetworkAlertsHistoryResponseItem(_BaseSchema):
@@ -252,7 +244,7 @@ class GetNetworkAlertsHistoryResponseItem(_BaseSchema):
 
 
 class GetNetworkAlertsSettingsResponse(_BaseSchema):
-    """Return the alert configuration for this network."""
+    """Response for getNetworkAlertsSettings operation."""
 
     default_destinations: GetNetworkAlertsSettingsResponseDefaultDestinations | None = Field(
         default=None, alias="defaultDestinations"
@@ -290,7 +282,7 @@ class GetNetworkAlertsSettingsResponseMuting(_BaseSchema):
 
 
 class GetNetworkBluetoothClientResponse(_BaseSchema):
-    """Return a Bluetooth client. Bluetooth clients can be identified by their ID or their MAC."""
+    """Response for getNetworkBluetoothClient operation."""
 
     id_: str | None = Field(default=None, alias="id")
     mac: str | None = None
@@ -306,7 +298,7 @@ class GetNetworkBluetoothClientResponse(_BaseSchema):
 
 
 class GetNetworkBluetoothClientsResponse(RootModel[list["GetNetworkBluetoothClientsResponseItem"]]):
-    """List the Bluetooth clients seen by APs in this network."""
+    """Response for getNetworkBluetoothClients operation."""
 
 
 class GetNetworkBluetoothClientsResponseItem(_BaseSchema):
@@ -326,9 +318,7 @@ class GetNetworkBluetoothClientsResponseItem(_BaseSchema):
 
 
 class GetNetworkClientPolicyResponse(_BaseSchema):
-    """Return the policy assigned to a client on the network. Clients can be identified by a client
-    key or either the MAC or IP depending on whether the network uses Track-by-IP.
-    """
+    """Response for getNetworkClientPolicy operation."""
 
     mac: str | None = None
     device_policy: str | None = Field(default=None, alias="devicePolicy")
@@ -347,9 +337,7 @@ class GetNetworkClientPolicyResponsePoliciesBySsidItem(_BaseSchema):
 
 
 class GetNetworkClientResponse(_BaseSchema):
-    """Return the client associated with the given identifier. Clients can be identified by a
-    client key or either the MAC or IP depending on whether the network uses Track-by-IP.
-    """
+    """Response for getNetworkClient operation."""
 
     id_: str | None = Field(default=None, alias="id")
     mac: str | None = None
@@ -393,11 +381,7 @@ class GetNetworkClientResponseClientVpnConnectionsItem(_BaseSchema):
 class GetNetworkClientTrafficHistoryResponse(
     RootModel[list["GetNetworkClientTrafficHistoryResponseItem"]]
 ):
-    """Return the client's network traffic data over time. Usage data is in kilobytes. This
-    endpoint requires detailed traffic analysis to be enabled on the Network-wide > General
-    page. Clients can be identified by a client key or either the MAC or IP depending on whether
-    the network uses Track-by-IP.
-    """
+    """Response for getNetworkClientTrafficHistory operation."""
 
 
 class GetNetworkClientTrafficHistoryResponseItem(_BaseSchema):
@@ -417,10 +401,7 @@ class GetNetworkClientTrafficHistoryResponseItem(_BaseSchema):
 class GetNetworkClientUsageHistoryResponse(
     RootModel[list["GetNetworkClientUsageHistoryResponseItem"]]
 ):
-    """Return the client's daily usage history. Usage data is in kilobytes. Clients can be
-    identified by a client key or either the MAC or IP depending on whether the network uses
-    Track-by-IP.
-    """
+    """Response for getNetworkClientUsageHistory operation."""
 
 
 class GetNetworkClientUsageHistoryResponseItem(_BaseSchema):
@@ -434,10 +415,7 @@ class GetNetworkClientUsageHistoryResponseItem(_BaseSchema):
 class GetNetworkClientsApplicationUsageResponse(
     RootModel[list["GetNetworkClientsApplicationUsageResponseItem"]]
 ):
-    """Return the application usage data for clients. Usage data is in kilobytes. Clients can be
-    identified by client keys or either the MACs or IPs depending on whether the network uses
-    Track-by-IP.
-    """
+    """Response for getNetworkClientsApplicationUsage operation."""
 
 
 class GetNetworkClientsApplicationUsageResponseItem(_BaseSchema):
@@ -454,9 +432,7 @@ class GetNetworkClientsApplicationUsageResponseItem(_BaseSchema):
 class GetNetworkClientsBandwidthUsageHistoryResponse(
     RootModel[list["GetNetworkClientsBandwidthUsageHistoryResponseItem"]]
 ):
-    """Returns a timeseries of total traffic consumption rates for all clients on a network within
-    a given timespan, in megabits per second.
-    """
+    """Response for getNetworkClientsBandwidthUsageHistory operation."""
 
 
 class GetNetworkClientsBandwidthUsageHistoryResponseItem(_BaseSchema):
@@ -469,7 +445,7 @@ class GetNetworkClientsBandwidthUsageHistoryResponseItem(_BaseSchema):
 
 
 class GetNetworkClientsOverviewResponse(_BaseSchema):
-    """Return overview statistics for network clients."""
+    """Response for getNetworkClientsOverview operation."""
 
     counts: GetNetworkClientsOverviewResponseCounts | None = None
     usages: GetNetworkClientsOverviewResponseUsages | None = None
@@ -490,9 +466,7 @@ class GetNetworkClientsOverviewResponseUsages(_BaseSchema):
 
 
 class GetNetworkClientsResponse(RootModel[list["GetNetworkClientsResponseItem"]]):
-    """List the clients that have used this network in the timespan. The data is updated at most
-    once every five minutes.
-    """
+    """Response for getNetworkClients operation."""
 
 
 class GetNetworkClientsResponseItem(_BaseSchema):
@@ -531,10 +505,7 @@ class GetNetworkClientsResponseItem(_BaseSchema):
 class GetNetworkClientsUsageHistoriesResponse(
     RootModel[list["GetNetworkClientsUsageHistoriesResponseItem"]]
 ):
-    """Return the usage histories for clients. Usage data is in kilobytes. Clients can be
-    identified by client keys or either the MACs or IPs depending on whether the network uses
-    Track-by-IP.
-    """
+    """Response for getNetworkClientsUsageHistories operation."""
 
 
 class GetNetworkClientsUsageHistoriesResponseItem(_BaseSchema):
@@ -547,7 +518,7 @@ class GetNetworkClientsUsageHistoriesResponseItem(_BaseSchema):
 
 
 class GetNetworkDevicesResponse(RootModel[list["GetNetworkDevicesResponseItem"]]):
-    """List the devices in a network."""
+    """Response for getNetworkDevices operation."""
 
 
 class GetNetworkDevicesResponseItem(_BaseSchema):
@@ -571,7 +542,7 @@ class GetNetworkDevicesResponseItem(_BaseSchema):
 
 
 class GetNetworkEventsEventTypesResponse(RootModel[list["GetNetworkEventsEventTypesResponseItem"]]):
-    """List the event type to human-readable description."""
+    """Response for getNetworkEventsEventTypes operation."""
 
 
 class GetNetworkEventsEventTypesResponseItem(_BaseSchema):
@@ -583,7 +554,7 @@ class GetNetworkEventsEventTypesResponseItem(_BaseSchema):
 
 
 class GetNetworkEventsResponse(_BaseSchema):
-    """List the events for the network."""
+    """Response for getNetworkEvents operation."""
 
     message: str | None = None
     page_start_at: str | None = Field(default=None, alias="pageStartAt")
@@ -609,7 +580,7 @@ class GetNetworkEventsResponseEventsItem(_BaseSchema):
 
 
 class GetNetworkFirmwareUpgradesResponse(_BaseSchema):
-    """Get firmware upgrade information for a network."""
+    """Response for getNetworkFirmwareUpgrades operation."""
 
     upgrade_window: GetNetworkFirmwareUpgradesResponseUpgradeWindow | None = Field(
         default=None, alias="upgradeWindow"
@@ -641,7 +612,7 @@ class GetNetworkFirmwareUpgradesResponseUpgradeWindow(_BaseSchema):
 
 
 class GetNetworkFirmwareUpgradesStagedEventsResponse(_BaseSchema):
-    """Get the Staged Upgrade Event from a network."""
+    """Response for getNetworkFirmwareUpgradesStagedEvents operation."""
 
     products: GetNetworkFirmwareUpgradesStagedEventsResponseProducts | None = None
     stages: list[GetNetworkFirmwareUpgradesStagedEventsResponseStagesItem] | None = None
@@ -663,7 +634,7 @@ class GetNetworkFirmwareUpgradesStagedEventsResponseStagesItem(_BaseSchema):
 
 
 class GetNetworkFirmwareUpgradesStagedGroupResponse(_BaseSchema):
-    """Get a Staged Upgrade Group from a network."""
+    """Response for getNetworkFirmwareUpgradesStagedGroup operation."""
 
     group_id: str | None = Field(default=None, alias="groupId")
     name: str | None = None
@@ -675,7 +646,7 @@ class GetNetworkFirmwareUpgradesStagedGroupResponse(_BaseSchema):
 class GetNetworkFirmwareUpgradesStagedGroupsResponse(
     RootModel[list["GetNetworkFirmwareUpgradesStagedGroupsResponseItem"]]
 ):
-    """List of Staged Upgrade Groups in a network."""
+    """Response for getNetworkFirmwareUpgradesStagedGroups operation."""
 
 
 class GetNetworkFirmwareUpgradesStagedGroupsResponseItem(_BaseSchema):
@@ -691,7 +662,7 @@ class GetNetworkFirmwareUpgradesStagedGroupsResponseItem(_BaseSchema):
 class GetNetworkFirmwareUpgradesStagedStagesResponse(
     RootModel[list["GetNetworkFirmwareUpgradesStagedStagesResponseItem"]]
 ):
-    """Order of Staged Upgrade Groups in a network."""
+    """Response for getNetworkFirmwareUpgradesStagedStages operation."""
 
 
 class GetNetworkFirmwareUpgradesStagedStagesResponseItem(_BaseSchema):
@@ -701,7 +672,7 @@ class GetNetworkFirmwareUpgradesStagedStagesResponseItem(_BaseSchema):
 
 
 class GetNetworkFloorPlanResponse(_BaseSchema):
-    """Find a floor plan by ID."""
+    """Response for getNetworkFloorPlan operation."""
 
     floor_plan_id: str | None = Field(default=None, alias="floorPlanId")
     image_url: str | None = Field(default=None, alias="imageUrl")
@@ -721,7 +692,7 @@ class GetNetworkFloorPlanResponse(_BaseSchema):
 
 
 class GetNetworkFloorPlansResponse(RootModel[list["GetNetworkFloorPlansResponseItem"]]):
-    """List the floor plans that belong to your network."""
+    """Response for getNetworkFloorPlans operation."""
 
 
 class GetNetworkFloorPlansResponseItem(_BaseSchema):
@@ -745,7 +716,7 @@ class GetNetworkFloorPlansResponseItem(_BaseSchema):
 
 
 class GetNetworkGroupPoliciesResponse(RootModel[list["GetNetworkGroupPoliciesResponseItem"]]):
-    """List the group policies in a network."""
+    """Response for getNetworkGroupPolicies operation."""
 
 
 class GetNetworkGroupPoliciesResponseItem(_BaseSchema):
@@ -768,7 +739,7 @@ class GetNetworkGroupPoliciesResponseItem(_BaseSchema):
 
 
 class GetNetworkGroupPolicyResponse(_BaseSchema):
-    """Display a group policy."""
+    """Response for getNetworkGroupPolicy operation."""
 
     group_policy_id: str | None = Field(default=None, alias="groupPolicyId")
     scheduling: NetworksScheduling | None = None
@@ -787,7 +758,7 @@ class GetNetworkGroupPolicyResponse(_BaseSchema):
 
 
 class GetNetworkHealthAlertsResponse(RootModel[list["GetNetworkHealthAlertsResponseItem"]]):
-    """Return all global alerts on this network."""
+    """Response for getNetworkHealthAlerts operation."""
 
 
 class GetNetworkHealthAlertsResponseItem(_BaseSchema):
@@ -801,7 +772,7 @@ class GetNetworkHealthAlertsResponseItem(_BaseSchema):
 
 
 class GetNetworkMerakiAuthUserResponse(_BaseSchema):
-    """Return the Meraki Auth splash guest, RADIUS, or client VPN user."""
+    """Response for getNetworkMerakiAuthUser operation."""
 
     id_: str | None = Field(default=None, alias="id")
     email: str | None = None
@@ -813,9 +784,7 @@ class GetNetworkMerakiAuthUserResponse(_BaseSchema):
 
 
 class GetNetworkMerakiAuthUsersResponse(RootModel[list["GetNetworkMerakiAuthUsersResponseItem"]]):
-    """List the authorized users configured under Meraki Authentication for a network (splash guest
-    or RADIUS users for a wireless network, or client VPN users for a MX network).
-    """
+    """Response for getNetworkMerakiAuthUsers operation."""
 
 
 class GetNetworkMerakiAuthUsersResponseItem(_BaseSchema):
@@ -831,7 +800,7 @@ class GetNetworkMerakiAuthUsersResponseItem(_BaseSchema):
 
 
 class GetNetworkMqttBrokerResponse(_BaseSchema):
-    """Return an MQTT broker."""
+    """Response for getNetworkMqttBroker operation."""
 
     id_: str | None = Field(default=None, alias="id")
     name: str | None = None
@@ -842,7 +811,7 @@ class GetNetworkMqttBrokerResponse(_BaseSchema):
 
 
 class GetNetworkMqttBrokersResponse(RootModel[list["GetNetworkMqttBrokersResponseItem"]]):
-    """List the MQTT brokers for this network."""
+    """Response for getNetworkMqttBrokers operation."""
 
 
 class GetNetworkMqttBrokersResponseItem(_BaseSchema):
@@ -857,7 +826,7 @@ class GetNetworkMqttBrokersResponseItem(_BaseSchema):
 
 
 class GetNetworkNetflowResponse(_BaseSchema):
-    """Return the NetFlow traffic reporting settings for a network."""
+    """Response for getNetworkNetflow operation."""
 
     reporting_enabled: bool | None = Field(default=None, alias="reportingEnabled")
     collector_ip: str | None = Field(default=None, alias="collectorIp")
@@ -869,7 +838,7 @@ class GetNetworkNetflowResponse(_BaseSchema):
 class GetNetworkNetworkHealthChannelUtilizationResponse(
     RootModel[list["GetNetworkNetworkHealthChannelUtilizationResponseItem"]]
 ):
-    """Get the channel utilization over each radio for all APs in a network."""
+    """Response for getNetworkNetworkHealthChannelUtilization operation."""
 
 
 class GetNetworkNetworkHealthChannelUtilizationResponseItem(_BaseSchema):
@@ -883,12 +852,7 @@ class GetNetworkNetworkHealthChannelUtilizationResponseItem(_BaseSchema):
 
 
 class GetNetworkPiiPiiKeysResponse(RootModel[dict[str, "GetNetworkPiiPiiKeysResponseValue"]]):
-    """List the keys required to access Personally Identifiable Information (PII) for a given
-    identifier. Exactly one identifier will be accepted. If the organization contains org-wide
-    Systems Manager users matching the key provided then there will be an entry with the key "0"
-    containing the applicable keys. ## ALTERNATE PATH ```
-    /organizations/{organizationId}/pii/piiKeys ```.
-    """
+    """Response for getNetworkPiiPiiKeys operation."""
 
 
 class GetNetworkPiiPiiKeysResponseValue(_BaseSchema):
@@ -903,9 +867,7 @@ class GetNetworkPiiPiiKeysResponseValue(_BaseSchema):
 
 
 class GetNetworkPiiRequestResponse(_BaseSchema):
-    """Return a PII request ## ALTERNATE PATH ```
-    /organizations/{organizationId}/pii/requests/{requestId} ```.
-    """
+    """Response for getNetworkPiiRequest operation."""
 
     id_: str | None = Field(default=None, alias="id")
     organization_wide: bool | None = Field(default=None, alias="organizationWide")
@@ -919,9 +881,7 @@ class GetNetworkPiiRequestResponse(_BaseSchema):
 
 
 class GetNetworkPiiRequestsResponse(RootModel[list["GetNetworkPiiRequestsResponseItem"]]):
-    """List the PII requests for this network or organization ## ALTERNATE PATH ```
-    /organizations/{organizationId}/pii/requests ```.
-    """
+    """Response for getNetworkPiiRequests operation."""
 
 
 class GetNetworkPiiRequestsResponseItem(_BaseSchema):
@@ -939,23 +899,15 @@ class GetNetworkPiiRequestsResponseItem(_BaseSchema):
 
 
 class GetNetworkPiiSmDevicesForKeyResponse(RootModel[dict[str, list[str]]]):
-    """Given a piece of Personally Identifiable Information (PII), return the Systems Manager
-    device ID(s) associated with that identifier. These device IDs can be used with the Systems
-    Manager API endpoints to retrieve device details. Exactly one identifier will be accepted.
-    ## ALTERNATE PATH ``` /organizations/{organizationId}/pii/smDevicesForKey ```.
-    """
+    """Response for getNetworkPiiSmDevicesForKey operation."""
 
 
 class GetNetworkPiiSmOwnersForKeyResponse(RootModel[dict[str, list[str]]]):
-    """Given a piece of Personally Identifiable Information (PII), return the Systems Manager owner
-    ID(s) associated with that identifier. These owner IDs can be used with the Systems Manager
-    API endpoints to retrieve owner details. Exactly one identifier will be accepted. ##
-    ALTERNATE PATH ``` /organizations/{organizationId}/pii/smOwnersForKey ```.
-    """
+    """Response for getNetworkPiiSmOwnersForKey operation."""
 
 
 class GetNetworkPoliciesByClientResponse(RootModel[list["GetNetworkPoliciesByClientResponseItem"]]):
-    """Get policies for all clients with policies."""
+    """Response for getNetworkPoliciesByClient operation."""
 
 
 class GetNetworkPoliciesByClientResponseItem(_BaseSchema):
@@ -967,7 +919,7 @@ class GetNetworkPoliciesByClientResponseItem(_BaseSchema):
 
 
 class GetNetworkResponse(_BaseSchema):
-    """Return a network."""
+    """Response for getNetwork operation."""
 
     id_: str | None = Field(default=None, alias="id")
     organization_id: str | None = Field(default=None, alias="organizationId")
@@ -982,7 +934,7 @@ class GetNetworkResponse(_BaseSchema):
 
 
 class GetNetworkSettingsResponse(_BaseSchema):
-    """Return the settings for a network."""
+    """Response for getNetworkSettings operation."""
 
     local_status_page_enabled: bool | None = Field(default=None, alias="localStatusPageEnabled")
     remote_status_page_enabled: bool | None = Field(default=None, alias="remoteStatusPageEnabled")
@@ -1009,7 +961,7 @@ class GetNetworkSettingsResponseNamedVlans(_BaseSchema):
 
 
 class GetNetworkSnmpResponse(_BaseSchema):
-    """Return the SNMP settings for a network."""
+    """Response for getNetworkSnmp operation."""
 
     access: str | None = None
     community_string: str | None = Field(default=None, alias="communityString")
@@ -1026,7 +978,7 @@ class GetNetworkSnmpResponseUsersItem(_BaseSchema):
 class GetNetworkSplashLoginAttemptsResponse(
     RootModel[list["GetNetworkSplashLoginAttemptsResponseItem"]]
 ):
-    """List the splash login attempts for a network."""
+    """Response for getNetworkSplashLoginAttempts operation."""
 
 
 class GetNetworkSplashLoginAttemptsResponseItem(_BaseSchema):
@@ -1043,7 +995,7 @@ class GetNetworkSplashLoginAttemptsResponseItem(_BaseSchema):
 
 
 class GetNetworkSyslogServersResponse(_BaseSchema):
-    """List the syslog servers for a network."""
+    """Response for getNetworkSyslogServers operation."""
 
     servers: list[GetNetworkSyslogServersResponseServersItem] | None = None
 
@@ -1057,9 +1009,7 @@ class GetNetworkSyslogServersResponseServersItem(_BaseSchema):
 
 
 class GetNetworkTopologyLinkLayerResponse(_BaseSchema):
-    """List the LLDP and CDP information for all discovered devices and connections in a network.
-    At least one MX or MS device must be in the network in order to build the topology.
-    """
+    """Response for getNetworkTopologyLinkLayer operation."""
 
     nodes: list[GetNetworkTopologyLinkLayerResponseNodesItem] | None = None
     links: list[GetNetworkTopologyLinkLayerResponseLinksItem] | None = None
@@ -1086,7 +1036,7 @@ class GetNetworkTopologyLinkLayerResponseNodesItem(_BaseSchema):
 
 
 class GetNetworkTrafficAnalysisResponse(_BaseSchema):
-    """Return the traffic analysis settings for a network."""
+    """Response for getNetworkTrafficAnalysis operation."""
 
     mode: str | None = None
     custom_pie_chart_items: (
@@ -1103,9 +1053,7 @@ class GetNetworkTrafficAnalysisResponseCustomPieChartItemsItem(_BaseSchema):
 
 
 class GetNetworkTrafficResponse(RootModel[list["GetNetworkTrafficResponseItem"]]):
-    """Return the traffic analysis data for this network. Traffic analysis with hostname visibility
-    must be enabled on the network.
-    """
+    """Response for getNetworkTraffic operation."""
 
 
 class GetNetworkTrafficResponseItem(_BaseSchema):
@@ -1123,11 +1071,11 @@ class GetNetworkTrafficResponseItem(_BaseSchema):
 
 
 class GetNetworkTrafficShapingDscpTaggingOptionsResponse(RootModel[list[dict[str, Any]]]):
-    """Returns the available DSCP tagging options for your traffic shaping rules."""
+    """Response for getNetworkTrafficShapingDscpTaggingOptions operation."""
 
 
 class GetNetworkVlanProfileResponse(_BaseSchema):
-    """Get an existing VLAN profile of a network."""
+    """Response for getNetworkVlanProfile operation."""
 
     iname: str | None = None
     name: str | None = None
@@ -1139,7 +1087,7 @@ class GetNetworkVlanProfileResponse(_BaseSchema):
 class GetNetworkVlanProfilesAssignmentsByDeviceResponse(
     RootModel[list["GetNetworkVlanProfilesAssignmentsByDeviceResponseItem"]]
 ):
-    """Get the assigned VLAN Profiles for devices in a network."""
+    """Response for getNetworkVlanProfilesAssignmentsByDevice operation."""
 
 
 class GetNetworkVlanProfilesAssignmentsByDeviceResponseItem(_BaseSchema):
@@ -1154,7 +1102,7 @@ class GetNetworkVlanProfilesAssignmentsByDeviceResponseItem(_BaseSchema):
 
 
 class GetNetworkVlanProfilesResponse(RootModel[list["GetNetworkVlanProfilesResponseItem"]]):
-    """List VLAN profiles for a network."""
+    """Response for getNetworkVlanProfiles operation."""
 
 
 class GetNetworkVlanProfilesResponseItem(_BaseSchema):
@@ -1168,7 +1116,7 @@ class GetNetworkVlanProfilesResponseItem(_BaseSchema):
 
 
 class GetNetworkWebhooksHttpServerResponse(_BaseSchema):
-    """Return an HTTP server for a network."""
+    """Response for getNetworkWebhooksHttpServer operation."""
 
     id_: str | None = Field(default=None, alias="id")
     name: str | None = None
@@ -1180,7 +1128,7 @@ class GetNetworkWebhooksHttpServerResponse(_BaseSchema):
 class GetNetworkWebhooksHttpServersResponse(
     RootModel[list["GetNetworkWebhooksHttpServersResponseItem"]]
 ):
-    """List the HTTP servers for a network."""
+    """Response for getNetworkWebhooksHttpServers operation."""
 
 
 class GetNetworkWebhooksHttpServersResponseItem(_BaseSchema):
@@ -1194,7 +1142,7 @@ class GetNetworkWebhooksHttpServersResponseItem(_BaseSchema):
 
 
 class GetNetworkWebhooksPayloadTemplateResponse(_BaseSchema):
-    """Get the webhook payload template for a network."""
+    """Response for getNetworkWebhooksPayloadTemplate operation."""
 
     payload_template_id: str | None = Field(default=None, alias="payloadTemplateId")
     type_: str | None = Field(default=None, alias="type")
@@ -1207,7 +1155,7 @@ class GetNetworkWebhooksPayloadTemplateResponse(_BaseSchema):
 class GetNetworkWebhooksPayloadTemplatesResponse(
     RootModel[list["GetNetworkWebhooksPayloadTemplatesResponseItem"]]
 ):
-    """List the webhook payload templates for a network."""
+    """Response for getNetworkWebhooksPayloadTemplates operation."""
 
 
 class GetNetworkWebhooksPayloadTemplatesResponseItem(_BaseSchema):
@@ -1222,7 +1170,7 @@ class GetNetworkWebhooksPayloadTemplatesResponseItem(_BaseSchema):
 
 
 class GetNetworkWebhooksWebhookTestResponse(_BaseSchema):
-    """Return the status of a webhook test for a network."""
+    """Response for getNetworkWebhooksWebhookTest operation."""
 
     id_: str | None = Field(default=None, alias="id")
     url: str | None = None
@@ -1918,9 +1866,7 @@ class NetworksWifi0Item(_BaseSchema):
 
 
 class ProvisionNetworkClientsResponse(_BaseSchema):
-    """Provisions a client with a name and policy. Clients can be provisioned before they associate
-    to the network.
-    """
+    """Response for provisionNetworkClients operation."""
 
     clients: list[ProvisionNetworkClientsResponseClientsItem] | None = None
     device_policy: str | None = Field(default=None, alias="devicePolicy")
@@ -1937,15 +1883,13 @@ class ProvisionNetworkClientsResponseClientsItem(_BaseSchema):
 
 
 class PublishNetworkFloorPlansAutoLocateJobResponse(_BaseSchema):
-    """Update the status of a finished auto locate job to be published, and update device
-    locations.
-    """
+    """Response for publishNetworkFloorPlansAutoLocateJob operation."""
 
     success: bool | None = None
 
 
 class ReassignNetworkVlanProfilesAssignmentsResponse(_BaseSchema):
-    """Update the assigned VLAN Profile for devices in a network."""
+    """Response for reassignNetworkVlanProfilesAssignments operation."""
 
     vlan_profile: ReassignNetworkVlanProfilesAssignmentsResponseVlanProfile | None = Field(
         default=None, alias="vlanProfile"
@@ -1962,13 +1906,13 @@ class ReassignNetworkVlanProfilesAssignmentsResponseVlanProfile(_BaseSchema):
 
 
 class RecalculateNetworkFloorPlansAutoLocateJobResponse(_BaseSchema):
-    """Trigger auto locate recalculation for a job, and optionally set anchors."""
+    """Response for recalculateNetworkFloorPlansAutoLocateJob operation."""
 
     success: bool | None = None
 
 
 class RollbacksNetworkFirmwareUpgradesStagedEventsResponse(_BaseSchema):
-    """Rollback a Staged Upgrade Event for a network."""
+    """Response for rollbacksNetworkFirmwareUpgradesStagedEvents operation."""
 
     products: GetNetworkFirmwareUpgradesStagedEventsResponseProducts | None = None
     stages: list[GetNetworkFirmwareUpgradesStagedEventsResponseStagesItem] | None = None
@@ -1976,7 +1920,7 @@ class RollbacksNetworkFirmwareUpgradesStagedEventsResponse(_BaseSchema):
 
 
 class SplitNetworkResponse(_BaseSchema):
-    """Split a combined network into individual networks for each type of device."""
+    """Response for splitNetwork operation."""
 
     resulting_networks: list[SplitNetworkResponseResultingNetworksItem] | None = Field(
         default=None, alias="resultingNetworks"
@@ -1999,7 +1943,7 @@ class SplitNetworkResponseResultingNetworksItem(_BaseSchema):
 
 
 class UnbindNetworkResponse(_BaseSchema):
-    """Unbind a network from a template."""
+    """Response for unbindNetwork operation."""
 
     id_: str | None = Field(default=None, alias="id")
     organization_id: str | None = Field(default=None, alias="organizationId")
@@ -2014,7 +1958,7 @@ class UnbindNetworkResponse(_BaseSchema):
 
 
 class UpdateNetworkAlertsSettingsResponse(_BaseSchema):
-    """Update the alert configuration for this network."""
+    """Response for updateNetworkAlertsSettings operation."""
 
     default_destinations: GetNetworkAlertsSettingsResponseDefaultDestinations | None = Field(
         default=None, alias="defaultDestinations"
@@ -2024,9 +1968,7 @@ class UpdateNetworkAlertsSettingsResponse(_BaseSchema):
 
 
 class UpdateNetworkClientPolicyResponse(_BaseSchema):
-    """Update the policy assigned to a client on the network. Clients can be identified by a client
-    key or either the MAC or IP depending on whether the network uses Track-by-IP.
-    """
+    """Response for updateNetworkClientPolicy operation."""
 
     mac: str | None = None
     device_policy: str | None = Field(default=None, alias="devicePolicy")
@@ -2037,7 +1979,7 @@ class UpdateNetworkClientPolicyResponse(_BaseSchema):
 
 
 class UpdateNetworkFirmwareUpgradesResponse(_BaseSchema):
-    """Update firmware upgrade information for a network."""
+    """Response for updateNetworkFirmwareUpgrades operation."""
 
     upgrade_window: GetNetworkFirmwareUpgradesResponseUpgradeWindow | None = Field(
         default=None, alias="upgradeWindow"
@@ -2047,7 +1989,7 @@ class UpdateNetworkFirmwareUpgradesResponse(_BaseSchema):
 
 
 class UpdateNetworkFirmwareUpgradesStagedEventsResponse(_BaseSchema):
-    """Update the Staged Upgrade Event for a network."""
+    """Response for updateNetworkFirmwareUpgradesStagedEvents operation."""
 
     products: GetNetworkFirmwareUpgradesStagedEventsResponseProducts | None = None
     stages: list[GetNetworkFirmwareUpgradesStagedEventsResponseStagesItem] | None = None
@@ -2055,7 +1997,7 @@ class UpdateNetworkFirmwareUpgradesStagedEventsResponse(_BaseSchema):
 
 
 class UpdateNetworkFirmwareUpgradesStagedGroupResponse(_BaseSchema):
-    """Update a Staged Upgrade Group for a network."""
+    """Response for updateNetworkFirmwareUpgradesStagedGroup operation."""
 
     group_id: str | None = Field(default=None, alias="groupId")
     name: str | None = None
@@ -2067,7 +2009,7 @@ class UpdateNetworkFirmwareUpgradesStagedGroupResponse(_BaseSchema):
 class UpdateNetworkFirmwareUpgradesStagedStagesResponse(
     RootModel[list["UpdateNetworkFirmwareUpgradesStagedStagesResponseItem"]]
 ):
-    """Assign Staged Upgrade Group order in the sequence."""
+    """Response for updateNetworkFirmwareUpgradesStagedStages operation."""
 
 
 class UpdateNetworkFirmwareUpgradesStagedStagesResponseItem(_BaseSchema):
@@ -2077,7 +2019,7 @@ class UpdateNetworkFirmwareUpgradesStagedStagesResponseItem(_BaseSchema):
 
 
 class UpdateNetworkFloorPlanResponse(_BaseSchema):
-    """Update a floor plan's geolocation and other meta data."""
+    """Response for updateNetworkFloorPlan operation."""
 
     floor_plan_id: str | None = Field(default=None, alias="floorPlanId")
     image_url: str | None = Field(default=None, alias="imageUrl")
@@ -2097,7 +2039,7 @@ class UpdateNetworkFloorPlanResponse(_BaseSchema):
 
 
 class UpdateNetworkGroupPolicyResponse(_BaseSchema):
-    """Update a group policy."""
+    """Response for updateNetworkGroupPolicy operation."""
 
     group_policy_id: str | None = Field(default=None, alias="groupPolicyId")
     scheduling: NetworksScheduling | None = None
@@ -2116,9 +2058,7 @@ class UpdateNetworkGroupPolicyResponse(_BaseSchema):
 
 
 class UpdateNetworkMerakiAuthUserResponse(_BaseSchema):
-    """Update a user configured with Meraki Authentication (currently, 802.1X RADIUS, splash guest,
-    and client VPN users can be updated).
-    """
+    """Response for updateNetworkMerakiAuthUser operation."""
 
     id_: str | None = Field(default=None, alias="id")
     email: str | None = None
@@ -2130,7 +2070,7 @@ class UpdateNetworkMerakiAuthUserResponse(_BaseSchema):
 
 
 class UpdateNetworkMqttBrokerResponse(_BaseSchema):
-    """Update an MQTT broker."""
+    """Response for updateNetworkMqttBroker operation."""
 
     id_: str | None = Field(default=None, alias="id")
     name: str | None = None
@@ -2141,7 +2081,7 @@ class UpdateNetworkMqttBrokerResponse(_BaseSchema):
 
 
 class UpdateNetworkNetflowResponse(_BaseSchema):
-    """Update the NetFlow traffic reporting settings for a network."""
+    """Response for updateNetworkNetflow operation."""
 
     reporting_enabled: bool | None = Field(default=None, alias="reportingEnabled")
     collector_ip: str | None = Field(default=None, alias="collectorIp")
@@ -2151,7 +2091,7 @@ class UpdateNetworkNetflowResponse(_BaseSchema):
 
 
 class UpdateNetworkResponse(_BaseSchema):
-    """Update a network."""
+    """Response for updateNetwork operation."""
 
     id_: str | None = Field(default=None, alias="id")
     organization_id: str | None = Field(default=None, alias="organizationId")
@@ -2166,7 +2106,7 @@ class UpdateNetworkResponse(_BaseSchema):
 
 
 class UpdateNetworkSettingsResponse(_BaseSchema):
-    """Update the settings for a network."""
+    """Response for updateNetworkSettings operation."""
 
     local_status_page_enabled: bool | None = Field(default=None, alias="localStatusPageEnabled")
     remote_status_page_enabled: bool | None = Field(default=None, alias="remoteStatusPageEnabled")
@@ -2181,7 +2121,7 @@ class UpdateNetworkSettingsResponse(_BaseSchema):
 
 
 class UpdateNetworkSnmpResponse(_BaseSchema):
-    """Update the SNMP settings for a network."""
+    """Response for updateNetworkSnmp operation."""
 
     access: str | None = None
     community_string: str | None = Field(default=None, alias="communityString")
@@ -2189,13 +2129,13 @@ class UpdateNetworkSnmpResponse(_BaseSchema):
 
 
 class UpdateNetworkSyslogServersResponse(_BaseSchema):
-    """Update the syslog servers for a network."""
+    """Response for updateNetworkSyslogServers operation."""
 
     servers: list[GetNetworkSyslogServersResponseServersItem] | None = None
 
 
 class UpdateNetworkTrafficAnalysisResponse(_BaseSchema):
-    """Update the traffic analysis settings for a network."""
+    """Response for updateNetworkTrafficAnalysis operation."""
 
     mode: str | None = None
     custom_pie_chart_items: (
@@ -2204,7 +2144,7 @@ class UpdateNetworkTrafficAnalysisResponse(_BaseSchema):
 
 
 class UpdateNetworkVlanProfileResponse(_BaseSchema):
-    """Update an existing VLAN profile of a network."""
+    """Response for updateNetworkVlanProfile operation."""
 
     iname: str | None = None
     name: str | None = None
@@ -2214,7 +2154,7 @@ class UpdateNetworkVlanProfileResponse(_BaseSchema):
 
 
 class UpdateNetworkWebhooksHttpServerResponse(_BaseSchema):
-    """Update an HTTP server. To change a URL, create a new HTTP server."""
+    """Response for updateNetworkWebhooksHttpServer operation."""
 
     id_: str | None = Field(default=None, alias="id")
     name: str | None = None
@@ -2224,7 +2164,7 @@ class UpdateNetworkWebhooksHttpServerResponse(_BaseSchema):
 
 
 class UpdateNetworkWebhooksPayloadTemplateResponse(_BaseSchema):
-    """Update a webhook payload template for a network."""
+    """Response for updateNetworkWebhooksPayloadTemplate operation."""
 
     payload_template_id: str | None = Field(default=None, alias="payloadTemplateId")
     type_: str | None = Field(default=None, alias="type")
@@ -2235,7 +2175,7 @@ class UpdateNetworkWebhooksPayloadTemplateResponse(_BaseSchema):
 
 
 class VmxNetworkDevicesClaimResponse(_BaseSchema):
-    """Claim a vMX into a network."""
+    """Response for vmxNetworkDevicesClaim operation."""
 
     name: str | None = None
     lat: float | None = None

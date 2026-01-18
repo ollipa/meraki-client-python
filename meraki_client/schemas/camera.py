@@ -115,7 +115,7 @@ class CameraZonesZoneId(_BaseSchema):
 
 
 class CreateNetworkCameraQualityRetentionProfileResponse(_BaseSchema):
-    """Creates new quality retention profile for this network."""
+    """Response for createNetworkCameraQualityRetentionProfile operation."""
 
     id_: str | None = Field(default=None, alias="id")
     network_id: str | None = Field(default=None, alias="networkId")
@@ -136,7 +136,7 @@ class CreateNetworkCameraQualityRetentionProfileResponse(_BaseSchema):
 
 
 class CreateNetworkCameraWirelessProfileResponse(_BaseSchema):
-    """Creates a new camera wireless profile for this network."""
+    """Response for createNetworkCameraWirelessProfile operation."""
 
     id_: str | None = Field(default=None, alias="id")
     name: str | None = None
@@ -146,9 +146,7 @@ class CreateNetworkCameraWirelessProfileResponse(_BaseSchema):
 
 
 class CreateOrganizationCameraCustomAnalyticsArtifactResponse(_BaseSchema):
-    """Create custom analytics artifact. Returns an artifact upload URL with expiry time. Upload
-    the artifact file with a put request to the returned upload URL before its expiry.
-    """
+    """Response for createOrganizationCameraCustomAnalyticsArtifact operation."""
 
     artifact_id: str | None = Field(default=None, alias="artifactId")
     organization_id: str | None = Field(default=None, alias="organizationId")
@@ -160,7 +158,7 @@ class CreateOrganizationCameraCustomAnalyticsArtifactResponse(_BaseSchema):
 
 
 class CreateOrganizationCameraRoleResponse(_BaseSchema):
-    """Creates new role for this organization."""
+    """Response for createOrganizationCameraRole operation."""
 
     name: str | None = None
     applied_on_devices: list[CameraAppliedOnDevicesItem] | None = Field(
@@ -175,16 +173,14 @@ class CreateOrganizationCameraRoleResponse(_BaseSchema):
 
 
 class GenerateDeviceCameraSnapshotResponse(_BaseSchema):
-    """Generate a snapshot of what the camera sees at the specified time and return a link to that
-    image.
-    """
+    """Response for generateDeviceCameraSnapshot operation."""
 
     url: str | None = None
     expiry: str | None = None
 
 
 class GetDeviceCameraAnalyticsLiveResponse(_BaseSchema):
-    """Returns live state from camera analytics zones."""
+    """Response for getDeviceCameraAnalyticsLive operation."""
 
     ts: str | None = None
     zones: GetDeviceCameraAnalyticsLiveResponseZones | None = None
@@ -199,7 +195,7 @@ class GetDeviceCameraAnalyticsLiveResponseZones(_BaseSchema):
 class GetDeviceCameraAnalyticsOverviewResponse(
     RootModel[list["GetDeviceCameraAnalyticsOverviewResponseItem"]]
 ):
-    """Returns an overview of aggregate analytics data for a timespan."""
+    """Response for getDeviceCameraAnalyticsOverview operation."""
 
 
 class GetDeviceCameraAnalyticsOverviewResponseItem(_BaseSchema):
@@ -215,7 +211,7 @@ class GetDeviceCameraAnalyticsOverviewResponseItem(_BaseSchema):
 class GetDeviceCameraAnalyticsRecentResponse(
     RootModel[list["GetDeviceCameraAnalyticsRecentResponseItem"]]
 ):
-    """Returns most recent record for analytics zones."""
+    """Response for getDeviceCameraAnalyticsRecent operation."""
 
 
 class GetDeviceCameraAnalyticsRecentResponseItem(_BaseSchema):
@@ -231,7 +227,7 @@ class GetDeviceCameraAnalyticsRecentResponseItem(_BaseSchema):
 class GetDeviceCameraAnalyticsZoneHistoryResponse(
     RootModel[list["GetDeviceCameraAnalyticsZoneHistoryResponseItem"]]
 ):
-    """Return historical records for analytic zones."""
+    """Response for getDeviceCameraAnalyticsZoneHistory operation."""
 
 
 class GetDeviceCameraAnalyticsZoneHistoryResponseItem(_BaseSchema):
@@ -246,7 +242,7 @@ class GetDeviceCameraAnalyticsZoneHistoryResponseItem(_BaseSchema):
 class GetDeviceCameraAnalyticsZonesResponse(
     RootModel[list["GetDeviceCameraAnalyticsZonesResponseItem"]]
 ):
-    """Returns all configured analytic zones for this camera."""
+    """Response for getDeviceCameraAnalyticsZones operation."""
 
 
 class GetDeviceCameraAnalyticsZonesResponseItem(_BaseSchema):
@@ -261,7 +257,7 @@ class GetDeviceCameraAnalyticsZonesResponseItem(_BaseSchema):
 
 
 class GetDeviceCameraCustomAnalyticsResponse(_BaseSchema):
-    """Return custom analytics settings for a camera."""
+    """Response for getDeviceCameraCustomAnalytics operation."""
 
     enabled: bool | None = None
     artifact_id: str | None = Field(default=None, alias="artifactId")
@@ -276,18 +272,18 @@ class GetDeviceCameraCustomAnalyticsResponseParametersItem(_BaseSchema):
 
 
 class GetDeviceCameraSenseObjectDetectionModelsResponse(RootModel[list[dict[str, Any]]]):
-    """Returns the MV Sense object detection model list for the given camera."""
+    """Response for getDeviceCameraSenseObjectDetectionModels operation."""
 
 
 class GetDeviceCameraVideoSettingsResponse(_BaseSchema):
-    """Returns video settings for the given camera."""
+    """Response for getDeviceCameraVideoSettings operation."""
 
     external_rtsp_enabled: bool | None = Field(default=None, alias="externalRtspEnabled")
     rtsp_url: str | None = Field(default=None, alias="rtspUrl")
 
 
 class GetNetworkCameraQualityRetentionProfileResponse(_BaseSchema):
-    """Retrieve a single quality retention profile."""
+    """Response for getNetworkCameraQualityRetentionProfile operation."""
 
     id_: str | None = Field(default=None, alias="id")
     network_id: str | None = Field(default=None, alias="networkId")
@@ -310,7 +306,7 @@ class GetNetworkCameraQualityRetentionProfileResponse(_BaseSchema):
 class GetNetworkCameraQualityRetentionProfilesResponse(
     RootModel[list["GetNetworkCameraQualityRetentionProfilesResponseItem"]]
 ):
-    """List the quality retention profiles for this network."""
+    """Response for getNetworkCameraQualityRetentionProfiles operation."""
 
 
 class GetNetworkCameraQualityRetentionProfilesResponseItem(_BaseSchema):
@@ -335,7 +331,7 @@ class GetNetworkCameraQualityRetentionProfilesResponseItem(_BaseSchema):
 
 
 class GetNetworkCameraSchedulesResponse(RootModel[list["GetNetworkCameraSchedulesResponseItem"]]):
-    """Returns a list of all camera recording schedules."""
+    """Response for getNetworkCameraSchedules operation."""
 
 
 class GetNetworkCameraSchedulesResponseItem(_BaseSchema):
@@ -346,7 +342,7 @@ class GetNetworkCameraSchedulesResponseItem(_BaseSchema):
 
 
 class GetNetworkCameraWirelessProfileResponse(_BaseSchema):
-    """Retrieve a single camera wireless profile."""
+    """Response for getNetworkCameraWirelessProfile operation."""
 
     id_: str | None = Field(default=None, alias="id")
     name: str | None = None
@@ -358,7 +354,7 @@ class GetNetworkCameraWirelessProfileResponse(_BaseSchema):
 class GetNetworkCameraWirelessProfilesResponse(
     RootModel[list["GetNetworkCameraWirelessProfilesResponseItem"]]
 ):
-    """List the camera wireless profiles for this network."""
+    """Response for getNetworkCameraWirelessProfiles operation."""
 
 
 class GetNetworkCameraWirelessProfilesResponseItem(_BaseSchema):
@@ -374,7 +370,7 @@ class GetNetworkCameraWirelessProfilesResponseItem(_BaseSchema):
 class GetOrganizationCameraBoundariesAreasByDeviceResponse(
     RootModel[list["GetOrganizationCameraBoundariesAreasByDeviceResponseItem"]]
 ):
-    """Returns all configured area boundaries of cameras."""
+    """Response for getOrganizationCameraBoundariesAreasByDevice operation."""
 
 
 class GetOrganizationCameraBoundariesAreasByDeviceResponseItem(_BaseSchema):
@@ -388,7 +384,7 @@ class GetOrganizationCameraBoundariesAreasByDeviceResponseItem(_BaseSchema):
 class GetOrganizationCameraBoundariesLinesByDeviceResponse(
     RootModel[list["GetOrganizationCameraBoundariesLinesByDeviceResponseItem"]]
 ):
-    """Returns all configured crossingline boundaries of cameras."""
+    """Response for getOrganizationCameraBoundariesLinesByDevice operation."""
 
 
 class GetOrganizationCameraBoundariesLinesByDeviceResponseItem(_BaseSchema):
@@ -400,7 +396,7 @@ class GetOrganizationCameraBoundariesLinesByDeviceResponseItem(_BaseSchema):
 
 
 class GetOrganizationCameraCustomAnalyticsArtifactResponse(_BaseSchema):
-    """Get Custom Analytics Artifact."""
+    """Response for getOrganizationCameraCustomAnalyticsArtifact operation."""
 
     artifact_id: str | None = Field(default=None, alias="artifactId")
     organization_id: str | None = Field(default=None, alias="organizationId")
@@ -411,7 +407,7 @@ class GetOrganizationCameraCustomAnalyticsArtifactResponse(_BaseSchema):
 class GetOrganizationCameraCustomAnalyticsArtifactsResponse(
     RootModel[list["GetOrganizationCameraCustomAnalyticsArtifactsResponseItem"]]
 ):
-    """List Custom Analytics Artifacts."""
+    """Response for getOrganizationCameraCustomAnalyticsArtifacts operation."""
 
 
 class GetOrganizationCameraCustomAnalyticsArtifactsResponseItem(_BaseSchema):
@@ -426,7 +422,7 @@ class GetOrganizationCameraCustomAnalyticsArtifactsResponseItem(_BaseSchema):
 class GetOrganizationCameraDetectionsHistoryByBoundaryByIntervalResponse(
     RootModel[list["GetOrganizationCameraDetectionsHistoryByBoundaryByIntervalResponseItem"]]
 ):
-    """Returns analytics data for timespans."""
+    """Response for getOrganizationCameraDetectionsHistoryByBoundaryByInterval operation."""
 
 
 class GetOrganizationCameraDetectionsHistoryByBoundaryByIntervalResponseItem(_BaseSchema):
@@ -438,11 +434,11 @@ class GetOrganizationCameraDetectionsHistoryByBoundaryByIntervalResponseItem(_Ba
 
 
 class GetOrganizationCameraOnboardingStatusesResponse(RootModel[list[dict[str, Any]]]):
-    """Fetch onboarding status of cameras."""
+    """Response for getOrganizationCameraOnboardingStatuses operation."""
 
 
 class GetOrganizationCameraPermissionResponse(_BaseSchema):
-    """Retrieve a single permission scope."""
+    """Response for getOrganizationCameraPermission operation."""
 
     id_: str | None = Field(default=None, alias="id")
     name: str | None = None
@@ -452,7 +448,7 @@ class GetOrganizationCameraPermissionResponse(_BaseSchema):
 class GetOrganizationCameraPermissionsResponse(
     RootModel[list["GetOrganizationCameraPermissionsResponseItem"]]
 ):
-    """List the permissions scopes for this organization."""
+    """Response for getOrganizationCameraPermissions operation."""
 
 
 class GetOrganizationCameraPermissionsResponseItem(_BaseSchema):
@@ -464,7 +460,7 @@ class GetOrganizationCameraPermissionsResponseItem(_BaseSchema):
 
 
 class GetOrganizationCameraRoleResponse(_BaseSchema):
-    """Retrieve a single role."""
+    """Response for getOrganizationCameraRole operation."""
 
     name: str | None = None
     applied_on_devices: list[CameraAppliedOnDevicesItem] | None = Field(
@@ -479,7 +475,7 @@ class GetOrganizationCameraRoleResponse(_BaseSchema):
 
 
 class GetOrganizationCameraRolesResponse(RootModel[list["GetOrganizationCameraRolesResponseItem"]]):
-    """List all the roles in this organization."""
+    """Response for getOrganizationCameraRoles operation."""
 
 
 class GetOrganizationCameraRolesResponseItem(_BaseSchema):
@@ -498,7 +494,7 @@ class GetOrganizationCameraRolesResponseItem(_BaseSchema):
 
 
 class UpdateDeviceCameraCustomAnalyticsResponse(_BaseSchema):
-    """Update custom analytics settings for a camera."""
+    """Response for updateDeviceCameraCustomAnalytics operation."""
 
     enabled: bool | None = None
     artifact_id: str | None = Field(default=None, alias="artifactId")
@@ -506,14 +502,14 @@ class UpdateDeviceCameraCustomAnalyticsResponse(_BaseSchema):
 
 
 class UpdateDeviceCameraVideoSettingsResponse(_BaseSchema):
-    """Update video settings for the given camera."""
+    """Response for updateDeviceCameraVideoSettings operation."""
 
     external_rtsp_enabled: bool | None = Field(default=None, alias="externalRtspEnabled")
     rtsp_url: str | None = Field(default=None, alias="rtspUrl")
 
 
 class UpdateNetworkCameraQualityRetentionProfileResponse(_BaseSchema):
-    """Update an existing quality retention profile for this network."""
+    """Response for updateNetworkCameraQualityRetentionProfile operation."""
 
     id_: str | None = Field(default=None, alias="id")
     network_id: str | None = Field(default=None, alias="networkId")
@@ -534,7 +530,7 @@ class UpdateNetworkCameraQualityRetentionProfileResponse(_BaseSchema):
 
 
 class UpdateNetworkCameraWirelessProfileResponse(_BaseSchema):
-    """Update an existing camera wireless profile in this network."""
+    """Response for updateNetworkCameraWirelessProfile operation."""
 
     id_: str | None = Field(default=None, alias="id")
     name: str | None = None
@@ -544,7 +540,7 @@ class UpdateNetworkCameraWirelessProfileResponse(_BaseSchema):
 
 
 class UpdateOrganizationCameraRoleResponse(_BaseSchema):
-    """Update an existing role in this organization."""
+    """Response for updateOrganizationCameraRole operation."""
 
     name: str | None = None
     applied_on_devices: list[CameraAppliedOnDevicesItem] | None = Field(

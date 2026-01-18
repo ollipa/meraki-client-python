@@ -14,7 +14,7 @@ from meraki_client.schemas._base import _BaseSchema
 
 
 class AssignOrganizationLicensesSeatsResponse(_BaseSchema):
-    """Assign SM seats to a network. This will increase the managed SM device limit of the network."""
+    """Response for assignOrganizationLicensesSeats operation."""
 
     resulting_licenses: (
         list[AssignOrganizationLicensesSeatsResponseResultingLicensesItem] | None
@@ -44,23 +44,19 @@ class AssignOrganizationLicensesSeatsResponseResultingLicensesItem(_BaseSchema):
 
 
 class BulkOrganizationDevicesPacketCaptureCapturesCreateResponse(_BaseSchema):
-    """Perform a packet capture on multiple devices and store in Meraki Cloud."""
+    """Response for bulkOrganizationDevicesPacketCaptureCapturesCreate operation."""
 
     items: list[GetOrganizationDevicesPacketCaptureCapturesResponseItemsItem] | None = None
 
 
 class BulkUpdateOrganizationDevicesDetailsResponse(_BaseSchema):
-    """Updating device details (currently only used for Catalyst devices)."""
+    """Response for bulkUpdateOrganizationDevicesDetails operation."""
 
     serials: list[str]
 
 
 class ClaimIntoOrganizationInventoryResponse(_BaseSchema):
-    """Claim a list of devices, licenses, and/or orders into an organization inventory. When
-    claiming by order, all devices and licenses in the order will be claimed; licenses will be
-    added to the organization and devices will be placed in the organization's inventory. This
-    operation can be used up to ten times within a single five minute window.
-    """
+    """Response for claimIntoOrganizationInventory operation."""
 
     orders: list[str] | None = None
     serials: list[str] | None = None
@@ -68,11 +64,7 @@ class ClaimIntoOrganizationInventoryResponse(_BaseSchema):
 
 
 class ClaimIntoOrganizationResponse(_BaseSchema):
-    """Claim a list of devices, licenses, and/or orders into an organization inventory. When
-    claiming by order, all devices and licenses in the order will be claimed; licenses will be
-    added to the organization and devices will be placed in the organization's inventory. This
-    operation can be used up to ten times within a single five minute window.
-    """
+    """Response for claimIntoOrganization operation."""
 
     orders: list[str] | None = None
     serials: list[str] | None = None
@@ -87,7 +79,7 @@ class ClaimIntoOrganizationResponseLicensesItem(_BaseSchema):
 
 
 class ClaimOrganizationInventoryOrdersResponse(_BaseSchema):
-    """Claim an order by the secure unique order claim number, the order claim id."""
+    """Response for claimOrganizationInventoryOrders operation."""
 
     claim_id: str | None = Field(default=None, alias="claimId")
     number: str | None = None
@@ -108,7 +100,7 @@ class ClaimOrganizationInventoryOrdersResponseSubscriptionsItem(_BaseSchema):
 
 
 class CloneOrganizationResponse(_BaseSchema):
-    """Create a new organization by cloning the addressed organization."""
+    """Response for cloneOrganization operation."""
 
     id_: str | None = Field(default=None, alias="id")
     name: str | None = None
@@ -120,7 +112,7 @@ class CloneOrganizationResponse(_BaseSchema):
 
 
 class CombineOrganizationNetworksResponse(_BaseSchema):
-    """Combine multiple networks into a single network."""
+    """Response for combineOrganizationNetworks operation."""
 
     resulting_network: OrganizationsRecordsNetwork | None = Field(
         default=None, alias="resultingNetwork"
@@ -128,7 +120,7 @@ class CombineOrganizationNetworksResponse(_BaseSchema):
 
 
 class CreateOrganizationActionBatchResponse(_BaseSchema):
-    """Create an action batch."""
+    """Response for createOrganizationActionBatch operation."""
 
     id_: str | None = Field(default=None, alias="id")
     organization_id: str | None = Field(default=None, alias="organizationId")
@@ -148,7 +140,7 @@ class CreateOrganizationActionBatchResponseCallback(_BaseSchema):
 
 
 class CreateOrganizationAdaptivePolicyAclResponse(_BaseSchema):
-    """Creates new adaptive policy ACL."""
+    """Response for createOrganizationAdaptivePolicyAcl operation."""
 
     acl_id: str | None = Field(default=None, alias="aclId")
     name: str | None = None
@@ -160,7 +152,7 @@ class CreateOrganizationAdaptivePolicyAclResponse(_BaseSchema):
 
 
 class CreateOrganizationAdaptivePolicyGroupResponse(_BaseSchema):
-    """Creates a new adaptive policy group."""
+    """Response for createOrganizationAdaptivePolicyGroup operation."""
 
     group_id: str | None = Field(default=None, alias="groupId")
     name: str | None = None
@@ -176,7 +168,7 @@ class CreateOrganizationAdaptivePolicyGroupResponse(_BaseSchema):
 
 
 class CreateOrganizationAdaptivePolicyPolicyResponse(_BaseSchema):
-    """Add an Adaptive Policy."""
+    """Response for createOrganizationAdaptivePolicyPolicy operation."""
 
     adaptive_policy_id: str | None = Field(default=None, alias="adaptivePolicyId")
     source_group: OrganizationsSourceGroup | None = Field(default=None, alias="sourceGroup")
@@ -190,7 +182,7 @@ class CreateOrganizationAdaptivePolicyPolicyResponse(_BaseSchema):
 
 
 class CreateOrganizationAdminResponse(_BaseSchema):
-    """Create a new dashboard administrator."""
+    """Response for createOrganizationAdmin operation."""
 
     id_: str | None = Field(default=None, alias="id")
     name: str | None = None
@@ -206,7 +198,7 @@ class CreateOrganizationAdminResponse(_BaseSchema):
 
 
 class CreateOrganizationAlertsProfileResponse(_BaseSchema):
-    """Create an organization-wide alert configuration."""
+    """Response for createOrganizationAlertsProfile operation."""
 
     id_: str | None = Field(default=None, alias="id")
     type_: str | None = Field(default=None, alias="type")
@@ -220,7 +212,7 @@ class CreateOrganizationAlertsProfileResponse(_BaseSchema):
 
 
 class CreateOrganizationBrandingPolicyResponse(_BaseSchema):
-    """Add a new branding policy to an organization."""
+    """Response for createOrganizationBrandingPolicy operation."""
 
     name: str | None = None
     enabled: bool | None = None
@@ -230,7 +222,7 @@ class CreateOrganizationBrandingPolicyResponse(_BaseSchema):
 
 
 class CreateOrganizationConfigTemplateResponse(_BaseSchema):
-    """Create a new configuration template."""
+    """Response for createOrganizationConfigTemplate operation."""
 
     id_: str | None = Field(default=None, alias="id")
     name: str | None = None
@@ -241,7 +233,7 @@ class CreateOrganizationConfigTemplateResponse(_BaseSchema):
 class CreateOrganizationDevicesControllerMigrationResponse(
     RootModel[list["CreateOrganizationDevicesControllerMigrationResponseItem"]]
 ):
-    """Migrate devices to another controller or management mode."""
+    """Response for createOrganizationDevicesControllerMigration operation."""
 
 
 class CreateOrganizationDevicesControllerMigrationResponseItem(_BaseSchema):
@@ -254,9 +246,7 @@ class CreateOrganizationDevicesControllerMigrationResponseItem(_BaseSchema):
 
 
 class CreateOrganizationDevicesPacketCaptureCaptureResponse(_BaseSchema):
-    """Perform a packet capture on a device and store in Meraki Cloud. Only a single switch may be
-    chosen per request, while multiple access points are allowed at once.
-    """
+    """Response for createOrganizationDevicesPacketCaptureCapture operation."""
 
     capture_id: str | None = Field(default=None, alias="captureId")
     network: OrganizationsPolicyObjectsItem | None = None
@@ -280,7 +270,7 @@ class CreateOrganizationDevicesPacketCaptureCaptureResponse(_BaseSchema):
 
 
 class CreateOrganizationDevicesPacketCaptureScheduleResponse(_BaseSchema):
-    """Create a schedule for packet capture."""
+    """Response for createOrganizationDevicesPacketCaptureSchedule operation."""
 
     schedule_id: str | None = Field(default=None, alias="scheduleId")
     devices: list[OrganizationsDevicesItem2] | None = None
@@ -300,7 +290,7 @@ class CreateOrganizationDevicesPacketCaptureScheduleResponse(_BaseSchema):
 
 
 class CreateOrganizationEarlyAccessFeaturesOptInResponse(_BaseSchema):
-    """Create a new early access feature opt-in for an organization."""
+    """Response for createOrganizationEarlyAccessFeaturesOptIn operation."""
 
     id_: str | None = Field(default=None, alias="id")
     short_name: str | None = Field(default=None, alias="shortName")
@@ -314,9 +304,7 @@ class CreateOrganizationEarlyAccessFeaturesOptInResponse(_BaseSchema):
 
 
 class CreateOrganizationInventoryDevicesSwapsBulkResponse(_BaseSchema):
-    """Swap the devices identified by devices.old with a devices.new, then perform the :afterAction
-    on the devices.old.
-    """
+    """Response for createOrganizationInventoryDevicesSwapsBulk operation."""
 
     job_id: str | None = Field(default=None, alias="jobId")
     swaps: list[CreateOrganizationInventoryDevicesSwapsBulkResponseSwapsItem] | None = None
@@ -337,9 +325,7 @@ class CreateOrganizationInventoryDevicesSwapsBulkResponseSwapsItem(_BaseSchema):
 class CreateOrganizationInventoryOnboardingCloudMonitoringImportResponse(
     RootModel[list["CreateOrganizationInventoryOnboardingCloudMonitoringImportResponseItem"]]
 ):
-    """Commits the import operation to complete the onboarding of a device into Dashboard for
-    monitoring.
-    """
+    """Response for createOrganizationInventoryOnboardingCloudMonitoringImport operation."""
 
 
 class CreateOrganizationInventoryOnboardingCloudMonitoringImportResponseItem(_BaseSchema):
@@ -353,9 +339,7 @@ class CreateOrganizationInventoryOnboardingCloudMonitoringImportResponseItem(_Ba
 class CreateOrganizationInventoryOnboardingCloudMonitoringPrepareResponse(
     RootModel[list["CreateOrganizationInventoryOnboardingCloudMonitoringPrepareResponseItem"]]
 ):
-    """Initiates or updates an import session. An import ID will be generated and used when you are
-    ready to commit the import.
-    """
+    """Response for createOrganizationInventoryOnboardingCloudMonitoringPrepare operation."""
 
 
 class CreateOrganizationInventoryOnboardingCloudMonitoringPrepareResponseItem(_BaseSchema):
@@ -369,7 +353,7 @@ class CreateOrganizationInventoryOnboardingCloudMonitoringPrepareResponseItem(_B
 
 
 class CreateOrganizationNetworkResponse(_BaseSchema):
-    """Create a network."""
+    """Response for createOrganizationNetwork operation."""
 
     id_: str | None = Field(default=None, alias="id")
     organization_id: str | None = Field(default=None, alias="organizationId")
@@ -384,7 +368,7 @@ class CreateOrganizationNetworkResponse(_BaseSchema):
 
 
 class CreateOrganizationPolicyObjectResponse(_BaseSchema):
-    """Creates a new Policy Object."""
+    """Response for createOrganizationPolicyObject operation."""
 
     id_: str | None = Field(default=None, alias="id")
     name: str | None = None
@@ -398,7 +382,7 @@ class CreateOrganizationPolicyObjectResponse(_BaseSchema):
 
 
 class CreateOrganizationPolicyObjectsGroupResponse(_BaseSchema):
-    """Creates a new Policy Object Group."""
+    """Response for createOrganizationPolicyObjectsGroup operation."""
 
     id_: str | None = Field(default=None, alias="id")
     name: str | None = None
@@ -410,7 +394,7 @@ class CreateOrganizationPolicyObjectsGroupResponse(_BaseSchema):
 
 
 class CreateOrganizationResponse(_BaseSchema):
-    """Create a new organization."""
+    """Response for createOrganization operation."""
 
     id_: str | None = Field(default=None, alias="id")
     name: str | None = None
@@ -422,7 +406,7 @@ class CreateOrganizationResponse(_BaseSchema):
 
 
 class CreateOrganizationSamlIdpResponse(RootModel[list["CreateOrganizationSamlIdpResponseItem"]]):
-    """Create a SAML IdP for your organization."""
+    """Response for createOrganizationSamlIdp operation."""
 
 
 class CreateOrganizationSamlIdpResponseItem(_BaseSchema):
@@ -437,7 +421,7 @@ class CreateOrganizationSamlIdpResponseItem(_BaseSchema):
 
 
 class CreateOrganizationSamlRoleResponse(_BaseSchema):
-    """Create a SAML role."""
+    """Response for createOrganizationSamlRole operation."""
 
     id_: str | None = Field(default=None, alias="id")
     role: str | None = None
@@ -448,7 +432,7 @@ class CreateOrganizationSamlRoleResponse(_BaseSchema):
 
 
 class CreateOrganizationSplashThemeAssetResponse(_BaseSchema):
-    """Create a Splash Theme Asset."""
+    """Response for createOrganizationSplashThemeAsset operation."""
 
     id_: str | None = Field(default=None, alias="id")
     name: str | None = None
@@ -456,7 +440,7 @@ class CreateOrganizationSplashThemeAssetResponse(_BaseSchema):
 
 
 class CreateOrganizationSplashThemeResponse(_BaseSchema):
-    """Create a Splash Theme."""
+    """Response for createOrganizationSplashTheme operation."""
 
     id_: str | None = Field(default=None, alias="id")
     name: str | None = None
@@ -466,19 +450,19 @@ class CreateOrganizationSplashThemeResponse(_BaseSchema):
 
 
 class DisableOrganizationIntegrationsXdrNetworksResponse(_BaseSchema):
-    """Disable XDR on networks."""
+    """Response for disableOrganizationIntegrationsXdrNetworks operation."""
 
     networks: list[GetOrganizationIntegrationsXdrNetworksResponseItemsItem] | None = None
 
 
 class EnableOrganizationIntegrationsXdrNetworksResponse(_BaseSchema):
-    """Enable XDR on networks."""
+    """Response for enableOrganizationIntegrationsXdrNetworks operation."""
 
     networks: list[GetOrganizationIntegrationsXdrNetworksResponseItemsItem] | None = None
 
 
 class GenerateOrganizationDevicesPacketCaptureCaptureDownloadUrlResponse(_BaseSchema):
-    """Get presigned download URL for given packet capture id."""
+    """Response for generateOrganizationDevicesPacketCaptureCaptureDownloadUrl operation."""
 
     capture_id: str | None = Field(default=None, alias="captureId")
     download_url: str | None = Field(default=None, alias="downloadUrl")
@@ -486,7 +470,7 @@ class GenerateOrganizationDevicesPacketCaptureCaptureDownloadUrlResponse(_BaseSc
 
 
 class GetOrganizationActionBatchResponse(_BaseSchema):
-    """Return an action batch."""
+    """Response for getOrganizationActionBatch operation."""
 
     id_: str | None = Field(default=None, alias="id")
     organization_id: str | None = Field(default=None, alias="organizationId")
@@ -500,7 +484,7 @@ class GetOrganizationActionBatchResponse(_BaseSchema):
 class GetOrganizationActionBatchesResponse(
     RootModel[list["GetOrganizationActionBatchesResponseItem"]]
 ):
-    """Return the list of action batches in the organization."""
+    """Response for getOrganizationActionBatches operation."""
 
 
 class GetOrganizationActionBatchesResponseItem(_BaseSchema):
@@ -515,7 +499,7 @@ class GetOrganizationActionBatchesResponseItem(_BaseSchema):
 
 
 class GetOrganizationAdaptivePolicyAclResponse(_BaseSchema):
-    """Returns the adaptive policy ACL information."""
+    """Response for getOrganizationAdaptivePolicyAcl operation."""
 
     acl_id: str | None = Field(default=None, alias="aclId")
     name: str | None = None
@@ -529,7 +513,7 @@ class GetOrganizationAdaptivePolicyAclResponse(_BaseSchema):
 class GetOrganizationAdaptivePolicyAclsResponse(
     RootModel[list["GetOrganizationAdaptivePolicyAclsResponseItem"]]
 ):
-    """List adaptive policy ACLs in a organization."""
+    """Response for getOrganizationAdaptivePolicyAcls operation."""
 
 
 class GetOrganizationAdaptivePolicyAclsResponseItem(_BaseSchema):
@@ -545,7 +529,7 @@ class GetOrganizationAdaptivePolicyAclsResponseItem(_BaseSchema):
 
 
 class GetOrganizationAdaptivePolicyGroupResponse(_BaseSchema):
-    """Returns an adaptive policy group."""
+    """Response for getOrganizationAdaptivePolicyGroup operation."""
 
     group_id: str | None = Field(default=None, alias="groupId")
     name: str | None = None
@@ -563,7 +547,7 @@ class GetOrganizationAdaptivePolicyGroupResponse(_BaseSchema):
 class GetOrganizationAdaptivePolicyGroupsResponse(
     RootModel[list["GetOrganizationAdaptivePolicyGroupsResponseItem"]]
 ):
-    """List adaptive policy groups in a organization."""
+    """Response for getOrganizationAdaptivePolicyGroups operation."""
 
 
 class GetOrganizationAdaptivePolicyGroupsResponseItem(_BaseSchema):
@@ -583,7 +567,7 @@ class GetOrganizationAdaptivePolicyGroupsResponseItem(_BaseSchema):
 
 
 class GetOrganizationAdaptivePolicyOverviewResponse(_BaseSchema):
-    """Returns adaptive policy aggregate statistics for an organization."""
+    """Response for getOrganizationAdaptivePolicyOverview operation."""
 
     counts: GetOrganizationAdaptivePolicyOverviewResponseCounts | None = None
     limits: GetOrganizationAdaptivePolicyOverviewResponseLimits | None = None
@@ -613,7 +597,7 @@ class GetOrganizationAdaptivePolicyOverviewResponseLimits(_BaseSchema):
 class GetOrganizationAdaptivePolicyPoliciesResponse(
     RootModel[list["GetOrganizationAdaptivePolicyPoliciesResponseItem"]]
 ):
-    """List adaptive policies in an organization."""
+    """Response for getOrganizationAdaptivePolicyPolicies operation."""
 
 
 class GetOrganizationAdaptivePolicyPoliciesResponseItem(_BaseSchema):
@@ -631,7 +615,7 @@ class GetOrganizationAdaptivePolicyPoliciesResponseItem(_BaseSchema):
 
 
 class GetOrganizationAdaptivePolicyPolicyResponse(_BaseSchema):
-    """Return an adaptive policy."""
+    """Response for getOrganizationAdaptivePolicyPolicy operation."""
 
     adaptive_policy_id: str | None = Field(default=None, alias="adaptivePolicyId")
     source_group: OrganizationsSourceGroup | None = Field(default=None, alias="sourceGroup")
@@ -645,13 +629,13 @@ class GetOrganizationAdaptivePolicyPolicyResponse(_BaseSchema):
 
 
 class GetOrganizationAdaptivePolicySettingsResponse(_BaseSchema):
-    """Returns global adaptive policy settings in an organization."""
+    """Response for getOrganizationAdaptivePolicySettings operation."""
 
     enabled_networks: list[str] | None = Field(default=None, alias="enabledNetworks")
 
 
 class GetOrganizationAdminsResponse(RootModel[list["GetOrganizationAdminsResponseItem"]]):
-    """List the dashboard administrators in this organization."""
+    """Response for getOrganizationAdmins operation."""
 
 
 class GetOrganizationAdminsResponseItem(_BaseSchema):
@@ -673,7 +657,7 @@ class GetOrganizationAdminsResponseItem(_BaseSchema):
 class GetOrganizationAlertsProfilesResponse(
     RootModel[list["GetOrganizationAlertsProfilesResponseItem"]]
 ):
-    """List all organization-wide alert configurations."""
+    """Response for getOrganizationAlertsProfiles operation."""
 
 
 class GetOrganizationAlertsProfilesResponseItem(_BaseSchema):
@@ -691,7 +675,7 @@ class GetOrganizationAlertsProfilesResponseItem(_BaseSchema):
 
 
 class GetOrganizationApiRequestsOverviewResponse(_BaseSchema):
-    """Return an aggregated overview of API requests data."""
+    """Response for getOrganizationApiRequestsOverview operation."""
 
     response_code_counts: GetOrganizationApiRequestsOverviewResponseResponseCodeCounts | None = (
         Field(default=None, alias="responseCodeCounts")
@@ -701,7 +685,7 @@ class GetOrganizationApiRequestsOverviewResponse(_BaseSchema):
 class GetOrganizationApiRequestsOverviewResponseCodesByIntervalResponse(
     RootModel[list["GetOrganizationApiRequestsOverviewResponseCodesByIntervalResponseItem"]]
 ):
-    """Tracks organizations' API requests by response code across a given time period."""
+    """Response for getOrganizationApiRequestsOverviewResponseCodesByInterval operation."""
 
 
 class GetOrganizationApiRequestsOverviewResponseCodesByIntervalResponseItem(_BaseSchema):
@@ -766,7 +750,7 @@ class GetOrganizationApiRequestsOverviewResponseResponseCodeCounts(_BaseSchema):
 
 
 class GetOrganizationApiRequestsResponse(RootModel[list["GetOrganizationApiRequestsResponseItem"]]):
-    """List the API requests made by an organization."""
+    """Response for getOrganizationApiRequests operation."""
 
 
 class GetOrganizationApiRequestsResponseItem(_BaseSchema):
@@ -787,7 +771,7 @@ class GetOrganizationApiRequestsResponseItem(_BaseSchema):
 
 
 class GetOrganizationAssuranceAlertResponse(_BaseSchema):
-    """Return a singular Health Alert by its id."""
+    """Response for getOrganizationAssuranceAlert operation."""
 
     id_: str = Field(alias="id")
     category_type: str = Field(alias="categoryType")
@@ -804,7 +788,7 @@ class GetOrganizationAssuranceAlertResponse(_BaseSchema):
 
 
 class GetOrganizationAssuranceAlertsOverviewByNetworkResponse(_BaseSchema):
-    """Return a Summary of Alerts grouped by network and severity."""
+    """Response for getOrganizationAssuranceAlertsOverviewByNetwork operation."""
 
     items: list[GetOrganizationAssuranceAlertsOverviewByNetworkResponseItemsItem]
     meta: GetOrganizationAssuranceAlertsOverviewByNetworkResponseMeta
@@ -826,7 +810,7 @@ class GetOrganizationAssuranceAlertsOverviewByNetworkResponseMeta(_BaseSchema):
 
 
 class GetOrganizationAssuranceAlertsOverviewByTypeResponse(_BaseSchema):
-    """Return a Summary of Alerts grouped by type and severity."""
+    """Response for getOrganizationAssuranceAlertsOverviewByType operation."""
 
     items: list[GetOrganizationAssuranceAlertsOverviewByTypeResponseItemsItem]
     meta: GetOrganizationAssuranceAlertsOverviewByNetworkResponseMeta
@@ -841,7 +825,7 @@ class GetOrganizationAssuranceAlertsOverviewByTypeResponseItemsItem(_BaseSchema)
 
 
 class GetOrganizationAssuranceAlertsOverviewHistoricalResponse(_BaseSchema):
-    """Returns historical health alert overviews."""
+    """Response for getOrganizationAssuranceAlertsOverviewHistorical operation."""
 
     items: list[GetOrganizationAssuranceAlertsOverviewHistoricalResponseItemsItem]
     meta: GetOrganizationAssuranceAlertsOverviewByNetworkResponseMeta
@@ -856,7 +840,7 @@ class GetOrganizationAssuranceAlertsOverviewHistoricalResponseItemsItem(_BaseSch
 
 
 class GetOrganizationAssuranceAlertsOverviewResponse(_BaseSchema):
-    """Return overview of active health alerts for an organization."""
+    """Response for getOrganizationAssuranceAlertsOverview operation."""
 
     counts: GetOrganizationAssuranceAlertsOverviewResponseCounts
 
@@ -871,7 +855,7 @@ class GetOrganizationAssuranceAlertsOverviewResponseCounts(_BaseSchema):
 class GetOrganizationAssuranceAlertsResponse(
     RootModel[list["GetOrganizationAssuranceAlertsResponseItem"]]
 ):
-    """Return all health alerts for an organization."""
+    """Response for getOrganizationAssuranceAlerts operation."""
 
 
 class GetOrganizationAssuranceAlertsResponseItem(_BaseSchema):
@@ -894,7 +878,7 @@ class GetOrganizationAssuranceAlertsResponseItem(_BaseSchema):
 class GetOrganizationAssuranceAlertsTaxonomyCategoriesResponse(
     RootModel[list["GetOrganizationAssuranceAlertsTaxonomyCategoriesResponseItem"]]
 ):
-    """Return a list of Category Types."""
+    """Response for getOrganizationAssuranceAlertsTaxonomyCategories operation."""
 
 
 class GetOrganizationAssuranceAlertsTaxonomyCategoriesResponseItem(_BaseSchema):
@@ -907,7 +891,7 @@ class GetOrganizationAssuranceAlertsTaxonomyCategoriesResponseItem(_BaseSchema):
 class GetOrganizationAssuranceAlertsTaxonomyTypesResponse(
     RootModel[list["GetOrganizationAssuranceAlertsTaxonomyTypesResponseItem"]]
 ):
-    """Return a list of alert types."""
+    """Response for getOrganizationAssuranceAlertsTaxonomyTypes operation."""
 
 
 class GetOrganizationAssuranceAlertsTaxonomyTypesResponseItem(_BaseSchema):
@@ -921,9 +905,7 @@ class GetOrganizationAssuranceAlertsTaxonomyTypesResponseItem(_BaseSchema):
 
 
 class GetOrganizationBrandingPoliciesPrioritiesResponse(_BaseSchema):
-    """Return the branding policy IDs of an organization in priority order. IDs are ordered in
-    ascending order of priority (IDs later in the array have higher priority).
-    """
+    """Response for getOrganizationBrandingPoliciesPriorities operation."""
 
     branding_policy_ids: list[str] | None = Field(default=None, alias="brandingPolicyIds")
 
@@ -931,7 +913,7 @@ class GetOrganizationBrandingPoliciesPrioritiesResponse(_BaseSchema):
 class GetOrganizationBrandingPoliciesResponse(
     RootModel[list["GetOrganizationBrandingPoliciesResponseItem"]]
 ):
-    """List the branding policies of an organization."""
+    """Response for getOrganizationBrandingPolicies operation."""
 
 
 class GetOrganizationBrandingPoliciesResponseItem(_BaseSchema):
@@ -945,7 +927,7 @@ class GetOrganizationBrandingPoliciesResponseItem(_BaseSchema):
 
 
 class GetOrganizationBrandingPolicyResponse(_BaseSchema):
-    """Return a branding policy."""
+    """Response for getOrganizationBrandingPolicy operation."""
 
     name: str | None = None
     enabled: bool | None = None
@@ -957,9 +939,7 @@ class GetOrganizationBrandingPolicyResponse(_BaseSchema):
 class GetOrganizationClientsBandwidthUsageHistoryResponse(
     RootModel[list["GetOrganizationClientsBandwidthUsageHistoryResponseItem"]]
 ):
-    """Return data usage (in megabits per second) over time for all clients in the given
-    organization within a given time range.
-    """
+    """Response for getOrganizationClientsBandwidthUsageHistory operation."""
 
 
 class GetOrganizationClientsBandwidthUsageHistoryResponseItem(_BaseSchema):
@@ -972,7 +952,7 @@ class GetOrganizationClientsBandwidthUsageHistoryResponseItem(_BaseSchema):
 
 
 class GetOrganizationClientsOverviewResponse(_BaseSchema):
-    """Return summary information around client data usage (in kb) across the given organization."""
+    """Response for getOrganizationClientsOverview operation."""
 
     usage: GetOrganizationClientsOverviewResponseUsage | None = None
     counts: GetOrganizationClientsOverviewResponseCounts | None = None
@@ -992,7 +972,7 @@ class GetOrganizationClientsOverviewResponseUsage(_BaseSchema):
 
 
 class GetOrganizationClientsSearchResponse(_BaseSchema):
-    """Return the client details in an organization."""
+    """Response for getOrganizationClientsSearch operation."""
 
     client_id: str | None = Field(default=None, alias="clientId")
     mac: str | None = None
@@ -1026,7 +1006,7 @@ class GetOrganizationClientsSearchResponseRecordsItem(_BaseSchema):
 
 
 class GetOrganizationConfigTemplateResponse(_BaseSchema):
-    """Return a single configuration template."""
+    """Response for getOrganizationConfigTemplate operation."""
 
     id_: str | None = Field(default=None, alias="id")
     name: str | None = None
@@ -1037,7 +1017,7 @@ class GetOrganizationConfigTemplateResponse(_BaseSchema):
 class GetOrganizationConfigTemplatesResponse(
     RootModel[list["GetOrganizationConfigTemplatesResponseItem"]]
 ):
-    """List the configuration templates for this organization."""
+    """Response for getOrganizationConfigTemplates operation."""
 
 
 class GetOrganizationConfigTemplatesResponseItem(_BaseSchema):
@@ -1052,7 +1032,7 @@ class GetOrganizationConfigTemplatesResponseItem(_BaseSchema):
 class GetOrganizationConfigurationChangesResponse(
     RootModel[list["GetOrganizationConfigurationChangesResponseItem"]]
 ):
-    """View the Change Log for your organization."""
+    """Response for getOrganizationConfigurationChanges operation."""
 
 
 class GetOrganizationConfigurationChangesResponseItem(_BaseSchema):
@@ -1077,7 +1057,7 @@ class GetOrganizationConfigurationChangesResponseItem(_BaseSchema):
 class GetOrganizationDevicesAvailabilitiesChangeHistoryResponse(
     RootModel[list["GetOrganizationDevicesAvailabilitiesChangeHistoryResponseItem"]]
 ):
-    """List the availability history information for devices in an organization."""
+    """Response for getOrganizationDevicesAvailabilitiesChangeHistory operation."""
 
 
 class GetOrganizationDevicesAvailabilitiesChangeHistoryResponseItem(_BaseSchema):
@@ -1092,9 +1072,7 @@ class GetOrganizationDevicesAvailabilitiesChangeHistoryResponseItem(_BaseSchema)
 class GetOrganizationDevicesAvailabilitiesResponse(
     RootModel[list["GetOrganizationDevicesAvailabilitiesResponseItem"]]
 ):
-    """List the availability information for devices in an organization. The data returned by this
-    endpoint is updated every 5 minutes.
-    """
+    """Response for getOrganizationDevicesAvailabilities operation."""
 
 
 class GetOrganizationDevicesAvailabilitiesResponseItem(_BaseSchema):
@@ -1110,7 +1088,7 @@ class GetOrganizationDevicesAvailabilitiesResponseItem(_BaseSchema):
 
 
 class GetOrganizationDevicesControllerMigrationsResponse(_BaseSchema):
-    """Retrieve device migration statuses in an organization."""
+    """Response for getOrganizationDevicesControllerMigrations operation."""
 
     items: list[GetOrganizationDevicesControllerMigrationsResponseItemsItem] | None = None
     meta: GetOrganizationDevicesControllerMigrationsResponseMeta | None = None
@@ -1132,7 +1110,7 @@ class GetOrganizationDevicesControllerMigrationsResponseMeta(_BaseSchema):
 
 
 class GetOrganizationDevicesOverviewByModelResponse(_BaseSchema):
-    """Lists the count for each device model."""
+    """Response for getOrganizationDevicesOverviewByModel operation."""
 
     counts: list[GetOrganizationDevicesOverviewByModelResponseCountsItem] | None = None
 
@@ -1145,12 +1123,7 @@ class GetOrganizationDevicesOverviewByModelResponseCountsItem(_BaseSchema):
 
 
 class GetOrganizationDevicesPacketCaptureCapturesResponse(_BaseSchema):
-    """List Packet Captures. The current license level allows storage of up to 10 capture files in
-    the cloud. When this limit is reached and a new capture is taken, the oldest capture will be
-    automatically deleted to ensure sufficient space. Additional storage for switches will be
-    available with an advantage license at a future date. These future capabilities will be
-    consistent with what is available today via advantage licensing for access points.
-    """
+    """Response for getOrganizationDevicesPacketCaptureCaptures operation."""
 
     items: list[GetOrganizationDevicesPacketCaptureCapturesResponseItemsItem] | None = None
     meta: GetOrganizationDevicesControllerMigrationsResponseMeta | None = None
@@ -1181,7 +1154,7 @@ class GetOrganizationDevicesPacketCaptureCapturesResponseItemsItem(_BaseSchema):
 
 
 class GetOrganizationDevicesPacketCaptureSchedulesResponse(_BaseSchema):
-    """List the Packet Capture Schedules."""
+    """Response for getOrganizationDevicesPacketCaptureSchedules operation."""
 
     items: list[GetOrganizationDevicesPacketCaptureSchedulesResponseItemsItem] | None = None
     meta: GetOrganizationDevicesPacketCaptureSchedulesResponseMeta | None = None
@@ -1216,9 +1189,7 @@ class GetOrganizationDevicesPacketCaptureSchedulesResponseMeta(_BaseSchema):
 class GetOrganizationDevicesPowerModulesStatusesByDeviceResponse(
     RootModel[list["GetOrganizationDevicesPowerModulesStatusesByDeviceResponseItem"]]
 ):
-    """List the most recent status information for power modules in rackmount MX and MS devices
-    that support them. The data returned by this endpoint is updated every 5 minutes.
-    """
+    """Response for getOrganizationDevicesPowerModulesStatusesByDevice operation."""
 
 
 class GetOrganizationDevicesPowerModulesStatusesByDeviceResponseItem(_BaseSchema):
@@ -1236,7 +1207,7 @@ class GetOrganizationDevicesPowerModulesStatusesByDeviceResponseItem(_BaseSchema
 class GetOrganizationDevicesProvisioningStatusesResponse(
     RootModel[list["GetOrganizationDevicesProvisioningStatusesResponseItem"]]
 ):
-    """List the provisioning statuses information for devices in an organization."""
+    """Response for getOrganizationDevicesProvisioningStatuses operation."""
 
 
 class GetOrganizationDevicesProvisioningStatusesResponseItem(_BaseSchema):
@@ -1252,7 +1223,7 @@ class GetOrganizationDevicesProvisioningStatusesResponseItem(_BaseSchema):
 
 
 class GetOrganizationDevicesResponse(RootModel[list["GetOrganizationDevicesResponseItem"]]):
-    """List the devices in an organization that have been assigned to a network."""
+    """Response for getOrganizationDevices operation."""
 
 
 class GetOrganizationDevicesResponseItem(_BaseSchema):
@@ -1276,7 +1247,7 @@ class GetOrganizationDevicesResponseItem(_BaseSchema):
 
 
 class GetOrganizationDevicesStatusesOverviewResponse(_BaseSchema):
-    """Return an overview of current device statuses."""
+    """Response for getOrganizationDevicesStatusesOverview operation."""
 
     counts: GetOrganizationDevicesStatusesOverviewResponseCounts | None = None
 
@@ -1290,7 +1261,7 @@ class GetOrganizationDevicesStatusesOverviewResponseCounts(_BaseSchema):
 class GetOrganizationDevicesStatusesResponse(
     RootModel[list["GetOrganizationDevicesStatusesResponseItem"]]
 ):
-    """List the status of every Meraki device in the organization."""
+    """Response for getOrganizationDevicesStatuses operation."""
 
 
 class GetOrganizationDevicesStatusesResponseItem(_BaseSchema):
@@ -1315,7 +1286,7 @@ class GetOrganizationDevicesStatusesResponseItem(_BaseSchema):
 
 
 class GetOrganizationDevicesSystemMemoryUsageHistoryByIntervalResponse(_BaseSchema):
-    """Return the memory utilization history in kB for devices in the organization."""
+    """Response for getOrganizationDevicesSystemMemoryUsageHistoryByInterval operation."""
 
     items: (
         list[GetOrganizationDevicesSystemMemoryUsageHistoryByIntervalResponseItemsItem] | None
@@ -1341,7 +1312,7 @@ class GetOrganizationDevicesSystemMemoryUsageHistoryByIntervalResponseItemsItem(
 class GetOrganizationDevicesUplinksAddressesByDeviceResponse(
     RootModel[list["GetOrganizationDevicesUplinksAddressesByDeviceResponseItem"]]
 ):
-    """List the current uplink addresses for devices in an organization."""
+    """Response for getOrganizationDevicesUplinksAddressesByDevice operation."""
 
 
 class GetOrganizationDevicesUplinksAddressesByDeviceResponseItem(_BaseSchema):
@@ -1359,9 +1330,7 @@ class GetOrganizationDevicesUplinksAddressesByDeviceResponseItem(_BaseSchema):
 class GetOrganizationDevicesUplinksLossAndLatencyResponse(
     RootModel[list["GetOrganizationDevicesUplinksLossAndLatencyResponseItem"]]
 ):
-    """Return the uplink loss and latency for every MX in the organization from at latest 2 minutes
-    ago.
-    """
+    """Response for getOrganizationDevicesUplinksLossAndLatency operation."""
 
 
 class GetOrganizationDevicesUplinksLossAndLatencyResponseItem(_BaseSchema):
@@ -1375,7 +1344,7 @@ class GetOrganizationDevicesUplinksLossAndLatencyResponseItem(_BaseSchema):
 
 
 class GetOrganizationEarlyAccessFeaturesOptInResponse(_BaseSchema):
-    """Show an early access feature opt-in for an organization."""
+    """Response for getOrganizationEarlyAccessFeaturesOptIn operation."""
 
     id_: str | None = Field(default=None, alias="id")
     short_name: str | None = Field(default=None, alias="shortName")
@@ -1389,7 +1358,7 @@ class GetOrganizationEarlyAccessFeaturesOptInResponse(_BaseSchema):
 
 
 class GetOrganizationEarlyAccessFeaturesOptInsResponse(_BaseSchema):
-    """List the early access feature opt-ins for an organization."""
+    """Response for getOrganizationEarlyAccessFeaturesOptIns operation."""
 
     id_: str | None = Field(default=None, alias="id")
     short_name: str | None = Field(default=None, alias="shortName")
@@ -1413,7 +1382,7 @@ class GetOrganizationEarlyAccessFeaturesOptInsResponseOptOutEligibility(_BaseSch
 class GetOrganizationEarlyAccessFeaturesResponse(
     RootModel[list["GetOrganizationEarlyAccessFeaturesResponseItem"]]
 ):
-    """List the available early access features for organization."""
+    """Response for getOrganizationEarlyAccessFeatures operation."""
 
 
 class GetOrganizationEarlyAccessFeaturesResponseItem(_BaseSchema):
@@ -1432,9 +1401,7 @@ class GetOrganizationEarlyAccessFeaturesResponseItem(_BaseSchema):
 class GetOrganizationFirmwareUpgradesByDeviceResponse(
     RootModel[list["GetOrganizationFirmwareUpgradesByDeviceResponseItem"]]
 ):
-    """Get firmware upgrade status for the filtered devices. This endpoint currently only supports
-    Meraki switches and access points.
-    """
+    """Response for getOrganizationFirmwareUpgradesByDevice operation."""
 
 
 class GetOrganizationFirmwareUpgradesByDeviceResponseItem(_BaseSchema):
@@ -1461,7 +1428,7 @@ class GetOrganizationFirmwareUpgradesByDeviceResponseItem(_BaseSchema):
 class GetOrganizationFirmwareUpgradesResponse(
     RootModel[list["GetOrganizationFirmwareUpgradesResponseItem"]]
 ):
-    """Get firmware upgrade information for an organization."""
+    """Response for getOrganizationFirmwareUpgrades operation."""
 
 
 class GetOrganizationFirmwareUpgradesResponseItem(_BaseSchema):
@@ -1481,7 +1448,7 @@ class GetOrganizationFirmwareUpgradesResponseItem(_BaseSchema):
 class GetOrganizationFloorPlansAutoLocateDevicesResponse(
     RootModel[list["GetOrganizationFloorPlansAutoLocateDevicesResponseItem"]]
 ):
-    """List auto locate details for each device in your organization."""
+    """Response for getOrganizationFloorPlansAutoLocateDevices operation."""
 
 
 class GetOrganizationFloorPlansAutoLocateDevicesResponseItem(_BaseSchema):
@@ -1494,7 +1461,7 @@ class GetOrganizationFloorPlansAutoLocateDevicesResponseItem(_BaseSchema):
 class GetOrganizationFloorPlansAutoLocateStatusesResponse(
     RootModel[list["GetOrganizationFloorPlansAutoLocateStatusesResponseItem"]]
 ):
-    """List the status of auto locate for each floorplan in your organization."""
+    """Response for getOrganizationFloorPlansAutoLocateStatuses operation."""
 
 
 class GetOrganizationFloorPlansAutoLocateStatusesResponseItem(_BaseSchema):
@@ -1505,7 +1472,7 @@ class GetOrganizationFloorPlansAutoLocateStatusesResponseItem(_BaseSchema):
 
 
 class GetOrganizationIntegrationsXdrNetworksResponse(_BaseSchema):
-    """Returns the networks in the organization that have XDR enabled."""
+    """Response for getOrganizationIntegrationsXdrNetworks operation."""
 
     items: list[GetOrganizationIntegrationsXdrNetworksResponseItemsItem] | None = None
     meta: GetOrganizationDevicesControllerMigrationsResponseMeta | None = None
@@ -1522,7 +1489,7 @@ class GetOrganizationIntegrationsXdrNetworksResponseItemsItem(_BaseSchema):
 
 
 class GetOrganizationInventoryDeviceResponse(_BaseSchema):
-    """Return a single device from the inventory of an organization."""
+    """Response for getOrganizationInventoryDevice operation."""
 
     mac: str | None = None
     serial: str | None = None
@@ -1541,7 +1508,7 @@ class GetOrganizationInventoryDeviceResponse(_BaseSchema):
 class GetOrganizationInventoryDevicesResponse(
     RootModel[list["GetOrganizationInventoryDevicesResponseItem"]]
 ):
-    """Return the device inventory for an organization."""
+    """Response for getOrganizationInventoryDevices operation."""
 
 
 class GetOrganizationInventoryDevicesResponseItem(_BaseSchema):
@@ -1562,7 +1529,7 @@ class GetOrganizationInventoryDevicesResponseItem(_BaseSchema):
 
 
 class GetOrganizationInventoryDevicesSwapsBulkResponse(_BaseSchema):
-    """List of device swaps for a given request ID ({id})."""
+    """Response for getOrganizationInventoryDevicesSwapsBulk operation."""
 
     job_id: str | None = Field(default=None, alias="jobId")
     swaps: list[CreateOrganizationInventoryDevicesSwapsBulkResponseSwapsItem] | None = None
@@ -1571,7 +1538,7 @@ class GetOrganizationInventoryDevicesSwapsBulkResponse(_BaseSchema):
 class GetOrganizationInventoryOnboardingCloudMonitoringImportsResponse(
     RootModel[list["GetOrganizationInventoryOnboardingCloudMonitoringImportsResponseItem"]]
 ):
-    """Check the status of a committed Import operation."""
+    """Response for getOrganizationInventoryOnboardingCloudMonitoringImports operation."""
 
 
 class GetOrganizationInventoryOnboardingCloudMonitoringImportsResponseItem(_BaseSchema):
@@ -1584,7 +1551,7 @@ class GetOrganizationInventoryOnboardingCloudMonitoringImportsResponseItem(_Base
 class GetOrganizationInventoryOnboardingCloudMonitoringNetworksResponse(
     RootModel[list["GetOrganizationInventoryOnboardingCloudMonitoringNetworksResponseItem"]]
 ):
-    """Returns list of networks eligible for adding cloud monitored device."""
+    """Response for getOrganizationInventoryOnboardingCloudMonitoringNetworks operation."""
 
 
 class GetOrganizationInventoryOnboardingCloudMonitoringNetworksResponseItem(_BaseSchema):
@@ -1603,7 +1570,7 @@ class GetOrganizationInventoryOnboardingCloudMonitoringNetworksResponseItem(_Bas
 
 
 class GetOrganizationLicenseResponse(_BaseSchema):
-    """Display a license."""
+    """Response for getOrganizationLicense operation."""
 
     id_: str | None = Field(default=None, alias="id")
     license_type: str | None = Field(default=None, alias="licenseType")
@@ -1625,7 +1592,7 @@ class GetOrganizationLicenseResponse(_BaseSchema):
 
 
 class GetOrganizationLicensesOverviewResponse(_BaseSchema):
-    """Return an overview of the license state for an organization."""
+    """Response for getOrganizationLicensesOverview operation."""
 
     status: str | None = None
     expiration_date: str | None = Field(default=None, alias="expirationDate")
@@ -1669,7 +1636,7 @@ class GetOrganizationLicensesOverviewResponseSystemsManager(_BaseSchema):
 
 
 class GetOrganizationLicensesResponse(RootModel[list["GetOrganizationLicensesResponseItem"]]):
-    """List the licenses for an organization."""
+    """Response for getOrganizationLicenses operation."""
 
 
 class GetOrganizationLicensesResponseItem(_BaseSchema):
@@ -1695,7 +1662,7 @@ class GetOrganizationLicensesResponseItem(_BaseSchema):
 
 
 class GetOrganizationLoginSecurityResponse(_BaseSchema):
-    """Returns the login security settings for an organization."""
+    """Response for getOrganizationLoginSecurity operation."""
 
     enforce_password_expiration: bool | None = Field(
         default=None, alias="enforcePasswordExpiration"
@@ -1730,7 +1697,7 @@ class GetOrganizationLoginSecurityResponseApiAuthentication(_BaseSchema):
 
 
 class GetOrganizationNetworksResponse(RootModel[list["GetOrganizationNetworksResponseItem"]]):
-    """List the networks that the user has privileges on in an organization."""
+    """Response for getOrganizationNetworks operation."""
 
 
 class GetOrganizationNetworksResponseItem(_BaseSchema):
@@ -1751,7 +1718,7 @@ class GetOrganizationNetworksResponseItem(_BaseSchema):
 class GetOrganizationPoliciesAssignmentsByClientResponse(
     RootModel[list["GetOrganizationPoliciesAssignmentsByClientResponseItem"]]
 ):
-    """Get policies for all clients with policies."""
+    """Response for getOrganizationPoliciesAssignmentsByClient operation."""
 
 
 class GetOrganizationPoliciesAssignmentsByClientResponseItem(_BaseSchema):
@@ -1765,7 +1732,7 @@ class GetOrganizationPoliciesAssignmentsByClientResponseItem(_BaseSchema):
 
 
 class GetOrganizationPolicyObjectResponse(_BaseSchema):
-    """Shows details of a Policy Object."""
+    """Response for getOrganizationPolicyObject operation."""
 
     id_: str | None = Field(default=None, alias="id")
     name: str | None = None
@@ -1779,7 +1746,7 @@ class GetOrganizationPolicyObjectResponse(_BaseSchema):
 
 
 class GetOrganizationPolicyObjectsGroupResponse(_BaseSchema):
-    """Shows details of a Policy Object Group."""
+    """Response for getOrganizationPolicyObjectsGroup operation."""
 
     id_: str | None = Field(default=None, alias="id")
     name: str | None = None
@@ -1791,7 +1758,7 @@ class GetOrganizationPolicyObjectsGroupResponse(_BaseSchema):
 
 
 class GetOrganizationPolicyObjectsGroupsResponse(_BaseSchema):
-    """Lists Policy Object Groups belonging to the organization."""
+    """Response for getOrganizationPolicyObjectsGroups operation."""
 
     id_: str | None = Field(default=None, alias="id")
     name: str | None = None
@@ -1803,7 +1770,7 @@ class GetOrganizationPolicyObjectsGroupsResponse(_BaseSchema):
 
 
 class GetOrganizationPolicyObjectsResponse(_BaseSchema):
-    """Lists Policy Objects belonging to the organization."""
+    """Response for getOrganizationPolicyObjects operation."""
 
     id_: str | None = Field(default=None, alias="id")
     name: str | None = None
@@ -1817,7 +1784,7 @@ class GetOrganizationPolicyObjectsResponse(_BaseSchema):
 
 
 class GetOrganizationResponse(_BaseSchema):
-    """Return an organization."""
+    """Response for getOrganization operation."""
 
     id_: str | None = Field(default=None, alias="id")
     name: str | None = None
@@ -1829,7 +1796,7 @@ class GetOrganizationResponse(_BaseSchema):
 
 
 class GetOrganizationSamlIdpResponse(_BaseSchema):
-    """Get a SAML IdP from your organization."""
+    """Response for getOrganizationSamlIdp operation."""
 
     idp_id: str | None = Field(default=None, alias="idpId")
     consumer_url: str | None = Field(default=None, alias="consumerUrl")
@@ -1840,7 +1807,7 @@ class GetOrganizationSamlIdpResponse(_BaseSchema):
 
 
 class GetOrganizationSamlIdpsResponse(RootModel[list["GetOrganizationSamlIdpsResponseItem"]]):
-    """List the SAML IdPs in your organization."""
+    """Response for getOrganizationSamlIdps operation."""
 
 
 class GetOrganizationSamlIdpsResponseItem(_BaseSchema):
@@ -1855,7 +1822,7 @@ class GetOrganizationSamlIdpsResponseItem(_BaseSchema):
 
 
 class GetOrganizationSamlResponse(_BaseSchema):
-    """Returns the SAML SSO enabled settings for an organization."""
+    """Response for getOrganizationSaml operation."""
 
     enabled: bool | None = None
     sp_initiated: GetOrganizationSamlResponseSpInitiated | None = Field(
@@ -1871,7 +1838,7 @@ class GetOrganizationSamlResponseSpInitiated(_BaseSchema):
 
 
 class GetOrganizationSamlRoleResponse(_BaseSchema):
-    """Return a SAML role."""
+    """Response for getOrganizationSamlRole operation."""
 
     id_: str | None = Field(default=None, alias="id")
     role: str | None = None
@@ -1882,7 +1849,7 @@ class GetOrganizationSamlRoleResponse(_BaseSchema):
 
 
 class GetOrganizationSamlRolesResponse(RootModel[list["GetOrganizationSamlRolesResponseItem"]]):
-    """List the SAML roles for this organization."""
+    """Response for getOrganizationSamlRoles operation."""
 
 
 class GetOrganizationSamlRolesResponseItem(_BaseSchema):
@@ -1897,7 +1864,7 @@ class GetOrganizationSamlRolesResponseItem(_BaseSchema):
 
 
 class GetOrganizationSnmpResponse(_BaseSchema):
-    """Return the SNMP settings for an organization."""
+    """Response for getOrganizationSnmp operation."""
 
     v2c_enabled: bool | None = Field(default=None, alias="v2cEnabled")
     v2_community_string: str | None = Field(default=None, alias="v2CommunityString")
@@ -1911,7 +1878,7 @@ class GetOrganizationSnmpResponse(_BaseSchema):
 
 
 class GetOrganizationSplashAssetResponse(_BaseSchema):
-    """Get a Splash Theme Asset."""
+    """Response for getOrganizationSplashAsset operation."""
 
     id_: str | None = Field(default=None, alias="id")
     name: str | None = None
@@ -1921,7 +1888,7 @@ class GetOrganizationSplashAssetResponse(_BaseSchema):
 class GetOrganizationSplashThemesResponse(
     RootModel[list["GetOrganizationSplashThemesResponseItem"]]
 ):
-    """List Splash Themes."""
+    """Response for getOrganizationSplashThemes operation."""
 
 
 class GetOrganizationSplashThemesResponseItem(_BaseSchema):
@@ -1937,7 +1904,7 @@ class GetOrganizationSplashThemesResponseItem(_BaseSchema):
 class GetOrganizationSummaryTopAppliancesByUtilizationResponse(
     RootModel[list["GetOrganizationSummaryTopAppliancesByUtilizationResponseItem"]]
 ):
-    """Return the top 10 appliances sorted by utilization over given time range."""
+    """Response for getOrganizationSummaryTopAppliancesByUtilization operation."""
 
 
 class GetOrganizationSummaryTopAppliancesByUtilizationResponseItem(_BaseSchema):
@@ -1954,9 +1921,7 @@ class GetOrganizationSummaryTopAppliancesByUtilizationResponseItem(_BaseSchema):
 class GetOrganizationSummaryTopApplicationsByUsageResponse(
     RootModel[list["GetOrganizationSummaryTopApplicationsByUsageResponseItem"]]
 ):
-    """Return the top applications sorted by data usage over given time range. Default unit is
-    megabytes.
-    """
+    """Response for getOrganizationSummaryTopApplicationsByUsage operation."""
 
 
 class GetOrganizationSummaryTopApplicationsByUsageResponseItem(_BaseSchema):
@@ -1972,9 +1937,7 @@ class GetOrganizationSummaryTopApplicationsByUsageResponseItem(_BaseSchema):
 class GetOrganizationSummaryTopApplicationsCategoriesByUsageResponse(
     RootModel[list["GetOrganizationSummaryTopApplicationsCategoriesByUsageResponseItem"]]
 ):
-    """Return the top application categories sorted by data usage over given time range. Default
-    unit is megabytes.
-    """
+    """Response for getOrganizationSummaryTopApplicationsCategoriesByUsage operation."""
 
 
 class GetOrganizationSummaryTopApplicationsCategoriesByUsageResponseItem(_BaseSchema):
@@ -1990,9 +1953,7 @@ class GetOrganizationSummaryTopApplicationsCategoriesByUsageResponseItem(_BaseSc
 class GetOrganizationSummaryTopClientsByUsageResponse(
     RootModel[list["GetOrganizationSummaryTopClientsByUsageResponseItem"]]
 ):
-    """Return metrics for organization's top 10 clients by data usage (in mb) over given time
-    range.
-    """
+    """Response for getOrganizationSummaryTopClientsByUsage operation."""
 
 
 class GetOrganizationSummaryTopClientsByUsageResponseItem(_BaseSchema):
@@ -2008,9 +1969,7 @@ class GetOrganizationSummaryTopClientsByUsageResponseItem(_BaseSchema):
 class GetOrganizationSummaryTopClientsManufacturersByUsageResponse(
     RootModel[list["GetOrganizationSummaryTopClientsManufacturersByUsageResponseItem"]]
 ):
-    """Return metrics for organization's top clients by data usage (in mb) over given time range,
-    grouped by manufacturer.
-    """
+    """Response for getOrganizationSummaryTopClientsManufacturersByUsage operation."""
 
 
 class GetOrganizationSummaryTopClientsManufacturersByUsageResponseItem(_BaseSchema):
@@ -2024,9 +1983,7 @@ class GetOrganizationSummaryTopClientsManufacturersByUsageResponseItem(_BaseSche
 class GetOrganizationSummaryTopDevicesByUsageResponse(
     RootModel[list["GetOrganizationSummaryTopDevicesByUsageResponseItem"]]
 ):
-    """Return metrics for organization's top 10 devices sorted by data usage over given time range.
-    Default unit is megabytes.
-    """
+    """Response for getOrganizationSummaryTopDevicesByUsage operation."""
 
 
 class GetOrganizationSummaryTopDevicesByUsageResponseItem(_BaseSchema):
@@ -2045,9 +2002,7 @@ class GetOrganizationSummaryTopDevicesByUsageResponseItem(_BaseSchema):
 class GetOrganizationSummaryTopDevicesModelsByUsageResponse(
     RootModel[list["GetOrganizationSummaryTopDevicesModelsByUsageResponseItem"]]
 ):
-    """Return metrics for organization's top 10 device models sorted by data usage over given time
-    range. Default unit is megabytes.
-    """
+    """Response for getOrganizationSummaryTopDevicesModelsByUsage operation."""
 
 
 class GetOrganizationSummaryTopDevicesModelsByUsageResponseItem(_BaseSchema):
@@ -2061,9 +2016,7 @@ class GetOrganizationSummaryTopDevicesModelsByUsageResponseItem(_BaseSchema):
 class GetOrganizationSummaryTopNetworksByStatusResponse(
     RootModel[list["GetOrganizationSummaryTopNetworksByStatusResponseItem"]]
 ):
-    """List the client and status overview information for the networks in an organization. Usage
-    is measured in kilobytes and from the last seven days.
-    """
+    """Response for getOrganizationSummaryTopNetworksByStatus operation."""
 
 
 class GetOrganizationSummaryTopNetworksByStatusResponseItem(_BaseSchema):
@@ -2082,9 +2035,7 @@ class GetOrganizationSummaryTopNetworksByStatusResponseItem(_BaseSchema):
 class GetOrganizationSummaryTopSsidsByUsageResponse(
     RootModel[list["GetOrganizationSummaryTopSsidsByUsageResponseItem"]]
 ):
-    """Return metrics for organization's top 10 ssids by data usage over given time range. Default
-    unit is megabytes.
-    """
+    """Response for getOrganizationSummaryTopSsidsByUsage operation."""
 
 
 class GetOrganizationSummaryTopSsidsByUsageResponseItem(_BaseSchema):
@@ -2098,9 +2049,7 @@ class GetOrganizationSummaryTopSsidsByUsageResponseItem(_BaseSchema):
 class GetOrganizationSummaryTopSwitchesByEnergyUsageResponse(
     RootModel[list["GetOrganizationSummaryTopSwitchesByEnergyUsageResponseItem"]]
 ):
-    """Return metrics for organization's top 10 switches by energy usage over given time range.
-    Default unit is joules.
-    """
+    """Response for getOrganizationSummaryTopSwitchesByEnergyUsage operation."""
 
 
 class GetOrganizationSummaryTopSwitchesByEnergyUsageResponseItem(_BaseSchema):
@@ -2116,7 +2065,7 @@ class GetOrganizationSummaryTopSwitchesByEnergyUsageResponseItem(_BaseSchema):
 class GetOrganizationUplinksStatusesResponse(
     RootModel[list["GetOrganizationUplinksStatusesResponseItem"]]
 ):
-    """List the uplink status of every Meraki MX, MG and Z series devices in the organization."""
+    """Response for getOrganizationUplinksStatuses operation."""
 
 
 class GetOrganizationUplinksStatusesResponseItem(_BaseSchema):
@@ -2133,7 +2082,7 @@ class GetOrganizationUplinksStatusesResponseItem(_BaseSchema):
 
 
 class GetOrganizationWebhooksAlertTypesResponse(_BaseSchema):
-    """Return a list of alert types to be used with managing webhook alerts."""
+    """Response for getOrganizationWebhooksAlertTypes operation."""
 
     alert_type_id: str | None = Field(default=None, alias="alertTypeId")
     alert_type: str | None = Field(default=None, alias="alertType")
@@ -2169,7 +2118,7 @@ class GetOrganizationWebhooksAlertTypesResponseExample(_BaseSchema):
 
 
 class GetOrganizationWebhooksCallbacksStatusResponse(_BaseSchema):
-    """Return the status of an API callback."""
+    """Response for getOrganizationWebhooksCallbacksStatus operation."""
 
     callback_id: str | None = Field(default=None, alias="callbackId")
     status: str | None = None
@@ -2198,7 +2147,7 @@ class GetOrganizationWebhooksCallbacksStatusResponseWebhook(_BaseSchema):
 class GetOrganizationWebhooksLogsResponse(
     RootModel[list["GetOrganizationWebhooksLogsResponseItem"]]
 ):
-    """Return the log of webhook POSTs sent."""
+    """Response for getOrganizationWebhooksLogs operation."""
 
 
 class GetOrganizationWebhooksLogsResponseItem(_BaseSchema):
@@ -2215,7 +2164,7 @@ class GetOrganizationWebhooksLogsResponseItem(_BaseSchema):
 
 
 class GetOrganizationsResponse(RootModel[list["GetOrganizationsResponseItem"]]):
-    """List the organizations that the user has privileges on."""
+    """Response for getOrganizations operation."""
 
 
 class GetOrganizationsResponseItem(_BaseSchema):
@@ -2231,16 +2180,14 @@ class GetOrganizationsResponseItem(_BaseSchema):
 
 
 class MoveOrganizationLicensesResponse(_BaseSchema):
-    """Move licenses to another organization. This will also move any devices that the licenses are
-    assigned to.
-    """
+    """Response for moveOrganizationLicenses operation."""
 
     dest_organization_id: str | None = Field(default=None, alias="destOrganizationId")
     license_ids: list[str] | None = Field(default=None, alias="licenseIds")
 
 
 class MoveOrganizationLicensesSeatsResponse(_BaseSchema):
-    """Move SM seats to another organization."""
+    """Response for moveOrganizationLicensesSeats operation."""
 
     dest_organization_id: str | None = Field(default=None, alias="destOrganizationId")
     license_id: str | None = Field(default=None, alias="licenseId")
@@ -3290,7 +3237,7 @@ class OrganizationsUtilization(_BaseSchema):
 
 
 class PreviewOrganizationInventoryOrdersResponse(_BaseSchema):
-    """Preview the results and status of an order claim by the secure order id."""
+    """Response for previewOrganizationInventoryOrders operation."""
 
     claim_id: str | None = Field(default=None, alias="claimId")
     number: str | None = None
@@ -3306,15 +3253,13 @@ class PreviewOrganizationInventoryOrdersResponseShipping(_BaseSchema):
 
 
 class ReleaseFromOrganizationInventoryResponse(_BaseSchema):
-    """Release a list of claimed devices from an organization."""
+    """Response for releaseFromOrganizationInventory operation."""
 
     serials: list[str] | None = None
 
 
 class RenewOrganizationLicensesSeatsResponse(_BaseSchema):
-    """Renew SM seats of a license. This will extend the license expiration date of managed SM
-    devices covered by this license.
-    """
+    """Response for renewOrganizationLicensesSeats operation."""
 
     resulting_licenses: (
         list[AssignOrganizationLicensesSeatsResponseResultingLicensesItem] | None
@@ -3322,7 +3267,7 @@ class RenewOrganizationLicensesSeatsResponse(_BaseSchema):
 
 
 class ReorderOrganizationDevicesPacketCaptureSchedulesResponse(_BaseSchema):
-    """Bulk update priorities of pcap schedules."""
+    """Response for reorderOrganizationDevicesPacketCaptureSchedules operation."""
 
     updated_priorities: (
         list[ReorderOrganizationDevicesPacketCaptureSchedulesResponseUpdatedPrioritiesItem] | None
@@ -3337,7 +3282,7 @@ class ReorderOrganizationDevicesPacketCaptureSchedulesResponseUpdatedPrioritiesI
 
 
 class StopOrganizationDevicesPacketCaptureCaptureResponse(_BaseSchema):
-    """Stop a specific packet capture (not supported for Catalyst devices)."""
+    """Response for stopOrganizationDevicesPacketCaptureCapture operation."""
 
     capture_id: str | None = Field(default=None, alias="captureId")
     network: OrganizationsPolicyObjectsItem | None = None
@@ -3361,7 +3306,7 @@ class StopOrganizationDevicesPacketCaptureCaptureResponse(_BaseSchema):
 
 
 class UpdateOrganizationActionBatchResponse(_BaseSchema):
-    """Update an action batch."""
+    """Response for updateOrganizationActionBatch operation."""
 
     id_: str | None = Field(default=None, alias="id")
     organization_id: str | None = Field(default=None, alias="organizationId")
@@ -3372,7 +3317,7 @@ class UpdateOrganizationActionBatchResponse(_BaseSchema):
 
 
 class UpdateOrganizationAdaptivePolicyAclResponse(_BaseSchema):
-    """Updates an adaptive policy ACL."""
+    """Response for updateOrganizationAdaptivePolicyAcl operation."""
 
     acl_id: str | None = Field(default=None, alias="aclId")
     name: str | None = None
@@ -3384,9 +3329,7 @@ class UpdateOrganizationAdaptivePolicyAclResponse(_BaseSchema):
 
 
 class UpdateOrganizationAdaptivePolicyGroupResponse(_BaseSchema):
-    """Updates an adaptive policy group. If updating "Infrastructure", only the SGT is allowed.
-    Cannot update "Unknown".
-    """
+    """Response for updateOrganizationAdaptivePolicyGroup operation."""
 
     group_id: str | None = Field(default=None, alias="groupId")
     name: str | None = None
@@ -3402,7 +3345,7 @@ class UpdateOrganizationAdaptivePolicyGroupResponse(_BaseSchema):
 
 
 class UpdateOrganizationAdaptivePolicyPolicyResponse(_BaseSchema):
-    """Update an Adaptive Policy."""
+    """Response for updateOrganizationAdaptivePolicyPolicy operation."""
 
     adaptive_policy_id: str | None = Field(default=None, alias="adaptivePolicyId")
     source_group: OrganizationsSourceGroup | None = Field(default=None, alias="sourceGroup")
@@ -3416,13 +3359,13 @@ class UpdateOrganizationAdaptivePolicyPolicyResponse(_BaseSchema):
 
 
 class UpdateOrganizationAdaptivePolicySettingsResponse(_BaseSchema):
-    """Update global adaptive policy settings."""
+    """Response for updateOrganizationAdaptivePolicySettings operation."""
 
     enabled_networks: list[str] | None = Field(default=None, alias="enabledNetworks")
 
 
 class UpdateOrganizationAdminResponse(_BaseSchema):
-    """Update an administrator."""
+    """Response for updateOrganizationAdmin operation."""
 
     id_: str | None = Field(default=None, alias="id")
     name: str | None = None
@@ -3438,7 +3381,7 @@ class UpdateOrganizationAdminResponse(_BaseSchema):
 
 
 class UpdateOrganizationAlertsProfileResponse(_BaseSchema):
-    """Update an organization-wide alert config."""
+    """Response for updateOrganizationAlertsProfile operation."""
 
     id_: str | None = Field(default=None, alias="id")
     type_: str | None = Field(default=None, alias="type")
@@ -3452,13 +3395,13 @@ class UpdateOrganizationAlertsProfileResponse(_BaseSchema):
 
 
 class UpdateOrganizationBrandingPoliciesPrioritiesResponse(_BaseSchema):
-    """Update the priority ordering of an organization's branding policies."""
+    """Response for updateOrganizationBrandingPoliciesPriorities operation."""
 
     branding_policy_ids: list[str] | None = Field(default=None, alias="brandingPolicyIds")
 
 
 class UpdateOrganizationBrandingPolicyResponse(_BaseSchema):
-    """Update a branding policy."""
+    """Response for updateOrganizationBrandingPolicy operation."""
 
     name: str | None = None
     enabled: bool | None = None
@@ -3468,7 +3411,7 @@ class UpdateOrganizationBrandingPolicyResponse(_BaseSchema):
 
 
 class UpdateOrganizationConfigTemplateResponse(_BaseSchema):
-    """Update a configuration template."""
+    """Response for updateOrganizationConfigTemplate operation."""
 
     id_: str | None = Field(default=None, alias="id")
     name: str | None = None
@@ -3477,7 +3420,7 @@ class UpdateOrganizationConfigTemplateResponse(_BaseSchema):
 
 
 class UpdateOrganizationDevicesPacketCaptureScheduleResponse(_BaseSchema):
-    """Update a schedule for packet capture."""
+    """Response for updateOrganizationDevicesPacketCaptureSchedule operation."""
 
     schedule_id: str | None = Field(default=None, alias="scheduleId")
     devices: list[OrganizationsDevicesItem2] | None = None
@@ -3497,7 +3440,7 @@ class UpdateOrganizationDevicesPacketCaptureScheduleResponse(_BaseSchema):
 
 
 class UpdateOrganizationEarlyAccessFeaturesOptInResponse(_BaseSchema):
-    """Update an early access feature opt-in for an organization."""
+    """Response for updateOrganizationEarlyAccessFeaturesOptIn operation."""
 
     id_: str | None = Field(default=None, alias="id")
     short_name: str | None = Field(default=None, alias="shortName")
@@ -3511,7 +3454,7 @@ class UpdateOrganizationEarlyAccessFeaturesOptInResponse(_BaseSchema):
 
 
 class UpdateOrganizationLicenseResponse(_BaseSchema):
-    """Update a license."""
+    """Response for updateOrganizationLicense operation."""
 
     id_: str | None = Field(default=None, alias="id")
     license_type: str | None = Field(default=None, alias="licenseType")
@@ -3533,7 +3476,7 @@ class UpdateOrganizationLicenseResponse(_BaseSchema):
 
 
 class UpdateOrganizationLoginSecurityResponse(_BaseSchema):
-    """Update the login security settings for an organization."""
+    """Response for updateOrganizationLoginSecurity operation."""
 
     enforce_password_expiration: bool | None = Field(
         default=None, alias="enforcePasswordExpiration"
@@ -3558,7 +3501,7 @@ class UpdateOrganizationLoginSecurityResponse(_BaseSchema):
 
 
 class UpdateOrganizationPolicyObjectResponse(_BaseSchema):
-    """Updates a Policy Object."""
+    """Response for updateOrganizationPolicyObject operation."""
 
     id_: str | None = Field(default=None, alias="id")
     name: str | None = None
@@ -3572,7 +3515,7 @@ class UpdateOrganizationPolicyObjectResponse(_BaseSchema):
 
 
 class UpdateOrganizationPolicyObjectsGroupResponse(_BaseSchema):
-    """Updates a Policy Object Group."""
+    """Response for updateOrganizationPolicyObjectsGroup operation."""
 
     id_: str | None = Field(default=None, alias="id")
     name: str | None = None
@@ -3584,7 +3527,7 @@ class UpdateOrganizationPolicyObjectsGroupResponse(_BaseSchema):
 
 
 class UpdateOrganizationResponse(_BaseSchema):
-    """Update an organization."""
+    """Response for updateOrganization operation."""
 
     id_: str | None = Field(default=None, alias="id")
     name: str | None = None
@@ -3596,7 +3539,7 @@ class UpdateOrganizationResponse(_BaseSchema):
 
 
 class UpdateOrganizationSamlIdpResponse(RootModel[list["UpdateOrganizationSamlIdpResponseItem"]]):
-    """Update a SAML IdP in your organization."""
+    """Response for updateOrganizationSamlIdp operation."""
 
 
 class UpdateOrganizationSamlIdpResponseItem(_BaseSchema):
@@ -3611,7 +3554,7 @@ class UpdateOrganizationSamlIdpResponseItem(_BaseSchema):
 
 
 class UpdateOrganizationSamlResponse(_BaseSchema):
-    """Updates the SAML SSO enabled settings for an organization."""
+    """Response for updateOrganizationSaml operation."""
 
     enabled: bool | None = None
     sp_initiated: GetOrganizationSamlResponseSpInitiated | None = Field(
@@ -3620,7 +3563,7 @@ class UpdateOrganizationSamlResponse(_BaseSchema):
 
 
 class UpdateOrganizationSamlRoleResponse(_BaseSchema):
-    """Update a SAML role."""
+    """Response for updateOrganizationSamlRole operation."""
 
     id_: str | None = Field(default=None, alias="id")
     role: str | None = None
@@ -3631,7 +3574,7 @@ class UpdateOrganizationSamlRoleResponse(_BaseSchema):
 
 
 class UpdateOrganizationSnmpResponse(_BaseSchema):
-    """Update the SNMP settings for an organization."""
+    """Response for updateOrganizationSnmp operation."""
 
     v2c_enabled: bool | None = Field(default=None, alias="v2cEnabled")
     v2_community_string: str | None = Field(default=None, alias="v2CommunityString")

@@ -165,7 +165,7 @@ class CellularGatewayUplinksItem(_BaseSchema):
 
 
 class CreateOrganizationCellularGatewayEsimsServiceProvidersAccountResponse(_BaseSchema):
-    """Add a service provider account."""
+    """Response for createOrganizationCellularGatewayEsimsServiceProvidersAccount operation."""
 
     account_id: str | None = Field(default=None, alias="accountId")
     last_updated_at: str | None = Field(default=None, alias="lastUpdatedAt")
@@ -177,7 +177,7 @@ class CreateOrganizationCellularGatewayEsimsServiceProvidersAccountResponse(_Bas
 
 
 class CreateOrganizationCellularGatewayEsimsSwapResponse(_BaseSchema):
-    """Swap which profile an eSIM uses."""
+    """Response for createOrganizationCellularGatewayEsimsSwap operation."""
 
     eid: str
     iccid: str
@@ -185,7 +185,7 @@ class CreateOrganizationCellularGatewayEsimsSwapResponse(_BaseSchema):
 
 
 class GetDeviceCellularGatewayLanResponse(_BaseSchema):
-    """Show the LAN Settings of a MG."""
+    """Response for getDeviceCellularGatewayLan operation."""
 
     device_name: str | None = Field(default=None, alias="deviceName")
     device_lan_ip: str | None = Field(default=None, alias="deviceLanIp")
@@ -215,7 +215,7 @@ class GetDeviceCellularGatewayLanResponseReservedIpRangesItem(_BaseSchema):
 
 
 class GetDeviceCellularGatewayPortForwardingRulesResponse(_BaseSchema):
-    """Returns the port forwarding rules for a single MG."""
+    """Response for getDeviceCellularGatewayPortForwardingRules operation."""
 
     rules: list[GetDeviceCellularGatewayPortForwardingRulesResponseRulesItem] | None = None
 
@@ -233,13 +233,13 @@ class GetDeviceCellularGatewayPortForwardingRulesResponseRulesItem(_BaseSchema):
 
 
 class GetNetworkCellularGatewayConnectivityMonitoringDestinationsResponse(_BaseSchema):
-    """Return the connectivity testing destinations for an MG network."""
+    """Response for getNetworkCellularGatewayConnectivityMonitoringDestinations operation."""
 
     destinations: list[CellularGatewayDestinationsItem] | None = None
 
 
 class GetNetworkCellularGatewayDhcpResponse(_BaseSchema):
-    """List common DHCP settings of MGs."""
+    """Response for getNetworkCellularGatewayDhcp operation."""
 
     dhcp_lease_time: str | None = Field(default=None, alias="dhcpLeaseTime")
     dns_nameservers: str | None = Field(default=None, alias="dnsNameservers")
@@ -247,7 +247,7 @@ class GetNetworkCellularGatewayDhcpResponse(_BaseSchema):
 
 
 class GetNetworkCellularGatewaySubnetPoolResponse(_BaseSchema):
-    """Return the subnet pool and mask configured for MGs in the network."""
+    """Response for getNetworkCellularGatewaySubnetPool operation."""
 
     deployment_mode: str | None = Field(default=None, alias="deploymentMode")
     cidr: str | None = None
@@ -265,7 +265,7 @@ class GetNetworkCellularGatewaySubnetPoolResponseSubnetsItem(_BaseSchema):
 
 
 class GetNetworkCellularGatewayUplinkResponse(_BaseSchema):
-    """Returns the uplink settings for your MG network."""
+    """Response for getNetworkCellularGatewayUplink operation."""
 
     bandwidth_limits: GetNetworkCellularGatewayUplinkResponseBandwidthLimits | None = Field(
         default=None, alias="bandwidthLimits"
@@ -280,7 +280,7 @@ class GetNetworkCellularGatewayUplinkResponseBandwidthLimits(_BaseSchema):
 
 
 class GetOrganizationCellularGatewayEsimsInventoryResponse(_BaseSchema):
-    """The eSIM inventory of a given organization."""
+    """Response for getOrganizationCellularGatewayEsimsInventory operation."""
 
     items: list[GetOrganizationCellularGatewayEsimsInventoryResponseItemsItem] | None = None
     meta: GetOrganizationCellularGatewayEsimsInventoryResponseMeta | None = None
@@ -306,14 +306,16 @@ class GetOrganizationCellularGatewayEsimsInventoryResponseMeta(_BaseSchema):
 class GetOrganizationCellularGatewayEsimsServiceProvidersAccountsCommunicationPlansResponse(
     _BaseSchema
 ):
-    """The communication plans available for a given provider."""
+    """Response for getOrganizationCellularGatewayEsimsServiceProvidersAccountsCommunicationPlans
+    operation.
+    """
 
     items: list[CellularGatewayItemsItem2] | None = None
     meta: GetOrganizationCellularGatewayEsimsInventoryResponseMeta | None = None
 
 
 class GetOrganizationCellularGatewayEsimsServiceProvidersAccountsRatePlansResponse(_BaseSchema):
-    """The rate plans available for a given provider."""
+    """Response for getOrganizationCellularGatewayEsimsServiceProvidersAccountsRatePlans operation."""
 
     items: list[CellularGatewayItemsItem3] | None = None
     meta: GetOrganizationCellularGatewayEsimsInventoryResponseMeta | None = None
@@ -322,7 +324,7 @@ class GetOrganizationCellularGatewayEsimsServiceProvidersAccountsRatePlansRespon
 class GetOrganizationCellularGatewayEsimsServiceProvidersAccountsResponse(
     RootModel[list["GetOrganizationCellularGatewayEsimsServiceProvidersAccountsResponseItem"]]
 ):
-    """Inventory of service provider accounts tied to the organization."""
+    """Response for getOrganizationCellularGatewayEsimsServiceProvidersAccounts operation."""
 
 
 class GetOrganizationCellularGatewayEsimsServiceProvidersAccountsResponseItem(_BaseSchema):
@@ -333,7 +335,7 @@ class GetOrganizationCellularGatewayEsimsServiceProvidersAccountsResponseItem(_B
 
 
 class GetOrganizationCellularGatewayEsimsServiceProvidersResponse(_BaseSchema):
-    """Service providers customers can add accounts for."""
+    """Response for getOrganizationCellularGatewayEsimsServiceProviders operation."""
 
     items: list[GetOrganizationCellularGatewayEsimsServiceProvidersResponseItemsItem] | None = None
     meta: GetOrganizationCellularGatewayEsimsInventoryResponseMeta | None = None
@@ -351,7 +353,7 @@ class GetOrganizationCellularGatewayEsimsServiceProvidersResponseItemsItem(_Base
 class GetOrganizationCellularGatewayUplinkStatusesResponse(
     RootModel[list["GetOrganizationCellularGatewayUplinkStatusesResponseItem"]]
 ):
-    """List the uplink status of every Meraki MG cellular gateway in the organization."""
+    """Response for getOrganizationCellularGatewayUplinkStatuses operation."""
 
 
 class GetOrganizationCellularGatewayUplinkStatusesResponseItem(_BaseSchema):
@@ -365,7 +367,7 @@ class GetOrganizationCellularGatewayUplinkStatusesResponseItem(_BaseSchema):
 
 
 class UpdateDeviceCellularGatewayLanResponse(_BaseSchema):
-    """Update the LAN Settings for a single MG."""
+    """Response for updateDeviceCellularGatewayLan operation."""
 
     device_name: str | None = Field(default=None, alias="deviceName")
     device_lan_ip: str | None = Field(default=None, alias="deviceLanIp")
@@ -379,19 +381,19 @@ class UpdateDeviceCellularGatewayLanResponse(_BaseSchema):
 
 
 class UpdateDeviceCellularGatewayPortForwardingRulesResponse(_BaseSchema):
-    """Updates the port forwarding rules for a single MG."""
+    """Response for updateDeviceCellularGatewayPortForwardingRules operation."""
 
     rules: list[GetDeviceCellularGatewayPortForwardingRulesResponseRulesItem] | None = None
 
 
 class UpdateNetworkCellularGatewayConnectivityMonitoringDestinationsResponse(_BaseSchema):
-    """Update the connectivity testing destinations for an MG network."""
+    """Response for updateNetworkCellularGatewayConnectivityMonitoringDestinations operation."""
 
     destinations: list[CellularGatewayDestinationsItem] | None = None
 
 
 class UpdateNetworkCellularGatewayDhcpResponse(_BaseSchema):
-    """Update common DHCP settings of MGs."""
+    """Response for updateNetworkCellularGatewayDhcp operation."""
 
     dhcp_lease_time: str | None = Field(default=None, alias="dhcpLeaseTime")
     dns_nameservers: str | None = Field(default=None, alias="dnsNameservers")
@@ -399,7 +401,7 @@ class UpdateNetworkCellularGatewayDhcpResponse(_BaseSchema):
 
 
 class UpdateNetworkCellularGatewaySubnetPoolResponse(_BaseSchema):
-    """Update the subnet pool and mask configuration for MGs in the network."""
+    """Response for updateNetworkCellularGatewaySubnetPool operation."""
 
     deployment_mode: str | None = Field(default=None, alias="deploymentMode")
     cidr: str | None = None
@@ -408,7 +410,7 @@ class UpdateNetworkCellularGatewaySubnetPoolResponse(_BaseSchema):
 
 
 class UpdateNetworkCellularGatewayUplinkResponse(_BaseSchema):
-    """Updates the uplink settings for your MG network."""
+    """Response for updateNetworkCellularGatewayUplink operation."""
 
     bandwidth_limits: GetNetworkCellularGatewayUplinkResponseBandwidthLimits | None = Field(
         default=None, alias="bandwidthLimits"
@@ -416,7 +418,7 @@ class UpdateNetworkCellularGatewayUplinkResponse(_BaseSchema):
 
 
 class UpdateOrganizationCellularGatewayEsimsInventoryResponse(_BaseSchema):
-    """Toggle the status of an eSIM."""
+    """Response for updateOrganizationCellularGatewayEsimsInventory operation."""
 
     device: CellularGatewayDevice | None = None
     active: bool | None = None
@@ -427,7 +429,7 @@ class UpdateOrganizationCellularGatewayEsimsInventoryResponse(_BaseSchema):
 
 
 class UpdateOrganizationCellularGatewayEsimsServiceProvidersAccountResponse(_BaseSchema):
-    """Edit service provider account info stored in Meraki's database."""
+    """Response for updateOrganizationCellularGatewayEsimsServiceProvidersAccount operation."""
 
     account_id: str | None = Field(default=None, alias="accountId")
     last_updated_at: str | None = Field(default=None, alias="lastUpdatedAt")
@@ -439,7 +441,7 @@ class UpdateOrganizationCellularGatewayEsimsServiceProvidersAccountResponse(_Bas
 
 
 class UpdateOrganizationCellularGatewayEsimsSwapResponse(_BaseSchema):
-    """Get the status of a profile swap."""
+    """Response for updateOrganizationCellularGatewayEsimsSwap operation."""
 
     eid: str
     iccid: str

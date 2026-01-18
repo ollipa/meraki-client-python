@@ -12,7 +12,7 @@ from meraki_client.schemas._base import _BaseSchema
 
 
 class CreateDeviceSensorCommandResponse(_BaseSchema):
-    """Sends a command to a sensor."""
+    """Response for createDeviceSensorCommand operation."""
 
     command_id: str | None = Field(default=None, alias="commandId")
     created_at: str | None = Field(default=None, alias="createdAt")
@@ -24,7 +24,7 @@ class CreateDeviceSensorCommandResponse(_BaseSchema):
 
 
 class CreateNetworkSensorAlertsProfileResponse(_BaseSchema):
-    """Creates a sensor alert profile for a network."""
+    """Response for createNetworkSensorAlertsProfile operation."""
 
     profile_id: str | None = Field(default=None, alias="profileId")
     name: str | None = None
@@ -37,7 +37,7 @@ class CreateNetworkSensorAlertsProfileResponse(_BaseSchema):
 
 
 class GetDeviceSensorCommandResponse(_BaseSchema):
-    """Returns information about the command's execution, including the status."""
+    """Response for getDeviceSensorCommand operation."""
 
     command_id: str | None = Field(default=None, alias="commandId")
     created_at: str | None = Field(default=None, alias="createdAt")
@@ -49,7 +49,7 @@ class GetDeviceSensorCommandResponse(_BaseSchema):
 
 
 class GetDeviceSensorCommandsResponse(RootModel[list["GetDeviceSensorCommandsResponseItem"]]):
-    """Returns a historical log of all commands."""
+    """Response for getDeviceSensorCommands operation."""
 
 
 class GetDeviceSensorCommandsResponseItem(_BaseSchema):
@@ -65,7 +65,7 @@ class GetDeviceSensorCommandsResponseItem(_BaseSchema):
 
 
 class GetDeviceSensorRelationshipsResponse(_BaseSchema):
-    """List the sensor roles for a given sensor or camera device."""
+    """Response for getDeviceSensorRelationships operation."""
 
     livestream: GetDeviceSensorRelationshipsResponseLivestream | None = None
 
@@ -82,7 +82,7 @@ class GetDeviceSensorRelationshipsResponseLivestream(_BaseSchema):
 
 
 class GetNetworkSensorAlertsCurrentOverviewByMetricResponse(_BaseSchema):
-    """Return an overview of currently alerting sensors by metric."""
+    """Response for getNetworkSensorAlertsCurrentOverviewByMetric operation."""
 
     supported_metrics: list[str] | None = Field(default=None, alias="supportedMetrics")
     counts: GetNetworkSensorAlertsCurrentOverviewByMetricResponseCounts | None = None
@@ -112,7 +112,7 @@ class GetNetworkSensorAlertsCurrentOverviewByMetricResponseCounts(_BaseSchema):
 class GetNetworkSensorAlertsOverviewByMetricResponse(
     RootModel[list["GetNetworkSensorAlertsOverviewByMetricResponseItem"]]
 ):
-    """Return an overview of alert occurrences over a timespan, by metric."""
+    """Response for getNetworkSensorAlertsOverviewByMetric operation."""
 
 
 class GetNetworkSensorAlertsOverviewByMetricResponseItem(_BaseSchema):
@@ -124,7 +124,7 @@ class GetNetworkSensorAlertsOverviewByMetricResponseItem(_BaseSchema):
 
 
 class GetNetworkSensorAlertsProfileResponse(_BaseSchema):
-    """Show details of a sensor alert profile for a network."""
+    """Response for getNetworkSensorAlertsProfile operation."""
 
     profile_id: str | None = Field(default=None, alias="profileId")
     name: str | None = None
@@ -139,7 +139,7 @@ class GetNetworkSensorAlertsProfileResponse(_BaseSchema):
 class GetNetworkSensorAlertsProfilesResponse(
     RootModel[list["GetNetworkSensorAlertsProfilesResponseItem"]]
 ):
-    """Lists all sensor alert profiles for a network."""
+    """Response for getNetworkSensorAlertsProfiles operation."""
 
 
 class GetNetworkSensorAlertsProfilesResponseItem(_BaseSchema):
@@ -156,9 +156,7 @@ class GetNetworkSensorAlertsProfilesResponseItem(_BaseSchema):
 
 
 class GetNetworkSensorMqttBrokerResponse(_BaseSchema):
-    """Return the sensor settings of an MQTT broker. To get the broker itself, use
-    /networks/{networkId}/mqttBrokers/{mqttBrokerId}.
-    """
+    """Response for getNetworkSensorMqttBroker operation."""
 
     mqtt_broker_id: str | None = Field(default=None, alias="mqttBrokerId")
     enabled: bool | None = None
@@ -167,9 +165,7 @@ class GetNetworkSensorMqttBrokerResponse(_BaseSchema):
 class GetNetworkSensorMqttBrokersResponse(
     RootModel[list["GetNetworkSensorMqttBrokersResponseItem"]]
 ):
-    """List the sensor settings of all MQTT brokers for this network. To get the brokers
-    themselves, use /networks/{networkId}/mqttBrokers.
-    """
+    """Response for getNetworkSensorMqttBrokers operation."""
 
 
 class GetNetworkSensorMqttBrokersResponseItem(_BaseSchema):
@@ -182,7 +178,7 @@ class GetNetworkSensorMqttBrokersResponseItem(_BaseSchema):
 class GetNetworkSensorRelationshipsResponse(
     RootModel[list["GetNetworkSensorRelationshipsResponseItem"]]
 ):
-    """List the sensor roles for devices in a given network."""
+    """Response for getNetworkSensorRelationships operation."""
 
 
 class GetNetworkSensorRelationshipsResponseItem(_BaseSchema):
@@ -193,7 +189,7 @@ class GetNetworkSensorRelationshipsResponseItem(_BaseSchema):
 
 
 class GetOrganizationSensorGatewaysConnectionsLatestResponse(_BaseSchema):
-    """Returns latest sensor-gateway connectivity data."""
+    """Response for getOrganizationSensorGatewaysConnectionsLatest operation."""
 
     items: list[GetOrganizationSensorGatewaysConnectionsLatestResponseItemsItem]
     meta: GetOrganizationSensorGatewaysConnectionsLatestResponseMeta | None = None
@@ -219,7 +215,7 @@ class GetOrganizationSensorGatewaysConnectionsLatestResponseMeta(_BaseSchema):
 class GetOrganizationSensorReadingsHistoryResponse(
     RootModel[list["GetOrganizationSensorReadingsHistoryResponseItem"]]
 ):
-    """Return all reported readings from sensors in a given timespan, sorted by timestamp."""
+    """Response for getOrganizationSensorReadingsHistory operation."""
 
 
 class GetOrganizationSensorReadingsHistoryResponseItem(_BaseSchema):
@@ -261,9 +257,7 @@ class GetOrganizationSensorReadingsHistoryResponseItem(_BaseSchema):
 class GetOrganizationSensorReadingsLatestResponse(
     RootModel[list["GetOrganizationSensorReadingsLatestResponseItem"]]
 ):
-    """Return the latest available reading for each metric from each sensor, sorted by sensor
-    serial.
-    """
+    """Response for getOrganizationSensorReadingsLatest operation."""
 
 
 class GetOrganizationSensorReadingsLatestResponseItem(_BaseSchema):
@@ -610,13 +604,13 @@ class SensorWater2(_BaseSchema):
 
 
 class UpdateDeviceSensorRelationshipsResponse(_BaseSchema):
-    """Assign one or more sensor roles to a given sensor or camera device."""
+    """Response for updateDeviceSensorRelationships operation."""
 
     livestream: GetDeviceSensorRelationshipsResponseLivestream | None = None
 
 
 class UpdateNetworkSensorAlertsProfileResponse(_BaseSchema):
-    """Updates a sensor alert profile for a network."""
+    """Response for updateNetworkSensorAlertsProfile operation."""
 
     profile_id: str | None = Field(default=None, alias="profileId")
     name: str | None = None
@@ -629,9 +623,7 @@ class UpdateNetworkSensorAlertsProfileResponse(_BaseSchema):
 
 
 class UpdateNetworkSensorMqttBrokerResponse(_BaseSchema):
-    """Update the sensor settings of an MQTT broker. To update the broker itself, use
-    /networks/{networkId}/mqttBrokers/{mqttBrokerId}.
-    """
+    """Response for updateNetworkSensorMqttBroker operation."""
 
     mqtt_broker_id: str | None = Field(default=None, alias="mqttBrokerId")
     enabled: bool | None = None

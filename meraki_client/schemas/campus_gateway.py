@@ -95,7 +95,7 @@ class CampusGatewayUplinksAddressesItem(_BaseSchema):
 
 
 class CreateNetworkCampusGatewayClusterResponse(_BaseSchema):
-    """Create a cluster and add campus gateways to it."""
+    """Response for createNetworkCampusGatewayCluster operation."""
 
     cluster_id: str | None = Field(default=None, alias="clusterId")
     name: str | None = None
@@ -152,7 +152,7 @@ class CreateNetworkCampusGatewayClusterResponseUplinksItem(_BaseSchema):
 
 
 class GetOrganizationCampusGatewayClustersResponse(_BaseSchema):
-    """Get the details of campus gateway clusters."""
+    """Response for getOrganizationCampusGatewayClusters operation."""
 
     items: list[GetOrganizationCampusGatewayClustersResponseItemsItem] | None = None
     meta: GetOrganizationCampusGatewayClustersResponseMeta | None = None
@@ -182,14 +182,14 @@ class GetOrganizationCampusGatewayClustersResponseMeta(_BaseSchema):
 
 
 class GetOrganizationCampusGatewayDevicesUplinksLocalOverridesByDeviceResponse(_BaseSchema):
-    """Uplink overrides configured locally on Campus Gateway devices in an organization."""
+    """Response for getOrganizationCampusGatewayDevicesUplinksLocalOverridesByDevice operation."""
 
     items: list[CampusGatewayItemsItem] | None = None
     meta: GetOrganizationCampusGatewayClustersResponseMeta | None = None
 
 
 class UpdateNetworkCampusGatewayClusterResponse(_BaseSchema):
-    """Update a cluster and add/remove campus gateways to/from it."""
+    """Response for updateNetworkCampusGatewayCluster operation."""
 
     cluster_id: str | None = Field(default=None, alias="clusterId")
     name: str | None = None

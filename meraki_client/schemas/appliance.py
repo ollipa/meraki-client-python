@@ -548,20 +548,20 @@ class ApplianceWanTrafficUplinkPreferencesItem2(_BaseSchema):
 
 
 class BulkOrganizationApplianceDnsLocalProfilesAssignmentsCreateResponse(_BaseSchema):
-    """Assign the local DNS profile to networks in the organization."""
+    """Response for bulkOrganizationApplianceDnsLocalProfilesAssignmentsCreate operation."""
 
     items: list[GetOrganizationApplianceDnsLocalProfilesAssignmentsResponseItemsItem] | None = None
 
 
 class CreateDeviceApplianceVmxAuthenticationTokenResponse(_BaseSchema):
-    """Generate a new vMX authentication token."""
+    """Response for createDeviceApplianceVmxAuthenticationToken operation."""
 
     token: str | None = None
     expires_at: str | None = Field(default=None, alias="expiresAt")
 
 
 class CreateNetworkApplianceRfProfileResponse(_BaseSchema):
-    """Creates new RF profile for this network."""
+    """Response for createNetworkApplianceRfProfile operation."""
 
     id_: str | None = Field(default=None, alias="id")
     network_id: str | None = Field(default=None, alias="networkId")
@@ -578,7 +578,7 @@ class CreateNetworkApplianceRfProfileResponse(_BaseSchema):
 
 
 class CreateNetworkApplianceStaticRouteResponse(_BaseSchema):
-    """Add a static route for an MX or teleworker network."""
+    """Response for createNetworkApplianceStaticRoute operation."""
 
     id_: str | None = Field(default=None, alias="id")
     ip_version: int | None = Field(default=None, alias="ipVersion")
@@ -595,7 +595,7 @@ class CreateNetworkApplianceStaticRouteResponse(_BaseSchema):
 
 
 class CreateNetworkApplianceTrafficShapingCustomPerformanceClassResponse(_BaseSchema):
-    """Add a custom performance class for an MX network."""
+    """Response for createNetworkApplianceTrafficShapingCustomPerformanceClass operation."""
 
     name: str | None = None
     custom_performance_class_id: str | None = Field(default=None, alias="customPerformanceClassId")
@@ -605,7 +605,7 @@ class CreateNetworkApplianceTrafficShapingCustomPerformanceClassResponse(_BaseSc
 
 
 class CreateNetworkApplianceVlanResponse(_BaseSchema):
-    """Add a VLAN."""
+    """Response for createNetworkApplianceVlan operation."""
 
     id_: str | None = Field(default=None, alias="id")
     interface_id: str | None = Field(default=None, alias="interfaceId")
@@ -623,14 +623,14 @@ class CreateNetworkApplianceVlanResponse(_BaseSchema):
 
 
 class CreateOrganizationApplianceDnsLocalProfileResponse(_BaseSchema):
-    """Create a new local DNS profile."""
+    """Response for createOrganizationApplianceDnsLocalProfile operation."""
 
     profile_id: str | None = Field(default=None, alias="profileId")
     name: str | None = None
 
 
 class CreateOrganizationApplianceDnsLocalProfilesAssignmentsBulkDeleteResponse(_BaseSchema):
-    """Unassign the local DNS profile to networks in the organization."""
+    """Response for createOrganizationApplianceDnsLocalProfilesAssignmentsBulkDelete operation."""
 
     items: list[GetOrganizationApplianceDnsLocalProfilesAssignmentsResponseItemsItem] | None = None
 
@@ -638,7 +638,7 @@ class CreateOrganizationApplianceDnsLocalProfilesAssignmentsBulkDeleteResponse(_
 class CreateOrganizationApplianceDnsLocalRecordResponse(
     RootModel[list["CreateOrganizationApplianceDnsLocalRecordResponseItem"]]
 ):
-    """Create a new local DNS record."""
+    """Response for createOrganizationApplianceDnsLocalRecord operation."""
 
 
 class CreateOrganizationApplianceDnsLocalRecordResponseItem(_BaseSchema):
@@ -651,7 +651,7 @@ class CreateOrganizationApplianceDnsLocalRecordResponseItem(_BaseSchema):
 
 
 class CreateOrganizationApplianceDnsSplitProfileResponse(_BaseSchema):
-    """Create a new split DNS profile."""
+    """Response for createOrganizationApplianceDnsSplitProfile operation."""
 
     profile_id: str | None = Field(default=None, alias="profileId")
     name: str | None = None
@@ -660,13 +660,13 @@ class CreateOrganizationApplianceDnsSplitProfileResponse(_BaseSchema):
 
 
 class CreateOrganizationApplianceDnsSplitProfilesAssignmentsBulkCreateResponse(_BaseSchema):
-    """Assign the split DNS profile to networks in the organization."""
+    """Response for createOrganizationApplianceDnsSplitProfilesAssignmentsBulkCreate operation."""
 
     items: list[GetOrganizationApplianceDnsLocalProfilesAssignmentsResponseItemsItem] | None = None
 
 
 class CreateOrganizationApplianceDnsSplitProfilesAssignmentsBulkDeleteResponse(_BaseSchema):
-    """Unassign the split DNS profile to networks in the organization."""
+    """Response for createOrganizationApplianceDnsSplitProfilesAssignmentsBulkDelete operation."""
 
     items: list[GetOrganizationApplianceDnsLocalProfilesAssignmentsResponseItemsItem] | None = None
 
@@ -674,7 +674,7 @@ class CreateOrganizationApplianceDnsSplitProfilesAssignmentsBulkDeleteResponse(_
 class GetDeviceApplianceDhcpSubnetsResponse(
     RootModel[list["GetDeviceApplianceDhcpSubnetsResponseItem"]]
 ):
-    """Return the DHCP subnet information for an appliance."""
+    """Response for getDeviceApplianceDhcpSubnets operation."""
 
 
 class GetDeviceApplianceDhcpSubnetsResponseItem(_BaseSchema):
@@ -687,23 +687,21 @@ class GetDeviceApplianceDhcpSubnetsResponseItem(_BaseSchema):
 
 
 class GetDeviceAppliancePerformanceResponse(_BaseSchema):
-    """Return the performance score for a single MX. Only primary MX devices supported. If no data
-    is available, a 204 error code is returned.
-    """
+    """Response for getDeviceAppliancePerformance operation."""
 
     perf_score: float | None = Field(default=None, alias="perfScore")
 
 
 class GetDeviceAppliancePrefixesDelegatedResponse(RootModel[list[dict[str, Any]]]):
-    """Return current delegated IPv6 prefixes on an appliance."""
+    """Response for getDeviceAppliancePrefixesDelegated operation."""
 
 
 class GetDeviceAppliancePrefixesDelegatedVlanAssignmentsResponse(RootModel[list[dict[str, Any]]]):
-    """Return prefixes assigned to all IPv6 enabled VLANs on an appliance."""
+    """Response for getDeviceAppliancePrefixesDelegatedVlanAssignments operation."""
 
 
 class GetDeviceApplianceRadioSettingsResponse(_BaseSchema):
-    """Return the radio settings of an appliance."""
+    """Response for getDeviceApplianceRadioSettings operation."""
 
     serial: str | None = None
     rf_profile_id: str | None = Field(default=None, alias="rfProfileId")
@@ -731,7 +729,7 @@ class GetDeviceApplianceRadioSettingsResponseTwoFourGhzSettings(_BaseSchema):
 
 
 class GetDeviceApplianceUplinksSettingsResponse(_BaseSchema):
-    """Return the uplink settings for an MX appliance."""
+    """Response for getDeviceApplianceUplinksSettings operation."""
 
     interfaces: GetDeviceApplianceUplinksSettingsResponseInterfaces | None = None
 
@@ -744,13 +742,11 @@ class GetDeviceApplianceUplinksSettingsResponseInterfaces(_BaseSchema):
 
 
 class GetNetworkApplianceClientSecurityEventsResponse(RootModel[list[dict[str, Any]]]):
-    """List the security events for a client. Clients can be identified by a client key or either
-    the MAC or IP depending on whether the network uses Track-by-IP.
-    """
+    """Response for getNetworkApplianceClientSecurityEvents operation."""
 
 
 class GetNetworkApplianceConnectivityMonitoringDestinationsResponse(_BaseSchema):
-    """Return the connectivity testing destinations for an MX network."""
+    """Response for getNetworkApplianceConnectivityMonitoringDestinations operation."""
 
     destinations: (
         list[GetNetworkApplianceConnectivityMonitoringDestinationsResponseDestinationsItem] | None
@@ -766,7 +762,7 @@ class GetNetworkApplianceConnectivityMonitoringDestinationsResponseDestinationsI
 
 
 class GetNetworkApplianceContentFilteringResponse(_BaseSchema):
-    """Return the content filtering settings for an MX network."""
+    """Response for getNetworkApplianceContentFiltering operation."""
 
     allowed_url_patterns: list[str] | None = Field(default=None, alias="allowedUrlPatterns")
     blocked_url_patterns: list[str] | None = Field(default=None, alias="blockedUrlPatterns")
@@ -784,7 +780,7 @@ class GetNetworkApplianceContentFilteringResponseBlockedUrlCategoriesItem(_BaseS
 
 
 class GetNetworkApplianceFirewallFirewalledServiceResponse(_BaseSchema):
-    """Return the accessibility settings of the given service ('ICMP', 'web', or 'SNMP')."""
+    """Response for getNetworkApplianceFirewallFirewalledService operation."""
 
     service: str | None = None
     access: str | None = None
@@ -794,7 +790,7 @@ class GetNetworkApplianceFirewallFirewalledServiceResponse(_BaseSchema):
 class GetNetworkApplianceFirewallFirewalledServicesResponse(
     RootModel[list["GetNetworkApplianceFirewallFirewalledServicesResponseItem"]]
 ):
-    """List the appliance services and their accessibility rules."""
+    """Response for getNetworkApplianceFirewallFirewalledServices operation."""
 
 
 class GetNetworkApplianceFirewallFirewalledServicesResponseItem(_BaseSchema):
@@ -806,7 +802,7 @@ class GetNetworkApplianceFirewallFirewalledServicesResponseItem(_BaseSchema):
 
 
 class GetNetworkApplianceFirewallInboundCellularFirewallRulesResponse(_BaseSchema):
-    """Return the inbound cellular firewall rules for an MX network."""
+    """Response for getNetworkApplianceFirewallInboundCellularFirewallRules operation."""
 
     rules: list[GetNetworkApplianceFirewallInboundCellularFirewallRulesResponseRulesItem] | None = (
         None
@@ -827,7 +823,7 @@ class GetNetworkApplianceFirewallInboundCellularFirewallRulesResponseRulesItem(_
 
 
 class GetNetworkApplianceFirewallInboundFirewallRulesResponse(_BaseSchema):
-    """Return the inbound firewall rules for an MX network."""
+    """Response for getNetworkApplianceFirewallInboundFirewallRules operation."""
 
     rules: list[GetNetworkApplianceFirewallInboundCellularFirewallRulesResponseRulesItem] | None = (
         None
@@ -836,9 +832,7 @@ class GetNetworkApplianceFirewallInboundFirewallRulesResponse(_BaseSchema):
 
 
 class GetNetworkApplianceFirewallL7FirewallRulesApplicationCategoriesResponse(_BaseSchema):
-    """Return the L7 firewall application categories and their associated applications for an MX
-    network.
-    """
+    """Response for getNetworkApplianceFirewallL7FirewallRulesApplicationCategories operation."""
 
     application_categories: list[ApplianceApplicationCategoriesItem] | None = Field(
         default=None, alias="applicationCategories"
@@ -846,7 +840,7 @@ class GetNetworkApplianceFirewallL7FirewallRulesApplicationCategoriesResponse(_B
 
 
 class GetNetworkApplianceFirewallPortForwardingRulesResponse(_BaseSchema):
-    """Return the port forwarding rules for an MX network."""
+    """Response for getNetworkApplianceFirewallPortForwardingRules operation."""
 
     rules: list[GetNetworkApplianceFirewallPortForwardingRulesResponseRulesItem] | None = None
 
@@ -864,7 +858,7 @@ class GetNetworkApplianceFirewallPortForwardingRulesResponseRulesItem(_BaseSchem
 
 
 class GetNetworkAppliancePortResponse(_BaseSchema):
-    """Return per-port VLAN settings for a single MX port."""
+    """Response for getNetworkAppliancePort operation."""
 
     number: int | None = None
     enabled: bool | None = None
@@ -876,7 +870,7 @@ class GetNetworkAppliancePortResponse(_BaseSchema):
 
 
 class GetNetworkAppliancePortsResponse(RootModel[list["GetNetworkAppliancePortsResponseItem"]]):
-    """List per-port VLAN settings for all ports of a MX."""
+    """Response for getNetworkAppliancePorts operation."""
 
 
 class GetNetworkAppliancePortsResponseItem(_BaseSchema):
@@ -892,7 +886,7 @@ class GetNetworkAppliancePortsResponseItem(_BaseSchema):
 
 
 class GetNetworkAppliancePrefixesDelegatedStaticResponse(_BaseSchema):
-    """Return a static delegated prefix from a network."""
+    """Response for getNetworkAppliancePrefixesDelegatedStatic operation."""
 
     static_delegated_prefix_id: str | None = Field(default=None, alias="staticDelegatedPrefixId")
     prefix: str | None = None
@@ -905,7 +899,7 @@ class GetNetworkAppliancePrefixesDelegatedStaticResponse(_BaseSchema):
 class GetNetworkAppliancePrefixesDelegatedStaticsResponse(
     RootModel[list["GetNetworkAppliancePrefixesDelegatedStaticsResponseItem"]]
 ):
-    """List static delegated prefixes for a network."""
+    """Response for getNetworkAppliancePrefixesDelegatedStatics operation."""
 
 
 class GetNetworkAppliancePrefixesDelegatedStaticsResponseItem(_BaseSchema):
@@ -920,7 +914,7 @@ class GetNetworkAppliancePrefixesDelegatedStaticsResponseItem(_BaseSchema):
 
 
 class GetNetworkApplianceRfProfileResponse(_BaseSchema):
-    """Return a RF profile."""
+    """Response for getNetworkApplianceRfProfile operation."""
 
     id_: str | None = Field(default=None, alias="id")
     network_id: str | None = Field(default=None, alias="networkId")
@@ -937,7 +931,7 @@ class GetNetworkApplianceRfProfileResponse(_BaseSchema):
 
 
 class GetNetworkApplianceRfProfilesResponse(_BaseSchema):
-    """List the RF profiles for this network."""
+    """Response for getNetworkApplianceRfProfiles operation."""
 
     assigned: list[GetNetworkApplianceRfProfilesResponseAssignedItem] | None = None
 
@@ -960,11 +954,11 @@ class GetNetworkApplianceRfProfilesResponseAssignedItem(_BaseSchema):
 
 
 class GetNetworkApplianceSecurityEventsResponse(RootModel[list[dict[str, Any]]]):
-    """List the security events for a network."""
+    """Response for getNetworkApplianceSecurityEvents operation."""
 
 
 class GetNetworkApplianceSecurityIntrusionResponse(_BaseSchema):
-    """Returns all supported intrusion settings for an MX network."""
+    """Response for getNetworkApplianceSecurityIntrusion operation."""
 
     mode: str | None = None
     ids_rulesets: str | None = Field(default=None, alias="idsRulesets")
@@ -982,7 +976,7 @@ class GetNetworkApplianceSecurityIntrusionResponseProtectedNetworks(_BaseSchema)
 
 
 class GetNetworkApplianceSecurityMalwareResponse(_BaseSchema):
-    """Returns all supported malware settings for an MX network."""
+    """Response for getNetworkApplianceSecurityMalware operation."""
 
     mode: str | None = None
     allowed_urls: list[GetNetworkApplianceSecurityMalwareResponseAllowedUrlsItem] | None = Field(
@@ -1008,7 +1002,7 @@ class GetNetworkApplianceSecurityMalwareResponseAllowedUrlsItem(_BaseSchema):
 
 
 class GetNetworkApplianceSettingsResponse(_BaseSchema):
-    """Return the appliance settings for a network."""
+    """Response for getNetworkApplianceSettings operation."""
 
     client_tracking_method: str | None = Field(default=None, alias="clientTrackingMethod")
     deployment_mode: str | None = Field(default=None, alias="deploymentMode")
@@ -1026,7 +1020,7 @@ class GetNetworkApplianceSettingsResponseDynamicDns(_BaseSchema):
 
 
 class GetNetworkApplianceSingleLanResponse(_BaseSchema):
-    """Return single LAN configuration."""
+    """Response for getNetworkApplianceSingleLan operation."""
 
     subnet: str | None = None
     appliance_ip: str | None = Field(default=None, alias="applianceIp")
@@ -1055,7 +1049,7 @@ class GetNetworkApplianceSingleLanResponseMandatoryDhcp(_BaseSchema):
 
 
 class GetNetworkApplianceSsidResponse(_BaseSchema):
-    """Return a single MX SSID."""
+    """Response for getNetworkApplianceSsid operation."""
 
     number: int | None = None
     name: str | None = None
@@ -1071,7 +1065,7 @@ class GetNetworkApplianceSsidResponse(_BaseSchema):
 
 
 class GetNetworkApplianceSsidsResponse(RootModel[list["GetNetworkApplianceSsidsResponseItem"]]):
-    """List the MX SSIDs in a network."""
+    """Response for getNetworkApplianceSsids operation."""
 
 
 class GetNetworkApplianceSsidsResponseItem(_BaseSchema):
@@ -1091,7 +1085,7 @@ class GetNetworkApplianceSsidsResponseItem(_BaseSchema):
 
 
 class GetNetworkApplianceStaticRouteResponse(_BaseSchema):
-    """Return a static route for an MX or teleworker network."""
+    """Response for getNetworkApplianceStaticRoute operation."""
 
     id_: str | None = Field(default=None, alias="id")
     ip_version: int | None = Field(default=None, alias="ipVersion")
@@ -1110,7 +1104,7 @@ class GetNetworkApplianceStaticRouteResponse(_BaseSchema):
 class GetNetworkApplianceStaticRoutesResponse(
     RootModel[list["GetNetworkApplianceStaticRoutesResponseItem"]]
 ):
-    """List the static routes for an MX or teleworker network."""
+    """Response for getNetworkApplianceStaticRoutes operation."""
 
 
 class GetNetworkApplianceStaticRoutesResponseItem(_BaseSchema):
@@ -1131,7 +1125,7 @@ class GetNetworkApplianceStaticRoutesResponseItem(_BaseSchema):
 
 
 class GetNetworkApplianceTrafficShapingCustomPerformanceClassResponse(_BaseSchema):
-    """Return a custom performance class for an MX network."""
+    """Response for getNetworkApplianceTrafficShapingCustomPerformanceClass operation."""
 
     name: str | None = None
     custom_performance_class_id: str | None = Field(default=None, alias="customPerformanceClassId")
@@ -1143,7 +1137,7 @@ class GetNetworkApplianceTrafficShapingCustomPerformanceClassResponse(_BaseSchem
 class GetNetworkApplianceTrafficShapingCustomPerformanceClassesResponse(
     RootModel[list["GetNetworkApplianceTrafficShapingCustomPerformanceClassesResponseItem"]]
 ):
-    """List all custom performance classes for an MX network."""
+    """Response for getNetworkApplianceTrafficShapingCustomPerformanceClasses operation."""
 
 
 class GetNetworkApplianceTrafficShapingCustomPerformanceClassesResponseItem(_BaseSchema):
@@ -1157,11 +1151,7 @@ class GetNetworkApplianceTrafficShapingCustomPerformanceClassesResponseItem(_Bas
 
 
 class GetNetworkApplianceTrafficShapingUplinkBandwidthResponse(_BaseSchema):
-    """Returns the uplink bandwidth limits for your MX network. This may not reflect the affected
-    device's hardware capabilities. For more information on your device's hardware capabilities,
-    please consult our MX Family Datasheet - [https://meraki.cisco.com/product-collateral/mx-
-    family-datasheet/?file].
-    """
+    """Response for getNetworkApplianceTrafficShapingUplinkBandwidth operation."""
 
     bandwidth_limits: (
         GetNetworkApplianceTrafficShapingUplinkBandwidthResponseBandwidthLimits | None
@@ -1177,7 +1167,7 @@ class GetNetworkApplianceTrafficShapingUplinkBandwidthResponseBandwidthLimits(_B
 
 
 class GetNetworkApplianceTrafficShapingUplinkSelectionResponse(_BaseSchema):
-    """Show uplink selection settings for an MX network."""
+    """Response for getNetworkApplianceTrafficShapingUplinkSelection operation."""
 
     active_active_auto_vpn_enabled: bool | None = Field(
         default=None, alias="activeActiveAutoVpnEnabled"
@@ -1204,7 +1194,7 @@ class GetNetworkApplianceTrafficShapingUplinkSelectionResponseFailoverAndFailbac
 class GetNetworkApplianceUplinksUsageHistoryResponse(
     RootModel[list["GetNetworkApplianceUplinksUsageHistoryResponseItem"]]
 ):
-    """Get the sent and received bytes for each uplink of a network."""
+    """Response for getNetworkApplianceUplinksUsageHistory operation."""
 
 
 class GetNetworkApplianceUplinksUsageHistoryResponseItem(_BaseSchema):
@@ -1216,7 +1206,7 @@ class GetNetworkApplianceUplinksUsageHistoryResponseItem(_BaseSchema):
 
 
 class GetNetworkApplianceVlanResponse(_BaseSchema):
-    """Return a VLAN."""
+    """Response for getNetworkApplianceVlan operation."""
 
     id_: str | None = Field(default=None, alias="id")
     interface_id: str | None = Field(default=None, alias="interfaceId")
@@ -1247,7 +1237,7 @@ class GetNetworkApplianceVlanResponse(_BaseSchema):
 
 
 class GetNetworkApplianceVlansResponse(RootModel[list["GetNetworkApplianceVlansResponseItem"]]):
-    """List the VLANs for a Cisco Secure Router network."""
+    """Response for getNetworkApplianceVlans operation."""
 
 
 class GetNetworkApplianceVlansResponseItem(_BaseSchema):
@@ -1282,13 +1272,13 @@ class GetNetworkApplianceVlansResponseItem(_BaseSchema):
 
 
 class GetNetworkApplianceVlansSettingsResponse(_BaseSchema):
-    """Returns the enabled status of VLANs for the network."""
+    """Response for getNetworkApplianceVlansSettings operation."""
 
     vlans_enabled: bool | None = Field(default=None, alias="vlansEnabled")
 
 
 class GetNetworkApplianceVpnBgpResponse(_BaseSchema):
-    """Return a Hub BGP Configuration."""
+    """Response for getNetworkApplianceVpnBgp operation."""
 
     enabled: bool | None = None
     as_number: int | None = Field(default=None, alias="asNumber")
@@ -1318,7 +1308,7 @@ class GetNetworkApplianceVpnBgpResponseNeighborsItem(_BaseSchema):
 
 
 class GetNetworkApplianceVpnSiteToSiteVpnResponse(_BaseSchema):
-    """Return the site-to-site VPN settings of a network. Only valid for MX networks."""
+    """Response for getNetworkApplianceVpnSiteToSiteVpn operation."""
 
     mode: str | None = None
     hubs: list[GetNetworkApplianceVpnSiteToSiteVpnResponseHubsItem] | None = None
@@ -1348,7 +1338,7 @@ class GetNetworkApplianceVpnSiteToSiteVpnResponseSubnetsItem(_BaseSchema):
 
 
 class GetNetworkApplianceWarmSpareResponse(_BaseSchema):
-    """Return MX warm spare settings."""
+    """Response for getNetworkApplianceWarmSpare operation."""
 
     enabled: bool | None = None
     primary_serial: str | None = Field(default=None, alias="primarySerial")
@@ -1366,7 +1356,7 @@ class GetNetworkApplianceWarmSpareResponseWan1(_BaseSchema):
 
 
 class GetOrganizationApplianceDnsLocalProfilesAssignmentsResponse(_BaseSchema):
-    """Fetch the local DNS profile assignments in the organization."""
+    """Response for getOrganizationApplianceDnsLocalProfilesAssignments operation."""
 
     items: list[GetOrganizationApplianceDnsLocalProfilesAssignmentsResponseItemsItem] | None = None
     meta: GetOrganizationApplianceDnsLocalProfilesAssignmentsResponseMeta | None = None
@@ -1389,7 +1379,7 @@ class GetOrganizationApplianceDnsLocalProfilesAssignmentsResponseMeta(_BaseSchem
 class GetOrganizationApplianceDnsLocalProfilesResponse(
     RootModel[list["GetOrganizationApplianceDnsLocalProfilesResponseItem"]]
 ):
-    """Fetch the local DNS profiles used in the organization."""
+    """Response for getOrganizationApplianceDnsLocalProfiles operation."""
 
 
 class GetOrganizationApplianceDnsLocalProfilesResponseItem(_BaseSchema):
@@ -1402,7 +1392,7 @@ class GetOrganizationApplianceDnsLocalProfilesResponseItem(_BaseSchema):
 class GetOrganizationApplianceDnsLocalRecordsResponse(
     RootModel[list["GetOrganizationApplianceDnsLocalRecordsResponseItem"]]
 ):
-    """Fetch the DNS records used in local DNS profiles."""
+    """Response for getOrganizationApplianceDnsLocalRecords operation."""
 
 
 class GetOrganizationApplianceDnsLocalRecordsResponseItem(_BaseSchema):
@@ -1415,7 +1405,7 @@ class GetOrganizationApplianceDnsLocalRecordsResponseItem(_BaseSchema):
 
 
 class GetOrganizationApplianceDnsSplitProfilesAssignmentsResponse(_BaseSchema):
-    """Fetch the split DNS profile assignments in the organization."""
+    """Response for getOrganizationApplianceDnsSplitProfilesAssignments operation."""
 
     items: list[GetOrganizationApplianceDnsLocalProfilesAssignmentsResponseItemsItem] | None = None
     meta: GetOrganizationApplianceDnsLocalProfilesAssignmentsResponseMeta | None = None
@@ -1424,7 +1414,7 @@ class GetOrganizationApplianceDnsSplitProfilesAssignmentsResponse(_BaseSchema):
 class GetOrganizationApplianceDnsSplitProfilesResponse(
     RootModel[list["GetOrganizationApplianceDnsSplitProfilesResponseItem"]]
 ):
-    """Fetch the split DNS profiles used in the organization."""
+    """Response for getOrganizationApplianceDnsSplitProfiles operation."""
 
 
 class GetOrganizationApplianceDnsSplitProfilesResponseItem(_BaseSchema):
@@ -1437,7 +1427,7 @@ class GetOrganizationApplianceDnsSplitProfilesResponseItem(_BaseSchema):
 
 
 class GetOrganizationApplianceFirewallMulticastForwardingByNetworkResponse(_BaseSchema):
-    """List Static Multicasting forwarding settings for MX networks."""
+    """Response for getOrganizationApplianceFirewallMulticastForwardingByNetwork operation."""
 
     items: (
         list[GetOrganizationApplianceFirewallMulticastForwardingByNetworkResponseItemsItem] | None
@@ -1453,11 +1443,11 @@ class GetOrganizationApplianceFirewallMulticastForwardingByNetworkResponseItemsI
 
 
 class GetOrganizationApplianceSecurityEventsResponse(RootModel[list[dict[str, Any]]]):
-    """List the security events for an organization."""
+    """Response for getOrganizationApplianceSecurityEvents operation."""
 
 
 class GetOrganizationApplianceTrafficShapingVpnExclusionsByNetworkResponse(_BaseSchema):
-    """Display VPN exclusion rules for MX networks."""
+    """Response for getOrganizationApplianceTrafficShapingVpnExclusionsByNetwork operation."""
 
     items: (
         list[GetOrganizationApplianceTrafficShapingVpnExclusionsByNetworkResponseItemsItem] | None
@@ -1478,7 +1468,7 @@ class GetOrganizationApplianceTrafficShapingVpnExclusionsByNetworkResponseItemsI
 class GetOrganizationApplianceUplinkStatusesResponse(
     RootModel[list["GetOrganizationApplianceUplinkStatusesResponseItem"]]
 ):
-    """List the uplink status of every Meraki MX and Z series appliances in the organization."""
+    """Response for getOrganizationApplianceUplinkStatuses operation."""
 
 
 class GetOrganizationApplianceUplinkStatusesResponseItem(_BaseSchema):
@@ -1495,7 +1485,7 @@ class GetOrganizationApplianceUplinkStatusesResponseItem(_BaseSchema):
 
 
 class GetOrganizationApplianceUplinksStatusesOverviewResponse(_BaseSchema):
-    """Returns an overview of uplink statuses."""
+    """Response for getOrganizationApplianceUplinksStatusesOverview operation."""
 
     counts: GetOrganizationApplianceUplinksStatusesOverviewResponseCounts | None = None
 
@@ -1509,10 +1499,7 @@ class GetOrganizationApplianceUplinksStatusesOverviewResponseCounts(_BaseSchema)
 class GetOrganizationApplianceUplinksUsageByNetworkResponse(
     RootModel[list["GetOrganizationApplianceUplinksUsageByNetworkResponseItem"]]
 ):
-    """Get the sent and received bytes for each uplink of all MX and Z networks within an
-    organization. If more than one device was active during the specified timespan, then the
-    sent and received bytes will be aggregated by interface.
-    """
+    """Response for getOrganizationApplianceUplinksUsageByNetwork operation."""
 
 
 class GetOrganizationApplianceUplinksUsageByNetworkResponseItem(_BaseSchema):
@@ -1524,7 +1511,7 @@ class GetOrganizationApplianceUplinksUsageByNetworkResponseItem(_BaseSchema):
 
 
 class GetOrganizationApplianceVpnSiteToSiteIpsecPeersSlasResponse(_BaseSchema):
-    """Get the list of available IPsec SLA policies for an organization."""
+    """Response for getOrganizationApplianceVpnSiteToSiteIpsecPeersSlas operation."""
 
     items: list[GetOrganizationApplianceVpnSiteToSiteIpsecPeersSlasResponseItemsItem] | None = None
     meta: GetOrganizationApplianceDnsLocalProfilesAssignmentsResponseMeta | None = None
@@ -1542,7 +1529,7 @@ class GetOrganizationApplianceVpnSiteToSiteIpsecPeersSlasResponseItemsItem(_Base
 class GetOrganizationApplianceVpnStatsResponse(
     RootModel[list["GetOrganizationApplianceVpnStatsResponseItem"]]
 ):
-    """Show VPN history stat for networks in an organization."""
+    """Response for getOrganizationApplianceVpnStats operation."""
 
 
 class GetOrganizationApplianceVpnStatsResponseItem(_BaseSchema):
@@ -1558,7 +1545,7 @@ class GetOrganizationApplianceVpnStatsResponseItem(_BaseSchema):
 class GetOrganizationApplianceVpnStatusesResponse(
     RootModel[list["GetOrganizationApplianceVpnStatusesResponseItem"]]
 ):
-    """Show VPN status for networks in an organization."""
+    """Response for getOrganizationApplianceVpnStatuses operation."""
 
 
 class GetOrganizationApplianceVpnStatusesResponseItem(_BaseSchema):
@@ -1582,7 +1569,7 @@ class GetOrganizationApplianceVpnStatusesResponseItem(_BaseSchema):
 
 
 class GetOrganizationApplianceVpnThirdPartyVPNPeersResponse(_BaseSchema):
-    """Return the third party VPN peers for an organization."""
+    """Response for getOrganizationApplianceVpnThirdPartyVPNPeers operation."""
 
     peers: list[GetOrganizationApplianceVpnThirdPartyVPNPeersResponsePeersItem] | None = None
 
@@ -1610,7 +1597,7 @@ class GetOrganizationApplianceVpnThirdPartyVPNPeersResponsePeersItem(_BaseSchema
 
 
 class GetOrganizationApplianceVpnVpnFirewallRulesResponse(_BaseSchema):
-    """Return the firewall rules for an organization's site-to-site VPN."""
+    """Response for getOrganizationApplianceVpnVpnFirewallRules operation."""
 
     rules: list[GetNetworkApplianceFirewallInboundCellularFirewallRulesResponseRulesItem] | None = (
         None
@@ -1618,7 +1605,7 @@ class GetOrganizationApplianceVpnVpnFirewallRulesResponse(_BaseSchema):
 
 
 class SwapNetworkApplianceWarmSpareResponse(_BaseSchema):
-    """Swap MX primary and warm spare appliances."""
+    """Response for swapNetworkApplianceWarmSpare operation."""
 
     enabled: bool | None = None
     primary_serial: str | None = Field(default=None, alias="primarySerial")
@@ -1629,7 +1616,7 @@ class SwapNetworkApplianceWarmSpareResponse(_BaseSchema):
 
 
 class UpdateDeviceApplianceRadioSettingsResponse(_BaseSchema):
-    """Update the radio settings of an appliance."""
+    """Response for updateDeviceApplianceRadioSettings operation."""
 
     serial: str | None = None
     rf_profile_id: str | None = Field(default=None, alias="rfProfileId")
@@ -1642,13 +1629,13 @@ class UpdateDeviceApplianceRadioSettingsResponse(_BaseSchema):
 
 
 class UpdateDeviceApplianceUplinksSettingsResponse(_BaseSchema):
-    """Update the uplink settings for an MX appliance."""
+    """Response for updateDeviceApplianceUplinksSettings operation."""
 
     interfaces: GetDeviceApplianceUplinksSettingsResponseInterfaces | None = None
 
 
 class UpdateNetworkApplianceConnectivityMonitoringDestinationsResponse(_BaseSchema):
-    """Update the connectivity testing destinations for an MX network."""
+    """Response for updateNetworkApplianceConnectivityMonitoringDestinations operation."""
 
     destinations: (
         list[GetNetworkApplianceConnectivityMonitoringDestinationsResponseDestinationsItem] | None
@@ -1656,7 +1643,7 @@ class UpdateNetworkApplianceConnectivityMonitoringDestinationsResponse(_BaseSche
 
 
 class UpdateNetworkApplianceContentFilteringResponse(_BaseSchema):
-    """Update the content filtering settings for an MX network."""
+    """Response for updateNetworkApplianceContentFiltering operation."""
 
     allowed_url_patterns: list[str] | None = Field(default=None, alias="allowedUrlPatterns")
     blocked_url_patterns: list[str] | None = Field(default=None, alias="blockedUrlPatterns")
@@ -1667,7 +1654,7 @@ class UpdateNetworkApplianceContentFilteringResponse(_BaseSchema):
 
 
 class UpdateNetworkApplianceFirewallFirewalledServiceResponse(_BaseSchema):
-    """Updates the accessibility settings for the given service ('ICMP', 'web', or 'SNMP')."""
+    """Response for updateNetworkApplianceFirewallFirewalledService operation."""
 
     service: str | None = None
     access: str | None = None
@@ -1675,7 +1662,7 @@ class UpdateNetworkApplianceFirewallFirewalledServiceResponse(_BaseSchema):
 
 
 class UpdateNetworkApplianceFirewallInboundCellularFirewallRulesResponse(_BaseSchema):
-    """Update the inbound cellular firewall rules of an MX network."""
+    """Response for updateNetworkApplianceFirewallInboundCellularFirewallRules operation."""
 
     rules: list[GetNetworkApplianceFirewallInboundCellularFirewallRulesResponseRulesItem] | None = (
         None
@@ -1683,7 +1670,7 @@ class UpdateNetworkApplianceFirewallInboundCellularFirewallRulesResponse(_BaseSc
 
 
 class UpdateNetworkApplianceFirewallInboundFirewallRulesResponse(_BaseSchema):
-    """Update the inbound firewall rules of an MX network."""
+    """Response for updateNetworkApplianceFirewallInboundFirewallRules operation."""
 
     rules: list[GetNetworkApplianceFirewallInboundCellularFirewallRulesResponseRulesItem] | None = (
         None
@@ -1692,7 +1679,7 @@ class UpdateNetworkApplianceFirewallInboundFirewallRulesResponse(_BaseSchema):
 
 
 class UpdateNetworkApplianceFirewallMulticastForwardingResponse(_BaseSchema):
-    """Update static multicast forward rules for a network."""
+    """Response for updateNetworkApplianceFirewallMulticastForwarding operation."""
 
     network: UpdateNetworkApplianceFirewallMulticastForwardingResponseNetwork
     rules: list[UpdateNetworkApplianceFirewallMulticastForwardingResponseRulesItem]
@@ -1714,13 +1701,13 @@ class UpdateNetworkApplianceFirewallMulticastForwardingResponseRulesItem(_BaseSc
 
 
 class UpdateNetworkApplianceFirewallPortForwardingRulesResponse(_BaseSchema):
-    """Update the port forwarding rules for an MX network."""
+    """Response for updateNetworkApplianceFirewallPortForwardingRules operation."""
 
     rules: list[GetNetworkApplianceFirewallPortForwardingRulesResponseRulesItem] | None = None
 
 
 class UpdateNetworkAppliancePortResponse(_BaseSchema):
-    """Update the per-port VLAN settings for a single MX port."""
+    """Response for updateNetworkAppliancePort operation."""
 
     number: int | None = None
     enabled: bool | None = None
@@ -1732,7 +1719,7 @@ class UpdateNetworkAppliancePortResponse(_BaseSchema):
 
 
 class UpdateNetworkApplianceRfProfileResponse(_BaseSchema):
-    """Updates specified RF profile for this network."""
+    """Response for updateNetworkApplianceRfProfile operation."""
 
     id_: str | None = Field(default=None, alias="id")
     network_id: str | None = Field(default=None, alias="networkId")
@@ -1749,7 +1736,7 @@ class UpdateNetworkApplianceRfProfileResponse(_BaseSchema):
 
 
 class UpdateNetworkApplianceSdwanInternetPoliciesResponse(_BaseSchema):
-    """Update SDWAN internet traffic preferences for an MX network."""
+    """Response for updateNetworkApplianceSdwanInternetPolicies operation."""
 
     wan_traffic_uplink_preferences: list[ApplianceWanTrafficUplinkPreferencesItem] | None = Field(
         default=None, alias="wanTrafficUplinkPreferences"
@@ -1757,7 +1744,7 @@ class UpdateNetworkApplianceSdwanInternetPoliciesResponse(_BaseSchema):
 
 
 class UpdateNetworkApplianceSecurityIntrusionResponse(_BaseSchema):
-    """Set the supported intrusion settings for an MX network."""
+    """Response for updateNetworkApplianceSecurityIntrusion operation."""
 
     mode: str | None = None
     ids_rulesets: str | None = Field(default=None, alias="idsRulesets")
@@ -1767,7 +1754,7 @@ class UpdateNetworkApplianceSecurityIntrusionResponse(_BaseSchema):
 
 
 class UpdateNetworkApplianceSecurityMalwareResponse(_BaseSchema):
-    """Set the supported malware settings for an MX network."""
+    """Response for updateNetworkApplianceSecurityMalware operation."""
 
     mode: str | None = None
     allowed_urls: list[GetNetworkApplianceSecurityMalwareResponseAllowedUrlsItem] | None = Field(
@@ -1779,7 +1766,7 @@ class UpdateNetworkApplianceSecurityMalwareResponse(_BaseSchema):
 
 
 class UpdateNetworkApplianceSettingsResponse(_BaseSchema):
-    """Update the appliance settings for a network."""
+    """Response for updateNetworkApplianceSettings operation."""
 
     client_tracking_method: str | None = Field(default=None, alias="clientTrackingMethod")
     deployment_mode: str | None = Field(default=None, alias="deploymentMode")
@@ -1789,7 +1776,7 @@ class UpdateNetworkApplianceSettingsResponse(_BaseSchema):
 
 
 class UpdateNetworkApplianceSingleLanResponse(_BaseSchema):
-    """Update single LAN configuration."""
+    """Response for updateNetworkApplianceSingleLan operation."""
 
     subnet: str | None = None
     appliance_ip: str | None = Field(default=None, alias="applianceIp")
@@ -1800,7 +1787,7 @@ class UpdateNetworkApplianceSingleLanResponse(_BaseSchema):
 
 
 class UpdateNetworkApplianceSsidResponse(_BaseSchema):
-    """Update the attributes of an MX SSID."""
+    """Response for updateNetworkApplianceSsid operation."""
 
     number: int | None = None
     name: str | None = None
@@ -1816,7 +1803,7 @@ class UpdateNetworkApplianceSsidResponse(_BaseSchema):
 
 
 class UpdateNetworkApplianceStaticRouteResponse(_BaseSchema):
-    """Update a static route for an MX or teleworker network."""
+    """Response for updateNetworkApplianceStaticRoute operation."""
 
     id_: str | None = Field(default=None, alias="id")
     ip_version: int | None = Field(default=None, alias="ipVersion")
@@ -1833,7 +1820,7 @@ class UpdateNetworkApplianceStaticRouteResponse(_BaseSchema):
 
 
 class UpdateNetworkApplianceTrafficShapingCustomPerformanceClassResponse(_BaseSchema):
-    """Update a custom performance class for an MX network."""
+    """Response for updateNetworkApplianceTrafficShapingCustomPerformanceClass operation."""
 
     name: str | None = None
     custom_performance_class_id: str | None = Field(default=None, alias="customPerformanceClassId")
@@ -1843,7 +1830,7 @@ class UpdateNetworkApplianceTrafficShapingCustomPerformanceClassResponse(_BaseSc
 
 
 class UpdateNetworkApplianceTrafficShapingUplinkSelectionResponse(_BaseSchema):
-    """Update uplink selection settings for an MX network."""
+    """Response for updateNetworkApplianceTrafficShapingUplinkSelection operation."""
 
     active_active_auto_vpn_enabled: bool | None = Field(
         default=None, alias="activeActiveAutoVpnEnabled"
@@ -1862,7 +1849,7 @@ class UpdateNetworkApplianceTrafficShapingUplinkSelectionResponse(_BaseSchema):
 
 
 class UpdateNetworkApplianceTrafficShapingVpnExclusionsResponse(_BaseSchema):
-    """Update VPN exclusion rules for an MX network."""
+    """Response for updateNetworkApplianceTrafficShapingVpnExclusions operation."""
 
     network_id: str = Field(alias="networkId")
     network_name: str = Field(alias="networkName")
@@ -1888,7 +1875,7 @@ class UpdateNetworkApplianceTrafficShapingVpnExclusionsResponseMajorApplications
 
 
 class UpdateNetworkApplianceVlanResponse(_BaseSchema):
-    """Update a VLAN."""
+    """Response for updateNetworkApplianceVlan operation."""
 
     id_: str | None = Field(default=None, alias="id")
     interface_id: str | None = Field(default=None, alias="interfaceId")
@@ -1919,13 +1906,13 @@ class UpdateNetworkApplianceVlanResponse(_BaseSchema):
 
 
 class UpdateNetworkApplianceVlansSettingsResponse(_BaseSchema):
-    """Enable/Disable VLANs for the given network."""
+    """Response for updateNetworkApplianceVlansSettings operation."""
 
     vlans_enabled: bool | None = Field(default=None, alias="vlansEnabled")
 
 
 class UpdateNetworkApplianceVpnBgpResponse(_BaseSchema):
-    """Update a Hub BGP Configuration."""
+    """Response for updateNetworkApplianceVpnBgp operation."""
 
     enabled: bool | None = None
     as_number: int | None = Field(default=None, alias="asNumber")
@@ -1934,7 +1921,7 @@ class UpdateNetworkApplianceVpnBgpResponse(_BaseSchema):
 
 
 class UpdateNetworkApplianceVpnSiteToSiteVpnResponse(_BaseSchema):
-    """Update the site-to-site VPN settings of a network. Only valid for MX networks in NAT mode."""
+    """Response for updateNetworkApplianceVpnSiteToSiteVpn operation."""
 
     mode: str | None = None
     hubs: list[GetNetworkApplianceVpnSiteToSiteVpnResponseHubsItem] | None = None
@@ -1943,7 +1930,7 @@ class UpdateNetworkApplianceVpnSiteToSiteVpnResponse(_BaseSchema):
 
 
 class UpdateNetworkApplianceWarmSpareResponse(_BaseSchema):
-    """Update MX warm spare settings."""
+    """Response for updateNetworkApplianceWarmSpare operation."""
 
     enabled: bool | None = None
     primary_serial: str | None = Field(default=None, alias="primarySerial")
@@ -1954,14 +1941,14 @@ class UpdateNetworkApplianceWarmSpareResponse(_BaseSchema):
 
 
 class UpdateOrganizationApplianceDnsLocalProfileResponse(_BaseSchema):
-    """Update a local DNS profile."""
+    """Response for updateOrganizationApplianceDnsLocalProfile operation."""
 
     profile_id: str | None = Field(default=None, alias="profileId")
     name: str | None = None
 
 
 class UpdateOrganizationApplianceDnsLocalRecordResponse(_BaseSchema):
-    """Updates a local DNS record."""
+    """Response for updateOrganizationApplianceDnsLocalRecord operation."""
 
     record_id: str | None = Field(default=None, alias="recordId")
     hostname: str | None = None
@@ -1970,7 +1957,7 @@ class UpdateOrganizationApplianceDnsLocalRecordResponse(_BaseSchema):
 
 
 class UpdateOrganizationApplianceDnsSplitProfileResponse(_BaseSchema):
-    """Update a split DNS profile."""
+    """Response for updateOrganizationApplianceDnsSplitProfile operation."""
 
     profile_id: str | None = Field(default=None, alias="profileId")
     name: str | None = None
@@ -1979,20 +1966,20 @@ class UpdateOrganizationApplianceDnsSplitProfileResponse(_BaseSchema):
 
 
 class UpdateOrganizationApplianceVpnSiteToSiteIpsecPeersSlasResponse(_BaseSchema):
-    """Update the IPsec SLA policies for an organization."""
+    """Response for updateOrganizationApplianceVpnSiteToSiteIpsecPeersSlas operation."""
 
     items: list[GetOrganizationApplianceVpnSiteToSiteIpsecPeersSlasResponseItemsItem] | None = None
     meta: GetOrganizationApplianceDnsLocalProfilesAssignmentsResponseMeta | None = None
 
 
 class UpdateOrganizationApplianceVpnThirdPartyVPNPeersResponse(_BaseSchema):
-    """Update the third party VPN peers for an organization."""
+    """Response for updateOrganizationApplianceVpnThirdPartyVPNPeers operation."""
 
     peers: list[GetOrganizationApplianceVpnThirdPartyVPNPeersResponsePeersItem] | None = None
 
 
 class UpdateOrganizationApplianceVpnVpnFirewallRulesResponse(_BaseSchema):
-    """Update the firewall rules of an organization's site-to-site VPN."""
+    """Response for updateOrganizationApplianceVpnVpnFirewallRules operation."""
 
     rules: list[GetNetworkApplianceFirewallInboundCellularFirewallRulesResponseRulesItem] | None = (
         None

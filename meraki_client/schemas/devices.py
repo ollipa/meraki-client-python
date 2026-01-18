@@ -14,9 +14,7 @@ from meraki_client.schemas._base import _BaseSchema
 
 
 class BlinkDeviceLedsResponse(_BaseSchema):
-    """Blink the LEDs on a device. This endpoint is deprecrated in favor of
-    "/devices/{serial}/liveTools/leds/blink".
-    """
+    """Response for blinkDeviceLeds operation."""
 
     duration: int | None = None
     period: int | None = None
@@ -24,11 +22,7 @@ class BlinkDeviceLedsResponse(_BaseSchema):
 
 
 class CreateDeviceLiveToolsArpTableResponse(_BaseSchema):
-    """Enqueue a job to perform a ARP table request for the device. This endpoint currently
-    supports switches, wireless access points, and catalyst routers. This endpoint has a
-    sustained rate limit of one request every five seconds per device, with an allowed burst of
-    five requests.
-    """
+    """Response for createDeviceLiveToolsArpTable operation."""
 
     arp_table_id: str | None = Field(default=None, alias="arpTableId")
     url: str | None = None
@@ -52,10 +46,7 @@ class CreateDeviceLiveToolsArpTableResponseRequest(_BaseSchema):
 
 
 class CreateDeviceLiveToolsCableTestResponse(_BaseSchema):
-    """Enqueue a job to perform a cable test for the device on the specified ports. This endpoint
-    has a sustained rate limit of one request every five seconds per device, with an allowed
-    burst of five requests.
-    """
+    """Response for createDeviceLiveToolsCableTest operation."""
 
     cable_test_id: str | None = Field(default=None, alias="cableTestId")
     url: str | None = None
@@ -72,9 +63,7 @@ class CreateDeviceLiveToolsCableTestResponseRequest(_BaseSchema):
 
 
 class CreateDeviceLiveToolsLedsBlinkResponse(_BaseSchema):
-    """Enqueue a job to blink LEDs on a device. This endpoint has a rate limit of one request every
-    10 seconds.
-    """
+    """Response for createDeviceLiveToolsLedsBlink operation."""
 
     leds_blink_id: str | None = Field(default=None, alias="ledsBlinkId")
     url: str | None = None
@@ -92,10 +81,7 @@ class CreateDeviceLiveToolsLedsBlinkResponseRequest(_BaseSchema):
 
 
 class CreateDeviceLiveToolsMacTableResponse(_BaseSchema):
-    """Enqueue a job to request the MAC table from the device. Switches currently support this
-    feature. This endpoint has a sustained rate limit of one request every five seconds per
-    device, with an allowed burst of five requests.
-    """
+    """Response for createDeviceLiveToolsMacTable operation."""
 
     mac_table_id: str | None = Field(default=None, alias="macTableId")
     url: str | None = None
@@ -105,10 +91,7 @@ class CreateDeviceLiveToolsMacTableResponse(_BaseSchema):
 
 
 class CreateDeviceLiveToolsMulticastRoutingResponse(_BaseSchema):
-    """Enqueue a job to perform a Multicast routing request for the device. This endpoint currently
-    supports switches. This endpoint has a sustained rate limit of one request every five
-    seconds per device, with an allowed burst of five requests.
-    """
+    """Response for createDeviceLiveToolsMulticastRouting operation."""
 
     multicast_routing_id: str | None = Field(default=None, alias="multicastRoutingId")
     url: str | None = None
@@ -118,9 +101,7 @@ class CreateDeviceLiveToolsMulticastRoutingResponse(_BaseSchema):
 
 
 class CreateDeviceLiveToolsPingDeviceResponse(_BaseSchema):
-    """Enqueue a job to check connectivity status to the device. This endpoint has a sustained rate
-    limit of one request every five seconds per device, with an allowed burst of five requests.
-    """
+    """Response for createDeviceLiveToolsPingDevice operation."""
 
     ping_id: str | None = Field(default=None, alias="pingId")
     url: str | None = None
@@ -137,9 +118,7 @@ class CreateDeviceLiveToolsPingDeviceResponseRequest(_BaseSchema):
 
 
 class CreateDeviceLiveToolsPingResponse(_BaseSchema):
-    """Enqueue a job to ping a target host from the device. This endpoint has a sustained rate
-    limit of one request every five seconds per device, with an allowed burst of five requests.
-    """
+    """Response for createDeviceLiveToolsPing operation."""
 
     ping_id: str | None = Field(default=None, alias="pingId")
     url: str | None = None
@@ -157,9 +136,7 @@ class CreateDeviceLiveToolsPingResponseRequest(_BaseSchema):
 
 
 class CreateDeviceLiveToolsThroughputTestResponse(_BaseSchema):
-    """Enqueue a job to test a device throughput, the test will run for 10 secs to test throughput.
-    This endpoint has a rate limit of one request every five seconds per device.
-    """
+    """Response for createDeviceLiveToolsThroughputTest operation."""
 
     throughput_test_id: str | None = Field(default=None, alias="throughputTestId")
     url: str | None = None
@@ -177,10 +154,7 @@ class CreateDeviceLiveToolsThroughputTestResponseResult(_BaseSchema):
 
 
 class CreateDeviceLiveToolsWakeOnLanResponse(_BaseSchema):
-    """Enqueue a job to send a Wake-on-LAN packet from the device. This endpoint has a sustained
-    rate limit of one request every five seconds per device, with an allowed burst of five
-    requests.
-    """
+    """Response for createDeviceLiveToolsWakeOnLan operation."""
 
     wake_on_lan_id: str | None = Field(default=None, alias="wakeOnLanId")
     url: str | None = None
@@ -264,7 +238,7 @@ class DevicesWan1Vrf(_BaseSchema):
 
 
 class GetDeviceCellularSimsResponse(_BaseSchema):
-    """Return the SIM and APN configurations for a cellular device."""
+    """Response for getDeviceCellularSims operation."""
 
     sims: list[GetDeviceCellularSimsResponseSimsItem] | None = None
     sim_ordering: list[str] | None = Field(default=None, alias="simOrdering")
@@ -293,10 +267,7 @@ class GetDeviceCellularSimsResponseSimsItem(_BaseSchema):
 
 
 class GetDeviceClientsResponse(RootModel[list["GetDeviceClientsResponseItem"]]):
-    """List the clients of a device, up to a maximum of a month ago. The usage of each client is
-    returned in kilobytes. If the device is a switch, the switchport is returned; otherwise the
-    switchport field is null.
-    """
+    """Response for getDeviceClients operation."""
 
 
 class GetDeviceClientsResponseItem(_BaseSchema):
@@ -317,7 +288,7 @@ class GetDeviceClientsResponseItem(_BaseSchema):
 
 
 class GetDeviceLiveToolsArpTableResponse(_BaseSchema):
-    """Return an ARP table live tool job."""
+    """Response for getDeviceLiveToolsArpTable operation."""
 
     arp_table_id: str | None = Field(default=None, alias="arpTableId")
     url: str | None = None
@@ -338,7 +309,7 @@ class GetDeviceLiveToolsArpTableResponseEntriesItem(_BaseSchema):
 
 
 class GetDeviceLiveToolsCableTestResponse(_BaseSchema):
-    """Return a cable test live tool job."""
+    """Response for getDeviceLiveToolsCableTest operation."""
 
     cable_test_id: str | None = Field(default=None, alias="cableTestId")
     url: str | None = None
@@ -359,7 +330,7 @@ class GetDeviceLiveToolsCableTestResponseResultsItem(_BaseSchema):
 
 
 class GetDeviceLiveToolsLedsBlinkResponse(_BaseSchema):
-    """Return a blink LEDs job."""
+    """Response for getDeviceLiveToolsLedsBlink operation."""
 
     leds_blink_id: str | None = Field(default=None, alias="ledsBlinkId")
     url: str | None = None
@@ -369,7 +340,7 @@ class GetDeviceLiveToolsLedsBlinkResponse(_BaseSchema):
 
 
 class GetDeviceLiveToolsMacTableResponse(_BaseSchema):
-    """Return a MAC table live tool job."""
+    """Response for getDeviceLiveToolsMacTable operation."""
 
     mac_table_id: str | None = Field(default=None, alias="macTableId")
     url: str | None = None
@@ -388,7 +359,7 @@ class GetDeviceLiveToolsMacTableResponseEntriesItem(_BaseSchema):
 
 
 class GetDeviceLiveToolsMulticastRoutingResponse(_BaseSchema):
-    """Return a Multicast routing live tool job."""
+    """Response for getDeviceLiveToolsMulticastRouting operation."""
 
     multicast_routing_id: str | None = Field(default=None, alias="multicastRoutingId")
     url: str | None = None
@@ -421,7 +392,7 @@ class GetDeviceLiveToolsMulticastRoutingResponseRoutesItem(_BaseSchema):
 
 
 class GetDeviceLiveToolsPingDeviceResponse(_BaseSchema):
-    """Return a ping device job. Latency unit in response is in milliseconds. Size is in bytes."""
+    """Response for getDeviceLiveToolsPingDevice operation."""
 
     ping_id: str | None = Field(default=None, alias="pingId")
     url: str | None = None
@@ -432,7 +403,7 @@ class GetDeviceLiveToolsPingDeviceResponse(_BaseSchema):
 
 
 class GetDeviceLiveToolsPingResponse(_BaseSchema):
-    """Return a ping job. Latency unit in response is in milliseconds. Size is in bytes."""
+    """Response for getDeviceLiveToolsPing operation."""
 
     ping_id: str | None = Field(default=None, alias="pingId")
     url: str | None = None
@@ -452,7 +423,7 @@ class GetDeviceLiveToolsPingResponseResults(_BaseSchema):
 
 
 class GetDeviceLiveToolsThroughputTestResponse(_BaseSchema):
-    """Return a throughput test job."""
+    """Response for getDeviceLiveToolsThroughputTest operation."""
 
     throughput_test_id: str | None = Field(default=None, alias="throughputTestId")
     url: str | None = None
@@ -463,7 +434,7 @@ class GetDeviceLiveToolsThroughputTestResponse(_BaseSchema):
 
 
 class GetDeviceLiveToolsWakeOnLanResponse(_BaseSchema):
-    """Return a Wake-on-LAN job."""
+    """Response for getDeviceLiveToolsWakeOnLan operation."""
 
     wake_on_lan_id: str | None = Field(default=None, alias="wakeOnLanId")
     url: str | None = None
@@ -473,7 +444,7 @@ class GetDeviceLiveToolsWakeOnLanResponse(_BaseSchema):
 
 
 class GetDeviceLldpCdpResponse(_BaseSchema):
-    """List LLDP and CDP information for a device."""
+    """Response for getDeviceLldpCdp operation."""
 
     source_mac: str | None = Field(default=None, alias="sourceMac")
     ports: dict[str, Any] | None = None
@@ -482,9 +453,7 @@ class GetDeviceLldpCdpResponse(_BaseSchema):
 class GetDeviceLossAndLatencyHistoryResponse(
     RootModel[list["GetDeviceLossAndLatencyHistoryResponseItem"]]
 ):
-    """Get the uplink loss percentage and latency in milliseconds, and goodput in kilobits per
-    second for MX, MG and Z devices.
-    """
+    """Response for getDeviceLossAndLatencyHistory operation."""
 
 
 class GetDeviceLossAndLatencyHistoryResponseItem(_BaseSchema):
@@ -499,7 +468,7 @@ class GetDeviceLossAndLatencyHistoryResponseItem(_BaseSchema):
 
 
 class GetDeviceManagementInterfaceResponse(_BaseSchema):
-    """Return the management interface settings for a device."""
+    """Response for getDeviceManagementInterface operation."""
 
     ddns_hostnames: GetDeviceManagementInterfaceResponseDdnsHostnames | None = Field(
         default=None, alias="ddnsHostnames"
@@ -530,7 +499,7 @@ class GetDeviceManagementInterfaceResponseWan1(_BaseSchema):
 
 
 class GetDeviceResponse(_BaseSchema):
-    """Return a single device."""
+    """Response for getDevice operation."""
 
     name: str | None = None
     lat: float | None = None
@@ -567,13 +536,13 @@ class GetDeviceResponseDetailsItem(_BaseSchema):
 
 
 class RebootDeviceResponse(_BaseSchema):
-    """Reboot a device. This endpoint has a sustained rate limit of one request every 60 seconds."""
+    """Response for rebootDevice operation."""
 
     success: bool | None = None
 
 
 class UpdateDeviceCellularSimsResponse(_BaseSchema):
-    """Updates the SIM and APN configurations for a cellular device."""
+    """Response for updateDeviceCellularSims operation."""
 
     sims: list[GetDeviceCellularSimsResponseSimsItem] | None = None
     sim_ordering: list[str] | None = Field(default=None, alias="simOrdering")
@@ -583,7 +552,7 @@ class UpdateDeviceCellularSimsResponse(_BaseSchema):
 
 
 class UpdateDeviceManagementInterfaceResponse(_BaseSchema):
-    """Update the management interface settings for a device."""
+    """Response for updateDeviceManagementInterface operation."""
 
     ddns_hostnames: GetDeviceManagementInterfaceResponseDdnsHostnames | None = Field(
         default=None, alias="ddnsHostnames"
@@ -593,7 +562,7 @@ class UpdateDeviceManagementInterfaceResponse(_BaseSchema):
 
 
 class UpdateDeviceResponse(_BaseSchema):
-    """Update the attributes of a device."""
+    """Response for updateDevice operation."""
 
     name: str | None = None
     lat: float | None = None

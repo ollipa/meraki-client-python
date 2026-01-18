@@ -12,7 +12,7 @@ from meraki_client.schemas._base import _BaseSchema
 
 
 class BindAdministeredLicensingSubscriptionSubscriptionResponse(_BaseSchema):
-    """Bind networks to a subscription."""
+    """Response for bindAdministeredLicensingSubscriptionSubscription operation."""
 
     subscription_id: str | None = Field(default=None, alias="subscriptionId")
     networks: list[BindAdministeredLicensingSubscriptionSubscriptionResponseNetworksItem] | None = (
@@ -32,7 +32,7 @@ class BindAdministeredLicensingSubscriptionSubscriptionResponseNetworksItem(_Bas
 
 
 class ClaimAdministeredLicensingSubscriptionSubscriptionsResponse(_BaseSchema):
-    """Claim a subscription into an organization."""
+    """Response for claimAdministeredLicensingSubscriptionSubscriptions operation."""
 
     subscription_id: str | None = Field(default=None, alias="subscriptionId")
     name: str | None = None
@@ -54,7 +54,7 @@ class ClaimAdministeredLicensingSubscriptionSubscriptionsResponse(_BaseSchema):
 
 
 class GetAdministeredLicensingSubscriptionEntitlementsResponse(_BaseSchema):
-    """Retrieve the list of purchasable entitlements."""
+    """Response for getAdministeredLicensingSubscriptionEntitlements operation."""
 
     sku: str | None = None
     name: str | None = None
@@ -70,7 +70,7 @@ class GetAdministeredLicensingSubscriptionSubscriptionsComplianceStatusesRespons
         list["GetAdministeredLicensingSubscriptionSubscriptionsComplianceStatusesResponseItem"]
     ]
 ):
-    """Get compliance status for requested subscriptions."""
+    """Response for getAdministeredLicensingSubscriptionSubscriptionsComplianceStatuses operation."""
 
 
 class GetAdministeredLicensingSubscriptionSubscriptionsComplianceStatusesResponseItem(_BaseSchema):
@@ -83,7 +83,7 @@ class GetAdministeredLicensingSubscriptionSubscriptionsComplianceStatusesRespons
 class GetAdministeredLicensingSubscriptionSubscriptionsResponse(
     RootModel[list["GetAdministeredLicensingSubscriptionSubscriptionsResponseItem"]]
 ):
-    """List available subscriptions."""
+    """Response for getAdministeredLicensingSubscriptionSubscriptions operation."""
 
 
 class GetAdministeredLicensingSubscriptionSubscriptionsResponseItem(_BaseSchema):
@@ -111,7 +111,7 @@ class GetAdministeredLicensingSubscriptionSubscriptionsResponseItem(_BaseSchema)
 class GetOrganizationLicensingCotermLicensesResponse(
     RootModel[list["GetOrganizationLicensingCotermLicensesResponseItem"]]
 ):
-    """List the licenses in a coterm organization."""
+    """Response for getOrganizationLicensingCotermLicenses operation."""
 
 
 class GetOrganizationLicensingCotermLicensesResponseItem(_BaseSchema):
@@ -226,7 +226,7 @@ class LicensingViolations(_BaseSchema):
 
 
 class MoveOrganizationLicensingCotermLicensesResponse(_BaseSchema):
-    """Moves a license to a different organization (coterm only)."""
+    """Response for moveOrganizationLicensingCotermLicenses operation."""
 
     remainder_licenses: (
         list[MoveOrganizationLicensingCotermLicensesResponseRemainderLicensesItem] | None
@@ -253,7 +253,7 @@ class MoveOrganizationLicensingCotermLicensesResponseRemainderLicensesItem(_Base
 
 
 class ValidateAdministeredLicensingSubscriptionSubscriptionsClaimKeyResponse(_BaseSchema):
-    """Find a subscription by claim key. Returns 400 if the key has already been claimed."""
+    """Response for validateAdministeredLicensingSubscriptionSubscriptionsClaimKey operation."""
 
     subscription_id: str | None = Field(default=None, alias="subscriptionId")
     name: str | None = None
