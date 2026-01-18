@@ -41,6 +41,27 @@ class SchemaRegistry:
     untyped_response_ops: set[str]
 
 
+@dataclass
+class GenerationContext:
+    """Context for schema generation carrying shared state."""
+
+    schemas: dict[str, str]
+    schema_to_scope: dict[str, str]
+    schema_fingerprints: dict[str, str]
+    scope: str
+    depth: int = 0
+
+    def nested(self) -> GenerationContext:
+        """Create a new context for nested schema generation."""
+        return GenerationContext(
+            schemas=self.schemas,
+            schema_to_scope=self.schema_to_scope,
+            schema_fingerprints=self.schema_fingerprints,
+            scope=self.scope,
+            depth=self.depth + 1,
+        )
+
+
 def get_response_schema_name(operation_id: str) -> str:
     """Get the response schema class name for an operation."""
     return operation_id[0].upper() + operation_id[1:] + "Response"
@@ -77,14 +98,14 @@ def generate_response_schemas(
             description = (
                 operation.description or operation.summary or f"Response for {operation_id}."
             )
-            info = _generate_schema_class(
-                class_name=class_name,
-                schema=response_schema,
+            ctx = GenerationContext(
                 schemas=schemas,
                 schema_to_scope=schema_to_scope,
                 schema_fingerprints=schema_fingerprints,
                 scope=scope,
-                description=description,
+            )
+            info = _generate_schema_class(
+                ctx, class_name=class_name, schema=response_schema, description=description
             )
             if info:
                 if info.item_class_names:
@@ -150,15 +171,11 @@ def _extract_response_schema(operation: Operation) -> dict[str, Any] | None:
 
 
 def _generate_schema_class(
+    ctx: GenerationContext,
     *,
     class_name: str,
     schema: dict[str, Any],
-    schemas: dict[str, str],
-    schema_to_scope: dict[str, str],
-    schema_fingerprints: dict[str, str],
-    scope: str,
     description: str = "",
-    depth: int = 0,
 ) -> ResponseSchemaInfo | None:
     """Generate a Pydantic model class from an OpenAPI schema."""
     schema_type = schema.get("type")
@@ -166,41 +183,23 @@ def _generate_schema_class(
 
     if schema_type == "array":
         return _generate_array_schema(
-            class_name=class_name,
-            schema=schema,
-            schemas=schemas,
-            schema_to_scope=schema_to_scope,
-            schema_fingerprints=schema_fingerprints,
-            scope=scope,
-            docstring=docstring,
-            depth=depth,
+            ctx, class_name=class_name, schema=schema, docstring=docstring
         )
 
     if schema_type == "object" or "properties" in schema:
         return _generate_object_schema(
-            class_name=class_name,
-            schema=schema,
-            schemas=schemas,
-            schema_to_scope=schema_to_scope,
-            schema_fingerprints=schema_fingerprints,
-            scope=scope,
-            docstring=docstring,
-            depth=depth,
+            ctx, class_name=class_name, schema=schema, docstring=docstring
         )
 
     return None
 
 
 def _generate_array_schema(
+    ctx: GenerationContext,
     *,
     class_name: str,
     schema: dict[str, Any],
-    schemas: dict[str, str],
-    schema_to_scope: dict[str, str],
-    schema_fingerprints: dict[str, str],
-    scope: str,
     docstring: str,
-    depth: int,
 ) -> ResponseSchemaInfo | None:
     """Generate a RootModel schema for array responses."""
     items_schema = schema.get("items", {})
@@ -208,13 +207,7 @@ def _generate_array_schema(
 
     if items_schema.get("type") == "object":
         item_info = _generate_schema_class(
-            class_name=item_class_name,
-            schema=items_schema,
-            schemas=schemas,
-            schema_to_scope=schema_to_scope,
-            schema_fingerprints=schema_fingerprints,
-            scope=scope,
-            depth=depth + 1,
+            ctx.nested(), class_name=item_class_name, schema=items_schema
         )
         if item_info:
             item_type = item_class_name
@@ -230,13 +223,7 @@ def _generate_array_schema(
     type_param = f'"{item_type}"' if item_class_name else item_type
     definition = f"class {class_name}(RootModel[list[{type_param}]]):\n{doc_lines}{body}"
 
-    if not _register_schema(
-        name=class_name,
-        definition=definition,
-        schemas=schemas,
-        schema_to_scope=schema_to_scope,
-        scope=scope,
-    ):
+    if not _register_schema(ctx, name=class_name, definition=definition):
         return None
 
     return ResponseSchemaInfo(
@@ -247,28 +234,18 @@ def _generate_array_schema(
 
 
 def _generate_dict_schema(
+    ctx: GenerationContext,
     *,
     class_name: str,
     value_schema: dict[str, Any],
-    schemas: dict[str, str],
-    schema_to_scope: dict[str, str],
-    schema_fingerprints: dict[str, str],
-    scope: str,
     docstring: str,
-    depth: int,
 ) -> ResponseSchemaInfo | None:
     """Generate a RootModel schema for dict/map responses with additionalProperties."""
     value_class_name = class_name + "Value"
 
     if value_schema.get("type") == "object" and value_schema.get("properties"):
         value_info = _generate_schema_class(
-            class_name=value_class_name,
-            schema=value_schema,
-            schemas=schemas,
-            schema_to_scope=schema_to_scope,
-            schema_fingerprints=schema_fingerprints,
-            scope=scope,
-            depth=depth + 1,
+            ctx.nested(), class_name=value_class_name, schema=value_schema
         )
         if value_info:
             value_type = value_class_name
@@ -284,13 +261,7 @@ def _generate_dict_schema(
     type_param = f'"{value_type}"' if value_class_name else value_type
     definition = f"class {class_name}(RootModel[dict[str, {type_param}]]):\n{doc_lines}{body}"
 
-    if not _register_schema(
-        name=class_name,
-        definition=definition,
-        schemas=schemas,
-        schema_to_scope=schema_to_scope,
-        scope=scope,
-    ):
+    if not _register_schema(ctx, name=class_name, definition=definition):
         return None
 
     return ResponseSchemaInfo(
@@ -301,15 +272,11 @@ def _generate_dict_schema(
 
 
 def _generate_object_schema(
+    ctx: GenerationContext,
     *,
     class_name: str,
     schema: dict[str, Any],
-    schemas: dict[str, str],
-    schema_to_scope: dict[str, str],
-    schema_fingerprints: dict[str, str],
-    scope: str,
     docstring: str,
-    depth: int,
 ) -> ResponseSchemaInfo | None:
     """Generate a _BaseSchema class for object responses."""
     properties = schema.get("properties", {})
@@ -319,14 +286,7 @@ def _generate_object_schema(
         if not isinstance(additional_props, dict):
             return None
         return _generate_dict_schema(
-            class_name=class_name,
-            value_schema=additional_props,
-            schemas=schemas,
-            schema_to_scope=schema_to_scope,
-            schema_fingerprints=schema_fingerprints,
-            scope=scope,
-            docstring=docstring,
-            depth=depth,
+            ctx, class_name=class_name, value_schema=additional_props, docstring=docstring
         )
 
     lines = [f"class {class_name}(_BaseSchema):"]
@@ -338,14 +298,10 @@ def _generate_object_schema(
 
     for prop_name, prop_schema in properties.items():
         field_def, field_type = _generate_field(
+            ctx,
+            parent_class=class_name,
             prop_name=prop_name,
             prop_schema=prop_schema,
-            schemas=schemas,
-            parent_class=class_name,
-            schema_to_scope=schema_to_scope,
-            schema_fingerprints=schema_fingerprints,
-            scope=scope,
-            depth=depth,
             is_required=prop_name in required,
         )
         lines.append(f"    {field_def}")
@@ -358,13 +314,7 @@ def _generate_object_schema(
         ):
             item_class_names.append(field_type[5:-1])
 
-    if not _register_schema(
-        name=class_name,
-        definition="\n".join(lines) + "\n",
-        schemas=schemas,
-        schema_to_scope=schema_to_scope,
-        scope=scope,
-    ):
+    if not _register_schema(ctx, name=class_name, definition="\n".join(lines) + "\n"):
         return None
 
     return ResponseSchemaInfo(
@@ -374,56 +324,38 @@ def _generate_object_schema(
     )
 
 
-def _register_schema(
-    *,
-    name: str,
-    definition: str,
-    schemas: dict[str, str],
-    schema_to_scope: dict[str, str],
-    scope: str,
-) -> bool:
+def _register_schema(ctx: GenerationContext, *, name: str, definition: str) -> bool:
     """Register a schema. Returns True if registered, False if deduplicated."""
-    if name in schemas:
-        existing_scope = schema_to_scope.get(name)
-        if existing_scope != scope:
+    if name in ctx.schemas:
+        existing_scope = ctx.schema_to_scope.get(name)
+        if existing_scope != ctx.scope:
             raise ValueError(
                 f"Schema name collision: '{name}' already exists in scope "
-                f"'{existing_scope}', cannot add to scope '{scope}'"
+                f"'{existing_scope}', cannot add to scope '{ctx.scope}'"
             )
-        if schemas[name] != definition:
+        if ctx.schemas[name] != definition:
             raise ValueError(
-                f"Schema collision: '{name}' in scope '{scope}' has conflicting definitions"
+                f"Schema collision: '{name}' in scope '{ctx.scope}' has conflicting definitions"
             )
         return False
 
-    schemas[name] = definition
-    schema_to_scope[name] = scope
+    ctx.schemas[name] = definition
+    ctx.schema_to_scope[name] = ctx.scope
     return True
 
 
 def _generate_field(
+    ctx: GenerationContext,
     *,
+    parent_class: str,
     prop_name: str,
     prop_schema: dict[str, Any],
-    schemas: dict[str, str],
-    parent_class: str,
-    schema_to_scope: dict[str, str],
-    schema_fingerprints: dict[str, str],
-    scope: str,
-    depth: int,
     is_required: bool,
 ) -> tuple[str, str]:
     """Generate a field definition for a Pydantic model."""
     snake_name = _sanitize_field_name(prop_name)
     py_type = _get_python_type(
-        schema=prop_schema,
-        schemas=schemas,
-        parent_class=parent_class,
-        prop_name=prop_name,
-        schema_to_scope=schema_to_scope,
-        schema_fingerprints=schema_fingerprints,
-        scope=scope,
-        depth=depth,
+        ctx, parent_class=parent_class, prop_name=prop_name, schema=prop_schema
     )
     needs_alias = snake_name != prop_name
     is_nullable = prop_schema.get("nullable", False)
@@ -440,15 +372,11 @@ def _generate_field(
 
 
 def _get_python_type(
+    ctx: GenerationContext,
     *,
-    schema: dict[str, Any],
-    schemas: dict[str, str],
     parent_class: str,
     prop_name: str,
-    schema_to_scope: dict[str, str],
-    schema_fingerprints: dict[str, str],
-    scope: str,
-    depth: int,
+    schema: dict[str, Any],
 ) -> str:
     """Get Python type annotation from OpenAPI schema."""
     schema_type = schema.get("type")
@@ -457,28 +385,10 @@ def _get_python_type(
         return _get_simple_type(schema)
 
     if schema_type == "array":
-        return _get_array_type(
-            schema=schema,
-            schemas=schemas,
-            parent_class=parent_class,
-            prop_name=prop_name,
-            schema_to_scope=schema_to_scope,
-            schema_fingerprints=schema_fingerprints,
-            scope=scope,
-            depth=depth,
-        )
+        return _get_array_type(ctx, parent_class=parent_class, prop_name=prop_name, schema=schema)
 
     if schema_type == "object":
-        return _get_object_type(
-            schema=schema,
-            schemas=schemas,
-            parent_class=parent_class,
-            prop_name=prop_name,
-            schema_to_scope=schema_to_scope,
-            schema_fingerprints=schema_fingerprints,
-            scope=scope,
-            depth=depth,
-        )
+        return _get_object_type(ctx, parent_class=parent_class, prop_name=prop_name, schema=schema)
 
     return "Any"
 
@@ -498,43 +408,26 @@ def _get_simple_type(schema: dict[str, Any]) -> str:
 
 
 def _get_array_type(
+    ctx: GenerationContext,
     *,
-    schema: dict[str, Any],
-    schemas: dict[str, str],
     parent_class: str,
     prop_name: str,
-    schema_to_scope: dict[str, str],
-    schema_fingerprints: dict[str, str],
-    scope: str,
-    depth: int,
+    schema: dict[str, Any],
 ) -> str:
     """Get Python type for array schema."""
     items = schema.get("items", {})
 
     if items.get("type") == "object" and items.get("properties"):
-        fingerprint = _compute_fingerprint(items, scope)
-        if fingerprint in schema_fingerprints:
-            return f"list[{schema_fingerprints[fingerprint]}]"
+        fingerprint = _compute_fingerprint(items, ctx.scope)
+        if fingerprint in ctx.schema_fingerprints:
+            return f"list[{ctx.schema_fingerprints[fingerprint]}]"
 
-        nested_depth = depth + 1
+        nested_ctx = ctx.nested()
         nested_class = _build_nested_class_name(
-            parent_class=parent_class,
-            prop_name=prop_name,
-            scope=scope,
-            depth=nested_depth,
-            schemas=schemas,
-            is_array=True,
+            nested_ctx, parent_class=parent_class, prop_name=prop_name, is_array=True
         )
-        _generate_schema_class(
-            class_name=nested_class,
-            schema=items,
-            schemas=schemas,
-            schema_to_scope=schema_to_scope,
-            schema_fingerprints=schema_fingerprints,
-            scope=scope,
-            depth=nested_depth,
-        )
-        schema_fingerprints[fingerprint] = nested_class
+        _generate_schema_class(nested_ctx, class_name=nested_class, schema=items)
+        ctx.schema_fingerprints[fingerprint] = nested_class
 
         return f"list[{nested_class}]"
 
@@ -543,15 +436,11 @@ def _get_array_type(
 
 
 def _get_object_type(
+    ctx: GenerationContext,
     *,
-    schema: dict[str, Any],
-    schemas: dict[str, str],
     parent_class: str,
     prop_name: str,
-    schema_to_scope: dict[str, str],
-    schema_fingerprints: dict[str, str],
-    scope: str,
-    depth: int,
+    schema: dict[str, Any],
 ) -> str:
     """Get Python type for object schema."""
     props = schema.get("properties")
@@ -559,40 +448,25 @@ def _get_object_type(
     if not props:
         return "dict[str, Any]"
 
-    fingerprint = _compute_fingerprint(schema, scope)
-    if fingerprint in schema_fingerprints:
-        return schema_fingerprints[fingerprint]
+    fingerprint = _compute_fingerprint(schema, ctx.scope)
+    if fingerprint in ctx.schema_fingerprints:
+        return ctx.schema_fingerprints[fingerprint]
 
-    nested_depth = depth + 1
+    nested_ctx = ctx.nested()
     nested_class = _build_nested_class_name(
-        parent_class=parent_class,
-        prop_name=prop_name,
-        scope=scope,
-        depth=nested_depth,
-        schemas=schemas,
-        is_array=False,
+        nested_ctx, parent_class=parent_class, prop_name=prop_name, is_array=False
     )
-    _generate_schema_class(
-        class_name=nested_class,
-        schema=schema,
-        schemas=schemas,
-        schema_to_scope=schema_to_scope,
-        schema_fingerprints=schema_fingerprints,
-        scope=scope,
-        depth=nested_depth,
-    )
-    schema_fingerprints[fingerprint] = nested_class
+    _generate_schema_class(nested_ctx, class_name=nested_class, schema=schema)
+    ctx.schema_fingerprints[fingerprint] = nested_class
 
     return nested_class
 
 
 def _build_nested_class_name(
+    ctx: GenerationContext,
     *,
     parent_class: str,
     prop_name: str,
-    scope: str,
-    depth: int,
-    schemas: dict[str, str],
     is_array: bool,
 ) -> str:
     """Build a nested class name with scope-aware shortening."""
@@ -600,11 +474,11 @@ def _build_nested_class_name(
     suffix = "Item" if is_array else ""
     full_name = _sanitize_class_name(parent_class + prop_pascal + suffix)
 
-    should_shorten = depth >= 2 or len(full_name) > MAX_CLASS_NAME_LENGTH
+    should_shorten = ctx.depth >= 2 or len(full_name) > MAX_CLASS_NAME_LENGTH
     if not should_shorten:
         return full_name
 
-    scope_prefix = scope[0].upper() + scope[1:]
+    scope_prefix = ctx.scope[0].upper() + ctx.scope[1:]
     parent_context = ""
     if "Response" in parent_class:
         parent_context = parent_class.split("Response", 1)[-1]
@@ -612,12 +486,12 @@ def _build_nested_class_name(
 
     base_short_name = _sanitize_class_name(f"{scope_prefix}{parent_context}{prop_pascal}{suffix}")
 
-    if base_short_name not in schemas:
+    if base_short_name not in ctx.schemas:
         return base_short_name
 
     for i in range(2, 100):
         numbered_name = f"{base_short_name}{i}"
-        if numbered_name not in schemas:
+        if numbered_name not in ctx.schemas:
             return numbered_name
 
     return full_name
