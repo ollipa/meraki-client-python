@@ -7,6 +7,7 @@ import logging
 import re
 import textwrap
 from dataclasses import dataclass
+from enum import Enum, auto
 from typing import TYPE_CHECKING, Any, Literal, overload
 
 from openapi_pydantic.v3.v3_0 import OpenAPI, Operation, Reference
@@ -23,11 +24,20 @@ SCHEMA_DOCSTRING_WIDTH = 96
 MAX_CLASS_NAME_LENGTH = 80
 
 
-@dataclass
-class ResponseSchemaInfo:
-    """Information about a response schema for an operation."""
+class SchemaStatus(Enum):
+    """Result status for schema generation."""
 
-    schema_class_name: str
+    GENERATED = auto()  # New schema was created
+    DEDUPED = auto()  # Schema already existed (same definition)
+    SKIPPED = auto()  # Schema couldn't be generated (no properties, wrong type, etc.)
+
+
+@dataclass
+class SchemaResult:
+    """Result of schema generation."""
+
+    status: SchemaStatus
+    class_name: str | None = None
     is_array: bool = False
     item_class_names: list[str] | None = None
 
@@ -104,12 +114,12 @@ def generate_response_schemas(
                 schema_fingerprints=schema_fingerprints,
                 scope=scope,
             )
-            info = _generate_schema_class(
+            result = _generate_schema_class(
                 ctx, class_name=class_name, schema=response_schema, description=description
             )
-            if info:
-                if info.item_class_names:
-                    item_schema_map[class_name] = info.item_class_names
+            if result.status != SchemaStatus.SKIPPED:
+                if result.item_class_names:
+                    item_schema_map[class_name] = result.item_class_names
             else:
                 untyped_response_operations.add(operation_id)
 
@@ -176,7 +186,7 @@ def _generate_schema_class(
     class_name: str,
     schema: dict[str, Any],
     description: str = "",
-) -> ResponseSchemaInfo | None:
+) -> SchemaResult:
     """Generate a Pydantic model class from an OpenAPI schema."""
     schema_type = schema.get("type")
     docstring = schema.get("description") or description or f"Schema for {class_name}."
@@ -190,8 +200,8 @@ def _generate_schema_class(
         return _generate_object_schema(
             ctx, class_name=class_name, schema=schema, docstring=docstring
         )
-
-    return None
+    log.warning(f"Skipping schema generation for {class_name} because it has no properties")
+    return SchemaResult(status=SchemaStatus.SKIPPED)
 
 
 def _generate_array_schema(
@@ -200,16 +210,16 @@ def _generate_array_schema(
     class_name: str,
     schema: dict[str, Any],
     docstring: str,
-) -> ResponseSchemaInfo | None:
+) -> SchemaResult:
     """Generate a RootModel schema for array responses."""
     items_schema = schema.get("items", {})
     item_class_name = class_name + "Item"
 
     if items_schema.get("type") == "object":
-        item_info = _generate_schema_class(
+        item_result = _generate_schema_class(
             ctx.nested(), class_name=item_class_name, schema=items_schema
         )
-        if item_info:
+        if item_result.status != SchemaStatus.SKIPPED:
             item_type = item_class_name
         else:
             item_type = "dict[str, Any]"
@@ -223,11 +233,10 @@ def _generate_array_schema(
     type_param = f'"{item_type}"' if item_class_name else item_type
     definition = f"class {class_name}(RootModel[list[{type_param}]]):\n{doc_lines}{body}"
 
-    if not _register_schema(ctx, name=class_name, definition=definition):
-        return None
-
-    return ResponseSchemaInfo(
-        schema_class_name=class_name,
+    status = _register_schema(ctx, name=class_name, definition=definition)
+    return SchemaResult(
+        status=status,
+        class_name=class_name,
         is_array=True,
         item_class_names=[item_class_name] if item_class_name else None,
     )
@@ -239,15 +248,15 @@ def _generate_dict_schema(
     class_name: str,
     value_schema: dict[str, Any],
     docstring: str,
-) -> ResponseSchemaInfo | None:
+) -> SchemaResult:
     """Generate a RootModel schema for dict/map responses with additionalProperties."""
     value_class_name = class_name + "Value"
 
     if value_schema.get("type") == "object" and value_schema.get("properties"):
-        value_info = _generate_schema_class(
+        value_result = _generate_schema_class(
             ctx.nested(), class_name=value_class_name, schema=value_schema
         )
-        if value_info:
+        if value_result.status != SchemaStatus.SKIPPED:
             value_type = value_class_name
         else:
             value_type = "dict[str, Any]"
@@ -261,11 +270,10 @@ def _generate_dict_schema(
     type_param = f'"{value_type}"' if value_class_name else value_type
     definition = f"class {class_name}(RootModel[dict[str, {type_param}]]):\n{doc_lines}{body}"
 
-    if not _register_schema(ctx, name=class_name, definition=definition):
-        return None
-
-    return ResponseSchemaInfo(
-        schema_class_name=class_name,
+    status = _register_schema(ctx, name=class_name, definition=definition)
+    return SchemaResult(
+        status=status,
+        class_name=class_name,
         is_array=False,
         item_class_names=[value_class_name] if value_class_name else None,
     )
@@ -277,14 +285,17 @@ def _generate_object_schema(
     class_name: str,
     schema: dict[str, Any],
     docstring: str,
-) -> ResponseSchemaInfo | None:
+) -> SchemaResult:
     """Generate a _BaseSchema class for object responses."""
     properties = schema.get("properties", {})
 
     if not properties:
         additional_props = schema.get("additionalProperties")
         if not isinstance(additional_props, dict):
-            return None
+            log.debug(
+                f"Skipping schema generation for {class_name} because it has no additional properties"
+            )
+            return SchemaResult(status=SchemaStatus.SKIPPED)
         return _generate_dict_schema(
             ctx, class_name=class_name, value_schema=additional_props, docstring=docstring
         )
@@ -314,18 +325,17 @@ def _generate_object_schema(
         ):
             item_class_names.append(field_type[5:-1])
 
-    if not _register_schema(ctx, name=class_name, definition="\n".join(lines) + "\n"):
-        return None
-
-    return ResponseSchemaInfo(
-        schema_class_name=class_name,
+    status = _register_schema(ctx, name=class_name, definition="\n".join(lines) + "\n")
+    return SchemaResult(
+        status=status,
+        class_name=class_name,
         is_array=False,
         item_class_names=item_class_names or None,
     )
 
 
-def _register_schema(ctx: GenerationContext, *, name: str, definition: str) -> bool:
-    """Register a schema. Returns True if registered, False if deduplicated."""
+def _register_schema(ctx: GenerationContext, *, name: str, definition: str) -> SchemaStatus:
+    """Register a schema. Returns GENERATED if new, DEDUPED if already exists."""
     if name in ctx.schemas:
         existing_scope = ctx.schema_to_scope.get(name)
         if existing_scope != ctx.scope:
@@ -337,11 +347,11 @@ def _register_schema(ctx: GenerationContext, *, name: str, definition: str) -> b
             raise ValueError(
                 f"Schema collision: '{name}' in scope '{ctx.scope}' has conflicting definitions"
             )
-        return False
+        return SchemaStatus.DEDUPED
 
     ctx.schemas[name] = definition
     ctx.schema_to_scope[name] = ctx.scope
-    return True
+    return SchemaStatus.GENERATED
 
 
 def _generate_field(
