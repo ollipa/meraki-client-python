@@ -341,7 +341,7 @@ def generate_module(  # noqa: PLR0915
             if response_schema_name in schema_registry.schema_names:
                 schemas_used.append(response_schema_name)
                 if response_schema_name in schema_registry.item_schema_map:
-                    schemas_used.append(schema_registry.item_schema_map[response_schema_name])
+                    schemas_used.extend(schema_registry.item_schema_map[response_schema_name])
 
     output.write(
         templates.class_template.render(
@@ -383,12 +383,11 @@ def generate_module(  # noqa: PLR0915
                 schema_name = get_response_schema_name(operation_id)
                 if schema_name in schema_registry.schema_names:
                     response_schema_name = schema_name
-                    # For paginated endpoints, use item schema from map or fallback to response schema
+                    # For paginated endpoints, use first item schema from map or fallback to response schema
                     # (some OpenAPI specs incorrectly define array responses as objects)
                     if is_paginated:
-                        item_schema_name = schema_registry.item_schema_map.get(
-                            schema_name, schema_name
-                        )
+                        item_schemas = schema_registry.item_schema_map.get(schema_name)
+                        item_schema_name = item_schemas[0] if item_schemas else schema_name
 
             if is_paginated and not item_schema_name:
                 raise ValueError(f"Paginated endpoint {operation_id} has no response schema")

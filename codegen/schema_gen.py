@@ -10,6 +10,7 @@ from dataclasses import dataclass
 from typing import TYPE_CHECKING, Any, Literal, overload
 
 from openapi_pydantic.v3.v3_0 import OpenAPI, Operation, Reference
+from pydantic.alias_generators import to_snake
 
 from codegen.constants import RESERVED_NAMES
 
@@ -26,10 +27,9 @@ MAX_CLASS_NAME_LENGTH = 80
 class ResponseSchemaInfo:
     """Information about a response schema for an operation."""
 
-    operation_id: str
     schema_class_name: str
     is_array: bool = False
-    item_class_name: str | None = None
+    item_class_names: list[str] | None = None
 
 
 @dataclass
@@ -37,7 +37,7 @@ class SchemaRegistry:
     """Registry of generated response schemas."""
 
     schema_names: set[str]
-    item_schema_map: dict[str, str]
+    item_schema_map: dict[str, list[str]]
     untyped_response_ops: set[str]
 
 
@@ -53,18 +53,17 @@ def generate_response_schemas(
     schemas: dict[str, str] = {}
     schema_to_scope: dict[str, str] = {}
     schema_fingerprints: dict[str, str] = {}
-    item_schema_map: dict[str, str] = {}
+    item_schema_map: dict[str, list[str]] = {}
     untyped_response_operations: set[str] = set()
 
     for path_item in spec.paths.values():
-        operations: dict[Literal["get", "put", "post", "delete"], Operation | None] = {
+        operations: dict[Literal["get", "put", "post"], Operation | None] = {
             "get": path_item.get,
             "put": path_item.put,
             "post": path_item.post,
-            "delete": path_item.delete,
         }
-        for method, operation in operations.items():
-            if not operation or not operation.operationId or method == "delete":
+        for operation in operations.values():
+            if not operation or not operation.operationId:
                 continue
 
             operation_id = operation.operationId
@@ -88,8 +87,8 @@ def generate_response_schemas(
                 description=description,
             )
             if info:
-                if info.item_class_name:
-                    item_schema_map[class_name] = info.item_class_name
+                if info.item_class_names:
+                    item_schema_map[class_name] = info.item_class_names
             else:
                 untyped_response_operations.add(operation_id)
 
@@ -228,7 +227,8 @@ def _generate_array_schema(
 
     doc_lines = _format_docstring(docstring)
     body = "" if doc_lines else "    pass\n"
-    definition = f"class {class_name}(RootModel[list[{item_type}]]):\n{doc_lines}{body}"
+    type_param = f'"{item_type}"' if item_class_name else item_type
+    definition = f"class {class_name}(RootModel[list[{type_param}]]):\n{doc_lines}{body}"
 
     if not _register_schema(
         name=class_name,
@@ -240,10 +240,9 @@ def _generate_array_schema(
         return None
 
     return ResponseSchemaInfo(
-        operation_id="",
         schema_class_name=class_name,
         is_array=True,
-        item_class_name=item_class_name,
+        item_class_names=[item_class_name] if item_class_name else None,
     )
 
 
@@ -269,7 +268,7 @@ def _generate_object_schema(
         lines.extend(_format_docstring(docstring, as_lines=True))
 
     required = set(schema.get("required", []))
-    item_class_name: str | None = None
+    item_class_names: list[str] = []
 
     if not properties:
         if not docstring:
@@ -295,7 +294,7 @@ def _generate_object_schema(
                 and prop_schema.get("items", {}).get("properties")
                 and field_type.startswith("list[")
             ):
-                item_class_name = field_type[5:-1]
+                item_class_names.append(field_type[5:-1])
 
     if not _register_schema(
         name=class_name,
@@ -307,10 +306,9 @@ def _generate_object_schema(
         return None
 
     return ResponseSchemaInfo(
-        operation_id="",
         schema_class_name=class_name,
         is_array=False,
-        item_class_name=item_class_name,
+        item_class_names=item_class_names or None,
     )
 
 
@@ -366,11 +364,13 @@ def _generate_field(
         depth=depth,
     )
     needs_alias = snake_name != prop_name
+    is_nullable = prop_schema.get("nullable", False)
 
     if is_required:
+        type_annotation = f"{py_type} | None" if is_nullable else py_type
         if needs_alias:
-            return f'{snake_name}: {py_type} = Field(alias="{prop_name}")', py_type
-        return f"{snake_name}: {py_type}", py_type
+            return f'{snake_name}: {type_annotation} = Field(alias="{prop_name}")', py_type
+        return f"{snake_name}: {type_annotation}", py_type
 
     if needs_alias:
         return f'{snake_name}: {py_type} | None = Field(default=None, alias="{prop_name}")', py_type
@@ -472,8 +472,6 @@ def _get_array_type(
             scope=scope,
             depth=nested_depth,
         )
-
-        fingerprint = _compute_fingerprint(items, scope)
         schema_fingerprints[fingerprint] = nested_class
 
         return f"list[{nested_class}]"
@@ -521,8 +519,6 @@ def _get_object_type(
         scope=scope,
         depth=nested_depth,
     )
-
-    fingerprint = _compute_fingerprint(schema, scope)
     schema_fingerprints[fingerprint] = nested_class
 
     return nested_class
@@ -629,19 +625,23 @@ def _compute_fingerprint(schema: dict[str, Any], scope: str) -> str:
     return f"{scope}:{json.dumps(normalized, sort_keys=True)}"
 
 
-def _normalize_schema(schema: dict[str, Any]) -> dict[str, Any]:
+def _normalize_schema(schema: dict[str, Any], *, is_required: bool = False) -> dict[str, Any]:
     """Normalize schema to only include fields that affect generated code structure."""
     result: dict[str, Any] = {}
 
     if "type" in schema:
         result["type"] = schema["type"]
 
-    if "required" in schema:
-        result["required"] = sorted(schema["required"])
+    if is_required and schema.get("nullable"):
+        result["nullable"] = True
+
+    required_set = set(schema.get("required", []))
+    if required_set:
+        result["required"] = sorted(required_set)
 
     if "properties" in schema:
         result["properties"] = {
-            name: _normalize_schema(prop_schema)
+            name: _normalize_schema(prop_schema, is_required=name in required_set)
             for name, prop_schema in sorted(schema["properties"].items())
         }
 
@@ -676,8 +676,8 @@ def _write_schema_files(
 
     all_exports: dict[str, list[str]] = {}
     for scope, scope_schemas in schemas_by_scope.items():
-        module_name = _to_snake_case(scope)
-        sorted_schemas = _topological_sort(scope_schemas)
+        module_name = to_snake(scope)
+        sorted_schemas = sorted(scope_schemas.keys())
         all_exports[module_name] = sorted(sorted_schemas)
 
         schema_definitions = [scope_schemas[name] for name in sorted_schemas]
@@ -698,40 +698,3 @@ def _write_schema_files(
                 all_schemas=all_schemas,
             )
         )
-
-
-def _topological_sort(schemas: dict[str, str]) -> list[str]:
-    """Sort schemas so dependencies come before dependents."""
-    dependencies: dict[str, set[str]] = {}
-    for class_name, class_def in schemas.items():
-        deps = set()
-        for other_class in schemas:
-            if other_class == class_name:
-                continue
-            patterns = [f": {other_class}", f"[{other_class}]", f"list[{other_class}]"]
-            if other_class in class_def and any(p in class_def for p in patterns):
-                deps.add(other_class)
-        dependencies[class_name] = deps
-
-    result: list[str] = []
-    no_deps = [c for c, deps in dependencies.items() if not deps]
-
-    while no_deps:
-        class_name = no_deps.pop(0)
-        result.append(class_name)
-        for other_class, deps in dependencies.items():
-            if class_name in deps:
-                deps.remove(class_name)
-                if not deps and other_class not in result and other_class not in no_deps:
-                    no_deps.append(other_class)
-
-    for class_name in schemas:
-        if class_name not in result:
-            result.append(class_name)
-
-    return result
-
-
-def _to_snake_case(name: str) -> str:
-    """Convert camelCase or PascalCase to snake_case."""
-    return re.sub(r"(?<!^)(?=[A-Z])", "_", name).lower()
