@@ -45,7 +45,3 @@ endif
 	@printf '$(color)Generating SDK$(off)\n'
 	@printf '*****************\n'
 	@uv run python codegen/main.py -v $(VERSION)
-	@printf "Formatting the generated code..."
-	@uv run ruff check --quiet --select I,F401,RUF022 --fix meraki_client
-	@uv run ruff format meraki_client > /dev/null
-	@printf "Done!\n"

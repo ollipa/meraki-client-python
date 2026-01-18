@@ -6,8 +6,10 @@ import logging
 import os
 import re
 import shutil
+import subprocess
 import sys
 import textwrap
+import time
 import tomllib
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import dataclass, field
@@ -97,6 +99,7 @@ PathsType: TypeAlias = dict[str, dict[Literal["get", "put", "post", "delete"], O
 
 def main() -> None:
     """Main function to parse command line arguments and generate the library."""
+    t_start = time.perf_counter()
     parser = argparse.ArgumentParser(
         description="Generate the Meraki Python library using the public OpenAPI specification."
     )
@@ -122,6 +125,8 @@ def main() -> None:
         BatchableAction.model_validate(action) for action in spec["x-batchable-actions"]
     ]
     generate_library(OpenAPI.model_validate(spec), batchable_actions, client_version, api_version)
+    elapsed = time.perf_counter() - t_start
+    log.info(f"Completed code generation in {elapsed:.2f}s")
 
 
 def get_client_version() -> str:
@@ -181,8 +186,12 @@ def generate_library(  # noqa: PLR0915
     templates = init_templates()
     min_python_version = get_min_python_version()
 
+    t_start = time.perf_counter()
     schema_registry = generate_response_schemas(spec, templates, OUTPUT_DIR)
+    elapsed = time.perf_counter() - t_start
+    log.info(f"Generated {len(schema_registry.schema_names)} response schemas in {elapsed:.2f}s")
 
+    t_start = time.perf_counter()
     scopes: dict[str, PathsType] = {}
     operation_count = 0
     for path, path_item in spec.paths.items():
@@ -212,10 +221,6 @@ def generate_library(  # noqa: PLR0915
                 continue
             scopes.setdefault(scope, {}).setdefault(path, {})[method] = operation
             operation_count += 1
-
-    log.info(
-        f"Total of {len(scopes)} scopes and {operation_count} operations found from OpenAPI spec"
-    )
 
     # Collect module info for __init__.py generation
     modules = sorted(
@@ -303,11 +308,18 @@ def generate_library(  # noqa: PLR0915
             except Exception:
                 log.exception(f"Failed to generate {scope}")
                 raise
-            log.info(f"Generated {scope}")
+            log.debug(f"Generated {scope}")
 
     batch_modules.sort(key=lambda m: m.snake_name)
     with open(f"{OUTPUT_DIR}/api/batch/__init__.py", "w") as f:
         f.write(templates.batch_init_template.render(modules=batch_modules))
+    elapsed = time.perf_counter() - t_start
+    log.info(f"Generated {len(scopes)} modules and {operation_count} operations in {elapsed:.2f}s")
+
+    t_start = time.perf_counter()
+    _format_generated_code(OUTPUT_DIR)
+    elapsed = time.perf_counter() - t_start
+    log.info(f"Formatted generated code in {elapsed:.2f}s")
 
 
 def generate_module(  # noqa: PLR0915
@@ -506,6 +518,17 @@ def copy_static_files() -> None:
         dst = Path(OUTPUT_DIR) / relative_path
         dst.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy2(src, dst)
+
+
+def _format_generated_code(output_dir: str) -> None:
+    subprocess.run(  # noqa: S603
+        ["uv", "run", "ruff", "check", "--quiet", "--select", "I,F401,RUF022", "--fix", output_dir],  # noqa: S607
+        check=True,
+    )
+    subprocess.run(  # noqa: S603
+        ["uv", "run", "ruff", "format", "--quiet", output_dir],  # noqa: S607
+        check=True,
+    )
 
 
 def init_templates() -> Templates:

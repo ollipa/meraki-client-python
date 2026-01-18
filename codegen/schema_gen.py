@@ -129,8 +129,6 @@ def generate_response_schemas(
         templates=templates,
         output_dir=output_dir,
     )
-    log.info(f"Generated {len(schemas)} response schemas")
-
     return SchemaRegistry(
         schema_names=set(schemas.keys()),
         item_schema_map=item_schema_map,
