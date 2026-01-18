@@ -23,7 +23,7 @@ class ColorFormatter(logging.Formatter):
         return super().format(record)
 
 
-def setup_logging(level: int = logging.DEBUG) -> None:
+def setup_logging(level: int = logging.INFO) -> None:
     """Setup logging."""
     handler = logging.StreamHandler()
     handler.setFormatter(ColorFormatter("%(levelname)s - %(message)s"))

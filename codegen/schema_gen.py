@@ -1,0 +1,737 @@
+"""Pydantic schema generation from OpenAPI specification."""
+
+from __future__ import annotations
+
+import json
+import logging
+import re
+import textwrap
+from dataclasses import dataclass
+from typing import TYPE_CHECKING, Any, Literal, overload
+
+from openapi_pydantic.v3.v3_0 import OpenAPI, Operation, Reference
+
+from codegen.constants import RESERVED_NAMES
+
+if TYPE_CHECKING:
+    from codegen.main import Templates
+
+log = logging.getLogger("codegen")
+
+SCHEMA_DOCSTRING_WIDTH = 96
+MAX_CLASS_NAME_LENGTH = 80
+
+
+@dataclass
+class ResponseSchemaInfo:
+    """Information about a response schema for an operation."""
+
+    operation_id: str
+    schema_class_name: str
+    is_array: bool = False
+    item_class_name: str | None = None
+
+
+@dataclass
+class SchemaRegistry:
+    """Registry of generated response schemas."""
+
+    schema_names: set[str]
+    item_schema_map: dict[str, str]
+    untyped_response_ops: set[str]
+
+
+def get_response_schema_name(operation_id: str) -> str:
+    """Get the response schema class name for an operation."""
+    return operation_id[0].upper() + operation_id[1:] + "Response"
+
+
+def generate_response_schemas(
+    spec: OpenAPI, templates: Templates, output_dir: str
+) -> SchemaRegistry:
+    """Generate Pydantic response schemas from OpenAPI specification."""
+    schemas: dict[str, str] = {}
+    schema_to_scope: dict[str, str] = {}
+    schema_fingerprints: dict[str, str] = {}
+    item_schema_map: dict[str, str] = {}
+    untyped_response_operations: set[str] = set()
+
+    for path_item in spec.paths.values():
+        operations: dict[Literal["get", "put", "post", "delete"], Operation | None] = {
+            "get": path_item.get,
+            "put": path_item.put,
+            "post": path_item.post,
+            "delete": path_item.delete,
+        }
+        for method, operation in operations.items():
+            if not operation or not operation.operationId or method == "delete":
+                continue
+
+            operation_id = operation.operationId
+            scope = operation.tags[0] if operation.tags else "common"
+
+            response_schema = _extract_response_schema(operation)
+            if not response_schema:
+                continue
+
+            class_name = get_response_schema_name(operation_id)
+            description = (
+                operation.description or operation.summary or f"Response for {operation_id}."
+            )
+            info = _generate_schema_class(
+                class_name=class_name,
+                schema=response_schema,
+                schemas=schemas,
+                schema_to_scope=schema_to_scope,
+                schema_fingerprints=schema_fingerprints,
+                scope=scope,
+                description=description,
+            )
+            if info:
+                if info.item_class_name:
+                    item_schema_map[class_name] = info.item_class_name
+            else:
+                untyped_response_operations.add(operation_id)
+
+    _write_schema_files(
+        schemas=schemas,
+        schema_to_scope=schema_to_scope,
+        templates=templates,
+        output_dir=output_dir,
+    )
+    log.info(f"Generated {len(schemas)} response schemas")
+
+    return SchemaRegistry(
+        schema_names=set(schemas.keys()),
+        item_schema_map=item_schema_map,
+        untyped_response_ops=untyped_response_operations,
+    )
+
+
+def _extract_response_schema(operation: Operation) -> dict[str, Any] | None:
+    """Extract the response schema from the operation's 2xx response."""
+    if not operation.responses:
+        return None
+
+    found_schema: dict[str, Any] | None = None
+    found_status: str | None = None
+
+    for status_code, response in operation.responses.items():
+        if not status_code.startswith("2"):
+            continue
+        if isinstance(response, Reference):
+            raise ValueError(
+                f"Operation {operation.operationId} has a reference response for {status_code}"
+            )
+
+        content = response.content
+        if not content:
+            continue
+
+        json_content = content.get("application/json")
+        if not json_content:
+            continue
+
+        schema = json_content.media_type_schema
+        if not schema:
+            continue
+        if isinstance(schema, Reference):
+            raise ValueError(
+                f"Operation {operation.operationId} has a reference schema for {status_code}"
+            )
+        if found_schema is not None:
+            raise ValueError(
+                f"Operation {operation.operationId} has multiple 2xx responses "
+                f"with schemas: {found_status} and {status_code}"
+            )
+        found_schema = schema.model_dump(exclude_none=True)
+        found_status = status_code
+
+    return found_schema
+
+
+def _generate_schema_class(
+    *,
+    class_name: str,
+    schema: dict[str, Any],
+    schemas: dict[str, str],
+    schema_to_scope: dict[str, str],
+    schema_fingerprints: dict[str, str],
+    scope: str,
+    description: str = "",
+    depth: int = 0,
+) -> ResponseSchemaInfo | None:
+    """Generate a Pydantic model class from an OpenAPI schema."""
+    schema_type = schema.get("type")
+    docstring = schema.get("description") or description or f"Schema for {class_name}."
+
+    if schema_type == "array":
+        return _generate_array_schema(
+            class_name=class_name,
+            schema=schema,
+            schemas=schemas,
+            schema_to_scope=schema_to_scope,
+            schema_fingerprints=schema_fingerprints,
+            scope=scope,
+            docstring=docstring,
+            depth=depth,
+        )
+
+    if schema_type == "object" or "properties" in schema:
+        return _generate_object_schema(
+            class_name=class_name,
+            schema=schema,
+            schemas=schemas,
+            schema_to_scope=schema_to_scope,
+            schema_fingerprints=schema_fingerprints,
+            scope=scope,
+            docstring=docstring,
+            depth=depth,
+        )
+
+    return None
+
+
+def _generate_array_schema(
+    *,
+    class_name: str,
+    schema: dict[str, Any],
+    schemas: dict[str, str],
+    schema_to_scope: dict[str, str],
+    schema_fingerprints: dict[str, str],
+    scope: str,
+    docstring: str,
+    depth: int,
+) -> ResponseSchemaInfo | None:
+    """Generate a RootModel schema for array responses."""
+    items_schema = schema.get("items", {})
+    item_class_name = class_name + "Item"
+
+    if items_schema.get("type") == "object":
+        item_info = _generate_schema_class(
+            class_name=item_class_name,
+            schema=items_schema,
+            schemas=schemas,
+            schema_to_scope=schema_to_scope,
+            schema_fingerprints=schema_fingerprints,
+            scope=scope,
+            depth=depth + 1,
+        )
+        if item_info:
+            item_type = item_class_name
+        else:
+            item_type = "dict[str, Any]"
+            item_class_name = None
+    else:
+        item_type = _get_simple_type(items_schema)
+        item_class_name = None
+
+    doc_lines = _format_docstring(docstring)
+    body = "" if doc_lines else "    pass\n"
+    definition = f"class {class_name}(RootModel[list[{item_type}]]):\n{doc_lines}{body}"
+
+    if not _register_schema(
+        name=class_name,
+        definition=definition,
+        schemas=schemas,
+        schema_to_scope=schema_to_scope,
+        scope=scope,
+    ):
+        return None
+
+    return ResponseSchemaInfo(
+        operation_id="",
+        schema_class_name=class_name,
+        is_array=True,
+        item_class_name=item_class_name,
+    )
+
+
+def _generate_object_schema(
+    *,
+    class_name: str,
+    schema: dict[str, Any],
+    schemas: dict[str, str],
+    schema_to_scope: dict[str, str],
+    schema_fingerprints: dict[str, str],
+    scope: str,
+    docstring: str,
+    depth: int,
+) -> ResponseSchemaInfo | None:
+    """Generate a _BaseSchema class for object responses."""
+    properties = schema.get("properties", {})
+
+    if not properties and "additionalProperties" not in schema:
+        return None
+
+    lines = [f"class {class_name}(_BaseSchema):"]
+    if docstring:
+        lines.extend(_format_docstring(docstring, as_lines=True))
+
+    required = set(schema.get("required", []))
+    item_class_name: str | None = None
+
+    if not properties:
+        if not docstring:
+            lines.append("    pass")
+    else:
+        for prop_name, prop_schema in properties.items():
+            field_def, field_type = _generate_field(
+                prop_name=prop_name,
+                prop_schema=prop_schema,
+                schemas=schemas,
+                parent_class=class_name,
+                schema_to_scope=schema_to_scope,
+                schema_fingerprints=schema_fingerprints,
+                scope=scope,
+                depth=depth,
+                is_required=prop_name in required,
+            )
+            lines.append(f"    {field_def}")
+
+            if (
+                prop_schema.get("type") == "array"
+                and prop_schema.get("items", {}).get("type") == "object"
+                and prop_schema.get("items", {}).get("properties")
+                and field_type.startswith("list[")
+            ):
+                item_class_name = field_type[5:-1]
+
+    if not _register_schema(
+        name=class_name,
+        definition="\n".join(lines) + "\n",
+        schemas=schemas,
+        schema_to_scope=schema_to_scope,
+        scope=scope,
+    ):
+        return None
+
+    return ResponseSchemaInfo(
+        operation_id="",
+        schema_class_name=class_name,
+        is_array=False,
+        item_class_name=item_class_name,
+    )
+
+
+def _register_schema(
+    *,
+    name: str,
+    definition: str,
+    schemas: dict[str, str],
+    schema_to_scope: dict[str, str],
+    scope: str,
+) -> bool:
+    """Register a schema. Returns True if registered, False if deduplicated."""
+    if name in schemas:
+        existing_scope = schema_to_scope.get(name)
+        if existing_scope != scope:
+            raise ValueError(
+                f"Schema name collision: '{name}' already exists in scope "
+                f"'{existing_scope}', cannot add to scope '{scope}'"
+            )
+        if schemas[name] != definition:
+            raise ValueError(
+                f"Schema collision: '{name}' in scope '{scope}' has conflicting definitions"
+            )
+        return False
+
+    schemas[name] = definition
+    schema_to_scope[name] = scope
+    return True
+
+
+def _generate_field(
+    *,
+    prop_name: str,
+    prop_schema: dict[str, Any],
+    schemas: dict[str, str],
+    parent_class: str,
+    schema_to_scope: dict[str, str],
+    schema_fingerprints: dict[str, str],
+    scope: str,
+    depth: int,
+    is_required: bool,
+) -> tuple[str, str]:
+    """Generate a field definition for a Pydantic model."""
+    snake_name = _sanitize_field_name(prop_name)
+    py_type = _get_python_type(
+        schema=prop_schema,
+        schemas=schemas,
+        parent_class=parent_class,
+        prop_name=prop_name,
+        schema_to_scope=schema_to_scope,
+        schema_fingerprints=schema_fingerprints,
+        scope=scope,
+        depth=depth,
+    )
+    needs_alias = snake_name != prop_name
+
+    if is_required:
+        if needs_alias:
+            return f'{snake_name}: {py_type} = Field(alias="{prop_name}")', py_type
+        return f"{snake_name}: {py_type}", py_type
+
+    if needs_alias:
+        return f'{snake_name}: {py_type} | None = Field(default=None, alias="{prop_name}")', py_type
+    return f"{snake_name}: {py_type} | None = None", py_type
+
+
+def _get_python_type(
+    *,
+    schema: dict[str, Any],
+    schemas: dict[str, str],
+    parent_class: str,
+    prop_name: str,
+    schema_to_scope: dict[str, str],
+    schema_fingerprints: dict[str, str],
+    scope: str,
+    depth: int,
+) -> str:
+    """Get Python type annotation from OpenAPI schema."""
+    schema_type = schema.get("type")
+
+    if schema_type in ("string", "integer", "number", "boolean"):
+        return _get_simple_type(schema)
+
+    if schema_type == "array":
+        return _get_array_type(
+            schema=schema,
+            schemas=schemas,
+            parent_class=parent_class,
+            prop_name=prop_name,
+            schema_to_scope=schema_to_scope,
+            schema_fingerprints=schema_fingerprints,
+            scope=scope,
+            depth=depth,
+        )
+
+    if schema_type == "object":
+        return _get_object_type(
+            schema=schema,
+            schemas=schemas,
+            parent_class=parent_class,
+            prop_name=prop_name,
+            schema_to_scope=schema_to_scope,
+            schema_fingerprints=schema_fingerprints,
+            scope=scope,
+            depth=depth,
+        )
+
+    return "Any"
+
+
+def _get_simple_type(schema: dict[str, Any]) -> str:
+    """Get Python type for simple (non-class) schema types."""
+    schema_type = schema.get("type")
+    type_map = {"string": "str", "integer": "int", "number": "float", "boolean": "bool"}
+    if schema_type in type_map:
+        return type_map[schema_type]
+    if schema_type == "array":
+        item_type = _get_simple_type(schema.get("items", {}))
+        return f"list[{item_type}]"
+    if schema_type == "object":
+        return "dict[str, Any]"
+    return "Any"
+
+
+def _get_array_type(
+    *,
+    schema: dict[str, Any],
+    schemas: dict[str, str],
+    parent_class: str,
+    prop_name: str,
+    schema_to_scope: dict[str, str],
+    schema_fingerprints: dict[str, str],
+    scope: str,
+    depth: int,
+) -> str:
+    """Get Python type for array schema."""
+    items = schema.get("items", {})
+
+    if items.get("type") == "object" and items.get("properties"):
+        fingerprint = _compute_fingerprint(items, scope)
+        if fingerprint in schema_fingerprints:
+            return f"list[{schema_fingerprints[fingerprint]}]"
+
+        nested_depth = depth + 1
+        nested_class = _build_nested_class_name(
+            parent_class=parent_class,
+            prop_name=prop_name,
+            scope=scope,
+            depth=nested_depth,
+            schemas=schemas,
+            is_array=True,
+        )
+        _generate_schema_class(
+            class_name=nested_class,
+            schema=items,
+            schemas=schemas,
+            schema_to_scope=schema_to_scope,
+            schema_fingerprints=schema_fingerprints,
+            scope=scope,
+            depth=nested_depth,
+        )
+
+        fingerprint = _compute_fingerprint(items, scope)
+        schema_fingerprints[fingerprint] = nested_class
+
+        return f"list[{nested_class}]"
+
+    item_type = _get_simple_type(items)
+    return f"list[{item_type}]"
+
+
+def _get_object_type(
+    *,
+    schema: dict[str, Any],
+    schemas: dict[str, str],
+    parent_class: str,
+    prop_name: str,
+    schema_to_scope: dict[str, str],
+    schema_fingerprints: dict[str, str],
+    scope: str,
+    depth: int,
+) -> str:
+    """Get Python type for object schema."""
+    props = schema.get("properties")
+
+    if not props:
+        return "dict[str, Any]"
+
+    fingerprint = _compute_fingerprint(schema, scope)
+    if fingerprint in schema_fingerprints:
+        return schema_fingerprints[fingerprint]
+
+    nested_depth = depth + 1
+    nested_class = _build_nested_class_name(
+        parent_class=parent_class,
+        prop_name=prop_name,
+        scope=scope,
+        depth=nested_depth,
+        schemas=schemas,
+        is_array=False,
+    )
+    _generate_schema_class(
+        class_name=nested_class,
+        schema=schema,
+        schemas=schemas,
+        schema_to_scope=schema_to_scope,
+        schema_fingerprints=schema_fingerprints,
+        scope=scope,
+        depth=nested_depth,
+    )
+
+    fingerprint = _compute_fingerprint(schema, scope)
+    schema_fingerprints[fingerprint] = nested_class
+
+    return nested_class
+
+
+def _build_nested_class_name(
+    *,
+    parent_class: str,
+    prop_name: str,
+    scope: str,
+    depth: int,
+    schemas: dict[str, str],
+    is_array: bool,
+) -> str:
+    """Build a nested class name with scope-aware shortening."""
+    prop_pascal = prop_name[0].upper() + prop_name[1:]
+    suffix = "Item" if is_array else ""
+    full_name = _sanitize_class_name(parent_class + prop_pascal + suffix)
+
+    should_shorten = depth >= 2 or len(full_name) > MAX_CLASS_NAME_LENGTH
+    if not should_shorten:
+        return full_name
+
+    scope_prefix = scope[0].upper() + scope[1:]
+    parent_context = ""
+    if "Response" in parent_class:
+        parent_context = parent_class.split("Response", 1)[-1]
+        parent_context = re.sub(r"(Items?Item\d*|Item\d*)$", "", parent_context)
+
+    base_short_name = _sanitize_class_name(f"{scope_prefix}{parent_context}{prop_pascal}{suffix}")
+
+    if base_short_name not in schemas:
+        return base_short_name
+
+    for i in range(2, 100):
+        numbered_name = f"{base_short_name}{i}"
+        if numbered_name not in schemas:
+            return numbered_name
+
+    return full_name
+
+
+def _sanitize_field_name(name: str) -> str:
+    """Sanitize a field name to be a valid Python identifier."""
+    if name and (name[0].isdigit() or name.replace(".", "").replace("-", "").isdigit()):
+        return "n_" + name.replace(".", "_").replace("-", "_")
+    snake = re.sub(r"(?<!^)(?=[A-Z])", "_", name).lower()
+    return f"{snake}_" if snake in RESERVED_NAMES else snake
+
+
+def _sanitize_class_name(name: str) -> str:
+    """Sanitize a class name. Prefixes with 'N' if it starts with a digit."""
+    return "N" + name if name and name[0].isdigit() else name
+
+
+@overload
+def _format_docstring(doc: str, *, as_lines: Literal[True]) -> list[str]: ...
+
+
+@overload
+def _format_docstring(doc: str, *, as_lines: Literal[False] = False) -> str: ...
+
+
+def _format_docstring(doc: str, *, as_lines: bool = False) -> str | list[str]:
+    """Format a docstring for a schema class with proper line wrapping."""
+    if not doc:
+        return [] if as_lines else ""
+
+    doc = _sanitize_text(doc)
+    indent = "    "
+    max_single_line = SCHEMA_DOCSTRING_WIDTH - len(indent) - 6
+
+    if len(doc) <= max_single_line:
+        line = f'{indent}"""{doc}"""'
+        return [line, ""] if as_lines else f"{line}\n\n"
+
+    wrapper = textwrap.TextWrapper(
+        width=SCHEMA_DOCSTRING_WIDTH - len(indent),
+        initial_indent="",
+        subsequent_indent="",
+    )
+    wrapped_lines = wrapper.wrap(doc)
+
+    lines = [f'{indent}"""{wrapped_lines[0]}']
+    lines.extend(f"{indent}{wrapped}" for wrapped in wrapped_lines[1:])
+    lines.append(f'{indent}"""')
+    lines.append("")
+
+    return lines if as_lines else "\n".join(lines) + "\n"
+
+
+def _sanitize_text(text: str) -> str:
+    """Clean up text from OpenAPI spec."""
+    text = text.replace("\u00a0", " ").replace("\u2007", " ").replace("\u202f", " ")
+    text = " ".join(text.split())
+    if not text.endswith("."):
+        text += "."
+    return text
+
+
+def _compute_fingerprint(schema: dict[str, Any], scope: str) -> str:
+    """Compute a fingerprint for schema deduplication within a scope."""
+    normalized = _normalize_schema(schema)
+    return f"{scope}:{json.dumps(normalized, sort_keys=True)}"
+
+
+def _normalize_schema(schema: dict[str, Any]) -> dict[str, Any]:
+    """Normalize schema to only include fields that affect generated code structure."""
+    result: dict[str, Any] = {}
+
+    if "type" in schema:
+        result["type"] = schema["type"]
+
+    if "required" in schema:
+        result["required"] = sorted(schema["required"])
+
+    if "properties" in schema:
+        result["properties"] = {
+            name: _normalize_schema(prop_schema)
+            for name, prop_schema in sorted(schema["properties"].items())
+        }
+
+    if "items" in schema:
+        result["items"] = _normalize_schema(schema["items"])
+
+    if "enum" in schema:
+        result["enum"] = sorted(schema["enum"]) if schema["enum"] else []
+
+    if "additionalProperties" in schema:
+        ap = schema["additionalProperties"]
+        result["additionalProperties"] = _normalize_schema(ap) if isinstance(ap, dict) else ap
+
+    return result
+
+
+def _write_schema_files(
+    *,
+    schemas: dict[str, str],
+    schema_to_scope: dict[str, str],
+    templates: Templates,
+    output_dir: str,
+) -> None:
+    """Write per-module schema files and a main __init__.py that re-exports all."""
+    schemas_by_scope: dict[str, dict[str, str]] = {}
+    for class_name, class_def in schemas.items():
+        scope = schema_to_scope.get(class_name, "common")
+        schemas_by_scope.setdefault(scope, {})[class_name] = class_def
+
+    with open(f"{output_dir}/schemas/_base.py", "w") as f:
+        f.write(templates.schema_base_template.render())
+
+    all_exports: dict[str, list[str]] = {}
+    for scope, scope_schemas in schemas_by_scope.items():
+        module_name = _to_snake_case(scope)
+        sorted_schemas = _topological_sort(scope_schemas)
+        all_exports[module_name] = sorted(sorted_schemas)
+
+        schema_definitions = [scope_schemas[name] for name in sorted_schemas]
+        with open(f"{output_dir}/schemas/{module_name}.py", "w") as f:
+            f.write(
+                templates.schema_module_template.render(
+                    scope=module_name,
+                    schema_definitions=schema_definitions,
+                )
+            )
+
+    sorted_exports = dict(sorted(all_exports.items()))
+    all_schemas = sorted(name for names in all_exports.values() for name in names)
+    with open(f"{output_dir}/schemas/__init__.py", "w") as f:
+        f.write(
+            templates.schema_init_template.render(
+                exports=sorted_exports,
+                all_schemas=all_schemas,
+            )
+        )
+
+
+def _topological_sort(schemas: dict[str, str]) -> list[str]:
+    """Sort schemas so dependencies come before dependents."""
+    dependencies: dict[str, set[str]] = {}
+    for class_name, class_def in schemas.items():
+        deps = set()
+        for other_class in schemas:
+            if other_class == class_name:
+                continue
+            patterns = [f": {other_class}", f"[{other_class}]", f"list[{other_class}]"]
+            if other_class in class_def and any(p in class_def for p in patterns):
+                deps.add(other_class)
+        dependencies[class_name] = deps
+
+    result: list[str] = []
+    no_deps = [c for c, deps in dependencies.items() if not deps]
+
+    while no_deps:
+        class_name = no_deps.pop(0)
+        result.append(class_name)
+        for other_class, deps in dependencies.items():
+            if class_name in deps:
+                deps.remove(class_name)
+                if not deps and other_class not in result and other_class not in no_deps:
+                    no_deps.append(other_class)
+
+    for class_name in schemas:
+        if class_name not in result:
+            result.append(class_name)
+
+    return result
+
+
+def _to_snake_case(name: str) -> str:
+    """Convert camelCase or PascalCase to snake_case."""
+    return re.sub(r"(?<!^)(?=[A-Z])", "_", name).lower()
