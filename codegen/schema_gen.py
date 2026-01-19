@@ -207,62 +207,103 @@ def _generate_request_body_schemas(
             raise ValueError(f"Operation {operation_id} has a reference property: {property_name}")
 
         schema_dict = property_schema.model_dump(exclude_none=True)
-        schema_type = schema_dict.get("type")
+        base_class_name = get_request_param_schema_name(operation_id, property_name)
 
-        if schema_type == "object":
-            if schema_dict.get("properties"):
-                # Object with defined properties - generate a schema class
-                class_name = get_request_param_schema_name(operation_id, property_name)
-                result = _generate_schema_class(
-                    ctx,
-                    class_name=class_name,
-                    schema=schema_dict,
-                    description=property_schema.description,
-                )
-                if result.status != SchemaStatus.SKIPPED:
-                    request_body_schemas[(operation_id, property_name)] = RequestBodyParamSchema(
-                        class_name=result.class_name or class_name,
-                    )
-            elif isinstance(schema_dict.get("additionalProperties"), dict):
-                # Object with additionalProperties - generate dict[str, ValueSchema]
-                additional_props = schema_dict["additionalProperties"]
-                if additional_props.get("type") == "object" and additional_props.get("properties"):
-                    value_class_name = (
-                        get_request_param_schema_name(operation_id, property_name) + "Value"
-                    )
-                    result = _generate_schema_class(
-                        ctx,
-                        class_name=value_class_name,
-                        schema=additional_props,
-                        description=f"Value schema for {property_name}.",
-                    )
-                    if result.status != SchemaStatus.SKIPPED:
-                        request_body_schemas[(operation_id, property_name)] = (
-                            RequestBodyParamSchema(
-                                class_name=f"dict[str, {result.class_name or value_class_name}]",
-                                is_dict=True,
-                                item_class_name=result.class_name or value_class_name,
-                            )
-                        )
+        param_schema = _generate_request_body_param_schema(
+            ctx,
+            base_class_name=base_class_name,
+            schema_dict=schema_dict,
+            property_name=property_name,
+        )
+        if param_schema:
+            request_body_schemas[(operation_id, property_name)] = param_schema
 
-        elif schema_type == "array":
-            items = schema_dict.get("items", {})
-            if items.get("type") == "object" and items.get("properties"):
-                item_class_name = (
-                    get_request_param_schema_name(operation_id, property_name) + "Item"
-                )
-                result = _generate_schema_class(
-                    ctx,
-                    class_name=item_class_name,
-                    schema=items,
-                    description=f"Item schema for {property_name}.",
-                )
-                if result.status != SchemaStatus.SKIPPED:
-                    request_body_schemas[(operation_id, property_name)] = RequestBodyParamSchema(
-                        class_name=f"list[{result.class_name or item_class_name}]",
-                        is_list=True,
-                        item_class_name=result.class_name or item_class_name,
-                    )
+
+def _generate_request_body_param_schema(
+    ctx: GenerationContext,
+    *,
+    base_class_name: str,
+    schema_dict: dict[str, Any],
+    property_name: str,
+) -> RequestBodyParamSchema | None:
+    """Generate schema for a single request body parameter if it's a complex type."""
+    schema_type = schema_dict.get("type")
+
+    if schema_type == "object":
+        return _generate_request_body_object_schema(
+            ctx,
+            base_class_name=base_class_name,
+            schema_dict=schema_dict,
+            property_name=property_name,
+        )
+    if schema_type == "array":
+        return _generate_request_body_array_schema(
+            ctx,
+            base_class_name=base_class_name,
+            schema_dict=schema_dict,
+            property_name=property_name,
+        )
+    return None
+
+
+def _generate_request_body_object_schema(
+    ctx: GenerationContext,
+    *,
+    base_class_name: str,
+    schema_dict: dict[str, Any],
+    property_name: str,
+) -> RequestBodyParamSchema | None:
+    """Generate schema for an object-type request body parameter."""
+    if schema_dict.get("properties"):
+        result = _generate_schema_class(ctx, class_name=base_class_name, schema=schema_dict)
+        if result.status != SchemaStatus.SKIPPED:
+            return RequestBodyParamSchema(class_name=result.class_name or base_class_name)
+        return None
+
+    additional_props = schema_dict.get("additionalProperties")
+    if isinstance(additional_props, dict) and _has_nested_properties(additional_props):
+        value_class_name = base_class_name + "Value"
+        result = _generate_schema_class(
+            ctx,
+            class_name=value_class_name,
+            schema=additional_props,
+            description=f"Value schema for {property_name}.",
+        )
+        if result.status != SchemaStatus.SKIPPED:
+            return RequestBodyParamSchema(
+                class_name=f"dict[str, {result.class_name or value_class_name}]",
+                is_dict=True,
+                item_class_name=result.class_name or value_class_name,
+            )
+    return None
+
+
+def _generate_request_body_array_schema(
+    ctx: GenerationContext,
+    *,
+    base_class_name: str,
+    schema_dict: dict[str, Any],
+    property_name: str,
+) -> RequestBodyParamSchema | None:
+    """Generate schema for an array-type request body parameter."""
+    items = schema_dict.get("items", {})
+    if not _has_nested_properties(items):
+        return None
+
+    item_class_name = base_class_name + "Item"
+    result = _generate_schema_class(
+        ctx,
+        class_name=item_class_name,
+        schema=items,
+        description=f"Item schema for {property_name}.",
+    )
+    if result.status != SchemaStatus.SKIPPED:
+        return RequestBodyParamSchema(
+            class_name=f"list[{result.class_name or item_class_name}]",
+            is_list=True,
+            item_class_name=result.class_name or item_class_name,
+        )
+    return None
 
 
 def _extract_response_schema(operation: Operation) -> dict[str, Any] | None:
@@ -366,9 +407,7 @@ def _generate_dict_schema(
     docstring: str,
 ) -> SchemaResult:
     """Generate a RootModel schema for dict/map responses with additionalProperties."""
-    should_generate_nested = bool(
-        value_schema.get("type") == "object" and value_schema.get("properties")
-    )
+    should_generate_nested = _has_nested_properties(value_schema)
     inner_type, nested_class = _resolve_inner_type(
         ctx,
         inner_schema=value_schema,
@@ -580,7 +619,7 @@ def _get_array_type(
     """Get Python type for array schema."""
     items = schema.get("items", {})
 
-    if items.get("type") == "object" and items.get("properties"):
+    if _has_nested_properties(items):
         fingerprint = _compute_fingerprint(items, ctx.scope)
         if fingerprint in ctx.schema_fingerprints:
             existing_class = ctx.schema_fingerprints[fingerprint]
@@ -659,6 +698,11 @@ def _build_nested_class_name(
             return numbered_name
 
     return full_name
+
+
+def _has_nested_properties(schema: dict[str, Any]) -> bool:
+    """Check if schema is an object with properties requiring a generated class."""
+    return schema.get("type") == "object" and bool(schema.get("properties"))
 
 
 def _sanitize_field_name(name: str) -> str:
