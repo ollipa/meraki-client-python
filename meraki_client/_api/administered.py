@@ -75,7 +75,7 @@ class Administered:
             response_schema=GenerateAdministeredIdentitiesMeApiKeysResponse,
         )
 
-    def revoke_administered_identities_me_api_keys(self, *, suffix: str) -> None:
+    def revoke_administered_identities_me_api_keys(self, suffix: str) -> None:
         """Revokes an identity's API key, using the last four characters of the key.
 
         https://developer.cisco.com/meraki/api-v1/#!revoke-administered-identities-me-api-keys

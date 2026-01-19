@@ -175,7 +175,7 @@ class Switch:
     def __init__(self, session: Session) -> None:
         self._session = session
 
-    def get_device_switch_ports(self, *, serial: str) -> GetDeviceSwitchPortsResponse | None:
+    def get_device_switch_ports(self, serial: str) -> GetDeviceSwitchPortsResponse | None:
         """List the switch ports for a switch.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device-switch-ports
@@ -222,7 +222,7 @@ class Switch:
         )
 
     def get_device_switch_ports_statuses(
-        self, *, serial: str, t0: str | None = None, timespan: float | None = None
+        self, serial: str, *, t0: str | None = None, timespan: float | None = None
     ) -> GetDeviceSwitchPortsStatusesResponse | None:
         """Return the status for all the ports of a switch.
 
@@ -255,7 +255,7 @@ class Switch:
         )
 
     def get_device_switch_ports_statuses_packets(
-        self, *, serial: str, t0: str | None = None, timespan: float | None = None
+        self, serial: str, *, t0: str | None = None, timespan: float | None = None
     ) -> GetDeviceSwitchPortsStatusesPacketsResponse | None:
         """Return the packet counters for all the ports of a switch.
 
@@ -498,7 +498,7 @@ class Switch:
         )
 
     def get_device_switch_routing_interfaces(
-        self, *, serial: str, mode: str | None = None, protocol: str | None = None
+        self, serial: str, *, mode: str | None = None, protocol: str | None = None
     ) -> GetDeviceSwitchRoutingInterfacesResponse | None:
         """List layer 3 interfaces for a switch.
 
@@ -885,7 +885,7 @@ class Switch:
         )
 
     def get_device_switch_routing_static_routes(
-        self, *, serial: str
+        self, serial: str
     ) -> GetDeviceSwitchRoutingStaticRoutesResponse | None:
         """List layer 3 static routes for a switch.
 
@@ -1059,9 +1059,7 @@ class Switch:
             scope="switch", operation_id="deleteDeviceSwitchRoutingStaticRoute", path=path
         )
 
-    def get_device_switch_warm_spare(
-        self, *, serial: str
-    ) -> GetDeviceSwitchWarmSpareResponse | None:
+    def get_device_switch_warm_spare(self, serial: str) -> GetDeviceSwitchWarmSpareResponse | None:
         """Return warm spare configuration for a switch.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device-switch-warm-spare
@@ -1111,7 +1109,7 @@ class Switch:
         )
 
     def get_network_switch_access_control_lists(
-        self, *, network_id: str
+        self, network_id: str
     ) -> GetNetworkSwitchAccessControlListsResponse | None:
         """Return the access control lists for a MS network.
 
@@ -1160,7 +1158,7 @@ class Switch:
         )
 
     def get_network_switch_access_policies(
-        self, *, network_id: str
+        self, network_id: str
     ) -> GetNetworkSwitchAccessPoliciesResponse | None:
         """List the access policies for a switch network.
 
@@ -1495,7 +1493,7 @@ class Switch:
         )
 
     def get_network_switch_alternate_management_interface(
-        self, *, network_id: str
+        self, network_id: str
     ) -> GetNetworkSwitchAlternateManagementInterfaceResponse | None:
         """Return the switch alternate management interface for the network.
 
@@ -1517,8 +1515,8 @@ class Switch:
 
     def update_network_switch_alternate_management_interface(
         self,
-        *,
         network_id: str,
+        *,
         enabled: bool | None = None,
         vlan_id: int | None = None,
         protocols: list[str] | None = None,
@@ -1566,8 +1564,8 @@ class Switch:
 
     def get_network_switch_dhcp_v4_servers_seen(
         self,
-        *,
         network_id: str,
+        *,
         t0: str | None = None,
         timespan: float | None = None,
         per_page: int | None = None,
@@ -1628,7 +1626,7 @@ class Switch:
         )
 
     def get_network_switch_dhcp_server_policy(
-        self, *, network_id: str
+        self, network_id: str
     ) -> GetNetworkSwitchDhcpServerPolicyResponse | None:
         """Return the DHCP server settings.
 
@@ -1650,8 +1648,8 @@ class Switch:
 
     def update_network_switch_dhcp_server_policy(
         self,
-        *,
         network_id: str,
+        *,
         alerts: UpdateNetworkSwitchDhcpServerPolicyAlerts | None = None,
         default_policy: str | None = None,
         allowed_servers: list[str] | None = None,
@@ -1704,8 +1702,8 @@ class Switch:
 
     def get_network_switch_dhcp_server_policy_arp_inspection_trusted_servers(
         self,
-        *,
         network_id: str,
+        *,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
@@ -1857,8 +1855,8 @@ class Switch:
 
     def get_network_switch_dhcp_server_policy_arp_inspection_warnings_by_device(
         self,
-        *,
         network_id: str,
+        *,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
@@ -1910,7 +1908,7 @@ class Switch:
         )
 
     def get_network_switch_dscp_to_cos_mappings(
-        self, *, network_id: str
+        self, network_id: str
     ) -> GetNetworkSwitchDscpToCosMappingsResponse | None:
         """Return the DSCP to CoS mappings.
 
@@ -1961,7 +1959,7 @@ class Switch:
         )
 
     def get_network_switch_link_aggregations(
-        self, *, network_id: str
+        self, network_id: str
     ) -> GetNetworkSwitchLinkAggregationsResponse | None:
         """List link aggregation groups.
 
@@ -1983,8 +1981,8 @@ class Switch:
 
     def create_network_switch_link_aggregation(
         self,
-        *,
         network_id: str,
+        *,
         switch_ports: list[CreateNetworkSwitchLinkAggregationSwitchPortsItem] | None = None,
         switch_profile_ports: list[CreateNetworkSwitchLinkAggregationSwitchProfilePortsItem]
         | None = None,
@@ -2086,7 +2084,7 @@ class Switch:
             scope="switch", operation_id="deleteNetworkSwitchLinkAggregation", path=path
         )
 
-    def get_network_switch_mtu(self, *, network_id: str) -> GetNetworkSwitchMtuResponse | None:
+    def get_network_switch_mtu(self, network_id: str) -> GetNetworkSwitchMtuResponse | None:
         """Return the MTU configuration.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-switch-mtu
@@ -2107,8 +2105,8 @@ class Switch:
 
     def update_network_switch_mtu(
         self,
-        *,
         network_id: str,
+        *,
         default_mtu_size: int | None = None,
         overrides: list[UpdateNetworkSwitchMtuOverridesItem] | None = None,
     ) -> UpdateNetworkSwitchMtuResponse | None:
@@ -2143,7 +2141,7 @@ class Switch:
         )
 
     def get_network_switch_port_schedules(
-        self, *, network_id: str
+        self, network_id: str
     ) -> GetNetworkSwitchPortSchedulesResponse | None:
         """List switch port schedules.
 
@@ -2261,7 +2259,7 @@ class Switch:
         )
 
     def get_network_switch_qos_rules(
-        self, *, network_id: str
+        self, network_id: str
     ) -> GetNetworkSwitchQosRulesResponse | None:
         """List quality of service rules.
 
@@ -2347,7 +2345,7 @@ class Switch:
         )
 
     def get_network_switch_qos_rules_order(
-        self, *, network_id: str
+        self, network_id: str
     ) -> GetNetworkSwitchQosRulesOrderResponse | None:
         """Return the quality of service rule IDs by order in which they will be processed by the switch.
 
@@ -2505,7 +2503,7 @@ class Switch:
         )
 
     def get_network_switch_routing_multicast(
-        self, *, network_id: str
+        self, network_id: str
     ) -> GetNetworkSwitchRoutingMulticastResponse | None:
         """Return multicast settings for a network.
 
@@ -2527,8 +2525,8 @@ class Switch:
 
     def update_network_switch_routing_multicast(
         self,
-        *,
         network_id: str,
+        *,
         default_settings: UpdateNetworkSwitchRoutingMulticastDefaultSettings | None = None,
         overrides: list[UpdateNetworkSwitchRoutingMulticastOverridesItem] | None = None,
     ) -> UpdateNetworkSwitchRoutingMulticastResponse | None:
@@ -2566,7 +2564,7 @@ class Switch:
         )
 
     def get_network_switch_routing_multicast_rendezvous_points(
-        self, *, network_id: str
+        self, network_id: str
     ) -> GetNetworkSwitchRoutingMulticastRendezvousPointsResponse | None:
         """List multicast rendezvous points.
 
@@ -2711,7 +2709,7 @@ class Switch:
         )
 
     def get_network_switch_routing_ospf(
-        self, *, network_id: str, vrf: str | None = None
+        self, network_id: str, *, vrf: str | None = None
     ) -> GetNetworkSwitchRoutingOspfResponse | None:
         """Return layer 3 OSPF routing configuration.
 
@@ -2740,8 +2738,8 @@ class Switch:
 
     def update_network_switch_routing_ospf(
         self,
-        *,
         network_id: str,
+        *,
         vrf: str | None = None,
         enabled: bool | None = None,
         hello_timer_in_seconds: int | None = None,
@@ -2808,7 +2806,7 @@ class Switch:
         )
 
     def get_network_switch_settings(
-        self, *, network_id: str
+        self, network_id: str
     ) -> GetNetworkSwitchSettingsResponse | None:
         """Returns the switch network settings.
 
@@ -2830,8 +2828,8 @@ class Switch:
 
     def update_network_switch_settings(
         self,
-        *,
         network_id: str,
+        *,
         vlan: int | None = None,
         use_combined_power: bool | None = None,
         power_exceptions: list[UpdateNetworkSwitchSettingsPowerExceptionsItem] | None = None,
@@ -2885,9 +2883,7 @@ class Switch:
             response_schema=UpdateNetworkSwitchSettingsResponse,
         )
 
-    def get_network_switch_stacks(
-        self, *, network_id: str
-    ) -> GetNetworkSwitchStacksResponse | None:
+    def get_network_switch_stacks(self, network_id: str) -> GetNetworkSwitchStacksResponse | None:
         """List the switch stacks in a network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-switch-stacks
@@ -3637,7 +3633,7 @@ class Switch:
         )
 
     def get_network_switch_storm_control(
-        self, *, network_id: str
+        self, network_id: str
     ) -> GetNetworkSwitchStormControlResponse | None:
         """Return the storm control configuration for a switch network.
 
@@ -3659,8 +3655,8 @@ class Switch:
 
     def update_network_switch_storm_control(
         self,
-        *,
         network_id: str,
+        *,
         broadcast_threshold: int | None = None,
         multicast_threshold: int | None = None,
         unknown_unicast_threshold: int | None = None,
@@ -3707,7 +3703,7 @@ class Switch:
             response_schema=UpdateNetworkSwitchStormControlResponse,
         )
 
-    def get_network_switch_stp(self, *, network_id: str) -> GetNetworkSwitchStpResponse | None:
+    def get_network_switch_stp(self, network_id: str) -> GetNetworkSwitchStpResponse | None:
         """Returns STP settings.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-switch-stp
@@ -3728,8 +3724,8 @@ class Switch:
 
     def update_network_switch_stp(
         self,
-        *,
         network_id: str,
+        *,
         rstp_enabled: bool | None = None,
         stp_bridge_priority: list[UpdateNetworkSwitchStpStpBridgePriorityItem] | None = None,
     ) -> UpdateNetworkSwitchStpResponse | None:
@@ -4022,8 +4018,8 @@ class Switch:
 
     def get_organization_summary_switch_power_history(
         self,
-        *,
         organization_id: str,
+        *,
         t0: str | None = None,
         t1: str | None = None,
         timespan: float | None = None,
@@ -4094,8 +4090,8 @@ class Switch:
 
     def get_organization_switch_ports_by_switch(
         self,
-        *,
         organization_id: str,
+        *,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
@@ -4186,8 +4182,8 @@ class Switch:
 
     def get_organization_switch_ports_clients_overview_by_device(
         self,
-        *,
         organization_id: str,
+        *,
         t0: str | None = None,
         timespan: float | None = None,
         per_page: int | None = None,
@@ -4289,8 +4285,8 @@ class Switch:
 
     def get_organization_switch_ports_overview(
         self,
-        *,
         organization_id: str,
+        *,
         t0: str | None = None,
         t1: str | None = None,
         timespan: float | None = None,
@@ -4330,8 +4326,8 @@ class Switch:
 
     def get_organization_switch_ports_statuses_by_switch(
         self,
-        *,
         organization_id: str,
+        *,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
@@ -4422,8 +4418,8 @@ class Switch:
 
     def get_organization_switch_ports_topology_discovery_by_device(
         self,
-        *,
         organization_id: str,
+        *,
         t0: str | None = None,
         timespan: float | None = None,
         per_page: int | None = None,
@@ -4525,8 +4521,8 @@ class Switch:
 
     def get_organization_switch_ports_usage_history_by_device_by_interval(
         self,
-        *,
         organization_id: str,
+        *,
         t0: str | None = None,
         t1: str | None = None,
         timespan: float | None = None,

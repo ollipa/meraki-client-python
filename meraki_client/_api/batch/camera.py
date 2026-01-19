@@ -23,8 +23,8 @@ class ActionBatchCamera:
 
     def update_device_camera_custom_analytics(
         self,
-        *,
         serial: str,
+        *,
         enabled: bool | None = None,
         artifact_id: str | None = None,
         parameters: list[UpdateDeviceCameraCustomAnalyticsParametersItem] | None = None,
@@ -61,8 +61,8 @@ class ActionBatchCamera:
 
     def update_device_camera_quality_and_retention(
         self,
-        *,
         serial: str,
+        *,
         profile_id: str | None = None,
         motion_based_retention_enabled: bool | None = None,
         audio_recording_enabled: bool | None = None,
@@ -148,8 +148,8 @@ class ActionBatchCamera:
 
     def update_device_camera_sense(
         self,
-        *,
         serial: str,
+        *,
         sense_enabled: bool | None = None,
         mqtt_broker_id: str | None = None,
         audio_detection: UpdateDeviceCameraSenseAudioDetection | None = None,
@@ -189,7 +189,7 @@ class ActionBatchCamera:
         }
 
     def update_device_camera_video_settings(
-        self, *, serial: str, external_rtsp_enabled: bool | None = None
+        self, serial: str, *, external_rtsp_enabled: bool | None = None
     ) -> dict[str, Any]:
         """Update video settings for the given camera.
 

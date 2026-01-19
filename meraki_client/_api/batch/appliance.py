@@ -69,8 +69,8 @@ class ActionBatchAppliance:
 
     def update_device_appliance_radio_settings(
         self,
-        *,
         serial: str,
+        *,
         rf_profile_id: str | None = None,
         two_four_ghz_settings: UpdateDeviceApplianceRadioSettingsTwoFourGhzSettings | None = None,
         five_ghz_settings: UpdateDeviceApplianceRadioSettingsFiveGhzSettings | None = None,
@@ -136,7 +136,7 @@ class ActionBatchAppliance:
             "body": payload,
         }
 
-    def create_device_appliance_vmx_authentication_token(self, *, serial: str) -> dict[str, Any]:
+    def create_device_appliance_vmx_authentication_token(self, serial: str) -> dict[str, Any]:
         """Generate a new vMX authentication token.
 
         https://developer.cisco.com/meraki/api-v1/#!create-device-appliance-vmx-authentication-token
@@ -155,8 +155,8 @@ class ActionBatchAppliance:
 
     def update_network_appliance_connectivity_monitoring_destinations(
         self,
-        *,
         network_id: str,
+        *,
         destinations: list[UpdateNetworkApplianceConnectivityMonitoringDestinationsDestinationsItem]
         | None = None,
     ) -> dict[str, Any]:
@@ -186,8 +186,8 @@ class ActionBatchAppliance:
 
     def update_network_appliance_firewall_l7_firewall_rules(
         self,
-        *,
         network_id: str,
+        *,
         rules: list[UpdateNetworkApplianceFirewallL7FirewallRulesRulesItem] | None = None,
     ) -> dict[str, Any]:
         """Update the MX L7 firewall rules for an MX network.
@@ -512,8 +512,8 @@ class ActionBatchAppliance:
 
     def update_network_appliance_sdwan_internet_policies(
         self,
-        *,
         network_id: str,
+        *,
         wan_traffic_uplink_preferences: list[
             UpdateNetworkApplianceSdwanInternetPoliciesWanTrafficUplinkPreferencesItem
         ]
@@ -547,8 +547,8 @@ class ActionBatchAppliance:
 
     def update_network_appliance_settings(
         self,
-        *,
         network_id: str,
+        *,
         client_tracking_method: str | None = None,
         deployment_mode: str | None = None,
         dynamic_dns: UpdateNetworkApplianceSettingsDynamicDns | None = None,
@@ -594,8 +594,8 @@ class ActionBatchAppliance:
 
     def update_network_appliance_single_lan(
         self,
-        *,
         network_id: str,
+        *,
         subnet: str | None = None,
         appliance_ip: str | None = None,
         ipv6: UpdateNetworkApplianceSingleLanIpv6 | None = None,
@@ -843,8 +843,8 @@ class ActionBatchAppliance:
 
     def update_network_appliance_traffic_shaping_rules(
         self,
-        *,
         network_id: str,
+        *,
         default_rules_enabled: bool | None = None,
         rules: list[UpdateNetworkApplianceTrafficShapingRulesRulesItem] | None = None,
     ) -> dict[str, Any]:
@@ -880,8 +880,8 @@ class ActionBatchAppliance:
 
     def update_network_appliance_traffic_shaping_uplink_bandwidth(
         self,
-        *,
         network_id: str,
+        *,
         bandwidth_limits: UpdateNetworkApplianceTrafficShapingUplinkBandwidthBandwidthLimits
         | None = None,
     ) -> dict[str, Any]:
@@ -912,8 +912,8 @@ class ActionBatchAppliance:
 
     def update_network_appliance_traffic_shaping_uplink_selection(
         self,
-        *,
         network_id: str,
+        *,
         active_active_auto_vpn_enabled: bool | None = None,
         default_uplink: str | None = None,
         load_balancing_enabled: bool | None = None,
@@ -975,8 +975,8 @@ class ActionBatchAppliance:
 
     def update_network_appliance_traffic_shaping_vpn_exclusions(
         self,
-        *,
         network_id: str,
+        *,
         custom: list[UpdateNetworkApplianceTrafficShapingVpnExclusionsCustomItem] | None = None,
         major_applications: list[
             UpdateNetworkApplianceTrafficShapingVpnExclusionsMajorApplicationsItem
@@ -1142,7 +1142,7 @@ class ActionBatchAppliance:
         }
 
     def update_network_appliance_vlans_settings(
-        self, *, network_id: str, vlans_enabled: bool | None = None
+        self, network_id: str, *, vlans_enabled: bool | None = None
     ) -> dict[str, Any]:
         """Enable/Disable VLANs for the given network.
 
@@ -1480,7 +1480,7 @@ class ActionBatchAppliance:
             "body": payload,
         }
 
-    def swap_network_appliance_warm_spare(self, *, network_id: str) -> dict[str, Any]:
+    def swap_network_appliance_warm_spare(self, network_id: str) -> dict[str, Any]:
         """Swap MX primary and warm spare appliances.
 
         https://developer.cisco.com/meraki/api-v1/#!swap-network-appliance-warm-spare
@@ -1886,8 +1886,8 @@ class ActionBatchAppliance:
 
     def update_organization_appliance_vpn_site_to_site_ipsec_peers_slas(
         self,
-        *,
         organization_id: str,
+        *,
         items: list[UpdateOrganizationApplianceVpnSiteToSiteIpsecPeersSlasItemsItem] | None = None,
     ) -> dict[str, Any]:
         """Update the IPsec SLA policies for an organization.

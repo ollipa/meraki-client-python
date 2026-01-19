@@ -189,7 +189,7 @@ class Networks:
     def __init__(self, session: Session) -> None:
         self._session = session
 
-    async def get_network(self, *, network_id: str) -> GetNetworkResponse | None:
+    async def get_network(self, network_id: str) -> GetNetworkResponse | None:
         """Return a network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network
@@ -210,8 +210,8 @@ class Networks:
 
     async def update_network(
         self,
-        *,
         network_id: str,
+        *,
         name: str | None = None,
         time_zone: str | None = None,
         tags: list[str] | None = None,
@@ -260,7 +260,7 @@ class Networks:
             response_schema=UpdateNetworkResponse,
         )
 
-    async def delete_network(self, *, network_id: str) -> None:
+    async def delete_network(self, network_id: str) -> None:
         """Delete a network.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-network
@@ -276,8 +276,8 @@ class Networks:
 
     def get_network_alerts_history(
         self,
-        *,
         network_id: str,
+        *,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
@@ -327,7 +327,7 @@ class Networks:
         )
 
     async def get_network_alerts_settings(
-        self, *, network_id: str
+        self, network_id: str
     ) -> GetNetworkAlertsSettingsResponse | None:
         """Return the alert configuration for this network.
 
@@ -349,8 +349,8 @@ class Networks:
 
     async def update_network_alerts_settings(
         self,
-        *,
         network_id: str,
+        *,
         default_destinations: UpdateNetworkAlertsSettingsDefaultDestinations | None = None,
         alerts: list[UpdateNetworkAlertsSettingsAlertsItem] | None = None,
         muting: UpdateNetworkAlertsSettingsMuting | None = None,
@@ -426,8 +426,8 @@ class Networks:
 
     def get_network_bluetooth_clients(
         self,
-        *,
         network_id: str,
+        *,
         t0: str | None = None,
         timespan: float | None = None,
         per_page: int | None = None,
@@ -531,8 +531,8 @@ class Networks:
 
     def get_network_clients(
         self,
-        *,
         network_id: str,
+        *,
         t0: str | None = None,
         timespan: float | None = None,
         per_page: int | None = None,
@@ -722,8 +722,8 @@ class Networks:
 
     def get_network_clients_bandwidth_usage_history(
         self,
-        *,
         network_id: str,
+        *,
         t0: str | None = None,
         t1: str | None = None,
         timespan: float | None = None,
@@ -789,8 +789,8 @@ class Networks:
 
     async def get_network_clients_overview(
         self,
-        *,
         network_id: str,
+        *,
         t0: str | None = None,
         t1: str | None = None,
         timespan: float | None = None,
@@ -1196,7 +1196,7 @@ class Networks:
             response_schema=GetNetworkClientUsageHistoryResponse,
         )
 
-    async def get_network_devices(self, *, network_id: str) -> GetNetworkDevicesResponse | None:
+    async def get_network_devices(self, network_id: str) -> GetNetworkDevicesResponse | None:
         """List the devices in a network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-devices
@@ -1314,8 +1314,8 @@ class Networks:
 
     def get_network_events(
         self,
-        *,
         network_id: str,
+        *,
         product_type: str | None = None,
         included_event_types: list[str] | None = None,
         excluded_event_types: list[str] | None = None,
@@ -1457,7 +1457,7 @@ class Networks:
         )
 
     async def get_network_events_event_types(
-        self, *, network_id: str
+        self, network_id: str
     ) -> GetNetworkEventsEventTypesResponse | None:
         """List the event type to human-readable description.
 
@@ -1478,7 +1478,7 @@ class Networks:
         )
 
     async def get_network_firmware_upgrades(
-        self, *, network_id: str
+        self, network_id: str
     ) -> GetNetworkFirmwareUpgradesResponse | None:
         """Get firmware upgrade information for a network.
 
@@ -1500,8 +1500,8 @@ class Networks:
 
     async def update_network_firmware_upgrades(
         self,
-        *,
         network_id: str,
+        *,
         upgrade_window: UpdateNetworkFirmwareUpgradesUpgradeWindow | None = None,
         timezone: str | None = None,
         products: UpdateNetworkFirmwareUpgradesProducts | None = None,
@@ -1596,7 +1596,7 @@ class Networks:
         )
 
     async def get_network_firmware_upgrades_staged_events(
-        self, *, network_id: str
+        self, network_id: str
     ) -> GetNetworkFirmwareUpgradesStagedEventsResponse | None:
         """Get the Staged Upgrade Event from a network.
 
@@ -1682,7 +1682,7 @@ class Networks:
         )
 
     async def defer_network_firmware_upgrades_staged_events(
-        self, *, network_id: str
+        self, network_id: str
     ) -> DeferNetworkFirmwareUpgradesStagedEventsResponse | None:
         """Postpone by 1 week all pending staged upgrade stages for a network.
 
@@ -1742,7 +1742,7 @@ class Networks:
         )
 
     async def get_network_firmware_upgrades_staged_groups(
-        self, *, network_id: str
+        self, network_id: str
     ) -> GetNetworkFirmwareUpgradesStagedGroupsResponse | None:
         """List of Staged Upgrade Groups in a network.
 
@@ -1901,7 +1901,7 @@ class Networks:
         )
 
     async def get_network_firmware_upgrades_staged_stages(
-        self, *, network_id: str
+        self, network_id: str
     ) -> GetNetworkFirmwareUpgradesStagedStagesResponse | None:
         """Order of Staged Upgrade Groups in a network.
 
@@ -1923,8 +1923,8 @@ class Networks:
 
     async def update_network_firmware_upgrades_staged_stages(
         self,
-        *,
         network_id: str,
+        *,
         _json: list[UpdateNetworkFirmwareUpgradesStagedStagesJsonItem] | None = None,
     ) -> UpdateNetworkFirmwareUpgradesStagedStagesResponse | None:
         """Assign Staged Upgrade Group order in the sequence.
@@ -1951,9 +1951,7 @@ class Networks:
             response_schema=UpdateNetworkFirmwareUpgradesStagedStagesResponse,
         )
 
-    async def get_network_floor_plans(
-        self, *, network_id: str
-    ) -> GetNetworkFloorPlansResponse | None:
+    async def get_network_floor_plans(self, network_id: str) -> GetNetworkFloorPlansResponse | None:
         """List the floor plans that belong to your network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-floor-plans
@@ -2324,7 +2322,7 @@ class Networks:
         )
 
     async def get_network_group_policies(
-        self, *, network_id: str
+        self, network_id: str
     ) -> GetNetworkGroupPoliciesResponse | None:
         """List the group policies in a network.
 
@@ -2554,7 +2552,7 @@ class Networks:
         )
 
     async def get_network_health_alerts(
-        self, *, network_id: str
+        self, network_id: str
     ) -> GetNetworkHealthAlertsResponse | None:
         """Return all global alerts on this network.
 
@@ -2575,7 +2573,7 @@ class Networks:
         )
 
     async def get_network_meraki_auth_users(
-        self, *, network_id: str
+        self, network_id: str
     ) -> GetNetworkMerakiAuthUsersResponse | None:
         """List the authorized users configured under Meraki Authentication for a network (splash guest or RADIUS users for a wireless network, or client VPN users for a MX network).
 
@@ -2761,7 +2759,7 @@ class Networks:
         )
 
     async def get_network_mqtt_brokers(
-        self, *, network_id: str
+        self, network_id: str
     ) -> GetNetworkMqttBrokersResponse | None:
         """List the MQTT brokers for this network.
 
@@ -2917,7 +2915,7 @@ class Networks:
             scope="networks", operation_id="deleteNetworkMqttBroker", path=path
         )
 
-    async def get_network_netflow(self, *, network_id: str) -> GetNetworkNetflowResponse | None:
+    async def get_network_netflow(self, network_id: str) -> GetNetworkNetflowResponse | None:
         """Return the NetFlow traffic reporting settings for a network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-netflow
@@ -2938,8 +2936,8 @@ class Networks:
 
     async def update_network_netflow(
         self,
-        *,
         network_id: str,
+        *,
         reporting_enabled: bool | None = None,
         collector_ip: str | None = None,
         collector_port: int | None = None,
@@ -2987,8 +2985,8 @@ class Networks:
 
     def get_network_network_health_channel_utilization(
         self,
-        *,
         network_id: str,
+        *,
         t0: str | None = None,
         t1: str | None = None,
         timespan: float | None = None,
@@ -3059,8 +3057,8 @@ class Networks:
 
     async def get_network_pii_pii_keys(
         self,
-        *,
         network_id: str,
+        *,
         username: str | None = None,
         email: str | None = None,
         mac: str | None = None,
@@ -3108,7 +3106,7 @@ class Networks:
         )
 
     async def get_network_pii_requests(
-        self, *, network_id: str
+        self, network_id: str
     ) -> GetNetworkPiiRequestsResponse | None:
         """List the PII requests for this network or organization.
 
@@ -3130,8 +3128,8 @@ class Networks:
 
     async def create_network_pii_request(
         self,
-        *,
         network_id: str,
+        *,
         type_: str | None = None,
         datasets: list[str] | None = None,
         username: str | None = None,
@@ -3241,8 +3239,8 @@ class Networks:
 
     async def get_network_pii_sm_devices_for_key(
         self,
-        *,
         network_id: str,
+        *,
         username: str | None = None,
         email: str | None = None,
         mac: str | None = None,
@@ -3291,8 +3289,8 @@ class Networks:
 
     async def get_network_pii_sm_owners_for_key(
         self,
-        *,
         network_id: str,
+        *,
         username: str | None = None,
         email: str | None = None,
         mac: str | None = None,
@@ -3341,8 +3339,8 @@ class Networks:
 
     def get_network_policies_by_client(
         self,
-        *,
         network_id: str,
+        *,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
@@ -3402,7 +3400,7 @@ class Networks:
             item_schema=GetNetworkPoliciesByClientResponseItem,
         )
 
-    async def get_network_settings(self, *, network_id: str) -> GetNetworkSettingsResponse | None:
+    async def get_network_settings(self, network_id: str) -> GetNetworkSettingsResponse | None:
         """Return the settings for a network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-settings
@@ -3423,8 +3421,8 @@ class Networks:
 
     async def update_network_settings(
         self,
-        *,
         network_id: str,
+        *,
         local_status_page_enabled: bool | None = None,
         remote_status_page_enabled: bool | None = None,
         local_status_page: UpdateNetworkSettingsLocalStatusPage | None = None,
@@ -3477,7 +3475,7 @@ class Networks:
             response_schema=UpdateNetworkSettingsResponse,
         )
 
-    async def get_network_snmp(self, *, network_id: str) -> GetNetworkSnmpResponse | None:
+    async def get_network_snmp(self, network_id: str) -> GetNetworkSnmpResponse | None:
         """Return the SNMP settings for a network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-snmp
@@ -3498,8 +3496,8 @@ class Networks:
 
     async def update_network_snmp(
         self,
-        *,
         network_id: str,
+        *,
         access: str | None = None,
         community_string: str | None = None,
         users: list[UpdateNetworkSnmpUsersItem] | None = None,
@@ -3544,8 +3542,8 @@ class Networks:
 
     async def get_network_splash_login_attempts(
         self,
-        *,
         network_id: str,
+        *,
         ssid_number: int | None = None,
         login_identifier: str | None = None,
         timespan: int | None = None,
@@ -3587,7 +3585,7 @@ class Networks:
             response_schema=GetNetworkSplashLoginAttemptsResponse,
         )
 
-    async def split_network(self, *, network_id: str) -> SplitNetworkResponse | None:
+    async def split_network(self, network_id: str) -> SplitNetworkResponse | None:
         """Split a combined network into individual networks for each type of device.
 
         https://developer.cisco.com/meraki/api-v1/#!split-network
@@ -3607,7 +3605,7 @@ class Networks:
         )
 
     async def get_network_syslog_servers(
-        self, *, network_id: str
+        self, network_id: str
     ) -> GetNetworkSyslogServersResponse | None:
         """List the syslog servers for a network.
 
@@ -3657,7 +3655,7 @@ class Networks:
         )
 
     async def get_network_topology_link_layer(
-        self, *, network_id: str
+        self, network_id: str
     ) -> GetNetworkTopologyLinkLayerResponse | None:
         """List the LLDP and CDP information for all discovered devices and connections in a network.
 
@@ -3679,8 +3677,8 @@ class Networks:
 
     async def get_network_traffic(
         self,
-        *,
         network_id: str,
+        *,
         t0: str | None = None,
         timespan: float | None = None,
         device_type: str | None = None,
@@ -3727,7 +3725,7 @@ class Networks:
         )
 
     async def get_network_traffic_analysis(
-        self, *, network_id: str
+        self, network_id: str
     ) -> GetNetworkTrafficAnalysisResponse | None:
         """Return the traffic analysis settings for a network.
 
@@ -3749,8 +3747,8 @@ class Networks:
 
     async def update_network_traffic_analysis(
         self,
-        *,
         network_id: str,
+        *,
         mode: str | None = None,
         custom_pie_chart_items: list[UpdateNetworkTrafficAnalysisCustomPieChartItemsItem]
         | None = None,
@@ -3792,7 +3790,7 @@ class Networks:
         )
 
     async def get_network_traffic_shaping_application_categories(
-        self, *, network_id: str
+        self, network_id: str
     ) -> dict[str, Any] | None:
         """Returns the application categories for traffic shaping rules.
 
@@ -3812,7 +3810,7 @@ class Networks:
         )
 
     async def get_network_traffic_shaping_dscp_tagging_options(
-        self, *, network_id: str
+        self, network_id: str
     ) -> GetNetworkTrafficShapingDscpTaggingOptionsResponse | None:
         """Returns the available DSCP tagging options for your traffic shaping rules.
 
@@ -3833,7 +3831,7 @@ class Networks:
         )
 
     async def unbind_network(
-        self, *, network_id: str, retain_configs: bool | None = None
+        self, network_id: str, *, retain_configs: bool | None = None
     ) -> UnbindNetworkResponse | None:
         """Unbind a network from a template.
 
@@ -3861,7 +3859,7 @@ class Networks:
         )
 
     async def get_network_vlan_profiles(
-        self, *, network_id: str
+        self, network_id: str
     ) -> GetNetworkVlanProfilesResponse | None:
         """List VLAN profiles for a network.
 
@@ -3929,8 +3927,8 @@ class Networks:
 
     def get_network_vlan_profiles_assignments_by_device(
         self,
-        *,
         network_id: str,
+        *,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
@@ -4117,7 +4115,7 @@ class Networks:
         )
 
     async def get_network_webhooks_http_servers(
-        self, *, network_id: str
+        self, network_id: str
     ) -> GetNetworkWebhooksHttpServersResponse | None:
         """List the HTTP servers for a network.
 
@@ -4270,7 +4268,7 @@ class Networks:
         )
 
     async def get_network_webhooks_payload_templates(
-        self, *, network_id: str
+        self, network_id: str
     ) -> GetNetworkWebhooksPayloadTemplatesResponse | None:
         """List the webhook payload templates for a network.
 

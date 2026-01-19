@@ -114,8 +114,8 @@ class Sm:
 
     def get_network_sm_devices(
         self,
-        *,
         network_id: str,
+        *,
         fields: list[str] | None = None,
         wifi_macs: list[str] | None = None,
         serials: list[str] | None = None,
@@ -207,8 +207,8 @@ class Sm:
 
     def checkin_network_sm_devices(
         self,
-        *,
         network_id: str,
+        *,
         wifi_macs: list[str] | None = None,
         ids: list[str] | None = None,
         serials: list[str] | None = None,
@@ -292,8 +292,8 @@ class Sm:
 
     def lock_network_sm_devices(
         self,
-        *,
         network_id: str,
+        *,
         wifi_macs: list[str] | None = None,
         ids: list[str] | None = None,
         serials: list[str] | None = None,
@@ -439,8 +439,8 @@ class Sm:
 
     def reboot_network_sm_devices(
         self,
-        *,
         network_id: str,
+        *,
         wifi_macs: list[str] | None = None,
         ids: list[str] | None = None,
         serials: list[str] | None = None,
@@ -501,8 +501,8 @@ class Sm:
 
     def shutdown_network_sm_devices(
         self,
-        *,
         network_id: str,
+        *,
         wifi_macs: list[str] | None = None,
         ids: list[str] | None = None,
         serials: list[str] | None = None,
@@ -544,8 +544,8 @@ class Sm:
 
     def wipe_network_sm_devices(
         self,
-        *,
         network_id: str,
+        *,
         wifi_mac: str | None = None,
         id_: str | None = None,
         serial: str | None = None,
@@ -1088,7 +1088,7 @@ class Sm:
         )
 
     def get_network_sm_profiles(
-        self, *, network_id: str, payload_types: list[str] | None = None
+        self, network_id: str, *, payload_types: list[str] | None = None
     ) -> GetNetworkSmProfilesResponse | None:
         """List all profiles in a network.
 
@@ -1115,7 +1115,7 @@ class Sm:
         )
 
     def get_network_sm_target_groups(
-        self, *, network_id: str, with_details: bool | None = None
+        self, network_id: str, *, with_details: bool | None = None
     ) -> GetNetworkSmTargetGroupsResponse | None:
         """List the target groups in this network.
 
@@ -1143,7 +1143,7 @@ class Sm:
         )
 
     def create_network_sm_target_group(
-        self, *, network_id: str, name: str | None = None, scope: str | None = None
+        self, network_id: str, *, name: str | None = None, scope: str | None = None
     ) -> CreateNetworkSmTargetGroupResponse | None:
         """Add a target group.
 
@@ -1263,8 +1263,8 @@ class Sm:
 
     def get_network_sm_trusted_access_configs(
         self,
-        *,
         network_id: str,
+        *,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
@@ -1315,8 +1315,8 @@ class Sm:
 
     def get_network_sm_user_access_devices(
         self,
-        *,
         network_id: str,
+        *,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
@@ -1387,8 +1387,8 @@ class Sm:
 
     def get_network_sm_users(
         self,
-        *,
         network_id: str,
+        *,
         ids: list[str] | None = None,
         usernames: list[str] | None = None,
         emails: list[str] | None = None,
@@ -1476,8 +1476,8 @@ class Sm:
 
     def get_organization_sm_admins_roles(
         self,
-        *,
         organization_id: str,
+        *,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
@@ -1659,7 +1659,7 @@ class Sm:
         )
 
     def get_organization_sm_apns_cert(
-        self, *, organization_id: str
+        self, organization_id: str
     ) -> GetOrganizationSmApnsCertResponse | None:
         """Get the organization's APNS certificate.
 
@@ -1711,8 +1711,8 @@ class Sm:
 
     def get_organization_sm_sentry_policies_assignments_by_network(
         self,
-        *,
         organization_id: str,
+        *,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
@@ -1766,7 +1766,7 @@ class Sm:
         )
 
     def get_organization_sm_vpp_accounts(
-        self, *, organization_id: str
+        self, organization_id: str
     ) -> GetOrganizationSmVppAccountsResponse | None:
         """List the VPP accounts in the organization.
 

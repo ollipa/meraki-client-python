@@ -50,8 +50,8 @@ class Sensor:
 
     def get_device_sensor_commands(
         self,
-        *,
         serial: str,
+        *,
         operations: list[str] | None = None,
         per_page: int | None = None,
         starting_after: str | None = None,
@@ -198,7 +198,7 @@ class Sensor:
         )
 
     def get_device_sensor_relationships(
-        self, *, serial: str
+        self, serial: str
     ) -> GetDeviceSensorRelationshipsResponse | None:
         """List the sensor roles for a given sensor or camera device.
 
@@ -219,7 +219,7 @@ class Sensor:
         )
 
     def update_device_sensor_relationships(
-        self, *, serial: str, livestream: UpdateDeviceSensorRelationshipsLivestream | None = None
+        self, serial: str, *, livestream: UpdateDeviceSensorRelationshipsLivestream | None = None
     ) -> UpdateDeviceSensorRelationshipsResponse | None:
         """Assign one or more sensor roles to a given sensor or camera device.
 
@@ -248,7 +248,7 @@ class Sensor:
         )
 
     def get_network_sensor_alerts_current_overview_by_metric(
-        self, *, network_id: str
+        self, network_id: str
     ) -> GetNetworkSensorAlertsCurrentOverviewByMetricResponse | None:
         """Return an overview of currently alerting sensors by metric.
 
@@ -270,8 +270,8 @@ class Sensor:
 
     def get_network_sensor_alerts_overview_by_metric(
         self,
-        *,
         network_id: str,
+        *,
         t0: str | None = None,
         t1: str | None = None,
         timespan: float | None = None,
@@ -317,7 +317,7 @@ class Sensor:
         )
 
     def get_network_sensor_alerts_profiles(
-        self, *, network_id: str
+        self, network_id: str
     ) -> GetNetworkSensorAlertsProfilesResponse | None:
         """Lists all sensor alert profiles for a network.
 
@@ -494,7 +494,7 @@ class Sensor:
         )
 
     def get_network_sensor_mqtt_brokers(
-        self, *, network_id: str
+        self, network_id: str
     ) -> GetNetworkSensorMqttBrokersResponse | None:
         """List the sensor settings of all MQTT brokers for this network.
 
@@ -567,7 +567,7 @@ class Sensor:
         )
 
     def get_network_sensor_relationships(
-        self, *, network_id: str
+        self, network_id: str
     ) -> GetNetworkSensorRelationshipsResponse | None:
         """List the sensor roles for devices in a given network.
 
@@ -589,8 +589,8 @@ class Sensor:
 
     def get_organization_sensor_gateways_connections_latest(
         self,
-        *,
         organization_id: str,
+        *,
         sensor_serials: list[str] | None = None,
         per_page: int | None = None,
         starting_after: str | None = None,
@@ -645,8 +645,8 @@ class Sensor:
 
     def get_organization_sensor_readings_history(
         self,
-        *,
         organization_id: str,
+        *,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
@@ -725,8 +725,8 @@ class Sensor:
 
     def get_organization_sensor_readings_latest(
         self,
-        *,
         organization_id: str,
+        *,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,

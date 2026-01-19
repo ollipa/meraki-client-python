@@ -1029,8 +1029,8 @@ class ActionBatchSwitch:
 
     def update_network_switch_alternate_management_interface(
         self,
-        *,
         network_id: str,
+        *,
         enabled: bool | None = None,
         vlan_id: int | None = None,
         protocols: list[str] | None = None,
@@ -1076,8 +1076,8 @@ class ActionBatchSwitch:
 
     def update_network_switch_dhcp_server_policy(
         self,
-        *,
         network_id: str,
+        *,
         alerts: UpdateNetworkSwitchDhcpServerPolicyAlerts | None = None,
         default_policy: str | None = None,
         allowed_servers: list[str] | None = None,
@@ -1252,8 +1252,8 @@ class ActionBatchSwitch:
 
     def create_network_switch_link_aggregation(
         self,
-        *,
         network_id: str,
+        *,
         switch_ports: list[CreateNetworkSwitchLinkAggregationSwitchPortsItem] | None = None,
         switch_profile_ports: list[CreateNetworkSwitchLinkAggregationSwitchProfilePortsItem]
         | None = None,
@@ -1354,8 +1354,8 @@ class ActionBatchSwitch:
 
     def update_network_switch_mtu(
         self,
-        *,
         network_id: str,
+        *,
         default_mtu_size: int | None = None,
         overrides: list[UpdateNetworkSwitchMtuOverridesItem] | None = None,
     ) -> dict[str, Any]:
@@ -1603,8 +1603,8 @@ class ActionBatchSwitch:
 
     def update_network_switch_routing_multicast(
         self,
-        *,
         network_id: str,
+        *,
         default_settings: UpdateNetworkSwitchRoutingMulticastDefaultSettings | None = None,
         overrides: list[UpdateNetworkSwitchRoutingMulticastOverridesItem] | None = None,
     ) -> dict[str, Any]:
@@ -1737,8 +1737,8 @@ class ActionBatchSwitch:
 
     def update_network_switch_routing_ospf(
         self,
-        *,
         network_id: str,
+        *,
         vrf: str | None = None,
         enabled: bool | None = None,
         hello_timer_in_seconds: int | None = None,
@@ -1804,8 +1804,8 @@ class ActionBatchSwitch:
 
     def update_network_switch_settings(
         self,
-        *,
         network_id: str,
+        *,
         vlan: int | None = None,
         use_combined_power: bool | None = None,
         power_exceptions: list[UpdateNetworkSwitchSettingsPowerExceptionsItem] | None = None,
@@ -2308,8 +2308,8 @@ class ActionBatchSwitch:
 
     def update_network_switch_storm_control(
         self,
-        *,
         network_id: str,
+        *,
         broadcast_threshold: int | None = None,
         multicast_threshold: int | None = None,
         unknown_unicast_threshold: int | None = None,
@@ -2356,8 +2356,8 @@ class ActionBatchSwitch:
 
     def update_network_switch_stp(
         self,
-        *,
         network_id: str,
+        *,
         rstp_enabled: bool | None = None,
         stp_bridge_priority: list[UpdateNetworkSwitchStpStpBridgePriorityItem] | None = None,
     ) -> dict[str, Any]:

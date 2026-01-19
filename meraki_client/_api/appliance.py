@@ -191,7 +191,7 @@ class Appliance:
         self._session = session
 
     def get_device_appliance_dhcp_subnets(
-        self, *, serial: str
+        self, serial: str
     ) -> GetDeviceApplianceDhcpSubnetsResponse | None:
         """Return the DHCP subnet information for an appliance.
 
@@ -213,8 +213,8 @@ class Appliance:
 
     def get_device_appliance_performance(
         self,
-        *,
         serial: str,
+        *,
         t0: str | None = None,
         t1: str | None = None,
         timespan: float | None = None,
@@ -254,7 +254,7 @@ class Appliance:
         )
 
     def get_device_appliance_prefixes_delegated(
-        self, *, serial: str
+        self, serial: str
     ) -> GetDeviceAppliancePrefixesDelegatedResponse | None:
         """Return current delegated IPv6 prefixes on an appliance.
 
@@ -275,7 +275,7 @@ class Appliance:
         )
 
     def get_device_appliance_prefixes_delegated_vlan_assignments(
-        self, *, serial: str
+        self, serial: str
     ) -> GetDeviceAppliancePrefixesDelegatedVlanAssignmentsResponse | None:
         """Return prefixes assigned to all IPv6 enabled VLANs on an appliance.
 
@@ -296,7 +296,7 @@ class Appliance:
         )
 
     def get_device_appliance_radio_settings(
-        self, *, serial: str
+        self, serial: str
     ) -> GetDeviceApplianceRadioSettingsResponse | None:
         """Return the radio settings of an appliance.
 
@@ -318,8 +318,8 @@ class Appliance:
 
     def update_device_appliance_radio_settings(
         self,
-        *,
         serial: str,
+        *,
         rf_profile_id: str | None = None,
         two_four_ghz_settings: UpdateDeviceApplianceRadioSettingsTwoFourGhzSettings | None = None,
         five_ghz_settings: UpdateDeviceApplianceRadioSettingsFiveGhzSettings | None = None,
@@ -363,7 +363,7 @@ class Appliance:
         )
 
     def get_device_appliance_uplinks_settings(
-        self, *, serial: str
+        self, serial: str
     ) -> GetDeviceApplianceUplinksSettingsResponse | None:
         """Return the uplink settings for an MX appliance.
 
@@ -411,7 +411,7 @@ class Appliance:
         )
 
     def create_device_appliance_vmx_authentication_token(
-        self, *, serial: str
+        self, serial: str
     ) -> CreateDeviceApplianceVmxAuthenticationTokenResponse | None:
         """Generate a new vMX authentication token.
 
@@ -513,7 +513,7 @@ class Appliance:
         )
 
     def get_network_appliance_connectivity_monitoring_destinations(
-        self, *, network_id: str
+        self, network_id: str
     ) -> GetNetworkApplianceConnectivityMonitoringDestinationsResponse | None:
         """Return the connectivity testing destinations for an MX network.
 
@@ -535,8 +535,8 @@ class Appliance:
 
     def update_network_appliance_connectivity_monitoring_destinations(
         self,
-        *,
         network_id: str,
+        *,
         destinations: list[UpdateNetworkApplianceConnectivityMonitoringDestinationsDestinationsItem]
         | None = None,
     ) -> UpdateNetworkApplianceConnectivityMonitoringDestinationsResponse | None:
@@ -567,7 +567,7 @@ class Appliance:
         )
 
     def get_network_appliance_content_filtering(
-        self, *, network_id: str
+        self, network_id: str
     ) -> GetNetworkApplianceContentFilteringResponse | None:
         """Return the content filtering settings for an MX network.
 
@@ -589,8 +589,8 @@ class Appliance:
 
     def update_network_appliance_content_filtering(
         self,
-        *,
         network_id: str,
+        *,
         allowed_url_patterns: list[str] | None = None,
         blocked_url_patterns: list[str] | None = None,
         blocked_url_categories: list[str] | None = None,
@@ -636,7 +636,7 @@ class Appliance:
         )
 
     def get_network_appliance_content_filtering_categories(
-        self, *, network_id: str
+        self, network_id: str
     ) -> dict[str, Any] | None:
         """List all available content filtering categories for an MX network.
 
@@ -656,7 +656,7 @@ class Appliance:
         )
 
     def get_network_appliance_firewall_cellular_firewall_rules(
-        self, *, network_id: str
+        self, network_id: str
     ) -> dict[str, Any] | None:
         """Return the cellular firewall rules for an MX network.
 
@@ -677,8 +677,8 @@ class Appliance:
 
     def update_network_appliance_firewall_cellular_firewall_rules(
         self,
-        *,
         network_id: str,
+        *,
         rules: list[UpdateNetworkApplianceFirewallCellularFirewallRulesRulesItem] | None = None,
     ) -> dict[str, Any] | None:
         """Update the cellular firewall rules of an MX network.
@@ -705,7 +705,7 @@ class Appliance:
         )
 
     def get_network_appliance_firewall_firewalled_services(
-        self, *, network_id: str
+        self, network_id: str
     ) -> GetNetworkApplianceFirewallFirewalledServicesResponse | None:
         """List the appliance services and their accessibility rules.
 
@@ -793,7 +793,7 @@ class Appliance:
         )
 
     def get_network_appliance_firewall_inbound_cellular_firewall_rules(
-        self, *, network_id: str
+        self, network_id: str
     ) -> GetNetworkApplianceFirewallInboundCellularFirewallRulesResponse | None:
         """Return the inbound cellular firewall rules for an MX network.
 
@@ -815,8 +815,8 @@ class Appliance:
 
     def update_network_appliance_firewall_inbound_cellular_firewall_rules(
         self,
-        *,
         network_id: str,
+        *,
         rules: list[UpdateNetworkApplianceFirewallInboundCellularFirewallRulesRulesItem]
         | None = None,
     ) -> UpdateNetworkApplianceFirewallInboundCellularFirewallRulesResponse | None:
@@ -845,7 +845,7 @@ class Appliance:
         )
 
     def get_network_appliance_firewall_inbound_firewall_rules(
-        self, *, network_id: str
+        self, network_id: str
     ) -> GetNetworkApplianceFirewallInboundFirewallRulesResponse | None:
         """Return the inbound firewall rules for an MX network.
 
@@ -867,8 +867,8 @@ class Appliance:
 
     def update_network_appliance_firewall_inbound_firewall_rules(
         self,
-        *,
         network_id: str,
+        *,
         rules: list[UpdateNetworkApplianceFirewallInboundFirewallRulesRulesItem] | None = None,
         syslog_default_rule: bool | None = None,
     ) -> UpdateNetworkApplianceFirewallInboundFirewallRulesResponse | None:
@@ -901,7 +901,7 @@ class Appliance:
         )
 
     def get_network_appliance_firewall_l3_firewall_rules(
-        self, *, network_id: str
+        self, network_id: str
     ) -> dict[str, Any] | None:
         """Return the L3 firewall rules for an MX network.
 
@@ -920,8 +920,8 @@ class Appliance:
 
     def update_network_appliance_firewall_l3_firewall_rules(
         self,
-        *,
         network_id: str,
+        *,
         rules: list[UpdateNetworkApplianceFirewallL3FirewallRulesRulesItem] | None = None,
         syslog_default_rule: bool | None = None,
     ) -> dict[str, Any] | None:
@@ -953,7 +953,7 @@ class Appliance:
         )
 
     def get_network_appliance_firewall_l7_firewall_rules(
-        self, *, network_id: str
+        self, network_id: str
     ) -> dict[str, Any] | None:
         """List the MX L7 firewall rules for an MX network.
 
@@ -972,8 +972,8 @@ class Appliance:
 
     def update_network_appliance_firewall_l7_firewall_rules(
         self,
-        *,
         network_id: str,
+        *,
         rules: list[UpdateNetworkApplianceFirewallL7FirewallRulesRulesItem] | None = None,
     ) -> dict[str, Any] | None:
         """Update the MX L7 firewall rules for an MX network.
@@ -1000,7 +1000,7 @@ class Appliance:
         )
 
     def get_network_appliance_firewall_l7_firewall_rules_application_categories(
-        self, *, network_id: str
+        self, network_id: str
     ) -> GetNetworkApplianceFirewallL7FirewallRulesApplicationCategoriesResponse | None:
         """Return the L7 firewall application categories and their associated applications for an MX network.
 
@@ -1051,7 +1051,7 @@ class Appliance:
         )
 
     def get_network_appliance_firewall_one_to_many_nat_rules(
-        self, *, network_id: str
+        self, network_id: str
     ) -> dict[str, Any] | None:
         """Return the 1:Many NAT mapping rules for an MX network.
 
@@ -1100,7 +1100,7 @@ class Appliance:
         )
 
     def get_network_appliance_firewall_one_to_one_nat_rules(
-        self, *, network_id: str
+        self, network_id: str
     ) -> dict[str, Any] | None:
         """Return the 1:1 NAT mapping rules for an MX network.
 
@@ -1147,7 +1147,7 @@ class Appliance:
         )
 
     def get_network_appliance_firewall_port_forwarding_rules(
-        self, *, network_id: str
+        self, network_id: str
     ) -> GetNetworkApplianceFirewallPortForwardingRulesResponse | None:
         """Return the port forwarding rules for an MX network.
 
@@ -1197,7 +1197,7 @@ class Appliance:
             response_schema=UpdateNetworkApplianceFirewallPortForwardingRulesResponse,
         )
 
-    def get_network_appliance_firewall_settings(self, *, network_id: str) -> dict[str, Any] | None:
+    def get_network_appliance_firewall_settings(self, network_id: str) -> dict[str, Any] | None:
         """Return the firewall settings for this network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-firewall-settings
@@ -1215,8 +1215,8 @@ class Appliance:
 
     def update_network_appliance_firewall_settings(
         self,
-        *,
         network_id: str,
+        *,
         spoofing_protection: UpdateNetworkApplianceFirewallSettingsSpoofingProtection | None = None,
     ) -> dict[str, Any] | None:
         """Update the firewall settings for this network.
@@ -1245,7 +1245,7 @@ class Appliance:
         )
 
     def get_network_appliance_ports(
-        self, *, network_id: str
+        self, network_id: str
     ) -> GetNetworkAppliancePortsResponse | None:
         """List per-port VLAN settings for all ports of a MX.
 
@@ -1349,7 +1349,7 @@ class Appliance:
         )
 
     def get_network_appliance_prefixes_delegated_statics(
-        self, *, network_id: str
+        self, network_id: str
     ) -> GetNetworkAppliancePrefixesDelegatedStaticsResponse | None:
         """List static delegated prefixes for a network.
 
@@ -1492,7 +1492,7 @@ class Appliance:
         )
 
     def get_network_appliance_rf_profiles(
-        self, *, network_id: str
+        self, network_id: str
     ) -> GetNetworkApplianceRfProfilesResponse | None:
         """List the RF profiles for this network.
 
@@ -1654,8 +1654,8 @@ class Appliance:
 
     def update_network_appliance_sdwan_internet_policies(
         self,
-        *,
         network_id: str,
+        *,
         wan_traffic_uplink_preferences: list[
             UpdateNetworkApplianceSdwanInternetPoliciesWanTrafficUplinkPreferencesItem
         ]
@@ -1691,8 +1691,8 @@ class Appliance:
 
     def get_network_appliance_security_events(
         self,
-        *,
         network_id: str,
+        *,
         t0: str | None = None,
         t1: str | None = None,
         timespan: float | None = None,
@@ -1768,7 +1768,7 @@ class Appliance:
         )
 
     def get_network_appliance_security_intrusion(
-        self, *, network_id: str
+        self, network_id: str
     ) -> GetNetworkApplianceSecurityIntrusionResponse | None:
         """Returns all supported intrusion settings for an MX network.
 
@@ -1790,8 +1790,8 @@ class Appliance:
 
     def update_network_appliance_security_intrusion(
         self,
-        *,
         network_id: str,
+        *,
         mode: str | None = None,
         ids_rulesets: str | None = None,
         protected_networks: UpdateNetworkApplianceSecurityIntrusionProtectedNetworks | None = None,
@@ -1843,7 +1843,7 @@ class Appliance:
         )
 
     def get_network_appliance_security_malware(
-        self, *, network_id: str
+        self, network_id: str
     ) -> GetNetworkApplianceSecurityMalwareResponse | None:
         """Returns all supported malware settings for an MX network.
 
@@ -1914,7 +1914,7 @@ class Appliance:
         )
 
     def get_network_appliance_settings(
-        self, *, network_id: str
+        self, network_id: str
     ) -> GetNetworkApplianceSettingsResponse | None:
         """Return the appliance settings for a network.
 
@@ -1936,8 +1936,8 @@ class Appliance:
 
     def update_network_appliance_settings(
         self,
-        *,
         network_id: str,
+        *,
         client_tracking_method: str | None = None,
         deployment_mode: str | None = None,
         dynamic_dns: UpdateNetworkApplianceSettingsDynamicDns | None = None,
@@ -1984,7 +1984,7 @@ class Appliance:
         )
 
     def get_network_appliance_single_lan(
-        self, *, network_id: str
+        self, network_id: str
     ) -> GetNetworkApplianceSingleLanResponse | None:
         """Return single LAN configuration.
 
@@ -2006,8 +2006,8 @@ class Appliance:
 
     def update_network_appliance_single_lan(
         self,
-        *,
         network_id: str,
+        *,
         subnet: str | None = None,
         appliance_ip: str | None = None,
         ipv6: UpdateNetworkApplianceSingleLanIpv6 | None = None,
@@ -2050,7 +2050,7 @@ class Appliance:
         )
 
     def get_network_appliance_ssids(
-        self, *, network_id: str
+        self, network_id: str
     ) -> GetNetworkApplianceSsidsResponse | None:
         """List the MX SSIDs in a network.
 
@@ -2198,7 +2198,7 @@ class Appliance:
         )
 
     def get_network_appliance_static_routes(
-        self, *, network_id: str
+        self, network_id: str
     ) -> GetNetworkApplianceStaticRoutesResponse | None:
         """List the static routes for an MX or teleworker network.
 
@@ -2367,7 +2367,7 @@ class Appliance:
             scope="appliance", operation_id="deleteNetworkApplianceStaticRoute", path=path
         )
 
-    def get_network_appliance_traffic_shaping(self, *, network_id: str) -> dict[str, Any] | None:
+    def get_network_appliance_traffic_shaping(self, network_id: str) -> dict[str, Any] | None:
         """Display the traffic shaping settings for an MX network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-traffic-shaping
@@ -2385,8 +2385,8 @@ class Appliance:
 
     def update_network_appliance_traffic_shaping(
         self,
-        *,
         network_id: str,
+        *,
         global_bandwidth_limits: UpdateNetworkApplianceTrafficShapingGlobalBandwidthLimits
         | None = None,
     ) -> dict[str, Any] | None:
@@ -2416,7 +2416,7 @@ class Appliance:
         )
 
     def get_network_appliance_traffic_shaping_custom_performance_classes(
-        self, *, network_id: str
+        self, network_id: str
     ) -> GetNetworkApplianceTrafficShapingCustomPerformanceClassesResponse | None:
         """List all custom performance classes for an MX network.
 
@@ -2568,9 +2568,7 @@ class Appliance:
             path=path,
         )
 
-    def get_network_appliance_traffic_shaping_rules(
-        self, *, network_id: str
-    ) -> dict[str, Any] | None:
+    def get_network_appliance_traffic_shaping_rules(self, network_id: str) -> dict[str, Any] | None:
         """Display the traffic shaping settings rules for an MX network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-appliance-traffic-shaping-rules
@@ -2588,8 +2586,8 @@ class Appliance:
 
     def update_network_appliance_traffic_shaping_rules(
         self,
-        *,
         network_id: str,
+        *,
         default_rules_enabled: bool | None = None,
         rules: list[UpdateNetworkApplianceTrafficShapingRulesRulesItem] | None = None,
     ) -> dict[str, Any] | None:
@@ -2625,7 +2623,7 @@ class Appliance:
         )
 
     def get_network_appliance_traffic_shaping_uplink_bandwidth(
-        self, *, network_id: str
+        self, network_id: str
     ) -> GetNetworkApplianceTrafficShapingUplinkBandwidthResponse | None:
         """Returns the uplink bandwidth limits for your MX network.
 
@@ -2647,8 +2645,8 @@ class Appliance:
 
     def update_network_appliance_traffic_shaping_uplink_bandwidth(
         self,
-        *,
         network_id: str,
+        *,
         bandwidth_limits: UpdateNetworkApplianceTrafficShapingUplinkBandwidthBandwidthLimits
         | None = None,
     ) -> dict[str, Any] | None:
@@ -2679,7 +2677,7 @@ class Appliance:
         )
 
     def get_network_appliance_traffic_shaping_uplink_selection(
-        self, *, network_id: str
+        self, network_id: str
     ) -> GetNetworkApplianceTrafficShapingUplinkSelectionResponse | None:
         """Show uplink selection settings for an MX network.
 
@@ -2701,8 +2699,8 @@ class Appliance:
 
     def update_network_appliance_traffic_shaping_uplink_selection(
         self,
-        *,
         network_id: str,
+        *,
         active_active_auto_vpn_enabled: bool | None = None,
         default_uplink: str | None = None,
         load_balancing_enabled: bool | None = None,
@@ -2766,8 +2764,8 @@ class Appliance:
 
     def update_network_appliance_traffic_shaping_vpn_exclusions(
         self,
-        *,
         network_id: str,
+        *,
         custom: list[UpdateNetworkApplianceTrafficShapingVpnExclusionsCustomItem] | None = None,
         major_applications: list[
             UpdateNetworkApplianceTrafficShapingVpnExclusionsMajorApplicationsItem
@@ -2808,8 +2806,8 @@ class Appliance:
 
     def get_network_appliance_uplinks_usage_history(
         self,
-        *,
         network_id: str,
+        *,
         t0: str | None = None,
         t1: str | None = None,
         timespan: float | None = None,
@@ -2853,7 +2851,7 @@ class Appliance:
         )
 
     def get_network_appliance_vlans(
-        self, *, network_id: str
+        self, network_id: str
     ) -> GetNetworkApplianceVlansResponse | None:
         """List the VLANs for a Cisco Secure Router network.
 
@@ -3004,7 +3002,7 @@ class Appliance:
         )
 
     def get_network_appliance_vlans_settings(
-        self, *, network_id: str
+        self, network_id: str
     ) -> GetNetworkApplianceVlansSettingsResponse | None:
         """Returns the enabled status of VLANs for the network.
 
@@ -3025,7 +3023,7 @@ class Appliance:
         )
 
     def update_network_appliance_vlans_settings(
-        self, *, network_id: str, vlans_enabled: bool | None = None
+        self, network_id: str, *, vlans_enabled: bool | None = None
     ) -> UpdateNetworkApplianceVlansSettingsResponse | None:
         """Enable/Disable VLANs for the given network.
 
@@ -3247,7 +3245,7 @@ class Appliance:
         )
 
     def get_network_appliance_vpn_bgp(
-        self, *, network_id: str
+        self, network_id: str
     ) -> GetNetworkApplianceVpnBgpResponse | None:
         """Return a Hub BGP Configuration.
 
@@ -3322,7 +3320,7 @@ class Appliance:
         )
 
     def get_network_appliance_vpn_site_to_site_vpn(
-        self, *, network_id: str
+        self, network_id: str
     ) -> GetNetworkApplianceVpnSiteToSiteVpnResponse | None:
         """Return the site-to-site VPN settings of a network.
 
@@ -3392,7 +3390,7 @@ class Appliance:
         )
 
     def get_network_appliance_warm_spare(
-        self, *, network_id: str
+        self, network_id: str
     ) -> GetNetworkApplianceWarmSpareResponse | None:
         """Return MX warm spare settings.
 
@@ -3459,7 +3457,7 @@ class Appliance:
         )
 
     def swap_network_appliance_warm_spare(
-        self, *, network_id: str
+        self, network_id: str
     ) -> SwapNetworkApplianceWarmSpareResponse | None:
         """Swap MX primary and warm spare appliances.
 
@@ -3480,7 +3478,7 @@ class Appliance:
         )
 
     def get_organization_appliance_dns_local_profiles(
-        self, *, organization_id: str, profile_ids: list[str] | None = None
+        self, organization_id: str, *, profile_ids: list[str] | None = None
     ) -> GetOrganizationApplianceDnsLocalProfilesResponse | None:
         """Fetch the local DNS profiles used in the organization.
 
@@ -3535,8 +3533,8 @@ class Appliance:
 
     def get_organization_appliance_dns_local_profiles_assignments(
         self,
-        *,
         organization_id: str,
+        *,
         profile_ids: list[str] | None = None,
         network_ids: list[str] | None = None,
     ) -> GetOrganizationApplianceDnsLocalProfilesAssignmentsResponse | None:
@@ -3681,7 +3679,7 @@ class Appliance:
         )
 
     def get_organization_appliance_dns_local_records(
-        self, *, organization_id: str, profile_ids: list[str] | None = None
+        self, organization_id: str, *, profile_ids: list[str] | None = None
     ) -> GetOrganizationApplianceDnsLocalRecordsResponse | None:
         """Fetch the DNS records used in local DNS profiles.
 
@@ -3807,7 +3805,7 @@ class Appliance:
         )
 
     def get_organization_appliance_dns_split_profiles(
-        self, *, organization_id: str, profile_ids: list[str] | None = None
+        self, organization_id: str, *, profile_ids: list[str] | None = None
     ) -> GetOrganizationApplianceDnsSplitProfilesResponse | None:
         """Fetch the split DNS profiles used in the organization.
 
@@ -3874,8 +3872,8 @@ class Appliance:
 
     def get_organization_appliance_dns_split_profiles_assignments(
         self,
-        *,
         organization_id: str,
+        *,
         profile_ids: list[str] | None = None,
         network_ids: list[str] | None = None,
     ) -> GetOrganizationApplianceDnsSplitProfilesAssignmentsResponse | None:
@@ -4034,8 +4032,8 @@ class Appliance:
 
     def get_organization_appliance_firewall_multicast_forwarding_by_network(
         self,
-        *,
         organization_id: str,
+        *,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
@@ -4092,8 +4090,8 @@ class Appliance:
 
     def get_organization_appliance_security_events(
         self,
-        *,
         organization_id: str,
+        *,
         t0: str | None = None,
         t1: str | None = None,
         timespan: float | None = None,
@@ -4169,7 +4167,7 @@ class Appliance:
         )
 
     def get_organization_appliance_security_intrusion(
-        self, *, organization_id: str
+        self, organization_id: str
     ) -> dict[str, Any] | None:
         """Returns all supported intrusion settings for an organization.
 
@@ -4219,8 +4217,8 @@ class Appliance:
 
     def get_organization_appliance_traffic_shaping_vpn_exclusions_by_network(
         self,
-        *,
         organization_id: str,
+        *,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
@@ -4277,8 +4275,8 @@ class Appliance:
 
     def get_organization_appliance_uplink_statuses(
         self,
-        *,
         organization_id: str,
+        *,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
@@ -4343,7 +4341,7 @@ class Appliance:
         )
 
     def get_organization_appliance_uplinks_statuses_overview(
-        self, *, organization_id: str, network_ids: list[str] | None = None
+        self, organization_id: str, *, network_ids: list[str] | None = None
     ) -> GetOrganizationApplianceUplinksStatusesOverviewResponse | None:
         """Returns an overview of uplink statuses.
 
@@ -4372,8 +4370,8 @@ class Appliance:
 
     def get_organization_appliance_uplinks_usage_by_network(
         self,
-        *,
         organization_id: str,
+        *,
         t0: str | None = None,
         t1: str | None = None,
         timespan: float | None = None,
@@ -4412,7 +4410,7 @@ class Appliance:
         )
 
     def get_organization_appliance_vpn_site_to_site_ipsec_peers_slas(
-        self, *, organization_id: str
+        self, organization_id: str
     ) -> GetOrganizationApplianceVpnSiteToSiteIpsecPeersSlasResponse | None:
         """Get the list of available IPsec SLA policies for an organization.
 
@@ -4434,8 +4432,8 @@ class Appliance:
 
     def update_organization_appliance_vpn_site_to_site_ipsec_peers_slas(
         self,
-        *,
         organization_id: str,
+        *,
         items: list[UpdateOrganizationApplianceVpnSiteToSiteIpsecPeersSlasItemsItem] | None = None,
     ) -> UpdateOrganizationApplianceVpnSiteToSiteIpsecPeersSlasResponse | None:
         """Update the IPsec SLA policies for an organization.
@@ -4464,8 +4462,8 @@ class Appliance:
 
     def get_organization_appliance_vpn_stats(
         self,
-        *,
         organization_id: str,
+        *,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
@@ -4536,8 +4534,8 @@ class Appliance:
 
     def get_organization_appliance_vpn_statuses(
         self,
-        *,
         organization_id: str,
+        *,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
@@ -4592,7 +4590,7 @@ class Appliance:
         )
 
     def get_organization_appliance_vpn_third_party_v_p_n_peers(
-        self, *, organization_id: str
+        self, organization_id: str
     ) -> GetOrganizationApplianceVpnThirdPartyVPNPeersResponse | None:
         """Return the third party VPN peers for an organization.
 
@@ -4643,7 +4641,7 @@ class Appliance:
         )
 
     def get_organization_appliance_vpn_vpn_firewall_rules(
-        self, *, organization_id: str
+        self, organization_id: str
     ) -> GetOrganizationApplianceVpnVpnFirewallRulesResponse | None:
         """Return the firewall rules for an organization's site-to-site VPN.
 
@@ -4665,8 +4663,8 @@ class Appliance:
 
     def update_organization_appliance_vpn_vpn_firewall_rules(
         self,
-        *,
         organization_id: str,
+        *,
         rules: list[UpdateOrganizationApplianceVpnVpnFirewallRulesRulesItem] | None = None,
         syslog_default_rule: bool | None = None,
     ) -> UpdateOrganizationApplianceVpnVpnFirewallRulesResponse | None:

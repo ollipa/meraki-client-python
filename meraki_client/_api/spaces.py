@@ -26,7 +26,7 @@ class Spaces:
         self._session = session
 
     def get_organization_spaces_integrate_status(
-        self, *, organization_id: str
+        self, organization_id: str
     ) -> GetOrganizationSpacesIntegrateStatusResponse | None:
         """Get the status of the Spaces integration in Meraki.
 
@@ -47,7 +47,7 @@ class Spaces:
         )
 
     def remove_organization_spaces_integration(
-        self, *, organization_id: str
+        self, organization_id: str
     ) -> RemoveOrganizationSpacesIntegrationResponse | None:
         """Remove the Spaces integration from Meraki.
 

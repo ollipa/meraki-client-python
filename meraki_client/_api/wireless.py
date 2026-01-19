@@ -220,8 +220,8 @@ class Wireless:
 
     def update_device_wireless_alternate_management_interface_ipv6(
         self,
-        *,
         serial: str,
+        *,
         addresses: list[UpdateDeviceWirelessAlternateManagementInterfaceIpv6AddressesItem]
         | None = None,
     ) -> UpdateDeviceWirelessAlternateManagementInterfaceIpv6Response | None:
@@ -252,7 +252,7 @@ class Wireless:
         )
 
     def get_device_wireless_bluetooth_settings(
-        self, *, serial: str
+        self, serial: str
     ) -> GetDeviceWirelessBluetoothSettingsResponse | None:
         """Return the bluetooth settings for a wireless device.
 
@@ -274,8 +274,8 @@ class Wireless:
 
     def update_device_wireless_bluetooth_settings(
         self,
-        *,
         serial: str,
+        *,
         uuid: str | None = None,
         major: int | None = None,
         minor: int | None = None,
@@ -315,8 +315,8 @@ class Wireless:
 
     def get_device_wireless_connection_stats(
         self,
-        *,
         serial: str,
+        *,
         t0: str | None = None,
         t1: str | None = None,
         timespan: float | None = None,
@@ -372,7 +372,7 @@ class Wireless:
         )
 
     def get_device_wireless_electronic_shelf_label(
-        self, *, serial: str
+        self, serial: str
     ) -> GetDeviceWirelessElectronicShelfLabelResponse | None:
         """Return the ESL settings of a device.
 
@@ -393,7 +393,7 @@ class Wireless:
         )
 
     def update_device_wireless_electronic_shelf_label(
-        self, *, serial: str, channel: str | None = None, enabled: bool | None = None
+        self, serial: str, *, channel: str | None = None, enabled: bool | None = None
     ) -> UpdateDeviceWirelessElectronicShelfLabelResponse | None:
         """Update the ESL settings of a device.
 
@@ -425,8 +425,8 @@ class Wireless:
 
     def get_device_wireless_latency_stats(
         self,
-        *,
         serial: str,
+        *,
         t0: str | None = None,
         t1: str | None = None,
         timespan: float | None = None,
@@ -488,7 +488,7 @@ class Wireless:
         )
 
     def get_device_wireless_radio_settings(
-        self, *, serial: str
+        self, serial: str
     ) -> GetDeviceWirelessRadioSettingsResponse | None:
         """Return the manually configured radio settings overrides of a device, which take precedence over RF profiles.
 
@@ -510,8 +510,8 @@ class Wireless:
 
     def update_device_wireless_radio_settings(
         self,
-        *,
         serial: str,
+        *,
         rf_profile_id: str | None = None,
         two_four_ghz_settings: UpdateDeviceWirelessRadioSettingsTwoFourGhzSettings | None = None,
         five_ghz_settings: UpdateDeviceWirelessRadioSettingsFiveGhzSettings | None = None,
@@ -554,7 +554,7 @@ class Wireless:
             response_schema=UpdateDeviceWirelessRadioSettingsResponse,
         )
 
-    def get_device_wireless_status(self, *, serial: str) -> GetDeviceWirelessStatusResponse | None:
+    def get_device_wireless_status(self, serial: str) -> GetDeviceWirelessStatusResponse | None:
         """Return the SSID statuses of an access point.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device-wireless-status
@@ -574,7 +574,7 @@ class Wireless:
         )
 
     def create_device_wireless_zigbee_enrollment(
-        self, *, serial: str
+        self, serial: str
     ) -> CreateDeviceWirelessZigbeeEnrollmentResponse | None:
         """Enqueue a job to start enrolling door locks on zigbee configured wireless devices.
 
@@ -618,7 +618,7 @@ class Wireless:
         )
 
     def get_network_wireless_air_marshal(
-        self, *, network_id: str, t0: str | None = None, timespan: float | None = None
+        self, network_id: str, *, t0: str | None = None, timespan: float | None = None
     ) -> GetNetworkWirelessAirMarshalResponse | None:
         """List Air Marshal scan results from a network.
 
@@ -781,7 +781,7 @@ class Wireless:
         )
 
     def get_network_wireless_alternate_management_interface(
-        self, *, network_id: str
+        self, network_id: str
     ) -> dict[str, Any] | None:
         """Return alternate management interface and devices with IP assigned.
 
@@ -802,8 +802,8 @@ class Wireless:
 
     def update_network_wireless_alternate_management_interface(
         self,
-        *,
         network_id: str,
+        *,
         enabled: bool | None = None,
         vlan_id: int | None = None,
         protocols: list[str] | None = None,
@@ -850,7 +850,7 @@ class Wireless:
         )
 
     def get_network_wireless_billing(
-        self, *, network_id: str
+        self, network_id: str
     ) -> GetNetworkWirelessBillingResponse | None:
         """Return the billing settings of this network.
 
@@ -872,8 +872,8 @@ class Wireless:
 
     def update_network_wireless_billing(
         self,
-        *,
         network_id: str,
+        *,
         currency: str | None = None,
         plans: list[UpdateNetworkWirelessBillingPlansItem] | None = None,
     ) -> UpdateNetworkWirelessBillingResponse | None:
@@ -905,7 +905,7 @@ class Wireless:
         )
 
     def get_network_wireless_bluetooth_settings(
-        self, *, network_id: str
+        self, network_id: str
     ) -> GetNetworkWirelessBluetoothSettingsResponse | None:
         """Return the Bluetooth settings for a network. <a href="https://documentation.meraki.com/MR/Bluetooth/Bluetooth_Low_Energy_(BLE)">Bluetooth settings</a> must be enabled on the network.
 
@@ -927,8 +927,8 @@ class Wireless:
 
     def update_network_wireless_bluetooth_settings(
         self,
-        *,
         network_id: str,
+        *,
         scanning_enabled: bool | None = None,
         advertising_enabled: bool | None = None,
         uuid: str | None = None,
@@ -986,8 +986,8 @@ class Wireless:
 
     def get_network_wireless_channel_utilization_history(
         self,
-        *,
         network_id: str,
+        *,
         t0: str | None = None,
         t1: str | None = None,
         timespan: float | None = None,
@@ -1063,8 +1063,8 @@ class Wireless:
 
     def get_network_wireless_client_count_history(
         self,
-        *,
         network_id: str,
+        *,
         t0: str | None = None,
         t1: str | None = None,
         timespan: float | None = None,
@@ -1140,8 +1140,8 @@ class Wireless:
 
     def get_network_wireless_clients_connection_stats(
         self,
-        *,
         network_id: str,
+        *,
         t0: str | None = None,
         t1: str | None = None,
         timespan: float | None = None,
@@ -1198,8 +1198,8 @@ class Wireless:
 
     def get_network_wireless_clients_latency_stats(
         self,
-        *,
         network_id: str,
+        *,
         t0: str | None = None,
         t1: str | None = None,
         timespan: float | None = None,
@@ -1559,8 +1559,8 @@ class Wireless:
 
     def get_network_wireless_connection_stats(
         self,
-        *,
         network_id: str,
+        *,
         t0: str | None = None,
         t1: str | None = None,
         timespan: float | None = None,
@@ -1617,8 +1617,8 @@ class Wireless:
 
     def get_network_wireless_data_rate_history(
         self,
-        *,
         network_id: str,
+        *,
         t0: str | None = None,
         t1: str | None = None,
         timespan: float | None = None,
@@ -1693,8 +1693,8 @@ class Wireless:
 
     def get_network_wireless_devices_connection_stats(
         self,
-        *,
         network_id: str,
+        *,
         t0: str | None = None,
         t1: str | None = None,
         timespan: float | None = None,
@@ -1751,8 +1751,8 @@ class Wireless:
 
     def get_network_wireless_devices_latency_stats(
         self,
-        *,
         network_id: str,
+        *,
         t0: str | None = None,
         t1: str | None = None,
         timespan: float | None = None,
@@ -1818,7 +1818,7 @@ class Wireless:
         )
 
     def get_network_wireless_electronic_shelf_label(
-        self, *, network_id: str
+        self, network_id: str
     ) -> GetNetworkWirelessElectronicShelfLabelResponse | None:
         """Return the ESL settings of a wireless network.
 
@@ -1840,8 +1840,8 @@ class Wireless:
 
     def update_network_wireless_electronic_shelf_label(
         self,
-        *,
         network_id: str,
+        *,
         hostname: str | None = None,
         enabled: bool | None = None,
         mode: str | None = None,
@@ -1882,7 +1882,7 @@ class Wireless:
         )
 
     def get_network_wireless_electronic_shelf_label_configured_devices(
-        self, *, network_id: str
+        self, network_id: str
     ) -> GetNetworkWirelessElectronicShelfLabelConfiguredDevicesResponse | None:
         """Get a list of all ESL eligible devices of a network.
 
@@ -1903,7 +1903,7 @@ class Wireless:
         )
 
     def get_network_wireless_ethernet_ports_profiles(
-        self, *, network_id: str
+        self, network_id: str
     ) -> GetNetworkWirelessEthernetPortsProfilesResponse | None:
         """List the AP port profiles for this network.
 
@@ -2108,8 +2108,8 @@ class Wireless:
 
     def get_network_wireless_failed_connections(
         self,
-        *,
         network_id: str,
+        *,
         t0: str | None = None,
         t1: str | None = None,
         timespan: float | None = None,
@@ -2174,8 +2174,8 @@ class Wireless:
 
     def get_network_wireless_latency_history(
         self,
-        *,
         network_id: str,
+        *,
         t0: str | None = None,
         t1: str | None = None,
         timespan: float | None = None,
@@ -2259,8 +2259,8 @@ class Wireless:
 
     def get_network_wireless_latency_stats(
         self,
-        *,
         network_id: str,
+        *,
         t0: str | None = None,
         t1: str | None = None,
         timespan: float | None = None,
@@ -2326,8 +2326,8 @@ class Wireless:
 
     def update_network_wireless_location_scanning(
         self,
-        *,
         network_id: str,
+        *,
         enabled: bool | None = None,
         api: UpdateNetworkWirelessLocationScanningApi | None = None,
     ) -> UpdateNetworkWirelessLocationScanningResponse | None:
@@ -2360,8 +2360,8 @@ class Wireless:
 
     def get_network_wireless_mesh_statuses(
         self,
-        *,
         network_id: str,
+        *,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
@@ -2411,7 +2411,7 @@ class Wireless:
         )
 
     def get_network_wireless_rf_profiles(
-        self, *, network_id: str, include_template_profiles: bool | None = None
+        self, network_id: str, *, include_template_profiles: bool | None = None
     ) -> GetNetworkWirelessRfProfilesResponse | None:
         """List RF profiles for this network.
 
@@ -2685,7 +2685,7 @@ class Wireless:
         )
 
     def get_network_wireless_settings(
-        self, *, network_id: str
+        self, network_id: str
     ) -> GetNetworkWirelessSettingsResponse | None:
         """Return the wireless settings for a network.
 
@@ -2707,8 +2707,8 @@ class Wireless:
 
     def update_network_wireless_settings(
         self,
-        *,
         network_id: str,
+        *,
         meshing_enabled: bool | None = None,
         ipv6_bridge_enabled: bool | None = None,
         location_analytics_enabled: bool | None = None,
@@ -2767,8 +2767,8 @@ class Wireless:
 
     def get_network_wireless_signal_quality_history(
         self,
-        *,
         network_id: str,
+        *,
         t0: str | None = None,
         t1: str | None = None,
         timespan: float | None = None,
@@ -2842,9 +2842,7 @@ class Wireless:
             response_schema=GetNetworkWirelessSignalQualityHistoryResponse,
         )
 
-    def get_network_wireless_ssids(
-        self, *, network_id: str
-    ) -> GetNetworkWirelessSsidsResponse | None:
+    def get_network_wireless_ssids(self, network_id: str) -> GetNetworkWirelessSsidsResponse | None:
         """List the MR SSIDs in a network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-ssids
@@ -4340,8 +4338,8 @@ class Wireless:
 
     def get_network_wireless_usage_history(
         self,
-        *,
         network_id: str,
+        *,
         t0: str | None = None,
         t1: str | None = None,
         timespan: float | None = None,
@@ -4418,8 +4416,8 @@ class Wireless:
 
     def update_network_wireless_zigbee(
         self,
-        *,
         network_id: str,
+        *,
         enabled: bool | None = None,
         iot_controller: UpdateNetworkWirelessZigbeeIotController | None = None,
         lock_management: UpdateNetworkWirelessZigbeeLockManagement | None = None,
@@ -4460,8 +4458,8 @@ class Wireless:
 
     def get_organization_wireless_air_marshal_rules(
         self,
-        *,
         organization_id: str,
+        *,
         network_ids: list[str] | None = None,
         per_page: int | None = None,
         starting_after: str | None = None,
@@ -4516,8 +4514,8 @@ class Wireless:
 
     def get_organization_wireless_air_marshal_settings_by_network(
         self,
-        *,
         organization_id: str,
+        *,
         network_ids: list[str] | None = None,
         per_page: int | None = None,
         starting_after: str | None = None,
@@ -4572,8 +4570,8 @@ class Wireless:
 
     def get_organization_wireless_clients_overview_by_device(
         self,
-        *,
         organization_id: str,
+        *,
         network_ids: list[str] | None = None,
         serials: list[str] | None = None,
         campus_gateway_cluster_ids: list[str] | None = None,
@@ -4639,8 +4637,8 @@ class Wireless:
 
     def get_organization_wireless_devices_channel_utilization_by_device(
         self,
-        *,
         organization_id: str,
+        *,
         network_ids: list[str] | None = None,
         serials: list[str] | None = None,
         per_page: int | None = None,
@@ -4719,8 +4717,8 @@ class Wireless:
 
     def get_organization_wireless_devices_channel_utilization_by_network(
         self,
-        *,
         organization_id: str,
+        *,
         network_ids: list[str] | None = None,
         serials: list[str] | None = None,
         per_page: int | None = None,
@@ -4799,8 +4797,8 @@ class Wireless:
 
     def get_organization_wireless_devices_channel_utilization_history_by_device_by_interval(
         self,
-        *,
         organization_id: str,
+        *,
         network_ids: list[str] | None = None,
         serials: list[str] | None = None,
         per_page: int | None = None,
@@ -4881,8 +4879,8 @@ class Wireless:
 
     def get_organization_wireless_devices_channel_utilization_history_by_network_by_interval(
         self,
-        *,
         organization_id: str,
+        *,
         network_ids: list[str] | None = None,
         serials: list[str] | None = None,
         per_page: int | None = None,
@@ -4963,8 +4961,8 @@ class Wireless:
 
     def get_organization_wireless_devices_ethernet_statuses(
         self,
-        *,
         organization_id: str,
+        *,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
@@ -5020,8 +5018,8 @@ class Wireless:
 
     def get_organization_wireless_devices_packet_loss_by_client(
         self,
-        *,
         organization_id: str,
+        *,
         network_ids: list[str] | None = None,
         ssids: list[int] | None = None,
         bands: list[str] | None = None,
@@ -5104,8 +5102,8 @@ class Wireless:
 
     def get_organization_wireless_devices_packet_loss_by_device(
         self,
-        *,
         organization_id: str,
+        *,
         network_ids: list[str] | None = None,
         serials: list[str] | None = None,
         ssids: list[int] | None = None,
@@ -5188,8 +5186,8 @@ class Wireless:
 
     def get_organization_wireless_devices_packet_loss_by_network(
         self,
-        *,
         organization_id: str,
+        *,
         network_ids: list[str] | None = None,
         serials: list[str] | None = None,
         ssids: list[int] | None = None,
@@ -5272,8 +5270,8 @@ class Wireless:
 
     def get_organization_wireless_devices_power_mode_history(
         self,
-        *,
         organization_id: str,
+        *,
         t0: str | None = None,
         t1: str | None = None,
         timespan: float | None = None,
@@ -5348,7 +5346,7 @@ class Wireless:
         )
 
     def get_organization_wireless_devices_radsec_certificates_authorities(
-        self, *, organization_id: str, certificate_authority_ids: list[str] | None = None
+        self, organization_id: str, *, certificate_authority_ids: list[str] | None = None
     ) -> GetOrganizationWirelessDevicesRadsecCertificatesAuthoritiesResponse | None:
         """Query for details on the organization's RADSEC device Certificate Authority certificates (CAs).
 
@@ -5377,8 +5375,8 @@ class Wireless:
 
     def update_organization_wireless_devices_radsec_certificates_authorities(
         self,
-        *,
         organization_id: str,
+        *,
         status: str | None = None,
         certificate_authority_id: str | None = None,
     ) -> UpdateOrganizationWirelessDevicesRadsecCertificatesAuthoritiesResponse | None:
@@ -5411,7 +5409,7 @@ class Wireless:
         )
 
     def create_organization_wireless_devices_radsec_certificates_authority(
-        self, *, organization_id: str
+        self, organization_id: str
     ) -> CreateOrganizationWirelessDevicesRadsecCertificatesAuthorityResponse | None:
         """Create an organization's RADSEC device Certificate Authority (CA).
 
@@ -5432,7 +5430,7 @@ class Wireless:
         )
 
     def get_organization_wireless_devices_radsec_certificates_authorities_crls(
-        self, *, organization_id: str, certificate_authority_ids: list[str] | None = None
+        self, organization_id: str, *, certificate_authority_ids: list[str] | None = None
     ) -> GetOrganizationWirelessDevicesRadsecCertificatesAuthoritiesCrlsResponse | None:
         """Query for certificate revocation list (CRL) for the organization's RADSEC device Certificate Authorities (CAs).
 
@@ -5460,7 +5458,7 @@ class Wireless:
         )
 
     def get_organization_wireless_devices_radsec_certificates_authorities_crls_deltas(
-        self, *, organization_id: str, certificate_authority_ids: list[str] | None = None
+        self, organization_id: str, *, certificate_authority_ids: list[str] | None = None
     ) -> GetOrganizationWirelessDevicesRadsecCertificatesAuthoritiesCrlsDeltasResponse | None:
         """Query for all delta certificate revocation list (CRL) for the organization's RADSEC device Certificate Authority (CA) with the given id.
 
@@ -5489,8 +5487,8 @@ class Wireless:
 
     def get_organization_wireless_devices_system_cpu_load_history(
         self,
-        *,
         organization_id: str,
+        *,
         t0: str | None = None,
         t1: str | None = None,
         timespan: float | None = None,
@@ -5566,8 +5564,8 @@ class Wireless:
 
     def get_organization_wireless_devices_wireless_controllers_by_device(
         self,
-        *,
         organization_id: str,
+        *,
         network_ids: list[str] | None = None,
         serials: list[str] | None = None,
         controller_serials: list[str] | None = None,
@@ -5635,8 +5633,8 @@ class Wireless:
 
     def get_organization_wireless_location_scanning_by_network(
         self,
-        *,
         organization_id: str,
+        *,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
@@ -5691,8 +5689,8 @@ class Wireless:
 
     def get_organization_wireless_location_scanning_receivers(
         self,
-        *,
         organization_id: str,
+        *,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
@@ -5860,8 +5858,8 @@ class Wireless:
 
     def get_organization_wireless_mqtt_settings(
         self,
-        *,
         organization_id: str,
+        *,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
@@ -5985,8 +5983,8 @@ class Wireless:
 
     def get_organization_wireless_rf_profiles_assignments_by_device(
         self,
-        *,
         organization_id: str,
+        *,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
@@ -6084,8 +6082,8 @@ class Wireless:
 
     def get_organization_wireless_ssids_firewall_isolation_allowlist_entries(
         self,
-        *,
         organization_id: str,
+        *,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
@@ -6251,8 +6249,8 @@ class Wireless:
 
     def get_organization_wireless_ssids_open_roaming_by_network(
         self,
-        *,
         organization_id: str,
+        *,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
@@ -6312,8 +6310,8 @@ class Wireless:
 
     def get_organization_wireless_ssids_statuses_by_device(
         self,
-        *,
         organization_id: str,
+        *,
         network_ids: list[str] | None = None,
         serials: list[str] | None = None,
         bssids: list[str] | None = None,
@@ -6384,8 +6382,8 @@ class Wireless:
 
     def get_organization_wireless_zigbee_by_network(
         self,
-        *,
         organization_id: str,
+        *,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
@@ -6440,8 +6438,8 @@ class Wireless:
 
     def get_organization_wireless_zigbee_devices(
         self,
-        *,
         organization_id: str,
+        *,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
@@ -6536,7 +6534,7 @@ class Wireless:
         )
 
     def create_organization_wireless_zigbee_disenrollment(
-        self, *, organization_id: str, door_lock_ids: list[str] | None = None
+        self, organization_id: str, *, door_lock_ids: list[str] | None = None
     ) -> CreateOrganizationWirelessZigbeeDisenrollmentResponse | None:
         """Enqueue a job to start disenrolling door locks on zigbee configured wireless devices.
 
@@ -6587,8 +6585,8 @@ class Wireless:
 
     def get_organization_wireless_zigbee_door_locks(
         self,
-        *,
         organization_id: str,
+        *,
         network_ids: list[str] | None = None,
         serial: str | None = None,
         per_page: int | None = None,

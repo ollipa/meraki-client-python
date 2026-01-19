@@ -404,7 +404,7 @@ class ActionBatchOrganizations:
         }
 
     def update_organization_adaptive_policy_settings(
-        self, *, organization_id: str, enabled_networks: list[str] | None = None
+        self, organization_id: str, *, enabled_networks: list[str] | None = None
     ) -> dict[str, Any]:
         """Update global adaptive policy settings.
 
@@ -625,7 +625,7 @@ class ActionBatchOrganizations:
         }
 
     def update_organization_branding_policies_priorities(
-        self, *, organization_id: str, branding_policy_ids: list[str] | None = None
+        self, organization_id: str, *, branding_policy_ids: list[str] | None = None
     ) -> dict[str, Any]:
         """Update the priority ordering of an organization's branding policies.
 
@@ -1359,8 +1359,8 @@ class ActionBatchOrganizations:
 
     def update_organization_login_security(
         self,
-        *,
         organization_id: str,
+        *,
         enforce_password_expiration: bool | None = None,
         password_expiration_days: int | None = None,
         enforce_different_passwords: bool | None = None,
@@ -1898,7 +1898,7 @@ class ActionBatchOrganizations:
         }
 
     def create_organization_splash_theme(
-        self, *, organization_id: str, name: str | None = None, base_theme: str | None = None
+        self, organization_id: str, *, name: str | None = None, base_theme: str | None = None
     ) -> dict[str, Any]:
         """Create a Splash Theme.
 

@@ -411,8 +411,9 @@ def generate_module(  # noqa: PLR0915
             if is_paginated:
                 collect_pagination_params(operation_id, function_definition)
 
-            all_args = function_definition.required_args + function_definition.optional_args
-            definition = ", *, " + ", ".join(all_args) if all_args else ""
+            definition = build_function_definition(
+                function_definition.required_args, function_definition.optional_args
+            )
 
             response_schema_name = None
             item_schema_name = None
@@ -526,6 +527,26 @@ def generate_module(  # noqa: PLR0915
             class_name=class_name, schemas_used=sorted(set(batch_schemas_used))
         ) + "".join(batch_content)
     return None
+
+
+def build_function_definition(required_args: list[str], optional_args: list[str]) -> str:
+    """Build function definition string with appropriate positional/keyword-only parameters.
+
+    If there's exactly one required parameter, it's positional. All other parameters
+    (including optional and multiple required) are keyword-only.
+    """
+    if not required_args and not optional_args:
+        return ""
+
+    if len(required_args) == 1:
+        # Single required param is positional, optional params are keyword-only
+        if optional_args:
+            return f", {required_args[0]}, *, " + ", ".join(optional_args)
+        return f", {required_args[0]}"
+
+    # Multiple required or no required: all keyword-only
+    all_args = required_args + optional_args
+    return ", *, " + ", ".join(all_args)
 
 
 def recreate_output_directory() -> None:

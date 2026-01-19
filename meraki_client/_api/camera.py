@@ -74,7 +74,7 @@ class Camera:
         self._session = session
 
     def get_device_camera_analytics_live(
-        self, *, serial: str
+        self, serial: str
     ) -> GetDeviceCameraAnalyticsLiveResponse | None:
         """Returns live state from camera analytics zones.
 
@@ -96,8 +96,8 @@ class Camera:
 
     def get_device_camera_analytics_overview(
         self,
-        *,
         serial: str,
+        *,
         t0: str | None = None,
         t1: str | None = None,
         timespan: float | None = None,
@@ -147,7 +147,7 @@ class Camera:
         )
 
     def get_device_camera_analytics_recent(
-        self, *, serial: str, object_type: str | None = None
+        self, serial: str, *, object_type: str | None = None
     ) -> GetDeviceCameraAnalyticsRecentResponse | None:
         """Returns most recent record for analytics zones.
 
@@ -181,7 +181,7 @@ class Camera:
         )
 
     def get_device_camera_analytics_zones(
-        self, *, serial: str
+        self, serial: str
     ) -> GetDeviceCameraAnalyticsZonesResponse | None:
         """Returns all configured analytic zones for this camera.
 
@@ -262,7 +262,7 @@ class Camera:
         )
 
     def get_device_camera_custom_analytics(
-        self, *, serial: str
+        self, serial: str
     ) -> GetDeviceCameraCustomAnalyticsResponse | None:
         """Return custom analytics settings for a camera.
 
@@ -284,8 +284,8 @@ class Camera:
 
     def update_device_camera_custom_analytics(
         self,
-        *,
         serial: str,
+        *,
         enabled: bool | None = None,
         artifact_id: str | None = None,
         parameters: list[UpdateDeviceCameraCustomAnalyticsParametersItem] | None = None,
@@ -323,7 +323,7 @@ class Camera:
         )
 
     def generate_device_camera_snapshot(
-        self, *, serial: str, timestamp: str | None = None, fullframe: bool | None = None
+        self, serial: str, *, timestamp: str | None = None, fullframe: bool | None = None
     ) -> GenerateDeviceCameraSnapshotResponse | None:
         """Generate a snapshot of what the camera sees at the specified time and return a link to that image.
 
@@ -355,7 +355,7 @@ class Camera:
             response_schema=GenerateDeviceCameraSnapshotResponse,
         )
 
-    def get_device_camera_quality_and_retention(self, *, serial: str) -> dict[str, Any] | None:
+    def get_device_camera_quality_and_retention(self, serial: str) -> dict[str, Any] | None:
         """Returns quality and retention settings for the given camera.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device-camera-quality-and-retention
@@ -373,8 +373,8 @@ class Camera:
 
     def update_device_camera_quality_and_retention(
         self,
-        *,
         serial: str,
+        *,
         profile_id: str | None = None,
         motion_based_retention_enabled: bool | None = None,
         audio_recording_enabled: bool | None = None,
@@ -459,7 +459,7 @@ class Camera:
             json=payload,
         )
 
-    def get_device_camera_sense(self, *, serial: str) -> dict[str, Any] | None:
+    def get_device_camera_sense(self, serial: str) -> dict[str, Any] | None:
         """Returns sense settings for a given camera.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device-camera-sense
@@ -475,8 +475,8 @@ class Camera:
 
     def update_device_camera_sense(
         self,
-        *,
         serial: str,
+        *,
         sense_enabled: bool | None = None,
         mqtt_broker_id: str | None = None,
         audio_detection: UpdateDeviceCameraSenseAudioDetection | None = None,
@@ -514,7 +514,7 @@ class Camera:
         )
 
     def get_device_camera_sense_object_detection_models(
-        self, *, serial: str
+        self, serial: str
     ) -> GetDeviceCameraSenseObjectDetectionModelsResponse | None:
         """Returns the MV Sense object detection model list for the given camera.
 
@@ -535,7 +535,7 @@ class Camera:
         )
 
     def get_device_camera_video_settings(
-        self, *, serial: str
+        self, serial: str
     ) -> GetDeviceCameraVideoSettingsResponse | None:
         """Returns video settings for the given camera.
 
@@ -556,7 +556,7 @@ class Camera:
         )
 
     def update_device_camera_video_settings(
-        self, *, serial: str, external_rtsp_enabled: bool | None = None
+        self, serial: str, *, external_rtsp_enabled: bool | None = None
     ) -> UpdateDeviceCameraVideoSettingsResponse | None:
         """Update video settings for the given camera.
 
@@ -583,7 +583,7 @@ class Camera:
         )
 
     def get_device_camera_video_link(
-        self, *, serial: str, timestamp: str | None = None
+        self, serial: str, *, timestamp: str | None = None
     ) -> dict[str, Any] | None:
         """Returns video link to the specified camera.
 
@@ -607,7 +607,7 @@ class Camera:
             scope="camera", operation_id="getDeviceCameraVideoLink", path=path, params=params
         )
 
-    def get_device_camera_wireless_profiles(self, *, serial: str) -> dict[str, Any] | None:
+    def get_device_camera_wireless_profiles(self, serial: str) -> dict[str, Any] | None:
         """Returns wireless profile assigned to the given camera.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device-camera-wireless-profiles
@@ -650,7 +650,7 @@ class Camera:
         )
 
     def get_network_camera_quality_retention_profiles(
-        self, *, network_id: str
+        self, network_id: str
     ) -> GetNetworkCameraQualityRetentionProfilesResponse | None:
         """List the quality retention profiles for this network.
 
@@ -883,7 +883,7 @@ class Camera:
         )
 
     def get_network_camera_schedules(
-        self, *, network_id: str
+        self, network_id: str
     ) -> GetNetworkCameraSchedulesResponse | None:
         """Returns a list of all camera recording schedules.
 
@@ -904,7 +904,7 @@ class Camera:
         )
 
     def get_network_camera_wireless_profiles(
-        self, *, network_id: str
+        self, network_id: str
     ) -> GetNetworkCameraWirelessProfilesResponse | None:
         """List the camera wireless profiles for this network.
 
@@ -1049,7 +1049,7 @@ class Camera:
         )
 
     def get_organization_camera_boundaries_areas_by_device(
-        self, *, organization_id: str, serials: list[str] | None = None
+        self, organization_id: str, *, serials: list[str] | None = None
     ) -> GetOrganizationCameraBoundariesAreasByDeviceResponse | None:
         """Returns all configured area boundaries of cameras.
 
@@ -1077,7 +1077,7 @@ class Camera:
         )
 
     def get_organization_camera_boundaries_lines_by_device(
-        self, *, organization_id: str, serials: list[str] | None = None
+        self, organization_id: str, *, serials: list[str] | None = None
     ) -> GetOrganizationCameraBoundariesLinesByDeviceResponse | None:
         """Returns all configured crossingline boundaries of cameras.
 
@@ -1105,7 +1105,7 @@ class Camera:
         )
 
     def get_organization_camera_custom_analytics_artifacts(
-        self, *, organization_id: str
+        self, organization_id: str
     ) -> GetOrganizationCameraCustomAnalyticsArtifactsResponse | None:
         """List Custom Analytics Artifacts.
 
@@ -1126,7 +1126,7 @@ class Camera:
         )
 
     def create_organization_camera_custom_analytics_artifact(
-        self, *, organization_id: str, name: str | None = None
+        self, organization_id: str, *, name: str | None = None
     ) -> CreateOrganizationCameraCustomAnalyticsArtifactResponse | None:
         """Create custom analytics artifact.
 
@@ -1255,8 +1255,8 @@ class Camera:
 
     def get_organization_camera_onboarding_statuses(
         self,
-        *,
         organization_id: str,
+        *,
         serials: list[str] | None = None,
         network_ids: list[str] | None = None,
     ) -> GetOrganizationCameraOnboardingStatusesResponse | None:
@@ -1291,8 +1291,8 @@ class Camera:
 
     def update_organization_camera_onboarding_statuses(
         self,
-        *,
         organization_id: str,
+        *,
         serial: str | None = None,
         wireless_credentials_sent: bool | None = None,
     ) -> dict[str, Any] | None:
@@ -1323,7 +1323,7 @@ class Camera:
         )
 
     def get_organization_camera_permissions(
-        self, *, organization_id: str
+        self, organization_id: str
     ) -> GetOrganizationCameraPermissionsResponse | None:
         """List the permissions scopes for this organization.
 
@@ -1367,7 +1367,7 @@ class Camera:
         )
 
     def get_organization_camera_roles(
-        self, *, organization_id: str
+        self, organization_id: str
     ) -> GetOrganizationCameraRolesResponse | None:
         """List all the roles in this organization.
 

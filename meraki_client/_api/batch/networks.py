@@ -63,8 +63,8 @@ class ActionBatchNetworks:
 
     def update_network(
         self,
-        *,
         network_id: str,
+        *,
         name: str | None = None,
         time_zone: str | None = None,
         tags: list[str] | None = None,
@@ -111,7 +111,7 @@ class ActionBatchNetworks:
             "body": payload,
         }
 
-    def delete_network(self, *, network_id: str) -> dict[str, Any]:
+    def delete_network(self, network_id: str) -> dict[str, Any]:
         """Delete a network.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-network
@@ -318,8 +318,8 @@ class ActionBatchNetworks:
 
     def update_network_firmware_upgrades(
         self,
-        *,
         network_id: str,
+        *,
         upgrade_window: UpdateNetworkFirmwareUpgradesUpgradeWindow | None = None,
         timezone: str | None = None,
         products: UpdateNetworkFirmwareUpgradesProducts | None = None,
@@ -1152,8 +1152,8 @@ class ActionBatchNetworks:
 
     def update_network_settings(
         self,
-        *,
         network_id: str,
+        *,
         local_status_page_enabled: bool | None = None,
         remote_status_page_enabled: bool | None = None,
         local_status_page: UpdateNetworkSettingsLocalStatusPage | None = None,
@@ -1204,7 +1204,7 @@ class ActionBatchNetworks:
             "body": payload,
         }
 
-    def split_network(self, *, network_id: str) -> dict[str, Any]:
+    def split_network(self, network_id: str) -> dict[str, Any]:
         """Split a combined network into individual networks for each type of device.
 
         https://developer.cisco.com/meraki/api-v1/#!split-network
@@ -1222,7 +1222,7 @@ class ActionBatchNetworks:
         }
 
     def unbind_network(
-        self, *, network_id: str, retain_configs: bool | None = None
+        self, network_id: str, *, retain_configs: bool | None = None
     ) -> dict[str, Any]:
         """Unbind a network from a template.
 

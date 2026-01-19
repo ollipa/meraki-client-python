@@ -15,7 +15,7 @@ class ActionBatchSpaces:
     def __init__(self) -> None:
         pass
 
-    def remove_organization_spaces_integration(self, *, organization_id: str) -> dict[str, Any]:
+    def remove_organization_spaces_integration(self, organization_id: str) -> dict[str, Any]:
         """Remove the Spaces integration from Meraki.
 
         https://developer.cisco.com/meraki/api-v1/#!remove-organization-spaces-integration

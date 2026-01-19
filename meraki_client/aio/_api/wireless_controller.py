@@ -38,8 +38,8 @@ class WirelessController:
 
     def get_organization_wireless_controller_availabilities_change_history(
         self,
-        *,
         organization_id: str,
+        *,
         serials: list[str] | None = None,
         t0: str | None = None,
         t1: str | None = None,
@@ -112,8 +112,8 @@ class WirelessController:
 
     def get_organization_wireless_controller_clients_overview_history_by_device_by_interval(
         self,
-        *,
         organization_id: str,
+        *,
         network_ids: list[str] | None = None,
         serials: list[str] | None = None,
         t0: str | None = None,
@@ -194,8 +194,8 @@ class WirelessController:
 
     def get_organization_wireless_controller_connections(
         self,
-        *,
         organization_id: str,
+        *,
         network_ids: list[str] | None = None,
         controller_serials: list[str] | None = None,
         per_page: int | None = None,
@@ -256,8 +256,8 @@ class WirelessController:
 
     def get_organization_wireless_controller_devices_interfaces_l2_by_device(
         self,
-        *,
         organization_id: str,
+        *,
         serials: list[str] | None = None,
         t0: str | None = None,
         t1: str | None = None,
@@ -330,8 +330,8 @@ class WirelessController:
 
     def get_organization_wireless_controller_devices_interfaces_l2_statuses_change_history_by_device(
         self,
-        *,
         organization_id: str,
+        *,
         serials: list[str] | None = None,
         include_interfaces_without_changes: bool | None = None,
         t0: str | None = None,
@@ -408,8 +408,8 @@ class WirelessController:
 
     def get_organization_wireless_controller_devices_interfaces_l2_usage_history_by_interval(
         self,
-        *,
         organization_id: str,
+        *,
         serials: list[str] | None = None,
         t0: str | None = None,
         t1: str | None = None,
@@ -480,8 +480,8 @@ class WirelessController:
 
     def get_organization_wireless_controller_devices_interfaces_l3_by_device(
         self,
-        *,
         organization_id: str,
+        *,
         serials: list[str] | None = None,
         t0: str | None = None,
         t1: str | None = None,
@@ -554,8 +554,8 @@ class WirelessController:
 
     def get_organization_wireless_controller_devices_interfaces_l3_statuses_change_history_by_device(
         self,
-        *,
         organization_id: str,
+        *,
         serials: list[str] | None = None,
         include_interfaces_without_changes: bool | None = None,
         t0: str | None = None,
@@ -632,8 +632,8 @@ class WirelessController:
 
     def get_organization_wireless_controller_devices_interfaces_l3_usage_history_by_interval(
         self,
-        *,
         organization_id: str,
+        *,
         serials: list[str] | None = None,
         t0: str | None = None,
         t1: str | None = None,
@@ -704,8 +704,8 @@ class WirelessController:
 
     def get_organization_wireless_controller_devices_interfaces_packets_overview_by_device(
         self,
-        *,
         organization_id: str,
+        *,
         serials: list[str] | None = None,
         names: list[str] | None = None,
         t0: str | None = None,
@@ -781,8 +781,8 @@ class WirelessController:
 
     def get_organization_wireless_controller_devices_interfaces_usage_history_by_interval(
         self,
-        *,
         organization_id: str,
+        *,
         serials: list[str] | None = None,
         names: list[str] | None = None,
         t0: str | None = None,
@@ -858,8 +858,8 @@ class WirelessController:
 
     def get_organization_wireless_controller_devices_redundancy_failover_history(
         self,
-        *,
         organization_id: str,
+        *,
         serials: list[str] | None = None,
         t0: str | None = None,
         t1: str | None = None,
@@ -932,8 +932,8 @@ class WirelessController:
 
     def get_organization_wireless_controller_devices_redundancy_statuses(
         self,
-        *,
         organization_id: str,
+        *,
         serials: list[str] | None = None,
         per_page: int | None = None,
         starting_after: str | None = None,
@@ -991,8 +991,8 @@ class WirelessController:
 
     def get_organization_wireless_controller_devices_system_utilization_history_by_interval(
         self,
-        *,
         organization_id: str,
+        *,
         serials: list[str] | None = None,
         t0: str | None = None,
         t1: str | None = None,
@@ -1063,8 +1063,8 @@ class WirelessController:
 
     def get_organization_wireless_controller_overview_by_device(
         self,
-        *,
         organization_id: str,
+        *,
         network_ids: list[str] | None = None,
         serials: list[str] | None = None,
         per_page: int | None = None,

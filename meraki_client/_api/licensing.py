@@ -60,8 +60,8 @@ class Licensing:
 
     def get_administered_licensing_subscription_subscriptions(
         self,
-        *,
         organization_ids: list[str],
+        *,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
@@ -191,7 +191,7 @@ class Licensing:
         )
 
     def validate_administered_licensing_subscription_subscriptions_claim_key(
-        self, *, claim_key: str
+        self, claim_key: str
     ) -> ValidateAdministeredLicensingSubscriptionSubscriptionsClaimKeyResponse | None:
         """Find a subscription by claim key.
 
@@ -216,7 +216,7 @@ class Licensing:
         )
 
     def get_administered_licensing_subscription_subscriptions_compliance_statuses(
-        self, *, organization_ids: list[str], subscription_ids: list[str] | None = None
+        self, organization_ids: list[str], *, subscription_ids: list[str] | None = None
     ) -> GetAdministeredLicensingSubscriptionSubscriptionsComplianceStatusesResponse | None:
         """Get compliance status for requested subscriptions.
 
@@ -245,8 +245,8 @@ class Licensing:
 
     def bind_administered_licensing_subscription_subscription(
         self,
-        *,
         subscription_id: str,
+        *,
         validate: bool | None = None,
         network_ids: list[str] | None = None,
     ) -> BindAdministeredLicensingSubscriptionSubscriptionResponse | None:
@@ -282,8 +282,8 @@ class Licensing:
 
     def get_organization_licensing_coterm_licenses(
         self,
-        *,
         organization_id: str,
+        *,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,

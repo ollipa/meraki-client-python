@@ -27,8 +27,8 @@ class ActionBatchCellularGateway:
 
     def update_device_cellular_gateway_lan(
         self,
-        *,
         serial: str,
+        *,
         reserved_ip_ranges: list[UpdateDeviceCellularGatewayLanReservedIpRangesItem] | None = None,
         fixed_ip_assignments: list[UpdateDeviceCellularGatewayLanFixedIpAssignmentsItem]
         | None = None,
@@ -64,8 +64,8 @@ class ActionBatchCellularGateway:
 
     def update_device_cellular_gateway_port_forwarding_rules(
         self,
-        *,
         serial: str,
+        *,
         rules: list[UpdateDeviceCellularGatewayPortForwardingRulesRulesItem] | None = None,
     ) -> dict[str, Any]:
         """Updates the port forwarding rules for a single MG.
@@ -92,8 +92,8 @@ class ActionBatchCellularGateway:
 
     def update_network_cellular_gateway_connectivity_monitoring_destinations(
         self,
-        *,
         network_id: str,
+        *,
         destinations: list[
             UpdateNetworkCellularGatewayConnectivityMonitoringDestinationsDestinationsItem
         ]
@@ -125,8 +125,8 @@ class ActionBatchCellularGateway:
 
     def update_network_cellular_gateway_dhcp(
         self,
-        *,
         network_id: str,
+        *,
         dhcp_lease_time: str | None = None,
         dns_nameservers: str | None = None,
         dns_custom_nameservers: list[str] | None = None,
@@ -163,7 +163,7 @@ class ActionBatchCellularGateway:
         }
 
     def update_network_cellular_gateway_subnet_pool(
-        self, *, network_id: str, mask: int | None = None, cidr: str | None = None
+        self, network_id: str, *, mask: int | None = None, cidr: str | None = None
     ) -> dict[str, Any]:
         """Update the subnet pool and mask configuration for MGs in the network.
 
@@ -193,8 +193,8 @@ class ActionBatchCellularGateway:
 
     def update_network_cellular_gateway_uplink(
         self,
-        *,
         network_id: str,
+        *,
         bandwidth_limits: UpdateNetworkCellularGatewayUplinkBandwidthLimits | None = None,
     ) -> dict[str, Any]:
         """Updates the uplink settings for your MG network.

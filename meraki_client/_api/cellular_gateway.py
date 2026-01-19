@@ -54,7 +54,7 @@ class CellularGateway:
         self._session = session
 
     def get_device_cellular_gateway_lan(
-        self, *, serial: str
+        self, serial: str
     ) -> GetDeviceCellularGatewayLanResponse | None:
         """Show the LAN Settings of a MG.
 
@@ -76,8 +76,8 @@ class CellularGateway:
 
     def update_device_cellular_gateway_lan(
         self,
-        *,
         serial: str,
+        *,
         reserved_ip_ranges: list[UpdateDeviceCellularGatewayLanReservedIpRangesItem] | None = None,
         fixed_ip_assignments: list[UpdateDeviceCellularGatewayLanFixedIpAssignmentsItem]
         | None = None,
@@ -114,7 +114,7 @@ class CellularGateway:
         )
 
     def get_device_cellular_gateway_port_forwarding_rules(
-        self, *, serial: str
+        self, serial: str
     ) -> GetDeviceCellularGatewayPortForwardingRulesResponse | None:
         """Returns the port forwarding rules for a single MG.
 
@@ -136,8 +136,8 @@ class CellularGateway:
 
     def update_device_cellular_gateway_port_forwarding_rules(
         self,
-        *,
         serial: str,
+        *,
         rules: list[UpdateDeviceCellularGatewayPortForwardingRulesRulesItem] | None = None,
     ) -> UpdateDeviceCellularGatewayPortForwardingRulesResponse | None:
         """Updates the port forwarding rules for a single MG.
@@ -165,7 +165,7 @@ class CellularGateway:
         )
 
     def get_network_cellular_gateway_connectivity_monitoring_destinations(
-        self, *, network_id: str
+        self, network_id: str
     ) -> GetNetworkCellularGatewayConnectivityMonitoringDestinationsResponse | None:
         """Return the connectivity testing destinations for an MG network.
 
@@ -187,8 +187,8 @@ class CellularGateway:
 
     def update_network_cellular_gateway_connectivity_monitoring_destinations(
         self,
-        *,
         network_id: str,
+        *,
         destinations: list[
             UpdateNetworkCellularGatewayConnectivityMonitoringDestinationsDestinationsItem
         ]
@@ -221,7 +221,7 @@ class CellularGateway:
         )
 
     def get_network_cellular_gateway_dhcp(
-        self, *, network_id: str
+        self, network_id: str
     ) -> GetNetworkCellularGatewayDhcpResponse | None:
         """List common DHCP settings of MGs.
 
@@ -243,8 +243,8 @@ class CellularGateway:
 
     def update_network_cellular_gateway_dhcp(
         self,
-        *,
         network_id: str,
+        *,
         dhcp_lease_time: str | None = None,
         dns_nameservers: str | None = None,
         dns_custom_nameservers: list[str] | None = None,
@@ -283,7 +283,7 @@ class CellularGateway:
         )
 
     def get_network_cellular_gateway_subnet_pool(
-        self, *, network_id: str
+        self, network_id: str
     ) -> GetNetworkCellularGatewaySubnetPoolResponse | None:
         """Return the subnet pool and mask configured for MGs in the network.
 
@@ -304,7 +304,7 @@ class CellularGateway:
         )
 
     def update_network_cellular_gateway_subnet_pool(
-        self, *, network_id: str, mask: int | None = None, cidr: str | None = None
+        self, network_id: str, *, mask: int | None = None, cidr: str | None = None
     ) -> UpdateNetworkCellularGatewaySubnetPoolResponse | None:
         """Update the subnet pool and mask configuration for MGs in the network.
 
@@ -335,7 +335,7 @@ class CellularGateway:
         )
 
     def get_network_cellular_gateway_uplink(
-        self, *, network_id: str
+        self, network_id: str
     ) -> GetNetworkCellularGatewayUplinkResponse | None:
         """Returns the uplink settings for your MG network.
 
@@ -357,8 +357,8 @@ class CellularGateway:
 
     def update_network_cellular_gateway_uplink(
         self,
-        *,
         network_id: str,
+        *,
         bandwidth_limits: UpdateNetworkCellularGatewayUplinkBandwidthLimits | None = None,
     ) -> UpdateNetworkCellularGatewayUplinkResponse | None:
         """Updates the uplink settings for your MG network.
@@ -388,7 +388,7 @@ class CellularGateway:
         )
 
     def get_organization_cellular_gateway_esims_inventory(
-        self, *, organization_id: str, eids: list[str] | None = None
+        self, organization_id: str, *, eids: list[str] | None = None
     ) -> GetOrganizationCellularGatewayEsimsInventoryResponse | None:
         """The eSIM inventory of a given organization.
 
@@ -444,7 +444,7 @@ class CellularGateway:
         )
 
     def get_organization_cellular_gateway_esims_service_providers(
-        self, *, organization_id: str
+        self, organization_id: str
     ) -> GetOrganizationCellularGatewayEsimsServiceProvidersResponse | None:
         """Service providers customers can add accounts for.
 
@@ -465,7 +465,7 @@ class CellularGateway:
         )
 
     def get_organization_cellular_gateway_esims_service_providers_accounts(
-        self, *, organization_id: str, account_ids: list[int] | None = None
+        self, organization_id: str, *, account_ids: list[int] | None = None
     ) -> GetOrganizationCellularGatewayEsimsServiceProvidersAccountsResponse | None:
         """Inventory of service provider accounts tied to the organization.
 
@@ -709,8 +709,8 @@ class CellularGateway:
 
     def get_organization_cellular_gateway_uplink_statuses(
         self,
-        *,
         organization_id: str,
+        *,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,

@@ -64,7 +64,7 @@ class ActionBatchSensor:
         }
 
     def update_device_sensor_relationships(
-        self, *, serial: str, livestream: UpdateDeviceSensorRelationshipsLivestream | None = None
+        self, serial: str, *, livestream: UpdateDeviceSensorRelationshipsLivestream | None = None
     ) -> dict[str, Any]:
         """Assign one or more sensor roles to a given sensor or camera device.
 

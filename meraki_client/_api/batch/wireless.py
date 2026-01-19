@@ -100,8 +100,8 @@ class ActionBatchWireless:
 
     def update_device_wireless_alternate_management_interface_ipv6(
         self,
-        *,
         serial: str,
+        *,
         addresses: list[UpdateDeviceWirelessAlternateManagementInterfaceIpv6AddressesItem]
         | None = None,
     ) -> dict[str, Any]:
@@ -131,8 +131,8 @@ class ActionBatchWireless:
 
     def update_device_wireless_bluetooth_settings(
         self,
-        *,
         serial: str,
+        *,
         uuid: str | None = None,
         major: int | None = None,
         minor: int | None = None,
@@ -169,7 +169,7 @@ class ActionBatchWireless:
         }
 
     def update_device_wireless_electronic_shelf_label(
-        self, *, serial: str, channel: str | None = None, enabled: bool | None = None
+        self, serial: str, *, channel: str | None = None, enabled: bool | None = None
     ) -> dict[str, Any]:
         """Update the ESL settings of a device.
 
@@ -199,8 +199,8 @@ class ActionBatchWireless:
 
     def update_device_wireless_radio_settings(
         self,
-        *,
         serial: str,
+        *,
         rf_profile_id: str | None = None,
         two_four_ghz_settings: UpdateDeviceWirelessRadioSettingsTwoFourGhzSettings | None = None,
         five_ghz_settings: UpdateDeviceWirelessRadioSettingsFiveGhzSettings | None = None,
@@ -370,8 +370,8 @@ class ActionBatchWireless:
 
     def update_network_wireless_alternate_management_interface(
         self,
-        *,
         network_id: str,
+        *,
         enabled: bool | None = None,
         vlan_id: int | None = None,
         protocols: list[str] | None = None,
@@ -418,8 +418,8 @@ class ActionBatchWireless:
 
     def update_network_wireless_billing(
         self,
-        *,
         network_id: str,
+        *,
         currency: str | None = None,
         plans: list[UpdateNetworkWirelessBillingPlansItem] | None = None,
     ) -> dict[str, Any]:
@@ -450,8 +450,8 @@ class ActionBatchWireless:
 
     def update_network_wireless_electronic_shelf_label(
         self,
-        *,
         network_id: str,
+        *,
         hostname: str | None = None,
         enabled: bool | None = None,
         mode: str | None = None,
@@ -644,8 +644,8 @@ class ActionBatchWireless:
 
     def update_network_wireless_location_scanning(
         self,
-        *,
         network_id: str,
+        *,
         enabled: bool | None = None,
         api: UpdateNetworkWirelessLocationScanningApi | None = None,
     ) -> dict[str, Any]:
@@ -896,8 +896,8 @@ class ActionBatchWireless:
 
     def update_network_wireless_settings(
         self,
-        *,
         network_id: str,
+        *,
         meshing_enabled: bool | None = None,
         ipv6_bridge_enabled: bool | None = None,
         location_analytics_enabled: bool | None = None,
@@ -2110,8 +2110,8 @@ class ActionBatchWireless:
 
     def update_network_wireless_zigbee(
         self,
-        *,
         network_id: str,
+        *,
         enabled: bool | None = None,
         iot_controller: UpdateNetworkWirelessZigbeeIotController | None = None,
         lock_management: UpdateNetworkWirelessZigbeeLockManagement | None = None,

@@ -79,7 +79,7 @@ class Insight:
         )
 
     async def get_organization_insight_applications(
-        self, *, organization_id: str
+        self, organization_id: str
     ) -> GetOrganizationInsightApplicationsResponse | None:
         """List all Insight tracked applications.
 
@@ -100,7 +100,7 @@ class Insight:
         )
 
     async def get_organization_insight_monitored_media_servers(
-        self, *, organization_id: str
+        self, organization_id: str
     ) -> GetOrganizationInsightMonitoredMediaServersResponse | None:
         """List the monitored media servers for this organization.
 

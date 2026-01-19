@@ -168,8 +168,8 @@ class CampusGateway:
 
     def get_organization_campus_gateway_clusters(
         self,
-        *,
         organization_id: str,
+        *,
         network_ids: list[str] | None = None,
         per_page: int | None = None,
         starting_after: str | None = None,
@@ -224,8 +224,8 @@ class CampusGateway:
 
     def get_organization_campus_gateway_devices_uplinks_local_overrides_by_device(
         self,
-        *,
         organization_id: str,
+        *,
         serials: list[str] | None = None,
         per_page: int | None = None,
         starting_after: str | None = None,

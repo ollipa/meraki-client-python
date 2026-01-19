@@ -24,8 +24,8 @@ class ActionBatchDevices:
 
     def update_device(
         self,
-        *,
         serial: str,
+        *,
         name: str | None = None,
         tags: list[str] | None = None,
         lat: float | None = None,
@@ -122,7 +122,7 @@ class ActionBatchDevices:
         }
 
     def create_device_live_tools_throughput_test(
-        self, *, serial: str, callback: CreateDeviceLiveToolsThroughputTestCallback | None = None
+        self, serial: str, *, callback: CreateDeviceLiveToolsThroughputTestCallback | None = None
     ) -> dict[str, Any]:
         """Enqueue a job to test a device throughput, the test will run for 10 secs to test throughput.
 
@@ -149,8 +149,8 @@ class ActionBatchDevices:
 
     def update_device_management_interface(
         self,
-        *,
         serial: str,
+        *,
         wan1: UpdateDeviceManagementInterfaceWan1 | None = None,
         wan2: UpdateDeviceManagementInterfaceWan2 | None = None,
     ) -> dict[str, Any]:

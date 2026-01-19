@@ -281,7 +281,7 @@ class Organizations:
         )
 
     async def create_organization(
-        self, *, name: str, management: CreateOrganizationManagement | None = None
+        self, name: str, *, management: CreateOrganizationManagement | None = None
     ) -> CreateOrganizationResponse | None:
         """Create a new organization.
 
@@ -308,7 +308,7 @@ class Organizations:
             response_schema=CreateOrganizationResponse,
         )
 
-    async def get_organization(self, *, organization_id: str) -> GetOrganizationResponse | None:
+    async def get_organization(self, organization_id: str) -> GetOrganizationResponse | None:
         """Return an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization
@@ -329,8 +329,8 @@ class Organizations:
 
     async def update_organization(
         self,
-        *,
         organization_id: str,
+        *,
         name: str | None = None,
         management: UpdateOrganizationManagement | None = None,
         api: UpdateOrganizationApi | None = None,
@@ -365,7 +365,7 @@ class Organizations:
             response_schema=UpdateOrganizationResponse,
         )
 
-    async def delete_organization(self, *, organization_id: str) -> None:
+    async def delete_organization(self, organization_id: str) -> None:
         """Delete an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-organization
@@ -382,7 +382,7 @@ class Organizations:
         )
 
     async def get_organization_action_batches(
-        self, *, organization_id: str, status: str | None = None
+        self, organization_id: str, *, status: str | None = None
     ) -> GetOrganizationActionBatchesResponse | None:
         """Return the list of action batches in the organization.
 
@@ -547,7 +547,7 @@ class Organizations:
         )
 
     async def get_organization_adaptive_policy_acls(
-        self, *, organization_id: str
+        self, organization_id: str
     ) -> GetOrganizationAdaptivePolicyAclsResponse | None:
         """List adaptive policy ACLs in a organization.
 
@@ -711,7 +711,7 @@ class Organizations:
         )
 
     async def get_organization_adaptive_policy_groups(
-        self, *, organization_id: str
+        self, organization_id: str
     ) -> GetOrganizationAdaptivePolicyGroupsResponse | None:
         """List adaptive policy groups in a organization.
 
@@ -872,7 +872,7 @@ class Organizations:
         )
 
     async def get_organization_adaptive_policy_overview(
-        self, *, organization_id: str
+        self, organization_id: str
     ) -> GetOrganizationAdaptivePolicyOverviewResponse | None:
         """Returns adaptive policy aggregate statistics for an organization.
 
@@ -893,7 +893,7 @@ class Organizations:
         )
 
     async def get_organization_adaptive_policy_policies(
-        self, *, organization_id: str
+        self, organization_id: str
     ) -> GetOrganizationAdaptivePolicyPoliciesResponse | None:
         """List adaptive policies in an organization.
 
@@ -1064,7 +1064,7 @@ class Organizations:
         )
 
     async def get_organization_adaptive_policy_settings(
-        self, *, organization_id: str
+        self, organization_id: str
     ) -> GetOrganizationAdaptivePolicySettingsResponse | None:
         """Returns global adaptive policy settings in an organization.
 
@@ -1085,7 +1085,7 @@ class Organizations:
         )
 
     async def update_organization_adaptive_policy_settings(
-        self, *, organization_id: str, enabled_networks: list[str] | None = None
+        self, organization_id: str, *, enabled_networks: list[str] | None = None
     ) -> UpdateOrganizationAdaptivePolicySettingsResponse | None:
         """Update global adaptive policy settings.
 
@@ -1112,7 +1112,7 @@ class Organizations:
         )
 
     async def get_organization_admins(
-        self, *, organization_id: str, network_ids: list[str] | None = None
+        self, organization_id: str, *, network_ids: list[str] | None = None
     ) -> GetOrganizationAdminsResponse | None:
         """List the dashboard administrators in this organization.
 
@@ -1277,7 +1277,7 @@ class Organizations:
         )
 
     async def get_organization_alerts_profiles(
-        self, *, organization_id: str
+        self, organization_id: str
     ) -> GetOrganizationAlertsProfilesResponse | None:
         """List all organization-wide alert configurations.
 
@@ -1448,8 +1448,8 @@ class Organizations:
 
     def get_organization_api_requests(
         self,
-        *,
         organization_id: str,
+        *,
         t0: str | None = None,
         t1: str | None = None,
         timespan: float | None = None,
@@ -1559,8 +1559,8 @@ class Organizations:
 
     async def get_organization_api_requests_overview(
         self,
-        *,
         organization_id: str,
+        *,
         t0: str | None = None,
         t1: str | None = None,
         timespan: float | None = None,
@@ -1600,8 +1600,8 @@ class Organizations:
 
     async def get_organization_api_requests_overview_response_codes_by_interval(
         self,
-        *,
         organization_id: str,
+        *,
         t0: str | None = None,
         t1: str | None = None,
         timespan: float | None = None,
@@ -1675,8 +1675,8 @@ class Organizations:
 
     def get_organization_assurance_alerts(
         self,
-        *,
         organization_id: str,
+        *,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
@@ -1834,8 +1834,8 @@ class Organizations:
 
     async def get_organization_assurance_alerts_overview(
         self,
-        *,
         organization_id: str,
+        *,
         network_id: str | None = None,
         severity: str | None = None,
         types: list[str] | None = None,
@@ -1922,8 +1922,8 @@ class Organizations:
 
     def get_organization_assurance_alerts_overview_by_network(
         self,
-        *,
         organization_id: str,
+        *,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
@@ -2046,8 +2046,8 @@ class Organizations:
 
     def get_organization_assurance_alerts_overview_by_type(
         self,
-        *,
         organization_id: str,
+        *,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
@@ -2272,7 +2272,7 @@ class Organizations:
         )
 
     async def get_organization_assurance_alerts_taxonomy_categories(
-        self, *, organization_id: str
+        self, organization_id: str
     ) -> GetOrganizationAssuranceAlertsTaxonomyCategoriesResponse | None:
         """Return a list of Category Types.
 
@@ -2293,7 +2293,7 @@ class Organizations:
         )
 
     async def get_organization_assurance_alerts_taxonomy_types(
-        self, *, organization_id: str
+        self, organization_id: str
     ) -> GetOrganizationAssuranceAlertsTaxonomyTypesResponse | None:
         """Return a list of alert types.
 
@@ -2337,7 +2337,7 @@ class Organizations:
         )
 
     async def get_organization_branding_policies(
-        self, *, organization_id: str
+        self, organization_id: str
     ) -> GetOrganizationBrandingPoliciesResponse | None:
         """List the branding policies of an organization.
 
@@ -2410,7 +2410,7 @@ class Organizations:
         )
 
     async def get_organization_branding_policies_priorities(
-        self, *, organization_id: str
+        self, organization_id: str
     ) -> GetOrganizationBrandingPoliciesPrioritiesResponse | None:
         """Return the branding policy IDs of an organization in priority order.
 
@@ -2431,7 +2431,7 @@ class Organizations:
         )
 
     async def update_organization_branding_policies_priorities(
-        self, *, organization_id: str, branding_policy_ids: list[str] | None = None
+        self, organization_id: str, *, branding_policy_ids: list[str] | None = None
     ) -> UpdateOrganizationBrandingPoliciesPrioritiesResponse | None:
         """Update the priority ordering of an organization's branding policies.
 
@@ -2557,8 +2557,8 @@ class Organizations:
 
     async def claim_into_organization(
         self,
-        *,
         organization_id: str,
+        *,
         orders: list[str] | None = None,
         serials: list[str] | None = None,
         licenses: list[ClaimIntoOrganizationLicensesItem] | None = None,
@@ -2597,8 +2597,8 @@ class Organizations:
 
     async def get_organization_clients_bandwidth_usage_history(
         self,
-        *,
         organization_id: str,
+        *,
         network_tag: str | None = None,
         device_tag: str | None = None,
         ssid_name: str | None = None,
@@ -2653,8 +2653,8 @@ class Organizations:
 
     async def get_organization_clients_overview(
         self,
-        *,
         organization_id: str,
+        *,
         t0: str | None = None,
         t1: str | None = None,
         timespan: float | None = None,
@@ -2775,7 +2775,7 @@ class Organizations:
         )
 
     async def get_organization_config_templates(
-        self, *, organization_id: str
+        self, organization_id: str
     ) -> GetOrganizationConfigTemplatesResponse | None:
         """List the configuration templates for this organization.
 
@@ -2922,8 +2922,8 @@ class Organizations:
 
     def get_organization_configuration_changes(
         self,
-        *,
         organization_id: str,
+        *,
         t0: str | None = None,
         t1: str | None = None,
         timespan: float | None = None,
@@ -2997,8 +2997,8 @@ class Organizations:
 
     def get_organization_devices(
         self,
-        *,
         organization_id: str,
+        *,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
@@ -3125,8 +3125,8 @@ class Organizations:
 
     def get_organization_devices_availabilities(
         self,
-        *,
         organization_id: str,
+        *,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
@@ -3217,8 +3217,8 @@ class Organizations:
 
     def get_organization_devices_availabilities_change_history(
         self,
-        *,
         organization_id: str,
+        *,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
@@ -3302,8 +3302,8 @@ class Organizations:
 
     def get_organization_devices_controller_migrations(
         self,
-        *,
         organization_id: str,
+        *,
         serials: list[str] | None = None,
         network_ids: list[str] | None = None,
         target: str | None = None,
@@ -3444,8 +3444,8 @@ class Organizations:
 
     async def get_organization_devices_overview_by_model(
         self,
-        *,
         organization_id: str,
+        *,
         models: list[str] | None = None,
         network_ids: list[str] | None = None,
         product_types: list[str] | None = None,
@@ -3484,8 +3484,8 @@ class Organizations:
 
     def get_organization_devices_packet_capture_captures(
         self,
-        *,
         organization_id: str,
+        *,
         capture_ids: list[str] | None = None,
         network_ids: list[str] | None = None,
         serials: list[str] | None = None,
@@ -3822,8 +3822,8 @@ class Organizations:
 
     async def get_organization_devices_packet_capture_schedules(
         self,
-        *,
         organization_id: str,
+        *,
         schedule_ids: list[str] | None = None,
         network_ids: list[str] | None = None,
         device_ids: list[str] | None = None,
@@ -4032,8 +4032,8 @@ class Organizations:
 
     def get_organization_devices_power_modules_statuses_by_device(
         self,
-        *,
         organization_id: str,
+        *,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
@@ -4117,8 +4117,8 @@ class Organizations:
 
     def get_organization_devices_provisioning_statuses(
         self,
-        *,
         organization_id: str,
+        *,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
@@ -4212,8 +4212,8 @@ class Organizations:
 
     def get_organization_devices_statuses(
         self,
-        *,
         organization_id: str,
+        *,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
@@ -4306,8 +4306,8 @@ class Organizations:
 
     async def get_organization_devices_statuses_overview(
         self,
-        *,
         organization_id: str,
+        *,
         product_types: list[str] | None = None,
         network_ids: list[str] | None = None,
     ) -> GetOrganizationDevicesStatusesOverviewResponse | None:
@@ -4343,8 +4343,8 @@ class Organizations:
 
     def get_organization_devices_system_memory_usage_history_by_interval(
         self,
-        *,
         organization_id: str,
+        *,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
@@ -4435,8 +4435,8 @@ class Organizations:
 
     def get_organization_devices_uplinks_addresses_by_device(
         self,
-        *,
         organization_id: str,
+        *,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
@@ -4520,8 +4520,8 @@ class Organizations:
 
     async def get_organization_devices_uplinks_loss_and_latency(
         self,
-        *,
         organization_id: str,
+        *,
         t0: str | None = None,
         t1: str | None = None,
         timespan: float | None = None,
@@ -4577,7 +4577,7 @@ class Organizations:
         )
 
     async def get_organization_early_access_features(
-        self, *, organization_id: str
+        self, organization_id: str
     ) -> GetOrganizationEarlyAccessFeaturesResponse | None:
         """List the available early access features for organization.
 
@@ -4598,7 +4598,7 @@ class Organizations:
         )
 
     async def get_organization_early_access_features_opt_ins(
-        self, *, organization_id: str
+        self, organization_id: str
     ) -> GetOrganizationEarlyAccessFeaturesOptInsResponse | None:
         """List the early access feature opt-ins for an organization.
 
@@ -4732,8 +4732,8 @@ class Organizations:
 
     def get_organization_firmware_upgrades(
         self,
-        *,
         organization_id: str,
+        *,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
@@ -4792,8 +4792,8 @@ class Organizations:
 
     def get_organization_firmware_upgrades_by_device(
         self,
-        *,
         organization_id: str,
+        *,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
@@ -4876,8 +4876,8 @@ class Organizations:
 
     def get_organization_floor_plans_auto_locate_devices(
         self,
-        *,
         organization_id: str,
+        *,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
@@ -4936,8 +4936,8 @@ class Organizations:
 
     def get_organization_floor_plans_auto_locate_statuses(
         self,
-        *,
         organization_id: str,
+        *,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
@@ -4996,8 +4996,8 @@ class Organizations:
 
     def get_organization_integrations_xdr_networks(
         self,
-        *,
         organization_id: str,
+        *,
         network_ids: list[str] | None = None,
         per_page: int | None = None,
         starting_after: str | None = None,
@@ -5116,8 +5116,8 @@ class Organizations:
 
     async def claim_into_organization_inventory(
         self,
-        *,
         organization_id: str,
+        *,
         orders: list[str] | None = None,
         serials: list[str] | None = None,
         licenses: list[ClaimIntoOrganizationInventoryLicensesItem] | None = None,
@@ -5156,8 +5156,8 @@ class Organizations:
 
     def get_organization_inventory_devices(
         self,
-        *,
         organization_id: str,
+        *,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
@@ -5609,7 +5609,7 @@ class Organizations:
         )
 
     async def release_from_organization_inventory(
-        self, *, organization_id: str, serials: list[str] | None = None
+        self, organization_id: str, *, serials: list[str] | None = None
     ) -> ReleaseFromOrganizationInventoryResponse | None:
         """Release a list of claimed devices from an organization.
 
@@ -5637,8 +5637,8 @@ class Organizations:
 
     def get_organization_licenses(
         self,
-        *,
         organization_id: str,
+        *,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
@@ -5806,7 +5806,7 @@ class Organizations:
         )
 
     async def get_organization_licenses_overview(
-        self, *, organization_id: str
+        self, organization_id: str
     ) -> GetOrganizationLicensesOverviewResponse | None:
         """Return an overview of the license state for an organization.
 
@@ -5914,7 +5914,7 @@ class Organizations:
         )
 
     async def get_organization_login_security(
-        self, *, organization_id: str
+        self, organization_id: str
     ) -> GetOrganizationLoginSecurityResponse | None:
         """Returns the login security settings for an organization.
 
@@ -5936,8 +5936,8 @@ class Organizations:
 
     async def update_organization_login_security(
         self,
-        *,
         organization_id: str,
+        *,
         enforce_password_expiration: bool | None = None,
         password_expiration_days: int | None = None,
         enforce_different_passwords: bool | None = None,
@@ -6035,8 +6035,8 @@ class Organizations:
 
     def get_organization_networks(
         self,
-        *,
         organization_id: str,
+        *,
         config_template_id: str | None = None,
         is_bound_to_config_template: bool | None = None,
         tags: list[str] | None = None,
@@ -6220,7 +6220,7 @@ class Organizations:
         )
 
     async def get_organization_openapi_spec(
-        self, *, organization_id: str, version: int | None = None
+        self, organization_id: str, *, version: int | None = None
     ) -> dict[str, Any] | None:
         """Return the OpenAPI Specification of the organization's API documentation in JSON.
 
@@ -6325,8 +6325,8 @@ class Organizations:
 
     def get_organization_policy_objects(
         self,
-        *,
         organization_id: str,
+        *,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
@@ -6436,8 +6436,8 @@ class Organizations:
 
     def get_organization_policy_objects_groups(
         self,
-        *,
         organization_id: str,
+        *,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
@@ -6709,7 +6709,7 @@ class Organizations:
         )
 
     async def get_organization_saml(
-        self, *, organization_id: str
+        self, organization_id: str
     ) -> GetOrganizationSamlResponse | None:
         """Returns the SAML SSO enabled settings for an organization.
 
@@ -6731,8 +6731,8 @@ class Organizations:
 
     async def update_organization_saml(
         self,
-        *,
         organization_id: str,
+        *,
         enabled: bool | None = None,
         sp_initiated: UpdateOrganizationSamlSpInitiated | None = None,
     ) -> UpdateOrganizationSamlResponse | None:
@@ -6764,7 +6764,7 @@ class Organizations:
         )
 
     async def get_organization_saml_idps(
-        self, *, organization_id: str
+        self, organization_id: str
     ) -> GetOrganizationSamlIdpsResponse | None:
         """List the SAML IdPs in your organization.
 
@@ -6909,7 +6909,7 @@ class Organizations:
         )
 
     async def get_organization_saml_roles(
-        self, *, organization_id: str
+        self, organization_id: str
     ) -> GetOrganizationSamlRolesResponse | None:
         """List the SAML roles for this organization.
 
@@ -7068,7 +7068,7 @@ class Organizations:
         )
 
     async def get_organization_snmp(
-        self, *, organization_id: str
+        self, organization_id: str
     ) -> GetOrganizationSnmpResponse | None:
         """Return the SNMP settings for an organization.
 
@@ -7090,8 +7090,8 @@ class Organizations:
 
     async def update_organization_snmp(
         self,
-        *,
         organization_id: str,
+        *,
         v2c_enabled: bool | None = None,
         v3_enabled: bool | None = None,
         v3_auth_mode: str | None = None,
@@ -7197,7 +7197,7 @@ class Organizations:
         )
 
     async def get_organization_splash_themes(
-        self, *, organization_id: str
+        self, organization_id: str
     ) -> GetOrganizationSplashThemesResponse | None:
         """List Splash Themes.
 
@@ -7218,7 +7218,7 @@ class Organizations:
         )
 
     async def create_organization_splash_theme(
-        self, *, organization_id: str, name: str | None = None, base_theme: str | None = None
+        self, organization_id: str, *, name: str | None = None, base_theme: str | None = None
     ) -> CreateOrganizationSplashThemeResponse | None:
         """Create a Splash Theme.
 
@@ -7304,8 +7304,8 @@ class Organizations:
 
     async def get_organization_summary_top_appliances_by_utilization(
         self,
-        *,
         organization_id: str,
+        *,
         network_tag: str | None = None,
         device_tag: str | None = None,
         quantity: int | None = None,
@@ -7365,8 +7365,8 @@ class Organizations:
 
     async def get_organization_summary_top_applications_by_usage(
         self,
-        *,
         organization_id: str,
+        *,
         network_tag: str | None = None,
         device: str | None = None,
         network_id: str | None = None,
@@ -7430,8 +7430,8 @@ class Organizations:
 
     async def get_organization_summary_top_applications_categories_by_usage(
         self,
-        *,
         organization_id: str,
+        *,
         network_tag: str | None = None,
         device_tag: str | None = None,
         network_id: str | None = None,
@@ -7495,8 +7495,8 @@ class Organizations:
 
     async def get_organization_summary_top_clients_by_usage(
         self,
-        *,
         organization_id: str,
+        *,
         network_tag: str | None = None,
         device_tag: str | None = None,
         quantity: int | None = None,
@@ -7556,8 +7556,8 @@ class Organizations:
 
     async def get_organization_summary_top_clients_manufacturers_by_usage(
         self,
-        *,
         organization_id: str,
+        *,
         network_tag: str | None = None,
         device_tag: str | None = None,
         quantity: int | None = None,
@@ -7616,8 +7616,8 @@ class Organizations:
 
     async def get_organization_summary_top_devices_by_usage(
         self,
-        *,
         organization_id: str,
+        *,
         network_tag: str | None = None,
         device_tag: str | None = None,
         quantity: int | None = None,
@@ -7677,8 +7677,8 @@ class Organizations:
 
     async def get_organization_summary_top_devices_models_by_usage(
         self,
-        *,
         organization_id: str,
+        *,
         network_tag: str | None = None,
         device_tag: str | None = None,
         quantity: int | None = None,
@@ -7738,8 +7738,8 @@ class Organizations:
 
     def get_organization_summary_top_networks_by_status(
         self,
-        *,
         organization_id: str,
+        *,
         network_tag: str | None = None,
         device_tag: str | None = None,
         quantity: int | None = None,
@@ -7809,8 +7809,8 @@ class Organizations:
 
     async def get_organization_summary_top_ssids_by_usage(
         self,
-        *,
         organization_id: str,
+        *,
         network_tag: str | None = None,
         device_tag: str | None = None,
         quantity: int | None = None,
@@ -7870,8 +7870,8 @@ class Organizations:
 
     async def get_organization_summary_top_switches_by_energy_usage(
         self,
-        *,
         organization_id: str,
+        *,
         network_tag: str | None = None,
         device_tag: str | None = None,
         quantity: int | None = None,
@@ -7931,8 +7931,8 @@ class Organizations:
 
     def get_organization_uplinks_statuses(
         self,
-        *,
         organization_id: str,
+        *,
         per_page: int | None = None,
         starting_after: str | None = None,
         ending_before: str | None = None,
@@ -7997,7 +7997,7 @@ class Organizations:
         )
 
     async def get_organization_webhooks_alert_types(
-        self, *, organization_id: str, product_type: str | None = None
+        self, organization_id: str, *, product_type: str | None = None
     ) -> GetOrganizationWebhooksAlertTypesResponse | None:
         """Return a list of alert types to be used with managing webhook alerts.
 
@@ -8063,8 +8063,8 @@ class Organizations:
 
     def get_organization_webhooks_logs(
         self,
-        *,
         organization_id: str,
+        *,
         t0: str | None = None,
         t1: str | None = None,
         timespan: float | None = None,

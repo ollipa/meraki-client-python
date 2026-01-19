@@ -65,7 +65,7 @@ class Devices:
     def __init__(self, session: Session) -> None:
         self._session = session
 
-    async def get_device(self, *, serial: str) -> GetDeviceResponse | None:
+    async def get_device(self, serial: str) -> GetDeviceResponse | None:
         """Return a single device.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device
@@ -83,8 +83,8 @@ class Devices:
 
     async def update_device(
         self,
-        *,
         serial: str,
+        *,
         name: str | None = None,
         tags: list[str] | None = None,
         lat: float | None = None,
@@ -151,8 +151,8 @@ class Devices:
 
     async def blink_device_leds(
         self,
-        *,
         serial: str,
+        *,
         duration: int | None = None,
         period: int | None = None,
         duty: int | None = None,
@@ -188,9 +188,7 @@ class Devices:
             response_schema=BlinkDeviceLedsResponse,
         )
 
-    async def get_device_cellular_sims(
-        self, *, serial: str
-    ) -> GetDeviceCellularSimsResponse | None:
+    async def get_device_cellular_sims(self, serial: str) -> GetDeviceCellularSimsResponse | None:
         """Return the SIM and APN configurations for a cellular device.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device-cellular-sims
@@ -211,8 +209,8 @@ class Devices:
 
     async def update_device_cellular_sims(
         self,
-        *,
         serial: str,
+        *,
         sims: list[UpdateDeviceCellularSimsSimsItem] | None = None,
         sim_ordering: list[str] | None = None,
         sim_failover: UpdateDeviceCellularSimsSimFailover | None = None,
@@ -253,7 +251,7 @@ class Devices:
         )
 
     async def get_device_clients(
-        self, *, serial: str, t0: str | None = None, timespan: float | None = None
+        self, serial: str, *, t0: str | None = None, timespan: float | None = None
     ) -> GetDeviceClientsResponse | None:
         """List the clients of a device, up to a maximum of a month ago.
 
@@ -286,7 +284,7 @@ class Devices:
         )
 
     async def create_device_live_tools_arp_table(
-        self, *, serial: str, callback: CreateDeviceLiveToolsArpTableCallback | None = None
+        self, serial: str, *, callback: CreateDeviceLiveToolsArpTableCallback | None = None
     ) -> CreateDeviceLiveToolsArpTableResponse | None:
         """Enqueue a job to perform a ARP table request for the device.
 
@@ -455,7 +453,7 @@ class Devices:
         )
 
     async def create_device_live_tools_mac_table(
-        self, *, serial: str, callback: CreateDeviceLiveToolsMacTableCallback | None = None
+        self, serial: str, *, callback: CreateDeviceLiveToolsMacTableCallback | None = None
     ) -> CreateDeviceLiveToolsMacTableResponse | None:
         """Enqueue a job to request the MAC table from the device.
 
@@ -506,7 +504,7 @@ class Devices:
         )
 
     async def create_device_live_tools_multicast_routing(
-        self, *, serial: str, callback: CreateDeviceLiveToolsMulticastRoutingCallback | None = None
+        self, serial: str, *, callback: CreateDeviceLiveToolsMulticastRoutingCallback | None = None
     ) -> CreateDeviceLiveToolsMulticastRoutingResponse | None:
         """Enqueue a job to perform a Multicast routing request for the device.
 
@@ -620,8 +618,8 @@ class Devices:
 
     async def create_device_live_tools_ping_device(
         self,
-        *,
         serial: str,
+        *,
         count: int | None = None,
         callback: CreateDeviceLiveToolsPingDeviceCallback | None = None,
     ) -> CreateDeviceLiveToolsPingDeviceResponse | None:
@@ -677,7 +675,7 @@ class Devices:
         )
 
     async def create_device_live_tools_throughput_test(
-        self, *, serial: str, callback: CreateDeviceLiveToolsThroughputTestCallback | None = None
+        self, serial: str, *, callback: CreateDeviceLiveToolsThroughputTestCallback | None = None
     ) -> CreateDeviceLiveToolsThroughputTestResponse | None:
         """Enqueue a job to test a device throughput, the test will run for 10 secs to test throughput.
 
@@ -789,7 +787,7 @@ class Devices:
             response_schema=GetDeviceLiveToolsWakeOnLanResponse,
         )
 
-    async def get_device_lldp_cdp(self, *, serial: str) -> GetDeviceLldpCdpResponse | None:
+    async def get_device_lldp_cdp(self, serial: str) -> GetDeviceLldpCdpResponse | None:
         """List LLDP and CDP information for a device.
 
         https://developer.cisco.com/meraki/api-v1/#!get-device-lldp-cdp
@@ -870,7 +868,7 @@ class Devices:
         )
 
     async def get_device_management_interface(
-        self, *, serial: str
+        self, serial: str
     ) -> GetDeviceManagementInterfaceResponse | None:
         """Return the management interface settings for a device.
 
@@ -892,8 +890,8 @@ class Devices:
 
     async def update_device_management_interface(
         self,
-        *,
         serial: str,
+        *,
         wan1: UpdateDeviceManagementInterfaceWan1 | None = None,
         wan2: UpdateDeviceManagementInterfaceWan2 | None = None,
     ) -> UpdateDeviceManagementInterfaceResponse | None:
@@ -924,7 +922,7 @@ class Devices:
             response_schema=UpdateDeviceManagementInterfaceResponse,
         )
 
-    async def reboot_device(self, *, serial: str) -> RebootDeviceResponse | None:
+    async def reboot_device(self, serial: str) -> RebootDeviceResponse | None:
         """Reboot a device.
 
         https://developer.cisco.com/meraki/api-v1/#!reboot-device
