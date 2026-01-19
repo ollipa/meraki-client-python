@@ -831,7 +831,7 @@ class ActionBatchOrganizations:
 
         return {
             "resource": path,
-            "operation": "create",
+            "operation": "mr/actions/migrate",
             "body": payload,
         }
 
@@ -865,7 +865,7 @@ class ActionBatchOrganizations:
 
         return {
             "resource": path,
-            "operation": "create",
+            "operation": "details/update",
             "body": payload,
         }
 
@@ -890,7 +890,7 @@ class ActionBatchOrganizations:
 
         return {
             "resource": path,
-            "operation": "create",
+            "operation": "destroy",
             "body": payload,
         }
 
@@ -993,7 +993,7 @@ class ActionBatchOrganizations:
 
         return {
             "resource": path,
-            "operation": "create",
+            "operation": "reorder",
             "body": payload,
         }
 
@@ -1137,7 +1137,7 @@ class ActionBatchOrganizations:
 
         return {
             "resource": path,
-            "operation": "create",
+            "operation": "disable",
             "body": payload,
         }
 
@@ -1167,7 +1167,7 @@ class ActionBatchOrganizations:
 
         return {
             "resource": path,
-            "operation": "create",
+            "operation": "enable",
             "body": payload,
         }
 
@@ -1201,7 +1201,7 @@ class ActionBatchOrganizations:
 
         return {
             "resource": path,
-            "operation": "create",
+            "operation": "claim",
             "body": payload,
         }
 
@@ -1233,7 +1233,7 @@ class ActionBatchOrganizations:
 
         return {
             "resource": path,
-            "operation": "create",
+            "operation": "assignSeats",
             "body": payload,
         }
 
@@ -1261,7 +1261,7 @@ class ActionBatchOrganizations:
 
         return {
             "resource": path,
-            "operation": "create",
+            "operation": "move",
             "body": payload,
         }
 
@@ -1293,7 +1293,7 @@ class ActionBatchOrganizations:
 
         return {
             "resource": path,
-            "operation": "create",
+            "operation": "moveSeats",
             "body": payload,
         }
 
@@ -1324,7 +1324,7 @@ class ActionBatchOrganizations:
 
         return {
             "resource": path,
-            "operation": "create",
+            "operation": "renewSeats",
             "body": payload,
         }
 
@@ -1547,7 +1547,7 @@ class ActionBatchOrganizations:
 
         return {
             "resource": path,
-            "operation": "create",
+            "operation": "combine",
             "body": payload,
         }
 

@@ -117,7 +117,7 @@ class ActionBatchDevices:
 
         return {
             "resource": path,
-            "operation": "create",
+            "operation": "blink",
             "body": payload,
         }
 
@@ -143,7 +143,7 @@ class ActionBatchDevices:
 
         return {
             "resource": path,
-            "operation": "create",
+            "operation": "test",
             "body": payload,
         }
 

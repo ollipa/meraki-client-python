@@ -187,7 +187,7 @@ def generate_library(  # noqa: PLR0915
     spec: OpenAPI, batchable_actions: list[BatchableAction], version_number: str, api_version: str
 ) -> None:
     """Generate the Meraki Python library using the public OpenAPI specification."""
-    batchable_action_summaries = [action.summary for action in batchable_actions]
+    batchable_actions_map = {action.summary: action.operation for action in batchable_actions}
 
     recreate_output_directory()
     copy_static_files()
@@ -286,7 +286,7 @@ def generate_library(  # noqa: PLR0915
                 scope=scope,
                 paths=paths,
                 spec=spec,
-                batchable_action_summaries=batchable_action_summaries,
+                batchable_actions_map=batchable_actions_map,
                 output=output,
                 async_output=async_output,
                 templates=templates,
@@ -336,7 +336,7 @@ def generate_module(  # noqa: PLR0915
     scope: str,
     paths: PathsType,
     spec: OpenAPI,
-    batchable_action_summaries: list[str],
+    batchable_actions_map: dict[str, str],
     output: TextIO,
     async_output: TextIO,
     templates: Templates,
@@ -493,17 +493,8 @@ def generate_module(  # noqa: PLR0915
                 )
             )
 
-            if endpoint.description in batchable_action_summaries:
-                match method:
-                    case "post":
-                        batch_operation = "create"
-                    case "put":
-                        batch_operation = "update"
-                    case "delete":
-                        batch_operation = "destroy"
-                    case _:
-                        raise ValueError(f"Unsupported batch operation method: {method}")
-
+            batch_operation = batchable_actions_map.get(endpoint.description or "")
+            if batch_operation:
                 batch_schemas_used.extend(function_definition.request_body_schemas_used)
 
                 batch_content.append(

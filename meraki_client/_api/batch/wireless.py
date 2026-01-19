@@ -271,7 +271,7 @@ class ActionBatchWireless:
 
         return {
             "resource": path,
-            "operation": "create",
+            "operation": "update",
             "body": payload,
         }
 
@@ -551,7 +551,7 @@ class ActionBatchWireless:
 
         return {
             "resource": path,
-            "operation": "create",
+            "operation": "aps",
             "body": payload,
         }
 
@@ -576,7 +576,7 @@ class ActionBatchWireless:
 
         return {
             "resource": path,
-            "operation": "create",
+            "operation": "default",
             "body": payload,
         }
 
@@ -2253,7 +2253,7 @@ class ActionBatchWireless:
 
         return {
             "resource": path,
-            "operation": "destroy",
+            "operation": "delete",
         }
 
     def update_organization_wireless_mqtt_settings(
@@ -2317,7 +2317,7 @@ class ActionBatchWireless:
 
         return {
             "resource": path,
-            "operation": "create",
+            "operation": "update",
             "body": payload,
         }
 
@@ -2445,7 +2445,7 @@ class ActionBatchWireless:
 
         return {
             "resource": path,
-            "operation": "update",
+            "operation": "create",
             "body": payload,
         }
 
@@ -2472,6 +2472,6 @@ class ActionBatchWireless:
 
         return {
             "resource": path,
-            "operation": "update",
+            "operation": "create",
             "body": payload,
         }

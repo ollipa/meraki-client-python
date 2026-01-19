@@ -156,7 +156,7 @@ class ActionBatchNetworks:
 
         return {
             "resource": path,
-            "operation": "create",
+            "operation": "bind",
             "body": payload,
         }
 
@@ -219,7 +219,7 @@ class ActionBatchNetworks:
 
         return {
             "resource": path,
-            "operation": "create",
+            "operation": "provision",
             "body": payload,
         }
 
@@ -261,7 +261,7 @@ class ActionBatchNetworks:
 
         return {
             "resource": path,
-            "operation": "create",
+            "operation": "claim",
             "body": payload,
         }
 
@@ -289,7 +289,7 @@ class ActionBatchNetworks:
 
         return {
             "resource": path,
-            "operation": "create",
+            "operation": "claim",
             "body": payload,
         }
 
@@ -312,7 +312,7 @@ class ActionBatchNetworks:
 
         return {
             "resource": path,
-            "operation": "create",
+            "operation": "remove",
             "body": payload,
         }
 
@@ -496,7 +496,7 @@ class ActionBatchNetworks:
 
         return {
             "resource": path,
-            "operation": "create",
+            "operation": "batch_create",
             "body": payload,
         }
 
@@ -518,7 +518,7 @@ class ActionBatchNetworks:
 
         return {
             "resource": path,
-            "operation": "create",
+            "operation": "cancel",
         }
 
     def publish_network_floor_plans_auto_locate_job(
@@ -550,7 +550,7 @@ class ActionBatchNetworks:
 
         return {
             "resource": path,
-            "operation": "create",
+            "operation": "publish",
             "body": payload,
         }
 
@@ -583,7 +583,7 @@ class ActionBatchNetworks:
 
         return {
             "resource": path,
-            "operation": "create",
+            "operation": "recalculate",
             "body": payload,
         }
 
@@ -614,7 +614,7 @@ class ActionBatchNetworks:
 
         return {
             "resource": path,
-            "operation": "create",
+            "operation": "batch_update",
             "body": payload,
         }
 
@@ -1218,7 +1218,7 @@ class ActionBatchNetworks:
 
         return {
             "resource": path,
-            "operation": "create",
+            "operation": "split",
         }
 
     def unbind_network(
@@ -1243,7 +1243,7 @@ class ActionBatchNetworks:
 
         return {
             "resource": path,
-            "operation": "create",
+            "operation": "unbind",
             "body": payload,
         }
 

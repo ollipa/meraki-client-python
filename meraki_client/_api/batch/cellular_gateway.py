@@ -374,7 +374,7 @@ class ActionBatchCellularGateway:
 
         return {
             "resource": path,
-            "operation": "create",
+            "operation": "swap",
             "body": payload,
         }
 
@@ -396,5 +396,5 @@ class ActionBatchCellularGateway:
 
         return {
             "resource": path,
-            "operation": "update",
+            "operation": "status",
         }

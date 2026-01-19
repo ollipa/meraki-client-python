@@ -97,7 +97,7 @@ class ActionBatchSwitch:
 
         return {
             "resource": path,
-            "operation": "create",
+            "operation": "cycle",
             "body": payload,
         }
 
@@ -1510,7 +1510,7 @@ class ActionBatchSwitch:
 
         return {
             "resource": path,
-            "operation": "update",
+            "operation": "update_order",
             "body": payload,
         }
 
@@ -1853,7 +1853,7 @@ class ActionBatchSwitch:
 
         return {
             "resource": path,
-            "operation": "update",
+            "operation": "settings/actions/update",
             "body": payload,
         }
 
@@ -2593,6 +2593,6 @@ class ActionBatchSwitch:
 
         return {
             "resource": path,
-            "operation": "create",
+            "operation": "settings/actions/clone",
             "body": payload,
         }

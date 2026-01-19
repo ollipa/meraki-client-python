@@ -1385,7 +1385,7 @@ class ActionBatchAppliance:
 
         return {
             "resource": path,
-            "operation": "update",
+            "operation": "settings/update",
             "body": payload,
         }
 
@@ -1494,7 +1494,7 @@ class ActionBatchAppliance:
 
         return {
             "resource": path,
-            "operation": "create",
+            "operation": "swap",
         }
 
     def create_organization_appliance_dns_local_profile(
@@ -1548,7 +1548,7 @@ class ActionBatchAppliance:
 
         return {
             "resource": path,
-            "operation": "create",
+            "operation": "bulk_create",
             "body": payload,
         }
 
@@ -1578,7 +1578,7 @@ class ActionBatchAppliance:
 
         return {
             "resource": path,
-            "operation": "create",
+            "operation": "bulk_delete",
             "body": payload,
         }
 
@@ -1789,7 +1789,7 @@ class ActionBatchAppliance:
 
         return {
             "resource": path,
-            "operation": "create",
+            "operation": "bulk_create",
             "body": payload,
         }
 
@@ -1819,7 +1819,7 @@ class ActionBatchAppliance:
 
         return {
             "resource": path,
-            "operation": "create",
+            "operation": "bulk_delete",
             "body": payload,
         }
 
