@@ -106,7 +106,7 @@ class ActionBatchNetworks:
             payload["notes"] = notes
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -124,7 +124,7 @@ class ActionBatchNetworks:
         path = f"/networks/{network_id}"
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "destroy",
         }
 
@@ -155,7 +155,7 @@ class ActionBatchNetworks:
             payload["autoBind"] = auto_bind
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "create",
             "body": payload,
         }
@@ -218,7 +218,7 @@ class ActionBatchNetworks:
             )
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "create",
             "body": payload,
         }
@@ -260,7 +260,7 @@ class ActionBatchNetworks:
             ]
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "create",
             "body": payload,
         }
@@ -288,7 +288,7 @@ class ActionBatchNetworks:
             payload["size"] = size
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "create",
             "body": payload,
         }
@@ -311,7 +311,7 @@ class ActionBatchNetworks:
             payload["serial"] = serial
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "create",
             "body": payload,
         }
@@ -347,7 +347,7 @@ class ActionBatchNetworks:
             payload["products"] = products.model_dump(by_alias=True, exclude_none=True)
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -404,7 +404,7 @@ class ActionBatchNetworks:
             payload["toVersion"] = to_version.model_dump(by_alias=True, exclude_none=True)
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "create",
             "body": payload,
         }
@@ -448,7 +448,7 @@ class ActionBatchNetworks:
             )
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "create",
             "body": payload,
         }
@@ -470,7 +470,7 @@ class ActionBatchNetworks:
         path = f"/networks/{network_id}/firmwareUpgrades/staged/groups/{group_id}"
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "destroy",
         }
 
@@ -495,7 +495,7 @@ class ActionBatchNetworks:
             payload["jobs"] = [item.model_dump(by_alias=True, exclude_none=True) for item in jobs]
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "create",
             "body": payload,
         }
@@ -517,7 +517,7 @@ class ActionBatchNetworks:
         path = f"/networks/{network_id}/floorPlans/autoLocate/jobs/{job_id}/cancel"
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "create",
         }
 
@@ -549,7 +549,7 @@ class ActionBatchNetworks:
             ]
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "create",
             "body": payload,
         }
@@ -582,7 +582,7 @@ class ActionBatchNetworks:
             ]
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "create",
             "body": payload,
         }
@@ -613,7 +613,7 @@ class ActionBatchNetworks:
             ]
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "create",
             "body": payload,
         }
@@ -694,7 +694,7 @@ class ActionBatchNetworks:
             payload["imageContents"] = image_contents
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -714,7 +714,7 @@ class ActionBatchNetworks:
         path = f"/networks/{network_id}/floorPlans/{floor_plan_id}"
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "destroy",
         }
 
@@ -789,7 +789,7 @@ class ActionBatchNetworks:
             )
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "create",
             "body": payload,
         }
@@ -868,7 +868,7 @@ class ActionBatchNetworks:
             )
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -897,7 +897,7 @@ class ActionBatchNetworks:
             params["force"] = force
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "destroy",
         }
 
@@ -959,7 +959,7 @@ class ActionBatchNetworks:
             ]
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "create",
             "body": payload,
         }
@@ -1006,7 +1006,7 @@ class ActionBatchNetworks:
             ]
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -1036,7 +1036,7 @@ class ActionBatchNetworks:
             params["delete"] = delete
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "destroy",
         }
 
@@ -1079,7 +1079,7 @@ class ActionBatchNetworks:
             payload["authentication"] = authentication.model_dump(by_alias=True, exclude_none=True)
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "create",
             "body": payload,
         }
@@ -1126,7 +1126,7 @@ class ActionBatchNetworks:
             payload["authentication"] = authentication.model_dump(by_alias=True, exclude_none=True)
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -1146,7 +1146,7 @@ class ActionBatchNetworks:
         path = f"/networks/{network_id}/mqttBrokers/{mqtt_broker_id}"
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "destroy",
         }
 
@@ -1199,7 +1199,7 @@ class ActionBatchNetworks:
             payload["namedVlans"] = named_vlans.model_dump(by_alias=True, exclude_none=True)
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -1217,7 +1217,7 @@ class ActionBatchNetworks:
         path = f"/networks/{network_id}/split"
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "create",
         }
 
@@ -1242,7 +1242,7 @@ class ActionBatchNetworks:
             payload["retainConfigs"] = retain_configs
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "create",
             "body": payload,
         }
@@ -1286,7 +1286,7 @@ class ActionBatchNetworks:
             payload["iname"] = iname
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "create",
             "body": payload,
         }
@@ -1306,7 +1306,7 @@ class ActionBatchNetworks:
         path = f"/networks/{network_id}/vlanProfiles/{iname}"
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "destroy",
         }
 
@@ -1354,7 +1354,7 @@ class ActionBatchNetworks:
             payload["headersFile"] = headers_file
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "create",
             "body": payload,
         }
@@ -1403,7 +1403,7 @@ class ActionBatchNetworks:
             payload["headersFile"] = headers_file
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -1425,6 +1425,6 @@ class ActionBatchNetworks:
         path = f"/networks/{network_id}/webhooks/payloadTemplates/{payload_template_id}"
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "destroy",
         }

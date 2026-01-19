@@ -54,7 +54,7 @@ class ActionBatchCamera:
             ]
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -141,7 +141,7 @@ class ActionBatchCamera:
             payload["motionDetectorVersion"] = motion_detector_version
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -183,7 +183,7 @@ class ActionBatchCamera:
             payload["detectionModelId"] = detection_model_id
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -208,7 +208,7 @@ class ActionBatchCamera:
             payload["externalRtspEnabled"] = external_rtsp_enabled
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -233,7 +233,7 @@ class ActionBatchCamera:
             payload["ids"] = ids.model_dump(by_alias=True, exclude_none=True)
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }

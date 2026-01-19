@@ -84,7 +84,7 @@ class ActionBatchCampusGateway:
             payload["notes"] = notes
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "create",
             "body": payload,
         }
@@ -148,7 +148,7 @@ class ActionBatchCampusGateway:
             payload["notes"] = notes
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }

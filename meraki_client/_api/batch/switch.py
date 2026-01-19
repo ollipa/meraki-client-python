@@ -96,7 +96,7 @@ class ActionBatchSwitch:
             payload["ports"] = ports
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "create",
             "body": payload,
         }
@@ -279,7 +279,7 @@ class ActionBatchSwitch:
             payload["highSpeed"] = high_speed.model_dump(by_alias=True, exclude_none=True)
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -367,7 +367,7 @@ class ActionBatchSwitch:
             payload["loopback"] = loopback
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "create",
             "body": payload,
         }
@@ -450,7 +450,7 @@ class ActionBatchSwitch:
             payload["loopback"] = loopback
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -472,7 +472,7 @@ class ActionBatchSwitch:
         path = f"/devices/{serial}/switch/routing/interfaces/{interface_id}"
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "destroy",
         }
 
@@ -578,7 +578,7 @@ class ActionBatchSwitch:
             ]
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -628,7 +628,7 @@ class ActionBatchSwitch:
             payload["vrf"] = vrf.model_dump(by_alias=True, exclude_none=True)
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "create",
             "body": payload,
         }
@@ -685,7 +685,7 @@ class ActionBatchSwitch:
             payload["vrf"] = vrf.model_dump(by_alias=True, exclude_none=True)
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -707,7 +707,7 @@ class ActionBatchSwitch:
         path = f"/devices/{serial}/switch/routing/staticRoutes/{static_route_id}"
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "destroy",
         }
 
@@ -734,7 +734,7 @@ class ActionBatchSwitch:
             payload["spareSerial"] = spare_serial
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -866,7 +866,7 @@ class ActionBatchSwitch:
             payload["guestSgtId"] = guest_sgt_id
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "create",
             "body": payload,
         }
@@ -1001,7 +1001,7 @@ class ActionBatchSwitch:
             payload["guestSgtId"] = guest_sgt_id
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -1023,7 +1023,7 @@ class ActionBatchSwitch:
         path = f"/networks/{network_id}/switch/accessPolicies/{access_policy_number}"
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "destroy",
         }
 
@@ -1069,7 +1069,7 @@ class ActionBatchSwitch:
             ]
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -1121,7 +1121,7 @@ class ActionBatchSwitch:
             payload["arpInspection"] = arp_inspection.model_dump(by_alias=True, exclude_none=True)
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -1157,7 +1157,7 @@ class ActionBatchSwitch:
             payload["ipv4"] = ipv4.model_dump(by_alias=True, exclude_none=True)
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "create",
             "body": payload,
         }
@@ -1196,7 +1196,7 @@ class ActionBatchSwitch:
             payload["ipv4"] = ipv4.model_dump(by_alias=True, exclude_none=True)
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -1218,7 +1218,7 @@ class ActionBatchSwitch:
         path = f"/networks/{network_id}/switch/dhcpServerPolicy/arpInspection/trustedServers/{trusted_server_id}"
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "destroy",
         }
 
@@ -1245,7 +1245,7 @@ class ActionBatchSwitch:
             ]
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -1284,7 +1284,7 @@ class ActionBatchSwitch:
             ]
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "create",
             "body": payload,
         }
@@ -1326,7 +1326,7 @@ class ActionBatchSwitch:
             ]
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -1348,7 +1348,7 @@ class ActionBatchSwitch:
         path = f"/networks/{network_id}/switch/linkAggregations/{link_aggregation_id}"
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "destroy",
         }
 
@@ -1382,7 +1382,7 @@ class ActionBatchSwitch:
             ]
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -1420,7 +1420,7 @@ class ActionBatchSwitch:
             payload["portSchedule"] = port_schedule.model_dump(by_alias=True, exclude_none=True)
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -1483,7 +1483,7 @@ class ActionBatchSwitch:
             payload["dscp"] = dscp
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "create",
             "body": payload,
         }
@@ -1509,7 +1509,7 @@ class ActionBatchSwitch:
             payload["ruleIds"] = rule_ids
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -1575,7 +1575,7 @@ class ActionBatchSwitch:
             payload["dscp"] = dscp
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -1597,7 +1597,7 @@ class ActionBatchSwitch:
         path = f"/networks/{network_id}/switch/qosRules/{qos_rule_id}"
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "destroy",
         }
 
@@ -1634,7 +1634,7 @@ class ActionBatchSwitch:
             ]
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -1670,7 +1670,7 @@ class ActionBatchSwitch:
             payload["vrf"] = vrf.model_dump(by_alias=True, exclude_none=True)
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "create",
             "body": payload,
         }
@@ -1709,7 +1709,7 @@ class ActionBatchSwitch:
             payload["vrf"] = vrf.model_dump(by_alias=True, exclude_none=True)
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -1731,7 +1731,7 @@ class ActionBatchSwitch:
         path = f"/networks/{network_id}/switch/routing/multicast/rendezvousPoints/{rendezvous_point_id}"
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "destroy",
         }
 
@@ -1797,7 +1797,7 @@ class ActionBatchSwitch:
             )
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -1852,7 +1852,7 @@ class ActionBatchSwitch:
             )
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -1943,7 +1943,7 @@ class ActionBatchSwitch:
             payload["loopback"] = loopback
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "create",
             "body": payload,
         }
@@ -2029,7 +2029,7 @@ class ActionBatchSwitch:
             payload["loopback"] = loopback
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -2053,7 +2053,7 @@ class ActionBatchSwitch:
         path = f"/networks/{network_id}/switch/stacks/{switch_stack_id}/routing/interfaces/{interface_id}"
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "destroy",
         }
 
@@ -2165,7 +2165,7 @@ class ActionBatchSwitch:
             ]
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -2218,7 +2218,7 @@ class ActionBatchSwitch:
             payload["vrf"] = vrf.model_dump(by_alias=True, exclude_none=True)
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "create",
             "body": payload,
         }
@@ -2278,7 +2278,7 @@ class ActionBatchSwitch:
             payload["vrf"] = vrf.model_dump(by_alias=True, exclude_none=True)
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -2302,7 +2302,7 @@ class ActionBatchSwitch:
         path = f"/networks/{network_id}/switch/stacks/{switch_stack_id}/routing/staticRoutes/{static_route_id}"
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "destroy",
         }
 
@@ -2349,7 +2349,7 @@ class ActionBatchSwitch:
             )
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -2384,7 +2384,7 @@ class ActionBatchSwitch:
             ]
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -2562,7 +2562,7 @@ class ActionBatchSwitch:
             payload["highSpeed"] = high_speed.model_dump(by_alias=True, exclude_none=True)
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -2592,7 +2592,7 @@ class ActionBatchSwitch:
             payload["targetSerials"] = target_serials
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "create",
             "body": payload,
         }

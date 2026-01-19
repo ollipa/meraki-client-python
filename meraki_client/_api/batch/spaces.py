@@ -28,6 +28,6 @@ class ActionBatchSpaces:
         path = f"/organizations/{organization_id}/spaces/integration/remove"
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "create",
         }

@@ -36,7 +36,7 @@ class ActionBatchSm:
         path = f"/networks/{network_id}/sm/userAccessDevices/{user_access_device_id}"
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "destroy",
         }
 
@@ -77,7 +77,7 @@ class ActionBatchSm:
             payload["tags"] = tags
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "create",
             "body": payload,
         }
@@ -122,7 +122,7 @@ class ActionBatchSm:
             payload["tags"] = tags
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -144,7 +144,7 @@ class ActionBatchSm:
         path = f"/organizations/{organization_id}/sm/admins/roles/{role_id}"
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "destroy",
         }
 
@@ -171,7 +171,7 @@ class ActionBatchSm:
             payload["items"] = [item.model_dump(by_alias=True, exclude_none=True) for item in items]
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }

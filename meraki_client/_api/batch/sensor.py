@@ -58,7 +58,7 @@ class ActionBatchSensor:
             payload["operation"] = operation
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "create",
             "body": payload,
         }
@@ -85,7 +85,7 @@ class ActionBatchSensor:
             payload["livestream"] = livestream.model_dump(by_alias=True, exclude_none=True)
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -139,7 +139,7 @@ class ActionBatchSensor:
             payload["message"] = message
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "create",
             "body": payload,
         }
@@ -196,7 +196,7 @@ class ActionBatchSensor:
             payload["message"] = message
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -216,7 +216,7 @@ class ActionBatchSensor:
         path = f"/networks/{network_id}/sensor/alerts/profiles/{id_}"
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "destroy",
         }
 
@@ -242,7 +242,7 @@ class ActionBatchSensor:
             payload["enabled"] = enabled
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }

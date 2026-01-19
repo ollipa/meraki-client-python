@@ -57,7 +57,7 @@ class ActionBatchCellularGateway:
             ]
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -85,7 +85,7 @@ class ActionBatchCellularGateway:
             payload["rules"] = [item.model_dump(by_alias=True, exclude_none=True) for item in rules]
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -118,7 +118,7 @@ class ActionBatchCellularGateway:
             ]
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -157,7 +157,7 @@ class ActionBatchCellularGateway:
             payload["dnsCustomNameservers"] = dns_custom_nameservers
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -186,7 +186,7 @@ class ActionBatchCellularGateway:
             payload["cidr"] = cidr
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -216,7 +216,7 @@ class ActionBatchCellularGateway:
             )
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -243,7 +243,7 @@ class ActionBatchCellularGateway:
             payload["status"] = status
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -289,7 +289,7 @@ class ActionBatchCellularGateway:
             payload["username"] = username
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "create",
             "body": payload,
         }
@@ -324,7 +324,7 @@ class ActionBatchCellularGateway:
             payload["apiKey"] = api_key
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -346,7 +346,7 @@ class ActionBatchCellularGateway:
         path = f"/organizations/{organization_id}/cellularGateway/esims/serviceProviders/accounts/{account_id}"
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "destroy",
         }
 
@@ -373,7 +373,7 @@ class ActionBatchCellularGateway:
             payload["swaps"] = [item.model_dump(by_alias=True, exclude_none=True) for item in swaps]
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "create",
             "body": payload,
         }
@@ -395,6 +395,6 @@ class ActionBatchCellularGateway:
         path = f"/organizations/{organization_id}/cellularGateway/esims/swap/{id_}"
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
         }

@@ -47,7 +47,7 @@ class ActionBatchInsight:
             payload["bestEffortMonitoringEnabled"] = best_effort_monitoring_enabled
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "create",
             "body": payload,
         }
@@ -87,7 +87,7 @@ class ActionBatchInsight:
             payload["bestEffortMonitoringEnabled"] = best_effort_monitoring_enabled
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -109,6 +109,6 @@ class ActionBatchInsight:
         path = f"/organizations/{organization_id}/insight/monitoredMediaServers/{monitored_media_server_id}"
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "destroy",
         }

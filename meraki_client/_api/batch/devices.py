@@ -83,7 +83,7 @@ class ActionBatchDevices:
             payload["floorPlanId"] = floor_plan_id
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -116,7 +116,7 @@ class ActionBatchDevices:
             payload["callback"] = callback.model_dump(by_alias=True, exclude_none=True)
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "create",
             "body": payload,
         }
@@ -142,7 +142,7 @@ class ActionBatchDevices:
             payload["callback"] = callback.model_dump(by_alias=True, exclude_none=True)
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "create",
             "body": payload,
         }
@@ -174,7 +174,7 @@ class ActionBatchDevices:
             payload["wan2"] = wan2.model_dump(by_alias=True, exclude_none=True)
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }

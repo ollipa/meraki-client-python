@@ -41,7 +41,7 @@ class ActionBatchNac:
             payload["isDelta"] = is_delta
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "create",
             "body": payload,
         }

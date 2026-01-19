@@ -106,7 +106,7 @@ class ActionBatchAppliance:
             )
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -131,7 +131,7 @@ class ActionBatchAppliance:
             payload["interfaces"] = interfaces.model_dump(by_alias=True, exclude_none=True)
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -149,7 +149,7 @@ class ActionBatchAppliance:
         path = f"/devices/{serial}/appliance/vmx/authenticationToken"
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "create",
         }
 
@@ -179,7 +179,7 @@ class ActionBatchAppliance:
             ]
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -207,7 +207,7 @@ class ActionBatchAppliance:
             payload["rules"] = [item.model_dump(by_alias=True, exclude_none=True) for item in rules]
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -235,7 +235,7 @@ class ActionBatchAppliance:
             payload["rules"] = [item.model_dump(by_alias=True, exclude_none=True) for item in rules]
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -293,7 +293,7 @@ class ActionBatchAppliance:
             payload["accessPolicy"] = access_policy
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -329,7 +329,7 @@ class ActionBatchAppliance:
             payload["description"] = description
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "create",
             "body": payload,
         }
@@ -368,7 +368,7 @@ class ActionBatchAppliance:
             payload["description"] = description
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -390,7 +390,7 @@ class ActionBatchAppliance:
         path = f"/networks/{network_id}/appliance/prefixes/delegated/statics/{static_delegated_prefix_id}"
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "destroy",
         }
 
@@ -435,7 +435,7 @@ class ActionBatchAppliance:
             )
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "create",
             "body": payload,
         }
@@ -484,7 +484,7 @@ class ActionBatchAppliance:
             )
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -506,7 +506,7 @@ class ActionBatchAppliance:
         path = f"/networks/{network_id}/appliance/rfProfiles/{rf_profile_id}"
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "destroy",
         }
 
@@ -540,7 +540,7 @@ class ActionBatchAppliance:
             ]
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -587,7 +587,7 @@ class ActionBatchAppliance:
             payload["dynamicDns"] = dynamic_dns.model_dump(by_alias=True, exclude_none=True)
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -630,7 +630,7 @@ class ActionBatchAppliance:
             payload["mandatoryDhcp"] = mandatory_dhcp.model_dump(by_alias=True, exclude_none=True)
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -732,7 +732,7 @@ class ActionBatchAppliance:
             payload["dot11w"] = dot11w.model_dump(by_alias=True, exclude_none=True)
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -772,7 +772,7 @@ class ActionBatchAppliance:
             payload["maxLossPercentage"] = max_loss_percentage
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "create",
             "body": payload,
         }
@@ -815,7 +815,7 @@ class ActionBatchAppliance:
             payload["maxLossPercentage"] = max_loss_percentage
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -837,7 +837,7 @@ class ActionBatchAppliance:
         path = f"/networks/{network_id}/appliance/trafficShaping/customPerformanceClasses/{custom_performance_class_id}"
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "destroy",
         }
 
@@ -873,7 +873,7 @@ class ActionBatchAppliance:
             payload["rules"] = [item.model_dump(by_alias=True, exclude_none=True) for item in rules]
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -905,7 +905,7 @@ class ActionBatchAppliance:
             )
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -968,7 +968,7 @@ class ActionBatchAppliance:
             ]
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -1008,7 +1008,7 @@ class ActionBatchAppliance:
             ]
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -1136,7 +1136,7 @@ class ActionBatchAppliance:
             ]
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "create",
             "body": payload,
         }
@@ -1162,7 +1162,7 @@ class ActionBatchAppliance:
             payload["vlansEnabled"] = vlans_enabled
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -1313,7 +1313,7 @@ class ActionBatchAppliance:
             payload["mandatoryDhcp"] = mandatory_dhcp.model_dump(by_alias=True, exclude_none=True)
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -1333,7 +1333,7 @@ class ActionBatchAppliance:
         path = f"/networks/{network_id}/appliance/vlans/{vlan_id}"
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "destroy",
         }
 
@@ -1384,7 +1384,7 @@ class ActionBatchAppliance:
             ]
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -1431,7 +1431,7 @@ class ActionBatchAppliance:
             payload["subnet"] = subnet.model_dump(by_alias=True, exclude_none=True)
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -1475,7 +1475,7 @@ class ActionBatchAppliance:
             payload["virtualIp2"] = virtual_ip2
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -1493,7 +1493,7 @@ class ActionBatchAppliance:
         path = f"/networks/{network_id}/appliance/warmSpare/swap"
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "create",
         }
 
@@ -1517,7 +1517,7 @@ class ActionBatchAppliance:
             payload["name"] = name
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "create",
             "body": payload,
         }
@@ -1547,7 +1547,7 @@ class ActionBatchAppliance:
             payload["items"] = [item.model_dump(by_alias=True, exclude_none=True) for item in items]
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "create",
             "body": payload,
         }
@@ -1577,7 +1577,7 @@ class ActionBatchAppliance:
             payload["items"] = [item.model_dump(by_alias=True, exclude_none=True) for item in items]
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "create",
             "body": payload,
         }
@@ -1604,7 +1604,7 @@ class ActionBatchAppliance:
             payload["name"] = name
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -1626,7 +1626,7 @@ class ActionBatchAppliance:
         path = f"/organizations/{organization_id}/appliance/dns/local/profiles/{profile_id}"
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "destroy",
         }
 
@@ -1661,7 +1661,7 @@ class ActionBatchAppliance:
             payload["profile"] = profile.model_dump(by_alias=True, exclude_none=True)
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "create",
             "body": payload,
         }
@@ -1700,7 +1700,7 @@ class ActionBatchAppliance:
             payload["profile"] = profile.model_dump(by_alias=True, exclude_none=True)
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -1722,7 +1722,7 @@ class ActionBatchAppliance:
         path = f"/organizations/{organization_id}/appliance/dns/local/records/{record_id}"
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "destroy",
         }
 
@@ -1758,7 +1758,7 @@ class ActionBatchAppliance:
             payload["nameservers"] = nameservers.model_dump(by_alias=True, exclude_none=True)
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "create",
             "body": payload,
         }
@@ -1788,7 +1788,7 @@ class ActionBatchAppliance:
             payload["items"] = [item.model_dump(by_alias=True, exclude_none=True) for item in items]
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "create",
             "body": payload,
         }
@@ -1818,7 +1818,7 @@ class ActionBatchAppliance:
             payload["items"] = [item.model_dump(by_alias=True, exclude_none=True) for item in items]
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "create",
             "body": payload,
         }
@@ -1858,7 +1858,7 @@ class ActionBatchAppliance:
             payload["nameservers"] = nameservers.model_dump(by_alias=True, exclude_none=True)
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -1880,7 +1880,7 @@ class ActionBatchAppliance:
         path = f"/organizations/{organization_id}/appliance/dns/split/profiles/{profile_id}"
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "destroy",
         }
 
@@ -1907,7 +1907,7 @@ class ActionBatchAppliance:
             payload["items"] = [item.model_dump(by_alias=True, exclude_none=True) for item in items]
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -1935,7 +1935,7 @@ class ActionBatchAppliance:
             payload["peers"] = [item.model_dump(by_alias=True, exclude_none=True) for item in peers]
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }

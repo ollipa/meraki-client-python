@@ -124,7 +124,7 @@ class ActionBatchWireless:
             ]
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -163,7 +163,7 @@ class ActionBatchWireless:
             payload["minor"] = minor
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -192,7 +192,7 @@ class ActionBatchWireless:
             payload["enabled"] = enabled
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -236,7 +236,7 @@ class ActionBatchWireless:
             )
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -270,7 +270,7 @@ class ActionBatchWireless:
             payload["match"] = match.model_dump(by_alias=True, exclude_none=True)
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "create",
             "body": payload,
         }
@@ -311,7 +311,7 @@ class ActionBatchWireless:
             payload["match"] = match.model_dump(by_alias=True, exclude_none=True)
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -333,7 +333,7 @@ class ActionBatchWireless:
         path = f"/networks/{network_id}/wireless/airMarshal/rules/{rule_id}"
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "destroy",
         }
 
@@ -363,7 +363,7 @@ class ActionBatchWireless:
             payload["defaultPolicy"] = default_policy
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -411,7 +411,7 @@ class ActionBatchWireless:
             ]
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -443,7 +443,7 @@ class ActionBatchWireless:
             payload["plans"] = [item.model_dump(by_alias=True, exclude_none=True) for item in plans]
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -484,7 +484,7 @@ class ActionBatchWireless:
             payload["mode"] = mode
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -522,7 +522,7 @@ class ActionBatchWireless:
             ]
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "create",
             "body": payload,
         }
@@ -550,7 +550,7 @@ class ActionBatchWireless:
             payload["profileId"] = profile_id
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "create",
             "body": payload,
         }
@@ -575,7 +575,7 @@ class ActionBatchWireless:
             payload["profileId"] = profile_id
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "create",
             "body": payload,
         }
@@ -616,7 +616,7 @@ class ActionBatchWireless:
             ]
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -638,7 +638,7 @@ class ActionBatchWireless:
         path = f"/networks/{network_id}/wireless/ethernet/ports/profiles/{profile_id}"
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "destroy",
         }
 
@@ -669,7 +669,7 @@ class ActionBatchWireless:
             payload["api"] = api.model_dump(by_alias=True, exclude_none=True)
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -762,7 +762,7 @@ class ActionBatchWireless:
             payload["flexRadios"] = flex_radios.model_dump(by_alias=True, exclude_none=True)
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "create",
             "body": payload,
         }
@@ -868,7 +868,7 @@ class ActionBatchWireless:
             payload["flexRadios"] = flex_radios.model_dump(by_alias=True, exclude_none=True)
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -890,7 +890,7 @@ class ActionBatchWireless:
         path = f"/networks/{network_id}/wireless/rfProfiles/{rf_profile_id}"
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "destroy",
         }
 
@@ -947,7 +947,7 @@ class ActionBatchWireless:
             payload["namedVlans"] = named_vlans.model_dump(by_alias=True, exclude_none=True)
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -1403,7 +1403,7 @@ class ActionBatchWireless:
             payload["radiusAccountingStartDelay"] = radius_accounting_start_delay
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -1442,7 +1442,7 @@ class ActionBatchWireless:
             payload["exception"] = exception.model_dump(by_alias=True, exclude_none=True)
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -1482,7 +1482,7 @@ class ActionBatchWireless:
             ]
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -1525,7 +1525,7 @@ class ActionBatchWireless:
             payload["eapolKey"] = eapol_key.model_dump(by_alias=True, exclude_none=True)
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -1561,7 +1561,7 @@ class ActionBatchWireless:
             payload["allowLanAccess"] = allow_lan_access
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -1594,7 +1594,7 @@ class ActionBatchWireless:
             payload["rules"] = [item.model_dump(by_alias=True, exclude_none=True) for item in rules]
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -1676,7 +1676,7 @@ class ActionBatchWireless:
             ]
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -1720,7 +1720,7 @@ class ActionBatchWireless:
             payload["expiresAt"] = expires_at
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "create",
             "body": payload,
         }
@@ -1766,7 +1766,7 @@ class ActionBatchWireless:
             payload["expiresAt"] = expires_at
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -1790,7 +1790,7 @@ class ActionBatchWireless:
         path = f"/networks/{network_id}/wireless/ssids/{number}/identityPsks/{identity_psk_id}"
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "destroy",
         }
 
@@ -1824,7 +1824,7 @@ class ActionBatchWireless:
             payload["tenantId"] = tenant_id
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -1872,7 +1872,7 @@ class ActionBatchWireless:
             ]
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -2018,7 +2018,7 @@ class ActionBatchWireless:
             )
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -2063,7 +2063,7 @@ class ActionBatchWireless:
             payload["rules"] = [item.model_dump(by_alias=True, exclude_none=True) for item in rules]
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -2103,7 +2103,7 @@ class ActionBatchWireless:
             payload["failover"] = failover.model_dump(by_alias=True, exclude_none=True)
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -2143,7 +2143,7 @@ class ActionBatchWireless:
             payload["defaults"] = defaults.model_dump(by_alias=True, exclude_none=True)
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -2187,7 +2187,7 @@ class ActionBatchWireless:
             payload["sharedSecret"] = shared_secret
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "create",
             "body": payload,
         }
@@ -2228,7 +2228,7 @@ class ActionBatchWireless:
             payload["radio"] = radio.model_dump(by_alias=True, exclude_none=True)
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -2252,7 +2252,7 @@ class ActionBatchWireless:
         )
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "destroy",
         }
 
@@ -2291,7 +2291,7 @@ class ActionBatchWireless:
             payload["wifi"] = wifi.model_dump(by_alias=True, exclude_none=True)
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -2316,7 +2316,7 @@ class ActionBatchWireless:
             payload["networkIds"] = network_ids
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "create",
             "body": payload,
         }
@@ -2358,7 +2358,7 @@ class ActionBatchWireless:
             payload["network"] = network.model_dump(by_alias=True, exclude_none=True)
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "create",
             "body": payload,
         }
@@ -2393,7 +2393,7 @@ class ActionBatchWireless:
             payload["client"] = client.model_dump(by_alias=True, exclude_none=True)
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -2415,7 +2415,7 @@ class ActionBatchWireless:
         path = f"/organizations/{organization_id}/wireless/ssids/firewall/isolation/allowlist/entries/{entry_id}"
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "destroy",
         }
 
@@ -2444,7 +2444,7 @@ class ActionBatchWireless:
             payload["channel"] = channel
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -2471,7 +2471,7 @@ class ActionBatchWireless:
             payload["name"] = name
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }

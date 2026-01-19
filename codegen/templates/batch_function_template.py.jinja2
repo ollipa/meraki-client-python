@@ -49,7 +49,7 @@
 
         {% endif %}
         return {
-            "path": path,
+            "resource": path,
             "operation": "{{ batch_operation }}",
             {% if body_params|length > 0 %}
             "body": payload,

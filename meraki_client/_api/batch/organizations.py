@@ -89,7 +89,7 @@ class ActionBatchOrganizations:
             payload["ipVersion"] = ip_version
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "create",
             "body": payload,
         }
@@ -139,7 +139,7 @@ class ActionBatchOrganizations:
             payload["ipVersion"] = ip_version
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -161,7 +161,7 @@ class ActionBatchOrganizations:
         path = f"/organizations/{organization_id}/adaptivePolicy/acls/{acl_id}"
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "destroy",
         }
 
@@ -205,7 +205,7 @@ class ActionBatchOrganizations:
             ]
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "create",
             "body": payload,
         }
@@ -253,7 +253,7 @@ class ActionBatchOrganizations:
             ]
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -275,7 +275,7 @@ class ActionBatchOrganizations:
         path = f"/organizations/{organization_id}/adaptivePolicy/groups/{id_}"
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "destroy",
         }
 
@@ -324,7 +324,7 @@ class ActionBatchOrganizations:
             payload["lastEntryRule"] = last_entry_rule
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "create",
             "body": payload,
         }
@@ -377,7 +377,7 @@ class ActionBatchOrganizations:
             payload["lastEntryRule"] = last_entry_rule
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -399,7 +399,7 @@ class ActionBatchOrganizations:
         path = f"/organizations/{organization_id}/adaptivePolicy/policies/{id_}"
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "destroy",
         }
 
@@ -423,7 +423,7 @@ class ActionBatchOrganizations:
             payload["enabledNetworks"] = enabled_networks
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -482,7 +482,7 @@ class ActionBatchOrganizations:
             payload["description"] = description
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "create",
             "body": payload,
         }
@@ -548,7 +548,7 @@ class ActionBatchOrganizations:
             payload["description"] = description
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -570,7 +570,7 @@ class ActionBatchOrganizations:
         path = f"/organizations/{organization_id}/alerts/profiles/{alert_config_id}"
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "destroy",
         }
 
@@ -619,7 +619,7 @@ class ActionBatchOrganizations:
             payload["customLogo"] = custom_logo.model_dump(by_alias=True, exclude_none=True)
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "create",
             "body": payload,
         }
@@ -645,7 +645,7 @@ class ActionBatchOrganizations:
             payload["brandingPolicyIds"] = branding_policy_ids
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -697,7 +697,7 @@ class ActionBatchOrganizations:
             payload["customLogo"] = custom_logo.model_dump(by_alias=True, exclude_none=True)
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -719,7 +719,7 @@ class ActionBatchOrganizations:
         path = f"/organizations/{organization_id}/brandingPolicies/{branding_policy_id}"
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "destroy",
         }
 
@@ -758,7 +758,7 @@ class ActionBatchOrganizations:
             payload["copyFromNetworkId"] = copy_from_network_id
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "create",
             "body": payload,
         }
@@ -796,7 +796,7 @@ class ActionBatchOrganizations:
             payload["timeZone"] = time_zone
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -830,7 +830,7 @@ class ActionBatchOrganizations:
             payload["target"] = target
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "create",
             "body": payload,
         }
@@ -864,7 +864,7 @@ class ActionBatchOrganizations:
             ]
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "create",
             "body": payload,
         }
@@ -889,7 +889,7 @@ class ActionBatchOrganizations:
             payload["captureIds"] = capture_ids
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "create",
             "body": payload,
         }
@@ -911,7 +911,7 @@ class ActionBatchOrganizations:
         path = f"/organizations/{organization_id}/devices/packetCapture/captures/{capture_id}"
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "destroy",
         }
 
@@ -964,7 +964,7 @@ class ActionBatchOrganizations:
             payload["schedule"] = schedule.model_dump(by_alias=True, exclude_none=True)
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "create",
             "body": payload,
         }
@@ -992,7 +992,7 @@ class ActionBatchOrganizations:
             payload["order"] = [item.model_dump(by_alias=True, exclude_none=True) for item in order]
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "create",
             "body": payload,
         }
@@ -1049,7 +1049,7 @@ class ActionBatchOrganizations:
             payload["schedule"] = schedule.model_dump(by_alias=True, exclude_none=True)
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -1075,7 +1075,7 @@ class ActionBatchOrganizations:
             payload["scheduleId"] = schedule_id
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "destroy",
             "body": payload,
         }
@@ -1106,7 +1106,7 @@ class ActionBatchOrganizations:
             payload["limitScopeToNetworks"] = limit_scope_to_networks
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -1136,7 +1136,7 @@ class ActionBatchOrganizations:
             ]
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "create",
             "body": payload,
         }
@@ -1166,7 +1166,7 @@ class ActionBatchOrganizations:
             ]
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "create",
             "body": payload,
         }
@@ -1200,7 +1200,7 @@ class ActionBatchOrganizations:
             ]
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "create",
             "body": payload,
         }
@@ -1232,7 +1232,7 @@ class ActionBatchOrganizations:
             payload["seatCount"] = seat_count
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "create",
             "body": payload,
         }
@@ -1260,7 +1260,7 @@ class ActionBatchOrganizations:
             payload["licenseIds"] = license_ids
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "create",
             "body": payload,
         }
@@ -1292,7 +1292,7 @@ class ActionBatchOrganizations:
             payload["seatCount"] = seat_count
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "create",
             "body": payload,
         }
@@ -1323,7 +1323,7 @@ class ActionBatchOrganizations:
             payload["unusedLicenseId"] = unused_license_id
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "create",
             "body": payload,
         }
@@ -1352,7 +1352,7 @@ class ActionBatchOrganizations:
             payload["deviceSerial"] = device_serial
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -1449,7 +1449,7 @@ class ActionBatchOrganizations:
             )
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -1503,7 +1503,7 @@ class ActionBatchOrganizations:
             payload["notes"] = notes
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "create",
             "body": payload,
         }
@@ -1546,7 +1546,7 @@ class ActionBatchOrganizations:
             payload["enrollmentString"] = enrollment_string
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "create",
             "body": payload,
         }
@@ -1603,7 +1603,7 @@ class ActionBatchOrganizations:
             payload["groupIds"] = group_ids
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "create",
             "body": payload,
         }
@@ -1643,7 +1643,7 @@ class ActionBatchOrganizations:
             payload["objectIds"] = object_ids
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "create",
             "body": payload,
         }
@@ -1681,7 +1681,7 @@ class ActionBatchOrganizations:
             payload["objectIds"] = object_ids
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -1703,7 +1703,7 @@ class ActionBatchOrganizations:
         path = f"/organizations/{organization_id}/policyObjects/groups/{policy_object_group_id}"
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "destroy",
         }
 
@@ -1754,7 +1754,7 @@ class ActionBatchOrganizations:
             payload["groupIds"] = group_ids
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -1776,7 +1776,7 @@ class ActionBatchOrganizations:
         path = f"/organizations/{organization_id}/policyObjects/{policy_object_id}"
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "destroy",
         }
 
@@ -1813,7 +1813,7 @@ class ActionBatchOrganizations:
             payload["sloLogoutUrl"] = slo_logout_url
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "create",
             "body": payload,
         }
@@ -1854,7 +1854,7 @@ class ActionBatchOrganizations:
             payload["sloLogoutUrl"] = slo_logout_url
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "update",
             "body": payload,
         }
@@ -1874,7 +1874,7 @@ class ActionBatchOrganizations:
         path = f"/organizations/{organization_id}/saml/idps/{idp_id}"
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "destroy",
         }
 
@@ -1893,7 +1893,7 @@ class ActionBatchOrganizations:
         path = f"/organizations/{organization_id}/splash/assets/{id_}"
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "destroy",
         }
 
@@ -1920,7 +1920,7 @@ class ActionBatchOrganizations:
             payload["baseTheme"] = base_theme
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "create",
             "body": payload,
         }
@@ -1940,7 +1940,7 @@ class ActionBatchOrganizations:
         path = f"/organizations/{organization_id}/splash/themes/{id_}"
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "destroy",
         }
 
@@ -1974,7 +1974,7 @@ class ActionBatchOrganizations:
             payload["content"] = content
 
         return {
-            "path": path,
+            "resource": path,
             "operation": "create",
             "body": payload,
         }
