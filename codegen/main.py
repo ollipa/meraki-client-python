@@ -265,9 +265,9 @@ def generate_library(  # noqa: PLR0915
             )
         )
 
-    with open(f"{OUTPUT_DIR}/session.py", "w") as f:
+    with open(f"{OUTPUT_DIR}/_session.py", "w") as f:
         f.write(templates.session_template.render(is_async=False))
-    with open(f"{OUTPUT_DIR}/aio/session.py", "w") as f:
+    with open(f"{OUTPUT_DIR}/aio/_session.py", "w") as f:
         f.write(templates.session_template.render(is_async=True))
 
     def generate_scope(scope: str, paths: PathsType) -> ModuleInfo | None:
@@ -279,8 +279,8 @@ def generate_library(  # noqa: PLR0915
         """
         module_name = to_snake_case(scope)
         with (
-            open(f"{OUTPUT_DIR}/api/{module_name}.py", "w") as output,
-            open(f"{OUTPUT_DIR}/aio/api/{module_name}.py", "w") as async_output,
+            open(f"{OUTPUT_DIR}/_api/{module_name}.py", "w") as output,
+            open(f"{OUTPUT_DIR}/aio/_api/{module_name}.py", "w") as async_output,
         ):
             batch_content = generate_module(
                 scope=scope,
@@ -294,7 +294,7 @@ def generate_library(  # noqa: PLR0915
             )
 
         if batch_content:
-            with open(f"{OUTPUT_DIR}/api/batch/{module_name}.py", "w") as batch_output:
+            with open(f"{OUTPUT_DIR}/_api/batch/{module_name}.py", "w") as batch_output:
                 batch_output.write(batch_content)
             return ModuleInfo(
                 snake_name=module_name,
@@ -320,7 +320,7 @@ def generate_library(  # noqa: PLR0915
             log.debug(f"Generated {scope}")
 
     batch_modules.sort(key=lambda m: m.snake_name)
-    with open(f"{OUTPUT_DIR}/api/batch/__init__.py", "w") as f:
+    with open(f"{OUTPUT_DIR}/_api/batch/__init__.py", "w") as f:
         f.write(templates.batch_init_template.render(modules=batch_modules))
     elapsed = time.perf_counter() - t_start
     log.info(f"Generated {len(scopes)} modules and {operation_count} operations in {elapsed:.2f}s")
@@ -535,10 +535,10 @@ def recreate_output_directory() -> None:
 
     subdirs = [
         OUTPUT_DIR,
-        f"{OUTPUT_DIR}/api",
-        f"{OUTPUT_DIR}/api/batch",
+        f"{OUTPUT_DIR}/_api",
+        f"{OUTPUT_DIR}/_api/batch",
         f"{OUTPUT_DIR}/aio",
-        f"{OUTPUT_DIR}/aio/api",
+        f"{OUTPUT_DIR}/aio/_api",
         f"{OUTPUT_DIR}/schemas",
     ]
     for directory in subdirs:

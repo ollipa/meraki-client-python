@@ -132,7 +132,7 @@ class MerakiTimeoutError(MerakiException):
     """Total request timeout exceeded including retries."""
 
 
-def raise_http_error(response: httpx.Response) -> MerakiHTTPError:
+def _raise_http_error(response: httpx.Response) -> MerakiHTTPError:
     """Raise the appropriate HTTP error based on the response."""
     match response.status_code:
         case 400:

@@ -9,26 +9,26 @@ import sys
 from types import TracebackType
 from typing import Self
 
-from meraki_client.aio.api.administered import Administered
-from meraki_client.aio.api.appliance import Appliance
-from meraki_client.aio.api.camera import Camera
-from meraki_client.aio.api.campus_gateway import CampusGateway
-from meraki_client.aio.api.cellular_gateway import CellularGateway
-from meraki_client.aio.api.devices import Devices
-from meraki_client.aio.api.insight import Insight
-from meraki_client.aio.api.licensing import Licensing
-from meraki_client.aio.api.nac import Nac
-from meraki_client.aio.api.networks import Networks
-from meraki_client.aio.api.organizations import Organizations
-from meraki_client.aio.api.sensor import Sensor
-from meraki_client.aio.api.sm import Sm
-from meraki_client.aio.api.spaces import Spaces
-from meraki_client.aio.api.switch import Switch
-from meraki_client.aio.api.wireless import Wireless
-from meraki_client.aio.api.wireless_controller import WirelessController
-from meraki_client.aio.session import Session
-from meraki_client.api.batch import Batch
-from meraki_client.common import BaseURL
+from meraki_client._api.batch import Batch
+from meraki_client._common import BaseURL
+from meraki_client.aio._api.administered import Administered
+from meraki_client.aio._api.appliance import Appliance
+from meraki_client.aio._api.camera import Camera
+from meraki_client.aio._api.campus_gateway import CampusGateway
+from meraki_client.aio._api.cellular_gateway import CellularGateway
+from meraki_client.aio._api.devices import Devices
+from meraki_client.aio._api.insight import Insight
+from meraki_client.aio._api.licensing import Licensing
+from meraki_client.aio._api.nac import Nac
+from meraki_client.aio._api.networks import Networks
+from meraki_client.aio._api.organizations import Organizations
+from meraki_client.aio._api.sensor import Sensor
+from meraki_client.aio._api.sm import Sm
+from meraki_client.aio._api.spaces import Spaces
+from meraki_client.aio._api.switch import Switch
+from meraki_client.aio._api.wireless import Wireless
+from meraki_client.aio._api.wireless_controller import WirelessController
+from meraki_client.aio._session import AsyncPaginatedResponse, Session
 
 if sys.version_info < (3, 11):  # noqa: UP036
     raise RuntimeError(
@@ -39,6 +39,7 @@ if sys.version_info < (3, 11):  # noqa: UP036
 
 __all__ = [
     "AsyncMerakiClient",
+    "AsyncPaginatedResponse",
     "BaseURL",
 ]
 __version__ = "0.1.0"

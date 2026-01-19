@@ -819,7 +819,7 @@ def _write_schema_files(
         all_exports[module_name] = sorted(sorted_schemas)
 
         schema_definitions = [scope_schemas[name] for name in sorted_schemas]
-        with open(f"{output_dir}/schemas/{module_name}.py", "w") as f:
+        with open(f"{output_dir}/schemas/_{module_name}.py", "w") as f:
             f.write(
                 templates.schema_module_template.render(
                     scope=module_name,
