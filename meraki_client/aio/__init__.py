@@ -29,12 +29,6 @@ from meraki_client.aio.api.wireless_controller import WirelessController
 from meraki_client.aio.session import Session
 from meraki_client.api.batch import Batch
 from meraki_client.common import BaseURL
-from meraki_client.const import (
-    ASYNC_MAXIMUM_CONCURRENT_REQUESTS,
-    MAXIMUM_RETRIES,
-    SINGLE_REQUEST_TIMEOUT,
-    WAIT_ON_RATE_LIMIT,
-)
 
 if sys.version_info < (3, 11):  # noqa: UP036
     raise RuntimeError(
@@ -58,15 +52,17 @@ class AsyncMerakiClient:
         api_key: API key generated in dashboard; can also be set as an environment variable
           MERAKI_DASHBOARD_API_KEY.
         base_url: Base URL preceding all endpoint resources.
-        single_request_timeout: Maximum number of seconds for each API call.
+        single_request_timeout: Maximum number of seconds for each API call. Defaults to 30.
+        total_request_timeout: Total time in seconds to wait for a request to complete including
+          retries. Defaults to 60.
         certificate_path: Path for TLS/SSL certificate verification if behind local proxy.
         requests_proxy: Proxy server and port, if needed, for HTTPS.
-        wait_on_rate_limit: Retry if 429 rate limit error encountered?
+        wait_on_rate_limit: Retry if 429 rate limit error encountered? Defaults to True.
         maximum_retries: Retry up to this many times when encountering 429s or other server-side
-          errors.
+          errors. Defaults to 2.
         caller: Optional identifier for API usage tracking; can also be set as an environment
           variable MERAKI_PYTHON_SDK_CALLER.
-        maximum_concurrent_requests: Number of concurrent API requests for asynchronous class.
+        maximum_concurrent_requests: Number of concurrent API requests. Defaults to 8.
 
     """
 
@@ -75,13 +71,14 @@ class AsyncMerakiClient:
         *,
         api_key: str | None = None,
         base_url: BaseURL = BaseURL.DEFAULT,
-        single_request_timeout: int = SINGLE_REQUEST_TIMEOUT,
-        wait_on_rate_limit: bool = WAIT_ON_RATE_LIMIT,
-        maximum_retries: int = MAXIMUM_RETRIES,
+        single_request_timeout: int = 30,
+        total_request_timeout: int = 60,
+        wait_on_rate_limit: bool = True,
+        maximum_retries: int = 2,
         certificate_path: str | None = None,
         requests_proxy: str | None = None,
         caller: str | None = None,
-        maximum_concurrent_requests: int = ASYNC_MAXIMUM_CONCURRENT_REQUESTS,
+        maximum_concurrent_requests: int = 8,
     ) -> None:
         # Check that the API key is defined
         api_key = api_key or os.environ.get("MERAKI_DASHBOARD_API_KEY")
@@ -97,6 +94,7 @@ class AsyncMerakiClient:
             api_key=api_key,
             base_url=base_url,
             single_request_timeout=single_request_timeout,
+            total_request_timeout=total_request_timeout,
             certificate_path=certificate_path,
             proxy=requests_proxy,
             wait_on_rate_limit=wait_on_rate_limit,

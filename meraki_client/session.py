@@ -21,6 +21,7 @@ from meraki_client.exceptions import (
     InvalidResponseError,
     MerakiConnectionError,
     MerakiHTTPError,
+    MerakiTimeoutError,
     raise_http_error,
 )
 
@@ -122,6 +123,7 @@ class Session:
         api_key: str,
         base_url: BaseURL,
         single_request_timeout: int,
+        total_request_timeout: int,
         certificate_path: str | None,
         proxy: str | None,
         wait_on_rate_limit: bool,
@@ -131,6 +133,7 @@ class Session:
     ) -> None:
         self._base_url = str(base_url)
         self._single_request_timeout = single_request_timeout
+        self._total_request_timeout = total_request_timeout
         self._certificate_path = certificate_path
         self._proxy = proxy
         self._wait_on_rate_limit = wait_on_rate_limit
@@ -161,6 +164,15 @@ class Session:
     def __exit__(self, *args: object) -> None:
         self.close()
 
+    def _check_total_timeout(self, start_time: float, operation: str) -> None:
+        """Check if total timeout has been exceeded."""
+        elapsed = time.monotonic() - start_time
+        if elapsed >= self._total_request_timeout:
+            raise MerakiTimeoutError(
+                f"{operation} - Total timeout of {self._total_request_timeout}s exceeded "
+                f"(elapsed: {elapsed:.1f}s)"
+            )
+
     def _request(
         self,
         *,
@@ -173,12 +185,14 @@ class Session:
     ) -> httpx.Response:
         """Make an HTTP request to the API endpoint."""
         url = f"{self._base_url}{path}"
+        start_time = time.monotonic()
 
         retries = self._maximum_retries
         redirects = 0
 
         response: httpx.Response
         while retries >= 0:
+            self._check_total_timeout(start_time, operation)
             if current_page is not None:
                 log.debug(f"{operation} - {method} {url} (page={current_page})")
             else:
@@ -196,6 +210,7 @@ class Session:
                     raise MerakiConnectionError(cause=e) from e
                 retries -= 1
                 log.warning(f"{operation} - {e}, retrying in 1 second")
+                self._check_total_timeout(start_time, operation)
                 time.sleep(1)
                 continue
 
@@ -223,6 +238,7 @@ class Session:
             if status == 429 and self._wait_on_rate_limit and retries > 0:
                 wait = int(response.headers.get("Retry-After", random.randint(2, 5)))
                 log.warning(f"{operation} - {status} {reason}, retrying in {wait} seconds")
+                self._check_total_timeout(start_time, operation)
                 time.sleep(wait)
                 retries -= 1
                 continue
@@ -237,6 +253,7 @@ class Session:
                     raise raise_http_error(response)
                 retries -= 1
                 log.warning(f"{operation} - {status} {reason}, retrying in 1 second")
+                self._check_total_timeout(start_time, operation)
                 time.sleep(1)
                 continue
 
