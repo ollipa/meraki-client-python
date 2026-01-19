@@ -1,4 +1,4 @@
-    def {{ operation }}(self{% if function_definition|length > 0 %}{{ function_definition }}{% endif %}) -> dict[str, Any]:
+    def {{ operation }}(self{% if function_definition|length > 0 %}{{ function_definition }}{% endif %}) -> CreateOrganizationActionBatchActionsItem:
         """{{ description }}
 
         {{ doc_url }}
@@ -48,10 +48,10 @@
         {% endfor %}
 
         {% endif %}
-        return {
-            "resource": path,
-            "operation": "{{ batch_operation }}",
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="{{ batch_operation }}",
             {% if body_params|length > 0 %}
-            "body": payload,
+            body=payload,
             {% endif %}
-        }
+        )

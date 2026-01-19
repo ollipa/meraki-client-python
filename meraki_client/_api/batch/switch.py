@@ -25,6 +25,7 @@ from meraki_client.schemas import (
     CreateNetworkSwitchStackRoutingInterfaceOspfSettings,
     CreateNetworkSwitchStackRoutingInterfaceVrf,
     CreateNetworkSwitchStackRoutingStaticRouteVrf,
+    CreateOrganizationActionBatchActionsItem,
     UpdateDeviceSwitchPortDot3az,
     UpdateDeviceSwitchPortHighSpeed,
     UpdateDeviceSwitchPortProfile,
@@ -78,7 +79,9 @@ class ActionBatchSwitch:
     def __init__(self) -> None:
         pass
 
-    def cycle_device_switch_ports(self, *, serial: str, ports: list[str]) -> dict[str, Any]:
+    def cycle_device_switch_ports(
+        self, *, serial: str, ports: list[str]
+    ) -> CreateOrganizationActionBatchActionsItem:
         """Cycle a set of switch ports.
 
         https://developer.cisco.com/meraki/api-v1/#!cycle-device-switch-ports
@@ -95,11 +98,11 @@ class ActionBatchSwitch:
         if ports is not None:
             payload["ports"] = ports
 
-        return {
-            "resource": path,
-            "operation": "cycle",
-            "body": payload,
-        }
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="cycle",
+            body=payload,
+        )
 
     def update_device_switch_port(
         self,
@@ -135,7 +138,7 @@ class ActionBatchSwitch:
         profile: UpdateDeviceSwitchPortProfile | None = None,
         dot3az: UpdateDeviceSwitchPortDot3az | None = None,
         high_speed: UpdateDeviceSwitchPortHighSpeed | None = None,
-    ) -> dict[str, Any]:
+    ) -> CreateOrganizationActionBatchActionsItem:
         """Update a switch port.
 
         https://developer.cisco.com/meraki/api-v1/#!update-device-switch-port
@@ -278,11 +281,11 @@ class ActionBatchSwitch:
         if high_speed is not None:
             payload["highSpeed"] = high_speed.model_dump(by_alias=True, exclude_none=True)
 
-        return {
-            "resource": path,
-            "operation": "update",
-            "body": payload,
-        }
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="update",
+            body=payload,
+        )
 
     def create_device_switch_routing_interface(
         self,
@@ -300,7 +303,7 @@ class ActionBatchSwitch:
         ipv6: CreateDeviceSwitchRoutingInterfaceIpv6 | None = None,
         vrf: CreateDeviceSwitchRoutingInterfaceVrf | None = None,
         loopback: dict[str, Any] | None = None,
-    ) -> dict[str, Any]:
+    ) -> CreateOrganizationActionBatchActionsItem:
         """Create a layer 3 interface for a switch.
 
         https://developer.cisco.com/meraki/api-v1/#!create-device-switch-routing-interface
@@ -366,11 +369,11 @@ class ActionBatchSwitch:
         if loopback is not None:
             payload["loopback"] = loopback
 
-        return {
-            "resource": path,
-            "operation": "create",
-            "body": payload,
-        }
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="create",
+            body=payload,
+        )
 
     def update_device_switch_routing_interface(
         self,
@@ -388,7 +391,7 @@ class ActionBatchSwitch:
         ipv6: UpdateDeviceSwitchRoutingInterfaceIpv6 | None = None,
         vrf: UpdateDeviceSwitchRoutingInterfaceVrf | None = None,
         loopback: dict[str, Any] | None = None,
-    ) -> dict[str, Any]:
+    ) -> CreateOrganizationActionBatchActionsItem:
         """Update a layer 3 interface for a switch.
 
         https://developer.cisco.com/meraki/api-v1/#!update-device-switch-routing-interface
@@ -449,15 +452,15 @@ class ActionBatchSwitch:
         if loopback is not None:
             payload["loopback"] = loopback
 
-        return {
-            "resource": path,
-            "operation": "update",
-            "body": payload,
-        }
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="update",
+            body=payload,
+        )
 
     def delete_device_switch_routing_interface(
         self, *, serial: str, interface_id: str
-    ) -> dict[str, Any]:
+    ) -> CreateOrganizationActionBatchActionsItem:
         """Delete a layer 3 interface from the switch.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-device-switch-routing-interface
@@ -471,10 +474,10 @@ class ActionBatchSwitch:
         interface_id = urllib.parse.quote(str(interface_id), safe="")
         path = f"/devices/{serial}/switch/routing/interfaces/{interface_id}"
 
-        return {
-            "resource": path,
-            "operation": "destroy",
-        }
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="destroy",
+        )
 
     def update_device_switch_routing_interface_dhcp(
         self,
@@ -494,7 +497,7 @@ class ActionBatchSwitch:
         | None = None,
         fixed_ip_assignments: list[UpdateDeviceSwitchRoutingInterfaceDhcpFixedIpAssignmentsItem]
         | None = None,
-    ) -> dict[str, Any]:
+    ) -> CreateOrganizationActionBatchActionsItem:
         """Update a layer 3 interface DHCP configuration for a switch.
 
         https://developer.cisco.com/meraki/api-v1/#!update-device-switch-routing-interface-dhcp
@@ -577,11 +580,11 @@ class ActionBatchSwitch:
                 item.model_dump(by_alias=True, exclude_none=True) for item in fixed_ip_assignments
             ]
 
-        return {
-            "resource": path,
-            "operation": "update",
-            "body": payload,
-        }
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="update",
+            body=payload,
+        )
 
     def create_device_switch_routing_static_route(
         self,
@@ -593,7 +596,7 @@ class ActionBatchSwitch:
         advertise_via_ospf_enabled: bool | None = None,
         prefer_over_ospf_routes_enabled: bool | None = None,
         vrf: CreateDeviceSwitchRoutingStaticRouteVrf | None = None,
-    ) -> dict[str, Any]:
+    ) -> CreateOrganizationActionBatchActionsItem:
         """Create a layer 3 static route for a switch.
 
         https://developer.cisco.com/meraki/api-v1/#!create-device-switch-routing-static-route
@@ -627,11 +630,11 @@ class ActionBatchSwitch:
         if vrf is not None:
             payload["vrf"] = vrf.model_dump(by_alias=True, exclude_none=True)
 
-        return {
-            "resource": path,
-            "operation": "create",
-            "body": payload,
-        }
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="create",
+            body=payload,
+        )
 
     def update_device_switch_routing_static_route(
         self,
@@ -645,7 +648,7 @@ class ActionBatchSwitch:
         advertise_via_ospf_enabled: bool | None = None,
         prefer_over_ospf_routes_enabled: bool | None = None,
         vrf: UpdateDeviceSwitchRoutingStaticRouteVrf | None = None,
-    ) -> dict[str, Any]:
+    ) -> CreateOrganizationActionBatchActionsItem:
         """Update a layer 3 static route for a switch.
 
         https://developer.cisco.com/meraki/api-v1/#!update-device-switch-routing-static-route
@@ -684,15 +687,15 @@ class ActionBatchSwitch:
         if vrf is not None:
             payload["vrf"] = vrf.model_dump(by_alias=True, exclude_none=True)
 
-        return {
-            "resource": path,
-            "operation": "update",
-            "body": payload,
-        }
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="update",
+            body=payload,
+        )
 
     def delete_device_switch_routing_static_route(
         self, *, serial: str, static_route_id: str
-    ) -> dict[str, Any]:
+    ) -> CreateOrganizationActionBatchActionsItem:
         """Delete a layer 3 static route for a switch.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-device-switch-routing-static-route
@@ -706,14 +709,14 @@ class ActionBatchSwitch:
         static_route_id = urllib.parse.quote(str(static_route_id), safe="")
         path = f"/devices/{serial}/switch/routing/staticRoutes/{static_route_id}"
 
-        return {
-            "resource": path,
-            "operation": "destroy",
-        }
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="destroy",
+        )
 
     def update_device_switch_warm_spare(
         self, *, serial: str, enabled: bool, spare_serial: str | None = None
-    ) -> dict[str, Any]:
+    ) -> CreateOrganizationActionBatchActionsItem:
         """Update warm spare configuration for a switch.
 
         https://developer.cisco.com/meraki/api-v1/#!update-device-switch-warm-spare
@@ -733,11 +736,11 @@ class ActionBatchSwitch:
         if spare_serial is not None:
             payload["spareSerial"] = spare_serial
 
-        return {
-            "resource": path,
-            "operation": "update",
-            "body": payload,
-        }
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="update",
+            body=payload,
+        )
 
     def create_network_switch_access_policy(
         self,
@@ -763,7 +766,7 @@ class ActionBatchSwitch:
         url_redirect_walled_garden_ranges: list[str] | None = None,
         guest_group_policy_id: str | None = None,
         guest_sgt_id: int | None = None,
-    ) -> dict[str, Any]:
+    ) -> CreateOrganizationActionBatchActionsItem:
         """Create an access policy for a switch network.
 
         https://developer.cisco.com/meraki/api-v1/#!create-network-switch-access-policy
@@ -865,11 +868,11 @@ class ActionBatchSwitch:
         if guest_sgt_id is not None:
             payload["guestSgtId"] = guest_sgt_id
 
-        return {
-            "resource": path,
-            "operation": "create",
-            "body": payload,
-        }
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="create",
+            body=payload,
+        )
 
     def update_network_switch_access_policy(
         self,
@@ -896,7 +899,7 @@ class ActionBatchSwitch:
         url_redirect_walled_garden_ranges: list[str] | None = None,
         guest_group_policy_id: str | None = None,
         guest_sgt_id: int | None = None,
-    ) -> dict[str, Any]:
+    ) -> CreateOrganizationActionBatchActionsItem:
         """Update an access policy for a switch network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-switch-access-policy
@@ -1000,15 +1003,15 @@ class ActionBatchSwitch:
         if guest_sgt_id is not None:
             payload["guestSgtId"] = guest_sgt_id
 
-        return {
-            "resource": path,
-            "operation": "update",
-            "body": payload,
-        }
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="update",
+            body=payload,
+        )
 
     def delete_network_switch_access_policy(
         self, *, network_id: str, access_policy_number: str
-    ) -> dict[str, Any]:
+    ) -> CreateOrganizationActionBatchActionsItem:
         """Delete an access policy for a switch network.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-network-switch-access-policy
@@ -1022,10 +1025,10 @@ class ActionBatchSwitch:
         access_policy_number = urllib.parse.quote(str(access_policy_number), safe="")
         path = f"/networks/{network_id}/switch/accessPolicies/{access_policy_number}"
 
-        return {
-            "resource": path,
-            "operation": "destroy",
-        }
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="destroy",
+        )
 
     def update_network_switch_alternate_management_interface(
         self,
@@ -1035,7 +1038,7 @@ class ActionBatchSwitch:
         vlan_id: int | None = None,
         protocols: list[str] | None = None,
         switches: list[UpdateNetworkSwitchAlternateManagementInterfaceSwitchesItem] | None = None,
-    ) -> dict[str, Any]:
+    ) -> CreateOrganizationActionBatchActionsItem:
         """Update the switch alternate management interface for the network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-switch-alternate-management-interface
@@ -1068,11 +1071,11 @@ class ActionBatchSwitch:
                 item.model_dump(by_alias=True, exclude_none=True) for item in switches
             ]
 
-        return {
-            "resource": path,
-            "operation": "update",
-            "body": payload,
-        }
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="update",
+            body=payload,
+        )
 
     def update_network_switch_dhcp_server_policy(
         self,
@@ -1083,7 +1086,7 @@ class ActionBatchSwitch:
         allowed_servers: list[str] | None = None,
         blocked_servers: list[str] | None = None,
         arp_inspection: UpdateNetworkSwitchDhcpServerPolicyArpInspection | None = None,
-    ) -> dict[str, Any]:
+    ) -> CreateOrganizationActionBatchActionsItem:
         """Update the DHCP server settings.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-switch-dhcp-server-policy
@@ -1120,11 +1123,11 @@ class ActionBatchSwitch:
         if arp_inspection is not None:
             payload["arpInspection"] = arp_inspection.model_dump(by_alias=True, exclude_none=True)
 
-        return {
-            "resource": path,
-            "operation": "update",
-            "body": payload,
-        }
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="update",
+            body=payload,
+        )
 
     def create_network_switch_dhcp_server_policy_arp_inspection_trusted_server(
         self,
@@ -1133,7 +1136,7 @@ class ActionBatchSwitch:
         mac: str,
         vlan: int,
         ipv4: CreateNetworkSwitchDhcpServerPolicyArpInspectionTrustedServerIpv4,
-    ) -> dict[str, Any]:
+    ) -> CreateOrganizationActionBatchActionsItem:
         """Add a server to be trusted by Dynamic ARP Inspection on this network.
 
         https://developer.cisco.com/meraki/api-v1/#!create-network-switch-dhcp-server-policy-arp-inspection-trusted-server
@@ -1156,11 +1159,11 @@ class ActionBatchSwitch:
         if ipv4 is not None:
             payload["ipv4"] = ipv4.model_dump(by_alias=True, exclude_none=True)
 
-        return {
-            "resource": path,
-            "operation": "create",
-            "body": payload,
-        }
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="create",
+            body=payload,
+        )
 
     def update_network_switch_dhcp_server_policy_arp_inspection_trusted_server(
         self,
@@ -1170,7 +1173,7 @@ class ActionBatchSwitch:
         mac: str | None = None,
         vlan: int | None = None,
         ipv4: UpdateNetworkSwitchDhcpServerPolicyArpInspectionTrustedServerIpv4 | None = None,
-    ) -> dict[str, Any]:
+    ) -> CreateOrganizationActionBatchActionsItem:
         """Update a server that is trusted by Dynamic ARP Inspection on this network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-switch-dhcp-server-policy-arp-inspection-trusted-server
@@ -1195,15 +1198,15 @@ class ActionBatchSwitch:
         if ipv4 is not None:
             payload["ipv4"] = ipv4.model_dump(by_alias=True, exclude_none=True)
 
-        return {
-            "resource": path,
-            "operation": "update",
-            "body": payload,
-        }
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="update",
+            body=payload,
+        )
 
     def delete_network_switch_dhcp_server_policy_arp_inspection_trusted_server(
         self, *, network_id: str, trusted_server_id: str
-    ) -> dict[str, Any]:
+    ) -> CreateOrganizationActionBatchActionsItem:
         """Remove a server from being trusted by Dynamic ARP Inspection on this network.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-network-switch-dhcp-server-policy-arp-inspection-trusted-server
@@ -1217,14 +1220,14 @@ class ActionBatchSwitch:
         trusted_server_id = urllib.parse.quote(str(trusted_server_id), safe="")
         path = f"/networks/{network_id}/switch/dhcpServerPolicy/arpInspection/trustedServers/{trusted_server_id}"
 
-        return {
-            "resource": path,
-            "operation": "destroy",
-        }
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="destroy",
+        )
 
     def update_network_switch_dscp_to_cos_mappings(
         self, *, network_id: str, mappings: list[UpdateNetworkSwitchDscpToCosMappingsMappingsItem]
-    ) -> dict[str, Any]:
+    ) -> CreateOrganizationActionBatchActionsItem:
         """Update the DSCP to CoS mappings.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-switch-dscp-to-cos-mappings
@@ -1244,11 +1247,11 @@ class ActionBatchSwitch:
                 item.model_dump(by_alias=True, exclude_none=True) for item in mappings
             ]
 
-        return {
-            "resource": path,
-            "operation": "update",
-            "body": payload,
-        }
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="update",
+            body=payload,
+        )
 
     def create_network_switch_link_aggregation(
         self,
@@ -1257,7 +1260,7 @@ class ActionBatchSwitch:
         switch_ports: list[CreateNetworkSwitchLinkAggregationSwitchPortsItem] | None = None,
         switch_profile_ports: list[CreateNetworkSwitchLinkAggregationSwitchProfilePortsItem]
         | None = None,
-    ) -> dict[str, Any]:
+    ) -> CreateOrganizationActionBatchActionsItem:
         """Create a link aggregation group.
 
         https://developer.cisco.com/meraki/api-v1/#!create-network-switch-link-aggregation
@@ -1283,11 +1286,11 @@ class ActionBatchSwitch:
                 item.model_dump(by_alias=True, exclude_none=True) for item in switch_profile_ports
             ]
 
-        return {
-            "resource": path,
-            "operation": "create",
-            "body": payload,
-        }
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="create",
+            body=payload,
+        )
 
     def update_network_switch_link_aggregation(
         self,
@@ -1297,7 +1300,7 @@ class ActionBatchSwitch:
         switch_ports: list[UpdateNetworkSwitchLinkAggregationSwitchPortsItem] | None = None,
         switch_profile_ports: list[UpdateNetworkSwitchLinkAggregationSwitchProfilePortsItem]
         | None = None,
-    ) -> dict[str, Any]:
+    ) -> CreateOrganizationActionBatchActionsItem:
         """Update a link aggregation group.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-switch-link-aggregation
@@ -1325,15 +1328,15 @@ class ActionBatchSwitch:
                 item.model_dump(by_alias=True, exclude_none=True) for item in switch_profile_ports
             ]
 
-        return {
-            "resource": path,
-            "operation": "update",
-            "body": payload,
-        }
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="update",
+            body=payload,
+        )
 
     def delete_network_switch_link_aggregation(
         self, *, network_id: str, link_aggregation_id: str
-    ) -> dict[str, Any]:
+    ) -> CreateOrganizationActionBatchActionsItem:
         """Split a link aggregation group into separate ports.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-network-switch-link-aggregation
@@ -1347,10 +1350,10 @@ class ActionBatchSwitch:
         link_aggregation_id = urllib.parse.quote(str(link_aggregation_id), safe="")
         path = f"/networks/{network_id}/switch/linkAggregations/{link_aggregation_id}"
 
-        return {
-            "resource": path,
-            "operation": "destroy",
-        }
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="destroy",
+        )
 
     def update_network_switch_mtu(
         self,
@@ -1358,7 +1361,7 @@ class ActionBatchSwitch:
         *,
         default_mtu_size: int | None = None,
         overrides: list[UpdateNetworkSwitchMtuOverridesItem] | None = None,
-    ) -> dict[str, Any]:
+    ) -> CreateOrganizationActionBatchActionsItem:
         """Update the MTU configuration.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-switch-mtu
@@ -1381,11 +1384,11 @@ class ActionBatchSwitch:
                 item.model_dump(by_alias=True, exclude_none=True) for item in overrides
             ]
 
-        return {
-            "resource": path,
-            "operation": "update",
-            "body": payload,
-        }
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="update",
+            body=payload,
+        )
 
     def update_network_switch_port_schedule(
         self,
@@ -1394,7 +1397,7 @@ class ActionBatchSwitch:
         port_schedule_id: str,
         name: str | None = None,
         port_schedule: UpdateNetworkSwitchPortSchedulePortSchedule | None = None,
-    ) -> dict[str, Any]:
+    ) -> CreateOrganizationActionBatchActionsItem:
         """Update a switch port schedule.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-switch-port-schedule
@@ -1419,11 +1422,11 @@ class ActionBatchSwitch:
         if port_schedule is not None:
             payload["portSchedule"] = port_schedule.model_dump(by_alias=True, exclude_none=True)
 
-        return {
-            "resource": path,
-            "operation": "update",
-            "body": payload,
-        }
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="update",
+            body=payload,
+        )
 
     def create_network_switch_qos_rule(
         self,
@@ -1436,7 +1439,7 @@ class ActionBatchSwitch:
         dst_port: int | None = None,
         dst_port_range: str | None = None,
         dscp: int | None = None,
-    ) -> dict[str, Any]:
+    ) -> CreateOrganizationActionBatchActionsItem:
         """Add a quality of service rule.
 
         https://developer.cisco.com/meraki/api-v1/#!create-network-switch-qos-rule
@@ -1482,15 +1485,15 @@ class ActionBatchSwitch:
         if dscp is not None:
             payload["dscp"] = dscp
 
-        return {
-            "resource": path,
-            "operation": "create",
-            "body": payload,
-        }
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="create",
+            body=payload,
+        )
 
     def update_network_switch_qos_rules_order(
         self, *, network_id: str, rule_ids: list[str]
-    ) -> dict[str, Any]:
+    ) -> CreateOrganizationActionBatchActionsItem:
         """Update the order in which the rules should be processed by the switch.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-switch-qos-rules-order
@@ -1508,11 +1511,11 @@ class ActionBatchSwitch:
         if rule_ids is not None:
             payload["ruleIds"] = rule_ids
 
-        return {
-            "resource": path,
-            "operation": "update_order",
-            "body": payload,
-        }
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="update_order",
+            body=payload,
+        )
 
     def update_network_switch_qos_rule(
         self,
@@ -1526,7 +1529,7 @@ class ActionBatchSwitch:
         dst_port: int | None = None,
         dst_port_range: str | None = None,
         dscp: int | None = None,
-    ) -> dict[str, Any]:
+    ) -> CreateOrganizationActionBatchActionsItem:
         """Update a quality of service rule.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-switch-qos-rule
@@ -1574,15 +1577,15 @@ class ActionBatchSwitch:
         if dscp is not None:
             payload["dscp"] = dscp
 
-        return {
-            "resource": path,
-            "operation": "update",
-            "body": payload,
-        }
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="update",
+            body=payload,
+        )
 
     def delete_network_switch_qos_rule(
         self, *, network_id: str, qos_rule_id: str
-    ) -> dict[str, Any]:
+    ) -> CreateOrganizationActionBatchActionsItem:
         """Delete a quality of service rule.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-network-switch-qos-rule
@@ -1596,10 +1599,10 @@ class ActionBatchSwitch:
         qos_rule_id = urllib.parse.quote(str(qos_rule_id), safe="")
         path = f"/networks/{network_id}/switch/qosRules/{qos_rule_id}"
 
-        return {
-            "resource": path,
-            "operation": "destroy",
-        }
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="destroy",
+        )
 
     def update_network_switch_routing_multicast(
         self,
@@ -1607,7 +1610,7 @@ class ActionBatchSwitch:
         *,
         default_settings: UpdateNetworkSwitchRoutingMulticastDefaultSettings | None = None,
         overrides: list[UpdateNetworkSwitchRoutingMulticastOverridesItem] | None = None,
-    ) -> dict[str, Any]:
+    ) -> CreateOrganizationActionBatchActionsItem:
         """Update multicast settings for a network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-switch-routing-multicast
@@ -1633,11 +1636,11 @@ class ActionBatchSwitch:
                 item.model_dump(by_alias=True, exclude_none=True) for item in overrides
             ]
 
-        return {
-            "resource": path,
-            "operation": "update",
-            "body": payload,
-        }
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="update",
+            body=payload,
+        )
 
     def create_network_switch_routing_multicast_rendezvous_point(
         self,
@@ -1646,7 +1649,7 @@ class ActionBatchSwitch:
         interface_ip: str,
         multicast_group: str,
         vrf: CreateNetworkSwitchRoutingMulticastRendezvousPointVrf | None = None,
-    ) -> dict[str, Any]:
+    ) -> CreateOrganizationActionBatchActionsItem:
         """Create a multicast rendezvous point.
 
         https://developer.cisco.com/meraki/api-v1/#!create-network-switch-routing-multicast-rendezvous-point
@@ -1669,11 +1672,11 @@ class ActionBatchSwitch:
         if vrf is not None:
             payload["vrf"] = vrf.model_dump(by_alias=True, exclude_none=True)
 
-        return {
-            "resource": path,
-            "operation": "create",
-            "body": payload,
-        }
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="create",
+            body=payload,
+        )
 
     def update_network_switch_routing_multicast_rendezvous_point(
         self,
@@ -1683,7 +1686,7 @@ class ActionBatchSwitch:
         interface_ip: str,
         multicast_group: str,
         vrf: UpdateNetworkSwitchRoutingMulticastRendezvousPointVrf | None = None,
-    ) -> dict[str, Any]:
+    ) -> CreateOrganizationActionBatchActionsItem:
         """Update a multicast rendezvous point.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-switch-routing-multicast-rendezvous-point
@@ -1708,15 +1711,15 @@ class ActionBatchSwitch:
         if vrf is not None:
             payload["vrf"] = vrf.model_dump(by_alias=True, exclude_none=True)
 
-        return {
-            "resource": path,
-            "operation": "update",
-            "body": payload,
-        }
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="update",
+            body=payload,
+        )
 
     def delete_network_switch_routing_multicast_rendezvous_point(
         self, *, network_id: str, rendezvous_point_id: str
-    ) -> dict[str, Any]:
+    ) -> CreateOrganizationActionBatchActionsItem:
         """Delete a multicast rendezvous point.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-network-switch-routing-multicast-rendezvous-point
@@ -1730,10 +1733,10 @@ class ActionBatchSwitch:
         rendezvous_point_id = urllib.parse.quote(str(rendezvous_point_id), safe="")
         path = f"/networks/{network_id}/switch/routing/multicast/rendezvousPoints/{rendezvous_point_id}"
 
-        return {
-            "resource": path,
-            "operation": "destroy",
-        }
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="destroy",
+        )
 
     def update_network_switch_routing_ospf(
         self,
@@ -1747,7 +1750,7 @@ class ActionBatchSwitch:
         v3: UpdateNetworkSwitchRoutingOspfV3 | None = None,
         md5_authentication_enabled: bool | None = None,
         md5_authentication_key: UpdateNetworkSwitchRoutingOspfMd5AuthenticationKey | None = None,
-    ) -> dict[str, Any]:
+    ) -> CreateOrganizationActionBatchActionsItem:
         """Update layer 3 OSPF routing configuration.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-switch-routing-ospf
@@ -1796,11 +1799,11 @@ class ActionBatchSwitch:
                 by_alias=True, exclude_none=True
             )
 
-        return {
-            "resource": path,
-            "operation": "update",
-            "body": payload,
-        }
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="update",
+            body=payload,
+        )
 
     def update_network_switch_settings(
         self,
@@ -1812,7 +1815,7 @@ class ActionBatchSwitch:
         uplink_client_sampling: UpdateNetworkSwitchSettingsUplinkClientSampling | None = None,
         mac_blocklist: UpdateNetworkSwitchSettingsMacBlocklist | None = None,
         uplink_selection: UpdateNetworkSwitchSettingsUplinkSelection | None = None,
-    ) -> dict[str, Any]:
+    ) -> CreateOrganizationActionBatchActionsItem:
         """Update switch network settings.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-switch-settings
@@ -1851,11 +1854,11 @@ class ActionBatchSwitch:
                 by_alias=True, exclude_none=True
             )
 
-        return {
-            "resource": path,
-            "operation": "settings/actions/update",
-            "body": payload,
-        }
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="settings/actions/update",
+            body=payload,
+        )
 
     def create_network_switch_stack_routing_interface(
         self,
@@ -1874,7 +1877,7 @@ class ActionBatchSwitch:
         ipv6: CreateNetworkSwitchStackRoutingInterfaceIpv6 | None = None,
         vrf: CreateNetworkSwitchStackRoutingInterfaceVrf | None = None,
         loopback: dict[str, Any] | None = None,
-    ) -> dict[str, Any]:
+    ) -> CreateOrganizationActionBatchActionsItem:
         """Create a layer 3 interface for a switch stack.
 
         https://developer.cisco.com/meraki/api-v1/#!create-network-switch-stack-routing-interface
@@ -1942,11 +1945,11 @@ class ActionBatchSwitch:
         if loopback is not None:
             payload["loopback"] = loopback
 
-        return {
-            "resource": path,
-            "operation": "create",
-            "body": payload,
-        }
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="create",
+            body=payload,
+        )
 
     def update_network_switch_stack_routing_interface(
         self,
@@ -1965,7 +1968,7 @@ class ActionBatchSwitch:
         ipv6: UpdateNetworkSwitchStackRoutingInterfaceIpv6 | None = None,
         vrf: UpdateNetworkSwitchStackRoutingInterfaceVrf | None = None,
         loopback: dict[str, Any] | None = None,
-    ) -> dict[str, Any]:
+    ) -> CreateOrganizationActionBatchActionsItem:
         """Update a layer 3 interface for a switch stack.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-switch-stack-routing-interface
@@ -2028,15 +2031,15 @@ class ActionBatchSwitch:
         if loopback is not None:
             payload["loopback"] = loopback
 
-        return {
-            "resource": path,
-            "operation": "update",
-            "body": payload,
-        }
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="update",
+            body=payload,
+        )
 
     def delete_network_switch_stack_routing_interface(
         self, *, network_id: str, switch_stack_id: str, interface_id: str
-    ) -> dict[str, Any]:
+    ) -> CreateOrganizationActionBatchActionsItem:
         """Delete a layer 3 interface from a switch stack.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-network-switch-stack-routing-interface
@@ -2052,10 +2055,10 @@ class ActionBatchSwitch:
         interface_id = urllib.parse.quote(str(interface_id), safe="")
         path = f"/networks/{network_id}/switch/stacks/{switch_stack_id}/routing/interfaces/{interface_id}"
 
-        return {
-            "resource": path,
-            "operation": "destroy",
-        }
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="destroy",
+        )
 
     def update_network_switch_stack_routing_interface_dhcp(
         self,
@@ -2079,7 +2082,7 @@ class ActionBatchSwitch:
             UpdateNetworkSwitchStackRoutingInterfaceDhcpFixedIpAssignmentsItem
         ]
         | None = None,
-    ) -> dict[str, Any]:
+    ) -> CreateOrganizationActionBatchActionsItem:
         """Update a layer 3 interface DHCP configuration for a switch stack.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-switch-stack-routing-interface-dhcp
@@ -2164,11 +2167,11 @@ class ActionBatchSwitch:
                 item.model_dump(by_alias=True, exclude_none=True) for item in fixed_ip_assignments
             ]
 
-        return {
-            "resource": path,
-            "operation": "update",
-            "body": payload,
-        }
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="update",
+            body=payload,
+        )
 
     def create_network_switch_stack_routing_static_route(
         self,
@@ -2181,7 +2184,7 @@ class ActionBatchSwitch:
         advertise_via_ospf_enabled: bool | None = None,
         prefer_over_ospf_routes_enabled: bool | None = None,
         vrf: CreateNetworkSwitchStackRoutingStaticRouteVrf | None = None,
-    ) -> dict[str, Any]:
+    ) -> CreateOrganizationActionBatchActionsItem:
         """Create a layer 3 static route for a switch stack.
 
         https://developer.cisco.com/meraki/api-v1/#!create-network-switch-stack-routing-static-route
@@ -2217,11 +2220,11 @@ class ActionBatchSwitch:
         if vrf is not None:
             payload["vrf"] = vrf.model_dump(by_alias=True, exclude_none=True)
 
-        return {
-            "resource": path,
-            "operation": "create",
-            "body": payload,
-        }
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="create",
+            body=payload,
+        )
 
     def update_network_switch_stack_routing_static_route(
         self,
@@ -2236,7 +2239,7 @@ class ActionBatchSwitch:
         advertise_via_ospf_enabled: bool | None = None,
         prefer_over_ospf_routes_enabled: bool | None = None,
         vrf: UpdateNetworkSwitchStackRoutingStaticRouteVrf | None = None,
-    ) -> dict[str, Any]:
+    ) -> CreateOrganizationActionBatchActionsItem:
         """Update a layer 3 static route for a switch stack.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-switch-stack-routing-static-route
@@ -2277,15 +2280,15 @@ class ActionBatchSwitch:
         if vrf is not None:
             payload["vrf"] = vrf.model_dump(by_alias=True, exclude_none=True)
 
-        return {
-            "resource": path,
-            "operation": "update",
-            "body": payload,
-        }
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="update",
+            body=payload,
+        )
 
     def delete_network_switch_stack_routing_static_route(
         self, *, network_id: str, switch_stack_id: str, static_route_id: str
-    ) -> dict[str, Any]:
+    ) -> CreateOrganizationActionBatchActionsItem:
         """Delete a layer 3 static route for a switch stack.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-network-switch-stack-routing-static-route
@@ -2301,10 +2304,10 @@ class ActionBatchSwitch:
         static_route_id = urllib.parse.quote(str(static_route_id), safe="")
         path = f"/networks/{network_id}/switch/stacks/{switch_stack_id}/routing/staticRoutes/{static_route_id}"
 
-        return {
-            "resource": path,
-            "operation": "destroy",
-        }
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="destroy",
+        )
 
     def update_network_switch_storm_control(
         self,
@@ -2314,7 +2317,7 @@ class ActionBatchSwitch:
         multicast_threshold: int | None = None,
         unknown_unicast_threshold: int | None = None,
         treat_these_traffic_types_as_one_threshold: list[str] | None = None,
-    ) -> dict[str, Any]:
+    ) -> CreateOrganizationActionBatchActionsItem:
         """Update the storm control configuration for a switch network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-switch-storm-control
@@ -2348,11 +2351,11 @@ class ActionBatchSwitch:
                 treat_these_traffic_types_as_one_threshold
             )
 
-        return {
-            "resource": path,
-            "operation": "update",
-            "body": payload,
-        }
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="update",
+            body=payload,
+        )
 
     def update_network_switch_stp(
         self,
@@ -2360,7 +2363,7 @@ class ActionBatchSwitch:
         *,
         rstp_enabled: bool | None = None,
         stp_bridge_priority: list[UpdateNetworkSwitchStpStpBridgePriorityItem] | None = None,
-    ) -> dict[str, Any]:
+    ) -> CreateOrganizationActionBatchActionsItem:
         """Updates STP settings.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-switch-stp
@@ -2383,11 +2386,11 @@ class ActionBatchSwitch:
                 item.model_dump(by_alias=True, exclude_none=True) for item in stp_bridge_priority
             ]
 
-        return {
-            "resource": path,
-            "operation": "update",
-            "body": payload,
-        }
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="update",
+            body=payload,
+        )
 
     def update_organization_config_template_switch_profile_port(
         self,
@@ -2423,7 +2426,7 @@ class ActionBatchSwitch:
         profile: UpdateOrganizationConfigTemplateSwitchProfilePortProfile | None = None,
         dot3az: UpdateOrganizationConfigTemplateSwitchProfilePortDot3az | None = None,
         high_speed: UpdateOrganizationConfigTemplateSwitchProfilePortHighSpeed | None = None,
-    ) -> dict[str, Any]:
+    ) -> CreateOrganizationActionBatchActionsItem:
         """Update a switch template port.
 
         https://developer.cisco.com/meraki/api-v1/#!update-organization-config-template-switch-profile-port
@@ -2561,15 +2564,15 @@ class ActionBatchSwitch:
         if high_speed is not None:
             payload["highSpeed"] = high_speed.model_dump(by_alias=True, exclude_none=True)
 
-        return {
-            "resource": path,
-            "operation": "update",
-            "body": payload,
-        }
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="update",
+            body=payload,
+        )
 
     def clone_organization_switch_devices(
         self, *, organization_id: str, source_serial: str, target_serials: list[str]
-    ) -> dict[str, Any]:
+    ) -> CreateOrganizationActionBatchActionsItem:
         """Clone port-level and some switch-level configuration settings from a source switch to one or more target switches.
 
         https://developer.cisco.com/meraki/api-v1/#!clone-organization-switch-devices
@@ -2591,8 +2594,8 @@ class ActionBatchSwitch:
         if target_serials is not None:
             payload["targetSerials"] = target_serials
 
-        return {
-            "resource": path,
-            "operation": "settings/actions/clone",
-            "body": payload,
-        }
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="settings/actions/clone",
+            body=payload,
+        )

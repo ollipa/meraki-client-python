@@ -17,6 +17,7 @@ from meraki_client.schemas import (
     CreateNetworkApplianceVlanDhcpOptionsItem,
     CreateNetworkApplianceVlanIpv6,
     CreateNetworkApplianceVlanMandatoryDhcp,
+    CreateOrganizationActionBatchActionsItem,
     CreateOrganizationApplianceDnsLocalProfilesAssignmentsBulkDeleteItemsItem,
     CreateOrganizationApplianceDnsLocalRecordProfile,
     CreateOrganizationApplianceDnsSplitProfileNameservers,
@@ -74,7 +75,7 @@ class ActionBatchAppliance:
         rf_profile_id: str | None = None,
         two_four_ghz_settings: UpdateDeviceApplianceRadioSettingsTwoFourGhzSettings | None = None,
         five_ghz_settings: UpdateDeviceApplianceRadioSettingsFiveGhzSettings | None = None,
-    ) -> dict[str, Any]:
+    ) -> CreateOrganizationActionBatchActionsItem:
         """Update the radio settings of an appliance.
 
         https://developer.cisco.com/meraki/api-v1/#!update-device-appliance-radio-settings
@@ -105,15 +106,15 @@ class ActionBatchAppliance:
                 by_alias=True, exclude_none=True
             )
 
-        return {
-            "resource": path,
-            "operation": "update",
-            "body": payload,
-        }
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="update",
+            body=payload,
+        )
 
     def update_device_appliance_uplinks_settings(
         self, *, serial: str, interfaces: UpdateDeviceApplianceUplinksSettingsInterfaces
-    ) -> dict[str, Any]:
+    ) -> CreateOrganizationActionBatchActionsItem:
         """Update the uplink settings for an MX appliance.
 
         https://developer.cisco.com/meraki/api-v1/#!update-device-appliance-uplinks-settings
@@ -130,13 +131,15 @@ class ActionBatchAppliance:
         if interfaces is not None:
             payload["interfaces"] = interfaces.model_dump(by_alias=True, exclude_none=True)
 
-        return {
-            "resource": path,
-            "operation": "update",
-            "body": payload,
-        }
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="update",
+            body=payload,
+        )
 
-    def create_device_appliance_vmx_authentication_token(self, serial: str) -> dict[str, Any]:
+    def create_device_appliance_vmx_authentication_token(
+        self, serial: str
+    ) -> CreateOrganizationActionBatchActionsItem:
         """Generate a new vMX authentication token.
 
         https://developer.cisco.com/meraki/api-v1/#!create-device-appliance-vmx-authentication-token
@@ -148,10 +151,10 @@ class ActionBatchAppliance:
         serial = urllib.parse.quote(str(serial), safe="")
         path = f"/devices/{serial}/appliance/vmx/authenticationToken"
 
-        return {
-            "resource": path,
-            "operation": "create",
-        }
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="create",
+        )
 
     def update_network_appliance_connectivity_monitoring_destinations(
         self,
@@ -159,7 +162,7 @@ class ActionBatchAppliance:
         *,
         destinations: list[UpdateNetworkApplianceConnectivityMonitoringDestinationsDestinationsItem]
         | None = None,
-    ) -> dict[str, Any]:
+    ) -> CreateOrganizationActionBatchActionsItem:
         """Update the connectivity testing destinations for an MX network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-connectivity-monitoring-destinations
@@ -178,18 +181,18 @@ class ActionBatchAppliance:
                 item.model_dump(by_alias=True, exclude_none=True) for item in destinations
             ]
 
-        return {
-            "resource": path,
-            "operation": "update",
-            "body": payload,
-        }
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="update",
+            body=payload,
+        )
 
     def update_network_appliance_firewall_l7_firewall_rules(
         self,
         network_id: str,
         *,
         rules: list[UpdateNetworkApplianceFirewallL7FirewallRulesRulesItem] | None = None,
-    ) -> dict[str, Any]:
+    ) -> CreateOrganizationActionBatchActionsItem:
         """Update the MX L7 firewall rules for an MX network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-firewall-l-7-firewall-rules
@@ -206,18 +209,18 @@ class ActionBatchAppliance:
         if rules is not None:
             payload["rules"] = [item.model_dump(by_alias=True, exclude_none=True) for item in rules]
 
-        return {
-            "resource": path,
-            "operation": "update",
-            "body": payload,
-        }
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="update",
+            body=payload,
+        )
 
     def update_network_appliance_firewall_multicast_forwarding(
         self,
         *,
         network_id: str,
         rules: list[UpdateNetworkApplianceFirewallMulticastForwardingRulesItem],
-    ) -> dict[str, Any]:
+    ) -> CreateOrganizationActionBatchActionsItem:
         """Update static multicast forward rules for a network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-firewall-multicast-forwarding
@@ -234,11 +237,11 @@ class ActionBatchAppliance:
         if rules is not None:
             payload["rules"] = [item.model_dump(by_alias=True, exclude_none=True) for item in rules]
 
-        return {
-            "resource": path,
-            "operation": "update",
-            "body": payload,
-        }
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="update",
+            body=payload,
+        )
 
     def update_network_appliance_port(
         self,
@@ -251,7 +254,7 @@ class ActionBatchAppliance:
         vlan: int | None = None,
         allowed_vlans: str | None = None,
         access_policy: str | None = None,
-    ) -> dict[str, Any]:
+    ) -> CreateOrganizationActionBatchActionsItem:
         """Update the per-port VLAN settings for a single MX port.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-port
@@ -292,11 +295,11 @@ class ActionBatchAppliance:
         if access_policy is not None:
             payload["accessPolicy"] = access_policy
 
-        return {
-            "resource": path,
-            "operation": "update",
-            "body": payload,
-        }
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="update",
+            body=payload,
+        )
 
     def create_network_appliance_prefixes_delegated_static(
         self,
@@ -305,7 +308,7 @@ class ActionBatchAppliance:
         prefix: str,
         origin: CreateNetworkAppliancePrefixesDelegatedStaticOrigin,
         description: str | None = None,
-    ) -> dict[str, Any]:
+    ) -> CreateOrganizationActionBatchActionsItem:
         """Add a static delegated prefix from a network.
 
         https://developer.cisco.com/meraki/api-v1/#!create-network-appliance-prefixes-delegated-static
@@ -328,11 +331,11 @@ class ActionBatchAppliance:
         if description is not None:
             payload["description"] = description
 
-        return {
-            "resource": path,
-            "operation": "create",
-            "body": payload,
-        }
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="create",
+            body=payload,
+        )
 
     def update_network_appliance_prefixes_delegated_static(
         self,
@@ -342,7 +345,7 @@ class ActionBatchAppliance:
         prefix: str | None = None,
         origin: UpdateNetworkAppliancePrefixesDelegatedStaticOrigin | None = None,
         description: str | None = None,
-    ) -> dict[str, Any]:
+    ) -> CreateOrganizationActionBatchActionsItem:
         """Update a static delegated prefix from a network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-prefixes-delegated-static
@@ -367,15 +370,15 @@ class ActionBatchAppliance:
         if description is not None:
             payload["description"] = description
 
-        return {
-            "resource": path,
-            "operation": "update",
-            "body": payload,
-        }
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="update",
+            body=payload,
+        )
 
     def delete_network_appliance_prefixes_delegated_static(
         self, *, network_id: str, static_delegated_prefix_id: str
-    ) -> dict[str, Any]:
+    ) -> CreateOrganizationActionBatchActionsItem:
         """Delete a static delegated prefix from a network.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-network-appliance-prefixes-delegated-static
@@ -389,10 +392,10 @@ class ActionBatchAppliance:
         static_delegated_prefix_id = urllib.parse.quote(str(static_delegated_prefix_id), safe="")
         path = f"/networks/{network_id}/appliance/prefixes/delegated/statics/{static_delegated_prefix_id}"
 
-        return {
-            "resource": path,
-            "operation": "destroy",
-        }
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="destroy",
+        )
 
     def create_network_appliance_rf_profile(
         self,
@@ -402,7 +405,7 @@ class ActionBatchAppliance:
         two_four_ghz_settings: CreateNetworkApplianceRfProfileTwoFourGhzSettings | None = None,
         five_ghz_settings: CreateNetworkApplianceRfProfileFiveGhzSettings | None = None,
         per_ssid_settings: CreateNetworkApplianceRfProfilePerSsidSettings | None = None,
-    ) -> dict[str, Any]:
+    ) -> CreateOrganizationActionBatchActionsItem:
         """Creates new RF profile for this network.
 
         https://developer.cisco.com/meraki/api-v1/#!create-network-appliance-rf-profile
@@ -434,11 +437,11 @@ class ActionBatchAppliance:
                 by_alias=True, exclude_none=True
             )
 
-        return {
-            "resource": path,
-            "operation": "create",
-            "body": payload,
-        }
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="create",
+            body=payload,
+        )
 
     def update_network_appliance_rf_profile(
         self,
@@ -449,7 +452,7 @@ class ActionBatchAppliance:
         two_four_ghz_settings: UpdateNetworkApplianceRfProfileTwoFourGhzSettings | None = None,
         five_ghz_settings: UpdateNetworkApplianceRfProfileFiveGhzSettings | None = None,
         per_ssid_settings: UpdateNetworkApplianceRfProfilePerSsidSettings | None = None,
-    ) -> dict[str, Any]:
+    ) -> CreateOrganizationActionBatchActionsItem:
         """Updates specified RF profile for this network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-rf-profile
@@ -483,15 +486,15 @@ class ActionBatchAppliance:
                 by_alias=True, exclude_none=True
             )
 
-        return {
-            "resource": path,
-            "operation": "update",
-            "body": payload,
-        }
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="update",
+            body=payload,
+        )
 
     def delete_network_appliance_rf_profile(
         self, *, network_id: str, rf_profile_id: str
-    ) -> dict[str, Any]:
+    ) -> CreateOrganizationActionBatchActionsItem:
         """Delete a RF Profile.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-network-appliance-rf-profile
@@ -505,10 +508,10 @@ class ActionBatchAppliance:
         rf_profile_id = urllib.parse.quote(str(rf_profile_id), safe="")
         path = f"/networks/{network_id}/appliance/rfProfiles/{rf_profile_id}"
 
-        return {
-            "resource": path,
-            "operation": "destroy",
-        }
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="destroy",
+        )
 
     def update_network_appliance_sdwan_internet_policies(
         self,
@@ -518,7 +521,7 @@ class ActionBatchAppliance:
             UpdateNetworkApplianceSdwanInternetPoliciesWanTrafficUplinkPreferencesItem
         ]
         | None = None,
-    ) -> dict[str, Any]:
+    ) -> CreateOrganizationActionBatchActionsItem:
         """Update SDWAN internet traffic preferences for an MX network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-sdwan-internet-policies
@@ -539,11 +542,11 @@ class ActionBatchAppliance:
                 for item in wan_traffic_uplink_preferences
             ]
 
-        return {
-            "resource": path,
-            "operation": "update",
-            "body": payload,
-        }
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="update",
+            body=payload,
+        )
 
     def update_network_appliance_settings(
         self,
@@ -552,7 +555,7 @@ class ActionBatchAppliance:
         client_tracking_method: str | None = None,
         deployment_mode: str | None = None,
         dynamic_dns: UpdateNetworkApplianceSettingsDynamicDns | None = None,
-    ) -> dict[str, Any]:
+    ) -> CreateOrganizationActionBatchActionsItem:
         """Update the appliance settings for a network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-settings
@@ -586,11 +589,11 @@ class ActionBatchAppliance:
         if dynamic_dns is not None:
             payload["dynamicDns"] = dynamic_dns.model_dump(by_alias=True, exclude_none=True)
 
-        return {
-            "resource": path,
-            "operation": "update",
-            "body": payload,
-        }
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="update",
+            body=payload,
+        )
 
     def update_network_appliance_single_lan(
         self,
@@ -600,7 +603,7 @@ class ActionBatchAppliance:
         appliance_ip: str | None = None,
         ipv6: UpdateNetworkApplianceSingleLanIpv6 | None = None,
         mandatory_dhcp: UpdateNetworkApplianceSingleLanMandatoryDhcp | None = None,
-    ) -> dict[str, Any]:
+    ) -> CreateOrganizationActionBatchActionsItem:
         """Update single LAN configuration.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-single-lan
@@ -629,11 +632,11 @@ class ActionBatchAppliance:
         if mandatory_dhcp is not None:
             payload["mandatoryDhcp"] = mandatory_dhcp.model_dump(by_alias=True, exclude_none=True)
 
-        return {
-            "resource": path,
-            "operation": "update",
-            "body": payload,
-        }
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="update",
+            body=payload,
+        )
 
     def update_network_appliance_ssid(
         self,
@@ -652,7 +655,7 @@ class ActionBatchAppliance:
         dhcp_enforced_deauthentication: UpdateNetworkApplianceSsidDhcpEnforcedDeauthentication
         | None = None,
         dot11w: UpdateNetworkApplianceSsidDot11w | None = None,
-    ) -> dict[str, Any]:
+    ) -> CreateOrganizationActionBatchActionsItem:
         """Update the attributes of an MX SSID.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-ssid
@@ -731,11 +734,11 @@ class ActionBatchAppliance:
         if dot11w is not None:
             payload["dot11w"] = dot11w.model_dump(by_alias=True, exclude_none=True)
 
-        return {
-            "resource": path,
-            "operation": "update",
-            "body": payload,
-        }
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="update",
+            body=payload,
+        )
 
     def create_network_appliance_traffic_shaping_custom_performance_class(
         self,
@@ -745,7 +748,7 @@ class ActionBatchAppliance:
         max_latency: int | None = None,
         max_jitter: int | None = None,
         max_loss_percentage: int | None = None,
-    ) -> dict[str, Any]:
+    ) -> CreateOrganizationActionBatchActionsItem:
         """Add a custom performance class for an MX network.
 
         https://developer.cisco.com/meraki/api-v1/#!create-network-appliance-traffic-shaping-custom-performance-class
@@ -771,11 +774,11 @@ class ActionBatchAppliance:
         if max_loss_percentage is not None:
             payload["maxLossPercentage"] = max_loss_percentage
 
-        return {
-            "resource": path,
-            "operation": "create",
-            "body": payload,
-        }
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="create",
+            body=payload,
+        )
 
     def update_network_appliance_traffic_shaping_custom_performance_class(
         self,
@@ -786,7 +789,7 @@ class ActionBatchAppliance:
         max_latency: int | None = None,
         max_jitter: int | None = None,
         max_loss_percentage: int | None = None,
-    ) -> dict[str, Any]:
+    ) -> CreateOrganizationActionBatchActionsItem:
         """Update a custom performance class for an MX network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-traffic-shaping-custom-performance-class
@@ -814,15 +817,15 @@ class ActionBatchAppliance:
         if max_loss_percentage is not None:
             payload["maxLossPercentage"] = max_loss_percentage
 
-        return {
-            "resource": path,
-            "operation": "update",
-            "body": payload,
-        }
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="update",
+            body=payload,
+        )
 
     def delete_network_appliance_traffic_shaping_custom_performance_class(
         self, *, network_id: str, custom_performance_class_id: str
-    ) -> dict[str, Any]:
+    ) -> CreateOrganizationActionBatchActionsItem:
         """Delete a custom performance class from an MX network.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-network-appliance-traffic-shaping-custom-performance-class
@@ -836,10 +839,10 @@ class ActionBatchAppliance:
         custom_performance_class_id = urllib.parse.quote(str(custom_performance_class_id), safe="")
         path = f"/networks/{network_id}/appliance/trafficShaping/customPerformanceClasses/{custom_performance_class_id}"
 
-        return {
-            "resource": path,
-            "operation": "destroy",
-        }
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="destroy",
+        )
 
     def update_network_appliance_traffic_shaping_rules(
         self,
@@ -847,7 +850,7 @@ class ActionBatchAppliance:
         *,
         default_rules_enabled: bool | None = None,
         rules: list[UpdateNetworkApplianceTrafficShapingRulesRulesItem] | None = None,
-    ) -> dict[str, Any]:
+    ) -> CreateOrganizationActionBatchActionsItem:
         """Update the traffic shaping settings rules for an MX network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-traffic-shaping-rules
@@ -872,11 +875,11 @@ class ActionBatchAppliance:
         if rules is not None:
             payload["rules"] = [item.model_dump(by_alias=True, exclude_none=True) for item in rules]
 
-        return {
-            "resource": path,
-            "operation": "update",
-            "body": payload,
-        }
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="update",
+            body=payload,
+        )
 
     def update_network_appliance_traffic_shaping_uplink_bandwidth(
         self,
@@ -884,7 +887,7 @@ class ActionBatchAppliance:
         *,
         bandwidth_limits: UpdateNetworkApplianceTrafficShapingUplinkBandwidthBandwidthLimits
         | None = None,
-    ) -> dict[str, Any]:
+    ) -> CreateOrganizationActionBatchActionsItem:
         """Updates the uplink bandwidth settings for your MX network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-traffic-shaping-uplink-bandwidth
@@ -904,11 +907,11 @@ class ActionBatchAppliance:
                 by_alias=True, exclude_none=True
             )
 
-        return {
-            "resource": path,
-            "operation": "update",
-            "body": payload,
-        }
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="update",
+            body=payload,
+        )
 
     def update_network_appliance_traffic_shaping_uplink_selection(
         self,
@@ -927,7 +930,7 @@ class ActionBatchAppliance:
             UpdateNetworkApplianceTrafficShapingUplinkSelectionVpnTrafficUplinkPreferencesItem
         ]
         | None = None,
-    ) -> dict[str, Any]:
+    ) -> CreateOrganizationActionBatchActionsItem:
         """Update uplink selection settings for an MX network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-traffic-shaping-uplink-selection
@@ -967,11 +970,11 @@ class ActionBatchAppliance:
                 for item in vpn_traffic_uplink_preferences
             ]
 
-        return {
-            "resource": path,
-            "operation": "update",
-            "body": payload,
-        }
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="update",
+            body=payload,
+        )
 
     def update_network_appliance_traffic_shaping_vpn_exclusions(
         self,
@@ -982,7 +985,7 @@ class ActionBatchAppliance:
             UpdateNetworkApplianceTrafficShapingVpnExclusionsMajorApplicationsItem
         ]
         | None = None,
-    ) -> dict[str, Any]:
+    ) -> CreateOrganizationActionBatchActionsItem:
         """Update VPN exclusion rules for an MX network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-traffic-shaping-vpn-exclusions
@@ -1007,11 +1010,11 @@ class ActionBatchAppliance:
                 item.model_dump(by_alias=True, exclude_none=True) for item in major_applications
             ]
 
-        return {
-            "resource": path,
-            "operation": "update",
-            "body": payload,
-        }
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="update",
+            body=payload,
+        )
 
     def create_network_appliance_vlan(
         self,
@@ -1034,7 +1037,7 @@ class ActionBatchAppliance:
         dhcp_boot_next_server: str | None = None,
         dhcp_boot_filename: str | None = None,
         dhcp_options: list[CreateNetworkApplianceVlanDhcpOptionsItem] | None = None,
-    ) -> dict[str, Any]:
+    ) -> CreateOrganizationActionBatchActionsItem:
         """Add a VLAN.
 
         https://developer.cisco.com/meraki/api-v1/#!create-network-appliance-vlan
@@ -1135,15 +1138,15 @@ class ActionBatchAppliance:
                 item.model_dump(by_alias=True, exclude_none=True) for item in dhcp_options
             ]
 
-        return {
-            "resource": path,
-            "operation": "create",
-            "body": payload,
-        }
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="create",
+            body=payload,
+        )
 
     def update_network_appliance_vlans_settings(
         self, network_id: str, *, vlans_enabled: bool | None = None
-    ) -> dict[str, Any]:
+    ) -> CreateOrganizationActionBatchActionsItem:
         """Enable/Disable VLANs for the given network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-vlans-settings
@@ -1161,11 +1164,11 @@ class ActionBatchAppliance:
         if vlans_enabled is not None:
             payload["vlansEnabled"] = vlans_enabled
 
-        return {
-            "resource": path,
-            "operation": "update",
-            "body": payload,
-        }
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="update",
+            body=payload,
+        )
 
     def update_network_appliance_vlan(
         self,
@@ -1192,7 +1195,7 @@ class ActionBatchAppliance:
         mask: int | None = None,
         ipv6: UpdateNetworkApplianceVlanIpv6 | None = None,
         mandatory_dhcp: UpdateNetworkApplianceVlanMandatoryDhcp | None = None,
-    ) -> dict[str, Any]:
+    ) -> CreateOrganizationActionBatchActionsItem:
         """Update a VLAN.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-vlan
@@ -1312,13 +1315,15 @@ class ActionBatchAppliance:
         if mandatory_dhcp is not None:
             payload["mandatoryDhcp"] = mandatory_dhcp.model_dump(by_alias=True, exclude_none=True)
 
-        return {
-            "resource": path,
-            "operation": "update",
-            "body": payload,
-        }
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="update",
+            body=payload,
+        )
 
-    def delete_network_appliance_vlan(self, *, network_id: str, vlan_id: str) -> dict[str, Any]:
+    def delete_network_appliance_vlan(
+        self, *, network_id: str, vlan_id: str
+    ) -> CreateOrganizationActionBatchActionsItem:
         """Delete a VLAN from a network.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-network-appliance-vlan
@@ -1332,10 +1337,10 @@ class ActionBatchAppliance:
         vlan_id = urllib.parse.quote(str(vlan_id), safe="")
         path = f"/networks/{network_id}/appliance/vlans/{vlan_id}"
 
-        return {
-            "resource": path,
-            "operation": "destroy",
-        }
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="destroy",
+        )
 
     def update_network_appliance_vpn_bgp(
         self,
@@ -1345,7 +1350,7 @@ class ActionBatchAppliance:
         as_number: int | None = None,
         ibgp_hold_timer: int | None = None,
         neighbors: list[UpdateNetworkApplianceVpnBgpNeighborsItem] | None = None,
-    ) -> dict[str, Any]:
+    ) -> CreateOrganizationActionBatchActionsItem:
         """Update a Hub BGP Configuration.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-vpn-bgp
@@ -1383,11 +1388,11 @@ class ActionBatchAppliance:
                 item.model_dump(by_alias=True, exclude_none=True) for item in neighbors
             ]
 
-        return {
-            "resource": path,
-            "operation": "settings/update",
-            "body": payload,
-        }
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="settings/update",
+            body=payload,
+        )
 
     def update_network_appliance_vpn_site_to_site_vpn(
         self,
@@ -1397,7 +1402,7 @@ class ActionBatchAppliance:
         hubs: list[UpdateNetworkApplianceVpnSiteToSiteVpnHubsItem] | None = None,
         subnets: list[UpdateNetworkApplianceVpnSiteToSiteVpnSubnetsItem] | None = None,
         subnet: UpdateNetworkApplianceVpnSiteToSiteVpnSubnet | None = None,
-    ) -> dict[str, Any]:
+    ) -> CreateOrganizationActionBatchActionsItem:
         """Update the site-to-site VPN settings of a network.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-vpn-site-to-site-vpn
@@ -1430,11 +1435,11 @@ class ActionBatchAppliance:
         if subnet is not None:
             payload["subnet"] = subnet.model_dump(by_alias=True, exclude_none=True)
 
-        return {
-            "resource": path,
-            "operation": "update",
-            "body": payload,
-        }
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="update",
+            body=payload,
+        )
 
     def update_network_appliance_warm_spare(
         self,
@@ -1445,7 +1450,7 @@ class ActionBatchAppliance:
         uplink_mode: str | None = None,
         virtual_ip1: str | None = None,
         virtual_ip2: str | None = None,
-    ) -> dict[str, Any]:
+    ) -> CreateOrganizationActionBatchActionsItem:
         """Update MX warm spare settings.
 
         https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-warm-spare
@@ -1474,13 +1479,15 @@ class ActionBatchAppliance:
         if virtual_ip2 is not None:
             payload["virtualIp2"] = virtual_ip2
 
-        return {
-            "resource": path,
-            "operation": "update",
-            "body": payload,
-        }
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="update",
+            body=payload,
+        )
 
-    def swap_network_appliance_warm_spare(self, network_id: str) -> dict[str, Any]:
+    def swap_network_appliance_warm_spare(
+        self, network_id: str
+    ) -> CreateOrganizationActionBatchActionsItem:
         """Swap MX primary and warm spare appliances.
 
         https://developer.cisco.com/meraki/api-v1/#!swap-network-appliance-warm-spare
@@ -1492,14 +1499,14 @@ class ActionBatchAppliance:
         network_id = urllib.parse.quote(str(network_id), safe="")
         path = f"/networks/{network_id}/appliance/warmSpare/swap"
 
-        return {
-            "resource": path,
-            "operation": "swap",
-        }
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="swap",
+        )
 
     def create_organization_appliance_dns_local_profile(
         self, *, organization_id: str, name: str
-    ) -> dict[str, Any]:
+    ) -> CreateOrganizationActionBatchActionsItem:
         """Create a new local DNS profile.
 
         https://developer.cisco.com/meraki/api-v1/#!create-organization-appliance-dns-local-profile
@@ -1516,18 +1523,18 @@ class ActionBatchAppliance:
         if name is not None:
             payload["name"] = name
 
-        return {
-            "resource": path,
-            "operation": "create",
-            "body": payload,
-        }
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="create",
+            body=payload,
+        )
 
     def bulk_organization_appliance_dns_local_profiles_assignments_create(
         self,
         *,
         organization_id: str,
         items: list[BulkOrganizationApplianceDnsLocalProfilesAssignmentsCreateItemsItem],
-    ) -> dict[str, Any]:
+    ) -> CreateOrganizationActionBatchActionsItem:
         """Assign the local DNS profile to networks in the organization.
 
         https://developer.cisco.com/meraki/api-v1/#!bulk-organization-appliance-dns-local-profiles-assignments-create
@@ -1546,18 +1553,18 @@ class ActionBatchAppliance:
         if items is not None:
             payload["items"] = [item.model_dump(by_alias=True, exclude_none=True) for item in items]
 
-        return {
-            "resource": path,
-            "operation": "bulk_create",
-            "body": payload,
-        }
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="bulk_create",
+            body=payload,
+        )
 
     def create_organization_appliance_dns_local_profiles_assignments_bulk_delete(
         self,
         *,
         organization_id: str,
         items: list[CreateOrganizationApplianceDnsLocalProfilesAssignmentsBulkDeleteItemsItem],
-    ) -> dict[str, Any]:
+    ) -> CreateOrganizationActionBatchActionsItem:
         """Unassign the local DNS profile to networks in the organization.
 
         https://developer.cisco.com/meraki/api-v1/#!create-organization-appliance-dns-local-profiles-assignments-bulk-delete
@@ -1576,15 +1583,15 @@ class ActionBatchAppliance:
         if items is not None:
             payload["items"] = [item.model_dump(by_alias=True, exclude_none=True) for item in items]
 
-        return {
-            "resource": path,
-            "operation": "bulk_delete",
-            "body": payload,
-        }
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="bulk_delete",
+            body=payload,
+        )
 
     def update_organization_appliance_dns_local_profile(
         self, *, organization_id: str, profile_id: str, name: str
-    ) -> dict[str, Any]:
+    ) -> CreateOrganizationActionBatchActionsItem:
         """Update a local DNS profile.
 
         https://developer.cisco.com/meraki/api-v1/#!update-organization-appliance-dns-local-profile
@@ -1603,15 +1610,15 @@ class ActionBatchAppliance:
         if name is not None:
             payload["name"] = name
 
-        return {
-            "resource": path,
-            "operation": "update",
-            "body": payload,
-        }
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="update",
+            body=payload,
+        )
 
     def delete_organization_appliance_dns_local_profile(
         self, *, organization_id: str, profile_id: str
-    ) -> dict[str, Any]:
+    ) -> CreateOrganizationActionBatchActionsItem:
         """Deletes a local DNS profile.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-appliance-dns-local-profile
@@ -1625,10 +1632,10 @@ class ActionBatchAppliance:
         profile_id = urllib.parse.quote(str(profile_id), safe="")
         path = f"/organizations/{organization_id}/appliance/dns/local/profiles/{profile_id}"
 
-        return {
-            "resource": path,
-            "operation": "destroy",
-        }
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="destroy",
+        )
 
     def create_organization_appliance_dns_local_record(
         self,
@@ -1637,7 +1644,7 @@ class ActionBatchAppliance:
         hostname: str,
         address: str,
         profile: CreateOrganizationApplianceDnsLocalRecordProfile,
-    ) -> dict[str, Any]:
+    ) -> CreateOrganizationActionBatchActionsItem:
         """Create a new local DNS record.
 
         https://developer.cisco.com/meraki/api-v1/#!create-organization-appliance-dns-local-record
@@ -1660,11 +1667,11 @@ class ActionBatchAppliance:
         if profile is not None:
             payload["profile"] = profile.model_dump(by_alias=True, exclude_none=True)
 
-        return {
-            "resource": path,
-            "operation": "create",
-            "body": payload,
-        }
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="create",
+            body=payload,
+        )
 
     def update_organization_appliance_dns_local_record(
         self,
@@ -1674,7 +1681,7 @@ class ActionBatchAppliance:
         hostname: str | None = None,
         address: str | None = None,
         profile: UpdateOrganizationApplianceDnsLocalRecordProfile | None = None,
-    ) -> dict[str, Any]:
+    ) -> CreateOrganizationActionBatchActionsItem:
         """Updates a local DNS record.
 
         https://developer.cisco.com/meraki/api-v1/#!update-organization-appliance-dns-local-record
@@ -1699,15 +1706,15 @@ class ActionBatchAppliance:
         if profile is not None:
             payload["profile"] = profile.model_dump(by_alias=True, exclude_none=True)
 
-        return {
-            "resource": path,
-            "operation": "update",
-            "body": payload,
-        }
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="update",
+            body=payload,
+        )
 
     def delete_organization_appliance_dns_local_record(
         self, *, organization_id: str, record_id: str
-    ) -> dict[str, Any]:
+    ) -> CreateOrganizationActionBatchActionsItem:
         """Deletes a local DNS record.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-appliance-dns-local-record
@@ -1721,10 +1728,10 @@ class ActionBatchAppliance:
         record_id = urllib.parse.quote(str(record_id), safe="")
         path = f"/organizations/{organization_id}/appliance/dns/local/records/{record_id}"
 
-        return {
-            "resource": path,
-            "operation": "destroy",
-        }
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="destroy",
+        )
 
     def create_organization_appliance_dns_split_profile(
         self,
@@ -1733,7 +1740,7 @@ class ActionBatchAppliance:
         name: str,
         hostnames: list[str],
         nameservers: CreateOrganizationApplianceDnsSplitProfileNameservers,
-    ) -> dict[str, Any]:
+    ) -> CreateOrganizationActionBatchActionsItem:
         """Create a new split DNS profile.
 
         https://developer.cisco.com/meraki/api-v1/#!create-organization-appliance-dns-split-profile
@@ -1757,18 +1764,18 @@ class ActionBatchAppliance:
         if nameservers is not None:
             payload["nameservers"] = nameservers.model_dump(by_alias=True, exclude_none=True)
 
-        return {
-            "resource": path,
-            "operation": "create",
-            "body": payload,
-        }
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="create",
+            body=payload,
+        )
 
     def create_organization_appliance_dns_split_profiles_assignments_bulk_create(
         self,
         *,
         organization_id: str,
         items: list[CreateOrganizationApplianceDnsSplitProfilesAssignmentsBulkCreateItemsItem],
-    ) -> dict[str, Any]:
+    ) -> CreateOrganizationActionBatchActionsItem:
         """Assign the split DNS profile to networks in the organization.
 
         https://developer.cisco.com/meraki/api-v1/#!create-organization-appliance-dns-split-profiles-assignments-bulk-create
@@ -1787,18 +1794,18 @@ class ActionBatchAppliance:
         if items is not None:
             payload["items"] = [item.model_dump(by_alias=True, exclude_none=True) for item in items]
 
-        return {
-            "resource": path,
-            "operation": "bulk_create",
-            "body": payload,
-        }
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="bulk_create",
+            body=payload,
+        )
 
     def create_organization_appliance_dns_split_profiles_assignments_bulk_delete(
         self,
         *,
         organization_id: str,
         items: list[CreateOrganizationApplianceDnsSplitProfilesAssignmentsBulkDeleteItemsItem],
-    ) -> dict[str, Any]:
+    ) -> CreateOrganizationActionBatchActionsItem:
         """Unassign the split DNS profile to networks in the organization.
 
         https://developer.cisco.com/meraki/api-v1/#!create-organization-appliance-dns-split-profiles-assignments-bulk-delete
@@ -1817,11 +1824,11 @@ class ActionBatchAppliance:
         if items is not None:
             payload["items"] = [item.model_dump(by_alias=True, exclude_none=True) for item in items]
 
-        return {
-            "resource": path,
-            "operation": "bulk_delete",
-            "body": payload,
-        }
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="bulk_delete",
+            body=payload,
+        )
 
     def update_organization_appliance_dns_split_profile(
         self,
@@ -1831,7 +1838,7 @@ class ActionBatchAppliance:
         name: str | None = None,
         hostnames: list[str] | None = None,
         nameservers: UpdateOrganizationApplianceDnsSplitProfileNameservers | None = None,
-    ) -> dict[str, Any]:
+    ) -> CreateOrganizationActionBatchActionsItem:
         """Update a split DNS profile.
 
         https://developer.cisco.com/meraki/api-v1/#!update-organization-appliance-dns-split-profile
@@ -1857,15 +1864,15 @@ class ActionBatchAppliance:
         if nameservers is not None:
             payload["nameservers"] = nameservers.model_dump(by_alias=True, exclude_none=True)
 
-        return {
-            "resource": path,
-            "operation": "update",
-            "body": payload,
-        }
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="update",
+            body=payload,
+        )
 
     def delete_organization_appliance_dns_split_profile(
         self, *, organization_id: str, profile_id: str
-    ) -> dict[str, Any]:
+    ) -> CreateOrganizationActionBatchActionsItem:
         """Deletes a split DNS profile.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-appliance-dns-split-profile
@@ -1879,17 +1886,17 @@ class ActionBatchAppliance:
         profile_id = urllib.parse.quote(str(profile_id), safe="")
         path = f"/organizations/{organization_id}/appliance/dns/split/profiles/{profile_id}"
 
-        return {
-            "resource": path,
-            "operation": "destroy",
-        }
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="destroy",
+        )
 
     def update_organization_appliance_vpn_site_to_site_ipsec_peers_slas(
         self,
         organization_id: str,
         *,
         items: list[UpdateOrganizationApplianceVpnSiteToSiteIpsecPeersSlasItemsItem] | None = None,
-    ) -> dict[str, Any]:
+    ) -> CreateOrganizationActionBatchActionsItem:
         """Update the IPsec SLA policies for an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!update-organization-appliance-vpn-site-to-site-ipsec-peers-slas
@@ -1906,18 +1913,18 @@ class ActionBatchAppliance:
         if items is not None:
             payload["items"] = [item.model_dump(by_alias=True, exclude_none=True) for item in items]
 
-        return {
-            "resource": path,
-            "operation": "update",
-            "body": payload,
-        }
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="update",
+            body=payload,
+        )
 
     def update_organization_appliance_vpn_third_party_v_p_n_peers(
         self,
         *,
         organization_id: str,
         peers: list[UpdateOrganizationApplianceVpnThirdPartyVPNPeersPeersItem],
-    ) -> dict[str, Any]:
+    ) -> CreateOrganizationActionBatchActionsItem:
         """Update the third party VPN peers for an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!update-organization-appliance-vpn-third-party-v-p-n-peers
@@ -1934,8 +1941,8 @@ class ActionBatchAppliance:
         if peers is not None:
             payload["peers"] = [item.model_dump(by_alias=True, exclude_none=True) for item in peers]
 
-        return {
-            "resource": path,
-            "operation": "update",
-            "body": payload,
-        }
+        return CreateOrganizationActionBatchActionsItem(
+            resource=path,
+            operation="update",
+            body=payload,
+        )
