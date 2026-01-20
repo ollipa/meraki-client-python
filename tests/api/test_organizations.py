@@ -12,33 +12,26 @@ from tests.conftest import skip_on_unsupported
 def test_get_organizations(client: MerakiClient) -> None:
     """Test get_organizations endpoint."""
     with skip_on_unsupported():
-        result = list(client.organizations.get_organizations())
+        result = client.organizations.get_organizations().collect()
     assert isinstance(result, list)
 
 
 def test_get_organization(client: MerakiClient, organization_id: str) -> None:
     """Test get_organization endpoint."""
     with skip_on_unsupported():
-        result = client.organizations.get_organization(organization_id=organization_id)
-    assert result is not None
+        client.organizations.get_organization(organization_id=organization_id)
 
 
 def test_get_organization_action_batches(client: MerakiClient, organization_id: str) -> None:
     """Test get_organization_action_batches endpoint."""
     with skip_on_unsupported():
-        result = client.organizations.get_organization_action_batches(
-            organization_id=organization_id
-        )
-    assert result is not None
+        client.organizations.get_organization_action_batches(organization_id=organization_id)
 
 
 def test_get_organization_adaptive_policy_acls(client: MerakiClient, organization_id: str) -> None:
     """Test get_organization_adaptive_policy_acls endpoint."""
     with skip_on_unsupported():
-        result = client.organizations.get_organization_adaptive_policy_acls(
-            organization_id=organization_id
-        )
-    assert result is not None
+        client.organizations.get_organization_adaptive_policy_acls(organization_id=organization_id)
 
 
 def test_get_organization_adaptive_policy_groups(
@@ -46,10 +39,9 @@ def test_get_organization_adaptive_policy_groups(
 ) -> None:
     """Test get_organization_adaptive_policy_groups endpoint."""
     with skip_on_unsupported():
-        result = client.organizations.get_organization_adaptive_policy_groups(
+        client.organizations.get_organization_adaptive_policy_groups(
             organization_id=organization_id
         )
-    assert result is not None
 
 
 def test_get_organization_adaptive_policy_overview(
@@ -57,10 +49,9 @@ def test_get_organization_adaptive_policy_overview(
 ) -> None:
     """Test get_organization_adaptive_policy_overview endpoint."""
     with skip_on_unsupported():
-        result = client.organizations.get_organization_adaptive_policy_overview(
+        client.organizations.get_organization_adaptive_policy_overview(
             organization_id=organization_id
         )
-    assert result is not None
 
 
 def test_get_organization_adaptive_policy_policies(
@@ -68,10 +59,9 @@ def test_get_organization_adaptive_policy_policies(
 ) -> None:
     """Test get_organization_adaptive_policy_policies endpoint."""
     with skip_on_unsupported():
-        result = client.organizations.get_organization_adaptive_policy_policies(
+        client.organizations.get_organization_adaptive_policy_policies(
             organization_id=organization_id
         )
-    assert result is not None
 
 
 def test_get_organization_adaptive_policy_settings(
@@ -79,44 +69,36 @@ def test_get_organization_adaptive_policy_settings(
 ) -> None:
     """Test get_organization_adaptive_policy_settings endpoint."""
     with skip_on_unsupported():
-        result = client.organizations.get_organization_adaptive_policy_settings(
+        client.organizations.get_organization_adaptive_policy_settings(
             organization_id=organization_id
         )
-    assert result is not None
 
 
 def test_get_organization_admins(client: MerakiClient, organization_id: str) -> None:
     """Test get_organization_admins endpoint."""
     with skip_on_unsupported():
-        result = client.organizations.get_organization_admins(organization_id=organization_id)
-    assert result is not None
+        client.organizations.get_organization_admins(organization_id=organization_id)
 
 
 def test_get_organization_alerts_profiles(client: MerakiClient, organization_id: str) -> None:
     """Test get_organization_alerts_profiles endpoint."""
     with skip_on_unsupported():
-        result = client.organizations.get_organization_alerts_profiles(
-            organization_id=organization_id
-        )
-    assert result is not None
+        client.organizations.get_organization_alerts_profiles(organization_id=organization_id)
 
 
 def test_get_organization_api_requests(client: MerakiClient, organization_id: str) -> None:
     """Test get_organization_api_requests endpoint."""
     with skip_on_unsupported():
-        result = list(
-            client.organizations.get_organization_api_requests(organization_id=organization_id)
-        )
+        result = client.organizations.get_organization_api_requests(
+            organization_id=organization_id
+        ).collect()
     assert isinstance(result, list)
 
 
 def test_get_organization_api_requests_overview(client: MerakiClient, organization_id: str) -> None:
     """Test get_organization_api_requests_overview endpoint."""
     with skip_on_unsupported():
-        result = client.organizations.get_organization_api_requests_overview(
-            organization_id=organization_id
-        )
-    assert result is not None
+        client.organizations.get_organization_api_requests_overview(organization_id=organization_id)
 
 
 def test_get_organization_api_requests_overview_response_codes_by_interval(
@@ -124,20 +106,17 @@ def test_get_organization_api_requests_overview_response_codes_by_interval(
 ) -> None:
     """Test get_organization_api_requests_overview_response_codes_by_interval endpoint."""
     with skip_on_unsupported():
-        result = (
-            client.organizations.get_organization_api_requests_overview_response_codes_by_interval(
-                organization_id=organization_id
-            )
+        client.organizations.get_organization_api_requests_overview_response_codes_by_interval(
+            organization_id=organization_id
         )
-    assert result is not None
 
 
 def test_get_organization_assurance_alerts(client: MerakiClient, organization_id: str) -> None:
     """Test get_organization_assurance_alerts endpoint."""
     with skip_on_unsupported():
-        result = list(
-            client.organizations.get_organization_assurance_alerts(organization_id=organization_id)
-        )
+        result = client.organizations.get_organization_assurance_alerts(
+            organization_id=organization_id
+        ).collect()
     assert isinstance(result, list)
 
 
@@ -146,10 +125,9 @@ def test_get_organization_assurance_alerts_overview(
 ) -> None:
     """Test get_organization_assurance_alerts_overview endpoint."""
     with skip_on_unsupported():
-        result = client.organizations.get_organization_assurance_alerts_overview(
+        client.organizations.get_organization_assurance_alerts_overview(
             organization_id=organization_id
         )
-    assert result is not None
 
 
 def test_get_organization_assurance_alerts_overview_by_network(
@@ -157,11 +135,9 @@ def test_get_organization_assurance_alerts_overview_by_network(
 ) -> None:
     """Test get_organization_assurance_alerts_overview_by_network endpoint."""
     with skip_on_unsupported():
-        result = list(
-            client.organizations.get_organization_assurance_alerts_overview_by_network(
-                organization_id=organization_id
-            )
-        )
+        result = client.organizations.get_organization_assurance_alerts_overview_by_network(
+            organization_id=organization_id
+        ).collect()
     assert isinstance(result, list)
 
 
@@ -170,11 +146,9 @@ def test_get_organization_assurance_alerts_overview_by_type(
 ) -> None:
     """Test get_organization_assurance_alerts_overview_by_type endpoint."""
     with skip_on_unsupported():
-        result = list(
-            client.organizations.get_organization_assurance_alerts_overview_by_type(
-                organization_id=organization_id
-            )
-        )
+        result = client.organizations.get_organization_assurance_alerts_overview_by_type(
+            organization_id=organization_id
+        ).collect()
     assert isinstance(result, list)
 
 
@@ -183,10 +157,9 @@ def test_get_organization_assurance_alerts_taxonomy_categories(
 ) -> None:
     """Test get_organization_assurance_alerts_taxonomy_categories endpoint."""
     with skip_on_unsupported():
-        result = client.organizations.get_organization_assurance_alerts_taxonomy_categories(
+        client.organizations.get_organization_assurance_alerts_taxonomy_categories(
             organization_id=organization_id
         )
-    assert result is not None
 
 
 def test_get_organization_assurance_alerts_taxonomy_types(
@@ -194,19 +167,15 @@ def test_get_organization_assurance_alerts_taxonomy_types(
 ) -> None:
     """Test get_organization_assurance_alerts_taxonomy_types endpoint."""
     with skip_on_unsupported():
-        result = client.organizations.get_organization_assurance_alerts_taxonomy_types(
+        client.organizations.get_organization_assurance_alerts_taxonomy_types(
             organization_id=organization_id
         )
-    assert result is not None
 
 
 def test_get_organization_branding_policies(client: MerakiClient, organization_id: str) -> None:
     """Test get_organization_branding_policies endpoint."""
     with skip_on_unsupported():
-        result = client.organizations.get_organization_branding_policies(
-            organization_id=organization_id
-        )
-    assert result is not None
+        client.organizations.get_organization_branding_policies(organization_id=organization_id)
 
 
 def test_get_organization_branding_policies_priorities(
@@ -214,10 +183,9 @@ def test_get_organization_branding_policies_priorities(
 ) -> None:
     """Test get_organization_branding_policies_priorities endpoint."""
     with skip_on_unsupported():
-        result = client.organizations.get_organization_branding_policies_priorities(
+        client.organizations.get_organization_branding_policies_priorities(
             organization_id=organization_id
         )
-    assert result is not None
 
 
 def test_get_organization_clients_bandwidth_usage_history(
@@ -225,47 +193,38 @@ def test_get_organization_clients_bandwidth_usage_history(
 ) -> None:
     """Test get_organization_clients_bandwidth_usage_history endpoint."""
     with skip_on_unsupported():
-        result = client.organizations.get_organization_clients_bandwidth_usage_history(
+        client.organizations.get_organization_clients_bandwidth_usage_history(
             organization_id=organization_id
         )
-    assert result is not None
 
 
 def test_get_organization_clients_overview(client: MerakiClient, organization_id: str) -> None:
     """Test get_organization_clients_overview endpoint."""
     with skip_on_unsupported():
-        result = client.organizations.get_organization_clients_overview(
-            organization_id=organization_id
-        )
-    assert result is not None
+        client.organizations.get_organization_clients_overview(organization_id=organization_id)
 
 
 def test_get_organization_config_templates(client: MerakiClient, organization_id: str) -> None:
     """Test get_organization_config_templates endpoint."""
     with skip_on_unsupported():
-        result = client.organizations.get_organization_config_templates(
-            organization_id=organization_id
-        )
-    assert result is not None
+        client.organizations.get_organization_config_templates(organization_id=organization_id)
 
 
 def test_get_organization_configuration_changes(client: MerakiClient, organization_id: str) -> None:
     """Test get_organization_configuration_changes endpoint."""
     with skip_on_unsupported():
-        result = list(
-            client.organizations.get_organization_configuration_changes(
-                organization_id=organization_id
-            )
-        )
+        result = client.organizations.get_organization_configuration_changes(
+            organization_id=organization_id
+        ).collect()
     assert isinstance(result, list)
 
 
 def test_get_organization_devices(client: MerakiClient, organization_id: str) -> None:
     """Test get_organization_devices endpoint."""
     with skip_on_unsupported():
-        result = list(
-            client.organizations.get_organization_devices(organization_id=organization_id)
-        )
+        result = client.organizations.get_organization_devices(
+            organization_id=organization_id
+        ).collect()
     assert isinstance(result, list)
 
 
@@ -274,11 +233,9 @@ def test_get_organization_devices_availabilities(
 ) -> None:
     """Test get_organization_devices_availabilities endpoint."""
     with skip_on_unsupported():
-        result = list(
-            client.organizations.get_organization_devices_availabilities(
-                organization_id=organization_id
-            )
-        )
+        result = client.organizations.get_organization_devices_availabilities(
+            organization_id=organization_id
+        ).collect()
     assert isinstance(result, list)
 
 
@@ -287,11 +244,9 @@ def test_get_organization_devices_availabilities_change_history(
 ) -> None:
     """Test get_organization_devices_availabilities_change_history endpoint."""
     with skip_on_unsupported():
-        result = list(
-            client.organizations.get_organization_devices_availabilities_change_history(
-                organization_id=organization_id
-            )
-        )
+        result = client.organizations.get_organization_devices_availabilities_change_history(
+            organization_id=organization_id
+        ).collect()
     assert isinstance(result, list)
 
 
@@ -300,11 +255,9 @@ def test_get_organization_devices_controller_migrations(
 ) -> None:
     """Test get_organization_devices_controller_migrations endpoint."""
     with skip_on_unsupported():
-        result = list(
-            client.organizations.get_organization_devices_controller_migrations(
-                organization_id=organization_id
-            )
-        )
+        result = client.organizations.get_organization_devices_controller_migrations(
+            organization_id=organization_id
+        ).collect()
     assert isinstance(result, list)
 
 
@@ -313,10 +266,9 @@ def test_get_organization_devices_overview_by_model(
 ) -> None:
     """Test get_organization_devices_overview_by_model endpoint."""
     with skip_on_unsupported():
-        result = client.organizations.get_organization_devices_overview_by_model(
+        client.organizations.get_organization_devices_overview_by_model(
             organization_id=organization_id
         )
-    assert result is not None
 
 
 def test_get_organization_devices_packet_capture_captures(
@@ -324,11 +276,9 @@ def test_get_organization_devices_packet_capture_captures(
 ) -> None:
     """Test get_organization_devices_packet_capture_captures endpoint."""
     with skip_on_unsupported():
-        result = list(
-            client.organizations.get_organization_devices_packet_capture_captures(
-                organization_id=organization_id
-            )
-        )
+        result = client.organizations.get_organization_devices_packet_capture_captures(
+            organization_id=organization_id
+        ).collect()
     assert isinstance(result, list)
 
 
@@ -337,10 +287,9 @@ def test_get_organization_devices_packet_capture_schedules(
 ) -> None:
     """Test get_organization_devices_packet_capture_schedules endpoint."""
     with skip_on_unsupported():
-        result = client.organizations.get_organization_devices_packet_capture_schedules(
+        client.organizations.get_organization_devices_packet_capture_schedules(
             organization_id=organization_id
         )
-    assert result is not None
 
 
 def test_get_organization_devices_power_modules_statuses_by_device(
@@ -348,11 +297,9 @@ def test_get_organization_devices_power_modules_statuses_by_device(
 ) -> None:
     """Test get_organization_devices_power_modules_statuses_by_device endpoint."""
     with skip_on_unsupported():
-        result = list(
-            client.organizations.get_organization_devices_power_modules_statuses_by_device(
-                organization_id=organization_id
-            )
-        )
+        result = client.organizations.get_organization_devices_power_modules_statuses_by_device(
+            organization_id=organization_id
+        ).collect()
     assert isinstance(result, list)
 
 
@@ -361,20 +308,18 @@ def test_get_organization_devices_provisioning_statuses(
 ) -> None:
     """Test get_organization_devices_provisioning_statuses endpoint."""
     with skip_on_unsupported():
-        result = list(
-            client.organizations.get_organization_devices_provisioning_statuses(
-                organization_id=organization_id
-            )
-        )
+        result = client.organizations.get_organization_devices_provisioning_statuses(
+            organization_id=organization_id
+        ).collect()
     assert isinstance(result, list)
 
 
 def test_get_organization_devices_statuses(client: MerakiClient, organization_id: str) -> None:
     """Test get_organization_devices_statuses endpoint."""
     with skip_on_unsupported():
-        result = list(
-            client.organizations.get_organization_devices_statuses(organization_id=organization_id)
-        )
+        result = client.organizations.get_organization_devices_statuses(
+            organization_id=organization_id
+        ).collect()
     assert isinstance(result, list)
 
 
@@ -383,10 +328,9 @@ def test_get_organization_devices_statuses_overview(
 ) -> None:
     """Test get_organization_devices_statuses_overview endpoint."""
     with skip_on_unsupported():
-        result = client.organizations.get_organization_devices_statuses_overview(
+        client.organizations.get_organization_devices_statuses_overview(
             organization_id=organization_id
         )
-    assert result is not None
 
 
 def test_get_organization_devices_system_memory_usage_history_by_interval(
@@ -394,10 +338,10 @@ def test_get_organization_devices_system_memory_usage_history_by_interval(
 ) -> None:
     """Test get_organization_devices_system_memory_usage_history_by_interval endpoint."""
     with skip_on_unsupported():
-        result = list(
+        result = (
             client.organizations.get_organization_devices_system_memory_usage_history_by_interval(
                 organization_id=organization_id
-            )
+            ).collect()
         )
     assert isinstance(result, list)
 
@@ -407,11 +351,9 @@ def test_get_organization_devices_uplinks_addresses_by_device(
 ) -> None:
     """Test get_organization_devices_uplinks_addresses_by_device endpoint."""
     with skip_on_unsupported():
-        result = list(
-            client.organizations.get_organization_devices_uplinks_addresses_by_device(
-                organization_id=organization_id
-            )
-        )
+        result = client.organizations.get_organization_devices_uplinks_addresses_by_device(
+            organization_id=organization_id
+        ).collect()
     assert isinstance(result, list)
 
 
@@ -420,19 +362,15 @@ def test_get_organization_devices_uplinks_loss_and_latency(
 ) -> None:
     """Test get_organization_devices_uplinks_loss_and_latency endpoint."""
     with skip_on_unsupported():
-        result = client.organizations.get_organization_devices_uplinks_loss_and_latency(
+        client.organizations.get_organization_devices_uplinks_loss_and_latency(
             organization_id=organization_id
         )
-    assert result is not None
 
 
 def test_get_organization_early_access_features(client: MerakiClient, organization_id: str) -> None:
     """Test get_organization_early_access_features endpoint."""
     with skip_on_unsupported():
-        result = client.organizations.get_organization_early_access_features(
-            organization_id=organization_id
-        )
-    assert result is not None
+        client.organizations.get_organization_early_access_features(organization_id=organization_id)
 
 
 def test_get_organization_early_access_features_opt_ins(
@@ -440,18 +378,17 @@ def test_get_organization_early_access_features_opt_ins(
 ) -> None:
     """Test get_organization_early_access_features_opt_ins endpoint."""
     with skip_on_unsupported():
-        result = client.organizations.get_organization_early_access_features_opt_ins(
+        client.organizations.get_organization_early_access_features_opt_ins(
             organization_id=organization_id
         )
-    assert result is not None
 
 
 def test_get_organization_firmware_upgrades(client: MerakiClient, organization_id: str) -> None:
     """Test get_organization_firmware_upgrades endpoint."""
     with skip_on_unsupported():
-        result = list(
-            client.organizations.get_organization_firmware_upgrades(organization_id=organization_id)
-        )
+        result = client.organizations.get_organization_firmware_upgrades(
+            organization_id=organization_id
+        ).collect()
     assert isinstance(result, list)
 
 
@@ -460,11 +397,9 @@ def test_get_organization_firmware_upgrades_by_device(
 ) -> None:
     """Test get_organization_firmware_upgrades_by_device endpoint."""
     with skip_on_unsupported():
-        result = list(
-            client.organizations.get_organization_firmware_upgrades_by_device(
-                organization_id=organization_id
-            )
-        )
+        result = client.organizations.get_organization_firmware_upgrades_by_device(
+            organization_id=organization_id
+        ).collect()
     assert isinstance(result, list)
 
 
@@ -473,11 +408,9 @@ def test_get_organization_floor_plans_auto_locate_devices(
 ) -> None:
     """Test get_organization_floor_plans_auto_locate_devices endpoint."""
     with skip_on_unsupported():
-        result = list(
-            client.organizations.get_organization_floor_plans_auto_locate_devices(
-                organization_id=organization_id
-            )
-        )
+        result = client.organizations.get_organization_floor_plans_auto_locate_devices(
+            organization_id=organization_id
+        ).collect()
     assert isinstance(result, list)
 
 
@@ -486,11 +419,9 @@ def test_get_organization_floor_plans_auto_locate_statuses(
 ) -> None:
     """Test get_organization_floor_plans_auto_locate_statuses endpoint."""
     with skip_on_unsupported():
-        result = list(
-            client.organizations.get_organization_floor_plans_auto_locate_statuses(
-                organization_id=organization_id
-            )
-        )
+        result = client.organizations.get_organization_floor_plans_auto_locate_statuses(
+            organization_id=organization_id
+        ).collect()
     assert isinstance(result, list)
 
 
@@ -499,20 +430,18 @@ def test_get_organization_integrations_xdr_networks(
 ) -> None:
     """Test get_organization_integrations_xdr_networks endpoint."""
     with skip_on_unsupported():
-        result = list(
-            client.organizations.get_organization_integrations_xdr_networks(
-                organization_id=organization_id
-            )
-        )
+        result = client.organizations.get_organization_integrations_xdr_networks(
+            organization_id=organization_id
+        ).collect()
     assert isinstance(result, list)
 
 
 def test_get_organization_inventory_devices(client: MerakiClient, organization_id: str) -> None:
     """Test get_organization_inventory_devices endpoint."""
     with skip_on_unsupported():
-        result = list(
-            client.organizations.get_organization_inventory_devices(organization_id=organization_id)
-        )
+        result = client.organizations.get_organization_inventory_devices(
+            organization_id=organization_id
+        ).collect()
     assert isinstance(result, list)
 
 
@@ -521,110 +450,93 @@ def test_get_organization_inventory_device(
 ) -> None:
     """Test get_organization_inventory_device endpoint."""
     with skip_on_unsupported():
-        result = client.organizations.get_organization_inventory_device(
+        client.organizations.get_organization_inventory_device(
             organization_id=organization_id, serial=device_serial
         )
-    assert result is not None
 
 
 def test_get_organization_licenses(client: MerakiClient, organization_id: str) -> None:
     """Test get_organization_licenses endpoint."""
     with skip_on_unsupported():
-        result = list(
-            client.organizations.get_organization_licenses(organization_id=organization_id)
-        )
+        result = client.organizations.get_organization_licenses(
+            organization_id=organization_id
+        ).collect()
     assert isinstance(result, list)
 
 
 def test_get_organization_licenses_overview(client: MerakiClient, organization_id: str) -> None:
     """Test get_organization_licenses_overview endpoint."""
     with skip_on_unsupported():
-        result = client.organizations.get_organization_licenses_overview(
-            organization_id=organization_id
-        )
-    assert result is not None
+        client.organizations.get_organization_licenses_overview(organization_id=organization_id)
 
 
 def test_get_organization_login_security(client: MerakiClient, organization_id: str) -> None:
     """Test get_organization_login_security endpoint."""
     with skip_on_unsupported():
-        result = client.organizations.get_organization_login_security(
-            organization_id=organization_id
-        )
-    assert result is not None
+        client.organizations.get_organization_login_security(organization_id=organization_id)
 
 
 def test_get_organization_networks(client: MerakiClient, organization_id: str) -> None:
     """Test get_organization_networks endpoint."""
     with skip_on_unsupported():
-        result = list(
-            client.organizations.get_organization_networks(organization_id=organization_id)
-        )
+        result = client.organizations.get_organization_networks(
+            organization_id=organization_id
+        ).collect()
     assert isinstance(result, list)
 
 
 def test_get_organization_openapi_spec(client: MerakiClient, organization_id: str) -> None:
     """Test get_organization_openapi_spec endpoint."""
     with skip_on_unsupported():
-        result = client.organizations.get_organization_openapi_spec(organization_id=organization_id)
-    assert result is not None
+        client.organizations.get_organization_openapi_spec(organization_id=organization_id)
 
 
 def test_get_organization_policy_objects(client: MerakiClient, organization_id: str) -> None:
     """Test get_organization_policy_objects endpoint."""
     with skip_on_unsupported():
-        result = list(
-            client.organizations.get_organization_policy_objects(organization_id=organization_id)
-        )
+        result = client.organizations.get_organization_policy_objects(
+            organization_id=organization_id
+        ).collect()
     assert isinstance(result, list)
 
 
 def test_get_organization_policy_objects_groups(client: MerakiClient, organization_id: str) -> None:
     """Test get_organization_policy_objects_groups endpoint."""
     with skip_on_unsupported():
-        result = list(
-            client.organizations.get_organization_policy_objects_groups(
-                organization_id=organization_id
-            )
-        )
+        result = client.organizations.get_organization_policy_objects_groups(
+            organization_id=organization_id
+        ).collect()
     assert isinstance(result, list)
 
 
 def test_get_organization_saml(client: MerakiClient, organization_id: str) -> None:
     """Test get_organization_saml endpoint."""
     with skip_on_unsupported():
-        result = client.organizations.get_organization_saml(organization_id=organization_id)
-    assert result is not None
+        client.organizations.get_organization_saml(organization_id=organization_id)
 
 
 def test_get_organization_saml_idps(client: MerakiClient, organization_id: str) -> None:
     """Test get_organization_saml_idps endpoint."""
     with skip_on_unsupported():
-        result = client.organizations.get_organization_saml_idps(organization_id=organization_id)
-    assert result is not None
+        client.organizations.get_organization_saml_idps(organization_id=organization_id)
 
 
 def test_get_organization_saml_roles(client: MerakiClient, organization_id: str) -> None:
     """Test get_organization_saml_roles endpoint."""
     with skip_on_unsupported():
-        result = client.organizations.get_organization_saml_roles(organization_id=organization_id)
-    assert result is not None
+        client.organizations.get_organization_saml_roles(organization_id=organization_id)
 
 
 def test_get_organization_snmp(client: MerakiClient, organization_id: str) -> None:
     """Test get_organization_snmp endpoint."""
     with skip_on_unsupported():
-        result = client.organizations.get_organization_snmp(organization_id=organization_id)
-    assert result is not None
+        client.organizations.get_organization_snmp(organization_id=organization_id)
 
 
 def test_get_organization_splash_themes(client: MerakiClient, organization_id: str) -> None:
     """Test get_organization_splash_themes endpoint."""
     with skip_on_unsupported():
-        result = client.organizations.get_organization_splash_themes(
-            organization_id=organization_id
-        )
-    assert result is not None
+        client.organizations.get_organization_splash_themes(organization_id=organization_id)
 
 
 def test_get_organization_summary_top_appliances_by_utilization(
@@ -632,10 +544,9 @@ def test_get_organization_summary_top_appliances_by_utilization(
 ) -> None:
     """Test get_organization_summary_top_appliances_by_utilization endpoint."""
     with skip_on_unsupported():
-        result = client.organizations.get_organization_summary_top_appliances_by_utilization(
+        client.organizations.get_organization_summary_top_appliances_by_utilization(
             organization_id=organization_id
         )
-    assert result is not None
 
 
 def test_get_organization_summary_top_applications_by_usage(
@@ -643,10 +554,9 @@ def test_get_organization_summary_top_applications_by_usage(
 ) -> None:
     """Test get_organization_summary_top_applications_by_usage endpoint."""
     with skip_on_unsupported():
-        result = client.organizations.get_organization_summary_top_applications_by_usage(
+        client.organizations.get_organization_summary_top_applications_by_usage(
             organization_id=organization_id
         )
-    assert result is not None
 
 
 def test_get_organization_summary_top_applications_categories_by_usage(
@@ -654,10 +564,9 @@ def test_get_organization_summary_top_applications_categories_by_usage(
 ) -> None:
     """Test get_organization_summary_top_applications_categories_by_usage endpoint."""
     with skip_on_unsupported():
-        result = client.organizations.get_organization_summary_top_applications_categories_by_usage(
+        client.organizations.get_organization_summary_top_applications_categories_by_usage(
             organization_id=organization_id
         )
-    assert result is not None
 
 
 def test_get_organization_summary_top_clients_by_usage(
@@ -665,10 +574,9 @@ def test_get_organization_summary_top_clients_by_usage(
 ) -> None:
     """Test get_organization_summary_top_clients_by_usage endpoint."""
     with skip_on_unsupported():
-        result = client.organizations.get_organization_summary_top_clients_by_usage(
+        client.organizations.get_organization_summary_top_clients_by_usage(
             organization_id=organization_id
         )
-    assert result is not None
 
 
 def test_get_organization_summary_top_clients_manufacturers_by_usage(
@@ -676,10 +584,9 @@ def test_get_organization_summary_top_clients_manufacturers_by_usage(
 ) -> None:
     """Test get_organization_summary_top_clients_manufacturers_by_usage endpoint."""
     with skip_on_unsupported():
-        result = client.organizations.get_organization_summary_top_clients_manufacturers_by_usage(
+        client.organizations.get_organization_summary_top_clients_manufacturers_by_usage(
             organization_id=organization_id
         )
-    assert result is not None
 
 
 def test_get_organization_summary_top_devices_by_usage(
@@ -687,10 +594,9 @@ def test_get_organization_summary_top_devices_by_usage(
 ) -> None:
     """Test get_organization_summary_top_devices_by_usage endpoint."""
     with skip_on_unsupported():
-        result = client.organizations.get_organization_summary_top_devices_by_usage(
+        client.organizations.get_organization_summary_top_devices_by_usage(
             organization_id=organization_id
         )
-    assert result is not None
 
 
 def test_get_organization_summary_top_devices_models_by_usage(
@@ -698,10 +604,9 @@ def test_get_organization_summary_top_devices_models_by_usage(
 ) -> None:
     """Test get_organization_summary_top_devices_models_by_usage endpoint."""
     with skip_on_unsupported():
-        result = client.organizations.get_organization_summary_top_devices_models_by_usage(
+        client.organizations.get_organization_summary_top_devices_models_by_usage(
             organization_id=organization_id
         )
-    assert result is not None
 
 
 def test_get_organization_summary_top_networks_by_status(
@@ -709,11 +614,9 @@ def test_get_organization_summary_top_networks_by_status(
 ) -> None:
     """Test get_organization_summary_top_networks_by_status endpoint."""
     with skip_on_unsupported():
-        result = list(
-            client.organizations.get_organization_summary_top_networks_by_status(
-                organization_id=organization_id
-            )
-        )
+        result = client.organizations.get_organization_summary_top_networks_by_status(
+            organization_id=organization_id
+        ).collect()
     assert isinstance(result, list)
 
 
@@ -722,10 +625,9 @@ def test_get_organization_summary_top_ssids_by_usage(
 ) -> None:
     """Test get_organization_summary_top_ssids_by_usage endpoint."""
     with skip_on_unsupported():
-        result = client.organizations.get_organization_summary_top_ssids_by_usage(
+        client.organizations.get_organization_summary_top_ssids_by_usage(
             organization_id=organization_id
         )
-    assert result is not None
 
 
 def test_get_organization_summary_top_switches_by_energy_usage(
@@ -733,34 +635,30 @@ def test_get_organization_summary_top_switches_by_energy_usage(
 ) -> None:
     """Test get_organization_summary_top_switches_by_energy_usage endpoint."""
     with skip_on_unsupported():
-        result = client.organizations.get_organization_summary_top_switches_by_energy_usage(
+        client.organizations.get_organization_summary_top_switches_by_energy_usage(
             organization_id=organization_id
         )
-    assert result is not None
 
 
 def test_get_organization_uplinks_statuses(client: MerakiClient, organization_id: str) -> None:
     """Test get_organization_uplinks_statuses endpoint."""
     with skip_on_unsupported():
-        result = list(
-            client.organizations.get_organization_uplinks_statuses(organization_id=organization_id)
-        )
+        result = client.organizations.get_organization_uplinks_statuses(
+            organization_id=organization_id
+        ).collect()
     assert isinstance(result, list)
 
 
 def test_get_organization_webhooks_alert_types(client: MerakiClient, organization_id: str) -> None:
     """Test get_organization_webhooks_alert_types endpoint."""
     with skip_on_unsupported():
-        result = client.organizations.get_organization_webhooks_alert_types(
-            organization_id=organization_id
-        )
-    assert result is not None
+        client.organizations.get_organization_webhooks_alert_types(organization_id=organization_id)
 
 
 def test_get_organization_webhooks_logs(client: MerakiClient, organization_id: str) -> None:
     """Test get_organization_webhooks_logs endpoint."""
     with skip_on_unsupported():
-        result = list(
-            client.organizations.get_organization_webhooks_logs(organization_id=organization_id)
-        )
+        result = client.organizations.get_organization_webhooks_logs(
+            organization_id=organization_id
+        ).collect()
     assert isinstance(result, list)

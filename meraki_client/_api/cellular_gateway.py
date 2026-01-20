@@ -24,7 +24,7 @@ from meraki_client.schemas import (
     GetOrganizationCellularGatewayEsimsInventoryResponse,
     GetOrganizationCellularGatewayEsimsServiceProvidersAccountsCommunicationPlansResponse,
     GetOrganizationCellularGatewayEsimsServiceProvidersAccountsRatePlansResponse,
-    GetOrganizationCellularGatewayEsimsServiceProvidersAccountsResponse,
+    GetOrganizationCellularGatewayEsimsServiceProvidersAccountsResponseItem,
     GetOrganizationCellularGatewayEsimsServiceProvidersResponse,
     GetOrganizationCellularGatewayUplinkStatusesResponseItem,
     UpdateDeviceCellularGatewayLanFixedIpAssignmentsItem,
@@ -465,8 +465,13 @@ class CellularGateway:
         )
 
     def get_organization_cellular_gateway_esims_service_providers_accounts(
-        self, organization_id: str, *, account_ids: list[int] | None = None
-    ) -> GetOrganizationCellularGatewayEsimsServiceProvidersAccountsResponse | None:
+        self,
+        organization_id: str,
+        *,
+        account_ids: list[int] | None = None,
+        total_pages: int | Literal["all"] = 1,
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[GetOrganizationCellularGatewayEsimsServiceProvidersAccountsResponseItem]:
         """Inventory of service provider accounts tied to the organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-cellular-gateway-esims-service-providers-accounts
@@ -474,6 +479,9 @@ class CellularGateway:
         Args:
             organization_id: Organization ID.
             account_ids: Optional parameter to filter the results by service provider account IDs.
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -483,12 +491,14 @@ class CellularGateway:
         if account_ids is not None:
             params["accountIds[]"] = account_ids
 
-        return self._session.get(
+        return self._session.get_pages(
             scope="cellularGateway",
             operation_id="getOrganizationCellularGatewayEsimsServiceProvidersAccounts",
             path=path,
             params=params,
-            response_schema=GetOrganizationCellularGatewayEsimsServiceProvidersAccountsResponse,
+            total_pages=total_pages,
+            direction=direction,
+            item_schema=GetOrganizationCellularGatewayEsimsServiceProvidersAccountsResponseItem,
         )
 
     def create_organization_cellular_gateway_esims_service_providers_account(

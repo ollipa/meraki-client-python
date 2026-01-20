@@ -44,15 +44,23 @@ class _Templates:
     test_module_template: jinja2.Template
 
 
-def generate_tests(spec: OpenAPI) -> None:
+def generate_tests(spec: OpenAPI, *, skip_tests: set[str] | None = None) -> None:
     """Generate test files for GET endpoints.
 
     Args:
         spec: The parsed OpenAPI specification.
+        skip_tests: Set of operation IDs to skip in test generation.
+
+    Raises:
+        ValueError: If skip_tests contains operation IDs not found in the spec.
 
     """
+    skip_tests = skip_tests or set()
+    if skip_tests:
+        _validate_skip_tests(spec, skip_tests)
+
     templates = _init_test_templates()
-    endpoints_by_scope = _filter_testable_endpoints(spec)
+    endpoints_by_scope = _filter_testable_endpoints(spec, skip_tests=skip_tests)
 
     if not endpoints_by_scope:
         log.warning("No testable endpoints found")
@@ -88,7 +96,21 @@ def generate_tests(spec: OpenAPI) -> None:
     )
 
 
-def _filter_testable_endpoints(spec: OpenAPI) -> dict[str, list[EndpointInfo]]:
+def _validate_skip_tests(spec: OpenAPI, skip_tests: set[str]) -> None:
+    """Validate that all skip_tests operation IDs exist in the spec."""
+    spec_operation_ids = {
+        path_item.get.operationId
+        for path_item in spec.paths.values()
+        if path_item.get and path_item.get.operationId
+    }
+    unknown = skip_tests - spec_operation_ids
+    if unknown:
+        raise ValueError(f"skip_tests contains unknown operation IDs: {sorted(unknown)}")
+
+
+def _filter_testable_endpoints(
+    spec: OpenAPI, *, skip_tests: set[str]
+) -> dict[str, list[EndpointInfo]]:
     """Filter GET endpoints that only use allowed path parameters and have no required query params.
 
     Returns:
@@ -111,6 +133,10 @@ def _filter_testable_endpoints(spec: OpenAPI) -> dict[str, list[EndpointInfo]]:
 
         operation_id = operation.operationId
         if not operation_id:
+            continue
+
+        # Skip tests explicitly excluded in spec_overrides
+        if operation_id in skip_tests:
             continue
 
         # Check for required query parameters - skip if any exist

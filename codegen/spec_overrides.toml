@@ -9,9 +9,43 @@ force_paginated = [
     "getOrganizationApplianceDnsLocalProfiles",
     "getOrganizationApplianceDnsLocalRecords",
     "getOrganizationApplianceDnsSplitProfiles",
+    "getOrganizationEarlyAccessFeaturesOptIns",
+    "getOrganizationWebhooksAlertTypes",
+    "getNetworkWirelessRfProfiles",
+    "getOrganizationCellularGatewayEsimsServiceProvidersAccounts",
 ]
 
-# Field type overrides: [operationId.response] with "field.path" = "type"
+# Endpoints to skip in test generation
+skip_tests = [
+    # Test data difficult to provide
+    # Requires one of: username, email, mac...
+    "getNetworkPiiPiiKeys",
+    "getNetworkPiiRequests",
+    "getNetworkPiiSmDevicesForKey",
+    "getNetworkPiiSmOwnersForKey",
+    # Please specify either timespan or t0
+    "getNetworkTraffic",
+    "getDeviceWirelessConnectionStats",
+    "getDeviceWirelessLatencyStats",
+    "getNetworkWirelessClientsConnectionStats",
+    "getNetworkWirelessClientsLatencyStats",
+    "getNetworkWirelessConnectionStats",
+    "getNetworkWirelessDevicesConnectionStats",
+    "getNetworkWirelessDevicesLatencyStats",
+    "getNetworkWirelessFailedConnections",
+    "getNetworkWirelessLatencyStats",
+    # Must specify a device or network client
+    "getNetworkWirelessChannelUtilizationHistory",
+    "getNetworkWirelessSignalQualityHistory",
+    "getNetworkWirelessUsageHistory",
+]
+
+# Field type overrides: [operationId.response] with "field.path" = "python_type"
 [getNetworkClients.response]
 "firstSeen" = "str"
 "lastSeen" = "str"
+
+[getOrganizationClientsBandwidthUsageHistory.response]
+upstream = "float"
+downstream = "float"
+total = "float"

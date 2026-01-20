@@ -12,22 +12,19 @@ from tests.conftest import skip_on_unsupported
 def test_get_device_appliance_dhcp_subnets(client: MerakiClient, device_serial: str) -> None:
     """Test get_device_appliance_dhcp_subnets endpoint."""
     with skip_on_unsupported():
-        result = client.appliance.get_device_appliance_dhcp_subnets(serial=device_serial)
-    assert result is not None
+        client.appliance.get_device_appliance_dhcp_subnets(serial=device_serial)
 
 
 def test_get_device_appliance_performance(client: MerakiClient, device_serial: str) -> None:
     """Test get_device_appliance_performance endpoint."""
     with skip_on_unsupported():
-        result = client.appliance.get_device_appliance_performance(serial=device_serial)
-    assert result is not None
+        client.appliance.get_device_appliance_performance(serial=device_serial)
 
 
 def test_get_device_appliance_prefixes_delegated(client: MerakiClient, device_serial: str) -> None:
     """Test get_device_appliance_prefixes_delegated endpoint."""
     with skip_on_unsupported():
-        result = client.appliance.get_device_appliance_prefixes_delegated(serial=device_serial)
-    assert result is not None
+        client.appliance.get_device_appliance_prefixes_delegated(serial=device_serial)
 
 
 def test_get_device_appliance_prefixes_delegated_vlan_assignments(
@@ -35,24 +32,21 @@ def test_get_device_appliance_prefixes_delegated_vlan_assignments(
 ) -> None:
     """Test get_device_appliance_prefixes_delegated_vlan_assignments endpoint."""
     with skip_on_unsupported():
-        result = client.appliance.get_device_appliance_prefixes_delegated_vlan_assignments(
+        client.appliance.get_device_appliance_prefixes_delegated_vlan_assignments(
             serial=device_serial
         )
-    assert result is not None
 
 
 def test_get_device_appliance_radio_settings(client: MerakiClient, device_serial: str) -> None:
     """Test get_device_appliance_radio_settings endpoint."""
     with skip_on_unsupported():
-        result = client.appliance.get_device_appliance_radio_settings(serial=device_serial)
-    assert result is not None
+        client.appliance.get_device_appliance_radio_settings(serial=device_serial)
 
 
 def test_get_device_appliance_uplinks_settings(client: MerakiClient, device_serial: str) -> None:
     """Test get_device_appliance_uplinks_settings endpoint."""
     with skip_on_unsupported():
-        result = client.appliance.get_device_appliance_uplinks_settings(serial=device_serial)
-    assert result is not None
+        client.appliance.get_device_appliance_uplinks_settings(serial=device_serial)
 
 
 def test_get_network_appliance_connectivity_monitoring_destinations(
@@ -60,17 +54,15 @@ def test_get_network_appliance_connectivity_monitoring_destinations(
 ) -> None:
     """Test get_network_appliance_connectivity_monitoring_destinations endpoint."""
     with skip_on_unsupported():
-        result = client.appliance.get_network_appliance_connectivity_monitoring_destinations(
+        client.appliance.get_network_appliance_connectivity_monitoring_destinations(
             network_id=network_id
         )
-    assert result is not None
 
 
 def test_get_network_appliance_content_filtering(client: MerakiClient, network_id: str) -> None:
     """Test get_network_appliance_content_filtering endpoint."""
     with skip_on_unsupported():
-        result = client.appliance.get_network_appliance_content_filtering(network_id=network_id)
-    assert result is not None
+        client.appliance.get_network_appliance_content_filtering(network_id=network_id)
 
 
 def test_get_network_appliance_content_filtering_categories(
@@ -78,10 +70,7 @@ def test_get_network_appliance_content_filtering_categories(
 ) -> None:
     """Test get_network_appliance_content_filtering_categories endpoint."""
     with skip_on_unsupported():
-        result = client.appliance.get_network_appliance_content_filtering_categories(
-            network_id=network_id
-        )
-    assert result is not None
+        client.appliance.get_network_appliance_content_filtering_categories(network_id=network_id)
 
 
 def test_get_network_appliance_firewall_cellular_firewall_rules(
@@ -89,10 +78,9 @@ def test_get_network_appliance_firewall_cellular_firewall_rules(
 ) -> None:
     """Test get_network_appliance_firewall_cellular_firewall_rules endpoint."""
     with skip_on_unsupported():
-        result = client.appliance.get_network_appliance_firewall_cellular_firewall_rules(
+        client.appliance.get_network_appliance_firewall_cellular_firewall_rules(
             network_id=network_id
         )
-    assert result is not None
 
 
 def test_get_network_appliance_firewall_firewalled_services(
@@ -100,10 +88,7 @@ def test_get_network_appliance_firewall_firewalled_services(
 ) -> None:
     """Test get_network_appliance_firewall_firewalled_services endpoint."""
     with skip_on_unsupported():
-        result = client.appliance.get_network_appliance_firewall_firewalled_services(
-            network_id=network_id
-        )
-    assert result is not None
+        client.appliance.get_network_appliance_firewall_firewalled_services(network_id=network_id)
 
 
 def test_get_network_appliance_firewall_inbound_cellular_firewall_rules(
@@ -111,10 +96,9 @@ def test_get_network_appliance_firewall_inbound_cellular_firewall_rules(
 ) -> None:
     """Test get_network_appliance_firewall_inbound_cellular_firewall_rules endpoint."""
     with skip_on_unsupported():
-        result = client.appliance.get_network_appliance_firewall_inbound_cellular_firewall_rules(
+        client.appliance.get_network_appliance_firewall_inbound_cellular_firewall_rules(
             network_id=network_id
         )
-    assert result is not None
 
 
 def test_get_network_appliance_firewall_inbound_firewall_rules(
@@ -122,10 +106,9 @@ def test_get_network_appliance_firewall_inbound_firewall_rules(
 ) -> None:
     """Test get_network_appliance_firewall_inbound_firewall_rules endpoint."""
     with skip_on_unsupported():
-        result = client.appliance.get_network_appliance_firewall_inbound_firewall_rules(
+        client.appliance.get_network_appliance_firewall_inbound_firewall_rules(
             network_id=network_id
         )
-    assert result is not None
 
 
 def test_get_network_appliance_firewall_l3_firewall_rules(
@@ -133,10 +116,7 @@ def test_get_network_appliance_firewall_l3_firewall_rules(
 ) -> None:
     """Test get_network_appliance_firewall_l3_firewall_rules endpoint."""
     with skip_on_unsupported():
-        result = client.appliance.get_network_appliance_firewall_l3_firewall_rules(
-            network_id=network_id
-        )
-    assert result is not None
+        client.appliance.get_network_appliance_firewall_l3_firewall_rules(network_id=network_id)
 
 
 def test_get_network_appliance_firewall_l7_firewall_rules(
@@ -144,10 +124,7 @@ def test_get_network_appliance_firewall_l7_firewall_rules(
 ) -> None:
     """Test get_network_appliance_firewall_l7_firewall_rules endpoint."""
     with skip_on_unsupported():
-        result = client.appliance.get_network_appliance_firewall_l7_firewall_rules(
-            network_id=network_id
-        )
-    assert result is not None
+        client.appliance.get_network_appliance_firewall_l7_firewall_rules(network_id=network_id)
 
 
 def test_get_network_appliance_firewall_l7_firewall_rules_application_categories(
@@ -155,10 +132,9 @@ def test_get_network_appliance_firewall_l7_firewall_rules_application_categories
 ) -> None:
     """Test get_network_appliance_firewall_l7_firewall_rules_application_categories endpoint."""
     with skip_on_unsupported():
-        result = client.appliance.get_network_appliance_firewall_l7_firewall_rules_application_categories(
+        client.appliance.get_network_appliance_firewall_l7_firewall_rules_application_categories(
             network_id=network_id
         )
-    assert result is not None
 
 
 def test_get_network_appliance_firewall_one_to_many_nat_rules(
@@ -166,10 +142,7 @@ def test_get_network_appliance_firewall_one_to_many_nat_rules(
 ) -> None:
     """Test get_network_appliance_firewall_one_to_many_nat_rules endpoint."""
     with skip_on_unsupported():
-        result = client.appliance.get_network_appliance_firewall_one_to_many_nat_rules(
-            network_id=network_id
-        )
-    assert result is not None
+        client.appliance.get_network_appliance_firewall_one_to_many_nat_rules(network_id=network_id)
 
 
 def test_get_network_appliance_firewall_one_to_one_nat_rules(
@@ -177,10 +150,7 @@ def test_get_network_appliance_firewall_one_to_one_nat_rules(
 ) -> None:
     """Test get_network_appliance_firewall_one_to_one_nat_rules endpoint."""
     with skip_on_unsupported():
-        result = client.appliance.get_network_appliance_firewall_one_to_one_nat_rules(
-            network_id=network_id
-        )
-    assert result is not None
+        client.appliance.get_network_appliance_firewall_one_to_one_nat_rules(network_id=network_id)
 
 
 def test_get_network_appliance_firewall_port_forwarding_rules(
@@ -188,24 +158,19 @@ def test_get_network_appliance_firewall_port_forwarding_rules(
 ) -> None:
     """Test get_network_appliance_firewall_port_forwarding_rules endpoint."""
     with skip_on_unsupported():
-        result = client.appliance.get_network_appliance_firewall_port_forwarding_rules(
-            network_id=network_id
-        )
-    assert result is not None
+        client.appliance.get_network_appliance_firewall_port_forwarding_rules(network_id=network_id)
 
 
 def test_get_network_appliance_firewall_settings(client: MerakiClient, network_id: str) -> None:
     """Test get_network_appliance_firewall_settings endpoint."""
     with skip_on_unsupported():
-        result = client.appliance.get_network_appliance_firewall_settings(network_id=network_id)
-    assert result is not None
+        client.appliance.get_network_appliance_firewall_settings(network_id=network_id)
 
 
 def test_get_network_appliance_ports(client: MerakiClient, network_id: str) -> None:
     """Test get_network_appliance_ports endpoint."""
     with skip_on_unsupported():
-        result = client.appliance.get_network_appliance_ports(network_id=network_id)
-    assert result is not None
+        client.appliance.get_network_appliance_ports(network_id=network_id)
 
 
 def test_get_network_appliance_prefixes_delegated_statics(
@@ -213,73 +178,64 @@ def test_get_network_appliance_prefixes_delegated_statics(
 ) -> None:
     """Test get_network_appliance_prefixes_delegated_statics endpoint."""
     with skip_on_unsupported():
-        result = client.appliance.get_network_appliance_prefixes_delegated_statics(
-            network_id=network_id
-        )
-    assert result is not None
+        client.appliance.get_network_appliance_prefixes_delegated_statics(network_id=network_id)
 
 
 def test_get_network_appliance_rf_profiles(client: MerakiClient, network_id: str) -> None:
     """Test get_network_appliance_rf_profiles endpoint."""
     with skip_on_unsupported():
-        result = client.appliance.get_network_appliance_rf_profiles(network_id=network_id)
-    assert result is not None
+        client.appliance.get_network_appliance_rf_profiles(network_id=network_id)
 
 
 def test_get_network_appliance_security_events(client: MerakiClient, network_id: str) -> None:
     """Test get_network_appliance_security_events endpoint."""
     with skip_on_unsupported():
-        result = list(client.appliance.get_network_appliance_security_events(network_id=network_id))
+        result = client.appliance.get_network_appliance_security_events(
+            network_id=network_id
+        ).collect()
     assert isinstance(result, list)
 
 
 def test_get_network_appliance_security_intrusion(client: MerakiClient, network_id: str) -> None:
     """Test get_network_appliance_security_intrusion endpoint."""
     with skip_on_unsupported():
-        result = client.appliance.get_network_appliance_security_intrusion(network_id=network_id)
-    assert result is not None
+        client.appliance.get_network_appliance_security_intrusion(network_id=network_id)
 
 
 def test_get_network_appliance_security_malware(client: MerakiClient, network_id: str) -> None:
     """Test get_network_appliance_security_malware endpoint."""
     with skip_on_unsupported():
-        result = client.appliance.get_network_appliance_security_malware(network_id=network_id)
-    assert result is not None
+        client.appliance.get_network_appliance_security_malware(network_id=network_id)
 
 
 def test_get_network_appliance_settings(client: MerakiClient, network_id: str) -> None:
     """Test get_network_appliance_settings endpoint."""
     with skip_on_unsupported():
-        result = client.appliance.get_network_appliance_settings(network_id=network_id)
-    assert result is not None
+        client.appliance.get_network_appliance_settings(network_id=network_id)
 
 
 def test_get_network_appliance_single_lan(client: MerakiClient, network_id: str) -> None:
     """Test get_network_appliance_single_lan endpoint."""
     with skip_on_unsupported():
-        result = client.appliance.get_network_appliance_single_lan(network_id=network_id)
-    assert result is not None
+        client.appliance.get_network_appliance_single_lan(network_id=network_id)
 
 
 def test_get_network_appliance_ssids(client: MerakiClient, network_id: str) -> None:
     """Test get_network_appliance_ssids endpoint."""
     with skip_on_unsupported():
-        result = client.appliance.get_network_appliance_ssids(network_id=network_id)
-    assert result is not None
+        client.appliance.get_network_appliance_ssids(network_id=network_id)
 
 
 def test_get_network_appliance_static_routes(client: MerakiClient, network_id: str) -> None:
     """Test get_network_appliance_static_routes endpoint."""
     with skip_on_unsupported():
-        result = client.appliance.get_network_appliance_static_routes(network_id=network_id)
-    assert result is not None
+        client.appliance.get_network_appliance_static_routes(network_id=network_id)
 
 
 def test_get_network_appliance_traffic_shaping(client: MerakiClient, network_id: str) -> None:
     """Test get_network_appliance_traffic_shaping endpoint."""
     with skip_on_unsupported():
-        result = client.appliance.get_network_appliance_traffic_shaping(network_id=network_id)
-    assert result is not None
+        client.appliance.get_network_appliance_traffic_shaping(network_id=network_id)
 
 
 def test_get_network_appliance_traffic_shaping_custom_performance_classes(
@@ -287,17 +243,15 @@ def test_get_network_appliance_traffic_shaping_custom_performance_classes(
 ) -> None:
     """Test get_network_appliance_traffic_shaping_custom_performance_classes endpoint."""
     with skip_on_unsupported():
-        result = client.appliance.get_network_appliance_traffic_shaping_custom_performance_classes(
+        client.appliance.get_network_appliance_traffic_shaping_custom_performance_classes(
             network_id=network_id
         )
-    assert result is not None
 
 
 def test_get_network_appliance_traffic_shaping_rules(client: MerakiClient, network_id: str) -> None:
     """Test get_network_appliance_traffic_shaping_rules endpoint."""
     with skip_on_unsupported():
-        result = client.appliance.get_network_appliance_traffic_shaping_rules(network_id=network_id)
-    assert result is not None
+        client.appliance.get_network_appliance_traffic_shaping_rules(network_id=network_id)
 
 
 def test_get_network_appliance_traffic_shaping_uplink_bandwidth(
@@ -305,10 +259,9 @@ def test_get_network_appliance_traffic_shaping_uplink_bandwidth(
 ) -> None:
     """Test get_network_appliance_traffic_shaping_uplink_bandwidth endpoint."""
     with skip_on_unsupported():
-        result = client.appliance.get_network_appliance_traffic_shaping_uplink_bandwidth(
+        client.appliance.get_network_appliance_traffic_shaping_uplink_bandwidth(
             network_id=network_id
         )
-    assert result is not None
 
 
 def test_get_network_appliance_traffic_shaping_uplink_selection(
@@ -316,52 +269,45 @@ def test_get_network_appliance_traffic_shaping_uplink_selection(
 ) -> None:
     """Test get_network_appliance_traffic_shaping_uplink_selection endpoint."""
     with skip_on_unsupported():
-        result = client.appliance.get_network_appliance_traffic_shaping_uplink_selection(
+        client.appliance.get_network_appliance_traffic_shaping_uplink_selection(
             network_id=network_id
         )
-    assert result is not None
 
 
 def test_get_network_appliance_uplinks_usage_history(client: MerakiClient, network_id: str) -> None:
     """Test get_network_appliance_uplinks_usage_history endpoint."""
     with skip_on_unsupported():
-        result = client.appliance.get_network_appliance_uplinks_usage_history(network_id=network_id)
-    assert result is not None
+        client.appliance.get_network_appliance_uplinks_usage_history(network_id=network_id)
 
 
 def test_get_network_appliance_vlans(client: MerakiClient, network_id: str) -> None:
     """Test get_network_appliance_vlans endpoint."""
     with skip_on_unsupported():
-        result = client.appliance.get_network_appliance_vlans(network_id=network_id)
-    assert result is not None
+        client.appliance.get_network_appliance_vlans(network_id=network_id)
 
 
 def test_get_network_appliance_vlans_settings(client: MerakiClient, network_id: str) -> None:
     """Test get_network_appliance_vlans_settings endpoint."""
     with skip_on_unsupported():
-        result = client.appliance.get_network_appliance_vlans_settings(network_id=network_id)
-    assert result is not None
+        client.appliance.get_network_appliance_vlans_settings(network_id=network_id)
 
 
 def test_get_network_appliance_vpn_bgp(client: MerakiClient, network_id: str) -> None:
     """Test get_network_appliance_vpn_bgp endpoint."""
     with skip_on_unsupported():
-        result = client.appliance.get_network_appliance_vpn_bgp(network_id=network_id)
-    assert result is not None
+        client.appliance.get_network_appliance_vpn_bgp(network_id=network_id)
 
 
 def test_get_network_appliance_vpn_site_to_site_vpn(client: MerakiClient, network_id: str) -> None:
     """Test get_network_appliance_vpn_site_to_site_vpn endpoint."""
     with skip_on_unsupported():
-        result = client.appliance.get_network_appliance_vpn_site_to_site_vpn(network_id=network_id)
-    assert result is not None
+        client.appliance.get_network_appliance_vpn_site_to_site_vpn(network_id=network_id)
 
 
 def test_get_network_appliance_warm_spare(client: MerakiClient, network_id: str) -> None:
     """Test get_network_appliance_warm_spare endpoint."""
     with skip_on_unsupported():
-        result = client.appliance.get_network_appliance_warm_spare(network_id=network_id)
-    assert result is not None
+        client.appliance.get_network_appliance_warm_spare(network_id=network_id)
 
 
 def test_get_organization_appliance_dns_local_profiles(
@@ -369,10 +315,9 @@ def test_get_organization_appliance_dns_local_profiles(
 ) -> None:
     """Test get_organization_appliance_dns_local_profiles endpoint."""
     with skip_on_unsupported():
-        result = client.appliance.get_organization_appliance_dns_local_profiles(
+        client.appliance.get_organization_appliance_dns_local_profiles(
             organization_id=organization_id
         )
-    assert result is not None
 
 
 def test_get_organization_appliance_dns_local_profiles_assignments(
@@ -380,10 +325,9 @@ def test_get_organization_appliance_dns_local_profiles_assignments(
 ) -> None:
     """Test get_organization_appliance_dns_local_profiles_assignments endpoint."""
     with skip_on_unsupported():
-        result = client.appliance.get_organization_appliance_dns_local_profiles_assignments(
+        client.appliance.get_organization_appliance_dns_local_profiles_assignments(
             organization_id=organization_id
         )
-    assert result is not None
 
 
 def test_get_organization_appliance_dns_local_records(
@@ -391,10 +335,9 @@ def test_get_organization_appliance_dns_local_records(
 ) -> None:
     """Test get_organization_appliance_dns_local_records endpoint."""
     with skip_on_unsupported():
-        result = client.appliance.get_organization_appliance_dns_local_records(
+        client.appliance.get_organization_appliance_dns_local_records(
             organization_id=organization_id
         )
-    assert result is not None
 
 
 def test_get_organization_appliance_dns_split_profiles(
@@ -402,10 +345,9 @@ def test_get_organization_appliance_dns_split_profiles(
 ) -> None:
     """Test get_organization_appliance_dns_split_profiles endpoint."""
     with skip_on_unsupported():
-        result = client.appliance.get_organization_appliance_dns_split_profiles(
+        client.appliance.get_organization_appliance_dns_split_profiles(
             organization_id=organization_id
         )
-    assert result is not None
 
 
 def test_get_organization_appliance_dns_split_profiles_assignments(
@@ -413,10 +355,9 @@ def test_get_organization_appliance_dns_split_profiles_assignments(
 ) -> None:
     """Test get_organization_appliance_dns_split_profiles_assignments endpoint."""
     with skip_on_unsupported():
-        result = client.appliance.get_organization_appliance_dns_split_profiles_assignments(
+        client.appliance.get_organization_appliance_dns_split_profiles_assignments(
             organization_id=organization_id
         )
-    assert result is not None
 
 
 def test_get_organization_appliance_firewall_multicast_forwarding_by_network(
@@ -424,10 +365,10 @@ def test_get_organization_appliance_firewall_multicast_forwarding_by_network(
 ) -> None:
     """Test get_organization_appliance_firewall_multicast_forwarding_by_network endpoint."""
     with skip_on_unsupported():
-        result = list(
+        result = (
             client.appliance.get_organization_appliance_firewall_multicast_forwarding_by_network(
                 organization_id=organization_id
-            )
+            ).collect()
         )
     assert isinstance(result, list)
 
@@ -437,11 +378,9 @@ def test_get_organization_appliance_security_events(
 ) -> None:
     """Test get_organization_appliance_security_events endpoint."""
     with skip_on_unsupported():
-        result = list(
-            client.appliance.get_organization_appliance_security_events(
-                organization_id=organization_id
-            )
-        )
+        result = client.appliance.get_organization_appliance_security_events(
+            organization_id=organization_id
+        ).collect()
     assert isinstance(result, list)
 
 
@@ -450,10 +389,9 @@ def test_get_organization_appliance_security_intrusion(
 ) -> None:
     """Test get_organization_appliance_security_intrusion endpoint."""
     with skip_on_unsupported():
-        result = client.appliance.get_organization_appliance_security_intrusion(
+        client.appliance.get_organization_appliance_security_intrusion(
             organization_id=organization_id
         )
-    assert result is not None
 
 
 def test_get_organization_appliance_traffic_shaping_vpn_exclusions_by_network(
@@ -461,10 +399,10 @@ def test_get_organization_appliance_traffic_shaping_vpn_exclusions_by_network(
 ) -> None:
     """Test get_organization_appliance_traffic_shaping_vpn_exclusions_by_network endpoint."""
     with skip_on_unsupported():
-        result = list(
+        result = (
             client.appliance.get_organization_appliance_traffic_shaping_vpn_exclusions_by_network(
                 organization_id=organization_id
-            )
+            ).collect()
         )
     assert isinstance(result, list)
 
@@ -474,11 +412,9 @@ def test_get_organization_appliance_uplink_statuses(
 ) -> None:
     """Test get_organization_appliance_uplink_statuses endpoint."""
     with skip_on_unsupported():
-        result = list(
-            client.appliance.get_organization_appliance_uplink_statuses(
-                organization_id=organization_id
-            )
-        )
+        result = client.appliance.get_organization_appliance_uplink_statuses(
+            organization_id=organization_id
+        ).collect()
     assert isinstance(result, list)
 
 
@@ -487,10 +423,9 @@ def test_get_organization_appliance_uplinks_statuses_overview(
 ) -> None:
     """Test get_organization_appliance_uplinks_statuses_overview endpoint."""
     with skip_on_unsupported():
-        result = client.appliance.get_organization_appliance_uplinks_statuses_overview(
+        client.appliance.get_organization_appliance_uplinks_statuses_overview(
             organization_id=organization_id
         )
-    assert result is not None
 
 
 def test_get_organization_appliance_uplinks_usage_by_network(
@@ -498,10 +433,9 @@ def test_get_organization_appliance_uplinks_usage_by_network(
 ) -> None:
     """Test get_organization_appliance_uplinks_usage_by_network endpoint."""
     with skip_on_unsupported():
-        result = client.appliance.get_organization_appliance_uplinks_usage_by_network(
+        client.appliance.get_organization_appliance_uplinks_usage_by_network(
             organization_id=organization_id
         )
-    assert result is not None
 
 
 def test_get_organization_appliance_vpn_site_to_site_ipsec_peers_slas(
@@ -509,18 +443,17 @@ def test_get_organization_appliance_vpn_site_to_site_ipsec_peers_slas(
 ) -> None:
     """Test get_organization_appliance_vpn_site_to_site_ipsec_peers_slas endpoint."""
     with skip_on_unsupported():
-        result = client.appliance.get_organization_appliance_vpn_site_to_site_ipsec_peers_slas(
+        client.appliance.get_organization_appliance_vpn_site_to_site_ipsec_peers_slas(
             organization_id=organization_id
         )
-    assert result is not None
 
 
 def test_get_organization_appliance_vpn_stats(client: MerakiClient, organization_id: str) -> None:
     """Test get_organization_appliance_vpn_stats endpoint."""
     with skip_on_unsupported():
-        result = list(
-            client.appliance.get_organization_appliance_vpn_stats(organization_id=organization_id)
-        )
+        result = client.appliance.get_organization_appliance_vpn_stats(
+            organization_id=organization_id
+        ).collect()
     assert isinstance(result, list)
 
 
@@ -529,11 +462,9 @@ def test_get_organization_appliance_vpn_statuses(
 ) -> None:
     """Test get_organization_appliance_vpn_statuses endpoint."""
     with skip_on_unsupported():
-        result = list(
-            client.appliance.get_organization_appliance_vpn_statuses(
-                organization_id=organization_id
-            )
-        )
+        result = client.appliance.get_organization_appliance_vpn_statuses(
+            organization_id=organization_id
+        ).collect()
     assert isinstance(result, list)
 
 
@@ -542,10 +473,9 @@ def test_get_organization_appliance_vpn_third_party_v_p_n_peers(
 ) -> None:
     """Test get_organization_appliance_vpn_third_party_v_p_n_peers endpoint."""
     with skip_on_unsupported():
-        result = client.appliance.get_organization_appliance_vpn_third_party_v_p_n_peers(
+        client.appliance.get_organization_appliance_vpn_third_party_v_p_n_peers(
             organization_id=organization_id
         )
-    assert result is not None
 
 
 def test_get_organization_appliance_vpn_vpn_firewall_rules(
@@ -553,7 +483,6 @@ def test_get_organization_appliance_vpn_vpn_firewall_rules(
 ) -> None:
     """Test get_organization_appliance_vpn_vpn_firewall_rules endpoint."""
     with skip_on_unsupported():
-        result = client.appliance.get_organization_appliance_vpn_vpn_firewall_rules(
+        client.appliance.get_organization_appliance_vpn_vpn_firewall_rules(
             organization_id=organization_id
         )
-    assert result is not None

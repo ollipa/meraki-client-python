@@ -2411,8 +2411,13 @@ class Wireless:
         )
 
     def get_network_wireless_rf_profiles(
-        self, network_id: str, *, include_template_profiles: bool | None = None
-    ) -> GetNetworkWirelessRfProfilesResponse | None:
+        self,
+        network_id: str,
+        *,
+        include_template_profiles: bool | None = None,
+        total_pages: int | Literal["all"] = 1,
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[GetNetworkWirelessRfProfilesResponse]:
         """List RF profiles for this network.
 
         https://developer.cisco.com/meraki/api-v1/#!get-network-wireless-rf-profiles
@@ -2423,6 +2428,9 @@ class Wireless:
               controls whether or not the non-basic RF profiles defined on the template
               should be included in the response alongside the non-basic profiles
               defined on the bound network. Defaults to false.
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
@@ -2432,12 +2440,14 @@ class Wireless:
         if include_template_profiles is not None:
             params["includeTemplateProfiles"] = include_template_profiles
 
-        return self._session.get(
+        return self._session.get_pages(
             scope="wireless",
             operation_id="getNetworkWirelessRfProfiles",
             path=path,
             params=params,
-            response_schema=GetNetworkWirelessRfProfilesResponse,
+            total_pages=total_pages,
+            direction=direction,
+            item_schema=GetNetworkWirelessRfProfilesResponse,
         )
 
     def create_network_wireless_rf_profile(

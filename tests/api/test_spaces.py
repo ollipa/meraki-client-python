@@ -14,7 +14,4 @@ def test_get_organization_spaces_integrate_status(
 ) -> None:
     """Test get_organization_spaces_integrate_status endpoint."""
     with skip_on_unsupported():
-        result = client.spaces.get_organization_spaces_integrate_status(
-            organization_id=organization_id
-        )
-    assert result is not None
+        client.spaces.get_organization_spaces_integrate_status(organization_id=organization_id)

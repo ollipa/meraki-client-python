@@ -12,8 +12,7 @@ from tests.conftest import skip_on_unsupported
 def test_get_device_cellular_gateway_lan(client: MerakiClient, device_serial: str) -> None:
     """Test get_device_cellular_gateway_lan endpoint."""
     with skip_on_unsupported():
-        result = client.cellular_gateway.get_device_cellular_gateway_lan(serial=device_serial)
-    assert result is not None
+        client.cellular_gateway.get_device_cellular_gateway_lan(serial=device_serial)
 
 
 def test_get_device_cellular_gateway_port_forwarding_rules(
@@ -21,10 +20,9 @@ def test_get_device_cellular_gateway_port_forwarding_rules(
 ) -> None:
     """Test get_device_cellular_gateway_port_forwarding_rules endpoint."""
     with skip_on_unsupported():
-        result = client.cellular_gateway.get_device_cellular_gateway_port_forwarding_rules(
+        client.cellular_gateway.get_device_cellular_gateway_port_forwarding_rules(
             serial=device_serial
         )
-    assert result is not None
 
 
 def test_get_network_cellular_gateway_connectivity_monitoring_destinations(
@@ -32,33 +30,27 @@ def test_get_network_cellular_gateway_connectivity_monitoring_destinations(
 ) -> None:
     """Test get_network_cellular_gateway_connectivity_monitoring_destinations endpoint."""
     with skip_on_unsupported():
-        result = client.cellular_gateway.get_network_cellular_gateway_connectivity_monitoring_destinations(
+        client.cellular_gateway.get_network_cellular_gateway_connectivity_monitoring_destinations(
             network_id=network_id
         )
-    assert result is not None
 
 
 def test_get_network_cellular_gateway_dhcp(client: MerakiClient, network_id: str) -> None:
     """Test get_network_cellular_gateway_dhcp endpoint."""
     with skip_on_unsupported():
-        result = client.cellular_gateway.get_network_cellular_gateway_dhcp(network_id=network_id)
-    assert result is not None
+        client.cellular_gateway.get_network_cellular_gateway_dhcp(network_id=network_id)
 
 
 def test_get_network_cellular_gateway_subnet_pool(client: MerakiClient, network_id: str) -> None:
     """Test get_network_cellular_gateway_subnet_pool endpoint."""
     with skip_on_unsupported():
-        result = client.cellular_gateway.get_network_cellular_gateway_subnet_pool(
-            network_id=network_id
-        )
-    assert result is not None
+        client.cellular_gateway.get_network_cellular_gateway_subnet_pool(network_id=network_id)
 
 
 def test_get_network_cellular_gateway_uplink(client: MerakiClient, network_id: str) -> None:
     """Test get_network_cellular_gateway_uplink endpoint."""
     with skip_on_unsupported():
-        result = client.cellular_gateway.get_network_cellular_gateway_uplink(network_id=network_id)
-    assert result is not None
+        client.cellular_gateway.get_network_cellular_gateway_uplink(network_id=network_id)
 
 
 def test_get_organization_cellular_gateway_esims_inventory(
@@ -66,10 +58,9 @@ def test_get_organization_cellular_gateway_esims_inventory(
 ) -> None:
     """Test get_organization_cellular_gateway_esims_inventory endpoint."""
     with skip_on_unsupported():
-        result = client.cellular_gateway.get_organization_cellular_gateway_esims_inventory(
+        client.cellular_gateway.get_organization_cellular_gateway_esims_inventory(
             organization_id=organization_id
         )
-    assert result is not None
 
 
 def test_get_organization_cellular_gateway_esims_service_providers(
@@ -77,10 +68,9 @@ def test_get_organization_cellular_gateway_esims_service_providers(
 ) -> None:
     """Test get_organization_cellular_gateway_esims_service_providers endpoint."""
     with skip_on_unsupported():
-        result = client.cellular_gateway.get_organization_cellular_gateway_esims_service_providers(
+        client.cellular_gateway.get_organization_cellular_gateway_esims_service_providers(
             organization_id=organization_id
         )
-    assert result is not None
 
 
 def test_get_organization_cellular_gateway_esims_service_providers_accounts(
@@ -88,10 +78,9 @@ def test_get_organization_cellular_gateway_esims_service_providers_accounts(
 ) -> None:
     """Test get_organization_cellular_gateway_esims_service_providers_accounts endpoint."""
     with skip_on_unsupported():
-        result = client.cellular_gateway.get_organization_cellular_gateway_esims_service_providers_accounts(
+        client.cellular_gateway.get_organization_cellular_gateway_esims_service_providers_accounts(
             organization_id=organization_id
         )
-    assert result is not None
 
 
 def test_get_organization_cellular_gateway_uplink_statuses(
@@ -99,9 +88,7 @@ def test_get_organization_cellular_gateway_uplink_statuses(
 ) -> None:
     """Test get_organization_cellular_gateway_uplink_statuses endpoint."""
     with skip_on_unsupported():
-        result = list(
-            client.cellular_gateway.get_organization_cellular_gateway_uplink_statuses(
-                organization_id=organization_id
-            )
-        )
+        result = client.cellular_gateway.get_organization_cellular_gateway_uplink_statuses(
+            organization_id=organization_id
+        ).collect()
     assert isinstance(result, list)

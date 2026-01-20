@@ -1287,9 +1287,9 @@ class GetOrganizationClientsBandwidthUsageHistoryResponseItem(_BaseSchema):
     """Schema for GetOrganizationClientsBandwidthUsageHistoryResponseItem."""
 
     ts: str | None = None
-    total: int | None = None
-    upstream: int | None = None
-    downstream: int | None = None
+    total: float | None = None
+    upstream: float | None = None
+    downstream: float | None = None
 
 
 class GetOrganizationClientsOverviewResponse(_BaseSchema):

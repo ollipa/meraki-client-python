@@ -14,11 +14,9 @@ def test_get_organization_campus_gateway_clusters(
 ) -> None:
     """Test get_organization_campus_gateway_clusters endpoint."""
     with skip_on_unsupported():
-        result = list(
-            client.campus_gateway.get_organization_campus_gateway_clusters(
-                organization_id=organization_id
-            )
-        )
+        result = client.campus_gateway.get_organization_campus_gateway_clusters(
+            organization_id=organization_id
+        ).collect()
     assert isinstance(result, list)
 
 
@@ -27,9 +25,7 @@ def test_get_organization_campus_gateway_devices_uplinks_local_overrides_by_devi
 ) -> None:
     """Test get_organization_campus_gateway_devices_uplinks_local_overrides_by_device endpoint."""
     with skip_on_unsupported():
-        result = list(
-            client.campus_gateway.get_organization_campus_gateway_devices_uplinks_local_overrides_by_device(
-                organization_id=organization_id
-            )
-        )
+        result = client.campus_gateway.get_organization_campus_gateway_devices_uplinks_local_overrides_by_device(
+            organization_id=organization_id
+        ).collect()
     assert isinstance(result, list)

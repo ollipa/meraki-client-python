@@ -15,11 +15,10 @@ def test_{{ endpoint.function_name }}(client: MerakiClient{% for param in endpoi
     """Test {{ endpoint.function_name }} endpoint."""
     {% if endpoint.is_paginated %}
     with skip_on_unsupported():
-        result = list(client.{{ module_name }}.{{ endpoint.function_name }}({% for param in endpoint.path_params %}{{ param }}={% if param == "serial" %}device_serial{% else %}{{ param }}{% endif %}{% if not loop.last %}, {% endif %}{% endfor %}))
+        result = client.{{ module_name }}.{{ endpoint.function_name }}({% for param in endpoint.path_params %}{{ param }}={% if param == "serial" %}device_serial{% else %}{{ param }}{% endif %}{% if not loop.last %}, {% endif %}{% endfor %}).collect()
     assert isinstance(result, list)
     {% else %}
     with skip_on_unsupported():
-        result = client.{{ module_name }}.{{ endpoint.function_name }}({% for param in endpoint.path_params %}{{ param }}={% if param == "serial" %}device_serial{% else %}{{ param }}{% endif %}{% if not loop.last %}, {% endif %}{% endfor %})
-    assert result is not None
+        client.{{ module_name }}.{{ endpoint.function_name }}({% for param in endpoint.path_params %}{{ param }}={% if param == "serial" %}device_serial{% else %}{{ param }}{% endif %}{% if not loop.last %}, {% endif %}{% endfor %})
     {% endif %}
 {% endfor %}

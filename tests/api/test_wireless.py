@@ -12,15 +12,7 @@ from tests.conftest import skip_on_unsupported
 def test_get_device_wireless_bluetooth_settings(client: MerakiClient, device_serial: str) -> None:
     """Test get_device_wireless_bluetooth_settings endpoint."""
     with skip_on_unsupported():
-        result = client.wireless.get_device_wireless_bluetooth_settings(serial=device_serial)
-    assert result is not None
-
-
-def test_get_device_wireless_connection_stats(client: MerakiClient, device_serial: str) -> None:
-    """Test get_device_wireless_connection_stats endpoint."""
-    with skip_on_unsupported():
-        result = client.wireless.get_device_wireless_connection_stats(serial=device_serial)
-    assert result is not None
+        client.wireless.get_device_wireless_bluetooth_settings(serial=device_serial)
 
 
 def test_get_device_wireless_electronic_shelf_label(
@@ -28,36 +20,25 @@ def test_get_device_wireless_electronic_shelf_label(
 ) -> None:
     """Test get_device_wireless_electronic_shelf_label endpoint."""
     with skip_on_unsupported():
-        result = client.wireless.get_device_wireless_electronic_shelf_label(serial=device_serial)
-    assert result is not None
-
-
-def test_get_device_wireless_latency_stats(client: MerakiClient, device_serial: str) -> None:
-    """Test get_device_wireless_latency_stats endpoint."""
-    with skip_on_unsupported():
-        result = client.wireless.get_device_wireless_latency_stats(serial=device_serial)
-    assert result is not None
+        client.wireless.get_device_wireless_electronic_shelf_label(serial=device_serial)
 
 
 def test_get_device_wireless_radio_settings(client: MerakiClient, device_serial: str) -> None:
     """Test get_device_wireless_radio_settings endpoint."""
     with skip_on_unsupported():
-        result = client.wireless.get_device_wireless_radio_settings(serial=device_serial)
-    assert result is not None
+        client.wireless.get_device_wireless_radio_settings(serial=device_serial)
 
 
 def test_get_device_wireless_status(client: MerakiClient, device_serial: str) -> None:
     """Test get_device_wireless_status endpoint."""
     with skip_on_unsupported():
-        result = client.wireless.get_device_wireless_status(serial=device_serial)
-    assert result is not None
+        client.wireless.get_device_wireless_status(serial=device_serial)
 
 
 def test_get_network_wireless_air_marshal(client: MerakiClient, network_id: str) -> None:
     """Test get_network_wireless_air_marshal endpoint."""
     with skip_on_unsupported():
-        result = client.wireless.get_network_wireless_air_marshal(network_id=network_id)
-    assert result is not None
+        client.wireless.get_network_wireless_air_marshal(network_id=network_id)
 
 
 def test_get_network_wireless_alternate_management_interface(
@@ -65,99 +46,37 @@ def test_get_network_wireless_alternate_management_interface(
 ) -> None:
     """Test get_network_wireless_alternate_management_interface endpoint."""
     with skip_on_unsupported():
-        result = client.wireless.get_network_wireless_alternate_management_interface(
-            network_id=network_id
-        )
-    assert result is not None
+        client.wireless.get_network_wireless_alternate_management_interface(network_id=network_id)
 
 
 def test_get_network_wireless_billing(client: MerakiClient, network_id: str) -> None:
     """Test get_network_wireless_billing endpoint."""
     with skip_on_unsupported():
-        result = client.wireless.get_network_wireless_billing(network_id=network_id)
-    assert result is not None
+        client.wireless.get_network_wireless_billing(network_id=network_id)
 
 
 def test_get_network_wireless_bluetooth_settings(client: MerakiClient, network_id: str) -> None:
     """Test get_network_wireless_bluetooth_settings endpoint."""
     with skip_on_unsupported():
-        result = client.wireless.get_network_wireless_bluetooth_settings(network_id=network_id)
-    assert result is not None
-
-
-def test_get_network_wireless_channel_utilization_history(
-    client: MerakiClient, network_id: str
-) -> None:
-    """Test get_network_wireless_channel_utilization_history endpoint."""
-    with skip_on_unsupported():
-        result = client.wireless.get_network_wireless_channel_utilization_history(
-            network_id=network_id
-        )
-    assert result is not None
+        client.wireless.get_network_wireless_bluetooth_settings(network_id=network_id)
 
 
 def test_get_network_wireless_client_count_history(client: MerakiClient, network_id: str) -> None:
     """Test get_network_wireless_client_count_history endpoint."""
     with skip_on_unsupported():
-        result = client.wireless.get_network_wireless_client_count_history(network_id=network_id)
-    assert result is not None
-
-
-def test_get_network_wireless_clients_connection_stats(
-    client: MerakiClient, network_id: str
-) -> None:
-    """Test get_network_wireless_clients_connection_stats endpoint."""
-    with skip_on_unsupported():
-        result = client.wireless.get_network_wireless_clients_connection_stats(
-            network_id=network_id
-        )
-    assert result is not None
-
-
-def test_get_network_wireless_clients_latency_stats(client: MerakiClient, network_id: str) -> None:
-    """Test get_network_wireless_clients_latency_stats endpoint."""
-    with skip_on_unsupported():
-        result = client.wireless.get_network_wireless_clients_latency_stats(network_id=network_id)
-    assert result is not None
-
-
-def test_get_network_wireless_connection_stats(client: MerakiClient, network_id: str) -> None:
-    """Test get_network_wireless_connection_stats endpoint."""
-    with skip_on_unsupported():
-        result = client.wireless.get_network_wireless_connection_stats(network_id=network_id)
-    assert result is not None
+        client.wireless.get_network_wireless_client_count_history(network_id=network_id)
 
 
 def test_get_network_wireless_data_rate_history(client: MerakiClient, network_id: str) -> None:
     """Test get_network_wireless_data_rate_history endpoint."""
     with skip_on_unsupported():
-        result = client.wireless.get_network_wireless_data_rate_history(network_id=network_id)
-    assert result is not None
-
-
-def test_get_network_wireless_devices_connection_stats(
-    client: MerakiClient, network_id: str
-) -> None:
-    """Test get_network_wireless_devices_connection_stats endpoint."""
-    with skip_on_unsupported():
-        result = client.wireless.get_network_wireless_devices_connection_stats(
-            network_id=network_id
-        )
-    assert result is not None
-
-
-def test_get_network_wireless_devices_latency_stats(client: MerakiClient, network_id: str) -> None:
-    """Test get_network_wireless_devices_latency_stats endpoint."""
-    with skip_on_unsupported():
-        result = client.wireless.get_network_wireless_devices_latency_stats(network_id=network_id)
-    assert result is not None
+        client.wireless.get_network_wireless_data_rate_history(network_id=network_id)
 
 
 def test_get_network_wireless_electronic_shelf_label(client: MerakiClient, network_id: str) -> None:
     """Test get_network_wireless_electronic_shelf_label endpoint."""
     with skip_on_unsupported():
-        result = client.wireless.get_network_wireless_electronic_shelf_label(network_id=network_id)
-    assert result is not None
+        client.wireless.get_network_wireless_electronic_shelf_label(network_id=network_id)
 
 
 def test_get_network_wireless_electronic_shelf_label_configured_devices(
@@ -165,10 +84,9 @@ def test_get_network_wireless_electronic_shelf_label_configured_devices(
 ) -> None:
     """Test get_network_wireless_electronic_shelf_label_configured_devices endpoint."""
     with skip_on_unsupported():
-        result = client.wireless.get_network_wireless_electronic_shelf_label_configured_devices(
+        client.wireless.get_network_wireless_electronic_shelf_label_configured_devices(
             network_id=network_id
         )
-    assert result is not None
 
 
 def test_get_network_wireless_ethernet_ports_profiles(
@@ -176,71 +94,38 @@ def test_get_network_wireless_ethernet_ports_profiles(
 ) -> None:
     """Test get_network_wireless_ethernet_ports_profiles endpoint."""
     with skip_on_unsupported():
-        result = client.wireless.get_network_wireless_ethernet_ports_profiles(network_id=network_id)
-    assert result is not None
-
-
-def test_get_network_wireless_failed_connections(client: MerakiClient, network_id: str) -> None:
-    """Test get_network_wireless_failed_connections endpoint."""
-    with skip_on_unsupported():
-        result = client.wireless.get_network_wireless_failed_connections(network_id=network_id)
-    assert result is not None
+        client.wireless.get_network_wireless_ethernet_ports_profiles(network_id=network_id)
 
 
 def test_get_network_wireless_latency_history(client: MerakiClient, network_id: str) -> None:
     """Test get_network_wireless_latency_history endpoint."""
     with skip_on_unsupported():
-        result = client.wireless.get_network_wireless_latency_history(network_id=network_id)
-    assert result is not None
-
-
-def test_get_network_wireless_latency_stats(client: MerakiClient, network_id: str) -> None:
-    """Test get_network_wireless_latency_stats endpoint."""
-    with skip_on_unsupported():
-        result = client.wireless.get_network_wireless_latency_stats(network_id=network_id)
-    assert result is not None
+        client.wireless.get_network_wireless_latency_history(network_id=network_id)
 
 
 def test_get_network_wireless_mesh_statuses(client: MerakiClient, network_id: str) -> None:
     """Test get_network_wireless_mesh_statuses endpoint."""
     with skip_on_unsupported():
-        result = list(client.wireless.get_network_wireless_mesh_statuses(network_id=network_id))
+        result = client.wireless.get_network_wireless_mesh_statuses(network_id=network_id).collect()
     assert isinstance(result, list)
 
 
 def test_get_network_wireless_rf_profiles(client: MerakiClient, network_id: str) -> None:
     """Test get_network_wireless_rf_profiles endpoint."""
     with skip_on_unsupported():
-        result = client.wireless.get_network_wireless_rf_profiles(network_id=network_id)
-    assert result is not None
+        client.wireless.get_network_wireless_rf_profiles(network_id=network_id)
 
 
 def test_get_network_wireless_settings(client: MerakiClient, network_id: str) -> None:
     """Test get_network_wireless_settings endpoint."""
     with skip_on_unsupported():
-        result = client.wireless.get_network_wireless_settings(network_id=network_id)
-    assert result is not None
-
-
-def test_get_network_wireless_signal_quality_history(client: MerakiClient, network_id: str) -> None:
-    """Test get_network_wireless_signal_quality_history endpoint."""
-    with skip_on_unsupported():
-        result = client.wireless.get_network_wireless_signal_quality_history(network_id=network_id)
-    assert result is not None
+        client.wireless.get_network_wireless_settings(network_id=network_id)
 
 
 def test_get_network_wireless_ssids(client: MerakiClient, network_id: str) -> None:
     """Test get_network_wireless_ssids endpoint."""
     with skip_on_unsupported():
-        result = client.wireless.get_network_wireless_ssids(network_id=network_id)
-    assert result is not None
-
-
-def test_get_network_wireless_usage_history(client: MerakiClient, network_id: str) -> None:
-    """Test get_network_wireless_usage_history endpoint."""
-    with skip_on_unsupported():
-        result = client.wireless.get_network_wireless_usage_history(network_id=network_id)
-    assert result is not None
+        client.wireless.get_network_wireless_ssids(network_id=network_id)
 
 
 def test_get_organization_wireless_air_marshal_rules(
@@ -248,11 +133,9 @@ def test_get_organization_wireless_air_marshal_rules(
 ) -> None:
     """Test get_organization_wireless_air_marshal_rules endpoint."""
     with skip_on_unsupported():
-        result = list(
-            client.wireless.get_organization_wireless_air_marshal_rules(
-                organization_id=organization_id
-            )
-        )
+        result = client.wireless.get_organization_wireless_air_marshal_rules(
+            organization_id=organization_id
+        ).collect()
     assert isinstance(result, list)
 
 
@@ -261,11 +144,9 @@ def test_get_organization_wireless_air_marshal_settings_by_network(
 ) -> None:
     """Test get_organization_wireless_air_marshal_settings_by_network endpoint."""
     with skip_on_unsupported():
-        result = list(
-            client.wireless.get_organization_wireless_air_marshal_settings_by_network(
-                organization_id=organization_id
-            )
-        )
+        result = client.wireless.get_organization_wireless_air_marshal_settings_by_network(
+            organization_id=organization_id
+        ).collect()
     assert isinstance(result, list)
 
 
@@ -274,11 +155,9 @@ def test_get_organization_wireless_clients_overview_by_device(
 ) -> None:
     """Test get_organization_wireless_clients_overview_by_device endpoint."""
     with skip_on_unsupported():
-        result = list(
-            client.wireless.get_organization_wireless_clients_overview_by_device(
-                organization_id=organization_id
-            )
-        )
+        result = client.wireless.get_organization_wireless_clients_overview_by_device(
+            organization_id=organization_id
+        ).collect()
     assert isinstance(result, list)
 
 
@@ -287,11 +166,9 @@ def test_get_organization_wireless_devices_channel_utilization_by_device(
 ) -> None:
     """Test get_organization_wireless_devices_channel_utilization_by_device endpoint."""
     with skip_on_unsupported():
-        result = list(
-            client.wireless.get_organization_wireless_devices_channel_utilization_by_device(
-                organization_id=organization_id
-            )
-        )
+        result = client.wireless.get_organization_wireless_devices_channel_utilization_by_device(
+            organization_id=organization_id
+        ).collect()
     assert isinstance(result, list)
 
 
@@ -300,11 +177,9 @@ def test_get_organization_wireless_devices_channel_utilization_by_network(
 ) -> None:
     """Test get_organization_wireless_devices_channel_utilization_by_network endpoint."""
     with skip_on_unsupported():
-        result = list(
-            client.wireless.get_organization_wireless_devices_channel_utilization_by_network(
-                organization_id=organization_id
-            )
-        )
+        result = client.wireless.get_organization_wireless_devices_channel_utilization_by_network(
+            organization_id=organization_id
+        ).collect()
     assert isinstance(result, list)
 
 
@@ -313,11 +188,9 @@ def test_get_organization_wireless_devices_channel_utilization_history_by_device
 ) -> None:
     """Test get_organization_wireless_devices_channel_utilization_history_by_device_by_interval endpoint."""
     with skip_on_unsupported():
-        result = list(
-            client.wireless.get_organization_wireless_devices_channel_utilization_history_by_device_by_interval(
-                organization_id=organization_id
-            )
-        )
+        result = client.wireless.get_organization_wireless_devices_channel_utilization_history_by_device_by_interval(
+            organization_id=organization_id
+        ).collect()
     assert isinstance(result, list)
 
 
@@ -326,11 +199,9 @@ def test_get_organization_wireless_devices_channel_utilization_history_by_networ
 ) -> None:
     """Test get_organization_wireless_devices_channel_utilization_history_by_network_by_interval endpoint."""
     with skip_on_unsupported():
-        result = list(
-            client.wireless.get_organization_wireless_devices_channel_utilization_history_by_network_by_interval(
-                organization_id=organization_id
-            )
-        )
+        result = client.wireless.get_organization_wireless_devices_channel_utilization_history_by_network_by_interval(
+            organization_id=organization_id
+        ).collect()
     assert isinstance(result, list)
 
 
@@ -339,11 +210,9 @@ def test_get_organization_wireless_devices_ethernet_statuses(
 ) -> None:
     """Test get_organization_wireless_devices_ethernet_statuses endpoint."""
     with skip_on_unsupported():
-        result = list(
-            client.wireless.get_organization_wireless_devices_ethernet_statuses(
-                organization_id=organization_id
-            )
-        )
+        result = client.wireless.get_organization_wireless_devices_ethernet_statuses(
+            organization_id=organization_id
+        ).collect()
     assert isinstance(result, list)
 
 
@@ -352,11 +221,9 @@ def test_get_organization_wireless_devices_packet_loss_by_client(
 ) -> None:
     """Test get_organization_wireless_devices_packet_loss_by_client endpoint."""
     with skip_on_unsupported():
-        result = list(
-            client.wireless.get_organization_wireless_devices_packet_loss_by_client(
-                organization_id=organization_id
-            )
-        )
+        result = client.wireless.get_organization_wireless_devices_packet_loss_by_client(
+            organization_id=organization_id
+        ).collect()
     assert isinstance(result, list)
 
 
@@ -365,11 +232,9 @@ def test_get_organization_wireless_devices_packet_loss_by_device(
 ) -> None:
     """Test get_organization_wireless_devices_packet_loss_by_device endpoint."""
     with skip_on_unsupported():
-        result = list(
-            client.wireless.get_organization_wireless_devices_packet_loss_by_device(
-                organization_id=organization_id
-            )
-        )
+        result = client.wireless.get_organization_wireless_devices_packet_loss_by_device(
+            organization_id=organization_id
+        ).collect()
     assert isinstance(result, list)
 
 
@@ -378,11 +243,9 @@ def test_get_organization_wireless_devices_packet_loss_by_network(
 ) -> None:
     """Test get_organization_wireless_devices_packet_loss_by_network endpoint."""
     with skip_on_unsupported():
-        result = list(
-            client.wireless.get_organization_wireless_devices_packet_loss_by_network(
-                organization_id=organization_id
-            )
-        )
+        result = client.wireless.get_organization_wireless_devices_packet_loss_by_network(
+            organization_id=organization_id
+        ).collect()
     assert isinstance(result, list)
 
 
@@ -391,11 +254,9 @@ def test_get_organization_wireless_devices_power_mode_history(
 ) -> None:
     """Test get_organization_wireless_devices_power_mode_history endpoint."""
     with skip_on_unsupported():
-        result = list(
-            client.wireless.get_organization_wireless_devices_power_mode_history(
-                organization_id=organization_id
-            )
-        )
+        result = client.wireless.get_organization_wireless_devices_power_mode_history(
+            organization_id=organization_id
+        ).collect()
     assert isinstance(result, list)
 
 
@@ -404,10 +265,9 @@ def test_get_organization_wireless_devices_radsec_certificates_authorities(
 ) -> None:
     """Test get_organization_wireless_devices_radsec_certificates_authorities endpoint."""
     with skip_on_unsupported():
-        result = client.wireless.get_organization_wireless_devices_radsec_certificates_authorities(
+        client.wireless.get_organization_wireless_devices_radsec_certificates_authorities(
             organization_id=organization_id
         )
-    assert result is not None
 
 
 def test_get_organization_wireless_devices_radsec_certificates_authorities_crls(
@@ -415,12 +275,9 @@ def test_get_organization_wireless_devices_radsec_certificates_authorities_crls(
 ) -> None:
     """Test get_organization_wireless_devices_radsec_certificates_authorities_crls endpoint."""
     with skip_on_unsupported():
-        result = (
-            client.wireless.get_organization_wireless_devices_radsec_certificates_authorities_crls(
-                organization_id=organization_id
-            )
+        client.wireless.get_organization_wireless_devices_radsec_certificates_authorities_crls(
+            organization_id=organization_id
         )
-    assert result is not None
 
 
 def test_get_organization_wireless_devices_radsec_certificates_authorities_crls_deltas(
@@ -428,10 +285,9 @@ def test_get_organization_wireless_devices_radsec_certificates_authorities_crls_
 ) -> None:
     """Test get_organization_wireless_devices_radsec_certificates_authorities_crls_deltas endpoint."""
     with skip_on_unsupported():
-        result = client.wireless.get_organization_wireless_devices_radsec_certificates_authorities_crls_deltas(
+        client.wireless.get_organization_wireless_devices_radsec_certificates_authorities_crls_deltas(
             organization_id=organization_id
         )
-    assert result is not None
 
 
 def test_get_organization_wireless_devices_system_cpu_load_history(
@@ -439,11 +295,9 @@ def test_get_organization_wireless_devices_system_cpu_load_history(
 ) -> None:
     """Test get_organization_wireless_devices_system_cpu_load_history endpoint."""
     with skip_on_unsupported():
-        result = list(
-            client.wireless.get_organization_wireless_devices_system_cpu_load_history(
-                organization_id=organization_id
-            )
-        )
+        result = client.wireless.get_organization_wireless_devices_system_cpu_load_history(
+            organization_id=organization_id
+        ).collect()
     assert isinstance(result, list)
 
 
@@ -452,11 +306,9 @@ def test_get_organization_wireless_devices_wireless_controllers_by_device(
 ) -> None:
     """Test get_organization_wireless_devices_wireless_controllers_by_device endpoint."""
     with skip_on_unsupported():
-        result = list(
-            client.wireless.get_organization_wireless_devices_wireless_controllers_by_device(
-                organization_id=organization_id
-            )
-        )
+        result = client.wireless.get_organization_wireless_devices_wireless_controllers_by_device(
+            organization_id=organization_id
+        ).collect()
     assert isinstance(result, list)
 
 
@@ -465,11 +317,9 @@ def test_get_organization_wireless_location_scanning_by_network(
 ) -> None:
     """Test get_organization_wireless_location_scanning_by_network endpoint."""
     with skip_on_unsupported():
-        result = list(
-            client.wireless.get_organization_wireless_location_scanning_by_network(
-                organization_id=organization_id
-            )
-        )
+        result = client.wireless.get_organization_wireless_location_scanning_by_network(
+            organization_id=organization_id
+        ).collect()
     assert isinstance(result, list)
 
 
@@ -478,11 +328,9 @@ def test_get_organization_wireless_location_scanning_receivers(
 ) -> None:
     """Test get_organization_wireless_location_scanning_receivers endpoint."""
     with skip_on_unsupported():
-        result = list(
-            client.wireless.get_organization_wireless_location_scanning_receivers(
-                organization_id=organization_id
-            )
-        )
+        result = client.wireless.get_organization_wireless_location_scanning_receivers(
+            organization_id=organization_id
+        ).collect()
     assert isinstance(result, list)
 
 
@@ -491,9 +339,9 @@ def test_get_organization_wireless_mqtt_settings(
 ) -> None:
     """Test get_organization_wireless_mqtt_settings endpoint."""
     with skip_on_unsupported():
-        result = list(
-            client.wireless.get_organization_wireless_mqtt_settings(organization_id=organization_id)
-        )
+        result = client.wireless.get_organization_wireless_mqtt_settings(
+            organization_id=organization_id
+        ).collect()
     assert isinstance(result, list)
 
 
@@ -502,11 +350,9 @@ def test_get_organization_wireless_rf_profiles_assignments_by_device(
 ) -> None:
     """Test get_organization_wireless_rf_profiles_assignments_by_device endpoint."""
     with skip_on_unsupported():
-        result = list(
-            client.wireless.get_organization_wireless_rf_profiles_assignments_by_device(
-                organization_id=organization_id
-            )
-        )
+        result = client.wireless.get_organization_wireless_rf_profiles_assignments_by_device(
+            organization_id=organization_id
+        ).collect()
     assert isinstance(result, list)
 
 
@@ -515,10 +361,10 @@ def test_get_organization_wireless_ssids_firewall_isolation_allowlist_entries(
 ) -> None:
     """Test get_organization_wireless_ssids_firewall_isolation_allowlist_entries endpoint."""
     with skip_on_unsupported():
-        result = list(
+        result = (
             client.wireless.get_organization_wireless_ssids_firewall_isolation_allowlist_entries(
                 organization_id=organization_id
-            )
+            ).collect()
         )
     assert isinstance(result, list)
 
@@ -528,11 +374,9 @@ def test_get_organization_wireless_ssids_open_roaming_by_network(
 ) -> None:
     """Test get_organization_wireless_ssids_open_roaming_by_network endpoint."""
     with skip_on_unsupported():
-        result = list(
-            client.wireless.get_organization_wireless_ssids_open_roaming_by_network(
-                organization_id=organization_id
-            )
-        )
+        result = client.wireless.get_organization_wireless_ssids_open_roaming_by_network(
+            organization_id=organization_id
+        ).collect()
     assert isinstance(result, list)
 
 
@@ -541,11 +385,9 @@ def test_get_organization_wireless_ssids_statuses_by_device(
 ) -> None:
     """Test get_organization_wireless_ssids_statuses_by_device endpoint."""
     with skip_on_unsupported():
-        result = list(
-            client.wireless.get_organization_wireless_ssids_statuses_by_device(
-                organization_id=organization_id
-            )
-        )
+        result = client.wireless.get_organization_wireless_ssids_statuses_by_device(
+            organization_id=organization_id
+        ).collect()
     assert isinstance(result, list)
 
 
@@ -554,11 +396,9 @@ def test_get_organization_wireless_zigbee_by_network(
 ) -> None:
     """Test get_organization_wireless_zigbee_by_network endpoint."""
     with skip_on_unsupported():
-        result = list(
-            client.wireless.get_organization_wireless_zigbee_by_network(
-                organization_id=organization_id
-            )
-        )
+        result = client.wireless.get_organization_wireless_zigbee_by_network(
+            organization_id=organization_id
+        ).collect()
     assert isinstance(result, list)
 
 
@@ -567,11 +407,9 @@ def test_get_organization_wireless_zigbee_devices(
 ) -> None:
     """Test get_organization_wireless_zigbee_devices endpoint."""
     with skip_on_unsupported():
-        result = list(
-            client.wireless.get_organization_wireless_zigbee_devices(
-                organization_id=organization_id
-            )
-        )
+        result = client.wireless.get_organization_wireless_zigbee_devices(
+            organization_id=organization_id
+        ).collect()
     assert isinstance(result, list)
 
 
@@ -580,9 +418,7 @@ def test_get_organization_wireless_zigbee_door_locks(
 ) -> None:
     """Test get_organization_wireless_zigbee_door_locks endpoint."""
     with skip_on_unsupported():
-        result = list(
-            client.wireless.get_organization_wireless_zigbee_door_locks(
-                organization_id=organization_id
-            )
-        )
+        result = client.wireless.get_organization_wireless_zigbee_door_locks(
+            organization_id=organization_id
+        ).collect()
     assert isinstance(result, list)

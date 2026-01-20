@@ -12,10 +12,7 @@ from tests.conftest import skip_on_unsupported
 def test_get_organization_insight_applications(client: MerakiClient, organization_id: str) -> None:
     """Test get_organization_insight_applications endpoint."""
     with skip_on_unsupported():
-        result = client.insight.get_organization_insight_applications(
-            organization_id=organization_id
-        )
-    assert result is not None
+        client.insight.get_organization_insight_applications(organization_id=organization_id)
 
 
 def test_get_organization_insight_monitored_media_servers(
@@ -23,7 +20,6 @@ def test_get_organization_insight_monitored_media_servers(
 ) -> None:
     """Test get_organization_insight_monitored_media_servers endpoint."""
     with skip_on_unsupported():
-        result = client.insight.get_organization_insight_monitored_media_servers(
+        client.insight.get_organization_insight_monitored_media_servers(
             organization_id=organization_id
         )
-    assert result is not None

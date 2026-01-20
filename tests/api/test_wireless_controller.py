@@ -14,11 +14,9 @@ def test_get_organization_wireless_controller_availabilities_change_history(
 ) -> None:
     """Test get_organization_wireless_controller_availabilities_change_history endpoint."""
     with skip_on_unsupported():
-        result = list(
-            client.wireless_controller.get_organization_wireless_controller_availabilities_change_history(
-                organization_id=organization_id
-            )
-        )
+        result = client.wireless_controller.get_organization_wireless_controller_availabilities_change_history(
+            organization_id=organization_id
+        ).collect()
     assert isinstance(result, list)
 
 
@@ -27,11 +25,9 @@ def test_get_organization_wireless_controller_clients_overview_history_by_device
 ) -> None:
     """Test get_organization_wireless_controller_clients_overview_history_by_device_by_interval endpoint."""
     with skip_on_unsupported():
-        result = list(
-            client.wireless_controller.get_organization_wireless_controller_clients_overview_history_by_device_by_interval(
-                organization_id=organization_id
-            )
-        )
+        result = client.wireless_controller.get_organization_wireless_controller_clients_overview_history_by_device_by_interval(
+            organization_id=organization_id
+        ).collect()
     assert isinstance(result, list)
 
 
@@ -40,11 +36,9 @@ def test_get_organization_wireless_controller_connections(
 ) -> None:
     """Test get_organization_wireless_controller_connections endpoint."""
     with skip_on_unsupported():
-        result = list(
-            client.wireless_controller.get_organization_wireless_controller_connections(
-                organization_id=organization_id
-            )
-        )
+        result = client.wireless_controller.get_organization_wireless_controller_connections(
+            organization_id=organization_id
+        ).collect()
     assert isinstance(result, list)
 
 
@@ -53,11 +47,9 @@ def test_get_organization_wireless_controller_devices_interfaces_l2_by_device(
 ) -> None:
     """Test get_organization_wireless_controller_devices_interfaces_l2_by_device endpoint."""
     with skip_on_unsupported():
-        result = list(
-            client.wireless_controller.get_organization_wireless_controller_devices_interfaces_l2_by_device(
-                organization_id=organization_id
-            )
-        )
+        result = client.wireless_controller.get_organization_wireless_controller_devices_interfaces_l2_by_device(
+            organization_id=organization_id
+        ).collect()
     assert isinstance(result, list)
 
 
@@ -66,11 +58,9 @@ def test_get_organization_wireless_controller_devices_interfaces_l2_statuses_cha
 ) -> None:
     """Test get_organization_wireless_controller_devices_interfaces_l2_statuses_change_history_by_device endpoint."""
     with skip_on_unsupported():
-        result = list(
-            client.wireless_controller.get_organization_wireless_controller_devices_interfaces_l2_statuses_change_history_by_device(
-                organization_id=organization_id
-            )
-        )
+        result = client.wireless_controller.get_organization_wireless_controller_devices_interfaces_l2_statuses_change_history_by_device(
+            organization_id=organization_id
+        ).collect()
     assert isinstance(result, list)
 
 
@@ -79,11 +69,9 @@ def test_get_organization_wireless_controller_devices_interfaces_l2_usage_histor
 ) -> None:
     """Test get_organization_wireless_controller_devices_interfaces_l2_usage_history_by_interval endpoint."""
     with skip_on_unsupported():
-        result = list(
-            client.wireless_controller.get_organization_wireless_controller_devices_interfaces_l2_usage_history_by_interval(
-                organization_id=organization_id
-            )
-        )
+        result = client.wireless_controller.get_organization_wireless_controller_devices_interfaces_l2_usage_history_by_interval(
+            organization_id=organization_id
+        ).collect()
     assert isinstance(result, list)
 
 
@@ -92,11 +80,9 @@ def test_get_organization_wireless_controller_devices_interfaces_l3_by_device(
 ) -> None:
     """Test get_organization_wireless_controller_devices_interfaces_l3_by_device endpoint."""
     with skip_on_unsupported():
-        result = list(
-            client.wireless_controller.get_organization_wireless_controller_devices_interfaces_l3_by_device(
-                organization_id=organization_id
-            )
-        )
+        result = client.wireless_controller.get_organization_wireless_controller_devices_interfaces_l3_by_device(
+            organization_id=organization_id
+        ).collect()
     assert isinstance(result, list)
 
 
@@ -105,11 +91,9 @@ def test_get_organization_wireless_controller_devices_interfaces_l3_statuses_cha
 ) -> None:
     """Test get_organization_wireless_controller_devices_interfaces_l3_statuses_change_history_by_device endpoint."""
     with skip_on_unsupported():
-        result = list(
-            client.wireless_controller.get_organization_wireless_controller_devices_interfaces_l3_statuses_change_history_by_device(
-                organization_id=organization_id
-            )
-        )
+        result = client.wireless_controller.get_organization_wireless_controller_devices_interfaces_l3_statuses_change_history_by_device(
+            organization_id=organization_id
+        ).collect()
     assert isinstance(result, list)
 
 
@@ -118,11 +102,9 @@ def test_get_organization_wireless_controller_devices_interfaces_l3_usage_histor
 ) -> None:
     """Test get_organization_wireless_controller_devices_interfaces_l3_usage_history_by_interval endpoint."""
     with skip_on_unsupported():
-        result = list(
-            client.wireless_controller.get_organization_wireless_controller_devices_interfaces_l3_usage_history_by_interval(
-                organization_id=organization_id
-            )
-        )
+        result = client.wireless_controller.get_organization_wireless_controller_devices_interfaces_l3_usage_history_by_interval(
+            organization_id=organization_id
+        ).collect()
     assert isinstance(result, list)
 
 
@@ -131,11 +113,9 @@ def test_get_organization_wireless_controller_devices_interfaces_packets_overvie
 ) -> None:
     """Test get_organization_wireless_controller_devices_interfaces_packets_overview_by_device endpoint."""
     with skip_on_unsupported():
-        result = list(
-            client.wireless_controller.get_organization_wireless_controller_devices_interfaces_packets_overview_by_device(
-                organization_id=organization_id
-            )
-        )
+        result = client.wireless_controller.get_organization_wireless_controller_devices_interfaces_packets_overview_by_device(
+            organization_id=organization_id
+        ).collect()
     assert isinstance(result, list)
 
 
@@ -144,11 +124,9 @@ def test_get_organization_wireless_controller_devices_interfaces_usage_history_b
 ) -> None:
     """Test get_organization_wireless_controller_devices_interfaces_usage_history_by_interval endpoint."""
     with skip_on_unsupported():
-        result = list(
-            client.wireless_controller.get_organization_wireless_controller_devices_interfaces_usage_history_by_interval(
-                organization_id=organization_id
-            )
-        )
+        result = client.wireless_controller.get_organization_wireless_controller_devices_interfaces_usage_history_by_interval(
+            organization_id=organization_id
+        ).collect()
     assert isinstance(result, list)
 
 
@@ -157,11 +135,9 @@ def test_get_organization_wireless_controller_devices_redundancy_failover_histor
 ) -> None:
     """Test get_organization_wireless_controller_devices_redundancy_failover_history endpoint."""
     with skip_on_unsupported():
-        result = list(
-            client.wireless_controller.get_organization_wireless_controller_devices_redundancy_failover_history(
-                organization_id=organization_id
-            )
-        )
+        result = client.wireless_controller.get_organization_wireless_controller_devices_redundancy_failover_history(
+            organization_id=organization_id
+        ).collect()
     assert isinstance(result, list)
 
 
@@ -170,11 +146,9 @@ def test_get_organization_wireless_controller_devices_redundancy_statuses(
 ) -> None:
     """Test get_organization_wireless_controller_devices_redundancy_statuses endpoint."""
     with skip_on_unsupported():
-        result = list(
-            client.wireless_controller.get_organization_wireless_controller_devices_redundancy_statuses(
-                organization_id=organization_id
-            )
-        )
+        result = client.wireless_controller.get_organization_wireless_controller_devices_redundancy_statuses(
+            organization_id=organization_id
+        ).collect()
     assert isinstance(result, list)
 
 
@@ -183,11 +157,9 @@ def test_get_organization_wireless_controller_devices_system_utilization_history
 ) -> None:
     """Test get_organization_wireless_controller_devices_system_utilization_history_by_interval endpoint."""
     with skip_on_unsupported():
-        result = list(
-            client.wireless_controller.get_organization_wireless_controller_devices_system_utilization_history_by_interval(
-                organization_id=organization_id
-            )
-        )
+        result = client.wireless_controller.get_organization_wireless_controller_devices_system_utilization_history_by_interval(
+            organization_id=organization_id
+        ).collect()
     assert isinstance(result, list)
 
 
@@ -196,9 +168,7 @@ def test_get_organization_wireless_controller_overview_by_device(
 ) -> None:
     """Test get_organization_wireless_controller_overview_by_device endpoint."""
     with skip_on_unsupported():
-        result = list(
-            client.wireless_controller.get_organization_wireless_controller_overview_by_device(
-                organization_id=organization_id
-            )
-        )
+        result = client.wireless_controller.get_organization_wireless_controller_overview_by_device(
+            organization_id=organization_id
+        ).collect()
     assert isinstance(result, list)

@@ -339,7 +339,7 @@ def generate_library(  # noqa: PLR0915
     log.info(f"Formatted generated code in {elapsed:.2f}s")
 
     t_start = time.perf_counter()
-    generate_tests(spec)
+    generate_tests(spec, skip_tests=spec_overrides.skip_tests)
     elapsed = time.perf_counter() - t_start
     log.info(f"Generated tests in {elapsed:.2f}s")
 

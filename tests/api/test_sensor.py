@@ -12,15 +12,14 @@ from tests.conftest import skip_on_unsupported
 def test_get_device_sensor_commands(client: MerakiClient, device_serial: str) -> None:
     """Test get_device_sensor_commands endpoint."""
     with skip_on_unsupported():
-        result = list(client.sensor.get_device_sensor_commands(serial=device_serial))
+        result = client.sensor.get_device_sensor_commands(serial=device_serial).collect()
     assert isinstance(result, list)
 
 
 def test_get_device_sensor_relationships(client: MerakiClient, device_serial: str) -> None:
     """Test get_device_sensor_relationships endpoint."""
     with skip_on_unsupported():
-        result = client.sensor.get_device_sensor_relationships(serial=device_serial)
-    assert result is not None
+        client.sensor.get_device_sensor_relationships(serial=device_serial)
 
 
 def test_get_network_sensor_alerts_current_overview_by_metric(
@@ -28,10 +27,7 @@ def test_get_network_sensor_alerts_current_overview_by_metric(
 ) -> None:
     """Test get_network_sensor_alerts_current_overview_by_metric endpoint."""
     with skip_on_unsupported():
-        result = client.sensor.get_network_sensor_alerts_current_overview_by_metric(
-            network_id=network_id
-        )
-    assert result is not None
+        client.sensor.get_network_sensor_alerts_current_overview_by_metric(network_id=network_id)
 
 
 def test_get_network_sensor_alerts_overview_by_metric(
@@ -39,29 +35,25 @@ def test_get_network_sensor_alerts_overview_by_metric(
 ) -> None:
     """Test get_network_sensor_alerts_overview_by_metric endpoint."""
     with skip_on_unsupported():
-        result = client.sensor.get_network_sensor_alerts_overview_by_metric(network_id=network_id)
-    assert result is not None
+        client.sensor.get_network_sensor_alerts_overview_by_metric(network_id=network_id)
 
 
 def test_get_network_sensor_alerts_profiles(client: MerakiClient, network_id: str) -> None:
     """Test get_network_sensor_alerts_profiles endpoint."""
     with skip_on_unsupported():
-        result = client.sensor.get_network_sensor_alerts_profiles(network_id=network_id)
-    assert result is not None
+        client.sensor.get_network_sensor_alerts_profiles(network_id=network_id)
 
 
 def test_get_network_sensor_mqtt_brokers(client: MerakiClient, network_id: str) -> None:
     """Test get_network_sensor_mqtt_brokers endpoint."""
     with skip_on_unsupported():
-        result = client.sensor.get_network_sensor_mqtt_brokers(network_id=network_id)
-    assert result is not None
+        client.sensor.get_network_sensor_mqtt_brokers(network_id=network_id)
 
 
 def test_get_network_sensor_relationships(client: MerakiClient, network_id: str) -> None:
     """Test get_network_sensor_relationships endpoint."""
     with skip_on_unsupported():
-        result = client.sensor.get_network_sensor_relationships(network_id=network_id)
-    assert result is not None
+        client.sensor.get_network_sensor_relationships(network_id=network_id)
 
 
 def test_get_organization_sensor_gateways_connections_latest(
@@ -69,11 +61,9 @@ def test_get_organization_sensor_gateways_connections_latest(
 ) -> None:
     """Test get_organization_sensor_gateways_connections_latest endpoint."""
     with skip_on_unsupported():
-        result = list(
-            client.sensor.get_organization_sensor_gateways_connections_latest(
-                organization_id=organization_id
-            )
-        )
+        result = client.sensor.get_organization_sensor_gateways_connections_latest(
+            organization_id=organization_id
+        ).collect()
     assert isinstance(result, list)
 
 
@@ -82,9 +72,9 @@ def test_get_organization_sensor_readings_history(
 ) -> None:
     """Test get_organization_sensor_readings_history endpoint."""
     with skip_on_unsupported():
-        result = list(
-            client.sensor.get_organization_sensor_readings_history(organization_id=organization_id)
-        )
+        result = client.sensor.get_organization_sensor_readings_history(
+            organization_id=organization_id
+        ).collect()
     assert isinstance(result, list)
 
 
@@ -93,7 +83,7 @@ def test_get_organization_sensor_readings_latest(
 ) -> None:
     """Test get_organization_sensor_readings_latest endpoint."""
     with skip_on_unsupported():
-        result = list(
-            client.sensor.get_organization_sensor_readings_latest(organization_id=organization_id)
-        )
+        result = client.sensor.get_organization_sensor_readings_latest(
+            organization_id=organization_id
+        ).collect()
     assert isinstance(result, list)

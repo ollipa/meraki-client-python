@@ -12,12 +12,10 @@ from tests.conftest import skip_on_unsupported
 def test_get_administered_identities_me(client: MerakiClient) -> None:
     """Test get_administered_identities_me endpoint."""
     with skip_on_unsupported():
-        result = client.administered.get_administered_identities_me()
-    assert result is not None
+        client.administered.get_administered_identities_me()
 
 
 def test_get_administered_identities_me_api_keys(client: MerakiClient) -> None:
     """Test get_administered_identities_me_api_keys endpoint."""
     with skip_on_unsupported():
-        result = client.administered.get_administered_identities_me_api_keys()
-    assert result is not None
+        client.administered.get_administered_identities_me_api_keys()

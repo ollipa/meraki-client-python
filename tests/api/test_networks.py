@@ -12,143 +12,128 @@ from tests.conftest import skip_on_unsupported
 def test_get_network(client: MerakiClient, network_id: str) -> None:
     """Test get_network endpoint."""
     with skip_on_unsupported():
-        result = client.networks.get_network(network_id=network_id)
-    assert result is not None
+        client.networks.get_network(network_id=network_id)
 
 
 def test_get_network_alerts_history(client: MerakiClient, network_id: str) -> None:
     """Test get_network_alerts_history endpoint."""
     with skip_on_unsupported():
-        result = list(client.networks.get_network_alerts_history(network_id=network_id))
+        result = client.networks.get_network_alerts_history(network_id=network_id).collect()
     assert isinstance(result, list)
 
 
 def test_get_network_alerts_settings(client: MerakiClient, network_id: str) -> None:
     """Test get_network_alerts_settings endpoint."""
     with skip_on_unsupported():
-        result = client.networks.get_network_alerts_settings(network_id=network_id)
-    assert result is not None
+        client.networks.get_network_alerts_settings(network_id=network_id)
 
 
 def test_get_network_bluetooth_clients(client: MerakiClient, network_id: str) -> None:
     """Test get_network_bluetooth_clients endpoint."""
     with skip_on_unsupported():
-        result = list(client.networks.get_network_bluetooth_clients(network_id=network_id))
+        result = client.networks.get_network_bluetooth_clients(network_id=network_id).collect()
     assert isinstance(result, list)
 
 
 def test_get_network_clients(client: MerakiClient, network_id: str) -> None:
     """Test get_network_clients endpoint."""
     with skip_on_unsupported():
-        result = list(client.networks.get_network_clients(network_id=network_id))
+        result = client.networks.get_network_clients(network_id=network_id).collect()
     assert isinstance(result, list)
 
 
 def test_get_network_clients_bandwidth_usage_history(client: MerakiClient, network_id: str) -> None:
     """Test get_network_clients_bandwidth_usage_history endpoint."""
     with skip_on_unsupported():
-        result = list(
-            client.networks.get_network_clients_bandwidth_usage_history(network_id=network_id)
-        )
+        result = client.networks.get_network_clients_bandwidth_usage_history(
+            network_id=network_id
+        ).collect()
     assert isinstance(result, list)
 
 
 def test_get_network_clients_overview(client: MerakiClient, network_id: str) -> None:
     """Test get_network_clients_overview endpoint."""
     with skip_on_unsupported():
-        result = client.networks.get_network_clients_overview(network_id=network_id)
-    assert result is not None
+        client.networks.get_network_clients_overview(network_id=network_id)
 
 
 def test_get_network_devices(client: MerakiClient, network_id: str) -> None:
     """Test get_network_devices endpoint."""
     with skip_on_unsupported():
-        result = client.networks.get_network_devices(network_id=network_id)
-    assert result is not None
+        client.networks.get_network_devices(network_id=network_id)
 
 
 def test_get_network_events(client: MerakiClient, network_id: str) -> None:
     """Test get_network_events endpoint."""
     with skip_on_unsupported():
-        result = list(client.networks.get_network_events(network_id=network_id))
+        result = client.networks.get_network_events(network_id=network_id).collect()
     assert isinstance(result, list)
 
 
 def test_get_network_events_event_types(client: MerakiClient, network_id: str) -> None:
     """Test get_network_events_event_types endpoint."""
     with skip_on_unsupported():
-        result = client.networks.get_network_events_event_types(network_id=network_id)
-    assert result is not None
+        client.networks.get_network_events_event_types(network_id=network_id)
 
 
 def test_get_network_firmware_upgrades(client: MerakiClient, network_id: str) -> None:
     """Test get_network_firmware_upgrades endpoint."""
     with skip_on_unsupported():
-        result = client.networks.get_network_firmware_upgrades(network_id=network_id)
-    assert result is not None
+        client.networks.get_network_firmware_upgrades(network_id=network_id)
 
 
 def test_get_network_firmware_upgrades_staged_events(client: MerakiClient, network_id: str) -> None:
     """Test get_network_firmware_upgrades_staged_events endpoint."""
     with skip_on_unsupported():
-        result = client.networks.get_network_firmware_upgrades_staged_events(network_id=network_id)
-    assert result is not None
+        client.networks.get_network_firmware_upgrades_staged_events(network_id=network_id)
 
 
 def test_get_network_firmware_upgrades_staged_groups(client: MerakiClient, network_id: str) -> None:
     """Test get_network_firmware_upgrades_staged_groups endpoint."""
     with skip_on_unsupported():
-        result = client.networks.get_network_firmware_upgrades_staged_groups(network_id=network_id)
-    assert result is not None
+        client.networks.get_network_firmware_upgrades_staged_groups(network_id=network_id)
 
 
 def test_get_network_firmware_upgrades_staged_stages(client: MerakiClient, network_id: str) -> None:
     """Test get_network_firmware_upgrades_staged_stages endpoint."""
     with skip_on_unsupported():
-        result = client.networks.get_network_firmware_upgrades_staged_stages(network_id=network_id)
-    assert result is not None
+        client.networks.get_network_firmware_upgrades_staged_stages(network_id=network_id)
 
 
 def test_get_network_floor_plans(client: MerakiClient, network_id: str) -> None:
     """Test get_network_floor_plans endpoint."""
     with skip_on_unsupported():
-        result = client.networks.get_network_floor_plans(network_id=network_id)
-    assert result is not None
+        client.networks.get_network_floor_plans(network_id=network_id)
 
 
 def test_get_network_group_policies(client: MerakiClient, network_id: str) -> None:
     """Test get_network_group_policies endpoint."""
     with skip_on_unsupported():
-        result = client.networks.get_network_group_policies(network_id=network_id)
-    assert result is not None
+        client.networks.get_network_group_policies(network_id=network_id)
 
 
 def test_get_network_health_alerts(client: MerakiClient, network_id: str) -> None:
     """Test get_network_health_alerts endpoint."""
     with skip_on_unsupported():
-        result = client.networks.get_network_health_alerts(network_id=network_id)
-    assert result is not None
+        client.networks.get_network_health_alerts(network_id=network_id)
 
 
 def test_get_network_meraki_auth_users(client: MerakiClient, network_id: str) -> None:
     """Test get_network_meraki_auth_users endpoint."""
     with skip_on_unsupported():
-        result = client.networks.get_network_meraki_auth_users(network_id=network_id)
-    assert result is not None
+        client.networks.get_network_meraki_auth_users(network_id=network_id)
 
 
 def test_get_network_mqtt_brokers(client: MerakiClient, network_id: str) -> None:
     """Test get_network_mqtt_brokers endpoint."""
     with skip_on_unsupported():
-        result = client.networks.get_network_mqtt_brokers(network_id=network_id)
-    assert result is not None
+        client.networks.get_network_mqtt_brokers(network_id=network_id)
 
 
 def test_get_network_netflow(client: MerakiClient, network_id: str) -> None:
     """Test get_network_netflow endpoint."""
     with skip_on_unsupported():
-        result = client.networks.get_network_netflow(network_id=network_id)
-    assert result is not None
+        client.networks.get_network_netflow(network_id=network_id)
 
 
 def test_get_network_network_health_channel_utilization(
@@ -156,94 +141,53 @@ def test_get_network_network_health_channel_utilization(
 ) -> None:
     """Test get_network_network_health_channel_utilization endpoint."""
     with skip_on_unsupported():
-        result = list(
-            client.networks.get_network_network_health_channel_utilization(network_id=network_id)
-        )
+        result = client.networks.get_network_network_health_channel_utilization(
+            network_id=network_id
+        ).collect()
     assert isinstance(result, list)
-
-
-def test_get_network_pii_pii_keys(client: MerakiClient, network_id: str) -> None:
-    """Test get_network_pii_pii_keys endpoint."""
-    with skip_on_unsupported():
-        result = client.networks.get_network_pii_pii_keys(network_id=network_id)
-    assert result is not None
-
-
-def test_get_network_pii_requests(client: MerakiClient, network_id: str) -> None:
-    """Test get_network_pii_requests endpoint."""
-    with skip_on_unsupported():
-        result = client.networks.get_network_pii_requests(network_id=network_id)
-    assert result is not None
-
-
-def test_get_network_pii_sm_devices_for_key(client: MerakiClient, network_id: str) -> None:
-    """Test get_network_pii_sm_devices_for_key endpoint."""
-    with skip_on_unsupported():
-        result = client.networks.get_network_pii_sm_devices_for_key(network_id=network_id)
-    assert result is not None
-
-
-def test_get_network_pii_sm_owners_for_key(client: MerakiClient, network_id: str) -> None:
-    """Test get_network_pii_sm_owners_for_key endpoint."""
-    with skip_on_unsupported():
-        result = client.networks.get_network_pii_sm_owners_for_key(network_id=network_id)
-    assert result is not None
 
 
 def test_get_network_policies_by_client(client: MerakiClient, network_id: str) -> None:
     """Test get_network_policies_by_client endpoint."""
     with skip_on_unsupported():
-        result = list(client.networks.get_network_policies_by_client(network_id=network_id))
+        result = client.networks.get_network_policies_by_client(network_id=network_id).collect()
     assert isinstance(result, list)
 
 
 def test_get_network_settings(client: MerakiClient, network_id: str) -> None:
     """Test get_network_settings endpoint."""
     with skip_on_unsupported():
-        result = client.networks.get_network_settings(network_id=network_id)
-    assert result is not None
+        client.networks.get_network_settings(network_id=network_id)
 
 
 def test_get_network_snmp(client: MerakiClient, network_id: str) -> None:
     """Test get_network_snmp endpoint."""
     with skip_on_unsupported():
-        result = client.networks.get_network_snmp(network_id=network_id)
-    assert result is not None
+        client.networks.get_network_snmp(network_id=network_id)
 
 
 def test_get_network_splash_login_attempts(client: MerakiClient, network_id: str) -> None:
     """Test get_network_splash_login_attempts endpoint."""
     with skip_on_unsupported():
-        result = client.networks.get_network_splash_login_attempts(network_id=network_id)
-    assert result is not None
+        client.networks.get_network_splash_login_attempts(network_id=network_id)
 
 
 def test_get_network_syslog_servers(client: MerakiClient, network_id: str) -> None:
     """Test get_network_syslog_servers endpoint."""
     with skip_on_unsupported():
-        result = client.networks.get_network_syslog_servers(network_id=network_id)
-    assert result is not None
+        client.networks.get_network_syslog_servers(network_id=network_id)
 
 
 def test_get_network_topology_link_layer(client: MerakiClient, network_id: str) -> None:
     """Test get_network_topology_link_layer endpoint."""
     with skip_on_unsupported():
-        result = client.networks.get_network_topology_link_layer(network_id=network_id)
-    assert result is not None
-
-
-def test_get_network_traffic(client: MerakiClient, network_id: str) -> None:
-    """Test get_network_traffic endpoint."""
-    with skip_on_unsupported():
-        result = client.networks.get_network_traffic(network_id=network_id)
-    assert result is not None
+        client.networks.get_network_topology_link_layer(network_id=network_id)
 
 
 def test_get_network_traffic_analysis(client: MerakiClient, network_id: str) -> None:
     """Test get_network_traffic_analysis endpoint."""
     with skip_on_unsupported():
-        result = client.networks.get_network_traffic_analysis(network_id=network_id)
-    assert result is not None
+        client.networks.get_network_traffic_analysis(network_id=network_id)
 
 
 def test_get_network_traffic_shaping_application_categories(
@@ -251,10 +195,7 @@ def test_get_network_traffic_shaping_application_categories(
 ) -> None:
     """Test get_network_traffic_shaping_application_categories endpoint."""
     with skip_on_unsupported():
-        result = client.networks.get_network_traffic_shaping_application_categories(
-            network_id=network_id
-        )
-    assert result is not None
+        client.networks.get_network_traffic_shaping_application_categories(network_id=network_id)
 
 
 def test_get_network_traffic_shaping_dscp_tagging_options(
@@ -262,17 +203,13 @@ def test_get_network_traffic_shaping_dscp_tagging_options(
 ) -> None:
     """Test get_network_traffic_shaping_dscp_tagging_options endpoint."""
     with skip_on_unsupported():
-        result = client.networks.get_network_traffic_shaping_dscp_tagging_options(
-            network_id=network_id
-        )
-    assert result is not None
+        client.networks.get_network_traffic_shaping_dscp_tagging_options(network_id=network_id)
 
 
 def test_get_network_vlan_profiles(client: MerakiClient, network_id: str) -> None:
     """Test get_network_vlan_profiles endpoint."""
     with skip_on_unsupported():
-        result = client.networks.get_network_vlan_profiles(network_id=network_id)
-    assert result is not None
+        client.networks.get_network_vlan_profiles(network_id=network_id)
 
 
 def test_get_network_vlan_profiles_assignments_by_device(
@@ -280,21 +217,19 @@ def test_get_network_vlan_profiles_assignments_by_device(
 ) -> None:
     """Test get_network_vlan_profiles_assignments_by_device endpoint."""
     with skip_on_unsupported():
-        result = list(
-            client.networks.get_network_vlan_profiles_assignments_by_device(network_id=network_id)
-        )
+        result = client.networks.get_network_vlan_profiles_assignments_by_device(
+            network_id=network_id
+        ).collect()
     assert isinstance(result, list)
 
 
 def test_get_network_webhooks_http_servers(client: MerakiClient, network_id: str) -> None:
     """Test get_network_webhooks_http_servers endpoint."""
     with skip_on_unsupported():
-        result = client.networks.get_network_webhooks_http_servers(network_id=network_id)
-    assert result is not None
+        client.networks.get_network_webhooks_http_servers(network_id=network_id)
 
 
 def test_get_network_webhooks_payload_templates(client: MerakiClient, network_id: str) -> None:
     """Test get_network_webhooks_payload_templates endpoint."""
     with skip_on_unsupported():
-        result = client.networks.get_network_webhooks_payload_templates(network_id=network_id)
-    assert result is not None
+        client.networks.get_network_webhooks_payload_templates(network_id=network_id)

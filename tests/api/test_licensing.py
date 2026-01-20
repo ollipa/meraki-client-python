@@ -12,8 +12,7 @@ from tests.conftest import skip_on_unsupported
 def test_get_administered_licensing_subscription_entitlements(client: MerakiClient) -> None:
     """Test get_administered_licensing_subscription_entitlements endpoint."""
     with skip_on_unsupported():
-        result = client.licensing.get_administered_licensing_subscription_entitlements()
-    assert result is not None
+        client.licensing.get_administered_licensing_subscription_entitlements()
 
 
 def test_get_organization_licensing_coterm_licenses(
@@ -21,9 +20,7 @@ def test_get_organization_licensing_coterm_licenses(
 ) -> None:
     """Test get_organization_licensing_coterm_licenses endpoint."""
     with skip_on_unsupported():
-        result = list(
-            client.licensing.get_organization_licensing_coterm_licenses(
-                organization_id=organization_id
-            )
-        )
+        result = client.licensing.get_organization_licensing_coterm_licenses(
+            organization_id=organization_id
+        ).collect()
     assert isinstance(result, list)

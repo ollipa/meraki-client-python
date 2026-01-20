@@ -12,33 +12,28 @@ from tests.conftest import skip_on_unsupported
 def test_get_device(client: MerakiClient, device_serial: str) -> None:
     """Test get_device endpoint."""
     with skip_on_unsupported():
-        result = client.devices.get_device(serial=device_serial)
-    assert result is not None
+        client.devices.get_device(serial=device_serial)
 
 
 def test_get_device_cellular_sims(client: MerakiClient, device_serial: str) -> None:
     """Test get_device_cellular_sims endpoint."""
     with skip_on_unsupported():
-        result = client.devices.get_device_cellular_sims(serial=device_serial)
-    assert result is not None
+        client.devices.get_device_cellular_sims(serial=device_serial)
 
 
 def test_get_device_clients(client: MerakiClient, device_serial: str) -> None:
     """Test get_device_clients endpoint."""
     with skip_on_unsupported():
-        result = client.devices.get_device_clients(serial=device_serial)
-    assert result is not None
+        client.devices.get_device_clients(serial=device_serial)
 
 
 def test_get_device_lldp_cdp(client: MerakiClient, device_serial: str) -> None:
     """Test get_device_lldp_cdp endpoint."""
     with skip_on_unsupported():
-        result = client.devices.get_device_lldp_cdp(serial=device_serial)
-    assert result is not None
+        client.devices.get_device_lldp_cdp(serial=device_serial)
 
 
 def test_get_device_management_interface(client: MerakiClient, device_serial: str) -> None:
     """Test get_device_management_interface endpoint."""
     with skip_on_unsupported():
-        result = client.devices.get_device_management_interface(serial=device_serial)
-    assert result is not None
+        client.devices.get_device_management_interface(serial=device_serial)

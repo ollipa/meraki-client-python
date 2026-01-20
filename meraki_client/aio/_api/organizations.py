@@ -124,7 +124,6 @@ from meraki_client.schemas import (
     GetOrganizationDevicesUplinksAddressesByDeviceResponseItem,
     GetOrganizationDevicesUplinksLossAndLatencyResponse,
     GetOrganizationEarlyAccessFeaturesOptInResponse,
-    GetOrganizationEarlyAccessFeaturesOptInsResponse,
     GetOrganizationEarlyAccessFeaturesResponse,
     GetOrganizationFirmwareUpgradesByDeviceResponseItem,
     GetOrganizationFirmwareUpgradesResponseItem,
@@ -172,6 +171,7 @@ from meraki_client.schemas import (
     GetOrganizationWebhooksLogsResponseItem,
     MoveOrganizationLicensesResponse,
     MoveOrganizationLicensesSeatsResponse,
+    OrganizationsPolicyObjectsItem,
     PreviewOrganizationInventoryOrdersResponse,
     ReleaseFromOrganizationInventoryResponse,
     RenewOrganizationLicensesSeatsResponse,
@@ -4597,25 +4597,37 @@ class Organizations:
             response_schema=GetOrganizationEarlyAccessFeaturesResponse,
         )
 
-    async def get_organization_early_access_features_opt_ins(
-        self, organization_id: str
-    ) -> GetOrganizationEarlyAccessFeaturesOptInsResponse | None:
+    def get_organization_early_access_features_opt_ins(
+        self,
+        organization_id: str,
+        *,
+        total_pages: int | Literal["all"] = 1,
+        direction: Literal["prev", "next"] = "next",
+    ) -> AsyncPaginatedResponse[OrganizationsPolicyObjectsItem]:
         """List the early access feature opt-ins for an organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-early-access-features-opt-ins
 
         Args:
             organization_id: Organization ID.
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
         path = f"/organizations/{organization_id}/earlyAccess/features/optIns"
 
-        return await self._session.get(
+        params = {}
+
+        return self._session.get_pages(
             scope="organizations",
             operation_id="getOrganizationEarlyAccessFeaturesOptIns",
             path=path,
-            response_schema=GetOrganizationEarlyAccessFeaturesOptInsResponse,
+            params=params,
+            total_pages=total_pages,
+            direction=direction,
+            item_schema=OrganizationsPolicyObjectsItem,
         )
 
     async def create_organization_early_access_features_opt_in(
@@ -7996,9 +8008,14 @@ class Organizations:
             item_schema=GetOrganizationUplinksStatusesResponseItem,
         )
 
-    async def get_organization_webhooks_alert_types(
-        self, organization_id: str, *, product_type: str | None = None
-    ) -> GetOrganizationWebhooksAlertTypesResponse | None:
+    def get_organization_webhooks_alert_types(
+        self,
+        organization_id: str,
+        *,
+        product_type: str | None = None,
+        total_pages: int | Literal["all"] = 1,
+        direction: Literal["prev", "next"] = "next",
+    ) -> AsyncPaginatedResponse[GetOrganizationWebhooksAlertTypesResponse]:
         """Return a list of alert types to be used with managing webhook alerts.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-webhooks-alert-types
@@ -8006,6 +8023,9 @@ class Organizations:
         Args:
             organization_id: Organization ID.
             product_type: Filter sample alerts to a specific product type.
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
         if product_type is not None:
@@ -8030,12 +8050,14 @@ class Organizations:
         if product_type is not None:
             params["productType"] = product_type
 
-        return await self._session.get(
+        return self._session.get_pages(
             scope="organizations",
             operation_id="getOrganizationWebhooksAlertTypes",
             path=path,
             params=params,
-            response_schema=GetOrganizationWebhooksAlertTypesResponse,
+            total_pages=total_pages,
+            direction=direction,
+            item_schema=GetOrganizationWebhooksAlertTypesResponse,
         )
 
     async def get_organization_webhooks_callbacks_status(
