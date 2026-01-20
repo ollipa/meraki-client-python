@@ -25,7 +25,7 @@
         {% endfor %}
         path = f'{{ resource }}'
 
-        {% if query_params|length > 0 %}
+        {% if query_params|length > 0 or is_paginated %}
         params = {}
         {% for snake, orig in query_params %}
         if {{ snake }} is not None:

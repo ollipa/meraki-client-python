@@ -1,0 +1,17 @@
+# Override OpenAPI spec issues that need to be reported to Meraki.
+# Codegen logs warnings if these appear fixed in the spec.
+
+# Endpoints where spec says object but API returns array
+force_array_response = ["getAdministeredLicensingSubscriptionEntitlements"]
+
+# Endpoints missing pagination params but return paginated responses
+force_paginated = [
+    "getOrganizationApplianceDnsLocalProfiles",
+    "getOrganizationApplianceDnsLocalRecords",
+    "getOrganizationApplianceDnsSplitProfiles",
+]
+
+# Field type overrides: [operationId.response] with "field.path" = "type"
+[getNetworkClients.response]
+"firstSeen" = "str"
+"lastSeen" = "str"

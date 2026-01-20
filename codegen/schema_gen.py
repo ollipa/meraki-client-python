@@ -12,7 +12,14 @@ from typing import TYPE_CHECKING, Any, Literal, NamedTuple, overload
 
 from openapi_pydantic.v3.v3_0 import OpenAPI, Operation, Reference
 
-from codegen.utils import capitalize_first, escape_reserved_name, sanitize_text, to_snake_case
+from codegen.utils import (
+    SpecOverrides,
+    capitalize_first,
+    escape_reserved_name,
+    load_spec_overrides,
+    sanitize_text,
+    to_snake_case,
+)
 
 if TYPE_CHECKING:
     from codegen.main import Templates
@@ -72,15 +79,24 @@ class GenerationContext:
     schema_fingerprints: dict[str, str]
     scope: str
     depth: int = 0
+    operation_id: str | None = None
+    field_path: tuple[str, ...] = ()
+    spec_overrides: SpecOverrides | None = None
+    consumed_overrides: set[tuple[str, str]] | None = None
 
-    def nested(self) -> GenerationContext:
+    def nested(self, path_segment: str | None = None) -> GenerationContext:
         """Create a new context for nested schema generation."""
+        new_path = (*self.field_path, path_segment) if path_segment else self.field_path
         return GenerationContext(
             schemas=self.schemas,
             schema_to_scope=self.schema_to_scope,
             schema_fingerprints=self.schema_fingerprints,
             scope=self.scope,
             depth=self.depth + 1,
+            operation_id=self.operation_id,
+            field_path=new_path,
+            spec_overrides=self.spec_overrides,
+            consumed_overrides=self.consumed_overrides,
         )
 
 
@@ -114,6 +130,10 @@ def generate_response_schemas(
     untyped_response_operations: set[str] = set()
     request_body_schemas: dict[tuple[str, str], RequestBodyParamSchema] = {}
 
+    spec_overrides = load_spec_overrides()
+    consumed_overrides: set[tuple[str, str]] = set()
+    spec_operation_ids: set[str] = set()
+
     for path_item in spec.paths.values():
         operations: dict[Literal["get", "put", "post", "delete"], Operation | None] = {
             "get": path_item.get,
@@ -126,6 +146,7 @@ def generate_response_schemas(
                 continue
 
             operation_id = operation.operationId
+            spec_operation_ids.add(operation_id)
             scope = operation.tags[0] if operation.tags else None
             if not scope:
                 log.warning(f"Operation {operation_id} has no tags")
@@ -136,11 +157,17 @@ def generate_response_schemas(
                 schema_to_scope=schema_to_scope,
                 schema_fingerprints=schema_fingerprints,
                 scope=scope,
+                operation_id=operation_id,
+                spec_overrides=spec_overrides,
+                consumed_overrides=consumed_overrides,
             )
 
             # Generate response schemas
             response_schema = _extract_response_schema(operation)
             if response_schema:
+                response_schema = _apply_force_array_response(
+                    operation_id, response_schema, spec_overrides.force_array_response
+                )
                 class_name = get_response_schema_name(operation_id)
                 result = _generate_schema_class(
                     ctx,
@@ -160,6 +187,8 @@ def generate_response_schemas(
                 operation=operation,
                 request_body_schemas=request_body_schemas,
             )
+
+    _validate_spec_overrides(spec_overrides, consumed_overrides, spec_operation_ids)
 
     _write_schema_files(
         schemas=schemas,
@@ -304,6 +333,28 @@ def _generate_request_body_array_schema(
             item_class_name=result.class_name or item_class_name,
         )
     return None
+
+
+def _apply_force_array_response(
+    operation_id: str, schema: dict[str, Any], force_array_response: set[str]
+) -> dict[str, Any]:
+    """Apply force_array_response override if needed.
+
+    For endpoints where spec says object but API returns array.
+    Logs warning if endpoint appears to be fixed in spec.
+    """
+    if operation_id not in force_array_response:
+        return schema
+
+    if schema.get("type") == "array":
+        log.warning(
+            f"{operation_id} in force_array_response already has array schema - "
+            "spec may be fixed, check if override still needed"
+        )
+        return schema
+
+    # Wrap object schema in array
+    return {"type": "array", "items": schema}
 
 
 def _extract_response_schema(operation: Operation) -> dict[str, Any] | None:
@@ -539,6 +590,33 @@ def _register_schema(ctx: GenerationContext, *, name: str, definition: str) -> S
     return SchemaStatus.GENERATED
 
 
+def _get_field_override(
+    ctx: GenerationContext, prop_name: str, prop_schema: dict[str, Any]
+) -> str | None:
+    """Check if there's a type override for this field and return the override type."""
+    if not ctx.operation_id or ctx.spec_overrides is None or ctx.consumed_overrides is None:
+        return None
+
+    response_fields = ctx.spec_overrides.response_fields.get(ctx.operation_id)
+    if not response_fields:
+        return None
+
+    field_path = ".".join((*ctx.field_path, prop_name))
+    override_type = response_fields.get(field_path)
+    if not override_type:
+        return None
+
+    spec_type = _get_simple_type(prop_schema)
+    if spec_type == override_type:
+        log.warning(
+            f"{ctx.operation_id}: field '{field_path}' override type '{override_type}' "
+            "matches spec type - spec may have been fixed"
+        )
+
+    ctx.consumed_overrides.add((ctx.operation_id, field_path))
+    return override_type
+
+
 def _generate_field(
     ctx: GenerationContext,
     *,
@@ -549,9 +627,16 @@ def _generate_field(
 ) -> tuple[str, str | None]:
     """Generate a field definition for a Pydantic model."""
     snake_name = _sanitize_field_name(prop_name)
-    type_str, item_class = _get_python_type(
-        ctx, parent_class=parent_class, prop_name=prop_name, schema=prop_schema
-    )
+
+    override_type = _get_field_override(ctx, prop_name, prop_schema)
+    if override_type:
+        type_str = override_type
+        item_class = None
+    else:
+        type_str, item_class = _get_python_type(
+            ctx, parent_class=parent_class, prop_name=prop_name, schema=prop_schema
+        )
+
     needs_alias = snake_name != prop_name
     is_nullable = prop_schema.get("nullable", False)
 
@@ -625,7 +710,7 @@ def _get_array_type(
             existing_class = ctx.schema_fingerprints[fingerprint]
             return TypeResult(f"list[{existing_class}]", existing_class)
 
-        nested_ctx = ctx.nested()
+        nested_ctx = ctx.nested(prop_name)
         nested_class = _build_nested_class_name(
             nested_ctx, parent_class=parent_class, prop_name=prop_name, is_array=True
         )
@@ -655,7 +740,7 @@ def _get_object_type(
     if fingerprint in ctx.schema_fingerprints:
         return TypeResult(ctx.schema_fingerprints[fingerprint])
 
-    nested_ctx = ctx.nested()
+    nested_ctx = ctx.nested(prop_name)
     nested_class = _build_nested_class_name(
         nested_ctx, parent_class=parent_class, prop_name=prop_name, is_array=False
     )
@@ -794,6 +879,44 @@ def _normalize_schema(schema: dict[str, Any], *, is_required: bool = False) -> d
         result["additionalProperties"] = _normalize_schema(ap) if isinstance(ap, dict) else ap
 
     return result
+
+
+def _validate_spec_overrides(
+    spec_overrides: SpecOverrides,
+    consumed_overrides: set[tuple[str, str]],
+    spec_operation_ids: set[str],
+) -> None:
+    """Validate that all spec overrides reference valid operations and fields."""
+    # Validate force_array_response
+    for operation_id in spec_overrides.force_array_response:
+        if operation_id not in spec_operation_ids:
+            raise ValueError(
+                f"force_array_response references unknown operation '{operation_id}'. "
+                "Check that the operationId exists in the OpenAPI spec."
+            )
+
+    # Validate force_paginated
+    for operation_id in spec_overrides.force_paginated:
+        if operation_id not in spec_operation_ids:
+            raise ValueError(
+                f"force_paginated references unknown operation '{operation_id}'. "
+                "Check that the operationId exists in the OpenAPI spec."
+            )
+
+    # Validate response field overrides
+    for operation_id, fields in spec_overrides.response_fields.items():
+        if operation_id not in spec_operation_ids:
+            raise ValueError(
+                f"Response field override references unknown operation '{operation_id}'. "
+                "Check that the operationId exists in the OpenAPI spec."
+            )
+
+        for field_path in fields:
+            if (operation_id, field_path) not in consumed_overrides:
+                raise ValueError(
+                    f"Response field override for '{operation_id}' field '{field_path}' was not applied. "
+                    "Check that the field path exists in the response schema."
+                )
 
 
 def _write_schema_files(

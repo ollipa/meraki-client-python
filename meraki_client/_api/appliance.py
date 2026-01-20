@@ -78,10 +78,10 @@ from meraki_client.schemas import (
     GetNetworkApplianceVpnSiteToSiteVpnResponse,
     GetNetworkApplianceWarmSpareResponse,
     GetOrganizationApplianceDnsLocalProfilesAssignmentsResponse,
-    GetOrganizationApplianceDnsLocalProfilesResponse,
-    GetOrganizationApplianceDnsLocalRecordsResponse,
+    GetOrganizationApplianceDnsLocalProfilesResponseItem,
+    GetOrganizationApplianceDnsLocalRecordsResponseItem,
     GetOrganizationApplianceDnsSplitProfilesAssignmentsResponse,
-    GetOrganizationApplianceDnsSplitProfilesResponse,
+    GetOrganizationApplianceDnsSplitProfilesResponseItem,
     GetOrganizationApplianceFirewallMulticastForwardingByNetworkResponseItemsItem,
     GetOrganizationApplianceSecurityEventsResponse,
     GetOrganizationApplianceTrafficShapingVpnExclusionsByNetworkResponseItemsItem,
@@ -3478,8 +3478,13 @@ class Appliance:
         )
 
     def get_organization_appliance_dns_local_profiles(
-        self, organization_id: str, *, profile_ids: list[str] | None = None
-    ) -> GetOrganizationApplianceDnsLocalProfilesResponse | None:
+        self,
+        organization_id: str,
+        *,
+        profile_ids: list[str] | None = None,
+        total_pages: int | Literal["all"] = 1,
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[GetOrganizationApplianceDnsLocalProfilesResponseItem]:
         """Fetch the local DNS profiles used in the organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-dns-local-profiles
@@ -3487,6 +3492,9 @@ class Appliance:
         Args:
             organization_id: Organization ID.
             profile_ids: Optional parameter to filter the results by profile IDs.
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -3496,12 +3504,14 @@ class Appliance:
         if profile_ids is not None:
             params["profileIds[]"] = profile_ids
 
-        return self._session.get(
+        return self._session.get_pages(
             scope="appliance",
             operation_id="getOrganizationApplianceDnsLocalProfiles",
             path=path,
             params=params,
-            response_schema=GetOrganizationApplianceDnsLocalProfilesResponse,
+            total_pages=total_pages,
+            direction=direction,
+            item_schema=GetOrganizationApplianceDnsLocalProfilesResponseItem,
         )
 
     def create_organization_appliance_dns_local_profile(
@@ -3679,8 +3689,13 @@ class Appliance:
         )
 
     def get_organization_appliance_dns_local_records(
-        self, organization_id: str, *, profile_ids: list[str] | None = None
-    ) -> GetOrganizationApplianceDnsLocalRecordsResponse | None:
+        self,
+        organization_id: str,
+        *,
+        profile_ids: list[str] | None = None,
+        total_pages: int | Literal["all"] = 1,
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[GetOrganizationApplianceDnsLocalRecordsResponseItem]:
         """Fetch the DNS records used in local DNS profiles.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-dns-local-records
@@ -3688,6 +3703,9 @@ class Appliance:
         Args:
             organization_id: Organization ID.
             profile_ids: Optional parameter to filter the results by profile IDs.
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -3697,12 +3715,14 @@ class Appliance:
         if profile_ids is not None:
             params["profileIds[]"] = profile_ids
 
-        return self._session.get(
+        return self._session.get_pages(
             scope="appliance",
             operation_id="getOrganizationApplianceDnsLocalRecords",
             path=path,
             params=params,
-            response_schema=GetOrganizationApplianceDnsLocalRecordsResponse,
+            total_pages=total_pages,
+            direction=direction,
+            item_schema=GetOrganizationApplianceDnsLocalRecordsResponseItem,
         )
 
     def create_organization_appliance_dns_local_record(
@@ -3805,8 +3825,13 @@ class Appliance:
         )
 
     def get_organization_appliance_dns_split_profiles(
-        self, organization_id: str, *, profile_ids: list[str] | None = None
-    ) -> GetOrganizationApplianceDnsSplitProfilesResponse | None:
+        self,
+        organization_id: str,
+        *,
+        profile_ids: list[str] | None = None,
+        total_pages: int | Literal["all"] = 1,
+        direction: Literal["prev", "next"] = "next",
+    ) -> PaginatedResponse[GetOrganizationApplianceDnsSplitProfilesResponseItem]:
         """Fetch the split DNS profiles used in the organization.
 
         https://developer.cisco.com/meraki/api-v1/#!get-organization-appliance-dns-split-profiles
@@ -3814,6 +3839,9 @@ class Appliance:
         Args:
             organization_id: Organization ID.
             profile_ids: Optional parameter to filter the results by profile IDs.
+            total_pages: use with per_page to get total results up to total_pages * per_page; -1 or
+              "all" for all pages.
+            direction: direction to paginate, either "next" (default) or "prev" page.
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
@@ -3823,12 +3851,14 @@ class Appliance:
         if profile_ids is not None:
             params["profileIds[]"] = profile_ids
 
-        return self._session.get(
+        return self._session.get_pages(
             scope="appliance",
             operation_id="getOrganizationApplianceDnsSplitProfiles",
             path=path,
             params=params,
-            response_schema=GetOrganizationApplianceDnsSplitProfilesResponse,
+            total_pages=total_pages,
+            direction=direction,
+            item_schema=GetOrganizationApplianceDnsSplitProfilesResponseItem,
         )
 
     def create_organization_appliance_dns_split_profile(

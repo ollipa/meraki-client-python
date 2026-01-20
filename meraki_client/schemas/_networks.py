@@ -753,8 +753,8 @@ class GetNetworkClientsResponseItem(_BaseSchema):
     ip: str | None = None
     ip6: str | None = None
     description: str | None = None
-    first_seen: int | None = Field(default=None, alias="firstSeen")
-    last_seen: int | None = Field(default=None, alias="lastSeen")
+    first_seen: str | None = Field(default=None, alias="firstSeen")
+    last_seen: str | None = Field(default=None, alias="lastSeen")
     manufacturer: str | None = None
     os: str | None = None
     user: str | None = None

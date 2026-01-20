@@ -1,8 +1,11 @@
 """Shared utility functions for code generation."""
 
+import os
 import re
+import tomllib
+from dataclasses import dataclass, field
 
-from codegen.constants import RESERVED_NAMES
+from codegen.constants import RESERVED_NAMES, SPEC_OVERRIDES_FILE
 
 _CAMEL_TO_SNAKE_RE = re.compile(r"(?<!^)(?=[A-Z])")
 
@@ -34,3 +37,32 @@ def sanitize_text(text: str) -> str:
     if not text.endswith("."):
         text += "."
     return text
+
+
+@dataclass
+class SpecOverrides:
+    """All spec overrides loaded from TOML configuration."""
+
+    force_array_response: set[str] = field(default_factory=set)
+    force_paginated: set[str] = field(default_factory=set)
+    response_fields: dict[str, dict[str, str]] = field(default_factory=dict)
+
+
+def load_spec_overrides() -> SpecOverrides:
+    """Load spec overrides from TOML configuration file."""
+    if not os.path.exists(SPEC_OVERRIDES_FILE):
+        return SpecOverrides()
+
+    with open(SPEC_OVERRIDES_FILE, "rb") as f:
+        data = tomllib.load(f)
+
+    response_fields: dict[str, dict[str, str]] = {}
+    for key, value in data.items():
+        if isinstance(value, dict) and "response" in value:
+            response_fields[key] = value["response"]
+
+    return SpecOverrides(
+        force_array_response=set(data.get("force_array_response", [])),
+        force_paginated=set(data.get("force_paginated", [])),
+        response_fields=response_fields,
+    )

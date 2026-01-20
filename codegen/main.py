@@ -40,7 +40,13 @@ from codegen.schema_gen import (
 )
 from codegen.schemas import BatchableAction
 from codegen.test_gen import generate_tests
-from codegen.utils import capitalize_first, escape_reserved_name, sanitize_text, to_snake_case
+from codegen.utils import (
+    capitalize_first,
+    escape_reserved_name,
+    load_spec_overrides,
+    sanitize_text,
+    to_snake_case,
+)
 
 setup_logging()
 log = logging.getLogger("codegen")
@@ -188,6 +194,7 @@ def generate_library(  # noqa: PLR0915
 ) -> None:
     """Generate the Meraki Python library using the public OpenAPI specification."""
     batchable_actions_map = {action.summary: action.operation for action in batchable_actions}
+    spec_overrides = load_spec_overrides()
 
     recreate_output_directory()
     copy_static_files()
@@ -291,6 +298,7 @@ def generate_library(  # noqa: PLR0915
                 async_output=async_output,
                 templates=templates,
                 schema_registry=schema_registry,
+                force_paginated=spec_overrides.force_paginated,
             )
 
         if batch_content:
@@ -346,6 +354,7 @@ def generate_module(  # noqa: PLR0915
     async_output: TextIO,
     templates: Templates,
     schema_registry: SchemaRegistry,
+    force_paginated: set[str],
 ) -> str | None:
     """Generate a module for a scope.
 
@@ -415,6 +424,12 @@ def generate_module(  # noqa: PLR0915
             )
             if is_paginated:
                 collect_pagination_params(operation_id, function_definition)
+            is_paginated = check_force_paginated(
+                operation_id=operation_id,
+                is_paginated=is_paginated,
+                function_definition=function_definition,
+                force_paginated=force_paginated,
+            )
 
             definition = build_function_definition(
                 function_definition.required_args, function_definition.optional_args
@@ -745,6 +760,33 @@ def collect_request_body_params(
 
         if property_schema.enum:
             function_definition.assert_blocks.append((snake_name, property_schema.enum))
+
+
+def check_force_paginated(
+    *,
+    operation_id: str,
+    is_paginated: bool,
+    function_definition: FunctionDefinition,
+    force_paginated: set[str],
+) -> bool:
+    """Check if endpoint should be force-paginated due to spec bugs.
+
+    Returns True if endpoint should be treated as paginated.
+    Logs warning if endpoint appears to be fixed in spec.
+    """
+    if operation_id not in force_paginated:
+        return is_paginated
+
+    if is_paginated:
+        log.warning(
+            f"{operation_id} in force_paginated now has per_page param - "
+            "spec may be fixed, check if override still needed"
+        )
+    else:
+        is_paginated = True
+        collect_pagination_params(operation_id, function_definition)
+
+    return is_paginated
 
 
 def collect_pagination_params(operation_id: str, function_definition: FunctionDefinition) -> None:

@@ -75,6 +75,12 @@ make generate VERSION=1.66.0
 
 This downloads the spec for the given API version, generates the `meraki_client` package, and formats the output. See [meraki/openapi releases](https://github.com/meraki/openapi/tags) for available versions.
 
+### Spec Overrides
+
+Some endpoints have bugs in the OpenAPI spec that need to be worked around. These overrides are configured in `codegen/spec_overrides.toml`:
+
+The code generator validates that all overrides reference existing operations and fields, and logs warnings when the spec appears to have been fixed.
+
 ## Contributing
 
 Contributions are welcome! Please open an issue or submit a pull request.

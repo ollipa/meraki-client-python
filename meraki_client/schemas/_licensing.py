@@ -53,8 +53,14 @@ class ClaimAdministeredLicensingSubscriptionSubscriptionsResponse(_BaseSchema):
     )
 
 
-class GetAdministeredLicensingSubscriptionEntitlementsResponse(_BaseSchema):
+class GetAdministeredLicensingSubscriptionEntitlementsResponse(
+    RootModel[list["GetAdministeredLicensingSubscriptionEntitlementsResponseItem"]]
+):
     """Response for getAdministeredLicensingSubscriptionEntitlements operation."""
+
+
+class GetAdministeredLicensingSubscriptionEntitlementsResponseItem(_BaseSchema):
+    """Schema for GetAdministeredLicensingSubscriptionEntitlementsResponseItem."""
 
     sku: str | None = None
     name: str | None = None
