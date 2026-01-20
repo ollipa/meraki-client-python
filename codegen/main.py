@@ -31,6 +31,7 @@ from openapi_pydantic.v3.v3_0 import (
 )
 from pydantic import BaseModel
 
+from codegen.constants import SCRIPT_DIR, TEMPLATE_DIR
 from codegen.log_config import setup_logging
 from codegen.schema_gen import (
     SchemaRegistry,
@@ -38,14 +39,13 @@ from codegen.schema_gen import (
     get_response_schema_name,
 )
 from codegen.schemas import BatchableAction
+from codegen.test_gen import generate_tests
 from codegen.utils import capitalize_first, escape_reserved_name, sanitize_text, to_snake_case
 
 setup_logging()
 log = logging.getLogger("codegen")
 
-SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 PROJECT_ROOT = Path(SCRIPT_DIR).parent
-TEMPLATE_DIR = os.path.join(SCRIPT_DIR, "templates")
 OUTPUT_DIR = "meraki_client"
 
 REVERSE_PAGINATION = ["getNetworkEvents", "getOrganizationConfigurationChanges"]
@@ -329,6 +329,11 @@ def generate_library(  # noqa: PLR0915
     _format_generated_code(OUTPUT_DIR)
     elapsed = time.perf_counter() - t_start
     log.info(f"Formatted generated code in {elapsed:.2f}s")
+
+    t_start = time.perf_counter()
+    generate_tests(spec)
+    elapsed = time.perf_counter() - t_start
+    log.info(f"Generated tests in {elapsed:.2f}s")
 
 
 def generate_module(  # noqa: PLR0915

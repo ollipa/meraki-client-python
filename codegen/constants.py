@@ -1,5 +1,10 @@
 """Shared constants for code generation."""
 
+import os
+
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+TEMPLATE_DIR = os.path.join(SCRIPT_DIR, "templates")
+
 # Python keywords and builtins that cannot be used as parameter names
 RESERVED_NAMES = {
     "and",
