@@ -10,7 +10,7 @@ pip install meraki-client
 
 ## Features
 
-- Modern Python 3.10+ with full type annotations
+- Modern Python 3.11+ with full type annotations
 - Sync and async clients built on httpx
 - Pydantic models for requests and responses
 - Automatic retries and pagination
@@ -65,25 +65,9 @@ for device in client.organizations.get_organization_devices(organization_id=org_
 devices = client.organizations.get_organization_devices(organization_id=org_id, total_pages="all").collect()
 ```
 
-## Code Generation
-
-The SDK is auto-generated from Meraki's OpenAPI specification. To regenerate:
-
-```shell
-make generate VERSION=1.66.0
-```
-
-This downloads the spec for the given API version, generates the `meraki_client` package, and formats the output. See [meraki/openapi releases](https://github.com/meraki/openapi/tags) for available versions.
-
-### Spec Overrides
-
-Some endpoints have bugs in the OpenAPI spec that need to be worked around. These overrides are configured in `codegen/spec_overrides.toml`:
-
-The code generator validates that all overrides reference existing operations and fields, and logs warnings when the spec appears to have been fixed.
-
 ## Contributing
 
-Contributions are welcome! Please open an issue or submit a pull request.
+Contributions are welcome! See [CONTRIBUTING.md](CONTRIBUTING.md) for development setup, testing, and code generation instructions.
 
 ## Disclaimer
 

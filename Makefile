@@ -12,6 +12,13 @@ test:
 	@printf '*****************\n'
 	uv run pytest
 
+.PHONY: test-mutating
+test-mutating:
+	@printf '\n\n*****************\n'
+	@printf '$(color)Running mutating tests$(off)\n'
+	@printf '*****************\n'
+	uv run pytest -m mutating
+
 .PHONY: typecheck
 typecheck:
 	@printf '\n\n*****************\n'
