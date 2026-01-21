@@ -254,7 +254,7 @@ class Sm:
         network_id: str,
         device_fields: UpdateNetworkSmDevicesFieldsDeviceFields,
         wifi_mac: str | None = None,
-        id_: str | None = None,
+        id: str | None = None,
         serial: str | None = None,
     ) -> UpdateNetworkSmDevicesFieldsResponse | None:
         """Modify the fields of a device.
@@ -264,7 +264,7 @@ class Sm:
         Args:
             network_id: Network ID.
             wifi_mac: The wifiMac of the device to be modified.
-            id_: The id of the device to be modified.
+            id: The id of the device to be modified.
             serial: The serial of the device to be modified.
             device_fields: The new fields of the device. Each field of this object is optional.
 
@@ -275,8 +275,8 @@ class Sm:
         payload = {}
         if wifi_mac is not None:
             payload["wifiMac"] = wifi_mac
-        if id_ is not None:
-            payload["id"] = id_
+        if id is not None:
+            payload["id"] = id
         if serial is not None:
             payload["serial"] = serial
         if device_fields is not None:
@@ -547,7 +547,7 @@ class Sm:
         network_id: str,
         *,
         wifi_mac: str | None = None,
-        id_: str | None = None,
+        id: str | None = None,
         serial: str | None = None,
         pin: int | None = None,
     ) -> WipeNetworkSmDevicesResponse | None:
@@ -558,7 +558,7 @@ class Sm:
         Args:
             network_id: Network ID.
             wifi_mac: The wifiMac of the device to be wiped.
-            id_: The id of the device to be wiped.
+            id: The id of the device to be wiped.
             serial: The serial of the device to be wiped.
             pin: The pin number (a six digit value) for wiping a macOS device. Required only for
               macOS devices.
@@ -570,8 +570,8 @@ class Sm:
         payload = {}
         if wifi_mac is not None:
             payload["wifiMac"] = wifi_mac
-        if id_ is not None:
-            payload["id"] = id_
+        if id is not None:
+            payload["id"] = id
         if serial is not None:
             payload["serial"] = serial
         if pin is not None:

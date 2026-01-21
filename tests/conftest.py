@@ -48,9 +48,9 @@ def organization_id(client: MerakiClient) -> str:
     if not orgs:
         pytest.skip("No organizations available for testing")
     org = orgs[0]
-    if not org.id_:
+    if not org.id:
         pytest.skip("No organization ID available for testing")
-    return org.id_  # ty: ignore[invalid-return-type]
+    return org.id  # ty: ignore[invalid-return-type]
 
 
 @pytest.fixture(scope="module")
@@ -63,9 +63,9 @@ def network_id(client: MerakiClient, organization_id: str) -> str:
     if not networks:
         pytest.skip("No networks available for testing")
     network = networks[0]
-    if not network.id_:
+    if not network.id:
         pytest.skip("No network ID available for testing")
-    return network.id_  # ty: ignore[invalid-return-type]
+    return network.id  # ty: ignore[invalid-return-type]
 
 
 @pytest.fixture(scope="module")

@@ -74,7 +74,7 @@ class CampusGatewayMetaCounts(_BaseSchema):
 class CampusGatewayNetwork(_BaseSchema):
     """Network details of the cluster."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
 
 
 class CampusGatewayTunnelsAddressesItem(_BaseSchema):
@@ -171,7 +171,7 @@ class CreateNetworkCampusGatewayClusterResponseNameservers(_BaseSchema):
 class CreateNetworkCampusGatewayClusterResponsePortChannelsItem(_BaseSchema):
     """Schema for CreateNetworkCampusGatewayClusterResponsePortChannelsItem."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     name: str | None = None
     vlan: int | None = None
     allowed_vlans: str | None = Field(default=None, alias="allowedVlans")

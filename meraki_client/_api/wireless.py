@@ -6512,7 +6512,7 @@ class Wireless:
         )
 
     def update_organization_wireless_zigbee_device(
-        self, *, organization_id: str, id_: str, enrolled: bool, channel: str | None = None
+        self, *, organization_id: str, id: str, enrolled: bool, channel: str | None = None
     ) -> UpdateOrganizationWirelessZigbeeDeviceResponse | None:
         """Endpoint to update zigbee gateways.
 
@@ -6520,14 +6520,14 @@ class Wireless:
 
         Args:
             organization_id: Organization ID.
-            id_: ID.
+            id: ID.
             enrolled: Parameter to enroll or unenroll the zigbee devices.
             channel: The new channel for the zigbee device.
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        id_ = urllib.parse.quote(str(id_), safe="")
-        path = f"/organizations/{organization_id}/wireless/zigbee/devices/{id_}"
+        id = urllib.parse.quote(str(id), safe="")
+        path = f"/organizations/{organization_id}/wireless/zigbee/devices/{id}"
 
         payload = {}
         if enrolled is not None:

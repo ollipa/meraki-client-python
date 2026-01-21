@@ -161,7 +161,7 @@ class CreateNetworkWirelessRfProfilePerSsidSettings0(_BaseSchema):
 class CreateNetworkWirelessRfProfileResponse(_BaseSchema):
     """Response for createNetworkWirelessRfProfile operation."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     network_id: str | None = Field(default=None, alias="networkId")
     name: str | None = None
     client_balancing_enabled: bool | None = Field(default=None, alias="clientBalancingEnabled")
@@ -219,7 +219,7 @@ class CreateNetworkWirelessSsidIdentityPskResponse(_BaseSchema):
     """Response for createNetworkWirelessSsidIdentityPsk operation."""
 
     name: str | None = None
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     group_policy_id: str | None = Field(default=None, alias="groupPolicyId")
     passphrase: str | None = None
     wifi_personal_network_id: str | None = Field(default=None, alias="wifiPersonalNetworkId")
@@ -238,7 +238,7 @@ class CreateOrganizationWirelessDevicesRadsecCertificatesAuthorityResponse(_Base
 class CreateOrganizationWirelessLocationScanningReceiverNetwork(_BaseSchema):
     """Add scanning API receiver for network."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
 
 
 class CreateOrganizationWirelessLocationScanningReceiverRadio(_BaseSchema):
@@ -266,7 +266,7 @@ class CreateOrganizationWirelessSsidsFirewallIsolationAllowlistEntryClient(_Base
 class CreateOrganizationWirelessSsidsFirewallIsolationAllowlistEntryNetwork(_BaseSchema):
     """The Network that allowlist belongs to."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
 
 
 class CreateOrganizationWirelessSsidsFirewallIsolationAllowlistEntryResponse(_BaseSchema):
@@ -450,7 +450,7 @@ class GetNetworkWirelessBillingResponse(_BaseSchema):
 class GetNetworkWirelessBillingResponsePlansItem(_BaseSchema):
     """Schema for GetNetworkWirelessBillingResponsePlansItem."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     price: float | None = None
     bandwidth_limits: WirelessPlansBandwidthLimits | None = Field(
         default=None, alias="bandwidthLimits"
@@ -710,7 +710,7 @@ class GetNetworkWirelessMeshStatusesResponseItem(_BaseSchema):
 class GetNetworkWirelessRfProfileResponse(_BaseSchema):
     """Response for getNetworkWirelessRfProfile operation."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     network_id: str | None = Field(default=None, alias="networkId")
     name: str | None = None
     client_balancing_enabled: bool | None = Field(default=None, alias="clientBalancingEnabled")
@@ -739,7 +739,7 @@ class GetNetworkWirelessRfProfileResponse(_BaseSchema):
 class GetNetworkWirelessRfProfilesResponse(_BaseSchema):
     """Response for getNetworkWirelessRfProfiles operation."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     network_id: str | None = Field(default=None, alias="networkId")
     name: str | None = None
     client_balancing_enabled: bool | None = Field(default=None, alias="clientBalancingEnabled")
@@ -990,7 +990,7 @@ class GetNetworkWirelessSsidIdentityPskResponse(_BaseSchema):
     """Response for getNetworkWirelessSsidIdentityPsk operation."""
 
     name: str | None = None
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     group_policy_id: str | None = Field(default=None, alias="groupPolicyId")
     passphrase: str | None = None
     wifi_personal_network_id: str | None = Field(default=None, alias="wifiPersonalNetworkId")
@@ -1008,7 +1008,7 @@ class GetNetworkWirelessSsidIdentityPsksResponseItem(_BaseSchema):
     """Schema for GetNetworkWirelessSsidIdentityPsksResponseItem."""
 
     name: str | None = None
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     group_policy_id: str | None = Field(default=None, alias="groupPolicyId")
     passphrase: str | None = None
     wifi_personal_network_id: str | None = Field(default=None, alias="wifiPersonalNetworkId")
@@ -1889,7 +1889,7 @@ class UpdateNetworkWirelessAlternateManagementInterfaceAccessPointsItem(_BaseSch
 class UpdateNetworkWirelessBillingPlansItem(_BaseSchema):
     """Item schema for plans."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     price: float
     bandwidth_limits: WirelessPlansBandwidthLimits = Field(alias="bandwidthLimits")
     time_limit: str = Field(alias="timeLimit")
@@ -2019,7 +2019,7 @@ class UpdateNetworkWirelessRfProfilePerSsidSettings(_BaseSchema):
 class UpdateNetworkWirelessRfProfileResponse(_BaseSchema):
     """Response for updateNetworkWirelessRfProfile operation."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     network_id: str | None = Field(default=None, alias="networkId")
     name: str | None = None
     client_balancing_enabled: bool | None = Field(default=None, alias="clientBalancingEnabled")
@@ -2301,7 +2301,7 @@ class UpdateNetworkWirelessSsidIdentityPskResponse(_BaseSchema):
     """Response for updateNetworkWirelessSsidIdentityPsk operation."""
 
     name: str | None = None
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     group_policy_id: str | None = Field(default=None, alias="groupPolicyId")
     passphrase: str | None = None
     wifi_personal_network_id: str | None = Field(default=None, alias="wifiPersonalNetworkId")
@@ -2606,7 +2606,7 @@ class UpdateNetworkWirelessSsidSplashSettingsSentryEnrollment(_BaseSchema):
 class UpdateNetworkWirelessSsidSplashSettingsSentryEnrollmentSystemsManagerNetwork(_BaseSchema):
     """Systems Manager network targeted for sentry enrollment."""
 
-    id_: str = Field(alias="id")
+    id: str
 
 
 class UpdateNetworkWirelessSsidSplashSettingsSplashImage(_BaseSchema):
@@ -2799,7 +2799,7 @@ class UpdateOrganizationWirelessMqttSettingsMqtt(_BaseSchema):
 class UpdateOrganizationWirelessMqttSettingsNetwork(_BaseSchema):
     """Add MQTT Settings for network."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
 
 
 class UpdateOrganizationWirelessMqttSettingsResponse(_BaseSchema):
@@ -3011,7 +3011,7 @@ class WirelessByStatus2(_BaseSchema):
 class WirelessClient(_BaseSchema):
     """Client."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     mac: str | None = None
 
 
@@ -3077,7 +3077,7 @@ class WirelessDoorLocksGateway(_BaseSchema):
 class WirelessDoorLocksNetwork(_BaseSchema):
     """Network this door lock is connected to."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     name: str | None = None
 
 
@@ -3212,7 +3212,7 @@ class WirelessMqtt(_BaseSchema):
 class WirelessNaiRealmsMethodsItem(_BaseSchema):
     """Schema for WirelessNaiRealmsMethodsItem."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     authentication_types: WirelessAuthenticationTypes | None = Field(
         default=None, alias="authenticationTypes"
     )
@@ -3228,7 +3228,7 @@ class WirelessNamedVlansPoolDhcpMonitoring(_BaseSchema):
 class WirelessNetwork(_BaseSchema):
     """Information regarding the network the device belongs to."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     name: str | None = None
     tags: list[str] | None = None
 
@@ -3236,7 +3236,7 @@ class WirelessNetwork(_BaseSchema):
 class WirelessNetwork2(_BaseSchema):
     """The network that allowlist SSID belongs to."""
 
-    id_: str = Field(alias="id")
+    id: str
     name: str | None = None
 
 
@@ -3332,7 +3332,7 @@ class WirelessRadiusServersItem(_BaseSchema):
 class WirelessRfProfile(_BaseSchema):
     """Information regarding the RF Profile of the device."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     name: str | None = None
     is_indoor_default: bool | None = Field(default=None, alias="isIndoorDefault")
     is_outdoor_default: bool | None = Field(default=None, alias="isOutdoorDefault")
@@ -3357,7 +3357,7 @@ class WirelessRulesPerClientBandwidthLimits(_BaseSchema):
 class WirelessSentryEnrollmentSystemsManagerNetwork(_BaseSchema):
     """Systems Manager network targeted for sentry enrollment."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
 
 
 class WirelessSeriesItem(_BaseSchema):
@@ -3370,7 +3370,7 @@ class WirelessSeriesItem(_BaseSchema):
 class WirelessSsid(_BaseSchema):
     """The SSID that allowlist belongs to."""
 
-    id_: str = Field(alias="id")
+    id: str
     name: str | None = None
     number: int | None = None
 

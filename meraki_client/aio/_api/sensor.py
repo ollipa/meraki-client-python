@@ -394,7 +394,7 @@ class Sensor:
         )
 
     async def get_network_sensor_alerts_profile(
-        self, *, network_id: str, id_: str
+        self, *, network_id: str, id: str
     ) -> GetNetworkSensorAlertsProfileResponse | None:
         """Show details of a sensor alert profile for a network.
 
@@ -402,12 +402,12 @@ class Sensor:
 
         Args:
             network_id: Network ID.
-            id_: ID.
+            id: ID.
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
-        id_ = urllib.parse.quote(str(id_), safe="")
-        path = f"/networks/{network_id}/sensor/alerts/profiles/{id_}"
+        id = urllib.parse.quote(str(id), safe="")
+        path = f"/networks/{network_id}/sensor/alerts/profiles/{id}"
 
         return await self._session.get(
             scope="sensor",
@@ -420,7 +420,7 @@ class Sensor:
         self,
         *,
         network_id: str,
-        id_: str,
+        id: str,
         name: str | None = None,
         schedule: UpdateNetworkSensorAlertsProfileSchedule | None = None,
         conditions: list[UpdateNetworkSensorAlertsProfileConditionsItem] | None = None,
@@ -435,7 +435,7 @@ class Sensor:
 
         Args:
             network_id: Network ID.
-            id_: ID.
+            id: ID.
             name: Name of the sensor alert profile.
             schedule: The sensor schedule to use with the alert profile.
             conditions: List of conditions that will cause the profile to send an alert.
@@ -446,8 +446,8 @@ class Sensor:
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
-        id_ = urllib.parse.quote(str(id_), safe="")
-        path = f"/networks/{network_id}/sensor/alerts/profiles/{id_}"
+        id = urllib.parse.quote(str(id), safe="")
+        path = f"/networks/{network_id}/sensor/alerts/profiles/{id}"
 
         payload = {}
         if name is not None:
@@ -475,19 +475,19 @@ class Sensor:
             response_schema=UpdateNetworkSensorAlertsProfileResponse,
         )
 
-    async def delete_network_sensor_alerts_profile(self, *, network_id: str, id_: str) -> None:
+    async def delete_network_sensor_alerts_profile(self, *, network_id: str, id: str) -> None:
         """Deletes a sensor alert profile from a network.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-network-sensor-alerts-profile
 
         Args:
             network_id: Network ID.
-            id_: ID.
+            id: ID.
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
-        id_ = urllib.parse.quote(str(id_), safe="")
-        path = f"/networks/{network_id}/sensor/alerts/profiles/{id_}"
+        id = urllib.parse.quote(str(id), safe="")
+        path = f"/networks/{network_id}/sensor/alerts/profiles/{id}"
 
         return await self._session.delete(
             scope="sensor", operation_id="deleteNetworkSensorAlertsProfile", path=path

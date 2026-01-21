@@ -17,7 +17,7 @@ class CameraAppliedOnDevicesItem(_BaseSchema):
     """Schema for CameraAppliedOnDevicesItem."""
 
     tag: str | None = None
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     permission_scope_id: str | None = Field(default=None, alias="permissionScopeId")
     permission_scope: str | None = Field(default=None, alias="permissionScope")
     permission_level: str | None = Field(default=None, alias="permissionLevel")
@@ -35,7 +35,7 @@ class CameraAppliedOrgWideItem(_BaseSchema):
 class CameraBoundaries(_BaseSchema):
     """Configured area boundaries of the camera."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     type_: str | None = Field(default=None, alias="type")
     name: str | None = None
     vertices: list[CameraVerticesItem] | None = None
@@ -44,7 +44,7 @@ class CameraBoundaries(_BaseSchema):
 class CameraBoundaries2(_BaseSchema):
     """Configured line boundaries of the camera."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     type_: str | None = Field(default=None, alias="type")
     name: str | None = None
     vertices: list[CameraVerticesItem] | None = None
@@ -117,7 +117,7 @@ class CameraZonesZoneId(_BaseSchema):
 class CreateNetworkCameraQualityRetentionProfileResponse(_BaseSchema):
     """Response for createNetworkCameraQualityRetentionProfile operation."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     network_id: str | None = Field(default=None, alias="networkId")
     name: str | None = None
     restricted_bandwidth_mode_enabled: bool | None = Field(
@@ -288,7 +288,7 @@ class CreateNetworkCameraWirelessProfileIdentity(_BaseSchema):
 class CreateNetworkCameraWirelessProfileResponse(_BaseSchema):
     """Response for createNetworkCameraWirelessProfile operation."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     name: str | None = None
     applied_device_count: int | None = Field(default=None, alias="appliedDeviceCount")
     ssid: CameraSsid | None = None
@@ -320,7 +320,7 @@ class CreateOrganizationCameraRoleAppliedOnDevicesItem(_BaseSchema):
     """Item schema for appliedOnDevices."""
 
     tag: str | None = None
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     in_networks_with_tag: str | None = Field(default=None, alias="inNetworksWithTag")
     in_networks_with_id: str | None = Field(default=None, alias="inNetworksWithId")
     permission_scope_id: str = Field(alias="permissionScopeId")
@@ -330,7 +330,7 @@ class CreateOrganizationCameraRoleAppliedOnNetworksItem(_BaseSchema):
     """Item schema for appliedOnNetworks."""
 
     tag: str | None = None
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     permission_scope_id: str = Field(alias="permissionScopeId")
 
 
@@ -431,7 +431,7 @@ class GetDeviceCameraAnalyticsZonesResponse(
 class GetDeviceCameraAnalyticsZonesResponseItem(_BaseSchema):
     """Schema for GetDeviceCameraAnalyticsZonesResponseItem."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     type_: str | None = Field(default=None, alias="type")
     label: str | None = None
     region_of_interest: CameraRegionOfInterest | None = Field(
@@ -468,7 +468,7 @@ class GetDeviceCameraVideoSettingsResponse(_BaseSchema):
 class GetNetworkCameraQualityRetentionProfileResponse(_BaseSchema):
     """Response for getNetworkCameraQualityRetentionProfile operation."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     network_id: str | None = Field(default=None, alias="networkId")
     name: str | None = None
     restricted_bandwidth_mode_enabled: bool | None = Field(
@@ -495,7 +495,7 @@ class GetNetworkCameraQualityRetentionProfilesResponse(
 class GetNetworkCameraQualityRetentionProfilesResponseItem(_BaseSchema):
     """Schema for GetNetworkCameraQualityRetentionProfilesResponseItem."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     network_id: str | None = Field(default=None, alias="networkId")
     name: str | None = None
     restricted_bandwidth_mode_enabled: bool | None = Field(
@@ -520,14 +520,14 @@ class GetNetworkCameraSchedulesResponse(RootModel[list["GetNetworkCameraSchedule
 class GetNetworkCameraSchedulesResponseItem(_BaseSchema):
     """Schema for GetNetworkCameraSchedulesResponseItem."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     name: str | None = None
 
 
 class GetNetworkCameraWirelessProfileResponse(_BaseSchema):
     """Response for getNetworkCameraWirelessProfile operation."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     name: str | None = None
     applied_device_count: int | None = Field(default=None, alias="appliedDeviceCount")
     ssid: CameraSsid | None = None
@@ -543,7 +543,7 @@ class GetNetworkCameraWirelessProfilesResponse(
 class GetNetworkCameraWirelessProfilesResponseItem(_BaseSchema):
     """Schema for GetNetworkCameraWirelessProfilesResponseItem."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     name: str | None = None
     applied_device_count: int | None = Field(default=None, alias="appliedDeviceCount")
     ssid: CameraSsid | None = None
@@ -623,7 +623,7 @@ class GetOrganizationCameraOnboardingStatusesResponse(RootModel[list[dict[str, A
 class GetOrganizationCameraPermissionResponse(_BaseSchema):
     """Response for getOrganizationCameraPermission operation."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     name: str | None = None
     level: str | None = None
 
@@ -637,7 +637,7 @@ class GetOrganizationCameraPermissionsResponse(
 class GetOrganizationCameraPermissionsResponseItem(_BaseSchema):
     """Schema for GetOrganizationCameraPermissionsResponseItem."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     name: str | None = None
     level: str | None = None
 
@@ -715,7 +715,7 @@ class UpdateDeviceCameraWirelessProfilesIds(_BaseSchema):
 class UpdateNetworkCameraQualityRetentionProfileResponse(_BaseSchema):
     """Response for updateNetworkCameraQualityRetentionProfile operation."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     network_id: str | None = Field(default=None, alias="networkId")
     name: str | None = None
     restricted_bandwidth_mode_enabled: bool | None = Field(
@@ -830,7 +830,7 @@ class UpdateNetworkCameraWirelessProfileIdentity(_BaseSchema):
 class UpdateNetworkCameraWirelessProfileResponse(_BaseSchema):
     """Response for updateNetworkCameraWirelessProfile operation."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     name: str | None = None
     applied_device_count: int | None = Field(default=None, alias="appliedDeviceCount")
     ssid: CameraSsid | None = None
@@ -850,7 +850,7 @@ class UpdateOrganizationCameraRoleAppliedOnDevicesItem(_BaseSchema):
     """Item schema for appliedOnDevices."""
 
     tag: str | None = None
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     in_networks_with_tag: str | None = Field(default=None, alias="inNetworksWithTag")
     in_networks_with_id: str | None = Field(default=None, alias="inNetworksWithId")
     permission_scope_id: str = Field(alias="permissionScopeId")
@@ -860,7 +860,7 @@ class UpdateOrganizationCameraRoleAppliedOnNetworksItem(_BaseSchema):
     """Item schema for appliedOnNetworks."""
 
     tag: str | None = None
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     permission_scope_id: str = Field(alias="permissionScopeId")
 
 

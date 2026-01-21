@@ -56,7 +56,7 @@ class CreateNetworkSensorAlertsProfileResponse(_BaseSchema):
 class CreateNetworkSensorAlertsProfileSchedule(_BaseSchema):
     """The sensor schedule to use with the alert profile."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
 
 
 class GetDeviceSensorCommandResponse(_BaseSchema):
@@ -451,7 +451,7 @@ class SensorNetwork(_BaseSchema):
     """Information about the network that the sensor and gateway are in."""
 
     name: str
-    id_: str = Field(alias="id")
+    id: str
 
 
 class SensorNoise(_BaseSchema):
@@ -539,7 +539,7 @@ class SensorRemoteLockoutSwitch(_BaseSchema):
 class SensorSchedule(_BaseSchema):
     """The sensor schedule to use with the alert profile."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     name: str | None = None
 
 
@@ -682,7 +682,7 @@ class UpdateNetworkSensorAlertsProfileResponse(_BaseSchema):
 class UpdateNetworkSensorAlertsProfileSchedule(_BaseSchema):
     """The sensor schedule to use with the alert profile."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
 
 
 class UpdateNetworkSensorMqttBrokerResponse(_BaseSchema):

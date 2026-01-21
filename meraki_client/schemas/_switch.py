@@ -16,7 +16,7 @@ from meraki_client.schemas._base import _BaseSchema
 class AddNetworkSwitchStackResponse(_BaseSchema):
     """Response for addNetworkSwitchStack operation."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     name: str | None = None
     serials: list[str] | None = None
     is_monitor_only: bool | None = Field(default=None, alias="isMonitorOnly")
@@ -201,7 +201,7 @@ class CreateNetworkSwitchDhcpServerPolicyArpInspectionTrustedServerResponse(_Bas
 class CreateNetworkSwitchLinkAggregationResponse(_BaseSchema):
     """Response for createNetworkSwitchLinkAggregation operation."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     switch_ports: list[SwitchSwitchPortsItem] | None = Field(default=None, alias="switchPorts")
 
 
@@ -237,7 +237,7 @@ class CreateNetworkSwitchPortSchedulePortSchedule(_BaseSchema):
 class CreateNetworkSwitchPortScheduleResponse(_BaseSchema):
     """Response for createNetworkSwitchPortSchedule operation."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     network_id: str | None = Field(default=None, alias="networkId")
     name: str | None = None
     port_schedule: SwitchPortSchedule | None = Field(default=None, alias="portSchedule")
@@ -246,7 +246,7 @@ class CreateNetworkSwitchPortScheduleResponse(_BaseSchema):
 class CreateNetworkSwitchQosRuleResponse(_BaseSchema):
     """Response for createNetworkSwitchQosRule operation."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     vlan: int | None = None
     protocol: str | None = None
     src_port: int | None = Field(default=None, alias="srcPort")
@@ -275,7 +275,7 @@ class CreateNetworkSwitchRoutingMulticastRendezvousPointVrf(_BaseSchema):
 class CreateNetworkSwitchStackResponse(_BaseSchema):
     """Response for createNetworkSwitchStack operation."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     name: str | None = None
     serials: list[str] | None = None
     workflow_id: str | None = Field(default=None, alias="workflowId")
@@ -840,7 +840,7 @@ class GetNetworkSwitchLinkAggregationsResponse(
 class GetNetworkSwitchLinkAggregationsResponseItem(_BaseSchema):
     """Schema for GetNetworkSwitchLinkAggregationsResponseItem."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     switch_ports: list[SwitchSwitchPortsItem] | None = Field(default=None, alias="switchPorts")
 
 
@@ -868,7 +868,7 @@ class GetNetworkSwitchPortSchedulesResponse(
 class GetNetworkSwitchPortSchedulesResponseItem(_BaseSchema):
     """Schema for GetNetworkSwitchPortSchedulesResponseItem."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     network_id: str | None = Field(default=None, alias="networkId")
     name: str | None = None
     port_schedule: SwitchPortSchedule | None = Field(default=None, alias="portSchedule")
@@ -877,7 +877,7 @@ class GetNetworkSwitchPortSchedulesResponseItem(_BaseSchema):
 class GetNetworkSwitchQosRuleResponse(_BaseSchema):
     """Response for getNetworkSwitchQosRule operation."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     vlan: int | None = None
     protocol: str | None = None
     src_port: int | None = Field(default=None, alias="srcPort")
@@ -900,7 +900,7 @@ class GetNetworkSwitchQosRulesResponse(RootModel[list["GetNetworkSwitchQosRulesR
 class GetNetworkSwitchQosRulesResponseItem(_BaseSchema):
     """Schema for GetNetworkSwitchQosRulesResponseItem."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     vlan: int | None = None
     protocol: str | None = None
     src_port: int | None = Field(default=None, alias="srcPort")
@@ -996,7 +996,7 @@ class GetNetworkSwitchRoutingOspfResponseMd5AuthenticationKey(_BaseSchema):
     true.
     """
 
-    id_: int | None = Field(default=None, alias="id")
+    id: int | None = None
     passphrase: str | None = None
 
 
@@ -1041,7 +1041,7 @@ class GetNetworkSwitchSettingsResponseUplinkSelection(_BaseSchema):
 class GetNetworkSwitchStackResponse(_BaseSchema):
     """Response for getNetworkSwitchStack operation."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     name: str | None = None
     serials: list[str] | None = None
     is_monitor_only: bool | None = Field(default=None, alias="isMonitorOnly")
@@ -1164,7 +1164,7 @@ class GetNetworkSwitchStacksResponse(RootModel[list["GetNetworkSwitchStacksRespo
 class GetNetworkSwitchStacksResponseItem(_BaseSchema):
     """Schema for GetNetworkSwitchStacksResponseItem."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     name: str | None = None
     serials: list[str] | None = None
     is_monitor_only: bool | None = Field(default=None, alias="isMonitorOnly")
@@ -1439,7 +1439,7 @@ class GetOrganizationSwitchPortsUsageHistoryByDeviceByIntervalResponseItemsItem(
 class RemoveNetworkSwitchStackResponse(_BaseSchema):
     """Response for removeNetworkSwitchStack operation."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     name: str | None = None
     serials: list[str] | None = None
     is_monitor_only: bool | None = Field(default=None, alias="isMonitorOnly")
@@ -1647,7 +1647,7 @@ class SwitchIntervalsItem(_BaseSchema):
 class SwitchIp(_BaseSchema):
     """Additional IP attributes of the packet."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     version: int | None = None
     length: int | None = None
     header_length: int | None = Field(default=None, alias="headerLength")
@@ -1850,7 +1850,7 @@ class SwitchProfile(_BaseSchema):
     """Profile attributes."""
 
     enabled: bool | None = None
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     iname: str | None = None
 
 
@@ -1901,7 +1901,7 @@ class SwitchRj452(_BaseSchema):
 class SwitchSchedule(_BaseSchema):
     """The port schedule data."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     name: str | None = None
 
 
@@ -2040,7 +2040,7 @@ class UpdateDeviceSwitchPortProfile(_BaseSchema):
     """Profile attributes."""
 
     enabled: bool | None = None
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     iname: str | None = None
 
 
@@ -2382,7 +2382,7 @@ class UpdateNetworkSwitchDscpToCosMappingsResponse(_BaseSchema):
 class UpdateNetworkSwitchLinkAggregationResponse(_BaseSchema):
     """Response for updateNetworkSwitchLinkAggregation operation."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     switch_ports: list[SwitchSwitchPortsItem] | None = Field(default=None, alias="switchPorts")
 
 
@@ -2433,7 +2433,7 @@ class UpdateNetworkSwitchPortSchedulePortSchedule(_BaseSchema):
 class UpdateNetworkSwitchPortScheduleResponse(_BaseSchema):
     """Response for updateNetworkSwitchPortSchedule operation."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     network_id: str | None = Field(default=None, alias="networkId")
     name: str | None = None
     port_schedule: SwitchPortSchedule | None = Field(default=None, alias="portSchedule")
@@ -2442,7 +2442,7 @@ class UpdateNetworkSwitchPortScheduleResponse(_BaseSchema):
 class UpdateNetworkSwitchQosRuleResponse(_BaseSchema):
     """Response for updateNetworkSwitchQosRule operation."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     vlan: int | None = None
     protocol: str | None = None
     src_port: int | None = Field(default=None, alias="srcPort")
@@ -2519,7 +2519,7 @@ class UpdateNetworkSwitchRoutingOspfMd5AuthenticationKey(_BaseSchema):
     true.
     """
 
-    id_: int | None = Field(default=None, alias="id")
+    id: int | None = None
     passphrase: str | None = None
 
 
@@ -2760,7 +2760,7 @@ class UpdateOrganizationConfigTemplateSwitchProfilePortProfile(_BaseSchema):
     """Profile attributes."""
 
     enabled: bool | None = None
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     iname: str | None = None
 
 

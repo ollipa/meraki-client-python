@@ -372,7 +372,7 @@ class Devices:
         )
 
     def get_device_live_tools_cable_test(
-        self, *, serial: str, id_: str
+        self, *, serial: str, id: str
     ) -> GetDeviceLiveToolsCableTestResponse | None:
         """Return a cable test live tool job.
 
@@ -380,12 +380,12 @@ class Devices:
 
         Args:
             serial: Serial.
-            id_: ID.
+            id: ID.
 
         """
         serial = urllib.parse.quote(str(serial), safe="")
-        id_ = urllib.parse.quote(str(id_), safe="")
-        path = f"/devices/{serial}/liveTools/cableTest/{id_}"
+        id = urllib.parse.quote(str(id), safe="")
+        path = f"/devices/{serial}/liveTools/cableTest/{id}"
 
         return self._session.get(
             scope="devices",
@@ -594,7 +594,7 @@ class Devices:
         )
 
     def get_device_live_tools_ping(
-        self, *, serial: str, id_: str
+        self, *, serial: str, id: str
     ) -> GetDeviceLiveToolsPingResponse | None:
         """Return a ping job.
 
@@ -602,12 +602,12 @@ class Devices:
 
         Args:
             serial: Serial.
-            id_: ID.
+            id: ID.
 
         """
         serial = urllib.parse.quote(str(serial), safe="")
-        id_ = urllib.parse.quote(str(id_), safe="")
-        path = f"/devices/{serial}/liveTools/ping/{id_}"
+        id = urllib.parse.quote(str(id), safe="")
+        path = f"/devices/{serial}/liveTools/ping/{id}"
 
         return self._session.get(
             scope="devices",
@@ -652,7 +652,7 @@ class Devices:
         )
 
     def get_device_live_tools_ping_device(
-        self, *, serial: str, id_: str
+        self, *, serial: str, id: str
     ) -> GetDeviceLiveToolsPingDeviceResponse | None:
         """Return a ping device job.
 
@@ -660,12 +660,12 @@ class Devices:
 
         Args:
             serial: Serial.
-            id_: ID.
+            id: ID.
 
         """
         serial = urllib.parse.quote(str(serial), safe="")
-        id_ = urllib.parse.quote(str(id_), safe="")
-        path = f"/devices/{serial}/liveTools/pingDevice/{id_}"
+        id = urllib.parse.quote(str(id), safe="")
+        path = f"/devices/{serial}/liveTools/pingDevice/{id}"
 
         return self._session.get(
             scope="devices",

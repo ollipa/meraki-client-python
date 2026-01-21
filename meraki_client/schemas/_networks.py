@@ -30,7 +30,7 @@ class BatchNetworkFloorPlansAutoLocateJobsResponse(_BaseSchema):
 class BatchNetworkFloorPlansAutoLocateJobsResponseJobsItem(_BaseSchema):
     """Schema for BatchNetworkFloorPlansAutoLocateJobsResponseJobsItem."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     network_id: str | None = Field(default=None, alias="networkId")
     floor_plan_id: str | None = Field(default=None, alias="floorPlanId")
     status: str | None = None
@@ -57,7 +57,7 @@ class BatchNetworkFloorPlansDevicesUpdateResponse(_BaseSchema):
 class BindNetworkResponse(_BaseSchema):
     """Response for bindNetwork operation."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     organization_id: str | None = Field(default=None, alias="organizationId")
     name: str | None = None
     product_types: list[str] | None = Field(default=None, alias="productTypes")
@@ -126,7 +126,7 @@ class CreateNetworkFirmwareUpgradesRollbackResponseReasonsItem(_BaseSchema):
 class CreateNetworkFirmwareUpgradesRollbackToVersion(_BaseSchema):
     """Version to downgrade to (if the network has firmware flexibility)."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
 
 
 class CreateNetworkFirmwareUpgradesStagedEventProducts(_BaseSchema):
@@ -178,7 +178,7 @@ class CreateNetworkFirmwareUpgradesStagedGroupAssignedDevicesDevicesItem(_BaseSc
 class CreateNetworkFirmwareUpgradesStagedGroupAssignedDevicesSwitchStacksItem(_BaseSchema):
     """Schema for CreateNetworkFirmwareUpgradesStagedGroupAssignedDevicesSwitchStacksItem."""
 
-    id_: str = Field(alias="id")
+    id: str
     name: str | None = None
 
 
@@ -351,7 +351,7 @@ class CreateNetworkMerakiAuthUserAuthorizationsItem(_BaseSchema):
 class CreateNetworkMerakiAuthUserResponse(_BaseSchema):
     """Response for createNetworkMerakiAuthUser operation."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     email: str | None = None
     name: str | None = None
     created_at: str | None = Field(default=None, alias="createdAt")
@@ -370,7 +370,7 @@ class CreateNetworkMqttBrokerAuthentication(_BaseSchema):
 class CreateNetworkMqttBrokerResponse(_BaseSchema):
     """Response for createNetworkMqttBroker operation."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     name: str | None = None
     host: str | None = None
     port: int | None = None
@@ -395,7 +395,7 @@ class CreateNetworkMqttBrokerSecurityTls(_BaseSchema):
 class CreateNetworkPiiRequestResponse(_BaseSchema):
     """Response for createNetworkPiiRequest operation."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     organization_wide: bool | None = Field(default=None, alias="organizationWide")
     network_id: str | None = Field(default=None, alias="networkId")
     type_: str | None = Field(default=None, alias="type")
@@ -443,7 +443,7 @@ class CreateNetworkWebhooksHttpServerPayloadTemplate(_BaseSchema):
 class CreateNetworkWebhooksHttpServerResponse(_BaseSchema):
     """Response for createNetworkWebhooksHttpServer operation."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     name: str | None = None
     url: str | None = None
     network_id: str | None = Field(default=None, alias="networkId")
@@ -471,7 +471,7 @@ class CreateNetworkWebhooksPayloadTemplateResponse(_BaseSchema):
 class CreateNetworkWebhooksWebhookTestResponse(_BaseSchema):
     """Response for createNetworkWebhooksWebhookTest operation."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     url: str | None = None
     status: str | None = None
 
@@ -560,7 +560,7 @@ class GetNetworkAlertsSettingsResponseMuting(_BaseSchema):
 class GetNetworkBluetoothClientResponse(_BaseSchema):
     """Response for getNetworkBluetoothClient operation."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     mac: str | None = None
     network_id: str | None = Field(default=None, alias="networkId")
     name: str | None = None
@@ -580,7 +580,7 @@ class GetNetworkBluetoothClientsResponse(RootModel[list["GetNetworkBluetoothClie
 class GetNetworkBluetoothClientsResponseItem(_BaseSchema):
     """Schema for GetNetworkBluetoothClientsResponseItem."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     mac: str | None = None
     network_id: str | None = Field(default=None, alias="networkId")
     name: str | None = None
@@ -615,7 +615,7 @@ class GetNetworkClientPolicyResponsePoliciesBySsidItem(_BaseSchema):
 class GetNetworkClientResponse(_BaseSchema):
     """Response for getNetworkClient operation."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     mac: str | None = None
     ip: str | None = None
     ip6: str | None = None
@@ -748,7 +748,7 @@ class GetNetworkClientsResponse(RootModel[list["GetNetworkClientsResponseItem"]]
 class GetNetworkClientsResponseItem(_BaseSchema):
     """Schema for GetNetworkClientsResponseItem."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     mac: str | None = None
     ip: str | None = None
     ip6: str | None = None
@@ -1040,7 +1040,7 @@ class GetNetworkHealthAlertsResponse(RootModel[list["GetNetworkHealthAlertsRespo
 class GetNetworkHealthAlertsResponseItem(_BaseSchema):
     """Schema for GetNetworkHealthAlertsResponseItem."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     category: str | None = None
     type_: str | None = Field(default=None, alias="type")
     severity: str | None = None
@@ -1050,7 +1050,7 @@ class GetNetworkHealthAlertsResponseItem(_BaseSchema):
 class GetNetworkMerakiAuthUserResponse(_BaseSchema):
     """Response for getNetworkMerakiAuthUser operation."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     email: str | None = None
     name: str | None = None
     created_at: str | None = Field(default=None, alias="createdAt")
@@ -1066,7 +1066,7 @@ class GetNetworkMerakiAuthUsersResponse(RootModel[list["GetNetworkMerakiAuthUser
 class GetNetworkMerakiAuthUsersResponseItem(_BaseSchema):
     """Schema for GetNetworkMerakiAuthUsersResponseItem."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     email: str | None = None
     name: str | None = None
     created_at: str | None = Field(default=None, alias="createdAt")
@@ -1078,7 +1078,7 @@ class GetNetworkMerakiAuthUsersResponseItem(_BaseSchema):
 class GetNetworkMqttBrokerResponse(_BaseSchema):
     """Response for getNetworkMqttBroker operation."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     name: str | None = None
     host: str | None = None
     port: int | None = None
@@ -1093,7 +1093,7 @@ class GetNetworkMqttBrokersResponse(RootModel[list["GetNetworkMqttBrokersRespons
 class GetNetworkMqttBrokersResponseItem(_BaseSchema):
     """Schema for GetNetworkMqttBrokersResponseItem."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     name: str | None = None
     host: str | None = None
     port: int | None = None
@@ -1145,7 +1145,7 @@ class GetNetworkPiiPiiKeysResponseValue(_BaseSchema):
 class GetNetworkPiiRequestResponse(_BaseSchema):
     """Response for getNetworkPiiRequest operation."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     organization_wide: bool | None = Field(default=None, alias="organizationWide")
     network_id: str | None = Field(default=None, alias="networkId")
     type_: str | None = Field(default=None, alias="type")
@@ -1163,7 +1163,7 @@ class GetNetworkPiiRequestsResponse(RootModel[list["GetNetworkPiiRequestsRespons
 class GetNetworkPiiRequestsResponseItem(_BaseSchema):
     """Schema for GetNetworkPiiRequestsResponseItem."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     organization_wide: bool | None = Field(default=None, alias="organizationWide")
     network_id: str | None = Field(default=None, alias="networkId")
     type_: str | None = Field(default=None, alias="type")
@@ -1197,7 +1197,7 @@ class GetNetworkPoliciesByClientResponseItem(_BaseSchema):
 class GetNetworkResponse(_BaseSchema):
     """Response for getNetwork operation."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     organization_id: str | None = Field(default=None, alias="organizationId")
     name: str | None = None
     product_types: list[str] | None = Field(default=None, alias="productTypes")
@@ -1394,7 +1394,7 @@ class GetNetworkVlanProfilesResponseItem(_BaseSchema):
 class GetNetworkWebhooksHttpServerResponse(_BaseSchema):
     """Response for getNetworkWebhooksHttpServer operation."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     name: str | None = None
     url: str | None = None
     network_id: str | None = Field(default=None, alias="networkId")
@@ -1410,7 +1410,7 @@ class GetNetworkWebhooksHttpServersResponse(
 class GetNetworkWebhooksHttpServersResponseItem(_BaseSchema):
     """Schema for GetNetworkWebhooksHttpServersResponseItem."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     name: str | None = None
     url: str | None = None
     network_id: str | None = Field(default=None, alias="networkId")
@@ -1448,7 +1448,7 @@ class GetNetworkWebhooksPayloadTemplatesResponseItem(_BaseSchema):
 class GetNetworkWebhooksWebhookTestResponse(_BaseSchema):
     """Response for getNetworkWebhooksWebhookTest operation."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     url: str | None = None
     status: str | None = None
 
@@ -1661,7 +1661,7 @@ class NetworksCounts(_BaseSchema):
 class NetworksCurrentVersion(_BaseSchema):
     """Details of the current version on the device."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     firmware: str | None = None
     short_name: str | None = Field(default=None, alias="shortName")
     release_type: str | None = Field(default=None, alias="releaseType")
@@ -1939,7 +1939,7 @@ class NetworksNodesDiscovered(_BaseSchema):
 class NetworksNodesStack(_BaseSchema):
     """Stack information (present when type is 'stack')."""
 
-    id_: int | None = Field(default=None, alias="id")
+    id: int | None = None
     name: str | None = None
     members: list[dict[str, Any]] | None = None
     clients: NetworksClients | None = None
@@ -2038,7 +2038,7 @@ class NetworksSsidItem(_BaseSchema):
 class NetworksStagesGroup(_BaseSchema):
     """The staged upgrade group."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     name: str | None = None
     description: str | None = None
 
@@ -2055,7 +2055,7 @@ class NetworksStagesMilestones(_BaseSchema):
 class NetworksSwitchStacksItem(_BaseSchema):
     """Schema for NetworksSwitchStacksItem."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     name: str | None = None
 
 
@@ -2069,13 +2069,13 @@ class NetworksTls(_BaseSchema):
 class NetworksToVersion(_BaseSchema):
     """The version to be updated to."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
 
 
 class NetworksToVersion2(_BaseSchema):
     """Details of the version the device will upgrade to."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     short_name: str | None = Field(default=None, alias="shortName")
 
 
@@ -2320,7 +2320,7 @@ class SplitNetworkResponse(_BaseSchema):
 class SplitNetworkResponseResultingNetworksItem(_BaseSchema):
     """Schema for SplitNetworkResponseResultingNetworksItem."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     organization_id: str | None = Field(default=None, alias="organizationId")
     name: str | None = None
     product_types: list[str] | None = Field(default=None, alias="productTypes")
@@ -2335,7 +2335,7 @@ class SplitNetworkResponseResultingNetworksItem(_BaseSchema):
 class UnbindNetworkResponse(_BaseSchema):
     """Response for unbindNetwork operation."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     organization_id: str | None = Field(default=None, alias="organizationId")
     name: str | None = None
     product_types: list[str] | None = Field(default=None, alias="productTypes")
@@ -2494,7 +2494,7 @@ class UpdateNetworkFirmwareUpgradesStagedEventsStagesItem(_BaseSchema):
 class UpdateNetworkFirmwareUpgradesStagedEventsStagesItemGroup(_BaseSchema):
     """The Staged Upgrade Group containing the name and ID."""
 
-    id_: str = Field(alias="id")
+    id: str
 
 
 class UpdateNetworkFirmwareUpgradesStagedEventsStagesItemMilestones(_BaseSchema):
@@ -2707,7 +2707,7 @@ class UpdateNetworkMerakiAuthUserAuthorizationsItem(_BaseSchema):
 class UpdateNetworkMerakiAuthUserResponse(_BaseSchema):
     """Response for updateNetworkMerakiAuthUser operation."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     email: str | None = None
     name: str | None = None
     created_at: str | None = Field(default=None, alias="createdAt")
@@ -2726,7 +2726,7 @@ class UpdateNetworkMqttBrokerAuthentication(_BaseSchema):
 class UpdateNetworkMqttBrokerResponse(_BaseSchema):
     """Response for updateNetworkMqttBroker operation."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     name: str | None = None
     host: str | None = None
     port: int | None = None
@@ -2754,7 +2754,7 @@ class UpdateNetworkNetflowResponse(_BaseSchema):
 class UpdateNetworkResponse(_BaseSchema):
     """Response for updateNetwork operation."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     organization_id: str | None = Field(default=None, alias="organizationId")
     name: str | None = None
     product_types: list[str] | None = Field(default=None, alias="productTypes")
@@ -2889,7 +2889,7 @@ class UpdateNetworkWebhooksHttpServerPayloadTemplate(_BaseSchema):
 class UpdateNetworkWebhooksHttpServerResponse(_BaseSchema):
     """Response for updateNetworkWebhooksHttpServer operation."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     name: str | None = None
     url: str | None = None
     network_id: str | None = Field(default=None, alias="networkId")

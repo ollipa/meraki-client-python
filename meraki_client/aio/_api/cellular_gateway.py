@@ -415,7 +415,7 @@ class CellularGateway:
         )
 
     async def update_organization_cellular_gateway_esims_inventory(
-        self, *, organization_id: str, id_: str, status: str | None = None
+        self, *, organization_id: str, id: str, status: str | None = None
     ) -> UpdateOrganizationCellularGatewayEsimsInventoryResponse | None:
         """Toggle the status of an eSIM.
 
@@ -423,13 +423,13 @@ class CellularGateway:
 
         Args:
             organization_id: Organization ID.
-            id_: ID.
+            id: ID.
             status: Status the eSIM will be updated to.
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        id_ = urllib.parse.quote(str(id_), safe="")
-        path = f"/organizations/{organization_id}/cellularGateway/esims/inventory/{id_}"
+        id = urllib.parse.quote(str(id), safe="")
+        path = f"/organizations/{organization_id}/cellularGateway/esims/inventory/{id}"
 
         payload = {}
         if status is not None:
@@ -697,20 +697,20 @@ class CellularGateway:
         )
 
     async def update_organization_cellular_gateway_esims_swap(
-        self, *, id_: str, organization_id: str
+        self, *, id: str, organization_id: str
     ) -> UpdateOrganizationCellularGatewayEsimsSwapResponse | None:
         """Get the status of a profile swap.
 
         https://developer.cisco.com/meraki/api-v1/#!update-organization-cellular-gateway-esims-swap
 
         Args:
-            id_: eSIM EID.
+            id: eSIM EID.
             organization_id: Organization ID.
 
         """
-        id_ = urllib.parse.quote(str(id_), safe="")
+        id = urllib.parse.quote(str(id), safe="")
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        path = f"/organizations/{organization_id}/cellularGateway/esims/swap/{id_}"
+        path = f"/organizations/{organization_id}/cellularGateway/esims/swap/{id}"
 
         return await self._session.put(
             scope="cellularGateway",

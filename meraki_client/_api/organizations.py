@@ -777,7 +777,7 @@ class Organizations:
         )
 
     def get_organization_adaptive_policy_group(
-        self, *, organization_id: str, id_: str
+        self, *, organization_id: str, id: str
     ) -> GetOrganizationAdaptivePolicyGroupResponse | None:
         """Returns an adaptive policy group.
 
@@ -785,12 +785,12 @@ class Organizations:
 
         Args:
             organization_id: Organization ID.
-            id_: ID.
+            id: ID.
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        id_ = urllib.parse.quote(str(id_), safe="")
-        path = f"/organizations/{organization_id}/adaptivePolicy/groups/{id_}"
+        id = urllib.parse.quote(str(id), safe="")
+        path = f"/organizations/{organization_id}/adaptivePolicy/groups/{id}"
 
         return self._session.get(
             scope="organizations",
@@ -803,7 +803,7 @@ class Organizations:
         self,
         *,
         organization_id: str,
-        id_: str,
+        id: str,
         name: str | None = None,
         sgt: int | None = None,
         description: str | None = None,
@@ -815,7 +815,7 @@ class Organizations:
 
         Args:
             organization_id: Organization ID.
-            id_: ID.
+            id: ID.
             name: Name of the group.
             sgt: SGT value of the group.
             description: Description of the group.
@@ -826,8 +826,8 @@ class Organizations:
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        id_ = urllib.parse.quote(str(id_), safe="")
-        path = f"/organizations/{organization_id}/adaptivePolicy/groups/{id_}"
+        id = urllib.parse.quote(str(id), safe="")
+        path = f"/organizations/{organization_id}/adaptivePolicy/groups/{id}"
 
         payload = {}
         if name is not None:
@@ -849,19 +849,19 @@ class Organizations:
             response_schema=UpdateOrganizationAdaptivePolicyGroupResponse,
         )
 
-    def delete_organization_adaptive_policy_group(self, *, organization_id: str, id_: str) -> None:
+    def delete_organization_adaptive_policy_group(self, *, organization_id: str, id: str) -> None:
         """Deletes the specified adaptive policy group and any associated policies and references.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-adaptive-policy-group
 
         Args:
             organization_id: Organization ID.
-            id_: ID.
+            id: ID.
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        id_ = urllib.parse.quote(str(id_), safe="")
-        path = f"/organizations/{organization_id}/adaptivePolicy/groups/{id_}"
+        id = urllib.parse.quote(str(id), safe="")
+        path = f"/organizations/{organization_id}/adaptivePolicy/groups/{id}"
 
         return self._session.delete(
             scope="organizations", operation_id="deleteOrganizationAdaptivePolicyGroup", path=path
@@ -962,7 +962,7 @@ class Organizations:
         )
 
     def get_organization_adaptive_policy_policy(
-        self, *, organization_id: str, id_: str
+        self, *, organization_id: str, id: str
     ) -> GetOrganizationAdaptivePolicyPolicyResponse | None:
         """Return an adaptive policy.
 
@@ -970,12 +970,12 @@ class Organizations:
 
         Args:
             organization_id: Organization ID.
-            id_: ID.
+            id: ID.
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        id_ = urllib.parse.quote(str(id_), safe="")
-        path = f"/organizations/{organization_id}/adaptivePolicy/policies/{id_}"
+        id = urllib.parse.quote(str(id), safe="")
+        path = f"/organizations/{organization_id}/adaptivePolicy/policies/{id}"
 
         return self._session.get(
             scope="organizations",
@@ -988,7 +988,7 @@ class Organizations:
         self,
         *,
         organization_id: str,
-        id_: str,
+        id: str,
         source_group: UpdateOrganizationAdaptivePolicyPolicySourceGroup | None = None,
         destination_group: UpdateOrganizationAdaptivePolicyPolicyDestinationGroup | None = None,
         acls: list[UpdateOrganizationAdaptivePolicyPolicyAclsItem] | None = None,
@@ -1000,7 +1000,7 @@ class Organizations:
 
         Args:
             organization_id: Organization ID.
-            id_: ID.
+            id: ID.
             source_group: The source adaptive policy group (requires one unique attribute).
             destination_group: The destination adaptive policy group (requires one unique
               attribute).
@@ -1016,8 +1016,8 @@ class Organizations:
             )
 
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        id_ = urllib.parse.quote(str(id_), safe="")
-        path = f"/organizations/{organization_id}/adaptivePolicy/policies/{id_}"
+        id = urllib.parse.quote(str(id), safe="")
+        path = f"/organizations/{organization_id}/adaptivePolicy/policies/{id}"
 
         payload = {}
         if source_group is not None:
@@ -1039,19 +1039,19 @@ class Organizations:
             response_schema=UpdateOrganizationAdaptivePolicyPolicyResponse,
         )
 
-    def delete_organization_adaptive_policy_policy(self, *, organization_id: str, id_: str) -> None:
+    def delete_organization_adaptive_policy_policy(self, *, organization_id: str, id: str) -> None:
         """Delete an Adaptive Policy.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-adaptive-policy-policy
 
         Args:
             organization_id: Organization ID.
-            id_: ID.
+            id: ID.
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        id_ = urllib.parse.quote(str(id_), safe="")
-        path = f"/organizations/{organization_id}/adaptivePolicy/policies/{id_}"
+        id = urllib.parse.quote(str(id), safe="")
+        path = f"/organizations/{organization_id}/adaptivePolicy/policies/{id}"
 
         return self._session.delete(
             scope="organizations", operation_id="deleteOrganizationAdaptivePolicyPolicy", path=path
@@ -2308,7 +2308,7 @@ class Organizations:
         )
 
     def get_organization_assurance_alert(
-        self, *, organization_id: str, id_: str
+        self, *, organization_id: str, id: str
     ) -> GetOrganizationAssuranceAlertResponse | None:
         """Return a singular Health Alert by its id.
 
@@ -2316,12 +2316,12 @@ class Organizations:
 
         Args:
             organization_id: Organization ID.
-            id_: ID.
+            id: ID.
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        id_ = urllib.parse.quote(str(id_), safe="")
-        path = f"/organizations/{organization_id}/assurance/alerts/{id_}"
+        id = urllib.parse.quote(str(id), safe="")
+        path = f"/organizations/{organization_id}/assurance/alerts/{id}"
 
         return self._session.get(
             scope="organizations",
@@ -5301,7 +5301,7 @@ class Organizations:
         )
 
     def get_organization_inventory_devices_swaps_bulk(
-        self, *, organization_id: str, id_: str
+        self, *, organization_id: str, id: str
     ) -> GetOrganizationInventoryDevicesSwapsBulkResponse | None:
         """List of device swaps for a given request ID ({id}).
 
@@ -5309,12 +5309,12 @@ class Organizations:
 
         Args:
             organization_id: Organization ID.
-            id_: ID.
+            id: ID.
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        id_ = urllib.parse.quote(str(id_), safe="")
-        path = f"/organizations/{organization_id}/inventory/devices/swaps/bulk/{id_}"
+        id = urllib.parse.quote(str(id), safe="")
+        path = f"/organizations/{organization_id}/inventory/devices/swaps/bulk/{id}"
 
         return self._session.get(
             scope="organizations",
@@ -7154,7 +7154,7 @@ class Organizations:
         )
 
     def get_organization_splash_asset(
-        self, *, organization_id: str, id_: str
+        self, *, organization_id: str, id: str
     ) -> GetOrganizationSplashAssetResponse | None:
         """Get a Splash Theme Asset.
 
@@ -7162,12 +7162,12 @@ class Organizations:
 
         Args:
             organization_id: Organization ID.
-            id_: ID.
+            id: ID.
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        id_ = urllib.parse.quote(str(id_), safe="")
-        path = f"/organizations/{organization_id}/splash/assets/{id_}"
+        id = urllib.parse.quote(str(id), safe="")
+        path = f"/organizations/{organization_id}/splash/assets/{id}"
 
         return self._session.get(
             scope="organizations",
@@ -7176,19 +7176,19 @@ class Organizations:
             response_schema=GetOrganizationSplashAssetResponse,
         )
 
-    def delete_organization_splash_asset(self, *, organization_id: str, id_: str) -> None:
+    def delete_organization_splash_asset(self, *, organization_id: str, id: str) -> None:
         """Delete a Splash Theme Asset.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-splash-asset
 
         Args:
             organization_id: Organization ID.
-            id_: ID.
+            id: ID.
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        id_ = urllib.parse.quote(str(id_), safe="")
-        path = f"/organizations/{organization_id}/splash/assets/{id_}"
+        id = urllib.parse.quote(str(id), safe="")
+        path = f"/organizations/{organization_id}/splash/assets/{id}"
 
         return self._session.delete(
             scope="organizations", operation_id="deleteOrganizationSplashAsset", path=path
@@ -7245,19 +7245,19 @@ class Organizations:
             response_schema=CreateOrganizationSplashThemeResponse,
         )
 
-    def delete_organization_splash_theme(self, *, organization_id: str, id_: str) -> None:
+    def delete_organization_splash_theme(self, *, organization_id: str, id: str) -> None:
         """Delete a Splash Theme.
 
         https://developer.cisco.com/meraki/api-v1/#!delete-organization-splash-theme
 
         Args:
             organization_id: Organization ID.
-            id_: ID.
+            id: ID.
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        id_ = urllib.parse.quote(str(id_), safe="")
-        path = f"/organizations/{organization_id}/splash/themes/{id_}"
+        id = urllib.parse.quote(str(id), safe="")
+        path = f"/organizations/{organization_id}/splash/themes/{id}"
 
         return self._session.delete(
             scope="organizations", operation_id="deleteOrganizationSplashTheme", path=path

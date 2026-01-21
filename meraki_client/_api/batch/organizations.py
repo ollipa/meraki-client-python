@@ -214,7 +214,7 @@ class ActionBatchOrganizations:
         self,
         *,
         organization_id: str,
-        id_: str,
+        id: str,
         name: str | None = None,
         sgt: int | None = None,
         description: str | None = None,
@@ -226,7 +226,7 @@ class ActionBatchOrganizations:
 
         Args:
             organization_id: Organization ID.
-            id_: ID.
+            id: ID.
             name: Name of the group.
             sgt: SGT value of the group.
             description: Description of the group.
@@ -237,8 +237,8 @@ class ActionBatchOrganizations:
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        id_ = urllib.parse.quote(str(id_), safe="")
-        path = f"/organizations/{organization_id}/adaptivePolicy/groups/{id_}"
+        id = urllib.parse.quote(str(id), safe="")
+        path = f"/organizations/{organization_id}/adaptivePolicy/groups/{id}"
 
         payload = {}
         if name is not None:
@@ -259,7 +259,7 @@ class ActionBatchOrganizations:
         )
 
     def delete_organization_adaptive_policy_group(
-        self, *, organization_id: str, id_: str
+        self, *, organization_id: str, id: str
     ) -> CreateOrganizationActionBatchActionsItem:
         """Deletes the specified adaptive policy group and any associated policies and references.
 
@@ -267,12 +267,12 @@ class ActionBatchOrganizations:
 
         Args:
             organization_id: Organization ID.
-            id_: ID.
+            id: ID.
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        id_ = urllib.parse.quote(str(id_), safe="")
-        path = f"/organizations/{organization_id}/adaptivePolicy/groups/{id_}"
+        id = urllib.parse.quote(str(id), safe="")
+        path = f"/organizations/{organization_id}/adaptivePolicy/groups/{id}"
 
         return CreateOrganizationActionBatchActionsItem(
             resource=path,
@@ -333,7 +333,7 @@ class ActionBatchOrganizations:
         self,
         *,
         organization_id: str,
-        id_: str,
+        id: str,
         source_group: UpdateOrganizationAdaptivePolicyPolicySourceGroup | None = None,
         destination_group: UpdateOrganizationAdaptivePolicyPolicyDestinationGroup | None = None,
         acls: list[UpdateOrganizationAdaptivePolicyPolicyAclsItem] | None = None,
@@ -345,7 +345,7 @@ class ActionBatchOrganizations:
 
         Args:
             organization_id: Organization ID.
-            id_: ID.
+            id: ID.
             source_group: The source adaptive policy group (requires one unique attribute).
             destination_group: The destination adaptive policy group (requires one unique
               attribute).
@@ -361,8 +361,8 @@ class ActionBatchOrganizations:
             )
 
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        id_ = urllib.parse.quote(str(id_), safe="")
-        path = f"/organizations/{organization_id}/adaptivePolicy/policies/{id_}"
+        id = urllib.parse.quote(str(id), safe="")
+        path = f"/organizations/{organization_id}/adaptivePolicy/policies/{id}"
 
         payload = {}
         if source_group is not None:
@@ -383,7 +383,7 @@ class ActionBatchOrganizations:
         )
 
     def delete_organization_adaptive_policy_policy(
-        self, *, organization_id: str, id_: str
+        self, *, organization_id: str, id: str
     ) -> CreateOrganizationActionBatchActionsItem:
         """Delete an Adaptive Policy.
 
@@ -391,12 +391,12 @@ class ActionBatchOrganizations:
 
         Args:
             organization_id: Organization ID.
-            id_: ID.
+            id: ID.
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        id_ = urllib.parse.quote(str(id_), safe="")
-        path = f"/organizations/{organization_id}/adaptivePolicy/policies/{id_}"
+        id = urllib.parse.quote(str(id), safe="")
+        path = f"/organizations/{organization_id}/adaptivePolicy/policies/{id}"
 
         return CreateOrganizationActionBatchActionsItem(
             resource=path,
@@ -1881,7 +1881,7 @@ class ActionBatchOrganizations:
         )
 
     def delete_organization_splash_asset(
-        self, *, organization_id: str, id_: str
+        self, *, organization_id: str, id: str
     ) -> CreateOrganizationActionBatchActionsItem:
         """Delete a Splash Theme Asset.
 
@@ -1889,12 +1889,12 @@ class ActionBatchOrganizations:
 
         Args:
             organization_id: Organization ID.
-            id_: ID.
+            id: ID.
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        id_ = urllib.parse.quote(str(id_), safe="")
-        path = f"/organizations/{organization_id}/splash/assets/{id_}"
+        id = urllib.parse.quote(str(id), safe="")
+        path = f"/organizations/{organization_id}/splash/assets/{id}"
 
         return CreateOrganizationActionBatchActionsItem(
             resource=path,
@@ -1930,7 +1930,7 @@ class ActionBatchOrganizations:
         )
 
     def delete_organization_splash_theme(
-        self, *, organization_id: str, id_: str
+        self, *, organization_id: str, id: str
     ) -> CreateOrganizationActionBatchActionsItem:
         """Delete a Splash Theme.
 
@@ -1938,12 +1938,12 @@ class ActionBatchOrganizations:
 
         Args:
             organization_id: Organization ID.
-            id_: ID.
+            id: ID.
 
         """
         organization_id = urllib.parse.quote(str(organization_id), safe="")
-        id_ = urllib.parse.quote(str(id_), safe="")
-        path = f"/organizations/{organization_id}/splash/themes/{id_}"
+        id = urllib.parse.quote(str(id), safe="")
+        path = f"/organizations/{organization_id}/splash/themes/{id}"
 
         return CreateOrganizationActionBatchActionsItem(
             resource=path,

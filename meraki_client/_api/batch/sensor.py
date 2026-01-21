@@ -150,7 +150,7 @@ class ActionBatchSensor:
         self,
         *,
         network_id: str,
-        id_: str,
+        id: str,
         name: str | None = None,
         schedule: UpdateNetworkSensorAlertsProfileSchedule | None = None,
         conditions: list[UpdateNetworkSensorAlertsProfileConditionsItem] | None = None,
@@ -165,7 +165,7 @@ class ActionBatchSensor:
 
         Args:
             network_id: Network ID.
-            id_: ID.
+            id: ID.
             name: Name of the sensor alert profile.
             schedule: The sensor schedule to use with the alert profile.
             conditions: List of conditions that will cause the profile to send an alert.
@@ -176,8 +176,8 @@ class ActionBatchSensor:
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
-        id_ = urllib.parse.quote(str(id_), safe="")
-        path = f"/networks/{network_id}/sensor/alerts/profiles/{id_}"
+        id = urllib.parse.quote(str(id), safe="")
+        path = f"/networks/{network_id}/sensor/alerts/profiles/{id}"
 
         payload = {}
         if name is not None:
@@ -204,7 +204,7 @@ class ActionBatchSensor:
         )
 
     def delete_network_sensor_alerts_profile(
-        self, *, network_id: str, id_: str
+        self, *, network_id: str, id: str
     ) -> CreateOrganizationActionBatchActionsItem:
         """Deletes a sensor alert profile from a network.
 
@@ -212,12 +212,12 @@ class ActionBatchSensor:
 
         Args:
             network_id: Network ID.
-            id_: ID.
+            id: ID.
 
         """
         network_id = urllib.parse.quote(str(network_id), safe="")
-        id_ = urllib.parse.quote(str(id_), safe="")
-        path = f"/networks/{network_id}/sensor/alerts/profiles/{id_}"
+        id = urllib.parse.quote(str(id), safe="")
+        path = f"/networks/{network_id}/sensor/alerts/profiles/{id}"
 
         return CreateOrganizationActionBatchActionsItem(
             resource=path,

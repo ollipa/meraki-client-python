@@ -22,7 +22,7 @@ class CheckinNetworkSmDevicesResponse(_BaseSchema):
 class CreateNetworkSmTargetGroupResponse(_BaseSchema):
     """Response for createNetworkSmTargetGroup operation."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     name: str | None = None
     scope: str | None = None
     tags: list[str] | None = None
@@ -65,7 +65,7 @@ class GetNetworkSmDeviceCertsResponseItem(_BaseSchema):
     device_id: str | None = Field(default=None, alias="deviceId")
     issuer: str | None = None
     subject: str | None = None
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
 
 
 class GetNetworkSmDeviceConnectivityResponse(
@@ -136,7 +136,7 @@ class GetNetworkSmDeviceDeviceProfilesResponseItem(_BaseSchema):
     """Schema for GetNetworkSmDeviceDeviceProfilesResponseItem."""
 
     device_id: str | None = Field(default=None, alias="deviceId")
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     is_encrypted: bool | None = Field(default=None, alias="isEncrypted")
     is_managed: bool | None = Field(default=None, alias="isManaged")
     profile_data: str | None = Field(default=None, alias="profileData")
@@ -157,7 +157,7 @@ class GetNetworkSmDeviceNetworkAdaptersResponseItem(_BaseSchema):
     dhcp_server: str | None = Field(default=None, alias="dhcpServer")
     dns_server: str | None = Field(default=None, alias="dnsServer")
     gateway: str | None = None
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     ip: str | None = None
     mac: str | None = None
     name: str | None = None
@@ -215,7 +215,7 @@ class GetNetworkSmDeviceSecurityCentersResponseItem(_BaseSchema):
     fire_wall_name: str | None = Field(default=None, alias="fireWallName")
     is_disk_encrypted: bool | None = Field(default=None, alias="isDiskEncrypted")
     is_auto_login_disabled: bool | None = Field(default=None, alias="isAutoLoginDisabled")
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     running_procs: str | None = Field(default=None, alias="runningProcs")
 
 
@@ -233,7 +233,7 @@ class GetNetworkSmDeviceSoftwaresResponseItem(_BaseSchema):
     created_at: str | None = Field(default=None, alias="createdAt")
     device_id: str | None = Field(default=None, alias="deviceId")
     dynamic_size: int | None = Field(default=None, alias="dynamicSize")
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     identifier: str | None = None
     installed_at: str | None = Field(default=None, alias="installedAt")
     to_install: bool | None = Field(default=None, alias="toInstall")
@@ -263,7 +263,7 @@ class GetNetworkSmDeviceWlanListsResponseItem(_BaseSchema):
     """Schema for GetNetworkSmDeviceWlanListsResponseItem."""
 
     created_at: str | None = Field(default=None, alias="createdAt")
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     xml: str | None = None
 
 
@@ -274,7 +274,7 @@ class GetNetworkSmDevicesResponse(RootModel[list["GetNetworkSmDevicesResponseIte
 class GetNetworkSmDevicesResponseItem(_BaseSchema):
     """Schema for GetNetworkSmDevicesResponseItem."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     name: str | None = None
     tags: list[str] | None = None
     ssid: str | None = None
@@ -295,7 +295,7 @@ class GetNetworkSmProfilesResponse(RootModel[list["GetNetworkSmProfilesResponseI
 class GetNetworkSmProfilesResponseItem(_BaseSchema):
     """Schema for GetNetworkSmProfilesResponseItem."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     name: str | None = None
     description: str | None = None
     scope: str | None = None
@@ -306,7 +306,7 @@ class GetNetworkSmProfilesResponseItem(_BaseSchema):
 class GetNetworkSmTargetGroupResponse(_BaseSchema):
     """Response for getNetworkSmTargetGroup operation."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     name: str | None = None
     scope: str | None = None
     tags: list[str] | None = None
@@ -319,7 +319,7 @@ class GetNetworkSmTargetGroupsResponse(RootModel[list["GetNetworkSmTargetGroupsR
 class GetNetworkSmTargetGroupsResponseItem(_BaseSchema):
     """Schema for GetNetworkSmTargetGroupsResponseItem."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     name: str | None = None
     scope: str | None = None
     tags: list[str] | None = None
@@ -334,7 +334,7 @@ class GetNetworkSmTrustedAccessConfigsResponse(
 class GetNetworkSmTrustedAccessConfigsResponseItem(_BaseSchema):
     """Schema for GetNetworkSmTrustedAccessConfigsResponseItem."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     ssid_name: str | None = Field(default=None, alias="ssidName")
     name: str | None = None
     scope: str | None = None
@@ -358,7 +358,7 @@ class GetNetworkSmUserAccessDevicesResponse(
 class GetNetworkSmUserAccessDevicesResponseItem(_BaseSchema):
     """Schema for GetNetworkSmUserAccessDevicesResponseItem."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     name: str | None = None
     system_type: str | None = Field(default=None, alias="systemType")
     mac: str | None = None
@@ -380,7 +380,7 @@ class GetNetworkSmUserDeviceProfilesResponseItem(_BaseSchema):
     """Schema for GetNetworkSmUserDeviceProfilesResponseItem."""
 
     device_id: str | None = Field(default=None, alias="deviceId")
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     is_encrypted: bool | None = Field(default=None, alias="isEncrypted")
     is_managed: bool | None = Field(default=None, alias="isManaged")
     profile_data: str | None = Field(default=None, alias="profileData")
@@ -401,7 +401,7 @@ class GetNetworkSmUserSoftwaresResponseItem(_BaseSchema):
     created_at: str | None = Field(default=None, alias="createdAt")
     device_id: str | None = Field(default=None, alias="deviceId")
     dynamic_size: int | None = Field(default=None, alias="dynamicSize")
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     identifier: str | None = None
     installed_at: str | None = Field(default=None, alias="installedAt")
     to_install: bool | None = Field(default=None, alias="toInstall")
@@ -428,7 +428,7 @@ class GetNetworkSmUsersResponse(RootModel[list["GetNetworkSmUsersResponseItem"]]
 class GetNetworkSmUsersResponseItem(_BaseSchema):
     """Schema for GetNetworkSmUsersResponseItem."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     email: str | None = None
     full_name: str | None = Field(default=None, alias="fullName")
     username: str | None = None
@@ -510,7 +510,7 @@ class GetOrganizationSmVppAccountResponse(_BaseSchema):
     last_synced_at: str | None = Field(default=None, alias="lastSyncedAt")
     last_force_synced_at: str | None = Field(default=None, alias="lastForceSyncedAt")
     parsed_token: SmParsedToken | None = Field(default=None, alias="parsedToken")
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     vpp_service_token: str | None = Field(default=None, alias="vppServiceToken")
 
 
@@ -536,7 +536,7 @@ class GetOrganizationSmVppAccountsResponseItem(_BaseSchema):
     last_synced_at: str | None = Field(default=None, alias="lastSyncedAt")
     last_force_synced_at: str | None = Field(default=None, alias="lastForceSyncedAt")
     parsed_token: SmParsedToken | None = Field(default=None, alias="parsedToken")
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     vpp_service_token: str | None = Field(default=None, alias="vppServiceToken")
 
 
@@ -553,7 +553,7 @@ class ModifyNetworkSmDevicesTagsResponse(RootModel[list["ModifyNetworkSmDevicesT
 class ModifyNetworkSmDevicesTagsResponseItem(_BaseSchema):
     """Schema for ModifyNetworkSmDevicesTagsResponseItem."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     tags: list[str] | None = None
     wifi_mac: str | None = Field(default=None, alias="wifiMac")
     serial: str | None = None
@@ -658,7 +658,7 @@ class UpdateNetworkSmDevicesFieldsResponse(
 class UpdateNetworkSmDevicesFieldsResponseItem(_BaseSchema):
     """Schema for UpdateNetworkSmDevicesFieldsResponseItem."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     name: str | None = None
     wifi_mac: str | None = Field(default=None, alias="wifiMac")
     serial: str | None = None
@@ -668,7 +668,7 @@ class UpdateNetworkSmDevicesFieldsResponseItem(_BaseSchema):
 class UpdateNetworkSmTargetGroupResponse(_BaseSchema):
     """Response for updateNetworkSmTargetGroup operation."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     name: str | None = None
     scope: str | None = None
     tags: list[str] | None = None
@@ -716,4 +716,4 @@ class UpdateOrganizationSmSentryPoliciesAssignmentsResponseItemsItem(_BaseSchema
 class WipeNetworkSmDevicesResponse(_BaseSchema):
     """Response for wipeNetworkSmDevices operation."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None

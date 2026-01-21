@@ -493,13 +493,13 @@ class WirelessControllerModule(_BaseSchema):
 class WirelessControllerNetwork(_BaseSchema):
     """Wireless LAN controller network."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
 
 
 class WirelessControllerNetwork2(_BaseSchema):
     """Access points network."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     url: str | None = None
     name: str | None = None
 
@@ -549,7 +549,7 @@ class WirelessControllerRedundancy(_BaseSchema):
     """Wireless LAN controller redundancy information."""
 
     role: str | None = None
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     chassis_name: str | None = Field(default=None, alias="chassisName")
     redundant_serial: str | None = Field(default=None, alias="redundantSerial")
     management: WirelessControllerManagement | None = None

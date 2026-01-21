@@ -37,7 +37,7 @@ class CreateDeviceLiveToolsArpTableCallback(_BaseSchema):
 class CreateDeviceLiveToolsArpTableCallbackHttpServer(_BaseSchema):
     """The webhook receiver used for the callback webhook."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
 
 
 class CreateDeviceLiveToolsArpTableResponse(_BaseSchema):
@@ -53,7 +53,7 @@ class CreateDeviceLiveToolsArpTableResponse(_BaseSchema):
 class CreateDeviceLiveToolsArpTableResponseCallback(_BaseSchema):
     """Information for callback used to send back results."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     url: str | None = None
     status: str | None = None
 
@@ -396,7 +396,7 @@ class GetDeviceClientsResponse(RootModel[list["GetDeviceClientsResponseItem"]]):
 class GetDeviceClientsResponseItem(_BaseSchema):
     """Schema for GetDeviceClientsResponseItem."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     mac: str | None = None
     description: str | None = None
     mdns_name: str | None = Field(default=None, alias="mdnsName")

@@ -23,7 +23,7 @@ class Appliance1(_BaseSchema):
 class ApplianceApplicationCategoriesItem(_BaseSchema):
     """Schema for ApplianceApplicationCategoriesItem."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     name: str | None = None
     applications: (
         list[GetNetworkApplianceContentFilteringResponseBlockedUrlCategoriesItem] | None
@@ -33,7 +33,7 @@ class ApplianceApplicationCategoriesItem(_BaseSchema):
 class ApplianceApplicationsItem(_BaseSchema):
     """Schema for ApplianceApplicationsItem."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     name: str | None = None
     type_: str | None = Field(default=None, alias="type")
 
@@ -307,7 +307,7 @@ class ApplianceNeighborsIpv6(_BaseSchema):
 class ApplianceNetwork(_BaseSchema):
     """The network attached to the profile."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
 
 
 class ApplianceOrigin(_BaseSchema):
@@ -543,7 +543,7 @@ class ApplianceValue(_BaseSchema):
 class ApplianceValue2(_BaseSchema):
     """Value of traffic filter."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     protocol: str | None = None
     source: ApplianceSource2 | None = None
     destination: ApplianceDestination2 | None = None
@@ -646,7 +646,7 @@ class CreateNetworkApplianceRfProfilePerSsidSettings1(_BaseSchema):
 class CreateNetworkApplianceRfProfileResponse(_BaseSchema):
     """Response for createNetworkApplianceRfProfile operation."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     network_id: str | None = Field(default=None, alias="networkId")
     name: str | None = None
     two_four_ghz_settings: ApplianceAssignedTwoFourGhzSettings | None = Field(
@@ -670,7 +670,7 @@ class CreateNetworkApplianceRfProfileTwoFourGhzSettings(_BaseSchema):
 class CreateNetworkApplianceStaticRouteResponse(_BaseSchema):
     """Response for createNetworkApplianceStaticRoute operation."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     ip_version: int | None = Field(default=None, alias="ipVersion")
     network_id: str | None = Field(default=None, alias="networkId")
     enabled: bool | None = None
@@ -723,7 +723,7 @@ class CreateNetworkApplianceVlanMandatoryDhcp(_BaseSchema):
 class CreateNetworkApplianceVlanResponse(_BaseSchema):
     """Response for createNetworkApplianceVlan operation."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     interface_id: str | None = Field(default=None, alias="interfaceId")
     name: str | None = None
     subnet: str | None = None
@@ -760,7 +760,7 @@ class CreateOrganizationApplianceDnsLocalProfilesAssignmentsBulkDeleteResponse(_
 class CreateOrganizationApplianceDnsLocalRecordProfile(_BaseSchema):
     """The profile the DNS record is associated with."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
 
 
 class CreateOrganizationApplianceDnsLocalRecordResponse(
@@ -922,7 +922,7 @@ class GetNetworkApplianceContentFilteringResponse(_BaseSchema):
 class GetNetworkApplianceContentFilteringResponseBlockedUrlCategoriesItem(_BaseSchema):
     """Schema for GetNetworkApplianceContentFilteringResponseBlockedUrlCategoriesItem."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     name: str | None = None
 
 
@@ -1063,7 +1063,7 @@ class GetNetworkAppliancePrefixesDelegatedStaticsResponseItem(_BaseSchema):
 class GetNetworkApplianceRfProfileResponse(_BaseSchema):
     """Response for getNetworkApplianceRfProfile operation."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     network_id: str | None = Field(default=None, alias="networkId")
     name: str | None = None
     two_four_ghz_settings: ApplianceAssignedTwoFourGhzSettings | None = Field(
@@ -1086,7 +1086,7 @@ class GetNetworkApplianceRfProfilesResponse(_BaseSchema):
 class GetNetworkApplianceRfProfilesResponseAssignedItem(_BaseSchema):
     """Schema for GetNetworkApplianceRfProfilesResponseAssignedItem."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     network_id: str | None = Field(default=None, alias="networkId")
     name: str | None = None
     two_four_ghz_settings: ApplianceAssignedTwoFourGhzSettings | None = Field(
@@ -1234,7 +1234,7 @@ class GetNetworkApplianceSsidsResponseItem(_BaseSchema):
 class GetNetworkApplianceStaticRouteResponse(_BaseSchema):
     """Response for getNetworkApplianceStaticRoute operation."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     ip_version: int | None = Field(default=None, alias="ipVersion")
     network_id: str | None = Field(default=None, alias="networkId")
     enabled: bool | None = None
@@ -1257,7 +1257,7 @@ class GetNetworkApplianceStaticRoutesResponse(
 class GetNetworkApplianceStaticRoutesResponseItem(_BaseSchema):
     """Schema for GetNetworkApplianceStaticRoutesResponseItem."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     ip_version: int | None = Field(default=None, alias="ipVersion")
     network_id: str | None = Field(default=None, alias="networkId")
     enabled: bool | None = None
@@ -1355,7 +1355,7 @@ class GetNetworkApplianceUplinksUsageHistoryResponseItem(_BaseSchema):
 class GetNetworkApplianceVlanResponse(_BaseSchema):
     """Response for getNetworkApplianceVlan operation."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     interface_id: str | None = Field(default=None, alias="interfaceId")
     name: str | None = None
     subnet: str | None = None
@@ -1390,7 +1390,7 @@ class GetNetworkApplianceVlansResponse(RootModel[list["GetNetworkApplianceVlansR
 class GetNetworkApplianceVlansResponseItem(_BaseSchema):
     """Schema for GetNetworkApplianceVlansResponseItem."""
 
-    id_: int | None = Field(default=None, alias="id")
+    id: int | None = None
     interface_id: str | None = Field(default=None, alias="interfaceId")
     name: str | None = None
     subnet: str | None = None
@@ -1667,7 +1667,7 @@ class GetOrganizationApplianceVpnSiteToSiteIpsecPeersSlasResponse(_BaseSchema):
 class GetOrganizationApplianceVpnSiteToSiteIpsecPeersSlasResponseItemsItem(_BaseSchema):
     """Schema for GetOrganizationApplianceVpnSiteToSiteIpsecPeersSlasResponseItemsItem."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     name: str | None = None
     uri: str | None = None
     ipsec: ApplianceIpsec | None = None
@@ -1934,7 +1934,7 @@ class UpdateNetworkApplianceFirewallMulticastForwardingResponse(_BaseSchema):
 class UpdateNetworkApplianceFirewallMulticastForwardingResponseNetwork(_BaseSchema):
     """Network details."""
 
-    id_: str = Field(alias="id")
+    id: str
     name: str
 
 
@@ -2065,7 +2065,7 @@ class UpdateNetworkApplianceRfProfilePerSsidSettings(_BaseSchema):
 class UpdateNetworkApplianceRfProfileResponse(_BaseSchema):
     """Response for updateNetworkApplianceRfProfile operation."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     network_id: str | None = Field(default=None, alias="networkId")
     name: str | None = None
     two_four_ghz_settings: ApplianceAssignedTwoFourGhzSettings | None = Field(
@@ -2265,7 +2265,7 @@ class UpdateNetworkApplianceStaticRouteReservedIpRangesItem(_BaseSchema):
 class UpdateNetworkApplianceStaticRouteResponse(_BaseSchema):
     """Response for updateNetworkApplianceStaticRoute operation."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     ip_version: int | None = Field(default=None, alias="ipVersion")
     network_id: str | None = Field(default=None, alias="networkId")
     enabled: bool | None = None
@@ -2389,7 +2389,7 @@ class UpdateNetworkApplianceTrafficShapingVpnExclusionsCustomItem(_BaseSchema):
 class UpdateNetworkApplianceTrafficShapingVpnExclusionsMajorApplicationsItem(_BaseSchema):
     """Item schema for majorApplications."""
 
-    id_: str = Field(alias="id")
+    id: str
     name: str | None = None
 
 
@@ -2415,7 +2415,7 @@ class UpdateNetworkApplianceTrafficShapingVpnExclusionsResponseCustomItem(_BaseS
 class UpdateNetworkApplianceTrafficShapingVpnExclusionsResponseMajorApplicationsItem(_BaseSchema):
     """Schema for UpdateNetworkApplianceTrafficShapingVpnExclusionsResponseMajorApplicationsItem."""
 
-    id_: str = Field(alias="id")
+    id: str
     name: str
 
 
@@ -2465,7 +2465,7 @@ class UpdateNetworkApplianceVlanReservedIpRangesItem(_BaseSchema):
 class UpdateNetworkApplianceVlanResponse(_BaseSchema):
     """Response for updateNetworkApplianceVlan operation."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     interface_id: str | None = Field(default=None, alias="interfaceId")
     name: str | None = None
     subnet: str | None = None
@@ -2586,7 +2586,7 @@ class UpdateOrganizationApplianceDnsLocalProfileResponse(_BaseSchema):
 class UpdateOrganizationApplianceDnsLocalRecordProfile(_BaseSchema):
     """The profile the DNS record is associated with."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
 
 
 class UpdateOrganizationApplianceDnsLocalRecordResponse(_BaseSchema):

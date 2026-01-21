@@ -2875,7 +2875,7 @@ class Appliance:
         self,
         *,
         network_id: str,
-        id_: str,
+        id: str,
         name: str,
         subnet: str | None = None,
         appliance_ip: str | None = None,
@@ -2899,7 +2899,7 @@ class Appliance:
 
         Args:
             network_id: Network ID.
-            id_: The VLAN ID of the new VLAN (must be between 1 and 4094).
+            id: The VLAN ID of the new VLAN (must be between 1 and 4094).
             name: The name of the new VLAN.
             subnet: The subnet of the VLAN.
             appliance_ip: The local IP of the appliance on the VLAN.
@@ -2956,8 +2956,8 @@ class Appliance:
         path = f"/networks/{network_id}/appliance/vlans"
 
         payload = {}
-        if id_ is not None:
-            payload["id"] = id_
+        if id is not None:
+            payload["id"] = id
         if name is not None:
             payload["name"] = name
         if subnet is not None:

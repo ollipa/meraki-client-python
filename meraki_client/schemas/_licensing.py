@@ -27,7 +27,7 @@ class BindAdministeredLicensingSubscriptionSubscriptionResponse(_BaseSchema):
 class BindAdministeredLicensingSubscriptionSubscriptionResponseNetworksItem(_BaseSchema):
     """Schema for BindAdministeredLicensingSubscriptionSubscriptionResponseNetworksItem."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     name: str | None = None
 
 
@@ -139,7 +139,7 @@ class GetOrganizationLicensingCotermLicensesResponseItem(_BaseSchema):
 class LicensingAccount(_BaseSchema):
     """Smart Account data."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     name: str | None = None
     domain: str | None = None
 
@@ -218,7 +218,7 @@ class LicensingSmartAccount(_BaseSchema):
 class LicensingSubscription(_BaseSchema):
     """Subscription details."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     name: str | None = None
     status: str | None = None
 

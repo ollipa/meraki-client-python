@@ -14,7 +14,7 @@ from meraki_client.schemas._base import _BaseSchema
 class CreateOrganizationInsightMonitoredMediaServerResponse(_BaseSchema):
     """Response for createOrganizationInsightMonitoredMediaServer operation."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     name: str | None = None
     address: str | None = None
     best_effort_monitoring_enabled: bool | None = Field(
@@ -62,7 +62,7 @@ class GetOrganizationInsightApplicationsResponseItem(_BaseSchema):
 class GetOrganizationInsightMonitoredMediaServerResponse(_BaseSchema):
     """Response for getOrganizationInsightMonitoredMediaServer operation."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     name: str | None = None
     address: str | None = None
     best_effort_monitoring_enabled: bool | None = Field(
@@ -79,7 +79,7 @@ class GetOrganizationInsightMonitoredMediaServersResponse(
 class GetOrganizationInsightMonitoredMediaServersResponseItem(_BaseSchema):
     """Schema for GetOrganizationInsightMonitoredMediaServersResponseItem."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     name: str | None = None
     address: str | None = None
     best_effort_monitoring_enabled: bool | None = Field(
@@ -105,7 +105,7 @@ class InsightThresholds(_BaseSchema):
 class UpdateOrganizationInsightMonitoredMediaServerResponse(_BaseSchema):
     """Response for updateOrganizationInsightMonitoredMediaServer operation."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     name: str | None = None
     address: str | None = None
     best_effort_monitoring_enabled: bool | None = Field(

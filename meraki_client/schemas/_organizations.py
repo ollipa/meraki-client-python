@@ -24,7 +24,7 @@ class AssignOrganizationLicensesSeatsResponse(_BaseSchema):
 class AssignOrganizationLicensesSeatsResponseResultingLicensesItem(_BaseSchema):
     """Schema for AssignOrganizationLicensesSeatsResponseResultingLicensesItem."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     license_type: str | None = Field(default=None, alias="licenseType")
     license_key: str | None = Field(default=None, alias="licenseKey")
     order_number: str | None = Field(default=None, alias="orderNumber")
@@ -152,7 +152,7 @@ class ClaimOrganizationInventoryOrdersSubscriptionsItem(_BaseSchema):
 class CloneOrganizationResponse(_BaseSchema):
     """Response for cloneOrganization operation."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     name: str | None = None
     url: str | None = None
     api: OrganizationsApi | None = None
@@ -193,13 +193,13 @@ class CreateOrganizationActionBatchCallback(_BaseSchema):
 class CreateOrganizationActionBatchCallbackHttpServer(_BaseSchema):
     """The webhook receiver used for the callback webhook."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
 
 
 class CreateOrganizationActionBatchResponse(_BaseSchema):
     """Response for createOrganizationActionBatch operation."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     organization_id: str | None = Field(default=None, alias="organizationId")
     confirmed: bool | None = None
     synchronous: bool | None = None
@@ -211,7 +211,7 @@ class CreateOrganizationActionBatchResponse(_BaseSchema):
 class CreateOrganizationActionBatchResponseCallback(_BaseSchema):
     """Information for callback used to send back results."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     url: str | None = None
     status: str | None = None
 
@@ -242,7 +242,7 @@ class CreateOrganizationAdaptivePolicyAclRulesItem(_BaseSchema):
 class CreateOrganizationAdaptivePolicyGroupPolicyObjectsItem(_BaseSchema):
     """Item schema for policyObjects."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     name: str | None = None
 
 
@@ -265,14 +265,14 @@ class CreateOrganizationAdaptivePolicyGroupResponse(_BaseSchema):
 class CreateOrganizationAdaptivePolicyPolicyAclsItem(_BaseSchema):
     """Item schema for acls."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     name: str | None = None
 
 
 class CreateOrganizationAdaptivePolicyPolicyDestinationGroup(_BaseSchema):
     """The destination adaptive policy group (requires one unique attribute)."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     name: str | None = None
     sgt: int | None = None
 
@@ -294,7 +294,7 @@ class CreateOrganizationAdaptivePolicyPolicyResponse(_BaseSchema):
 class CreateOrganizationAdaptivePolicyPolicySourceGroup(_BaseSchema):
     """The source adaptive policy group (requires one unique attribute)."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     name: str | None = None
     sgt: int | None = None
 
@@ -302,14 +302,14 @@ class CreateOrganizationAdaptivePolicyPolicySourceGroup(_BaseSchema):
 class CreateOrganizationAdminNetworksItem(_BaseSchema):
     """Item schema for networks."""
 
-    id_: str = Field(alias="id")
+    id: str
     access: str
 
 
 class CreateOrganizationAdminResponse(_BaseSchema):
     """Response for createOrganizationAdmin operation."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     name: str | None = None
     email: str | None = None
     org_access: str | None = Field(default=None, alias="orgAccess")
@@ -352,7 +352,7 @@ class CreateOrganizationAlertsProfileRecipients(_BaseSchema):
 class CreateOrganizationAlertsProfileResponse(_BaseSchema):
     """Response for createOrganizationAlertsProfile operation."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     type_: str | None = Field(default=None, alias="type")
     enabled: bool | None = None
     alert_condition: OrganizationsAlertCondition | None = Field(
@@ -433,7 +433,7 @@ class CreateOrganizationBrandingPolicyResponse(_BaseSchema):
 class CreateOrganizationConfigTemplateResponse(_BaseSchema):
     """Response for createOrganizationConfigTemplate operation."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     name: str | None = None
     product_types: list[str] | None = Field(default=None, alias="productTypes")
     time_zone: str | None = Field(default=None, alias="timeZone")
@@ -534,7 +534,7 @@ class CreateOrganizationDevicesPacketCaptureScheduleSchedule(_BaseSchema):
 class CreateOrganizationEarlyAccessFeaturesOptInResponse(_BaseSchema):
     """Response for createOrganizationEarlyAccessFeaturesOptIn operation."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     short_name: str | None = Field(default=None, alias="shortName")
     limit_scope_to_networks: list[OrganizationsPolicyObjectsItem] | None = Field(
         default=None, alias="limitScopeToNetworks"
@@ -555,7 +555,7 @@ class CreateOrganizationInventoryDevicesSwapsBulkResponse(_BaseSchema):
 class CreateOrganizationInventoryDevicesSwapsBulkResponseSwapsItem(_BaseSchema):
     """Schema for CreateOrganizationInventoryDevicesSwapsBulkResponseSwapsItem."""
 
-    id_: str = Field(alias="id")
+    id: str
     devices: OrganizationsSwapsDevices
     status: str
     after_action: str = Field(alias="afterAction")
@@ -668,7 +668,7 @@ class CreateOrganizationManagement(_BaseSchema):
 class CreateOrganizationNetworkResponse(_BaseSchema):
     """Response for createOrganizationNetwork operation."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     organization_id: str | None = Field(default=None, alias="organizationId")
     name: str | None = None
     product_types: list[str] | None = Field(default=None, alias="productTypes")
@@ -683,7 +683,7 @@ class CreateOrganizationNetworkResponse(_BaseSchema):
 class CreateOrganizationPolicyObjectResponse(_BaseSchema):
     """Response for createOrganizationPolicyObject operation."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     name: str | None = None
     category: str | None = None
     type_: str | None = Field(default=None, alias="type")
@@ -697,7 +697,7 @@ class CreateOrganizationPolicyObjectResponse(_BaseSchema):
 class CreateOrganizationPolicyObjectsGroupResponse(_BaseSchema):
     """Response for createOrganizationPolicyObjectsGroup operation."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     name: str | None = None
     category: str | None = None
     created_at: str | None = Field(default=None, alias="createdAt")
@@ -709,7 +709,7 @@ class CreateOrganizationPolicyObjectsGroupResponse(_BaseSchema):
 class CreateOrganizationResponse(_BaseSchema):
     """Response for createOrganization operation."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     name: str | None = None
     url: str | None = None
     api: OrganizationsApi | None = None
@@ -736,14 +736,14 @@ class CreateOrganizationSamlIdpResponseItem(_BaseSchema):
 class CreateOrganizationSamlRoleNetworksItem(_BaseSchema):
     """Item schema for networks."""
 
-    id_: str = Field(alias="id")
+    id: str
     access: str
 
 
 class CreateOrganizationSamlRoleResponse(_BaseSchema):
     """Response for createOrganizationSamlRole operation."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     role: str | None = None
     org_access: str | None = Field(default=None, alias="orgAccess")
     networks: list[OrganizationsNetworksItem] | None = None
@@ -761,7 +761,7 @@ class CreateOrganizationSamlRoleTagsItem(_BaseSchema):
 class CreateOrganizationSplashThemeAssetResponse(_BaseSchema):
     """Response for createOrganizationSplashThemeAsset operation."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     name: str | None = None
     file_data: str | None = Field(default=None, alias="fileData")
 
@@ -769,7 +769,7 @@ class CreateOrganizationSplashThemeAssetResponse(_BaseSchema):
 class CreateOrganizationSplashThemeResponse(_BaseSchema):
     """Response for createOrganizationSplashTheme operation."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     name: str | None = None
     theme_assets: list[OrganizationsPolicyObjectsItem] | None = Field(
         default=None, alias="themeAssets"
@@ -813,7 +813,7 @@ class GenerateOrganizationDevicesPacketCaptureCaptureDownloadUrlResponse(_BaseSc
 class GetOrganizationActionBatchResponse(_BaseSchema):
     """Response for getOrganizationActionBatch operation."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     organization_id: str | None = Field(default=None, alias="organizationId")
     confirmed: bool | None = None
     synchronous: bool | None = None
@@ -831,7 +831,7 @@ class GetOrganizationActionBatchesResponse(
 class GetOrganizationActionBatchesResponseItem(_BaseSchema):
     """Schema for GetOrganizationActionBatchesResponseItem."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     organization_id: str | None = Field(default=None, alias="organizationId")
     confirmed: bool | None = None
     synchronous: bool | None = None
@@ -982,7 +982,7 @@ class GetOrganizationAdminsResponse(RootModel[list["GetOrganizationAdminsRespons
 class GetOrganizationAdminsResponseItem(_BaseSchema):
     """Schema for GetOrganizationAdminsResponseItem."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     name: str | None = None
     email: str | None = None
     org_access: str | None = Field(default=None, alias="orgAccess")
@@ -1004,7 +1004,7 @@ class GetOrganizationAlertsProfilesResponse(
 class GetOrganizationAlertsProfilesResponseItem(_BaseSchema):
     """Schema for GetOrganizationAlertsProfilesResponseItem."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     type_: str | None = Field(default=None, alias="type")
     enabled: bool | None = None
     alert_condition: OrganizationsAlertCondition | None = Field(
@@ -1114,7 +1114,7 @@ class GetOrganizationApiRequestsResponseItem(_BaseSchema):
 class GetOrganizationAssuranceAlertResponse(_BaseSchema):
     """Response for getOrganizationAssuranceAlert operation."""
 
-    id_: str = Field(alias="id")
+    id: str
     category_type: str = Field(alias="categoryType")
     network: OrganizationsNetwork
     started_at: str = Field(alias="startedAt")
@@ -1202,7 +1202,7 @@ class GetOrganizationAssuranceAlertsResponse(
 class GetOrganizationAssuranceAlertsResponseItem(_BaseSchema):
     """Schema for GetOrganizationAssuranceAlertsResponseItem."""
 
-    id_: str = Field(alias="id")
+    id: str
     category_type: str = Field(alias="categoryType")
     network: OrganizationsNetwork
     started_at: str = Field(alias="startedAt")
@@ -1349,7 +1349,7 @@ class GetOrganizationClientsSearchResponseRecordsItem(_BaseSchema):
 class GetOrganizationConfigTemplateResponse(_BaseSchema):
     """Response for getOrganizationConfigTemplate operation."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     name: str | None = None
     product_types: list[str] | None = Field(default=None, alias="productTypes")
     time_zone: str | None = Field(default=None, alias="timeZone")
@@ -1364,7 +1364,7 @@ class GetOrganizationConfigTemplatesResponse(
 class GetOrganizationConfigTemplatesResponseItem(_BaseSchema):
     """Schema for GetOrganizationConfigTemplatesResponseItem."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     name: str | None = None
     product_types: list[str] | None = Field(default=None, alias="productTypes")
     time_zone: str | None = Field(default=None, alias="timeZone")
@@ -1687,7 +1687,7 @@ class GetOrganizationDevicesUplinksLossAndLatencyResponseItem(_BaseSchema):
 class GetOrganizationEarlyAccessFeaturesOptInResponse(_BaseSchema):
     """Response for getOrganizationEarlyAccessFeaturesOptIn operation."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     short_name: str | None = Field(default=None, alias="shortName")
     limit_scope_to_networks: list[OrganizationsPolicyObjectsItem] | None = Field(
         default=None, alias="limitScopeToNetworks"
@@ -1701,7 +1701,7 @@ class GetOrganizationEarlyAccessFeaturesOptInResponse(_BaseSchema):
 class GetOrganizationEarlyAccessFeaturesOptInsResponse(_BaseSchema):
     """Response for getOrganizationEarlyAccessFeaturesOptIns operation."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     short_name: str | None = Field(default=None, alias="shortName")
     limit_scope_to_networks: list[OrganizationsPolicyObjectsItem] | None = Field(
         default=None, alias="limitScopeToNetworks"
@@ -1898,7 +1898,7 @@ class GetOrganizationInventoryOnboardingCloudMonitoringNetworksResponse(
 class GetOrganizationInventoryOnboardingCloudMonitoringNetworksResponseItem(_BaseSchema):
     """Schema for GetOrganizationInventoryOnboardingCloudMonitoringNetworksResponseItem."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     organization_id: str | None = Field(default=None, alias="organizationId")
     name: str | None = None
     product_types: list[str] | None = Field(default=None, alias="productTypes")
@@ -1913,7 +1913,7 @@ class GetOrganizationInventoryOnboardingCloudMonitoringNetworksResponseItem(_Bas
 class GetOrganizationLicenseResponse(_BaseSchema):
     """Response for getOrganizationLicense operation."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     license_type: str | None = Field(default=None, alias="licenseType")
     license_key: str | None = Field(default=None, alias="licenseKey")
     order_number: str | None = Field(default=None, alias="orderNumber")
@@ -1983,7 +1983,7 @@ class GetOrganizationLicensesResponse(RootModel[list["GetOrganizationLicensesRes
 class GetOrganizationLicensesResponseItem(_BaseSchema):
     """Schema for GetOrganizationLicensesResponseItem."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     license_type: str | None = Field(default=None, alias="licenseType")
     license_key: str | None = Field(default=None, alias="licenseKey")
     order_number: str | None = Field(default=None, alias="orderNumber")
@@ -2044,7 +2044,7 @@ class GetOrganizationNetworksResponse(RootModel[list["GetOrganizationNetworksRes
 class GetOrganizationNetworksResponseItem(_BaseSchema):
     """Schema for GetOrganizationNetworksResponseItem."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     organization_id: str | None = Field(default=None, alias="organizationId")
     name: str | None = None
     product_types: list[str] | None = Field(default=None, alias="productTypes")
@@ -2075,7 +2075,7 @@ class GetOrganizationPoliciesAssignmentsByClientResponseItem(_BaseSchema):
 class GetOrganizationPolicyObjectResponse(_BaseSchema):
     """Response for getOrganizationPolicyObject operation."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     name: str | None = None
     category: str | None = None
     type_: str | None = Field(default=None, alias="type")
@@ -2089,7 +2089,7 @@ class GetOrganizationPolicyObjectResponse(_BaseSchema):
 class GetOrganizationPolicyObjectsGroupResponse(_BaseSchema):
     """Response for getOrganizationPolicyObjectsGroup operation."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     name: str | None = None
     category: str | None = None
     created_at: str | None = Field(default=None, alias="createdAt")
@@ -2101,7 +2101,7 @@ class GetOrganizationPolicyObjectsGroupResponse(_BaseSchema):
 class GetOrganizationPolicyObjectsGroupsResponse(_BaseSchema):
     """Response for getOrganizationPolicyObjectsGroups operation."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     name: str | None = None
     category: str | None = None
     created_at: str | None = Field(default=None, alias="createdAt")
@@ -2113,7 +2113,7 @@ class GetOrganizationPolicyObjectsGroupsResponse(_BaseSchema):
 class GetOrganizationPolicyObjectsResponse(_BaseSchema):
     """Response for getOrganizationPolicyObjects operation."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     name: str | None = None
     category: str | None = None
     type_: str | None = Field(default=None, alias="type")
@@ -2127,7 +2127,7 @@ class GetOrganizationPolicyObjectsResponse(_BaseSchema):
 class GetOrganizationResponse(_BaseSchema):
     """Response for getOrganization operation."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     name: str | None = None
     url: str | None = None
     api: OrganizationsApi | None = None
@@ -2181,7 +2181,7 @@ class GetOrganizationSamlResponseSpInitiated(_BaseSchema):
 class GetOrganizationSamlRoleResponse(_BaseSchema):
     """Response for getOrganizationSamlRole operation."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     role: str | None = None
     org_access: str | None = Field(default=None, alias="orgAccess")
     networks: list[OrganizationsNetworksItem] | None = None
@@ -2196,7 +2196,7 @@ class GetOrganizationSamlRolesResponse(RootModel[list["GetOrganizationSamlRolesR
 class GetOrganizationSamlRolesResponseItem(_BaseSchema):
     """Schema for GetOrganizationSamlRolesResponseItem."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     role: str | None = None
     org_access: str | None = Field(default=None, alias="orgAccess")
     networks: list[OrganizationsNetworksItem] | None = None
@@ -2221,7 +2221,7 @@ class GetOrganizationSnmpResponse(_BaseSchema):
 class GetOrganizationSplashAssetResponse(_BaseSchema):
     """Response for getOrganizationSplashAsset operation."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     name: str | None = None
     file_data: str | None = Field(default=None, alias="fileData")
 
@@ -2235,7 +2235,7 @@ class GetOrganizationSplashThemesResponse(
 class GetOrganizationSplashThemesResponseItem(_BaseSchema):
     """Schema for GetOrganizationSplashThemesResponseItem."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     name: str | None = None
     theme_assets: list[OrganizationsPolicyObjectsItem] | None = Field(
         default=None, alias="themeAssets"
@@ -2302,7 +2302,7 @@ class GetOrganizationSummaryTopClientsByUsageResponseItem(_BaseSchema):
 
     name: str | None = None
     mac: str | None = None
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     network: OrganizationsPolicyObjectsItem | None = None
     usage: OrganizationsUsage | None = None
 
@@ -2515,7 +2515,7 @@ class GetOrganizationsResponse(RootModel[list["GetOrganizationsResponseItem"]]):
 class GetOrganizationsResponseItem(_BaseSchema):
     """Schema for GetOrganizationsResponseItem."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     name: str | None = None
     url: str | None = None
     api: OrganizationsApi | None = None
@@ -2600,7 +2600,7 @@ class OrganizationsAssignedItem(_BaseSchema):
 
     name: str | None = None
     type_: str | None = Field(default=None, alias="type")
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     limit_to: list[OrganizationsLimitToItem] | None = Field(default=None, alias="limitTo")
 
 
@@ -2656,21 +2656,21 @@ class OrganizationsCameraItem(_BaseSchema):
 class OrganizationsClient(_BaseSchema):
     """Client information."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     type_: str | None = Field(default=None, alias="type")
 
 
 class OrganizationsClient2(_BaseSchema):
     """Client information."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     type_: str | None = Field(default=None, alias="type")
 
 
 class OrganizationsClient3(_BaseSchema):
     """Client of the packet capture file."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     mac: str | None = None
 
 
@@ -2753,7 +2753,7 @@ class OrganizationsCountsByStatus(_BaseSchema):
 class OrganizationsCreatedResourcesItem(_BaseSchema):
     """Schema for OrganizationsCreatedResourcesItem."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     uri: str | None = None
 
 
@@ -2883,7 +2883,7 @@ class OrganizationsFile(_BaseSchema):
 class OrganizationsFloorPlan(_BaseSchema):
     """The assigned floor plan for this device."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     status: str | None = None
 
 
@@ -2898,7 +2898,7 @@ class OrganizationsFree(_BaseSchema):
 class OrganizationsFromVersion(_BaseSchema):
     """The initial version of the device."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     short_name: str | None = Field(default=None, alias="shortName")
     release_date: str | None = Field(default=None, alias="releaseDate")
 
@@ -3003,7 +3003,7 @@ class OrganizationsItemsItem2(_BaseSchema):
 class OrganizationsJobsItem(_BaseSchema):
     """Schema for OrganizationsJobsItem."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     status: str | None = None
     scheduled_at: str | None = Field(default=None, alias="scheduledAt")
     completed: OrganizationsCompleted | None = None
@@ -3078,13 +3078,13 @@ class OrganizationsNetwork(_BaseSchema):
     """Network details."""
 
     name: str
-    id_: str = Field(alias="id")
+    id: str
 
 
 class OrganizationsNetwork2(_BaseSchema):
     """Network information."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     name: str | None = None
     url: str | None = None
     tags: list[str] | None = None
@@ -3093,7 +3093,7 @@ class OrganizationsNetwork2(_BaseSchema):
 class OrganizationsNetwork3(_BaseSchema):
     """Information regarding the network the device belongs to."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     name: str | None = None
     tags: list[str] | None = None
 
@@ -3101,7 +3101,7 @@ class OrganizationsNetwork3(_BaseSchema):
 class OrganizationsNetworksItem(_BaseSchema):
     """Schema for OrganizationsNetworksItem."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     access: str | None = None
 
 
@@ -3137,7 +3137,7 @@ class OrganizationsPercentages(_BaseSchema):
 class OrganizationsPermanentlyQueuedLicensesItem(_BaseSchema):
     """Schema for OrganizationsPermanentlyQueuedLicensesItem."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     license_type: str | None = Field(default=None, alias="licenseType")
     license_key: str | None = Field(default=None, alias="licenseKey")
     order_number: str | None = Field(default=None, alias="orderNumber")
@@ -3154,7 +3154,7 @@ class OrganizationsPoe(_BaseSchema):
 class OrganizationsPolicyObjectsItem(_BaseSchema):
     """Schema for OrganizationsPolicyObjectsItem."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     name: str | None = None
 
 
@@ -3206,7 +3206,7 @@ class OrganizationsRecordsClientVpnConnectionsItem(_BaseSchema):
 class OrganizationsRecordsNetwork(_BaseSchema):
     """The network upon which a client with the given MAC address was found."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     organization_id: str | None = Field(default=None, alias="organizationId")
     name: str | None = None
     product_types: list[str] | None = Field(default=None, alias="productTypes")
@@ -3335,7 +3335,7 @@ class OrganizationsSoonestActivation(_BaseSchema):
 class OrganizationsSourceGroup(_BaseSchema):
     """The source group for the given adaptive policy."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     name: str | None = None
     sgt: int | None = None
 
@@ -3442,7 +3442,7 @@ class OrganizationsTimeSeriesItem(_BaseSchema):
 class OrganizationsToVersion(_BaseSchema):
     """ID of the upgrade's target version."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     short_name: str | None = Field(default=None, alias="shortName")
     firmware: str | None = None
     release_type: str | None = Field(default=None, alias="releaseType")
@@ -3476,7 +3476,7 @@ class OrganizationsUpgrade(_BaseSchema):
     from_version: OrganizationsFromVersion | None = Field(default=None, alias="fromVersion")
     to_version: OrganizationsFromVersion | None = Field(default=None, alias="toVersion")
     status: str | None = None
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     upgrade_batch_id: str | None = Field(default=None, alias="upgradeBatchId")
     staged: OrganizationsStaged | None = None
 
@@ -3667,7 +3667,7 @@ class StopOrganizationDevicesPacketCaptureCaptureResponse(_BaseSchema):
 class UpdateOrganizationActionBatchResponse(_BaseSchema):
     """Response for updateOrganizationActionBatch operation."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     organization_id: str | None = Field(default=None, alias="organizationId")
     confirmed: bool | None = None
     synchronous: bool | None = None
@@ -3701,7 +3701,7 @@ class UpdateOrganizationAdaptivePolicyAclRulesItem(_BaseSchema):
 class UpdateOrganizationAdaptivePolicyGroupPolicyObjectsItem(_BaseSchema):
     """Item schema for policyObjects."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     name: str | None = None
 
 
@@ -3724,14 +3724,14 @@ class UpdateOrganizationAdaptivePolicyGroupResponse(_BaseSchema):
 class UpdateOrganizationAdaptivePolicyPolicyAclsItem(_BaseSchema):
     """Item schema for acls."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     name: str | None = None
 
 
 class UpdateOrganizationAdaptivePolicyPolicyDestinationGroup(_BaseSchema):
     """The destination adaptive policy group (requires one unique attribute)."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     name: str | None = None
     sgt: int | None = None
 
@@ -3753,7 +3753,7 @@ class UpdateOrganizationAdaptivePolicyPolicyResponse(_BaseSchema):
 class UpdateOrganizationAdaptivePolicyPolicySourceGroup(_BaseSchema):
     """The source adaptive policy group (requires one unique attribute)."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     name: str | None = None
     sgt: int | None = None
 
@@ -3767,14 +3767,14 @@ class UpdateOrganizationAdaptivePolicySettingsResponse(_BaseSchema):
 class UpdateOrganizationAdminNetworksItem(_BaseSchema):
     """Item schema for networks."""
 
-    id_: str = Field(alias="id")
+    id: str
     access: str
 
 
 class UpdateOrganizationAdminResponse(_BaseSchema):
     """Response for updateOrganizationAdmin operation."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     name: str | None = None
     email: str | None = None
     org_access: str | None = Field(default=None, alias="orgAccess")
@@ -3817,7 +3817,7 @@ class UpdateOrganizationAlertsProfileRecipients(_BaseSchema):
 class UpdateOrganizationAlertsProfileResponse(_BaseSchema):
     """Response for updateOrganizationAlertsProfile operation."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     type_: str | None = Field(default=None, alias="type")
     enabled: bool | None = None
     alert_condition: OrganizationsAlertCondition | None = Field(
@@ -3902,7 +3902,7 @@ class UpdateOrganizationBrandingPolicyResponse(_BaseSchema):
 class UpdateOrganizationConfigTemplateResponse(_BaseSchema):
     """Response for updateOrganizationConfigTemplate operation."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     name: str | None = None
     product_types: list[str] | None = Field(default=None, alias="productTypes")
     time_zone: str | None = Field(default=None, alias="timeZone")
@@ -3950,7 +3950,7 @@ class UpdateOrganizationDevicesPacketCaptureScheduleSchedule(_BaseSchema):
 class UpdateOrganizationEarlyAccessFeaturesOptInResponse(_BaseSchema):
     """Response for updateOrganizationEarlyAccessFeaturesOptIn operation."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     short_name: str | None = Field(default=None, alias="shortName")
     limit_scope_to_networks: list[OrganizationsPolicyObjectsItem] | None = Field(
         default=None, alias="limitScopeToNetworks"
@@ -3964,7 +3964,7 @@ class UpdateOrganizationEarlyAccessFeaturesOptInResponse(_BaseSchema):
 class UpdateOrganizationLicenseResponse(_BaseSchema):
     """Response for updateOrganizationLicense operation."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     license_type: str | None = Field(default=None, alias="licenseType")
     license_key: str | None = Field(default=None, alias="licenseKey")
     order_number: str | None = Field(default=None, alias="orderNumber")
@@ -4027,7 +4027,7 @@ class UpdateOrganizationManagement(_BaseSchema):
 class UpdateOrganizationPolicyObjectResponse(_BaseSchema):
     """Response for updateOrganizationPolicyObject operation."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     name: str | None = None
     category: str | None = None
     type_: str | None = Field(default=None, alias="type")
@@ -4041,7 +4041,7 @@ class UpdateOrganizationPolicyObjectResponse(_BaseSchema):
 class UpdateOrganizationPolicyObjectsGroupResponse(_BaseSchema):
     """Response for updateOrganizationPolicyObjectsGroup operation."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     name: str | None = None
     category: str | None = None
     created_at: str | None = Field(default=None, alias="createdAt")
@@ -4053,7 +4053,7 @@ class UpdateOrganizationPolicyObjectsGroupResponse(_BaseSchema):
 class UpdateOrganizationResponse(_BaseSchema):
     """Response for updateOrganization operation."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     name: str | None = None
     url: str | None = None
     api: OrganizationsApi | None = None
@@ -4089,14 +4089,14 @@ class UpdateOrganizationSamlResponse(_BaseSchema):
 class UpdateOrganizationSamlRoleNetworksItem(_BaseSchema):
     """Item schema for networks."""
 
-    id_: str = Field(alias="id")
+    id: str
     access: str
 
 
 class UpdateOrganizationSamlRoleResponse(_BaseSchema):
     """Response for updateOrganizationSamlRole operation."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
     role: str | None = None
     org_access: str | None = Field(default=None, alias="orgAccess")
     networks: list[OrganizationsNetworksItem] | None = None

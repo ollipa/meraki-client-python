@@ -41,7 +41,6 @@ RESERVED_NAMES = {
     "with",
     "yield",
     "type",
-    "id",
     "list",
     "dict",
     "set",

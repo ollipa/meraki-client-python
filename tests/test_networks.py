@@ -26,12 +26,12 @@ def test_network_lifecycle(client: MerakiClient, organization_id: str) -> None:
         notes=notes,
     )
     assert created is not None
-    assert created.id_ is not None
+    assert created.id is not None
     assert created.name == network_name
     assert created.product_types == product_types
     assert created.tags == tags
     assert created.notes == notes
-    network_id = created.id_
+    network_id = created.id
 
     updated_name = f"Updated Network {unique_suffix}"
     updated_notes = f"Updated by automated test {unique_suffix}"

@@ -84,7 +84,7 @@ class CellularGatewayMetaCounts(_BaseSchema):
 class CellularGatewayNetwork(_BaseSchema):
     """Meraki Network properties."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id: str | None = None
 
 
 class CellularGatewayPlansItem(_BaseSchema):

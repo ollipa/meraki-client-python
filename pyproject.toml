@@ -129,6 +129,9 @@ packages = ["meraki_client"]
     "F541",    # f-string-missing-placeholders
 ]
 
+[tool.ruff.lint.flake8-builtins]
+ignorelist = ["id"]
+
 [tool.pytest.ini_options]
 xfail_strict = true
 asyncio_mode = "auto"
