@@ -16,7 +16,7 @@ from codegen.utils import to_snake_case
 
 log = logging.getLogger("codegen")
 
-TEST_OUTPUT_DIR = "tests"
+TEST_OUTPUT_DIR = "tests/generated"
 
 # Path parameters we have fixtures for (in original camelCase from OpenAPI spec)
 ALLOWED_PATH_PARAMS = {"organizationId", "networkId", "serial"}
@@ -201,15 +201,19 @@ def _is_paginated(operation: Operation) -> bool:
 
 
 def _recreate_test_directories() -> None:
-    """Recreate test directories, preserving non-generated files."""
-    api_dir = Path(TEST_OUTPUT_DIR) / "api"
+    """Recreate generated test directories."""
+    generated_dir = Path(TEST_OUTPUT_DIR)
 
-    # Remove existing api directory if it exists
-    if api_dir.exists():
-        shutil.rmtree(api_dir)
+    # Remove existing generated directory if it exists
+    if generated_dir.exists():
+        shutil.rmtree(generated_dir)
 
     # Create directories
+    api_dir = generated_dir / "api"
     api_dir.mkdir(parents=True, exist_ok=True)
+
+    # Create __init__.py for generated folder
+    (generated_dir / "__init__.py").write_text('"""Generated API integration tests."""\n')
 
 
 def _init_test_templates() -> _Templates:
