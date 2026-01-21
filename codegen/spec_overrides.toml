@@ -46,8 +46,8 @@ skip_tests = [
 
 # Field type overrides: [operationId.response] with "field.path" = "python_type"
 [getNetworkClients.response]
-firstSeen = "str"
-lastSeen = "str"
+firstSeen = "datetime"
+lastSeen = "datetime"
 
 [getOrganizationClientsBandwidthUsageHistory.response]
 upstream = "float"
@@ -59,3 +59,7 @@ id = "int"
 
 [getNetworkWirelessMeshStatuses.response]
 "latestMeshPerformance.mbps" = "float"
+
+[getNetworkFirmwareUpgrades.response]
+# The field is either a datetime or empty string
+"products.wireless.nextUpgrade.time" = "str"

@@ -29,6 +29,13 @@ log = logging.getLogger("codegen")
 SCHEMA_DOCSTRING_WIDTH = 96
 MAX_CLASS_NAME_LENGTH = 80
 TYPE_MAP = {"string": "str", "integer": "int", "number": "float", "boolean": "bool"}
+FORMAT_MAP = {
+    "date-time": "datetime",
+    "date": "date",
+    "time": "time",
+    "byte": "str",  # base64 encoded, keep as string
+    "float": "float",  # redundant with type: number
+}
 
 
 class SchemaStatus(Enum):
@@ -683,6 +690,11 @@ def _get_python_type(
 def _get_simple_type(schema: dict[str, Any]) -> str:
     """Get Python type for simple (non-class) schema types."""
     schema_type = schema.get("type")
+    schema_format = schema.get("schema_format") or schema.get("format")
+    if schema_format and schema_format not in FORMAT_MAP:
+        log.warning(f"Unknown schema format: {schema_format}")
+    if schema_type == "string" and schema_format in FORMAT_MAP:
+        return FORMAT_MAP[schema_format]
     if schema_type in TYPE_MAP:
         return TYPE_MAP[schema_type]
     if schema_type == "array":
@@ -854,6 +866,10 @@ def _normalize_schema(schema: dict[str, Any], *, is_required: bool = False) -> d
 
     if "type" in schema:
         result["type"] = schema["type"]
+
+    schema_format = schema.get("schema_format") or schema.get("format")
+    if schema_format:
+        result["format"] = schema_format
 
     if is_required and schema.get("nullable"):
         result["nullable"] = True
