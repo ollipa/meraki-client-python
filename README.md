@@ -30,6 +30,20 @@ pip install meraki-client
    export MERAKI_DASHBOARD_API_KEY=YOUR_KEY_HERE
    ```
 
+### Application identification
+
+Cisco Meraki recommends that ecosystem partners and application developers identify their application with API requests. See [User agents guide](https://developer.cisco.com/meraki/api-v1/user-agents-overview/#user-agents) for formatting details.
+
+```python
+client = MerakiClient(caller="ApplicationName/1.0 VendorName")
+```
+
+Or via environment variable:
+
+```shell
+export MERAKI_PYTHON_SDK_CALLER="ApplicationName/1.0 VendorName"
+```
+
 ## Usage
 
 API calls follow the pattern `client.<scope>.<operation>()`, where scope maps to the OpenAPI tags (e.g., `organizations`, `networks`, `devices`).
