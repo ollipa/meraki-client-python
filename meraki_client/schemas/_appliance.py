@@ -1390,7 +1390,7 @@ class GetNetworkApplianceVlansResponse(RootModel[list["GetNetworkApplianceVlansR
 class GetNetworkApplianceVlansResponseItem(_BaseSchema):
     """Schema for GetNetworkApplianceVlansResponseItem."""
 
-    id_: str | None = Field(default=None, alias="id")
+    id_: int | None = Field(default=None, alias="id")
     interface_id: str | None = Field(default=None, alias="interfaceId")
     name: str | None = None
     subnet: str | None = None

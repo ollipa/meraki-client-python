@@ -9,7 +9,15 @@ import pydantic
 class _ErrorResponse(pydantic.BaseModel):
     """Error response from the API."""
 
-    errors: list[str]
+    errors: list[str] = []
+
+    @pydantic.model_validator(mode="before")
+    @classmethod
+    def _normalize_errors(cls, data: Any) -> Any:
+        """Some endpoints return "error" instead of "errors"."""
+        if isinstance(data, dict) and "error" in data and "errors" not in data:
+            data["errors"] = [data.pop("error")]
+        return data
 
 
 class MerakiException(Exception):

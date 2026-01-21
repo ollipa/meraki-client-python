@@ -38,14 +38,24 @@ skip_tests = [
     "getNetworkWirelessChannelUtilizationHistory",
     "getNetworkWirelessSignalQualityHistory",
     "getNetworkWirelessUsageHistory",
+    # productType is required
+    "getNetworkEvents",
+    # Event not found or network not authorized
+    "getNetworkFirmwareUpgradesStagedEvents",
 ]
 
 # Field type overrides: [operationId.response] with "field.path" = "python_type"
 [getNetworkClients.response]
-"firstSeen" = "str"
-"lastSeen" = "str"
+firstSeen = "str"
+lastSeen = "str"
 
 [getOrganizationClientsBandwidthUsageHistory.response]
 upstream = "float"
 downstream = "float"
 total = "float"
+
+[getNetworkApplianceVlans.response]
+id = "int"
+
+[getNetworkWirelessMeshStatuses.response]
+"latestMeshPerformance.mbps" = "float"

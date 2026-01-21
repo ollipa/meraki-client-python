@@ -47,11 +47,22 @@ SKIP_ERROR_MESSAGES = [
     "This endpoint only supports camera networks",
     "This endpoint only supports MG devices",
     "This device does not support SIM configurations.",
+    "This endpoint only supports MX devices with wireless capabilities",
+    "Single LAN settings are only available for networks with VLANs disabled",
+    "Feature only supported for VPN participants",
+    "This combined network does not contain a Systems Manager network",
+    "Storm control is not supported on this network.",
+    "OpenRoaming is not supported on any of the specified networks",
+    "Radio settings are not supported on this device",
+    "Static routes are unavailable for L2 switches",
+    "This endpoint only supports MR devices",
+    "This device does not support ESL.",
 ]
 
 # Error message patterns that should skip the test (regex)
 SKIP_ERROR_PATTERNS = [
     re.compile(r"Organization with ID \d+ does not support per-device licensing"),
+    re.compile(r"This endpoint is only available for networks on MX \d+\.\d+ or above\."),
 ]
 
 
@@ -89,6 +100,9 @@ def client() -> MerakiClient:
 @pytest.fixture(scope="module")
 def organization_id(client: MerakiClient) -> str:
     """Get the first organization ID for testing."""
+    org_id = os.environ.get("ORGANIZATION_ID_TESTS")
+    if org_id:
+        return org_id
     orgs = client.organizations.get_organizations().collect()
     if not orgs:
         pytest.skip("No organizations available for testing")
@@ -101,6 +115,9 @@ def organization_id(client: MerakiClient) -> str:
 @pytest.fixture(scope="module")
 def network_id(client: MerakiClient, organization_id: str) -> str:
     """Get the first network ID for testing."""
+    network_id = os.environ.get("NETWORK_ID_TESTS")
+    if network_id:
+        return network_id
     networks = client.organizations.get_organization_networks(organization_id).collect()
     if not networks:
         pytest.skip("No networks available for testing")
@@ -113,6 +130,9 @@ def network_id(client: MerakiClient, organization_id: str) -> str:
 @pytest.fixture(scope="module")
 def device_serial(client: MerakiClient, organization_id: str) -> str:
     """Get the first device serial for testing."""
+    device_id = os.environ.get("DEVICE_ID_TESTS")
+    if device_id:
+        return device_id
     devices = client.organizations.get_organization_devices(organization_id).collect()
     if not devices:
         pytest.skip("No devices available for testing")

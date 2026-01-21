@@ -63,13 +63,6 @@ def test_get_network_devices(client: MerakiClient, network_id: str) -> None:
         client.networks.get_network_devices(network_id=network_id)
 
 
-def test_get_network_events(client: MerakiClient, network_id: str) -> None:
-    """Test get_network_events endpoint."""
-    with skip_on_unsupported():
-        result = client.networks.get_network_events(network_id=network_id).collect()
-    assert isinstance(result, list)
-
-
 def test_get_network_events_event_types(client: MerakiClient, network_id: str) -> None:
     """Test get_network_events_event_types endpoint."""
     with skip_on_unsupported():
@@ -80,12 +73,6 @@ def test_get_network_firmware_upgrades(client: MerakiClient, network_id: str) ->
     """Test get_network_firmware_upgrades endpoint."""
     with skip_on_unsupported():
         client.networks.get_network_firmware_upgrades(network_id=network_id)
-
-
-def test_get_network_firmware_upgrades_staged_events(client: MerakiClient, network_id: str) -> None:
-    """Test get_network_firmware_upgrades_staged_events endpoint."""
-    with skip_on_unsupported():
-        client.networks.get_network_firmware_upgrades_staged_events(network_id=network_id)
 
 
 def test_get_network_firmware_upgrades_staged_groups(client: MerakiClient, network_id: str) -> None:

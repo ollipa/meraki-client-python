@@ -3174,7 +3174,7 @@ class WirelessLatencyBinsByCategory(_BaseSchema):
 class WirelessLatestMeshPerformance(_BaseSchema):
     """Current metrics on how the mesh is performing."""
 
-    mbps: int | None = None
+    mbps: float | None = None
     metric: int | None = None
     usage_percentage: str | None = Field(default=None, alias="usagePercentage")
 
