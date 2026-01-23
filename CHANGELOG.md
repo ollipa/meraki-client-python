@@ -7,10 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
--
+### Fixed
+
+- Fix invalid URL when paginating.
+- Fix recognizing schema params with type checkers.
 
 ## v0.1.0
 
 ### Added
 
-- Initial release of meraki-client
+- Initial release of meraki-client.

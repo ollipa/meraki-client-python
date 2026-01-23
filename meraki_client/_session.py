@@ -184,7 +184,7 @@ class Session:
         current_page: int | None = None,
     ) -> httpx.Response:
         """Make an HTTP request to the API endpoint."""
-        url = f"{self._base_url}{path}"
+        url = path if path.startswith(("http://", "https://")) else f"{self._base_url}{path}"
         start_time = time.monotonic()
 
         retries = self._maximum_retries
