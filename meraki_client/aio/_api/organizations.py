@@ -8408,7 +8408,7 @@ class Organizations:
         organization_id: str,
         log_event: str,
         timestamp: int,
-        target_o_s: str | None = None,
+        target_os: str | None = None,
         request: str | None = None,
     ) -> dict[str, Any] | None:
         """Imports event logs related to the onboarding app into elastisearch.
@@ -8419,7 +8419,7 @@ class Organizations:
             organization_id: Organization ID.
             log_event: The type of log event this is recording, e.g. download or opening a banner.
             timestamp: A JavaScript UTC datetime stamp for when the even occurred.
-            target_o_s: The name of the onboarding distro being downloaded.
+            target_os: The name of the onboarding distro being downloaded.
             request: Used to describe if this event was the result of a redirect. E.g. a query param
                 if an info banner is being used.
 
@@ -8435,8 +8435,8 @@ class Organizations:
             payload["logEvent"] = log_event
         if timestamp is not None:
             payload["timestamp"] = timestamp
-        if target_o_s is not None:
-            payload["targetOS"] = target_o_s
+        if target_os is not None:
+            payload["targetOS"] = target_os
         if request is not None:
             payload["request"] = request
 

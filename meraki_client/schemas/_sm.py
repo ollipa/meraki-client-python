@@ -137,12 +137,12 @@ class GetNetworkSmDeviceDesktopLogsResponseItem(_BaseSchema):
         default=None, validation_alias="dhcpServer", serialization_alias="dhcpServer"
     )
     ip: str | None = None
-    network_m_t_u: str | None = Field(
+    network_mtu: str | None = Field(
         default=None, validation_alias="networkMTU", serialization_alias="networkMTU"
     )
     subnet: str | None = None
     gateway: str | None = None
-    public_i_p: str | None = Field(
+    public_ip: str | None = Field(
         default=None, validation_alias="publicIP", serialization_alias="publicIP"
     )
     dns_server: str | None = Field(

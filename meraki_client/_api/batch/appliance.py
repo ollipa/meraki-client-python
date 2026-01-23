@@ -195,7 +195,7 @@ class ActionBatchAppliance:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update the MX L7 firewall rules for an MX network.
 
-        [API documentation: updateNetworkApplianceFirewallL7FirewallRules](https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-firewall-l-7-firewall-rules)
+        [API documentation: updateNetworkApplianceFirewallL7FirewallRules](https://developer.cisco.com/meraki/api-v1/#!update-network-appliance-firewall-l7-firewall-rules)
 
         Args:
             network_id: Network ID.
@@ -1919,7 +1919,7 @@ class ActionBatchAppliance:
             body=payload,
         )
 
-    def update_organization_appliance_vpn_third_party_v_p_n_peers(
+    def update_organization_appliance_vpn_third_party_vpn_peers(
         self,
         *,
         organization_id: str,
@@ -1927,7 +1927,7 @@ class ActionBatchAppliance:
     ) -> CreateOrganizationActionBatchActionsItem:
         """Update the third party VPN peers for an organization.
 
-        [API documentation: updateOrganizationApplianceVpnThirdPartyVPNPeers](https://developer.cisco.com/meraki/api-v1/#!update-organization-appliance-vpn-third-party-v-p-n-peers)
+        [API documentation: updateOrganizationApplianceVpnThirdPartyVPNPeers](https://developer.cisco.com/meraki/api-v1/#!update-organization-appliance-vpn-third-party-vpn-peers)
 
         Args:
             organization_id: Organization ID.

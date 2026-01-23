@@ -367,7 +367,7 @@ class WirelessController:
     ]:
         """List wireless LAN controller layer 2 interfaces in an organization.
 
-        [API documentation: getOrganizationWirelessControllerDevicesInterfacesL2ByDevice](https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-controller-devices-interfaces-l-2-by-device)
+        [API documentation: getOrganizationWirelessControllerDevicesInterfacesL2ByDevice](https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-controller-devices-interfaces-l2-by-device)
 
         Args:
             organization_id: Organization ID.
@@ -482,7 +482,7 @@ class WirelessController:
     ) -> AsyncPaginatedResponse[WirelessControllerItemsItem2]:
         """List wireless LAN controller layer 2 interfaces history status in an organization.
 
-        [API documentation: getOrganizationWirelessControllerDevicesInterfacesL2StatusesChangeHistoryByDevice](https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-controller-devices-interfaces-l-2-statuses-change-history-by-device)
+        [API documentation: getOrganizationWirelessControllerDevicesInterfacesL2StatusesChangeHistoryByDevice](https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-controller-devices-interfaces-l2-statuses-change-history-by-device)
 
         Args:
             organization_id: Organization ID.
@@ -599,7 +599,7 @@ class WirelessController:
     ) -> AsyncPaginatedResponse[WirelessControllerItemsItem3]:
         """List wireless LAN controller layer 2 interfaces history usage in an organization.
 
-        [API documentation: getOrganizationWirelessControllerDevicesInterfacesL2UsageHistoryByInterval](https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-controller-devices-interfaces-l-2-usage-history-by-interval)
+        [API documentation: getOrganizationWirelessControllerDevicesInterfacesL2UsageHistoryByInterval](https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-controller-devices-interfaces-l2-usage-history-by-interval)
 
         Args:
             organization_id: Organization ID.
@@ -703,7 +703,7 @@ class WirelessController:
     ]:
         """List wireless LAN controller layer 3 interfaces in an organization.
 
-        [API documentation: getOrganizationWirelessControllerDevicesInterfacesL3ByDevice](https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-controller-devices-interfaces-l-3-by-device)
+        [API documentation: getOrganizationWirelessControllerDevicesInterfacesL3ByDevice](https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-controller-devices-interfaces-l3-by-device)
 
         Args:
             organization_id: Organization ID.
@@ -826,7 +826,7 @@ class WirelessController:
     ) -> AsyncPaginatedResponse[WirelessControllerItemsItem2]:
         """List wireless LAN controller layer 3 interfaces history status in an organization.
 
-        [API documentation: getOrganizationWirelessControllerDevicesInterfacesL3StatusesChangeHistoryByDevice](https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-controller-devices-interfaces-l-3-statuses-change-history-by-device)
+        [API documentation: getOrganizationWirelessControllerDevicesInterfacesL3StatusesChangeHistoryByDevice](https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-controller-devices-interfaces-l3-statuses-change-history-by-device)
 
         Args:
             organization_id: Organization ID.
@@ -943,7 +943,7 @@ class WirelessController:
     ) -> AsyncPaginatedResponse[WirelessControllerItemsItem3]:
         """List wireless LAN controller layer 3 interfaces history usage in an organization.
 
-        [API documentation: getOrganizationWirelessControllerDevicesInterfacesL3UsageHistoryByInterval](https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-controller-devices-interfaces-l-3-usage-history-by-interval)
+        [API documentation: getOrganizationWirelessControllerDevicesInterfacesL3UsageHistoryByInterval](https://developer.cisco.com/meraki/api-v1/#!get-organization-wireless-controller-devices-interfaces-l3-usage-history-by-interval)
 
         Args:
             organization_id: Organization ID.

@@ -7,12 +7,16 @@ from dataclasses import dataclass, field
 
 from codegen.constants import RESERVED_NAMES, SPEC_OVERRIDES_FILE
 
-_CAMEL_TO_SNAKE_RE = re.compile(r"(?<!^)(?=[A-Z])")
+_LOWER_UPPER_RE = re.compile(r"([a-z0-9])([A-Z])")
+_ACRONYM_RE = re.compile(r"([A-Z]+)([A-Z][a-z])")
 
 
 def to_snake_case(name: str) -> str:
-    """Convert camelCase or PascalCase to snake_case."""
-    return _CAMEL_TO_SNAKE_RE.sub("_", name).lower()
+    """Convert camelCase or PascalCase to snake_case, preserving acronyms."""
+    name = _LOWER_UPPER_RE.sub(r"\1_\2", name)
+    # Insert underscore between acronym and next word: VPNPeers -> VPN_Peers
+    name = _ACRONYM_RE.sub(r"\1_\2", name)
+    return name.lower()
 
 
 def capitalize_first(name: str) -> str:

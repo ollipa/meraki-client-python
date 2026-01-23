@@ -986,13 +986,7 @@ def resolve_ref(
 def docs_url(operation_id: str) -> str:
     """Returns full link to endpoint's documentation on Developer Hub."""
     base_url = "https://developer.cisco.com/meraki/api-v1/#!"
-    ret = ""
-    for letter in operation_id:
-        if letter.islower():
-            ret += letter
-        else:
-            ret += f"-{letter.lower()}"
-    return base_url + ret
+    return base_url + to_snake_case(operation_id).replace("_", "-")
 
 
 def convert_path_params(path: str) -> str:

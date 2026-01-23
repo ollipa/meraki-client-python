@@ -468,12 +468,12 @@ def test_get_organization_appliance_vpn_statuses(
     assert isinstance(result, list)
 
 
-def test_get_organization_appliance_vpn_third_party_v_p_n_peers(
+def test_get_organization_appliance_vpn_third_party_vpn_peers(
     client: MerakiClient, organization_id: str
 ) -> None:
-    """Test get_organization_appliance_vpn_third_party_v_p_n_peers endpoint."""
+    """Test get_organization_appliance_vpn_third_party_vpn_peers endpoint."""
     with skip_on_unsupported():
-        client.appliance.get_organization_appliance_vpn_third_party_v_p_n_peers(
+        client.appliance.get_organization_appliance_vpn_third_party_vpn_peers(
             organization_id=organization_id
         )
 

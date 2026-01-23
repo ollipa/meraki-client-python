@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Fix invalid URL when paginating.
 - Fix recognizing schema params with type checkers.
+- Fix handling of abbreviations when converting to snake-case.
 
 ## v0.1.0
 

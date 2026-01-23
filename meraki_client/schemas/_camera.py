@@ -200,13 +200,13 @@ class CreateNetworkCameraQualityRetentionProfileVideoSettings(_BaseSchema):
     mv12_mv22_mv72: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV12MV22MV72 | None = (
         Field(default=None, validation_alias="MV12/MV22/MV72", serialization_alias="MV12/MV22/MV72")
     )
-    m_v12_w_e: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV12MV22MV72 | None = Field(
+    mv12_we: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV12MV22MV72 | None = Field(
         default=None, validation_alias="MV12WE", serialization_alias="MV12WE"
     )
-    m_v13: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV13 | None = Field(
+    mv13: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV13 | None = Field(
         default=None, validation_alias="MV13", serialization_alias="MV13"
     )
-    m_v13_m: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV13 | None = Field(
+    mv13_m: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV13 | None = Field(
         default=None, validation_alias="MV13M", serialization_alias="MV13M"
     )
     mv21_mv71: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV21MV71 | None = Field(
@@ -215,58 +215,58 @@ class CreateNetworkCameraQualityRetentionProfileVideoSettings(_BaseSchema):
     mv22x_mv72x: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV22XMV72X | None = Field(
         default=None, validation_alias="MV22X/MV72X", serialization_alias="MV22X/MV72X"
     )
-    m_v23: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV13 | None = Field(
+    mv23: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV13 | None = Field(
         default=None, validation_alias="MV23", serialization_alias="MV23"
     )
-    m_v23_m: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV13 | None = Field(
+    mv23_m: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV13 | None = Field(
         default=None, validation_alias="MV23M", serialization_alias="MV23M"
     )
-    m_v23_x: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV13 | None = Field(
+    mv23_x: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV13 | None = Field(
         default=None, validation_alias="MV23X", serialization_alias="MV23X"
     )
-    m_v32: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV32 | None = Field(
+    mv32: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV32 | None = Field(
         default=None, validation_alias="MV32", serialization_alias="MV32"
     )
-    m_v33: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV33 | None = Field(
+    mv33: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV33 | None = Field(
         default=None, validation_alias="MV33", serialization_alias="MV33"
     )
-    m_v33_m: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV33 | None = Field(
+    mv33_m: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV33 | None = Field(
         default=None, validation_alias="MV33M", serialization_alias="MV33M"
     )
-    m_v52: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV52 | None = Field(
+    mv52: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV52 | None = Field(
         default=None, validation_alias="MV52", serialization_alias="MV52"
     )
-    m_v63: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV13 | None = Field(
+    mv63: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV13 | None = Field(
         default=None, validation_alias="MV63", serialization_alias="MV63"
     )
-    m_v63_m: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV13 | None = Field(
+    mv63_m: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV13 | None = Field(
         default=None, validation_alias="MV63M", serialization_alias="MV63M"
     )
-    m_v63_x: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV13 | None = Field(
+    mv63_x: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV13 | None = Field(
         default=None, validation_alias="MV63X", serialization_alias="MV63X"
     )
-    m_v73: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV13 | None = Field(
+    mv73: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV13 | None = Field(
         default=None, validation_alias="MV73", serialization_alias="MV73"
     )
-    m_v73_m: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV13 | None = Field(
+    mv73_m: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV13 | None = Field(
         default=None, validation_alias="MV73M", serialization_alias="MV73M"
     )
-    m_v73_x: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV13 | None = Field(
+    mv73_x: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV13 | None = Field(
         default=None, validation_alias="MV73X", serialization_alias="MV73X"
     )
-    m_v93: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV33 | None = Field(
+    mv93: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV33 | None = Field(
         default=None, validation_alias="MV93", serialization_alias="MV93"
     )
-    m_v93_m: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV33 | None = Field(
+    mv93_m: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV33 | None = Field(
         default=None, validation_alias="MV93M", serialization_alias="MV93M"
     )
-    m_v93_x: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV33 | None = Field(
+    mv93_x: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV33 | None = Field(
         default=None, validation_alias="MV93X", serialization_alias="MV93X"
     )
-    m_v53_x: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV13 | None = Field(
+    mv53_x: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV13 | None = Field(
         default=None, validation_alias="MV53X", serialization_alias="MV53X"
     )
-    m_v84_x: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV84X | None = Field(
+    mv84_x: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV84X | None = Field(
         default=None, validation_alias="MV84X", serialization_alias="MV84X"
     )
 
@@ -966,13 +966,13 @@ class UpdateNetworkCameraQualityRetentionProfileVideoSettings(_BaseSchema):
     mv12_mv22_mv72: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV12MV22MV72 | None = (
         Field(default=None, validation_alias="MV12/MV22/MV72", serialization_alias="MV12/MV22/MV72")
     )
-    m_v12_w_e: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV12MV22MV72 | None = Field(
+    mv12_we: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV12MV22MV72 | None = Field(
         default=None, validation_alias="MV12WE", serialization_alias="MV12WE"
     )
-    m_v13: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV13 | None = Field(
+    mv13: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV13 | None = Field(
         default=None, validation_alias="MV13", serialization_alias="MV13"
     )
-    m_v13_m: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV13 | None = Field(
+    mv13_m: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV13 | None = Field(
         default=None, validation_alias="MV13M", serialization_alias="MV13M"
     )
     mv21_mv71: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV21MV71 | None = Field(
@@ -981,58 +981,58 @@ class UpdateNetworkCameraQualityRetentionProfileVideoSettings(_BaseSchema):
     mv22x_mv72x: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV22XMV72X | None = Field(
         default=None, validation_alias="MV22X/MV72X", serialization_alias="MV22X/MV72X"
     )
-    m_v23: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV13 | None = Field(
+    mv23: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV13 | None = Field(
         default=None, validation_alias="MV23", serialization_alias="MV23"
     )
-    m_v23_m: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV13 | None = Field(
+    mv23_m: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV13 | None = Field(
         default=None, validation_alias="MV23M", serialization_alias="MV23M"
     )
-    m_v23_x: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV13 | None = Field(
+    mv23_x: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV13 | None = Field(
         default=None, validation_alias="MV23X", serialization_alias="MV23X"
     )
-    m_v32: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV32 | None = Field(
+    mv32: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV32 | None = Field(
         default=None, validation_alias="MV32", serialization_alias="MV32"
     )
-    m_v33: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV33 | None = Field(
+    mv33: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV33 | None = Field(
         default=None, validation_alias="MV33", serialization_alias="MV33"
     )
-    m_v33_m: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV33 | None = Field(
+    mv33_m: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV33 | None = Field(
         default=None, validation_alias="MV33M", serialization_alias="MV33M"
     )
-    m_v52: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV52 | None = Field(
+    mv52: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV52 | None = Field(
         default=None, validation_alias="MV52", serialization_alias="MV52"
     )
-    m_v63: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV13 | None = Field(
+    mv63: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV13 | None = Field(
         default=None, validation_alias="MV63", serialization_alias="MV63"
     )
-    m_v63_m: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV13 | None = Field(
+    mv63_m: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV13 | None = Field(
         default=None, validation_alias="MV63M", serialization_alias="MV63M"
     )
-    m_v63_x: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV13 | None = Field(
+    mv63_x: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV13 | None = Field(
         default=None, validation_alias="MV63X", serialization_alias="MV63X"
     )
-    m_v73: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV13 | None = Field(
+    mv73: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV13 | None = Field(
         default=None, validation_alias="MV73", serialization_alias="MV73"
     )
-    m_v73_m: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV13 | None = Field(
+    mv73_m: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV13 | None = Field(
         default=None, validation_alias="MV73M", serialization_alias="MV73M"
     )
-    m_v73_x: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV13 | None = Field(
+    mv73_x: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV13 | None = Field(
         default=None, validation_alias="MV73X", serialization_alias="MV73X"
     )
-    m_v93: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV33 | None = Field(
+    mv93: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV33 | None = Field(
         default=None, validation_alias="MV93", serialization_alias="MV93"
     )
-    m_v93_m: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV33 | None = Field(
+    mv93_m: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV33 | None = Field(
         default=None, validation_alias="MV93M", serialization_alias="MV93M"
     )
-    m_v93_x: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV33 | None = Field(
+    mv93_x: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV33 | None = Field(
         default=None, validation_alias="MV93X", serialization_alias="MV93X"
     )
-    m_v53_x: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV13 | None = Field(
+    mv53_x: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV13 | None = Field(
         default=None, validation_alias="MV53X", serialization_alias="MV53X"
     )
-    m_v84_x: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV84X | None = Field(
+    mv84_x: CreateNetworkCameraQualityRetentionProfileVideoSettingsMV84X | None = Field(
         default=None, validation_alias="MV84X", serialization_alias="MV84X"
     )
 

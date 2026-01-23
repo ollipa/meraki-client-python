@@ -2695,7 +2695,7 @@ class Switch:
     ) -> AsyncPaginatedResponse[GetNetworkSwitchDhcpV4ServersSeenResponseItem]:
         """Return the network's DHCPv4 servers seen within the selected timeframe (default 1 day).
 
-        [API documentation: getNetworkSwitchDhcpV4ServersSeen](https://developer.cisco.com/meraki/api-v1/#!get-network-switch-dhcp-v-4-servers-seen)
+        [API documentation: getNetworkSwitchDhcpV4ServersSeen](https://developer.cisco.com/meraki/api-v1/#!get-network-switch-dhcp-v4-servers-seen)
 
         Args:
             network_id: Network ID.
