@@ -20,7 +20,9 @@ class CreateOrganizationInsightMonitoredMediaServerResponse(_BaseSchema):
     name: str | None = None
     address: str | None = None
     best_effort_monitoring_enabled: bool | None = Field(
-        default=None, alias="bestEffortMonitoringEnabled"
+        default=None,
+        validation_alias="bestEffortMonitoringEnabled",
+        serialization_alias="bestEffortMonitoringEnabled",
     )
 
 
@@ -33,18 +35,38 @@ class GetNetworkInsightApplicationHealthByTimeResponse(
 class GetNetworkInsightApplicationHealthByTimeResponseItem(_BaseSchema):
     """Schema for GetNetworkInsightApplicationHealthByTimeResponseItem."""
 
-    start_ts: datetime | None = Field(default=None, alias="startTs")
-    end_ts: datetime | None = Field(default=None, alias="endTs")
-    wan_goodput: int | None = Field(default=None, alias="wanGoodput")
-    lan_goodput: int | None = Field(default=None, alias="lanGoodput")
-    wan_latency_ms: float | None = Field(default=None, alias="wanLatencyMs")
-    lan_latency_ms: float | None = Field(default=None, alias="lanLatencyMs")
-    wan_loss_percent: float | None = Field(default=None, alias="wanLossPercent")
-    lan_loss_percent: float | None = Field(default=None, alias="lanLossPercent")
-    response_duration: int | None = Field(default=None, alias="responseDuration")
+    start_ts: datetime | None = Field(
+        default=None, validation_alias="startTs", serialization_alias="startTs"
+    )
+    end_ts: datetime | None = Field(
+        default=None, validation_alias="endTs", serialization_alias="endTs"
+    )
+    wan_goodput: int | None = Field(
+        default=None, validation_alias="wanGoodput", serialization_alias="wanGoodput"
+    )
+    lan_goodput: int | None = Field(
+        default=None, validation_alias="lanGoodput", serialization_alias="lanGoodput"
+    )
+    wan_latency_ms: float | None = Field(
+        default=None, validation_alias="wanLatencyMs", serialization_alias="wanLatencyMs"
+    )
+    lan_latency_ms: float | None = Field(
+        default=None, validation_alias="lanLatencyMs", serialization_alias="lanLatencyMs"
+    )
+    wan_loss_percent: float | None = Field(
+        default=None, validation_alias="wanLossPercent", serialization_alias="wanLossPercent"
+    )
+    lan_loss_percent: float | None = Field(
+        default=None, validation_alias="lanLossPercent", serialization_alias="lanLossPercent"
+    )
+    response_duration: int | None = Field(
+        default=None, validation_alias="responseDuration", serialization_alias="responseDuration"
+    )
     sent: int | None = None
     recv: int | None = None
-    num_clients: int | None = Field(default=None, alias="numClients")
+    num_clients: int | None = Field(
+        default=None, validation_alias="numClients", serialization_alias="numClients"
+    )
 
 
 class GetOrganizationInsightApplicationsResponse(
@@ -56,7 +78,9 @@ class GetOrganizationInsightApplicationsResponse(
 class GetOrganizationInsightApplicationsResponseItem(_BaseSchema):
     """Schema for GetOrganizationInsightApplicationsResponseItem."""
 
-    application_id: str | None = Field(default=None, alias="applicationId")
+    application_id: str | None = Field(
+        default=None, validation_alias="applicationId", serialization_alias="applicationId"
+    )
     name: str | None = None
     thresholds: InsightThresholds | None = None
 
@@ -68,7 +92,9 @@ class GetOrganizationInsightMonitoredMediaServerResponse(_BaseSchema):
     name: str | None = None
     address: str | None = None
     best_effort_monitoring_enabled: bool | None = Field(
-        default=None, alias="bestEffortMonitoringEnabled"
+        default=None,
+        validation_alias="bestEffortMonitoringEnabled",
+        serialization_alias="bestEffortMonitoringEnabled",
     )
 
 
@@ -85,23 +111,31 @@ class GetOrganizationInsightMonitoredMediaServersResponseItem(_BaseSchema):
     name: str | None = None
     address: str | None = None
     best_effort_monitoring_enabled: bool | None = Field(
-        default=None, alias="bestEffortMonitoringEnabled"
+        default=None,
+        validation_alias="bestEffortMonitoringEnabled",
+        serialization_alias="bestEffortMonitoringEnabled",
     )
 
 
 class InsightByNetworkItem(_BaseSchema):
     """Schema for InsightByNetworkItem."""
 
-    network_id: str | None = Field(default=None, alias="networkId")
+    network_id: str | None = Field(
+        default=None, validation_alias="networkId", serialization_alias="networkId"
+    )
     goodput: int | None = None
-    response_duration: int | None = Field(default=None, alias="responseDuration")
+    response_duration: int | None = Field(
+        default=None, validation_alias="responseDuration", serialization_alias="responseDuration"
+    )
 
 
 class InsightThresholds(_BaseSchema):
     """Thresholds defined by a user or Meraki models for each application."""
 
-    type_: str | None = Field(default=None, alias="type")
-    by_network: list[InsightByNetworkItem] | None = Field(default=None, alias="byNetwork")
+    type_: str | None = Field(default=None, validation_alias="type", serialization_alias="type")
+    by_network: list[InsightByNetworkItem] | None = Field(
+        default=None, validation_alias="byNetwork", serialization_alias="byNetwork"
+    )
 
 
 class UpdateOrganizationInsightMonitoredMediaServerResponse(_BaseSchema):
@@ -111,5 +145,7 @@ class UpdateOrganizationInsightMonitoredMediaServerResponse(_BaseSchema):
     name: str | None = None
     address: str | None = None
     best_effort_monitoring_enabled: bool | None = Field(
-        default=None, alias="bestEffortMonitoringEnabled"
+        default=None,
+        validation_alias="bestEffortMonitoringEnabled",
+        serialization_alias="bestEffortMonitoringEnabled",
     )

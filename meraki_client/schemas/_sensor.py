@@ -16,10 +16,18 @@ from meraki_client.schemas._base import _BaseSchema
 class CreateDeviceSensorCommandResponse(_BaseSchema):
     """Response for createDeviceSensorCommand operation."""
 
-    command_id: str | None = Field(default=None, alias="commandId")
-    created_at: datetime | None = Field(default=None, alias="createdAt")
-    completed_at: datetime | None = Field(default=None, alias="completedAt")
-    created_by: SensorCreatedBy | None = Field(default=None, alias="createdBy")
+    command_id: str | None = Field(
+        default=None, validation_alias="commandId", serialization_alias="commandId"
+    )
+    created_at: datetime | None = Field(
+        default=None, validation_alias="createdAt", serialization_alias="createdAt"
+    )
+    completed_at: datetime | None = Field(
+        default=None, validation_alias="completedAt", serialization_alias="completedAt"
+    )
+    created_by: SensorCreatedBy | None = Field(
+        default=None, validation_alias="createdBy", serialization_alias="createdBy"
+    )
     operation: str | None = None
     status: str | None = None
     errors: list[str] | None = None
@@ -38,20 +46,28 @@ class CreateNetworkSensorAlertsProfileRecipients(_BaseSchema):
     """List of recipients that will receive the alert."""
 
     emails: list[str] | None = None
-    sms_numbers: list[str] | None = Field(default=None, alias="smsNumbers")
-    http_server_ids: list[str] | None = Field(default=None, alias="httpServerIds")
+    sms_numbers: list[str] | None = Field(
+        default=None, validation_alias="smsNumbers", serialization_alias="smsNumbers"
+    )
+    http_server_ids: list[str] | None = Field(
+        default=None, validation_alias="httpServerIds", serialization_alias="httpServerIds"
+    )
 
 
 class CreateNetworkSensorAlertsProfileResponse(_BaseSchema):
     """Response for createNetworkSensorAlertsProfile operation."""
 
-    profile_id: str | None = Field(default=None, alias="profileId")
+    profile_id: str | None = Field(
+        default=None, validation_alias="profileId", serialization_alias="profileId"
+    )
     name: str | None = None
     schedule: SensorSchedule | None = None
     conditions: list[SensorConditionsItem]
     recipients: SensorRecipients | None = None
     serials: list[str] | None = None
-    include_sensor_url: bool | None = Field(default=None, alias="includeSensorUrl")
+    include_sensor_url: bool | None = Field(
+        default=None, validation_alias="includeSensorUrl", serialization_alias="includeSensorUrl"
+    )
     message: str | None = None
 
 
@@ -64,10 +80,18 @@ class CreateNetworkSensorAlertsProfileSchedule(_BaseSchema):
 class GetDeviceSensorCommandResponse(_BaseSchema):
     """Response for getDeviceSensorCommand operation."""
 
-    command_id: str | None = Field(default=None, alias="commandId")
-    created_at: datetime | None = Field(default=None, alias="createdAt")
-    completed_at: datetime | None = Field(default=None, alias="completedAt")
-    created_by: SensorCreatedBy | None = Field(default=None, alias="createdBy")
+    command_id: str | None = Field(
+        default=None, validation_alias="commandId", serialization_alias="commandId"
+    )
+    created_at: datetime | None = Field(
+        default=None, validation_alias="createdAt", serialization_alias="createdAt"
+    )
+    completed_at: datetime | None = Field(
+        default=None, validation_alias="completedAt", serialization_alias="completedAt"
+    )
+    created_by: SensorCreatedBy | None = Field(
+        default=None, validation_alias="createdBy", serialization_alias="createdBy"
+    )
     operation: str | None = None
     status: str | None = None
     errors: list[str] | None = None
@@ -80,10 +104,18 @@ class GetDeviceSensorCommandsResponse(RootModel[list["GetDeviceSensorCommandsRes
 class GetDeviceSensorCommandsResponseItem(_BaseSchema):
     """Schema for GetDeviceSensorCommandsResponseItem."""
 
-    command_id: str | None = Field(default=None, alias="commandId")
-    created_at: datetime | None = Field(default=None, alias="createdAt")
-    completed_at: datetime | None = Field(default=None, alias="completedAt")
-    created_by: SensorCreatedBy | None = Field(default=None, alias="createdBy")
+    command_id: str | None = Field(
+        default=None, validation_alias="commandId", serialization_alias="commandId"
+    )
+    created_at: datetime | None = Field(
+        default=None, validation_alias="createdAt", serialization_alias="createdAt"
+    )
+    completed_at: datetime | None = Field(
+        default=None, validation_alias="completedAt", serialization_alias="completedAt"
+    )
+    created_by: SensorCreatedBy | None = Field(
+        default=None, validation_alias="createdBy", serialization_alias="createdBy"
+    )
     operation: str | None = None
     status: str | None = None
     errors: list[str] | None = None
@@ -102,34 +134,46 @@ class GetDeviceSensorRelationshipsResponseLivestream(_BaseSchema):
     """
 
     related_devices: list[SensorLivestreamRelatedDevicesItem] | None = Field(
-        default=None, alias="relatedDevices"
+        default=None, validation_alias="relatedDevices", serialization_alias="relatedDevices"
     )
 
 
 class GetNetworkSensorAlertsCurrentOverviewByMetricResponse(_BaseSchema):
     """Response for getNetworkSensorAlertsCurrentOverviewByMetric operation."""
 
-    supported_metrics: list[str] | None = Field(default=None, alias="supportedMetrics")
+    supported_metrics: list[str] | None = Field(
+        default=None, validation_alias="supportedMetrics", serialization_alias="supportedMetrics"
+    )
     counts: GetNetworkSensorAlertsCurrentOverviewByMetricResponseCounts | None = None
 
 
 class GetNetworkSensorAlertsCurrentOverviewByMetricResponseCounts(_BaseSchema):
     """Counts of currently alerting sensors, aggregated by alerting metric."""
 
-    apparent_power: int | None = Field(default=None, alias="apparentPower")
+    apparent_power: int | None = Field(
+        default=None, validation_alias="apparentPower", serialization_alias="apparentPower"
+    )
     co2: int | None = None
     current: int | None = None
     door: int | None = None
     frequency: int | None = None
     humidity: int | None = None
-    indoor_air_quality: int | None = Field(default=None, alias="indoorAirQuality")
+    indoor_air_quality: int | None = Field(
+        default=None, validation_alias="indoorAirQuality", serialization_alias="indoorAirQuality"
+    )
     noise: SensorCountsNoise | None = None
     pm25: int | None = None
-    power_factor: int | None = Field(default=None, alias="powerFactor")
-    real_power: int | None = Field(default=None, alias="realPower")
+    power_factor: int | None = Field(
+        default=None, validation_alias="powerFactor", serialization_alias="powerFactor"
+    )
+    real_power: int | None = Field(
+        default=None, validation_alias="realPower", serialization_alias="realPower"
+    )
     temperature: int | None = None
     tvoc: int | None = None
-    upstream_power: int | None = Field(default=None, alias="upstreamPower")
+    upstream_power: int | None = Field(
+        default=None, validation_alias="upstreamPower", serialization_alias="upstreamPower"
+    )
     voltage: int | None = None
     water: int | None = None
 
@@ -143,21 +187,29 @@ class GetNetworkSensorAlertsOverviewByMetricResponse(
 class GetNetworkSensorAlertsOverviewByMetricResponseItem(_BaseSchema):
     """Schema for GetNetworkSensorAlertsOverviewByMetricResponseItem."""
 
-    start_ts: datetime | None = Field(default=None, alias="startTs")
-    end_ts: datetime | None = Field(default=None, alias="endTs")
+    start_ts: datetime | None = Field(
+        default=None, validation_alias="startTs", serialization_alias="startTs"
+    )
+    end_ts: datetime | None = Field(
+        default=None, validation_alias="endTs", serialization_alias="endTs"
+    )
     counts: GetNetworkSensorAlertsCurrentOverviewByMetricResponseCounts | None = None
 
 
 class GetNetworkSensorAlertsProfileResponse(_BaseSchema):
     """Response for getNetworkSensorAlertsProfile operation."""
 
-    profile_id: str | None = Field(default=None, alias="profileId")
+    profile_id: str | None = Field(
+        default=None, validation_alias="profileId", serialization_alias="profileId"
+    )
     name: str | None = None
     schedule: SensorSchedule | None = None
     conditions: list[SensorConditionsItem]
     recipients: SensorRecipients | None = None
     serials: list[str] | None = None
-    include_sensor_url: bool | None = Field(default=None, alias="includeSensorUrl")
+    include_sensor_url: bool | None = Field(
+        default=None, validation_alias="includeSensorUrl", serialization_alias="includeSensorUrl"
+    )
     message: str | None = None
 
 
@@ -170,20 +222,26 @@ class GetNetworkSensorAlertsProfilesResponse(
 class GetNetworkSensorAlertsProfilesResponseItem(_BaseSchema):
     """Schema for GetNetworkSensorAlertsProfilesResponseItem."""
 
-    profile_id: str | None = Field(default=None, alias="profileId")
+    profile_id: str | None = Field(
+        default=None, validation_alias="profileId", serialization_alias="profileId"
+    )
     name: str | None = None
     schedule: SensorSchedule | None = None
     conditions: list[SensorConditionsItem]
     recipients: SensorRecipients | None = None
     serials: list[str] | None = None
-    include_sensor_url: bool | None = Field(default=None, alias="includeSensorUrl")
+    include_sensor_url: bool | None = Field(
+        default=None, validation_alias="includeSensorUrl", serialization_alias="includeSensorUrl"
+    )
     message: str | None = None
 
 
 class GetNetworkSensorMqttBrokerResponse(_BaseSchema):
     """Response for getNetworkSensorMqttBroker operation."""
 
-    mqtt_broker_id: str | None = Field(default=None, alias="mqttBrokerId")
+    mqtt_broker_id: str | None = Field(
+        default=None, validation_alias="mqttBrokerId", serialization_alias="mqttBrokerId"
+    )
     enabled: bool | None = None
 
 
@@ -196,7 +254,9 @@ class GetNetworkSensorMqttBrokersResponse(
 class GetNetworkSensorMqttBrokersResponseItem(_BaseSchema):
     """Schema for GetNetworkSensorMqttBrokersResponseItem."""
 
-    mqtt_broker_id: str | None = Field(default=None, alias="mqttBrokerId")
+    mqtt_broker_id: str | None = Field(
+        default=None, validation_alias="mqttBrokerId", serialization_alias="mqttBrokerId"
+    )
     enabled: bool | None = None
 
 
@@ -223,8 +283,12 @@ class GetOrganizationSensorGatewaysConnectionsLatestResponse(_BaseSchema):
 class GetOrganizationSensorGatewaysConnectionsLatestResponseItemsItem(_BaseSchema):
     """Schema for GetOrganizationSensorGatewaysConnectionsLatestResponseItemsItem."""
 
-    last_reported_at: datetime = Field(alias="lastReportedAt")
-    last_connected_at: datetime | None = Field(default=None, alias="lastConnectedAt")
+    last_reported_at: datetime = Field(
+        validation_alias="lastReportedAt", serialization_alias="lastReportedAt"
+    )
+    last_connected_at: datetime | None = Field(
+        default=None, validation_alias="lastConnectedAt", serialization_alias="lastConnectedAt"
+    )
     rssi: int
     network: SensorNetwork
     sensor: SensorSensor
@@ -250,33 +314,45 @@ class GetOrganizationSensorReadingsHistoryResponseItem(_BaseSchema):
     network: SensorSchedule | None = None
     ts: str | None = None
     metric: str | None = None
-    apparent_power: SensorApparentPower | None = Field(default=None, alias="apparentPower")
+    apparent_power: SensorApparentPower | None = Field(
+        default=None, validation_alias="apparentPower", serialization_alias="apparentPower"
+    )
     battery: SensorBattery | None = None
     button: SensorButton | None = None
     co2: SensorCo2 | None = None
     current: SensorApparentPower | None = None
     door: SensorDoor2 | None = None
-    downstream_power: SensorDownstreamPower | None = Field(default=None, alias="downstreamPower")
+    downstream_power: SensorDownstreamPower | None = Field(
+        default=None, validation_alias="downstreamPower", serialization_alias="downstreamPower"
+    )
     frequency: SensorFrequency | None = None
     humidity: SensorHumidity2 | None = None
     indoor_air_quality: SensorIndoorAirQuality2 | None = Field(
-        default=None, alias="indoorAirQuality"
+        default=None, validation_alias="indoorAirQuality", serialization_alias="indoorAirQuality"
     )
     noise: SensorNoise2 | None = None
     no2: SensorCo2 | None = None
     o3: SensorCo2 | None = None
     pm10: SensorCo2 | None = None
     pm25: SensorCo2 | None = None
-    power_factor: SensorBattery | None = Field(default=None, alias="powerFactor")
-    real_power: SensorApparentPower | None = Field(default=None, alias="realPower")
+    power_factor: SensorBattery | None = Field(
+        default=None, validation_alias="powerFactor", serialization_alias="powerFactor"
+    )
+    real_power: SensorApparentPower | None = Field(
+        default=None, validation_alias="realPower", serialization_alias="realPower"
+    )
     remote_lockout_switch: SensorRemoteLockoutSwitch | None = Field(
-        default=None, alias="remoteLockoutSwitch"
+        default=None,
+        validation_alias="remoteLockoutSwitch",
+        serialization_alias="remoteLockoutSwitch",
     )
     temperature: SensorTemperature2 | None = None
     tvoc: SensorCo2 | None = None
     voltage: SensorFrequency | None = None
     water: SensorWater2 | None = None
-    raw_temperature: SensorTemperature2 | None = Field(default=None, alias="rawTemperature")
+    raw_temperature: SensorTemperature2 | None = Field(
+        default=None, validation_alias="rawTemperature", serialization_alias="rawTemperature"
+    )
 
 
 class GetOrganizationSensorReadingsLatestResponse(
@@ -327,7 +403,9 @@ class SensorButton(_BaseSchema):
     'button'.
     """
 
-    press_type: str | None = Field(default=None, alias="pressType")
+    press_type: str | None = Field(
+        default=None, validation_alias="pressType", serialization_alias="pressType"
+    )
 
 
 class SensorCo2(_BaseSchema):
@@ -356,7 +434,9 @@ class SensorCountsNoise(_BaseSchema):
 class SensorCreatedBy(_BaseSchema):
     """Information about the admin who triggered the command."""
 
-    admin_id: str | None = Field(default=None, alias="adminId")
+    admin_id: str | None = Field(
+        default=None, validation_alias="adminId", serialization_alias="adminId"
+    )
     name: str | None = None
     email: str | None = None
 
@@ -366,13 +446,15 @@ class SensorDevice(_BaseSchema):
 
     name: str | None = None
     serial: str | None = None
-    product_type: str | None = Field(default=None, alias="productType")
+    product_type: str | None = Field(
+        default=None, validation_alias="productType", serialization_alias="productType"
+    )
 
 
 class SensorDoor(_BaseSchema):
     """Door open threshold. 'open' must be provided and set to true."""
 
-    open_: bool = Field(alias="open")
+    open_: bool = Field(validation_alias="open", serialization_alias="open")
 
 
 class SensorDoor2(_BaseSchema):
@@ -380,7 +462,7 @@ class SensorDoor2(_BaseSchema):
     'door'.
     """
 
-    open_: bool | None = Field(default=None, alias="open")
+    open_: bool | None = Field(default=None, validation_alias="open", serialization_alias="open")
 
 
 class SensorDownstreamPower(_BaseSchema):
@@ -402,7 +484,11 @@ class SensorFrequency(_BaseSchema):
 class SensorHumidity(_BaseSchema):
     """Humidity threshold. One of 'relativePercentage' or 'quality' must be provided."""
 
-    relative_percentage: int | None = Field(default=None, alias="relativePercentage")
+    relative_percentage: int | None = Field(
+        default=None,
+        validation_alias="relativePercentage",
+        serialization_alias="relativePercentage",
+    )
     quality: str | None = None
 
 
@@ -411,7 +497,11 @@ class SensorHumidity2(_BaseSchema):
     'humidity'.
     """
 
-    relative_percentage: int | None = Field(default=None, alias="relativePercentage")
+    relative_percentage: int | None = Field(
+        default=None,
+        validation_alias="relativePercentage",
+        serialization_alias="relativePercentage",
+    )
 
 
 class SensorIndoorAirQuality(_BaseSchema):
@@ -440,7 +530,9 @@ class SensorLivestreamRelatedDevicesItem(_BaseSchema):
     """Schema for SensorLivestreamRelatedDevicesItem."""
 
     serial: str | None = None
-    product_type: str | None = Field(default=None, alias="productType")
+    product_type: str | None = Field(
+        default=None, validation_alias="productType", serialization_alias="productType"
+    )
 
 
 class SensorMetaCounts(_BaseSchema):
@@ -481,33 +573,45 @@ class SensorReadingsItem(_BaseSchema):
 
     ts: str | None = None
     metric: str | None = None
-    apparent_power: SensorApparentPower | None = Field(default=None, alias="apparentPower")
+    apparent_power: SensorApparentPower | None = Field(
+        default=None, validation_alias="apparentPower", serialization_alias="apparentPower"
+    )
     battery: SensorBattery | None = None
     button: SensorButton | None = None
     co2: SensorCo2 | None = None
     current: SensorApparentPower | None = None
     door: SensorDoor2 | None = None
-    downstream_power: SensorDownstreamPower | None = Field(default=None, alias="downstreamPower")
+    downstream_power: SensorDownstreamPower | None = Field(
+        default=None, validation_alias="downstreamPower", serialization_alias="downstreamPower"
+    )
     frequency: SensorFrequency | None = None
     humidity: SensorHumidity2 | None = None
     indoor_air_quality: SensorIndoorAirQuality2 | None = Field(
-        default=None, alias="indoorAirQuality"
+        default=None, validation_alias="indoorAirQuality", serialization_alias="indoorAirQuality"
     )
     noise: SensorNoise2 | None = None
     no2: SensorCo2 | None = None
     o3: SensorCo2 | None = None
     pm10: SensorCo2 | None = None
     pm25: SensorCo2 | None = None
-    power_factor: SensorBattery | None = Field(default=None, alias="powerFactor")
-    real_power: SensorApparentPower | None = Field(default=None, alias="realPower")
+    power_factor: SensorBattery | None = Field(
+        default=None, validation_alias="powerFactor", serialization_alias="powerFactor"
+    )
+    real_power: SensorApparentPower | None = Field(
+        default=None, validation_alias="realPower", serialization_alias="realPower"
+    )
     remote_lockout_switch: SensorRemoteLockoutSwitch | None = Field(
-        default=None, alias="remoteLockoutSwitch"
+        default=None,
+        validation_alias="remoteLockoutSwitch",
+        serialization_alias="remoteLockoutSwitch",
     )
     temperature: SensorTemperature2 | None = None
     tvoc: SensorCo2 | None = None
     voltage: SensorFrequency | None = None
     water: SensorWater2 | None = None
-    raw_temperature: SensorTemperature2 | None = Field(default=None, alias="rawTemperature")
+    raw_temperature: SensorTemperature2 | None = Field(
+        default=None, validation_alias="rawTemperature", serialization_alias="rawTemperature"
+    )
 
 
 class SensorRealPower(_BaseSchema):
@@ -520,8 +624,12 @@ class SensorRecipients(_BaseSchema):
     """List of recipients that will receive the alert."""
 
     emails: list[str] | None = None
-    sms_numbers: list[str] | None = Field(default=None, alias="smsNumbers")
-    http_server_ids: list[str] | None = Field(default=None, alias="httpServerIds")
+    sms_numbers: list[str] | None = Field(
+        default=None, validation_alias="smsNumbers", serialization_alias="smsNumbers"
+    )
+    http_server_ids: list[str] | None = Field(
+        default=None, validation_alias="httpServerIds", serialization_alias="httpServerIds"
+    )
 
 
 class SensorRelationships(_BaseSchema):
@@ -584,15 +692,23 @@ class SensorThreshold(_BaseSchema):
     pm25: SensorTvoc | None = None
     noise: SensorNoise | None = None
     indoor_air_quality: SensorIndoorAirQuality | None = Field(
-        default=None, alias="indoorAirQuality"
+        default=None, validation_alias="indoorAirQuality", serialization_alias="indoorAirQuality"
     )
-    real_power: SensorRealPower | None = Field(default=None, alias="realPower")
-    apparent_power: SensorRealPower | None = Field(default=None, alias="apparentPower")
-    power_factor: SensorPowerFactor | None = Field(default=None, alias="powerFactor")
+    real_power: SensorRealPower | None = Field(
+        default=None, validation_alias="realPower", serialization_alias="realPower"
+    )
+    apparent_power: SensorRealPower | None = Field(
+        default=None, validation_alias="apparentPower", serialization_alias="apparentPower"
+    )
+    power_factor: SensorPowerFactor | None = Field(
+        default=None, validation_alias="powerFactor", serialization_alias="powerFactor"
+    )
     current: SensorRealPower | None = None
     voltage: SensorVoltage | None = None
     frequency: SensorVoltage | None = None
-    upstream_power: SensorUpstreamPower | None = Field(default=None, alias="upstreamPower")
+    upstream_power: SensorUpstreamPower | None = Field(
+        default=None, validation_alias="upstreamPower", serialization_alias="upstreamPower"
+    )
 
 
 class SensorTvoc(_BaseSchema):
@@ -605,7 +721,9 @@ class SensorTvoc(_BaseSchema):
 class SensorUpstreamPower(_BaseSchema):
     """Upstream power threshold. 'outageDetected' must be provided and set to true."""
 
-    outage_detected: bool = Field(alias="outageDetected")
+    outage_detected: bool = Field(
+        validation_alias="outageDetected", serialization_alias="outageDetected"
+    )
 
 
 class SensorVoltage(_BaseSchema):
@@ -635,7 +753,7 @@ class UpdateDeviceSensorRelationshipsLivestream(_BaseSchema):
     """
 
     related_devices: list[UpdateDeviceSensorRelationshipsLivestreamRelatedDevicesItem] | None = (
-        Field(default=None, alias="relatedDevices")
+        Field(default=None, validation_alias="relatedDevices", serialization_alias="relatedDevices")
     )
 
 
@@ -664,20 +782,28 @@ class UpdateNetworkSensorAlertsProfileRecipients(_BaseSchema):
     """List of recipients that will receive the alert."""
 
     emails: list[str] | None = None
-    sms_numbers: list[str] | None = Field(default=None, alias="smsNumbers")
-    http_server_ids: list[str] | None = Field(default=None, alias="httpServerIds")
+    sms_numbers: list[str] | None = Field(
+        default=None, validation_alias="smsNumbers", serialization_alias="smsNumbers"
+    )
+    http_server_ids: list[str] | None = Field(
+        default=None, validation_alias="httpServerIds", serialization_alias="httpServerIds"
+    )
 
 
 class UpdateNetworkSensorAlertsProfileResponse(_BaseSchema):
     """Response for updateNetworkSensorAlertsProfile operation."""
 
-    profile_id: str | None = Field(default=None, alias="profileId")
+    profile_id: str | None = Field(
+        default=None, validation_alias="profileId", serialization_alias="profileId"
+    )
     name: str | None = None
     schedule: SensorSchedule | None = None
     conditions: list[SensorConditionsItem]
     recipients: SensorRecipients | None = None
     serials: list[str] | None = None
-    include_sensor_url: bool | None = Field(default=None, alias="includeSensorUrl")
+    include_sensor_url: bool | None = Field(
+        default=None, validation_alias="includeSensorUrl", serialization_alias="includeSensorUrl"
+    )
     message: str | None = None
 
 
@@ -690,5 +816,7 @@ class UpdateNetworkSensorAlertsProfileSchedule(_BaseSchema):
 class UpdateNetworkSensorMqttBrokerResponse(_BaseSchema):
     """Response for updateNetworkSensorMqttBroker operation."""
 
-    mqtt_broker_id: str | None = Field(default=None, alias="mqttBrokerId")
+    mqtt_broker_id: str | None = Field(
+        default=None, validation_alias="mqttBrokerId", serialization_alias="mqttBrokerId"
+    )
     enabled: bool | None = None

@@ -17,8 +17,12 @@ class GetOrganizationSpacesIntegrateStatusResponse(_BaseSchema):
     status: bool | None = None
     states: list[str] | None = None
     email: str | None = None
-    account_name: str | None = Field(default=None, alias="accountName")
-    account_type: str | None = Field(default=None, alias="accountType")
+    account_name: str | None = Field(
+        default=None, validation_alias="accountName", serialization_alias="accountName"
+    )
+    account_type: str | None = Field(
+        default=None, validation_alias="accountType", serialization_alias="accountType"
+    )
 
 
 class RemoveOrganizationSpacesIntegrationResponse(_BaseSchema):

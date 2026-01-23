@@ -14,17 +14,23 @@ from meraki_client.schemas._base import _BaseSchema
 class CreateOrganizationNacCertificatesAuthoritiesCrlResponse(_BaseSchema):
     """Response for createOrganizationNacCertificatesAuthoritiesCrl operation."""
 
-    crl_id: str = Field(alias="crlId")
+    crl_id: str = Field(validation_alias="crlId", serialization_alias="crlId")
     data: list[CreateOrganizationNacCertificatesAuthoritiesCrlResponseDataItem]
-    is_delta: bool = Field(alias="isDelta")
-    ca_id: str = Field(alias="caId")
-    created_at: str | None = Field(default=None, alias="createdAt")
-    last_updated_at: str | None = Field(default=None, alias="lastUpdatedAt")
+    is_delta: bool = Field(validation_alias="isDelta", serialization_alias="isDelta")
+    ca_id: str = Field(validation_alias="caId", serialization_alias="caId")
+    created_at: str | None = Field(
+        default=None, validation_alias="createdAt", serialization_alias="createdAt"
+    )
+    last_updated_at: str | None = Field(
+        default=None, validation_alias="lastUpdatedAt", serialization_alias="lastUpdatedAt"
+    )
 
 
 class CreateOrganizationNacCertificatesAuthoritiesCrlResponseDataItem(_BaseSchema):
     """Schema for CreateOrganizationNacCertificatesAuthoritiesCrlResponseDataItem."""
 
     serial: str | None = None
-    revocation_date: str | None = Field(default=None, alias="revocationDate")
+    revocation_date: str | None = Field(
+        default=None, validation_alias="revocationDate", serialization_alias="revocationDate"
+    )
     reason: str | None = None

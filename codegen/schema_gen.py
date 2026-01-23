@@ -646,19 +646,20 @@ def _generate_field(
 
     needs_alias = snake_name != prop_name
     is_nullable = prop_schema.get("nullable", False)
+    alias_args = f'validation_alias="{prop_name}", serialization_alias="{prop_name}"'
 
     if is_required:
         type_annotation = f"{type_str} | None" if is_nullable else type_str
         if needs_alias:
             return (
-                f'{snake_name}: {type_annotation} = Field(alias="{prop_name}")',
+                f"{snake_name}: {type_annotation} = Field({alias_args})",
                 item_class,
             )
         return f"{snake_name}: {type_annotation}", item_class
 
     if needs_alias:
         return (
-            f'{snake_name}: {type_str} | None = Field(default=None, alias="{prop_name}")',
+            f"{snake_name}: {type_str} | None = Field(default=None, {alias_args})",
             item_class,
         )
     return f"{snake_name}: {type_str} | None = None", item_class

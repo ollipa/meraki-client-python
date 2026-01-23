@@ -32,7 +32,9 @@ class CreateNetworkSmTargetGroupResponse(_BaseSchema):
 class CreateOrganizationSmAdminsRoleResponse(_BaseSchema):
     """Response for createOrganizationSmAdminsRole operation."""
 
-    role_id: str | None = Field(default=None, alias="roleId")
+    role_id: str | None = Field(
+        default=None, validation_alias="roleId", serialization_alias="roleId"
+    )
     name: str | None = None
     scope: str | None = None
     tags: list[str] | None = None
@@ -60,10 +62,18 @@ class GetNetworkSmDeviceCertsResponseItem(_BaseSchema):
     """Schema for GetNetworkSmDeviceCertsResponseItem."""
 
     name: str | None = None
-    not_valid_after: str | None = Field(default=None, alias="notValidAfter")
-    not_valid_before: str | None = Field(default=None, alias="notValidBefore")
-    cert_pem: str | None = Field(default=None, alias="certPem")
-    device_id: str | None = Field(default=None, alias="deviceId")
+    not_valid_after: str | None = Field(
+        default=None, validation_alias="notValidAfter", serialization_alias="notValidAfter"
+    )
+    not_valid_before: str | None = Field(
+        default=None, validation_alias="notValidBefore", serialization_alias="notValidBefore"
+    )
+    cert_pem: str | None = Field(
+        default=None, validation_alias="certPem", serialization_alias="certPem"
+    )
+    device_id: str | None = Field(
+        default=None, validation_alias="deviceId", serialization_alias="deviceId"
+    )
     issuer: str | None = None
     subject: str | None = None
     id: str | None = None
@@ -78,8 +88,12 @@ class GetNetworkSmDeviceConnectivityResponse(
 class GetNetworkSmDeviceConnectivityResponseItem(_BaseSchema):
     """Schema for GetNetworkSmDeviceConnectivityResponseItem."""
 
-    first_seen_at: str | None = Field(default=None, alias="firstSeenAt")
-    last_seen_at: str | None = Field(default=None, alias="lastSeenAt")
+    first_seen_at: str | None = Field(
+        default=None, validation_alias="firstSeenAt", serialization_alias="firstSeenAt"
+    )
+    last_seen_at: str | None = Field(
+        default=None, validation_alias="lastSeenAt", serialization_alias="lastSeenAt"
+    )
 
 
 class GetNetworkSmDeviceDesktopLogsResponse(
@@ -91,23 +105,49 @@ class GetNetworkSmDeviceDesktopLogsResponse(
 class GetNetworkSmDeviceDesktopLogsResponseItem(_BaseSchema):
     """Schema for GetNetworkSmDeviceDesktopLogsResponseItem."""
 
-    measured_at: str | None = Field(default=None, alias="measuredAt")
+    measured_at: str | None = Field(
+        default=None, validation_alias="measuredAt", serialization_alias="measuredAt"
+    )
     user: str | None = None
-    network_device: str | None = Field(default=None, alias="networkDevice")
-    network_driver: str | None = Field(default=None, alias="networkDriver")
-    wifi_channel: str | None = Field(default=None, alias="wifiChannel")
-    wifi_auth: str | None = Field(default=None, alias="wifiAuth")
-    wifi_bssid: str | None = Field(default=None, alias="wifiBssid")
-    wifi_ssid: str | None = Field(default=None, alias="wifiSsid")
-    wifi_rssi: str | None = Field(default=None, alias="wifiRssi")
-    wifi_noise: str | None = Field(default=None, alias="wifiNoise")
-    dhcp_server: str | None = Field(default=None, alias="dhcpServer")
+    network_device: str | None = Field(
+        default=None, validation_alias="networkDevice", serialization_alias="networkDevice"
+    )
+    network_driver: str | None = Field(
+        default=None, validation_alias="networkDriver", serialization_alias="networkDriver"
+    )
+    wifi_channel: str | None = Field(
+        default=None, validation_alias="wifiChannel", serialization_alias="wifiChannel"
+    )
+    wifi_auth: str | None = Field(
+        default=None, validation_alias="wifiAuth", serialization_alias="wifiAuth"
+    )
+    wifi_bssid: str | None = Field(
+        default=None, validation_alias="wifiBssid", serialization_alias="wifiBssid"
+    )
+    wifi_ssid: str | None = Field(
+        default=None, validation_alias="wifiSsid", serialization_alias="wifiSsid"
+    )
+    wifi_rssi: str | None = Field(
+        default=None, validation_alias="wifiRssi", serialization_alias="wifiRssi"
+    )
+    wifi_noise: str | None = Field(
+        default=None, validation_alias="wifiNoise", serialization_alias="wifiNoise"
+    )
+    dhcp_server: str | None = Field(
+        default=None, validation_alias="dhcpServer", serialization_alias="dhcpServer"
+    )
     ip: str | None = None
-    network_m_t_u: str | None = Field(default=None, alias="networkMTU")
+    network_m_t_u: str | None = Field(
+        default=None, validation_alias="networkMTU", serialization_alias="networkMTU"
+    )
     subnet: str | None = None
     gateway: str | None = None
-    public_i_p: str | None = Field(default=None, alias="publicIP")
-    dns_server: str | None = Field(default=None, alias="dnsServer")
+    public_i_p: str | None = Field(
+        default=None, validation_alias="publicIP", serialization_alias="publicIP"
+    )
+    dns_server: str | None = Field(
+        default=None, validation_alias="dnsServer", serialization_alias="dnsServer"
+    )
     ts: str | None = None
 
 
@@ -123,7 +163,9 @@ class GetNetworkSmDeviceDeviceCommandLogsResponseItem(_BaseSchema):
     action: str | None = None
     name: str | None = None
     details: str | None = None
-    dashboard_user: str | None = Field(default=None, alias="dashboardUser")
+    dashboard_user: str | None = Field(
+        default=None, validation_alias="dashboardUser", serialization_alias="dashboardUser"
+    )
     ts: str | None = None
 
 
@@ -136,12 +178,22 @@ class GetNetworkSmDeviceDeviceProfilesResponse(
 class GetNetworkSmDeviceDeviceProfilesResponseItem(_BaseSchema):
     """Schema for GetNetworkSmDeviceDeviceProfilesResponseItem."""
 
-    device_id: str | None = Field(default=None, alias="deviceId")
+    device_id: str | None = Field(
+        default=None, validation_alias="deviceId", serialization_alias="deviceId"
+    )
     id: str | None = None
-    is_encrypted: bool | None = Field(default=None, alias="isEncrypted")
-    is_managed: bool | None = Field(default=None, alias="isManaged")
-    profile_data: str | None = Field(default=None, alias="profileData")
-    profile_identifier: str | None = Field(default=None, alias="profileIdentifier")
+    is_encrypted: bool | None = Field(
+        default=None, validation_alias="isEncrypted", serialization_alias="isEncrypted"
+    )
+    is_managed: bool | None = Field(
+        default=None, validation_alias="isManaged", serialization_alias="isManaged"
+    )
+    profile_data: str | None = Field(
+        default=None, validation_alias="profileData", serialization_alias="profileData"
+    )
+    profile_identifier: str | None = Field(
+        default=None, validation_alias="profileIdentifier", serialization_alias="profileIdentifier"
+    )
     name: str | None = None
     version: str | None = None
 
@@ -155,8 +207,12 @@ class GetNetworkSmDeviceNetworkAdaptersResponse(
 class GetNetworkSmDeviceNetworkAdaptersResponseItem(_BaseSchema):
     """Schema for GetNetworkSmDeviceNetworkAdaptersResponseItem."""
 
-    dhcp_server: str | None = Field(default=None, alias="dhcpServer")
-    dns_server: str | None = Field(default=None, alias="dnsServer")
+    dhcp_server: str | None = Field(
+        default=None, validation_alias="dhcpServer", serialization_alias="dhcpServer"
+    )
+    dns_server: str | None = Field(
+        default=None, validation_alias="dnsServer", serialization_alias="dnsServer"
+    )
     gateway: str | None = None
     id: str | None = None
     ip: str | None = None
@@ -174,15 +230,33 @@ class GetNetworkSmDevicePerformanceHistoryResponse(
 class GetNetworkSmDevicePerformanceHistoryResponseItem(_BaseSchema):
     """Schema for GetNetworkSmDevicePerformanceHistoryResponseItem."""
 
-    cpu_percent_used: float | None = Field(default=None, alias="cpuPercentUsed")
-    mem_free: int | None = Field(default=None, alias="memFree")
-    mem_wired: int | None = Field(default=None, alias="memWired")
-    mem_active: int | None = Field(default=None, alias="memActive")
-    mem_inactive: int | None = Field(default=None, alias="memInactive")
-    network_sent: int | None = Field(default=None, alias="networkSent")
-    network_received: int | None = Field(default=None, alias="networkReceived")
-    swap_used: int | None = Field(default=None, alias="swapUsed")
-    disk_usage: SmDiskUsage | None = Field(default=None, alias="diskUsage")
+    cpu_percent_used: float | None = Field(
+        default=None, validation_alias="cpuPercentUsed", serialization_alias="cpuPercentUsed"
+    )
+    mem_free: int | None = Field(
+        default=None, validation_alias="memFree", serialization_alias="memFree"
+    )
+    mem_wired: int | None = Field(
+        default=None, validation_alias="memWired", serialization_alias="memWired"
+    )
+    mem_active: int | None = Field(
+        default=None, validation_alias="memActive", serialization_alias="memActive"
+    )
+    mem_inactive: int | None = Field(
+        default=None, validation_alias="memInactive", serialization_alias="memInactive"
+    )
+    network_sent: int | None = Field(
+        default=None, validation_alias="networkSent", serialization_alias="networkSent"
+    )
+    network_received: int | None = Field(
+        default=None, validation_alias="networkReceived", serialization_alias="networkReceived"
+    )
+    swap_used: int | None = Field(
+        default=None, validation_alias="swapUsed", serialization_alias="swapUsed"
+    )
+    disk_usage: SmDiskUsage | None = Field(
+        default=None, validation_alias="diskUsage", serialization_alias="diskUsage"
+    )
     ts: str | None = None
 
 
@@ -208,16 +282,38 @@ class GetNetworkSmDeviceSecurityCentersResponse(
 class GetNetworkSmDeviceSecurityCentersResponseItem(_BaseSchema):
     """Schema for GetNetworkSmDeviceSecurityCentersResponseItem."""
 
-    is_rooted: bool | None = Field(default=None, alias="isRooted")
-    has_anti_virus: bool | None = Field(default=None, alias="hasAntiVirus")
-    anti_virus_name: str | None = Field(default=None, alias="antiVirusName")
-    is_fire_wall_enabled: bool | None = Field(default=None, alias="isFireWallEnabled")
-    has_fire_wall_installed: bool | None = Field(default=None, alias="hasFireWallInstalled")
-    fire_wall_name: str | None = Field(default=None, alias="fireWallName")
-    is_disk_encrypted: bool | None = Field(default=None, alias="isDiskEncrypted")
-    is_auto_login_disabled: bool | None = Field(default=None, alias="isAutoLoginDisabled")
+    is_rooted: bool | None = Field(
+        default=None, validation_alias="isRooted", serialization_alias="isRooted"
+    )
+    has_anti_virus: bool | None = Field(
+        default=None, validation_alias="hasAntiVirus", serialization_alias="hasAntiVirus"
+    )
+    anti_virus_name: str | None = Field(
+        default=None, validation_alias="antiVirusName", serialization_alias="antiVirusName"
+    )
+    is_fire_wall_enabled: bool | None = Field(
+        default=None, validation_alias="isFireWallEnabled", serialization_alias="isFireWallEnabled"
+    )
+    has_fire_wall_installed: bool | None = Field(
+        default=None,
+        validation_alias="hasFireWallInstalled",
+        serialization_alias="hasFireWallInstalled",
+    )
+    fire_wall_name: str | None = Field(
+        default=None, validation_alias="fireWallName", serialization_alias="fireWallName"
+    )
+    is_disk_encrypted: bool | None = Field(
+        default=None, validation_alias="isDiskEncrypted", serialization_alias="isDiskEncrypted"
+    )
+    is_auto_login_disabled: bool | None = Field(
+        default=None,
+        validation_alias="isAutoLoginDisabled",
+        serialization_alias="isAutoLoginDisabled",
+    )
     id: str | None = None
-    running_procs: str | None = Field(default=None, alias="runningProcs")
+    running_procs: str | None = Field(
+        default=None, validation_alias="runningProcs", serialization_alias="runningProcs"
+    )
 
 
 class GetNetworkSmDeviceSoftwaresResponse(
@@ -229,27 +325,57 @@ class GetNetworkSmDeviceSoftwaresResponse(
 class GetNetworkSmDeviceSoftwaresResponseItem(_BaseSchema):
     """Schema for GetNetworkSmDeviceSoftwaresResponseItem."""
 
-    app_id: str | None = Field(default=None, alias="appId")
-    bundle_size: int | None = Field(default=None, alias="bundleSize")
-    created_at: str | None = Field(default=None, alias="createdAt")
-    device_id: str | None = Field(default=None, alias="deviceId")
-    dynamic_size: int | None = Field(default=None, alias="dynamicSize")
+    app_id: str | None = Field(default=None, validation_alias="appId", serialization_alias="appId")
+    bundle_size: int | None = Field(
+        default=None, validation_alias="bundleSize", serialization_alias="bundleSize"
+    )
+    created_at: str | None = Field(
+        default=None, validation_alias="createdAt", serialization_alias="createdAt"
+    )
+    device_id: str | None = Field(
+        default=None, validation_alias="deviceId", serialization_alias="deviceId"
+    )
+    dynamic_size: int | None = Field(
+        default=None, validation_alias="dynamicSize", serialization_alias="dynamicSize"
+    )
     id: str | None = None
     identifier: str | None = None
-    installed_at: str | None = Field(default=None, alias="installedAt")
-    to_install: bool | None = Field(default=None, alias="toInstall")
-    ios_redemption_code: bool | None = Field(default=None, alias="iosRedemptionCode")
-    is_managed: bool | None = Field(default=None, alias="isManaged")
-    itunes_id: str | None = Field(default=None, alias="itunesId")
-    license_key: str | None = Field(default=None, alias="licenseKey")
+    installed_at: str | None = Field(
+        default=None, validation_alias="installedAt", serialization_alias="installedAt"
+    )
+    to_install: bool | None = Field(
+        default=None, validation_alias="toInstall", serialization_alias="toInstall"
+    )
+    ios_redemption_code: bool | None = Field(
+        default=None, validation_alias="iosRedemptionCode", serialization_alias="iosRedemptionCode"
+    )
+    is_managed: bool | None = Field(
+        default=None, validation_alias="isManaged", serialization_alias="isManaged"
+    )
+    itunes_id: str | None = Field(
+        default=None, validation_alias="itunesId", serialization_alias="itunesId"
+    )
+    license_key: str | None = Field(
+        default=None, validation_alias="licenseKey", serialization_alias="licenseKey"
+    )
     name: str | None = None
     path: str | None = None
-    redemption_code: int | None = Field(default=None, alias="redemptionCode")
-    short_version: str | None = Field(default=None, alias="shortVersion")
+    redemption_code: int | None = Field(
+        default=None, validation_alias="redemptionCode", serialization_alias="redemptionCode"
+    )
+    short_version: str | None = Field(
+        default=None, validation_alias="shortVersion", serialization_alias="shortVersion"
+    )
     status: str | None = None
-    to_uninstall: bool | None = Field(default=None, alias="toUninstall")
-    uninstalled_at: str | None = Field(default=None, alias="uninstalledAt")
-    updated_at: str | None = Field(default=None, alias="updatedAt")
+    to_uninstall: bool | None = Field(
+        default=None, validation_alias="toUninstall", serialization_alias="toUninstall"
+    )
+    uninstalled_at: str | None = Field(
+        default=None, validation_alias="uninstalledAt", serialization_alias="uninstalledAt"
+    )
+    updated_at: str | None = Field(
+        default=None, validation_alias="updatedAt", serialization_alias="updatedAt"
+    )
     vendor: str | None = None
     version: str | None = None
 
@@ -263,7 +389,9 @@ class GetNetworkSmDeviceWlanListsResponse(
 class GetNetworkSmDeviceWlanListsResponseItem(_BaseSchema):
     """Schema for GetNetworkSmDeviceWlanListsResponseItem."""
 
-    created_at: str | None = Field(default=None, alias="createdAt")
+    created_at: str | None = Field(
+        default=None, validation_alias="createdAt", serialization_alias="createdAt"
+    )
     id: str | None = None
     xml: str | None = None
 
@@ -279,11 +407,19 @@ class GetNetworkSmDevicesResponseItem(_BaseSchema):
     name: str | None = None
     tags: list[str] | None = None
     ssid: str | None = None
-    wifi_mac: str | None = Field(default=None, alias="wifiMac")
-    os_name: str | None = Field(default=None, alias="osName")
-    system_model: str | None = Field(default=None, alias="systemModel")
+    wifi_mac: str | None = Field(
+        default=None, validation_alias="wifiMac", serialization_alias="wifiMac"
+    )
+    os_name: str | None = Field(
+        default=None, validation_alias="osName", serialization_alias="osName"
+    )
+    system_model: str | None = Field(
+        default=None, validation_alias="systemModel", serialization_alias="systemModel"
+    )
     uuid: str | None = None
-    serial_number: str | None = Field(default=None, alias="serialNumber")
+    serial_number: str | None = Field(
+        default=None, validation_alias="serialNumber", serialization_alias="serialNumber"
+    )
     serial: str | None = None
     ip: str | None = None
     notes: str | None = None
@@ -301,7 +437,9 @@ class GetNetworkSmProfilesResponseItem(_BaseSchema):
     description: str | None = None
     scope: str | None = None
     tags: list[str] | None = None
-    payload_types: list[str] | None = Field(default=None, alias="payloadTypes")
+    payload_types: list[str] | None = Field(
+        default=None, validation_alias="payloadTypes", serialization_alias="payloadTypes"
+    )
 
 
 class GetNetworkSmTargetGroupResponse(_BaseSchema):
@@ -336,18 +474,36 @@ class GetNetworkSmTrustedAccessConfigsResponseItem(_BaseSchema):
     """Schema for GetNetworkSmTrustedAccessConfigsResponseItem."""
 
     id: str | None = None
-    ssid_name: str | None = Field(default=None, alias="ssidName")
+    ssid_name: str | None = Field(
+        default=None, validation_alias="ssidName", serialization_alias="ssidName"
+    )
     name: str | None = None
     scope: str | None = None
     tags: list[str] | None = None
-    timebound_type: str | None = Field(default=None, alias="timeboundType")
-    send_expiration_emails: bool | None = Field(default=None, alias="sendExpirationEmails")
-    notify_time_before_access_ends: int | None = Field(
-        default=None, alias="notifyTimeBeforeAccessEnds"
+    timebound_type: str | None = Field(
+        default=None, validation_alias="timeboundType", serialization_alias="timeboundType"
     )
-    additional_email_text: str | None = Field(default=None, alias="additionalEmailText")
-    access_start_at: datetime | None = Field(default=None, alias="accessStartAt")
-    access_end_at: datetime | None = Field(default=None, alias="accessEndAt")
+    send_expiration_emails: bool | None = Field(
+        default=None,
+        validation_alias="sendExpirationEmails",
+        serialization_alias="sendExpirationEmails",
+    )
+    notify_time_before_access_ends: int | None = Field(
+        default=None,
+        validation_alias="notifyTimeBeforeAccessEnds",
+        serialization_alias="notifyTimeBeforeAccessEnds",
+    )
+    additional_email_text: str | None = Field(
+        default=None,
+        validation_alias="additionalEmailText",
+        serialization_alias="additionalEmailText",
+    )
+    access_start_at: datetime | None = Field(
+        default=None, validation_alias="accessStartAt", serialization_alias="accessStartAt"
+    )
+    access_end_at: datetime | None = Field(
+        default=None, validation_alias="accessEndAt", serialization_alias="accessEndAt"
+    )
 
 
 class GetNetworkSmUserAccessDevicesResponse(
@@ -361,13 +517,17 @@ class GetNetworkSmUserAccessDevicesResponseItem(_BaseSchema):
 
     id: str | None = None
     name: str | None = None
-    system_type: str | None = Field(default=None, alias="systemType")
+    system_type: str | None = Field(
+        default=None, validation_alias="systemType", serialization_alias="systemType"
+    )
     mac: str | None = None
     username: str | None = None
     email: str | None = None
     tags: list[str] | None = None
     trusted_access_connections: list[SmTrustedAccessConnectionsItem] | None = Field(
-        default=None, alias="trustedAccessConnections"
+        default=None,
+        validation_alias="trustedAccessConnections",
+        serialization_alias="trustedAccessConnections",
     )
 
 
@@ -380,12 +540,22 @@ class GetNetworkSmUserDeviceProfilesResponse(
 class GetNetworkSmUserDeviceProfilesResponseItem(_BaseSchema):
     """Schema for GetNetworkSmUserDeviceProfilesResponseItem."""
 
-    device_id: str | None = Field(default=None, alias="deviceId")
+    device_id: str | None = Field(
+        default=None, validation_alias="deviceId", serialization_alias="deviceId"
+    )
     id: str | None = None
-    is_encrypted: bool | None = Field(default=None, alias="isEncrypted")
-    is_managed: bool | None = Field(default=None, alias="isManaged")
-    profile_data: str | None = Field(default=None, alias="profileData")
-    profile_identifier: str | None = Field(default=None, alias="profileIdentifier")
+    is_encrypted: bool | None = Field(
+        default=None, validation_alias="isEncrypted", serialization_alias="isEncrypted"
+    )
+    is_managed: bool | None = Field(
+        default=None, validation_alias="isManaged", serialization_alias="isManaged"
+    )
+    profile_data: str | None = Field(
+        default=None, validation_alias="profileData", serialization_alias="profileData"
+    )
+    profile_identifier: str | None = Field(
+        default=None, validation_alias="profileIdentifier", serialization_alias="profileIdentifier"
+    )
     name: str | None = None
     version: str | None = None
 
@@ -397,27 +567,57 @@ class GetNetworkSmUserSoftwaresResponse(RootModel[list["GetNetworkSmUserSoftware
 class GetNetworkSmUserSoftwaresResponseItem(_BaseSchema):
     """Schema for GetNetworkSmUserSoftwaresResponseItem."""
 
-    app_id: str | None = Field(default=None, alias="appId")
-    bundle_size: int | None = Field(default=None, alias="bundleSize")
-    created_at: str | None = Field(default=None, alias="createdAt")
-    device_id: str | None = Field(default=None, alias="deviceId")
-    dynamic_size: int | None = Field(default=None, alias="dynamicSize")
+    app_id: str | None = Field(default=None, validation_alias="appId", serialization_alias="appId")
+    bundle_size: int | None = Field(
+        default=None, validation_alias="bundleSize", serialization_alias="bundleSize"
+    )
+    created_at: str | None = Field(
+        default=None, validation_alias="createdAt", serialization_alias="createdAt"
+    )
+    device_id: str | None = Field(
+        default=None, validation_alias="deviceId", serialization_alias="deviceId"
+    )
+    dynamic_size: int | None = Field(
+        default=None, validation_alias="dynamicSize", serialization_alias="dynamicSize"
+    )
     id: str | None = None
     identifier: str | None = None
-    installed_at: str | None = Field(default=None, alias="installedAt")
-    to_install: bool | None = Field(default=None, alias="toInstall")
-    ios_redemption_code: bool | None = Field(default=None, alias="iosRedemptionCode")
-    is_managed: bool | None = Field(default=None, alias="isManaged")
-    itunes_id: str | None = Field(default=None, alias="itunesId")
-    license_key: str | None = Field(default=None, alias="licenseKey")
+    installed_at: str | None = Field(
+        default=None, validation_alias="installedAt", serialization_alias="installedAt"
+    )
+    to_install: bool | None = Field(
+        default=None, validation_alias="toInstall", serialization_alias="toInstall"
+    )
+    ios_redemption_code: bool | None = Field(
+        default=None, validation_alias="iosRedemptionCode", serialization_alias="iosRedemptionCode"
+    )
+    is_managed: bool | None = Field(
+        default=None, validation_alias="isManaged", serialization_alias="isManaged"
+    )
+    itunes_id: str | None = Field(
+        default=None, validation_alias="itunesId", serialization_alias="itunesId"
+    )
+    license_key: str | None = Field(
+        default=None, validation_alias="licenseKey", serialization_alias="licenseKey"
+    )
     name: str | None = None
     path: str | None = None
-    redemption_code: int | None = Field(default=None, alias="redemptionCode")
-    short_version: str | None = Field(default=None, alias="shortVersion")
+    redemption_code: int | None = Field(
+        default=None, validation_alias="redemptionCode", serialization_alias="redemptionCode"
+    )
+    short_version: str | None = Field(
+        default=None, validation_alias="shortVersion", serialization_alias="shortVersion"
+    )
     status: str | None = None
-    to_uninstall: bool | None = Field(default=None, alias="toUninstall")
-    uninstalled_at: str | None = Field(default=None, alias="uninstalledAt")
-    updated_at: str | None = Field(default=None, alias="updatedAt")
+    to_uninstall: bool | None = Field(
+        default=None, validation_alias="toUninstall", serialization_alias="toUninstall"
+    )
+    uninstalled_at: str | None = Field(
+        default=None, validation_alias="uninstalledAt", serialization_alias="uninstalledAt"
+    )
+    updated_at: str | None = Field(
+        default=None, validation_alias="updatedAt", serialization_alias="updatedAt"
+    )
     vendor: str | None = None
     version: str | None = None
 
@@ -431,24 +631,48 @@ class GetNetworkSmUsersResponseItem(_BaseSchema):
 
     id: str | None = None
     email: str | None = None
-    full_name: str | None = Field(default=None, alias="fullName")
+    full_name: str | None = Field(
+        default=None, validation_alias="fullName", serialization_alias="fullName"
+    )
     username: str | None = None
-    has_password: bool | None = Field(default=None, alias="hasPassword")
+    has_password: bool | None = Field(
+        default=None, validation_alias="hasPassword", serialization_alias="hasPassword"
+    )
     tags: str | None = None
-    ad_groups: list[str] | None = Field(default=None, alias="adGroups")
-    azure_ad_groups: list[str] | None = Field(default=None, alias="azureAdGroups")
-    saml_groups: list[str] | None = Field(default=None, alias="samlGroups")
-    asm_groups: list[str] | None = Field(default=None, alias="asmGroups")
-    is_external: bool | None = Field(default=None, alias="isExternal")
-    display_name: str | None = Field(default=None, alias="displayName")
-    has_identity_certificate: bool | None = Field(default=None, alias="hasIdentityCertificate")
-    user_thumbnail: str | None = Field(default=None, alias="userThumbnail")
+    ad_groups: list[str] | None = Field(
+        default=None, validation_alias="adGroups", serialization_alias="adGroups"
+    )
+    azure_ad_groups: list[str] | None = Field(
+        default=None, validation_alias="azureAdGroups", serialization_alias="azureAdGroups"
+    )
+    saml_groups: list[str] | None = Field(
+        default=None, validation_alias="samlGroups", serialization_alias="samlGroups"
+    )
+    asm_groups: list[str] | None = Field(
+        default=None, validation_alias="asmGroups", serialization_alias="asmGroups"
+    )
+    is_external: bool | None = Field(
+        default=None, validation_alias="isExternal", serialization_alias="isExternal"
+    )
+    display_name: str | None = Field(
+        default=None, validation_alias="displayName", serialization_alias="displayName"
+    )
+    has_identity_certificate: bool | None = Field(
+        default=None,
+        validation_alias="hasIdentityCertificate",
+        serialization_alias="hasIdentityCertificate",
+    )
+    user_thumbnail: str | None = Field(
+        default=None, validation_alias="userThumbnail", serialization_alias="userThumbnail"
+    )
 
 
 class GetOrganizationSmAdminsRoleResponse(_BaseSchema):
     """Response for getOrganizationSmAdminsRole operation."""
 
-    role_id: str | None = Field(default=None, alias="roleId")
+    role_id: str | None = Field(
+        default=None, validation_alias="roleId", serialization_alias="roleId"
+    )
     name: str | None = None
     scope: str | None = None
     tags: list[str] | None = None
@@ -464,7 +688,9 @@ class GetOrganizationSmAdminsRolesResponse(_BaseSchema):
 class GetOrganizationSmAdminsRolesResponseItemsItem(_BaseSchema):
     """Schema for GetOrganizationSmAdminsRolesResponseItemsItem."""
 
-    role_id: str | None = Field(default=None, alias="roleId")
+    role_id: str | None = Field(
+        default=None, validation_alias="roleId", serialization_alias="roleId"
+    )
     name: str | None = None
     scope: str | None = None
     tags: list[str] | None = None
@@ -498,21 +724,49 @@ class GetOrganizationSmSentryPoliciesAssignmentsByNetworkResponseItem(_BaseSchem
 class GetOrganizationSmVppAccountResponse(_BaseSchema):
     """Response for getOrganizationSmVppAccount operation."""
 
-    vpp_account_id: str | None = Field(default=None, alias="vppAccountId")
-    content_token: str | None = Field(default=None, alias="contentToken")
+    vpp_account_id: str | None = Field(
+        default=None, validation_alias="vppAccountId", serialization_alias="vppAccountId"
+    )
+    content_token: str | None = Field(
+        default=None, validation_alias="contentToken", serialization_alias="contentToken"
+    )
     email: str | None = None
     name: str | None = None
-    allowed_admins: str | None = Field(default=None, alias="allowedAdmins")
-    network_id_admins: str | None = Field(default=None, alias="networkIdAdmins")
-    assignable_networks: str | None = Field(default=None, alias="assignableNetworks")
-    assignable_network_ids: list[str] | None = Field(default=None, alias="assignableNetworkIds")
-    vpp_location_id: str | None = Field(default=None, alias="vppLocationId")
-    vpp_location_name: str | None = Field(default=None, alias="vppLocationName")
-    last_synced_at: str | None = Field(default=None, alias="lastSyncedAt")
-    last_force_synced_at: str | None = Field(default=None, alias="lastForceSyncedAt")
-    parsed_token: SmParsedToken | None = Field(default=None, alias="parsedToken")
+    allowed_admins: str | None = Field(
+        default=None, validation_alias="allowedAdmins", serialization_alias="allowedAdmins"
+    )
+    network_id_admins: str | None = Field(
+        default=None, validation_alias="networkIdAdmins", serialization_alias="networkIdAdmins"
+    )
+    assignable_networks: str | None = Field(
+        default=None,
+        validation_alias="assignableNetworks",
+        serialization_alias="assignableNetworks",
+    )
+    assignable_network_ids: list[str] | None = Field(
+        default=None,
+        validation_alias="assignableNetworkIds",
+        serialization_alias="assignableNetworkIds",
+    )
+    vpp_location_id: str | None = Field(
+        default=None, validation_alias="vppLocationId", serialization_alias="vppLocationId"
+    )
+    vpp_location_name: str | None = Field(
+        default=None, validation_alias="vppLocationName", serialization_alias="vppLocationName"
+    )
+    last_synced_at: str | None = Field(
+        default=None, validation_alias="lastSyncedAt", serialization_alias="lastSyncedAt"
+    )
+    last_force_synced_at: str | None = Field(
+        default=None, validation_alias="lastForceSyncedAt", serialization_alias="lastForceSyncedAt"
+    )
+    parsed_token: SmParsedToken | None = Field(
+        default=None, validation_alias="parsedToken", serialization_alias="parsedToken"
+    )
     id: str | None = None
-    vpp_service_token: str | None = Field(default=None, alias="vppServiceToken")
+    vpp_service_token: str | None = Field(
+        default=None, validation_alias="vppServiceToken", serialization_alias="vppServiceToken"
+    )
 
 
 class GetOrganizationSmVppAccountsResponse(
@@ -524,21 +778,49 @@ class GetOrganizationSmVppAccountsResponse(
 class GetOrganizationSmVppAccountsResponseItem(_BaseSchema):
     """Schema for GetOrganizationSmVppAccountsResponseItem."""
 
-    vpp_account_id: str | None = Field(default=None, alias="vppAccountId")
-    content_token: str | None = Field(default=None, alias="contentToken")
+    vpp_account_id: str | None = Field(
+        default=None, validation_alias="vppAccountId", serialization_alias="vppAccountId"
+    )
+    content_token: str | None = Field(
+        default=None, validation_alias="contentToken", serialization_alias="contentToken"
+    )
     email: str | None = None
     name: str | None = None
-    allowed_admins: str | None = Field(default=None, alias="allowedAdmins")
-    network_id_admins: str | None = Field(default=None, alias="networkIdAdmins")
-    assignable_networks: str | None = Field(default=None, alias="assignableNetworks")
-    assignable_network_ids: list[str] | None = Field(default=None, alias="assignableNetworkIds")
-    vpp_location_id: str | None = Field(default=None, alias="vppLocationId")
-    vpp_location_name: str | None = Field(default=None, alias="vppLocationName")
-    last_synced_at: str | None = Field(default=None, alias="lastSyncedAt")
-    last_force_synced_at: str | None = Field(default=None, alias="lastForceSyncedAt")
-    parsed_token: SmParsedToken | None = Field(default=None, alias="parsedToken")
+    allowed_admins: str | None = Field(
+        default=None, validation_alias="allowedAdmins", serialization_alias="allowedAdmins"
+    )
+    network_id_admins: str | None = Field(
+        default=None, validation_alias="networkIdAdmins", serialization_alias="networkIdAdmins"
+    )
+    assignable_networks: str | None = Field(
+        default=None,
+        validation_alias="assignableNetworks",
+        serialization_alias="assignableNetworks",
+    )
+    assignable_network_ids: list[str] | None = Field(
+        default=None,
+        validation_alias="assignableNetworkIds",
+        serialization_alias="assignableNetworkIds",
+    )
+    vpp_location_id: str | None = Field(
+        default=None, validation_alias="vppLocationId", serialization_alias="vppLocationId"
+    )
+    vpp_location_name: str | None = Field(
+        default=None, validation_alias="vppLocationName", serialization_alias="vppLocationName"
+    )
+    last_synced_at: str | None = Field(
+        default=None, validation_alias="lastSyncedAt", serialization_alias="lastSyncedAt"
+    )
+    last_force_synced_at: str | None = Field(
+        default=None, validation_alias="lastForceSyncedAt", serialization_alias="lastForceSyncedAt"
+    )
+    parsed_token: SmParsedToken | None = Field(
+        default=None, validation_alias="parsedToken", serialization_alias="parsedToken"
+    )
     id: str | None = None
-    vpp_service_token: str | None = Field(default=None, alias="vppServiceToken")
+    vpp_service_token: str | None = Field(
+        default=None, validation_alias="vppServiceToken", serialization_alias="vppServiceToken"
+    )
 
 
 class LockNetworkSmDevicesResponse(_BaseSchema):
@@ -556,7 +838,9 @@ class ModifyNetworkSmDevicesTagsResponseItem(_BaseSchema):
 
     id: str | None = None
     tags: list[str] | None = None
-    wifi_mac: str | None = Field(default=None, alias="wifiMac")
+    wifi_mac: str | None = Field(
+        default=None, validation_alias="wifiMac", serialization_alias="wifiMac"
+    )
     serial: str | None = None
 
 
@@ -564,7 +848,9 @@ class MoveNetworkSmDevicesResponse(_BaseSchema):
     """Response for moveNetworkSmDevices operation."""
 
     ids: list[str] | None = None
-    new_network: str | None = Field(default=None, alias="newNetwork")
+    new_network: str | None = Field(
+        default=None, validation_alias="newNetwork", serialization_alias="newNetwork"
+    )
 
 
 class RebootNetworkSmDevicesResponse(_BaseSchema):
@@ -608,33 +894,63 @@ class SmMetaCounts(_BaseSchema):
 class SmParsedToken(_BaseSchema):
     """The parsed VPP service token."""
 
-    org_name: str | None = Field(default=None, alias="orgName")
-    hashed_token: str | None = Field(default=None, alias="hashedToken")
-    expires_at: str | None = Field(default=None, alias="expiresAt")
+    org_name: str | None = Field(
+        default=None, validation_alias="orgName", serialization_alias="orgName"
+    )
+    hashed_token: str | None = Field(
+        default=None, validation_alias="hashedToken", serialization_alias="hashedToken"
+    )
+    expires_at: str | None = Field(
+        default=None, validation_alias="expiresAt", serialization_alias="expiresAt"
+    )
 
 
 class SmPoliciesItem(_BaseSchema):
     """Schema for SmPoliciesItem."""
 
-    policy_id: str | None = Field(default=None, alias="policyId")
-    network_id: str | None = Field(default=None, alias="networkId")
-    sm_network_id: str | None = Field(default=None, alias="smNetworkId")
+    policy_id: str | None = Field(
+        default=None, validation_alias="policyId", serialization_alias="policyId"
+    )
+    network_id: str | None = Field(
+        default=None, validation_alias="networkId", serialization_alias="networkId"
+    )
+    sm_network_id: str | None = Field(
+        default=None, validation_alias="smNetworkId", serialization_alias="smNetworkId"
+    )
     tags: list[str] | None = None
     scope: str | None = None
-    group_number: str | None = Field(default=None, alias="groupNumber")
-    group_policy_id: str | None = Field(default=None, alias="groupPolicyId")
+    group_number: str | None = Field(
+        default=None, validation_alias="groupNumber", serialization_alias="groupNumber"
+    )
+    group_policy_id: str | None = Field(
+        default=None, validation_alias="groupPolicyId", serialization_alias="groupPolicyId"
+    )
     priority: str | None = None
-    created_at: str | None = Field(default=None, alias="createdAt")
-    last_updated_at: str | None = Field(default=None, alias="lastUpdatedAt")
+    created_at: str | None = Field(
+        default=None, validation_alias="createdAt", serialization_alias="createdAt"
+    )
+    last_updated_at: str | None = Field(
+        default=None, validation_alias="lastUpdatedAt", serialization_alias="lastUpdatedAt"
+    )
 
 
 class SmTrustedAccessConnectionsItem(_BaseSchema):
     """Schema for SmTrustedAccessConnectionsItem."""
 
-    trusted_access_config_id: str | None = Field(default=None, alias="trustedAccessConfigId")
-    downloaded_at: str | None = Field(default=None, alias="downloadedAt")
-    scep_completed_at: datetime | None = Field(default=None, alias="scepCompletedAt")
-    last_connected_at: datetime | None = Field(default=None, alias="lastConnectedAt")
+    trusted_access_config_id: str | None = Field(
+        default=None,
+        validation_alias="trustedAccessConfigId",
+        serialization_alias="trustedAccessConfigId",
+    )
+    downloaded_at: str | None = Field(
+        default=None, validation_alias="downloadedAt", serialization_alias="downloadedAt"
+    )
+    scep_completed_at: datetime | None = Field(
+        default=None, validation_alias="scepCompletedAt", serialization_alias="scepCompletedAt"
+    )
+    last_connected_at: datetime | None = Field(
+        default=None, validation_alias="lastConnectedAt", serialization_alias="lastConnectedAt"
+    )
 
 
 class UnenrollNetworkSmDeviceResponse(_BaseSchema):
@@ -661,7 +977,9 @@ class UpdateNetworkSmDevicesFieldsResponseItem(_BaseSchema):
 
     id: str | None = None
     name: str | None = None
-    wifi_mac: str | None = Field(default=None, alias="wifiMac")
+    wifi_mac: str | None = Field(
+        default=None, validation_alias="wifiMac", serialization_alias="wifiMac"
+    )
     serial: str | None = None
     notes: str | None = None
 
@@ -678,7 +996,9 @@ class UpdateNetworkSmTargetGroupResponse(_BaseSchema):
 class UpdateOrganizationSmAdminsRoleResponse(_BaseSchema):
     """Response for updateOrganizationSmAdminsRole operation."""
 
-    role_id: str | None = Field(default=None, alias="roleId")
+    role_id: str | None = Field(
+        default=None, validation_alias="roleId", serialization_alias="roleId"
+    )
     name: str | None = None
     scope: str | None = None
     tags: list[str] | None = None
@@ -687,18 +1007,22 @@ class UpdateOrganizationSmAdminsRoleResponse(_BaseSchema):
 class UpdateOrganizationSmSentryPoliciesAssignmentsItemsItem(_BaseSchema):
     """Item schema for items."""
 
-    network_id: str = Field(alias="networkId")
+    network_id: str = Field(validation_alias="networkId", serialization_alias="networkId")
     policies: list[UpdateOrganizationSmSentryPoliciesAssignmentsItemsItemPoliciesItem] | None = None
 
 
 class UpdateOrganizationSmSentryPoliciesAssignmentsItemsItemPoliciesItem(_BaseSchema):
     """Schema for UpdateOrganizationSmSentryPoliciesAssignmentsItemsItemPoliciesItem."""
 
-    policy_id: str | None = Field(default=None, alias="policyId")
-    sm_network_id: str = Field(alias="smNetworkId")
+    policy_id: str | None = Field(
+        default=None, validation_alias="policyId", serialization_alias="policyId"
+    )
+    sm_network_id: str = Field(validation_alias="smNetworkId", serialization_alias="smNetworkId")
     scope: str
     tags: list[str]
-    group_policy_id: str = Field(alias="groupPolicyId")
+    group_policy_id: str = Field(
+        validation_alias="groupPolicyId", serialization_alias="groupPolicyId"
+    )
 
 
 class UpdateOrganizationSmSentryPoliciesAssignmentsResponse(_BaseSchema):
@@ -710,7 +1034,9 @@ class UpdateOrganizationSmSentryPoliciesAssignmentsResponse(_BaseSchema):
 class UpdateOrganizationSmSentryPoliciesAssignmentsResponseItemsItem(_BaseSchema):
     """Schema for UpdateOrganizationSmSentryPoliciesAssignmentsResponseItemsItem."""
 
-    network_id: str | None = Field(default=None, alias="networkId")
+    network_id: str | None = Field(
+        default=None, validation_alias="networkId", serialization_alias="networkId"
+    )
     policies: list[SmPoliciesItem] | None = None
 
 

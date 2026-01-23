@@ -47,7 +47,9 @@ class GetAdministeredIdentitiesMeApiKeysResponseItem(_BaseSchema):
     """Schema for GetAdministeredIdentitiesMeApiKeysResponseItem."""
 
     suffix: str | None = None
-    created_at: str | None = Field(default=None, alias="createdAt")
+    created_at: str | None = Field(
+        default=None, validation_alias="createdAt", serialization_alias="createdAt"
+    )
 
 
 class GetAdministeredIdentitiesMeResponse(_BaseSchema):
@@ -55,7 +57,11 @@ class GetAdministeredIdentitiesMeResponse(_BaseSchema):
 
     name: str | None = None
     email: str | None = None
-    last_used_dashboard_at: datetime | None = Field(default=None, alias="lastUsedDashboardAt")
+    last_used_dashboard_at: datetime | None = Field(
+        default=None,
+        validation_alias="lastUsedDashboardAt",
+        serialization_alias="lastUsedDashboardAt",
+    )
     authentication: GetAdministeredIdentitiesMeResponseAuthentication | None = None
 
 
@@ -64,5 +70,7 @@ class GetAdministeredIdentitiesMeResponseAuthentication(_BaseSchema):
 
     mode: str | None = None
     api: AdministeredAuthenticationApi | None = None
-    two_factor: AdministeredAuthenticationTwoFactor | None = Field(default=None, alias="twoFactor")
+    two_factor: AdministeredAuthenticationTwoFactor | None = Field(
+        default=None, validation_alias="twoFactor", serialization_alias="twoFactor"
+    )
     saml: AdministeredAuthenticationTwoFactor | None = None

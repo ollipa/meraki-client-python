@@ -35,10 +35,14 @@ class CampusGatewayAddressesItem3(_BaseSchema):
 class CampusGatewayAddressesItem4(_BaseSchema):
     """Schema for CampusGatewayAddressesItem4."""
 
-    assignment_mode: str | None = Field(default=None, alias="assignmentMode")
+    assignment_mode: str | None = Field(
+        default=None, validation_alias="assignmentMode", serialization_alias="assignmentMode"
+    )
     protocol: str | None = None
     gateway: str | None = None
-    subnet_mask: str | None = Field(default=None, alias="subnetMask")
+    subnet_mask: str | None = Field(
+        default=None, validation_alias="subnetMask", serialization_alias="subnetMask"
+    )
     address: str | None = None
 
 
@@ -82,7 +86,9 @@ class CampusGatewayTunnelsAddressesItem(_BaseSchema):
 
     protocol: str | None = None
     gateway: str | None = None
-    subnet_mask: str | None = Field(default=None, alias="subnetMask")
+    subnet_mask: str | None = Field(
+        default=None, validation_alias="subnetMask", serialization_alias="subnetMask"
+    )
 
 
 class CampusGatewayTunnelsUplink(_BaseSchema):
@@ -102,10 +108,14 @@ class CampusGatewayUplink(_BaseSchema):
 class CampusGatewayUplinksAddressesItem(_BaseSchema):
     """Schema for CampusGatewayUplinksAddressesItem."""
 
-    assignment_mode: str | None = Field(default=None, alias="assignmentMode")
+    assignment_mode: str | None = Field(
+        default=None, validation_alias="assignmentMode", serialization_alias="assignmentMode"
+    )
     protocol: str | None = None
     gateway: str | None = None
-    subnet_mask: str | None = Field(default=None, alias="subnetMask")
+    subnet_mask: str | None = Field(
+        default=None, validation_alias="subnetMask", serialization_alias="subnetMask"
+    )
 
 
 class CreateNetworkCampusGatewayClusterDevicesItem(_BaseSchema):
@@ -134,19 +144,21 @@ class CreateNetworkCampusGatewayClusterPortChannelsItem(_BaseSchema):
 
     name: str
     vlan: int
-    allowed_vlans: str = Field(alias="allowedVlans")
+    allowed_vlans: str = Field(validation_alias="allowedVlans", serialization_alias="allowedVlans")
 
 
 class CreateNetworkCampusGatewayClusterResponse(_BaseSchema):
     """Response for createNetworkCampusGatewayCluster operation."""
 
-    cluster_id: str | None = Field(default=None, alias="clusterId")
+    cluster_id: str | None = Field(
+        default=None, validation_alias="clusterId", serialization_alias="clusterId"
+    )
     name: str | None = None
     uplinks: list[CreateNetworkCampusGatewayClusterResponseUplinksItem] | None = None
     tunnels: list[CreateNetworkCampusGatewayClusterResponseTunnelsItem] | None = None
     nameservers: CreateNetworkCampusGatewayClusterResponseNameservers | None = None
     port_channels: list[CreateNetworkCampusGatewayClusterResponsePortChannelsItem] | None = Field(
-        default=None, alias="portChannels"
+        default=None, validation_alias="portChannels", serialization_alias="portChannels"
     )
     devices: list[CreateNetworkCampusGatewayClusterResponseDevicesItem] | None = None
     notes: str | None = None
@@ -157,7 +169,9 @@ class CreateNetworkCampusGatewayClusterResponseDevicesItem(_BaseSchema):
     """Schema for CreateNetworkCampusGatewayClusterResponseDevicesItem."""
 
     serial: str | None = None
-    member_id: str | None = Field(default=None, alias="memberId")
+    member_id: str | None = Field(
+        default=None, validation_alias="memberId", serialization_alias="memberId"
+    )
     uplinks: list[CampusGatewayDevicesUplinksItem] | None = None
     tunnels: list[CampusGatewayDevicesUplinksItem] | None = None
 
@@ -174,7 +188,9 @@ class CreateNetworkCampusGatewayClusterResponsePortChannelsItem(_BaseSchema):
     id: str | None = None
     name: str | None = None
     vlan: int | None = None
-    allowed_vlans: str | None = Field(default=None, alias="allowedVlans")
+    allowed_vlans: str | None = Field(
+        default=None, validation_alias="allowedVlans", serialization_alias="allowedVlans"
+    )
 
 
 class CreateNetworkCampusGatewayClusterResponseTunnelsItem(_BaseSchema):
@@ -208,7 +224,7 @@ class CreateNetworkCampusGatewayClusterTunnelsItemAddressesItem(_BaseSchema):
 
     protocol: str
     gateway: str
-    subnet_mask: str = Field(alias="subnetMask")
+    subnet_mask: str = Field(validation_alias="subnetMask", serialization_alias="subnetMask")
 
 
 class CreateNetworkCampusGatewayClusterTunnelsItemUplink(_BaseSchema):
@@ -228,10 +244,14 @@ class CreateNetworkCampusGatewayClusterUplinksItem(_BaseSchema):
 class CreateNetworkCampusGatewayClusterUplinksItemAddressesItem(_BaseSchema):
     """Schema for CreateNetworkCampusGatewayClusterUplinksItemAddressesItem."""
 
-    assignment_mode: str = Field(alias="assignmentMode")
+    assignment_mode: str = Field(
+        validation_alias="assignmentMode", serialization_alias="assignmentMode"
+    )
     protocol: str | None = None
     gateway: str | None = None
-    subnet_mask: str | None = Field(default=None, alias="subnetMask")
+    subnet_mask: str | None = Field(
+        default=None, validation_alias="subnetMask", serialization_alias="subnetMask"
+    )
 
 
 class GetOrganizationCampusGatewayClustersResponse(_BaseSchema):
@@ -245,13 +265,15 @@ class GetOrganizationCampusGatewayClustersResponseItemsItem(_BaseSchema):
     """Schema for GetOrganizationCampusGatewayClustersResponseItemsItem."""
 
     network: CampusGatewayNetwork | None = None
-    cluster_id: str | None = Field(default=None, alias="clusterId")
+    cluster_id: str | None = Field(
+        default=None, validation_alias="clusterId", serialization_alias="clusterId"
+    )
     name: str | None = None
     uplinks: list[CreateNetworkCampusGatewayClusterResponseUplinksItem] | None = None
     tunnels: list[CreateNetworkCampusGatewayClusterResponseTunnelsItem] | None = None
     nameservers: CreateNetworkCampusGatewayClusterResponseNameservers | None = None
     port_channels: list[CreateNetworkCampusGatewayClusterResponsePortChannelsItem] | None = Field(
-        default=None, alias="portChannels"
+        default=None, validation_alias="portChannels", serialization_alias="portChannels"
     )
     devices: list[CreateNetworkCampusGatewayClusterResponseDevicesItem] | None = None
     notes: str | None = None
@@ -297,19 +319,23 @@ class UpdateNetworkCampusGatewayClusterPortChannelsItem(_BaseSchema):
 
     name: str
     vlan: int | None = None
-    allowed_vlans: str | None = Field(default=None, alias="allowedVlans")
+    allowed_vlans: str | None = Field(
+        default=None, validation_alias="allowedVlans", serialization_alias="allowedVlans"
+    )
 
 
 class UpdateNetworkCampusGatewayClusterResponse(_BaseSchema):
     """Response for updateNetworkCampusGatewayCluster operation."""
 
-    cluster_id: str | None = Field(default=None, alias="clusterId")
+    cluster_id: str | None = Field(
+        default=None, validation_alias="clusterId", serialization_alias="clusterId"
+    )
     name: str | None = None
     uplinks: list[CreateNetworkCampusGatewayClusterResponseUplinksItem] | None = None
     tunnels: list[CreateNetworkCampusGatewayClusterResponseTunnelsItem] | None = None
     nameservers: CreateNetworkCampusGatewayClusterResponseNameservers | None = None
     port_channels: list[CreateNetworkCampusGatewayClusterResponsePortChannelsItem] | None = Field(
-        default=None, alias="portChannels"
+        default=None, validation_alias="portChannels", serialization_alias="portChannels"
     )
     devices: list[CreateNetworkCampusGatewayClusterResponseDevicesItem] | None = None
     notes: str | None = None
@@ -330,7 +356,9 @@ class UpdateNetworkCampusGatewayClusterTunnelsItemAddressesItem(_BaseSchema):
 
     protocol: str | None = None
     gateway: str | None = None
-    subnet_mask: str | None = Field(default=None, alias="subnetMask")
+    subnet_mask: str | None = Field(
+        default=None, validation_alias="subnetMask", serialization_alias="subnetMask"
+    )
 
 
 class UpdateNetworkCampusGatewayClusterUplinksItem(_BaseSchema):
@@ -344,7 +372,11 @@ class UpdateNetworkCampusGatewayClusterUplinksItem(_BaseSchema):
 class UpdateNetworkCampusGatewayClusterUplinksItemAddressesItem(_BaseSchema):
     """Schema for UpdateNetworkCampusGatewayClusterUplinksItemAddressesItem."""
 
-    assignment_mode: str | None = Field(default=None, alias="assignmentMode")
+    assignment_mode: str | None = Field(
+        default=None, validation_alias="assignmentMode", serialization_alias="assignmentMode"
+    )
     protocol: str | None = None
     gateway: str | None = None
-    subnet_mask: str | None = Field(default=None, alias="subnetMask")
+    subnet_mask: str | None = Field(
+        default=None, validation_alias="subnetMask", serialization_alias="subnetMask"
+    )

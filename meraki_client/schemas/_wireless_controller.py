@@ -186,7 +186,9 @@ class GetOrganizationWirelessControllerDevicesRedundancyStatusesResponseItemsIte
     mode: str | None = None
     enabled: bool | None = None
     failover: WirelessControllerFailover | None = None
-    mobility_mac: str | None = Field(default=None, alias="mobilityMac")
+    mobility_mac: str | None = Field(
+        default=None, validation_alias="mobilityMac", serialization_alias="mobilityMac"
+    )
 
 
 class GetOrganizationWirelessControllerDevicesSystemUtilizationHistoryByIntervalResponse(
@@ -267,8 +269,10 @@ class WirelessControllerByStatus2(_BaseSchema):
 class WirelessControllerChangesItem(_BaseSchema):
     """Schema for WirelessControllerChangesItem."""
 
-    start_ts: datetime | None = Field(default=None, alias="startTs")
-    end_ts: str | None = Field(default=None, alias="endTs")
+    start_ts: datetime | None = Field(
+        default=None, validation_alias="startTs", serialization_alias="startTs"
+    )
+    end_ts: str | None = Field(default=None, validation_alias="endTs", serialization_alias="endTs")
     status: str | None = None
 
 
@@ -291,7 +295,9 @@ class WirelessControllerConnections(_BaseSchema):
     """Wireless LAN controller associated access point counts."""
 
     total: int | None = None
-    by_status: WirelessControllerByStatus2 | None = Field(default=None, alias="byStatus")
+    by_status: WirelessControllerByStatus2 | None = Field(
+        default=None, validation_alias="byStatus", serialization_alias="byStatus"
+    )
 
 
 class WirelessControllerController(_BaseSchema):
@@ -303,7 +309,9 @@ class WirelessControllerController(_BaseSchema):
 class WirelessControllerCounts(_BaseSchema):
     """Client counts."""
 
-    by_status: WirelessControllerByStatus | None = Field(default=None, alias="byStatus")
+    by_status: WirelessControllerByStatus | None = Field(
+        default=None, validation_alias="byStatus", serialization_alias="byStatus"
+    )
 
 
 class WirelessControllerCounts2(_BaseSchema):
@@ -347,11 +355,19 @@ class WirelessControllerInterfacesItem(_BaseSchema):
     mac: str | None = None
     status: str | None = None
     speed: str | None = None
-    is_uplink: bool | None = Field(default=None, alias="isUplink")
+    is_uplink: bool | None = Field(
+        default=None, validation_alias="isUplink", serialization_alias="isUplink"
+    )
     vlan: int | None = None
-    is_redundancy_port: bool | None = Field(default=None, alias="isRedundancyPort")
-    link_negotiation: str | None = Field(default=None, alias="linkNegotiation")
-    channel_group: WirelessControllerChannelGroup | None = Field(default=None, alias="channelGroup")
+    is_redundancy_port: bool | None = Field(
+        default=None, validation_alias="isRedundancyPort", serialization_alias="isRedundancyPort"
+    )
+    link_negotiation: str | None = Field(
+        default=None, validation_alias="linkNegotiation", serialization_alias="linkNegotiation"
+    )
+    channel_group: WirelessControllerChannelGroup | None = Field(
+        default=None, validation_alias="channelGroup", serialization_alias="channelGroup"
+    )
     module: WirelessControllerModule | None = None
 
 
@@ -373,10 +389,16 @@ class WirelessControllerInterfacesItem3(_BaseSchema):
     speed: str | None = None
     addresses: list[WirelessControllerAddressesItem] | None = None
     vrf: WirelessControllerVrf | None = None
-    is_uplink: bool | None = Field(default=None, alias="isUplink")
+    is_uplink: bool | None = Field(
+        default=None, validation_alias="isUplink", serialization_alias="isUplink"
+    )
     vlan: int | None = None
-    link_negotiation: str | None = Field(default=None, alias="linkNegotiation")
-    channel_group: WirelessControllerChannelGroup | None = Field(default=None, alias="channelGroup")
+    link_negotiation: str | None = Field(
+        default=None, validation_alias="linkNegotiation", serialization_alias="linkNegotiation"
+    )
+    channel_group: WirelessControllerChannelGroup | None = Field(
+        default=None, validation_alias="channelGroup", serialization_alias="channelGroup"
+    )
     module: WirelessControllerModule | None = None
 
 
@@ -390,21 +412,27 @@ class WirelessControllerInterfacesItem4(_BaseSchema):
 class WirelessControllerIntervalsItem(_BaseSchema):
     """Schema for WirelessControllerIntervalsItem."""
 
-    start_ts: str | None = Field(default=None, alias="startTs")
-    end_ts: str | None = Field(default=None, alias="endTs")
+    start_ts: str | None = Field(
+        default=None, validation_alias="startTs", serialization_alias="startTs"
+    )
+    end_ts: str | None = Field(default=None, validation_alias="endTs", serialization_alias="endTs")
     overall: WirelessControllerRate | None = None
     by_interface: list[WirelessControllerByInterfaceItem] | None = Field(
-        default=None, alias="byInterface"
+        default=None, validation_alias="byInterface", serialization_alias="byInterface"
     )
 
 
 class WirelessControllerIntervalsItem2(_BaseSchema):
     """Schema for WirelessControllerIntervalsItem2."""
 
-    start_ts: str | None = Field(default=None, alias="startTs")
-    end_ts: str | None = Field(default=None, alias="endTs")
+    start_ts: str | None = Field(
+        default=None, validation_alias="startTs", serialization_alias="startTs"
+    )
+    end_ts: str | None = Field(default=None, validation_alias="endTs", serialization_alias="endTs")
     overall: WirelessControllerOverall | None = None
-    by_core: list[WirelessControllerByCoreItem] | None = Field(default=None, alias="byCore")
+    by_core: list[WirelessControllerByCoreItem] | None = Field(
+        default=None, validation_alias="byCore", serialization_alias="byCore"
+    )
 
 
 class WirelessControllerItems(_BaseSchema):
@@ -523,8 +551,12 @@ class WirelessControllerRate(_BaseSchema):
 class WirelessControllerReadingsItem(_BaseSchema):
     """Schema for WirelessControllerReadingsItem."""
 
-    start_ts: datetime | None = Field(default=None, alias="startTs")
-    end_ts: datetime | None = Field(default=None, alias="endTs")
+    start_ts: datetime | None = Field(
+        default=None, validation_alias="startTs", serialization_alias="startTs"
+    )
+    end_ts: datetime | None = Field(
+        default=None, validation_alias="endTs", serialization_alias="endTs"
+    )
     counts: WirelessControllerCounts | None = None
 
 
@@ -552,8 +584,12 @@ class WirelessControllerRedundancy(_BaseSchema):
 
     role: str | None = None
     id: str | None = None
-    chassis_name: str | None = Field(default=None, alias="chassisName")
-    redundant_serial: str | None = Field(default=None, alias="redundantSerial")
+    chassis_name: str | None = Field(
+        default=None, validation_alias="chassisName", serialization_alias="chassisName"
+    )
+    redundant_serial: str | None = Field(
+        default=None, validation_alias="redundantSerial", serialization_alias="redundantSerial"
+    )
     management: WirelessControllerManagement | None = None
 
 
@@ -566,7 +602,9 @@ class WirelessControllerUsage(_BaseSchema):
 class WirelessControllerVersion(_BaseSchema):
     """Wireless LAN controller firmware version."""
 
-    short_name: str | None = Field(default=None, alias="shortName")
+    short_name: str | None = Field(
+        default=None, validation_alias="shortName", serialization_alias="shortName"
+    )
 
 
 class WirelessControllerVrf(_BaseSchema):

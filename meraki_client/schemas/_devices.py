@@ -26,12 +26,14 @@ class CreateDeviceLiveToolsArpTableCallback(_BaseSchema):
     """Details for the callback. Please include either an httpServerId OR url and sharedSecret."""
 
     url: str | None = None
-    shared_secret: str | None = Field(default=None, alias="sharedSecret")
+    shared_secret: str | None = Field(
+        default=None, validation_alias="sharedSecret", serialization_alias="sharedSecret"
+    )
     http_server: CreateDeviceLiveToolsArpTableCallbackHttpServer | None = Field(
-        default=None, alias="httpServer"
+        default=None, validation_alias="httpServer", serialization_alias="httpServer"
     )
     payload_template: CreateDeviceLiveToolsArpTableCallbackHttpServer | None = Field(
-        default=None, alias="payloadTemplate"
+        default=None, validation_alias="payloadTemplate", serialization_alias="payloadTemplate"
     )
 
 
@@ -44,7 +46,9 @@ class CreateDeviceLiveToolsArpTableCallbackHttpServer(_BaseSchema):
 class CreateDeviceLiveToolsArpTableResponse(_BaseSchema):
     """Response for createDeviceLiveToolsArpTable operation."""
 
-    arp_table_id: str | None = Field(default=None, alias="arpTableId")
+    arp_table_id: str | None = Field(
+        default=None, validation_alias="arpTableId", serialization_alias="arpTableId"
+    )
     url: str | None = None
     request: CreateDeviceLiveToolsArpTableResponseRequest | None = None
     status: str | None = None
@@ -69,19 +73,23 @@ class CreateDeviceLiveToolsCableTestCallback(_BaseSchema):
     """Details for the callback. Please include either an httpServerId OR url and sharedSecret."""
 
     url: str | None = None
-    shared_secret: str | None = Field(default=None, alias="sharedSecret")
+    shared_secret: str | None = Field(
+        default=None, validation_alias="sharedSecret", serialization_alias="sharedSecret"
+    )
     http_server: CreateDeviceLiveToolsArpTableCallbackHttpServer | None = Field(
-        default=None, alias="httpServer"
+        default=None, validation_alias="httpServer", serialization_alias="httpServer"
     )
     payload_template: CreateDeviceLiveToolsArpTableCallbackHttpServer | None = Field(
-        default=None, alias="payloadTemplate"
+        default=None, validation_alias="payloadTemplate", serialization_alias="payloadTemplate"
     )
 
 
 class CreateDeviceLiveToolsCableTestResponse(_BaseSchema):
     """Response for createDeviceLiveToolsCableTest operation."""
 
-    cable_test_id: str | None = Field(default=None, alias="cableTestId")
+    cable_test_id: str | None = Field(
+        default=None, validation_alias="cableTestId", serialization_alias="cableTestId"
+    )
     url: str | None = None
     request: CreateDeviceLiveToolsCableTestResponseRequest | None = None
     status: str | None = None
@@ -99,19 +107,23 @@ class CreateDeviceLiveToolsLedsBlinkCallback(_BaseSchema):
     """Details for the callback. Please include either an httpServerId OR url and sharedSecret."""
 
     url: str | None = None
-    shared_secret: str | None = Field(default=None, alias="sharedSecret")
+    shared_secret: str | None = Field(
+        default=None, validation_alias="sharedSecret", serialization_alias="sharedSecret"
+    )
     http_server: CreateDeviceLiveToolsArpTableCallbackHttpServer | None = Field(
-        default=None, alias="httpServer"
+        default=None, validation_alias="httpServer", serialization_alias="httpServer"
     )
     payload_template: CreateDeviceLiveToolsArpTableCallbackHttpServer | None = Field(
-        default=None, alias="payloadTemplate"
+        default=None, validation_alias="payloadTemplate", serialization_alias="payloadTemplate"
     )
 
 
 class CreateDeviceLiveToolsLedsBlinkResponse(_BaseSchema):
     """Response for createDeviceLiveToolsLedsBlink operation."""
 
-    leds_blink_id: str | None = Field(default=None, alias="ledsBlinkId")
+    leds_blink_id: str | None = Field(
+        default=None, validation_alias="ledsBlinkId", serialization_alias="ledsBlinkId"
+    )
     url: str | None = None
     status: str | None = None
     request: CreateDeviceLiveToolsLedsBlinkResponseRequest | None = None
@@ -130,19 +142,23 @@ class CreateDeviceLiveToolsMacTableCallback(_BaseSchema):
     """Details for the callback. Please include either an httpServerId OR url and sharedSecret."""
 
     url: str | None = None
-    shared_secret: str | None = Field(default=None, alias="sharedSecret")
+    shared_secret: str | None = Field(
+        default=None, validation_alias="sharedSecret", serialization_alias="sharedSecret"
+    )
     http_server: CreateDeviceLiveToolsArpTableCallbackHttpServer | None = Field(
-        default=None, alias="httpServer"
+        default=None, validation_alias="httpServer", serialization_alias="httpServer"
     )
     payload_template: CreateDeviceLiveToolsArpTableCallbackHttpServer | None = Field(
-        default=None, alias="payloadTemplate"
+        default=None, validation_alias="payloadTemplate", serialization_alias="payloadTemplate"
     )
 
 
 class CreateDeviceLiveToolsMacTableResponse(_BaseSchema):
     """Response for createDeviceLiveToolsMacTable operation."""
 
-    mac_table_id: str | None = Field(default=None, alias="macTableId")
+    mac_table_id: str | None = Field(
+        default=None, validation_alias="macTableId", serialization_alias="macTableId"
+    )
     url: str | None = None
     request: CreateDeviceLiveToolsArpTableResponseRequest | None = None
     status: str | None = None
@@ -153,19 +169,25 @@ class CreateDeviceLiveToolsMulticastRoutingCallback(_BaseSchema):
     """Details for the callback. Please include either an httpServerId OR url and sharedSecret."""
 
     url: str | None = None
-    shared_secret: str | None = Field(default=None, alias="sharedSecret")
+    shared_secret: str | None = Field(
+        default=None, validation_alias="sharedSecret", serialization_alias="sharedSecret"
+    )
     http_server: CreateDeviceLiveToolsArpTableCallbackHttpServer | None = Field(
-        default=None, alias="httpServer"
+        default=None, validation_alias="httpServer", serialization_alias="httpServer"
     )
     payload_template: CreateDeviceLiveToolsArpTableCallbackHttpServer | None = Field(
-        default=None, alias="payloadTemplate"
+        default=None, validation_alias="payloadTemplate", serialization_alias="payloadTemplate"
     )
 
 
 class CreateDeviceLiveToolsMulticastRoutingResponse(_BaseSchema):
     """Response for createDeviceLiveToolsMulticastRouting operation."""
 
-    multicast_routing_id: str | None = Field(default=None, alias="multicastRoutingId")
+    multicast_routing_id: str | None = Field(
+        default=None,
+        validation_alias="multicastRoutingId",
+        serialization_alias="multicastRoutingId",
+    )
     url: str | None = None
     request: CreateDeviceLiveToolsArpTableResponseRequest | None = None
     status: str | None = None
@@ -176,12 +198,14 @@ class CreateDeviceLiveToolsPingCallback(_BaseSchema):
     """Details for the callback. Please include either an httpServerId OR url and sharedSecret."""
 
     url: str | None = None
-    shared_secret: str | None = Field(default=None, alias="sharedSecret")
+    shared_secret: str | None = Field(
+        default=None, validation_alias="sharedSecret", serialization_alias="sharedSecret"
+    )
     http_server: CreateDeviceLiveToolsArpTableCallbackHttpServer | None = Field(
-        default=None, alias="httpServer"
+        default=None, validation_alias="httpServer", serialization_alias="httpServer"
     )
     payload_template: CreateDeviceLiveToolsArpTableCallbackHttpServer | None = Field(
-        default=None, alias="payloadTemplate"
+        default=None, validation_alias="payloadTemplate", serialization_alias="payloadTemplate"
     )
 
 
@@ -189,19 +213,23 @@ class CreateDeviceLiveToolsPingDeviceCallback(_BaseSchema):
     """Details for the callback. Please include either an httpServerId OR url and sharedSecret."""
 
     url: str | None = None
-    shared_secret: str | None = Field(default=None, alias="sharedSecret")
+    shared_secret: str | None = Field(
+        default=None, validation_alias="sharedSecret", serialization_alias="sharedSecret"
+    )
     http_server: CreateDeviceLiveToolsArpTableCallbackHttpServer | None = Field(
-        default=None, alias="httpServer"
+        default=None, validation_alias="httpServer", serialization_alias="httpServer"
     )
     payload_template: CreateDeviceLiveToolsArpTableCallbackHttpServer | None = Field(
-        default=None, alias="payloadTemplate"
+        default=None, validation_alias="payloadTemplate", serialization_alias="payloadTemplate"
     )
 
 
 class CreateDeviceLiveToolsPingDeviceResponse(_BaseSchema):
     """Response for createDeviceLiveToolsPingDevice operation."""
 
-    ping_id: str | None = Field(default=None, alias="pingId")
+    ping_id: str | None = Field(
+        default=None, validation_alias="pingId", serialization_alias="pingId"
+    )
     url: str | None = None
     request: CreateDeviceLiveToolsPingDeviceResponseRequest | None = None
     status: str | None = None
@@ -218,7 +246,9 @@ class CreateDeviceLiveToolsPingDeviceResponseRequest(_BaseSchema):
 class CreateDeviceLiveToolsPingResponse(_BaseSchema):
     """Response for createDeviceLiveToolsPing operation."""
 
-    ping_id: str | None = Field(default=None, alias="pingId")
+    ping_id: str | None = Field(
+        default=None, validation_alias="pingId", serialization_alias="pingId"
+    )
     url: str | None = None
     request: CreateDeviceLiveToolsPingResponseRequest | None = None
     status: str | None = None
@@ -237,19 +267,23 @@ class CreateDeviceLiveToolsThroughputTestCallback(_BaseSchema):
     """Details for the callback. Please include either an httpServerId OR url and sharedSecret."""
 
     url: str | None = None
-    shared_secret: str | None = Field(default=None, alias="sharedSecret")
+    shared_secret: str | None = Field(
+        default=None, validation_alias="sharedSecret", serialization_alias="sharedSecret"
+    )
     http_server: CreateDeviceLiveToolsArpTableCallbackHttpServer | None = Field(
-        default=None, alias="httpServer"
+        default=None, validation_alias="httpServer", serialization_alias="httpServer"
     )
     payload_template: CreateDeviceLiveToolsArpTableCallbackHttpServer | None = Field(
-        default=None, alias="payloadTemplate"
+        default=None, validation_alias="payloadTemplate", serialization_alias="payloadTemplate"
     )
 
 
 class CreateDeviceLiveToolsThroughputTestResponse(_BaseSchema):
     """Response for createDeviceLiveToolsThroughputTest operation."""
 
-    throughput_test_id: str | None = Field(default=None, alias="throughputTestId")
+    throughput_test_id: str | None = Field(
+        default=None, validation_alias="throughputTestId", serialization_alias="throughputTestId"
+    )
     url: str | None = None
     status: str | None = None
     result: CreateDeviceLiveToolsThroughputTestResponseResult | None = None
@@ -268,19 +302,23 @@ class CreateDeviceLiveToolsWakeOnLanCallback(_BaseSchema):
     """Details for the callback. Please include either an httpServerId OR url and sharedSecret."""
 
     url: str | None = None
-    shared_secret: str | None = Field(default=None, alias="sharedSecret")
+    shared_secret: str | None = Field(
+        default=None, validation_alias="sharedSecret", serialization_alias="sharedSecret"
+    )
     http_server: CreateDeviceLiveToolsArpTableCallbackHttpServer | None = Field(
-        default=None, alias="httpServer"
+        default=None, validation_alias="httpServer", serialization_alias="httpServer"
     )
     payload_template: CreateDeviceLiveToolsArpTableCallbackHttpServer | None = Field(
-        default=None, alias="payloadTemplate"
+        default=None, validation_alias="payloadTemplate", serialization_alias="payloadTemplate"
     )
 
 
 class CreateDeviceLiveToolsWakeOnLanResponse(_BaseSchema):
     """Response for createDeviceLiveToolsWakeOnLan operation."""
 
-    wake_on_lan_id: str | None = Field(default=None, alias="wakeOnLanId")
+    wake_on_lan_id: str | None = Field(
+        default=None, validation_alias="wakeOnLanId", serialization_alias="wakeOnLanId"
+    )
     url: str | None = None
     status: str | None = None
     request: CreateDeviceLiveToolsWakeOnLanResponseRequest | None = None
@@ -292,14 +330,16 @@ class CreateDeviceLiveToolsWakeOnLanResponseRequest(_BaseSchema):
     """The parameters of the Wake-on-LAN request."""
 
     serial: str | None = None
-    vlan_id: int | None = Field(default=None, alias="vlanId")
+    vlan_id: int | None = Field(
+        default=None, validation_alias="vlanId", serialization_alias="vlanId"
+    )
     mac: str | None = None
 
 
 class DevicesAuthentication(_BaseSchema):
     """APN authentication configurations."""
 
-    type_: str | None = Field(default=None, alias="type")
+    type_: str | None = Field(default=None, validation_alias="type", serialization_alias="type")
     username: str | None = None
     password: str | None = None
 
@@ -329,13 +369,17 @@ class DevicesResultsPairsItem(_BaseSchema):
 
     index: int | None = None
     status: str | None = None
-    length_meters: int | None = Field(default=None, alias="lengthMeters")
+    length_meters: int | None = Field(
+        default=None, validation_alias="lengthMeters", serialization_alias="lengthMeters"
+    )
 
 
 class DevicesResultsRepliesItem(_BaseSchema):
     """Schema for DevicesResultsRepliesItem."""
 
-    sequence_id: int | None = Field(default=None, alias="sequenceId")
+    sequence_id: int | None = Field(
+        default=None, validation_alias="sequenceId", serialization_alias="sequenceId"
+    )
     size: int | None = None
     latency: float | None = None
 
@@ -344,7 +388,9 @@ class DevicesSimsApnsItem(_BaseSchema):
     """Schema for DevicesSimsApnsItem."""
 
     name: str
-    allowed_ip_types: list[str] = Field(alias="allowedIpTypes")
+    allowed_ip_types: list[str] = Field(
+        validation_alias="allowedIpTypes", serialization_alias="allowedIpTypes"
+    )
     authentication: DevicesAuthentication | None = None
 
 
@@ -365,9 +411,11 @@ class GetDeviceCellularSimsResponse(_BaseSchema):
     """Response for getDeviceCellularSims operation."""
 
     sims: list[GetDeviceCellularSimsResponseSimsItem] | None = None
-    sim_ordering: list[str] | None = Field(default=None, alias="simOrdering")
+    sim_ordering: list[str] | None = Field(
+        default=None, validation_alias="simOrdering", serialization_alias="simOrdering"
+    )
     sim_failover: GetDeviceCellularSimsResponseSimFailover | None = Field(
-        default=None, alias="simFailover"
+        default=None, validation_alias="simFailover", serialization_alias="simFailover"
     )
 
 
@@ -385,7 +433,9 @@ class GetDeviceCellularSimsResponseSimsItem(_BaseSchema):
     iccid: str | None = None
     imsi: str | None = None
     msisdn: str | None = None
-    is_primary: bool | None = Field(default=None, alias="isPrimary")
+    is_primary: bool | None = Field(
+        default=None, validation_alias="isPrimary", serialization_alias="isPrimary"
+    )
     status: str | None = None
     apns: list[DevicesSimsApnsItem] | None = None
 
@@ -400,21 +450,33 @@ class GetDeviceClientsResponseItem(_BaseSchema):
     id: str | None = None
     mac: str | None = None
     description: str | None = None
-    mdns_name: str | None = Field(default=None, alias="mdnsName")
-    dhcp_hostname: str | None = Field(default=None, alias="dhcpHostname")
+    mdns_name: str | None = Field(
+        default=None, validation_alias="mdnsName", serialization_alias="mdnsName"
+    )
+    dhcp_hostname: str | None = Field(
+        default=None, validation_alias="dhcpHostname", serialization_alias="dhcpHostname"
+    )
     user: str | None = None
     ip: str | None = None
     vlan: str | None = None
-    named_vlan: str | None = Field(default=None, alias="namedVlan")
+    named_vlan: str | None = Field(
+        default=None, validation_alias="namedVlan", serialization_alias="namedVlan"
+    )
     switchport: str | None = None
-    adaptive_policy_group: str | None = Field(default=None, alias="adaptivePolicyGroup")
+    adaptive_policy_group: str | None = Field(
+        default=None,
+        validation_alias="adaptivePolicyGroup",
+        serialization_alias="adaptivePolicyGroup",
+    )
     usage: DevicesUsage | None = None
 
 
 class GetDeviceLiveToolsArpTableResponse(_BaseSchema):
     """Response for getDeviceLiveToolsArpTable operation."""
 
-    arp_table_id: str | None = Field(default=None, alias="arpTableId")
+    arp_table_id: str | None = Field(
+        default=None, validation_alias="arpTableId", serialization_alias="arpTableId"
+    )
     url: str | None = None
     request: CreateDeviceLiveToolsArpTableResponseRequest | None = None
     status: str | None = None
@@ -427,15 +489,21 @@ class GetDeviceLiveToolsArpTableResponseEntriesItem(_BaseSchema):
 
     ip: str | None = None
     mac: str | None = None
-    vlan_id: int | None = Field(default=None, alias="vlanId")
+    vlan_id: int | None = Field(
+        default=None, validation_alias="vlanId", serialization_alias="vlanId"
+    )
     interface: str | None = None
-    last_updated_at: datetime | None = Field(default=None, alias="lastUpdatedAt")
+    last_updated_at: datetime | None = Field(
+        default=None, validation_alias="lastUpdatedAt", serialization_alias="lastUpdatedAt"
+    )
 
 
 class GetDeviceLiveToolsCableTestResponse(_BaseSchema):
     """Response for getDeviceLiveToolsCableTest operation."""
 
-    cable_test_id: str | None = Field(default=None, alias="cableTestId")
+    cable_test_id: str | None = Field(
+        default=None, validation_alias="cableTestId", serialization_alias="cableTestId"
+    )
     url: str | None = None
     request: CreateDeviceLiveToolsCableTestResponseRequest | None = None
     status: str | None = None
@@ -448,7 +516,9 @@ class GetDeviceLiveToolsCableTestResponseResultsItem(_BaseSchema):
 
     port: str | None = None
     status: str | None = None
-    speed_mbps: int | None = Field(default=None, alias="speedMbps")
+    speed_mbps: int | None = Field(
+        default=None, validation_alias="speedMbps", serialization_alias="speedMbps"
+    )
     error: str | None = None
     pairs: list[DevicesResultsPairsItem] | None = None
 
@@ -456,7 +526,9 @@ class GetDeviceLiveToolsCableTestResponseResultsItem(_BaseSchema):
 class GetDeviceLiveToolsLedsBlinkResponse(_BaseSchema):
     """Response for getDeviceLiveToolsLedsBlink operation."""
 
-    leds_blink_id: str | None = Field(default=None, alias="ledsBlinkId")
+    leds_blink_id: str | None = Field(
+        default=None, validation_alias="ledsBlinkId", serialization_alias="ledsBlinkId"
+    )
     url: str | None = None
     status: str | None = None
     request: CreateDeviceLiveToolsLedsBlinkResponseRequest | None = None
@@ -466,7 +538,9 @@ class GetDeviceLiveToolsLedsBlinkResponse(_BaseSchema):
 class GetDeviceLiveToolsMacTableResponse(_BaseSchema):
     """Response for getDeviceLiveToolsMacTable operation."""
 
-    mac_table_id: str | None = Field(default=None, alias="macTableId")
+    mac_table_id: str | None = Field(
+        default=None, validation_alias="macTableId", serialization_alias="macTableId"
+    )
     url: str | None = None
     request: CreateDeviceLiveToolsArpTableResponseRequest | None = None
     status: str | None = None
@@ -479,13 +553,19 @@ class GetDeviceLiveToolsMacTableResponseEntriesItem(_BaseSchema):
 
     mac: str | None = None
     port: str | None = None
-    vlan_id: int | None = Field(default=None, alias="vlanId")
+    vlan_id: int | None = Field(
+        default=None, validation_alias="vlanId", serialization_alias="vlanId"
+    )
 
 
 class GetDeviceLiveToolsMulticastRoutingResponse(_BaseSchema):
     """Response for getDeviceLiveToolsMulticastRouting operation."""
 
-    multicast_routing_id: str | None = Field(default=None, alias="multicastRoutingId")
+    multicast_routing_id: str | None = Field(
+        default=None,
+        validation_alias="multicastRoutingId",
+        serialization_alias="multicastRoutingId",
+    )
     url: str | None = None
     request: CreateDeviceLiveToolsArpTableResponseRequest | None = None
     status: str | None = None
@@ -509,16 +589,28 @@ class GetDeviceLiveToolsMulticastRoutingResponseRoutesItem(_BaseSchema):
 
     source: str | None = None
     group: str | None = None
-    rendezvous_point: str | None = Field(default=None, alias="rendezvousPoint")
-    incoming_interface_name: str | None = Field(default=None, alias="incomingInterfaceName")
-    outgoing_interface_names: list[str] | None = Field(default=None, alias="outgoingInterfaceNames")
+    rendezvous_point: str | None = Field(
+        default=None, validation_alias="rendezvousPoint", serialization_alias="rendezvousPoint"
+    )
+    incoming_interface_name: str | None = Field(
+        default=None,
+        validation_alias="incomingInterfaceName",
+        serialization_alias="incomingInterfaceName",
+    )
+    outgoing_interface_names: list[str] | None = Field(
+        default=None,
+        validation_alias="outgoingInterfaceNames",
+        serialization_alias="outgoingInterfaceNames",
+    )
     flags: list[str] | None = None
 
 
 class GetDeviceLiveToolsPingDeviceResponse(_BaseSchema):
     """Response for getDeviceLiveToolsPingDevice operation."""
 
-    ping_id: str | None = Field(default=None, alias="pingId")
+    ping_id: str | None = Field(
+        default=None, validation_alias="pingId", serialization_alias="pingId"
+    )
     url: str | None = None
     request: CreateDeviceLiveToolsPingDeviceResponseRequest | None = None
     status: str | None = None
@@ -529,7 +621,9 @@ class GetDeviceLiveToolsPingDeviceResponse(_BaseSchema):
 class GetDeviceLiveToolsPingResponse(_BaseSchema):
     """Response for getDeviceLiveToolsPing operation."""
 
-    ping_id: str | None = Field(default=None, alias="pingId")
+    ping_id: str | None = Field(
+        default=None, validation_alias="pingId", serialization_alias="pingId"
+    )
     url: str | None = None
     request: CreateDeviceLiveToolsPingResponseRequest | None = None
     status: str | None = None
@@ -549,7 +643,9 @@ class GetDeviceLiveToolsPingResponseResults(_BaseSchema):
 class GetDeviceLiveToolsThroughputTestResponse(_BaseSchema):
     """Response for getDeviceLiveToolsThroughputTest operation."""
 
-    throughput_test_id: str | None = Field(default=None, alias="throughputTestId")
+    throughput_test_id: str | None = Field(
+        default=None, validation_alias="throughputTestId", serialization_alias="throughputTestId"
+    )
     url: str | None = None
     status: str | None = None
     result: CreateDeviceLiveToolsThroughputTestResponseResult | None = None
@@ -560,7 +656,9 @@ class GetDeviceLiveToolsThroughputTestResponse(_BaseSchema):
 class GetDeviceLiveToolsWakeOnLanResponse(_BaseSchema):
     """Response for getDeviceLiveToolsWakeOnLan operation."""
 
-    wake_on_lan_id: str | None = Field(default=None, alias="wakeOnLanId")
+    wake_on_lan_id: str | None = Field(
+        default=None, validation_alias="wakeOnLanId", serialization_alias="wakeOnLanId"
+    )
     url: str | None = None
     status: str | None = None
     request: CreateDeviceLiveToolsWakeOnLanResponseRequest | None = None
@@ -570,7 +668,9 @@ class GetDeviceLiveToolsWakeOnLanResponse(_BaseSchema):
 class GetDeviceLldpCdpResponse(_BaseSchema):
     """Response for getDeviceLldpCdp operation."""
 
-    source_mac: str | None = Field(default=None, alias="sourceMac")
+    source_mac: str | None = Field(
+        default=None, validation_alias="sourceMac", serialization_alias="sourceMac"
+    )
     ports: dict[str, Any] | None = None
 
 
@@ -583,10 +683,18 @@ class GetDeviceLossAndLatencyHistoryResponse(
 class GetDeviceLossAndLatencyHistoryResponseItem(_BaseSchema):
     """Schema for GetDeviceLossAndLatencyHistoryResponseItem."""
 
-    start_time: datetime | None = Field(default=None, alias="startTime")
-    end_time: datetime | None = Field(default=None, alias="endTime")
-    loss_percent: float | None = Field(default=None, alias="lossPercent")
-    latency_ms: float | None = Field(default=None, alias="latencyMs")
+    start_time: datetime | None = Field(
+        default=None, validation_alias="startTime", serialization_alias="startTime"
+    )
+    end_time: datetime | None = Field(
+        default=None, validation_alias="endTime", serialization_alias="endTime"
+    )
+    loss_percent: float | None = Field(
+        default=None, validation_alias="lossPercent", serialization_alias="lossPercent"
+    )
+    latency_ms: float | None = Field(
+        default=None, validation_alias="latencyMs", serialization_alias="latencyMs"
+    )
     goodput: int | None = None
     jitter: float | None = None
 
@@ -595,7 +703,7 @@ class GetDeviceManagementInterfaceResponse(_BaseSchema):
     """Response for getDeviceManagementInterface operation."""
 
     ddns_hostnames: GetDeviceManagementInterfaceResponseDdnsHostnames | None = Field(
-        default=None, alias="ddnsHostnames"
+        default=None, validation_alias="ddnsHostnames", serialization_alias="ddnsHostnames"
     )
     wan1: GetDeviceManagementInterfaceResponseWan1 | None = None
     wan2: GetDeviceManagementInterfaceResponseWan1 | None = None
@@ -604,20 +712,40 @@ class GetDeviceManagementInterfaceResponse(_BaseSchema):
 class GetDeviceManagementInterfaceResponseDdnsHostnames(_BaseSchema):
     """Dynamic DNS hostnames."""
 
-    active_ddns_hostname: str | None = Field(default=None, alias="activeDdnsHostname")
-    ddns_hostname_wan1: str | None = Field(default=None, alias="ddnsHostnameWan1")
-    ddns_hostname_wan2: str | None = Field(default=None, alias="ddnsHostnameWan2")
+    active_ddns_hostname: str | None = Field(
+        default=None,
+        validation_alias="activeDdnsHostname",
+        serialization_alias="activeDdnsHostname",
+    )
+    ddns_hostname_wan1: str | None = Field(
+        default=None, validation_alias="ddnsHostnameWan1", serialization_alias="ddnsHostnameWan1"
+    )
+    ddns_hostname_wan2: str | None = Field(
+        default=None, validation_alias="ddnsHostnameWan2", serialization_alias="ddnsHostnameWan2"
+    )
 
 
 class GetDeviceManagementInterfaceResponseWan1(_BaseSchema):
     """WAN 1 settings."""
 
-    wan_enabled: str | None = Field(default=None, alias="wanEnabled")
-    using_static_ip: bool | None = Field(default=None, alias="usingStaticIp")
-    static_ip: str | None = Field(default=None, alias="staticIp")
-    static_subnet_mask: str | None = Field(default=None, alias="staticSubnetMask")
-    static_gateway_ip: str | None = Field(default=None, alias="staticGatewayIp")
-    static_dns: list[str] | None = Field(default=None, alias="staticDns")
+    wan_enabled: str | None = Field(
+        default=None, validation_alias="wanEnabled", serialization_alias="wanEnabled"
+    )
+    using_static_ip: bool | None = Field(
+        default=None, validation_alias="usingStaticIp", serialization_alias="usingStaticIp"
+    )
+    static_ip: str | None = Field(
+        default=None, validation_alias="staticIp", serialization_alias="staticIp"
+    )
+    static_subnet_mask: str | None = Field(
+        default=None, validation_alias="staticSubnetMask", serialization_alias="staticSubnetMask"
+    )
+    static_gateway_ip: str | None = Field(
+        default=None, validation_alias="staticGatewayIp", serialization_alias="staticGatewayIp"
+    )
+    static_dns: list[str] | None = Field(
+        default=None, validation_alias="staticDns", serialization_alias="staticDns"
+    )
     vlan: int | None = None
     vrf: DevicesWan1Vrf | None = None
 
@@ -631,16 +759,20 @@ class GetDeviceResponse(_BaseSchema):
     address: str | None = None
     notes: str | None = None
     tags: list[str] | None = None
-    network_id: str | None = Field(default=None, alias="networkId")
+    network_id: str | None = Field(
+        default=None, validation_alias="networkId", serialization_alias="networkId"
+    )
     serial: str | None = None
     model: str | None = None
     mac: str | None = None
-    lan_ip: str | None = Field(default=None, alias="lanIp")
+    lan_ip: str | None = Field(default=None, validation_alias="lanIp", serialization_alias="lanIp")
     firmware: str | None = None
-    floor_plan_id: str | None = Field(default=None, alias="floorPlanId")
+    floor_plan_id: str | None = Field(
+        default=None, validation_alias="floorPlanId", serialization_alias="floorPlanId"
+    )
     details: list[GetDeviceResponseDetailsItem] | None = None
     beacon_id_params: GetDeviceResponseBeaconIdParams | None = Field(
-        default=None, alias="beaconIdParams"
+        default=None, validation_alias="beaconIdParams", serialization_alias="beaconIdParams"
     )
 
 
@@ -669,9 +801,11 @@ class UpdateDeviceCellularSimsResponse(_BaseSchema):
     """Response for updateDeviceCellularSims operation."""
 
     sims: list[GetDeviceCellularSimsResponseSimsItem] | None = None
-    sim_ordering: list[str] | None = Field(default=None, alias="simOrdering")
+    sim_ordering: list[str] | None = Field(
+        default=None, validation_alias="simOrdering", serialization_alias="simOrdering"
+    )
     sim_failover: GetDeviceCellularSimsResponseSimFailover | None = Field(
-        default=None, alias="simFailover"
+        default=None, validation_alias="simFailover", serialization_alias="simFailover"
     )
 
 
@@ -686,16 +820,20 @@ class UpdateDeviceCellularSimsSimsItem(_BaseSchema):
     """Item schema for sims."""
 
     slot: str | None = None
-    is_primary: bool | None = Field(default=None, alias="isPrimary")
+    is_primary: bool | None = Field(
+        default=None, validation_alias="isPrimary", serialization_alias="isPrimary"
+    )
     apns: list[DevicesSimsApnsItem] | None = None
-    sim_order: int | None = Field(default=None, alias="simOrder")
+    sim_order: int | None = Field(
+        default=None, validation_alias="simOrder", serialization_alias="simOrder"
+    )
 
 
 class UpdateDeviceManagementInterfaceResponse(_BaseSchema):
     """Response for updateDeviceManagementInterface operation."""
 
     ddns_hostnames: GetDeviceManagementInterfaceResponseDdnsHostnames | None = Field(
-        default=None, alias="ddnsHostnames"
+        default=None, validation_alias="ddnsHostnames", serialization_alias="ddnsHostnames"
     )
     wan1: GetDeviceManagementInterfaceResponseWan1 | None = None
     wan2: GetDeviceManagementInterfaceResponseWan1 | None = None
@@ -704,24 +842,48 @@ class UpdateDeviceManagementInterfaceResponse(_BaseSchema):
 class UpdateDeviceManagementInterfaceWan1(_BaseSchema):
     """WAN 1 settings."""
 
-    wan_enabled: str | None = Field(default=None, alias="wanEnabled")
-    using_static_ip: bool | None = Field(default=None, alias="usingStaticIp")
-    static_ip: str | None = Field(default=None, alias="staticIp")
-    static_gateway_ip: str | None = Field(default=None, alias="staticGatewayIp")
-    static_subnet_mask: str | None = Field(default=None, alias="staticSubnetMask")
-    static_dns: list[str] | None = Field(default=None, alias="staticDns")
+    wan_enabled: str | None = Field(
+        default=None, validation_alias="wanEnabled", serialization_alias="wanEnabled"
+    )
+    using_static_ip: bool | None = Field(
+        default=None, validation_alias="usingStaticIp", serialization_alias="usingStaticIp"
+    )
+    static_ip: str | None = Field(
+        default=None, validation_alias="staticIp", serialization_alias="staticIp"
+    )
+    static_gateway_ip: str | None = Field(
+        default=None, validation_alias="staticGatewayIp", serialization_alias="staticGatewayIp"
+    )
+    static_subnet_mask: str | None = Field(
+        default=None, validation_alias="staticSubnetMask", serialization_alias="staticSubnetMask"
+    )
+    static_dns: list[str] | None = Field(
+        default=None, validation_alias="staticDns", serialization_alias="staticDns"
+    )
     vlan: int | None = None
 
 
 class UpdateDeviceManagementInterfaceWan2(_BaseSchema):
     """WAN 2 settings (only for MX devices)."""
 
-    wan_enabled: str | None = Field(default=None, alias="wanEnabled")
-    using_static_ip: bool | None = Field(default=None, alias="usingStaticIp")
-    static_ip: str | None = Field(default=None, alias="staticIp")
-    static_gateway_ip: str | None = Field(default=None, alias="staticGatewayIp")
-    static_subnet_mask: str | None = Field(default=None, alias="staticSubnetMask")
-    static_dns: list[str] | None = Field(default=None, alias="staticDns")
+    wan_enabled: str | None = Field(
+        default=None, validation_alias="wanEnabled", serialization_alias="wanEnabled"
+    )
+    using_static_ip: bool | None = Field(
+        default=None, validation_alias="usingStaticIp", serialization_alias="usingStaticIp"
+    )
+    static_ip: str | None = Field(
+        default=None, validation_alias="staticIp", serialization_alias="staticIp"
+    )
+    static_gateway_ip: str | None = Field(
+        default=None, validation_alias="staticGatewayIp", serialization_alias="staticGatewayIp"
+    )
+    static_subnet_mask: str | None = Field(
+        default=None, validation_alias="staticSubnetMask", serialization_alias="staticSubnetMask"
+    )
+    static_dns: list[str] | None = Field(
+        default=None, validation_alias="staticDns", serialization_alias="staticDns"
+    )
     vlan: int | None = None
 
 
@@ -734,14 +896,18 @@ class UpdateDeviceResponse(_BaseSchema):
     address: str | None = None
     notes: str | None = None
     tags: list[str] | None = None
-    network_id: str | None = Field(default=None, alias="networkId")
+    network_id: str | None = Field(
+        default=None, validation_alias="networkId", serialization_alias="networkId"
+    )
     serial: str | None = None
     model: str | None = None
     mac: str | None = None
-    lan_ip: str | None = Field(default=None, alias="lanIp")
+    lan_ip: str | None = Field(default=None, validation_alias="lanIp", serialization_alias="lanIp")
     firmware: str | None = None
-    floor_plan_id: str | None = Field(default=None, alias="floorPlanId")
+    floor_plan_id: str | None = Field(
+        default=None, validation_alias="floorPlanId", serialization_alias="floorPlanId"
+    )
     details: list[GetDeviceResponseDetailsItem] | None = None
     beacon_id_params: GetDeviceResponseBeaconIdParams | None = Field(
-        default=None, alias="beaconIdParams"
+        default=None, validation_alias="beaconIdParams", serialization_alias="beaconIdParams"
     )
